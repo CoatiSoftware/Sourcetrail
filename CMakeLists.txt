@@ -351,6 +351,7 @@ target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
 	PUBLIC ${LLVM_INCLUDE_DIRS}
 	${CLANG_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
+	"${CMAKE_SOURCE_DIR}/src/external"
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})

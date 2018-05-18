@@ -48,12 +48,8 @@ void InterprocessIndexer::work()
 			LOG_INFO_STREAM(<< m_processId << " updating indexer status with currently indexed filepath");
 			m_interprocessIndexingStatusManager.startIndexingSourceFile(indexerCommand->getSourceFilePath());
 
-			std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
-				indexerCommand->getSourceFilePath(), indexerCommand->getIndexedPaths(), indexerCommand->getExcludeFilters()
-			);
-
 			LOG_INFO_STREAM(<< m_processId << " starting to index current file");
-			std::shared_ptr<IntermediateStorage> result = indexer->index(indexerCommand, fileRegister);
+			std::shared_ptr<IntermediateStorage> result = indexer->index(indexerCommand);
 
 			LOG_INFO_STREAM(<< m_processId << " pushing index to shared memory");
 			m_interprocessIntermediateStorageManager.pushIntermediateStorage(result);

@@ -14,10 +14,6 @@ SqliteBookmarkStorage::SqliteBookmarkStorage(const FilePath& dbFilePath)
 {
 }
 
-SqliteBookmarkStorage::~SqliteBookmarkStorage()
-{
-}
-
 size_t SqliteBookmarkStorage::getStaticVersion() const
 {
 	return s_storageVersion;
@@ -29,15 +25,17 @@ void SqliteBookmarkStorage::migrateIfNecessary()
 
 	migrator.addMigration(2, std::make_shared<SqliteStorageMigrationLambda>([](const SqliteStorageMigration* migration, SqliteStorage* storage){
 		std::string separator = "::";
-		if (std::shared_ptr<Project> currentProject = Application::getInstance()->getCurrentProject())
+		if (Application::getInstance())
 		{
-			LanguageType currentLanguage = ProjectSettings::getLanguageOfProject(currentProject->getProjectSettingsFilePath());
-			if (currentLanguage == LANGUAGE_JAVA)
+			if (std::shared_ptr<Project> currentProject = Application::getInstance()->getCurrentProject())
 			{
-				separator = ".";
+				LanguageType currentLanguage = ProjectSettings::getLanguageOfProject(currentProject->getProjectSettingsFilePath());
+				if (currentLanguage == LANGUAGE_JAVA)
+				{
+					separator = ".";
+				}
 			}
 		}
-
 		migration->executeStatementInStorage(storage, "UPDATE bookmarked_node SET serialized_node_name = '" + separator + "\tm' || serialized_node_name");
 		migration->executeStatementInStorage(storage, "UPDATE bookmarked_edge SET serialized_source_node_name = '" + separator + "\tm' || serialized_source_node_name");
 		migration->executeStatementInStorage(storage, "UPDATE bookmarked_edge SET serialized_target_node_name = '" + separator + "\tm' || serialized_target_node_name");

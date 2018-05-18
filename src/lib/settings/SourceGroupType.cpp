@@ -10,6 +10,8 @@ std::string sourceGroupTypeToString(SourceGroupType v)
 		return "C++ Source Group";
 	case SOURCE_GROUP_CXX_CDB:
 		return "C/C++ from Compilation Database";
+	case SOURCE_GROUP_CXX_SONARGRAPH:
+		return "C/C++ from Sonargraph";
 	case SOURCE_GROUP_CXX_VS:
 		return "C/C++ from Visual Studio";
 	case SOURCE_GROUP_JAVA_EMPTY:
@@ -18,6 +20,8 @@ std::string sourceGroupTypeToString(SourceGroupType v)
 		return "Java Source Group from Maven";
 	case SOURCE_GROUP_JAVA_GRADLE:
 		return "Java Source Group from Gradle";
+	case SOURCE_GROUP_JAVA_SONARGRAPH:
+		return "Java from Sonargraph";
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}
@@ -34,6 +38,8 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 		return "Empty C++ Source Group";
 	case SOURCE_GROUP_CXX_CDB:
 		return "C/C++ from Compilation Database";
+	case SOURCE_GROUP_CXX_SONARGRAPH:
+		return "C/C++ from Sonargraph";
 	case SOURCE_GROUP_CXX_VS:
 		return "C/C++ from Visual Studio";
 	case SOURCE_GROUP_JAVA_EMPTY:
@@ -42,13 +48,15 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 		return "Java Source Group from Maven";
 	case SOURCE_GROUP_JAVA_GRADLE:
 		return "Java Source Group from Gradle";
+	case SOURCE_GROUP_JAVA_SONARGRAPH:
+		return "Java from Sonargraph";
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}
 	return "unknown";
 }
 
-SourceGroupType stringToSourceGroupType(std::string v)
+SourceGroupType stringToSourceGroupType(const std::string& v)
 {
 	if (v == sourceGroupTypeToString(SOURCE_GROUP_C_EMPTY))
 	{
@@ -61,6 +69,10 @@ SourceGroupType stringToSourceGroupType(std::string v)
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_CDB))
 	{
 		return SOURCE_GROUP_CXX_CDB;
+	}
+	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_SONARGRAPH))
+	{
+		return SOURCE_GROUP_CXX_SONARGRAPH;
 	}
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_VS))
 	{
@@ -77,6 +89,10 @@ SourceGroupType stringToSourceGroupType(std::string v)
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_JAVA_GRADLE))
 	{
 		return SOURCE_GROUP_JAVA_GRADLE;
+	}
+	else if (v == sourceGroupTypeToString(SOURCE_GROUP_JAVA_SONARGRAPH))
+	{
+		return SOURCE_GROUP_JAVA_SONARGRAPH;
 	}
 
 	return SOURCE_GROUP_UNKNOWN;

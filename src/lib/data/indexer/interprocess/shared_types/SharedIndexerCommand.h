@@ -27,6 +27,9 @@ public:
 	std::set<FilePathFilter> getExcludeFilters() const;
 	void setExcludeFilters(const std::set<FilePathFilter>& excludeFilters);
 
+	std::set<FilePathFilter> getIncludeFilters() const;
+	void setIncludeFilters(const std::set<FilePathFilter>& includeFilters);
+
 	FilePath getWorkingDirectory() const;
 	void setWorkingDirectory(const FilePath& workingDirectory);
 
@@ -63,6 +66,7 @@ private:
 	SharedMemory::String m_sourceFilePath;
 	SharedMemory::Vector<SharedMemory::String> m_indexedPaths;
 	SharedMemory::Vector<SharedMemory::String> m_excludeFilters;
+	SharedMemory::Vector<SharedMemory::String> m_includeFilters;
 
 	// cxx
 	SharedMemory::String m_workingDirectory;

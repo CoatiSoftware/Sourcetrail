@@ -1,14 +1,13 @@
 #include "settings/SourceGroupSettingsJavaMaven.h"
 
+#include "settings/ProjectSettings.h"
+#include "utility/ConfigManager.h"
+
 SourceGroupSettingsJavaMaven::SourceGroupSettingsJavaMaven(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsJava(id, SOURCE_GROUP_JAVA_MAVEN, projectSettings)
 	, m_mavenProjectFilePath(FilePath())
 	, m_mavenDependenciesDirectory(FilePath())
 	, m_shouldIndexMavenTests(false)
-{
-}
-
-SourceGroupSettingsJavaMaven::~SourceGroupSettingsJavaMaven()
 {
 }
 
@@ -18,9 +17,9 @@ void SourceGroupSettingsJavaMaven::load(std::shared_ptr<const ConfigManager> con
 
 	const std::string key = s_keyPrefix + getId();
 
-	setMavenProjectFilePath(FilePath(getValue<std::wstring>(key + "/maven/project_file_path", L"", config)));
-	setMavenDependenciesDirectory(FilePath(getValue<std::wstring>(key + "/maven/dependencies_directory", L"", config)));
-	setShouldIndexMavenTests(getValue<bool>(key + "/maven/should_index_tests", false, config));
+	setMavenProjectFilePath(config->getValueOrDefault(key + "/maven/project_file_path", FilePath(L"")));
+	setMavenDependenciesDirectory(config->getValueOrDefault(key + "/maven/dependencies_directory", FilePath(L"")));
+	setShouldIndexMavenTests(config->getValueOrDefault(key + "/maven/should_index_tests", false));
 }
 
 void SourceGroupSettingsJavaMaven::save(std::shared_ptr<ConfigManager> config)
@@ -29,9 +28,9 @@ void SourceGroupSettingsJavaMaven::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setValue(key + "/maven/project_file_path", getMavenProjectFilePath().wstr(), config);
-	setValue(key + "/maven/dependencies_directory", getMavenDependenciesDirectory().wstr(), config);
-	setValue(key + "/maven/should_index_tests", getShouldIndexMavenTests(), config);
+	config->setValue(key + "/maven/project_file_path", getMavenProjectFilePath().wstr());
+	config->setValue(key + "/maven/dependencies_directory", getMavenDependenciesDirectory().wstr());
+	config->setValue(key + "/maven/should_index_tests", getShouldIndexMavenTests());
 }
 
 bool SourceGroupSettingsJavaMaven::equals(std::shared_ptr<SourceGroupSettings> other) const

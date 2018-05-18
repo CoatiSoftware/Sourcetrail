@@ -25,10 +25,12 @@ add_files(
 	MatrixBaseTestSuite.h
 	MessageQueueTestSuite.h
 	NetworkProtocolHelperTestSuite.h
-    SettingsTestSuite.h
-	SettingsMigratorTestSuite.h
+	RefreshInfoGeneratorTestSuite.h
 	SearchIndexTestSuite.h
+	SettingsMigratorTestSuite.h
+    SettingsTestSuite.h
 	SharedMemoryTestSuite.h
+	SonargraphProjectTestSuite.h
 	SourceLocationCollectionTestSuite.h
 	SqliteBookmarkStorageTestSuite.h
 	SqliteIndexStorageTestSuite.h

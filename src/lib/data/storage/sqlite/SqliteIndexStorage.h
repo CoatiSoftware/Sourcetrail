@@ -33,7 +33,6 @@ class SqliteIndexStorage
 {
 public:
 	SqliteIndexStorage(const FilePath& dbFilePath);
-	virtual ~SqliteIndexStorage();
 
 	virtual size_t getStaticVersion() const;
 

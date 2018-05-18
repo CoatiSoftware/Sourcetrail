@@ -11,9 +11,7 @@ class IndexerJava: public Indexer<IndexerCommandJava>
 public:
 	virtual ~IndexerJava();
 
-	virtual std::shared_ptr<IntermediateStorage> doIndex(
-		std::shared_ptr<IndexerCommandJava> indexerCommand,
-		std::shared_ptr<FileRegister> fileRegister);
+	virtual std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<IndexerCommandJava> indexerCommand);
 };
 
 #endif // INDEXER_JAVA_H

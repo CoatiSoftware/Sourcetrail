@@ -4006,17 +4006,19 @@ public:
 	{
 		const std::set<FilePath> indexedPaths = { FilePath(L"data/CxxParserTestSuite/") };
 		const std::set<FilePathFilter> excludeFilters;
+		const std::set<FilePathFilter> includeFilters;
 		const FilePath workingDirectory(L".");
 
 		std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand = std::make_shared<IndexerCommandCxxEmpty>(
 			FilePath(L"data/CxxParserTestSuite/code.cpp"),
 			indexedPaths,
 			excludeFilters,
+			includeFilters,
 			workingDirectory,
-			"c++1z",
 			std::vector<FilePath>(),
 			std::vector<FilePath>(),
-			std::vector<std::wstring>()
+			std::vector<std::wstring>(),
+			"c++1z"
 		);
 
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();

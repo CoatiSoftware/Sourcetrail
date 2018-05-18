@@ -4,11 +4,12 @@
 #include <memory>
 #include <vector>
 
-#include "settings/ProjectSettings.h"
+#include "settings/LanguageType.h"
 #include "settings/SourceGroupStatusType.h"
 #include "settings/SourceGroupType.h"
-#include "utility/file/FilePathFilter.h"
 
+class ConfigManager;
+class FilePath;
 class ProjectSettings;
 
 class SourceGroupSettings
@@ -18,7 +19,7 @@ public:
 	static const std::string s_keyPrefix;
 
 	SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
-	virtual ~SourceGroupSettings();
+	virtual ~SourceGroupSettings() = default;
 
 	virtual void load(std::shared_ptr<const ConfigManager> config);
 	virtual void save(std::shared_ptr<ConfigManager> config);
@@ -28,54 +29,28 @@ public:
 	std::string getId() const;
 	void setId(const std::string& id);
 
+	SourceGroupType getType() const;
+	LanguageType getLanguage() const;
+
 	std::string getName() const;
 	void setName(const std::string& name);
+
+	SourceGroupStatusType getStatus() const;
+	void setStatus(SourceGroupStatusType status);
 
 	FilePath getProjectDirectoryPath() const;
 	FilePath makePathExpandedAndAbsolute(const FilePath& path) const;
 	std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
 
 	virtual std::vector<std::string> getAvailableLanguageStandards() const = 0;
-	virtual SourceGroupType getType() const;
-
-	SourceGroupStatusType getStatus() const;
-	void setStatus(SourceGroupStatusType status);
 
 	std::string getStandard() const;
 	void setStandard(const std::string& standard);
 
-	std::vector<FilePath> getSourcePaths() const;
-	std::vector<FilePath> getSourcePathsExpandedAndAbsolute() const;
-	void setSourcePaths(const std::vector<FilePath>& sourcePaths);
-
-	std::vector<std::wstring> getExcludeFilterStrings() const;
-	std::vector<FilePathFilter> getExcludeFiltersExpandedAndAbsolute() const;
-	void setExcludeFilterStrings(const std::vector<std::wstring>& excludeFilters);
-
-	std::vector<std::wstring> getSourceExtensions() const;
-	void setSourceExtensions(const std::vector<std::wstring>& sourceExtensions);
-
 protected:
-	template<typename T>
-	static T getValue(const std::string& key, T defaultValue, std::shared_ptr<const ConfigManager> config);
-
-	template<typename T>
-	static std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues, std::shared_ptr<const ConfigManager> config);
-
-	static std::vector<FilePath> getPathValues(const std::string& key, std::shared_ptr<const ConfigManager> config);
-
-	template<typename T>
-	static bool setValue(const std::string& key, T value, std::shared_ptr<ConfigManager> config);
-
-	template<typename T>
-	static bool setValues(const std::string& key, std::vector<T> values, std::shared_ptr<ConfigManager> config);
-
-	static bool setPathValues(const std::string& key, const std::vector<FilePath>& paths, std::shared_ptr<ConfigManager> config);
-
 	const ProjectSettings* m_projectSettings;
 
 private:
-	virtual std::vector<std::wstring> getDefaultSourceExtensions() const = 0;
 	virtual std::string getDefaultStandard() const = 0;
 
 	std::string m_id;
@@ -84,59 +59,6 @@ private:
 	SourceGroupStatusType m_status;
 
 	std::string m_standard;
-	std::vector<FilePath> m_sourcePaths;
-	std::vector<std::wstring> m_excludeFilters;
-	std::vector<std::wstring> m_sourceExtensions;
 };
-
-template<typename T>
-T SourceGroupSettings::getValue(const std::string& key, T defaultValue, std::shared_ptr<const ConfigManager> config)
-{
-	if (config)
-	{
-		T value;
-		if (config->getValue(key, value))
-		{
-			return value;
-		}
-	}
-	return defaultValue;
-}
-
-template<typename T>
-std::vector<T> SourceGroupSettings::getValues(const std::string& key, std::vector<T> defaultValues, std::shared_ptr<const ConfigManager> config)
-{
-	if (config)
-	{
-		std::vector<T> values;
-		if (config->getValues(key, values))
-		{
-			return values;
-		}
-	}
-	return defaultValues;
-}
-
-template<typename T>
-bool SourceGroupSettings::setValue(const std::string& key, T value, std::shared_ptr<ConfigManager> config)
-{
-	if (config)
-	{
-		config->setValue(key, value);
-		return true;
-	}
-	return false;
-}
-
-template<typename T>
-bool SourceGroupSettings::setValues(const std::string& key, std::vector<T> values, std::shared_ptr<ConfigManager> config)
-{
-	if (config)
-	{
-		config->setValues(key, values);
-		return true;
-	}
-	return false;
-}
 
 #endif // SOURCE_GROUP_SETTINGS_H

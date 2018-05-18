@@ -5,10 +5,6 @@ IndexerBase::IndexerBase()
 {
 }
 
-IndexerBase::~IndexerBase()
-{
-}
-
 void IndexerBase::interrupt()
 {
 	m_interrupted = true;

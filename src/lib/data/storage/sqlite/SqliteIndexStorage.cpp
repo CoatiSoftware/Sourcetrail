@@ -16,10 +16,6 @@ SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
 {
 }
 
-SqliteIndexStorage::~SqliteIndexStorage()
-{
-}
-
 size_t SqliteIndexStorage::getStaticVersion() const
 {
 	return s_storageVersion;

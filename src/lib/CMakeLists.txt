@@ -283,12 +283,14 @@ add_files(
 	project/Project.cpp
 	project/Project.h
 	project/RefreshInfo.h
+	project/RefreshInfoGenerator.h
+	project/RefreshInfoGenerator.cpp
+	project/SourceGroup.cpp
+	project/SourceGroup.h
 	project/SourceGroupFactory.cpp
 	project/SourceGroupFactory.h
 	project/SourceGroupFactoryModule.cpp
 	project/SourceGroupFactoryModule.h
-	project/SourceGroup.cpp
-	project/SourceGroup.h
 
 	settings/migration/SettingsMigration.cpp
 	settings/migration/SettingsMigration.h
@@ -318,6 +320,8 @@ add_files(
 	settings/SourceGroupSettingsCxxCdb.h
 	settings/SourceGroupSettingsCxxEmpty.cpp
 	settings/SourceGroupSettingsCxxEmpty.h
+	settings/SourceGroupSettingsCxxSonargraph.cpp
+	settings/SourceGroupSettingsCxxSonargraph.h
 	settings/SourceGroupSettingsJava.cpp
 	settings/SourceGroupSettingsJava.h
 	settings/SourceGroupSettingsJavaEmpty.cpp
@@ -326,6 +330,18 @@ add_files(
 	settings/SourceGroupSettingsJavaGradle.h
 	settings/SourceGroupSettingsJavaMaven.cpp
 	settings/SourceGroupSettingsJavaMaven.h
+	settings/SourceGroupSettingsJavaSonargraph.cpp
+	settings/SourceGroupSettingsJavaSonargraph.h
+	settings/SourceGroupSettingsWithClasspath.cpp
+	settings/SourceGroupSettingsWithClasspath.h
+	settings/SourceGroupSettingsWithExcludeFilters.cpp
+	settings/SourceGroupSettingsWithExcludeFilters.h
+	settings/SourceGroupSettingsWithIndexedHeaderPaths.cpp
+	settings/SourceGroupSettingsWithIndexedHeaderPaths.h
+	settings/SourceGroupSettingsWithSonargraphProjectPath.cpp
+	settings/SourceGroupSettingsWithSonargraphProjectPath.h
+	settings/SourceGroupSettingsWithSourcePaths.cpp
+	settings/SourceGroupSettingsWithSourcePaths.h
 	settings/SourceGroupStatusType.cpp
 	settings/SourceGroupStatusType.h
 	settings/SourceGroupType.cpp
@@ -499,6 +515,31 @@ add_files(
 	utility/scheduling/TaskScheduler.cpp
 	utility/scheduling/TaskScheduler.h
 	utility/scheduling/TaskSetValue.h
+	
+	utility/sonargraph/SonargraphProject.cpp
+	utility/sonargraph/SonargraphProject.h
+	utility/sonargraph/SonargraphSoftwareSystem.cpp
+	utility/sonargraph/SonargraphSoftwareSystem.h
+	utility/sonargraph/SonargraphSourceRootPath.cpp
+	utility/sonargraph/SonargraphSourceRootPath.h
+	utility/sonargraph/SonargraphXsdAbstractModule.cpp
+	utility/sonargraph/SonargraphXsdAbstractModule.h
+	utility/sonargraph/SonargraphXsdAbstractSystemExtension.cpp
+	utility/sonargraph/SonargraphXsdAbstractSystemExtension.h
+	utility/sonargraph/SonargraphXsdCmakeJsonModule.cpp
+	utility/sonargraph/SonargraphXsdCmakeJsonModule.h
+	utility/sonargraph/SonargraphXsdCppSystemSettings.cpp
+	utility/sonargraph/SonargraphXsdCppSystemSettings.h
+	utility/sonargraph/SonargraphXsdJavaModule.cpp
+	utility/sonargraph/SonargraphXsdJavaModule.h
+	utility/sonargraph/SonargraphXsdRootPath.cpp
+	utility/sonargraph/SonargraphXsdRootPath.h
+	utility/sonargraph/SonargraphXsdRootPathWithFiles.cpp
+	utility/sonargraph/SonargraphXsdRootPathWithFiles.h
+	utility/sonargraph/SonargraphXsdSourceRootPath.cpp
+	utility/sonargraph/SonargraphXsdSourceRootPath.h
+	utility/sonargraph/utilitySonargraph.cpp
+	utility/sonargraph/utilitySonargraph.h
 
 	utility/synchronization/ReaderWriterLock.cpp
 	utility/synchronization/ReaderWriterLock.h
@@ -517,6 +558,7 @@ add_files(
 	utility/AppPath.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
+	utility/Optional.h
 	utility/OrderedCache.h
 	utility/OsType.h
 	utility/Property.h

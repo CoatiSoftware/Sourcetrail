@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
-#include "Application.h"
+#include "data/indexer/IndexerCommandCxxCdb.h"
 #include "qt/element/QtLocationPicker.h"
 #include "qt/view/QtDialogView.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
@@ -14,11 +14,15 @@
 #include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/SourceGroupSettingsJavaMaven.h"
 #include "settings/SourceGroupSettingsJavaGradle.h"
+#include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
 #include "utility/file/FileManager.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/sonargraph/SonargraphProject.h"
 #include "utility/ScopedFunctor.h"
+#include "utility/utility.h"
 #include "utility/utilityGradle.h"
 #include "utility/utilityMaven.h"
+#include "Application.h"
 
 QtProjectWizzardContentPath::QtProjectWizzardContentPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(window)
@@ -118,7 +122,7 @@ QtProjectWizzardContentPathCDB::QtProjectWizzardContentPathCDB(
 	setTitleString("Compilation Database (compile_commands.json)");
 	setHelpString(
 		"Select the compilation database file for the project. Sourcetrail will index your project based on the compile "
-		"commands this file contains using all include paths and compiler flags of these compile commands. The project "
+		"commands. This file contains using all include paths and compiler flags of these compile commands. The project "
 		"will stay up to date with changes in the compilation database on every refresh.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
@@ -131,24 +135,78 @@ void QtProjectWizzardContentPathCDB::populate(QGridLayout* layout, int& row)
 	QtProjectWizzardContentPath::populate(layout, row);
 	m_picker->setPickDirectory(false);
 	m_picker->setFileFilter("JSON Compilation Database (*.json)");
-	connect(m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizzardContentPathCDB::pickedCDBPath);
+	connect(m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizzardContentPathCDB::pickedPath);
 
 	QLabel* description = new QLabel(
-		"Sourcetrail will use all include paths and compiler flags from the compilation database and stay up-to-date "
+		"Sourcetrail will use all include paths and compiler flags from the Compilation Database and stay up-to-date "
 		"with changes on refresh.", this);
 	description->setObjectName("description");
 	description->setWordWrap(true);
 	layout->addWidget(description, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
+
+	QLabel* title = createFormLabel("Source Files to Index");
+	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+	layout->setRowStretch(row, 0);
+
+	m_fileCountLabel = new QLabel("");
+	m_fileCountLabel->setWordWrap(true);
+	layout->addWidget(m_fileCountLabel, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
+	row++;
+
+	addFilesButton("show source files", layout, row);
+	row++;
 }
 
 void QtProjectWizzardContentPathCDB::load()
 {
-	std::shared_ptr<SourceGroupSettingsCxxCdb> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
-	if (settings)
+	m_filePaths.clear();
+
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+
+	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
-		m_picker->setText(QString::fromStdWString(settings->getCompilationDatabasePath().wstr()));
+		m_picker->setText(QString::fromStdWString(cxxSettings->getCompilationDatabasePath().wstr()));
+
+		const std::vector<FilePathFilter> excludeFilters = cxxSettings->getExcludeFiltersExpandedAndAbsolute();
+		const FilePath cdbPath = cxxSettings->getCompilationDatabasePathExpandedAndAbsolute();
+
+		if (!cdbPath.empty() && cdbPath.exists())
+		{
+			std::vector<FilePath> filePaths = IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath);
+
+			for (FilePath& path : filePaths)
+			{
+				{
+					bool excluded = false;
+					for (const FilePathFilter& filter : excludeFilters)
+					{
+						if (filter.isMatching(path))
+						{
+							excluded = true;
+							break;
+						}
+					}
+
+					if (excluded)
+					{
+						continue;
+					}
+				}
+
+				if (projectPath.exists())
+				{
+					path.makeRelativeTo(projectPath);
+				}
+
+				m_filePaths.push_back(path);
+			}
+		}
+
+		if (m_fileCountLabel)
+		{
+			m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the compilation database.");
+		}
 	}
 }
 
@@ -162,15 +220,175 @@ void QtProjectWizzardContentPathCDB::save()
 	}
 }
 
-void QtProjectWizzardContentPathCDB::pickedCDBPath()
+std::vector<FilePath> QtProjectWizzardContentPathCDB::getFilePaths() const
+{
+	const_cast<QtProjectWizzardContentPathCDB*>(this)->load();
+
+	return m_filePaths;
+}
+
+QString QtProjectWizzardContentPathCDB::getFileNamesTitle() const
+{
+	return "Source Files";
+}
+
+QString QtProjectWizzardContentPathCDB::getFileNamesDescription() const
+{
+	return " source files will be indexed.";
+}
+
+void QtProjectWizzardContentPathCDB::pickedPath()
 {
 	m_window->saveContent();
 
 	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
-		cdbSettings->setIndexedHeaderPaths(QtProjectWizzardContentPathsCDBHeader::getIndexedPathsDerivedFromCDB(cdbSettings));
+		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+
+		std::vector<FilePath> indexedHeaderPaths;
+		for (const FilePath path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(cdbSettings))
+		{
+			if (projectPath.contains(path))
+			{
+				indexedHeaderPaths.push_back(path);
+			}
+		}
+		cdbSettings->setIndexedHeaderPaths(indexedHeaderPaths);
 	}
 
+	m_window->loadContent();
+}
+
+
+QtProjectWizzardContentSonargraphProjectPath::QtProjectWizzardContentSonargraphProjectPath(
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPath(settings, window)
+{
+	setTitleString("Sonargraph Project (system.sonargraph)");
+	setHelpString(
+		"Select the Sonargraph file for the project. Sourcetrail will index your project based on the settings "
+		"this file. It contains using all include paths and compiler flags required. The Sourcetrail project "
+		"will stay up to date with changes in the Sonargraph project on every refresh.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
+	);
+	setFileEndings({ L".sonargraph" });
+}
+
+void QtProjectWizzardContentSonargraphProjectPath::populate(QGridLayout* layout, int& row)
+{
+	QtProjectWizzardContentPath::populate(layout, row);
+	m_picker->setPickDirectory(false);
+	m_picker->setFileFilter("Sonargraph Project (system.sonargraph)");
+	connect(m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizzardContentSonargraphProjectPath::pickedPath);
+
+	QLabel* description = new QLabel(
+		"Sourcetrail will use all settings from the Sonargraph project and stay up-to-date with changes on refresh.", this);
+	description->setObjectName("description");
+	description->setWordWrap(true);
+	layout->addWidget(description, row, QtProjectWizzardWindow::BACK_COL);
+	row++;
+
+	QLabel* title = createFormLabel("Source Files to Index");
+	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+	layout->setRowStretch(row, 0);
+
+	m_fileCountLabel = new QLabel("");
+	m_fileCountLabel->setWordWrap(true);
+	layout->addWidget(m_fileCountLabel, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
+	row++;
+
+	addFilesButton("show source files", layout, row);
+	row++;
+}
+
+void QtProjectWizzardContentSonargraphProjectPath::load()
+{
+	m_filePaths.clear();
+
+	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithSonargraphProjectPath>(m_settings);
+	if (settings)
+	{
+		m_picker->setText(QString::fromStdWString(settings->getSonargraphProjectPath().wstr()));
+
+		const FilePath sonargraphProjectPath = settings->getSonargraphProjectPathExpandedAndAbsolute();
+		if (!sonargraphProjectPath.empty() && sonargraphProjectPath.exists())
+		{
+			if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
+				sonargraphProjectPath, m_settings->getLanguage()
+			))
+			{
+				m_filePaths = utility::toVector(sonargraphProject->getAllSourceFilePathsCanonical());
+			}
+		}
+
+		if (m_fileCountLabel)
+		{
+			m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Sonargraph project.");
+		}
+	}
+}
+
+void QtProjectWizzardContentSonargraphProjectPath::save()
+{
+	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithSonargraphProjectPath>(m_settings);
+	if (settings)
+	{
+		settings->setSonargraphProjectPath(FilePath(m_picker->getText().toStdWString()));
+	}
+}
+
+bool QtProjectWizzardContentSonargraphProjectPath::check()
+{
+	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithSonargraphProjectPath>(m_settings);
+	if (settings)
+	{
+		if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
+			settings->getSonargraphProjectPathExpandedAndAbsolute(), m_settings->getLanguage()
+		))
+		{
+			if (sonargraphProject->getLoadedModuleCount() == 0)
+			{
+
+				QMessageBox msgBox;
+				msgBox.setText(QString::fromStdString(
+					"The Sonargraph project file doesn't seem to contain any supported " +
+					languageTypeToString(m_settings->getLanguage()) + " modules. Please " +
+					"consider choosing another project file or removing this sourcegroup."
+				));
+				msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+				msgBox.setDefaultButton(QMessageBox::Ok);
+				return msgBox.exec() == QMessageBox::Ok;
+			}
+		}
+	}
+	return true;
+}
+
+std::vector<FilePath> QtProjectWizzardContentSonargraphProjectPath::getFilePaths() const
+{
+	const_cast<QtProjectWizzardContentSonargraphProjectPath*>(this)->load();
+
+	return m_filePaths;
+}
+
+QString QtProjectWizzardContentSonargraphProjectPath::getFileNamesTitle() const
+{
+	return "Source Files";
+}
+
+QString QtProjectWizzardContentSonargraphProjectPath::getFileNamesDescription() const
+{
+	return " source files will be indexed.";
+}
+
+void QtProjectWizzardContentSonargraphProjectPath::pickedPath()
+{
+	m_window->saveContent();
 	m_window->loadContent();
 }
 
@@ -264,23 +482,26 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 			settings->getShouldIndexMavenTests()
 		);
 
-		FileManager fileManager;
-		fileManager.update(
-			sourceDirectories,
-			m_settings->getExcludeFiltersExpandedAndAbsolute(),
-			m_settings->getSourceExtensions()
-		);
-
-		const FilePath projectPath = m_settings->getProjectDirectoryPath();
-
-		for (FilePath path: fileManager.getAllSourceFilePaths())
+		if (std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings))
 		{
-			if (projectPath.exists())
-			{
-				path.makeRelativeTo(projectPath);
-			}
+			FileManager fileManager;
+			fileManager.update(
+				sourceDirectories,
+				settings->getExcludeFiltersExpandedAndAbsolute(),
+				pathSettings->getSourceExtensions()
+			);
 
-			list.push_back(path);
+			const FilePath projectPath = m_settings->getProjectDirectoryPath();
+
+			for (FilePath path : fileManager.getAllSourceFilePaths())
+			{
+				if (projectPath.exists())
+				{
+					path.makeRelativeTo(projectPath);
+				}
+
+				list.push_back(path);
+			}
 		}
 	}
 
@@ -398,8 +619,8 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() co
 		FileManager fileManager;
 		fileManager.update(
 			sourceDirectories,
-			m_settings->getExcludeFiltersExpandedAndAbsolute(),
-			m_settings->getSourceExtensions()
+			settings->getExcludeFiltersExpandedAndAbsolute(),
+			settings->getSourceExtensions()
 		);
 
 		const FilePath projectPath = m_settings->getProjectDirectoryPath();

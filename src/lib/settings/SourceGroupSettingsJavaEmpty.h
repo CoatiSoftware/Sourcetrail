@@ -8,7 +8,6 @@ class SourceGroupSettingsJavaEmpty
 {
 public:
 	SourceGroupSettingsJavaEmpty(const std::string& id, const ProjectSettings* projectSettings);
-	virtual ~SourceGroupSettingsJavaEmpty();
 };
 
 #endif // SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H

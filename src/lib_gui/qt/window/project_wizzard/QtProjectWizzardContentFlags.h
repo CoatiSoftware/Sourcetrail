@@ -12,7 +12,7 @@ class QtProjectWizzardContentFlags
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
+	QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -23,7 +23,7 @@ public:
 
 private:
 	std::shared_ptr<SourceGroupSettings> m_settings;
-	const bool m_isCdb;
+	const bool m_indicateAsAdditional;
 
 	QtStringListBox* m_list;
 };

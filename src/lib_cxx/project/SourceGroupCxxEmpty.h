@@ -4,23 +4,22 @@
 #include <memory>
 #include <set>
 
-#include "project/SourceGroupCxx.h"
-#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "project/SourceGroup.h"
 
-class SourceGroupCxxEmpty: public SourceGroupCxx
+class SourceGroupSettingsCxxEmpty;
+
+class SourceGroupCxxEmpty: public SourceGroup
 {
 public:
 	SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxxEmpty> settings);
-	virtual ~SourceGroupCxxEmpty();
 
-	virtual SourceGroupType getType() const override;
-
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
+	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
+	std::set<FilePath> getAllSourceFilePaths() const override;
+	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
 
 private:
-	virtual std::shared_ptr<SourceGroupSettingsCxx> getSourceGroupSettingsCxx() override;
-	virtual std::shared_ptr<const SourceGroupSettingsCxx> getSourceGroupSettingsCxx() const override;
-	virtual std::vector<FilePath> getAllSourcePaths() const override;
+	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 
 	std::shared_ptr<SourceGroupSettingsCxxEmpty> m_settings;
 };

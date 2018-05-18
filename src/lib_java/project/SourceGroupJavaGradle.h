@@ -4,24 +4,21 @@
 #include <memory>
 #include <vector>
 
-#include "settings/SourceGroupSettingsJavaGradle.h"
 #include "project/SourceGroupJava.h"
+
+class SourceGroupSettingsJavaGradle;
 
 class SourceGroupJavaGradle : public SourceGroupJava
 {
 public:
 	SourceGroupJavaGradle(std::shared_ptr<SourceGroupSettingsJavaGradle> settings);
-	virtual ~SourceGroupJavaGradle();
-	virtual SourceGroupType getType() const override;
-	virtual bool prepareIndexing() override;
-
-protected:
-	virtual std::vector<FilePath> doGetClassPath() const override;
+	bool prepareIndexing() override;
 
 private:
-	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
-	virtual std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
-	virtual std::vector<FilePath> getAllSourcePaths() const override;
+	std::vector<FilePath> getAllSourcePaths() const override;
+	std::vector<FilePath> doGetClassPath() const override;
+	std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
+	std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
 	bool prepareGradleData();
 
 	std::shared_ptr<SourceGroupSettingsJavaGradle> m_settings;

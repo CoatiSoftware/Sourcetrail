@@ -1,12 +1,12 @@
 #include "project/SourceGroupJavaGradle.h"
 
 #include "component/view/DialogView.h"
-#include "settings/ApplicationSettings.h"
+#include "settings/SourceGroupSettingsJavaGradle.h"
 #include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageStatus.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
 #include "utility/utilityGradle.h"
+#include "utility/utilityJava.h"
 #include "Application.h"
 
 SourceGroupJavaGradle::SourceGroupJavaGradle(std::shared_ptr<SourceGroupSettingsJavaGradle> settings)
@@ -14,18 +14,9 @@ SourceGroupJavaGradle::SourceGroupJavaGradle(std::shared_ptr<SourceGroupSettings
 {
 }
 
-SourceGroupJavaGradle::~SourceGroupJavaGradle()
-{
-}
-
-SourceGroupType SourceGroupJavaGradle::getType() const
-{
-	return SOURCE_GROUP_JAVA_GRADLE;
-}
-
 bool SourceGroupJavaGradle::prepareIndexing()
 {
-	if (!SourceGroupJava::prepareIndexing())
+	if (!utility::prepareJavaEnvironmentAndDisplayOccurringErrors())
 	{
 		return false;
 	}
@@ -38,9 +29,25 @@ bool SourceGroupJavaGradle::prepareIndexing()
 	return true;
 }
 
+std::vector<FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
+{
+	std::vector<FilePath> sourcePaths;
+	if (m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
+	{
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nFetching Source Directories");
+
+		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
+		sourcePaths = utility::gradleGetAllSourceDirectories(projectRootPath, m_settings->getShouldIndexGradleTests());
+
+		dialogView->hideUnknownProgressDialog();
+	}
+	return sourcePaths;
+}
+
 std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
 {
-	std::vector<FilePath> classPath = SourceGroupJava::doGetClassPath();
+	std::vector<FilePath> classPath = utility::getClassPath(getSourceGroupSettingsJava(), getAllSourceFilePaths());
 
 	if (m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute().exists())
 	{
@@ -68,22 +75,6 @@ std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaGradle::getSourceGroupSe
 std::shared_ptr<const SourceGroupSettingsJava> SourceGroupJavaGradle::getSourceGroupSettingsJava() const
 {
 	return m_settings;
-}
-
-std::vector<FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
-{
-	std::vector<FilePath> sourcePaths;
-	if (m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
-	{
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nFetching Source Directories");
-
-		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
-		sourcePaths = utility::gradleGetAllSourceDirectories(projectRootPath, m_settings->getShouldIndexGradleTests());
-
-		dialogView->hideUnknownProgressDialog();
-	}
-	return sourcePaths;
 }
 
 bool SourceGroupJavaGradle::prepareGradleData()

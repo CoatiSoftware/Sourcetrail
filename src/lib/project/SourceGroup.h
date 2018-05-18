@@ -5,43 +5,32 @@
 #include <set>
 #include <vector>
 
-#include "settings/LanguageType.h"
-#include "settings/SourceGroupStatusType.h"
-#include "settings/SourceGroupType.h"
-#include "utility/file/FilePath.h"
-#include "utility/file/FilePathFilter.h"
-
 class IndexerCommand;
+class FilePath;
 class SourceGroupSettings;
+enum LanguageType;
+enum SourceGroupStatusType;
+enum SourceGroupType;
 
 class SourceGroup
 {
 public:
-	virtual ~SourceGroup();
-
-	virtual SourceGroupType getType() const = 0;
-	SourceGroupStatusType getStatus() const;
-	LanguageType getLanguage() const;
+	virtual ~SourceGroup() = default;
 
 	virtual bool prepareIndexing();
-	void fetchAllSourceFilePaths();
-
-	virtual std::set<FilePath> getIndexedPaths() const;
-	std::set<FilePathFilter> getExcludeFilters() const;
-	std::set<FilePath> getAllSourceFilePaths() const;
-	std::set<FilePath> getSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths) const;
-
+	virtual std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const = 0;
+	virtual std::set<FilePath> getAllSourceFilePaths() const = 0;
 	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const = 0;
 
-	std::set<FilePath> m_allSourceFilePaths;
+	SourceGroupType getType() const;
+	LanguageType getLanguage() const;
+	SourceGroupStatusType getStatus() const;
+	std::set<FilePath> filterToContainedSourceFilePath(const std::set<FilePath>& staticSourceFilePaths) const;
+	bool containsSourceFilePath(const FilePath& sourceFilePath) const;
 
 protected:
-	std::set<FilePath> findAndAddSymlinkedDirectories(const std::vector<FilePath>& paths) const;
-
-private:
 	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() = 0;
 	virtual std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const = 0;
-	virtual std::vector<FilePath> getAllSourcePaths() const = 0;
 };
 
 #endif // SOURCE_GROUP_H

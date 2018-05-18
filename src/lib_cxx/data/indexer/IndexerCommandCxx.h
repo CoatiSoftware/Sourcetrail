@@ -16,6 +16,7 @@ public:
 		const FilePath& sourceFilePath,
 		const std::set<FilePath>& indexedPaths,
 		const std::set<FilePathFilter>& excludeFilters,
+		const std::set<FilePathFilter>& includeFilters,
 		const FilePath& workingDirectory,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths,
@@ -23,12 +24,18 @@ public:
 
 	virtual size_t getByteSize(size_t stringSize) const override;
 
+	const std::set<FilePath>& getIndexedPaths() const;
+	const std::set<FilePathFilter>& getExcludeFilters() const;
+	const std::set<FilePathFilter>& getIncludeFilters() const;
 	const std::vector<FilePath>& getSystemHeaderSearchPaths() const;
 	const std::vector<FilePath>& getFrameworkSearchPaths() const;
 	const std::vector<std::wstring>& getCompilerFlags() const;
 	const FilePath& getWorkingDirectory() const;
 
 private:
+	std::set<FilePath> m_indexedPaths;
+	std::set<FilePathFilter> m_excludeFilters;
+	std::set<FilePathFilter> m_includeFilters;
 	FilePath m_workingDirectory;
 	std::vector<FilePath> m_systemHeaderSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;

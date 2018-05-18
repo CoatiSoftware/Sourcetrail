@@ -606,6 +606,9 @@
 						<Component Id='Project_256_256_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Project_256_256' Name='project_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_256_256.png' KeyPath='yes' />
 						</Component>
+						<Component Id='Sonargraph_Icon_Png' Guid='*' Win64="$(var.Win64)">
+							<File Id='Sonargraph_Icon' Name='sonargraph_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/sonargraph_icon.png' KeyPath='yes' />
+						</Component>
 						<Component Id='Vs_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Vs_icon' Name='vs_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/vs_icon.png' KeyPath='yes' />
 						</Component>

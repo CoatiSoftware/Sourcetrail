@@ -338,6 +338,7 @@
 				<ComponentRef Id='Mvn_icon_Png'/>
 				<ComponentRef Id='ProjectIco'/>
 				<ComponentRef Id='Project_256_256_Png'/>
+				<ComponentRef Id='Sonargraph_Icon_Png'/>
 				<ComponentRef Id='Vs_icon_Png'/>
 
 				<ComponentRef Id='ErrorPng'/>

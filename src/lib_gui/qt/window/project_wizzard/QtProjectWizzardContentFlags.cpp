@@ -6,16 +6,16 @@
 #include "qt/element/QtStringListBox.h"
 #include "settings/SourceGroupSettingsCxx.h"
 
-QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB)
+QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional)
 	: QtProjectWizzardContent(window)
 	, m_settings(settings)
-	, m_isCdb(isCDB)
+	, m_indicateAsAdditional(indicateAsAdditional)
 {
 }
 
 void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 {
-	const QString labelText = QString::fromStdString(std::string(m_isCdb ? "Additional " : "") + "Compiler Flags");
+	const QString labelText((std::string(m_indicateAsAdditional ? "Additional " : "") + "Compiler Flags").c_str());
 	QLabel* label = createFormLabel(labelText);
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 

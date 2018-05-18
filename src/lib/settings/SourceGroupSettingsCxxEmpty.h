@@ -2,9 +2,13 @@
 #define SOURCE_GROUP_SETTINGS_CXX_EMPTY_H
 
 #include "settings/SourceGroupSettingsCxx.h"
+#include "settings/SourceGroupSettingsWithExcludeFilters.h"
+#include "settings/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsCxxEmpty
 	: public SourceGroupSettingsCxx
+	, public SourceGroupSettingsWithExcludeFilters
+	, public SourceGroupSettingsWithSourcePaths
 {
 public:
 	static std::vector<std::wstring> getAvailableArchTypes();
@@ -13,12 +17,11 @@ public:
 	static std::vector<std::wstring> getAvailableEnvironmentTypes();
 
 	SourceGroupSettingsCxxEmpty(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
-	virtual ~SourceGroupSettingsCxxEmpty();
 
-	virtual void load(std::shared_ptr<const ConfigManager> config) override;
-	virtual void save(std::shared_ptr<ConfigManager> config) override;
+	void load(std::shared_ptr<const ConfigManager> config) override;
+	void save(std::shared_ptr<ConfigManager> config) override;
 
-	virtual bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
+	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
 	bool getTargetOptionsEnabled() const;
 	void setTargetOptionsEnabled(bool targetOptionsEnabled);
@@ -38,6 +41,9 @@ public:
 	std::wstring getTargetFlag() const;
 
 private:
+	const ProjectSettings* getProjectSettings() const override;
+	std::vector<std::wstring> getDefaultSourceExtensions() const override;
+
 	bool m_targetOptionsEnabled;
 	std::wstring m_targetArch;
 	std::wstring m_targetVendor;

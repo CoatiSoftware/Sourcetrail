@@ -13,19 +13,20 @@ class IndexerCxx: public Indexer<IndexerCommandType>
 public:
 	virtual ~IndexerCxx() = default;
 
-	virtual std::shared_ptr<IntermediateStorage> doIndex(
-		std::shared_ptr<IndexerCommandType> indexerCommand,
-		std::shared_ptr<FileRegister> fileRegister);
+	virtual std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<IndexerCommandType> indexerCommand);
 };
 
 template <typename IndexerCommandType, typename ParserType>
-std::shared_ptr<IntermediateStorage> IndexerCxx<IndexerCommandType, ParserType>::doIndex(
-	std::shared_ptr<IndexerCommandType> indexerCommand,
-	std::shared_ptr<FileRegister> fileRegister)
+std::shared_ptr<IntermediateStorage> IndexerCxx<IndexerCommandType, ParserType>::doIndex(std::shared_ptr<IndexerCommandType> indexerCommand)
 {
 	std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>();
 
-	std::shared_ptr<ParserType> parser = std::make_shared<ParserType>(parserClient, fileRegister);
+	std::shared_ptr<ParserType> parser = std::make_shared<ParserType>(
+		parserClient,
+		std::make_shared<FileRegister>(
+			indexerCommand->getSourceFilePath(), indexerCommand->getIndexedPaths(), indexerCommand->getExcludeFilters()
+		)
+	);
 
 	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 	parserClient->setStorage(storage);

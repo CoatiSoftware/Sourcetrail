@@ -14,6 +14,7 @@ class QPushButton;
 class QtPathListDialog;
 class SourceGroupSettings;
 class SourceGroupSettingsCxxCdb;
+class SourceGroupSettingsCxxSonargraph;
 
 class QtProjectWizzardContentPaths
 	: public QtProjectWizzardContent
@@ -80,15 +81,17 @@ public:
 };
 
 
-class QtProjectWizzardContentPathsCDBHeader
+class QtProjectWizzardContentIndexedHeaderPaths
 	: public QtProjectWizzardContentPaths
 {
 	Q_OBJECT
 
 public:
-	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(std::shared_ptr<SourceGroupSettingsCxxCdb> settings);
+	static std::vector<FilePath> getIndexedPathsDerivedFromSonargraphProject(std::shared_ptr<const SourceGroupSettingsCxxSonargraph> settings);
+	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(std::shared_ptr<const SourceGroupSettingsCxxCdb> settings);
 
-	QtProjectWizzardContentPathsCDBHeader(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentIndexedHeaderPaths(
+		const std::string& projectKindName, std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 
@@ -101,6 +104,9 @@ public:
 private slots:
 	void buttonClicked();
 	void savedFilesDialog();
+
+private:
+	const std::string m_projectKindName;
 };
 
 
@@ -122,7 +128,7 @@ class QtProjectWizzardContentPathsHeaderSearch
 	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsHeaderSearch(
-		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
+		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -145,7 +151,7 @@ private:
 	QtThreadedFunctor<std::vector<IncludeDirective>> m_showValidationResultFunctor;
 
 	std::shared_ptr<QtPathListDialog> m_pathsDialog;
-	const bool m_isCdb;
+	const bool m_indicateAsAdditional;
 };
 
 class QtProjectWizzardContentPathsHeaderSearchGlobal
@@ -167,7 +173,7 @@ class QtProjectWizzardContentPathsFrameworkSearch
 	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsFrameworkSearch(
-		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
+		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;

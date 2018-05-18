@@ -22,7 +22,6 @@ public:
 
 	virtual void load() override;
 	virtual void save() override;
-	virtual bool check() override;
 
 private:
 	std::shared_ptr<SourceGroupSettings> m_sourceGroupSettings;

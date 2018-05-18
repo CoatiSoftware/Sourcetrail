@@ -1,28 +1,28 @@
 #include "utility/utilityFile.h"
 
+#include "utility/file/FilePath.h"
+
+#include "utility/utility.h"
+
 std::vector<FilePath> utility::getTopLevelPaths(const std::vector<FilePath>& paths)
 {
+	return utility::getTopLevelPaths(utility::toSet(paths));
+}
+
+std::vector<FilePath> utility::getTopLevelPaths(const std::set<FilePath>& paths)
+{
+	// this works because the set contains the paths already in alphabetical order
 	std::vector<FilePath> topLevelPaths;
+
+	FilePath lastPath;
 	for (const FilePath& path : paths)
 	{
-		bool addPath = true;
-		for (size_t i = 0; i < topLevelPaths.size(); i++)
+		if (lastPath.empty() || !lastPath.contains(path)) // don't add subdirectories of already added paths
 		{
-			if (topLevelPaths[i].contains(path))
-			{
-				addPath = false;
-				break;
-			}
-			else if (path.contains(topLevelPaths[i]))
-			{
-				topLevelPaths.erase(topLevelPaths.begin() + i);
-				break;
-			}
-		}
-		if (addPath)
-		{
+			lastPath = path;
 			topLevelPaths.push_back(path);
 		}
 	}
+
 	return topLevelPaths;
 }

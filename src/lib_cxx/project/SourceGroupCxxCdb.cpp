@@ -1,9 +1,9 @@
 #include "project/SourceGroupCxxCdb.h"
 
 #include "clang/Tooling/Tooling.h"
-#include "clang/Tooling/CompilationDatabase.h"
 #include "clang/Tooling/JSONCompilationDatabase.h"
 #include "data/indexer/IndexerCommandCxxCdb.h"
+#include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
@@ -12,15 +12,6 @@
 SourceGroupCxxCdb::SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings)
 	: m_settings(settings)
 {
-}
-
-SourceGroupCxxCdb::~SourceGroupCxxCdb()
-{
-}
-
-SourceGroupType SourceGroupCxxCdb::getType() const
-{
-	return SOURCE_GROUP_CXX_CDB;
 }
 
 bool SourceGroupCxxCdb::prepareIndexing()
@@ -45,11 +36,55 @@ bool SourceGroupCxxCdb::prepareIndexing()
 	return true;
 }
 
-std::set<FilePath> SourceGroupCxxCdb::getIndexedPaths() const
+std::set<FilePath> SourceGroupCxxCdb::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	return findAndAddSymlinkedDirectories(m_settings->getIndexedHeaderPathsExpandedAndAbsolute());
+	std::set<FilePath> containedFilePaths;
+
+	const std::set<FilePath> indexedPaths = getIndexedPaths();
+	const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
+
+	for (const FilePath& filePath : filePaths)
+	{
+		bool isInIndexedPaths = false;
+		for (const FilePath& indexedPath : indexedPaths)
+		{
+			if (indexedPath == filePath || indexedPath.contains(filePath))
+			{
+				isInIndexedPaths = true;
+				break;
+			}
+		}
+
+		if (isInIndexedPaths)
+		{
+			for (const FilePathFilter& excludeFilter : excludeFilters)
+			{
+				if (excludeFilter.isMatching(filePath))
+				{
+					isInIndexedPaths = false;
+					break;
+				}
+			}
+		}
+
+		if (isInIndexedPaths)
+		{
+			containedFilePaths.insert(filePath);
+		}
+	}
+
+	return containedFilePaths;
 }
 
+std::set<FilePath> SourceGroupCxxCdb::getAllSourceFilePaths() const
+{
+	const FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
+	if (cdbPath.exists())
+	{
+		return utility::toSet(IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath));
+	}
+	return std::set<FilePath>();
+}
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
@@ -59,15 +94,6 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 	utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
 	utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
 
-	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	for (const FilePath& sourcePath: m_settings->getSourcePathsExpandedAndAbsolute())
-	{
-		if (sourcePath.isDirectory())
-		{
-			systemHeaderSearchPaths.push_back(sourcePath);
-		}
-	}
-
 	std::vector<FilePath> frameworkSearchPaths;
 	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
 	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
@@ -75,7 +101,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 	const std::vector<std::wstring> compilerFlags = m_settings->getCompilerFlags();
 
 	const std::set<FilePath> indexedPaths = getIndexedPaths();
-	const std::set<FilePathFilter> excludeFilters = getExcludeFilters();
+	const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
@@ -115,6 +141,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 					sourcePath,
 					indexedPaths,
 					excludeFilters,
+					std::set<FilePathFilter>(),
 					FilePath(utility::decodeFromUtf8(command.Directory)),
 					utility::concat(
 						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }), 
@@ -130,25 +157,20 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 	return indexerCommands;
 }
 
-std::shared_ptr<SourceGroupSettingsCxx> SourceGroupCxxCdb::getSourceGroupSettingsCxx()
+std::shared_ptr<SourceGroupSettings> SourceGroupCxxCdb::getSourceGroupSettings()
 {
 	return m_settings;
 }
 
-std::shared_ptr<const SourceGroupSettingsCxx> SourceGroupCxxCdb::getSourceGroupSettingsCxx() const
+std::shared_ptr<const SourceGroupSettings> SourceGroupCxxCdb::getSourceGroupSettings() const
 {
 	return m_settings;
 }
 
-std::vector<FilePath> SourceGroupCxxCdb::getAllSourcePaths() const
+std::set<FilePath> SourceGroupCxxCdb::getIndexedPaths() const
 {
-	std::vector<FilePath> sourcePaths;
-
-	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
-	if (cdbPath.exists())
-	{
-		sourcePaths = IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath);
-	}
-
-	return sourcePaths;
+	std::set<FilePath> indexedPaths;
+	utility::append(indexedPaths, getAllSourceFilePaths());
+	utility::append(indexedPaths, utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute()));
+	return indexedPaths;
 }

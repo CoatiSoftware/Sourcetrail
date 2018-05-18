@@ -1,5 +1,6 @@
 #include "data/storage/sqlite/SqliteStorage.h"
 
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/TimeStamp.h"
 #include "utility/utilityString.h"
@@ -7,6 +8,11 @@
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.getCanonical())
 {
+	if (!m_dbFilePath.getParentDirectory().empty() && !m_dbFilePath.getParentDirectory().exists())
+	{
+		FileSystem::createDirectory(m_dbFilePath.getParentDirectory());
+	}
+
 	m_database.open(utility::encodeToUtf8(m_dbFilePath.wstr()).c_str());
 
 	executeStatement("PRAGMA foreign_keys=ON;");

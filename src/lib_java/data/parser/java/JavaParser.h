@@ -27,14 +27,13 @@ class _jstring;
 typedef _jstring *jstring;
 
 class FilePath;
-class FileRegister;
 
 class JavaParser: public Parser
 {
 public:
 	static void clearCaches();
 
-	JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
+	JavaParser(std::shared_ptr<ParserClient> client);
 	~JavaParser();
 
 	void buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand);

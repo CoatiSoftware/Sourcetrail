@@ -185,8 +185,6 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzard.h
 	qt/window/project_wizzard/QtProjectWizzardContent.cpp
 	qt/window/project_wizzard/QtProjectWizzardContent.h
-	qt/window/project_wizzard/QtProjectWizzardContentCDBSource.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h
 	qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.h
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.cpp

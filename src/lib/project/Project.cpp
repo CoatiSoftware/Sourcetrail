@@ -13,10 +13,12 @@
 #include "data/TaskInjectStorage.h"
 #include "data/TaskMergeStorages.h"
 #include "data/TaskShowUnknownProgressDialog.h"
+#include "project/RefreshInfoGenerator.h"
 #include "project/SourceGroup.h"
 #include "project/SourceGroupFactory.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
+#include "settings/SourceGroupStatusType.h"
 
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
@@ -275,8 +277,6 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 		{
 			return;
 		}
-
-		sourceGroup->fetchAllSourceFilePaths();
 	}
 
 	if (needsFullRefresh || fullRefresh)
@@ -314,13 +314,13 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 		return RefreshInfo();
 
 	case REFRESH_UPDATED_FILES:
-		return getRefreshInfoForUpdatedFiles();
+		return RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(m_sourceGroups, m_storage);
 
 	case REFRESH_UPDATED_AND_INCOMPLETE_FILES:
-		return getRefreshInfoForIncompleteFiles();
+		return RefreshInfoGenerator::getRefreshInfoForIncompleteFiles(m_sourceGroups, m_storage);
 
 	case REFRESH_ALL_FILES:
-		return getRefreshInfoForAllFiles();
+		return RefreshInfoGenerator::getRefreshInfoForAllFiles(m_sourceGroups);
 	}
 }
 
@@ -472,203 +472,6 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 
 	m_storageCache->setSubject(m_storage.get());
 	m_state = PROJECT_STATE_LOADED;
-}
-
-std::set<FilePath> Project::getAllSourceFilePaths() const
-{
-	std::set<FilePath> allSourceFilePaths;
-
-	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
-	{
-		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
-		{
-			utility::append(allSourceFilePaths, sourceGroup->getAllSourceFilePaths());
-		}
-	}
-
-	return allSourceFilePaths;
-}
-
-RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
-{
-	std::set<FilePath> unchangedFilePaths;
-	std::set<FilePath> changedFilePaths;
-
-	{
-		std::set<FilePath> alreadyIndexedPaths;
-
-		const std::vector<FileInfo> fileInfos = m_storage->getFileInfoForAllIndexedFiles();
-
-		for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
-		{
-			if (sourceGroup->getStatus() != SOURCE_GROUP_STATUS_ENABLED)
-			{
-				continue;
-			}
-
-			std::set<FilePath> indexedPaths = sourceGroup->getIndexedPaths();
-			std::set<FilePathFilter> excludeFilters = sourceGroup->getExcludeFilters();
-
-			for (const FileInfo& info : fileInfos)
-			{
-				bool isInIndexedPaths = false;
-				for (const FilePath& indexedPath : indexedPaths)
-				{
-					if (indexedPath == info.path || indexedPath.contains(info.path))
-					{
-						isInIndexedPaths = true;
-						break;
-					}
-				}
-
-				if (isInIndexedPaths)
-				{
-					for (const FilePathFilter& excludeFilter : excludeFilters)
-					{
-						if (excludeFilter.isMatching(info.path))
-						{
-							isInIndexedPaths = false;
-							break;
-						}
-					}
-				}
-
-				if (isInIndexedPaths)
-				{
-					alreadyIndexedPaths.insert(info.path);
-				}
-			}
-		}
-
-		// checking source and header files
-		for (const FileInfo& info : fileInfos)
-		{
-			if (alreadyIndexedPaths.find(info.path) != alreadyIndexedPaths.end() && info.path.exists())
-			{
-				if (didFileChange(info))
-				{
-					changedFilePaths.insert(info.path);
-				}
-				else
-				{
-					unchangedFilePaths.insert(info.path);
-				}
-			}
-			else // file has been removed
-			{
-				changedFilePaths.insert(info.path);
-			}
-		}
-	}
-
-	std::set<FilePath> filesToClear = changedFilePaths;
-
-	// handle referencing paths
-	utility::append(filesToClear, m_storage->getReferencing(changedFilePaths));
-
-	// handle referenced paths
-	const std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
-	std::set<FilePath> staticSourceFiles = allSourceFilePaths;
-	for (const FilePath& path: changedFilePaths)
-	{
-		staticSourceFiles.erase(path);
-	}
-
-	const std::set<FilePath> staticReferencedFilePaths = m_storage->getReferenced(staticSourceFiles);
-	const std::set<FilePath> dynamicReferencedFilePaths = m_storage->getReferenced(changedFilePaths);
-
-	for (const FilePath& path : dynamicReferencedFilePaths)
-	{
-		if (staticReferencedFilePaths.find(path) == staticReferencedFilePaths.end() &&
-			staticSourceFiles.find(path) == staticSourceFiles.end())
-		{
-			// file may not be referenced anymore and will be reindexed if still needed
-			filesToClear.insert(path);
-		}
-	}
-
-	for (const FilePath& path: unchangedFilePaths)
-	{
-		staticSourceFiles.erase(path);
-	}
-
-	const std::set<FilePath> filesToAdd = staticSourceFiles;
-
-	std::set<FilePath> staticSourceFilePaths;
-	for (const FilePath& path: allSourceFilePaths)
-	{
-		if (filesToClear.find(path) == filesToClear.end() && filesToAdd.find(path) == filesToAdd.end())
-		{
-			staticSourceFilePaths.insert(path);
-		}
-	}
-
-	RefreshInfo info;
-	info.mode = REFRESH_UPDATED_FILES;
-	info.filesToClear = filesToClear;
-
-	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
-	{
-		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
-		{
-			utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
-		}
-	}
-
-	return info;
-}
-
-RefreshInfo Project::getRefreshInfoForIncompleteFiles() const
-{
-	RefreshInfo info = getRefreshInfoForUpdatedFiles();
-	info.mode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
-
-	std::set<FilePath> incompleteFiles;
-	for (const FilePath& path: m_storage->getIncompleteFiles())
-	{
-		if (info.filesToClear.find(path) == info.filesToClear.end())
-		{
-			incompleteFiles.insert(path);
-		}
-	}
-
-	if (!incompleteFiles.empty())
-	{
-		utility::append(incompleteFiles, m_storage->getReferencing(incompleteFiles));
-
-		std::set<FilePath> staticSourceFilePaths = getAllSourceFilePaths();
-		for (const FilePath& path: incompleteFiles)
-		{
-			staticSourceFilePaths.erase(path);
-
-			if (m_storage->getFilePathIndexed(path))
-			{
-				info.filesToClear.insert(path);
-			}
-			else
-			{
-				info.nonIndexedFilesToClear.insert(path);
-			}
-		}
-
-		for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
-		{
-			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
-			{
-				utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
-			}
-		}
-	}
-
-	return info;
-}
-
-RefreshInfo Project::getRefreshInfoForAllFiles() const
-{
-	RefreshInfo info;
-	info.mode = REFRESH_ALL_FILES;
-	info.filesToIndex = getAllSourceFilePaths();
-	return info;
 }
 
 bool Project::hasCxxSourceGroup() const

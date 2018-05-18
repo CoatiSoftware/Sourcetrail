@@ -4,6 +4,7 @@
 
 #include "tinyxml/tinyxml.h"
 
+#include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
@@ -96,6 +97,17 @@ bool ConfigManager::getValue(const std::string& key, bool& value) const
 	return false;
 }
 
+bool ConfigManager::getValue(const std::string& key, FilePath& value) const
+{
+	std::wstring valueString;
+	if (getValue(key, valueString))
+	{
+		value = FilePath(valueString);
+		return true;
+	}
+	return false;
+}
+
 bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& values) const
 {
 	std::pair <std::multimap<std::string, std::string>::const_iterator,
@@ -178,6 +190,20 @@ bool ConfigManager::getValues(const std::string& key, std::vector<bool>& values)
 	return false;
 }
 
+bool ConfigManager::getValues(const std::string& key, std::vector<FilePath>& values) const
+{
+	std::vector<std::wstring> valuesStringVector;
+	if (getValues(key, valuesStringVector))
+	{
+		for (const std::wstring& valueString : valuesStringVector)
+		{
+			values.push_back(FilePath(valueString));
+		}
+		return true;
+	}
+	return false;
+}
+
 void ConfigManager::setValue(const std::string& key, const std::string& value)
 {
 	std::multimap<std::string, std::string>::iterator it = m_values.find(key);
@@ -212,6 +238,11 @@ void ConfigManager::setValue(const std::string& key, const float value)
 void ConfigManager::setValue(const std::string& key, const bool value)
 {
 	setValue(key, std::string(value ? "1" : "0"));
+}
+
+void ConfigManager::setValue(const std::string& key, const FilePath& value)
+{
+	setValue(key, value.wstr());
 }
 
 void ConfigManager::setValues(const std::string& key, const std::vector<std::string>& values)
@@ -268,6 +299,16 @@ void ConfigManager::setValues(const std::string& key, const std::vector<bool>& v
 	setValues(key, stringValues);
 }
 
+void ConfigManager::setValues(const std::string& key, const std::vector<FilePath>& values)
+{
+	std::vector<std::wstring> stringValues;
+	for (const FilePath& p : values)
+	{
+		stringValues.push_back(p.wstr());
+	}
+	setValues(key, stringValues);
+}
+
 void ConfigManager::removeValues(const std::string& key)
 {
 	for (const std::string& sublevelKey: getSublevelKeys(key))
@@ -304,20 +345,18 @@ std::vector<std::string> ConfigManager::getSublevelKeys(const std::string& key) 
 
 bool ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 {
-	std::string text = textAccess->getText();
-
 	TiXmlDocument doc;
-	const char* pTest = doc.Parse(text.c_str(), 0, TIXML_ENCODING_UTF8);
+	const char* pTest = doc.Parse(textAccess->getText().c_str(), 0, TIXML_ENCODING_UTF8);
 	if (pTest != nullptr)
 	{
 		TiXmlHandle docHandle(&doc);
-		TiXmlNode *rootNode = docHandle.FirstChild("config").ToNode();
+		TiXmlNode* rootNode = docHandle.FirstChild("config").ToNode();
 		if (rootNode == nullptr)
 		{
 			LOG_ERROR("No rootelement 'config' in the configfile");
 			return false;
 		}
-		for (TiXmlNode *childNode = rootNode->FirstChild(); childNode; childNode = childNode->NextSibling())
+		for (TiXmlNode* childNode = rootNode->FirstChild(); childNode; childNode = childNode->NextSibling())
 		{
 			parseSubtree(childNode, "");
 		}

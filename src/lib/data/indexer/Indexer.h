@@ -16,13 +16,9 @@ public:
 
 	virtual IndexerCommandType getSupportedIndexerCommandType() const;
 
-	virtual std::shared_ptr<IntermediateStorage> index(
-		std::shared_ptr<IndexerCommand> indexerCommand,
-		std::shared_ptr<FileRegister> fileRegister);
+	virtual std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand);
 
-	virtual std::shared_ptr<IntermediateStorage> doIndex(
-		std::shared_ptr<T> indexerCommand,
-		std::shared_ptr<FileRegister> fileRegister) = 0;
+	virtual std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<T> indexerCommand) = 0;
 };
 
 template <typename T>
@@ -37,11 +33,10 @@ IndexerCommandType Indexer<T>::getSupportedIndexerCommandType() const
 }
 
 template <typename T>
-std::shared_ptr<IntermediateStorage> Indexer<T>::index(
-	std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister)
+std::shared_ptr<IntermediateStorage> Indexer<T>::index(std::shared_ptr<IndexerCommand> indexerCommand)
 {
-	std::shared_ptr<T> castedCommand = std::dynamic_pointer_cast<T>(indexerCommand);
-	if (!castedCommand)
+	std::shared_ptr<T> castCommand = std::dynamic_pointer_cast<T>(indexerCommand);
+	if (!castCommand)
 	{
 		LOG_ERROR("Trying to process " + indexerCommandTypeToString(indexerCommand->getIndexerCommandType()) +
 			" indexer command with indexer that supports \"" + indexerCommandTypeToString(getSupportedIndexerCommandType()) + "\".");
@@ -49,7 +44,7 @@ std::shared_ptr<IntermediateStorage> Indexer<T>::index(
 		return std::shared_ptr<IntermediateStorage>();
 	}
 
-	return doIndex(castedCommand, fileRegister);
+	return doIndex(castCommand);
 }
 
 #endif // INDEXER_H

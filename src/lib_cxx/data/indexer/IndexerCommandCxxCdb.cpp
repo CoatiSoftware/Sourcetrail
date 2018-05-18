@@ -43,12 +43,21 @@ IndexerCommandCxxCdb::IndexerCommandCxxCdb(
 	const FilePath& sourceFilePath,
 	const std::set<FilePath>& indexedPaths,
 	const std::set<FilePathFilter>& excludeFilters,
+	const std::set<FilePathFilter>& includeFilters,
 	const FilePath& workingDirectory,
 	const std::vector<std::wstring>& compilerFlags,
 	const std::vector<FilePath>& systemHeaderSearchPaths,
 	const std::vector<FilePath>& frameworkSearchPaths
 )
-	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludeFilters, workingDirectory, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags)
+	: IndexerCommandCxx(
+		sourceFilePath, 
+		indexedPaths, 
+		excludeFilters, 
+		includeFilters, 
+		workingDirectory, 
+		systemHeaderSearchPaths,
+		frameworkSearchPaths, 
+		compilerFlags)
 {
 }
 

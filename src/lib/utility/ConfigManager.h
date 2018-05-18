@@ -8,6 +8,7 @@
 
 class TextAccess;
 class TiXmlNode;
+class FilePath;
 
 class ConfigManager
 {
@@ -23,24 +24,34 @@ public:
 	bool getValue(const std::string& key, int& value) const;
 	bool getValue(const std::string& key, float& value) const;
 	bool getValue(const std::string& key, bool& value) const;
+	bool getValue(const std::string& key, FilePath& value) const;
+
+	template<typename T>
+	T getValueOrDefault(const std::string& key, T defaultValue) const;
 
 	bool getValues(const std::string& key, std::vector<std::string>& values) const;
 	bool getValues(const std::string& key, std::vector<std::wstring>& values) const;
 	bool getValues(const std::string& key, std::vector<int>& values) const;
 	bool getValues(const std::string& key, std::vector<float>& values) const;
 	bool getValues(const std::string& key, std::vector<bool>& values) const;
+	bool getValues(const std::string& key, std::vector<FilePath>& values) const;
+
+	template<typename T>
+	std::vector<T> getValuesOrDefaults(const std::string& key, std::vector<T> defaultValues) const;
 
 	void setValue(const std::string& key, const std::string& value);
 	void setValue(const std::string& key, const std::wstring& value);
 	void setValue(const std::string& key, const int value);
 	void setValue(const std::string& key, const float value);
 	void setValue(const std::string& key, const bool value);
+	void setValue(const std::string& key, const FilePath& value);
 
 	void setValues(const std::string& key, const std::vector<std::string>& values);
 	void setValues(const std::string& key, const std::vector<std::wstring>& values);
 	void setValues(const std::string& key, const std::vector<int>& values);
 	void setValues(const std::string& key, const std::vector<float>& values);
 	void setValues(const std::string& key, const std::vector<bool>& values);
+	void setValues(const std::string& key, const std::vector<FilePath>& values);
 
 	void removeValues(const std::string& key);
 
@@ -64,5 +75,27 @@ private:
 	std::multimap<std::string, std::string> m_values;
 	mutable bool m_warnOnEmptyKey;
 };
+
+template<typename T>
+T ConfigManager::getValueOrDefault(const std::string& key, T defaultValue) const
+{
+	T value;
+	if (getValue(key, value))
+	{
+		return value;
+	}
+	return defaultValue;
+}
+
+template<typename T>
+std::vector<T> ConfigManager::getValuesOrDefaults(const std::string& key, std::vector<T> defaultValues) const
+{
+	std::vector<T> values;
+	if (getValues(key, values))
+	{
+		return values;
+	}
+	return defaultValues;
+}
 
 #endif // CONFIG_MANAGER_H

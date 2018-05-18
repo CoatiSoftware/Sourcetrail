@@ -306,7 +306,7 @@ void PersistentStorage::clearCaches()
 	m_fullTextSearchCodec = "";
 }
 
-std::set<FilePath> PersistentStorage::getReferenced(const std::set<FilePath>& filePaths)
+std::set<FilePath> PersistentStorage::getReferenced(const std::set<FilePath>& filePaths) const
 {
 	TRACE();
 	std::set<FilePath> referenced;
@@ -317,7 +317,7 @@ std::set<FilePath> PersistentStorage::getReferenced(const std::set<FilePath>& fi
 	return referenced;
 }
 
-std::set<FilePath> PersistentStorage::getReferencing(const std::set<FilePath>& filePaths)
+std::set<FilePath> PersistentStorage::getReferencing(const std::set<FilePath>& filePaths) const
 {
 	TRACE();
 	std::set<FilePath> referencing;
@@ -2261,7 +2261,7 @@ std::set<Id> PersistentStorage::getReferencing(
 
 }
 
-std::set<FilePath> PersistentStorage::getReferencedByIncludes(const std::set<FilePath>& filePaths)
+std::set<FilePath> PersistentStorage::getReferencedByIncludes(const std::set<FilePath>& filePaths) const
 {
 	const std::set<Id> ids = getReferenced(getFileNodeIds(filePaths), getFileIdToIncludingFileIdMap());
 
@@ -2274,7 +2274,7 @@ std::set<FilePath> PersistentStorage::getReferencedByIncludes(const std::set<Fil
 	return paths;
 }
 
-std::set<FilePath> PersistentStorage::getReferencedByImports(const std::set<FilePath>& filePaths)
+std::set<FilePath> PersistentStorage::getReferencedByImports(const std::set<FilePath>& filePaths) const
 {
 	const std::set<Id> ids = getReferenced(getFileNodeIds(filePaths), getFileIdToImportingFileIdMap());
 
@@ -2287,7 +2287,7 @@ std::set<FilePath> PersistentStorage::getReferencedByImports(const std::set<File
 	return paths;
 }
 
-std::set<FilePath> PersistentStorage::getReferencingByIncludes(const std::set<FilePath>& filePaths)
+std::set<FilePath> PersistentStorage::getReferencingByIncludes(const std::set<FilePath>& filePaths) const
 {
 	const std::set<Id> ids = getReferencing(getFileNodeIds(filePaths), getFileIdToIncludingFileIdMap());
 
@@ -2300,7 +2300,7 @@ std::set<FilePath> PersistentStorage::getReferencingByIncludes(const std::set<Fi
 	return paths;
 }
 
-std::set<FilePath> PersistentStorage::getReferencingByImports(const std::set<FilePath>& filePaths)
+std::set<FilePath> PersistentStorage::getReferencingByImports(const std::set<FilePath>& filePaths) const
 {
 	const std::set<Id> ids = getReferencing(getFileNodeIds(filePaths), getFileIdToImportingFileIdMap());
 

@@ -1516,7 +1516,7 @@ private:
 
 		setupJavaEnvironmentFactory();
 
-		JavaParser parser(parserClient, nullptr);
+		JavaParser parser(parserClient);
 		parser.buildIndex(FilePath(L"input.cc"), textAccess);
 
 		return parserClient;

@@ -13,7 +13,6 @@ class SqliteBookmarkStorage
 {
 public:
 	SqliteBookmarkStorage(const FilePath& dbFilePath);
-	virtual ~SqliteBookmarkStorage();
 
 	virtual size_t getStaticVersion() const;
 

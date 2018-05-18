@@ -6,6 +6,7 @@
 #include "data/indexer/IndexerCommand.h"
 
 class FilePath;
+class FilePathFilter;
 
 class IndexerCommandJava
 	: public IndexerCommand
@@ -15,17 +16,15 @@ public:
 
 	IndexerCommandJava(
 		const FilePath& sourceFilePath,
-		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePathFilter>& excludeFilters,
 		const std::string& languageStandard,
 		const std::vector<FilePath>& classPath);
-	virtual ~IndexerCommandJava();
 
 	virtual IndexerCommandType getIndexerCommandType() const override;
 	virtual size_t getByteSize(size_t stringSize) const override;
 
 	std::string getLanguageStandard() const;
 
+	void setClassPath(std::vector<FilePath> classPath);
 	std::vector<FilePath> getClassPath() const;
 
 private:

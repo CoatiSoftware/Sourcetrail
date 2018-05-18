@@ -2,30 +2,27 @@
 #define SOURCE_GROUP_CXX_CDB_H
 
 #include <memory>
+#include <vector>
 #include <set>
 
-#include "project/SourceGroupCxx.h"
-#include "settings/SourceGroupSettingsCxxCdb.h"
+#include "project/SourceGroup.h"
 
-class SourceGroupCxxCdb
-	: public SourceGroupCxx
+class SourceGroupSettingsCxxCdb;
+
+class SourceGroupCxxCdb: public SourceGroup
 {
 public:
 	SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings);
-	virtual ~SourceGroupCxxCdb();
 
-	virtual SourceGroupType getType() const override;
-
-	virtual bool prepareIndexing() override;
-
-	virtual std::set<FilePath> getIndexedPaths() const override;
-
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
+	bool prepareIndexing() override;
+	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
+	std::set<FilePath> getAllSourceFilePaths() const override;
+	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
 
 private:
-	virtual std::shared_ptr<SourceGroupSettingsCxx> getSourceGroupSettingsCxx() override;
-	virtual std::shared_ptr<const SourceGroupSettingsCxx> getSourceGroupSettingsCxx() const override;
-	virtual std::vector<FilePath> getAllSourcePaths() const override;
+	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
+	std::set<FilePath> getIndexedPaths() const;
 
 	std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings;
 };

@@ -44,7 +44,7 @@ void QtProjectWizzardContentLanguageAndStandard::populate(QGridLayout* layout, i
 
 void QtProjectWizzardContentLanguageAndStandard::load()
 {
-	LanguageType type = getLanguageTypeForSourceGroupType(m_sourceGroupSettings->getType());
+	const LanguageType type = getLanguageTypeForSourceGroupType(m_sourceGroupSettings->getType());
 
 	if (type == LANGUAGE_UNKNOWN)
 	{
@@ -67,9 +67,4 @@ void QtProjectWizzardContentLanguageAndStandard::load()
 void QtProjectWizzardContentLanguageAndStandard::save()
 {
 	m_sourceGroupSettings->setStandard(m_standard->currentText().toStdString());
-}
-
-bool QtProjectWizzardContentLanguageAndStandard::check()
-{
-	return true;
 }

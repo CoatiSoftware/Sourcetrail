@@ -1,7 +1,8 @@
 #include "settings/SourceGroupSettingsCxx.h"
 
+#include "settings/ProjectSettings.h"
+#include "utility/ConfigManager.h"
 #include "utility/utility.h"
-#include "utility/utilityApp.h"
 
 SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)
@@ -11,19 +12,15 @@ SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGrou
 {
 }
 
-SourceGroupSettingsCxx::~SourceGroupSettingsCxx()
-{
-}
-
 void SourceGroupSettingsCxx::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettings::load(config);
 
 	const std::string key = s_keyPrefix + getId();
 
-	setHeaderSearchPaths(getPathValues(key + "/header_search_paths/header_search_path", config));
-	setFrameworkSearchPaths(getPathValues(key + "/framework_search_paths/framework_search_path", config));
-	setCompilerFlags(getValues<std::wstring>(key + "/compiler_flags/compiler_flag", std::vector<std::wstring>(), config));
+	setHeaderSearchPaths(config->getValuesOrDefaults(key + "/header_search_paths/header_search_path", std::vector<FilePath>()));
+	setFrameworkSearchPaths(config->getValuesOrDefaults(key + "/framework_search_paths/framework_search_path", std::vector<FilePath>()));
+	setCompilerFlags(config->getValuesOrDefaults(key + "/compiler_flags/compiler_flag", std::vector<std::wstring>()));
 }
 
 void SourceGroupSettingsCxx::save(std::shared_ptr<ConfigManager> config)
@@ -32,9 +29,9 @@ void SourceGroupSettingsCxx::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setPathValues(key + "/header_search_paths/header_search_path", getHeaderSearchPaths(), config);
-	setPathValues(key + "/framework_search_paths/framework_search_path", getFrameworkSearchPaths(), config);
-	setValues(key + "/compiler_flags/compiler_flag", getCompilerFlags(), config);
+	config->setValues(key + "/header_search_paths/header_search_path", getHeaderSearchPaths());
+	config->setValues(key + "/framework_search_paths/framework_search_path", getFrameworkSearchPaths());
+	config->setValues(key + "/compiler_flags/compiler_flag", getCompilerFlags());
 }
 
 bool SourceGroupSettingsCxx::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -58,6 +55,7 @@ std::vector<std::string> SourceGroupSettingsCxx::getAvailableLanguageStandards()
 	{
 	case SOURCE_GROUP_CPP_EMPTY:
 	case SOURCE_GROUP_CXX_CDB:
+	case SOURCE_GROUP_CXX_SONARGRAPH:
 		standards.push_back("c++2a");
 		standards.push_back("gnu++2a");
 
@@ -143,33 +141,12 @@ void SourceGroupSettingsCxx::setCompilerFlags(const std::vector<std::wstring>& c
 	m_compilerFlags = compilerFlags;
 }
 
-std::vector<std::wstring> SourceGroupSettingsCxx::getDefaultSourceExtensions() const
-{
-	std::vector<std::wstring> defaultValues;
-
-	switch (getType())
-	{
-	case SOURCE_GROUP_CPP_EMPTY:
-		defaultValues.push_back(L".cpp");
-		defaultValues.push_back(L".cxx");
-		defaultValues.push_back(L".cc");
-		break;
-	case SOURCE_GROUP_C_EMPTY:
-		defaultValues.push_back(L".c");
-		break;
-	case SOURCE_GROUP_CXX_CDB:
-	default:
-		break;
-	}
-
-	return defaultValues;
-}
-
 std::string SourceGroupSettingsCxx::getDefaultStandard() const
 {
 	switch (getType())
 	{
 	case SOURCE_GROUP_CPP_EMPTY:
+	case SOURCE_GROUP_CXX_SONARGRAPH:
 		return "c++17";
 	case SOURCE_GROUP_C_EMPTY:
 		return "c11";

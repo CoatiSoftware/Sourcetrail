@@ -75,13 +75,13 @@ add_files(
 	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityClang.cpp
 	data/parser/cxx/utilityClang.h
-
-	project/SourceGroupCxx.cpp
-	project/SourceGroupCxx.h
+	
 	project/SourceGroupCxxCdb.cpp
 	project/SourceGroupCxxCdb.h
 	project/SourceGroupCxxEmpty.cpp
 	project/SourceGroupCxxEmpty.h
+	project/SourceGroupCxxSonargraph.cpp
+	project/SourceGroupCxxSonargraph.h
 	project/SourceGroupFactoryModuleCxx.cpp
 	project/SourceGroupFactoryModuleCxx.h
 

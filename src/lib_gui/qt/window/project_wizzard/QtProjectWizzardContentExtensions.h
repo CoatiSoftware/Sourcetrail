@@ -1,10 +1,12 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_EXTENSIONS_H
 #define QT_PROJECT_WIZZARD_CONTENT_EXTENSIONS_H
 
+#include <memory>
+
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
 class QtStringListBox;
-class SourceGroupSettings;
+class SourceGroupSettingsWithSourcePaths;
 
 class QtProjectWizzardContentExtensions
 	: public QtProjectWizzardContent
@@ -12,7 +14,7 @@ class QtProjectWizzardContentExtensions
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentExtensions(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentExtensions(std::shared_ptr<SourceGroupSettingsWithSourcePaths> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -21,7 +23,7 @@ public:
 	virtual void save() override;
 
 private:
-	std::shared_ptr<SourceGroupSettings> m_settings;
+	std::shared_ptr<SourceGroupSettingsWithSourcePaths> m_settings;
 
 	QtStringListBox* m_listBox;
 };

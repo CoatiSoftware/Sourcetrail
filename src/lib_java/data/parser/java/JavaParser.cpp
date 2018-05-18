@@ -30,7 +30,7 @@ void JavaParser::clearCaches()
 	}
 }
 
-JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
+JavaParser::JavaParser(std::shared_ptr<ParserClient> client)
 	: Parser(client)
 	, m_id(s_nextParserId++)
 {

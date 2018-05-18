@@ -30,21 +30,26 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_C_EMPTY));
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CDB));
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
+	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_SONARGRAPH));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CPP_EMPTY));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CDB));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
+	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_SONARGRAPH));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_EMPTY));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_MAVEN));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_GRADLE));
+	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_SONARGRAPH));
 
 	// define which icons should be used for which kind of source group
 	m_sourceGroupTypeIconName[SOURCE_GROUP_C_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CPP_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CDB] = L"cdb_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = L"vs_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_SONARGRAPH] = L"sonargraph_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = L"mvn_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = L"gradle_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_SONARGRAPH] = L"sonargraph_icon";
 
 	// define descriptions for each kind of Source Group
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail Source Group by defining which C files will be indexed.";
@@ -55,9 +60,11 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_VS] = "Create a new Source Group from an existing Visual Studio Solution file. "
 		"<b>Note: Requires a running Visual Studio instance with the "
 		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_SONARGRAPH] = "Create a new Source Group from an existing Sonargraph project file.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Sourcetrail Source Group by defining which Java files will be indexed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_SONARGRAPH] = "Create a new Source Group from an existing Sonargraph project file.";
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 30, 0, 0);

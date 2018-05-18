@@ -8,12 +8,11 @@ class SourceGroupSettingsJavaGradle
 {
 public:
 	SourceGroupSettingsJavaGradle(const std::string& id, const ProjectSettings* projectSettings);
-	virtual ~SourceGroupSettingsJavaGradle();
 
-	virtual void load(std::shared_ptr<const ConfigManager> config) override;
-	virtual void save(std::shared_ptr<ConfigManager> config) override;
+	void load(std::shared_ptr<const ConfigManager> config) override;
+	void save(std::shared_ptr<ConfigManager> config) override;
 
-	virtual bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
+	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
 	FilePath getGradleProjectFilePath() const;
 	FilePath getGradleProjectFilePathExpandedAndAbsolute() const;

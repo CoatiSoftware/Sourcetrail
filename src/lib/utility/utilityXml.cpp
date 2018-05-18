@@ -6,6 +6,42 @@
 
 namespace utility
 {
+	bool xmlElementHasAttribute(const TiXmlElement* element, const std::string& attributeName)
+	{
+		return (element->Attribute(attributeName.c_str()) != nullptr);
+	}
+
+	std::vector<const TiXmlElement*> getXmlChildElementsWithName(const TiXmlElement* parentElement, const std::string& elementName)
+	{
+		std::vector<const TiXmlElement*> elements;
+
+		const TiXmlElement* child = parentElement->FirstChildElement(elementName.c_str());
+
+		for (child; child; child = child->NextSiblingElement(elementName.c_str()))
+		{
+			elements.push_back(child);
+		}
+
+		return elements;
+	}
+
+	std::vector<const TiXmlElement*> getXmlChildElementsWithAttribute(const TiXmlElement* parentElement, const std::string& attributeName, const std::string& attributeValue)
+	{
+		std::vector<const TiXmlElement*> elements;
+
+		const TiXmlElement* child = parentElement->FirstChildElement();
+	
+		for (child; child; child = child->NextSiblingElement())
+		{
+			const char* value = child->Attribute(attributeName.c_str());
+			if (value != nullptr && value == attributeValue)
+			{
+				elements.push_back(child);
+			}
+		}
+
+		return elements;
+	}
 
 	std::vector<std::string> getValuesOfAllXmlElementsOnPath(std::shared_ptr<TextAccess> textAccess, const std::vector<std::string>& tags)
 	{

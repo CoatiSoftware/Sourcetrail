@@ -58,8 +58,8 @@ public:
 	void clear();
 	void clearCaches();
 
-	std::set<FilePath> getReferenced(const std::set<FilePath>& filePaths);
-	std::set<FilePath> getReferencing(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getReferenced(const std::set<FilePath>& filePaths) const;
+	std::set<FilePath> getReferencing(const std::set<FilePath>& filePaths) const;
 
 	void clearFileElements(const std::vector<FilePath>& filePaths, std::function<void(int)> updateStatusCallback);
 
@@ -165,11 +165,11 @@ private:
 	std::set<Id> getReferenced(const std::set<Id>& filePaths, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const;
 	std::set<Id> getReferencing(const std::set<Id>& filePaths, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const;
 
-	std::set<FilePath> getReferencedByIncludes(const std::set<FilePath>& filePaths);
-	std::set<FilePath> getReferencedByImports(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getReferencedByIncludes(const std::set<FilePath>& filePaths) const;
+	std::set<FilePath> getReferencedByImports(const std::set<FilePath>& filePaths) const;
 
-	std::set<FilePath> getReferencingByIncludes(const std::set<FilePath>& filePaths);
-	std::set<FilePath> getReferencingByImports(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getReferencingByIncludes(const std::set<FilePath>& filePaths) const;
+	std::set<FilePath> getReferencingByImports(const std::set<FilePath>& filePaths) const;
 
 	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph, bool addChildCount) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;

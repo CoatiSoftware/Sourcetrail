@@ -1,15 +1,11 @@
 #include "settings/SourceGroupSettingsCxxCdb.h"
 
-#include "utility/utility.h"
-#include "utility/utilityApp.h"
+#include "settings/ProjectSettings.h"
+#include "utility/ConfigManager.h"
 
 SourceGroupSettingsCxxCdb::SourceGroupSettingsCxxCdb(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_CXX_CDB, projectSettings)
 	, m_compilationDatabasePath(FilePath())
-{
-}
-
-SourceGroupSettingsCxxCdb::~SourceGroupSettingsCxxCdb()
 {
 }
 
@@ -19,8 +15,10 @@ void SourceGroupSettingsCxxCdb::load(std::shared_ptr<const ConfigManager> config
 
 	const std::string key = s_keyPrefix + getId();
 
-	setCompilationDatabasePath(FilePath(getValue<std::wstring>(key + "/build_file_path/compilation_db_path", L"", config)));
-	setIndexedHeaderPaths(getPathValues(key + "/indexed_header_paths/indexed_header_path", config));
+	SourceGroupSettingsWithExcludeFilters::load(config, key);
+	SourceGroupSettingsWithIndexedHeaderPaths::load(config, key);
+
+	setCompilationDatabasePath(config->getValueOrDefault(key + "/build_file_path/compilation_db_path", FilePath(L"")));
 }
 
 void SourceGroupSettingsCxxCdb::save(std::shared_ptr<ConfigManager> config)
@@ -29,8 +27,10 @@ void SourceGroupSettingsCxxCdb::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setValue(key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().wstr(), config);
-	setPathValues(key + "/indexed_header_paths/indexed_header_path", getIndexedHeaderPaths(), config);
+	SourceGroupSettingsWithExcludeFilters::save(config, key);
+	SourceGroupSettingsWithIndexedHeaderPaths::save(config, key);
+
+	config->setValue(key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().wstr());
 }
 
 bool SourceGroupSettingsCxxCdb::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -40,8 +40,9 @@ bool SourceGroupSettingsCxxCdb::equals(std::shared_ptr<SourceGroupSettings> othe
 	return (
 		otherCxxCdb &&
 		SourceGroupSettingsCxx::equals(other) &&
-		m_compilationDatabasePath == otherCxxCdb->m_compilationDatabasePath &&
-		utility::isPermutation(m_indexedHeaderPaths, otherCxxCdb->m_indexedHeaderPaths)
+		SourceGroupSettingsWithExcludeFilters::equals(otherCxxCdb) &&
+		SourceGroupSettingsWithIndexedHeaderPaths::equals(otherCxxCdb) &&
+		m_compilationDatabasePath == otherCxxCdb->m_compilationDatabasePath
 	);
 }
 
@@ -60,18 +61,7 @@ void SourceGroupSettingsCxxCdb::setCompilationDatabasePath(const FilePath& compi
 	m_compilationDatabasePath = compilationDatabasePath;
 }
 
-std::vector<FilePath> SourceGroupSettingsCxxCdb::getIndexedHeaderPaths() const
+const ProjectSettings* SourceGroupSettingsCxxCdb::getProjectSettings() const
 {
-	return m_indexedHeaderPaths;
+	return m_projectSettings;
 }
-
-std::vector<FilePath> SourceGroupSettingsCxxCdb::getIndexedHeaderPathsExpandedAndAbsolute() const
-{
-	return m_projectSettings->makePathsExpandedAndAbsolute(getIndexedHeaderPaths());
-}
-
-void SourceGroupSettingsCxxCdb::setIndexedHeaderPaths(const std::vector<FilePath>& indexedHeaderPaths)
-{
-	m_indexedHeaderPaths = indexedHeaderPaths;
-}
-

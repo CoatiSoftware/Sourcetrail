@@ -16,9 +16,14 @@
 #include "qt/window/QtSelectPathsDialog.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
-#include "settings/SourceGroupSettingsJava.h"
+#include "settings/SourceGroupSettingsCxxSonargraph.h"
+#include "settings/SourceGroupSettingsWithClasspath.h"
+#include "settings/SourceGroupSettingsWithIndexedHeaderPaths.h"
+#include "settings/SourceGroupSettingsWithExcludeFilters.h"
+#include "settings/SourceGroupSettingsWithSourcePaths.h"
 #include "utility/CompilationDatabase.h"
 #include "utility/file/FileManager.h"
+#include "utility/sonargraph/SonargraphProject.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
 #include "utility/utilityFile.h"
@@ -211,12 +216,18 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 
 void QtProjectWizzardContentPathsSource::load()
 {
-	m_list->setPaths(m_settings->getSourcePaths());
+	if (std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings)) // FIXME: pass msettings as required type
+	{
+		m_list->setPaths(pathSettings->getSourcePaths());
+	}
 }
 
 void QtProjectWizzardContentPathsSource::save()
 {
-	m_settings->setSourcePaths(m_list->getPathsAsDisplayed());
+	if (std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings)) // FIXME: pass msettings as required type
+	{
+		pathSettings->setSourcePaths(m_list->getPathsAsDisplayed());
+	}
 }
 
 std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
@@ -230,16 +241,22 @@ std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
 	dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
 
-	FileManager fileManager;
-	fileManager.update(
-		m_settings->getSourcePathsExpandedAndAbsolute(),
-		m_settings->getExcludeFiltersExpandedAndAbsolute(),
-		m_settings->getSourceExtensions()
-	);
+	std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings);
+	std::shared_ptr<SourceGroupSettingsWithExcludeFilters> excludeFilterSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings);
 
-	const std::set<FilePath> filePaths = fileManager.getAllSourceFilePathsRelative(m_settings->getProjectDirectoryPath());
+	if (pathSettings && excludeFilterSettings) // FIXME: pass msettings as required type
+	{
+		FileManager fileManager;
+		fileManager.update(
+			pathSettings->getSourcePathsExpandedAndAbsolute(),
+			excludeFilterSettings->getExcludeFiltersExpandedAndAbsolute(),
+			pathSettings->getSourceExtensions()
+		);
 
-	return utility::toVector(filePaths);
+		const std::set<FilePath> filePaths = fileManager.getAllSourceFilePathsRelative(m_settings->getProjectDirectoryPath());
+		return utility::toVector(filePaths);
+	}
+	return std::vector<FilePath>();
 }
 
 QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
@@ -252,59 +269,81 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 	return " files will be indexed.";
 }
 
-
-std::vector<FilePath> QtProjectWizzardContentPathsCDBHeader::getIndexedPathsDerivedFromCDB(
-	std::shared_ptr<SourceGroupSettingsCxxCdb> settings)
+std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromSonargraphProject(
+	std::shared_ptr<const SourceGroupSettingsCxxSonargraph> settings)
 {
 	const FilePath projectPath = settings->getProjectDirectoryPath();
-	const FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
-
 	std::set<FilePath> indexedHeaderPaths;
-	if (!cdbPath.empty() && cdbPath.exists())
 	{
-		for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
+		const FilePath sonargraphProjectPath = settings->getSonargraphProjectPathExpandedAndAbsolute();
+		if (!sonargraphProjectPath.empty() && sonargraphProjectPath.exists())
 		{
-			indexedHeaderPaths.insert(path.getParentDirectory());
+			if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
+				sonargraphProjectPath, settings->getLanguage()
+			))
+			{
+				for (const FilePath& path : sonargraphProject->getAllSourceFilePathsCanonical())
+				{
+					indexedHeaderPaths.insert(path.getParentDirectory());
+				}
+				utility::append(indexedHeaderPaths, sonargraphProject->getAllCxxHeaderSearchPathsCanonical());
+			}
+		}
+		else
+		{
+			LOG_WARNING("Unable to fetch indexed header paths. The provided Sonargraph project path does not exist.");
 		}
 	}
-	else
-	{
-		LOG_WARNING("Unable to fetch indexed header paths. The provided Compilation Database path does not exist.");
-	}
-
-	for (const FilePath& path : utility::CompilationDatabase(cdbPath).getAllHeaderPaths())
-	{
-		if (path.exists() && projectPath.contains(path))
-		{
-			indexedHeaderPaths.insert(path);
-		}
-	}
-
-	std::vector<FilePath> rootPaths;
-
-	FilePath lastPath;
-	for (const FilePath& path : indexedHeaderPaths)
-	{
-		if (lastPath.empty() || !lastPath.contains(path)) // don't add subdirectories of already added paths
-		{
-			lastPath = path;
-			rootPaths.push_back(path.getRelativeTo(projectPath));
-		}
-	}
-
-	return rootPaths;
+	return utility::convert<FilePath, FilePath>(
+		utility::getTopLevelPaths(indexedHeaderPaths),
+		[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
+	);
 }
 
-QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(
+	std::shared_ptr<const SourceGroupSettingsCxxCdb> settings)
+{
+	const FilePath projectPath = settings->getProjectDirectoryPath();
+	std::set<FilePath> indexedHeaderPaths;
+	{
+		const FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
+		if (!cdbPath.empty() && cdbPath.exists())
+		{
+			for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
+			{
+				indexedHeaderPaths.insert(path.getParentDirectory());
+			}
+			for (const FilePath& path : utility::CompilationDatabase(cdbPath).getAllHeaderPaths())
+			{
+				if (path.exists())
+				{
+					indexedHeaderPaths.insert(path);
+				}
+			}
+		}
+		else
+		{
+			LOG_WARNING("Unable to fetch indexed header paths. The provided Compilation Database path does not exist.");
+		}
+	}
+
+	return utility::convert<FilePath, FilePath>(
+		utility::getTopLevelPaths(indexedHeaderPaths), 
+		[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
+	);
+}
+
+QtProjectWizzardContentIndexedHeaderPaths::QtProjectWizzardContentIndexedHeaderPaths(
+	const std::string& projectKindName, std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
+	, m_projectKindName(projectKindName)
 {
 	m_showFilesString = "";
 
 	setTitleString("Header Files & Directories to Index");
-	setHelpString(
-		"Your Compilation Database already specifies which source files are part of your project. But Sourcetrail still "
+	setHelpString(QString::fromStdString(
+		"The provided " + m_projectKindName + " already specifies which source files are part of your project. But Sourcetrail still "
 		"needs to know which header files to index as part of your project and which to skip. Choosing to skip indexing "
 		"your system headers or external frameworks will significantly improve the overall indexing performance.<br />"
 		"<br />"
@@ -315,51 +354,52 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 		"<br />"
 		"<b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it "
 		"encounters.<br />"
-	);
+	));
 }
 
-void QtProjectWizzardContentPathsCDBHeader::populate(QGridLayout* layout, int& row)
+void QtProjectWizzardContentIndexedHeaderPaths::populate(QGridLayout* layout, int& row)
 {
 	QtProjectWizzardContentPaths::populate(layout, row);
 
-	QPushButton* button = new QPushButton("Select from Include Paths");
+	QPushButton* button = new QPushButton(QString::fromStdString("Select from " + m_projectKindName));
 	button->setObjectName("windowButton");
-	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPathsCDBHeader::buttonClicked);
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentIndexedHeaderPaths::buttonClicked);
 
 	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
 	row++;
 }
 
-void QtProjectWizzardContentPathsCDBHeader::load()
+void QtProjectWizzardContentIndexedHeaderPaths::load()
 {
-	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
+	if (std::shared_ptr<SourceGroupSettingsWithIndexedHeaderPaths> cdbSettings = 
+		std::dynamic_pointer_cast<SourceGroupSettingsWithIndexedHeaderPaths>(m_settings))
 	{
 		m_list->setPaths(cdbSettings->getIndexedHeaderPaths());
 	}
 }
 
-void QtProjectWizzardContentPathsCDBHeader::save()
+void QtProjectWizzardContentIndexedHeaderPaths::save()
 {
-	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
+	if (std::shared_ptr<SourceGroupSettingsWithIndexedHeaderPaths> cdbSettings = 
+		std::dynamic_pointer_cast<SourceGroupSettingsWithIndexedHeaderPaths>(m_settings))
 	{
 		cdbSettings->setIndexedHeaderPaths(m_list->getPathsAsDisplayed());
 	}
 }
 
-bool QtProjectWizzardContentPathsCDBHeader::check()
+bool QtProjectWizzardContentIndexedHeaderPaths::check()
 {
 	if (m_list->getPathsAsDisplayed().empty())
 	{
 		QMessageBox msgBox;
 		msgBox.setText("You didn't specify any Header Files & Directories to Index.");
-		msgBox.setInformativeText(
-			"Sourcetrail will only index the source files listed in the compilation database file and none of the included "
-			"header files.");
+		msgBox.setInformativeText(QString::fromStdString(
+			"Sourcetrail will only index the source files listed in the " + m_projectKindName + 
+			" file and none of the included header files."
+		));
 		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
 		msgBox.setDefaultButton(QMessageBox::Ok);
-		int ret = msgBox.exec();
-
-		return ret == QMessageBox::Ok;
+		return msgBox.exec() == QMessageBox::Ok;
 	}
 	else
 	{
@@ -367,13 +407,40 @@ bool QtProjectWizzardContentPathsCDBHeader::check()
 	}
 }
 
-void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
+void QtProjectWizzardContentIndexedHeaderPaths::buttonClicked()
 {
 	save();
 
 	if (!m_filesDialog)
 	{
-		if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
+		if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> sonargraphSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
+		{
+			const FilePath sonargraphProjectPath = sonargraphSettings->getSonargraphProjectPathExpandedAndAbsolute();
+			if (!sonargraphProjectPath.exists())
+			{
+				QMessageBox msgBox;
+				msgBox.setText("The provided Sonargraph project path does not exist.");
+				msgBox.setDetailedText(QString::fromStdWString(sonargraphProjectPath.wstr()));
+				msgBox.exec();
+				return;
+			}
+
+			m_filesDialog = std::make_shared<QtSelectPathsDialog>(
+				"Select from Include Paths",
+				"The list contains all Include Paths found in the Sonargraph project. Red paths do not exist. Select the "
+				"paths containing the header files you want to index with Sourcetrail.");
+			m_filesDialog->setup();
+
+			connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentIndexedHeaderPaths::savedFilesDialog);
+			connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentIndexedHeaderPaths::closedFilesDialog);
+
+			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
+				getIndexedPathsDerivedFromSonargraphProject(sonargraphSettings),
+				sonargraphSettings->getIndexedHeaderPaths(),
+				m_settings->getProjectDirectoryPath()
+			);
+		}
+		else if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 		{
 			const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
 			if (!cdbPath.exists())
@@ -391,8 +458,8 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 				"paths containing the header files you want to index with Sourcetrail.");
 			m_filesDialog->setup();
 
-			connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentPathsCDBHeader::savedFilesDialog);
-			connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentPathsCDBHeader::closedFilesDialog);
+			connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentIndexedHeaderPaths::savedFilesDialog);
+			connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentIndexedHeaderPaths::closedFilesDialog);
 
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
 				getIndexedPathsDerivedFromCDB(cdbSettings),
@@ -406,11 +473,12 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 	m_filesDialog->raise();
 }
 
-void QtProjectWizzardContentPathsCDBHeader::savedFilesDialog()
+void QtProjectWizzardContentIndexedHeaderPaths::savedFilesDialog()
 {
 	m_list->setPaths(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->getPathsList());
 	closedFilesDialog();
 }
+
 
 QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
@@ -431,39 +499,49 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 
 void QtProjectWizzardContentPathsExclude::load()
 {
-	m_list->setPaths(utility::convert<std::wstring, FilePath>(m_settings->getExcludeFilterStrings(), [](const std::wstring& s) { return FilePath(s); }));
+	if (std::shared_ptr<SourceGroupSettingsWithExcludeFilters> settings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings)) // FIXME: pass msettings as required type
+	{
+		m_list->setPaths(utility::convert<std::wstring, FilePath>(settings->getExcludeFilterStrings(), [](const std::wstring& s) { return FilePath(s); }));
+	}
 }
 
 void QtProjectWizzardContentPathsExclude::save()
 {
-	m_settings->setExcludeFilterStrings(utility::toWStrings(m_list->getPathsAsDisplayed()));
+	if (std::shared_ptr<SourceGroupSettingsWithExcludeFilters> settings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings)) // FIXME: pass msettings as required type
+	{
+		settings->setExcludeFilterStrings(utility::toWStrings(m_list->getPathsAsDisplayed()));
+	}
 }
 
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional
 )
 	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
 	, m_showDetectedIncludesResultFunctor(std::bind(
 		&QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult, this, std::placeholders::_1))
 	, m_showValidationResultFunctor(std::bind(
 		&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
-	, m_isCdb(isCDB)
+	, m_indicateAsAdditional(indicateAsAdditional)
 {
-	setTitleString(m_isCdb ? "Additional Include Paths" : "Include Paths");
+	setTitleString(m_indicateAsAdditional ? "Additional Include Paths" : "Include Paths");
 	setHelpString(
-		((m_isCdb ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missing in the Compilation "
-			"Database.<br /><br />" : "") + std::string(
-		"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
-		"usually passed to the compiler with the '-I' or '-iquote' flags.<br />"
-		"<br />"
-		"Add all paths #include directives throughout your project are relative to. If all #include directives are "
-		"specified relative to the project's root directory, please add that root directory here.<br />"
-		"<br />"
-		"If your project also includes files from external libraries (e.g. boost), please add these directories as well "
-		"(e.g. add 'path/to/boost_home/include').<br />"
-		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}.")).c_str()
+		(
+			(m_indicateAsAdditional ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missing in the "
+				"referenced project file.<br /><br />" : ""
+			) + std::string(
+				"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
+				"usually passed to the compiler with the '-I' or '-iquote' flags.<br />"
+				"<br />"
+				"Add all paths #include directives throughout your project are relative to. If all #include directives are "
+				"specified relative to the project's root directory, please add that root directory here.<br />"
+				"<br />"
+				"If your project also includes files from external libraries (e.g. boost), please add these directories as well "
+				"(e.g. add 'path/to/boost_home/include').<br />"
+				"<br />"
+				"You can make use of environment variables with ${ENV_VAR}."
+			)
+		).c_str()
 	);
 }
 
@@ -471,7 +549,7 @@ void QtProjectWizzardContentPathsHeaderSearch::populate(QGridLayout* layout, int
 {
 	QtProjectWizzardContentPaths::populate(layout, row);
 
-	if (!m_isCdb)
+	if (!m_indicateAsAdditional)
 	{
 		{
 			QPushButton* detectionButton = new QPushButton("auto-detect");
@@ -530,7 +608,10 @@ void QtProjectWizzardContentPathsHeaderSearch::detectIncludesButtonClicked()
 	m_pathsDialog->setCloseVisible(true);
 
 	m_pathsDialog->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
-	m_pathsDialog->setPaths(m_settings->getSourcePaths(), true);
+	if (std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings)) // FIXME: pass msettings as required type
+	{
+		m_pathsDialog->setPaths(pathSettings->getSourcePaths(), true);
+	}
 	m_pathsDialog->showWindow();
 
 	connect(m_pathsDialog.get(), &QtPathListDialog::finished, this, &QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPathsDialog);
@@ -542,62 +623,68 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 	// TODO: regard Force Includes here, too!
 	m_window->saveContent();
 
-	std::thread([&]()
+	std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings);
+	std::shared_ptr<SourceGroupSettingsWithExcludeFilters> excludeFilterSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings);
+
+	if (pathSettings && excludeFilterSettings) // FIXME: pass msettings as required type
 	{
-		std::vector<IncludeDirective> unresolvedIncludes;
+		std::thread([&]()
 		{
-			std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-
-			std::set<FilePath> sourceFilePaths;
-			std::vector<FilePath> indexedFilePaths;
-			std::vector<FilePath> headerSearchPaths;
-
+			std::vector<IncludeDirective> unresolvedIncludes;
 			{
-				std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-				dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
-				ScopedFunctor dialogHider([&dialogView](){
-					dialogView->hideUnknownProgressDialog();
-				});
+				std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
-				FileManager fileManager;
-				fileManager.update(
-					m_settings->getSourcePathsExpandedAndAbsolute(),
-					m_settings->getExcludeFiltersExpandedAndAbsolute(),
-					m_settings->getSourceExtensions()
-				);
-				sourceFilePaths = fileManager.getAllSourceFilePaths();
+				std::set<FilePath> sourceFilePaths;
+				std::vector<FilePath> indexedFilePaths;
+				std::vector<FilePath> headerSearchPaths;
 
-				headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-
-				if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
-						std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
 				{
-					indexedFilePaths = cxxSettings->getSourcePaths();
-					utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
+					std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+					dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
+					ScopedFunctor dialogHider([&dialogView](){
+						dialogView->hideUnknownProgressDialog();
+					});
+
+					FileManager fileManager;
+					fileManager.update(
+						pathSettings->getSourcePathsExpandedAndAbsolute(),
+						excludeFilterSettings->getExcludeFiltersExpandedAndAbsolute(),
+						pathSettings->getSourceExtensions()
+					);
+					sourceFilePaths = fileManager.getAllSourceFilePaths();
+
+					indexedFilePaths = pathSettings->getSourcePathsExpandedAndAbsolute();
+
+					headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
+					if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
+							std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+					{
+						utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
+					}
+				}
+				{
+					std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+					ScopedFunctor dialogHider([&dialogView](){
+						dialogView->hideProgressDialog();
+					});
+
+					unresolvedIncludes = IncludeProcessing::getUnresolvedIncludeDirectives(
+						sourceFilePaths,
+						utility::toSet(indexedFilePaths),
+						utility::toSet(headerSearchPaths),
+						log2(sourceFilePaths.size()),
+						[&](const float progress)
+						{
+							Application::getInstance()->getDialogView()->showProgressDialog(
+								L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
+							);
+						}
+					);
 				}
 			}
-			{
-				std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-				ScopedFunctor dialogHider([&dialogView](){
-					dialogView->hideProgressDialog();
-				});
-
-				unresolvedIncludes = IncludeProcessing::getUnresolvedIncludeDirectives(
-					sourceFilePaths,
-					utility::toSet(indexedFilePaths),
-					utility::toSet(headerSearchPaths),
-					log2(sourceFilePaths.size()),
-					[&](const float progress)
-					{
-						Application::getInstance()->getDialogView()->showProgressDialog(
-							L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
-						);
-					}
-				);
-			}
-		}
-		m_showValidationResultFunctor(unresolvedIncludes);
-	}).detach();
+			m_showValidationResultFunctor(unresolvedIncludes);
+		}).detach();
+	}
 }
 
 
@@ -607,59 +694,65 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 	const std::vector<FilePath> searchedPaths = m_settings->makePathsExpandedAndAbsolute(m_pathsDialog->getPaths());
 	closedPathsDialog();
 
-	std::thread([=]()
+	std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings);
+	std::shared_ptr<SourceGroupSettingsWithExcludeFilters> excludeFilterSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings);
+
+	if (pathSettings && excludeFilterSettings) // FIXME: pass msettings as required type
 	{
-		std::set<FilePath> detectedHeaderSearchPaths;
+		std::thread([=]()
 		{
-			std::shared_ptr<QtDialogView> dialogView = std::dynamic_pointer_cast<QtDialogView>(Application::getInstance()->getDialogView());
-
-			std::set<FilePath> sourceFilePaths;
-			std::vector<FilePath> headerSearchPaths;
+			std::set<FilePath> detectedHeaderSearchPaths;
 			{
-				dialogView->setParentWindow(m_window);
-				dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
-				ScopedFunctor dialogHider([&dialogView]() {
-					dialogView->hideUnknownProgressDialog();
-				});
+				std::shared_ptr<QtDialogView> dialogView = std::dynamic_pointer_cast<QtDialogView>(Application::getInstance()->getDialogView());
 
-				FileManager fileManager;
-				fileManager.update(
-					m_settings->getSourcePathsExpandedAndAbsolute(),
-					m_settings->getExcludeFiltersExpandedAndAbsolute(),
-					m_settings->getSourceExtensions()
-				);
-				sourceFilePaths = fileManager.getAllSourceFilePaths();
-
-				headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-				if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
-					std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+				std::set<FilePath> sourceFilePaths;
+				std::vector<FilePath> headerSearchPaths;
 				{
-					utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
+					dialogView->setParentWindow(m_window);
+					dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
+					ScopedFunctor dialogHider([&dialogView]() {
+						dialogView->hideUnknownProgressDialog();
+					});
+
+					FileManager fileManager;
+					fileManager.update(
+						pathSettings->getSourcePathsExpandedAndAbsolute(),
+						excludeFilterSettings->getExcludeFiltersExpandedAndAbsolute(),
+						pathSettings->getSourceExtensions()
+					);
+					sourceFilePaths = fileManager.getAllSourceFilePaths();
+
+					headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
+					if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
+						std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+					{
+						utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
+					}
+				}
+				{
+					dialogView->setParentWindow(m_window);
+					ScopedFunctor dialogHider([&dialogView]() {
+						dialogView->hideProgressDialog();
+					});
+
+					detectedHeaderSearchPaths = IncludeProcessing::getHeaderSearchDirectories(
+						sourceFilePaths,
+						utility::toSet(searchedPaths),
+						utility::toSet(headerSearchPaths),
+						log2(sourceFilePaths.size()),
+						[&](const float progress)
+						{
+							Application::getInstance()->getDialogView()->showProgressDialog(
+								L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
+							);
+						}
+					);
 				}
 			}
-			{
-				dialogView->setParentWindow(m_window);
-				ScopedFunctor dialogHider([&dialogView]() {
-					dialogView->hideProgressDialog();
-				});
 
-				detectedHeaderSearchPaths = IncludeProcessing::getHeaderSearchDirectories(
-					sourceFilePaths,
-					utility::toSet(searchedPaths),
-					utility::toSet(headerSearchPaths),
-					log2(sourceFilePaths.size()),
-					[&](const float progress)
-					{
-						Application::getInstance()->getDialogView()->showProgressDialog(
-							L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
-						);
-					}
-				);
-			}
-		}
-
-		m_showDetectedIncludesResultFunctor(detectedHeaderSearchPaths);
-	}).detach();
+			m_showDetectedIncludesResultFunctor(detectedHeaderSearchPaths);
+		}).detach();
+	}
 }
 
 void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog()
@@ -830,11 +923,11 @@ void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 
 
 QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFrameworkSearch(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional
 )
 	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
 {
-	setTitleString(isCDB ? "Additional Framework Search Paths" : "Framework Search Paths");
+	setTitleString(indicateAsAdditional ? "Additional Framework Search Paths" : "Framework Search Paths");
 	setHelpString(
 		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
 		"found. These paths are usually passed to the compiler with the '-iframework' flag.<br />"
@@ -927,22 +1020,22 @@ void QtProjectWizzardContentPathsClassJava::populate(QGridLayout* layout, int& r
 
 void QtProjectWizzardContentPathsClassJava::load()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
-	if (javaSettings)
+	std::shared_ptr<SourceGroupSettingsWithClasspath> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithClasspath>(m_settings);
+	if (settings)
 	{
-		m_list->setPaths(javaSettings->getClasspath());
-		m_useJreSystemLibraryCheckBox->setChecked(javaSettings->getUseJreSystemLibrary());
+		m_list->setPaths(settings->getClasspath());
+		m_useJreSystemLibraryCheckBox->setChecked(settings->getUseJreSystemLibrary());
 	}
 }
 
 void QtProjectWizzardContentPathsClassJava::save()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
-	if (javaSettings)
+	std::shared_ptr<SourceGroupSettingsWithClasspath> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithClasspath>(m_settings);
+	if (settings)
 	{
-		javaSettings->setClasspath(m_list->getPathsAsDisplayed());
-		javaSettings->setUseJreSystemLibrary(m_useJreSystemLibraryCheckBox->isChecked());
+		settings->setClasspath(m_list->getPathsAsDisplayed());
+		settings->setUseJreSystemLibrary(m_useJreSystemLibraryCheckBox->isChecked());
 	}
 }

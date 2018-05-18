@@ -25,6 +25,7 @@ public:
 		const FilePath& sourceFilePath,
 		const std::set<FilePath>& indexedPaths,
 		const std::set<FilePathFilter>& excludeFilters,
+		const std::set<FilePathFilter>& includeFilters,
 		const FilePath& workingDirectory,
 		const std::vector<std::wstring>& compilerFlags,
 		const std::vector<FilePath>& systemHeaderSearchPaths,

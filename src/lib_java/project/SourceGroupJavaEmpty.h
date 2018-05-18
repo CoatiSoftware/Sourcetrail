@@ -12,14 +12,13 @@ class SourceGroupJavaEmpty: public SourceGroupJava
 {
 public:
 	SourceGroupJavaEmpty(std::shared_ptr<SourceGroupSettingsJavaEmpty> settings);
-	virtual ~SourceGroupJavaEmpty();
-
-	virtual SourceGroupType getType() const override;
+	bool prepareIndexing() override;
 
 private:
-	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
-	virtual std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
-	virtual std::vector<FilePath> getAllSourcePaths() const override;
+	std::vector<FilePath> getAllSourcePaths() const override;
+	std::vector<FilePath> doGetClassPath() const override;
+	std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
+	std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
 
 	std::shared_ptr<SourceGroupSettingsJavaEmpty> m_settings;
 };

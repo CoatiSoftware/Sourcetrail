@@ -4,7 +4,6 @@ add_files(
 
 	utility/TextCodec.cpp
 	utility/TextCodec.h
-
 	utility/utilityString.cpp
 	utility/utilityString.h
 )

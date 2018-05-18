@@ -1,15 +1,7 @@
 #include "settings/SourceGroupSettingsJava.h"
 
-#include "utility/utility.h"
-
 SourceGroupSettingsJava::SourceGroupSettingsJava(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)
-	, m_useJreSystemLibrary(true)
-	, m_classpath(std::vector<FilePath>())
-{
-}
-
-SourceGroupSettingsJava::~SourceGroupSettingsJava()
 {
 }
 
@@ -19,8 +11,9 @@ void SourceGroupSettingsJava::load(std::shared_ptr<const ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setClasspath(getPathValues(key + "/class_paths/class_path", config));
-	setUseJreSystemLibrary(getValue<bool>(key + "/use_jre_system_library", true, config));
+	SourceGroupSettingsWithSourcePaths::load(config, key);
+	SourceGroupSettingsWithExcludeFilters::load(config, key);
+	SourceGroupSettingsWithClasspath::load(config, key);
 }
 
 void SourceGroupSettingsJava::save(std::shared_ptr<ConfigManager> config)
@@ -29,8 +22,9 @@ void SourceGroupSettingsJava::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setPathValues(key + "/class_paths/class_path", getClasspath(), config);
-	setValue(key + "/use_jre_system_library", getUseJreSystemLibrary(), config);
+	SourceGroupSettingsWithSourcePaths::save(config, key);
+	SourceGroupSettingsWithExcludeFilters::save(config, key);
+	SourceGroupSettingsWithClasspath::save(config, key);
 }
 
 bool SourceGroupSettingsJava::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -40,8 +34,9 @@ bool SourceGroupSettingsJava::equals(std::shared_ptr<SourceGroupSettings> other)
 	return (
 		otherJava &&
 		SourceGroupSettings::equals(other) &&
-		m_useJreSystemLibrary == otherJava->m_useJreSystemLibrary &&
-		utility::isPermutation(m_classpath, otherJava->m_classpath)
+		SourceGroupSettingsWithSourcePaths::equals(otherJava) &&
+		SourceGroupSettingsWithExcludeFilters::equals(otherJava) &&
+		SourceGroupSettingsWithClasspath::equals(otherJava)
 	);
 }
 
@@ -50,30 +45,11 @@ std::vector<std::string> SourceGroupSettingsJava::getAvailableLanguageStandards(
 	return std::vector<std::string>{"1", "2", "3", "4", "5", "6", "7", "8"};
 }
 
-bool SourceGroupSettingsJava::getUseJreSystemLibrary() const
+const ProjectSettings* SourceGroupSettingsJava::getProjectSettings() const
 {
-	return m_useJreSystemLibrary;
+	return m_projectSettings;
 }
 
-void SourceGroupSettingsJava::setUseJreSystemLibrary(bool useJreSystemLibrary)
-{
-	m_useJreSystemLibrary = useJreSystemLibrary;
-}
-
-std::vector<FilePath> SourceGroupSettingsJava::getClasspath() const
-{
-	return m_classpath;
-}
-
-std::vector<FilePath> SourceGroupSettingsJava::getClasspathExpandedAndAbsolute() const
-{
-	return m_projectSettings->makePathsExpandedAndAbsolute(getClasspath());
-}
-
-void SourceGroupSettingsJava::setClasspath(const std::vector<FilePath>& classpath)
-{
-	m_classpath = classpath;
-}
 std::vector<std::wstring> SourceGroupSettingsJava::getDefaultSourceExtensions() const
 {
 	return { L".java" };

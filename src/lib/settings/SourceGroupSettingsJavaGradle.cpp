@@ -1,14 +1,13 @@
 #include "settings/SourceGroupSettingsJavaGradle.h"
 
+#include "settings/ProjectSettings.h"
+#include "utility/ConfigManager.h"
+
 SourceGroupSettingsJavaGradle::SourceGroupSettingsJavaGradle(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsJava(id, SOURCE_GROUP_JAVA_GRADLE, projectSettings)
 	, m_gradleProjectFilePath(FilePath())
 	, m_gradleDependenciesDirectory(FilePath())
 	, m_shouldIndexGradleTests(false)
-{
-}
-
-SourceGroupSettingsJavaGradle::~SourceGroupSettingsJavaGradle()
 {
 }
 
@@ -18,9 +17,9 @@ void SourceGroupSettingsJavaGradle::load(std::shared_ptr<const ConfigManager> co
 
 	const std::string key = s_keyPrefix + getId();
 
-	setGradleProjectFilePath(FilePath(getValue<std::wstring>(key + "/gradle/project_file_path", L"", config)));
-	setGradleDependenciesDirectory(FilePath(getValue<std::wstring>(key + "/gradle/dependencies_directory", L"", config)));
-	setShouldIndexGradleTests(getValue<bool>(key + "/gradle/should_index_tests", false, config));
+	setGradleProjectFilePath(config->getValueOrDefault(key + "/gradle/project_file_path", FilePath(L"")));
+	setGradleDependenciesDirectory(config->getValueOrDefault(key + "/gradle/dependencies_directory", FilePath(L"")));
+	setShouldIndexGradleTests(config->getValueOrDefault(key + "/gradle/should_index_tests", false));
 }
 
 void SourceGroupSettingsJavaGradle::save(std::shared_ptr<ConfigManager> config)
@@ -29,9 +28,9 @@ void SourceGroupSettingsJavaGradle::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setValue(key + "/gradle/project_file_path", getGradleProjectFilePath().wstr(), config);
-	setValue(key + "/gradle/dependencies_directory", getGradleDependenciesDirectory().wstr(), config);
-	setValue(key + "/gradle/should_index_tests", getShouldIndexGradleTests(), config);
+	config->setValue(key + "/gradle/project_file_path", getGradleProjectFilePath().wstr());
+	config->setValue(key + "/gradle/dependencies_directory", getGradleDependenciesDirectory().wstr());
+	config->setValue(key + "/gradle/should_index_tests", getShouldIndexGradleTests());
 }
 
 bool SourceGroupSettingsJavaGradle::equals(std::shared_ptr<SourceGroupSettings> other) const

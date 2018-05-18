@@ -124,6 +124,7 @@ private:
 	{
 		const std::set<FilePath> indexedPaths = { projectDataSrcRoot };
 		const std::set<FilePathFilter> excludedFilters = {};
+		const std::set<FilePathFilter> includedFilters = {};
 		const FilePath workingDirectory(L".");
 
 		std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
@@ -140,11 +141,12 @@ private:
 			sourceFilePath, 
 			indexedPaths,
 			excludedFilters,
+			includedFilters,
 			workingDirectory,
-			"c++1z", 
 			utility::concat(std::vector<FilePath> { projectDataSrcRoot }, ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded()),
 			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded(), 
-			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc" }
+			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc" },
+			"c++1z"
 		);
 
 		parser.buildIndex(command);

@@ -5,9 +5,11 @@
 #include "settings/migration/SettingsMigrationMoveKey.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "settings/SourceGroupSettingsJavaEmpty.h"
 #include "settings/SourceGroupSettingsJavaMaven.h"
 #include "settings/SourceGroupSettingsJavaGradle.h"
+#include "settings/SourceGroupSettingsJavaSonargraph.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
@@ -150,6 +152,9 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 		case SOURCE_GROUP_CXX_CDB:
 			settings = std::make_shared<SourceGroupSettingsCxxCdb>(id, this);
 			break;
+		case SOURCE_GROUP_CXX_SONARGRAPH:
+			settings = std::make_shared<SourceGroupSettingsCxxSonargraph>(id, this);
+			break;
 		case SOURCE_GROUP_JAVA_EMPTY:
 			settings = std::make_shared<SourceGroupSettingsJavaEmpty>(id, this);
 			break;
@@ -158,6 +163,9 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 			break;
 		case SOURCE_GROUP_JAVA_GRADLE:
 			settings = std::make_shared<SourceGroupSettingsJavaGradle>(id, this);
+			break;
+		case SOURCE_GROUP_JAVA_SONARGRAPH:
+			settings = std::make_shared<SourceGroupSettingsJavaSonargraph>(id, this);
 			break;
 		default:
 			continue;

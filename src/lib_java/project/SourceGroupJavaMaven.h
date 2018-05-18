@@ -4,24 +4,21 @@
 #include <memory>
 #include <vector>
 
-#include "settings/SourceGroupSettingsJavaMaven.h"
 #include "project/SourceGroupJava.h"
+
+class SourceGroupSettingsJavaMaven;
 
 class SourceGroupJavaMaven: public SourceGroupJava
 {
 public:
 	SourceGroupJavaMaven(std::shared_ptr<SourceGroupSettingsJavaMaven> settings);
-	virtual ~SourceGroupJavaMaven();
-	virtual SourceGroupType getType() const override;
-	virtual bool prepareIndexing() override;
-
-protected:
-	virtual std::vector<FilePath> doGetClassPath() const override;
+	bool prepareIndexing() override;
 
 private:
-	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
-	virtual std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
-	virtual std::vector<FilePath> getAllSourcePaths() const override;
+	std::vector<FilePath> getAllSourcePaths() const override;
+	std::vector<FilePath> doGetClassPath() const override;
+	std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
+	std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
 	bool prepareMavenData();
 
 	std::shared_ptr<SourceGroupSettingsJavaMaven> m_settings;

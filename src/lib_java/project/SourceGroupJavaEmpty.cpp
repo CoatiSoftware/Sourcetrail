@@ -1,19 +1,30 @@
 #include "project/SourceGroupJavaEmpty.h"
 
 #include "settings/SourceGroupSettingsJavaEmpty.h"
+#include "utility/utilityJava.h"
 
 SourceGroupJavaEmpty::SourceGroupJavaEmpty(std::shared_ptr<SourceGroupSettingsJavaEmpty> settings)
 	: m_settings(settings)
 {
 }
 
-SourceGroupJavaEmpty::~SourceGroupJavaEmpty()
+bool SourceGroupJavaEmpty::prepareIndexing()
 {
+	if (!utility::prepareJavaEnvironmentAndDisplayOccurringErrors())
+	{
+		return false;
+	}
+	return true;
 }
 
-SourceGroupType SourceGroupJavaEmpty::getType() const
+std::vector<FilePath> SourceGroupJavaEmpty::getAllSourcePaths() const
 {
-	return SOURCE_GROUP_JAVA_EMPTY;
+	return m_settings->getSourcePathsExpandedAndAbsolute();
+}
+
+std::vector<FilePath> SourceGroupJavaEmpty::doGetClassPath() const
+{
+	return utility::getClassPath(getSourceGroupSettingsJava(), getAllSourceFilePaths());
 }
 
 std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaEmpty::getSourceGroupSettingsJava()
@@ -24,9 +35,4 @@ std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaEmpty::getSourceGroupSet
 std::shared_ptr<const SourceGroupSettingsJava> SourceGroupJavaEmpty::getSourceGroupSettingsJava() const
 {
 	return m_settings;
-}
-
-std::vector<FilePath> SourceGroupJavaEmpty::getAllSourcePaths() const
-{
-	return m_settings->getSourcePathsExpandedAndAbsolute();
 }

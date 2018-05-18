@@ -2,10 +2,12 @@
 
 #include "component/view/DialogView.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/SourceGroupSettingsJavaMaven.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
+#include "utility/utilityJava.h"
 #include "utility/utilityMaven.h"
 #include "Application.h"
 
@@ -14,18 +16,9 @@ SourceGroupJavaMaven::SourceGroupJavaMaven(std::shared_ptr<SourceGroupSettingsJa
 {
 }
 
-SourceGroupJavaMaven::~SourceGroupJavaMaven()
-{
-}
-
-SourceGroupType SourceGroupJavaMaven::getType() const
-{
-	return SOURCE_GROUP_JAVA_MAVEN;
-}
-
 bool SourceGroupJavaMaven::prepareIndexing()
 {
-	if (!SourceGroupJava::prepareIndexing())
+	if (!utility::prepareJavaEnvironmentAndDisplayOccurringErrors())
 	{
 		return false;
 	}
@@ -38,9 +31,26 @@ bool SourceGroupJavaMaven::prepareIndexing()
 	return true;
 }
 
+std::vector<FilePath> SourceGroupJavaMaven::getAllSourcePaths() const
+{
+	std::vector<FilePath> sourcePaths;
+	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
+	{
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nFetching Source Directories");
+
+		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
+		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
+		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_settings->getShouldIndexMavenTests());
+
+		dialogView->hideUnknownProgressDialog();
+	}
+	return sourcePaths;
+}
+
 std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
 {
-	std::vector<FilePath> classPath = SourceGroupJava::doGetClassPath();
+	std::vector<FilePath> classPath = utility::getClassPath(getSourceGroupSettingsJava(), getAllSourceFilePaths());
 
 	if (m_settings && m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute().exists())
 	{
@@ -68,23 +78,6 @@ std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaMaven::getSourceGroupSet
 std::shared_ptr<const SourceGroupSettingsJava> SourceGroupJavaMaven::getSourceGroupSettingsJava() const
 {
 	return m_settings;
-}
-
-std::vector<FilePath> SourceGroupJavaMaven::getAllSourcePaths() const
-{
-	std::vector<FilePath> sourcePaths;
-	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
-	{
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nFetching Source Directories");
-
-		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
-		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
-		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_settings->getShouldIndexMavenTests());
-
-		dialogView->hideUnknownProgressDialog();
-	}
-	return sourcePaths;
 }
 
 bool SourceGroupJavaMaven::prepareMavenData()

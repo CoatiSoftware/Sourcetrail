@@ -8,14 +8,13 @@ class SourceGroupSettingsCxx
 {
 public:
 	SourceGroupSettingsCxx(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
-	virtual ~SourceGroupSettingsCxx();
 
-	virtual void load(std::shared_ptr<const ConfigManager> config) override;
-	virtual void save(std::shared_ptr<ConfigManager> config) override;
+	void load(std::shared_ptr<const ConfigManager> config) override;
+	void save(std::shared_ptr<ConfigManager> config) override;
 
-	virtual bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
+	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
-	virtual std::vector<std::string> getAvailableLanguageStandards() const override;
+	std::vector<std::string> getAvailableLanguageStandards() const override;
 
 	std::vector<FilePath> getHeaderSearchPaths() const;
 	std::vector<FilePath> getHeaderSearchPathsExpandedAndAbsolute() const;
@@ -29,8 +28,7 @@ public:
 	void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
 
 private:
-	virtual std::vector<std::wstring> getDefaultSourceExtensions() const override;
-	virtual std::string getDefaultStandard() const override;
+	std::string getDefaultStandard() const override;
 
 	std::vector<FilePath> m_headerSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;

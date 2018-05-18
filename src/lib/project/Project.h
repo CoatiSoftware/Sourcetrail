@@ -50,12 +50,6 @@ private:
 
 	Project(const Project&);
 
-	std::set<FilePath> getAllSourceFilePaths() const;
-
-	RefreshInfo getRefreshInfoForUpdatedFiles() const;
-	RefreshInfo getRefreshInfoForIncompleteFiles() const;
-	RefreshInfo getRefreshInfoForAllFiles() const;
-
 	bool hasCxxSourceGroup() const;
 	bool didFileChange(const FileInfo& info) const;
 

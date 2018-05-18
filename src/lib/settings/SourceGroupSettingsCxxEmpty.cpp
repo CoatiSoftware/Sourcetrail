@@ -1,5 +1,6 @@
 #include "settings/SourceGroupSettingsCxxEmpty.h"
 
+#include "utility/ConfigManager.h"
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
 
@@ -150,21 +151,20 @@ SourceGroupSettingsCxxEmpty::SourceGroupSettingsCxxEmpty(const std::string& id, 
 {
 }
 
-SourceGroupSettingsCxxEmpty::~SourceGroupSettingsCxxEmpty()
-{
-}
-
 void SourceGroupSettingsCxxEmpty::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsCxx::load(config);
 
 	const std::string key = s_keyPrefix + getId();
 
-	setTargetOptionsEnabled(getValue<bool>(key + "/cross_compilation/target_options_enabled", false, config));
-	setTargetArch(getValue<std::wstring>(key + "/cross_compilation/target/arch", L"", config));
-	setTargetVendor(getValue<std::wstring>(key + "/cross_compilation/target/vendor", L"", config));
-	setTargetSys(getValue<std::wstring>(key + "/cross_compilation/target/sys", L"", config));
-	setTargetAbi(getValue<std::wstring>(key + "/cross_compilation/target/abi", L"", config));
+	SourceGroupSettingsWithSourcePaths::load(config, key);
+	SourceGroupSettingsWithExcludeFilters::load(config, key);
+
+	setTargetOptionsEnabled(config->getValueOrDefault<bool>(key + "/cross_compilation/target_options_enabled", false));
+	setTargetArch(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/arch", L""));
+	setTargetVendor(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/vendor", L""));
+	setTargetSys(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/sys", L""));
+	setTargetAbi(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/abi", L""));
 }
 
 void SourceGroupSettingsCxxEmpty::save(std::shared_ptr<ConfigManager> config)
@@ -173,11 +173,14 @@ void SourceGroupSettingsCxxEmpty::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setValue(key + "/cross_compilation/target_options_enabled", getTargetOptionsEnabled(), config);
-	setValue(key + "/cross_compilation/target/arch", getTargetArch(), config);
-	setValue(key + "/cross_compilation/target/vendor", getTargetVendor(), config);
-	setValue(key + "/cross_compilation/target/sys", getTargetSys(), config);
-	setValue(key + "/cross_compilation/target/abi", getTargetAbi(), config);
+	SourceGroupSettingsWithSourcePaths::save(config, key);
+	SourceGroupSettingsWithExcludeFilters::save(config, key);
+
+	config->setValue(key + "/cross_compilation/target_options_enabled", getTargetOptionsEnabled());
+	config->setValue(key + "/cross_compilation/target/arch", getTargetArch());
+	config->setValue(key + "/cross_compilation/target/vendor", getTargetVendor());
+	config->setValue(key + "/cross_compilation/target/sys", getTargetSys());
+	config->setValue(key + "/cross_compilation/target/abi", getTargetAbi());
 }
 
 bool SourceGroupSettingsCxxEmpty::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -187,6 +190,8 @@ bool SourceGroupSettingsCxxEmpty::equals(std::shared_ptr<SourceGroupSettings> ot
 	return (
 		otherCxxEmpty &&
 		SourceGroupSettingsCxx::equals(other) &&
+		SourceGroupSettingsWithSourcePaths::equals(otherCxxEmpty) &&
+		SourceGroupSettingsWithExcludeFilters::equals(otherCxxEmpty) &&
 		getTargetFlag() == otherCxxEmpty->getTargetFlag()
 	);
 }
@@ -253,4 +258,30 @@ std::wstring SourceGroupSettingsCxxEmpty::getTargetFlag() const
 		targetFlag += L"-" + (m_targetAbi.empty() ? L"unknown" : m_targetAbi);
 	}
 	return targetFlag;
+}
+
+const ProjectSettings* SourceGroupSettingsCxxEmpty::getProjectSettings() const
+{
+	return m_projectSettings;
+}
+
+std::vector<std::wstring> SourceGroupSettingsCxxEmpty::getDefaultSourceExtensions() const
+{
+	std::vector<std::wstring> defaultValues;
+
+	switch (getType())
+	{
+	case SOURCE_GROUP_CPP_EMPTY:
+		defaultValues.push_back(L".cpp");
+		defaultValues.push_back(L".cxx");
+		defaultValues.push_back(L".cc");
+		break;
+	case SOURCE_GROUP_C_EMPTY:
+		defaultValues.push_back(L".c");
+		break;
+	default:
+		break;
+	}
+
+	return defaultValues;
 }

@@ -43,6 +43,8 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 		return LANGUAGE_CPP;
 	case SOURCE_GROUP_CXX_CDB:
 		return LANGUAGE_CPP;
+	case SOURCE_GROUP_CXX_SONARGRAPH:
+		return LANGUAGE_CPP;
 	case SOURCE_GROUP_CXX_VS:
 		return LANGUAGE_CPP;
 	case SOURCE_GROUP_JAVA_EMPTY:
@@ -50,6 +52,8 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 	case SOURCE_GROUP_JAVA_MAVEN:
 		return LANGUAGE_JAVA;
 	case SOURCE_GROUP_JAVA_GRADLE:
+		return LANGUAGE_JAVA;
+	case SOURCE_GROUP_JAVA_SONARGRAPH:
 		return LANGUAGE_JAVA;
 	default:
 		break;
