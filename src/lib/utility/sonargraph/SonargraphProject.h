@@ -5,6 +5,8 @@
 #include <memory>
 #include <vector>
 
+#include "settings/LanguageType.h"
+
 // xsdCppModule
 //	xsdCppManualModule -> basePathForIncludes(0, n), sourceFileExtensions(0, n), moduleCompilerOptions(0, n)
 //	xsdCmakeJsonModule -> rootPathWithFiles(0, n)
@@ -17,7 +19,6 @@ class FilePath;
 class IndexerCommand;
 class SourceGroupSettings;
 class TextAccess;
-enum LanguageType;
 
 namespace Sonargraph
 {
@@ -37,7 +38,7 @@ namespace Sonargraph
 		std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const;
 
 		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
-			std::shared_ptr<const SourceGroupSettings> sourceGroupSettings, 
+			std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 			std::shared_ptr<const ApplicationSettings> appSettings) const;
 
 	private:

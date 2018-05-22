@@ -15,9 +15,8 @@ namespace utility
 	{
 		std::vector<const TiXmlElement*> elements;
 
-		const TiXmlElement* child = parentElement->FirstChildElement(elementName.c_str());
-
-		for (child; child; child = child->NextSiblingElement(elementName.c_str()))
+		for (const TiXmlElement* child = parentElement->FirstChildElement(elementName.c_str());
+				child; child = child->NextSiblingElement(elementName.c_str()))
 		{
 			elements.push_back(child);
 		}
@@ -29,9 +28,8 @@ namespace utility
 	{
 		std::vector<const TiXmlElement*> elements;
 
-		const TiXmlElement* child = parentElement->FirstChildElement();
-	
-		for (child; child; child = child->NextSiblingElement())
+		for (const TiXmlElement* child = parentElement->FirstChildElement();
+				child; child = child->NextSiblingElement())
 		{
 			const char* value = child->Attribute(attributeName.c_str());
 			if (value != nullptr && value == attributeValue)

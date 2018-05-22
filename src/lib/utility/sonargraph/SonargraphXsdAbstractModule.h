@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 
+#include "settings/LanguageType.h"
 #include "utility/file/FilePathFilter.h"
 
 class ApplicationSettings;
 class IndexerCommand;
 class SourceGroupSettings;
 class TiXmlElement;
-enum LanguageType;
 
 namespace Sonargraph
 {

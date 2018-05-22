@@ -41,7 +41,7 @@ public:
 		TS_ASSERT_EQUALS(REFRESH_ALL_FILES, refreshInfo.mode);
 		TS_ASSERT_EQUALS(0, refreshInfo.nonIndexedFilesToClear.size());
 		TS_ASSERT_EQUALS(0, refreshInfo.filesToClear.size());
-		TS_ASSERT_EQUALS(1, refreshInfo.filesToIndex.size()); 
+		TS_ASSERT_EQUALS(1, refreshInfo.filesToIndex.size());
 
 		TS_ASSERT(utility::containsElement<FilePath>(
 			utility::toVector(refreshInfo.filesToIndex), sourceFilePath
@@ -163,7 +163,7 @@ public:
 			TS_ASSERT_EQUALS(0, refreshInfo.nonIndexedFilesToClear.size());
 			TS_ASSERT_EQUALS(1, refreshInfo.filesToClear.size());
 			TS_ASSERT_EQUALS(1, refreshInfo.filesToIndex.size());
-			
+
 			TS_ASSERT(utility::containsElement<FilePath>(
 				utility::toVector(refreshInfo.filesToClear), outdatedSourceFilePath
 			));
@@ -212,9 +212,9 @@ public:
 			const FilePath outdatedSourceFilePath = m_sourceFolder.getConcatenated(L"outdated_file.cpp");
 
 			std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
-			sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest({ 
-				upToDateSourceFilePath, 
-				outdatedSourceFilePath 
+			sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest({
+				upToDateSourceFilePath,
+				outdatedSourceFilePath
 			})));
 
 			std::shared_ptr<PersistentStorage> storage = std::make_shared<PersistentStorage>(
@@ -238,7 +238,7 @@ public:
 			TS_ASSERT_EQUALS(0, refreshInfo.nonIndexedFilesToClear.size());
 			TS_ASSERT_EQUALS(2, refreshInfo.filesToClear.size());
 			TS_ASSERT_EQUALS(2, refreshInfo.filesToIndex.size());
-			
+
 			TS_ASSERT(utility::containsElement<FilePath>(
 				utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath
 			));
@@ -476,12 +476,12 @@ private:
 		}
 
 	private:
-		virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings()
+		std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override
 		{
 			return m_sourceGroupSettings;
 		}
 
-		virtual std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const
+		std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override
 		{
 			return m_sourceGroupSettings;
 		}
@@ -511,7 +511,7 @@ private:
 	{
 		FileSystem::createDirectory(filePath.getParentDirectory());
 		std::ofstream file;
-		file.open(filePath.wstr());
+		file.open(filePath.str());
 		file << "This is some file content.\n";
 		file.close();
 	}

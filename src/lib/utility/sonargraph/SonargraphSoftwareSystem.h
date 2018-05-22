@@ -12,7 +12,6 @@ class ApplicationSettings;
 class IndexerCommand;
 class SourceGroupSettings;
 class TiXmlElement;
-enum LanguageType;
 
 namespace Sonargraph
 {

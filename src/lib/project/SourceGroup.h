@@ -5,12 +5,13 @@
 #include <set>
 #include <vector>
 
+#include "settings/LanguageType.h"
+#include "settings/SourceGroupStatusType.h"
+#include "settings/SourceGroupType.h"
+
 class IndexerCommand;
 class FilePath;
 class SourceGroupSettings;
-enum LanguageType;
-enum SourceGroupStatusType;
-enum SourceGroupType;
 
 class SourceGroup
 {

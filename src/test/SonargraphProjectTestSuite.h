@@ -78,7 +78,7 @@ public:
 
 	void generateAndCompareExpectedOutputForSonargraphProject(
 		std::wstring projectName,
-		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings, 
+		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> applicationSettings)
 	{
 		const FilePath projectDataRoot = FilePath(L"data/SonargraphProjectTestSuite/" + projectName).makeAbsolute();
@@ -110,7 +110,7 @@ public:
 
 	std::shared_ptr<TextAccess> generateExpectedOutputForSonargraphProject(
 		std::wstring projectName,
-		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings, 
+		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> applicationSettings)
 	{
 		const FilePath projectDataRoot = FilePath(L"data/SonargraphProjectTestSuite/" + projectName).makeAbsolute();
@@ -142,7 +142,7 @@ public:
 			{
 				return indexerCommandJavaToString(indexerCommandJava, baseDirectory);
 			}
-			return L"Unsupported indexer command type: " + indexerCommand->getIndexerCommandType();
+			return L"Unsupported indexer command type: " + utility::decodeFromUtf8(indexerCommandTypeToString(indexerCommand->getIndexerCommandType()));
 		}
 		return L"No IndexerCommand provided.";
 	}
@@ -170,7 +170,7 @@ public:
 		}
 		return result;
 	}
-	
+
 	std::wstring indexerCommandJavaToString(std::shared_ptr<const IndexerCommandJava> indexerCommand, const FilePath& baseDirectory)
 	{
 		std::wstring result;
