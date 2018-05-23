@@ -57,24 +57,12 @@ std::string Generator::getPublicKeyFilename()
 	return m_publicKeyFile;
 }
 
-std::string Generator::encodeLicense(const std::string& user, const int days)
-{
-	boost::gregorian::date today = boost::gregorian::day_clock::local_day();
-	boost::gregorian::days daysToTry(days);
-	boost::gregorian::date expireDate = today + daysToTry;
-
-	createLicense(user, LicenseConstants::TEST_LICENSE_STRING, boost::gregorian::to_simple_string(expireDate), 0);
-
-	return m_license->getLicenseString();
-}
-
 std::string Generator::encodeLicense(
 	const std::string& user,
 	const std::string& licenseType,
 	size_t numberOfUsers,
 	const std::string& version
-)
-{
+){
 	m_license = nullptr;
 	if (user.size() <= 0)
 	{
@@ -93,15 +81,29 @@ std::string Generator::encodeLicense(
 		Version tempVersion = Version::fromString(version);
 		if (tempVersion.isValid())
 		{
-			createLicense(user, licenseType, tempVersion.toShortString(), numberOfUsers);
+			createLicense(user, licenseType, tempVersion.toShortString(), false, numberOfUsers);
 		}
 	}
 
 	if (!m_license)
 	{
-		createLicense(user, licenseType, getExpireVersion(), numberOfUsers);
+		createLicense(user, licenseType, getExpireVersion(), false, numberOfUsers);
 	}
 
+	return m_license->getLicenseString();
+}
+
+std::string Generator::encodeLicense(
+	const std::string& user,
+	const std::string& licenseType,
+	size_t numberOfUsers,
+	size_t days
+){
+	boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+	boost::gregorian::days daysToTry(days);
+	boost::gregorian::date expireDate = today + daysToTry;
+
+	createLicense(user, licenseType, boost::gregorian::to_simple_string(expireDate), true, numberOfUsers);
 
 	return m_license->getLicenseString();
 }
@@ -175,7 +177,6 @@ void Generator::writeKeysToFiles()
 		return;
 	}
 
-
 	std::cout << "public key filename: " << publicKeyFilename << std::endl;
 	std::ofstream pub(publicKeyFilename);
 	pub << getPublicKeyPEMFileAsString();
@@ -240,12 +241,13 @@ void Generator::createLicense(
 	const std::string& user,
 	const std::string& type,
 	const std::string& expiration,
+	bool expiresAtDate,
 	size_t numberOfUsers
-)
-{
+){
 	m_license = std::make_unique<License>();
 
-	m_license->createHeader(user, type, expiration, numberOfUsers);
+	m_license->createHeader(
+		user, type.size() ? type : LicenseConstants::TEST_LICENSE_STRING, expiration, expiresAtDate, numberOfUsers);
 
 	Botan::AutoSeeded_RNG rng;
 	std::string pass9 = Botan::generate_passhash9(m_license->getExpireLine(), m_rng);
@@ -273,10 +275,9 @@ int Generator::mapMonthToVersion(int month)
 
 std::string Generator::getExpireVersion(int versions)
 {
-		boost::gregorian::date today = boost::gregorian::day_clock::local_day();
-		int monthNumber = today.month().as_number();
-		Version version(today.year(), mapMonthToVersion(monthNumber));
-		version += versions;
-		return version.toShortString();
+	boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+	int monthNumber = today.month().as_number();
+	Version version(today.year(), mapMonthToVersion(monthNumber));
+	version += versions;
+	return version.toShortString();
 }
-

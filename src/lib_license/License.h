@@ -69,6 +69,7 @@ public:
 		const std::string& user,
 		const std::string& type,
 		const std::string& expiration,
+		bool expiresAtDate,
 		size_t numberOfUsers = 0
 	);
 	std::string getExpireLine() const;
@@ -120,6 +121,7 @@ private:
 	size_t m_numberOfUsers;
 	bool m_createdWithSeats;
 	std::string m_expire;
+	bool m_expiresAtDate;
 	std::string m_hashLine;
 
 	std::string m_signature;

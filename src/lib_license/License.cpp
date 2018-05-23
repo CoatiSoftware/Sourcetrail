@@ -62,6 +62,7 @@ void License::createHeader(
 	const std::string& user,
 	const std::string& type,
 	const std::string& expiration,
+	bool expiresAtDate,
 	size_t numberOfUsers
 )
 {
@@ -71,6 +72,7 @@ void License::createHeader(
 	}
 	m_user = user;
 	m_expire = expiration;
+	m_expiresAtDate = expiresAtDate;
 	m_type = type;
 	m_numberOfUsers = numberOfUsers;
 }
@@ -145,9 +147,11 @@ bool License::extractData(const std::string& data, LICENSE_LINE line)
 			return !m_user.empty();
 		case EXPIRE_LINE:
 			m_expire = removeCaption(data, LicenseConstants::VALID_UP_TO_STRING);
+			m_expiresAtDate = false;
 			if (m_expire.empty())
 			{
 				m_expire = removeCaption(data, LicenseConstants::VALID_UNTIL_STRING);
+				m_expiresAtDate = true;
 			}
 			return !m_expire.empty();
 		case TYPE_LINE:
@@ -187,18 +191,16 @@ std::string License::getType() const
 
 std::string License::getExpireLine() const
 {
-	return (m_type == LicenseConstants::TEST_LICENSE_STRING ?
-				LicenseConstants::VALID_UNTIL_STRING :
-				LicenseConstants::VALID_UP_TO_STRING)
-			+ m_expire;
+	return (m_expiresAtDate ?
+		LicenseConstants::VALID_UNTIL_STRING :
+		LicenseConstants::VALID_UP_TO_STRING) + m_expire;
 }
 
 std::string License::getExpireLineUI() const
 {
-	return toLowerCase(m_type == LicenseConstants::TEST_LICENSE_STRING ?
-				LicenseConstants::VALID_UNTIL_STRING :
-				LicenseConstants::VALID_UP_TO_STRING)
-			+ m_expire;
+	return toLowerCase(m_expiresAtDate ?
+		LicenseConstants::VALID_UNTIL_STRING :
+		LicenseConstants::VALID_UP_TO_STRING) + m_expire;
 }
 
 std::string License::getLicenseInfo() const
@@ -425,7 +427,7 @@ bool License::isValid() const
 
 bool License::isExpired() const
 {
-	if (getType() == LicenseConstants::TEST_LICENSE_STRING)
+	if (m_expiresAtDate)
 	{
 		return (getTimeLeft() == -1);
 	}

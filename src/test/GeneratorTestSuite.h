@@ -46,7 +46,7 @@ public:
 		generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
 
 		License license;
-		license.loadFromString(generator.encodeLicense("TestUser", "VolumeLicense", 20));
+		license.loadFromString(generator.encodeLicense("TestUser", "VolumeLicense", 20, ""));
 
 		TS_ASSERT_EQUALS(license.getNumberOfUsers(), 20);
 	}
@@ -59,13 +59,13 @@ public:
 
 		License license;
 		license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
-		license.loadFromString(generator.encodeLicense("User", 10));
+		license.loadFromString(generator.encodeLicense("User", "", 0, 10));
 
 		TS_ASSERT(license.isValid());
 		TS_ASSERT_EQUALS(license.getTimeLeft(), 10);
 
 		license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
-		license.loadFromString(generator.encodeLicense("User", -10));
+		license.loadFromString(generator.encodeLicense("User", "", 0, -10));
 
 		TS_ASSERT(!license.isValid());
 		// -1 and not -10 since it means it is expired

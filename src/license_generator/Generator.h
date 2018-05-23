@@ -21,13 +21,16 @@ public:
 	std::string encodeLicense(
 		const std::string& user,
 		const std::string& licenseType,
-		size_t numberOfUsers = 0,
-		const std::string& version = ""
+		size_t numberOfUsers,
+		const std::string& version
 	);
 	std::string encodeLicense(
 		const std::string& user,
-		const int days
+		const std::string& licenseType,
+		size_t numberOfUsers,
+		size_t days
 	);
+
 	void printLicenseAndWriteItToFile();
 	bool verifyLicense(const std::string& filename = "license.txt");
 	void generateKeys();
@@ -45,6 +48,7 @@ public:
 		const std::string& user,
 		const std::string& type,
 		const std::string& expiration,
+		bool expiresAtDate,
 		size_t numberOfUsers
 	);
 

@@ -35,7 +35,7 @@ bool process_command_line(int argc, char** argv)
 			("version,v", po::value<std::string>(&version), "Versionnumber (in format 20xx.x) until Sourcetrail valid")
 			("users,u", po::value<int>(&numberOfUsers), "Number of users")
 			("licenseType,t", po::value<std::string>(&type), "License Type of ")
-			("testLicense,e", po::value<int>(&days), "Generates a test license for <value> days");
+			("expiration,e", po::value<int>(&days), "Valid for <value> days");
 
 		po::options_description hidden_description("Hidden Options");
 		hidden_description.add_options()
@@ -115,16 +115,15 @@ bool process_command_line(int argc, char** argv)
 
 		if (vm.count("generate"))
 		{
-			if (vm.count("testLicense"))
+			if (days > 0)
 			{
-				keygen.encodeLicense(user, days);
-				keygen.printLicenseAndWriteItToFile();
+				keygen.encodeLicense(user, type, numberOfUsers, days);
 			}
 			else
 			{
 				keygen.encodeLicense(user, type, numberOfUsers, version);
-				keygen.printLicenseAndWriteItToFile();
 			}
+			keygen.printLicenseAndWriteItToFile();
 		}
 
 		if (vm.count("check"))
