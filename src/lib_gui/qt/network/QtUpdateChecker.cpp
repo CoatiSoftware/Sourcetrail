@@ -142,7 +142,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 					QMessageBox msgBox;
 					msgBox.setText("Update Check");
 					msgBox.setInformativeText(
-						"Sourcetrial " + version + " is available for download: <a href=\"" + url + "\">" + url + "</a>");
+						"Sourcetrail " + version + " is available for download: <a href=\"" + url + "\">" + url + "</a>");
 					msgBox.addButton("Close", QMessageBox::ButtonRole::NoRole);
 					msgBox.addButton("Skip this Version", QMessageBox::ButtonRole::NoRole);
 					QPushButton* but = msgBox.addButton("Download", QMessageBox::ButtonRole::YesRole);
