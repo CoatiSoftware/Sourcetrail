@@ -272,7 +272,6 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromSonargraphProject(
 	std::shared_ptr<const SourceGroupSettingsCxxSonargraph> settings)
 {
-	const FilePath projectPath = settings->getProjectDirectoryPath();
 	std::set<FilePath> indexedHeaderPaths;
 	{
 		const FilePath sonargraphProjectPath = settings->getSonargraphProjectPathExpandedAndAbsolute();
@@ -294,16 +293,12 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 			LOG_WARNING("Unable to fetch indexed header paths. The provided Sonargraph project path does not exist.");
 		}
 	}
-	return utility::convert<FilePath, FilePath>(
-		utility::getTopLevelPaths(indexedHeaderPaths),
-		[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
-	);
+	return utility::getTopLevelPaths(indexedHeaderPaths);
 }
 
 std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(
 	std::shared_ptr<const SourceGroupSettingsCxxCdb> settings)
 {
-	const FilePath projectPath = settings->getProjectDirectoryPath();
 	std::set<FilePath> indexedHeaderPaths;
 	{
 		const FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
@@ -327,10 +322,7 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 		}
 	}
 
-	return utility::convert<FilePath, FilePath>(
-		utility::getTopLevelPaths(indexedHeaderPaths), 
-		[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
-	);
+	return utility::getTopLevelPaths(indexedHeaderPaths);
 }
 
 QtProjectWizzardContentIndexedHeaderPaths::QtProjectWizzardContentIndexedHeaderPaths(
@@ -434,8 +426,13 @@ void QtProjectWizzardContentIndexedHeaderPaths::buttonClicked()
 			connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentIndexedHeaderPaths::savedFilesDialog);
 			connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentIndexedHeaderPaths::closedFilesDialog);
 
+			const FilePath projectPath = sonargraphSettings->getProjectDirectoryPath();
+
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
-				getIndexedPathsDerivedFromSonargraphProject(sonargraphSettings),
+				utility::convert<FilePath, FilePath>(
+					getIndexedPathsDerivedFromSonargraphProject(sonargraphSettings),
+					[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
+				),
 				sonargraphSettings->getIndexedHeaderPaths(),
 				m_settings->getProjectDirectoryPath()
 			);
@@ -461,8 +458,13 @@ void QtProjectWizzardContentIndexedHeaderPaths::buttonClicked()
 			connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentIndexedHeaderPaths::savedFilesDialog);
 			connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentIndexedHeaderPaths::closedFilesDialog);
 
+			const FilePath projectPath = cdbSettings->getProjectDirectoryPath();
+
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
-				getIndexedPathsDerivedFromCDB(cdbSettings),
+				utility::convert<FilePath, FilePath>(
+					getIndexedPathsDerivedFromCDB(cdbSettings),
+					[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
+				),
 				cdbSettings->getIndexedHeaderPaths(),
 				m_settings->getProjectDirectoryPath()
 			);

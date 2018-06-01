@@ -246,11 +246,11 @@ void QtProjectWizzardContentPathCDB::pickedPath()
 		const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
 		std::vector<FilePath> indexedHeaderPaths;
-		for (const FilePath path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(cdbSettings))
+		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(cdbSettings))
 		{
 			if (projectPath.contains(path))
 			{
-				indexedHeaderPaths.push_back(path);
+				indexedHeaderPaths.push_back(path.getRelativeTo(projectPath));
 			}
 		}
 		cdbSettings->setIndexedHeaderPaths(indexedHeaderPaths);
@@ -389,6 +389,9 @@ QString QtProjectWizzardContentSonargraphProjectPath::getFileNamesDescription() 
 void QtProjectWizzardContentSonargraphProjectPath::pickedPath()
 {
 	m_window->saveContent();
+
+	// TODO: update indexed headers
+
 	m_window->loadContent();
 }
 
