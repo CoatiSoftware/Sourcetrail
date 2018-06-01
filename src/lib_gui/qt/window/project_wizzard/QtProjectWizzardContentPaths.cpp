@@ -622,13 +622,13 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 {
 	// TODO: regard Force Includes here, too!
 	m_window->saveContent();
-
-	std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings);
-	std::shared_ptr<SourceGroupSettingsWithExcludeFilters> excludeFilterSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings);
-
-	if (pathSettings && excludeFilterSettings) // FIXME: pass msettings as required type
+	
+	std::thread([&]()
 	{
-		std::thread([&]()
+		std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings);
+		std::shared_ptr<SourceGroupSettingsWithExcludeFilters> excludeFilterSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings);
+
+		if (pathSettings && excludeFilterSettings) // FIXME: pass msettings as required type
 		{
 			std::vector<IncludeDirective> unresolvedIncludes;
 			{
@@ -683,8 +683,8 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 				}
 			}
 			m_showValidationResultFunctor(unresolvedIncludes);
-		}).detach();
-	}
+		}
+	}).detach();
 }
 
 
