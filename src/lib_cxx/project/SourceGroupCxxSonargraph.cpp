@@ -1,5 +1,6 @@
 #include "project/SourceGroupCxxSonargraph.h"
 
+#include "data/indexer/IndexerCommand.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -66,7 +67,13 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxSonargraph::getIndexe
 		m_settings->getSonargraphProjectPathExpandedAndAbsolute(), getLanguage()
 	))
 	{
-		indexerCommands = project->getIndexerCommands(m_settings, ApplicationSettings::getInstance());
+		for (std::shared_ptr<IndexerCommand> indexerCommand : project->getIndexerCommands(m_settings, ApplicationSettings::getInstance()))
+		{
+			if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
+			{
+				indexerCommands.push_back(indexerCommand);
+			}
+		}
 	}
 	return indexerCommands;
 }

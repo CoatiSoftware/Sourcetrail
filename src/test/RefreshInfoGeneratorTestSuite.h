@@ -31,21 +31,27 @@ public:
 
 	void test_refresh_info_for_all_files_has_nothing_to_clear_and_specified_source_files_for_basic_sourcegroup()
 	{
-		const FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
+		cleanup();
+		{
+			const FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
 
-		std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
-		sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest({ sourceFilePath })));
+			std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
+			sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest({ sourceFilePath })));
 
-		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForAllFiles(sourceGroups);
+			addFileToFileSystem(sourceFilePath);
 
-		TS_ASSERT_EQUALS(REFRESH_ALL_FILES, refreshInfo.mode);
-		TS_ASSERT_EQUALS(0, refreshInfo.nonIndexedFilesToClear.size());
-		TS_ASSERT_EQUALS(0, refreshInfo.filesToClear.size());
-		TS_ASSERT_EQUALS(1, refreshInfo.filesToIndex.size());
+			const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForAllFiles(sourceGroups);
 
-		TS_ASSERT(utility::containsElement<FilePath>(
-			utility::toVector(refreshInfo.filesToIndex), sourceFilePath
-		));
+			TS_ASSERT_EQUALS(REFRESH_ALL_FILES, refreshInfo.mode);
+			TS_ASSERT_EQUALS(0, refreshInfo.nonIndexedFilesToClear.size());
+			TS_ASSERT_EQUALS(0, refreshInfo.filesToClear.size());
+			TS_ASSERT_EQUALS(1, refreshInfo.filesToIndex.size());
+
+			TS_ASSERT(utility::containsElement<FilePath>(
+				utility::toVector(refreshInfo.filesToIndex), sourceFilePath
+				));
+		}
+		cleanup();
 	}
 
 	void test_refresh_info_for_updated_files_is_empty_for_empty_storage_and_empty_sourcegroup()

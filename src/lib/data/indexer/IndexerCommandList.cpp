@@ -35,7 +35,14 @@ void IndexerCommandList::shuffle()
 	std::vector<PairType> sourceFileSizesToCommands;
 	for (std::shared_ptr<IndexerCommand> command: m_commands)
 	{
-		sourceFileSizesToCommands.push_back(std::make_pair(FileSystem::getFileByteSize(command->getSourceFilePath()), command));
+		if (command->getSourceFilePath().exists())
+		{
+			sourceFileSizesToCommands.push_back(std::make_pair(FileSystem::getFileByteSize(command->getSourceFilePath()), command));
+		}
+		else
+		{
+			sourceFileSizesToCommands.push_back(std::make_pair(1, command));
+		}
 	}
 	std::sort(sourceFileSizesToCommands.begin(), sourceFileSizesToCommands.end(), [](const PairType& p, const PairType& q){ return p.first > q.first; });
 

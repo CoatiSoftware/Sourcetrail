@@ -170,7 +170,13 @@ std::set<FilePath> RefreshInfoGenerator::getAllSourceFilePaths(const std::vector
 	{
 		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 		{
-			utility::append(allSourceFilePaths, sourceGroup->getAllSourceFilePaths());
+			for (const FilePath& sourceFilePath : sourceGroup->getAllSourceFilePaths())
+			{
+				if (sourceFilePath.exists())
+				{
+					allSourceFilePaths.insert(sourceFilePath);
+				}
+			}
 		}
 	}
 

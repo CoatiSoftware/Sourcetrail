@@ -75,7 +75,13 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJavaSonargraph::getIndex
 		m_settings->getSonargraphProjectPathExpandedAndAbsolute(), getLanguage()
 	))
 	{
-		indexerCommands = project->getIndexerCommands(m_settings, ApplicationSettings::getInstance());
+		for (std::shared_ptr<IndexerCommand> indexerCommand : project->getIndexerCommands(m_settings, ApplicationSettings::getInstance()))
+		{
+			if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
+			{
+				indexerCommands.push_back(indexerCommand);
+			}
+		}
 	}
 
 	if (!indexerCommands.empty())
