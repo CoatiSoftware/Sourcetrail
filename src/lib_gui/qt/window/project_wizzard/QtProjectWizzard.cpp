@@ -676,10 +676,11 @@ void QtProjectWizzard::newSourceGroup()
 	QtProjectWizzardWindow* window = createWindowWithContent(
 		[](QtProjectWizzardWindow* window)
 		{
-			window->setPreferredSize(QSize(570, 380));
+			window->setPreferredSize(QSize(680, 400));
 			return new QtProjectWizzardContentSelect(window);
 		}
 	);
+	window->resize(QSize(680, 400));
 
 	connect(dynamic_cast<QtProjectWizzardContentSelect*>(window->content()),
 		&QtProjectWizzardContentSelect::selected,

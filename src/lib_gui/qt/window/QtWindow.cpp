@@ -197,7 +197,6 @@ void QtWindow::moveToCenter()
         else
         {
             move(
-
                 parentWidget()->pos().x() + parentWidget()->width() / 2 - sizeHint().width() / 2,
                 parentWidget()->pos().y() + parentWidget()->height() / 2 - sizeHint().height() / 2
             );

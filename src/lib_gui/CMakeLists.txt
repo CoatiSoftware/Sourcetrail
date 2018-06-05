@@ -108,6 +108,8 @@ add_files(
 	qt/utility/QtFileDialog.h
 	qt/utility/QtFilesAndDirectoriesDialog.cpp
 	qt/utility/QtFilesAndDirectoriesDialog.h
+	qt/utility/QtFlowLayout.cpp
+	qt/utility/QtFlowLayout.h
 	qt/utility/QtHighlighter.cpp
 	qt/utility/QtHighlighter.h
 	qt/utility/QtScrollSpeedChangeListener.cpp

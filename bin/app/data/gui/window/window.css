@@ -164,7 +164,7 @@ QCheckBox:disabled {
 	font-size: 12px;
 	width: 7em;
 	height: 8em;
-	margin-top: 10px;
+	margin: 5px;
 }
 
 #sourceGroupButton:hover, #sourceGroupButton:checked {

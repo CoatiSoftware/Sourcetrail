@@ -6,6 +6,7 @@
 #include <QPushButton>
 
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "qt/utility/QtFlowLayout.h"
 #include "settings/LanguageType.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
@@ -112,7 +113,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		}
 	);
 
-	QHBoxLayout* hlayout = new QHBoxLayout();
+	QtFlowLayout* flayout = new QtFlowLayout(10, 0, 0);
 
 	for (auto& languageIt: sourceGroupInfos)
 	{
@@ -126,7 +127,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 			);
 			b->setProperty("source_group_type", int(sourceGroupIt.type));
 			sourceGroupButtons->addButton(b);
-			hlayout->addWidget(b);
+			flayout->addWidget(b);
 		}
 
 		m_buttons[languageIt.first] = sourceGroupButtons;
@@ -152,19 +153,25 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		);
 	}
 
-	QFrame* container = new QFrame();
-	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-	container->setObjectName("sourceGroupContainer");
-	container->setLayout(hlayout);
+	QWidget* container = new QWidget();
+	QVBoxLayout* containerLayout = new QVBoxLayout();
+	containerLayout->setContentsMargins(0, 0, 0, 0);
 
-	layout->addWidget(container, 0, QtProjectWizzardWindow::BACK_COL);
+	QFrame* groupContainer = new QFrame();
+	groupContainer->setObjectName("sourceGroupContainer");
+	groupContainer->setLayout(flayout);
+	containerLayout->addWidget(groupContainer, 0);
 
 	m_description = new QLabel(" \n \n");
 	m_description->setWordWrap(true);
 	m_description->setOpenExternalLinks(true);
 	m_description->setObjectName("sourceGroupDescription");
 	m_description->setTextInteractionFlags(Qt::TextSelectableByMouse);
-	layout->addWidget(m_description, 1, QtProjectWizzardWindow::BACK_COL);
+	m_description->setMinimumHeight(80);
+	containerLayout->addWidget(m_description, 0);
+
+	container->setLayout(containerLayout);
+	layout->addWidget(container, 0, QtProjectWizzardWindow::BACK_COL);
 
 	m_title = new QLabel("Source Group Types");
 	m_title->setObjectName("sourceGroupTitle");
@@ -172,7 +179,6 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	layout->addWidget(m_title, 0, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 
 	layout->setRowStretch(0, 0);
-	layout->setRowStretch(1, 1);
 	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 0);
 	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 1);
 	layout->setHorizontalSpacing(0);
