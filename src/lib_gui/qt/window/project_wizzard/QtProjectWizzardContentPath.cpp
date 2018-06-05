@@ -12,6 +12,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
+#include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "settings/SourceGroupSettingsJavaMaven.h"
 #include "settings/SourceGroupSettingsJavaGradle.h"
 #include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
@@ -245,15 +246,15 @@ void QtProjectWizzardContentPathCDB::pickedPath()
 	{
 		const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
-		std::vector<FilePath> indexedHeaderPaths;
+		std::set<FilePath> indexedHeaderPaths;
 		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(cdbSettings))
 		{
 			if (projectPath.contains(path))
 			{
-				indexedHeaderPaths.push_back(path.getRelativeTo(projectPath));
+				indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
 			}
 		}
-		cdbSettings->setIndexedHeaderPaths(indexedHeaderPaths);
+		cdbSettings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 	}
 
 	m_window->loadContent();
@@ -390,7 +391,21 @@ void QtProjectWizzardContentSonargraphProjectPath::pickedPath()
 {
 	m_window->saveContent();
 
-	// TODO: update indexed headers
+	if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> sonargraphSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
+	{
+		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+
+		std::set<FilePath> indexedHeaderPaths;
+		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromSonargraphProject(sonargraphSettings))
+		{
+			std::string asdasd = path.str();
+			if (projectPath.contains(path))
+			{
+				indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
+			}
+		}
+		sonargraphSettings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
+	}
 
 	m_window->loadContent();
 }

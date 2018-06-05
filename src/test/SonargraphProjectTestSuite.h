@@ -23,7 +23,8 @@ public:
 		const std::wstring projectName = L"CxxCmakeJsonModules";
 
 		ProjectSettings projectSettings;
-		std::shared_ptr<SourceGroupSettings> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxxSonargraph>("fake_id", &projectSettings);
+		std::shared_ptr<SourceGroupSettingsCxxSonargraph> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxxSonargraph>("fake_id", &projectSettings);
+		sourceGroupSettings->setIndexedHeaderPaths({ FilePath(L"test/indexed/header/path") });
 
 		std::shared_ptr<ApplicationSettings> applicationSettings = std::make_shared<ApplicationSettings>();
 		applicationSettings->setHeaderSearchPaths({ FilePath(L"test/header/search/path") });

@@ -6,6 +6,7 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/LanguageType.h"
 #include "settings/SourceGroupSettings.h"
+#include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/sonargraph/SonargraphSoftwareSystem.h"
@@ -333,15 +334,17 @@ namespace Sonargraph
 			}
 
 			const FilePath baseDir = rootPath->getFilePath(softwareSystem->getBaseDirectory());
-			const std::set<FilePath> indexedPaths = softwareSystem->getAllSourcePaths();
+
+			std::set<FilePath> indexedHeaderPaths;
+			if (std::shared_ptr<const SourceGroupSettingsCxxSonargraph> sonargraphSettings = std::dynamic_pointer_cast<const SourceGroupSettingsCxxSonargraph>(sourceGroupSettings))
+			{
+				indexedHeaderPaths = utility::toSet(sonargraphSettings->getIndexedHeaderPathsExpandedAndAbsolute());
+			}
 
 			const std::set<FilePathFilter> excludeFilters = utility::toSet(getDerivedExcludeFilters());
 			const std::set<FilePathFilter> includeFilters = utility::toSet(getDerivedIncludeFilters());
 			const std::string languageStandard = sourceGroupSettings->getStandard();
-			const std::vector<FilePath> systemHeaderSearchPaths = utility::concat(
-				(appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>()),
-				utility::toVector(indexedPaths)
-			);
+			const std::vector<FilePath> systemHeaderSearchPaths = (appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>());
 			const std::vector<FilePath> frameworkSearchPaths = (appSettings ? appSettings->getFrameworkSearchPathsExpanded() : std::vector<FilePath>());
 
 			OrderedCache<Id, std::vector<std::wstring>> compilerOptionCache([&](const Id& id) {
@@ -362,9 +365,10 @@ namespace Sonargraph
 					rootPath, baseDir, excludeFilters, includeFilters)
 				)
 			{
+				const FilePath sourceFilePath = sourceFile.getFilePath(baseDir).makeCanonical();
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
-					sourceFile.getFilePath(baseDir).makeCanonical(),
-					indexedPaths,
+					sourceFilePath,
+					utility::concat(indexedHeaderPaths, { sourceFilePath }),
 					excludeFilters,
 					includeFilters,
 					softwareSystem->getBaseDirectory(),
