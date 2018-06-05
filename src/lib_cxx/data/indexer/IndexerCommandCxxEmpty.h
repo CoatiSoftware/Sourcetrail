@@ -27,6 +27,9 @@ public:
 
 	std::string getLanguageStandard() const;
 
+protected:
+	QJsonObject doSerialize() const override;
+
 private:
 	std::string m_languageStandard;
 };

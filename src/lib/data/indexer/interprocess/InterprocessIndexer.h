@@ -9,7 +9,6 @@ class InterprocessIndexer
 {
 public:
 	InterprocessIndexer(const std::string& uuid, Id processId);
-	~InterprocessIndexer();
 
 	void work();
 

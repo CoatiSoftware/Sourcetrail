@@ -1,5 +1,7 @@
 #include "data/indexer/IndexerCommandCxxEmpty.h"
 
+#include <QJsonObject>
+
 IndexerCommandType IndexerCommandCxxEmpty::getStaticIndexerCommandType()
 {
 	return INDEXER_COMMAND_CXX_EMPTY;
@@ -34,4 +36,15 @@ size_t IndexerCommandCxxEmpty::getByteSize(size_t stringSize) const
 std::string IndexerCommandCxxEmpty::getLanguageStandard() const
 {
 	return m_languageStandard;
+}
+
+QJsonObject IndexerCommandCxxEmpty::doSerialize() const
+{
+	QJsonObject jsonObject = IndexerCommandCxx::doSerialize();
+
+	{
+		jsonObject["language_standard"] = QString::fromStdString(m_languageStandard);
+	}
+
+	return jsonObject;
 }

@@ -32,6 +32,9 @@ public:
 	const std::vector<std::wstring>& getCompilerFlags() const;
 	const FilePath& getWorkingDirectory() const;
 
+protected:
+	QJsonObject doSerialize() const override;
+
 private:
 	std::set<FilePath> m_indexedPaths;
 	std::set<FilePathFilter> m_excludeFilters;

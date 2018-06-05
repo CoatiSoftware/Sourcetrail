@@ -15,10 +15,6 @@ InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 {
 }
 
-InterprocessIndexer::~InterprocessIndexer()
-{
-}
-
 void InterprocessIndexer::work()
 {
 	try

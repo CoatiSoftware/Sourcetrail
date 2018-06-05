@@ -12,5 +12,6 @@ enum IndexerCommandType
 };
 
 std::string indexerCommandTypeToString(IndexerCommandType type);
+IndexerCommandType stringToIndexerCommandType(const std::string& s);
 
 #endif // INDEXER_COMMAND_TYPE_H

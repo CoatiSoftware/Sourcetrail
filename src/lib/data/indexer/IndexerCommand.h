@@ -8,9 +8,13 @@
 #include "utility/file/FilePath.h"
 #include "utility/file/FilePathFilter.h"
 
+class QJsonObject;
+
 class IndexerCommand
 {
 public:
+	static std::wstring serialize(std::shared_ptr<const IndexerCommand> indexerCommand, bool compact = true);
+
 	IndexerCommand(const FilePath& sourceFilePath);
 	virtual ~IndexerCommand() = default;
 
@@ -19,6 +23,9 @@ public:
 	virtual size_t getByteSize(size_t stringSize) const;
 
 	const FilePath& getSourceFilePath() const;
+
+protected:
+	virtual QJsonObject doSerialize() const;
 
 private:
 	FilePath m_sourceFilePath;

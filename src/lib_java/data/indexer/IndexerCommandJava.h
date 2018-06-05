@@ -27,6 +27,9 @@ public:
 	void setClassPath(std::vector<FilePath> classPath);
 	std::vector<FilePath> getClassPath() const;
 
+protected:
+	QJsonObject doSerialize() const override;
+
 private:
 	const std::string m_languageStandard;
 	std::vector<FilePath> m_classPath;

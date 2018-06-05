@@ -1,5 +1,8 @@
 #include "data/indexer/IndexerCommandJava.h"
 
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include "utility/utilityString.h"
 
 IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
@@ -48,4 +51,23 @@ void IndexerCommandJava::setClassPath(std::vector<FilePath> classPath)
 std::vector<FilePath> IndexerCommandJava::getClassPath() const
 {
 	return m_classPath;
+}
+
+QJsonObject IndexerCommandJava::doSerialize() const
+{
+	QJsonObject jsonObject = IndexerCommand::doSerialize();
+
+	{
+		QJsonArray classPathArray;
+		for (const FilePath& classPath : m_classPath)
+		{
+			classPathArray.append(QString::fromStdWString(classPath.wstr()));
+		}
+		jsonObject["class_path"] = classPathArray;
+	} 
+	{
+		jsonObject["language_standard"] = QString::fromStdString(m_languageStandard);
+	}
+
+	return jsonObject;
 }

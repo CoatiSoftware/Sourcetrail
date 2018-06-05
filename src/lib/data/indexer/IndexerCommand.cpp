@@ -1,6 +1,15 @@
 #include "data/indexer/IndexerCommand.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include "utility/utilityString.h"
+
+std::wstring IndexerCommand::serialize(std::shared_ptr<const IndexerCommand> indexerCommand, bool compact)
+{
+	QJsonDocument jsonDocument(indexerCommand->doSerialize());
+	return QString::fromUtf8(jsonDocument.toJson(compact ? QJsonDocument::Compact : QJsonDocument::Indented)).toStdWString();
+}
 
 IndexerCommand::IndexerCommand(
 	const FilePath& sourceFilePath
@@ -17,4 +26,18 @@ size_t IndexerCommand::getByteSize(size_t stringSize) const
 const FilePath& IndexerCommand::getSourceFilePath() const
 {
 	return m_sourceFilePath;
+}
+
+QJsonObject IndexerCommand::doSerialize() const
+{
+	QJsonObject jsonObject;
+
+	{
+		jsonObject["type"] = QString::fromStdString(indexerCommandTypeToString(getIndexerCommandType()));
+	}
+	{
+		jsonObject["source_file_path"] = QString::fromStdWString(m_sourceFilePath.wstr());
+	}
+
+	return jsonObject;
 }
