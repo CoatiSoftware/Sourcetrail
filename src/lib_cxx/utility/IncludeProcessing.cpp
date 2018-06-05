@@ -121,6 +121,7 @@ std::set<FilePath> IncludeProcessing::getHeaderSearchDirectories(
 					}
 					if (foundIncludedPath.exists())
 					{
+						foundIncludedPath.makeCanonical();
 						if (processedFilePaths.find(foundIncludedPath.wstr()) == processedFilePaths.end())
 						{
 							unprocessedFilePathsForNextIteration.insert(foundIncludedPath);
@@ -231,7 +232,7 @@ std::vector<IncludeDirective> IncludeProcessing::doGetUnresolvedIncludeDirective
 }
 
 FilePath IncludeProcessing::resolveIncludeDirective(
-	const IncludeDirective& includeDirective, 
+	const IncludeDirective& includeDirective,
 	const std::set<FilePath>& headerSearchDirectories
 )
 {
