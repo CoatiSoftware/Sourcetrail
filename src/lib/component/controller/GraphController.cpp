@@ -272,12 +272,22 @@ void GraphController::handleMessage(MessageFocusOut *message)
 void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
 	std::wstring name;
+	if (m_dummyNodes.size() == 1 && m_dummyNodes[0]->isGroupNode())
+	{
+		name = m_dummyNodes[0]->name;
+		std::shared_ptr<DummyNode> groupNode = m_dummyNodes[0];
+		m_dummyNodes = groupNode->subNodes;
+	}
+
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		DummyNode* node = m_dummyNodes[i].get();
 		if ((node->isBundleNode() || node->isGroupNode()) && node->tokenId == message->bundleId)
 		{
-			name = node->name;
+			if (!name.size())
+			{
+				name = node->name;
+			}
 
 			std::vector<std::shared_ptr<DummyNode>> nodes;
 			if (node->isBundleNode())

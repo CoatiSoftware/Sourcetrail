@@ -356,6 +356,8 @@ SettingsMigrator ProjectSettings::getMigrations() const
 		case LANGUAGE_JAVA:
 			languageName = "java";
 			break;
+		case LANGUAGE_UNKNOWN:
+			continue;
 		}
 
 		std::string key = SourceGroupSettings::s_keyPrefix + sourceGroupSettings->getId();

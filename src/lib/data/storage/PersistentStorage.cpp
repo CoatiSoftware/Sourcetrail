@@ -476,12 +476,34 @@ std::map<Id, std::pair<Id, NameHierarchy>> PersistentStorage::getNodeIdToParentF
 	std::map<Id, std::pair<Id, NameHierarchy>> nodeIdToParentFileMap;
 
 	std::shared_ptr<SourceLocationCollection> locations = m_sqliteIndexStorage.getSourceLocationsForElementIds(nodeIds);
+
+	// prefer scope locations if available
 	locations->forEachSourceLocation(
 		[this, &nodeIdToParentFileMap](SourceLocation* location)
 		{
 			if (location->isStartLocation() && location->isScopeLocation())
 			{
 				for (Id tokenId : location->getTokenIds())
+				{
+					nodeIdToParentFileMap.emplace(tokenId, std::make_pair(getFileNodeId(location->getFilePath()),
+						NameHierarchy(location->getFilePath().wstr(), NAME_DELIMITER_FILE)));
+				}
+			}
+		}
+	);
+
+	// fill in missing ones
+	locations->forEachSourceLocation(
+		[this, &nodeIdToParentFileMap](SourceLocation* location)
+		{
+			if (!location->isStartLocation())
+			{
+				return;
+			}
+
+			for (Id tokenId : location->getTokenIds())
+			{
+				if (nodeIdToParentFileMap.find(tokenId) == nodeIdToParentFileMap.end())
 				{
 					nodeIdToParentFileMap.emplace(tokenId, std::make_pair(getFileNodeId(location->getFilePath()),
 						NameHierarchy(location->getFilePath().wstr(), NAME_DELIMITER_FILE)));

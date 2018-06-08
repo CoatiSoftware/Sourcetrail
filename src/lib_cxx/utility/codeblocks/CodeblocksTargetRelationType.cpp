@@ -14,6 +14,8 @@ namespace Codeblocks
 			return 2;
 		case CODEBLOCKS_TARGET_RELATION_TARGET_AFTER_PROJECT:
 			return 3;
+		case CODEBLOCKS_TARGET_RELATION_UNKNOWN:
+			break;
 		}
 		return 99;
 	}

@@ -344,7 +344,7 @@ FilePath FilePath::getLowerCase() const
 
 bool FilePath::contains(const FilePath& other) const
 {
-	if (exists() && !isDirectory())
+	if (!isDirectory())
 	{
 		return false;
 	}

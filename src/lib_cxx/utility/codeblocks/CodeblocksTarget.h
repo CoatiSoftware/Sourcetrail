@@ -2,7 +2,7 @@
 #define CODEBLOCKS_TARGET_H
 
 #include <memory>
-#include <set>
+#include <string>
 #include <vector>
 
 #include "utility/codeblocks/CodeblocksTargetRelationType.h"

@@ -387,8 +387,6 @@ void QtCodeFile::findScreenMatches(const std::wstring& query, std::vector<std::p
 
 void QtCodeFile::clickedMinimizeButton()
 {
-	m_navigator->requestScroll(m_filePath, 0, 0, false, QtCodeNavigateable::SCROLL_VISIBLE);
-
 	MessageChangeFileView(
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
