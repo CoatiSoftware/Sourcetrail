@@ -60,6 +60,7 @@ private:
 	ApplicationSettings m_appSettings;
 
 	bool m_editing;
+	int m_previouslySelectedIndex;
 
 	QPushButton* m_generalButton;
 	QPushButton* m_removeButton;

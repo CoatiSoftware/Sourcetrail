@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QScrollArea>
 #include <QSysInfo>
+#include <QTimer>
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentCppStandard.h"
@@ -46,6 +47,7 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	, m_windowStack(this)
 	, m_editing(false)
 	, m_contentWidget(nullptr)
+	, m_previouslySelectedIndex(-1)
 {
 	setScrollAble(true);
 
@@ -377,6 +379,8 @@ void QtProjectWizzard::generalButtonClicked()
 
 	loadContent();
 
+	m_previouslySelectedIndex = -1;
+
 	m_generalButton->setChecked(true);
 	m_sourceGroupList->setCurrentRow(-1);
 }
@@ -390,8 +394,17 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 		return;
 	}
 
+	if (index == m_previouslySelectedIndex)
+	{
+		return;
+	}
+
 	if (!canExitContent())
 	{
+		QTimer::singleShot(1, [&]() {
+			m_sourceGroupList->setCurrentRow(m_previouslySelectedIndex);
+		});
+		
 		return;
 	}
 
@@ -535,6 +548,8 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 	QtProjectWizzardWindow::populateWindow(m_contentWidget);
 
 	loadContent();
+
+	m_previouslySelectedIndex = index;
 }
 
 void QtProjectWizzard::selectedSourceGroupNameChanged(QString name)
