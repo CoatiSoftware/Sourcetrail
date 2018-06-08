@@ -159,7 +159,7 @@ void Project::load()
 				"version.", false, false).dispatch();
 			break;
 		case PROJECT_STATE_EMPTY:
-			MessageStatus(L"Project could load any symbols because the index database is empty. Please re-index the "
+			MessageStatus(L"Project could not load any symbols because the index database is empty. Please re-index the "
 				"project.", false, false).dispatch();
 			break;
 		case PROJECT_STATE_OUTVERSIONED:
