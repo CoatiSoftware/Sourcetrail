@@ -425,17 +425,6 @@ private:
 			: SourceGroupSettings("TEST_ID", SOURCE_GROUP_UNKNOWN, projectSettings)
 		{
 		}
-
-		std::vector<std::string> getAvailableLanguageStandards() const override
-		{
-			return std::vector<std::string>();
-		}
-
-	private:
-		std::string getDefaultStandard() const override
-		{
-			return "";
-		}
 	};
 
 	class SourceGroupTest : public SourceGroup

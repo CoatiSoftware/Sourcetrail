@@ -12,6 +12,7 @@ void SourceGroupSettingsJavaSonargraph::load(std::shared_ptr<const ConfigManager
 	const std::string key = s_keyPrefix + getId();
 
 	SourceGroupSettingsWithClasspath::load(config, key);
+	SourceGroupSettingsWithJavaStandard::load(config, key);
 	SourceGroupSettingsWithSonargraphProjectPath::load(config, key);
 }
 
@@ -22,6 +23,7 @@ void SourceGroupSettingsJavaSonargraph::save(std::shared_ptr<ConfigManager> conf
 	const std::string key = s_keyPrefix + getId();
 
 	SourceGroupSettingsWithClasspath::save(config, key);
+	SourceGroupSettingsWithJavaStandard::save(config, key);
 	SourceGroupSettingsWithSonargraphProjectPath::save(config, key);
 }
 
@@ -33,18 +35,9 @@ bool SourceGroupSettingsJavaSonargraph::equals(std::shared_ptr<SourceGroupSettin
 		otherJavaSonargraph &&
 		SourceGroupSettings::equals(other) &&
 		SourceGroupSettingsWithClasspath::equals(otherJavaSonargraph) &&
+		SourceGroupSettingsWithJavaStandard::equals(otherJavaSonargraph) &&
 		SourceGroupSettingsWithSonargraphProjectPath::equals(otherJavaSonargraph)
 	);
-}
-
-std::vector<std::string> SourceGroupSettingsJavaSonargraph::getAvailableLanguageStandards() const
-{
-	return std::vector<std::string>{"1", "2", "3", "4", "5", "6", "7", "8"};
-}
-
-std::string SourceGroupSettingsJavaSonargraph::getDefaultStandard() const
-{
-	return "8";
 }
 
 const ProjectSettings* SourceGroupSettingsJavaSonargraph::getProjectSettings() const

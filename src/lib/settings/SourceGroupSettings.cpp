@@ -14,7 +14,6 @@ SourceGroupSettings::SourceGroupSettings(
 	, m_name(sourceGroupTypeToString(type))
 	, m_type(type)
 	, m_status(SOURCE_GROUP_STATUS_ENABLED)
-	, m_standard("")
 {
 }
 
@@ -29,7 +28,6 @@ void SourceGroupSettings::load(std::shared_ptr<const ConfigManager> config)
 	}
 
 	setStatus(stringToSourceGroupStatusType(config->getValueOrDefault(key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED))));
-	setStandard(config->getValueOrDefault<std::string>(key + "/standard", ""));
 }
 
 void SourceGroupSettings::save(std::shared_ptr<ConfigManager> config)
@@ -38,7 +36,6 @@ void SourceGroupSettings::save(std::shared_ptr<ConfigManager> config)
 
 	config->setValue(key + "/status", sourceGroupStatusTypeToString(getStatus()));
 	config->setValue(key + "/name", getName());
-	config->setValue(key + "/standard", getStandard());
 }
 
 bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -47,8 +44,7 @@ bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) con
 		m_id == other->m_id &&
 		m_name == other->m_name &&
 		m_type == other->m_type &&
-		m_status == other->m_status &&
-		m_standard == other->m_standard
+		m_status == other->m_status
 	);
 }
 
@@ -105,18 +101,4 @@ FilePath SourceGroupSettings::makePathExpandedAndAbsolute(const FilePath& path) 
 std::vector<FilePath> SourceGroupSettings::makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const
 {
 	return m_projectSettings->makePathsExpandedAndAbsolute(paths);
-}
-
-std::string SourceGroupSettings::getStandard() const
-{
-	if (m_standard.empty())
-	{
-		return getDefaultStandard();
-	}
-	return m_standard;
-}
-
-void SourceGroupSettings::setStandard(const std::string& standard)
-{
-	m_standard = standard;
 }

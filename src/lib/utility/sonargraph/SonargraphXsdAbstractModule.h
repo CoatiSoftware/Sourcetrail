@@ -37,7 +37,6 @@ namespace Sonargraph
 		virtual std::set<FilePath> getAllSourcePaths() const = 0;
 		virtual std::set<FilePath> getAllSourceFilePathsCanonical() const = 0;
 		virtual std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const = 0;
-		virtual std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const = 0;
 
 		std::shared_ptr<const SoftwareSystem> getSoftwareSystem() const;
 		std::vector<FilePathFilter> getDerivedExcludeFilters() const;

@@ -102,58 +102,6 @@ namespace Sonargraph
 		return std::set<FilePath>();
 	}
 	
-	std::set<FilePath> XsdJavaModule::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
-	{
-		const std::set<FilePath> indexedPaths = getAllSourcePaths();
-		const std::vector<FilePathFilter> excludeFilters = getDerivedExcludeFilters();
-		const std::vector<FilePathFilter> includeFilters = getDerivedIncludeFilters();
-
-		std::set<FilePath> containedFilePaths;
-		for (const FilePath& filePath : filePaths)
-		{
-			bool isInIndexedPaths = false;
-			for (const FilePath& indexedPath : indexedPaths)
-			{
-				if (indexedPath == filePath || indexedPath.contains(filePath))
-				{
-					isInIndexedPaths = true;
-					break;
-				}
-			}
-
-			if (isInIndexedPaths)
-			{
-				for (const FilePathFilter& excludeFilter : excludeFilters)
-				{
-					if (excludeFilter.isMatching(filePath))
-					{
-						isInIndexedPaths = false;
-						break;
-					}
-				}
-
-				if (!isInIndexedPaths)
-				{
-					for (const FilePathFilter& includeFilter : includeFilters)
-					{
-						if (includeFilter.isMatching(filePath))
-						{
-							isInIndexedPaths = true;
-							break;
-						}
-					}
-				}
-			}
-
-			if (isInIndexedPaths)
-			{
-				containedFilePaths.insert(filePath);
-			}
-		}
-
-		return containedFilePaths;
-	}
-
 	std::vector<std::shared_ptr<IndexerCommand>> XsdJavaModule::getIndexerCommands(
 		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> appSettings) const
@@ -161,7 +109,16 @@ namespace Sonargraph
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
 		{
-			const std::string languageStandard = sourceGroupSettings->getStandard();
+			std::string languageStandard = SourceGroupSettingsWithJavaStandard::getDefaultJavaStandardStatic();
+			if (std::shared_ptr<const SourceGroupSettingsJavaSonargraph> settings = 
+				std::dynamic_pointer_cast<const SourceGroupSettingsJavaSonargraph>(sourceGroupSettings))
+			{
+				languageStandard = settings->getJavaStandard();
+			}
+			else
+			{
+				LOG_ERROR("Source group doesn't specify language standard. Falling back to \"" + languageStandard + "\".");
+			}
 
 			for (const FilePath& sourceFilePath : getAllSourceFilePathsCanonical())
 			{

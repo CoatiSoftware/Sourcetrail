@@ -7,6 +7,8 @@
 #include "settings/LanguageType.h"
 #include "settings/SourceGroupSettings.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
+#include "settings/SourceGroupSettingsWithCppStandard.h"
+#include "settings/SourceGroupSettingsWithCStandard.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/sonargraph/SonargraphSoftwareSystem.h"
@@ -177,75 +179,45 @@ namespace Sonargraph
 		return headerSearchPaths;
 	}
 
-	std::set<FilePath> XsdCmakeJsonModule::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
-	{
-		const std::set<FilePath> indexedPaths = getAllSourcePaths();
-		const std::vector<FilePathFilter> excludeFilters = getDerivedExcludeFilters();
-		const std::vector<FilePathFilter> includeFilters = getDerivedIncludeFilters();
-
-		std::set<FilePath> containedFilePaths;
-		for (const FilePath& filePath : filePaths)
-		{
-			bool isInIndexedPaths = false;
-			for (const FilePath& indexedPath : indexedPaths)
-			{
-				if (indexedPath == filePath || indexedPath.contains(filePath))
-				{
-					isInIndexedPaths = true;
-					break;
-				}
-			}
-
-			if (isInIndexedPaths)
-			{
-				for (const FilePathFilter& excludeFilter : excludeFilters)
-				{
-					if (excludeFilter.isMatching(filePath))
-					{
-						isInIndexedPaths = false;
-						break;
-					}
-				}
-
-				if (!isInIndexedPaths)
-				{
-					for (const FilePathFilter& includeFilter : includeFilters)
-					{
-						if (includeFilter.isMatching(filePath))
-						{
-							isInIndexedPaths = true;
-							break;
-						}
-					}
-				}
-			}
-
-			if (isInIndexedPaths)
-			{
-				containedFilePaths.insert(filePath);
-			}
-		}
-
-		return containedFilePaths;
-	}
-
 	std::vector<std::shared_ptr<IndexerCommand>> XsdCmakeJsonModule::getIndexerCommands(
 		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> appSettings) const
 	{
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
+		std::set<FilePath> indexedHeaderPaths;
+		std::string languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
+
+		if (std::shared_ptr<const SourceGroupSettingsCxxSonargraph> sonargraphSettings =
+			std::dynamic_pointer_cast<const SourceGroupSettingsCxxSonargraph>(sourceGroupSettings))
+		{
+			indexedHeaderPaths = utility::toSet(sonargraphSettings->getIndexedHeaderPathsExpandedAndAbsolute());
+			languageStandard = sonargraphSettings->getCppStandard();
+		}
+		else
+		{
+			LOG_ERROR("Source group doesn't specify language standard. Falling back to \"" + languageStandard + "\".");
+			LOG_ERROR("Source group doesn't specify any indexed header paths");
+		}
+
+		const std::vector<FilePath> systemHeaderSearchPaths = (appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>());
+		const std::vector<FilePath> frameworkSearchPaths = (appSettings ? appSettings->getFrameworkSearchPathsExpanded() : std::vector<FilePath>());
+
 		for (std::shared_ptr<XsdRootPath> rootPath : getRootPaths())
 		{
 			if (std::shared_ptr<XsdRootPathWithFiles> rootPathWithFiles = std::dynamic_pointer_cast<XsdRootPathWithFiles>(rootPath))
 			{
-				utility::append(indexerCommands, getIndexerCommandsForRootPath(rootPathWithFiles, sourceGroupSettings, appSettings));
+				utility::append(indexerCommands, getIndexerCommandsForRootPath(
+					rootPathWithFiles, indexedHeaderPaths, languageStandard, systemHeaderSearchPaths, frameworkSearchPaths
+				));
 			}
 		}
 
 		for (std::shared_ptr<XsdRootPathWithFiles> rootPath : m_rootPathWithFiles)
 		{
-			utility::append(indexerCommands, getIndexerCommandsForRootPath(rootPath, sourceGroupSettings, appSettings));
+			utility::append(indexerCommands, getIndexerCommandsForRootPath(
+				rootPath, indexedHeaderPaths ,languageStandard, systemHeaderSearchPaths, frameworkSearchPaths
+			));
 		}
 
 		return indexerCommands;
@@ -321,8 +293,10 @@ namespace Sonargraph
 
 	std::vector<std::shared_ptr<IndexerCommand>> XsdCmakeJsonModule::getIndexerCommandsForRootPath(
 		std::shared_ptr<XsdRootPathWithFiles> rootPath,
-		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
-		std::shared_ptr<const ApplicationSettings> appSettings) const
+		const std::set<FilePath> indexedHeaderPaths,
+		const std::string& languageStandard,
+		const std::vector<FilePath> systemHeaderSearchPaths,
+		const std::vector<FilePath> frameworkSearchPaths) const
 	{
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 		if (rootPath)
@@ -335,17 +309,8 @@ namespace Sonargraph
 
 			const FilePath baseDir = rootPath->getFilePath(softwareSystem->getBaseDirectory());
 
-			std::set<FilePath> indexedHeaderPaths;
-			if (std::shared_ptr<const SourceGroupSettingsCxxSonargraph> sonargraphSettings = std::dynamic_pointer_cast<const SourceGroupSettingsCxxSonargraph>(sourceGroupSettings))
-			{
-				indexedHeaderPaths = utility::toSet(sonargraphSettings->getIndexedHeaderPathsExpandedAndAbsolute());
-			}
-
 			const std::set<FilePathFilter> excludeFilters = utility::toSet(getDerivedExcludeFilters());
 			const std::set<FilePathFilter> includeFilters = utility::toSet(getDerivedIncludeFilters());
-			const std::string languageStandard = sourceGroupSettings->getStandard();
-			const std::vector<FilePath> systemHeaderSearchPaths = (appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>());
-			const std::vector<FilePath> frameworkSearchPaths = (appSettings ? appSettings->getFrameworkSearchPathsExpanded() : std::vector<FilePath>());
 
 			OrderedCache<Id, std::vector<std::wstring>> compilerOptionCache([&](const Id& id) {
 				if (std::shared_ptr<const SoftwareSystem> softwareSystem = getSoftwareSystem())

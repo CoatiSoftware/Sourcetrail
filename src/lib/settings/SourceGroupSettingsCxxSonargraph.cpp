@@ -11,6 +11,7 @@ void SourceGroupSettingsCxxSonargraph::load(std::shared_ptr<const ConfigManager>
 
 	const std::string key = s_keyPrefix + getId();
 
+	SourceGroupSettingsWithCppStandard::load(config, key);
 	SourceGroupSettingsWithIndexedHeaderPaths::load(config, key);
 	SourceGroupSettingsWithSonargraphProjectPath::load(config, key);
 }
@@ -21,6 +22,7 @@ void SourceGroupSettingsCxxSonargraph::save(std::shared_ptr<ConfigManager> confi
 
 	const std::string key = s_keyPrefix + getId();
 
+	SourceGroupSettingsWithCppStandard::save(config, key);
 	SourceGroupSettingsWithIndexedHeaderPaths::save(config, key);
 	SourceGroupSettingsWithSonargraphProjectPath::save(config, key);
 }
@@ -32,7 +34,8 @@ bool SourceGroupSettingsCxxSonargraph::equals(std::shared_ptr<SourceGroupSetting
 	return (
 		otherCxxSonargraph &&
 		SourceGroupSettingsCxx::equals(other) &&
-		SourceGroupSettingsWithIndexedHeaderPaths::equals(otherCxxSonargraph) && 
+		SourceGroupSettingsWithCppStandard::equals(otherCxxSonargraph) &&
+		SourceGroupSettingsWithIndexedHeaderPaths::equals(otherCxxSonargraph) &&
 		SourceGroupSettingsWithSonargraphProjectPath::equals(otherCxxSonargraph)
 	);
 }

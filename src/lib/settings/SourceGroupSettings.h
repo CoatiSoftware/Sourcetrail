@@ -42,23 +42,14 @@ public:
 	FilePath makePathExpandedAndAbsolute(const FilePath& path) const;
 	std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
 
-	virtual std::vector<std::string> getAvailableLanguageStandards() const = 0;
-
-	std::string getStandard() const;
-	void setStandard(const std::string& standard);
-
 protected:
 	const ProjectSettings* m_projectSettings;
 
 private:
-	virtual std::string getDefaultStandard() const = 0;
-
 	std::string m_id;
 	std::string m_name;
 	const SourceGroupType m_type;
 	SourceGroupStatusType m_status;
-
-	std::string m_standard;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_H

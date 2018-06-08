@@ -7,12 +7,16 @@
 #include "settings/SourceGroupSettings.h"
 #include "settings/SourceGroupSettingsWithClasspath.h"
 #include "settings/SourceGroupSettingsWithExcludeFilters.h"
+#include "settings/SourceGroupSettingsWithJavaStandard.h"
+#include "settings/SourceGroupSettingsWithSourceExtensions.h"
 #include "settings/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsJava
 	: public SourceGroupSettings
+	, public SourceGroupSettingsWithSourceExtensions
 	, public SourceGroupSettingsWithSourcePaths
 	, public SourceGroupSettingsWithExcludeFilters
+	, public SourceGroupSettingsWithJavaStandard
 	, public SourceGroupSettingsWithClasspath
 {
 public:
@@ -23,12 +27,9 @@ public:
 
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
-	std::vector<std::string> getAvailableLanguageStandards() const override;
-
 private:
 	const ProjectSettings* getProjectSettings() const override;
 	std::vector<std::wstring> getDefaultSourceExtensions() const override;
-	std::string getDefaultStandard() const override;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_JAVA_H

@@ -1,0 +1,48 @@
+#ifndef CODEBLOCKS_PROJECT_H
+#define CODEBLOCKS_PROJECT_H
+
+#include <memory>
+#include <set>
+#include <vector>
+
+class ApplicationSettings;
+class FilePath;
+class IndexerCommand;
+class SourceGroupSettingsCxxCodeblocks;
+class SourceGroupSettingsWithSourceExtensions;
+class TextAccess;
+
+namespace Codeblocks
+{
+	class Target;
+	class Unit;
+
+	class Project
+	{
+	public:
+		static std::shared_ptr<Project> load(const FilePath& projectFilePath);
+		static std::shared_ptr<Project> load(std::shared_ptr<TextAccess> xmlAccess);
+
+		std::set<FilePath> getAllSourceFilePathsCanonical(
+			std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
+		) const;
+		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
+
+		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
+			std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> sourceGroupSettings,
+			std::shared_ptr<const ApplicationSettings> appSettings) const;
+
+	private:
+		Project() = default;
+
+		int m_versionMajor;
+		int m_versionMinor;
+
+		std::wstring m_title;
+
+		std::vector<std::shared_ptr<Target>> m_targets;
+		std::vector<std::shared_ptr<Unit>> m_units;
+	};
+}
+
+#endif // CODEBLOCKS_PROJECT_H

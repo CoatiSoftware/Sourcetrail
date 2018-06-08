@@ -316,8 +316,14 @@ add_files(
 	settings/SourceGroupSettings.h
 	settings/SourceGroupSettingsCxx.cpp
 	settings/SourceGroupSettingsCxx.h
+	settings/SourceGroupSettingsCEmpty.cpp
+	settings/SourceGroupSettingsCEmpty.h
+	settings/SourceGroupSettingsCppEmpty.cpp
+	settings/SourceGroupSettingsCppEmpty.h
 	settings/SourceGroupSettingsCxxCdb.cpp
 	settings/SourceGroupSettingsCxxCdb.h
+	settings/SourceGroupSettingsCxxCodeblocks.cpp
+	settings/SourceGroupSettingsCxxCodeblocks.h
 	settings/SourceGroupSettingsCxxEmpty.cpp
 	settings/SourceGroupSettingsCxxEmpty.h
 	settings/SourceGroupSettingsCxxSonargraph.cpp
@@ -334,12 +340,20 @@ add_files(
 	settings/SourceGroupSettingsJavaSonargraph.h
 	settings/SourceGroupSettingsWithClasspath.cpp
 	settings/SourceGroupSettingsWithClasspath.h
+	settings/SourceGroupSettingsWithCppStandard.cpp
+	settings/SourceGroupSettingsWithCppStandard.h
+	settings/SourceGroupSettingsWithCStandard.cpp
+	settings/SourceGroupSettingsWithCStandard.h
 	settings/SourceGroupSettingsWithExcludeFilters.cpp
 	settings/SourceGroupSettingsWithExcludeFilters.h
 	settings/SourceGroupSettingsWithIndexedHeaderPaths.cpp
 	settings/SourceGroupSettingsWithIndexedHeaderPaths.h
+	settings/SourceGroupSettingsWithJavaStandard.cpp
+	settings/SourceGroupSettingsWithJavaStandard.h
 	settings/SourceGroupSettingsWithSonargraphProjectPath.cpp
 	settings/SourceGroupSettingsWithSonargraphProjectPath.h
+	settings/SourceGroupSettingsWithSourceExtensions.cpp
+	settings/SourceGroupSettingsWithSourceExtensions.h
 	settings/SourceGroupSettingsWithSourcePaths.cpp
 	settings/SourceGroupSettingsWithSourcePaths.h
 	settings/SourceGroupStatusType.cpp

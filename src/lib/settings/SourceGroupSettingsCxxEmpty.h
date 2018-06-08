@@ -3,11 +3,13 @@
 
 #include "settings/SourceGroupSettingsCxx.h"
 #include "settings/SourceGroupSettingsWithExcludeFilters.h"
+#include "settings/SourceGroupSettingsWithSourceExtensions.h"
 #include "settings/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsCxxEmpty
 	: public SourceGroupSettingsCxx
 	, public SourceGroupSettingsWithExcludeFilters
+	, public SourceGroupSettingsWithSourceExtensions
 	, public SourceGroupSettingsWithSourcePaths
 {
 public:
@@ -41,9 +43,6 @@ public:
 	std::wstring getTargetFlag() const;
 
 private:
-	const ProjectSettings* getProjectSettings() const override;
-	std::vector<std::wstring> getDefaultSourceExtensions() const override;
-
 	bool m_targetOptionsEnabled;
 	std::wstring m_targetArch;
 	std::wstring m_targetVendor;

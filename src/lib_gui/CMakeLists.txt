@@ -187,16 +187,20 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzard.h
 	qt/window/project_wizzard/QtProjectWizzardContent.cpp
 	qt/window/project_wizzard/QtProjectWizzardContent.h
+	qt/window/project_wizzard/QtProjectWizzardContentCppStandard.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentCppStandard.h
 	qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.h
+	qt/window/project_wizzard/QtProjectWizzardContentCStandard.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentCStandard.h
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.h
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.h
 	qt/window/project_wizzard/QtProjectWizzardContentGroup.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentGroup.h
-	qt/window/project_wizzard/QtProjectWizzardContentLanguageAndStandard.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentLanguageAndStandard.h
+	qt/window/project_wizzard/QtProjectWizzardContentJavaStandard.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentJavaStandard.h
 	qt/window/project_wizzard/QtProjectWizzardContentPath.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPath.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp

@@ -3,8 +3,10 @@
 #include "settings/migration/SettingsMigrationDeleteKey.h"
 #include "settings/migration/SettingsMigrationLambda.h"
 #include "settings/migration/SettingsMigrationMoveKey.h"
+#include "settings/SourceGroupSettingsCEmpty.h"
+#include "settings/SourceGroupSettingsCppEmpty.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
-#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsCxxCodeblocks.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "settings/SourceGroupSettingsJavaEmpty.h"
 #include "settings/SourceGroupSettingsJavaMaven.h"
@@ -14,7 +16,7 @@
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 
-const size_t ProjectSettings::VERSION = 6;
+const size_t ProjectSettings::VERSION = 7;
 const wchar_t PROJECT_FILE_EXTENSION[] = L".srctrlprj";
 
 LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
@@ -144,13 +146,16 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 		switch (type)
 		{
 		case SOURCE_GROUP_C_EMPTY:
-			settings = std::make_shared<SourceGroupSettingsCxxEmpty>(id, SOURCE_GROUP_C_EMPTY, this);
+			settings = std::make_shared<SourceGroupSettingsCEmpty>(id, this);
 			break;
 		case SOURCE_GROUP_CPP_EMPTY:
-			settings = std::make_shared<SourceGroupSettingsCxxEmpty>(id, SOURCE_GROUP_CPP_EMPTY, this);
+			settings = std::make_shared<SourceGroupSettingsCppEmpty>(id, this);
 			break;
 		case SOURCE_GROUP_CXX_CDB:
 			settings = std::make_shared<SourceGroupSettingsCxxCdb>(id, this);
+			break;
+		case SOURCE_GROUP_CXX_CODEBLOCKS:
+			settings = std::make_shared<SourceGroupSettingsCxxCodeblocks>(id, this);
 			break;
 		case SOURCE_GROUP_CXX_SONARGRAPH:
 			settings = std::make_shared<SourceGroupSettingsCxxSonargraph>(id, this);
@@ -335,6 +340,26 @@ SettingsMigrator ProjectSettings::getMigrations() const
 			const std::string key = SourceGroupSettings::s_keyPrefix + sourceGroupSettings->getId();
 			migrator.addMigration(6, std::make_shared<SettingsMigrationMoveKey>(key + "/source_paths/source_path", key + "/indexed_header_paths/indexed_header_path"));
 		}
+	}
+
+	for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings : getAllSourceGroupSettings())
+	{
+		std::string languageName;
+		switch (getLanguageTypeForSourceGroupType(sourceGroupSettings->getType()))
+		{
+		case LANGUAGE_C:
+			languageName = "c";
+			break;
+		case LANGUAGE_CPP:
+			languageName = "cpp";
+			break;
+		case LANGUAGE_JAVA:
+			languageName = "java";
+			break;
+		}
+
+		std::string key = SourceGroupSettings::s_keyPrefix + sourceGroupSettings->getId();
+		migrator.addMigration(7, std::make_shared<SettingsMigrationMoveKey>(key + "/standard", key + "/" + languageName + "_standard"));
 	}
 
 	return migrator;

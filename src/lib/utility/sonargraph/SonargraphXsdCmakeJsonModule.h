@@ -17,7 +17,6 @@ namespace Sonargraph
 		std::set<FilePath> getAllSourcePaths() const override;
 		std::set<FilePath> getAllSourceFilePathsCanonical() const override;
 		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const override;
-		std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
 		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
 			std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 			std::shared_ptr<const ApplicationSettings> appSettings) const override;
@@ -33,9 +32,11 @@ namespace Sonargraph
 			const std::set<FilePathFilter>& includeFilters) const;
 
 		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommandsForRootPath(
-			std::shared_ptr<XsdRootPathWithFiles> rootPath, 
-			std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
-			std::shared_ptr<const ApplicationSettings> appSettings) const;
+			std::shared_ptr<XsdRootPathWithFiles> rootPath,
+			const std::set<FilePath> indexedHeaderPaths,
+			const std::string& languageStandard,
+			const std::vector<FilePath> systemHeaderSearchPaths,
+			const std::vector<FilePath> frameworkSearchPaths) const;
 
 		std::vector<std::shared_ptr<XsdRootPathWithFiles>> m_rootPathWithFiles;
 	};

@@ -2,11 +2,13 @@
 #define SOURCE_GROUP_SETTINGS_CXX_SONARGRAPH_H
 
 #include "settings/SourceGroupSettingsCxx.h"
+#include "settings/SourceGroupSettingsWithCppStandard.h"
 #include "settings/SourceGroupSettingsWithIndexedHeaderPaths.h"
 #include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
 
 class SourceGroupSettingsCxxSonargraph
 	: public SourceGroupSettingsCxx
+	, public SourceGroupSettingsWithCppStandard
 	, public SourceGroupSettingsWithIndexedHeaderPaths
 	, public SourceGroupSettingsWithSonargraphProjectPath
 {

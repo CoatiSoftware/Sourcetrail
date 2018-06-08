@@ -87,6 +87,7 @@ private slots:
 	void emptySourceGroup();
 	void emptySourceGroupCDBVS();
 	void emptySourceGroupCDB();
+	void emptySourceGroupCxxCodeblocks();
 	void emptySourceGroupCxxSonargraph();
 	void emptySourceGroupJavaSonargraph();
 

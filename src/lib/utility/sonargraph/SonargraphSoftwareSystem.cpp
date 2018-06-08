@@ -90,16 +90,6 @@ namespace Sonargraph
 		return sourceFilePaths;
 	}
 
-	std::set<FilePath> SoftwareSystem::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
-	{
-		std::set<FilePath> containedFilePaths;
-		for (std::shared_ptr<XsdAbstractModule> module : m_modules)
-		{
-			utility::append(containedFilePaths, module->filterToContainedFilePaths(filePaths));
-		}
-		return containedFilePaths;
-	}
-
 	std::vector<std::shared_ptr<IndexerCommand>> SoftwareSystem::getIndexerCommands(
 		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> appSettings) const

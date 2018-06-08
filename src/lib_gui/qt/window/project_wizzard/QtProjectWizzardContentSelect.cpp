@@ -32,10 +32,12 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CDB));
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_SONARGRAPH));
+	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CODEBLOCKS));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CPP_EMPTY));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CDB));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_SONARGRAPH));
+	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CODEBLOCKS));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_EMPTY));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_MAVEN));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_GRADLE));
@@ -47,6 +49,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CDB] = L"cdb_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = L"vs_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_SONARGRAPH] = L"sonargraph_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CODEBLOCKS] = L"empty_icon"; // TODO: change this
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = L"mvn_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = L"gradle_icon";
@@ -62,6 +65,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		"<b>Note: Requires a running Visual Studio instance with the "
 		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_SONARGRAPH] = "Create a new Source Group from an existing Sonargraph project file.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CODEBLOCKS] = "Create a new Source Group from an existing Code::Blocks project file.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Sourcetrail Source Group by defining which Java files will be indexed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project.";

@@ -47,60 +47,6 @@ bool SourceGroupSettingsCxx::equals(std::shared_ptr<SourceGroupSettings> other) 
 	);
 }
 
-std::vector<std::string> SourceGroupSettingsCxx::getAvailableLanguageStandards() const
-{
-	std::vector<std::string> standards;
-
-	switch (getType())
-	{
-	case SOURCE_GROUP_CPP_EMPTY:
-	case SOURCE_GROUP_CXX_CDB:
-	case SOURCE_GROUP_CXX_SONARGRAPH:
-		standards.push_back("c++2a");
-		standards.push_back("gnu++2a");
-
-		standards.push_back("c++17");
-		standards.push_back("gnu++17");
-
-		standards.push_back("c++14");
-		standards.push_back("gnu++14");
-
-		standards.push_back("c++11");
-		standards.push_back("gnu++11");
-
-		standards.push_back("c++03");
-		standards.push_back("gnu++03");
-
-		standards.push_back("c++98");
-		standards.push_back("gnu++98");
-		break;
-
-	case SOURCE_GROUP_C_EMPTY:
-		standards.push_back("c11");
-		standards.push_back("gnu11");
-		standards.push_back("iso9899:2011");
-
-		standards.push_back("c99");
-		standards.push_back("gnu99");
-		standards.push_back("iso9899:1999");
-
-		standards.push_back("iso9899:199409");
-
-		standards.push_back("c90");
-		standards.push_back("gnu90");
-		standards.push_back("iso9899:1990");
-
-		standards.push_back("c89");
-		standards.push_back("gnu89");
-		break;
-
-	default:
-		break;
-	}
-
-	return standards;
-}
-
 std::vector<FilePath> SourceGroupSettingsCxx::getHeaderSearchPaths() const
 {
 	return m_headerSearchPaths;
@@ -139,21 +85,4 @@ std::vector<std::wstring> SourceGroupSettingsCxx::getCompilerFlags() const
 void SourceGroupSettingsCxx::setCompilerFlags(const std::vector<std::wstring>& compilerFlags)
 {
 	m_compilerFlags = compilerFlags;
-}
-
-std::string SourceGroupSettingsCxx::getDefaultStandard() const
-{
-	switch (getType())
-	{
-	case SOURCE_GROUP_CPP_EMPTY:
-	case SOURCE_GROUP_CXX_SONARGRAPH:
-		return "c++17";
-	case SOURCE_GROUP_C_EMPTY:
-		return "c11";
-	case SOURCE_GROUP_CXX_CDB:
-	default:
-		break;
-	}
-
-	return "";
 }

@@ -32,10 +32,8 @@ namespace Sonargraph
 
 		int getLoadedModuleCount() const;
 
-		std::set<FilePath> getAllSourcePaths() const;
 		std::set<FilePath> getAllSourceFilePathsCanonical() const;
 		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
-		std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const;
 
 		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
 			std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,

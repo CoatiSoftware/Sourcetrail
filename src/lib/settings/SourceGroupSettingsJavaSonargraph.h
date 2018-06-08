@@ -3,11 +3,13 @@
 
 #include "settings/SourceGroupSettings.h"
 #include "settings/SourceGroupSettingsWithClasspath.h"
+#include "settings/SourceGroupSettingsWithJavaStandard.h"
 #include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
 
 class SourceGroupSettingsJavaSonargraph
 	: public SourceGroupSettings
 	, public SourceGroupSettingsWithClasspath
+	, public SourceGroupSettingsWithJavaStandard
 	, public SourceGroupSettingsWithSonargraphProjectPath
 {
 public:
@@ -18,10 +20,7 @@ public:
 
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
-	std::vector<std::string> getAvailableLanguageStandards() const override;
-
 private:
-	std::string getDefaultStandard() const override;
 	const ProjectSettings* getProjectSettings() const override;
 };
 

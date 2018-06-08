@@ -157,6 +157,7 @@ void SourceGroupSettingsCxxEmpty::load(std::shared_ptr<const ConfigManager> conf
 
 	const std::string key = s_keyPrefix + getId();
 
+	SourceGroupSettingsWithSourceExtensions::load(config, key);
 	SourceGroupSettingsWithSourcePaths::load(config, key);
 	SourceGroupSettingsWithExcludeFilters::load(config, key);
 
@@ -173,6 +174,7 @@ void SourceGroupSettingsCxxEmpty::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
+	SourceGroupSettingsWithSourceExtensions::save(config, key);
 	SourceGroupSettingsWithSourcePaths::save(config, key);
 	SourceGroupSettingsWithExcludeFilters::save(config, key);
 
@@ -190,6 +192,7 @@ bool SourceGroupSettingsCxxEmpty::equals(std::shared_ptr<SourceGroupSettings> ot
 	return (
 		otherCxxEmpty &&
 		SourceGroupSettingsCxx::equals(other) &&
+		SourceGroupSettingsWithSourceExtensions::equals(otherCxxEmpty) &&
 		SourceGroupSettingsWithSourcePaths::equals(otherCxxEmpty) &&
 		SourceGroupSettingsWithExcludeFilters::equals(otherCxxEmpty) &&
 		getTargetFlag() == otherCxxEmpty->getTargetFlag()
@@ -258,30 +261,4 @@ std::wstring SourceGroupSettingsCxxEmpty::getTargetFlag() const
 		targetFlag += L"-" + (m_targetAbi.empty() ? L"unknown" : m_targetAbi);
 	}
 	return targetFlag;
-}
-
-const ProjectSettings* SourceGroupSettingsCxxEmpty::getProjectSettings() const
-{
-	return m_projectSettings;
-}
-
-std::vector<std::wstring> SourceGroupSettingsCxxEmpty::getDefaultSourceExtensions() const
-{
-	std::vector<std::wstring> defaultValues;
-
-	switch (getType())
-	{
-	case SOURCE_GROUP_CPP_EMPTY:
-		defaultValues.push_back(L".cpp");
-		defaultValues.push_back(L".cxx");
-		defaultValues.push_back(L".cc");
-		break;
-	case SOURCE_GROUP_C_EMPTY:
-		defaultValues.push_back(L".c");
-		break;
-	default:
-		break;
-	}
-
-	return defaultValues;
 }

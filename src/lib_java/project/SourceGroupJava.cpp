@@ -32,7 +32,7 @@ std::set<FilePath> SourceGroupJava::getAllSourceFilePaths() const
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
-	const std::string languageStandard = getSourceGroupSettingsJava()->getStandard();
+	const std::string languageStandard = getSourceGroupSettingsJava()->getJavaStandard();
 
 	std::vector<FilePath> classPath = getClassPath();
 

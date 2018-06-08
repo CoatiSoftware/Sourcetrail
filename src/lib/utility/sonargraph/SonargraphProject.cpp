@@ -60,11 +60,6 @@ namespace Sonargraph
 		return m_softwareSystem->getModules().size();
 	}
 
-	std::set<FilePath> Project::getAllSourcePaths() const
-	{
-		return m_softwareSystem->getAllSourcePaths();
-	}
-
 	std::set<FilePath> Project::getAllSourceFilePathsCanonical() const
 	{
 		return m_softwareSystem->getAllSourceFilePathsCanonical();
@@ -73,11 +68,6 @@ namespace Sonargraph
 	std::set<FilePath> Project::getAllCxxHeaderSearchPathsCanonical() const
 	{
 		return m_softwareSystem->getAllCxxHeaderSearchPathsCanonical();
-	}
-
-	std::set<FilePath> Project::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
-	{
-		return m_softwareSystem->filterToContainedFilePaths(filePaths);
 	}
 
 	std::vector<std::shared_ptr<IndexerCommand>> Project::getIndexerCommands(

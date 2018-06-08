@@ -78,6 +78,8 @@ add_files(
 	
 	project/SourceGroupCxxCdb.cpp
 	project/SourceGroupCxxCdb.h
+	project/SourceGroupCxxCodeblocks.cpp
+	project/SourceGroupCxxCodeblocks.h
 	project/SourceGroupCxxEmpty.cpp
 	project/SourceGroupCxxEmpty.h
 	project/SourceGroupCxxSonargraph.cpp
@@ -85,6 +87,18 @@ add_files(
 	project/SourceGroupFactoryModuleCxx.cpp
 	project/SourceGroupFactoryModuleCxx.h
 
+	utility/codeblocks/CodeblocksCompiler.cpp
+	utility/codeblocks/CodeblocksCompiler.h
+	utility/codeblocks/CodeblocksCompilerVarType.cpp
+	utility/codeblocks/CodeblocksCompilerVarType.h
+	utility/codeblocks/CodeblocksProject.cpp
+	utility/codeblocks/CodeblocksProject.h
+	utility/codeblocks/CodeblocksTarget.cpp
+	utility/codeblocks/CodeblocksTarget.h
+	utility/codeblocks/CodeblocksTargetRelationType.cpp
+	utility/codeblocks/CodeblocksTargetRelationType.h
+	utility/codeblocks/CodeblocksUnit.cpp
+	utility/codeblocks/CodeblocksUnit.h
 	utility/CompilationDatabase.cpp
 	utility/CompilationDatabase.h
 	utility/IncludeDirective.cpp

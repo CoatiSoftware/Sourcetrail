@@ -42,17 +42,23 @@ bool SourceGroupJavaSonargraph::prepareIndexing()
 
 std::set<FilePath> SourceGroupJavaSonargraph::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	if (std::shared_ptr<Sonargraph::Project> project = Sonargraph::Project::load(
-		m_settings->getSonargraphProjectPathExpandedAndAbsolute(), getLanguage()
-	))
+	std::set<FilePath> containedFilePaths;
+
+	const std::set<FilePath> indexedPaths = getAllSourceFilePaths();
+
+	for (const FilePath& filePath : filePaths)
 	{
-		return project->filterToContainedFilePaths(filePaths);
+		for (const FilePath& indexedPath : indexedPaths)
+		{
+			if (indexedPath == filePath || indexedPath.contains(filePath))
+			{
+				containedFilePaths.insert(filePath);
+				break;
+			}
+		}
 	}
-	else
-	{
-		LOG_ERROR("Unable to load Sonargraph project to check the containment of file paths.");
-	}
-	return std::set<FilePath>();
+
+	return containedFilePaths;
 }
 
 std::set<FilePath> SourceGroupJavaSonargraph::getAllSourceFilePaths() const

@@ -5,6 +5,7 @@
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/sonargraph/SonargraphProject.h"
+#include "utility/utility.h"
 #include "Application.h"
 
 SourceGroupCxxSonargraph::SourceGroupCxxSonargraph(std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings)
@@ -36,28 +37,44 @@ bool SourceGroupCxxSonargraph::prepareIndexing()
 
 std::set<FilePath> SourceGroupCxxSonargraph::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	if (std::shared_ptr<Sonargraph::Project> project = Sonargraph::Project::load(
-		m_settings->getSonargraphProjectPathExpandedAndAbsolute(), getLanguage()
-	))
+	std::set<FilePath> containedFilePaths;
+
+	const std::set<FilePath> indexedPaths = utility::concat(
+		getAllSourceFilePaths(),
+		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute())
+	);
+
+	for (const FilePath& filePath : filePaths)
 	{
-		return project->filterToContainedFilePaths(filePaths);
+		for (const FilePath& indexedPath : indexedPaths)
+		{
+			if (indexedPath == filePath || indexedPath.contains(filePath))
+			{
+				containedFilePaths.insert(filePath);
+				break;
+			}
+		}
 	}
-	else
-	{
-		LOG_ERROR("Unable to load Sonargraph project to check the containment of file paths.");
-	}
-	return std::set<FilePath>();
+
+	return containedFilePaths;
 }
 
 std::set<FilePath> SourceGroupCxxSonargraph::getAllSourceFilePaths() const
 {
+	std::set<FilePath> sourceFilePaths;
 	if (std::shared_ptr<Sonargraph::Project> project = Sonargraph::Project::load(
 		m_settings->getSonargraphProjectPathExpandedAndAbsolute(), getLanguage()
 	))
 	{
-		return project->getAllSourceFilePathsCanonical();
+		for (const FilePath& filePath : project->getAllSourceFilePathsCanonical())
+		{
+			if (filePath.exists())
+			{
+				sourceFilePaths.insert(filePath);
+			}
+		}
 	}
-	return std::set<FilePath>();
+	return sourceFilePaths;
 }
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxSonargraph::getIndexerCommands(const std::set<FilePath>& filesToIndex) const

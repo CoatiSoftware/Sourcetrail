@@ -1,6 +1,7 @@
 #ifndef UTILITY_STRING_H
 #define UTILITY_STRING_H
 
+#include <algorithm>
 #include <deque>
 #include <sstream>
 #include <string>

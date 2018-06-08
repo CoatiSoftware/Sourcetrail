@@ -3,6 +3,8 @@
 
 #include "settings/SourceGroupSettings.h"
 
+#include "utility/file/FilePath.h"
+
 class SourceGroupSettingsCxx
 	: public SourceGroupSettings
 {
@@ -13,8 +15,6 @@ public:
 	void save(std::shared_ptr<ConfigManager> config) override;
 
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
-
-	std::vector<std::string> getAvailableLanguageStandards() const override;
 
 	std::vector<FilePath> getHeaderSearchPaths() const;
 	std::vector<FilePath> getHeaderSearchPathsExpandedAndAbsolute() const;
@@ -28,8 +28,6 @@ public:
 	void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
 
 private:
-	std::string getDefaultStandard() const override;
-
 	std::vector<FilePath> m_headerSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;
 	std::vector<std::wstring> m_compilerFlags;

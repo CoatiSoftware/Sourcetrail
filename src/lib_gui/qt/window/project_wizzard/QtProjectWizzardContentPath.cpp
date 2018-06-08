@@ -16,9 +16,11 @@
 #include "settings/SourceGroupSettingsJavaMaven.h"
 #include "settings/SourceGroupSettingsJavaGradle.h"
 #include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
+#include "settings/SourceGroupSettingsCxxCodeblocks.h"
 #include "utility/file/FileManager.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/sonargraph/SonargraphProject.h"
+#include "utility/codeblocks/CodeblocksProject.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
 #include "utility/utilityGradle.h"
@@ -255,6 +257,132 @@ void QtProjectWizzardContentPathCDB::pickedPath()
 			}
 		}
 		cdbSettings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
+	}
+
+	m_window->loadContent();
+}
+
+
+QtProjectWizzardContentCodeblocksProjectPath::QtProjectWizzardContentCodeblocksProjectPath(
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPath(settings, window)
+{
+	setTitleString("Code::Blocks Project (.cbp)");
+	setHelpString(
+		"Select the Code::Blocks file for the project. Sourcetrail will index your project based on the settings "
+		"this file. It contains using all include paths and compiler flags required. The Sourcetrail project "
+		"will stay up to date with changes in the Code::Blocks project on every refresh.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
+	);
+	setFileEndings({ L".cbp" });
+}
+
+void QtProjectWizzardContentCodeblocksProjectPath::populate(QGridLayout* layout, int& row)
+{
+	QtProjectWizzardContentPath::populate(layout, row);
+	m_picker->setPickDirectory(false);
+	m_picker->setFileFilter("Code::Blocks Project (*.cbp)");
+	connect(m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizzardContentCodeblocksProjectPath::pickedPath);
+
+	QLabel* description = new QLabel(
+		"Sourcetrail will use all settings from the Code::Blocks project and stay up-to-date with changes on refresh.", this);
+	description->setObjectName("description");
+	description->setWordWrap(true);
+	layout->addWidget(description, row, QtProjectWizzardWindow::BACK_COL);
+	row++;
+
+	QLabel* title = createFormLabel("Source Files to Index");
+	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+	layout->setRowStretch(row, 0);
+
+	m_fileCountLabel = new QLabel("");
+	m_fileCountLabel->setWordWrap(true);
+	layout->addWidget(m_fileCountLabel, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
+	row++;
+
+	addFilesButton("show source files", layout, row);
+	row++;
+}
+
+void QtProjectWizzardContentCodeblocksProjectPath::load()
+{
+	m_filePaths.clear();
+
+	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings);
+	if (settings)
+	{
+		m_picker->setText(QString::fromStdWString(settings->getCodeblocksProjectPath().wstr()));
+
+		const FilePath codeblocksProjectPath = settings->getCodeblocksProjectPathExpandedAndAbsolute();
+		if (!codeblocksProjectPath.empty() && codeblocksProjectPath.exists())
+		{
+			if (std::shared_ptr<Codeblocks::Project> codeblocksProject = Codeblocks::Project::load(
+				codeblocksProjectPath
+			))
+			{
+				m_filePaths = utility::toVector(codeblocksProject->getAllSourceFilePathsCanonical(settings));
+			}
+		}
+
+		if (m_fileCountLabel)
+		{
+			m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Code::Blocks project.");
+		}
+	}
+}
+
+void QtProjectWizzardContentCodeblocksProjectPath::save()
+{
+	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings);
+	if (settings)
+	{
+		settings->setCodeblocksProjectPath(FilePath(m_picker->getText().toStdWString()));
+	}
+}
+
+bool QtProjectWizzardContentCodeblocksProjectPath::check()
+{
+	return true;
+}
+
+std::vector<FilePath> QtProjectWizzardContentCodeblocksProjectPath::getFilePaths() const
+{
+	const_cast<QtProjectWizzardContentCodeblocksProjectPath*>(this)->load();
+
+	return m_filePaths;
+}
+
+QString QtProjectWizzardContentCodeblocksProjectPath::getFileNamesTitle() const
+{
+	return "Source Files";
+}
+
+QString QtProjectWizzardContentCodeblocksProjectPath::getFileNamesDescription() const
+{
+	return " source files will be indexed.";
+}
+
+void QtProjectWizzardContentCodeblocksProjectPath::pickedPath()
+{
+	m_window->saveContent();
+
+	if (std::shared_ptr<SourceGroupSettingsCxxCodeblocks> codeblocksSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings))
+	{
+		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+
+		std::set<FilePath> indexedHeaderPaths;
+		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCodeblocksProject(codeblocksSettings))
+		{
+			if (projectPath.contains(path))
+			{
+				indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
+			}
+		}
+		codeblocksSettings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 	}
 
 	m_window->loadContent();
@@ -500,26 +628,23 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 			settings->getShouldIndexMavenTests()
 		);
 
-		if (std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings))
+		FileManager fileManager;
+		fileManager.update(
+			sourceDirectories,
+			settings->getExcludeFiltersExpandedAndAbsolute(),
+			settings->getSourceExtensions()
+		);
+
+		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+
+		for (FilePath path : fileManager.getAllSourceFilePaths())
 		{
-			FileManager fileManager;
-			fileManager.update(
-				sourceDirectories,
-				settings->getExcludeFiltersExpandedAndAbsolute(),
-				pathSettings->getSourceExtensions()
-			);
-
-			const FilePath projectPath = m_settings->getProjectDirectoryPath();
-
-			for (FilePath path : fileManager.getAllSourceFilePaths())
+			if (projectPath.exists())
 			{
-				if (projectPath.exists())
-				{
-					path.makeRelativeTo(projectPath);
-				}
-
-				list.push_back(path);
+				path.makeRelativeTo(projectPath);
 			}
+
+			list.push_back(path);
 		}
 	}
 
@@ -641,7 +766,7 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() co
 			settings->getSourceExtensions()
 		);
 
-		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+		const FilePath projectPath = settings->getProjectDirectoryPath();
 
 		for (FilePath path : fileManager.getAllSourceFilePaths())
 		{

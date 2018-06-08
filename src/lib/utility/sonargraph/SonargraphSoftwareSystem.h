@@ -32,7 +32,6 @@ namespace Sonargraph
 		std::set<FilePath> getAllSourcePaths() const;
 		std::set<FilePath> getAllSourceFilePathsCanonical() const;
 		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
-		std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const;
 
 		template <typename ExtensionType>
 		std::vector<std::shared_ptr<ExtensionType>> getSpecificSystemExtensions() const;

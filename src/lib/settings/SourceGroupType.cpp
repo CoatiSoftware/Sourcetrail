@@ -10,6 +10,8 @@ std::string sourceGroupTypeToString(SourceGroupType v)
 		return "C++ Source Group";
 	case SOURCE_GROUP_CXX_CDB:
 		return "C/C++ from Compilation Database";
+	case SOURCE_GROUP_CXX_CODEBLOCKS:
+		return "C/C++ from Code::Blocks";
 	case SOURCE_GROUP_CXX_SONARGRAPH:
 		return "C/C++ from Sonargraph";
 	case SOURCE_GROUP_CXX_VS:
@@ -38,6 +40,8 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 		return "Empty C++ Source Group";
 	case SOURCE_GROUP_CXX_CDB:
 		return "C/C++ from Compilation Database";
+	case SOURCE_GROUP_CXX_CODEBLOCKS:
+		return "C/C++ from Code::Blocks";
 	case SOURCE_GROUP_CXX_SONARGRAPH:
 		return "C/C++ from Sonargraph";
 	case SOURCE_GROUP_CXX_VS:
@@ -69,6 +73,10 @@ SourceGroupType stringToSourceGroupType(const std::string& v)
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_CDB))
 	{
 		return SOURCE_GROUP_CXX_CDB;
+	}
+	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_CODEBLOCKS))
+	{
+		return SOURCE_GROUP_CXX_CODEBLOCKS;
 	}
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_SONARGRAPH))
 	{

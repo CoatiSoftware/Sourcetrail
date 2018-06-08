@@ -17,6 +17,7 @@
 	</description>
     <source_groups>
         <source_group_75041cb3-37c8-45c6-bb8a-1b8b79040f59>
+            <cpp_standard>c++2a</cpp_standard>
             <cross_compilation>
                 <target>
                     <abi>unknown</abi>
@@ -33,10 +34,9 @@
             <source_paths>
                 <source_path>./src</source_path>
             </source_paths>
-            <standard>c++2a</standard>
             <status>enabled</status>
             <type>C++ Source Group</type>
         </source_group_75041cb3-37c8-45c6-bb8a-1b8b79040f59>
     </source_groups>
-    <version>6</version>
+    <version>7</version>
 </config>

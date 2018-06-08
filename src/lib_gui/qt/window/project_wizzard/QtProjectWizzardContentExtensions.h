@@ -6,7 +6,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
 class QtStringListBox;
-class SourceGroupSettingsWithSourcePaths;
+class SourceGroupSettingsWithSourceExtensions;
 
 class QtProjectWizzardContentExtensions
 	: public QtProjectWizzardContent
@@ -14,7 +14,7 @@ class QtProjectWizzardContentExtensions
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentExtensions(std::shared_ptr<SourceGroupSettingsWithSourcePaths> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentExtensions(std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -23,7 +23,7 @@ public:
 	virtual void save() override;
 
 private:
-	std::shared_ptr<SourceGroupSettingsWithSourcePaths> m_settings;
+	std::shared_ptr<SourceGroupSettingsWithSourceExtensions> m_settings;
 
 	QtStringListBox* m_listBox;
 };

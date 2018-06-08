@@ -71,6 +71,34 @@ private:
 };
 
 
+class QtProjectWizzardContentCodeblocksProjectPath
+	: public QtProjectWizzardContentPath
+{
+	Q_OBJECT
+
+public:
+	QtProjectWizzardContentCodeblocksProjectPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContent implementation
+	virtual void populate(QGridLayout* layout, int& row) override;
+
+	virtual void load() override;
+	virtual void save() override;
+	virtual bool check() override;
+
+	virtual std::vector<FilePath> getFilePaths() const override;
+	virtual QString getFileNamesTitle() const override;
+	virtual QString getFileNamesDescription() const override;
+
+private slots:
+	void pickedPath();
+
+private:
+	QLabel* m_fileCountLabel;
+	std::vector<FilePath> m_filePaths;
+};
+
+
 class QtProjectWizzardContentSonargraphProjectPath
 	: public QtProjectWizzardContentPath
 {

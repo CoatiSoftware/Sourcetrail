@@ -3,6 +3,8 @@
 #include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsWithCppStandard.h"
+#include "settings/SourceGroupSettingsWithCStandard.h"
 #include "utility/file/FileManager.h"
 #include "utility/utility.h"
 
@@ -98,6 +100,22 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	const std::set<FilePath> indexedPaths = utility::toSet(m_settings->getSourcePathsExpandedAndAbsolute());
 	const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
 
+	std::string languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
+	if (std::shared_ptr<SourceGroupSettingsWithCStandard> cSettings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithCStandard>(m_settings))
+	{
+		languageStandard = cSettings->getCStandard();
+	}
+	else if (std::shared_ptr<SourceGroupSettingsWithCppStandard> cppSettisngs =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithCppStandard>(m_settings))
+	{
+		languageStandard = cppSettisngs->getCppStandard();
+	}
+	else
+	{
+		LOG_ERROR("Source group doesn't specify language standard. Falling back to \"" + languageStandard + "\".");
+	}
+
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
@@ -112,7 +130,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 				systemHeaderSearchPaths,
 				frameworkSearchPaths,
 				compilerFlags,
-				m_settings->getStandard()
+				languageStandard
 			));
 		}
 	}
