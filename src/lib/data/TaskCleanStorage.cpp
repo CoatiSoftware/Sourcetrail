@@ -8,10 +8,11 @@
 #include "Application.h"
 
 TaskCleanStorage::TaskCleanStorage(
-	PersistentStorage* storage, const std::vector<FilePath>& filePaths
+	PersistentStorage* storage, const std::vector<FilePath>& filePaths, bool clearAllErrors
 )
 	: m_storage(storage)
 	, m_filePaths(filePaths)
+	, m_clearAllErrors(clearAllErrors)
 {
 }
 
@@ -22,7 +23,7 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	m_start = utility::durationStart();
 
-	if (!m_filePaths.empty())
+	if (!m_filePaths.empty() || m_clearAllErrors)
 	{
 		m_storage->setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
 	}
@@ -30,6 +31,11 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
+	if (m_clearAllErrors)
+	{
+		m_storage->clearAllErrors();
+	}
+
 	m_storage->clearFileElements(m_filePaths, [=](int progress)
 		{
 			Application::getInstance()->getDialogView()->showProgressDialog(

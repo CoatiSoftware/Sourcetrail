@@ -450,6 +450,13 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 	}
 }
 
+void SqliteIndexStorage::removeAllErrors()
+{
+	executeStatement(
+		"DELETE FROM error;"
+	);
+}
+
 void SqliteIndexStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)
 {
 	executeStatement(

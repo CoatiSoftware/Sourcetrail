@@ -328,6 +328,13 @@ std::set<FilePath> PersistentStorage::getReferencing(const std::set<FilePath>& f
 	return referencing;
 }
 
+void PersistentStorage::clearAllErrors()
+{
+	TRACE();
+
+	m_sqliteIndexStorage.removeAllErrors();
+}
+
 void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths, std::function<void(int)> updateStatusCallback)
 {
 	TRACE();

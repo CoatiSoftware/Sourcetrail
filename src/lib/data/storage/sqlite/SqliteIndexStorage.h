@@ -54,6 +54,7 @@ public:
 	void removeElements(const std::vector<Id>& ids);
 	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback);
 
+	void removeAllErrors();
 	void removeErrorsInFiles(const std::vector<FilePath>& filePaths);
 
 	bool isEdge(Id elementId) const;

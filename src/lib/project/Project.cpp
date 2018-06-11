@@ -356,7 +356,8 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			m_storage.get(),
-			utility::toVector(utility::concat(info.filesToClear, info.nonIndexedFilesToClear))
+			utility::toVector(utility::concat(info.filesToClear, info.nonIndexedFilesToClear)),
+			info.mode == REFRESH_UPDATED_AND_INCOMPLETE_FILES
 		));
 	}
 

@@ -61,6 +61,7 @@ public:
 	std::set<FilePath> getReferenced(const std::set<FilePath>& filePaths) const;
 	std::set<FilePath> getReferencing(const std::set<FilePath>& filePaths) const;
 
+	void clearAllErrors();
 	void clearFileElements(const std::vector<FilePath>& filePaths, std::function<void(int)> updateStatusCallback);
 
 	std::vector<FileInfo> getFileInfoForAllIndexedFiles() const;

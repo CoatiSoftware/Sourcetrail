@@ -16,7 +16,8 @@ class TaskCleanStorage
 public:
 	TaskCleanStorage(
 		PersistentStorage* storage,
-		const std::vector<FilePath>& filePaths
+		const std::vector<FilePath>& filePaths,
+		bool clearAllErrors
 	);
 
 private:
@@ -27,6 +28,7 @@ private:
 
 	PersistentStorage* m_storage;
 	std::vector<FilePath> m_filePaths;
+	bool m_clearAllErrors;
 
 	TimeStamp m_start;
 };
