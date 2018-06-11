@@ -33,6 +33,21 @@ public:
 		generateAndCompareExpectedOutputForSonargraphProject(projectName, sourceGroupSettings, applicationSettings);
 	}
 
+	void test_sonargraph_project_with_cpp_manual_modules_generates_expected_output()
+	{
+		const std::wstring projectName = L"CxxCppManualModules";
+
+		ProjectSettings projectSettings;
+		std::shared_ptr<SourceGroupSettingsCxxSonargraph> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxxSonargraph>("fake_id", &projectSettings);
+		sourceGroupSettings->setIndexedHeaderPaths({ FilePath(L"test/indexed/header/path") });
+
+		std::shared_ptr<ApplicationSettings> applicationSettings = std::make_shared<ApplicationSettings>();
+		applicationSettings->setHeaderSearchPaths({ FilePath(L"test/header/search/path") });
+		applicationSettings->setFrameworkSearchPaths({ FilePath(L"test/framework/search/path") });
+
+		generateAndCompareExpectedOutputForSonargraphProject(projectName, sourceGroupSettings, applicationSettings);
+	}
+
 	void test_sonargraph_project_with_java_modules_generates_expected_output()
 	{
 		const std::wstring projectName = L"JavaModules";
@@ -157,8 +172,13 @@ public:
 		{
 			result += L"\tIndexedPath: \"" + indexedPath.getRelativeTo(baseDirectory).wstr() + L"\"\n";
 		}
-		for (const std::wstring& compilerFlag : indexerCommand->getCompilerFlags())
+		for (std::wstring compilerFlag : indexerCommand->getCompilerFlags())
 		{
+			FilePath flagAsPath(compilerFlag);
+			if (flagAsPath.exists())
+			{
+				compilerFlag = flagAsPath.getRelativeTo(baseDirectory).wstr();
+			}
 			result += L"\tCompilerFlag: \"" + compilerFlag + L"\"\n";
 		}
 		for (const FilePath& headerSearchPath : indexerCommand->getSystemHeaderSearchPaths())

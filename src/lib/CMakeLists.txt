@@ -542,6 +542,8 @@ add_files(
 	utility/sonargraph/SonargraphXsdAbstractSystemExtension.h
 	utility/sonargraph/SonargraphXsdCmakeJsonModule.cpp
 	utility/sonargraph/SonargraphXsdCmakeJsonModule.h
+	utility/sonargraph/SonargraphXsdCppManualModule.cpp
+	utility/sonargraph/SonargraphXsdCppManualModule.h
 	utility/sonargraph/SonargraphXsdCppSystemSettings.cpp
 	utility/sonargraph/SonargraphXsdCppSystemSettings.h
 	utility/sonargraph/SonargraphXsdJavaModule.cpp

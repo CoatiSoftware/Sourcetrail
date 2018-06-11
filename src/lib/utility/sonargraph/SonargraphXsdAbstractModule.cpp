@@ -4,6 +4,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/sonargraph/SonargraphXsdCmakeJsonModule.h"
+#include "utility/sonargraph/SonargraphXsdCppManualModule.h"
 #include "utility/sonargraph/SonargraphXsdJavaModule.h"
 #include "utility/sonargraph/SonargraphXsdRootPath.h"
 #include "utility/sonargraph/SonargraphSoftwareSystem.h"
@@ -21,6 +22,10 @@ namespace Sonargraph
 	std::shared_ptr<XsdAbstractModule> XsdAbstractModule::create(const TiXmlElement* element, std::weak_ptr<SoftwareSystem> parent)
 	{
 		if (std::shared_ptr<XsdAbstractModule> module = XsdCmakeJsonModule::create(element, parent))
+		{
+			return module;
+		}
+		if (std::shared_ptr<XsdCppManualModule> module = XsdCppManualModule::create(element, parent))
 		{
 			return module;
 		}
