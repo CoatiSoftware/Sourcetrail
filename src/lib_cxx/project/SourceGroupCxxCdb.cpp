@@ -78,12 +78,33 @@ std::set<FilePath> SourceGroupCxxCdb::filterToContainedFilePaths(const std::set<
 
 std::set<FilePath> SourceGroupCxxCdb::getAllSourceFilePaths() const
 {
+	std::set<FilePath> sourceFilePaths;
+
+	const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
 	const FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
-	if (cdbPath.exists())
+
+	if (!cdbPath.empty() && cdbPath.exists())
 	{
-		return utility::toSet(IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath));
+		for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
+		{
+			bool excluded = false;
+			for (const FilePathFilter& filter : excludeFilters)
+			{
+				if (filter.isMatching(path))
+				{
+					excluded = true;
+					break;
+				}
+			}
+
+			if (!excluded &&  path.exists())
+			{
+				sourceFilePaths.insert(path);
+			}
+		}
 	}
-	return std::set<FilePath>();
+
+	return sourceFilePaths;
 }
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex) const

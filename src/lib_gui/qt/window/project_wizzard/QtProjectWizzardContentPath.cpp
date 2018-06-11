@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
+#include "project/SourceGroupCxxCdb.h"
 #include "qt/element/QtLocationPicker.h"
 #include "qt/view/QtDialogView.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
@@ -171,39 +172,14 @@ void QtProjectWizzardContentPathCDB::load()
 	{
 		m_picker->setText(QString::fromStdWString(cxxSettings->getCompilationDatabasePath().wstr()));
 
-		const std::vector<FilePathFilter> excludeFilters = cxxSettings->getExcludeFiltersExpandedAndAbsolute();
-		const FilePath cdbPath = cxxSettings->getCompilationDatabasePathExpandedAndAbsolute();
-
-		if (!cdbPath.empty() && cdbPath.exists())
+		for (FilePath path : SourceGroupCxxCdb(cxxSettings).getAllSourceFilePaths())
 		{
-			std::vector<FilePath> filePaths = IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath);
-
-			for (FilePath& path : filePaths)
+			if (projectPath.exists())
 			{
-				{
-					bool excluded = false;
-					for (const FilePathFilter& filter : excludeFilters)
-					{
-						if (filter.isMatching(path))
-						{
-							excluded = true;
-							break;
-						}
-					}
-
-					if (excluded)
-					{
-						continue;
-					}
-				}
-
-				if (projectPath.exists())
-				{
-					path.makeRelativeTo(projectPath);
-				}
-
-				m_filePaths.push_back(path);
+				path.makeRelativeTo(projectPath);
 			}
+
+			m_filePaths.push_back(path);
 		}
 
 		if (m_fileCountLabel)
