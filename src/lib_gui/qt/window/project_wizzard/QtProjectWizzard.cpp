@@ -578,7 +578,7 @@ void QtProjectWizzard::removeSelectedSourceGroup()
 		m_allSourceGroupSettings.erase(m_allSourceGroupSettings.begin() + currentRow);
 		updateSourceGroupList();
 
-		if (!m_allSourceGroupSettings.size())
+		if (m_allSourceGroupSettings.empty())
 		{
 			setNextEnabled(false);
 			generalButtonClicked();
@@ -589,6 +589,8 @@ void QtProjectWizzard::removeSelectedSourceGroup()
 		{
 			currentRow--;
 		}
+
+		m_previouslySelectedIndex = -1;
 
 		m_sourceGroupList->setCurrentRow(currentRow);
 	}
@@ -674,6 +676,9 @@ void QtProjectWizzard::duplicateSelectedSourceGroup()
 	m_allSourceGroupSettings.insert(m_allSourceGroupSettings.begin() + newRow, newSourceGroup);
 
 	updateSourceGroupList();
+
+	m_previouslySelectedIndex = -1;
+
 	m_sourceGroupList->setCurrentRow(newRow);
 }
 
@@ -1125,6 +1130,8 @@ void QtProjectWizzard::createSourceGroup()
 	cancelSourceGroup();
 
 	setNextEnabled(true);
+
+	m_previouslySelectedIndex = -1;
 
 	m_sourceGroupList->setCurrentRow(m_allSourceGroupSettings.size() - 1);
 }
