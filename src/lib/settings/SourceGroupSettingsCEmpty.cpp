@@ -1,26 +1,34 @@
 #include "settings/SourceGroupSettingsCEmpty.h"
 
 SourceGroupSettingsCEmpty::SourceGroupSettingsCEmpty(const std::string& id, const ProjectSettings* projectSettings)
-	: SourceGroupSettingsCxxEmpty(id, SOURCE_GROUP_C_EMPTY, projectSettings)
+	: SourceGroupSettingsCxx(id, SOURCE_GROUP_C_EMPTY, projectSettings)
 {
 }
 
 void SourceGroupSettingsCEmpty::load(std::shared_ptr<const ConfigManager> config)
 {
-	SourceGroupSettingsCxxEmpty::load(config);
+	SourceGroupSettingsCxx::load(config);
 
 	const std::string key = s_keyPrefix + getId();
 
 	SourceGroupSettingsWithCStandard::load(config, key);
+	SourceGroupSettingsWithCxxCrossCompilationOptions::load(config, key);
+	SourceGroupSettingsWithSourceExtensions::load(config, key);
+	SourceGroupSettingsWithSourcePaths::load(config, key);
+	SourceGroupSettingsWithExcludeFilters::load(config, key);
 }
 
 void SourceGroupSettingsCEmpty::save(std::shared_ptr<ConfigManager> config)
 {
-	SourceGroupSettingsCxxEmpty::save(config);
+	SourceGroupSettingsCxx::save(config);
 
 	const std::string key = s_keyPrefix + getId();
 
 	SourceGroupSettingsWithCStandard::save(config, key);
+	SourceGroupSettingsWithCxxCrossCompilationOptions::save(config, key);
+	SourceGroupSettingsWithSourceExtensions::save(config, key);
+	SourceGroupSettingsWithSourcePaths::save(config, key);
+	SourceGroupSettingsWithExcludeFilters::save(config, key);
 }
 
 bool SourceGroupSettingsCEmpty::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -29,8 +37,12 @@ bool SourceGroupSettingsCEmpty::equals(std::shared_ptr<SourceGroupSettings> othe
 
 	return (
 		otherCxxEmpty &&
-		SourceGroupSettingsCxxEmpty::equals(other) &&
-		SourceGroupSettingsWithCStandard::equals(otherCxxEmpty)
+		SourceGroupSettingsCxx::equals(other) &&
+		SourceGroupSettingsWithCStandard::equals(otherCxxEmpty) &&
+		SourceGroupSettingsWithCxxCrossCompilationOptions::equals(otherCxxEmpty) &&
+		SourceGroupSettingsWithSourceExtensions::equals(otherCxxEmpty) &&
+		SourceGroupSettingsWithSourcePaths::equals(otherCxxEmpty) &&
+		SourceGroupSettingsWithExcludeFilters::equals(otherCxxEmpty)
 	);
 }
 

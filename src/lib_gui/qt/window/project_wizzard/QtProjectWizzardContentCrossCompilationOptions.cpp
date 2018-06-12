@@ -4,11 +4,11 @@
 #include <QComboBox>
 #include <QLabel>
 
-#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsWithCxxCrossCompilationOptions.h"
 #include "utility/logging/logging.h"
 
 QtProjectWizzardContentCrossCompilationOptions::QtProjectWizzardContentCrossCompilationOptions(
-	std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+	std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> sourceGroupSettings,
 	QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(window)
@@ -61,7 +61,7 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("Architecture:");
 
 		m_arch = new QComboBox();
-		std::vector<std::wstring> archTypes = SourceGroupSettingsCxxEmpty::getAvailableArchTypes();
+		std::vector<std::wstring> archTypes = SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableArchTypes();
 		std::sort(archTypes.begin(), archTypes.end());
 		for (size_t i = 0; i < archTypes.size(); i++)
 		{
@@ -77,7 +77,7 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("Vendor:");
 
 		m_vendor = new QComboBox();
-		std::vector<std::wstring> vendorTypes = SourceGroupSettingsCxxEmpty::getAvailableVendorTypes();
+		std::vector<std::wstring> vendorTypes = SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableVendorTypes();
 		std::sort(vendorTypes.begin() + 1, vendorTypes.end());
 		for (size_t i = 0; i < vendorTypes.size(); i++)
 		{
@@ -92,7 +92,7 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("OS:");
 
 		m_sys = new QComboBox();
-		std::vector<std::wstring> osTypes = SourceGroupSettingsCxxEmpty::getAvailableOsTypes();
+		std::vector<std::wstring> osTypes = SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableOsTypes();
 		std::sort(osTypes.begin() + 1, osTypes.end());
 		for (size_t i = 0; i < osTypes.size(); i++)
 		{
@@ -107,7 +107,7 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("Environment:");
 
 		m_abi = new QComboBox();
-		std::vector<std::wstring> environmentTypes = SourceGroupSettingsCxxEmpty::getAvailableEnvironmentTypes();
+		std::vector<std::wstring> environmentTypes = SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableEnvironmentTypes();
 		std::sort(environmentTypes.begin() + 1, environmentTypes.end());
 		for (size_t i = 0; i < environmentTypes.size(); i++)
 		{
@@ -129,28 +129,22 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 
 void QtProjectWizzardContentCrossCompilationOptions::load()
 {
-	if (std::shared_ptr<SourceGroupSettingsCxxEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxEmpty>(m_sourceGroupSettings))
-	{
-		m_useTargetOptions->setChecked(cxxSettings->getTargetOptionsEnabled());
-		m_arch->setCurrentText(QString::fromStdWString(cxxSettings->getTargetArch()));
-		m_vendor->setCurrentText(QString::fromStdWString(cxxSettings->getTargetVendor()));
-		m_sys->setCurrentText(QString::fromStdWString(cxxSettings->getTargetSys()));
-		m_abi->setCurrentText(QString::fromStdWString(cxxSettings->getTargetAbi()));
-	}
+	m_useTargetOptions->setChecked(m_sourceGroupSettings->getTargetOptionsEnabled());
+	m_arch->setCurrentText(QString::fromStdWString(m_sourceGroupSettings->getTargetArch()));
+	m_vendor->setCurrentText(QString::fromStdWString(m_sourceGroupSettings->getTargetVendor()));
+	m_sys->setCurrentText(QString::fromStdWString(m_sourceGroupSettings->getTargetSys()));
+	m_abi->setCurrentText(QString::fromStdWString(m_sourceGroupSettings->getTargetAbi()));
 
 	updateTargetOptionsEnabled();
 }
 
 void QtProjectWizzardContentCrossCompilationOptions::save()
 {
-	if (std::shared_ptr<SourceGroupSettingsCxxEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxEmpty>(m_sourceGroupSettings))
-	{
-		cxxSettings->setTargetOptionsEnabled(m_useTargetOptions->isChecked());
-		cxxSettings->setTargetArch(m_arch->currentText().toStdWString());
-		cxxSettings->setTargetVendor(m_vendor->currentText().toStdWString());
-		cxxSettings->setTargetSys(m_sys->currentText().toStdWString());
-		cxxSettings->setTargetAbi(m_abi->currentText().toStdWString());
-	}
+		m_sourceGroupSettings->setTargetOptionsEnabled(m_useTargetOptions->isChecked());
+		m_sourceGroupSettings->setTargetArch(m_arch->currentText().toStdWString());
+		m_sourceGroupSettings->setTargetVendor(m_vendor->currentText().toStdWString());
+		m_sourceGroupSettings->setTargetSys(m_sys->currentText().toStdWString());
+		m_sourceGroupSettings->setTargetAbi(m_abi->currentText().toStdWString());
 }
 
 bool QtProjectWizzardContentCrossCompilationOptions::check()

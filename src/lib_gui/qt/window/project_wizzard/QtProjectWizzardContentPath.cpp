@@ -8,6 +8,11 @@
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "project/SourceGroupCxxCdb.h"
+#include "project/SourceGroupCxxCodeblocks.h"
+#include "project/SourceGroupCxxSonargraph.h"
+#include "project/SourceGroupJavaSonargraph.h"
+#include "project/SourceGroupJavaGradle.h"
+#include "project/SourceGroupJavaMaven.h"
 #include "qt/element/QtLocationPicker.h"
 #include "qt/view/QtDialogView.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
@@ -16,21 +21,20 @@
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "settings/SourceGroupSettingsJavaMaven.h"
 #include "settings/SourceGroupSettingsJavaGradle.h"
+#include "settings/SourceGroupSettingsJavaSonargraph.h"
 #include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
 #include "settings/SourceGroupSettingsCxxCodeblocks.h"
 #include "utility/file/FileManager.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/sonargraph/SonargraphProject.h"
-#include "utility/codeblocks/CodeblocksProject.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
 #include "utility/utilityGradle.h"
 #include "utility/utilityMaven.h"
 #include "Application.h"
 
-QtProjectWizzardContentPath::QtProjectWizzardContentPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContentPath::QtProjectWizzardContentPath(QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(window)
-	, m_settings(settings)
 	, m_makePathRelativeToProjectFileLocation(true)
 {
 }
@@ -50,7 +54,7 @@ void QtProjectWizzardContentPath::populate(QGridLayout* layout, int& row)
 
 	if (m_makePathRelativeToProjectFileLocation)
 	{
-		m_picker->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
+		m_picker->setRelativeRootDirectory(getSourceGroupSettings()->getProjectDirectoryPath());
 	}
 
 	layout->addWidget(m_picker, row, QtProjectWizzardWindow::BACK_COL);
@@ -69,7 +73,7 @@ bool QtProjectWizzardContentPath::check()
 			break;
 		}
 
-		FilePath path = m_settings->makePathExpandedAndAbsolute(FilePath(m_picker->getText().toStdWString()));
+		FilePath path = getSourceGroupSettings()->makePathExpandedAndAbsolute(FilePath(m_picker->getText().toStdWString()));
 
 		if (m_picker->pickDirectory())
 		{
@@ -119,9 +123,10 @@ void QtProjectWizzardContentPath::setFileEndings(const std::set<std::wstring>& f
 
 
 QtProjectWizzardContentPathCDB::QtProjectWizzardContentPathCDB(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPath(settings, window)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
 {
 	setTitleString("Compilation Database (compile_commands.json)");
 	setHelpString(
@@ -164,39 +169,30 @@ void QtProjectWizzardContentPathCDB::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentPathCDB::load()
 {
+	m_picker->setText(QString::fromStdWString(m_settings->getCompilationDatabasePath().wstr()));
+
 	m_filePaths.clear();
 
 	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-
-	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
+	for (FilePath path : SourceGroupCxxCdb(m_settings).getAllSourceFilePaths())
 	{
-		m_picker->setText(QString::fromStdWString(cxxSettings->getCompilationDatabasePath().wstr()));
-
-		for (FilePath path : SourceGroupCxxCdb(cxxSettings).getAllSourceFilePaths())
+		if (projectPath.exists())
 		{
-			if (projectPath.exists())
-			{
-				path.makeRelativeTo(projectPath);
-			}
-
-			m_filePaths.push_back(path);
+			path.makeRelativeTo(projectPath);
 		}
 
-		if (m_fileCountLabel)
-		{
-			m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the compilation database.");
-		}
+		m_filePaths.push_back(path);
+	}
+
+	if (m_fileCountLabel)
+	{
+		m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the compilation database.");
 	}
 }
 
 void QtProjectWizzardContentPathCDB::save()
 {
-	std::shared_ptr<SourceGroupSettingsCxxCdb> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
-	if (settings)
-	{
-		settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdWString()));
-	}
+	m_settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdWString()));
 }
 
 std::vector<FilePath> QtProjectWizzardContentPathCDB::getFilePaths() const
@@ -220,29 +216,32 @@ void QtProjectWizzardContentPathCDB::pickedPath()
 {
 	m_window->saveContent();
 
-	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
-	{
-		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
-		std::set<FilePath> indexedHeaderPaths;
-		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(cdbSettings))
+	std::set<FilePath> indexedHeaderPaths;
+	for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(m_settings))
+	{
+		if (projectPath.contains(path))
 		{
-			if (projectPath.contains(path))
-			{
-				indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
-			}
+			indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
 		}
-		cdbSettings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 	}
+	m_settings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 
 	m_window->loadContent();
 }
 
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathCDB::getSourceGroupSettings()
+{
+	return m_settings;
+}
+
 
 QtProjectWizzardContentCodeblocksProjectPath::QtProjectWizzardContentCodeblocksProjectPath(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPath(settings, window)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
 {
 	setTitleString("Code::Blocks Project (.cbp)");
 	setHelpString(
@@ -284,40 +283,30 @@ void QtProjectWizzardContentCodeblocksProjectPath::populate(QGridLayout* layout,
 
 void QtProjectWizzardContentCodeblocksProjectPath::load()
 {
+	m_picker->setText(QString::fromStdWString(m_settings->getCodeblocksProjectPath().wstr()));
+
 	m_filePaths.clear();
 
-	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings);
-	if (settings)
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	for (FilePath path : SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths())
 	{
-		m_picker->setText(QString::fromStdWString(settings->getCodeblocksProjectPath().wstr()));
-
-		const FilePath codeblocksProjectPath = settings->getCodeblocksProjectPathExpandedAndAbsolute();
-		if (!codeblocksProjectPath.empty() && codeblocksProjectPath.exists())
+		if (projectPath.exists())
 		{
-			if (std::shared_ptr<Codeblocks::Project> codeblocksProject = Codeblocks::Project::load(
-				codeblocksProjectPath
-			))
-			{
-				m_filePaths = utility::toVector(codeblocksProject->getAllSourceFilePathsCanonical(settings));
-			}
+			path.makeRelativeTo(projectPath);
 		}
 
-		if (m_fileCountLabel)
-		{
-			m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Code::Blocks project.");
-		}
+		m_filePaths.push_back(path);
+	}
+
+	if (m_fileCountLabel)
+	{
+		m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Code::Blocks project.");
 	}
 }
 
 void QtProjectWizzardContentCodeblocksProjectPath::save()
 {
-	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings);
-	if (settings)
-	{
-		settings->setCodeblocksProjectPath(FilePath(m_picker->getText().toStdWString()));
-	}
+	m_settings->setCodeblocksProjectPath(FilePath(m_picker->getText().toStdWString()));
 }
 
 bool QtProjectWizzardContentCodeblocksProjectPath::check()
@@ -346,29 +335,37 @@ void QtProjectWizzardContentCodeblocksProjectPath::pickedPath()
 {
 	m_window->saveContent();
 
-	if (std::shared_ptr<SourceGroupSettingsCxxCodeblocks> codeblocksSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings))
-	{
-		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
-		std::set<FilePath> indexedHeaderPaths;
-		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCodeblocksProject(codeblocksSettings))
+	std::set<FilePath> indexedHeaderPaths;
+	for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCodeblocksProject(m_settings))
+	{
+		if (projectPath.contains(path))
 		{
-			if (projectPath.contains(path))
-			{
-				indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
-			}
+			indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
 		}
-		codeblocksSettings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 	}
+	m_settings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 
 	m_window->loadContent();
 }
 
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentCodeblocksProjectPath::getSourceGroupSettings()
+{
+	return m_settings;
+}
+
 
 QtProjectWizzardContentSonargraphProjectPath::QtProjectWizzardContentSonargraphProjectPath(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, 
+	std::shared_ptr<SourceGroupSettingsCxxSonargraph> settingsCxxSonargraph,
+	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settingsWithSonargraphProjectPath,
+	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPath(settings, window)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
+	, m_settingsCxxSonargraph(settingsCxxSonargraph)
+	, m_settingsWithSonargraphProjectPath(settingsWithSonargraphProjectPath)
 {
 	setTitleString("Sonargraph Project (system.sonargraph)");
 	setHelpString(
@@ -410,65 +407,59 @@ void QtProjectWizzardContentSonargraphProjectPath::populate(QGridLayout* layout,
 
 void QtProjectWizzardContentSonargraphProjectPath::load()
 {
+	m_picker->setText(QString::fromStdWString(m_settingsWithSonargraphProjectPath->getSonargraphProjectPath().wstr()));
+
 	m_filePaths.clear();
 
-	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsWithSonargraphProjectPath>(m_settings);
-	if (settings)
+	std::set<FilePath> allSourceFilePaths;
+	if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
 	{
-		m_picker->setText(QString::fromStdWString(settings->getSonargraphProjectPath().wstr()));
-
-		const FilePath sonargraphProjectPath = settings->getSonargraphProjectPathExpandedAndAbsolute();
-		if (!sonargraphProjectPath.empty() && sonargraphProjectPath.exists())
+		allSourceFilePaths = SourceGroupCxxSonargraph(settings).getAllSourceFilePaths();
+	}
+	else if (std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaSonargraph>(m_settings))
+	{
+		allSourceFilePaths = SourceGroupJavaSonargraph(settings).getAllSourceFilePaths();
+	}
+	
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	for (FilePath path : allSourceFilePaths)
+	{
+		if (projectPath.exists())
 		{
-			if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
-				sonargraphProjectPath, m_settings->getLanguage()
-			))
-			{
-				m_filePaths = utility::toVector(sonargraphProject->getAllSourceFilePathsCanonical());
-			}
+			path.makeRelativeTo(projectPath);
 		}
+		m_filePaths.push_back(path);
+	}
 
-		if (m_fileCountLabel)
-		{
-			m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Sonargraph project.");
-		}
+	if (m_fileCountLabel)
+	{
+		m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Sonargraph project.");
 	}
 }
 
 void QtProjectWizzardContentSonargraphProjectPath::save()
 {
-	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsWithSonargraphProjectPath>(m_settings);
-	if (settings)
-	{
-		settings->setSonargraphProjectPath(FilePath(m_picker->getText().toStdWString()));
-	}
+	m_settingsWithSonargraphProjectPath->setSonargraphProjectPath(FilePath(m_picker->getText().toStdWString()));
 }
 
 bool QtProjectWizzardContentSonargraphProjectPath::check()
 {
-	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsWithSonargraphProjectPath>(m_settings);
-	if (settings)
+	if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
+		m_settingsWithSonargraphProjectPath->getSonargraphProjectPathExpandedAndAbsolute(), m_settings->getLanguage()
+	))
 	{
-		if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
-			settings->getSonargraphProjectPathExpandedAndAbsolute(), m_settings->getLanguage()
-		))
+		if (sonargraphProject->getLoadedModuleCount() == 0)
 		{
-			if (sonargraphProject->getLoadedModuleCount() == 0)
-			{
 
-				QMessageBox msgBox;
-				msgBox.setText(QString::fromStdString(
-					"The Sonargraph project file doesn't seem to contain any supported " +
-					languageTypeToString(m_settings->getLanguage()) + " modules. Please " +
-					"consider choosing another project file or removing this sourcegroup."
-				));
-				msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-				msgBox.setDefaultButton(QMessageBox::Ok);
-				return msgBox.exec() == QMessageBox::Ok;
-			}
+			QMessageBox msgBox;
+			msgBox.setText(QString::fromStdString(
+				"The Sonargraph project file doesn't seem to contain any supported " +
+				languageTypeToString(m_settings->getLanguage()) + " modules. Please " +
+				"consider choosing another project file or removing this sourcegroup."
+			));
+			msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+			msgBox.setDefaultButton(QMessageBox::Ok);
+			return msgBox.exec() == QMessageBox::Ok;
 		}
 	}
 	return true;
@@ -495,30 +486,34 @@ void QtProjectWizzardContentSonargraphProjectPath::pickedPath()
 {
 	m_window->saveContent();
 
-	if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> sonargraphSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
+	if (m_settingsCxxSonargraph)
 	{
 		const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
 		std::set<FilePath> indexedHeaderPaths;
-		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromSonargraphProject(sonargraphSettings))
+		for (const FilePath& path : QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromSonargraphProject(m_settingsCxxSonargraph))
 		{
-			std::string asdasd = path.str();
 			if (projectPath.contains(path))
 			{
 				indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
 			}
 		}
-		sonargraphSettings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
+		m_settingsCxxSonargraph->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 	}
-
 	m_window->loadContent();
+}
+
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentSonargraphProjectPath::getSourceGroupSettings()
+{
+	return m_settings;
 }
 
 
 QtProjectWizzardContentPathSourceMaven::QtProjectWizzardContentPathSourceMaven(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPath(settings, window)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
 {
 	setTitleString("Maven Project File (pom.xml)");
 	setHelpString(
@@ -550,88 +545,77 @@ void QtProjectWizzardContentPathSourceMaven::populate(QGridLayout* layout, int& 
 
 void QtProjectWizzardContentPathSourceMaven::load()
 {
-	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
-	if (settings)
-	{
-		m_picker->setText(QString::fromStdWString(settings->getMavenProjectFilePath().wstr()));
-		m_shouldIndexTests->setChecked(settings->getShouldIndexMavenTests());
-	}
+	m_picker->setText(QString::fromStdWString(m_settings->getMavenProjectFilePath().wstr()));
+	m_shouldIndexTests->setChecked(m_settings->getShouldIndexMavenTests());
 }
 
 void QtProjectWizzardContentPathSourceMaven::save()
 {
-	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
-	if (settings)
-	{
-		settings->setMavenProjectFilePath(FilePath(m_picker->getText().toStdWString()));
-		settings->setShouldIndexMavenTests(m_shouldIndexTests->isChecked());
-	}
+	m_settings->setMavenProjectFilePath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setShouldIndexMavenTests(m_shouldIndexTests->isChecked());
 }
 
 std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() const
 {
-	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
+	{
+		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
+		const FilePath mavenProjectRoot = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
-	const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
-	const FilePath mavenProjectRoot = settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
+		if (!mavenProjectRoot.exists())
+		{
+			LOG_INFO("Could not find any source file paths because Maven project path does not exist.");
+			return std::vector<FilePath>();
+		}
+
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+
+		ScopedFunctor scopedFunctor([&dialogView]() {
+			dialogView->hideUnknownProgressDialog();
+		});
+
+		std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nGenerating Source Files");
+		const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
+		if (!success)
+		{
+			const std::wstring dialogMessage =
+				L"Sourcetrail was unable to locate Maven on this machine.\n"
+				"Please make sure to provide the correct Maven Path in the preferences.";
+
+			MessageStatus(dialogMessage, true, false).dispatch();
+
+			Application::getInstance()->handleDialog(dialogMessage);
+
+			return std::vector<FilePath>();
+		}
+	}
 
 	std::vector<FilePath> list;
-	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-
-	ScopedFunctor scopedFunctor([&dialogView](){
-		dialogView->hideUnknownProgressDialog();
-	});
-
-	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-	dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nGenerating Source Files");
-	const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
-	if (!success)
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	for (FilePath path : SourceGroupJavaMaven(m_settings).getAllSourceFilePaths())
 	{
-		const std::wstring dialogMessage =
-			L"Sourcetrail was unable to locate Maven on this machine.\n"
-			"Please make sure to provide the correct Maven Path in the preferences.";
-
-		MessageStatus(dialogMessage, true, false).dispatch();
-
-		Application::getInstance()->handleDialog(dialogMessage);
-	}
-	else
-	{
-		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nFetching Source Directories");
-		const std::vector<FilePath> sourceDirectories = utility::mavenGetAllDirectoriesFromEffectivePom(
-			mavenPath,
-			mavenProjectRoot,
-			settings->getShouldIndexMavenTests()
-		);
-
-		FileManager fileManager;
-		fileManager.update(
-			sourceDirectories,
-			settings->getExcludeFiltersExpandedAndAbsolute(),
-			settings->getSourceExtensions()
-		);
-
-		const FilePath projectPath = m_settings->getProjectDirectoryPath();
-
-		for (FilePath path : fileManager.getAllSourceFilePaths())
+		if (projectPath.exists())
 		{
-			if (projectPath.exists())
-			{
-				path.makeRelativeTo(projectPath);
-			}
-
-			list.push_back(path);
+			path.makeRelativeTo(projectPath);
 		}
+
+		list.push_back(path);
 	}
 
 	return list;
 }
 
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathSourceMaven::getSourceGroupSettings()
+{
+	return m_settings;
+}
+
 
 QtProjectWizzardContentPathDependenciesMaven::QtProjectWizzardContentPathDependenciesMaven(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPath(settings, window)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
 {
 	setTitleString("Intermediate Dependencies Directory");
 	setHelpString(
@@ -643,27 +627,25 @@ QtProjectWizzardContentPathDependenciesMaven::QtProjectWizzardContentPathDepende
 
 void QtProjectWizzardContentPathDependenciesMaven::load()
 {
-	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
-	if (settings)
-	{
-		m_picker->setText(QString::fromStdWString(settings->getMavenDependenciesDirectory().wstr()));
-	}
+	m_picker->setText(QString::fromStdWString(m_settings->getMavenDependenciesDirectory().wstr()));
 }
 
 void QtProjectWizzardContentPathDependenciesMaven::save()
 {
-	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
-	if (settings)
-	{
-		settings->setMavenDependenciesDirectory(FilePath(m_picker->getText().toStdWString()));
-	}
+	m_settings->setMavenDependenciesDirectory(FilePath(m_picker->getText().toStdWString()));
+}
+
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathDependenciesMaven::getSourceGroupSettings()
+{
+	return m_settings;
 }
 
 
 QtProjectWizzardContentPathSourceGradle::QtProjectWizzardContentPathSourceGradle(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPath(settings, window)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
 {
 	setTitleString("Gradle Project File (build.gradle)");
 	setHelpString(
@@ -695,74 +677,43 @@ void QtProjectWizzardContentPathSourceGradle::populate(QGridLayout* layout, int&
 
 void QtProjectWizzardContentPathSourceGradle::load()
 {
-	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
-	if (settings)
-	{
-		m_picker->setText(QString::fromStdWString(settings->getGradleProjectFilePath().wstr()));
-		m_shouldIndexTests->setChecked(settings->getShouldIndexGradleTests());
-	}
+	m_picker->setText(QString::fromStdWString(m_settings->getGradleProjectFilePath().wstr()));
+	m_shouldIndexTests->setChecked(m_settings->getShouldIndexGradleTests());
 }
 
 void QtProjectWizzardContentPathSourceGradle::save()
 {
-	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
-	if (settings)
-	{
-		settings->setGradleProjectFilePath(FilePath(m_picker->getText().toStdWString()));
-		settings->setShouldIndexGradleTests(m_shouldIndexTests->isChecked());
-	}
+	m_settings->setGradleProjectFilePath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setShouldIndexGradleTests(m_shouldIndexTests->isChecked());
 }
 
 std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() const
 {
-	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
-
-	const FilePath gradleProjectRoot = settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
-
 	std::vector<FilePath> list;
-
-	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-
-	ScopedFunctor scopedFunctor([&dialogView]() {
-		dialogView->hideUnknownProgressDialog();
-	});
-
-	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	for (FilePath path : SourceGroupJavaGradle(m_settings).getAllSourceFilePaths())
 	{
-		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nFetching Source Directories");
-		const std::vector<FilePath> sourceDirectories = utility::gradleGetAllSourceDirectories(
-			gradleProjectRoot,
-			settings->getShouldIndexGradleTests()
-		);
-
-		FileManager fileManager;
-		fileManager.update(
-			sourceDirectories,
-			settings->getExcludeFiltersExpandedAndAbsolute(),
-			settings->getSourceExtensions()
-		);
-
-		const FilePath projectPath = settings->getProjectDirectoryPath();
-
-		for (FilePath path : fileManager.getAllSourceFilePaths())
+		if (projectPath.exists())
 		{
-			if (projectPath.exists())
-			{
-				path.makeRelativeTo(projectPath);
-			}
-
-			list.push_back(path);
+			path.makeRelativeTo(projectPath);
 		}
+
+		list.push_back(path);
 	}
-	
 	return list;
+}
+
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathSourceGradle::getSourceGroupSettings()
+{
+	return m_settings;
 }
 
 
 QtProjectWizzardContentPathDependenciesGradle::QtProjectWizzardContentPathDependenciesGradle(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPath(settings, window)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
 {
 	setTitleString("Intermediate Dependencies Directory");
 	setHelpString(
@@ -774,18 +725,15 @@ QtProjectWizzardContentPathDependenciesGradle::QtProjectWizzardContentPathDepend
 
 void QtProjectWizzardContentPathDependenciesGradle::load()
 {
-	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
-	if (settings)
-	{
-		m_picker->setText(QString::fromStdWString(settings->getGradleDependenciesDirectory().wstr()));
-	}
+	m_picker->setText(QString::fromStdWString(m_settings->getGradleDependenciesDirectory().wstr()));
 }
 
 void QtProjectWizzardContentPathDependenciesGradle::save()
 {
-	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
-	if (settings)
-	{
-		settings->setGradleDependenciesDirectory(FilePath(m_picker->getText().toStdWString()));
-	}
+	m_settings->setGradleDependenciesDirectory(FilePath(m_picker->getText().toStdWString()));
+}
+
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathDependenciesGradle::getSourceGroupSettings()
+{
+	return m_settings;
 }

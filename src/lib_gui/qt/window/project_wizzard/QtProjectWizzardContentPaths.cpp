@@ -6,18 +6,19 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
-#include "Application.h"
 #include "component/view/DialogView.h"
 #include "data/indexer/IndexerCommandCxxCdb.h"
-#include "utility/IncludeDirective.h"
-#include "utility/IncludeProcessing.h"
+#include "project/SourceGroupCxxEmpty.h"
+#include "project/SourceGroupJavaEmpty.h"
 #include "qt/view/QtDialogView.h"
 #include "qt/window/QtPathListDialog.h"
 #include "qt/window/QtSelectPathsDialog.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/SourceGroupSettingsCxx.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/SourceGroupSettingsCxxCodeblocks.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
+#include "settings/SourceGroupSettingsJavaEmpty.h"
 #include "settings/SourceGroupSettingsWithClasspath.h"
 #include "settings/SourceGroupSettingsWithIndexedHeaderPaths.h"
 #include "settings/SourceGroupSettingsWithExcludeFilters.h"
@@ -27,11 +28,14 @@
 #include "utility/file/FileManager.h"
 #include "utility/sonargraph/SonargraphProject.h"
 #include "utility/CompilationDatabase.h"
+#include "utility/IncludeDirective.h"
+#include "utility/IncludeProcessing.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
 #include "utility/utilityFile.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
+#include "Application.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(
 	std::shared_ptr<SourceGroupSettings> settings,
@@ -235,32 +239,29 @@ void QtProjectWizzardContentPathsSource::save()
 
 std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 {
-	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-
-	ScopedFunctor scopedFunctor([&dialogView](){
-		dialogView->hideUnknownProgressDialog();
-	});
-
-	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-	dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
-
-	std::shared_ptr<SourceGroupSettingsWithSourceExtensions> extensionSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourceExtensions>(m_settings);
-	std::shared_ptr<SourceGroupSettingsWithSourcePaths> pathSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(m_settings);
-	std::shared_ptr<SourceGroupSettingsWithExcludeFilters> excludeFilterSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithExcludeFilters>(m_settings);
-
-	if (extensionSettings && pathSettings && excludeFilterSettings) // FIXME: pass msettings as required type
+	std::set<FilePath> allSourceFilePaths;
+	if (std::shared_ptr<SourceGroupSettingsCxx> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
 	{
-		FileManager fileManager;
-		fileManager.update(
-			pathSettings->getSourcePathsExpandedAndAbsolute(),
-			excludeFilterSettings->getExcludeFiltersExpandedAndAbsolute(),
-			extensionSettings->getSourceExtensions()
-		);
-
-		const std::set<FilePath> filePaths = fileManager.getAllSourceFilePathsRelative(m_settings->getProjectDirectoryPath());
-		return utility::toVector(filePaths);
+		allSourceFilePaths = SourceGroupCxxEmpty(settings).getAllSourceFilePaths();
 	}
-	return std::vector<FilePath>();
+	else if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(m_settings))
+	{
+		allSourceFilePaths = SourceGroupJavaEmpty(settings).getAllSourceFilePaths();
+	}
+
+	std::vector<FilePath> filePaths;
+
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	for (FilePath path : allSourceFilePaths)
+	{
+		if (projectPath.exists())
+		{
+			path.makeRelativeTo(projectPath);
+		}
+		filePaths.push_back(path);
+	}
+
+	return filePaths;
 }
 
 QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const

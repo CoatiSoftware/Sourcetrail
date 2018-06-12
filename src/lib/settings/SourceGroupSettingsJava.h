@@ -5,19 +5,15 @@
 #include <vector>
 
 #include "settings/SourceGroupSettings.h"
-#include "settings/SourceGroupSettingsWithClasspath.h"
 #include "settings/SourceGroupSettingsWithExcludeFilters.h"
 #include "settings/SourceGroupSettingsWithJavaStandard.h"
 #include "settings/SourceGroupSettingsWithSourceExtensions.h"
-#include "settings/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsJava
 	: public SourceGroupSettings
 	, public SourceGroupSettingsWithSourceExtensions
-	, public SourceGroupSettingsWithSourcePaths
 	, public SourceGroupSettingsWithExcludeFilters
 	, public SourceGroupSettingsWithJavaStandard
-	, public SourceGroupSettingsWithClasspath
 {
 public:
 	SourceGroupSettingsJava(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
@@ -28,7 +24,6 @@ public:
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
 private:
-	const ProjectSettings* getProjectSettings() const override;
 	std::vector<std::wstring> getDefaultSourceExtensions() const override;
 };
 

@@ -2,13 +2,14 @@
 
 #include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsCEmpty.h"
+#include "settings/SourceGroupSettingsCppEmpty.h"
 #include "settings/SourceGroupSettingsWithCppStandard.h"
 #include "settings/SourceGroupSettingsWithCStandard.h"
 #include "utility/file/FileManager.h"
 #include "utility/utility.h"
 
-SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxxEmpty> settings)
+SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxx> settings)
 	: m_settings(settings)
 {
 }
@@ -18,8 +19,21 @@ std::set<FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::se
 	std::set<FilePath> containedFilePaths;
 
 	const std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
-	const std::vector<FilePath> indexedPaths = m_settings->getSourcePathsExpandedAndAbsolute();
-	const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
+
+	std::vector<FilePath> indexedPaths;
+	std::vector<FilePathFilter> excludeFilters;
+	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
+	{
+		indexedPaths = settings->getSourcePathsExpandedAndAbsolute();
+		excludeFilters = settings->getExcludeFiltersExpandedAndAbsolute();
+	}
+	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
+	{
+		indexedPaths = settings->getSourcePathsExpandedAndAbsolute();
+		excludeFilters = settings->getExcludeFiltersExpandedAndAbsolute();
+	}
 
 	for (const FilePath& filePath : filePaths)
 	{
@@ -56,11 +70,25 @@ std::set<FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::se
 std::set<FilePath> SourceGroupCxxEmpty::getAllSourceFilePaths() const
 {
 	FileManager fileManager;
-	fileManager.update(
-		m_settings->getSourcePathsExpandedAndAbsolute(),
-		m_settings->getExcludeFiltersExpandedAndAbsolute(),
-		m_settings->getSourceExtensions()
-	);
+	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
+	{
+		fileManager.update(
+			settings->getSourcePathsExpandedAndAbsolute(),
+			settings->getExcludeFiltersExpandedAndAbsolute(),
+			settings->getSourceExtensions()
+		);
+	}
+	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
+	{
+		fileManager.update(
+			settings->getSourcePathsExpandedAndAbsolute(),
+			settings->getExcludeFiltersExpandedAndAbsolute(),
+			settings->getSourceExtensions()
+		);
+	}
+	
 	return fileManager.getAllSourceFilePaths();
 }
 
@@ -70,8 +98,26 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 
 	std::vector<FilePath> systemHeaderSearchPaths;
 
+	std::set<FilePath> indexedPaths;
+	std::set<FilePathFilter> excludeFilters;
+	std::wstring targetFlag;
+	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
+	{
+		indexedPaths = utility::toSet(settings->getSourcePathsExpandedAndAbsolute());
+		excludeFilters = utility::toSet(settings->getExcludeFiltersExpandedAndAbsolute());
+		targetFlag = settings->getTargetFlag();
+	}
+	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
+	{
+		indexedPaths = utility::toSet(settings->getSourcePathsExpandedAndAbsolute());
+		excludeFilters = utility::toSet(settings->getExcludeFiltersExpandedAndAbsolute());
+		targetFlag = settings->getTargetFlag();
+	}
+
 	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	for (const FilePath& sourcePath: m_settings->getSourcePathsExpandedAndAbsolute())
+	for (const FilePath& sourcePath: indexedPaths)
 	{
 		if (sourcePath.isDirectory())
 		{
@@ -88,7 +134,6 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 
 	std::vector<std::wstring> compilerFlags;
 	{
-		const std::wstring targetFlag = m_settings->getTargetFlag();
 		if (!targetFlag.empty())
 		{
 			compilerFlags.push_back(targetFlag);
@@ -96,9 +141,6 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	}
 
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
-
-	const std::set<FilePath> indexedPaths = utility::toSet(m_settings->getSourcePathsExpandedAndAbsolute());
-	const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
 
 	std::string languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
 	if (std::shared_ptr<SourceGroupSettingsWithCStandard> cSettings =

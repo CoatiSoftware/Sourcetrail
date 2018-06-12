@@ -6,7 +6,8 @@
 #include "qt/element/QtStringListBox.h"
 
 QtProjectWizzardContentExtensions::QtProjectWizzardContentExtensions(
-	std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settings, 
+	QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(window)
 	, m_settings(settings)

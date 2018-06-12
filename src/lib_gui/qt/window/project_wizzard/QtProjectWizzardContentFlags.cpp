@@ -6,7 +6,7 @@
 #include "qt/element/QtStringListBox.h"
 #include "settings/SourceGroupSettingsCxx.h"
 
-QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional)
+QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettingsCxx> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional)
 	: QtProjectWizzardContent(window)
 	, m_settings(settings)
 	, m_indicateAsAdditional(indicateAsAdditional)
@@ -35,20 +35,12 @@ void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentFlags::load()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
-	if (cxxSettings)
-	{
-		m_list->setStrings(cxxSettings->getCompilerFlags());
-	}
+	m_list->setStrings(m_settings->getCompilerFlags());
 }
 
 void QtProjectWizzardContentFlags::save()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
-	if (cxxSettings)
-	{
-		cxxSettings->setCompilerFlags(m_list->getStrings());
-	}
+	m_settings->setCompilerFlags(m_list->getStrings());
 }
 
 bool QtProjectWizzardContentFlags::check()

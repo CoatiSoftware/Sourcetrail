@@ -2,6 +2,7 @@
 #define SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H
 
 #include "settings/SourceGroupSettingsJava.h"
+#include "utility/file/FilePath.h"
 
 class SourceGroupSettingsJavaMaven
 	: public SourceGroupSettingsJava
@@ -26,6 +27,8 @@ public:
 	void setShouldIndexMavenTests(bool value);
 
 private:
+	const ProjectSettings* getProjectSettings() const override;
+
 	FilePath m_mavenProjectFilePath;
 	FilePath m_mavenDependenciesDirectory;
 	bool m_shouldIndexMavenTests;

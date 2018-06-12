@@ -50,7 +50,7 @@ std::vector<FilePath> SourceGroupJavaMaven::getAllSourcePaths() const
 
 std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
 {
-	std::vector<FilePath> classPath = utility::getClassPath(getSourceGroupSettingsJava(), getAllSourceFilePaths());
+	std::vector<FilePath> classPath = utility::getClassPath({}, true, getAllSourceFilePaths());
 
 	if (m_settings && m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute().exists())
 	{

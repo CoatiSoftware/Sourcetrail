@@ -92,7 +92,10 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJavaSonargraph::getIndex
 
 	if (!indexerCommands.empty())
 	{
-		const std::vector<FilePath> classPath = utility::getClassPath(m_settings, getAllSourceFilePaths()); // TODO: remove this hack once sourcegroup and sourcegroupsettings are merged
+		// TODO: remove this hack once sourcegroup and sourcegroupsettings are merged
+		const std::vector<FilePath> classPath = utility::getClassPath(
+			m_settings->getClasspathExpandedAndAbsolute(), m_settings->getUseJreSystemLibrary(), getAllSourceFilePaths()
+		);
 		for (std::shared_ptr<IndexerCommand> indexerCommand : indexerCommands)
 		{
 			if (std::shared_ptr<IndexerCommandJava> javaIndexerCommand = std::dynamic_pointer_cast<IndexerCommandJava>(indexerCommand))

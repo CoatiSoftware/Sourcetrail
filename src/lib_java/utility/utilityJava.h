@@ -15,7 +15,8 @@ namespace utility
 	bool prepareJavaEnvironmentAndDisplayOccurringErrors();
 	std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePaths);
 	std::vector<FilePath> getClassPath(
-		std::shared_ptr<const SourceGroupSettingsWithClasspath> settings,
+		const std::vector<FilePath>& classpathItems,
+		bool useJreSystemLibrary,
 		const std::set<FilePath>& sourceFilePaths);
 }
 

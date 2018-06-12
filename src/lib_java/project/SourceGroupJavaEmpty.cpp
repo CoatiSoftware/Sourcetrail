@@ -24,7 +24,7 @@ std::vector<FilePath> SourceGroupJavaEmpty::getAllSourcePaths() const
 
 std::vector<FilePath> SourceGroupJavaEmpty::doGetClassPath() const
 {
-	return utility::getClassPath(getSourceGroupSettingsJava(), getAllSourceFilePaths());
+	return utility::getClassPath(m_settings->getClasspathExpandedAndAbsolute(), m_settings->getUseJreSystemLibrary(), getAllSourceFilePaths());
 }
 
 std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaEmpty::getSourceGroupSettingsJava()

@@ -149,11 +149,11 @@ namespace utility
 		return rootDirectories;
 	}
 
-	std::vector<FilePath> getClassPath(std::shared_ptr<const SourceGroupSettingsWithClasspath> settings, const std::set<FilePath>& sourceFilePaths)
+	std::vector<FilePath> getClassPath(const std::vector<FilePath>& classpathItems, bool useJreSystemLibrary, const std::set<FilePath>& sourceFilePaths)
 	{
 		std::vector<FilePath> classPath;
 
-		for (const FilePath& classpath : settings->getClasspathExpandedAndAbsolute())
+		for (const FilePath& classpath : classpathItems)
 		{
 			if (classpath.exists())
 			{
@@ -162,7 +162,7 @@ namespace utility
 			}
 		}
 
-		if (settings->getUseJreSystemLibrary())
+		if (useJreSystemLibrary)
 		{
 			for (const FilePath& systemLibraryPath : ApplicationSettings::getInstance()->getJreSystemLibraryPathsExpanded())
 			{

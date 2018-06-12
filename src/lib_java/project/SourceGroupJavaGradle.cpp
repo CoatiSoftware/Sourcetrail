@@ -42,12 +42,16 @@ std::vector<FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
 
 		dialogView->hideUnknownProgressDialog();
 	}
+	else
+	{
+		LOG_INFO("Could not find any source paths because Gradle project path does not exist.");
+	}
 	return sourcePaths;
 }
 
 std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
 {
-	std::vector<FilePath> classPath = utility::getClassPath(getSourceGroupSettingsJava(), getAllSourceFilePaths());
+	std::vector<FilePath> classPath = utility::getClassPath({}, true, getAllSourceFilePaths());
 
 	if (m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute().exists())
 	{

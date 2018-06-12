@@ -6,7 +6,7 @@
 class QCheckBox;
 class QComboBox;
 class QLabel;
-class SourceGroupSettings;
+class SourceGroupSettingsWithCxxCrossCompilationOptions;
 
 class QtProjectWizzardContentCrossCompilationOptions
 	: public QtProjectWizzardContent
@@ -15,7 +15,7 @@ class QtProjectWizzardContentCrossCompilationOptions
 
 public:
 	QtProjectWizzardContentCrossCompilationOptions(
-		std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+		std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> sourceGroupSettings,
 		QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
@@ -29,7 +29,7 @@ private:
 	void onUseTargetOptionsChanged();
 	void updateTargetOptionsEnabled();
 
-	std::shared_ptr<SourceGroupSettings> m_sourceGroupSettings;
+	std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> m_sourceGroupSettings;
 
 	QCheckBox* m_useTargetOptions;
 	QComboBox* m_arch;

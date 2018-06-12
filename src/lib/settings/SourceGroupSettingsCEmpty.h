@@ -1,12 +1,20 @@
 #ifndef SOURCE_GROUP_SETTINGS_C_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_C_EMPTY_H
 
-#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsCxx.h"
 #include "settings/SourceGroupSettingsWithCStandard.h"
+#include "settings/SourceGroupSettingsWithCxxCrossCompilationOptions.h"
+#include "settings/SourceGroupSettingsWithExcludeFilters.h"
+#include "settings/SourceGroupSettingsWithSourceExtensions.h"
+#include "settings/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsCEmpty
-	: public SourceGroupSettingsCxxEmpty
+	: public SourceGroupSettingsCxx
 	, public SourceGroupSettingsWithCStandard
+	, public SourceGroupSettingsWithCxxCrossCompilationOptions
+	, public SourceGroupSettingsWithExcludeFilters
+	, public SourceGroupSettingsWithSourceExtensions
+	, public SourceGroupSettingsWithSourcePaths
 {
 public:
 	SourceGroupSettingsCEmpty(const std::string& id, const ProjectSettings* projectSettings);

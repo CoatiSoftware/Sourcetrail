@@ -1,16 +1,14 @@
-#ifndef SOURCE_GROUP_SETTINGS_CXX_EMPTY_H
-#define SOURCE_GROUP_SETTINGS_CXX_EMPTY_H
+#ifndef SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H
+#define SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H
 
-#include "settings/SourceGroupSettingsCxx.h"
-#include "settings/SourceGroupSettingsWithExcludeFilters.h"
-#include "settings/SourceGroupSettingsWithSourceExtensions.h"
-#include "settings/SourceGroupSettingsWithSourcePaths.h"
+#include <memory>
+#include <string>
+#include <vector>
 
-class SourceGroupSettingsCxxEmpty
-	: public SourceGroupSettingsCxx
-	, public SourceGroupSettingsWithExcludeFilters
-	, public SourceGroupSettingsWithSourceExtensions
-	, public SourceGroupSettingsWithSourcePaths
+class ConfigManager;
+class ProjectSettings;
+
+class SourceGroupSettingsWithCxxCrossCompilationOptions
 {
 public:
 	static std::vector<std::wstring> getAvailableArchTypes();
@@ -18,12 +16,10 @@ public:
 	static std::vector<std::wstring> getAvailableOsTypes();
 	static std::vector<std::wstring> getAvailableEnvironmentTypes();
 
-	SourceGroupSettingsCxxEmpty(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
+	SourceGroupSettingsWithCxxCrossCompilationOptions();
+	virtual ~SourceGroupSettingsWithCxxCrossCompilationOptions() = default;
 
-	void load(std::shared_ptr<const ConfigManager> config) override;
-	void save(std::shared_ptr<ConfigManager> config) override;
-
-	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
+	bool equals(std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> other) const;
 
 	bool getTargetOptionsEnabled() const;
 	void setTargetOptionsEnabled(bool targetOptionsEnabled);
@@ -42,7 +38,13 @@ public:
 
 	std::wstring getTargetFlag() const;
 
+protected:
+	void load(std::shared_ptr<const ConfigManager> config, const std::string& key);
+	void save(std::shared_ptr<ConfigManager> config, const std::string& key);
+
 private:
+	virtual const ProjectSettings* getProjectSettings() const = 0;
+
 	bool m_targetOptionsEnabled;
 	std::wstring m_targetArch;
 	std::wstring m_targetVendor;
@@ -50,4 +52,4 @@ private:
 	std::wstring m_targetAbi;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_CXX_EMPTY_H
+#endif // SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H

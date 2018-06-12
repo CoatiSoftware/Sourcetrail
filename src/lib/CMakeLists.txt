@@ -324,8 +324,6 @@ add_files(
 	settings/SourceGroupSettingsCxxCdb.h
 	settings/SourceGroupSettingsCxxCodeblocks.cpp
 	settings/SourceGroupSettingsCxxCodeblocks.h
-	settings/SourceGroupSettingsCxxEmpty.cpp
-	settings/SourceGroupSettingsCxxEmpty.h
 	settings/SourceGroupSettingsCxxSonargraph.cpp
 	settings/SourceGroupSettingsCxxSonargraph.h
 	settings/SourceGroupSettingsJava.cpp
@@ -344,6 +342,8 @@ add_files(
 	settings/SourceGroupSettingsWithCppStandard.h
 	settings/SourceGroupSettingsWithCStandard.cpp
 	settings/SourceGroupSettingsWithCStandard.h
+	settings/SourceGroupSettingsWithCxxCrossCompilationOptions.cpp
+	settings/SourceGroupSettingsWithCxxCrossCompilationOptions.h
 	settings/SourceGroupSettingsWithExcludeFilters.cpp
 	settings/SourceGroupSettingsWithExcludeFilters.h
 	settings/SourceGroupSettingsWithIndexedHeaderPaths.cpp

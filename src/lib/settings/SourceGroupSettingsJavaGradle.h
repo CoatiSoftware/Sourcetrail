@@ -2,6 +2,7 @@
 #define SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
 
 #include "settings/SourceGroupSettingsJava.h"
+#include "utility/file/FilePath.h"
 
 class SourceGroupSettingsJavaGradle
 	: public SourceGroupSettingsJava
@@ -26,6 +27,8 @@ public:
 	void setShouldIndexGradleTests(bool value);
 
 private:
+	const ProjectSettings* getProjectSettings() const override;
+
 	FilePath m_gradleProjectFilePath;
 	FilePath m_gradleDependenciesDirectory;
 	bool m_shouldIndexGradleTests;

@@ -6,7 +6,8 @@
 #include "project/SourceGroupCxxSonargraph.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/SourceGroupSettingsCxxCodeblocks.h"
-#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsCEmpty.h"
+#include "settings/SourceGroupSettingsCppEmpty.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 
 SourceGroupFactoryModuleCxx::~SourceGroupFactoryModuleCxx()
@@ -40,7 +41,11 @@ std::shared_ptr<SourceGroup> SourceGroupFactoryModuleCxx::createSourceGroup(std:
 	{
 		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupCxxCodeblocks(cxxSettings));
 	}
-	else if (std::shared_ptr<SourceGroupSettingsCxxEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxEmpty>(settings))
+	else if (std::shared_ptr<SourceGroupSettingsCEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(settings))
+	{
+		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupCxxEmpty(cxxSettings));
+	}
+	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(settings))
 	{
 		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupCxxEmpty(cxxSettings));
 	}

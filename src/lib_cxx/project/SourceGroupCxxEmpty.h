@@ -6,12 +6,12 @@
 
 #include "project/SourceGroup.h"
 
-class SourceGroupSettingsCxxEmpty;
+class SourceGroupSettingsCxx;
 
 class SourceGroupCxxEmpty: public SourceGroup
 {
 public:
-	SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxxEmpty> settings);
+	SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxx> settings);
 
 	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
 	std::set<FilePath> getAllSourceFilePaths() const override;
@@ -21,7 +21,7 @@ private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 
-	std::shared_ptr<SourceGroupSettingsCxxEmpty> m_settings;
+	std::shared_ptr<SourceGroupSettingsCxx> m_settings;
 };
 
 #endif // SOURCE_GROUP_CXX_EMPTY_H
