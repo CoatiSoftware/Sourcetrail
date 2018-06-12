@@ -404,7 +404,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 		QTimer::singleShot(1, [&]() {
 			m_sourceGroupList->setCurrentRow(m_previouslySelectedIndex);
 		});
-		
+
 		return;
 	}
 
@@ -726,11 +726,11 @@ void QtProjectWizzard::newSourceGroup()
 	QtProjectWizzardWindow* window = createWindowWithContent(
 		[](QtProjectWizzardWindow* window)
 		{
-			window->setPreferredSize(QSize(680, 400));
+			window->setPreferredSize(QSize(560, 520));
 			return new QtProjectWizzardContentSelect(window);
 		}
 	);
-	window->resize(QSize(680, 400));
+	window->resize(QSize(560, 520));
 
 	connect(dynamic_cast<QtProjectWizzardContentSelect*>(window->content()),
 		&QtProjectWizzardContentSelect::selected,
@@ -953,7 +953,7 @@ void QtProjectWizzard::sourcePaths()
 				contentGroup->addContent(new QtProjectWizzardContentPathsSource(settingsCxx, window));
 				contentGroup->addSpace();
 				contentGroup->addContent(new QtProjectWizzardContentPathsExclude(settingsCxx, window));
-				if (std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settingsSourceExtension = 
+				if (std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settingsSourceExtension =
 					std::dynamic_pointer_cast<SourceGroupSettingsWithSourceExtensions>(m_newSourceGroupSettings))
 				{
 					contentGroup->addSpace();

@@ -17,10 +17,12 @@ public:
 	QtProjectWizzardContentSelect(QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populate(QGridLayout* layout, int& row) override;
+	void populate(QGridLayout* layout, int& row) override;
 
-	virtual void save() override;
-	virtual bool check() override;
+	void save() override;
+	bool check() override;
+
+	bool isScrollAble() const override;
 
 signals:
 	void selected(SourceGroupType);
