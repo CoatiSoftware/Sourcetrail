@@ -328,6 +328,7 @@
 				<ComponentRef Id='HistoryListArrowPng'/>
 
 				<ComponentRef Id='C_icon_Png'/>
+				<ComponentRef Id='Cbp_icon_Png'/>
 				<ComponentRef Id='Cdb_icon_Png'/>
 				<ComponentRef Id='SourcetrailIco'/>
 				<ComponentRef Id='Cpp_icon_Png'/>

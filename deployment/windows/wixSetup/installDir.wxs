@@ -576,6 +576,9 @@
 						<Component Id='C_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='C_icon' Name='c_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/c_icon.png' KeyPath='yes' />
 						</Component>
+						<Component Id='Cbp_icon_Png' Guid='*' Win64="$(var.Win64)">
+							<File Id='Cbp_icon' Name='cbp_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cbp_icon.png' KeyPath='yes' />
+						</Component>
 						<Component Id='Cdb_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Cdb_icon' Name='cdb_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cdb_icon.png' KeyPath='yes' />
 						</Component>
