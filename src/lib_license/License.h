@@ -17,7 +17,6 @@ namespace LicenseConstants {
 	const char BEGIN_LICENSE_STRING[] = "-----BEGIN LICENSE-----";
 	const char END_LICENSE_STRING[] = "-----END LICENSE-----";
 	const char TEST_LICENSE_STRING[] = "Test License";
-	const char SITE_LICENSE_STRING[] = "Commercial Site License";
 	const char PRODUCT_STRING[] = "Product: Sourcetrail";
 	const char LICENSED_TO_STRING[] = "Licensed to: ";
 	const char LICENSE_TYPE_STRING[] = "License type: ";

@@ -90,17 +90,18 @@ std::string License::getMessage(bool withNewlines) const
 	message += LicenseConstants::PRODUCT_STRING + separator;
 	message += LicenseConstants::LICENSED_TO_STRING + m_user + separator;
 	message += LicenseConstants::LICENSE_TYPE_STRING + m_type;
-	if (m_type == LicenseConstants::TEST_LICENSE_STRING || m_type == LicenseConstants::SITE_LICENSE_STRING)
+
+	if (m_numberOfUsers == 0)
 	{
 		message += (m_createdWithSeats ? " (unlimited seats)" : " (unlimited users)");
-	}
-	else if (m_numberOfUsers > 1)
-	{
-		message += " (" + std::to_string(m_numberOfUsers) + (m_createdWithSeats ? " Seats)" : " users)");
 	}
 	else if (m_numberOfUsers == 1)
 	{
 		message += (m_createdWithSeats ? " (1 Seat)" : " (1 user)");
+	}
+	else if (m_numberOfUsers > 1)
+	{
+		message += " (" + std::to_string(m_numberOfUsers) + (m_createdWithSeats ? " Seats)" : " users)");
 	}
 
 	message += separator;
@@ -214,7 +215,7 @@ std::string License::getLicenseInfo() const
 	{
 		info += "not registered for commercial development\n";
 	}
-	else if (m_type == LicenseConstants::TEST_LICENSE_STRING || m_type == LicenseConstants::SITE_LICENSE_STRING)
+	else if (m_numberOfUsers == 0)
 	{
 		info += "unlimited users\n";
 	}
