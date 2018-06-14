@@ -79,7 +79,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 			edgeId = message->tokenIds[0];
 		}
 
-		getView()->activateEdge(edgeId, message->isReplayed());
+		getView()->activateEdge(edgeId, message->isReplayed() && message->isLast());
 		return;
 	}
 	else if (message->isAggregation)
@@ -238,7 +238,7 @@ void GraphController::handleMessage(MessageActivateTrailEdge* message)
 {
 	TRACE("trail edge activate");
 
-	getView()->activateEdge(message->edgeIds.back(), message->isReplayed());
+	getView()->activateEdge(message->edgeIds.back(), message->isReplayed() && message->isLast());
 }
 
 void GraphController::handleMessage(MessageFlushUpdates* message)
