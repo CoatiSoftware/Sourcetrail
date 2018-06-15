@@ -129,7 +129,17 @@ namespace Codeblocks
 		std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
 	) const
 	{
-		const std::set<std::wstring> sourceExtensions = utility::toSet(sourceGroupSettings->getSourceExtensions());
+		return utility::convert<FilePath, FilePath>(getAllSourceFilePaths(sourceGroupSettings), [](const FilePath& path) { return path.getCanonical(); });
+	}
+
+	std::set<FilePath> Project::getAllSourceFilePaths(
+		std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
+	) const
+	{
+		const std::set<std::wstring> sourceExtensions = utility::toSet(utility::convert<std::wstring, std::wstring>(
+			sourceGroupSettings->getSourceExtensions(),
+			[](const std::wstring& e) { return utility::toLowerCase(e); }
+		));
 
 		std::set<FilePath> filePaths;
 		for (std::shared_ptr<const Unit> unit : m_units)
@@ -139,7 +149,7 @@ namespace Codeblocks
 				FilePath filePath(unit->getFilename());
 				if (sourceExtensions.find(filePath.getLowerCase().extension()) != sourceExtensions.end())
 				{
-					filePaths.insert(filePath.makeCanonical());
+					filePaths.insert(filePath);
 				}
 			}
 		}
@@ -148,16 +158,33 @@ namespace Codeblocks
 
 	std::set<FilePath> Project::getAllCxxHeaderSearchPathsCanonical() const
 	{
+		std::set<std::wstring> usedTargetNames;
+		for (std::shared_ptr<const Unit> unit : m_units)
+		{
+			if (unit && unit->getCompile())
+			{
+				utility::append(usedTargetNames, unit->getTargetNames());
+			}
+		}
+
+		OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache([](const FilePath& path) {
+			return path.getCanonical();
+		});
+
 		std::set<FilePath> paths;
 		for (std::shared_ptr<const Target> target : m_targets)
 		{
-			if (target)
+			if (target && usedTargetNames.find(target->getTitle()) != usedTargetNames.end())
 			{
 				if (std::shared_ptr<const Compiler> compiler = target->getCompiler())
 				{
 					for (const std::wstring& directory : compiler->getDirectories())
 					{
-						paths.insert(FilePath(directory).makeCanonical());
+						FilePath path(directory);
+						if (path.isAbsolute())
+						{
+							paths.insert(canonicalDirectoryPathCache.getValue(path));
+						}
 					}
 				}
 			}

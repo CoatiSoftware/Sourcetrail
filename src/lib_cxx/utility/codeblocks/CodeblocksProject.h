@@ -27,6 +27,9 @@ namespace Codeblocks
 		std::set<FilePath> getAllSourceFilePathsCanonical(
 			std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
 		) const;
+		std::set<FilePath> getAllSourceFilePaths(
+			std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
+		) const;
 		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
 
 		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(

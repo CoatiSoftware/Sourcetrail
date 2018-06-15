@@ -312,9 +312,13 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 		{
 			if (std::shared_ptr<Codeblocks::Project> codeblocksProject = Codeblocks::Project::load(codeblocksProjectPath))
 			{
-				for (const FilePath& path : codeblocksProject->getAllSourceFilePathsCanonical(settings))
+				OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache([](const FilePath& path) {
+					return path.getCanonical();
+				});
+
+				for (const FilePath& path : codeblocksProject->getAllSourceFilePaths(settings))
 				{
-					indexedHeaderPaths.insert(path.getCanonical().getParentDirectory());
+					indexedHeaderPaths.insert(canonicalDirectoryPathCache.getValue(path.getParentDirectory()));
 				}
 				utility::append(indexedHeaderPaths, codeblocksProject->getAllCxxHeaderSearchPathsCanonical());
 			}
