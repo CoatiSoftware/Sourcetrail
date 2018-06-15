@@ -16,6 +16,7 @@ void SourceGroupSettingsCxxCodeblocks::load(std::shared_ptr<const ConfigManager>
 
 	SourceGroupSettingsWithCppStandard::load(config, key);
 	SourceGroupSettingsWithCStandard::load(config, key);
+	SourceGroupSettingsWithExcludeFilters::load(config, key);
 	SourceGroupSettingsWithIndexedHeaderPaths::load(config, key);
 	SourceGroupSettingsWithSourceExtensions::load(config, key);
 	
@@ -30,6 +31,7 @@ void SourceGroupSettingsCxxCodeblocks::save(std::shared_ptr<ConfigManager> confi
 
 	SourceGroupSettingsWithCppStandard::save(config, key);
 	SourceGroupSettingsWithCStandard::save(config, key);
+	SourceGroupSettingsWithExcludeFilters::save(config, key);
 	SourceGroupSettingsWithIndexedHeaderPaths::save(config, key);
 	SourceGroupSettingsWithSourceExtensions::save(config, key);
 
@@ -45,6 +47,7 @@ bool SourceGroupSettingsCxxCodeblocks::equals(std::shared_ptr<SourceGroupSetting
 		SourceGroupSettingsCxx::equals(other) &&
 		SourceGroupSettingsWithCppStandard::equals(otherCxxCodeblocks) &&
 		SourceGroupSettingsWithCStandard::equals(otherCxxCodeblocks) &&
+		SourceGroupSettingsWithExcludeFilters::equals(otherCxxCodeblocks) &&
 		SourceGroupSettingsWithIndexedHeaderPaths::equals(otherCxxCodeblocks) &&
 		SourceGroupSettingsWithSourceExtensions::equals(otherCxxCodeblocks) &&
 		m_codeblocksProjectPath == otherCxxCodeblocks->m_codeblocksProjectPath

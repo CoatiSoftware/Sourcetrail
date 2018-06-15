@@ -25,10 +25,10 @@ namespace Codeblocks
 		static std::shared_ptr<Project> load(std::shared_ptr<TextAccess> xmlAccess);
 
 		std::set<FilePath> getAllSourceFilePathsCanonical(
-			std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
+			const std::vector<std::wstring>& sourceExtensions
 		) const;
 		std::set<FilePath> getAllSourceFilePaths(
-			std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
+			const std::vector<std::wstring>& sourceExtensions
 		) const;
 		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
 

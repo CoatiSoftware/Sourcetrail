@@ -44,15 +44,35 @@ std::set<FilePath> SourceGroupCxxCodeblocks::filterToContainedFilePaths(const st
 		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute())
 	);
 
+	const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
+
 	for (const FilePath& filePath : filePaths)
 	{
+		bool isInIndexedPaths = false;
 		for (const FilePath& indexedPath : indexedPaths)
 		{
 			if (indexedPath == filePath || indexedPath.contains(filePath))
 			{
-				containedFilePaths.insert(filePath);
+				isInIndexedPaths = true;
 				break;
 			}
+		}
+
+		if (isInIndexedPaths)
+		{
+			for (const FilePathFilter& excludeFilter : excludeFilters)
+			{
+				if (excludeFilter.isMatching(filePath))
+				{
+					isInIndexedPaths = false;
+					break;
+				}
+			}
+		}
+
+		if (isInIndexedPaths)
+		{
+			containedFilePaths.insert(filePath);
 		}
 	}
 
@@ -66,9 +86,21 @@ std::set<FilePath> SourceGroupCxxCodeblocks::getAllSourceFilePaths() const
 		m_settings->getCodeblocksProjectPathExpandedAndAbsolute()
 	))
 	{
-		for (const FilePath& filePath : project->getAllSourceFilePathsCanonical(m_settings))
+		const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
+
+		for (const FilePath& filePath : project->getAllSourceFilePathsCanonical(m_settings->getSourceExtensions()))
 		{
-			if (filePath.exists())
+			bool isExcluded = false;
+			for (const FilePathFilter& excludeFilter : excludeFilters)
+			{
+				if (excludeFilter.isMatching(filePath))
+				{
+					isExcluded = true;
+					break;
+				}
+			}
+
+			if (!isExcluded && filePath.exists())
 			{
 				sourceFilePaths.insert(filePath);
 			}

@@ -527,6 +527,8 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 			summary->addSpace();
 			summary->addContent(new QtProjectWizzardContentIndexedHeaderPaths("Code::Blocks project", settingsCxxCodeblocks, this));
 			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
+			summary->addSpace();
 			summary->addContent(new QtProjectWizzardContentExtensions(settingsCxxCodeblocks, this));
 		}
 		else if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> settingsCxxSonargraph = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(group))
@@ -908,6 +910,8 @@ void QtProjectWizzard::emptySourceGroupCxxCodeblocks()
 				contentGroup->addContent(new QtProjectWizzardContentCodeblocksProjectPath(settings, window));
 				contentGroup->addSpace();
 				contentGroup->addContent(new QtProjectWizzardContentIndexedHeaderPaths("Code::Blocks project", settings, window));
+				contentGroup->addSpace();
+				contentGroup->addContent(new QtProjectWizzardContentPathsExclude(settings, window));
 				contentGroup->addSpace();
 				contentGroup->addContent(new QtProjectWizzardContentExtensions(settings, window));
 			}

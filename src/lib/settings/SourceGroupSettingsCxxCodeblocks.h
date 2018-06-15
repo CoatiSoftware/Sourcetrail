@@ -4,6 +4,7 @@
 #include "settings/SourceGroupSettingsCxx.h"
 #include "settings/SourceGroupSettingsWithCppStandard.h"
 #include "settings/SourceGroupSettingsWithCStandard.h"
+#include "settings/SourceGroupSettingsWithExcludeFilters.h"
 #include "settings/SourceGroupSettingsWithIndexedHeaderPaths.h"
 #include "settings/SourceGroupSettingsWithSourceExtensions.h"
 
@@ -11,6 +12,7 @@ class SourceGroupSettingsCxxCodeblocks
 	: public SourceGroupSettingsCxx
 	, public SourceGroupSettingsWithCppStandard
 	, public SourceGroupSettingsWithCStandard
+	, public SourceGroupSettingsWithExcludeFilters
 	, public SourceGroupSettingsWithIndexedHeaderPaths
 	, public SourceGroupSettingsWithSourceExtensions
 {

@@ -316,7 +316,7 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 					return path.getCanonical();
 				});
 
-				for (const FilePath& path : codeblocksProject->getAllSourceFilePaths(settings))
+				for (const FilePath& path : codeblocksProject->getAllSourceFilePaths(settings->getSourceExtensions()))
 				{
 					indexedHeaderPaths.insert(canonicalDirectoryPathCache.getValue(path.getParentDirectory()));
 				}

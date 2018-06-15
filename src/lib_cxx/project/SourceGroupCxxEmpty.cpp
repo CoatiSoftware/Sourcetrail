@@ -18,8 +18,6 @@ std::set<FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::se
 {
 	std::set<FilePath> containedFilePaths;
 
-	const std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
-
 	std::vector<FilePath> indexedPaths;
 	std::vector<FilePathFilter> excludeFilters;
 	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =

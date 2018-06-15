@@ -126,18 +126,18 @@ namespace Codeblocks
 	}
 
 	std::set<FilePath> Project::getAllSourceFilePathsCanonical(
-		std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
+		const std::vector<std::wstring>& sourceExtensions
 	) const
 	{
-		return utility::convert<FilePath, FilePath>(getAllSourceFilePaths(sourceGroupSettings), [](const FilePath& path) { return path.getCanonical(); });
+		return utility::convert<FilePath, FilePath>(getAllSourceFilePaths(sourceExtensions), [](const FilePath& path) { return path.getCanonical(); });
 	}
 
 	std::set<FilePath> Project::getAllSourceFilePaths(
-		std::shared_ptr<const SourceGroupSettingsWithSourceExtensions> sourceGroupSettings
+		const std::vector<std::wstring>& sourceExtensions
 	) const
 	{
-		const std::set<std::wstring> sourceExtensions = utility::toSet(utility::convert<std::wstring, std::wstring>(
-			sourceGroupSettings->getSourceExtensions(),
+		const std::set<std::wstring> lowerSourceExtensions = utility::toSet(utility::convert<std::wstring, std::wstring>(
+			sourceExtensions,
 			[](const std::wstring& e) { return utility::toLowerCase(e); }
 		));
 
@@ -147,7 +147,7 @@ namespace Codeblocks
 			if (unit && unit->getCompile())
 			{
 				FilePath filePath(unit->getFilename());
-				if (sourceExtensions.find(filePath.getLowerCase().extension()) != sourceExtensions.end())
+				if (lowerSourceExtensions.find(filePath.getLowerCase().extension()) != lowerSourceExtensions.end())
 				{
 					filePaths.insert(filePath);
 				}
@@ -196,9 +196,15 @@ namespace Codeblocks
 		std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> appSettings) const
 	{
-		const std::set<std::wstring> sourceExtensions = utility::toSet(sourceGroupSettings->getSourceExtensions());
+
+		const std::set<std::wstring> lowerSourceExtensions = utility::toSet(utility::convert<std::wstring, std::wstring>(
+			sourceGroupSettings->getSourceExtensions(),
+			[](const std::wstring& e) { return utility::toLowerCase(e); }
+		));
 
 		const std::set<FilePath> indexedHeaderPaths = utility::toSet(sourceGroupSettings->getIndexedHeaderPathsExpandedAndAbsolute());
+
+		const std::set<FilePathFilter> excludeFilters = utility::toSet(sourceGroupSettings->getExcludeFiltersExpandedAndAbsolute());
 
 		const std::vector<std::wstring> compilerFlags = sourceGroupSettings->getCompilerFlags();
 
@@ -243,7 +249,7 @@ namespace Codeblocks
 			}
 
 			const FilePath filePath = FilePath(unit->getFilename()).makeCanonical();
-			if (sourceExtensions.find(filePath.getLowerCase().extension()) == sourceExtensions.end())
+			if (lowerSourceExtensions.find(filePath.getLowerCase().extension()) == lowerSourceExtensions.end())
 			{
 				continue;
 			}
@@ -266,7 +272,7 @@ namespace Codeblocks
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
 					filePath,
 					utility::concat(indexedHeaderPaths, { filePath }),
-					std::set<FilePathFilter>(),
+					excludeFilters,
 					std::set<FilePathFilter>(),
 					sourceGroupSettings->getCodeblocksProjectPathExpandedAndAbsolute().getParentDirectory(),
 					utility::concat(systemHeaderSearchPaths, headerSearchPathsCache.getValue(targetName)),
