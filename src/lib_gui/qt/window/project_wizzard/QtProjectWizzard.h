@@ -41,8 +41,6 @@ protected:
 	virtual void handlePrevious() override;
 
 private:
-	static bool applicationSettingsContainVisualStudioHeaderSearchPaths();
-
 	QtProjectWizzardWindow* createWindowWithContent(
 		std::function<QtProjectWizzardContent*(QtProjectWizzardWindow*)> func);
 

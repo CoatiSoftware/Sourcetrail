@@ -42,6 +42,49 @@
 
 #include "Application.h"
 
+namespace
+{
+	bool applicationSettingsContainVisualStudioHeaderSearchPaths()
+	{
+		std::vector<FilePath> expandedPaths;
+		const std::shared_ptr<CombinedPathDetector> headerPathDetector = utility::getCxxVsHeaderPathDetector();
+		for (const std::string& detectorName : headerPathDetector->getWorkingDetectorNames())
+		{
+			for (const FilePath& path : headerPathDetector->getPaths(detectorName))
+			{
+				utility::append(expandedPaths, path.expandEnvironmentVariables());
+			}
+		}
+
+		std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths =
+			ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
+		for (const FilePath& usedExpandedPath : usedExpandedGlobalHeaderSearchPaths)
+		{
+			for (const FilePath& expandedPath : expandedPaths)
+			{
+				if (expandedPath == usedExpandedPath)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	void addMsvcCompatibilityFlagsOnDemand(std::shared_ptr<SourceGroupSettingsCxx> settings)
+	{
+		if (applicationSettingsContainVisualStudioHeaderSearchPaths())
+		{
+			std::vector<std::wstring> flags = settings->getCompilerFlags();
+			flags.push_back(L"-fms-extensions");
+			flags.push_back(L"-fms-compatibility");
+			flags.push_back(L"-fms-compatibility-version=19");
+			settings->setCompilerFlags(flags);
+		}
+	}
+}
+
 QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	: QtProjectWizzardWindow(parent, false)
 	, m_windowStack(this)
@@ -254,34 +297,6 @@ void QtProjectWizzard::windowReady()
 void QtProjectWizzard::handlePrevious()
 {
 	QtWindow::handlePrevious();
-}
-
-bool QtProjectWizzard::applicationSettingsContainVisualStudioHeaderSearchPaths()
-{
-	std::vector<FilePath> expandedPaths;
-	const std::shared_ptr<CombinedPathDetector> headerPathDetector = utility::getCxxVsHeaderPathDetector();
-	for (const std::string& detectorName : headerPathDetector->getWorkingDetectorNames())
-	{
-		for (const FilePath& path: headerPathDetector->getPaths(detectorName))
-		{
-			utility::append(expandedPaths, path.expandEnvironmentVariables());
-		}
-	}
-
-	std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths =
-		ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-	for (const FilePath& usedExpandedPath: usedExpandedGlobalHeaderSearchPaths)
-	{
-		for (const FilePath& expandedPath: expandedPaths)
-		{
-			if (expandedPath == usedExpandedPath)
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
 }
 
 QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent(
@@ -748,23 +763,13 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 	switch (sourceGroupType)
 	{
 	case SOURCE_GROUP_C_EMPTY:
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCEmpty>(sourceGroupId, m_projectSettings.get());
+		addMsvcCompatibilityFlagsOnDemand(std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_newSourceGroupSettings));
+		emptySourceGroup();
+		break;
 	case SOURCE_GROUP_CPP_EMPTY:
-		if (sourceGroupType == SOURCE_GROUP_C_EMPTY)
-		{
-			m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCEmpty>(sourceGroupId, m_projectSettings.get());
-		}
-		else
-		{
-			m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCppEmpty>(sourceGroupId, m_projectSettings.get());
-		}
-		if (applicationSettingsContainVisualStudioHeaderSearchPaths())
-		{
-			std::vector<std::wstring> flags;
-			flags.push_back(L"-fms-extensions");
-			flags.push_back(L"-fms-compatibility");
-			flags.push_back(L"-fms-compatibility-version=19");
-			std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_newSourceGroupSettings)->setCompilerFlags(flags);
-		}
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCppEmpty>(sourceGroupId, m_projectSettings.get());
+		addMsvcCompatibilityFlagsOnDemand(std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_newSourceGroupSettings));
 		emptySourceGroup();
 		break;
 	case SOURCE_GROUP_CXX_CDB:
@@ -773,10 +778,12 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 		break;
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
 		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxxCodeblocks>(sourceGroupId, m_projectSettings.get());
+		addMsvcCompatibilityFlagsOnDemand(std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_newSourceGroupSettings));
 		emptySourceGroupCxxCodeblocks();
 		break;
 	case SOURCE_GROUP_CXX_SONARGRAPH:
 		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxxSonargraph>(sourceGroupId, m_projectSettings.get());
+		addMsvcCompatibilityFlagsOnDemand(std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_newSourceGroupSettings));
 		emptySourceGroupCxxSonargraph();
 		break;
 	case SOURCE_GROUP_CXX_VS:
