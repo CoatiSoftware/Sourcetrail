@@ -57,33 +57,6 @@ std::set<FilePath> FileManager::getAllSourceFilePaths() const
 	return m_allSourceFilePaths;
 }
 
-std::set<FilePath> FileManager::getAllSourceFilePathsRelative(const FilePath& baseDirectory) const
-{
-	std::set<FilePath> absolutePaths;
-	for (const FilePath& path: getAllSourceFilePaths())
-	{
-		if (baseDirectory.exists())
-		{
-			absolutePaths.insert(path.getRelativeTo(baseDirectory));
-		}
-		else
-		{
-			absolutePaths.insert(path);
-		}
-	}
-	return absolutePaths;
-}
-
-std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& filePaths)
-{
-	std::vector<FilePath> ret;
-	for (const FilePath& filePath: filePaths)
-	{
-		ret.push_back(filePath.getCanonical());
-	}
-	return ret;
-}
-
 bool FileManager::isExcluded(const FilePath& filePath) const
 {
 	for (const FilePathFilter& filter : m_excludeFilters)

@@ -26,3 +26,22 @@ std::vector<FilePath> utility::getTopLevelPaths(const std::set<FilePath>& paths)
 
 	return topLevelPaths;
 }
+
+FilePath utility::getAsRelativeIfShorter(const FilePath& absolutePath, const FilePath& baseDirectory)
+{
+	if (!baseDirectory.empty())
+	{
+		const FilePath relativePath = absolutePath.getRelativeTo(baseDirectory);
+		if (relativePath.wstr().size() < absolutePath.wstr().size())
+		{
+			return relativePath;
+		}
+	}
+	return absolutePath;
+}
+
+std::vector<FilePath> utility::getAsRelativeIfShorter(const std::vector<FilePath>& absolutePaths, const FilePath& baseDirectory)
+{
+	return utility::convert<FilePath, FilePath>(absolutePaths, [&](const FilePath& path) { return getAsRelativeIfShorter(path, baseDirectory); });
+}
+

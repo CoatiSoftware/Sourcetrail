@@ -26,7 +26,7 @@ public:
 	void setPaths(const std::vector<FilePath>& list, bool readOnly = false);
 
 	void makeAbsolute(FilePath& path) const;
-	void makeRelative(FilePath& path) const;
+	void makeRelativeIfShorter(FilePath& path) const;
 
 protected:
 	void dropEvent(QDropEvent *event) override;

@@ -29,6 +29,7 @@
 #include "utility/sonargraph/SonargraphProject.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
+#include "utility/utilityFile.h"
 #include "utility/utilityGradle.h"
 #include "utility/utilityMaven.h"
 #include "Application.h"
@@ -171,18 +172,10 @@ void QtProjectWizzardContentPathCDB::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settings->getCompilationDatabasePath().wstr()));
 
-	m_filePaths.clear();
-
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-	for (FilePath path : SourceGroupCxxCdb(m_settings).getAllSourceFilePaths())
-	{
-		if (projectPath.exists())
-		{
-			path.makeRelativeTo(projectPath);
-		}
-
-		m_filePaths.push_back(path);
-	}
+	m_filePaths = utility::getAsRelativeIfShorter(
+		utility::toVector(SourceGroupCxxCdb(m_settings).getAllSourceFilePaths()),
+		m_settings->getProjectDirectoryPath()
+	);
 
 	if (m_fileCountLabel)
 	{
@@ -223,7 +216,7 @@ void QtProjectWizzardContentPathCDB::pickedPath()
 	{
 		if (projectPath.contains(path))
 		{
-			indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
+			indexedHeaderPaths.insert(path.getRelativeTo(projectPath)); // the relative path is always shorter than the  absolute path
 		}
 	}
 	m_settings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
@@ -285,18 +278,10 @@ void QtProjectWizzardContentCodeblocksProjectPath::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settings->getCodeblocksProjectPath().wstr()));
 
-	m_filePaths.clear();
-
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-	for (FilePath path : SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths())
-	{
-		if (projectPath.exists())
-		{
-			path.makeRelativeTo(projectPath);
-		}
-
-		m_filePaths.push_back(path);
-	}
+	m_filePaths = utility::getAsRelativeIfShorter(
+		utility::toVector(SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths()), 
+		m_settings->getProjectDirectoryPath()
+	);
 
 	if (m_fileCountLabel)
 	{
@@ -342,7 +327,7 @@ void QtProjectWizzardContentCodeblocksProjectPath::pickedPath()
 	{
 		if (projectPath.contains(path))
 		{
-			indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
+			indexedHeaderPaths.insert(path.getRelativeTo(projectPath)); // the relative path is always shorter than the  absolute path
 		}
 	}
 	m_settings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
@@ -409,8 +394,6 @@ void QtProjectWizzardContentSonargraphProjectPath::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settingsWithSonargraphProjectPath->getSonargraphProjectPath().wstr()));
 
-	m_filePaths.clear();
-
 	std::set<FilePath> allSourceFilePaths;
 	if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
 	{
@@ -420,16 +403,11 @@ void QtProjectWizzardContentSonargraphProjectPath::load()
 	{
 		allSourceFilePaths = SourceGroupJavaSonargraph(settings).getAllSourceFilePaths();
 	}
-	
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-	for (FilePath path : allSourceFilePaths)
-	{
-		if (projectPath.exists())
-		{
-			path.makeRelativeTo(projectPath);
-		}
-		m_filePaths.push_back(path);
-	}
+
+	m_filePaths = utility::getAsRelativeIfShorter(
+		utility::toVector(allSourceFilePaths),
+		m_settings->getProjectDirectoryPath()
+	);
 
 	if (m_fileCountLabel)
 	{
@@ -495,7 +473,7 @@ void QtProjectWizzardContentSonargraphProjectPath::pickedPath()
 		{
 			if (projectPath.contains(path))
 			{
-				indexedHeaderPaths.insert(path.getRelativeTo(projectPath));
+				indexedHeaderPaths.insert(path.getRelativeTo(projectPath)); // the relative path is always shorter than the  absolute path
 			}
 		}
 		m_settingsCxxSonargraph->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
@@ -590,20 +568,11 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 		}
 	}
 
-	std::vector<FilePath> list;
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-	for (FilePath path : SourceGroupJavaMaven(m_settings).getAllSourceFilePaths())
-	{
-		if (projectPath.exists())
-		{
-			path.makeRelativeTo(projectPath);
-		}
-
-		list.push_back(path);
-	}
-
-	return list;
-}
+	return utility::getAsRelativeIfShorter(
+		utility::toVector(SourceGroupJavaMaven(m_settings).getAllSourceFilePaths()),
+		m_settings->getProjectDirectoryPath()
+	);
+}	
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathSourceMaven::getSourceGroupSettings()
 {
@@ -689,18 +658,10 @@ void QtProjectWizzardContentPathSourceGradle::save()
 
 std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() const
 {
-	std::vector<FilePath> list;
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-	for (FilePath path : SourceGroupJavaGradle(m_settings).getAllSourceFilePaths())
-	{
-		if (projectPath.exists())
-		{
-			path.makeRelativeTo(projectPath);
-		}
-
-		list.push_back(path);
-	}
-	return list;
+	return utility::getAsRelativeIfShorter(
+		utility::toVector(SourceGroupJavaGradle(m_settings).getAllSourceFilePaths()),
+		m_settings->getProjectDirectoryPath()
+	);
 }
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathSourceGradle::getSourceGroupSettings()

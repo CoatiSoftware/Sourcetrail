@@ -249,19 +249,10 @@ std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 		allSourceFilePaths = SourceGroupJavaEmpty(settings).getAllSourceFilePaths();
 	}
 
-	std::vector<FilePath> filePaths;
-
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-	for (FilePath path : allSourceFilePaths)
-	{
-		if (projectPath.exists())
-		{
-			path.makeRelativeTo(projectPath);
-		}
-		filePaths.push_back(path);
-	}
-
-	return filePaths;
+	return utility::getAsRelativeIfShorter(
+		utility::toVector(allSourceFilePaths),
+		m_settings->getProjectDirectoryPath()
+	);
 }
 
 QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
@@ -466,7 +457,7 @@ void QtProjectWizzardContentIndexedHeaderPaths::buttonClicked()
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
 				utility::convert<FilePath, FilePath>(
 					getIndexedPathsDerivedFromSonargraphProject(sonargraphSettings),
-					[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
+					[&](const FilePath& path) { return utility::getAsRelativeIfShorter(path, projectPath); }
 				),
 				sonargraphSettings->getIndexedHeaderPaths(),
 				m_settings->getProjectDirectoryPath()
@@ -498,7 +489,7 @@ void QtProjectWizzardContentIndexedHeaderPaths::buttonClicked()
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
 				utility::convert<FilePath, FilePath>(
 					getIndexedPathsDerivedFromCodeblocksProject(codeblocksSettings),
-					[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
+					[&](const FilePath& path) { return utility::getAsRelativeIfShorter(path, projectPath); }
 				),
 				codeblocksSettings->getIndexedHeaderPaths(),
 				m_settings->getProjectDirectoryPath()
@@ -530,7 +521,7 @@ void QtProjectWizzardContentIndexedHeaderPaths::buttonClicked()
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
 				utility::convert<FilePath, FilePath>(
 					getIndexedPathsDerivedFromCDB(cdbSettings),
-					[&](const FilePath& path) { return path.getRelativeTo(projectPath); }
+					[&](const FilePath& path) { return utility::getAsRelativeIfShorter(path, projectPath); }
 				),
 				cdbSettings->getIndexedHeaderPaths(),
 				m_settings->getProjectDirectoryPath()
@@ -861,11 +852,14 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 	const std::set<FilePath> headerSearchPaths = utility::toSet(m_settings->makePathsExpandedAndAbsolute(m_list->getPathsAsDisplayed()));
 
 	std::vector<FilePath> additionalHeaderSearchPaths;
-	for (const FilePath& detectedHeaderSearchPath : detectedHeaderSearchPaths)
 	{
-		if (headerSearchPaths.find(detectedHeaderSearchPath) == headerSearchPaths.end())
+		const FilePath relativeRoot = m_list->getRelativeRootDirectory();
+		for (const FilePath& detectedHeaderSearchPath : detectedHeaderSearchPaths)
 		{
-			additionalHeaderSearchPaths.push_back(detectedHeaderSearchPath);
+			if (headerSearchPaths.find(detectedHeaderSearchPath) == headerSearchPaths.end())
+			{
+				additionalHeaderSearchPaths.push_back(utility::getAsRelativeIfShorter(detectedHeaderSearchPath, relativeRoot));
+			}
 		}
 	}
 
@@ -878,21 +872,9 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 	else
 	{
 		std::wstring detailedText = L"";
-		const FilePath relativeRoot = m_list->getRelativeRootDirectory();
 		for (const FilePath& path : additionalHeaderSearchPaths)
 		{
-			if (!relativeRoot.empty())
-			{
-				const FilePath relPath = path.getRelativeTo(relativeRoot);
-				if (relPath.wstr().size() < path.wstr().size())
-				{
-					detailedText += relPath.wstr() + L"\n";
-				}
-				else
-				{
-					detailedText += path.wstr() + L"\n";
-				}
-			}
+			detailedText += path.wstr() + L"\n";
 		}
 
 		m_filesDialog = std::make_shared<QtTextEditDialog>(

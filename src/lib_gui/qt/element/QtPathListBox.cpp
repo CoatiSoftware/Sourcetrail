@@ -6,6 +6,7 @@
 #include <QMimeData>
 
 #include "qt/element/QtPathListBoxItem.h"
+#include "utility/utilityFile.h"
 
 QtPathListBox::QtPathListBox(QWidget *parent, const QString& listName, SelectionPolicyType selectionPolicy)
 	: QtListBox(parent, listName)
@@ -74,16 +75,9 @@ void QtPathListBox::makeAbsolute(FilePath& path) const
 	}
 }
 
-void QtPathListBox::makeRelative(FilePath& path) const
+void QtPathListBox::makeRelativeIfShorter(FilePath& path) const
 {
-	if (!m_relativeRootDirectory.empty())
-	{
-		const FilePath relPath = path.getRelativeTo(m_relativeRootDirectory);
-		if (relPath.wstr().size() < path.wstr().size())
-		{
-			path = relPath;
-		}
-	}
+	path = utility::getAsRelativeIfShorter(path, m_relativeRootDirectory);
 }
 
 void QtPathListBox::dropEvent(QDropEvent *event)
@@ -91,7 +85,7 @@ void QtPathListBox::dropEvent(QDropEvent *event)
 	foreach(QUrl url, event->mimeData()->urls())
 	{
 		FilePath path(url.toLocalFile().toStdWString());
-		makeRelative(path);
+		makeRelativeIfShorter(path);
 		addListBoxItemWithText(QString::fromStdWString(path.wstr()));
 	}
 }

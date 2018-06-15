@@ -6,10 +6,10 @@
 #include <QPainter>
 #include <QStyleOption>
 
-#include "utility/ResourcePaths.h"
-
 #include "qt/element/QtIconButton.h"
 #include "qt/utility/QtFileDialog.h"
+#include "utility/ResourcePaths.h"
+#include "utility/utilityFile.h"
 
 QtLocationPicker::QtLocationPicker(QWidget *parent)
 	: QWidget(parent)
@@ -118,17 +118,9 @@ void QtLocationPicker::handleButtonPress()
 
 	if (!fileName.isEmpty())
 	{
-		if (!m_relativeRootDirectory.empty())
-		{
-			const FilePath path(fileName.toStdWString());
-			const FilePath relPath = path.getRelativeTo(m_relativeRootDirectory);
-			if (relPath.wstr().size() < path.wstr().size())
-			{
-				fileName = QString::fromStdWString(relPath.wstr());
-			}
-		}
-
-		m_data->setText(fileName);
+		m_data->setText(QString::fromStdWString(utility::getAsRelativeIfShorter(
+			FilePath(fileName.toStdWString()), m_relativeRootDirectory
+		).wstr()));
 		emit locationPicked();
 	}
 }

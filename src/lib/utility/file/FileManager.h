@@ -29,10 +29,8 @@ public:
 
 	// returns a list of paths to all files that reside in the non-excluded source paths
 	std::set<FilePath> getAllSourceFilePaths() const;
-	std::set<FilePath> getAllSourceFilePathsRelative(const FilePath& baseDirectory) const;
 
 private:
-	std::vector<FilePath> makeCanonical(const std::vector<FilePath>& filePaths);
 	bool isExcluded(const FilePath& filePath) const;
 
 	std::vector<FilePath> m_sourcePaths;
