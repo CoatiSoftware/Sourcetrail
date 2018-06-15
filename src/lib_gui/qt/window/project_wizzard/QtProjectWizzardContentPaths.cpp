@@ -289,7 +289,17 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 			LOG_WARNING("Unable to fetch indexed header paths. The provided Sonargraph project path does not exist.");
 		}
 	}
-	return utility::getTopLevelPaths(indexedHeaderPaths);
+
+	std::vector<FilePath> topLevelPaths;
+	for (const FilePath& path : utility::getTopLevelPaths(indexedHeaderPaths))
+	{
+		if (path.exists())
+		{
+			topLevelPaths.push_back(path);
+		}
+	}
+
+	return topLevelPaths;
 }
 
 std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCodeblocksProject(
@@ -319,7 +329,17 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 			LOG_WARNING("Unable to fetch indexed header paths. The provided Sonargraph project path does not exist.");
 		}
 	}
-	return utility::getTopLevelPaths(indexedHeaderPaths);
+
+	std::vector<FilePath> topLevelPaths;
+	for (const FilePath& path : utility::getTopLevelPaths(indexedHeaderPaths))
+	{
+		if (path.exists())
+		{
+			topLevelPaths.push_back(path);
+		}
+	}
+
+	return topLevelPaths;
 }
 
 std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPathsDerivedFromCDB(
@@ -348,7 +368,16 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 		}
 	}
 
-	return utility::getTopLevelPaths(indexedHeaderPaths);
+	std::vector<FilePath> topLevelPaths;
+	for (const FilePath& path : utility::getTopLevelPaths(indexedHeaderPaths))
+	{
+		if (path.exists())
+		{
+			topLevelPaths.push_back(path);
+		}
+	}
+
+	return topLevelPaths;
 }
 
 QtProjectWizzardContentIndexedHeaderPaths::QtProjectWizzardContentIndexedHeaderPaths(
