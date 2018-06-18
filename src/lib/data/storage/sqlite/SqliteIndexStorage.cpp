@@ -648,8 +648,14 @@ void SqliteIndexStorage::setFileIndexed(Id fileId, bool indexed)
 	);
 }
 
-void SqliteIndexStorage::setFileComplete(Id fileId, bool complete)
+void SqliteIndexStorage::setFileCompleteIfNoError(Id fileId, const std::wstring& filePath, bool complete)
 {
+	StorageError error = doGetFirst<StorageError>("WHERE file_path == '" + utility::encodeToUtf8(filePath) + "'");
+	if (error.id)
+	{
+		return;
+	}
+
 	executeStatement(
 		"UPDATE file SET complete = " + std::to_string(complete) + " WHERE id == " + std::to_string(fileId) + ";"
 	);

@@ -96,7 +96,7 @@ private:
 	std::unordered_map<std::wstring, size_t> m_nodesIndex;
 	std::vector<StorageNode> m_nodes;
 
-	std::unordered_set<std::wstring> m_serializedFiles; // this is used to prevent duplicates (unique)
+	std::unordered_map<std::wstring, size_t> m_serializedFiles; // this is used to prevent duplicates (unique)
 	std::vector<StorageFile> m_files;
 
 	std::vector<StorageSymbol> m_symbols;

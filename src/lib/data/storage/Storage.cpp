@@ -29,6 +29,13 @@ void Storage::inject(Storage* injected)
 	TRACE();
 	startInjection();
 
+	injected->forEachError(
+		[&](const StorageErrorData& injectedData)
+		{
+			addError(injectedData);
+		}
+	);
+
 	std::unordered_map<Id, Id> injectedIdToOwnId;
 
 	injected->forEachNode(
@@ -186,13 +193,6 @@ void Storage::inject(Storage* injected)
 				injectedData.endLine,
 				injectedData.endCol
 			));
-		}
-	);
-
-	injected->forEachError(
-		[&](const StorageErrorData& injectedData)
-		{
-			addError(injectedData);
 		}
 	);
 

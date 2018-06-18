@@ -18,6 +18,7 @@ public:
 	MessageShowErrors(const std::vector<Id>& errorIds)
 		: errorIds(errorIds)
 		, errorId(0)
+		, showsOnlyErrorIds(true)
 	{
 	}
 
@@ -34,6 +35,8 @@ public:
 	const ErrorCountInfo errorCount;
 	const std::vector<Id> errorIds;
 	const Id errorId;
+
+	bool showsOnlyErrorIds = false;
 };
 
 #endif // MESSAGE_SHOW_ERRORS_H

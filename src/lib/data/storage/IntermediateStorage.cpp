@@ -126,10 +126,26 @@ void IntermediateStorage::addSymbol(const StorageSymbol& symbol)
 void IntermediateStorage::addFile(const StorageFile& file)
 {
 	const std::wstring serialized = serialize(file);
-	if (m_serializedFiles.find(serialized) == m_serializedFiles.end())
+
+	std::unordered_map<std::wstring, size_t>::const_iterator it = m_serializedFiles.find(serialized);
+	if (it == m_serializedFiles.end())
 	{
+		m_serializedFiles.emplace(serialized, m_files.size());
 		m_files.push_back(file);
-		m_serializedFiles.insert(serialized);
+	}
+	else
+	{
+		StorageFile& storedFile = m_files[it->second];
+
+		if (file.indexed)
+		{
+			storedFile.indexed = true;
+		}
+
+		if (file.complete)
+		{
+			storedFile.complete = true;
+		}
 	}
 }
 

@@ -92,7 +92,7 @@ void PersistentStorage::addFile(const StorageFile& data)
 
 		if (!storedFile.complete && data.complete)
 		{
-			m_sqliteIndexStorage.setFileComplete(storedFile.id, data.complete);
+			m_sqliteIndexStorage.setFileCompleteIfNoError(storedFile.id, storedFile.filePath, data.complete);
 		}
 	}
 }
@@ -1604,33 +1604,61 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const std::vector<Id>
 
 std::vector<Id> PersistentStorage::getErrorIdsForFile(const FilePath& filePath) const
 {
-	std::unordered_map<Id, std::set<Id>> includingMap = getFileIdToIncludedFileIdMap();
+	Id fileId = getFileNodeId(filePath);
+	std::set<Id> fileIds = { fileId };
+	std::vector<Id> errorIds;
 
-	std::set<FilePath> filePaths;
-	filePaths.insert(filePath);
-
-	std::set<Id> fileIdsToProcess = includingMap[getFileNodeId(filePath)];
+	std::unordered_map<Id, std::set<Id>> includedMap = getFileIdToIncludedFileIdMap();
+	std::set<Id> fileIdsToProcess = includedMap[getFileNodeId(filePath)];
 	std::set<Id> processedFileIds;
+
 	while (fileIdsToProcess.size())
 	{
 		std::set<Id> nextFileIdsToProcess;
 		for (Id id : fileIdsToProcess)
 		{
-			if (filePaths.insert(getFileNodePath(id)).second)
+			if (fileIds.insert(id).second)
 			{
-				utility::append(nextFileIdsToProcess, includingMap[id]);
+				utility::append(nextFileIdsToProcess, includedMap[id]);
 			}
 		}
 		fileIdsToProcess = nextFileIdsToProcess;
 	}
 
-	std::vector<Id> errorIds;
-
-	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
+	std::vector<StorageError> errors = m_sqliteIndexStorage.getAll<StorageError>();
+	for (const StorageError& error : errors)
 	{
-		if (m_errorFilter.filter(error) && filePaths.find(FilePath(error.filePath)) != filePaths.end())
+		if (m_errorFilter.filter(error) && fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end())
 		{
 			errorIds.push_back(error.id);
+		}
+	}
+
+	if (errorIds.empty())
+	{
+		std::unordered_map<Id, std::set<Id>> includingMap = getFileIdToIncludingFileIdMap();
+		fileIds.clear();
+
+		fileIdsToProcess = includingMap[fileId];
+		while (fileIdsToProcess.size())
+		{
+			std::set<Id> nextFileIdsToProcess;
+			for (Id id : fileIdsToProcess)
+			{
+				if (fileIds.insert(id).second)
+				{
+					utility::append(nextFileIdsToProcess, includingMap[id]);
+				}
+			}
+			fileIdsToProcess = nextFileIdsToProcess;
+		}
+
+		for (const ErrorInfo& error : errors)
+		{
+			if (error.fatal && m_errorFilter.filter(error) && fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end())
+			{
+				errorIds.push_back(error.id);
+			}
 		}
 	}
 

@@ -2,7 +2,7 @@
 #define _PLAYER_
 
 #include "field.h"
-#include "game_object.h"
+#include "game_objec.h"
 
 class Player : public GameObject {
 public:
