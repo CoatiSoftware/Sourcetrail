@@ -169,14 +169,12 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 					std::set<FilePathFilter>(),
 					FilePath(utility::decodeFromUtf8(command.Directory)),
 					utility::concat(
-						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }), 
+						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }),
 						compilerFlags
 					),
 					systemHeaderSearchPaths,
 					frameworkSearchPaths
 				));
-				LOG_INFO(std::wstring(L"IndexerCommand: ") + IndexerCommandCxxCdb::serialize(indexerCommands.front()).c_str());
-				return indexerCommands;
 			}
 		}
 	}
