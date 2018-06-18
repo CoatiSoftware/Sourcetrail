@@ -40,7 +40,11 @@ std::set<FilePath> SourceGroupCxxCdb::filterToContainedFilePaths(const std::set<
 {
 	std::set<FilePath> containedFilePaths;
 
-	const std::set<FilePath> indexedPaths = getIndexedPaths();
+	const std::set<FilePath> indexedPaths = utility::concat(
+		getAllSourceFilePaths(),
+		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute())
+	);
+
 	const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
 
 	for (const FilePath& filePath : filePaths)
@@ -121,7 +125,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 
 	const std::vector<std::wstring> compilerFlags = m_settings->getCompilerFlags();
 
-	const std::set<FilePath> indexedPaths = getIndexedPaths();
+	const std::set<FilePath> indexedHeaderPaths = utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute());
 	const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
@@ -160,7 +164,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 			{
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxxCdb>(
 					sourcePath,
-					indexedPaths,
+					utility::concat(indexedHeaderPaths, { sourcePath }),
 					excludeFilters,
 					std::set<FilePathFilter>(),
 					FilePath(utility::decodeFromUtf8(command.Directory)),
@@ -171,6 +175,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 					systemHeaderSearchPaths,
 					frameworkSearchPaths
 				));
+				LOG_INFO(std::wstring(L"IndexerCommand: ") + IndexerCommandCxxCdb::serialize(indexerCommands.front()).c_str());
+				return indexerCommands;
 			}
 		}
 	}
@@ -186,12 +192,4 @@ std::shared_ptr<SourceGroupSettings> SourceGroupCxxCdb::getSourceGroupSettings()
 std::shared_ptr<const SourceGroupSettings> SourceGroupCxxCdb::getSourceGroupSettings() const
 {
 	return m_settings;
-}
-
-std::set<FilePath> SourceGroupCxxCdb::getIndexedPaths() const
-{
-	std::set<FilePath> indexedPaths;
-	utility::append(indexedPaths, getAllSourceFilePaths());
-	utility::append(indexedPaths, utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute()));
-	return indexedPaths;
 }

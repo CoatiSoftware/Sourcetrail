@@ -22,7 +22,6 @@ public:
 private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
-	std::set<FilePath> getIndexedPaths() const;
 
 	std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings;
 };
