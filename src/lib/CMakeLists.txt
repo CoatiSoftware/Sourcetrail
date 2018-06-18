@@ -529,7 +529,7 @@ add_files(
 	utility/scheduling/TaskScheduler.cpp
 	utility/scheduling/TaskScheduler.h
 	utility/scheduling/TaskSetValue.h
-	
+
 	utility/sonargraph/SonargraphProject.cpp
 	utility/sonargraph/SonargraphProject.h
 	utility/sonargraph/SonargraphSoftwareSystem.cpp
@@ -594,6 +594,8 @@ add_files(
 	utility/UserPaths.h
 	utility/utility.cpp
 	utility/utility.h
+	utility/utilityCxx.cpp
+	utility/utilityCxx.h
 	utility/utilityFile.cpp
 	utility/utilityFile.h
 	utility/utilityLibrary.h

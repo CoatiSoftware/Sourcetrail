@@ -32,6 +32,7 @@
 #include "utility/IncludeProcessing.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
+#include "utility/utilityCxx.h"
 #include "utility/utilityFile.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
@@ -198,7 +199,11 @@ void QtProjectWizzardContentPaths::detectionClicked()
 {
 	std::vector<FilePath> paths = m_pathDetector->getPaths(m_detectorBox->currentText().toStdString());
 	std::vector<FilePath> oldPaths = m_list->getPathsAsDisplayed();
-	m_list->setPaths(utility::unique(utility::concat(oldPaths, paths)));
+
+	paths = utility::unique(utility::concat(oldPaths, paths));
+	paths = utility::replaceOrAddCxxCompilerHeaderPath(paths);
+
+	m_list->setPaths(paths);
 }
 
 
@@ -418,7 +423,7 @@ void QtProjectWizzardContentIndexedHeaderPaths::populate(QGridLayout* layout, in
 
 void QtProjectWizzardContentIndexedHeaderPaths::load()
 {
-	if (std::shared_ptr<SourceGroupSettingsWithIndexedHeaderPaths> cdbSettings = 
+	if (std::shared_ptr<SourceGroupSettingsWithIndexedHeaderPaths> cdbSettings =
 		std::dynamic_pointer_cast<SourceGroupSettingsWithIndexedHeaderPaths>(m_settings))
 	{
 		m_list->setPaths(cdbSettings->getIndexedHeaderPaths());
@@ -427,7 +432,7 @@ void QtProjectWizzardContentIndexedHeaderPaths::load()
 
 void QtProjectWizzardContentIndexedHeaderPaths::save()
 {
-	if (std::shared_ptr<SourceGroupSettingsWithIndexedHeaderPaths> cdbSettings = 
+	if (std::shared_ptr<SourceGroupSettingsWithIndexedHeaderPaths> cdbSettings =
 		std::dynamic_pointer_cast<SourceGroupSettingsWithIndexedHeaderPaths>(m_settings))
 	{
 		cdbSettings->setIndexedHeaderPaths(m_list->getPathsAsDisplayed());
@@ -441,7 +446,7 @@ bool QtProjectWizzardContentIndexedHeaderPaths::check()
 		QMessageBox msgBox;
 		msgBox.setText("You didn't specify any Header Files & Directories to Index.");
 		msgBox.setInformativeText(QString::fromStdString(
-			"Sourcetrail will only index the source files listed in the " + m_projectKindName + 
+			"Sourcetrail will only index the source files listed in the " + m_projectKindName +
 			" file and none of the included header files."
 		));
 		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -714,7 +719,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 {
 	// TODO: regard Force Includes here, too!
 	m_window->saveContent();
-	
+
 	std::thread([&]()
 	{
 		std::shared_ptr<SourceGroupSettingsWithSourceExtensions> extensionSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourceExtensions>(m_settings);
@@ -786,7 +791,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 	// TODO: regard Force Includes here, too!
 	const std::vector<FilePath> searchedPaths = m_settings->makePathsExpandedAndAbsolute(m_pathsDialog->getPaths());
 	closedPathsDialog();
-	
+
 	std::thread([=]()
 	{
 		std::shared_ptr<SourceGroupSettingsWithSourceExtensions> extensionSettings = std::dynamic_pointer_cast<SourceGroupSettingsWithSourceExtensions>(m_settings);

@@ -17,7 +17,7 @@ public:
 	Settings& operator=(const Settings& other);
 	virtual ~Settings();
 
-	bool load(const FilePath& filePath);
+	bool load(const FilePath& filePath, bool readOnly = false);
 	void save();
 	void save(const FilePath& filePath);
 
@@ -63,6 +63,7 @@ protected:
 
 private:
 	FilePath m_filePath;
+	bool m_readOnly = false;
 
 	friend SettingsMigration;
 };

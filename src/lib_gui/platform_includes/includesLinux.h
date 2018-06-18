@@ -20,7 +20,7 @@ void setupPlatform(int argc, char *argv[])
 
 	// Set QT screen scaling factor
 	ApplicationSettings appSettings;
-	appSettings.load(UserPaths::getAppSettingsPath());
+	appSettings.load(UserPaths::getAppSettingsPath(), true);
 
 	qputenv("QT_AUTO_SCREEN_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_AUTO_SCREEN_SCALE_FACTOR"));
 	qputenv("QT_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_SCALE_FACTOR"));
@@ -44,10 +44,7 @@ void setupPlatform(int argc, char *argv[])
 
 void setupApp(int argc, char *argv[])
 {
-	if (AppPath::getAppPath().empty())
-	{
-		AppPath::setAppPath(FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/"));
-	}
+	AppPath::setAppPath(FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute());
 
 	std::string userdir(std::getenv("HOME"));
 	QDir coatiDir((userdir + "/.config/coati").c_str());

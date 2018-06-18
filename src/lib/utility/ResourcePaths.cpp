@@ -26,3 +26,8 @@ FilePath ResourcePaths::getJavaPath()
 {
 	return AppPath::getAppPath().concatenate(L"data/java/");
 }
+
+FilePath ResourcePaths::getCxxCompilerHeaderPath()
+{
+	return AppPath::getAppPath().concatenate(L"data/cxx/include/");
+}

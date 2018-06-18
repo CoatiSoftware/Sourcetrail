@@ -89,8 +89,8 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	: QtProjectWizzardWindow(parent, false)
 	, m_windowStack(this)
 	, m_editing(false)
-	, m_contentWidget(nullptr)
 	, m_previouslySelectedIndex(-1)
+	, m_contentWidget(nullptr)
 {
 	setScrollAble(true);
 
@@ -831,7 +831,7 @@ void QtProjectWizzard::emptySourceGroup()
 				contentGroup->addContent(new QtProjectWizzardContentJavaStandard(settingsJavaEmpty, this));
 			}
 
-			if (std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> settingsCrossCompile = 
+			if (std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> settingsCrossCompile =
 				std::dynamic_pointer_cast<SourceGroupSettingsWithCxxCrossCompilationOptions>(m_newSourceGroupSettings))
 			{
 				contentGroup->addContent(new QtProjectWizzardContentCrossCompilationOptions(settingsCrossCompile, window));

@@ -9,10 +9,11 @@
 #include "utility/Status.h"
 #include "utility/TimeStamp.h"
 #include "utility/utility.h"
+#include "utility/utilityCxx.h"
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
 
-const size_t ApplicationSettings::VERSION = 4;
+const size_t ApplicationSettings::VERSION = 5;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -34,9 +35,9 @@ ApplicationSettings::~ApplicationSettings()
 {
 }
 
-bool ApplicationSettings::load(const FilePath& filePath)
+bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 {
-	bool loaded = Settings::load(filePath);
+	bool loaded = Settings::load(filePath, readOnly);
 	if (!loaded)
 	{
 		return false;
@@ -85,9 +86,19 @@ bool ApplicationSettings::load(const FilePath& filePath)
 			}
 		}
 	));
+	migrator.addMigration(5, std::make_shared<SettingsMigrationLambda>(
+		[](const SettingsMigration* migration, Settings* settings)
+		{
+			std::vector<FilePath> cxxHeaderSearchPaths = migration->getValuesFromSettings(
+				settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>());
+
+			cxxHeaderSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(cxxHeaderSearchPaths);
+
+			migration->setValuesInSettings(settings, "indexing/cxx/header_search_paths/header_search_path", cxxHeaderSearchPaths);
+		}
+	));
 
 	bool migrated = migrator.migrate(this, ApplicationSettings::VERSION);
-
 	if (migrated)
 	{
 		save();

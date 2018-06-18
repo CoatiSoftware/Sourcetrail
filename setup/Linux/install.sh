@@ -20,5 +20,7 @@ ln -f -s /opt/sourcetrail/Sourcetrail.sh /usr/bin/sourcetrail
 update-mime-database /usr/share/mime > /dev/null
 update-desktop-database > /dev/null
 
+mkdir -p ~/.config/sourcetrail
+
 echo "Installation complete."
 echo "Enter 'sourcetrail' to launch application."

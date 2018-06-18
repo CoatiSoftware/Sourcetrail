@@ -25,6 +25,7 @@
 
 For MacOS and Linux
 * QT_DIR - .../Qt/Qt5.10.1/5.10.1/<IDE>
+* LLVM_DIR - .../clang-llvm
 
 For Windows:
 * QT_WIN32_DIR - .../Qt/Qt5.10.1/5.10.1/msvc2015
@@ -136,6 +137,10 @@ $ ninja -j4 check-all
 $ cd ../build_release
 $ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=ON ../llvm
 $ ninja -j4 check-all
+
+# Update CMakeLists.txt symlink directory
+# Update cmake/linux_package.cmake clang include path
+# Update LLVM version in dockerfiles
 
 #### Remarks
 

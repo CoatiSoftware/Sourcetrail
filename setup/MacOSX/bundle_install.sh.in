@@ -79,6 +79,8 @@ cp -R ../../../bin/app/user/projects $RES_DIR/data/fallback/projects
 
 cp -R ../../../bin/app/data/3rd_party_licenses $RES_DIR/3rd_party_licenses
 
+mkdir -p $RES_DIR/data/cxx/include
+cp -R ../../../bin/app/data/cxx/include/* $RES_DIR/data/cxx/include
 
 echo -e $INFO "run macdeployqt to copy Qt Frameworks and Plugins"
 $QT_DIR/bin/macdeployqt $BUNDLE_PATH

@@ -30,6 +30,7 @@
 #include "utility/UserPaths.h"
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
+#include "utility/utilityCxx.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/Version.h"
 #include "version.h"
@@ -126,6 +127,12 @@ void prefillCxxHeaderPaths()
 	{
 		std::shared_ptr<CombinedPathDetector> cxxHeaderDetector = utility::getCxxHeaderPathDetector();
 		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
+
+		if (utility::getOsType() != OS_WINDOWS)
+		{
+			paths = utility::replaceOrAddCxxCompilerHeaderPath(paths);
+		}
+
 		if (!paths.empty())
 		{
 			MessageStatus(L"Ran C/C++ header path detection, found " + std::to_wstring(paths.size()) + L" path" +

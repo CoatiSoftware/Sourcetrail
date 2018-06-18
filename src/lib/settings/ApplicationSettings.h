@@ -20,7 +20,7 @@ public:
 	ApplicationSettings();
 	~ApplicationSettings();
 
-	bool load(const FilePath& filePath);
+	bool load(const FilePath& filePath, bool readOnly = false);
 
 	bool operator==(const ApplicationSettings& other) const;
 

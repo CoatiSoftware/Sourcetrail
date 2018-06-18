@@ -25,8 +25,10 @@ Settings::~Settings()
 {
 }
 
-bool Settings::load(const FilePath& filePath)
+bool Settings::load(const FilePath& filePath, bool readOnly)
 {
+	m_readOnly = readOnly;
+
 	if (filePath.exists())
 	{
 		m_config = ConfigManager::createAndLoad(TextAccess::createFromFile(filePath));
@@ -44,6 +46,11 @@ bool Settings::load(const FilePath& filePath)
 
 void Settings::save()
 {
+	if (m_readOnly)
+	{
+		return;
+	}
+
 	if (m_config.get() && !m_filePath.empty())
 	{
 		m_config->save(m_filePath.str());

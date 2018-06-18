@@ -13,6 +13,7 @@ public:
 	static FilePath getFontsPath();
 	static FilePath getGuiPath();
 	static FilePath getJavaPath();
+	static FilePath getCxxCompilerHeaderPath();
 };
 
 #endif // RESOURCE_PATHS_H
