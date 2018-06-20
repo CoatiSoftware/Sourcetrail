@@ -90,7 +90,7 @@ void PersistentStorage::addFile(const StorageFile& data)
 			m_sqliteIndexStorage.setFileIndexed(storedFile.id, data.indexed);
 		}
 
-		if (!storedFile.complete && data.complete)
+		if (storedFile.complete != data.complete)
 		{
 			m_sqliteIndexStorage.setFileCompleteIfNoError(storedFile.id, storedFile.filePath, data.complete);
 		}
