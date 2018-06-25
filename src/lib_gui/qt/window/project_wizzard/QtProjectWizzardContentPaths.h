@@ -93,7 +93,7 @@ public:
 	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(std::shared_ptr<const SourceGroupSettingsCxxCdb> settings);
 
 	QtProjectWizzardContentIndexedHeaderPaths(
-		const std::string& projectKindName, std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, std::string projectKindName);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 

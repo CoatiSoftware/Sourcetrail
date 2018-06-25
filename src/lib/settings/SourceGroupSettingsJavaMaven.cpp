@@ -11,6 +11,11 @@ SourceGroupSettingsJavaMaven::SourceGroupSettingsJavaMaven(const std::string& id
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsJavaMaven::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsJavaMaven>(*this);
+}
+
 void SourceGroupSettingsJavaMaven::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsJava::load(config);

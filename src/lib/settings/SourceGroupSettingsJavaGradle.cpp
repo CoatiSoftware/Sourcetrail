@@ -11,6 +11,11 @@ SourceGroupSettingsJavaGradle::SourceGroupSettingsJavaGradle(const std::string& 
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsJavaGradle::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsJavaGradle>(*this);
+}
+
 void SourceGroupSettingsJavaGradle::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsJava::load(config);

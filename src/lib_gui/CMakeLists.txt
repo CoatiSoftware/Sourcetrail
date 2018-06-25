@@ -219,6 +219,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentVS.h
 	qt/window/project_wizzard/QtProjectWizzardWindow.cpp
 	qt/window/project_wizzard/QtProjectWizzardWindow.h
+	qt/window/project_wizzard/QtSourceGroupWizzard.h
+	qt/window/project_wizzard/QtSourceGroupWizzardPage.h
 
 	qt/window/QtAbout.cpp
 	qt/window/QtAbout.h

@@ -14,6 +14,8 @@ class SourceGroupSettingsCxxCdb
 public:
 	SourceGroupSettingsCxxCdb(const std::string& id, const ProjectSettings* projectSettings);
 
+	std::shared_ptr<SourceGroupSettings> createCopy() const override;
+
 	void load(std::shared_ptr<const ConfigManager> config) override;
 	void save(std::shared_ptr<ConfigManager> config) override;
 

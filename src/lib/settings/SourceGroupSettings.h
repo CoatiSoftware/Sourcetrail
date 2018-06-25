@@ -21,6 +21,8 @@ public:
 	SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
 	virtual ~SourceGroupSettings() = default;
 
+	virtual std::shared_ptr<SourceGroupSettings> createCopy() const = 0;
+
 	virtual void load(std::shared_ptr<const ConfigManager> config);
 	virtual void save(std::shared_ptr<ConfigManager> config);
 

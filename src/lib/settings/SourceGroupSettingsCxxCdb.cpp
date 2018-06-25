@@ -9,6 +9,11 @@ SourceGroupSettingsCxxCdb::SourceGroupSettingsCxxCdb(const std::string& id, cons
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsCxxCdb::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsCxxCdb>(*this);
+}
+
 void SourceGroupSettingsCxxCdb::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsCxx::load(config);

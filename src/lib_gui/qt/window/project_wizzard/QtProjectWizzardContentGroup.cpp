@@ -28,6 +28,19 @@ void QtProjectWizzardContentGroup::setIsForm(bool isForm)
 	m_isForm = isForm;
 }
 
+bool QtProjectWizzardContentGroup::hasContents() const
+{
+	for (QtProjectWizzardContent* content : m_contents)
+	{
+		if (content)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void QtProjectWizzardContentGroup::populate(QGridLayout* layout, int& row)
 {
 	if (m_isForm)

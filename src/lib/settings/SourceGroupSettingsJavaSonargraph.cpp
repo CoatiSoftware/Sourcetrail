@@ -5,6 +5,11 @@ SourceGroupSettingsJavaSonargraph::SourceGroupSettingsJavaSonargraph(const std::
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsJavaSonargraph::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsJavaSonargraph>(*this);
+}
+
 void SourceGroupSettingsJavaSonargraph::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettings::load(config);

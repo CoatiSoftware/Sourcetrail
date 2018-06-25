@@ -6,8 +6,8 @@
 #include <QWidget>
 
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "qt/window/project_wizzard/QtSourceGroupWizzard.h"
 #include "qt/window/QtWindow.h"
-
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
@@ -41,6 +41,9 @@ protected:
 	virtual void handlePrevious() override;
 
 private:
+	template <typename SettingsType>
+	void executeSoureGroupSetup(std::shared_ptr<SettingsType> settings);
+
 	QtProjectWizzardWindow* createWindowWithContent(
 		std::function<QtProjectWizzardContent*(QtProjectWizzardWindow*)> func);
 
@@ -54,7 +57,7 @@ private:
 
 	std::shared_ptr<ProjectSettings> m_projectSettings;
 	std::vector<std::shared_ptr<SourceGroupSettings>> m_allSourceGroupSettings;
-	std::shared_ptr<SourceGroupSettings> m_newSourceGroupSettings;
+	std::shared_ptr<QtSourceGroupWizzardBase> m_sourceGroupWizzard;
 	ApplicationSettings m_appSettings;
 
 	bool m_editing;
@@ -83,28 +86,7 @@ private slots:
 	void newSourceGroup();
 	void selectedProjectType(SourceGroupType sourceGroupType);
 
-	void emptySourceGroup();
-	void emptySourceGroupCDBVS();
-	void emptySourceGroupCDB();
-	void emptySourceGroupCxxCodeblocks();
-	void emptySourceGroupCxxSonargraph();
-	void emptySourceGroupJavaSonargraph();
-
-	void sourcePaths();
-	void headerSearchPaths();
-
-	void headerSearchPathsDone();
-	void frameworkSearchPaths();
-
-	void sourcePathsJava();
-	void dependenciesJava();
-	void sourcePathsJavaMaven();
-	void sourcePathsJavaGradle();
-
-	void advancedSettingsCxx();
-	void advancedSettingsJava();
-
-	void createSourceGroup();
+	void createSourceGroup(std::shared_ptr<SourceGroupSettings> settings);
 	void createProject();
 };
 

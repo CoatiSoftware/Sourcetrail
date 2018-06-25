@@ -5,6 +5,11 @@ SourceGroupSettingsCEmpty::SourceGroupSettingsCEmpty(const std::string& id, cons
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsCEmpty::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsCEmpty>(*this);
+}
+
 void SourceGroupSettingsCEmpty::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsCxx::load(config);

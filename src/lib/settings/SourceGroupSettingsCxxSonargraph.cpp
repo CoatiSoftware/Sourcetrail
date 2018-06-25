@@ -5,6 +5,11 @@ SourceGroupSettingsCxxSonargraph::SourceGroupSettingsCxxSonargraph(const std::st
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsCxxSonargraph::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsCxxSonargraph>(*this);
+}
+
 void SourceGroupSettingsCxxSonargraph::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsCxx::load(config);

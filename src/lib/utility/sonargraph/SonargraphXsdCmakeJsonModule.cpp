@@ -293,10 +293,10 @@ namespace Sonargraph
 
 	std::vector<std::shared_ptr<IndexerCommand>> XsdCmakeJsonModule::getIndexerCommandsForRootPath(
 		std::shared_ptr<XsdRootPathWithFiles> rootPath,
-		const std::set<FilePath> indexedHeaderPaths,
+		const std::set<FilePath>& indexedHeaderPaths,
 		const std::string& languageStandard,
-		const std::vector<FilePath> systemHeaderSearchPaths,
-		const std::vector<FilePath> frameworkSearchPaths) const
+		const std::vector<FilePath>& systemHeaderSearchPaths,
+		const std::vector<FilePath>& frameworkSearchPaths) const
 	{
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 		if (rootPath)

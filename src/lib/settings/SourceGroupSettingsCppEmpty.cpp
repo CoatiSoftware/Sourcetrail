@@ -5,6 +5,11 @@ SourceGroupSettingsCppEmpty::SourceGroupSettingsCppEmpty(const std::string& id, 
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsCppEmpty::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsCppEmpty>(*this);
+}
+
 void SourceGroupSettingsCppEmpty::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsCxx::load(config);

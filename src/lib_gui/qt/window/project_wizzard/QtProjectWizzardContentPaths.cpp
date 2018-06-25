@@ -386,7 +386,7 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 }
 
 QtProjectWizzardContentIndexedHeaderPaths::QtProjectWizzardContentIndexedHeaderPaths(
-	const std::string& projectKindName, std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, std::string projectKindName
 )
 	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
 	, m_projectKindName(projectKindName)

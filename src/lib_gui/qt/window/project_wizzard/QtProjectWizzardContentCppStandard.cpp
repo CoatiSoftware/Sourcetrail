@@ -17,22 +17,10 @@ QtProjectWizzardContentCppStandard::QtProjectWizzardContentCppStandard(
 
 void QtProjectWizzardContentCppStandard::populate(QGridLayout* layout, int& row)
 {
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		row++;
-	}
-
 	m_standard = new QComboBox();
 	layout->addWidget(createFormLabel("C++ Standard"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_standard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 	row++;
-
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		layout->setRowStretch(row, 1);
-	}
 }
 
 void QtProjectWizzardContentCppStandard::load()

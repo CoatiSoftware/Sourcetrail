@@ -17,6 +17,7 @@ public:
 	void addSpace();
 
 	void setIsForm(bool isForm);
+	bool hasContents() const;
 
 protected:
 	// QtProjectWizzardContent implementation

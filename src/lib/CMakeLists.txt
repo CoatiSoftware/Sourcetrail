@@ -322,6 +322,8 @@ add_files(
 	settings/SourceGroupSettingsCppEmpty.h
 	settings/SourceGroupSettingsCxxCdb.cpp
 	settings/SourceGroupSettingsCxxCdb.h
+	settings/SourceGroupSettingsCxxCdbVs.cpp
+	settings/SourceGroupSettingsCxxCdbVs.h
 	settings/SourceGroupSettingsCxxCodeblocks.cpp
 	settings/SourceGroupSettingsCxxCodeblocks.h
 	settings/SourceGroupSettingsCxxSonargraph.cpp

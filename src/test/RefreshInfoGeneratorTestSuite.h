@@ -425,6 +425,11 @@ private:
 			: SourceGroupSettings("TEST_ID", SOURCE_GROUP_UNKNOWN, projectSettings)
 		{
 		}
+
+		std::shared_ptr<SourceGroupSettings> createCopy() const override
+		{
+			return std::shared_ptr<SourceGroupSettings>();
+		}
 	};
 
 	class SourceGroupTest : public SourceGroup

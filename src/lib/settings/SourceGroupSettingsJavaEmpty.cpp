@@ -5,6 +5,11 @@ SourceGroupSettingsJavaEmpty::SourceGroupSettingsJavaEmpty(const std::string& id
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsJavaEmpty::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsJavaEmpty>(*this);
+}
+
 void SourceGroupSettingsJavaEmpty::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettings::load(config);

@@ -8,6 +8,11 @@ SourceGroupSettingsCxxCodeblocks::SourceGroupSettingsCxxCodeblocks(const std::st
 {
 }
 
+std::shared_ptr<SourceGroupSettings> SourceGroupSettingsCxxCodeblocks::createCopy() const
+{
+	return std::make_shared<SourceGroupSettingsCxxCodeblocks>(*this);
+}
+
 void SourceGroupSettingsCxxCodeblocks::load(std::shared_ptr<const ConfigManager> config)
 {
 	SourceGroupSettingsCxx::load(config);
