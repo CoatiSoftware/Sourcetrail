@@ -128,10 +128,9 @@ public:
 	virtual StorageStats getStorageStats() const override;
 
 	virtual ErrorCountInfo getErrorCount() const override;
-	virtual ErrorCountInfo getErrorCount(const std::vector<ErrorInfo>& errors) const;
-	virtual std::vector<ErrorInfo> getErrors() const;
-	virtual std::vector<ErrorInfo> getErrorsLimited(const std::vector<Id>& errorIds) const override;
-	virtual std::vector<Id> getErrorIdsForFile(const FilePath& filePath) const override;
+	virtual std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const override;
+	virtual std::vector<ErrorInfo> getErrorsForFileLimited(
+		const ErrorFilter& filter, const FilePath& filePath) const override;
 	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
 		const std::vector<ErrorInfo>& errors) const override;
 
@@ -190,7 +189,7 @@ private:
 	void buildMemberEdgeIdOrderMap();
 	void buildHierarchyCache();
 
-	size_t m_preInjectionErrorCount = 0;
+	int m_preInjectionErrorCount = 0;
 
 	SearchIndex m_commandIndex;
 	SearchIndex m_symbolIndex;

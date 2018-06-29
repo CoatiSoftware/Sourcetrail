@@ -81,10 +81,11 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	ss << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) + " fatal)\n";
 	ss << "\n";
 
-	if (stats.completedFileCount != stats.fileCount)
+	if (errorCount.fatal)
 	{
-		ss << "\tWarning: Indexing is incomplete as long as it yields fatal errors.\n";
-		ss << "\tTry resolving them and refresh the project.\n";
+		ss << "\tWarning: Your project has fatal errors, which cause\n";
+		ss << "\t  a lot of missing information in affected files.\n";
+		ss << "\t  Try to resolve them!\n";
 		ss << "\n";
 	}
 
@@ -94,6 +95,41 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	params.clearSnippets = true;
 	params.showContents = !message->isReplayed();
 	showCodeSnippets({ statsSnippet }, params);
+}
+
+void CodeController::handleMessage(MessageActivateErrors* message)
+{
+	TRACE("code errors");
+
+	saveOrRestoreViewMode(message);
+
+	CodeView* view = getView();
+
+	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
+	view->scrollTo(scrollParams);
+
+	std::vector<ErrorInfo> errors;
+	if (message->file.empty())
+	{
+		errors = m_storageAccess->getErrorsLimited(message->filter);
+	}
+	else
+	{
+		errors = m_storageAccess->getErrorsForFileLimited(message->filter, message->file);
+	}
+
+	m_collection = m_storageAccess->getErrorSourceLocations(errors);
+	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
+
+	std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
+
+	CodeView::CodeParams params;
+	params.clearSnippets = true;
+	params.errorInfos = errors;
+	params.showContents = !message->isReplayed();
+	params.useSingleFileCache = false;
+
+	showCodeSnippets(snippets, params, false);
 }
 
 void CodeController::handleMessage(MessageActivateLocalSymbols* message)
@@ -230,14 +266,6 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	}
 }
 
-void CodeController::handleMessage(MessageClearErrorCount* message)
-{
-	if (getView()->showsErrors())
-	{
-		clear();
-	}
-}
-
 void CodeController::handleMessage(MessageDeactivateEdge* message)
 {
 	if (message->scrollToDefinition)
@@ -246,6 +274,14 @@ void CodeController::handleMessage(MessageDeactivateEdge* message)
 		scrollParams.animated = true;
 		scrollParams.ignoreActiveReference = true;
 		getView()->scrollTo(scrollParams);
+	}
+}
+
+void CodeController::handleMessage(MessageErrorCountClear* message)
+{
+	if (getView()->showsErrors())
+	{
+		clear();
 	}
 }
 
@@ -289,44 +325,6 @@ void CodeController::handleMessage(MessageScrollCode* message)
 	}
 }
 
-void CodeController::handleMessage(MessageShowErrors* message)
-{
-	TRACE("code errors");
-
-	saveOrRestoreViewMode(message);
-
-	CodeView* view = getView();
-	if (!view->showsErrors() || !message->errorId)
-	{
-		CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-		view->scrollTo(scrollParams);
-
-		std::vector<ErrorInfo> errors;
-		if (!message->showsOnlyErrorIds || message->errorIds.size())
-		{
-			errors = m_storageAccess->getErrorsLimited(message->errorIds);
-		}
-
-		m_collection = m_storageAccess->getErrorSourceLocations(errors);
-		std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
-
-		std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
-
-		CodeView::CodeParams params;
-		params.clearSnippets = true;
-		params.errorInfos = errors;
-		params.showContents = !message->isReplayed();
-		params.useSingleFileCache = false;
-
-		showCodeSnippets(snippets, params, false);
-	}
-
-	if (message->errorId)
-	{
-		view->showActiveSnippet(std::vector<Id>(1, message->errorId), m_collection, message->isLast());
-	}
-}
-
 void CodeController::handleMessage(MessageSearchFullText* message)
 {
 	TRACE("code fulltext");
@@ -344,6 +342,15 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 	params.useSingleFileCache = false;
 
 	showCodeSnippets(getSnippetsForCollection(m_collection), params);
+}
+
+void CodeController::handleMessage(MessageShowError* message)
+{
+	CodeView* view = getView();
+	if (view->showsErrors())
+	{
+		view->showActiveSnippet({ message->errorId }, m_collection, message->isLast());
+	}
 }
 
 void CodeController::handleMessage(MessageShowScope* message)

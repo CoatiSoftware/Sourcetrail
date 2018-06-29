@@ -3,12 +3,12 @@
 #include "data/access/StorageAccess.h"
 #include "settings/ApplicationSettings.h"
 
+#include "utility/messaging/type/error/MessageErrorsAll.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageRefresh.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageScrollToLine.h"
 
@@ -153,8 +153,7 @@ void ActivationController::handleMessage(MessageSearch* message)
 
 			case SearchMatch::COMMAND_ERROR:
 			{
-				MessageShowErrors(m_storageAccess->getErrorCount()).dispatch();
-				MessageFlushUpdates().dispatch();
+				MessageErrorsAll().dispatch();
 				return;
 			}
 		}
@@ -166,11 +165,6 @@ void ActivationController::handleMessage(MessageSearch* message)
 	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
 	m.isFromSearch = message->isFromSearch;
 	m.dispatchImmediately();
-}
-
-void ActivationController::handleMessage(MessageShowErrorsForFile* message)
-{
-	MessageShowErrors(m_storageAccess->getErrorIdsForFile(message->filePath)).dispatch();
 }
 
 void ActivationController::handleMessage(MessageZoom* message)

@@ -18,7 +18,7 @@
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageNewErrors.h"
+#include "utility/messaging/type/error/MessageErrorCountUpdate.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/TextCodec.h"
@@ -224,7 +224,7 @@ void PersistentStorage::forEachError(std::function<void(const StorageErrorData& 
 
 void PersistentStorage::startInjection()
 {
-	m_preInjectionErrorCount = getErrors().size();
+	m_preInjectionErrorCount = m_sqliteIndexStorage.getErrorCount();
 
 	m_sqliteIndexStorage.beginTransaction();
 }
@@ -233,14 +233,9 @@ void PersistentStorage::finishInjection()
 {
 	m_sqliteIndexStorage.commitTransaction();
 
-	auto errors = getErrors();
-
-	if (m_preInjectionErrorCount != errors.size())
+	if (m_preInjectionErrorCount != m_sqliteIndexStorage.getErrorCount())
 	{
-		MessageNewErrors(
-			std::vector<ErrorInfo>(errors.begin() + m_preInjectionErrorCount, errors.end()),
-			getErrorCount(errors)
-		).dispatch();
+		MessageErrorCountUpdate(getErrorCount()).dispatch();
 	}
 }
 
@@ -1546,53 +1541,20 @@ StorageStats PersistentStorage::getStorageStats() const
 
 ErrorCountInfo PersistentStorage::getErrorCount() const
 {
-	return getErrorCount(getErrors());
+	return ErrorCountInfo(m_sqliteIndexStorage.getAll<StorageError>());
 }
 
-ErrorCountInfo PersistentStorage::getErrorCount(const std::vector<ErrorInfo>& errors) const
-{
-	ErrorCountInfo info;
-
-	for (const ErrorInfo& error : errors)
-	{
-		info.total++;
-
-		if (error.fatal)
-		{
-			info.fatal++;
-		}
-	}
-
-	return info;
-}
-
-std::vector<ErrorInfo> PersistentStorage::getErrors() const
+std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const ErrorFilter& filter) const
 {
 	std::vector<ErrorInfo> errors;
 
 	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
 	{
-		if (m_errorFilter.filter(error))
-		{
-			errors.push_back(error);
-		}
-	}
-
-	return errors;
-}
-
-std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const std::vector<Id>& errorIds) const
-{
-	std::vector<ErrorInfo> errors;
-	std::set<Id> ids(errorIds.begin(), errorIds.end());
-
-	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
-	{
-		if (m_errorFilter.filter(error) && (!ids.size() || ids.find(error.id) != ids.end()))
+		if (filter.filter(error))
 		{
 			errors.push_back(error);
 
-			if (m_errorFilter.limit > 0 && errors.size() >= m_errorFilter.limit)
+			if (filter.limit > 0 && errors.size() >= filter.limit)
 			{
 				break;
 			}
@@ -1602,11 +1564,10 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const std::vector<Id>
 	return errors;
 }
 
-std::vector<Id> PersistentStorage::getErrorIdsForFile(const FilePath& filePath) const
+std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const ErrorFilter& filter, const FilePath& filePath) const
 {
 	Id fileId = getFileNodeId(filePath);
 	std::set<Id> fileIds = { fileId };
-	std::vector<Id> errorIds;
 
 	std::unordered_map<Id, std::set<Id>> includedMap = getFileIdToIncludedFileIdMap();
 	std::set<Id> fileIdsToProcess = includedMap[getFileNodeId(filePath)];
@@ -1625,16 +1586,18 @@ std::vector<Id> PersistentStorage::getErrorIdsForFile(const FilePath& filePath) 
 		fileIdsToProcess = nextFileIdsToProcess;
 	}
 
+	std::vector<ErrorInfo> res;
+
 	std::vector<StorageError> errors = m_sqliteIndexStorage.getAll<StorageError>();
 	for (const StorageError& error : errors)
 	{
-		if (m_errorFilter.filter(error) && fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end())
+		if (filter.filter(error) && fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end())
 		{
-			errorIds.push_back(error.id);
+			res.push_back(error);
 		}
 	}
 
-	if (errorIds.empty())
+	if (res.empty())
 	{
 		std::unordered_map<Id, std::set<Id>> includingMap = getFileIdToIncludingFileIdMap();
 		fileIds.clear();
@@ -1655,14 +1618,14 @@ std::vector<Id> PersistentStorage::getErrorIdsForFile(const FilePath& filePath) 
 
 		for (const ErrorInfo& error : errors)
 		{
-			if (error.fatal && m_errorFilter.filter(error) && fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end())
+			if (error.fatal && filter.filter(error) && fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end())
 			{
-				errorIds.push_back(error.id);
+				res.push_back(error);
 			}
 		}
 	}
 
-	return errorIds;
+	return res;
 }
 
 std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocations(
@@ -1671,7 +1634,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 	TRACE();
 
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
-	size_t count = 0;
+
 	for (const ErrorInfo& error : errors)
 	{
 		// Set first bit to 1 to avoid collisions
@@ -1687,13 +1650,6 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 			error.lineNumber,
 			error.columnNumber
 		);
-
-		count++;
-
-		if (m_errorFilter.limit > 0 && count >= m_errorFilter.limit)
-		{
-			break;
-		}
 	}
 
 	addCompleteFlagsToSourceLocationCollection(collection.get());

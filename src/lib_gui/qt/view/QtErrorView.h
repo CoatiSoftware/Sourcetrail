@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "component/controller/ErrorController.h"
+#include "component/controller/helper/ControllerProxy.h"
 #include "component/view/ErrorView.h"
 #include "data/ErrorFilter.h"
 #include "qt/utility/QtThreadedFunctor.h"
@@ -33,17 +35,17 @@ public:
 
 	// ErrorView implementation
 	virtual void clear();
-	virtual void addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo);
-	virtual void setErrorId(Id errorId);
 
-	virtual void setErrorCount(ErrorCountInfo info);
-	virtual void resetErrorLimit();
+	virtual void addErrors(const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo);
+	virtual void setErrorId(Id errorId);
 
 	virtual void showErrorHelpMessage();
 
+	virtual ErrorFilter getErrorFilter() const;
+	virtual void setErrorFilter(const ErrorFilter& filter);
+
 private slots:
 	void errorFilterChanged(int i = 0);
-	void errorFilterChanged(int i, bool showErrors);
 
 private:
 	enum COLUMN {
@@ -65,10 +67,12 @@ private:
 
 	static QIcon s_errorIcon;
 
+	ControllerProxy<ErrorController> m_controllerProxy;
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	ErrorFilter m_errorFilter;
 
+	QLabel* m_errorLabel;
 	QLabel* m_allLabel;
 	QPushButton* m_allButton;
 

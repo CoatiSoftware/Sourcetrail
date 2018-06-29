@@ -841,6 +841,11 @@ int SqliteIndexStorage::getSourceLocationCount() const
 	return executeStatementScalar("SELECT COUNT(*) FROM source_location;", 0);
 }
 
+int SqliteIndexStorage::getErrorCount() const
+{
+	return executeStatementScalar("SELECT COUNT(*) FROM error;", 0);
+}
+
 std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices() const
 {
 	std::vector<std::pair<int, SqliteDatabaseIndex>> indices;

@@ -64,6 +64,11 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	buildGraph(message, false, true, message->acceptedNodeTypes != NodeTypeSet::all());
 }
 
+void GraphController::handleMessage(MessageActivateErrors* message)
+{
+	clear();
+}
+
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
 	TRACE("graph activate");
@@ -494,11 +499,6 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 			getView()->resizeView();
 		}
 	}
-}
-
-void GraphController::handleMessage(MessageShowErrors* message)
-{
-	clear();
 }
 
 void GraphController::handleMessage(MessageShowReference* message)

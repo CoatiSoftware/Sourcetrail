@@ -1,6 +1,8 @@
 #ifndef ERROR_COUNT_INFO_H
 #define ERROR_COUNT_INFO_H
 
+#include "data/ErrorInfo.h"
+
 struct ErrorCountInfo
 {
 	ErrorCountInfo()
@@ -12,6 +14,21 @@ struct ErrorCountInfo
 		: total(total)
 		, fatal(fatal)
 	{}
+
+	ErrorCountInfo(const std::vector<ErrorInfo>& errors)
+		: total(0)
+		, fatal(0)
+	{
+		for (const ErrorInfo& error : errors)
+		{
+			total++;
+
+			if (error.fatal)
+			{
+				fatal++;
+			}
+		}
+	}
 
 	size_t total;
 	size_t fatal;

@@ -23,15 +23,19 @@ void StatusBarController::clear()
 	getView()->setErrorCount(ErrorCountInfo());
 }
 
-void StatusBarController::handleMessage(MessageClearErrorCount* message)
+void StatusBarController::handleMessage(MessageErrorCountClear* message)
 {
 	getView()->setErrorCount(ErrorCountInfo());
 }
 
+void StatusBarController::handleMessage(MessageErrorCountUpdate* message)
+{
+	getView()->setErrorCount(message->errorCount);
+}
+
 void StatusBarController::handleMessage(MessageFinishedParsing* message)
 {
-	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
-	getView()->setErrorCount(errorCount);
+	getView()->setErrorCount(m_storageAccess->getErrorCount());
 }
 
 void StatusBarController::handleMessage(MessagePingReceived* message)
@@ -55,16 +59,6 @@ void StatusBarController::handleMessage(MessageRefresh* message)
 	}
 
 	getView()->setErrorCount(m_storageAccess->getErrorCount());
-}
-
-void StatusBarController::handleMessage(MessageShowErrors* message)
-{
-	if (message->errorId || message->errorIds.size() || message->isReplayed())
-	{
-		return;
-	}
-
-	getView()->setErrorCount(message->errorCount);
 }
 
 void StatusBarController::handleMessage(MessageStatus* message)

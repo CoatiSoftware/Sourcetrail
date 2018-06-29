@@ -22,7 +22,7 @@
 
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageClearErrorCount.h"
+#include "utility/messaging/type/error/MessageErrorCountClear.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -342,7 +342,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	}
 
 	MessageStatus(L"Preparing Indexing", false, true).dispatch();
-	MessageClearErrorCount().dispatch();
+	MessageErrorCountClear().dispatch();
 
 	dialogView->showUnknownProgressDialog(L"Preparing Indexing", L"Setting up Indexers");
 

@@ -3,12 +3,8 @@
 
 #include "data/access/StorageAccess.h"
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageErrorFilterChanged.h"
-
 class StorageAccessProxy
 	: public StorageAccess
-	, public MessageListener<MessageErrorFilterChanged>
 {
 public:
 	StorageAccessProxy();
@@ -63,7 +59,7 @@ public:
 	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const override;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
-	
+
 	virtual FileInfo getFileInfoForFileId(Id id) const override;
 
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
@@ -72,8 +68,9 @@ public:
 	virtual StorageStats getStorageStats() const override;
 
 	virtual ErrorCountInfo getErrorCount() const override;
-	virtual std::vector<ErrorInfo> getErrorsLimited(const std::vector<Id>& errorIds) const override;
-	virtual std::vector<Id> getErrorIdsForFile(const FilePath& filePath) const override;
+	virtual std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const override;
+	virtual std::vector<ErrorInfo> getErrorsForFileLimited(
+		const ErrorFilter& filter, const FilePath& filePath) const override;
 	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
 		const std::vector<ErrorInfo>& errors) const override;
 
@@ -96,12 +93,7 @@ public:
 	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const override;
 
-protected:
-	virtual void setErrorFilter(const ErrorFilter& filter) override;
-
 private:
-	void handleMessage(MessageErrorFilterChanged* message) override;
-
 	StorageAccess* m_subject;
 };
 

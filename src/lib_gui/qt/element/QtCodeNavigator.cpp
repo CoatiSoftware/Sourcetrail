@@ -7,8 +7,8 @@
 #include <QVBoxLayout>
 
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/error/MessageShowError.h"
 #include "utility/messaging/type/MessageScrollCode.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/ResourcePaths.h"
 
 #include "data/location/SourceLocation.h"
@@ -918,7 +918,7 @@ void QtCodeNavigator::handleMessage(MessageShowReference* message)
 
 				if (ref.locationType == LOCATION_ERROR)
 				{
-					MessageShowErrors(ref.tokenId).dispatch();
+					MessageShowError(ref.tokenId).dispatch();
 				}
 			}
 

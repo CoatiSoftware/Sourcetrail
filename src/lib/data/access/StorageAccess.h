@@ -87,13 +87,11 @@ public:
 	virtual StorageStats getStorageStats() const = 0;
 
 	virtual ErrorCountInfo getErrorCount() const = 0;
-	// returns all errors if errorIds is empty
-	virtual std::vector<ErrorInfo> getErrorsLimited(const std::vector<Id>& errorIds) const = 0;
-	virtual std::vector<Id> getErrorIdsForFile(const FilePath& filePath) const = 0;
+	virtual std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const = 0;
+	virtual std::vector<ErrorInfo> getErrorsForFileLimited(
+		const ErrorFilter& filter, const FilePath& filePath) const = 0;
 	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
 		const std::vector<ErrorInfo>& errors) const = 0;
-
-	virtual void setErrorFilter(const ErrorFilter& filter);
 
 	// todo: remove bookmark related methods from storage access
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark) = 0;
@@ -112,9 +110,6 @@ public:
 	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const = 0;
 	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const = 0;
-
-protected:
-	ErrorFilter m_errorFilter;
 };
 
 #endif // STORAGE_ACCESS_H

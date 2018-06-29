@@ -54,6 +54,19 @@ void UndoRedoController::handleMessage(MessageActivateAll* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageActivateErrors* message)
+{
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageActivateErrors*>(lastMessage())->filter == message->filter &&
+		static_cast<MessageActivateErrors*>(lastMessage())->file == message->file)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageActivateErrors>(*message), Command::ORDER_ACTIVATE);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message)
 {
 	if (sameMessageTypeAsLast(message))
@@ -270,16 +283,15 @@ void UndoRedoController::handleMessage(MessageSearchFullText* message)
 	processCommand(command);
 }
 
-void UndoRedoController::handleMessage(MessageShowErrors* message)
+void UndoRedoController::handleMessage(MessageShowError* message)
 {
 	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageShowErrors*>(lastMessage())->errorId == message->errorId &&
-		static_cast<MessageShowErrors*>(lastMessage())->errorIds.size() == message->errorIds.size())
+		static_cast<MessageShowError*>(lastMessage())->errorId == message->errorId)
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageShowErrors>(*message), Command::ORDER_ACTIVATE);
+	Command command(std::make_shared<MessageShowError>(*message), Command::ORDER_ADAPT);
 	processCommand(command);
 }
 
@@ -637,7 +649,7 @@ SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) c
 		match.searchType = SearchMatch::SEARCH_FULLTEXT;
 		return match;
 	}
-	else if (message->getType() == MessageShowErrors::getStaticType())
+	else if (message->getType() == MessageActivateErrors::getStaticType())
 	{
 		return SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
 	}

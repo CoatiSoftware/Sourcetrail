@@ -8,7 +8,7 @@ struct ErrorFilter
 	ErrorFilter()
 		: error(true)
 		, fatal(true)
-		, unindexedError(false)
+		, unindexedError(true)
 		, unindexedFatal(true)
 		, limit(1000)
 	{
@@ -25,6 +25,15 @@ struct ErrorFilter
 		if (!unindexedFatal && info.fatal && !info.indexed)
 			return false;
 		return true;
+	}
+
+	bool operator==(const ErrorFilter& other) const
+	{
+		return error == other.error &&
+			fatal == other.fatal &&
+			unindexedError == other.unindexedError &&
+			unindexedFatal == other.unindexedFatal &&
+			limit == other.limit;
 	}
 
 	bool error;

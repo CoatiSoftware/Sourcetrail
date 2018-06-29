@@ -8,8 +8,8 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/element/QtHelpButton.h"
 #include "qt/element/QtProgressBar.h"
+#include "utility/messaging/type/error/MessageErrorsHelpMessage.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
-#include "utility/messaging/type/MessageShowErrorHelpMessage.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utility.h"
 
@@ -359,7 +359,7 @@ void QtIndexingDialog::handleNext()
 
 	if (m_type == DIALOG_REPORT)
 	{
-		MessageShowErrorHelpMessage().dispatch();
+		MessageErrorsHelpMessage().dispatch();
 	}
 
 	QtWindow::handleNext();
@@ -486,7 +486,7 @@ void QtIndexingDialog::addErrorWidget(QBoxLayout* layout)
 	connect(helpButton, &QtHelpButton::clicked,
 		[]()
 		{
-			MessageShowErrorHelpMessage(true).dispatch();
+			MessageErrorsHelpMessage(true).dispatch();
 		}
 	);
 

@@ -19,9 +19,7 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
-#include "utility/messaging/type/MessageErrorFilterChanged.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/ResourcePaths.h"
 
 QIcon QtErrorView::s_errorIcon;
@@ -56,6 +54,7 @@ QWidget* SelectableDelegate::createEditor(
 
 QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout)
+	, m_controllerProxy(this)
 	, m_ignoreRowSelection(false)
 {
 	s_errorIcon = QIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr()));
@@ -107,7 +106,9 @@ void QtErrorView::initView()
 				return;
 			}
 
-			MessageShowErrors(m_model->item(index.row(), COLUMN::ID)->text().toUInt()).dispatch();
+			Id errorId = m_model->item(index.row(), COLUMN::ID)->text().toUInt();
+
+			m_controllerProxy.executeAsTaskWithArgs(&ErrorController::showError, errorId);
 		}
 	});
 
@@ -153,11 +154,9 @@ void QtErrorView::initView()
 		m_allLabel = new QLabel("");
 		checkboxes->addWidget(m_allLabel);
 		m_allLabel->hide();
-	}
 
-	checkboxes->addSpacing(5);
+		checkboxes->addSpacing(5);
 
-	{
 		m_allButton = new QPushButton("");
 		m_allButton->setObjectName("screen_button");
 		connect(m_allButton, &QPushButton::clicked,
@@ -169,6 +168,9 @@ void QtErrorView::initView()
 		);
 		checkboxes->addWidget(m_allButton);
 		m_allButton->hide();
+
+		m_errorLabel = new QLabel("");
+		checkboxes->addWidget(m_errorLabel);
 	}
 
 	checkboxes->addSpacing(10);
@@ -215,10 +217,14 @@ void QtErrorView::clear()
 		}
 
 		m_table->updateRows();
+
+		m_allLabel->setVisible(false);
+		m_allButton->setVisible(false);
+		m_errorLabel->setVisible(false);
 	});
 }
 
-void QtErrorView::addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo)
+void QtErrorView::addErrors(const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo)
 {
 	m_onQtThread([=]()
 	{
@@ -236,6 +242,20 @@ void QtErrorView::addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo)
 		{
 			m_table->showFirstRow();
 		}
+
+		bool limited = m_errorFilter.limit > 0 && errorCount.total > m_errorFilter.limit;
+
+		m_allLabel->setVisible(limited);
+		m_allLabel->setText("<b>Only displaying first " + QString::number(m_errorFilter.limit) + " errors</b>");
+
+		m_allButton->setVisible(limited);
+		m_allButton->setText("Show all " + QString::number(errorCount.total));
+
+		m_errorLabel->setVisible(!limited);
+		m_errorLabel->setText("<b>displaying " +
+			QString::number(errorCount.total) + " error" + (errorCount.total != 1 ? "s" : "") +
+			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : "") + "</b>"
+		);
 	});
 }
 
@@ -254,26 +274,6 @@ void QtErrorView::setErrorId(Id errorId)
 	});
 }
 
-void QtErrorView::setErrorCount(ErrorCountInfo info)
-{
-	m_onQtThread([=]()
-	{
-		m_allLabel->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
-		m_allButton->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
-
-		m_allLabel->setText("<b>Only showing first " + QString::number(m_errorFilter.limit) + " errors</b>");
-		m_allButton->setText("Show all " + QString::number(info.total));
-	});
-}
-
-void QtErrorView::resetErrorLimit()
-{
-	ErrorFilter filter;
-
-	m_errorFilter.limit = filter.limit;
-	errorFilterChanged(0, false);
-}
-
 void QtErrorView::showErrorHelpMessage()
 {
 	m_onQtThread([=]()
@@ -282,12 +282,40 @@ void QtErrorView::showErrorHelpMessage()
 	});
 }
 
-void QtErrorView::errorFilterChanged(int i)
+ErrorFilter QtErrorView::getErrorFilter() const
 {
-	errorFilterChanged(i, true);
+	return m_errorFilter;
 }
 
-void QtErrorView::errorFilterChanged(int i, bool showErrors)
+void QtErrorView::setErrorFilter(const ErrorFilter& filter)
+{
+	if (m_errorFilter == filter)
+	{
+		return;
+	}
+
+	m_errorFilter = filter;
+
+	m_onQtThread([=]()
+	{
+		m_showErrors->blockSignals(true);
+		m_showFatals->blockSignals(true);
+		m_showNonIndexedErrors->blockSignals(true);
+		m_showNonIndexedFatals->blockSignals(true);
+
+		m_showErrors->setChecked(m_errorFilter.error);
+		m_showFatals->setChecked(m_errorFilter.fatal);
+		m_showNonIndexedErrors->setChecked(m_errorFilter.unindexedError);
+		m_showNonIndexedFatals->setChecked(m_errorFilter.unindexedFatal);
+
+		m_showErrors->blockSignals(false);
+		m_showFatals->blockSignals(false);
+		m_showNonIndexedErrors->blockSignals(false);
+		m_showNonIndexedFatals->blockSignals(false);
+	});
+}
+
+void QtErrorView::errorFilterChanged(int i)
 {
 	m_table->selectionModel()->clearSelection();
 
@@ -296,7 +324,7 @@ void QtErrorView::errorFilterChanged(int i, bool showErrors)
 	m_errorFilter.unindexedError = m_showNonIndexedErrors->isChecked();
 	m_errorFilter.unindexedFatal = m_showNonIndexedFatals->isChecked();
 
-	MessageErrorFilterChanged(m_errorFilter, showErrors).dispatch();
+	m_controllerProxy.executeAsTaskWithArgs(&ErrorController::errorFilterChanged, m_errorFilter);
 }
 
 void QtErrorView::setStyleSheet() const

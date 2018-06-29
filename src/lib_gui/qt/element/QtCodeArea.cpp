@@ -17,11 +17,11 @@
 #include "qt/utility/QtContextMenu.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
+#include "utility/messaging/type/error/MessageShowError.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/TextCodec.h"
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
@@ -715,7 +715,7 @@ void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotation
 
 	if (errorIds.size() == 1)
 	{
-		MessageShowErrors(errorIds[0]).dispatch();
+		MessageShowError(errorIds[0]).dispatch();
 	}
 }
 

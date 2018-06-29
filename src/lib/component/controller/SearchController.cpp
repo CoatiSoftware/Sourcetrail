@@ -28,6 +28,12 @@ void SearchController::handleMessage(MessageActivateAll* message)
 	getView()->setMatches(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL)));
 }
 
+void SearchController::handleMessage(MessageActivateErrors* message)
+{
+	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
+	getView()->setMatches(std::vector<SearchMatch>(1, match));
+}
+
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
 	if ((message->isFromSearch && !message->isReplayed()) || message->keepContent())
@@ -97,12 +103,6 @@ void SearchController::handleMessage(MessageSearchFullText* message)
 
 	SearchMatch match(prefix + message->searchTerm);
 	match.searchType = SearchMatch::SEARCH_FULLTEXT;
-	getView()->setMatches(std::vector<SearchMatch>(1, match));
-}
-
-void SearchController::handleMessage(MessageShowErrors* message)
-{
-	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
 	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 

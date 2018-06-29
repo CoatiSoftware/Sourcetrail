@@ -7,9 +7,8 @@
 #include "qt/window/QtWindowStack.h"
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/error/MessageErrorCountUpdate.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
-#include "utility/messaging/type/MessageNewErrors.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageWindowClosed.h"
 
 class QtMainWindow;
@@ -18,9 +17,8 @@ class QtWindow;
 class QtDialogView
 	: public QObject
 	, public DialogView
+	, public MessageListener<MessageErrorCountUpdate>
 	, public MessageListener<MessageInterruptTasks>
-	, public MessageListener<MessageNewErrors>
-	, public MessageListener<MessageShowErrors>
 	, public MessageListener<MessageWindowClosed>
 {
 	Q_OBJECT
@@ -57,9 +55,8 @@ private slots:
 	void setUIBlocked(bool blocked);
 
 private:
+	void handleMessage(MessageErrorCountUpdate* message) override;
 	void handleMessage(MessageInterruptTasks* message) override;
-	void handleMessage(MessageNewErrors* message) override;
-	void handleMessage(MessageShowErrors* message) override;
 	void handleMessage(MessageWindowClosed* message) override;
 
 	void updateErrorCount(size_t errorCount, size_t fatalCount);

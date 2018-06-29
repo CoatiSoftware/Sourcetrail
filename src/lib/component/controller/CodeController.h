@@ -6,12 +6,14 @@
 
 #include "utility/file/FilePath.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/error/MessageActivateErrors.h"
+#include "utility/messaging/type/error/MessageErrorCountClear.h"
+#include "utility/messaging/type/error/MessageShowError.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateTrailEdge.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
-#include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
@@ -19,7 +21,6 @@
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageScrollToLine.h"
 #include "utility/messaging/type/MessageSearchFullText.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/types.h"
 
@@ -35,19 +36,20 @@ class SourceLocationFile;
 class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
+	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
-	, public MessageListener<MessageClearErrorCount>
 	, public MessageListener<MessageDeactivateEdge>
+	, public MessageListener<MessageErrorCountClear>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollToLine>
 	, public MessageListener<MessageSearchFullText>
-	, public MessageListener<MessageShowErrors>
+	, public MessageListener<MessageShowError>
 	, public MessageListener<MessageShowScope>
 {
 public:
@@ -58,19 +60,20 @@ private:
 	static const uint s_lineRadius;
 
 	virtual void handleMessage(MessageActivateAll* message);
+	virtual void handleMessage(MessageActivateErrors* message);
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageChangeFileView* message);
-	virtual void handleMessage(MessageClearErrorCount* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
+	virtual void handleMessage(MessageErrorCountClear* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageScrollToLine* message);
 	virtual void handleMessage(MessageSearchFullText* message);
-	virtual void handleMessage(MessageShowErrors* message);
+	virtual void handleMessage(MessageShowError* message);
 	virtual void handleMessage(MessageShowScope* message);
 
 	CodeView* getView() const;

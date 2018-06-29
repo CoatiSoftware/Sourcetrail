@@ -141,6 +141,7 @@ public:
 	int getCompletedFileCount() const;
 	int getFileLineSum() const;
 	int getSourceLocationCount() const;
+	int getErrorCount() const;
 
 private:
 	static const size_t s_storageVersion;

@@ -6,13 +6,13 @@
 #include "data/bookmark/EdgeBookmark.h"
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateBookmark.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 
 #include "component/controller/Controller.h"
 
@@ -22,11 +22,11 @@ class BookmarkController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateBookmark>
+	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageDisplayBookmarkCreator>
 	, public MessageListener<MessageDisplayBookmarks>
 	, public MessageListener<MessageFinishedParsing>
-	, public MessageListener<MessageShowErrors>
 {
 public:
 	BookmarkController(StorageAccess* storageAccess);
@@ -70,11 +70,11 @@ private:
 
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateBookmark* message);
+	virtual void handleMessage(MessageActivateErrors* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageDisplayBookmarkCreator* message);
 	virtual void handleMessage(MessageDisplayBookmarks* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
-	virtual void handleMessage(MessageShowErrors* message);
 
 	std::vector<std::wstring> getActiveTokenDisplayNames() const;
 	std::vector<std::wstring> getDisplayNamesForNodeId(Id nodeId) const;

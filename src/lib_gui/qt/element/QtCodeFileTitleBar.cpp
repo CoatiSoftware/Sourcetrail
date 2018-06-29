@@ -5,7 +5,7 @@
 #include <QVariant>
 
 #include "utility/ResourcePaths.h"
-#include "utility/messaging/type/MessageShowErrorsForFile.h"
+#include "utility/messaging/type/error/MessageErrorsForFile.h"
 
 QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool isSingle)
 	: QtHoverButton(parent)
@@ -44,7 +44,7 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 
 	m_showErrorsButton = new QPushButton("show errors");
 	m_showErrorsButton->setObjectName("screen_button");
-	m_showErrorsButton->setToolTip("Show all errors related to this file");
+	m_showErrorsButton->setToolTip("Show all errors causing this file to be incomplete");
 	m_showErrorsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_showErrorsButton->hide();
 	titleLayout->addWidget(m_showErrorsButton);
@@ -52,7 +52,7 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	connect(m_showErrorsButton, &QPushButton::clicked,
 		[this]()
 		{
-			MessageShowErrorsForFile(m_titleButton->getFilePath()).dispatch();
+			MessageErrorsForFile(m_titleButton->getFilePath()).dispatch();
 		}
 	);
 

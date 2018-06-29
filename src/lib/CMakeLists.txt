@@ -416,9 +416,17 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
+	utility/messaging/filter_types/MessageFilterErrorCountUpdate.h
 	utility/messaging/filter_types/MessageFilterFocusInOut.h
-	utility/messaging/filter_types/MessageFilterNewErrors.h
 	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
+
+	utility/messaging/type/error/MessageActivateErrors.h
+	utility/messaging/type/error/MessageErrorCountClear.h
+	utility/messaging/type/error/MessageErrorCountUpdate.h
+	utility/messaging/type/error/MessageErrorsAll.h
+	utility/messaging/type/error/MessageErrorsForFile.h
+	utility/messaging/type/error/MessageErrorsHelpMessage.h
+	utility/messaging/type/error/MessageShowError.h
 
 	utility/messaging/type/MessageActivateAll.h
 	utility/messaging/type/MessageActivateBookmark.h
@@ -433,7 +441,6 @@ add_files(
 	utility/messaging/type/MessageActivateTrailEdge.h
 	utility/messaging/type/MessageActivateWindow.h
 	utility/messaging/type/MessageChangeFileView.h
-	utility/messaging/type/MessageClearErrorCount.h
 	utility/messaging/type/MessageClearLogView.h
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCodeReference.h
@@ -441,7 +448,6 @@ add_files(
 	utility/messaging/type/MessageDisplayBookmarkCreator.h
 	utility/messaging/type/MessageDisplayBookmarks.h
 	utility/messaging/type/MessageEnteredLicense.h
-	utility/messaging/type/MessageErrorFilterChanged.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageFlushUpdates.h
@@ -457,7 +463,6 @@ add_files(
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLogFilterChanged.h
 	utility/messaging/type/MessageMoveIDECursor.h
-	utility/messaging/type/MessageNewErrors.h
 	utility/messaging/type/MessagePingReceived.h
 	utility/messaging/type/MessagePluginPortChange.h
 	utility/messaging/type/MessageProjectEdit.h
@@ -472,9 +477,6 @@ add_files(
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageSearchFullText.h
-	utility/messaging/type/MessageShowErrorHelpMessage.h
-	utility/messaging/type/MessageShowErrors.h
-	utility/messaging/type/MessageShowErrorsForFile.h
 	utility/messaging/type/MessageShowReference.h
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStatus.h

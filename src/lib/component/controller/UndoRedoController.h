@@ -5,6 +5,8 @@
 
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/error/MessageActivateErrors.h"
+#include "utility/messaging/type/error/MessageShowError.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
@@ -22,7 +24,6 @@
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
 #include "utility/messaging/type/MessageSearchFullText.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageShowReference.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/messaging/type/MessageToUndoRedoPosition.h"
@@ -36,6 +37,7 @@ class UndoRedoView;
 class UndoRedoController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
+	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
@@ -52,7 +54,7 @@ class UndoRedoController
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollGraph>
 	, public MessageListener<MessageSearchFullText>
-	, public MessageListener<MessageShowErrors>
+	, public MessageListener<MessageShowError>
 	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageShowScope>
 	, public MessageListener<MessageToUndoRedoPosition>
@@ -84,6 +86,7 @@ private:
 	};
 
 	virtual void handleMessage(MessageActivateAll* message);
+	virtual void handleMessage(MessageActivateErrors* message);
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrail* message);
@@ -100,7 +103,7 @@ private:
 	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageScrollGraph* message);
 	virtual void handleMessage(MessageSearchFullText* message);
-	virtual void handleMessage(MessageShowErrors* message);
+	virtual void handleMessage(MessageShowError* message);
 	virtual void handleMessage(MessageShowReference* message);
 	virtual void handleMessage(MessageShowScope* message);
 	virtual void handleMessage(MessageToUndoRedoPosition* message);

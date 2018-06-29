@@ -28,6 +28,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/error/MessageErrorsHelpMessage.h"
 #include "utility/messaging/type/MessageActivateBookmark.h"
 #include "utility/messaging/type/MessageCodeReference.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
@@ -40,7 +41,6 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageShowErrorHelpMessage.h"
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowClosed.h"
 #include "utility/messaging/type/MessageZoom.h"
@@ -455,7 +455,7 @@ void QtMainWindow::showKeyboardShortcuts()
 
 void QtMainWindow::showErrorHelpMessage()
 {
-	MessageShowErrorHelpMessage(true).dispatch();
+	MessageErrorsHelpMessage(true).dispatch();
 }
 
 void QtMainWindow::showBugtracker()

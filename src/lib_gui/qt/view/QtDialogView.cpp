@@ -424,25 +424,8 @@ void QtDialogView::handleMessage(MessageInterruptTasks* message)
 	);
 }
 
-void QtDialogView::handleMessage(MessageNewErrors* message)
+void QtDialogView::handleMessage(MessageErrorCountUpdate* message)
 {
-	ErrorCountInfo errorInfo = m_storageAccess->getErrorCount();
-
-	m_onQtThread3(
-		[=]()
-		{
-			updateErrorCount(errorInfo.total, errorInfo.fatal);
-		}
-	);
-}
-
-void QtDialogView::handleMessage(MessageShowErrors* message)
-{
-	if (message->isReplayed())
-	{
-		return;
-	}
-
 	ErrorCountInfo errorInfo = message->errorCount;
 
 	m_onQtThread3(

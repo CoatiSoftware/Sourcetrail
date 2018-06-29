@@ -302,6 +302,11 @@ void BookmarkController::handleMessage(MessageActivateBookmark* message)
 	activateBookmark(message->bookmark);
 }
 
+void BookmarkController::handleMessage(MessageActivateErrors* message)
+{
+	clear();
+}
+
 void BookmarkController::handleMessage(MessageActivateTokens* message)
 {
 	m_activeEdgeIds.clear();
@@ -350,11 +355,6 @@ void BookmarkController::handleMessage(MessageFinishedParsing* message)
 	getView<BookmarkView>()->enableDisplayBookmarks(true);
 
 	update();
-}
-
-void BookmarkController::handleMessage(MessageShowErrors* message)
-{
-	clear();
 }
 
 std::vector<std::wstring> BookmarkController::getActiveTokenDisplayNames() const

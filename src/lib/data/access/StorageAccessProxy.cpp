@@ -8,7 +8,6 @@
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 
 StorageAccessProxy::StorageAccessProxy()
 	: m_subject(nullptr)
@@ -33,8 +32,6 @@ bool StorageAccessProxy::hasSubject() const
 void StorageAccessProxy::setSubject(StorageAccess* subject)
 {
 	m_subject = subject;
-
-	setErrorFilter(m_errorFilter);
 }
 
 Id StorageAccessProxy::getNodeIdForFileNode(const FilePath& filePath) const
@@ -354,24 +351,24 @@ ErrorCountInfo StorageAccessProxy::getErrorCount() const
 	return ErrorCountInfo();
 }
 
-std::vector<ErrorInfo> StorageAccessProxy::getErrorsLimited(const std::vector<Id>& errorIds) const
+std::vector<ErrorInfo> StorageAccessProxy::getErrorsLimited(const ErrorFilter& filter) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorsLimited(errorIds);
+		return m_subject->getErrorsLimited(filter);
 	}
 
 	return std::vector<ErrorInfo>();
 }
 
-std::vector<Id> StorageAccessProxy::getErrorIdsForFile(const FilePath& filePath) const
+std::vector<ErrorInfo> StorageAccessProxy::getErrorsForFileLimited(const ErrorFilter& filter, const FilePath& filePath) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorIdsForFile(filePath);
+		return m_subject->getErrorsForFileLimited(filter, filePath);
 	}
 
-	return std::vector<Id>();
+	return std::vector<ErrorInfo>();
 }
 
 std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocations(
@@ -488,24 +485,4 @@ TooltipInfo StorageAccessProxy::getTooltipInfoForSourceLocationIdsAndLocalSymbol
 	}
 
 	return TooltipInfo();
-}
-
-void StorageAccessProxy::setErrorFilter(const ErrorFilter& filter)
-{
-	StorageAccess::setErrorFilter(filter);
-
-	if (hasSubject())
-	{
-		m_subject->setErrorFilter(filter);
-	}
-}
-
-void StorageAccessProxy::handleMessage(MessageErrorFilterChanged* message)
-{
-	setErrorFilter(message->errorFilter);
-
-	if (message->showErrors)
-	{
-		MessageShowErrors(getErrorCount()).dispatch();
-	}
 }

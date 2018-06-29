@@ -3,8 +3,8 @@
 #include "utility/interprocess/SharedMemoryGarbageCollector.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
+#include "utility/messaging/filter_types/MessageFilterErrorCountUpdate.h"
 #include "utility/messaging/filter_types/MessageFilterFocusInOut.h"
-#include "utility/messaging/filter_types/MessageFilterNewErrors.h"
 #include "utility/messaging/filter_types/MessageFilterSearchAutocomplete.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageForceEnterLicense.h"
@@ -359,8 +359,8 @@ void Application::startMessagingAndScheduling()
 	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
 
 	MessageQueue* queue = MessageQueue::getInstance().get();
+	queue->addMessageFilter(std::make_shared<MessageFilterErrorCountUpdate>());
 	queue->addMessageFilter(std::make_shared<MessageFilterFocusInOut>());
-	queue->addMessageFilter(std::make_shared<MessageFilterNewErrors>());
 	queue->addMessageFilter(std::make_shared<MessageFilterSearchAutocomplete>());
 
 	queue->setSendMessagesAsTasks(true);
