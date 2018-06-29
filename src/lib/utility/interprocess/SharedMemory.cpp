@@ -163,6 +163,11 @@ SharedMemory::~SharedMemory()
 	}
 }
 
+void SharedMemory::unlockSharedMutex()
+{
+	getMutex().unlock();
+}
+
 std::string SharedMemory::getMemoryName() const
 {
 	return s_memoryNamePrefix + m_name;

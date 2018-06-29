@@ -40,6 +40,7 @@ SharedMemoryGarbageCollector::SharedMemoryGarbageCollector()
 	: m_memory(getMemoryName(), 65536 /* 64 kB */, SharedMemory::OPEN_OR_CREATE)
 	, m_loopIsRunning(false)
 {
+	m_memory.unlockSharedMutex();
 }
 
 SharedMemoryGarbageCollector::~SharedMemoryGarbageCollector()

@@ -40,7 +40,7 @@ public:
 	template <typename T>
 	using Set = boost::interprocess::set<T, std::less<T>, boost::interprocess::allocator<T, Allocator>>;
 
-	// Names addressing shared memory objects longer than 29 characters can throw and exception
+	// Names addressing shared memory objects longer than 29 characters can throw an exception
 	static std::string checkName(const std::string& name);
 	static std::string checkSharedMemory(const std::string& name);
 	static void deleteSharedMemory(const std::string& name);
@@ -98,6 +98,8 @@ public:
 		boost::interprocess::managed_shared_memory m_memory;
 		std::string m_memoryName;
 	};
+
+	void unlockSharedMutex();
 
 private:
 	static const char* s_memoryNamePrefix;
