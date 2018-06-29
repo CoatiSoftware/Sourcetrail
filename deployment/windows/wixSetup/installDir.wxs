@@ -8,7 +8,7 @@
 		<?define PlatformSourceFolder = "./../../../build/win32/Release/app" ?>
 		<?define Win64 = "no" ?>
 	<?endif ?>
-	
+
 	<Fragment>
 		<DirectoryRef Id='INSTALLDIR'>
 
@@ -32,7 +32,7 @@
 			<Component Id='SourcetrailIndexerExe' Guid='*' Win64="$(var.Win64)">
 				<File Id='SourcetrailIndexer' Name='sourcetrail_indexer.exe' DiskId='1' Source='$(var.PlatformSourceFolder)/sourcetrail_indexer.exe' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='Qt5CoreDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5coreDLL' Name='Qt5Core.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Core.dll' KeyPath='yes' />
 			</Component>
@@ -52,195 +52,195 @@
 			<Component Id='Qt5WinExtrasDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5winExtrasDLL' Name='Qt5WinExtras.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5WinExtras.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreConsole_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreConsole_l1_1_0' Name='api-ms-win-core-console-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-console-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreDatetime_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreDatetime_l1_1_0' Name='api-ms-win-core-datetime-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-datetime-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreDebug_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreDebug_l1_1_0' Name='api-ms-win-core-debug-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-debug-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreErrorhandling_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreErrorhandling_l1_1_0' Name='api-ms-win-core-errorhandling-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-errorhandling-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreFile_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreFile_l1_1_0' Name='api-ms-win-core-file-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-file-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreFile_l1_2_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreFile_l1_2_0' Name='api-ms-win-core-file-l1-2-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-file-l1-2-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreFile_l2_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreFile_l2_1_0' Name='api-ms-win-core-file-l2-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-file-l2-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreHandle_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreHandle_l1_1_0' Name='api-ms-win-core-handle-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-handle-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreHeap_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreHeap_l1_1_0' Name='api-ms-win-core-heap-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-heap-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreInterlocked_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreInterlocked_l1_1_0' Name='api-ms-win-core-interlocked-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-interlocked-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreLibraryloader_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreLibraryloader_l1_1_0' Name='api-ms-win-core-libraryloader-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-libraryloader-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreLocalization_l1_2_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreLocalization_l1_2_0' Name='api-ms-win-core-localization-l1-2-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-localization-l1-2-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreMemory_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreMemory_l1_1_0' Name='api-ms-win-core-memory-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-memory-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreNamedpipe_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreNamedpipe_l1_1_0' Name='api-ms-win-core-namedpipe-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-namedpipe-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreProcessEnvironment_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProcessEnvironment_l1_1_0' Name='api-ms-win-core-processenvironment-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-processenvironment-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreProcessThreads_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProcessThreads_l1_1_0' Name='api-ms-win-core-processthreads-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-processthreads-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreProcessThreads_l1_1_1Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProcessThreads_l1_1_1' Name='api-ms-win-core-processthreads-l1-1-1.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-processthreads-l1-1-1.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreProfile_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProfile_l1_1_0' Name='api-ms-win-core-profile-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-profile-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreRtlSupport_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreRtlSupport_l1_1_0' Name='api-ms-win-core-rtlsupport-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-rtlsupport-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreString_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreString_l1_1_0' Name='api-ms-win-core-string-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-string-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreSynch_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreSynch_l1_1_0' Name='api-ms-win-core-synch-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-synch-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreSynch_l1_2_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreSynch_l1_2_0' Name='api-ms-win-core-synch-l1-2-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-synch-l1-2-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreSysInfo_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreSysInfo_l1_1_0' Name='api-ms-win-core-sysinfo-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-sysinfo-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreTimezone_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreTimezone_l1_1_0' Name='api-ms-win-core-timezone-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-timezone-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCoreUtil_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreUtil_l1_1_0' Name='api-ms-win-core-util-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-util-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtConio_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtConio_l1_1_0' Name='api-ms-win-crt-conio-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-conio-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtConvert_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtConvert_l1_1_0' Name='api-ms-win-crt-convert-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-convert-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtEnvironment_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtEnvironment_l1_1_0' Name='api-ms-win-crt-environment-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-environment-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtFilesystem_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtFilesystem_l1_1_0' Name='api-ms-win-crt-filesystem-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-filesystem-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtHeap_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtHeap_l1_1_0' Name='api-ms-win-crt-heap-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-heap-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtLocale_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtLocale_l1_1_0' Name='api-ms-win-crt-locale-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-locale-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtMath_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtMath_l1_1_0' Name='api-ms-win-crt-math-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-math-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtMultibyte_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtMultibyte_l1_1_0' Name='api-ms-win-crt-multibyte-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-multibyte-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtPrivate_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtPrivate_l1_1_0' Name='api-ms-win-crt-private-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-private-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtProcess_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtProcess_l1_1_0' Name='api-ms-win-crt-process-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-process-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtRuntime_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtRuntime_l1_1_0' Name='api-ms-win-crt-runtime-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-runtime-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtStdio_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtStdio_l1_1_0' Name='api-ms-win-crt-stdio-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-stdio-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtString_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtString_l1_1_0' Name='api-ms-win-crt-string-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-string-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtTime_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtTime_l1_1_0' Name='api-ms-win-crt-time-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-time-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='apiMsWinCrtUtility_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtUtility_l1_1_0' Name='api-ms-win-crt-utility-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-utility-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='libeay32_dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='libeay32' Name='libeay32.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/libeay32.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<?if $(var.Win64) = "no" ?>
 				<Component Id='libgcc_s_dw2_1_dll' Guid='*' Win64="$(var.Win64)">
 					<File Id='libgcc_s_dw2_1' Name='libgcc_s_dw2-1.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/libgcc_s_dw2-1.dll' KeyPath='yes' />
 				</Component>
 			<?endif ?>
-			
+
 			<?if $(var.Win64) = "no" ?>
 				<Component Id='libwinpthread_1_dll' Guid='*' Win64="$(var.Win64)">
 					<File Id='libwinpthread_1' Name='libwinpthread-1.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/libwinpthread-1.dll' KeyPath='yes' />
 				</Component>
 			<?endif ?>
-			
+
 			<Component Id='msvcp140_dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='msvcp140' Name='msvcp140.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/msvcp140.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='qtConf' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt' Name='qt.conf' DiskId='1' Source='$(var.PlatformSourceFolder)/qt.conf' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='ssleay32_dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='ssleay32' Name='ssleay32.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/ssleay32.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Component Id='ucrtbaseDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='ucrtbase' Name='ucrtbase.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/ucrtbase.dll' KeyPath='yes' />
 			</Component>
@@ -248,13 +248,13 @@
 			<Component Id='vcruntime140_dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='vcruntime140' Name='vcruntime140.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/vcruntime140.dll' KeyPath='yes' />
 			</Component>
-			
+
 			<Directory Id='Platforms' Name='platforms'>
 				<Component Id='QWindowsDll' Guid='*' Win64="$(var.Win64)">
 					<File Id='qwindowsDLL' Name='qwindows.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/platforms/qwindows.dll' KeyPath='yes' />
 				</Component>
 			</Directory>
-			
+
 			<Directory Id='Imageformats' Name='imageformats'>
 				<Component Id='QGifDll' Guid='*' Win64="$(var.Win64)">
 					<File Id='QGif' Name='qgif.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qgif.dll' KeyPath='yes' />
@@ -284,7 +284,7 @@
 					<File Id='QWebp' Name='qwebp.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qwebp.dll' KeyPath='yes' />
 				</Component>
 			</Directory>
-			
+
 			<Directory Id='License' Name='license'>
 				<Component Id='EulaRtf' Guid='*' Win64="$(var.Win64)">
 					<File Id='EulaRtfId' Name='EULA.rtf' DiskId='1' Source='./../../../bin/app/data/gui/installer/EULA.rtf' KeyPath='yes' />
@@ -332,7 +332,7 @@
 					<Component Id='FiraSansSemiBoldotf' Guid='*' Win64="$(var.Win64)">
 						<File Id='FiraSansSemiBoldotf' Name='FiraSans-SemiBold.otf' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans-SemiBold.otf' KeyPath='yes' />
 					</Component>
-					
+
 					<Component Id='RobotoLicensetxt' Guid='*' Win64="$(var.Win64)">
 						<File Id='RobotoLicensetxt' Name='Roboto_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto_License.txt' KeyPath='yes' />
 					</Component>
@@ -342,7 +342,7 @@
 					<Component Id='RobotoRegularttf' Guid='*' Win64="$(var.Win64)">
 						<File Id='RobotoRegularttf' Name='Roboto-Regular.ttf' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto-Regular.ttf' KeyPath='yes' />
 					</Component>
-					
+
 					<Component Id='SourceCodeProLicensetxt' Guid='*' Win64="$(var.Win64)">
 						<File Id='SourceCodeProLicensetxt' Name='SourceCodePro_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro_License.txt' KeyPath='yes' />
 					</Component>
@@ -393,7 +393,7 @@
 						<Component Id='BookmarkViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='BookmarkView' Name='bookmark_view.css' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/bookmark_view.css' KeyPath='yes' />
 						</Component>
-						
+
 						<Directory Id='DataBookmarkViewImages' Name='images'>
 							<Component Id='BookmarkViewArrowDownPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_down.png' KeyPath='yes' />
@@ -424,7 +424,7 @@
 							</Component>
 						</Directory>
 					</Directory>
-					
+
 					<Directory Id='DataCodeView' Name='code_view'>
 						<Component Id='CodeViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='CodeView' Name='code_view.css' DiskId='1' Source='./../../../bin/app/data/gui/code_view/code_view.css' KeyPath='yes' />
@@ -479,7 +479,7 @@
 
 						</Directory>
 					</Directory>
-					
+
 					<Directory Id='DataGraphView' Name='graph_view'>
 						<Component Id='GraphViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='GraphView' Name='graph_view.css' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/graph_view.css' KeyPath='yes' />
@@ -571,7 +571,7 @@
 
 						</Directory>
 					</Directory>
-					
+
 					<Directory Id='DataIcon' Name='icon'>
 						<Component Id='C_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='C_icon' Name='c_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/c_icon.png' KeyPath='yes' />
@@ -649,7 +649,7 @@
 							<File Id='License' Name='license.css' DiskId='1' Source='./../../../bin/app/data/gui/license/license.css' KeyPath='yes' />
 						</Component>
 					</Directory>
-					
+
 					<Directory Id='DataMain' Name='main'>
 						<Component Id='MainCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='Main' Name='main.css' DiskId='1' Source='./../../../bin/app/data/gui/main/main.css' KeyPath='yes' />
@@ -657,7 +657,7 @@
 						<Component Id='ScrollbarCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='Scrollbar' Name='scrollbar.css' DiskId='1' Source='./../../../bin/app/data/gui/main/scrollbar.css' KeyPath='yes' />
 						</Component>
-						
+
 						<Directory Id='DataMainImages' Name='images'>
 							<Component Id='CloseBlackPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CloseBlack' Name='close_black.png' DiskId='1' Source='./../../../bin/app/data/gui/main/images/close_black.png' KeyPath='yes' />
@@ -691,20 +691,20 @@
 							</Component>
 						</Directory>
 					</Directory>
-					
+
 					<Directory Id='DataScreenSearchView' Name='screen_search_view'>
-					
+
 						<Component Id='ScreenSearchViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='ScreenSearchView' Name='screen_search_view.css' DiskId='1' Source='./../../../bin/app/data/gui/screen_search_view/screen_search_view.css' KeyPath='yes' />
 						</Component>
-						
+
 						<Directory Id='DataScreenSearchViewImages' Name='images'>
 							<Component Id='ScreenSearchViewClosePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ScreenSearchViewClose' Name='close.png' DiskId='1' Source='./../../../bin/app/data/gui/screen_search_view/images/close.png' KeyPath='yes' />
 							</Component>
 						</Directory>
 					</Directory>
-					
+
 					<Directory Id='DataSearchView' Name='search_view'>
 
 						<Component Id='SearchViewCss' Guid='*' Win64="$(var.Win64)">
@@ -741,7 +741,7 @@
 							<File Id='Loader' Name='loader.gif' DiskId='1' Source='./../../../bin/app/data/gui/statusbar_view/loader.gif' KeyPath='yes' />
 						</Component>
 					</Directory>
-					
+
 					<Directory Id='DataTabbedView' Name='tabbed_view'>
 						<Component Id='TabbedViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='TabbedView' Name='tabbed_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/tabbed_view.css' KeyPath='yes' />
@@ -753,7 +753,7 @@
 							<File Id='TabbedViewArrowUp' Name='arrow_up.png' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/arrow_up.png' KeyPath='yes' />
 						</Component>
 					</Directory>
-					
+
 					<Directory Id='DataTooltipView' Name='tooltip_view'>
 						<Component Id='TooltipViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='TooltipView' Name='tooltip_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tooltip_view/tooltip_view.css' KeyPath='yes' />
@@ -764,7 +764,7 @@
 						<Component Id='UndoRedoViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='UndoRedoView' Name='undoredo_view.css' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/undoredo_view.css' KeyPath='yes' />
 						</Component>
-						
+
 						<Directory Id='DataUndoRedoViewImages' Name='images'>
 							<Component Id='ArrowLeftPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowLeft' Name='arrow_left.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/arrow_left.png' KeyPath='yes' />
@@ -843,8 +843,8 @@
 						<Component Id='WindowCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='Window' Name='window.css' DiskId='1' Source='./../../../bin/app/data/gui/window/window.css' KeyPath='yes' />
 						</Component>
-						
-						
+
+
 
 					</Directory>
 
@@ -856,7 +856,7 @@
 							<File Id='JavaGradleInit' Name='init.gradle' DiskId='1' Source='./../../../bin/app/data/java/gradle/init.gradle' KeyPath='yes' />
 						</Component>
 					</Directory>
-					
+
 					<Directory Id='DataJavaLib' Name='lib'>
 						<Component Id='GradleToolingApiJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='GradleToolingApi' Name='gradle-tooling-api-4.2.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/gradle-tooling-api-4.2.jar' KeyPath='yes' />
@@ -865,46 +865,46 @@
 							<File Id='JavaJavaIndexer' Name='java-indexer.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/java-indexer.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreCommandsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreCommands' Name='org.eclipse.core.commands-3.9.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.commands-3.9.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreCommands' Name='org.eclipse.core.commands-3.9.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.commands-3.9.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreContenttypeJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreContenttype' Name='org.eclipse.core.contenttype-3.6.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.contenttype-3.6.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreContenttype' Name='org.eclipse.core.contenttype-3.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.contenttype-3.7.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreExpressionsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreExpressions' Name='org.eclipse.core.expressions-3.6.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.expressions-3.6.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreExpressions' Name='org.eclipse.core.expressions-3.6.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.expressions-3.6.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreFilesystemJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.7.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.7.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.7.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreJobsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.9.3.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.9.3.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.10.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.10.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreResourcesJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.12.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.12.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.13.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreRuntimeJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreRuntime' Name='org.eclipse.core.runtime-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.runtime-3.13.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreRuntime' Name='org.eclipse.core.runtime-3.14.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.runtime-3.14.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinox.app' Name='org.eclipse.equinox.app-1.3.400.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.app-1.3.400.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinox.app' Name='org.eclipse.equinox.app-1.3.500.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.app-1.3.500.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxCommonJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxCommon' Name='org.eclipse.equinox.common-3.9.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.common-3.9.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxCommon' Name='org.eclipse.equinox.common-3.10.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.common-3.10.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxPreferencesJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxPreferences' Name='org.eclipse.equinox.preferences-3.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.preferences-3.7.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxPreferences' Name='org.eclipse.equinox.preferences-3.7.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.preferences-3.7.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxRegistryJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.registry-3.7.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.8.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.registry-3.8.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseJdtCoreJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.jdt.core-3.13.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseOsgiJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.12.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.12.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.13.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseTextJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseText' Name='org.eclipse.text-3.6.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.text-3.6.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseText' Name='org.eclipse.text-3.6.300.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.text-3.6.300.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='Slf4jApiJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='Slf4jApi' Name='slf4j-api-1.7.10.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/slf4j-api-1.7.10.jar' KeyPath='yes' />
@@ -926,7 +926,7 @@
 				<File Id='Uninstall' Name='uninstall.bat' DiskId='1' Source='./../../../bin/app/data/install/uninstall_wix_win32.bat' KeyPath='yes' />
 			</Component>
 <?endif ?>
-			
+
 
 		</DirectoryRef>
 	</Fragment>
