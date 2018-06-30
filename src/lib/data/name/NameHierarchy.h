@@ -14,7 +14,7 @@ public:
 	static std::wstring serialize(const NameHierarchy& nameHierarchy);
 	static NameHierarchy deserialize(const std::wstring& serializedName);
 
-	NameHierarchy(const NameDelimiterType delimiter);
+	NameHierarchy(const NameDelimiterType delimiter = NAME_DELIMITER_UNKNOWN);
 	NameHierarchy(const std::wstring& name, const NameDelimiterType delimiter);
 	NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiter);
 	NameHierarchy(const NameHierarchy& other);

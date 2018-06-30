@@ -10,43 +10,16 @@ class MessageSearch
 	: public Message<MessageSearch>
 {
 public:
-	MessageSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
-		: isFromSearch(true)
-		, acceptedNodeTypes(acceptedNodeTypes)
-		, m_matches(matches)
-	{
-	}
-
 	static const std::string getStaticType()
 	{
 		return "MessageSearch";
 	}
 
-	std::wstring getMatchesAsString() const
+	MessageSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
+		: isFromSearch(true)
+		, acceptedNodeTypes(acceptedNodeTypes)
+		, m_matches(matches)
 	{
-		std::wstringstream ss;
-
-		for (size_t i = 0; i < m_matches.size(); i++)
-		{
-			ss << '@';
-			if (m_matches[i].nodeType.isFile())
-			{
-				ss << m_matches[i].subtext;
-			}
-			else
-			{
-				if (!m_matches[i].subtext.empty())
-				{
-					ss << m_matches[i].subtext << nameDelimiterTypeToString(m_matches[i].delimiter) << m_matches[i].text;
-				}
-				else
-				{
-					ss << m_matches[i].name;
-				}
-			}
-		}
-
-		return ss.str();
 	}
 
 	const std::vector<SearchMatch>& getMatches() const
@@ -70,9 +43,22 @@ public:
 		return tokenIds;
 	}
 
+	std::vector<NameHierarchy> getTokenNamesOfMatches() const
+	{
+		std::vector<NameHierarchy> tokenNames;
+		for (const SearchMatch& match : m_matches)
+		{
+			tokenNames.push_back(match.tokenName);
+		}
+		return tokenNames;
+	}
+
 	virtual void print(std::wostream& os) const
 	{
-		os << getMatchesAsString();
+		for (const SearchMatch& match : m_matches)
+		{
+			os << " @" << match.name << "-" << match.tokenName.getQualifiedName();
+		}
 	}
 
 	bool isFromSearch;

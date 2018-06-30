@@ -49,23 +49,6 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 	{
 		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
 	}
-	else if (message->tokenNames.size())
-	{
-		std::vector<SearchMatch> matches;
-		getView()->setMatches(matches);
-
-		for (const NameHierarchy& name : message->tokenNames)
-		{
-			matches.push_back(SearchMatch(name.getQualifiedName()));
-		}
-
-		if (!matches.size())
-		{
-			matches.push_back(SearchMatch(L"<invalid>"));
-		}
-
-		getView()->setMatches(matches);
-	}
 }
 
 void SearchController::handleMessage(MessageFind* message)

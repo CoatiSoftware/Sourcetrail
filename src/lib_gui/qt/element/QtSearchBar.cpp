@@ -96,5 +96,5 @@ void QtSearchBar::refreshStyle()
 
 void QtSearchBar::homeButtonClicked()
 {
-	MessageSearch(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL))).dispatch();
+	MessageSearch({ SearchMatch::createCommand(SearchMatch::COMMAND_ALL) }).dispatch();
 }

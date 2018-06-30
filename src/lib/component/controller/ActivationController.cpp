@@ -52,7 +52,6 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 	{
 		MessageActivateTokens messageActivateTokens(message);
 		messageActivateTokens.tokenIds.push_back(fileId);
-		messageActivateTokens.tokenNames.push_back(NameHierarchy(message->filePath.wstr(), NAME_DELIMITER_FILE));
 		messageActivateTokens.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({ fileId });
 		messageActivateTokens.dispatchImmediately();
 	}
@@ -80,21 +79,15 @@ void ActivationController::handleMessage(MessageActivateNodes* message)
 	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 	{
 		Id nodeId = node.nodeId;
-		NameHierarchy name = node.nameHierarchy;
 		if (!nodeId)
 		{
-			nodeId = m_storageAccess->getNodeIdForNameHierarchy(name);
-		}
-		else if (!name.size())
-		{
-			name = m_storageAccess->getNameHierarchyForNodeId(nodeId);
+			nodeId = m_storageAccess->getNodeIdForNameHierarchy(node.nameHierarchy);
 		}
 
 		if (nodeId > 0)
 		{
 			m.tokenIds.push_back(nodeId);
 		}
-		m.tokenNames.push_back(name);
 	}
 	m.searchMatches = m_storageAccess->getSearchMatchesForTokenIds(m.tokenIds);
 	m.dispatchImmediately();
@@ -105,7 +98,6 @@ void ActivationController::handleMessage(MessageActivateTokenIds* message)
 	MessageActivateTokens m(message);
 	m.tokenIds = message->tokenIds;
 	m.searchMatches = m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds);
-	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
 	m.dispatchImmediately();
 }
 
@@ -160,10 +152,22 @@ void ActivationController::handleMessage(MessageSearch* message)
 	}
 
 	MessageActivateTokens m(message);
-	m.tokenIds = message->getTokenIdsOfMatches();
-	m.searchMatches = matches;
-	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
 	m.isFromSearch = message->isFromSearch;
+
+	if (message->isFromSearch)
+	{
+		m.tokenIds = message->getTokenIdsOfMatches();
+		m.searchMatches = matches;
+	}
+	else
+	{
+		std::pair<std::vector<Id>, std::vector<SearchMatch>> ret =
+			m_storageAccess->getNodeIdsAndSearchMatchesForNameHierarchies(message->getTokenNamesOfMatches());
+
+		m.tokenIds = ret.first;
+		m.searchMatches = ret.second;
+	}
+
 	m.dispatchImmediately();
 }
 

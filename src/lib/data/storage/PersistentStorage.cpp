@@ -680,7 +680,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		}
 		else if (lastMatch.score == match.score)
 		{
-			if (utility::isPrefix(nameDelimiterTypeToString(match.delimiter), match.name.substr(lastMatch.name.size())))
+			if (utility::isPrefix(nameDelimiterTypeToString(match.tokenName.getDelimiter()), match.name.substr(lastMatch.name.size())))
 			{
 				match.score -= 10;
 			}
@@ -766,8 +766,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 			match.subtext = name.getRange(0, idx).getQualifiedName();
 		}
 
-		match.delimiter = name.getDelimiter();
-
+		match.tokenName = name;
 		match.indices = result.indices;
 		match.score = result.score;
 		match.nodeType = utility::intToType(firstNode->type);
@@ -801,13 +800,19 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		SearchMatch match;
 
 		match.name = result.text;
+
+		match.text = FilePath(match.name).fileName();
+		match.subtext = match.name;
+
 		match.tokenIds = utility::toVector(result.elementIds);
-
-		const FilePath path(match.name);
-		match.text = path.fileName();
-		match.subtext = path.wstr();
-
-		match.delimiter = NAME_DELIMITER_FILE;
+		if (match.tokenIds.size())
+		{
+			match.tokenName = NameHierarchy(getFileNodePath(match.tokenIds[0]).wstr(), NAME_DELIMITER_FILE);
+		}
+		else
+		{
+			match.tokenName = NameHierarchy(match.name, NAME_DELIMITER_FILE);
+		}
 
 		match.indices = result.indices;
 		match.score = result.score;
@@ -837,8 +842,6 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
 
 		match.name = result.text;
 		match.text = result.text;
-
-		match.delimiter = NAME_DELIMITER_UNKNOWN;
 
 		match.indices = result.indices;
 		match.score = result.score;
@@ -892,10 +895,9 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 		match.text = nameHierarchy.getRawName();
 
 		match.tokenIds.push_back(elementId);
+		match.tokenName = nameHierarchy;
 		match.nodeType = utility::intToType(node.type);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
-
-		match.delimiter = nameHierarchy.getDelimiter();
 
 		if (match.nodeType.isFile())
 		{

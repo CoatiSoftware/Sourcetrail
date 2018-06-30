@@ -59,10 +59,12 @@ struct SearchMatch
 	CommandType getCommandType() const;
 
 	std::wstring name;
-	std::vector<Id> tokenIds;
 
 	std::wstring text;
 	std::wstring subtext;
+
+	std::vector<Id> tokenIds;
+	NameHierarchy tokenName;
 
 	NameDelimiterType delimiter;
 

@@ -235,9 +235,7 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 
 	if (m_iterator == m_list.begin())
 	{
-		SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
-		MessageSearch msg(std::vector<SearchMatch>(1, match));
-		msg.dispatch();
+		MessageSearch({ SearchMatch::createCommand(SearchMatch::COMMAND_ALL) }).dispatch();
 	}
 	else
 	{
@@ -461,8 +459,11 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 
 		if (!msg->isEdge && !msg->isAggregation)
 		{
-			msg->tokenIds = m_storageAccess->getNodeIdsForNameHierarchies(msg->tokenNames);
-			msg->searchMatches = m_storageAccess->getSearchMatchesForTokenIds(msg->tokenIds);
+			std::pair<std::vector<Id>, std::vector<SearchMatch>> ret =
+				m_storageAccess->getNodeIdsAndSearchMatchesForNameHierarchies(msg->getTokenNamesOfMatches());
+
+			msg->tokenIds = ret.first;
+			msg->searchMatches = ret.second;
 		}
 	}
 

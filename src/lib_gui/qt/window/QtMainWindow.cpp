@@ -626,7 +626,7 @@ void QtMainWindow::codeReferenceNext()
 
 void QtMainWindow::overview()
 {
-	MessageSearch(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL))).dispatch();
+	MessageSearch({ SearchMatch::createCommand(SearchMatch::COMMAND_ALL) }).dispatch();
 }
 
 void QtMainWindow::closeWindow()
@@ -755,9 +755,7 @@ void QtMainWindow::openHistoryAction()
 	QAction* action = qobject_cast<QAction*>(sender());
 	if (action)
 	{
-		SearchMatch& match = m_history[action->data().toInt()];
-
-		MessageSearch msg({ match });
+		MessageSearch msg({ m_history[action->data().toInt()] });
 		msg.isFromSearch = false;
 		msg.dispatch();
 	}
@@ -889,7 +887,7 @@ void QtMainWindow::setupHistoryMenu()
 	for (size_t i = 0; i < m_history.size(); i++)
 	{
 		SearchMatch& match = m_history[i];
-		const std::wstring name = utility::elide(match.nodeType.isFile() ? match.text : match.name, utility::ELIDE_RIGHT, 50);
+		const std::wstring name = utility::elide(match.getFullName(), utility::ELIDE_RIGHT, 50);
 
 		QAction* action = new QAction();
 		action->setText(QString::fromStdWString(name));

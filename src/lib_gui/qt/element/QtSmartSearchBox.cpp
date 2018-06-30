@@ -66,9 +66,7 @@ void QtSmartSearchBox::search()
 		}
 	}
 
-	std::vector<SearchMatch> matches = utility::toVector(m_matches);
-
-	MessageSearch(matches, getMatchAcceptedNodeTypes()).dispatch();
+	MessageSearch(utility::toVector(m_matches), getMatchAcceptedNodeTypes()).dispatch();
 }
 
 void QtSmartSearchBox::fullTextSearch()
@@ -194,7 +192,8 @@ bool QtSmartSearchBox::event(QEvent *event)
 				}
 				else if (m_highlightedMatch.hasChildren)
 				{
-					setEditText(QString::fromStdWString(m_highlightedMatch.getFullName() + nameDelimiterTypeToString(m_highlightedMatch.delimiter)));
+					setEditText(QString::fromStdWString(
+						m_highlightedMatch.getFullName() + nameDelimiterTypeToString(m_highlightedMatch.tokenName.getDelimiter())));
 					requestAutoCompletions();
 				}
 				else

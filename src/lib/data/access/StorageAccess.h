@@ -33,7 +33,7 @@ struct FileInfo;
 class StorageAccess
 {
 public:
-	virtual ~StorageAccess();
+	virtual ~StorageAccess() = default;
 
 	virtual Id getNodeIdForFileNode(const FilePath& filePath) const = 0;
 	virtual Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const = 0;
@@ -110,6 +110,9 @@ public:
 	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const = 0;
 	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const = 0;
+
+	std::pair<std::vector<Id>, std::vector<SearchMatch>> getNodeIdsAndSearchMatchesForNameHierarchies(
+		const std::vector<NameHierarchy> nameHierarchies) const;
 };
 
 #endif // STORAGE_ACCESS_H

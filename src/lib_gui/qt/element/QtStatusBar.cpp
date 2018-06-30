@@ -118,6 +118,5 @@ void QtStatusBar::showStatus()
 
 void QtStatusBar::showErrors()
 {
-	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
-	MessageSearch(std::vector<SearchMatch>(1, match)).dispatch();
+	MessageSearch({ SearchMatch::createCommand(SearchMatch::COMMAND_ERROR) }).dispatch();
 }

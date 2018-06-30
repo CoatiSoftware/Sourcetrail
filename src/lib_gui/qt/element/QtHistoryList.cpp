@@ -23,7 +23,7 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setAlignment(Qt::AlignTop);
 
-	const std::wstring name = utility::elide(match.nodeType.isFile() ? match.text : match.name, utility::ELIDE_RIGHT, 100);
+	const std::wstring name = utility::elide(match.getFullName(), utility::ELIDE_RIGHT, 100);
 
 	m_name = new QLabel(QString::fromStdWString(name), this);
 	m_name->setAttribute(Qt::WA_MacShowFocusRect, 0);

@@ -190,9 +190,10 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	std::wstring status = L"";
 
-	if (message->tokenNames.size())
+	std::vector<NameHierarchy> tokenNames = message->getTokenNamesOfMatches();
+	if (tokenNames.size())
 	{
-		status += L"Activate \"" + message->tokenNames[0].getQualifiedName() + L"\": ";
+		status += L"Activate \"" + tokenNames[0].getQualifiedName() + L"\": ";
 	}
 
 	status += std::to_wstring(message->tokenIds.size()) + L" ";

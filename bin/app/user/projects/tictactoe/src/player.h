@@ -4,6 +4,7 @@
 #include "field.h"
 #include "game_object.h"
 
+
 class Player : public GameObject {
 public:
 	Player( Field::Token token, const char* name );

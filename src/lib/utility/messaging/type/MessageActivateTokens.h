@@ -10,6 +10,11 @@ class MessageActivateTokens
 	: public Message<MessageActivateTokens>
 {
 public:
+	static const std::string getStaticType()
+	{
+		return "MessageActivateTokens";
+	}
+
 	MessageActivateTokens(const MessageBase* other)
 		: isEdge(false)
 		, isAggregation(false)
@@ -17,11 +22,6 @@ public:
 	{
 		setIsParallel(true);
 		setKeepContent(other->keepContent());
-	}
-
-	static const std::string getStaticType()
-	{
-		return "MessageActivateTokens";
 	}
 
 	virtual void print(std::wostream& os) const
@@ -32,8 +32,17 @@ public:
 		}
 	}
 
+	std::vector<NameHierarchy> getTokenNamesOfMatches() const
+	{
+		std::vector<NameHierarchy> tokenNames;
+		for (const SearchMatch& match : searchMatches)
+		{
+			tokenNames.push_back(match.tokenName);
+		}
+		return tokenNames;
+	}
+
 	std::vector<Id> tokenIds;
-	std::vector<NameHierarchy> tokenNames;
 	std::vector<SearchMatch> searchMatches;
 
 	bool isEdge;
