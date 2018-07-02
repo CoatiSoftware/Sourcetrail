@@ -166,7 +166,8 @@ private:
 		const ParseLocation& location,
 		const std::wstring& message,
 		bool fatal,
-		bool indexed) override
+		bool indexed, 
+		const FilePath& translationUnit) override
 	{
 		if (location.isValid())
 		{

@@ -110,7 +110,7 @@ void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAcc
 {
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 
-	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, false);
+	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(FilePath(), canonicalFilePathCache, false);
 	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache);
 
 	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags, std::vector<FilePath>(), std::vector<FilePath>());
@@ -130,7 +130,7 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 
-	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
+	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(sourceFilePath, canonicalFilePathCache, true);
 
 	tool.setDiagnosticConsumer(diagnostics.get());
 
@@ -195,9 +195,10 @@ std::vector<std::string> CxxParser::getCommandlineArguments(std::shared_ptr<Inde
 	return args;
 }
 
-std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const
+std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const FilePath& sourceFilePath, std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const
 {
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	return std::make_shared<CxxDiagnosticConsumer>(
-		llvm::errs(), &*options, m_client, m_fileRegister, canonicalFilePathCache, logErrors);
+		llvm::errs(), &*options, m_client, m_fileRegister, canonicalFilePathCache, sourceFilePath, logErrors
+	);
 }

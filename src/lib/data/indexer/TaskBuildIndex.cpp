@@ -144,7 +144,7 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 			is->addError(StorageErrorData(
 				L"The translation unit threw an exception during indexing. Please check if the source file "
 				"conforms to the specified language standard and all necessary options are defined within your project "
-				"setup.", path.wstr(), 1, 1, true, true
+				"setup.", path.wstr(), 1, 1, path.wstr(), true, true
 			));
 			LOG_INFO(L"crashed translation unit: " + path.wstr());
 		}

@@ -75,14 +75,10 @@ ParserClient::ParserClient()
 {
 }
 
-ParserClient::~ParserClient()
-{
-}
-
 void ParserClient::recordError(
-	const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed)
+	const ParseLocation& errorLocation, const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit)
 {
-	doRecordError(location, message, fatal, indexed);
+	doRecordError(errorLocation, message, fatal, indexed, translationUnit);
 
 	if (fatal)
 	{

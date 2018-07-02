@@ -97,7 +97,7 @@ public:
 
 private:
 	virtual void doRecordError(const ParseLocation& location, const std::wstring& message,
-		bool fatal, bool indexed) override
+		bool fatal, bool indexed, const FilePath& translationUnit) override
 	{
 		recordLine(L"ERROR: " + addLocationSuffix(message + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}

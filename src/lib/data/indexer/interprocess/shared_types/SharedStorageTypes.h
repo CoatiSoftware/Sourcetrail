@@ -123,6 +123,7 @@ struct SharedStorageErrorData
 		const std::string& filePath,
 		uint lineNumber,
 		uint columnNumber,
+		const std::string& sourceFilePath,
 		bool fatal,
 		bool indexed,
 		SharedMemory::Allocator* allocator
@@ -131,6 +132,7 @@ struct SharedStorageErrorData
 		, filePath(filePath.c_str(), allocator)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
+		, translationUnit(sourceFilePath.c_str(), allocator)
 		, fatal(fatal)
 		, indexed(indexed)
 	{}
@@ -141,6 +143,7 @@ struct SharedStorageErrorData
 	uint lineNumber;
 	uint columnNumber;
 
+	SharedMemory::String translationUnit;
 	bool fatal;
 	bool indexed;
 };
@@ -152,6 +155,7 @@ inline SharedStorageErrorData toShared(const StorageErrorData& error, SharedMemo
 		utility::encodeToUtf8(error.filePath),
 		error.lineNumber, 
 		error.columnNumber,
+		utility::encodeToUtf8(error.translationUnit),
 		error.fatal,
 		error.indexed, allocator
 	);
@@ -164,6 +168,7 @@ inline StorageErrorData fromShared(const SharedStorageErrorData& error)
 		utility::decodeFromUtf8(error.filePath.c_str()),
 		error.lineNumber,
 		error.columnNumber, 
+		utility::decodeFromUtf8(error.translationUnit.c_str()),
 		error.fatal, 
 		error.indexed
 	);

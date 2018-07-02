@@ -37,7 +37,8 @@ private:
 		const std::vector<FilePath>& frameworkSearchPaths) const;
 	std::vector<std::string> getCommandlineArguments(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand) const;
 
-	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const;
+	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(
+		const FilePath& sourceFilePath, std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const;
 
 	friend class TaskParseCxx;
 

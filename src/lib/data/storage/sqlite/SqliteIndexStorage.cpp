@@ -9,7 +9,7 @@
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 16;
+const size_t SqliteIndexStorage::s_storageVersion = 17;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
 	: SqliteStorage(dbFilePath.getCanonical())
@@ -281,6 +281,7 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 		m_insertErrorStmt.bind(4, utility::encodeToUtf8(data.filePath).c_str());
 		m_insertErrorStmt.bind(5, int(data.lineNumber));
 		m_insertErrorStmt.bind(6, int(data.columnNumber));
+		m_insertErrorStmt.bind(7, utility::encodeToUtf8(data.translationUnit).c_str());
 
 		const bool success = executeStatement(m_insertErrorStmt);
 		if (success)
@@ -1056,6 +1057,7 @@ void SqliteIndexStorage::setupTables()
 				"file_path TEXT, "
 				"line_number INTEGER, "
 				"column_number INTEGER, "
+				"translation_unit TEXT, "
 				"PRIMARY KEY(id));"
 		);
 	}
@@ -1136,7 +1138,7 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"LIMIT 1;"
 		);
 		m_insertErrorStmt = m_database.compileStatement(
-			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) VALUES(?, ?, ?, ?, ?, ?);"
+			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number, translation_unit) VALUES(?, ?, ?, ?, ?, ?, ?);"
 		);
 	}
 	catch (CppSQLite3Exception& e)
@@ -1383,7 +1385,7 @@ template <>
 std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT message, fatal, indexed, file_path, line_number, column_number FROM error " + query + ";"
+		"SELECT message, fatal, indexed, file_path, line_number, column_number, translation_unit FROM error " + query + ";"
 	);
 
 	std::vector<StorageError> errors;
@@ -1396,11 +1398,12 @@ std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::
 		const std::string filePath = q.getStringField(3, "");
 		const int lineNumber = q.getIntField(4, -1);
 		const int columnNumber = q.getIntField(5, -1);
+		const std::string translationUnit = q.getStringField(6, "");
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
 			errors.push_back(StorageError(
-				id, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath), lineNumber, columnNumber, fatal, indexed)
+				id, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath), lineNumber, columnNumber, utility::decodeFromUtf8(translationUnit), fatal, indexed)
 			);
 			id++;
 		}

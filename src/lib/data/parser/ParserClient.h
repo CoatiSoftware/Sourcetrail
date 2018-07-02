@@ -26,7 +26,7 @@ public:
 		const std::wstring& str, const ParseLocation& location, const ParseLocation& scopeLocation);
 
 	ParserClient();
-	virtual ~ParserClient();
+	virtual ~ParserClient() = default;
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
@@ -50,7 +50,7 @@ public:
 		const NameHierarchy& qualifierName, const ParseLocation& location) = 0;
 
 	void recordError(
-		const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed);
+		const ParseLocation& errorLocation, const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit);
 
 	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) = 0;
 	virtual void recordFile(const FileInfo& fileInfo, bool indexed) = 0;
@@ -60,7 +60,7 @@ public:
 
 protected:
 	virtual void doRecordError(
-		const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed) = 0;
+		const ParseLocation& errorLocation, const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit) = 0;
 
 	bool m_hasFatalErrors;
 };

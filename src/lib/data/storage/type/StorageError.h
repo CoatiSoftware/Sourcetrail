@@ -13,6 +13,7 @@ struct StorageErrorData
 		, filePath(L"")
 		, lineNumber(-1)
 		, columnNumber(-1)
+		, translationUnit(L"")
 		, fatal(0)
 		, indexed(0)
 	{}
@@ -22,6 +23,7 @@ struct StorageErrorData
 		const std::wstring& filePath,
 		uint lineNumber,
 		uint columnNumber,
+		const std::wstring& translationUnit,
 		bool fatal,
 		bool indexed
 	)
@@ -29,6 +31,7 @@ struct StorageErrorData
 		, filePath(filePath)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
+		, translationUnit(translationUnit)
 		, fatal(fatal)
 		, indexed(indexed)
 	{}
@@ -39,6 +42,7 @@ struct StorageErrorData
 	uint lineNumber;
 	uint columnNumber;
 
+	std::wstring translationUnit;
 	bool fatal;
 	bool indexed;
 };
@@ -61,6 +65,7 @@ struct StorageError: public StorageErrorData
 		const std::wstring& filePath,
 		uint lineNumber,
 		uint columnNumber,
+		const std::wstring& translationUnit,
 		bool fatal,
 		bool indexed
 	)
@@ -69,6 +74,7 @@ struct StorageError: public StorageErrorData
 			filePath,
 			lineNumber,
 			columnNumber,
+			translationUnit,
 			fatal,
 			indexed
 		)

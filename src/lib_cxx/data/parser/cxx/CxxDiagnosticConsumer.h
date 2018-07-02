@@ -2,6 +2,7 @@
 #define CXX_DIAGNOSTIC_CONSUMER
 
 #include "clang/Frontend/TextDiagnosticPrinter.h"
+#include "utility/file/FilePath.h"
 
 class CanonicalFilePathCache;
 class FileRegister;
@@ -17,6 +18,7 @@ public:
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+		const FilePath& sourceFilePath,
 		bool useLogging = true
 	);
 
@@ -30,6 +32,7 @@ private:
 	std::shared_ptr<FileRegister> m_register;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
+	const FilePath m_sourceFilePath;
 	bool m_isParsingFile;
 	bool m_useLogging;
 };

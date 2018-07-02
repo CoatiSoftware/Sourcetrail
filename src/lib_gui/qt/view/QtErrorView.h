@@ -48,14 +48,16 @@ private slots:
 	void errorFilterChanged(int i = 0);
 
 private:
-	enum COLUMN {
+	enum Column 
+	{
 		ID = 0,
 		TYPE = 1,
 		MESSAGE = 2,
 		FILE = 3,
 		LINE = 4,
 		INDEXED = 5,
-		COLUMN_MAX = INDEXED
+		TRANSLATION_UNIT = 6,
+		COLUMN_MAX = TRANSLATION_UNIT
 	};
 
 	void setStyleSheet() const;

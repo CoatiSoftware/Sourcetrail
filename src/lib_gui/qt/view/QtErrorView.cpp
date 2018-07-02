@@ -86,14 +86,15 @@ void QtErrorView::initView()
 
 	// Setup Table Headers
 	m_model->setColumnCount(COLUMN_MAX + 1);
-	m_table->setColumnWidth(COLUMN::ID, 40);
-	m_table->setColumnWidth(COLUMN::TYPE, 80);
-	m_table->setColumnWidth(COLUMN::MESSAGE, 450);
-	m_table->setColumnWidth(COLUMN::FILE, 300);
-	m_table->setColumnWidth(COLUMN::LINE, 50);
+	m_table->setColumnWidth(Column::ID, 40);
+	m_table->setColumnWidth(Column::TYPE, 80);
+	m_table->setColumnWidth(Column::MESSAGE, 450);
+	m_table->setColumnWidth(Column::FILE, 300);
+	m_table->setColumnWidth(Column::LINE, 50);
+	m_table->setColumnWidth(Column::TRANSLATION_UNIT, 300);
 
 	QStringList headers;
-	headers << "ID" << "Type" << "Message" << "File" << "Line" << "Indexed";
+	headers << "ID" << "Type" << "Message" << "File" << "Line" << "Indexed" << "Translation Unit";
 	m_model->setHorizontalHeaderLabels(headers);
 
 	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
@@ -101,12 +102,12 @@ void QtErrorView::initView()
 	{
 		if (index.isValid() && !m_ignoreRowSelection)
 		{
-			if (m_model->item(index.row(), COLUMN::FILE) == nullptr)
+			if (m_model->item(index.row(), Column::FILE) == nullptr)
 			{
 				return;
 			}
 
-			Id errorId = m_model->item(index.row(), COLUMN::ID)->text().toUInt();
+			Id errorId = m_model->item(index.row(), Column::ID)->text().toUInt();
 
 			m_controllerProxy.executeAsTaskWithArgs(&ErrorController::showError, errorId);
 		}
@@ -263,7 +264,7 @@ void QtErrorView::setErrorId(Id errorId)
 {
 	m_onQtThread([=]()
 	{
-		QList<QStandardItem*> items = m_model->findItems(QString::number(errorId), Qt::MatchExactly, COLUMN::ID);
+		QList<QStandardItem*> items = m_model->findItems(QString::number(errorId), Qt::MatchExactly, Column::ID);
 
 		if (items.size() == 1)
 		{
@@ -360,25 +361,28 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 
 	QStandardItem *item = new QStandardItem();
 	item->setData(QVariant(qlonglong(error.id)), Qt::DisplayRole);
-	m_model->setItem(rowNumber, COLUMN::ID, item);
+	m_model->setItem(rowNumber, Column::ID, item);
 
-	m_model->setItem(rowNumber, COLUMN::TYPE, new QStandardItem(error.fatal ? "FATAL" : "ERROR"));
+	m_model->setItem(rowNumber, Column::TYPE, new QStandardItem(error.fatal ? "FATAL" : "ERROR"));
 	if (error.fatal)
 	{
-		m_model->item(rowNumber, COLUMN::TYPE)->setForeground(QBrush(Qt::red));
+		m_model->item(rowNumber, Column::TYPE)->setForeground(QBrush(Qt::red));
 	}
-	m_model->item(rowNumber, COLUMN::TYPE)->setIcon(s_errorIcon);
+	m_model->item(rowNumber, Column::TYPE)->setIcon(s_errorIcon);
 
-	m_model->setItem(rowNumber, COLUMN::MESSAGE, new QStandardItem(QString::fromStdWString(error.message)));
+	m_model->setItem(rowNumber, Column::MESSAGE, new QStandardItem(QString::fromStdWString(error.message)));
 
-	m_model->setItem(rowNumber, COLUMN::FILE, new QStandardItem(QString::fromStdWString(error.filePath)));
-	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(QString::fromStdWString(error.filePath));
+	m_model->setItem(rowNumber, Column::FILE, new QStandardItem(QString::fromStdWString(error.filePath)));
+	m_model->item(rowNumber, Column::FILE)->setToolTip(QString::fromStdWString(error.filePath));
 
 	item = new QStandardItem();
 	item->setData(QVariant(error.lineNumber), Qt::DisplayRole);
-	m_model->setItem(rowNumber, COLUMN::LINE, item);
+	m_model->setItem(rowNumber, Column::LINE, item);
 
-	m_model->setItem(rowNumber, COLUMN::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
+	m_model->setItem(rowNumber, Column::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
+
+	m_model->setItem(rowNumber, Column::TRANSLATION_UNIT, new QStandardItem(QString::fromStdWString(error.translationUnit)));
+	m_model->item(rowNumber, Column::TRANSLATION_UNIT)->setToolTip(QString::fromStdWString(error.translationUnit));
 }
 
 QCheckBox* QtErrorView::createFilterCheckbox(const QString& name, bool checked, QBoxLayout* layout)
