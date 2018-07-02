@@ -55,6 +55,7 @@ public:
 	void setProjectSettingsText(std::string text);
 
 	void setup();
+	void updateVersion();
 	void clear();
 	void clearCaches();
 

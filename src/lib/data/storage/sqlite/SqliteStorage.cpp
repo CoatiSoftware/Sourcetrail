@@ -66,7 +66,7 @@ size_t SqliteStorage::getVersion() const
 {
 	std::string storageVersionStr = getMetaValue("storage_version");
 
-	if (storageVersionStr.size())
+	if (!storageVersionStr.empty())
 	{
 		return std::stoi(storageVersionStr);
 	}

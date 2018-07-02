@@ -364,6 +364,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	m_storageCache->clear();
 
 	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath())->getText());
+	m_storage->updateVersion();
 
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)

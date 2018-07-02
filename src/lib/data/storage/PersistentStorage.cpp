@@ -277,6 +277,15 @@ void PersistentStorage::setup()
 	m_sqliteBookmarkStorage.migrateIfNecessary();
 }
 
+void PersistentStorage::updateVersion()
+{
+	m_sqliteIndexStorage.setVersion(m_sqliteIndexStorage.getStaticVersion());
+	if (m_sqliteBookmarkStorage.isEmpty())
+	{
+		m_sqliteBookmarkStorage.setVersion(m_sqliteBookmarkStorage.getStaticVersion());
+	}
+}
+
 void PersistentStorage::clear()
 {
 	m_sqliteIndexStorage.clear();
@@ -419,14 +428,9 @@ void PersistentStorage::optimizeMemory()
 {
 	TRACE();
 
-	m_sqliteIndexStorage.setVersion(m_sqliteIndexStorage.getStaticVersion());
 	m_sqliteIndexStorage.setTime();
 	m_sqliteIndexStorage.optimizeMemory();
-
-	if (m_sqliteBookmarkStorage.isEmpty())
-	{
-		m_sqliteBookmarkStorage.setVersion(m_sqliteBookmarkStorage.getStaticVersion());
-	}
+	
 	m_sqliteBookmarkStorage.optimizeMemory();
 }
 
