@@ -25,26 +25,26 @@ class QtDialogView
 
 public:
 	QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess);
-	virtual ~QtDialogView();
+	~QtDialogView() override;
 
-	virtual void showUnknownProgressDialog(const std::wstring& title, const std::wstring& message) override;
-	virtual void hideUnknownProgressDialog() override;
+	void showUnknownProgressDialog(const std::wstring& title, const std::wstring& message) override;
+	void hideUnknownProgressDialog() override;
 
-	virtual void showProgressDialog(const std::wstring& title, const std::wstring& message, size_t progress) override;
-	virtual void hideProgressDialog() override;
+	void showProgressDialog(const std::wstring& title, const std::wstring& message, size_t progress) override;
+	void hideProgressDialog() override;
 
-	virtual void startIndexingDialog(
+	void startIndexingDialog(
 		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info) override;
-	virtual void updateIndexingDialog(
+	void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const FilePath& sourcePath) override;
-	virtual void finishedIndexingDialog(
+	DatabasePolicy finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted) override;
 
-	virtual void hideDialogs(bool unblockUI = true) override;
+	void hideDialogs(bool unblockUI = true) override;
 
-	virtual int confirm(const std::string& message, const std::vector<std::string>& options) override;
-	virtual int confirm(const std::wstring& message, const std::vector<std::wstring>& options) override;
+	int confirm(const std::string& message, const std::vector<std::string>& options) override;
+	int confirm(const std::wstring& message, const std::vector<std::wstring>& options) override;
 
 	void setParentWindow(QtWindow* window);
 

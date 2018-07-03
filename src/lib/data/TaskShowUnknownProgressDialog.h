@@ -14,13 +14,11 @@ public:
 		const std::wstring& message
 	);
 
-	virtual ~TaskShowUnknownProgressDialog();
-
 private:
-	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
-	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
-	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
+	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
+	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
+	void doExit(std::shared_ptr<Blackboard> blackboard) override;
+	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
 	const std::wstring m_title;
 	const std::wstring m_message;

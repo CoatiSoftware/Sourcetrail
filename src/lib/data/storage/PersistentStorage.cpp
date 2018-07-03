@@ -233,9 +233,12 @@ void PersistentStorage::finishInjection()
 {
 	m_sqliteIndexStorage.commitTransaction();
 
-	if (m_preInjectionErrorCount != m_sqliteIndexStorage.getErrorCount())
+	std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAll<StorageError>();
+	if (m_preInjectionErrorCount < errors.size())
 	{
-		MessageErrorCountUpdate(getErrorCount()).dispatch();
+		ErrorCountInfo errorCount(errors);
+		errors.erase(errors.begin(), errors.begin() + m_preInjectionErrorCount);
+		MessageErrorCountUpdate(errorCount, errors).dispatch();
 	}
 }
 
@@ -244,9 +247,14 @@ void PersistentStorage::setMode(const SqliteIndexStorage::StorageModeType mode)
 	m_sqliteIndexStorage.setMode(mode);
 }
 
-FilePath PersistentStorage::getDbFilePath() const
+FilePath PersistentStorage::getIndexDbFilePath() const
 {
 	return m_sqliteIndexStorage.getDbFilePath();
+}
+
+FilePath PersistentStorage::getBookmarkDbFilePath() const
+{
+	return m_sqliteBookmarkStorage.getDbFilePath();
 }
 
 bool PersistentStorage::isEmpty() const
@@ -430,7 +438,7 @@ void PersistentStorage::optimizeMemory()
 
 	m_sqliteIndexStorage.setTime();
 	m_sqliteIndexStorage.optimizeMemory();
-	
+
 	m_sqliteBookmarkStorage.optimizeMemory();
 }
 
@@ -2758,7 +2766,7 @@ void PersistentStorage::buildSearchIndex()
 {
 	TRACE();
 
-	const FilePath dbPath = getDbFilePath();
+	const FilePath dbPath = getIndexDbFilePath();
 
 	for (StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
 	{

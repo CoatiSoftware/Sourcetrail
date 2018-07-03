@@ -13,11 +13,10 @@ class TaskDecorator
 {
 public:
 	TaskDecorator();
-	virtual ~TaskDecorator();
 	std::shared_ptr<TaskDecorator> addChildTask(std::shared_ptr<Task> child);
 
 	virtual void setTask(std::shared_ptr<Task> task);
-	virtual void terminate();
+	void terminate() override;
 
 protected:
 	std::shared_ptr<TaskRunner> m_taskRunner;

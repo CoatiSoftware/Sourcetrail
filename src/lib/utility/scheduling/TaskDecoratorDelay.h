@@ -14,11 +14,11 @@ public:
 	TaskDecoratorDelay(size_t delayMS);
 
 private:
-	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
-	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
-	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
-	virtual void doTerminate();
+	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
+	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
+	void doExit(std::shared_ptr<Blackboard> blackboard) override;
+	void doReset(std::shared_ptr<Blackboard> blackboard) override;
+	void doTerminate() override;
 
 	const size_t m_delayMS;
 

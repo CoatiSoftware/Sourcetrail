@@ -15,7 +15,7 @@ public:
 	TaskGroupParallel();
 	virtual ~TaskGroupParallel();
 
-	virtual void addTask(std::shared_ptr<Task> task);
+	void addTask(std::shared_ptr<Task> task) override;
 
 private:
 	struct TaskInfo
@@ -29,11 +29,11 @@ private:
 		volatile bool active;
 	};
 
-	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
-	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
-	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
-	virtual void doTerminate();
+	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
+	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
+	void doExit(std::shared_ptr<Blackboard> blackboard) override;
+	void doReset(std::shared_ptr<Blackboard> blackboard) override;
+	void doTerminate() override;
 
 	void processTaskThreaded(
 		std::shared_ptr<TaskInfo> taskInfo,

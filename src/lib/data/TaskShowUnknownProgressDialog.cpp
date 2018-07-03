@@ -12,10 +12,6 @@ TaskShowUnknownProgressDialog::TaskShowUnknownProgressDialog(
 {
 }
 
-TaskShowUnknownProgressDialog::~TaskShowUnknownProgressDialog()
-{
-}
-
 void TaskShowUnknownProgressDialog::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 }

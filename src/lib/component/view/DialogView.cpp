@@ -35,10 +35,11 @@ void DialogView::updateIndexingDialog(
 {
 }
 
-void DialogView::finishedIndexingDialog(
+DatabasePolicy DialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 	float time, ErrorCountInfo errorInfo, bool interrupted)
 {
+	return DATABASE_POLICY_KEEP; // used in non-gui mode
 }
 
 void DialogView::hideDialogs(bool unblockUI)

@@ -4,10 +4,6 @@ TaskGroup::TaskGroup()
 {
 }
 
-TaskGroup::~TaskGroup()
-{
-}
-
 std::shared_ptr<TaskGroup> TaskGroup::addChildTasks(std::shared_ptr<Task> child1)
 {
 	addTask(child1);

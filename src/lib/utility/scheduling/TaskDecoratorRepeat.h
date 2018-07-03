@@ -18,10 +18,10 @@ public:
 	TaskDecoratorRepeat(ConditionType condition, TaskState exitState);
 
 private:
-	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
-	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
-	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
+	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
+	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
+	void doExit(std::shared_ptr<Blackboard> blackboard) override;
+	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
 	const ConditionType m_condition;
 	const TaskState m_exitState;

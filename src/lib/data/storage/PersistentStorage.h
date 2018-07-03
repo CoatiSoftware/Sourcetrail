@@ -47,7 +47,8 @@ public:
 
 	void setMode(const SqliteIndexStorage::StorageModeType mode);
 
-	FilePath getDbFilePath() const;
+	FilePath getIndexDbFilePath() const;
+	FilePath getBookmarkDbFilePath() const;
 
 	bool isEmpty() const;
 	bool isIncompatible() const;
@@ -190,7 +191,7 @@ private:
 	void buildMemberEdgeIdOrderMap();
 	void buildHierarchyCache();
 
-	int m_preInjectionErrorCount = 0;
+	size_t m_preInjectionErrorCount = 0;
 
 	SearchIndex m_commandIndex;
 	SearchIndex m_symbolIndex;

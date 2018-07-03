@@ -84,16 +84,22 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message)
 	if (room > 0)
 	{
 		filter.limit = 0;
-		std::vector<ErrorInfo> errors = m_storageAccess->getErrorsLimited(filter);
-		ErrorCountInfo errorCount(errors);
+		std::vector<ErrorInfo> errors;
 
-		auto startIt = errors.begin() + m_errorCount;
-		errors = std::vector<ErrorInfo>(
-			startIt,
-			(errors.size() < m_errorCount + room) ? errors.end() : startIt + room
-		);
+		for (const ErrorInfo& error : message->newErrors)
+		{
+			if (filter.filter(error))
+			{
+				errors.push_back(error);
 
-		getView()->addErrors(errors, errorCount, true);
+				if (room > 0 && errors.size() >= size_t(room))
+				{
+					break;
+				}
+			}
+		}
+
+		getView()->addErrors(errors, message->errorCount, true);
 		getView()->showDockWidget();
 
 		m_errorCount += errors.size();

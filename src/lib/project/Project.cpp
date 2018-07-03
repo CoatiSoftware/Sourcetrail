@@ -27,9 +27,11 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskDecoratorRepeat.h"
+#include "utility/scheduling/TaskFindValue.h"
 #include "utility/scheduling/TaskGroupSelector.h"
 #include "utility/scheduling/TaskGroupSequence.h"
 #include "utility/scheduling/TaskGroupParallel.h"
+#include "utility/scheduling/TaskLambda.h"
 #include "utility/scheduling/TaskReturnSuccessWhile.h"
 #include "utility/scheduling/TaskSetValue.h"
 #include "utility/ScopedFunctor.h"
@@ -38,6 +40,12 @@
 #include "utility/utilityApp.h"
 #include "utility/utilityFile.h"
 #include "utility/utilityString.h"
+#include "Application.h"
+
+const std::wstring Project::PROJECT_FILE_EXTENSION = L".srctrlprj";
+const std::wstring Project::BOOKMARK_DB_FILE_EXTENSION = L".srctrlbm";
+const std::wstring Project::INDEX_DB_FILE_EXTENSION = L".srctrldb";
+const std::wstring Project::TEMP_INDEX_DB_FILE_EXTENSION = L".srctrldb_tmp";
 
 Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, bool hasGUI)
 	: m_settings(settings)
@@ -76,22 +84,49 @@ void Project::setStateOutdated()
 
 void Project::load()
 {
+	m_storageCache->clear();
 	m_storageCache->setSubject(nullptr);
 
-	bool loadedSettings = m_settings->reload();
-
-	if (!loadedSettings)
+	if (!m_settings->reload())
 	{
 		return;
 	}
 
 	const FilePath projectSettingsPath = m_settings->getFilePath();
 
-	const std::wstring dbExtension = (projectSettingsPath.extension() == L".coatiproject" ? L"coatidb" : L"srctrldb");
-	const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension(dbExtension);
-	const FilePath bookmarkPath = FilePath(projectSettingsPath).replaceExtension(L"srctrlbm");
+	{
+		const FilePath dbPath = projectSettingsPath.replaceExtension(INDEX_DB_FILE_EXTENSION);
+		const FilePath tempDbPath = projectSettingsPath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+		if (tempDbPath.exists())
+		{
+			if (dbPath.exists())
+			{
+				if (Application::getInstance()->getDialogView()->confirm(
+					"Sourcetrail has been closed unexpectedly while indexing this project. You can either choose to keep the data that has "
+					"already been indexed or discard that data and restore the state of your project before indexing?", { "Keep and Continue", "Discard and Restore" }) == 0)
+				{
+					LOG_INFO("Switching to temporary indexing data on user's decision");
+					FileSystem::remove(dbPath);
+					FileSystem::rename(tempDbPath, dbPath);
+				}
+				else
+				{
+					LOG_INFO("Discarding temporary indexing data on user's decision");
+					FileSystem::remove(tempDbPath);
+				}
+			}
+			else
+			{
+				LOG_INFO("Switching to temporary indexing data because no other persistent data was found");
+				FileSystem::rename(tempDbPath, dbPath);
+			}
+		}
+	}
 
-	m_storage = std::make_shared<PersistentStorage>(dbPath, bookmarkPath);
+	m_storage = std::make_shared<PersistentStorage>(
+		projectSettingsPath.replaceExtension(INDEX_DB_FILE_EXTENSION), 
+		projectSettingsPath.replaceExtension(BOOKMARK_DB_FILE_EXTENSION)
+	);
 
 	bool canLoad = false;
 
@@ -233,10 +268,7 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 
 	if (question.size() && m_hasGUI)
 	{
-		std::vector<std::string> options = { "Yes", "No" };
-		int result = dialogView->confirm(question, options);
-
-		if (result == 1)
+		if (dialogView->confirm(question, { "Yes", "No" }) == 1)
 		{
 			return;
 		}
@@ -245,14 +277,10 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 	if (ApplicationSettings::getInstance()->getLoggingEnabled() &&
 		ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() && m_hasGUI)
 	{
-		std::vector<std::string> options = { "Yes", "No" };
-		int result = dialogView->confirm(
-			"Warning: You are about to index your project with the \"verbose indexer logging\" setting "
-			"enabled. This will cause a significant slowdown in indexing performance. Do you want to proceed?",
-			options
-		);
-
-		if (result == 1)
+		if (dialogView->confirm(
+				"Warning: You are about to index your project with the \"verbose indexer logging\" setting "
+				"enabled. This will cause a significant slowdown in indexing performance. Do you want to proceed?",
+				{ "Yes", "No" }) == 1)
 		{
 			return;
 		}
@@ -346,25 +374,33 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 
 	dialogView->showUnknownProgressDialog(L"Preparing Indexing", L"Setting up Indexers");
 
+	m_storageCache->clear();
+	m_storageCache->setSubject(m_storage.get());
+
+	const FilePath indexDbFilePath = m_storage->getIndexDbFilePath();
+	const FilePath tempIndexDbFilePath = indexDbFilePath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+
+	if (info.mode != REFRESH_ALL_FILES)
+	{
+		FileSystem::copyFile(indexDbFilePath, tempIndexDbFilePath);
+	}
+
+	std::shared_ptr<PersistentStorage> tempStorage = std::make_shared<PersistentStorage>(tempIndexDbFilePath, m_storage->getBookmarkDbFilePath());
+	tempStorage->setup();
+
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
 
-	if (info.mode == REFRESH_ALL_FILES)
-	{
-		m_storage->clear();
-	}
-	else if (info.filesToClear.size() || info.nonIndexedFilesToClear.size())
+	if (info.mode != REFRESH_ALL_FILES && (info.filesToClear.size() || info.nonIndexedFilesToClear.size()))
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
-			m_storage.get(),
+			tempStorage.get(),
 			utility::toVector(utility::concat(info.filesToClear, info.nonIndexedFilesToClear)),
 			info.mode == REFRESH_UPDATED_AND_INCOMPLETE_FILES
 		));
 	}
 
-	m_storageCache->clear();
-
-	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath())->getText());
-	m_storage->updateVersion();
+	tempStorage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath())->getText());
+	tempStorage->updateVersion();
 
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
@@ -402,7 +438,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexer_count", 0));
 
-		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(m_storage.get());
+		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(tempStorage.get());
 
 		taskSequential->addTask(taskParserWrapper);
 		std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
@@ -443,7 +479,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 						// stopping when indexer count is zero, regardless wether there are still storages left to insert.
 						std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0),
 						std::make_shared<TaskGroupSelector>()->addChildTasks(
-							std::make_shared<TaskInjectStorage>(storageProvider, m_storage),
+							std::make_shared<TaskInjectStorage>(storageProvider, tempStorage),
 							// continuing when indexer count is greater than zero, even if there are no storages right now.
 							std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0)
 						)
@@ -459,7 +495,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 		// add task that injects the remaining intermediate storages into the persistent storage
 		taskSequential->addTask(
 			std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-				std::make_shared<TaskInjectStorage>(storageProvider, m_storage)
+				std::make_shared<TaskInjectStorage>(storageProvider, tempStorage)
 			)
 		);
 	}
@@ -468,12 +504,59 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 		dialogView->hideUnknownProgressDialog();
 	}
 
-	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageCache));
+	taskSequential->addTask(std::make_shared<TaskFinishParsing>(tempStorage));
+
+
+	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
+		std::make_shared<TaskGroupSequence>()->addChildTasks(
+			std::make_shared<TaskFindValue>("keep_database"), 
+			std::make_shared<TaskLambda>([this]() {
+				Task::dispatch(std::make_shared<TaskLambda>([this]() {
+					swapToTempStorage();
+					m_state = PROJECT_STATE_LOADED;
+				}));
+			})
+		),
+		std::make_shared<TaskGroupSequence>()->addChildTasks(
+			std::make_shared<TaskFindValue>("discard_database"),
+			std::make_shared<TaskLambda>([this]() {
+				Task::dispatch(std::make_shared<TaskLambda>([this]() {
+					const FilePath tempIndexDbPath = m_storage->getIndexDbFilePath().replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+					if (tempIndexDbPath.exists())
+					{
+						LOG_INFO("Discarding temporary indexing data");
+						FileSystem::remove(tempIndexDbPath);
+					}
+				}));
+			})
+		)
+	));
+
+	taskSequential->addTask(std::make_shared<TaskLambda>([]() {	
+		MessageFinishedParsing().dispatch(); 
+	}));
 
 	Task::dispatch(taskSequential);
+}
+
+void Project::swapToTempStorage()
+{
+	LOG_INFO("Switching to temporary indexing data");
+	const FilePath indexDbFilePath = m_storage->getIndexDbFilePath();
+	const FilePath tempIndexDbFilePath = indexDbFilePath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+	const FilePath bookmarkDbFilePath = m_storage->getBookmarkDbFilePath();
+	m_storage.reset();
+	FileSystem::remove(indexDbFilePath);
+	FileSystem::rename(tempIndexDbFilePath, indexDbFilePath);
+	m_storage = std::make_shared<PersistentStorage>(indexDbFilePath, bookmarkDbFilePath);
+	m_storage->setup();
+
+	//std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+	//dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Building caches");
+	m_storage->buildCaches();
+	//dialogView->hideUnknownProgressDialog();
 
 	m_storageCache->setSubject(m_storage.get());
-	m_state = PROJECT_STATE_LOADED;
 }
 
 bool Project::hasCxxSourceGroup() const

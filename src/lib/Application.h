@@ -47,7 +47,7 @@ public:
 
 	const std::shared_ptr<Project> getCurrentProject();
 
-	void createAndLoadProject(const FilePath& projectSettingsFilePath);
+	void createAndLoadProject(FilePath projectSettingsFilePath);
 	void refreshProject(RefreshMode refreshMode);
 	bool hasGUI();
 
@@ -74,6 +74,7 @@ private:
 	virtual void handleMessage(MessageSwitchColorScheme* message);
 	virtual void handleMessage(MessageWindowFocus* message);
 
+	FilePath migrateProjectSettings(const FilePath& projectSettingsFilePath) const;
 	void startMessagingAndScheduling();
 
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);

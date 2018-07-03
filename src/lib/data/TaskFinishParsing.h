@@ -14,22 +14,17 @@ class TaskFinishParsing
 	: public Task
 {
 public:
-	TaskFinishParsing(
-		PersistentStorage* storage,
-		StorageAccess* storageAccess
-	);
+	TaskFinishParsing(std::shared_ptr<PersistentStorage> storage);
 
-	virtual ~TaskFinishParsing();
+	void terminate() override;
 
 private:
-	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
-	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
-	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
-	virtual void terminate();
+	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
+	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
+	void doExit(std::shared_ptr<Blackboard> blackboard) override;
+	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
-	PersistentStorage* m_storage;
-	StorageAccess* m_storageAccess;
+	std::shared_ptr<PersistentStorage> m_storage;
 };
 
 #endif // TASK_FINISH_PARSING_H

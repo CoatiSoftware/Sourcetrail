@@ -1,5 +1,17 @@
 #include "Application.h"
 
+#include "component/controller/IDECommunicationController.h"
+#include "component/NetworkFactory.h"
+#include "component/view/DialogView.h"
+#include "component/view/GraphViewStyle.h"
+#include "component/view/MainView.h"
+#include "component/view/ViewFactory.h"
+#include "data/storage/StorageCache.h"
+#include "LicenseChecker.h"
+#include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
+#include "settings/ColorScheme.h"
+#include "utility/file/FileSystem.h"
 #include "utility/interprocess/SharedMemoryGarbageCollector.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
@@ -16,18 +28,6 @@
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 #include "utility/Version.h"
-
-#include "component/controller/IDECommunicationController.h"
-#include "component/NetworkFactory.h"
-#include "component/view/DialogView.h"
-#include "component/view/GraphViewStyle.h"
-#include "component/view/MainView.h"
-#include "component/view/ViewFactory.h"
-#include "data/storage/StorageCache.h"
-#include "LicenseChecker.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/ProjectSettings.h"
-#include "settings/ColorScheme.h"
 #include "UpdateChecker.h"
 
 std::shared_ptr<Application> Application::s_instance;
@@ -85,6 +85,9 @@ std::shared_ptr<Application> Application::getInstance()
 
 void Application::destroyInstance()
 {
+	MessageQueue::getInstance()->stopMessageLoop();
+	TaskScheduler::getInstance()->stopSchedulerLoop();
+
 	s_instance.reset();
 }
 
@@ -126,9 +129,6 @@ Application::Application(bool withGUI)
 
 Application::~Application()
 {
-	MessageQueue::getInstance()->stopMessageLoop();
-	TaskScheduler::getInstance()->stopSchedulerLoop();
-
 	if (m_hasGUI)
 	{
 		m_mainView->saveLayout();
@@ -191,9 +191,12 @@ void Application::updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& 
 	m_mainView->updateBookmarksMenu(bookmarks);
 }
 
-void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
+void Application::createAndLoadProject(FilePath projectSettingsFilePath)
 {
 	MessageStatus(L"Loading Project: " + projectSettingsFilePath.wstr(), false, true).dispatch();
+
+	projectSettingsFilePath = migrateProjectSettings(projectSettingsFilePath);
+
 	try
 	{
 		updateRecentProjects(projectSettingsFilePath);
@@ -352,6 +355,36 @@ void Application::handleMessage(MessageWindowFocus* message)
 			MessageForceEnterLicense(state).dispatch();
 		}
 	}
+}
+
+FilePath Application::migrateProjectSettings(const FilePath& projectSettingsFilePath) const
+{
+	if (projectSettingsFilePath.extension() == L".coatiproject")
+	{
+		MessageStatus(L"Migrating deprecated project file extension \".coatiproject\" to new file extension \".srctrlprj\"").dispatch();
+		const FilePath newSettingsPath = projectSettingsFilePath.replaceExtension(Project::PROJECT_FILE_EXTENSION);
+		{
+			FileSystem::rename(projectSettingsFilePath, newSettingsPath);
+			const FilePath oldDbPath = projectSettingsFilePath.replaceExtension(L"coatidb");
+			if (oldDbPath.exists())
+			{
+				FileSystem::rename(oldDbPath, oldDbPath.replaceExtension(L"srctrldb"));
+			}
+		}
+		{
+			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+			std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
+			std::vector<FilePath>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
+			if (it != recentProjects.end())
+			{
+				recentProjects.erase(it);
+			}
+			appSettings->setRecentProjects(recentProjects);
+			appSettings->save(UserPaths::getAppSettingsPath());
+		}
+		return newSettingsPath;
+	}
+	return projectSettingsFilePath;
 }
 
 void Application::startMessagingAndScheduling()

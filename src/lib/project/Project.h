@@ -19,6 +19,11 @@ class StorageCache;
 class Project
 {
 public:
+	static const std::wstring PROJECT_FILE_EXTENSION;
+	static const std::wstring BOOKMARK_DB_FILE_EXTENSION;
+	static const std::wstring INDEX_DB_FILE_EXTENSION;
+	static const std::wstring TEMP_INDEX_DB_FILE_EXTENSION;
+
 	Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, bool hasGUI);
 	virtual ~Project();
 
@@ -50,6 +55,7 @@ private:
 
 	Project(const Project&);
 
+	void swapToTempStorage();
 	bool hasCxxSourceGroup() const;
 	bool didFileChange(const FileInfo& info) const;
 

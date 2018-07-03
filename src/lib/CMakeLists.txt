@@ -519,6 +519,8 @@ add_files(
 	utility/scheduling/TaskDecoratorRepeat.h
 	utility/scheduling/TaskDecoratorDelay.cpp
 	utility/scheduling/TaskDecoratorDelay.h
+	utility/scheduling/TaskFindValue.cpp
+	utility/scheduling/TaskFindValue.h
 	utility/scheduling/TaskGroup.cpp
 	utility/scheduling/TaskGroup.h
 	utility/scheduling/TaskGroupParallel.cpp

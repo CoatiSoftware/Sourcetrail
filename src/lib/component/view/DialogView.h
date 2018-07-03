@@ -10,6 +10,13 @@
 class Project;
 class StorageAccess;
 
+enum DatabasePolicy
+{
+	DATABASE_POLICY_KEEP,
+	DATABASE_POLICY_DISCARD,
+	DATABASE_POLICY_UNKNOWN
+};
+
 class DialogView
 {
 public:
@@ -26,7 +33,7 @@ public:
 		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info);
 	virtual void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const FilePath& sourcePath);
-	virtual void finishedIndexingDialog(
+	virtual DatabasePolicy finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted);
 

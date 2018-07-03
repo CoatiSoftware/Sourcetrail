@@ -9,16 +9,15 @@ class TaskGroupSelector
 {
 public:
 	TaskGroupSelector();
-	virtual ~TaskGroupSelector();
 
 	virtual void addTask(std::shared_ptr<Task> task);
 
 private:
-	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
-	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
-	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
-	virtual void doTerminate();
+	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
+	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
+	void doExit(std::shared_ptr<Blackboard> blackboard) override;
+	void doReset(std::shared_ptr<Blackboard> blackboard) override;
+	void doTerminate() override;
 
 	std::vector<std::shared_ptr<TaskRunner>> m_taskRunners;
 	int m_taskIndex;

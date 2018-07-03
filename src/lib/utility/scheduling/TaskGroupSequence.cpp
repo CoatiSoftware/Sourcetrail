@@ -4,10 +4,6 @@ TaskGroupSequence::TaskGroupSequence()
 {
 }
 
-TaskGroupSequence::~TaskGroupSequence()
-{
-}
-
 void TaskGroupSequence::addTask(std::shared_ptr<Task> task)
 {
 	m_taskRunners.push_back(std::make_shared<TaskRunner>(task));

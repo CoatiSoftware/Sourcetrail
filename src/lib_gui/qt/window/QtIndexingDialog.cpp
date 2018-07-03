@@ -207,8 +207,16 @@ void QtIndexingDialog::setupReport(
 	layout->addStretch();
 
 	addButtons(layout);
-	updateNextButton("OK");
-	setCloseVisible(false);
+	if (interrupted)
+	{
+		updateNextButton("Keep");
+		updateCloseButton("Discard");
+	}
+	else
+	{
+		updateNextButton("OK");
+		setCloseVisible(false);
+	}
 
 	m_sizeHint = QSize(interrupted ? 400 : 430, 280);
 

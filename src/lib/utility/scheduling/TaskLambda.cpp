@@ -5,10 +5,6 @@ TaskLambda::TaskLambda(std::function<void()> func)
 {
 }
 
-TaskLambda::~TaskLambda()
-{
-}
-
 void TaskLambda::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 }

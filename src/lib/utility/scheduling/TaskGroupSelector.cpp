@@ -4,10 +4,6 @@ TaskGroupSelector::TaskGroupSelector()
 {
 }
 
-TaskGroupSelector::~TaskGroupSelector()
-{
-}
-
 void TaskGroupSelector::addTask(std::shared_ptr<Task> task)
 {
 	m_taskRunners.push_back(std::make_shared<TaskRunner>(task));

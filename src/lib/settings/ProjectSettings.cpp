@@ -1,5 +1,6 @@
 #include "settings/ProjectSettings.h"
 
+#include "project/Project.h"
 #include "settings/migration/SettingsMigrationDeleteKey.h"
 #include "settings/migration/SettingsMigrationLambda.h"
 #include "settings/migration/SettingsMigrationMoveKey.h"
@@ -17,7 +18,6 @@
 #include "utility/utilityUuid.h"
 
 const size_t ProjectSettings::VERSION = 7;
-const wchar_t PROJECT_FILE_EXTENSION[] = L".srctrlprj";
 
 LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
 {
@@ -115,7 +115,7 @@ FilePath ProjectSettings::getProjectFilePath() const
 
 void ProjectSettings::setProjectFilePath(std::wstring projectName, const FilePath& projectFileLocation)
 {
-	setFilePath(projectFileLocation.getConcatenated(L"/" + projectName + PROJECT_FILE_EXTENSION));
+	setFilePath(projectFileLocation.getConcatenated(L"/" + projectName + Project::PROJECT_FILE_EXTENSION));
 }
 
 std::wstring ProjectSettings::getProjectName() const

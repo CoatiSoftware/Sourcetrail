@@ -203,45 +203,51 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
 
 bool FileSystem::remove(const FilePath& path)
 {
-	return boost::filesystem::remove(path.getPath());
+	const bool ret = boost::filesystem::remove(path.getPath());
+	path.recheckExists();
+	return ret;
 }
 
 bool FileSystem::rename(const FilePath& from, const FilePath& to)
 {
-	if (!from.exists() || to.exists())
+	if (!from.recheckExists() || to.recheckExists())
 	{
 		return false;
 	}
 
 	boost::filesystem::rename(from.getPath(), to.getPath());
+	to.recheckExists();
 	return true;
 }
 
 bool FileSystem::copyFile(const FilePath& from, const FilePath& to)
 {
-	if (!from.exists() || to.exists())
+	if (!from.recheckExists() || to.recheckExists())
 	{
 		return false;
 	}
 
 	boost::filesystem::copy_file(from.getPath(), to.getPath());
+	to.recheckExists();
 	return true;
 }
 
 bool FileSystem::copy_directory(const FilePath& from, const FilePath& to)
 {
-	if (!from.exists() || to.exists())
+	if (!from.recheckExists() || to.recheckExists())
 	{
 		return false;
 	}
 
 	boost::filesystem::copy_directory(from.getPath(), to.getPath());
+	to.recheckExists();
 	return true;
 }
 
 void FileSystem::createDirectory(const FilePath& path)
 {
 	boost::filesystem::create_directories(path.str());
+	path.recheckExists();
 }
 
 std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path)

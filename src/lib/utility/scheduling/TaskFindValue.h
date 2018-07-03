@@ -1,19 +1,17 @@
-#ifndef TASK_MERGE_STORAGES_H
-#define TASK_MERGE_STORAGES_H
+#ifndef TASK_FIND_VALUE_H
+#define TASK_FIND_VALUE_H
 
-#include <vector>
+#include <string>
 
 #include "utility/scheduling/Task.h"
 
-class StorageProvider;
+class Blackboard;
 
-class TaskMergeStorages
-	: public Task
+class TaskFindValue:
+	public Task
 {
 public:
-	TaskMergeStorages(
-		std::shared_ptr<StorageProvider> storageProvider
-	);
+	TaskFindValue(const std::string& valueName);
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -21,7 +19,7 @@ private:
 	void doExit(std::shared_ptr<Blackboard> blackboard) override;
 	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
-	std::shared_ptr<StorageProvider> m_storageProvider;
+	const std::string m_valueName;
 };
 
-#endif // TASK_MERGE_STORAGES_H
+#endif // TASK_FIND_VALUE_H

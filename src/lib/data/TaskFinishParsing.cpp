@@ -10,17 +10,21 @@
 #include "utility/utilityString.h"
 #include "Application.h"
 
-TaskFinishParsing::TaskFinishParsing(
-	PersistentStorage* storage,
-	StorageAccess* storageAccess
-)
+TaskFinishParsing::TaskFinishParsing(std::shared_ptr<PersistentStorage> storage)
 	: m_storage(storage)
-	, m_storageAccess(storageAccess)
 {
 }
 
-TaskFinishParsing::~TaskFinishParsing()
+void TaskFinishParsing::terminate()
 {
+	Application* app = Application::getInstance().get();
+	if (app)
+	{
+		app->getDialogView()->hideDialogs();
+	}
+
+	MessageStatus(L"An unknown exception was thrown during indexing.", true, false).dispatch();
+	MessageFinishedParsing().dispatch();
 }
 
 void TaskFinishParsing::doEnter(std::shared_ptr<Blackboard> blackboard)
@@ -36,12 +40,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 
 	dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Optimizing database");
 	m_storage->optimizeMemory();
-
-	dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Building caches");
-	m_storage->buildCaches();
-
 	dialogView->hideUnknownProgressDialog();
-	MessageFinishedParsing().dispatch();
 
 	float time = utility::duration(start);
 
@@ -68,7 +67,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	bool interruptedIndexing = false;
 	blackboard->get("interrupted_indexing", interruptedIndexing);
 
-	ErrorCountInfo errorInfo = m_storageAccess->getErrorCount();
+	ErrorCountInfo errorInfo = m_storage->getErrorCount();
 
 	std::wstring status;
 	status += L"Finished indexing: ";
@@ -81,8 +80,8 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	}
 	MessageStatus(status, false, false).dispatch();
 
-	StorageStats stats = m_storageAccess->getStorageStats();
-	dialogView->finishedIndexingDialog(
+	StorageStats stats = m_storage->getStorageStats();
+	DatabasePolicy policy = dialogView->finishedIndexingDialog(
 		indexedSourceFileCount,
 		sourceFileCount,
 		stats.completedFileCount,
@@ -91,6 +90,19 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		errorInfo,
 		interruptedIndexing
 	);
+
+	{
+		std::lock_guard<std::mutex> lock(blackboard->getMutex());
+
+		if (policy == DATABASE_POLICY_KEEP)
+		{
+			blackboard->set("keep_database", true);
+		}
+		else if (policy == DATABASE_POLICY_DISCARD)
+		{
+			blackboard->set("discard_database", true);
+		}
+	}
 
 	return STATE_SUCCESS;
 }
@@ -101,16 +113,4 @@ void TaskFinishParsing::doExit(std::shared_ptr<Blackboard> blackboard)
 
 void TaskFinishParsing::doReset(std::shared_ptr<Blackboard> blackboard)
 {
-}
-
-void TaskFinishParsing::terminate()
-{
-	Application* app = Application::getInstance().get();
-	if (app)
-	{
-		app->getDialogView()->hideDialogs();
-	}
-
-	MessageStatus(L"An unknown exception was thrown during indexing.", true, false).dispatch();
-	MessageFinishedParsing().dispatch();
 }

@@ -221,24 +221,50 @@ void QtDialogView::updateIndexingDialog(
 	);
 }
 
-void QtDialogView::finishedIndexingDialog(
+DatabasePolicy QtDialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 	float time, ErrorCountInfo errorInfo, bool interrupted)
 {
+	DatabasePolicy policy = DATABASE_POLICY_UNKNOWN;
+	m_resultReady = false;
 
 	m_onQtThread(
-		[=]()
+		[=, &policy]()
 		{
 			m_windowStack.clearWindows();
 
 			QtIndexingDialog* window = createWindow<QtIndexingDialog>();
 			window->setupReport(indexedFileCount, totalIndexedFileCount, completedFileCount, totalFileCount, time, interrupted);
 			window->updateErrorCount(errorInfo.total, errorInfo.fatal);
+			connect(window, &QtWindow::finished,
+				[this, &policy]()
+				{
+					setUIBlocked(false);
+					policy = DATABASE_POLICY_KEEP;
+					m_resultReady = true;
+				}
+			);
+			connect(window, &QtWindow::canceled,
+				[this, &policy]()
+				{
+					setUIBlocked(false);
+					policy = DATABASE_POLICY_DISCARD;
+					m_resultReady = true;
+				}
+			);
 
-			setUIBlocked(false);
 			m_mainWindow->hideWindowsTaskbarProgress();
+			setUIBlocked(true);
 		}
 	);
+
+	while (!m_resultReady)
+	{
+		const int SLEEP_TIME_MS = 25;
+		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	}
+
+	return policy;
 }
 
 void QtDialogView::hideDialogs(bool unblockUI)
