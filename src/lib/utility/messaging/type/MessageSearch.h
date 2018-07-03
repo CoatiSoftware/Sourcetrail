@@ -15,9 +15,8 @@ public:
 		return "MessageSearch";
 	}
 
-	MessageSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
-		: isFromSearch(true)
-		, acceptedNodeTypes(acceptedNodeTypes)
+	MessageSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes)
+		: acceptedNodeTypes(acceptedNodeTypes)
 		, m_matches(matches)
 	{
 	}
@@ -27,41 +26,14 @@ public:
 		return m_matches;
 	}
 
-	std::vector<Id> getTokenIdsOfMatches() const
-	{
-		std::vector<Id> tokenIds;
-		for (const SearchMatch& match : m_matches)
-		{
-			for (const Id tokenId : match.tokenIds)
-			{
-				if (tokenId)
-				{
-					tokenIds.push_back(tokenId);
-				}
-			}
-		}
-		return tokenIds;
-	}
-
-	std::vector<NameHierarchy> getTokenNamesOfMatches() const
-	{
-		std::vector<NameHierarchy> tokenNames;
-		for (const SearchMatch& match : m_matches)
-		{
-			tokenNames.push_back(match.tokenName);
-		}
-		return tokenNames;
-	}
-
 	virtual void print(std::wostream& os) const
 	{
 		for (const SearchMatch& match : m_matches)
 		{
-			os << " @" << match.name << "-" << match.tokenName.getQualifiedName();
+			os << " @" << match.name;
 		}
 	}
 
-	bool isFromSearch;
 	NodeTypeSet acceptedNodeTypes;
 
 private:

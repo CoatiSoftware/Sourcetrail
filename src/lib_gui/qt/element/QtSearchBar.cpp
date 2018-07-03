@@ -2,7 +2,7 @@
 
 #include <QHBoxLayout>
 
-#include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/ResourcePaths.h"
 
 #include "qt/element/QtSearchBarButton.h"
@@ -96,5 +96,5 @@ void QtSearchBar::refreshStyle()
 
 void QtSearchBar::homeButtonClicked()
 {
-	MessageSearch({ SearchMatch::createCommand(SearchMatch::COMMAND_ALL) }).dispatch();
+	MessageActivateAll().dispatch();
 }

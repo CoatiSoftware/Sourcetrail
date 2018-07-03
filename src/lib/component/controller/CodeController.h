@@ -10,6 +10,7 @@
 #include "utility/messaging/type/error/MessageErrorCountClear.h"
 #include "utility/messaging/type/error/MessageShowError.h"
 #include "utility/messaging/type/MessageActivateAll.h"
+#include "utility/messaging/type/MessageActivateFullTextSearch.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateTrailEdge.h"
@@ -20,7 +21,6 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageScrollToLine.h"
-#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/types.h"
 
@@ -37,6 +37,7 @@ class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
+	, public MessageListener<MessageActivateFullTextSearch>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrailEdge>
@@ -48,7 +49,6 @@ class CodeController
 	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollToLine>
-	, public MessageListener<MessageSearchFullText>
 	, public MessageListener<MessageShowError>
 	, public MessageListener<MessageShowScope>
 {
@@ -61,6 +61,7 @@ private:
 
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateErrors* message);
+	virtual void handleMessage(MessageActivateFullTextSearch* message);
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrailEdge* message);
@@ -72,7 +73,6 @@ private:
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageScrollToLine* message);
-	virtual void handleMessage(MessageSearchFullText* message);
 	virtual void handleMessage(MessageShowError* message);
 	virtual void handleMessage(MessageShowScope* message);
 

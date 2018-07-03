@@ -181,9 +181,9 @@ std::shared_ptr<DialogView> Application::getDialogView()
 	return std::make_shared<DialogView>(nullptr);
 }
 
-void Application::updateHistory(const std::vector<SearchMatch>& history)
+void Application::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems)
 {
-	m_mainView->updateHistoryMenu(history);
+	m_mainView->updateHistoryMenu(historyMenuItems);
 }
 
 void Application::updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)

@@ -29,6 +29,10 @@
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/error/MessageErrorsHelpMessage.h"
+#include "utility/messaging/type/history/MessageHistoryRedo.h"
+#include "utility/messaging/type/history/MessageHistoryUndo.h"
+#include "utility/messaging/type/MessageActivateAll.h"
+#include "utility/messaging/type/MessageActivateBase.h"
 #include "utility/messaging/type/MessageActivateBookmark.h"
 #include "utility/messaging/type/MessageCodeReference.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
@@ -37,11 +41,8 @@
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageResetZoom.h"
-#include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowClosed.h"
 #include "utility/messaging/type/MessageZoom.h"
 #include "utility/ResourcePaths.h"
@@ -83,12 +84,12 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 
 		if (mouseEvent->button() == m_backButton)
 		{
-			MessageUndo().dispatch();
+			MessageHistoryUndo().dispatch();
 			return true;
 		}
 		else if (mouseEvent->button() == m_forwardButton)
 		{
-			MessageRedo().dispatch();
+			MessageHistoryRedo().dispatch();
 			return true;
 		}
 	}
@@ -344,9 +345,9 @@ void QtMainWindow::forceEnterLicense(LicenseChecker::LicenseState state)
 	connect(window, &QtWindow::canceled, dynamic_cast<QApplication*>(QCoreApplication::instance()), &QApplication::quit);
 }
 
-void QtMainWindow::updateHistoryMenu(const std::vector<SearchMatch>& history)
+void QtMainWindow::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems)
 {
-	m_history = history;
+	m_history = historyMenuItems;
 	setupHistoryMenu();
 }
 
@@ -394,7 +395,7 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 	switch (event->key())
 	{
 		case Qt::Key_Backspace:
-			MessageUndo().dispatch();
+			MessageHistoryUndo().dispatch();
 			break;
 
 		case Qt::Key_Escape:
@@ -626,7 +627,7 @@ void QtMainWindow::codeReferenceNext()
 
 void QtMainWindow::overview()
 {
-	MessageSearch({ SearchMatch::createCommand(SearchMatch::COMMAND_ALL) }).dispatch();
+	MessageActivateAll().dispatch();
 }
 
 void QtMainWindow::closeWindow()
@@ -659,12 +660,12 @@ void QtMainWindow::forceRefresh()
 
 void QtMainWindow::undo()
 {
-	MessageUndo().dispatch();
+	MessageHistoryUndo().dispatch();
 }
 
 void QtMainWindow::redo()
 {
-	MessageRedo().dispatch();
+	MessageHistoryRedo().dispatch();
 }
 
 void QtMainWindow::zoomIn()
@@ -755,9 +756,7 @@ void QtMainWindow::openHistoryAction()
 	QAction* action = qobject_cast<QAction*>(sender());
 	if (action)
 	{
-		MessageSearch msg({ m_history[action->data().toInt()] });
-		msg.isFromSearch = false;
-		msg.dispatch();
+		m_history[action->data().toInt()]->dispatch();
 	}
 }
 
@@ -886,7 +885,13 @@ void QtMainWindow::setupHistoryMenu()
 
 	for (size_t i = 0; i < m_history.size(); i++)
 	{
-		SearchMatch& match = m_history[i];
+		MessageActivateBase* msg = dynamic_cast<MessageActivateBase*>(m_history[i].get());
+		if (!msg)
+		{
+			continue;
+		}
+
+		const SearchMatch match = msg->getSearchMatches()[0];
 		const std::wstring name = utility::elide(match.getFullName(), utility::ELIDE_RIGHT, 50);
 
 		QAction* action = new QAction();

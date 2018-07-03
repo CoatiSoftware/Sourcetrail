@@ -3,8 +3,8 @@
 #include <QHBoxLayout>
 #include <QTimer>
 
-#include "utility/messaging/type/MessageUndo.h"
-#include "utility/messaging/type/MessageRedo.h"
+#include "utility/messaging/type/history/MessageHistoryUndo.h"
+#include "utility/messaging/type/history/MessageHistoryRedo.h"
 #include "utility/ResourcePaths.h"
 
 #include "qt/element/QtHistoryList.h"
@@ -91,7 +91,7 @@ void QtUndoRedo::undoReleased()
 	if (m_pressed)
 	{
 		m_pressed = false;
-		MessageUndo().dispatch();
+		MessageHistoryUndo().dispatch();
 	}
 }
 
@@ -100,7 +100,7 @@ void QtUndoRedo::redoReleased()
 	if (m_pressed)
 	{
 		m_pressed = false;
-		MessageRedo().dispatch();
+		MessageHistoryRedo().dispatch();
 	}
 }
 

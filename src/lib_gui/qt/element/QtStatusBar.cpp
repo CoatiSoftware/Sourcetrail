@@ -3,7 +3,7 @@
 #include <QMovie>
 
 #include "qt/utility/utilityQt.h"
-#include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/error/MessageErrorsAll.h"
 #include "utility/messaging/type/MessageShowStatus.h"
 #include "utility/ResourcePaths.h"
 
@@ -118,5 +118,5 @@ void QtStatusBar::showStatus()
 
 void QtStatusBar::showErrors()
 {
-	MessageSearch({ SearchMatch::createCommand(SearchMatch::COMMAND_ERROR) }).dispatch();
+	MessageErrorsAll().dispatch();
 }

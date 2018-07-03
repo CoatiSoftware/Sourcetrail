@@ -74,9 +74,8 @@ struct SearchMatch
 	SearchType searchType;
 	std::vector<size_t> indices;
 
-	int score;
-
-	bool hasChildren;
+	int score = 0;
+	bool hasChildren = false;
 };
 
 

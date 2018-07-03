@@ -133,12 +133,12 @@ void QtMainView::updateRecentProjectMenu()
 	);
 }
 
-void QtMainView::updateHistoryMenu(const std::vector<SearchMatch>& history)
+void QtMainView::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_window->updateHistoryMenu(history);
+			m_window->updateHistoryMenu(historyMenuItems);
 		}
 	);
 }

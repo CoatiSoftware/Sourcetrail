@@ -16,39 +16,27 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateAll* message)
 {
-	if (message->acceptedNodeTypes != NodeTypeSet::all())
-	{
-		if (message->isReplayed())
-		{
-			getView()->setMatches(SearchMatch::createCommandsForNodeTypes(message->acceptedNodeTypes));
-		}
-		return;
-	}
-
-	getView()->setMatches(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL)));
+	getView()->setMatches(message->getSearchMatches());
 }
 
 void SearchController::handleMessage(MessageActivateErrors* message)
 {
-	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
-	getView()->setMatches(std::vector<SearchMatch>(1, match));
+	getView()->setMatches(message->getSearchMatches());
+}
+
+void SearchController::handleMessage(MessageActivateFullTextSearch* message)
+{
+	getView()->setMatches(message->getSearchMatches());
 }
 
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if ((message->isFromSearch && !message->isReplayed()) || message->keepContent())
+	if (message->keepContent())
 	{
 		return;
 	}
 
-	if (message->searchMatches.size())
-	{
-		getView()->setMatches(message->searchMatches);
-	}
-	else if (message->tokenIds.size())
-	{
-		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
-	}
+	getView()->setMatches(message->getSearchMatches());
 }
 
 void SearchController::handleMessage(MessageFind* message)
@@ -77,16 +65,6 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 
 	LOG_INFO(L"autocomplete string: \"" + message->query + L"\"");
 	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->acceptedNodeTypes));
-}
-
-void SearchController::handleMessage(MessageSearchFullText* message)
-{
-	LOG_INFO(L"fulltext string: \"" + message->searchTerm + L"\"");
-	std::wstring prefix(message->caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
-
-	SearchMatch match(prefix + message->searchTerm);
-	match.searchType = SearchMatch::SEARCH_FULLTEXT;
-	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 
 SearchView* SearchController::getView()

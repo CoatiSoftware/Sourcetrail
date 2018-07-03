@@ -7,6 +7,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/MessageActivateAll.h"
+#include "utility/messaging/type/MessageActivateFullTextSearch.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateTrail.h"
 #include "utility/messaging/type/MessageActivateTrailEdge.h"
@@ -18,7 +19,6 @@
 #include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
-#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageShowReference.h"
 
 #include "component/controller/Controller.h"
@@ -34,6 +34,7 @@ class GraphController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
+	, public MessageListener<MessageActivateFullTextSearch>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
@@ -45,7 +46,6 @@ class GraphController
 	, public MessageListener<MessageGraphNodeHide>
 	, public MessageListener<MessageGraphNodeMove>
 	, public MessageListener<MessageScrollGraph>
-	, public MessageListener<MessageSearchFullText>
 	, public MessageListener<MessageShowReference>
 {
 public:
@@ -55,6 +55,7 @@ public:
 private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateErrors* message);
+	virtual void handleMessage(MessageActivateFullTextSearch* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrail* message);
 	virtual void handleMessage(MessageActivateTrailEdge* message);
@@ -66,7 +67,6 @@ private:
 	virtual void handleMessage(MessageGraphNodeHide* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
 	virtual void handleMessage(MessageScrollGraph* message);
-	virtual void handleMessage(MessageSearchFullText* message);
 	virtual void handleMessage(MessageShowReference* message);
 
 	GraphView* getView() const;

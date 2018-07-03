@@ -11,6 +11,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageScrollToLine.h"
+#include "utility/utility.h"
 
 ActivationController::ActivationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -152,22 +153,15 @@ void ActivationController::handleMessage(MessageSearch* message)
 	}
 
 	MessageActivateTokens m(message);
-	m.isFromSearch = message->isFromSearch;
-
-	if (message->isFromSearch)
+	m.isFromSearch = true;
+	for (const SearchMatch& match : matches)
 	{
-		m.tokenIds = message->getTokenIdsOfMatches();
-		m.searchMatches = matches;
+		if (match.tokenIds.size() && match.tokenIds[0] != 0)
+		{
+			utility::append(m.tokenIds, match.tokenIds);
+			m.searchMatches.push_back(match);
+		}
 	}
-	else
-	{
-		std::pair<std::vector<Id>, std::vector<SearchMatch>> ret =
-			m_storageAccess->getNodeIdsAndSearchMatchesForNameHierarchies(message->getTokenNamesOfMatches());
-
-		m.tokenIds = ret.first;
-		m.searchMatches = ret.second;
-	}
-
 	m.dispatchImmediately();
 }
 

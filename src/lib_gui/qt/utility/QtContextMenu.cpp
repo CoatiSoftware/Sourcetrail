@@ -7,8 +7,8 @@
 #include <QUrl>
 
 #include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageRedo.h"
-#include "utility/messaging/type/MessageUndo.h"
+#include "utility/messaging/type/history/MessageHistoryRedo.h"
+#include "utility/messaging/type/history/MessageHistoryUndo.h"
 
 QtContextMenu* QtContextMenu::s_instance;
 
@@ -103,12 +103,12 @@ void QtContextMenu::show()
 
 void QtContextMenu::undoActionTriggered()
 {
-	MessageUndo().dispatch();
+	MessageHistoryUndo().dispatch();
 }
 
 void QtContextMenu::redoActionTriggered()
 {
-	MessageRedo().dispatch();
+	MessageHistoryRedo().dispatch();
 }
 
 void QtContextMenu::copyFullPathActionTriggered()

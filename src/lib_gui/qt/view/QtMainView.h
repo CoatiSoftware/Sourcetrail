@@ -54,7 +54,7 @@ public:
 	virtual void activateWindow();
 
 	virtual void updateRecentProjectMenu();
-	virtual void updateHistoryMenu(const std::vector<SearchMatch>& history);
+	virtual void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems);
 	virtual void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 private:

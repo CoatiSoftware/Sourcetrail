@@ -428,10 +428,16 @@ add_files(
 	utility/messaging/type/error/MessageErrorsHelpMessage.h
 	utility/messaging/type/error/MessageShowError.h
 
+	utility/messaging/type/history/MessageHistoryToPosition.h
+	utility/messaging/type/history/MessageHistoryRedo.h
+	utility/messaging/type/history/MessageHistoryUndo.h
+
 	utility/messaging/type/MessageActivateAll.h
+	utility/messaging/type/MessageActivateBase.h
 	utility/messaging/type/MessageActivateBookmark.h
 	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
+	utility/messaging/type/MessageActivateFullTextSearch.h
 	utility/messaging/type/MessageActivateLocalSymbols.h
 	utility/messaging/type/MessageActivateNodes.h
 	utility/messaging/type/MessageActivateSourceLocations.h
@@ -468,7 +474,6 @@ add_files(
 	utility/messaging/type/MessageProjectEdit.h
 	utility/messaging/type/MessageProjectNew.h
 	utility/messaging/type/MessageQuitApplication.h
-	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageResetZoom.h
 	utility/messaging/type/MessageScrollCode.h
@@ -476,7 +481,6 @@ add_files(
 	utility/messaging/type/MessageScrollToLine.h
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h
-	utility/messaging/type/MessageSearchFullText.h
 	utility/messaging/type/MessageShowReference.h
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStatus.h
@@ -486,8 +490,6 @@ add_files(
 	utility/messaging/type/MessageSwitchColorScheme.h
 	utility/messaging/type/MessageTooltipHide.h
 	utility/messaging/type/MessageTooltipShow.h
-	utility/messaging/type/MessageToUndoRedoPosition.h
-	utility/messaging/type/MessageUndo.h
 	utility/messaging/type/MessageWindowClosed.h
 	utility/messaging/type/MessageWindowFocus.h
 	utility/messaging/type/MessageZoom.h

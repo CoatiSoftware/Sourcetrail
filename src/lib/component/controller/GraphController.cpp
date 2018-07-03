@@ -69,6 +69,11 @@ void GraphController::handleMessage(MessageActivateErrors* message)
 	clear();
 }
 
+void GraphController::handleMessage(MessageActivateFullTextSearch* message)
+{
+	clear();
+}
+
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
 	TRACE("graph activate");
@@ -257,11 +262,6 @@ void GraphController::handleMessage(MessageScrollGraph* message)
 	{
 		getView()->scrollToValues(message->xValue, message->yValue);
 	}
-}
-
-void GraphController::handleMessage(MessageSearchFullText* message)
-{
-	clear();
 }
 
 void GraphController::handleMessage(MessageFocusIn* message)

@@ -7,7 +7,11 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/error/MessageShowError.h"
+#include "utility/messaging/type/history/MessageHistoryRedo.h"
+#include "utility/messaging/type/history/MessageHistoryToPosition.h"
+#include "utility/messaging/type/history/MessageHistoryUndo.h"
 #include "utility/messaging/type/MessageActivateAll.h"
+#include "utility/messaging/type/MessageActivateFullTextSearch.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateTrail.h"
@@ -19,15 +23,11 @@
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
-#include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
-#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageShowReference.h"
 #include "utility/messaging/type/MessageShowScope.h"
-#include "utility/messaging/type/MessageToUndoRedoPosition.h"
-#include "utility/messaging/type/MessageUndo.h"
 
 #include "component/controller/Controller.h"
 
@@ -38,6 +38,7 @@ class UndoRedoController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
+	, public MessageListener<MessageActivateFullTextSearch>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
@@ -49,16 +50,15 @@ class UndoRedoController
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeHide>
 	, public MessageListener<MessageGraphNodeMove>
-	, public MessageListener<MessageRedo>
+	, public MessageListener<MessageHistoryRedo>
+	, public MessageListener<MessageHistoryToPosition>
+	, public MessageListener<MessageHistoryUndo>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollGraph>
-	, public MessageListener<MessageSearchFullText>
 	, public MessageListener<MessageShowError>
 	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageShowScope>
-	, public MessageListener<MessageToUndoRedoPosition>
-	, public MessageListener<MessageUndo>
 {
 public:
 	UndoRedoController(StorageAccess* storageAccess);
@@ -87,6 +87,7 @@ private:
 
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateErrors* message);
+	virtual void handleMessage(MessageActivateFullTextSearch* message);
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrail* message);
@@ -98,16 +99,15 @@ private:
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeHide* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
-	virtual void handleMessage(MessageRedo* message);
+	virtual void handleMessage(MessageHistoryRedo* message);
+	virtual void handleMessage(MessageHistoryToPosition* message);
+	virtual void handleMessage(MessageHistoryUndo* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageScrollGraph* message);
-	virtual void handleMessage(MessageSearchFullText* message);
 	virtual void handleMessage(MessageShowError* message);
 	virtual void handleMessage(MessageShowReference* message);
 	virtual void handleMessage(MessageShowScope* message);
-	virtual void handleMessage(MessageToUndoRedoPosition* message);
-	virtual void handleMessage(MessageUndo* message);
 
 	void replayCommands();
 	void replayCommands(std::list<Command>::iterator it);
@@ -119,7 +119,6 @@ private:
 	MessageBase* lastMessage() const;
 
 	void updateHistory();
-	SearchMatch getSearchMatchForMessage(MessageBase* message) const;
 
 	void dump() const;
 
@@ -128,7 +127,6 @@ private:
 	std::list<Command> m_list;
 	std::list<Command>::iterator m_iterator;
 
-	std::deque<SearchMatch> m_history;
 	size_t m_historyOffset;
 };
 

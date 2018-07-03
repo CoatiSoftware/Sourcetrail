@@ -9,8 +9,8 @@
 #include "component/view/GraphViewStyle.h"
 #include "data/NodeTypeSet.h"
 #include "settings/ColorScheme.h"
+#include "utility/messaging/type/MessageActivateFullTextSearch.h"
 #include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -89,7 +89,7 @@ void QtSmartSearchBox::fullTextSearch()
 		caseSensitive = true;
 	}
 
-	MessageSearchFullText(term, caseSensitive).dispatch();
+	MessageActivateFullTextSearch(term, caseSensitive).dispatch();
 }
 
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)

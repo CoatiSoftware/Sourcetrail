@@ -9,10 +9,10 @@
 #include "utility/messaging/type/error/MessageErrorsForFile.h"
 #include "utility/messaging/type/error/MessageErrorsHelpMessage.h"
 #include "utility/messaging/type/error/MessageShowError.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateAll.h"
+#include "utility/messaging/type/MessageActivateFullTextSearch.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/messaging/type/MessageSearchFullText.h"
 
 #include "component/controller/Controller.h"
 #include "component/view/ErrorView.h"
@@ -23,6 +23,7 @@ class ErrorController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
+	, public MessageListener<MessageActivateFullTextSearch>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageErrorCountClear>
 	, public MessageListener<MessageErrorCountUpdate>
@@ -31,7 +32,6 @@ class ErrorController
 	, public MessageListener<MessageErrorsHelpMessage>
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageShowError>
-	, public MessageListener<MessageSearchFullText>
 {
 public:
 	ErrorController(StorageAccess* storageAccess);
@@ -43,6 +43,7 @@ public:
 private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateErrors* message);
+	virtual void handleMessage(MessageActivateFullTextSearch* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageErrorCountClear* message);
 	virtual void handleMessage(MessageErrorCountUpdate* message);
@@ -51,7 +52,6 @@ private:
 	virtual void handleMessage(MessageErrorsHelpMessage* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageShowError* message);
-	virtual void handleMessage(MessageSearchFullText* message);
 
 	ErrorView* getView() const;
 

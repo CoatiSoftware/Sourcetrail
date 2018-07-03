@@ -57,7 +57,7 @@ public:
 	int handleDialog(const std::wstring& message, const std::vector<std::wstring>& options);
 	std::shared_ptr<DialogView> getDialogView();
 
-	void updateHistory(const std::vector<SearchMatch>& history);
+	void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems);
 	void updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 private:

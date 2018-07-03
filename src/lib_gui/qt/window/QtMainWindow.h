@@ -75,7 +75,7 @@ public:
 
 	void forceEnterLicense(LicenseChecker::LicenseState state);
 
-	void updateHistoryMenu(const std::vector<SearchMatch>& history);
+	void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems);
 	void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 	void setContentEnabled(bool enabled);
@@ -183,7 +183,7 @@ private:
 	QAction* m_viewSeparator;
 
 	QMenu* m_historyMenu;
-	std::vector<SearchMatch> m_history;
+	std::vector<std::shared_ptr<MessageBase>> m_history;
 
 	QMenu* m_bookmarksMenu;
 	std::vector<std::shared_ptr<Bookmark>> m_bookmarks;

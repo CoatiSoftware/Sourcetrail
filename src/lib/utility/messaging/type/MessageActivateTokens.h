@@ -2,12 +2,14 @@
 #define MESSAGE_ACTIVATE_TOKENS_H
 
 #include "utility/messaging/Message.h"
+#include "utility/messaging/type/MessageActivateBase.h"
 #include "utility/types.h"
 
 #include "data/search/SearchMatch.h"
 
 class MessageActivateTokens
 	: public Message<MessageActivateTokens>
+	, public MessageActivateBase
 {
 public:
 	static const std::string getStaticType()
@@ -24,12 +26,31 @@ public:
 		setKeepContent(other->keepContent());
 	}
 
-	virtual void print(std::wostream& os) const
+	void print(std::wostream& os) const override
 	{
 		for (const Id& id : tokenIds)
 		{
 			os << id << L" ";
 		}
+
+		for (const SearchMatch& match : searchMatches)
+		{
+			os << match.tokenName.getQualifiedName() << L" ";
+		}
+	}
+
+	std::vector<SearchMatch> getSearchMatches() const override
+	{
+		if (isAggregation)
+		{
+			SearchMatch match;
+			match.name = match.text = L"aggregation"; // TODO: show aggregation source and target
+			match.searchType = SearchMatch::SEARCH_TOKEN;
+			match.nodeType = NodeType::NODE_TYPE;
+			return { match };
+		}
+
+		return searchMatches;
 	}
 
 	std::vector<NameHierarchy> getTokenNamesOfMatches() const

@@ -55,6 +55,11 @@ void ErrorController::handleMessage(MessageActivateErrors* message)
 	}
 }
 
+void ErrorController::handleMessage(MessageActivateFullTextSearch* message)
+{
+	m_showsErrors = false;
+}
+
 void ErrorController::handleMessage(MessageActivateTokens* message)
 {
 	m_showsErrors = false;
@@ -138,11 +143,6 @@ void ErrorController::handleMessage(MessageFinishedParsing* message)
 void ErrorController::handleMessage(MessageShowError* message)
 {
 	getView()->setErrorId(message->errorId);
-}
-
-void ErrorController::handleMessage(MessageSearchFullText* message)
-{
-	m_showsErrors = false;
 }
 
 ErrorView* ErrorController::getView() const

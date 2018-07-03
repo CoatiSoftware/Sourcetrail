@@ -35,6 +35,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	Project* currentProject = Application::getInstance()->getCurrentProject().get();
 	if (!currentProject || message->acceptedNodeTypes != NodeTypeSet::all())
 	{
+		clear();
 		return;
 	}
 
@@ -130,6 +131,25 @@ void CodeController::handleMessage(MessageActivateErrors* message)
 	params.useSingleFileCache = false;
 
 	showCodeSnippets(snippets, params, false);
+}
+
+void CodeController::handleMessage(MessageActivateFullTextSearch* message)
+{
+	TRACE("code fulltext");
+
+	saveOrRestoreViewMode(message);
+
+	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
+
+	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
+	getView()->scrollTo(scrollParams);
+
+	CodeView::CodeParams params;
+	params.clearSnippets = true;
+	params.showContents = !message->isReplayed();
+	params.useSingleFileCache = false;
+
+	showCodeSnippets(getSnippetsForCollection(m_collection), params);
 }
 
 void CodeController::handleMessage(MessageActivateLocalSymbols* message)
@@ -324,25 +344,6 @@ void CodeController::handleMessage(MessageScrollCode* message)
 		scrollParams.inListMode = message->inListMode;
 		getView()->scrollTo(scrollParams);
 	}
-}
-
-void CodeController::handleMessage(MessageSearchFullText* message)
-{
-	TRACE("code fulltext");
-
-	saveOrRestoreViewMode(message);
-
-	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
-
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-	getView()->scrollTo(scrollParams);
-
-	CodeView::CodeParams params;
-	params.clearSnippets = true;
-	params.showContents = !message->isReplayed();
-	params.useSingleFileCache = false;
-
-	showCodeSnippets(getSnippetsForCollection(m_collection), params);
 }
 
 void CodeController::handleMessage(MessageShowError* message)

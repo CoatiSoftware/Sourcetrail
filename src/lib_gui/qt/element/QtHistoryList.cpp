@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QScrollBar>
 
-#include "utility/messaging/type/MessageToUndoRedoPosition.h"
+#include "utility/messaging/type/history/MessageHistoryToPosition.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 
@@ -168,7 +168,7 @@ void QtHistoryList::onItemClicked(QListWidgetItem *item)
 	{
 		if (historyItem->index != m_currentIndex)
 		{
-			MessageToUndoRedoPosition(historyItem->index).dispatch();
+			MessageHistoryToPosition(historyItem->index).dispatch();
 		}
 		close();
 	}
