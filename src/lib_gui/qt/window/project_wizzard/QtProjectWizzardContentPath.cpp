@@ -279,7 +279,7 @@ void QtProjectWizzardContentCodeblocksProjectPath::load()
 	m_picker->setText(QString::fromStdWString(m_settings->getCodeblocksProjectPath().wstr()));
 
 	m_filePaths = utility::getAsRelativeIfShorter(
-		utility::toVector(SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths()), 
+		utility::toVector(SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths()),
 		m_settings->getProjectDirectoryPath()
 	);
 
@@ -292,11 +292,6 @@ void QtProjectWizzardContentCodeblocksProjectPath::load()
 void QtProjectWizzardContentCodeblocksProjectPath::save()
 {
 	m_settings->setCodeblocksProjectPath(FilePath(m_picker->getText().toStdWString()));
-}
-
-bool QtProjectWizzardContentCodeblocksProjectPath::check()
-{
-	return true;
 }
 
 std::vector<FilePath> QtProjectWizzardContentCodeblocksProjectPath::getFilePaths() const
@@ -342,7 +337,7 @@ std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentCodeblocksProjectPat
 
 
 QtProjectWizzardContentSonargraphProjectPath::QtProjectWizzardContentSonargraphProjectPath(
-	std::shared_ptr<SourceGroupSettings> settings, 
+	std::shared_ptr<SourceGroupSettings> settings,
 	std::shared_ptr<SourceGroupSettingsCxxSonargraph> settingsCxxSonargraph,
 	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> settingsWithSonargraphProjectPath,
 	QtProjectWizzardWindow* window
@@ -422,6 +417,11 @@ void QtProjectWizzardContentSonargraphProjectPath::save()
 
 bool QtProjectWizzardContentSonargraphProjectPath::check()
 {
+	if (!QtProjectWizzardContentPath::check())
+	{
+		return false;
+	}
+
 	if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
 		m_settingsWithSonargraphProjectPath->getSonargraphProjectPathExpandedAndAbsolute(), m_settings->getLanguage()
 	))
@@ -572,7 +572,7 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 		utility::toVector(SourceGroupJavaMaven(m_settings).getAllSourceFilePaths()),
 		m_settings->getProjectDirectoryPath()
 	);
-}	
+}
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathSourceMaven::getSourceGroupSettings()
 {
