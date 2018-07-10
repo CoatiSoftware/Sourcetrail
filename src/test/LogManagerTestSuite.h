@@ -198,7 +198,6 @@ private:
 	{
 	public:
 		TestLogger();
-		~TestLogger();
 
 		void reset();
 		int getMessageCount() const;
@@ -210,9 +209,9 @@ private:
 		std::wstring getLastError() const;
 
 	private:
-		void logInfo(const LogMessage& message);
-		void logWarning(const LogMessage& message);
-		void logError(const LogMessage& message);
+		void logInfo(const LogMessage& message) override;
+		void logWarning(const LogMessage& message) override;
+		void logError(const LogMessage& message) override;
 
 		int m_logMessageCount;
 		int m_logWarningCount;
@@ -233,10 +232,6 @@ LogManagerTestSuite::TestLogger::TestLogger()
 	, m_lastInfo(L"")
 	, m_lastWarning(L"")
 	, m_lastError(L"")
-{
-}
-
-LogManagerTestSuite::TestLogger::~TestLogger()
 {
 }
 

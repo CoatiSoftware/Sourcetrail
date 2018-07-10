@@ -6,10 +6,6 @@ Logger::Logger(const std::string& type)
 {
 }
 
-Logger::~Logger()
-{
-}
-
 std::string Logger::getType() const
 {
 	return m_type;

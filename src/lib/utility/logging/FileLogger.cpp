@@ -48,10 +48,6 @@ FileLogger::FileLogger()
 	updateLogFileName();
 }
 
-FileLogger::~FileLogger()
-{
-}
-
 FilePath FileLogger::getLogFilePath() const
 {
 	return m_currentLogFilePath;

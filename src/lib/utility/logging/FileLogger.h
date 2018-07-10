@@ -13,7 +13,6 @@ public:
 	static std::wstring generateDatedFileName(const std::wstring& prefix = L"", const std::wstring& suffix = L"");
 
 	FileLogger();
-	virtual ~FileLogger();
 
 	FilePath getLogFilePath() const;
 	void setLogFilePath(const FilePath& filePath);
@@ -26,9 +25,9 @@ public:
 	void setMaxLogFileCount(unsigned int amount);
 
 private:
-	virtual void logInfo(const LogMessage& message);
-	virtual void logWarning(const LogMessage& message);
-	virtual void logError(const LogMessage& message);
+	void logInfo(const LogMessage& message) override;
+	void logWarning(const LogMessage& message) override;
+	void logError(const LogMessage& message) override;
 
 	void logMessage(const std::string& type, const LogMessage& message);
 	void updateLogFileName();
