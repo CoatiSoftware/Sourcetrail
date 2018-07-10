@@ -12,10 +12,7 @@ class Message
 	: public MessageBase
 {
 public:
-
-	virtual ~Message()
-	{
-	}
+	virtual ~Message() = default;
 
 	virtual std::string getType() const
 	{

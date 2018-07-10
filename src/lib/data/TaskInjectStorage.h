@@ -14,7 +14,7 @@ class TaskInjectStorage
 public:
 	TaskInjectStorage(
 		std::shared_ptr<StorageProvider> storageProvider,
-		std::shared_ptr<Storage> target
+		std::weak_ptr<Storage> target
 	);
 
 private:
@@ -24,7 +24,7 @@ private:
 	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
 	std::shared_ptr<StorageProvider> m_storageProvider;
-	std::shared_ptr<Storage> m_target;
+	std::weak_ptr<Storage> m_target;
 };
 
 #endif // TASK_INJECT_STORAGE_H

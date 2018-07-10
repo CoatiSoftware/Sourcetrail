@@ -422,7 +422,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	if (info.mode != REFRESH_ALL_FILES && (info.filesToClear.size() || info.nonIndexedFilesToClear.size()))
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
-			tempStorage.get(),
+			tempStorage,
 			utility::toVector(utility::concat(info.filesToClear, info.nonIndexedFilesToClear)),
 			info.mode == REFRESH_UPDATED_AND_INCOMPLETE_FILES
 		));
@@ -467,7 +467,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexer_count", 0));
 
-		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(tempStorage.get());
+		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(tempStorage);
 
 		taskSequential->addTask(taskParserWrapper);
 		std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
@@ -536,7 +536,6 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	}
 
 	taskSequential->addTask(std::make_shared<TaskFinishParsing>(tempStorage));
-
 
 	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
 		std::make_shared<TaskGroupSequence>()->addChildTasks(

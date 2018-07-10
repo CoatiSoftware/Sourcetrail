@@ -15,7 +15,7 @@ class TaskCleanStorage
 {
 public:
 	TaskCleanStorage(
-		PersistentStorage* storage,
+		std::weak_ptr<PersistentStorage> storage,
 		const std::vector<FilePath>& filePaths,
 		bool clearAllErrors
 	);
@@ -26,7 +26,7 @@ private:
 	void doExit(std::shared_ptr<Blackboard> blackboard) override;
 	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
-	PersistentStorage* m_storage;
+	std::weak_ptr<PersistentStorage> m_storage;
 	std::vector<FilePath> m_filePaths;
 	bool m_clearAllErrors;
 

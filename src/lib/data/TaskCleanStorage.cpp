@@ -8,7 +8,7 @@
 #include "Application.h"
 
 TaskCleanStorage::TaskCleanStorage(
-	PersistentStorage* storage, const std::vector<FilePath>& filePaths, bool clearAllErrors
+	std::weak_ptr<PersistentStorage> storage, const std::vector<FilePath>& filePaths, bool clearAllErrors
 )
 	: m_storage(storage)
 	, m_filePaths(filePaths)
@@ -25,23 +25,29 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	if (!m_filePaths.empty() || m_clearAllErrors)
 	{
-		m_storage->setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
+		if (std::shared_ptr<PersistentStorage> storage = m_storage.lock())
+		{
+			storage->setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
+		}
 	}
 }
 
 Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	if (m_clearAllErrors)
+	if (std::shared_ptr<PersistentStorage> storage = m_storage.lock())
 	{
-		m_storage->clearAllErrors();
-	}
-
-	m_storage->clearFileElements(m_filePaths, [=](int progress)
+		if (m_clearAllErrors)
 		{
-			Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->showProgressDialog(
-				L"Clearing", std::to_wstring(m_filePaths.size()) + L" Files", progress);
+			storage->clearAllErrors();
 		}
-	);
+
+		storage->clearFileElements(m_filePaths, [=](int progress)
+			{
+				Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->showProgressDialog(
+					L"Clearing", std::to_wstring(m_filePaths.size()) + L" Files", progress);
+			}
+		);
+	}
 
 	m_filePaths.clear();
 

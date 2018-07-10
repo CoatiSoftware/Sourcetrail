@@ -109,6 +109,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 
 void TaskFinishParsing::doExit(std::shared_ptr<Blackboard> blackboard)
 {
+	m_storage.reset();
 }
 
 void TaskFinishParsing::doReset(std::shared_ptr<Blackboard> blackboard)

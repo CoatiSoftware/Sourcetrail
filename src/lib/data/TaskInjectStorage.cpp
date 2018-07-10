@@ -8,7 +8,7 @@
 
 TaskInjectStorage::TaskInjectStorage(
 	std::shared_ptr<StorageProvider> storageProvider,
-	std::shared_ptr<Storage> target
+	std::weak_ptr<Storage> target
 )
 	: m_storageProvider(storageProvider)
 	, m_target(target)
@@ -26,8 +26,11 @@ Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboa
 		std::shared_ptr<IntermediateStorage> source = m_storageProvider->consumeLargestStorage();
 		if (source)
 		{
-			m_target->inject(source.get());
-			return STATE_SUCCESS;
+			if (std::shared_ptr<Storage> target = m_target.lock())
+			{
+				target->inject(source.get());
+				return STATE_SUCCESS;
+			}
 		}
 	}
 	else

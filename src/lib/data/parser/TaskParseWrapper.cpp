@@ -6,12 +6,8 @@
 #include "utility/utility.h"
 #include "Application.h"
 
-TaskParseWrapper::TaskParseWrapper(PersistentStorage* storage)
+TaskParseWrapper::TaskParseWrapper(std::weak_ptr<PersistentStorage> storage)
 	: m_storage(storage)
-{
-}
-
-TaskParseWrapper::~TaskParseWrapper()
 {
 }
 
@@ -30,7 +26,10 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	if (sourceFileCount > 0)
 	{
-		m_storage->setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
+		if (std::shared_ptr<PersistentStorage> storage = m_storage.lock())
+		{
+			storage->setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
+		}
 	}
 }
 
