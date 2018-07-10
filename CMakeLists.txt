@@ -212,12 +212,13 @@ else()
 	set(Qt5Widgets_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Widgets")
 	set(Qt5PrintSupport_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5PrintSupport")
 	set(Qt5Network_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Network")
-	set(Qt5WinExtras_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5WinExtras")
+	set(Qt5Svg_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Svg")
 endif()
 
 find_package(Qt5Widgets)
 find_package(Qt5PrintSupport)
 find_package(Qt5Network)
+find_package(Qt5Svg)
 
 if (WIN32)
 	find_package(Qt5WinExtras)
@@ -418,9 +419,9 @@ add_custom_target(
 add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/version.h)
 
 if(UNIX)
-	target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} Qt5::Widgets Qt5::Network)
+	target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::Svg)
 else()
-	target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::WinExtras)
+	target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::Svg Qt5::WinExtras)
 endif()
 
 # command for versioning script
@@ -630,7 +631,10 @@ if (APPLE)
 	get_property(QT_NETWORK_PATH TARGET ${Qt5Network_LIBRARIES} PROPERTY LOCATION)
 	get_filename_component(QT_NETWORK_PATH ${QT_NETWORK_PATH} REALPATH)
 
-	list(APPEND MACOSX_QT_FRAMEWORKS ${QT_CORE_PATH} ${QT_GUI_PATH} ${QT_WIDGETS_PATH} ${QT_PRINT_PATH} ${QT_NETWORK_PATH})
+	get_property(QT_SVG_PATH TARGET ${Qt5Svg_LIBRARIES} PROPERTY LOCATION)
+	get_filename_component(QT_SVG_PATH ${QT_SVG_PATH} REALPATH)
+
+	list(APPEND MACOSX_QT_FRAMEWORKS ${QT_CORE_PATH} ${QT_GUI_PATH} ${QT_WIDGETS_PATH} ${QT_PRINT_PATH} ${QT_NETWORK_PATH} ${QT_SVG_PATH})
 	string(REPLACE ";" " " MACOSX_QT_FRAMEWORKS "${MACOSX_QT_FRAMEWORKS}")
 
 	set(MACOSX_QT_DIR "$ENV{QT_DIR}")

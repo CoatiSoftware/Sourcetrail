@@ -196,27 +196,27 @@ size_t GraphViewStyle::getFontSizeOfGroupNode()
 
 std::string GraphViewStyle::getFontNameForDataNode()
 {
-	return s_fontName;
+	return s_fontName + ", consolas, monospace, sans-serif";
 }
 
 std::string GraphViewStyle::getFontNameOfAccessNode()
 {
-	return "Fira Sans";
+	return "Fira Sans, sans-serif";
 }
 
 std::string GraphViewStyle::getFontNameOfExpandToggleNode()
 {
-	return "Fira Sans";
+	return "Fira Sans, sans-serif";
 }
 
 std::string GraphViewStyle::getFontNameOfTextNode()
 {
-	return "Fira Sans";
+	return "Fira Sans, sans-serif";
 }
 
 std::string GraphViewStyle::getFontNameOfGroupNode()
 {
-	return s_fontName;
+	return s_fontName + ", consolas, monospace, sans-serif";
 }
 
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForDataNode(NodeType::StyleType type, bool hasIcon, bool hasChildren)

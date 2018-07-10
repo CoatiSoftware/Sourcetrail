@@ -72,6 +72,7 @@ if [ $PLATFORM == "Windows" ]; then
 		cp -u -r ${QT_DIR}/bin/Qt5Core$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/bin/Qt5Gui$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/bin/Qt5Network$SUFFIX.dll build/win$1/$2/$3
+		cp -u -r ${QT_DIR}/bin/Qt5Svg$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/bin/Qt5Widgets$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/bin/Qt5WinExtras$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/plugins/platforms/qwindows$SUFFIX.dll build/win$1/$2/$3/platforms

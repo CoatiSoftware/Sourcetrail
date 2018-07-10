@@ -9,6 +9,7 @@
 #include <QClipboard>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+#include <QSvgGenerator>
 
 #include "qt/element/QtIconButton.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
@@ -108,7 +109,6 @@ void QtGraphicsView::setAppZoomFactor(float appZoomFactor)
 void QtGraphicsView::setSceneRect(const QRectF& rect)
 {
 	QGraphicsView::setSceneRect(rect);
-
 	scene()->setSceneRect(rect);
 }
 
@@ -441,10 +441,42 @@ void QtGraphicsView::stopTimer()
 
 void QtGraphicsView::exportGraph()
 {
-	QString fileName = QtFileDialog::showSaveFileDialog(
-		nullptr, "Save image", FilePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
+	const QString exportNotice = "Exported from Sourcetrail";
+	const int margin = 10;
 
-	if (!fileName.isNull())
+	FilePath filePath(QtFileDialog::showSaveFileDialog(
+		nullptr, "Save image", FilePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)"
+	).toStdWString());
+
+
+	if (filePath.extension() == L".svg")
+	{
+		QSvgGenerator svgGen;
+		svgGen.setFileName(QString::fromStdWString(filePath.wstr()));
+		svgGen.setSize(scene()->sceneRect().size().toSize());
+		svgGen.setViewBox(QRect(QPoint(0, 0), scene()->sceneRect().size().toSize()));
+		svgGen.setTitle(QString::fromStdWString(filePath.withoutExtension().fileName()));
+		svgGen.setDescription(QString("Graph exported from Sourcetrail") + QChar(0x00AE));
+
+		QPainter painter(&svgGen);
+		scene()->render(&painter);
+
+		{
+			QFont font("Fira Sans, sans-serif");
+			font.setPixelSize(8);
+			painter.setFont(font);
+		}
+		{
+			QRect boundingRect;
+			painter.drawText(
+				QRect(margin, margin, svgGen.size().width() - 2 * margin, svgGen.size().height() - 2 * margin),
+				Qt::AlignBottom | Qt::AlignHCenter,
+				exportNotice + ' ' + QChar(0x00AE),
+				&boundingRect
+			);
+		}
+	}
+	else if (!filePath.empty())
 	{
 		QImage image(scene()->sceneRect().size().toSize() * 2, QImage::Format_ARGB32);
 		image.fill(Qt::transparent);
@@ -453,21 +485,19 @@ void QtGraphicsView::exportGraph()
 		painter.setRenderHint(QPainter::Antialiasing);
 		scene()->render(&painter);
 
-		// different approach: only currently visible part
-		// QPixmap pixMap = grab();
-		// pixMap.save(fileName);
-
 		{
-			const int margin = 10;
-
-			{
-				QFont font = painter.font();
-				font.setPixelSize(14);
-				painter.setFont(font);
-			}
-
+			QFont font = painter.font();
+			font.setPixelSize(14);
+			painter.setFont(font);
+		}
+		{
 			QRect boundingRect;
-			painter.drawText(QRect(margin, margin, image.size().width() - 2 * margin, image.size().height() - 2 * margin), Qt::AlignBottom | Qt::AlignHCenter, "Exported from Sourcetrail", &boundingRect);
+			painter.drawText(
+				QRect(margin, margin, image.size().width() - 2 * margin, image.size().height() - 2 * margin),
+				Qt::AlignBottom | Qt::AlignHCenter,
+				exportNotice,
+				&boundingRect
+			);
 
 			{
 				QFont font = painter.font();
@@ -475,10 +505,14 @@ void QtGraphicsView::exportGraph()
 				painter.setFont(font);
 			}
 
-			painter.drawText(boundingRect.right() + boundingRect.height() / 5, boundingRect.top() + boundingRect.height() / 2, QChar(0x00AE));
+			painter.drawText(
+				boundingRect.right() + boundingRect.height() / 5,
+				boundingRect.top() + boundingRect.height() / 2,
+				QChar(0x00AE)
+			);
 		}
 
-		image.save(fileName);
+		image.save(QString::fromStdWString(filePath.wstr()));
 	}
 }
 

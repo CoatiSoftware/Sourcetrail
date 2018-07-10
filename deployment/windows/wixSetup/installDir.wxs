@@ -45,6 +45,10 @@
 				<File Id='qt5networkDLL' Name='Qt5Network.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Network.dll' KeyPath='yes' />
 			</Component>
 
+			<Component Id='Qt5SvgDll' Guid='*' Win64="$(var.Win64)">
+				<File Id='qt5svgDll' Name='Qt5Svg.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Svg.dll' KeyPath='yes' />
+			</Component>
+
 			<Component Id='Qt5WidgetsDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5widgetsDLL' Name='Qt5Widgets.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Widgets.dll' KeyPath='yes' />
 			</Component>
