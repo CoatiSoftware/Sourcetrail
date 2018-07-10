@@ -3,7 +3,3 @@
 ViewFactory::ViewFactory()
 {
 }
-
-ViewFactory::~ViewFactory()
-{
-}

@@ -19,10 +19,11 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 	int sourceFileCount = 0;
 	blackboard->get("source_file_count", sourceFileCount);
-	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
+
+	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING))
 	{
-		dialogView->hideDialogs(false);
-		dialogView->updateIndexingDialog(0, 0, sourceFileCount, FilePath());
+		dialogView->clearDialogs();
+		dialogView->updateIndexingDialog(0, 0, sourceFileCount, { });
 	}
 
 	m_start = utility::durationStart();

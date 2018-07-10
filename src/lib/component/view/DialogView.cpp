@@ -1,11 +1,32 @@
 #include "component/view/DialogView.h"
 
-DialogView::DialogView(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
+DialogView::DialogView(UseCase useCase, StorageAccess* storageAccess)
+	: m_useCase(useCase)
+	, m_storageAccess(storageAccess)
 {
 }
 
-DialogView::~DialogView()
+DialogView::UseCase DialogView::getUseCase() const
+{
+	return m_useCase;
+}
+
+void DialogView::setDialogsHideable(bool hideable)
+{
+	m_dialogsHideable = hideable;
+}
+
+void DialogView::setUpdateIndexingStatus(bool updateStatus)
+{
+	m_updateIndexingStatus = updateStatus;
+}
+
+bool DialogView::dialogsHidden() const
+{
+	return false;
+}
+
+void DialogView::clearDialogs()
 {
 }
 
@@ -31,7 +52,7 @@ void DialogView::startIndexingDialog(
 }
 
 void DialogView::updateIndexingDialog(
-	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const FilePath& sourcePath)
+	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths)
 {
 }
 
@@ -40,10 +61,6 @@ DatabasePolicy DialogView::finishedIndexingDialog(
 	float time, ErrorCountInfo errorInfo, bool interrupted)
 {
 	return DATABASE_POLICY_KEEP; // used in non-gui mode
-}
-
-void DialogView::hideDialogs(bool unblockUI)
-{
 }
 
 int DialogView::confirm(const std::string& message)

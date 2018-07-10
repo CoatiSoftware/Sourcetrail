@@ -30,6 +30,8 @@ public:
 	FilePath getProjectSettingsFilePath() const;
 	std::string getDescription() const;
 
+	bool isIndexing() const;
+
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
 	void setStateOutdated();
 
@@ -56,13 +58,16 @@ private:
 	Project(const Project&);
 
 	void swapToTempStorage();
+	void discardTempStorage();
+
 	bool hasCxxSourceGroup() const;
-	bool didFileChange(const FileInfo& info) const;
 
 	std::shared_ptr<ProjectSettings> m_settings;
 	StorageCache* const m_storageCache;
 
 	ProjectStateType m_state;
+	bool m_isIndexing = false;
+
 	std::shared_ptr<PersistentStorage> m_storage;
 	std::vector<std::shared_ptr<SourceGroup>> m_sourceGroups;
 

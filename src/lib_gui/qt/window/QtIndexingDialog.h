@@ -19,6 +19,7 @@ class QtIndexingDialog
 signals:
 	void setMode(RefreshMode mode);
 	void startIndexing(RefreshMode mode);
+	void visibleChanged(bool visible);
 
 public:
 	enum DialogType
@@ -39,13 +40,13 @@ public:
 	void setupStart(const std::vector<RefreshMode>& enabledModes);
 	void updateRefreshInfo(const RefreshInfo& info);
 
-	void setupIndexing();
+	void setupIndexing(bool hideable);
 	void setupReport(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, bool interrupted);
 
-	void setupUnknownProgress();
-	void setupProgress();
+	void setupUnknownProgress(bool hideable);
+	void setupProgress(bool hideable);
 
 	void updateMessage(const QString& message);
 	std::wstring getMessage() const;

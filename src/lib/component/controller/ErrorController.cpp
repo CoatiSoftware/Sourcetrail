@@ -1,5 +1,7 @@
 #include "component/controller/ErrorController.h"
 
+#include "Application.h"
+#include "component/view/DialogView.h"
 #include "data/access/StorageAccess.h"
 #include "settings/ApplicationSettings.h"
 
@@ -100,7 +102,11 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message)
 		}
 
 		getView()->addErrors(errors, message->errorCount, true);
-		getView()->showDockWidget();
+
+		if (!Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->dialogsHidden())
+		{
+			getView()->showDockWidget();
+		}
 
 		m_errorCount += errors.size();
 	}
@@ -139,11 +145,18 @@ void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
 	getView()->showErrorHelpMessage();
 }
 
-void ErrorController::handleMessage(MessageFinishedParsing* message)
+void ErrorController::handleMessage(MessageIndexingFinished* message)
 {
 	clear();
 
 	showErrors(getView()->getErrorFilter(), false);
+
+	getView()->setEnabled(true);
+}
+
+void ErrorController::handleMessage(MessageIndexingStarted* message)
+{
+	getView()->setEnabled(false);
 }
 
 void ErrorController::handleMessage(MessageShowError* message)

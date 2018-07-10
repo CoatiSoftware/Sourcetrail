@@ -7,10 +7,6 @@ StatusBarView::StatusBarView(ViewLayout* viewLayout)
 {
 }
 
-StatusBarView::~StatusBarView()
-{
-}
-
 std::string StatusBarView::getName() const
 {
 	return "StatusBarView";

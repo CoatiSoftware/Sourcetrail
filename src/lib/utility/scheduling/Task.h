@@ -19,8 +19,9 @@ public:
 	static void dispatch(std::shared_ptr<Task> task);
 	static void dispatchNext(std::shared_ptr<Task> task);
 
-	Task();
-	virtual ~Task();
+	virtual ~Task() = default;
+
+	void setIsBackgroundTask(bool background);
 
 	TaskState update(std::shared_ptr<Blackboard> blackboard);
 	void reset(std::shared_ptr<Blackboard> blackboard);
@@ -32,8 +33,10 @@ private:
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard) = 0;
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard) = 0;
 
-	bool m_enterCalled;
-	bool m_exitCalled;
+	bool m_isBackgroundTask = false;
+
+	bool m_enterCalled = false;
+	bool m_exitCalled = false;
 };
 
 #endif // TASK_H

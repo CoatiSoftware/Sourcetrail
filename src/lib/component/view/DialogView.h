@@ -20,8 +20,23 @@ enum DatabasePolicy
 class DialogView
 {
 public:
-	DialogView(StorageAccess* storageAccess);
-	virtual ~DialogView();
+	enum class UseCase
+	{
+		GENERAL,
+		INDEXING,
+		PROJECT_SETUP
+	};
+
+	DialogView(UseCase useCase, StorageAccess* storageAccess);
+	virtual ~DialogView() = default;
+
+	UseCase getUseCase() const;
+
+	void setDialogsHideable(bool hideable);
+	void setUpdateIndexingStatus(bool updateStatus);
+
+	virtual bool dialogsHidden() const;
+	virtual void clearDialogs();
 
 	virtual void showUnknownProgressDialog(const std::wstring& title, const std::wstring& message);
 	virtual void hideUnknownProgressDialog();
@@ -32,12 +47,10 @@ public:
 	virtual void startIndexingDialog(
 		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info);
 	virtual void updateIndexingDialog(
-		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const FilePath& sourcePath);
+		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths);
 	virtual DatabasePolicy finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted);
-
-	virtual void hideDialogs(bool unblockUI = true);
 
 	int confirm(const std::string& message);
 	virtual int confirm(const std::string& message, const std::vector<std::string>& options);
@@ -45,7 +58,11 @@ public:
 	virtual int confirm(const std::wstring& message, const std::vector<std::wstring>& options);
 
 protected:
+	const UseCase m_useCase;
 	StorageAccess* m_storageAccess;
+
+	bool m_dialogsHideable = false;
+	bool m_updateIndexingStatus = false;
 };
 
 #endif // DIALOG_VIEW_H

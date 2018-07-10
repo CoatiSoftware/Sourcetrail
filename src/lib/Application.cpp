@@ -153,32 +153,32 @@ bool Application::hasGUI()
 
 int Application::handleDialog(const std::string& message)
 {
-	return getDialogView()->confirm(message);
+	return getDialogView(DialogView::UseCase::GENERAL)->confirm(message);
 }
 
 int Application::handleDialog(const std::string& message, const std::vector<std::string>& options)
 {
-	return getDialogView()->confirm(message, options);
+	return getDialogView(DialogView::UseCase::GENERAL)->confirm(message, options);
 }
 
 int Application::handleDialog(const std::wstring& message)
 {
-	return getDialogView()->confirm(message);
+	return getDialogView(DialogView::UseCase::GENERAL)->confirm(message);
 }
 
 int Application::handleDialog(const std::wstring& message, const std::vector<std::wstring>& options)
 {
-	return getDialogView()->confirm(message, options);
+	return getDialogView(DialogView::UseCase::GENERAL)->confirm(message, options);
 }
 
-std::shared_ptr<DialogView> Application::getDialogView()
+std::shared_ptr<DialogView> Application::getDialogView(DialogView::UseCase useCase)
 {
 	if (m_componentManager)
 	{
-		return m_componentManager->getDialogView();
+		return m_componentManager->getDialogView(useCase);
 	}
 
-	return std::make_shared<DialogView>(nullptr);
+	return std::make_shared<DialogView>(useCase, nullptr);
 }
 
 void Application::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems)
@@ -189,59 +189,6 @@ void Application::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBas
 void Application::updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
 {
 	m_mainView->updateBookmarksMenu(bookmarks);
-}
-
-void Application::createAndLoadProject(FilePath projectSettingsFilePath)
-{
-	MessageStatus(L"Loading Project: " + projectSettingsFilePath.wstr(), false, true).dispatch();
-
-	projectSettingsFilePath = migrateProjectSettings(projectSettingsFilePath);
-
-	try
-	{
-		updateRecentProjects(projectSettingsFilePath);
-
-		m_storageCache->clear();
-		m_storageCache->setSubject(nullptr);
-
-		m_project = std::make_shared<Project>(
-			std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get(), hasGUI());
-
-		if (m_project)
-		{
-			m_project->load();
-		}
-		else
-		{
-			LOG_ERROR_STREAM(<< "Failed to load project.");
-			MessageStatus(L"Failed to load project: " + projectSettingsFilePath.wstr(), true).dispatch();
-		}
-
-		updateTitle();
-	}
-	catch (std::exception& e)
-	{
-		LOG_ERROR_STREAM(<< "Failed to load project, exception thrown: " << e.what());
-		MessageStatus(L"Failed to load project, exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
-	}
-	catch (...)
-	{
-		LOG_ERROR_STREAM(<< "Failed to load project, unknown exception thrown.");
-		MessageStatus(L"Failed to load project, unknown exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
-	}
-
-	if (m_hasGUI)
-	{
-		m_componentManager->clearComponents();
-	}
-}
-
-void Application::refreshProject(RefreshMode refreshMode)
-{
-	if (m_project && checkSharedMemory())
-	{
-		m_project->refresh(refreshMode, getDialogView().get());
-	}
 }
 
 void Application::handleMessage(MessageActivateWindow* message)
@@ -261,7 +208,7 @@ void Application::handleMessage(MessageEnteredLicense* message)
 	updateTitle();
 }
 
-void Application::handleMessage(MessageFinishedParsing* message)
+void Application::handleMessage(MessageIndexingFinished* message)
 {
 	logStorageStats();
 
@@ -285,6 +232,12 @@ void Application::handleMessage(MessageLoadProject* message)
 		return;
 	}
 
+	if (m_project && m_project->isIndexing())
+	{
+		MessageStatus(L"Cannot load another project while indexing.", true, false).dispatch();
+		return;
+	}
+
 	if (m_project && projectSettingsFilePath == m_project->getProjectSettingsFilePath())
 	{
 		if (message->settingsChanged && m_hasGUI)
@@ -295,7 +248,47 @@ void Application::handleMessage(MessageLoadProject* message)
 	}
 	else
 	{
-		createAndLoadProject(projectSettingsFilePath);
+		MessageStatus(L"Loading Project: " + projectSettingsFilePath.wstr(), false, true).dispatch();
+
+		projectSettingsFilePath = migrateProjectSettings(projectSettingsFilePath);
+
+		try
+		{
+			updateRecentProjects(projectSettingsFilePath);
+
+			m_storageCache->clear();
+			m_storageCache->setSubject(nullptr);
+
+			m_project = std::make_shared<Project>(
+				std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get(), hasGUI());
+
+			if (m_project)
+			{
+				m_project->load();
+			}
+			else
+			{
+				LOG_ERROR_STREAM(<< "Failed to load project.");
+				MessageStatus(L"Failed to load project: " + projectSettingsFilePath.wstr(), true).dispatch();
+			}
+
+			updateTitle();
+		}
+		catch (std::exception& e)
+		{
+			LOG_ERROR_STREAM(<< "Failed to load project, exception thrown: " << e.what());
+			MessageStatus(L"Failed to load project, exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
+		}
+		catch (...)
+		{
+			LOG_ERROR_STREAM(<< "Failed to load project, unknown exception thrown.");
+			MessageStatus(L"Failed to load project, unknown exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
+		}
+
+		if (m_hasGUI)
+		{
+			m_componentManager->clearComponents();
+		}
 
 		if (message->refreshMode != REFRESH_NONE)
 		{
@@ -398,6 +391,14 @@ void Application::startMessagingAndScheduling()
 
 	queue->setSendMessagesAsTasks(true);
 	queue->startMessageLoopThreaded();
+}
+
+void Application::refreshProject(RefreshMode refreshMode)
+{
+	if (m_project && checkSharedMemory())
+	{
+		m_project->refresh(refreshMode, getDialogView(DialogView::UseCase::INDEXING).get());
+	}
 }
 
 void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)

@@ -10,6 +10,8 @@
 
 #include "data/ErrorCountInfo.h"
 
+class QProgressBar;
+
 class QtStatusBar
 	: public QStatusBar
 {
@@ -23,14 +25,20 @@ public:
 
 	void setIdeStatus(const std::wstring& text);
 
+	void showIndexingProgress(bool unknownProgress, size_t progressPercent);
+	void hideIndexingProgress();
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
 
 private slots:
 	void showStatus();
 	void showErrors();
+	void clickedIndexingProgress();
 
 private:
+	QWidget* addPermanentVLine();
+
 	std::shared_ptr<QMovie> m_movie;
 
 	std::wstring m_textString;
@@ -40,6 +48,12 @@ private:
 	QPushButton m_errorButton;
 
 	QLabel m_ideStatusText;
+
+	QPushButton* m_indexingStatus;
+	QProgressBar* m_indexingProgress;
+
+	QWidget* m_vlineError;
+	QWidget* m_vlineIndexing;
 };
 
 #endif // QT_STATUS_BAR_H

@@ -12,14 +12,9 @@ void Task::dispatchNext(std::shared_ptr<Task> task)
 	TaskScheduler::getInstance()->pushNextTask(task);
 }
 
-Task::Task()
-	: m_enterCalled(false)
-	, m_exitCalled(false)
+void Task::setIsBackgroundTask(bool background)
 {
-}
-
-Task::~Task()
-{
+	m_isBackgroundTask = background;
 }
 
 Task::TaskState Task::update(std::shared_ptr<Blackboard> blackboard)
@@ -32,7 +27,12 @@ Task::TaskState Task::update(std::shared_ptr<Blackboard> blackboard)
 
 	TaskState state = doUpdate(blackboard);
 
-	if (state != STATE_RUNNING && !m_exitCalled)
+	if (m_isBackgroundTask && state == STATE_RUNNING)
+	{
+		state = STATE_HOLD;
+	}
+
+	if ((state == STATE_SUCCESS || state == STATE_FAILURE) && !m_exitCalled)
 	{
 		doExit(blackboard);
 		m_exitCalled = true;
@@ -51,4 +51,3 @@ void Task::reset(std::shared_ptr<Blackboard> blackboard)
 void Task::terminate()
 {
 }
-

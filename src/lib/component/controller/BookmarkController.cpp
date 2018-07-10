@@ -349,7 +349,7 @@ void BookmarkController::handleMessage(MessageDisplayBookmarkCreator* message)
 	showBookmarkCreator(message->nodeId);
 }
 
-void BookmarkController::handleMessage(MessageFinishedParsing* message)
+void BookmarkController::handleMessage(MessageIndexingFinished* message)
 {
 	m_bookmarkCache.clear();
 	getView<BookmarkView>()->enableDisplayBookmarks(true);

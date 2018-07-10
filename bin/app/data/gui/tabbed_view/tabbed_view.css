@@ -50,6 +50,10 @@ QTableView {
 	font-size: <setting:font_size>px;
 }
 
+QTableView:disabled {
+	color: <color:table/text/disabled>;
+}
+
 QTableView::item {
 	border-left: 1px solid <color:table/table>;
 }
@@ -92,6 +96,10 @@ QHeaderView::section:vertical {
 	padding: 2px 5px 1px;
 }
 
+QHeaderView::section:disabled {
+	color: <color:table/text/disabled>;
+}
+
 QTableView QTableCornerButton::section {
 	background-color: <color:table/background>;
 	border-bottom: 1px solid <color:table/table>;
@@ -101,6 +109,14 @@ QTableView QTableCornerButton::section {
 QCheckBox {
 	color: <color:table/text/normal>;
 	font-size: <setting:font_size>px;
+}
+
+QLabel {
+	color: <color:table/text/normal>;
+}
+
+QLabel:disabled {
+	color: <color:table/text/disabled>;
 }
 
 #help_button {

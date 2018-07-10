@@ -176,7 +176,6 @@ void QtErrorView::initView()
 
 	checkboxes->addSpacing(10);
 
-
 	{
 		m_editButton = new QtSelfRefreshIconButton(
 			"Edit Project",

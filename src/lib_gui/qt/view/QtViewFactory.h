@@ -3,11 +3,12 @@
 
 #include "component/view/ViewFactory.h"
 
-class QtViewFactory: public ViewFactory
+class QtViewFactory
+	: public ViewFactory
 {
 public:
 	QtViewFactory();
-	virtual ~QtViewFactory();
+	virtual ~QtViewFactory() = default;
 
 	virtual std::shared_ptr<MainView> createMainView() const;
 	virtual std::shared_ptr<CompositeView> createCompositeView(
@@ -26,7 +27,8 @@ public:
 	virtual std::shared_ptr<TooltipView> createTooltipView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const;
 
-	virtual std::shared_ptr<DialogView> createDialogView(ViewLayout* viewLayout, StorageAccess* storageAccess) const;
+	virtual std::shared_ptr<DialogView> createDialogView(
+		ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const;
 };
 
 #endif // QT_VIEW_FACTORY_H

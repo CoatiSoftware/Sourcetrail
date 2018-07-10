@@ -163,32 +163,6 @@ void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 	m->setKeepContent(keepContent);
 }
 
-void UndoRedoController::handleMessage(MessageFinishedParsing* message)
-{
-	std::list<Command> newList;
-
-	for (const Command& command : m_list)
-	{
-		if (command.order == Command::ORDER_ACTIVATE)
-		{
-			MessageActivateTokens* msg = dynamic_cast<MessageActivateTokens*>(command.message.get());
-			if (msg)
-			{
-				if (msg->isAggregation)
-				{
-					continue;
-				}
-				msg->isFromSearch = false;
-			}
-
-			newList.insert(newList.end(), command);
-		}
-	}
-
-	m_list = newList;
-	m_iterator = m_list.end();
-}
-
 void UndoRedoController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
 	Command command(std::make_shared<MessageGraphNodeBundleSplit>(*message), Command::ORDER_ADAPT);
@@ -326,6 +300,32 @@ void UndoRedoController::handleMessage(MessageHistoryUndo* message)
 	replayCommands();
 
 	updateHistory();
+}
+
+void UndoRedoController::handleMessage(MessageIndexingFinished* message)
+{
+	std::list<Command> newList;
+
+	for (const Command& command : m_list)
+	{
+		if (command.order == Command::ORDER_ACTIVATE)
+		{
+			MessageActivateTokens* msg = dynamic_cast<MessageActivateTokens*>(command.message.get());
+			if (msg)
+			{
+				if (msg->isAggregation)
+				{
+					continue;
+				}
+				msg->isFromSearch = false;
+			}
+
+			newList.insert(newList.end(), command);
+		}
+	}
+
+	m_list = newList;
+	m_iterator = m_list.end();
 }
 
 void UndoRedoController::handleMessage(MessageRefresh* message)

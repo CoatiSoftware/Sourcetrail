@@ -75,7 +75,7 @@ void QtPreferencesWindow::handleNext()
 
 	if (needsRestart)
 	{
-		app->getDialogView()->confirm(
+		app->getDialogView(DialogView::UseCase::PROJECT_SETUP)->confirm(
 			"<p>Please restart the application for all changes to take effect.</p><p>Note: These changes may harm "
 			"the execution of the application. In case the application is not useable anymore, please run the "
 			"'resetPreferences.sh' script located in your install directory.</p>"

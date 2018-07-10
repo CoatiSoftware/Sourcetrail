@@ -12,7 +12,6 @@
 #include "data/TaskFinishParsing.h"
 #include "data/TaskInjectStorage.h"
 #include "data/TaskMergeStorages.h"
-#include "data/TaskShowUnknownProgressDialog.h"
 #include "project/RefreshInfoGenerator.h"
 #include "project/SourceGroup.h"
 #include "project/SourceGroupFactory.h"
@@ -23,7 +22,8 @@
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/error/MessageErrorCountClear.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "utility/messaging/type/indexing/MessageIndexingStarted.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskDecoratorRepeat.h"
@@ -51,6 +51,7 @@ Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storag
 	: m_settings(settings)
 	, m_storageCache(storageCache)
 	, m_state(PROJECT_STATE_NOT_LOADED)
+	, m_isIndexing(false)
 	, m_hasGUI(hasGUI)
 {
 }
@@ -69,6 +70,11 @@ std::string Project::getDescription() const
 	return m_settings->getDescription();
 }
 
+bool Project::isIndexing() const
+{
+	return m_isIndexing;
+}
+
 bool Project::settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const
 {
 	return m_settings->equalsExceptNameAndLocation(otherSettings);
@@ -84,6 +90,12 @@ void Project::setStateOutdated()
 
 void Project::load()
 {
+	if (m_isIndexing)
+	{
+		MessageStatus(L"Cannot load another project while indexing.", true, false).dispatch();
+		return;
+	}
+
 	m_storageCache->clear();
 	m_storageCache->setSubject(nullptr);
 
@@ -101,9 +113,10 @@ void Project::load()
 		{
 			if (dbPath.exists())
 			{
-				if (Application::getInstance()->getDialogView()->confirm(
+				if (Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
 					"Sourcetrail has been closed unexpectedly while indexing this project. You can either choose to keep the data that has "
-					"already been indexed or discard that data and restore the state of your project before indexing?", { "Keep and Continue", "Discard and Restore" }) == 0)
+					"already been indexed or discard that data and restore the state of your project before indexing?",
+					{ "Keep and Continue", "Discard and Restore" }) == 0)
 				{
 					LOG_INFO("Switching to temporary indexing data on user's decision");
 					FileSystem::remove(dbPath);
@@ -124,7 +137,7 @@ void Project::load()
 	}
 
 	m_storage = std::make_shared<PersistentStorage>(
-		projectSettingsPath.replaceExtension(INDEX_DB_FILE_EXTENSION), 
+		projectSettingsPath.replaceExtension(INDEX_DB_FILE_EXTENSION),
 		projectSettingsPath.replaceExtension(BOOKMARK_DB_FILE_EXTENSION)
 	);
 
@@ -181,7 +194,7 @@ void Project::load()
 
 		if (m_hasGUI)
 		{
-			MessageFinishedParsing().dispatch();
+			MessageIndexingFinished().dispatch();
 		}
 		MessageStatus(L"Finished Loading", false, false).dispatch();
 	}
@@ -214,6 +227,12 @@ void Project::load()
 
 void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 {
+	if (m_isIndexing)
+	{
+		MessageStatus(L"Cannot refresh the project while indexing.", true, false).dispatch();
+		return;
+	}
+
 	if (m_state == PROJECT_STATE_NOT_LOADED)
 	{
 		return;
@@ -354,15 +373,21 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 
 void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 {
+	if (m_isIndexing)
+	{
+		MessageStatus(L"Cannot refresh project while indexing.", true, false).dispatch();
+		return;
+	}
+
 	if (info.mode != REFRESH_ALL_FILES && info.filesToClear.empty() && info.filesToIndex.empty())
 	{
 		if (m_hasGUI)
 		{
-			dialogView->hideDialogs();
+			dialogView->clearDialogs();
 		}
 		else
 		{
-			MessageFinishedParsing().dispatch();
+			MessageIndexingFinished().dispatch();
 		}
 
 		MessageStatus(L"Nothing to refresh, all files are up-to-date.").dispatch();
@@ -389,6 +414,10 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	tempStorage->setup();
 
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
+
+	bool hideable = m_state == PROJECT_STATE_LOADED || m_state == PROJECT_STATE_OUTDATED;
+	dialogView->setDialogsHideable(hideable);
+	dialogView->setUpdateIndexingStatus(true);
 
 	if (info.mode != REFRESH_ALL_FILES && (info.filesToClear.size() || info.nonIndexedFilesToClear.size()))
 	{
@@ -489,7 +518,9 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 		);
 		// add task that notifies the user of what's going on
 		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
-			std::make_shared<TaskShowUnknownProgressDialog>(L"Finish Indexing", L"Saving\nRemaining Data")
+			std::make_shared<TaskLambda>([dialogView]() {
+				dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Saving\nRemaining Data");
+			})
 		);
 
 		// add task that injects the remaining intermediate storages into the persistent storage
@@ -509,7 +540,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 
 	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
 		std::make_shared<TaskGroupSequence>()->addChildTasks(
-			std::make_shared<TaskFindValue>("keep_database"), 
+			std::make_shared<TaskFindValue>("keep_database"),
 			std::make_shared<TaskLambda>([this]() {
 				Task::dispatch(std::make_shared<TaskLambda>([this]() {
 					swapToTempStorage();
@@ -521,42 +552,57 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 			std::make_shared<TaskFindValue>("discard_database"),
 			std::make_shared<TaskLambda>([this]() {
 				Task::dispatch(std::make_shared<TaskLambda>([this]() {
-					const FilePath tempIndexDbPath = m_storage->getIndexDbFilePath().replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
-					if (tempIndexDbPath.exists())
-					{
-						LOG_INFO("Discarding temporary indexing data");
-						FileSystem::remove(tempIndexDbPath);
-					}
+					discardTempStorage();
 				}));
 			})
 		)
 	));
 
-	taskSequential->addTask(std::make_shared<TaskLambda>([]() {	
-		MessageFinishedParsing().dispatch(); 
+	taskSequential->addTask(std::make_shared<TaskLambda>([dialogView, this]() {
+		m_isIndexing = false;
+		dialogView->setDialogsHideable(false);
+		dialogView->setUpdateIndexingStatus(false);
+
+		MessageIndexingFinished().dispatch();
 	}));
 
+	taskSequential->setIsBackgroundTask(true);
 	Task::dispatch(taskSequential);
+
+	m_isIndexing = true;
+	MessageIndexingStarted().dispatch();
 }
 
 void Project::swapToTempStorage()
 {
 	LOG_INFO("Switching to temporary indexing data");
+
 	const FilePath indexDbFilePath = m_storage->getIndexDbFilePath();
 	const FilePath tempIndexDbFilePath = indexDbFilePath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
 	const FilePath bookmarkDbFilePath = m_storage->getBookmarkDbFilePath();
+
 	m_storage.reset();
 	FileSystem::remove(indexDbFilePath);
 	FileSystem::rename(tempIndexDbFilePath, indexDbFilePath);
 	m_storage = std::make_shared<PersistentStorage>(indexDbFilePath, bookmarkDbFilePath);
 	m_storage->setup();
 
-	//std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+	//std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING);
 	//dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Building caches");
 	m_storage->buildCaches();
 	//dialogView->hideUnknownProgressDialog();
 
 	m_storageCache->setSubject(m_storage.get());
+}
+
+void Project::discardTempStorage()
+{
+	const FilePath tempIndexDbPath = m_storage->getIndexDbFilePath().replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+	if (tempIndexDbPath.exists())
+	{
+		LOG_INFO("Discarding temporary indexing data");
+		FileSystem::remove(tempIndexDbPath);
+	}
 }
 
 bool Project::hasCxxSourceGroup() const
@@ -570,33 +616,6 @@ bool Project::hasCxxSourceGroup() const
 				return true;
 			}
 		}
-	}
-	return false;
-}
-
-bool Project::didFileChange(const FileInfo& info) const
-{
-	FileInfo diskFileInfo = FileSystem::getFileInfoForPath(info.path);
-	if (diskFileInfo.lastWriteTime > info.lastWriteTime)
-	{
-		std::shared_ptr<TextAccess> storedFileContent = m_storage->getFileContent(info.path);
-		std::shared_ptr<TextAccess> diskFileContent = TextAccess::createFromFile(diskFileInfo.path);
-
-		const std::vector<std::string>& diskFileLines = diskFileContent->getAllLines();
-		const std::vector<std::string>& storedFileLines = storedFileContent->getAllLines();
-
-		if (diskFileLines.size() == storedFileLines.size())
-		{
-			for (size_t i = 0; i < diskFileLines.size(); i++)
-			{
-				if (diskFileLines[i] != storedFileLines[i])
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		return true;
 	}
 	return false;
 }

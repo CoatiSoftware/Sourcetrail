@@ -6,9 +6,9 @@
 #include "component/ComponentManager.h"
 #include "project/Project.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
@@ -27,7 +27,7 @@ class ViewFactory;
 class Application
 	: public MessageListener<MessageActivateWindow>
 	, public MessageListener<MessageEnteredLicense>
-	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageIndexingFinished>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSwitchColorScheme>
@@ -47,15 +47,13 @@ public:
 
 	const std::shared_ptr<Project> getCurrentProject();
 
-	void createAndLoadProject(FilePath projectSettingsFilePath);
-	void refreshProject(RefreshMode refreshMode);
 	bool hasGUI();
 
 	int handleDialog(const std::string& message);
 	int handleDialog(const std::string& message, const std::vector<std::string>& options);
 	int handleDialog(const std::wstring& message);
 	int handleDialog(const std::wstring& message, const std::vector<std::wstring>& options);
-	std::shared_ptr<DialogView> getDialogView();
+	std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase);
 
 	void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems);
 	void updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
@@ -68,7 +66,7 @@ private:
 
 	virtual void handleMessage(MessageActivateWindow* message);
 	virtual void handleMessage(MessageEnteredLicense* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
+	virtual void handleMessage(MessageIndexingFinished* message);
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSwitchColorScheme* message);
@@ -77,6 +75,7 @@ private:
 	FilePath migrateProjectSettings(const FilePath& projectSettingsFilePath) const;
 	void startMessagingAndScheduling();
 
+	void refreshProject(RefreshMode refreshMode);
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);
 
 	void logStorageStats() const;

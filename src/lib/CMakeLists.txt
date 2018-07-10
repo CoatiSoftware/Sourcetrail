@@ -277,8 +277,6 @@ add_files(
 	data/TaskInjectStorage.h
 	data/TaskMergeStorages.cpp
 	data/TaskMergeStorages.h
-	data/TaskShowUnknownProgressDialog.cpp
-	data/TaskShowUnknownProgressDialog.h
 
 	project/Project.cpp
 	project/Project.h
@@ -432,6 +430,11 @@ add_files(
 	utility/messaging/type/history/MessageHistoryRedo.h
 	utility/messaging/type/history/MessageHistoryUndo.h
 
+	utility/messaging/type/indexing/MessageIndexingFinished.h
+	utility/messaging/type/indexing/MessageIndexingShowDialog.h
+	utility/messaging/type/indexing/MessageIndexingStarted.h
+	utility/messaging/type/indexing/MessageIndexingStatus.h
+
 	utility/messaging/type/MessageActivateAll.h
 	utility/messaging/type/MessageActivateBase.h
 	utility/messaging/type/MessageActivateBookmark.h
@@ -455,7 +458,6 @@ add_files(
 	utility/messaging/type/MessageDisplayBookmarks.h
 	utility/messaging/type/MessageEnteredLicense.h
 	utility/messaging/type/MessageFind.h
-	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageFlushUpdates.h
 	utility/messaging/type/MessageFocusIn.h
 	utility/messaging/type/MessageFocusOut.h

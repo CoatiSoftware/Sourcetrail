@@ -13,7 +13,7 @@ QtWindowStack::QtWindowStack(QObject* parent)
 {
 }
 
-QtWindowStackElement* QtWindowStack::getTopWindow()
+QtWindowStackElement* QtWindowStack::getTopWindow() const
 {
 	if (m_stack.size())
 	{
@@ -23,7 +23,7 @@ QtWindowStackElement* QtWindowStack::getTopWindow()
 	return nullptr;
 }
 
-QtWindowStackElement* QtWindowStack::getBottomWindow()
+QtWindowStackElement* QtWindowStack::getBottomWindow() const
 {
 	if (m_stack.size())
 	{
@@ -33,7 +33,7 @@ QtWindowStackElement* QtWindowStack::getBottomWindow()
 	return nullptr;
 }
 
-size_t QtWindowStack::getWindowCount()
+size_t QtWindowStack::getWindowCount() const
 {
 	return m_stack.size();
 }

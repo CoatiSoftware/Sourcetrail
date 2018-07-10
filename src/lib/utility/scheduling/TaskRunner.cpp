@@ -1,6 +1,7 @@
 #include "utility/scheduling/TaskRunner.h"
 
 #include "utility/logging/logging.h"
+#include "utility/scheduling/Blackboard.h"
 #include "utility/scheduling/TaskScheduler.h"
 
 TaskRunner::TaskRunner(std::shared_ptr<Task> task)
@@ -9,12 +10,18 @@ TaskRunner::TaskRunner(std::shared_ptr<Task> task)
 {
 }
 
-TaskRunner::~TaskRunner()
-{
-}
-
 Task::TaskState TaskRunner::update(std::shared_ptr<Blackboard> blackboard)
 {
+	if (!blackboard)
+	{
+		if (!m_blackboard)
+		{
+			m_blackboard = std::make_shared<Blackboard>();
+		}
+
+		blackboard = m_blackboard;
+	}
+
 	try
 	{
 		if (m_reset)
@@ -50,6 +57,3 @@ void TaskRunner::terminate()
 		m_task->terminate();
 	}
 }
-
-
-

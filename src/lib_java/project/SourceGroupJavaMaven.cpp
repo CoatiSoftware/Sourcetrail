@@ -36,7 +36,7 @@ std::vector<FilePath> SourceGroupJavaMaven::getAllSourcePaths() const
 	std::vector<FilePath> sourcePaths;
 	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
 	{
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP);
 		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nFetching Source Directories");
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
@@ -87,7 +87,7 @@ bool SourceGroupJavaMaven::prepareMavenData()
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
 		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP);
 		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nGenerating Source Files");
 
 		ScopedFunctor dialogHider([&dialogView](){

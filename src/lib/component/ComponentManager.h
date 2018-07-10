@@ -6,6 +6,7 @@
 
 #include "component/Component.h"
 #include "component/ComponentFactory.h"
+#include "component/view/DialogView.h"
 
 class CompositeView;
 class DialogView;
@@ -27,7 +28,7 @@ public:
 	void clearComponents();
 	void refreshViews();
 
-	std::shared_ptr<DialogView> getDialogView() const;
+	std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase) const;
 
 private:
 	ComponentManager();
@@ -39,7 +40,7 @@ private:
 	std::vector<std::shared_ptr<TabbedView>> m_tabbedViews;
 	std::vector<std::shared_ptr<Component>> m_components;
 
-	std::shared_ptr<DialogView> m_dialogView;
+	std::map<DialogView::UseCase, std::shared_ptr<DialogView>> m_dialogViews;
 };
 
 #endif // COMPONENT_MANAGER_H

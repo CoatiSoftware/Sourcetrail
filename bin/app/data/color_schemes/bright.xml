@@ -508,6 +508,7 @@
 		<text>
 			<normal>black</normal>
 			<active>white</active>
+			<disabled>#777</disabled>
 		</text>
 		<table_line_1>
 			<normal>white</normal>

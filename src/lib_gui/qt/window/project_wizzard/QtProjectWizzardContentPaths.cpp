@@ -730,14 +730,15 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 		{
 			std::vector<IncludeDirective> unresolvedIncludes;
 			{
-				std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+				QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
+					Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
 				std::set<FilePath> sourceFilePaths;
 				std::vector<FilePath> indexedFilePaths;
 				std::vector<FilePath> headerSearchPaths;
 
 				{
-					std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+					dialogView->setParentWindow(m_window);
 					dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
 					ScopedFunctor dialogHider([&dialogView](){
 						dialogView->hideUnknownProgressDialog();
@@ -761,7 +762,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 					}
 				}
 				{
-					std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+					dialogView->setParentWindow(m_window);
 					ScopedFunctor dialogHider([&dialogView](){
 						dialogView->hideProgressDialog();
 					});
@@ -773,8 +774,9 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 						log2(sourceFilePaths.size()),
 						[&](const float progress)
 						{
-							Application::getInstance()->getDialogView()->showProgressDialog(
-								L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
+							dialogView->showProgressDialog(
+								L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files",
+								int(progress * 100.0f)
 							);
 						}
 					);
@@ -802,7 +804,8 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 		{
 			std::set<FilePath> detectedHeaderSearchPaths;
 			{
-				std::shared_ptr<QtDialogView> dialogView = std::dynamic_pointer_cast<QtDialogView>(Application::getInstance()->getDialogView());
+				QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
+					Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
 				std::set<FilePath> sourceFilePaths;
 				std::vector<FilePath> headerSearchPaths;
@@ -841,8 +844,9 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 						log2(sourceFilePaths.size()),
 						[&](const float progress)
 						{
-							Application::getInstance()->getDialogView()->showProgressDialog(
-								L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
+							dialogView->showProgressDialog(
+								L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files",
+								int(progress * 100.0f)
 							);
 						}
 					);

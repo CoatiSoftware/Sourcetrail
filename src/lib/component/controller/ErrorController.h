@@ -9,10 +9,11 @@
 #include "utility/messaging/type/error/MessageErrorsForFile.h"
 #include "utility/messaging/type/error/MessageErrorsHelpMessage.h"
 #include "utility/messaging/type/error/MessageShowError.h"
+#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "utility/messaging/type/indexing/MessageIndexingStarted.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateFullTextSearch.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 
 #include "component/controller/Controller.h"
 #include "component/view/ErrorView.h"
@@ -30,7 +31,8 @@ class ErrorController
 	, public MessageListener<MessageErrorsAll>
 	, public MessageListener<MessageErrorsForFile>
 	, public MessageListener<MessageErrorsHelpMessage>
-	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageIndexingFinished>
+	, public MessageListener<MessageIndexingStarted>
 	, public MessageListener<MessageShowError>
 {
 public:
@@ -50,7 +52,8 @@ private:
 	virtual void handleMessage(MessageErrorsAll* message);
 	virtual void handleMessage(MessageErrorsForFile* message);
 	virtual void handleMessage(MessageErrorsHelpMessage* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
+	virtual void handleMessage(MessageIndexingFinished* message);
+	virtual void handleMessage(MessageIndexingStarted* message);
 	virtual void handleMessage(MessageShowError* message);
 
 	ErrorView* getView() const;

@@ -167,7 +167,10 @@ void TaskBuildIndex::terminate()
 
 void TaskBuildIndex::handleMessage(MessageInterruptTasks* message)
 {
-	m_interrupted = true;
+	if (!Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->dialogsHidden())
+	{
+		m_interrupted = true;
+	}
 }
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath)
@@ -291,18 +294,8 @@ void TaskBuildIndex::updateIndexingDialog(
 		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 	}
 
-	if (!sourcePaths.empty())
-	{
-		std::vector<std::wstring> stati;
-		for (const FilePath& path : sourcePaths)
-		{
-			m_indexingFileCount++;
-			stati.push_back(L"[" + std::to_wstring(m_indexingFileCount) + L"/" + std::to_wstring(sourceFileCount) + L"] Indexing file: " + path.wstr());
-		}
-		MessageStatus(stati, false, true).dispatch();
-	}
+	m_indexingFileCount += sourcePaths.size();
 
-	Application::getInstance()->getDialogView()->updateIndexingDialog(
-		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, (sourcePaths.empty() ? FilePath() : sourcePaths.back())
-	);
+	Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->updateIndexingDialog(
+		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePaths);
 }

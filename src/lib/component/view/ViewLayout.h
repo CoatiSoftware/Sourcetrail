@@ -17,6 +17,8 @@ public:
 	virtual void showView(View* view) = 0;
 	virtual void hideView(View* view) = 0;
 
+	virtual void setViewEnabled(View* view, bool enabled) = 0;
+
 	virtual View* findFloatingView(const std::string& name) const;
 };
 

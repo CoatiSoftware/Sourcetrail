@@ -1,5 +1,6 @@
 #include "qt/view/QtMainView.h"
 
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/QtMainWindow.h"
 
 QtMainView::QtMainView()
@@ -51,6 +52,17 @@ void QtMainView::hideView(View* view)
 		[=]()
 		{
 			m_window->hideView(view);
+		}
+	);
+}
+
+void QtMainView::setViewEnabled(View* view, bool enabled)
+{
+	m_onQtThread(
+		[=]()
+		{
+			QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(view);
+			widget->setEnabled(enabled);
 		}
 	);
 }

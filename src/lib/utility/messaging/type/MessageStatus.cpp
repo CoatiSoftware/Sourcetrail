@@ -2,18 +2,20 @@
 
 #include "utility/utilityString.h"
 
-MessageStatus::MessageStatus(const std::wstring& status, bool isError, bool showLoader)
+MessageStatus::MessageStatus(const std::wstring& status, bool isError, bool showLoader, bool showInStatusBar)
 	: isError(isError)
 	, showLoader(showLoader)
+	, showInStatusBar(showInStatusBar)
 {
 	m_stati.push_back(utility::replace(status, L"\n", L" "));
 
 	setSendAsTask(false);
 }
 
-MessageStatus::MessageStatus(const std::vector<std::wstring>& stati, bool isError, bool showLoader)
+MessageStatus::MessageStatus(const std::vector<std::wstring>& stati, bool isError, bool showLoader, bool showInStatusBar)
 	: isError(isError)
 	, showLoader(showLoader)
+	, showInStatusBar(showInStatusBar)
 	, m_stati(stati)
 {
 	setSendAsTask(false);

@@ -8,9 +8,11 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/error/MessageErrorCountUpdate.h"
+#include "utility/messaging/type/indexing/MessageIndexingShowDialog.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageWindowClosed.h"
 
+class QtIndexingDialog;
 class QtMainWindow;
 class QtWindow;
 
@@ -18,14 +20,18 @@ class QtDialogView
 	: public QObject
 	, public DialogView
 	, public MessageListener<MessageErrorCountUpdate>
+	, public MessageListener<MessageIndexingShowDialog>
 	, public MessageListener<MessageInterruptTasks>
 	, public MessageListener<MessageWindowClosed>
 {
 	Q_OBJECT
 
 public:
-	QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess);
+	QtDialogView(QtMainWindow* mainWindow, UseCase useCase, StorageAccess* storageAccess);
 	~QtDialogView() override;
+
+	bool dialogsHidden() const override;
+	void clearDialogs() override;
 
 	void showUnknownProgressDialog(const std::wstring& title, const std::wstring& message) override;
 	void hideUnknownProgressDialog() override;
@@ -36,12 +42,10 @@ public:
 	void startIndexingDialog(
 		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info) override;
 	void updateIndexingDialog(
-		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const FilePath& sourcePath) override;
+		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths) override;
 	DatabasePolicy finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted) override;
-
-	void hideDialogs(bool unblockUI = true) override;
 
 	int confirm(const std::string& message, const std::vector<std::string>& options) override;
 	int confirm(const std::wstring& message, const std::vector<std::wstring>& options) override;
@@ -53,16 +57,17 @@ private slots:
 	void hideUnknownProgress();
 
 	void setUIBlocked(bool blocked);
+	void dialogVisibilityChanged(bool visible);
 
 private:
 	void handleMessage(MessageErrorCountUpdate* message) override;
+	void handleMessage(MessageIndexingShowDialog* message) override;
 	void handleMessage(MessageInterruptTasks* message) override;
 	void handleMessage(MessageWindowClosed* message) override;
 
 	void updateErrorCount(size_t errorCount, size_t fatalCount);
 
-	template<typename T>
-		T* createWindow();
+	QtIndexingDialog* createWindow();
 
 	QtMainWindow* m_mainWindow;
 	QtWindow* m_parentWindow;
@@ -76,6 +81,8 @@ private:
 	std::map<RefreshMode, RefreshInfo> m_refreshInfos;
 
 	bool m_resultReady;
+	bool m_uiBlocked = false;
+	bool m_dialogsVisible = true;
 };
 
 #endif // QT_DIALOG_VIEW_H

@@ -4,7 +4,6 @@
 #include <thread>
 
 #include "utility/logging/logging.h"
-#include "utility/scheduling/Blackboard.h"
 #include "utility/ScopedFunctor.h"
 
 std::shared_ptr<TaskScheduler> TaskScheduler::getInstance()
@@ -154,7 +153,6 @@ void TaskScheduler::processTasks()
 				m_tasksMutex.lock();
 			});
 
-			std::shared_ptr<Blackboard> blackboard = std::make_shared<Blackboard>();
 			while (true)
 			{
 				{
@@ -167,7 +165,7 @@ void TaskScheduler::processTasks()
 					}
 				}
 
-				state = runner->update(blackboard);
+				state = runner->update(nullptr);
 				if (state != Task::STATE_RUNNING)
 				{
 					break;

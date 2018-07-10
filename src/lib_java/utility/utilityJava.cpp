@@ -104,7 +104,7 @@ namespace utility
 
 	std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePaths)
 	{
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP);
 		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gathering Root\nDirectories");
 
 		ScopedFunctor dialogHider([&dialogView]() {

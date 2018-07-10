@@ -545,14 +545,16 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 			return std::vector<FilePath>();
 		}
 
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
+			Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
 		ScopedFunctor scopedFunctor([&dialogView]() {
 			dialogView->hideUnknownProgressDialog();
 		});
 
-		std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+		dialogView->setParentWindow(m_window);
 		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nGenerating Source Files");
+
 		const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
 		if (!success)
 		{

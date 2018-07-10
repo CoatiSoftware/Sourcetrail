@@ -152,7 +152,7 @@ void QtIndexingDialog::updateRefreshInfo(const RefreshInfo& info)
 	m_indexLabel->setVisible(true);
 }
 
-void QtIndexingDialog::setupIndexing()
+void QtIndexingDialog::setupIndexing(bool hideable)
 {
 	setType(DIALOG_INDEXING);
 
@@ -171,7 +171,8 @@ void QtIndexingDialog::setupIndexing()
 	layout->addStretch();
 
 	addButtons(layout);
-	setNextVisible(false);
+	updateNextButton("Hide");
+	setNextVisible(hideable);
 	updateCloseButton("Stop");
 
 	m_sizeHint = QSize(350, 350);
@@ -232,7 +233,7 @@ void QtIndexingDialog::setupReport(
 	finishSetup();
 }
 
-void QtIndexingDialog::setupUnknownProgress()
+void QtIndexingDialog::setupUnknownProgress(bool hideable)
 {
 	setType(DIALOG_UNKNOWN_PROGRESS);
 
@@ -244,6 +245,13 @@ void QtIndexingDialog::setupUnknownProgress()
 
 	layout->addStretch();
 
+	if (hideable)
+	{
+		addButtons(layout);
+		updateNextButton("Hide");
+		setCloseVisible(false);
+	}
+
 	m_sizeHint = QSize(350, 280);
 
 	m_progressBar->showUnknownProgressAnimated();
@@ -253,7 +261,7 @@ void QtIndexingDialog::setupUnknownProgress()
 	finishSetup();
 }
 
-void QtIndexingDialog::setupProgress()
+void QtIndexingDialog::setupProgress(bool hideable)
 {
 	setType(DIALOG_PROGRESS);
 
@@ -265,6 +273,13 @@ void QtIndexingDialog::setupProgress()
 	addMessageLabel(layout);
 
 	layout->addStretch();
+
+	if (hideable)
+	{
+		addButtons(layout);
+		updateNextButton("Hide");
+		setCloseVisible(false);
+	}
 
 	m_sizeHint = QSize(350, 280);
 
@@ -363,6 +378,12 @@ void QtIndexingDialog::handleNext()
 				return;
 			}
 		}
+	}
+
+	if (m_type == DIALOG_INDEXING || m_type == DIALOG_PROGRESS || m_type == DIALOG_UNKNOWN_PROGRESS)
+	{
+		emit visibleChanged(false);
+		return;
 	}
 
 	if (m_type == DIALOG_REPORT)
@@ -484,7 +505,8 @@ void QtIndexingDialog::addErrorWidget(QBoxLayout* layout)
 	errorCount->setObjectName("errorCount");
 	errorCount->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 
-	errorCount->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr())));
+	errorCount->setIcon(QPixmap(QString::fromStdWString(
+		ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr())));
 	errorLayout->addWidget(errorCount);
 
 	QtHelpButton* helpButton = new QtHelpButton("aaa", "bbb");
@@ -526,7 +548,8 @@ void QtIndexingDialog::addButtons(QBoxLayout* layout)
 
 void QtIndexingDialog::addFlag()
 {
-	QtDeviceScaledPixmap flag(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/flag.png").wstr()));
+	QtDeviceScaledPixmap flag(QString::fromStdWString(
+		ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/flag.png").wstr()));
 	flag.scaleToWidth(120);
 
 	QLabel* flagLabel = new QLabel(this);

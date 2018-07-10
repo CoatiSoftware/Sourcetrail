@@ -351,7 +351,11 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 {
 	TRACE();
 
-	const std::vector<Id> fileNodeIds = getFileNodeIds(filePaths);
+	std::vector<Id> fileNodeIds;
+	for (const StorageFile& file : m_sqliteIndexStorage.getFilesByPaths(filePaths))
+	{
+		fileNodeIds.push_back(file.id);
+	}
 
 	if (!fileNodeIds.empty())
 	{

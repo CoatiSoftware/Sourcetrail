@@ -10,7 +10,7 @@ class TaskGroupSequence
 public:
 	TaskGroupSequence();
 
-	virtual void addTask(std::shared_ptr<Task> task);
+	void addTask(std::shared_ptr<Task> task) override;
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;

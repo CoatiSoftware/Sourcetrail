@@ -22,10 +22,6 @@ QtViewFactory::QtViewFactory()
 {
 }
 
-QtViewFactory::~QtViewFactory()
-{
-}
-
 std::shared_ptr<MainView> QtViewFactory::createMainView() const
 {
 	return std::make_shared<QtMainView>();
@@ -104,7 +100,8 @@ std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* view
 	return View::createInitAndAddToLayout<QtUndoRedoView>(viewLayout);
 }
 
-std::shared_ptr<DialogView> QtViewFactory::createDialogView(ViewLayout* viewLayout, StorageAccess* storageAccess) const
+std::shared_ptr<DialogView> QtViewFactory::createDialogView(
+	ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const
 {
-	return std::make_shared<QtDialogView>(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow(), storageAccess);
+	return std::make_shared<QtDialogView>(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow(), useCase, storageAccess);
 }

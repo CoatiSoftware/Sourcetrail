@@ -10,6 +10,7 @@
 #include "utility/messaging/type/history/MessageHistoryRedo.h"
 #include "utility/messaging/type/history/MessageHistoryToPosition.h"
 #include "utility/messaging/type/history/MessageHistoryUndo.h"
+#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateFullTextSearch.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
@@ -18,7 +19,6 @@
 #include "utility/messaging/type/MessageActivateTrailEdge.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeHide.h"
@@ -45,7 +45,6 @@ class UndoRedoController
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageDeactivateEdge>
-	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeHide>
@@ -53,6 +52,7 @@ class UndoRedoController
 	, public MessageListener<MessageHistoryRedo>
 	, public MessageListener<MessageHistoryToPosition>
 	, public MessageListener<MessageHistoryUndo>
+	, public MessageListener<MessageIndexingFinished>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollGraph>
@@ -94,7 +94,6 @@ private:
 	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeHide* message);
@@ -102,6 +101,7 @@ private:
 	virtual void handleMessage(MessageHistoryRedo* message);
 	virtual void handleMessage(MessageHistoryToPosition* message);
 	virtual void handleMessage(MessageHistoryUndo* message);
+	virtual void handleMessage(MessageIndexingFinished* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageScrollGraph* message);

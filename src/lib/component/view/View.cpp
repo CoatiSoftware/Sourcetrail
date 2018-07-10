@@ -45,6 +45,11 @@ ViewLayout* View::getViewLayout() const
 	return m_viewLayout;
 }
 
+void View::setEnabled(bool enabled)
+{
+	return getViewLayout()->setViewEnabled(this, enabled);
+}
+
 void View::setWidgetWrapper(std::shared_ptr<ViewWidgetWrapper> widgetWrapper)
 {
 	m_widgetWrapper = widgetWrapper;

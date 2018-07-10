@@ -1,5 +1,7 @@
 #include "component/ComponentManager.h"
 
+#include "utility/logging/logging.h"
+
 #include "component/controller/Controller.h"
 #include "component/controller/ScreenSearchController.h"
 #include "component/view/CompositeView.h"
@@ -59,14 +61,18 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 	screenSearchController->addResponder(dynamic_cast<ScreenSearchResponder*>(codeComponent->getViewPtr()));
 	m_components.push_back(screenSearchComponent);
 
-	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout, m_componentFactory->getStorageAccess());
+	for (DialogView::UseCase useCase :
+		{ DialogView::UseCase::GENERAL, DialogView::UseCase::INDEXING, DialogView::UseCase::PROJECT_SETUP })
+	{
+		m_dialogViews.emplace(
+			useCase,
+			m_componentFactory->getViewFactory()->createDialogView(viewLayout, useCase, m_componentFactory->getStorageAccess())
+		);
+	}
 
 	std::shared_ptr<TabbedView> tabbedView =
 		m_componentFactory->getViewFactory()->createTabbedView(viewLayout, "Status");
 	m_tabbedViews.push_back(tabbedView);
-
-	// std::shared_ptr<Component> logComponent = m_componentFactory->createLogComponent(tabbedView.get());
-	// m_components.push_back(logComponent);
 
 	std::shared_ptr<Component> statusComponent = m_componentFactory->createStatusComponent(tabbedView.get());
 	m_components.push_back(statusComponent);
@@ -112,9 +118,16 @@ void ComponentManager::refreshViews()
 	}
 }
 
-std::shared_ptr<DialogView> ComponentManager::getDialogView() const
+std::shared_ptr<DialogView> ComponentManager::getDialogView(DialogView::UseCase useCase) const
 {
-	return m_dialogView;
+	auto it = m_dialogViews.find(useCase);
+	if (it == m_dialogViews.end())
+	{
+		LOG_ERROR_STREAM(<< "No DialogView available for useCase " << int(useCase));
+		return nullptr;
+	}
+
+	return it->second;
 }
 
 ComponentManager::ComponentManager()

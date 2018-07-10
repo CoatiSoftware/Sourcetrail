@@ -4,10 +4,10 @@
 #include <memory>
 
 #include "component/view/CompositeView.h"
+#include "component/view/DialogView.h"
 
 class BookmarkView;
 class CodeView;
-class DialogView;
 class ErrorView;
 class GraphView;
 class MainView;
@@ -26,7 +26,7 @@ class ViewFactory
 {
 public:
 	ViewFactory();
-	virtual ~ViewFactory();
+	virtual ~ViewFactory() = default;
 
 	virtual std::shared_ptr<MainView> createMainView() const = 0;
 	virtual std::shared_ptr<CompositeView> createCompositeView(
@@ -45,7 +45,8 @@ public:
 	virtual std::shared_ptr<TooltipView> createTooltipView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const = 0;
 
-	virtual std::shared_ptr<DialogView> createDialogView(ViewLayout* viewLayout, StorageAccess* storageAccess) const = 0;
+	virtual std::shared_ptr<DialogView> createDialogView(
+		ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const = 0;
 };
 
 #endif // VIEW_FACTORY_H

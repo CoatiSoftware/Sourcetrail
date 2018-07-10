@@ -9,7 +9,6 @@ class TaskRunner
 {
 public:
 	TaskRunner(std::shared_ptr<Task> task);
-	~TaskRunner();
 
 	Task::TaskState update(std::shared_ptr<Blackboard> blackboard);
 	void reset();
@@ -18,6 +17,9 @@ public:
 private:
 	std::shared_ptr<Task> m_task;
 	bool m_reset;
+
+	// Only created by the first TaskRunner in the hierarchy, then passed down.
+	std::shared_ptr<Blackboard> m_blackboard;
 };
 
 #endif // TASK_RUNNER_H

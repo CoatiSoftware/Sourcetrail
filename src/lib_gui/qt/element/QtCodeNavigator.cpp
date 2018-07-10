@@ -883,7 +883,7 @@ void QtCodeNavigator::handleMessage(MessageCodeReference* message)
 	);
 }
 
-void QtCodeNavigator::handleMessage(MessageFinishedParsing* message)
+void QtCodeNavigator::handleMessage(MessageIndexingFinished* message)
 {
 	m_onQtThread(
 		[=]()

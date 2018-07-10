@@ -33,9 +33,22 @@ void StatusBarController::handleMessage(MessageErrorCountUpdate* message)
 	getView()->setErrorCount(message->errorCount);
 }
 
-void StatusBarController::handleMessage(MessageFinishedParsing* message)
+void StatusBarController::handleMessage(MessageIndexingFinished* message)
 {
 	getView()->setErrorCount(m_storageAccess->getErrorCount());
+	getView()->hideIndexingProgress();
+}
+
+void StatusBarController::handleMessage(MessageIndexingStatus* message)
+{
+	if (message->showProgress)
+	{
+		getView()->showIndexingProgress(message->unknownProgress, message->progressPercent);
+	}
+	else
+	{
+		getView()->hideIndexingProgress();
+	}
 }
 
 void StatusBarController::handleMessage(MessagePingReceived* message)
@@ -63,7 +76,10 @@ void StatusBarController::handleMessage(MessageRefresh* message)
 
 void StatusBarController::handleMessage(MessageStatus* message)
 {
-	setStatus(message->status(), message->isError, message->showLoader);
+	if (message->showInStatusBar)
+	{
+		setStatus(message->status(), message->isError, message->showLoader);
+	}
 }
 
 void StatusBarController::setStatus(const std::wstring& status, bool isError, bool showLoader)

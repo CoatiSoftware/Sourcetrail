@@ -14,7 +14,7 @@ class QtStatusBarView
 {
 public:
 	QtStatusBarView(ViewLayout* viewLayout);
-	~QtStatusBarView();
+	virtual ~QtStatusBarView() = default;
 
 	// View implementation
 	virtual void createWidgetWrapper();
@@ -26,6 +26,9 @@ public:
 	virtual void setErrorCount(ErrorCountInfo errorCount);
 
 	virtual void showIdeStatus(const std::wstring& message);
+
+	virtual void showIndexingProgress(bool unknownProgress, size_t progressPercent);
+	virtual void hideIndexingProgress();
 
 private:
 	QtThreadedLambdaFunctor m_onQtThread;

@@ -2,7 +2,7 @@
 
 #include "component/view/DialogView.h"
 #include "data/storage/PersistentStorage.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
 #include "utility/messaging/type/MessageQuitApplication.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
@@ -20,11 +20,11 @@ void TaskFinishParsing::terminate()
 	Application* app = Application::getInstance().get();
 	if (app)
 	{
-		app->getDialogView()->hideDialogs();
+		app->getDialogView(DialogView::UseCase::INDEXING)->clearDialogs();
 	}
 
 	MessageStatus(L"An unknown exception was thrown during indexing.", true, false).dispatch();
-	MessageFinishedParsing().dispatch();
+	MessageIndexingFinished().dispatch();
 }
 
 void TaskFinishParsing::doEnter(std::shared_ptr<Blackboard> blackboard)
@@ -36,7 +36,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 {
 	TimeStamp start = utility::durationStart();
 
-	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING);
 
 	dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Optimizing database");
 	m_storage->optimizeMemory();

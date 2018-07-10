@@ -39,6 +39,8 @@ public:
 	ViewWidgetWrapper* getWidgetWrapper() const;
     ViewLayout* getViewLayout() const;
 
+    void setEnabled(bool enabled);
+
 protected:
 	template <typename ControllerType>
 	ControllerType* getController();

@@ -15,10 +15,6 @@ QtStatusBarView::QtStatusBarView(ViewLayout* viewLayout)
 	mw->setStatusBar(sb);
 }
 
-QtStatusBarView::~QtStatusBarView()
-{
-}
-
 void QtStatusBarView::createWidgetWrapper()
 {
 }
@@ -57,6 +53,26 @@ void QtStatusBarView::showIdeStatus(const std::wstring& message)
 		[=]()
 		{
 			m_widget->setIdeStatus(message);
+		}
+	);
+}
+
+void QtStatusBarView::showIndexingProgress(bool unknownProgress, size_t progressPercent)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->showIndexingProgress(unknownProgress, progressPercent);
+		}
+	);
+}
+
+void QtStatusBarView::hideIndexingProgress()
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->hideIndexingProgress();
 		}
 	);
 }

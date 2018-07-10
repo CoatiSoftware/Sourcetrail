@@ -9,8 +9,8 @@
 #include "qt/element/QtCodeFileSingle.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
 #include "utility/messaging/type/MessageCodeReference.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageShowReference.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
@@ -24,7 +24,7 @@ class SourceLocationFile;
 class QtCodeNavigator
 	: public QWidget
 	, public MessageListener<MessageCodeReference>
-	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageIndexingFinished>
 	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageWindowFocus>
@@ -163,7 +163,7 @@ private:
 	};
 
 	void handleMessage(MessageCodeReference* message);
-	void handleMessage(MessageFinishedParsing* message);
+	void handleMessage(MessageIndexingFinished* message);
 	void handleMessage(MessageShowReference* message);
 	void handleMessage(MessageSwitchColorScheme* message);
 	void handleMessage(MessageWindowFocus* message);

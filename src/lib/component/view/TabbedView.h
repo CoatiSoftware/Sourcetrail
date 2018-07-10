@@ -28,6 +28,8 @@ public:
 	virtual void showView(View* view);
 	virtual void hideView(View* view);
 
+	virtual void setViewEnabled(View* view, bool enabled);
+
 private:
 	std::vector<View*> m_views;
 	std::string m_name;

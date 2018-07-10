@@ -30,10 +30,10 @@ signals:
 public:
 	QtWindowStack(QObject* parent = nullptr);
 
-	QtWindowStackElement* getTopWindow();
-	QtWindowStackElement* getBottomWindow();
+	QtWindowStackElement* getTopWindow() const;
+	QtWindowStackElement* getBottomWindow() const;
 
-    size_t getWindowCount();
+    size_t getWindowCount() const;
 
     void centerSubWindows();
 

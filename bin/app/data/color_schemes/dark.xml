@@ -518,6 +518,7 @@
 		<text>
 			<normal>white</normal>
 			<active>black</active>
+			<disabled>#AAA</disabled>
 		</text>
 		<table_line_1>
 			<normal>#272728</normal>

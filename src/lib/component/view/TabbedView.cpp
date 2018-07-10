@@ -45,3 +45,8 @@ void TabbedView::hideView(View* view)
 {
 	getViewLayout()->hideView(this);
 }
+
+void TabbedView::setViewEnabled(View* view, bool enabled)
+{
+	getViewLayout()->setViewEnabled(view, enabled);
+}
