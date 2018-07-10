@@ -188,6 +188,15 @@ std::wstring NameHierarchy::getRawNameWithSignature() const
 	return L"";
 }
 
+std::wstring NameHierarchy::getRawNameWithSignatureParameters() const
+{
+	if (m_elements.size())
+	{
+		return m_elements.back()->getNameWithSignatureParameters();
+	}
+	return L"";
+}
+
 bool NameHierarchy::hasSignature() const
 {
 	if (m_elements.size())

@@ -64,7 +64,7 @@ std::wstring Node::getFullName() const
 	return m_nameHierarchy.getQualifiedName();
 }
 
-NameHierarchy Node::getNameHierarchy() const
+const NameHierarchy& Node::getNameHierarchy() const
 {
 	return m_nameHierarchy;
 }

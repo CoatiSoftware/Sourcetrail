@@ -45,6 +45,7 @@ namespace utility
 	std::string substrBeforeFirst(const std::string& str, const std::string& delimiter);
 	std::string substrBeforeLast(const std::string& str, char delimiter);
 	std::wstring substrBeforeLast(const std::wstring& str, wchar_t delimiter);
+	std::wstring substrAfterLast(const std::wstring& str, wchar_t delimiter);
 	std::string substrAfter(const std::string& str, char delimiter);
 	std::string substrAfter(const std::string& str, const std::string& delimiter);
 

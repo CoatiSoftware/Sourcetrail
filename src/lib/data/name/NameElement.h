@@ -23,6 +23,7 @@ public:
 
 		const std::wstring& getPrefix() const;
 		const std::wstring& getPostfix() const;
+		std::wstring getParameterString() const;
 
 	private:
 		std::wstring m_prefix;
@@ -35,6 +36,7 @@ public:
 
 	std::wstring getName() const;
 	std::wstring getNameWithSignature() const;
+	std::wstring getNameWithSignatureParameters() const;
 	bool hasSignature() const;
 	Signature getSignature();
 

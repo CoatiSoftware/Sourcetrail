@@ -217,12 +217,22 @@ namespace utility
 		return str;
 	}
 
+	std::wstring substrAfterLast(const std::wstring& str, wchar_t delimiter)
+	{
+		size_t pos = str.rfind(delimiter);
+		if (pos != std::wstring::npos)
+		{
+			return str.substr(pos + 1, std::wstring::npos);
+		}
+		return str;
+	}
+
 	std::string substrAfter(const std::string& str, char delimiter)
 	{
 		size_t pos = str.find(delimiter);
 		if (pos != std::string::npos)
 		{
-			return str.substr(pos + 1, str.size());
+			return str.substr(pos + 1, std::wstring::npos);
 		}
 		return str;
 	}

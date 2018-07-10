@@ -71,6 +71,11 @@ const std::wstring& NameElement::Signature::getPostfix() const
 	return m_postfix;
 }
 
+std::wstring NameElement::Signature::getParameterString() const
+{
+	return utility::substrBeforeLast(m_postfix, L')') + L')';
+}
+
 NameElement::NameElement(const std::wstring& name)
 	: m_name(name)
 {
@@ -94,6 +99,11 @@ std::wstring NameElement::getName() const
 std::wstring NameElement::getNameWithSignature() const
 {
 	return m_signature.qualifyName(m_name);
+}
+
+std::wstring NameElement::getNameWithSignatureParameters() const
+{
+	return m_name + m_signature.getParameterString();
 }
 
 bool NameElement::hasSignature() const

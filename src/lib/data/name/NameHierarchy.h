@@ -40,6 +40,7 @@ public:
 	std::wstring getQualifiedNameWithSignature() const;
 	std::wstring getRawName() const;
 	std::wstring getRawNameWithSignature() const;
+	std::wstring getRawNameWithSignatureParameters() const;
 
 	bool hasSignature() const;
 	NameElement::Signature getSignature() const;

@@ -26,7 +26,7 @@ public:
 
 	std::wstring getName() const;
 	std::wstring getFullName() const;
-	NameHierarchy getNameHierarchy() const;
+	const NameHierarchy& getNameHierarchy() const;
 
 	bool isDefined() const;
 	bool isImplicit() const;

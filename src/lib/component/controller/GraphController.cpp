@@ -1750,6 +1750,8 @@ void GraphController::layoutNesting()
 {
 	TRACE();
 
+	extendEqualFunctionNames(m_dummyNodes);
+
 	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		layoutNestingRecursive(node.get());
@@ -1758,6 +1760,40 @@ void GraphController::layoutNesting()
 	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		layoutToGrid(node.get());
+	}
+}
+
+void GraphController::extendEqualFunctionNames(const std::vector<std::shared_ptr<DummyNode>>& nodes) const
+{
+	std::multimap<std::wstring, std::shared_ptr<DummyNode>> functionNames;
+	for (auto& node : nodes)
+	{
+		if (node->visible && node->isGraphNode() && node->data->isType(NodeType::NODE_FUNCTION | NodeType::NODE_METHOD))
+		{
+			functionNames.emplace(node->name, node);
+		}
+	}
+
+	for (auto it : functionNames)
+	{
+		if (functionNames.count(it.first) < 2)
+		{
+			continue;
+		}
+
+		auto ret = functionNames.equal_range(it.first);
+		for (auto it2 = ret.first; it2 != ret.second; it2++)
+		{
+			it2->second->name = it2->second->data->getNameHierarchy().getRawNameWithSignatureParameters();
+		}
+	}
+
+	for (auto& node : nodes)
+	{
+		if (node->subNodes.size())
+		{
+			extendEqualFunctionNames(node->subNodes);
+		}
 	}
 }
 
@@ -1813,10 +1849,9 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 	if (node->isGraphNode())
 	{
-		size_t maxNameSize = 50;
-		if (!node->active && node->name.size() > maxNameSize)
+		if (!node->active)
 		{
-			node->name = node->name.substr(0, maxNameSize - 3) + L"...";
+			node->name = utility::elide(node->name, utility::ELIDE_RIGHT, 50);
 		}
 
 		width = margins.charWidth * node->name.size();
