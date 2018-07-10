@@ -137,15 +137,12 @@
 }
 
 /* Bookmark creator */
-
-#creator_header_background {
-	background-color: #2E3C86;
-}
-
 #creator_title_label {
 	font-size: 18px;
 	font-weight: bold;
 	color: white;
+	background-color: #2E3C86;
+	padding: 23px 20px 20px 20px;
 }
 
 #creator_label {

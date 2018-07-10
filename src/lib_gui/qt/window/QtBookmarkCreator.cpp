@@ -25,21 +25,22 @@ QtBookmarkCreator::~QtBookmarkCreator()
 
 void QtBookmarkCreator::setupBookmarkCreator()
 {
-	QVBoxLayout* layout = new QVBoxLayout(this);
-	layout->setContentsMargins(20, 23, 20, 20);
+	QVBoxLayout* mainLayout = new QVBoxLayout(this);
+	mainLayout->setContentsMargins(0, 0, 0, 0);
 
 	{
 		// title
 		QLabel* title = new QLabel(m_editBookmarkId ? "Edit Bookmark" : "Create Bookmark");
 		title->setObjectName("creator_title_label");
-		layout->addWidget(title);
-
-		layout->addSpacing(30);
+		mainLayout->addWidget(title);
 	}
+
+	QVBoxLayout* layout = new QVBoxLayout();
+	layout->setContentsMargins(20, 10, 20, 20);
 
 	{
 		// name
-		QLabel* nameLabel = new QLabel("Bookmark:");
+		QLabel* nameLabel = new QLabel("Name");
 		nameLabel->setObjectName("creator_label");
 		layout->addWidget(nameLabel);
 
@@ -56,7 +57,7 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 	{
 		// comment
-		QLabel* commentLabel = new QLabel("Comment:");
+		QLabel* commentLabel = new QLabel("Comment");
 		commentLabel->setObjectName("creator_label");
 		layout->addWidget(commentLabel);
 
@@ -70,7 +71,7 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 	{
 		// category
-		QLabel* categoryLabel = new QLabel("Choose or Create Category:");
+		QLabel* categoryLabel = new QLabel("Choose or Create Category");
 		categoryLabel->setObjectName("creator_label");
 		layout->addWidget(categoryLabel);
 
@@ -91,14 +92,7 @@ void QtBookmarkCreator::setupBookmarkCreator()
 		updateNextButton(m_editBookmarkId ? "Save" : "Create");
 	}
 
-	{
-		// header
-		m_headerBackground = new QWidget(m_window);
-		m_headerBackground->setObjectName("creator_header_background");
-		m_headerBackground->setGeometry(0, 0, 0, 0);
-		m_headerBackground->show();
-		m_headerBackground->lower();
-	}
+	mainLayout->addLayout(layout);
 
 	refreshStyle();
 }
@@ -147,13 +141,6 @@ void QtBookmarkCreator::setCurrentBookmarkCategory(const BookmarkCategory& categ
 void QtBookmarkCreator::setNodeId(Id nodeId)
 {
 	m_nodeId = nodeId;
-}
-
-void QtBookmarkCreator::resizeEvent(QResizeEvent* event)
-{
-	QtWindow::resizeEvent(event);
-
-	m_headerBackground->setGeometry(0, 0, m_window->size().width(), 60);
 }
 
 void QtBookmarkCreator::handleNext()

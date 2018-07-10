@@ -35,8 +35,6 @@ public:
 	void setNodeId(Id nodeId);
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
-
 	virtual void handleNext() override;
 	virtual void handleClose() override;
 
@@ -53,8 +51,6 @@ private:
 	QComboBox* m_categoryBox;
 
 	Id m_nodeId;
-
-	QWidget* m_headerBackground;
 };
 
 #endif // QT_BOOKMARK_CREATOR_H
