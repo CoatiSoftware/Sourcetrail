@@ -12,7 +12,7 @@ std::shared_ptr<SourceGroupSettings> SourceGroupSettingsJavaEmpty::createCopy() 
 
 void SourceGroupSettingsJavaEmpty::load(std::shared_ptr<const ConfigManager> config)
 {
-	SourceGroupSettings::load(config);
+	SourceGroupSettingsJava::load(config);
 
 	const std::string key = s_keyPrefix + getId();
 
@@ -22,7 +22,7 @@ void SourceGroupSettingsJavaEmpty::load(std::shared_ptr<const ConfigManager> con
 
 void SourceGroupSettingsJavaEmpty::save(std::shared_ptr<ConfigManager> config)
 {
-	SourceGroupSettings::save(config);
+	SourceGroupSettingsJava::save(config);
 
 	const std::string key = s_keyPrefix + getId();
 

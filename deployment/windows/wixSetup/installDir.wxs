@@ -898,7 +898,7 @@
 							<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.8.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.registry-3.8.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseJdtCoreJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.jdt.core-3.13.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.13.102.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.jdt.core-3.13.102.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseOsgiJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.13.0.jar' KeyPath='yes' />

@@ -755,6 +755,8 @@ if (WIN32)
 		COMMAND cd $(ProjectDir)../../bin/test/\n$(OutDir)$(TargetName)$(TargetExt)
 		COMMENT "Running unittest code"
 	)
+	
+	set_target_properties(${TEST_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/bigobj")
 
 elseif (UNIX)
 

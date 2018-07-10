@@ -87,7 +87,7 @@ void JavaParser::buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand)
 
 void JavaParser::buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess)
 {
-	buildIndex(filePath, "8", "", textAccess);
+	buildIndex(filePath, "10", "", textAccess);
 }
 
 void JavaParser::buildIndex(
@@ -264,7 +264,7 @@ void JavaParser::doRecordError(
 	m_client->recordError(
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		utility::decodeFromUtf8(m_javaEnvironment->toStdString(jMessage)),
-		fatal, 
+		fatal,
 		indexed,
 		FilePath()
 	);

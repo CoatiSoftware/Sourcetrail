@@ -34,7 +34,9 @@ public:
 			ApplicationSettings::getInstance()->setJavaPath(javaPaths[0]);
 		}
 
-		setupJavaEnvironmentFactory();
+		const std::string errorString = setupJavaEnvironmentFactory();
+
+		TS_ASSERT_EQUALS("", errorString);
 
 		// if this one fails, maybe your java_path in the test settings is wrong.
 		TS_ASSERT_LESS_THAN_EQUALS(1, JavaEnvironmentFactory::getInstance().use_count());
@@ -727,7 +729,7 @@ public:
 			client->qualifiers, L"A.B <17:20 17:20>"
 		));
 	}
-	
+
 	void test_java_parser_finds_qualifier_location_of_super_method_reference()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -838,6 +840,22 @@ public:
 		));
 	}
 
+	void test_java_parser_finds_usage_of_string_for_var_type()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public void foo(){\n"
+			"		var a = \"test\";\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"void A.foo() -> java.lang.String <4:3 4:5>"
+		));
+	}
+
 	void test_java_parser_finds_type_parameter_in_signature_of_method()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -945,7 +963,7 @@ public:
 			client->calls, L"foo.Bar.Bar(int) -> foo.Bar.Bar() <10:3 10:6>"
 		));
 	}
-	
+
 	void test_java_parser_finds_super_constructor_invocation()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1115,7 +1133,7 @@ public:
 		));
 	}
 
-	void test_java_parser_finds_no_method_usage_for_type_method_reference() 
+	void test_java_parser_finds_no_method_usage_for_type_method_reference()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"public class A {\n"
@@ -1478,7 +1496,7 @@ public:
 
 
 private:
-	void setupJavaEnvironmentFactory()
+	std::string setupJavaEnvironmentFactory()
 	{
 		if (!JavaEnvironmentFactory::getInstance())
 		{
@@ -1505,7 +1523,11 @@ private:
 				classPath,
 				errorString
 			);
+
+			return errorString;
 		}
+
+		return "";
 	}
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)

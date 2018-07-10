@@ -10,7 +10,7 @@ void SourceGroupSettingsJava::load(std::shared_ptr<const ConfigManager> config)
 	SourceGroupSettings::load(config);
 
 	const std::string key = s_keyPrefix + getId();
-	
+
 	SourceGroupSettingsWithSourceExtensions::load(config, key);
 	SourceGroupSettingsWithExcludeFilters::load(config, key);
 	SourceGroupSettingsWithJavaStandard::load(config, key);
@@ -36,7 +36,7 @@ bool SourceGroupSettingsJava::equals(std::shared_ptr<SourceGroupSettings> other)
 		SourceGroupSettings::equals(other) &&
 		SourceGroupSettingsWithSourceExtensions::equals(otherJava) &&
 		SourceGroupSettingsWithExcludeFilters::equals(otherJava) &&
-		SourceGroupSettingsWithJavaStandard::equals(otherJava) 
+		SourceGroupSettingsWithJavaStandard::equals(otherJava)
 	);
 }
 

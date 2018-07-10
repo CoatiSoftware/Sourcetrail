@@ -31,7 +31,7 @@ namespace utility
 			L"org.eclipse.equinox.common-3.10.0.jar",
 			L"org.eclipse.equinox.preferences-3.7.100.jar",
 			L"org.eclipse.equinox.registry-3.8.0.jar",
-			L"org.eclipse.jdt.core-3.13.0.jar",
+			L"org.eclipse.jdt.core-3.13.102.jar",
 			L"org.eclipse.osgi-3.13.0.jar",
 			L"org.eclipse.text-3.6.300.jar",
 			L"slf4j-api-1.7.10.jar",
