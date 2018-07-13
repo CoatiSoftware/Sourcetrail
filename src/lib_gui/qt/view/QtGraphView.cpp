@@ -555,18 +555,26 @@ void QtGraphView::updateScrollBars()
 
 	if (m_restoreScroll)
 	{
-		hb->setValue(m_scrollValues.x());
-		vb->setValue(m_scrollValues.y());
+		performScroll(hb, m_scrollValues.x());
+		performScroll(vb, m_scrollValues.y());
 	}
 	else if (m_scrollToTop)
 	{
-		vb->setValue(vb->minimum());
+		performScroll(vb, vb->minimum());
 	}
-	else
+	else if (!m_centerActiveNode)
 	{
-		hb->setValue((hb->minimum() + hb->maximum()) / 2);
-		vb->setValue((vb->minimum() + vb->maximum()) / 2);
+		performScroll(hb, (hb->minimum() + hb->maximum()) / 2);
+		performScroll(vb, (vb->minimum() + vb->maximum()) / 2);
 	}
+
+	if (m_scrollToTop || m_restoreScroll)
+	{
+		m_centerActiveNode = false;
+	}
+
+	m_restoreScroll = false;
+	m_scrollToTop = false;
 }
 
 void QtGraphView::finishedTransition()
@@ -742,6 +750,23 @@ void QtGraphView::groupingUpdated(QPushButton* button)
 	MessageRefresh().refreshUiOnly().noReloadStyle().dispatch();
 }
 
+void QtGraphView::performScroll(QScrollBar* scrollBar, int value) const
+{
+	if (ApplicationSettings::getInstance()->getUseAnimations())
+	{
+		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
+		anim->setDuration(300);
+		anim->setStartValue(scrollBar->value());
+		anim->setEndValue(value);
+		anim->setEasingCurve(QEasingCurve::InOutQuad);
+		anim->start();
+	}
+	else
+	{
+		scrollBar->setValue(value);
+	}
+}
+
 MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 {
 	MessageActivateTrail message(0, 0, 0, 0, false);
@@ -866,9 +891,6 @@ void QtGraphView::switchToNewGraphData()
 	if (m_scrollToTop || m_restoreScroll)
 	{
 		updateScrollBars();
-
-		m_scrollToTop = false;
-		m_restoreScroll = false;
 	}
 
 	// Manually hover the item below the mouse cursor.

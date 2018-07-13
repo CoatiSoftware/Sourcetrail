@@ -88,6 +88,8 @@ private slots:
 	void groupingUpdated(QPushButton* button);
 
 private:
+	void performScroll(QScrollBar* scrollBar, int value) const;
+
 	MessageActivateTrail getMessageActivateTrail(bool forward);
 	void activateTrail(bool forward);
 	void updateTrailButtons();
