@@ -82,6 +82,16 @@ void QtMainView::saveLayout()
 	m_window->saveLayout();
 }
 
+void QtMainView::loadWindow(bool showStartWindow)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_window->loadWindow(showStartWindow);
+		}
+	);
+}
+
 void QtMainView::refreshView()
 {
 	m_onQtThread(
@@ -173,18 +183,6 @@ void QtMainView::handleMessage(MessageForceEnterLicense* message)
 		[=]()
 		{
 			m_window->forceEnterLicense(state);
-		}
-	);
-}
-
-void QtMainView::handleMessage(MessageLoadProject* message)
-{
-	bool showStartWindow = message->projectSettingsFilePath.empty();
-
-	m_onQtThread(
-		[=]()
-		{
-			m_window->loadWindow(showStartWindow);
 		}
 	);
 }

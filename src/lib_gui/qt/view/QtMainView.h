@@ -11,7 +11,6 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageForceEnterLicense.h"
-#include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
 #include "utility/messaging/type/MessageProjectNew.h"
 
@@ -21,7 +20,6 @@ class View;
 class QtMainView
 	: public MainView
 	, public MessageListener<MessageForceEnterLicense>
-	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageProjectEdit>
 	, public MessageListener<MessageProjectNew>
 {
@@ -49,6 +47,8 @@ public:
 	virtual void loadLayout();
 	virtual void saveLayout();
 
+	virtual void loadWindow(bool showStartWindow);
+
 	virtual void refreshView();
 
 	virtual void hideStartScreen();
@@ -61,7 +61,6 @@ public:
 
 private:
 	void handleMessage(MessageForceEnterLicense* message);
-	void handleMessage(MessageLoadProject* message);
 	void handleMessage(MessageProjectEdit* message);
 	void handleMessage(MessageProjectNew* message);
 

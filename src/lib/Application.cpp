@@ -227,6 +227,12 @@ void Application::handleMessage(MessageLoadProject* message)
 	TRACE("app load project");
 
 	FilePath projectSettingsFilePath(message->projectSettingsFilePath);
+	if (m_hasGUI)
+	{
+		bool showStartWindow = projectSettingsFilePath.empty();
+		m_mainView->loadWindow(showStartWindow);
+	}
+
 	if (projectSettingsFilePath.empty())
 	{
 		return;

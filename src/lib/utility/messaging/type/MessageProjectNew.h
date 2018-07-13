@@ -1,6 +1,7 @@
 #ifndef MESSAGE_PROJECT_NEW_H
 #define MESSAGE_PROJECT_NEW_H
 
+#include "utility/file/FilePath.h"
 #include "utility/messaging/Message.h"
 
 class MessageProjectNew
