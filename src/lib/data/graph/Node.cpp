@@ -143,6 +143,18 @@ Edge* Node::getMemberEdge() const
 	);
 }
 
+bool Node::isParentOf(const Node* node) const
+{
+	while ((node = node->getParentNode()))
+	{
+		if (node == this)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 Edge* Node::findEdge(std::function<bool(Edge*)> func) const
 {
 	auto it = find_if(m_edges.begin(), m_edges.end(),

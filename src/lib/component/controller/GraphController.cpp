@@ -790,6 +790,13 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 			edge->visible = true;
 			from->connected = true;
 			to->connected = true;
+
+			// Don't show children of active node with a type use edge to the parent
+			if (to->active && edge->data->isType(Edge::EDGE_TYPE_USAGE) && to->data->isParentOf(from->data))
+			{
+				from->connected = false;
+				to->connected = false;
+			}
 		}
 		else
 		{

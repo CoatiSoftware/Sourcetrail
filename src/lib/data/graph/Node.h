@@ -43,6 +43,7 @@ public:
 	Node* getParentNode() const;
 	Node* getLastParentNode();
 	Edge* getMemberEdge() const;
+	bool isParentOf(const Node* node) const;
 
 	Edge* findEdge(std::function<bool(Edge*)> func) const;
 	Edge* findEdgeOfType(Edge::TypeMask mask) const;
