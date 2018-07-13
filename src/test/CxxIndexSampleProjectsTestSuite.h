@@ -16,57 +16,60 @@ class CxxIndexSampleProjectsTestSuite : public CxxTest::TestSuite
 {
 public:
 	static const bool s_updateExpectedOutput = false;
+	static const bool s_trackTime = true;
 
 	void test_index_box2d_project()
 	{
 #ifdef _WIN32
 #ifdef NDEBUG
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2BroadPhase.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2CollideCircle.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2CollideEdge.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2CollidePolygon.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2Collision.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2Distance.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2DynamicTree.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/b2TimeOfImpact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/Shapes/b2ChainShape.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/Shapes/b2CircleShape.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/Shapes/b2EdgeShape.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Collision/Shapes/b2PolygonShape.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Common/b2BlockAllocator.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Common/b2Draw.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Common/b2Math.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Common/b2Settings.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Common/b2StackAllocator.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Common/b2Timer.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/b2Body.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/b2ContactManager.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/b2Fixture.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/b2Island.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/b2World.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/b2WorldCallbacks.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2CircleContact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2Contact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2ContactSolver.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Contacts/b2PolygonContact.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2DistanceJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2FrictionJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2GearJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2Joint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2MotorJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2MouseJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2PrismaticJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2PulleyJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2RevoluteJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2RopeJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2WeldJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Dynamics/Joints/b2WheelJoint.cpp"));
-		processSourceFile(L"Box2D", FilePath("Box2D/Rope/b2Rope.cpp"));
+		processSourceFiles(L"Box2D", {
+			FilePath("Box2D/Collision/b2BroadPhase.cpp"),
+			FilePath("Box2D/Collision/b2CollideCircle.cpp"),
+			FilePath("Box2D/Collision/b2CollideEdge.cpp"),
+			FilePath("Box2D/Collision/b2CollidePolygon.cpp"),
+			FilePath("Box2D/Collision/b2Collision.cpp"),
+			FilePath("Box2D/Collision/b2Distance.cpp"),
+			FilePath("Box2D/Collision/b2DynamicTree.cpp"),
+			FilePath("Box2D/Collision/b2TimeOfImpact.cpp"),
+			FilePath("Box2D/Collision/Shapes/b2ChainShape.cpp"),
+			FilePath("Box2D/Collision/Shapes/b2CircleShape.cpp"),
+			FilePath("Box2D/Collision/Shapes/b2EdgeShape.cpp"),
+			FilePath("Box2D/Collision/Shapes/b2PolygonShape.cpp"),
+			FilePath("Box2D/Common/b2BlockAllocator.cpp"),
+			FilePath("Box2D/Common/b2Draw.cpp"),
+			FilePath("Box2D/Common/b2Math.cpp"),
+			FilePath("Box2D/Common/b2Settings.cpp"),
+			FilePath("Box2D/Common/b2StackAllocator.cpp"),
+			FilePath("Box2D/Common/b2Timer.cpp"),
+			FilePath("Box2D/Dynamics/b2Body.cpp"),
+			FilePath("Box2D/Dynamics/b2ContactManager.cpp"),
+			FilePath("Box2D/Dynamics/b2Fixture.cpp"),
+			FilePath("Box2D/Dynamics/b2Island.cpp"),
+			FilePath("Box2D/Dynamics/b2World.cpp"),
+			FilePath("Box2D/Dynamics/b2WorldCallbacks.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2CircleContact.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2Contact.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2ContactSolver.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.cpp"),
+			FilePath("Box2D/Dynamics/Contacts/b2PolygonContact.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2DistanceJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2FrictionJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2GearJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2Joint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2MotorJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2MouseJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2PrismaticJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2PulleyJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2RevoluteJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2RopeJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2WeldJoint.cpp"),
+			FilePath("Box2D/Dynamics/Joints/b2WheelJoint.cpp"),
+			FilePath("Box2D/Rope/b2Rope.cpp")
+		});
 #endif // NDEBUG
 #endif // _WIN32
 	}
@@ -75,21 +78,43 @@ public:
 	{
 #ifdef _WIN32
 #ifdef NDEBUG
-		processSourceFile(L"Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvhBroadphase.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3OverlappingPairCache.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Collision/NarrowPhaseCollision/b3ConvexUtility.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Collision/NarrowPhaseCollision/b3CpuNarrowPhase.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Common/b3AlignedAllocator.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Common/b3Logging.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Common/b3Vector3.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Geometry/b3ConvexHullComputer.cpp"));
-		processSourceFile(L"Bullet3", FilePath("Bullet3Geometry/b3GeometryUtil.cpp"));
+		processSourceFiles(L"Bullet3", {
+			FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.cpp"),
+			FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvhBroadphase.cpp"),
+			FilePath("Bullet3Collision/BroadPhaseCollision/b3OverlappingPairCache.cpp"),
+			FilePath("Bullet3Collision/NarrowPhaseCollision/b3ConvexUtility.cpp"),
+			FilePath("Bullet3Collision/NarrowPhaseCollision/b3CpuNarrowPhase.cpp"),
+			FilePath("Bullet3Common/b3AlignedAllocator.cpp"),
+			FilePath("Bullet3Common/b3Logging.cpp"),
+			FilePath("Bullet3Common/b3Vector3.cpp"),
+			FilePath("Bullet3Geometry/b3ConvexHullComputer.cpp"),
+			FilePath("Bullet3Geometry/b3GeometryUtil.cpp")
+		});
 #endif // NDEBUG
 #endif // _WIN32
 	}
 
 private:
+
+	void processSourceFiles(const std::wstring& projectName, const std::vector<FilePath>& sourceFilePaths)
+	{
+		TimeStamp startTime = TimeStamp::now();
+		for (const FilePath& filePath : sourceFilePaths)
+		{
+			processSourceFile(projectName, filePath);
+		}
+		size_t duration = TimeStamp::now().deltaMS(startTime);
+		if (s_trackTime)
+		{
+			const FilePath projectDataRoot = FilePath(L"data/CxxIndexSampleProjectsTestSuite/" + projectName).makeAbsolute();
+
+			std::ofstream outfile;
+			outfile.open((projectDataRoot.wstr() + L"/" + projectName + L".timing").c_str(), std::ios_base::app);
+			outfile << startTime.toString() << " - " << duration << " ms\n";
+			outfile.close();
+		}
+	}
+
 	void processSourceFile(const std::wstring& projectName, const FilePath& sourceFilePath)
 	{
 		const FilePath projectDataRoot = FilePath(L"data/CxxIndexSampleProjectsTestSuite/" + projectName).makeAbsolute();
@@ -138,13 +163,13 @@ private:
 		CxxParser parser(parserClient, fileRegister);
 
 		std::shared_ptr<IndexerCommandCxxEmpty> command = std::make_shared<IndexerCommandCxxEmpty>(
-			sourceFilePath, 
+			sourceFilePath,
 			indexedPaths,
 			excludedFilters,
 			includedFilters,
 			workingDirectory,
 			utility::concat(std::vector<FilePath> { projectDataSrcRoot }, ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded()),
-			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded(), 
+			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded(),
 			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc" },
 			"c++1z"
 		);
