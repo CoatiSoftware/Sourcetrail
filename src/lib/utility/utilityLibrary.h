@@ -14,6 +14,7 @@
 #endif
 
 #include "utility/file/FilePath.h"
+#include "utility/utilityString.h"
 
 namespace utility
 {
@@ -26,9 +27,34 @@ namespace utility
 #ifdef _WIN32
 		const std::string libraryPathString = libraryPath.getBackslashedString();
 		HINSTANCE handle = LoadLibrary(libraryPathString.c_str());
-		if (handle == NULL)
+		if (handle == nullptr)
 		{
-			errorString = "Could not load library \"" + libraryPathString + "\"";
+			DWORD errorCode = GetLastError();
+			std::string errorReasonString;
+
+			LPSTR messageBuffer = nullptr;
+			const size_t size = FormatMessageA(
+				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+				nullptr,
+				errorCode,
+				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+				(LPSTR)&messageBuffer,
+				0,
+				nullptr
+			);
+			if (size > 0)
+			{
+				std::string message(messageBuffer, size);
+				errorReasonString = "error \"" + utility::trim(message) + "\" (code " + std::to_string(errorCode) + ").";
+			}
+			else
+			{
+				errorReasonString = "error code " + std::to_string(errorCode) + ".";
+			}
+
+			LocalFree(messageBuffer);
+
+			errorString = "Could not load library \"" + libraryPathString + "\" because of " + errorReasonString;
 			return std::function<Ret(Args...)>();
 		}
 
