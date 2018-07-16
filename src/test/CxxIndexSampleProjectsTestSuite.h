@@ -108,7 +108,7 @@ private:
 			const FilePath projectDataRoot = FilePath(L"data/CxxIndexSampleProjectsTestSuite/" + projectName).makeAbsolute();
 
 			std::ofstream outfile;
-			outfile.open((projectDataRoot.wstr() + L"/" + projectName + L".timing").c_str(), std::ios_base::app);
+			outfile.open(FilePath(projectDataRoot.wstr() + L"/" + projectName + L".timing").str(), std::ios_base::app);
 			outfile << TimeStamp::now().toString() << " - " << m_duration << " ms\n";
 			outfile.close();
 		}
