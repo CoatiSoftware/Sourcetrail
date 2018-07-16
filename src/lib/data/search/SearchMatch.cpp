@@ -154,9 +154,9 @@ bool SearchMatch::operator<(const SearchMatch& other) const
 	// lower case
 	for (size_t i = 0; i < str->size(); i++)
 	{
-		if (tolower(str->at(i)) != tolower(otherStr->at(i)))
+		if (towlower(str->at(i)) != towlower(otherStr->at(i)))
 		{
-			return tolower(str->at(i)) < tolower(otherStr->at(i));
+			return towlower(str->at(i)) < towlower(otherStr->at(i));
 		}
 		else
 		{

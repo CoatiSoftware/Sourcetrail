@@ -17,7 +17,7 @@ int SuffixArray::cmp(const struct suffix& a, const struct suffix& b)
 SuffixArray::SuffixArray(const std::wstring& text)
 	: m_text(text)
 {
-	std::transform(m_text.begin(), m_text.end(), m_text.begin(), ::tolower);
+	std::transform(m_text.begin(), m_text.end(), m_text.begin(), ::towlower);
 	m_array = buildSuffixArray();
 	m_lcp = buildLCP();
 }
@@ -77,7 +77,7 @@ std::vector<int> SuffixArray::buildLCP()
 std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) const
 {
 	std::wstring term = searchTerm;
-	std::transform(term.begin(), term.end(), term.begin(), ::tolower);
+	std::transform(term.begin(), term.end(), term.begin(), ::towlower);
 
 	int termLength = term.length();
 	int textLength = m_text.length();

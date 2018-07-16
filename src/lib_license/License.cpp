@@ -37,7 +37,7 @@ std::string trim(const std::string &str)
 std::string toLowerCase(const std::string& in)
 {
 	std::string out;
-	std::transform(in.begin(), in.end(), std::back_inserter(out), tolower);
+	std::transform(in.begin(), in.end(), std::back_inserter(out), towlower);
 	return out;
 }
 

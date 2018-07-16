@@ -142,7 +142,7 @@ void SearchIndex::populateEdgeGate(SearchEdge* e)
 	}
 	for (size_t i = 0; i < e->s.size(); i++)
 	{
-		e->gate.insert(tolower(e->s[i]));
+		e->gate.insert(towlower(e->s[i]));
 	}
 }
 
@@ -184,7 +184,7 @@ void SearchIndex::searchRecursive(
 			size_t j = 0;
 			for (size_t i = 0; i < edgeString.size() && j < remainingQuery.size(); i++)
 			{
-				if (tolower(edgeString[i]) == remainingQuery[j])
+				if (towlower(edgeString[i]) == remainingQuery[j])
 				{
 					currentPath.indices.push_back(path.text.size() + i);
 					j++;
@@ -418,10 +418,10 @@ int SearchIndex::scoreText(const std::wstring& text, const std::vector<size_t>& 
 			noLetterScore += noLetterBonus;
 		}
 		// camel case
-		else if (isupper(text[index]))
+		else if (iswupper(text[index]))
 		{
-			bool prevIsLower = (index > 0 && islower(text[index - 1]));
-			bool nextIsLower = (index + 1 < text.size() && islower(text[index + 1]));
+			bool prevIsLower = (index > 0 && iswlower(text[index - 1]));
+			bool nextIsLower = (index + 1 < text.size() && iswlower(text[index + 1]));
 
 			if (prevIsLower || nextIsLower)
 			{
@@ -482,7 +482,7 @@ SearchResult SearchIndex::rescoreText(
 
 		for (size_t i = 0; i < textSize && idx < indices.size(); i++)
 		{
-			if (tolower(text[i]) == tolower(fulltext[indices[idx]]))
+			if (towlower(text[i]) == towlower(fulltext[indices[idx]]))
 			{
 				textIndices.push_back(i);
 				idx++;

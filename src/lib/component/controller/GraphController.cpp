@@ -1403,9 +1403,9 @@ void GraphController::addCharacterIndex()
 			continue;
 		}
 
-		if (toupper(m_dummyNodes[i]->name[0]) != character)
+		if (towupper(m_dummyNodes[i]->name[0]) != character)
 		{
-			character = toupper(m_dummyNodes[i]->name[0]);
+			character = towupper(m_dummyNodes[i]->name[0]);
 
 			std::shared_ptr<DummyNode> textNode = std::make_shared<DummyNode>(DummyNode::DUMMY_TEXT);
 			textNode->name = character;

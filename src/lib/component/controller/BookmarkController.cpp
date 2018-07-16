@@ -639,11 +639,11 @@ bool BookmarkController::bookmarkNameCompare(const std::shared_ptr<Bookmark> a, 
 	unsigned int i = 0;
 	while (i < aName.length() && i < bName.length())
 	{
-		if (std::tolower(aName[i]) < std::tolower(bName[i]))
+		if (std::towlower(aName[i]) < std::towlower(bName[i]))
 		{
 			return true;
 		}
-		else if (std::tolower(aName[i]) > std::tolower(bName[i]))
+		else if (std::towlower(aName[i]) > std::towlower(bName[i]))
 		{
 			return false;
 		}

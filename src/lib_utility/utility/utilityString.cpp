@@ -254,6 +254,13 @@ namespace utility
 		return out;
 	}
 
+	std::wstring toUpperCase(const std::wstring& in)
+	{
+		std::wstring out;
+		std::transform(in.begin(), in.end(), std::back_inserter(out), towupper);
+		return out;
+	}
+
 	std::string toLowerCase(const std::string& in)
 	{
 		std::string out;
@@ -264,7 +271,7 @@ namespace utility
 	std::wstring toLowerCase(const std::wstring& in)
 	{
 		std::wstring out;
-		std::transform(in.begin(), in.end(), std::back_inserter(out), tolower);
+		std::transform(in.begin(), in.end(), std::back_inserter(out), towlower);
 		return out;
 	}
 

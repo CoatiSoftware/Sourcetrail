@@ -59,6 +59,7 @@ namespace utility
 	bool isPostfix(const StringType& postfix, const StringType& text);
 
 	std::string toUpperCase(const std::string& in);
+	std::wstring toUpperCase(const std::wstring& in);
 	std::string toLowerCase(const std::string& in);
 	std::wstring toLowerCase(const std::wstring& in);
 
