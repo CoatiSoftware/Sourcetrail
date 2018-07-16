@@ -52,7 +52,7 @@ public:
 				referencedNameString = FilePath(referencedNameString).fileName();
 			}
 		}
-		catch (const boost::filesystem::filesystem_error& e)
+		catch (const boost::filesystem::filesystem_error&)
 		{
 			// do nothing and use the old contectNameString
 		}
@@ -65,7 +65,7 @@ public:
 				contextNameString = FilePath(contextNameString).fileName();
 			}
 		}
-		catch (const boost::filesystem::filesystem_error& e)
+		catch (const boost::filesystem::filesystem_error&)
 		{
 			// do nothing and use the old contectNameString
 		}

@@ -76,7 +76,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
 	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
 	compileCommand.CommandLine = utility::concat(
-		utility::convert<std::wstring, std::string>(indexerCommand->getCompilerFlags(), [](const std::wstring & flag) { return utility::encodeToUtf8(flag); }), 
+		utility::convert<std::wstring, std::string>(indexerCommand->getCompilerFlags(), [](const std::wstring & flag) { return utility::encodeToUtf8(flag); }),
 		getCommandlineArgumentsEssential(
 			std::vector<std::wstring>(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
 		)
@@ -98,7 +98,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerComman
 	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
 	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
 	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(appendFilePath(
-		getCommandlineArguments(indexerCommand), 
+		getCommandlineArguments(indexerCommand),
 		utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr())
 	));
 

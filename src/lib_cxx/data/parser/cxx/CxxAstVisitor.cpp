@@ -59,7 +59,6 @@ CxxAstVisitor::CxxAstVisitor(
 			return NameHierarchy(L"global", NAME_DELIMITER_UNKNOWN);
 		}
 	);
-
 	m_contextComponent = std::make_shared<CxxAstVisitorComponentContext>(this);
 	m_components.push_back(m_contextComponent);
 	m_typeRefKindComponent = std::make_shared<CxxAstVisitorComponentTypeRefKind>(this);
@@ -499,9 +498,9 @@ bool CxxAstVisitor::TraverseBinComma(clang::BinaryOperator* s)
 	return true;
 }
 
-bool CxxAstVisitor::TraverseDeclarationNameInfo(clang::DeclarationNameInfo NameInfo) 
+bool CxxAstVisitor::TraverseDeclarationNameInfo(clang::DeclarationNameInfo NameInfo)
 {
-	// we don't visit any children here 
+	// we don't visit any children here
 	return true;
 }
 
@@ -609,6 +608,7 @@ DEF_VISIT_CUSTOM_TYPE_PTR(UnaryAddrOf, UnaryOperator)
 DEF_VISIT_CUSTOM_TYPE_PTR(UnaryDeref, UnaryOperator)
 DEF_VISIT_TYPE_PTR(DeclStmt)
 DEF_VISIT_TYPE_PTR(ReturnStmt)
+DEF_VISIT_TYPE_PTR(CompoundStmt)
 DEF_VISIT_TYPE_PTR(InitListExpr)
 DEF_VISIT_TYPE_PTR(TagDecl)
 DEF_VISIT_TYPE_PTR(ClassTemplateSpecializationDecl)
@@ -633,6 +633,7 @@ DEF_VISIT_TYPE_PTR(MemberExpr)
 DEF_VISIT_TYPE_PTR(CXXDependentScopeMemberExpr)
 DEF_VISIT_TYPE_PTR(CXXConstructExpr)
 DEF_VISIT_TYPE_PTR(LambdaExpr)
+DEF_VISIT_TYPE_PTR(MSAsmStmt)
 DEF_VISIT_CUSTOM_TYPE_PTR(ConstructorInitializer, CXXCtorInitializer)
 
 #undef DEF_VISIT_CUSTOM_TYPE_PTR
@@ -736,7 +737,7 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 	if (sourceRange.isValid())
 	{
 		const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-		
+
 		clang::SourceRange range = sourceRange;
 		clang::SourceLocation endLoc = m_preprocessor->getLocForEndOfToken(range.getEnd());
 
@@ -789,7 +790,7 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 	return parseLocation;
 }
 
-bool CxxAstVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
+bool CxxAstVisitor::isLocatedInProjectFile(clang::SourceLocation loc) const
 {
 	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
 
@@ -815,7 +816,7 @@ bool CxxAstVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 		if (fileEntry != nullptr && fileEntry->isValid())
 		{
-			FilePath filePath = getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
+			FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 			const bool ret = m_fileRegister->hasFilePath(filePath);
 			m_inProjectFileMap[fileId] = ret;
 			return ret;

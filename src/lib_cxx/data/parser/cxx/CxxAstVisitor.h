@@ -110,6 +110,7 @@ public:
 	virtual bool VisitUnaryDeref(clang::UnaryOperator* s);
 	virtual bool VisitDeclStmt(clang::DeclStmt* s);
 	virtual bool VisitReturnStmt(clang::ReturnStmt* s);
+	virtual bool VisitCompoundStmt(clang::CompoundStmt* s);
 	virtual bool VisitInitListExpr(clang::InitListExpr* s);
 
 
@@ -139,14 +140,14 @@ public:
 	virtual bool VisitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s);
 	virtual bool VisitCXXConstructExpr(clang::CXXConstructExpr* s);
 	virtual bool VisitLambdaExpr(clang::LambdaExpr* s);
+	virtual bool VisitMSAsmStmt(clang::MSAsmStmt* s);
 	virtual bool VisitConstructorInitializer(clang::CXXCtorInitializer* init);
 
 	ParseLocation getParseLocationOfTagDeclBody(clang::TagDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
-	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
-	bool isLocatedInProjectFile(clang::SourceLocation loc);
+	bool isLocatedInProjectFile(clang::SourceLocation loc) const;
 
 private:
 	typedef clang::RecursiveASTVisitor<CxxAstVisitor> Base;
@@ -177,8 +178,7 @@ private:
 		}
 	};
 
-	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inUnparsedProjectFileMap;
-	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
+	mutable std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 };
 
 template <>

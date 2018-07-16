@@ -113,12 +113,14 @@ DEF_TRAVERSE_TYPE_PTR(CXXTemporaryObjectExpr)
 	virtual void visitUnaryDeref(clang::UnaryOperator* s) {}
 	virtual void visitDeclStmt(clang::DeclStmt* s) {}
 	virtual void visitReturnStmt(clang::ReturnStmt* s) {}
+	virtual void visitCompoundStmt(clang::CompoundStmt* s) {};
 	virtual void visitInitListExpr(clang::InitListExpr* s) {}
 	virtual void visitDeclRefExpr(clang::DeclRefExpr* s) {}
 	virtual void visitMemberExpr(clang::MemberExpr* s) {}
 	virtual void visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s) {}
 	virtual void visitCXXConstructExpr(clang::CXXConstructExpr* s) {}
 	virtual void visitLambdaExpr(clang::LambdaExpr* s) {}
+	virtual void visitMSAsmStmt(clang::MSAsmStmt* s) {}
 
 	virtual void visitConstructorInitializer(clang::CXXCtorInitializer* init) {}
 

@@ -29,7 +29,7 @@ CxxVerboseAstVisitor::~CxxVerboseAstVisitor()
 {
 }
 
-bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl *d)
+bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl* d)
 {
 	if (d)
 	{
@@ -59,7 +59,7 @@ bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl *d)
 	return true;
 }
 
-bool CxxVerboseAstVisitor::TraverseStmt(clang::Stmt *stmt)
+bool CxxVerboseAstVisitor::TraverseStmt(clang::Stmt* stmt)
 {
 	if (stmt)
 	{
@@ -70,7 +70,6 @@ bool CxxVerboseAstVisitor::TraverseStmt(clang::Stmt *stmt)
 			<< " <" << loc.startLineNumber << ":" << loc.startColumnNumber
 			<< ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">"
 		);
-
 		{
 			ScopedSwitcher<unsigned int> switcher(m_indentation, m_indentation + 1);
 			return base::TraverseStmt(stmt);

@@ -34,13 +34,13 @@ bool utility::isImplicit(const clang::Decl* d)
 	else if (const clang::FunctionDecl* fd = clang::dyn_cast_or_null<clang::FunctionDecl>(d))
 	{
 		if (
-			fd->isTemplateInstantiation() && 
+			fd->isTemplateInstantiation() &&
 			fd->getTemplateSpecializationKind() != clang::TSK_ExplicitSpecialization) // or undefined??
 		{
 			return true;
 		}
 		else if (
-			fd->getMemberSpecializationInfo() && 
+			fd->getMemberSpecializationInfo() &&
 			fd->getMemberSpecializationInfo()->getTemplateSpecializationKind() == clang::TSK_ExplicitSpecialization)
 		{
 			return false;

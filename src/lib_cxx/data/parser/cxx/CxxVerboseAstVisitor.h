@@ -25,8 +25,8 @@ public:
 private:
 	typedef CxxAstVisitor base;
 
-	virtual bool TraverseDecl(clang::Decl *d);
-	virtual bool TraverseStmt(clang::Stmt *stmt);
+	virtual bool TraverseDecl(clang::Decl* d);
+	virtual bool TraverseStmt(clang::Stmt* stmt);
 	virtual bool TraverseTypeLoc(clang::TypeLoc tl);
 
 	std::string getIndentString() const;

@@ -1546,7 +1546,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 // test qualifier locations
-	
+
 	void test_cxx_parser_finds_qualifier_of_access_to_global_variable_defined_in_namespace()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -4048,6 +4048,145 @@ public:
 		TS_ASSERT_EQUALS(client->includes.size(), 1);
 	}
 
+
+	void test_cxx_parser_finds_braces_of_class_decl()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class App\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <2:1 2:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <3:1 3:1>"
+		));
+	}
+
+	void test_cxx_parser_finds_braces_of_namespace_decl()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace n\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <2:1 2:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <3:1 3:1>"
+		));
+	}
+
+	void test_cxx_parser_finds_braces_of_function_decl()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int main()\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <2:1 2:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <3:1 3:1>"
+		));
+	}
+
+	void test_cxx_parser_finds_braces_of_method_decl()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class App\n"
+			"{\n"
+			"public:\n"
+			"	App(int i) {}\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:13> <4:13 4:13>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:13> <4:14 4:14>"
+		));
+	}
+
+	void test_cxx_parser_finds_braces_of_init_list()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int a = 0;\n"
+			"int b[] = {a};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:11> <2:11 2:11>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:11> <2:13 2:13>"
+		));
+	}
+
+	void test_cxx_parser_finds_braces_of_lambda()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void lambdaCaller()\n"
+			"{\n"
+			"	[](){}();\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<3:6> <3:6 3:6>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<3:6> <3:7 3:7>"
+		));
+	}
+
+	void test_cxx_parser_finds_braces_of_asm_stmt()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void foo()\n"
+			"{\n"
+			"	__asm\n"
+			"	{\n"
+			"		mov eax, eax\n"
+			"	}\n"
+			"}\n",
+			{ L"--target=i686-pc-windows-msvc" }
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:2> <4:2 4:2>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:2> <6:2 6:2>"
+		));
+	}
+
+	void test_cxx_parser_finds_no_duplicate_braces_of_template_class_and_method_decl()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class App\n"
+			"{\n"
+			"public:\n"
+			"	App(int i) {}\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	App<int> a;\n"
+			"	return 0;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 9);
+	}
+
 	void test_cxx_parser_catches_error()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -4081,7 +4220,7 @@ public:
 			client->errors, L"'this_path_does_not_exist.txt' file not found <2:10 2:10>"
 		));
 	}
-	
+
 	void test_cxx_parser_finds_location_of_line_comment()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

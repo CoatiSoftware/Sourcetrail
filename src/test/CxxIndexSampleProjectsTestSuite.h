@@ -98,19 +98,18 @@ private:
 
 	void processSourceFiles(const std::wstring& projectName, const std::vector<FilePath>& sourceFilePaths)
 	{
-		TimeStamp startTime = TimeStamp::now();
+		m_duration = 0;
 		for (const FilePath& filePath : sourceFilePaths)
 		{
 			processSourceFile(projectName, filePath);
 		}
-		size_t duration = TimeStamp::now().deltaMS(startTime);
 		if (s_trackTime)
 		{
 			const FilePath projectDataRoot = FilePath(L"data/CxxIndexSampleProjectsTestSuite/" + projectName).makeAbsolute();
 
 			std::ofstream outfile;
 			outfile.open((projectDataRoot.wstr() + L"/" + projectName + L".timing").c_str(), std::ios_base::app);
-			outfile << startTime.toString() << " - " << duration << " ms\n";
+			outfile << TimeStamp::now().toString() << " - " << m_duration << " ms\n";
 			outfile.close();
 		}
 	}
@@ -174,8 +173,12 @@ private:
 			"c++1z"
 		);
 
+		TimeStamp startTime = TimeStamp::now();
 		parser.buildIndex(command);
+		m_duration += TimeStamp::now().deltaMS(startTime);
 
 		return TextAccess::createFromString(utility::encodeToUtf8(parserClient->m_lines));
 	}
+
+	size_t m_duration;
 };
