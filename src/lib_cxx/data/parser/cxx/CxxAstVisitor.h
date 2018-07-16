@@ -15,6 +15,7 @@ class FileRegister;
 class FilePath;
 
 class CxxAstVisitorComponent;
+class CxxAstVisitorComponentBraceRecorder;
 class CxxAstVisitorComponentContext;
 class CxxAstVisitorComponentDeclRefKind;
 class CxxAstVisitorComponentTypeRefKind;
@@ -43,7 +44,7 @@ public:
 		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
-	virtual ~CxxAstVisitor();
+	virtual ~CxxAstVisitor() = default;
 
 	template <typename T>
 	std::shared_ptr<T> getComponent();
@@ -147,6 +148,11 @@ public:
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
+
+	bool shouldVisitStmt(const clang::Stmt* s) const;
+	bool shouldVisitDecl(const clang::Decl* decl) const;
+	bool shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl) const;
+
 	bool isLocatedInProjectFile(clang::SourceLocation loc) const;
 
 private:
@@ -166,6 +172,7 @@ private:
 	std::shared_ptr<CxxAstVisitorComponentTypeRefKind> m_typeRefKindComponent;
 	std::shared_ptr<CxxAstVisitorComponentImplicitCode> m_implicitCodeComponent;
 	std::shared_ptr<CxxAstVisitorComponentIndexer> m_indexerComponent;
+	std::shared_ptr<CxxAstVisitorComponentBraceRecorder> m_braceRecorderComponent;
 
 	std::shared_ptr<DeclNameCache> m_declNameCache;
 	std::shared_ptr<TypeNameCache> m_typeNameCache;

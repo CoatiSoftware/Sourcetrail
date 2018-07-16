@@ -7,15 +7,10 @@ CxxAstVisitorComponentDeclRefKind::CxxAstVisitorComponentDeclRefKind(CxxAstVisit
 {
 }
 
-CxxAstVisitorComponentDeclRefKind::~CxxAstVisitorComponentDeclRefKind()
-{
-}
-
 ReferenceKind CxxAstVisitorComponentDeclRefKind::getReferenceKind() const
 {
 	return m_thisRefKind;
 }
-
 
 void CxxAstVisitorComponentDeclRefKind::beginTraverseDecl(clang::Decl* d)
 {

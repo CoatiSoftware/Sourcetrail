@@ -5,10 +5,6 @@ CxxAstVisitorComponentImplicitCode::CxxAstVisitorComponentImplicitCode(CxxAstVis
 {
 }
 
-CxxAstVisitorComponentImplicitCode::~CxxAstVisitorComponentImplicitCode()
-{
-}
-
 bool CxxAstVisitorComponentImplicitCode::shouldVisitImplicitCode() const
 {
 	if (!m_stack.empty())
@@ -26,7 +22,6 @@ void CxxAstVisitorComponentImplicitCode::beginTraverseDecl(clang::Decl* d)
 void CxxAstVisitorComponentImplicitCode::endTraverseDecl(clang::Decl* d)
 {
 	m_stack.pop_back();
-
 }
 
 void CxxAstVisitorComponentImplicitCode::beginTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s)

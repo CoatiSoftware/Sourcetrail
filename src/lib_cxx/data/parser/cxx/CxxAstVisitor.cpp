@@ -8,6 +8,7 @@
 
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxAstVisitorComponent.h"
+#include "data/parser/cxx/CxxAstVisitorComponentBraceRecorder.h"
 #include "data/parser/cxx/CxxAstVisitorComponentContext.h"
 #include "data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h"
 #include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
@@ -67,12 +68,10 @@ CxxAstVisitor::CxxAstVisitor(
 	m_components.push_back(m_declRefKindComponent);
 	m_implicitCodeComponent = std::make_shared<CxxAstVisitorComponentImplicitCode>(this);
 	m_components.push_back(m_implicitCodeComponent);
-	m_indexerComponent = std::make_shared<CxxAstVisitorComponentIndexer>(this, astContext, client, fileRegister);
+	m_indexerComponent = std::make_shared<CxxAstVisitorComponentIndexer>(this, astContext, client);
 	m_components.push_back(m_indexerComponent);
-}
-
-CxxAstVisitor::~CxxAstVisitor()
-{
+	m_braceRecorderComponent = std::make_shared<CxxAstVisitorComponentBraceRecorder>(this, astContext, client);
+	m_components.push_back(m_braceRecorderComponent);
 }
 
 template <>
@@ -788,6 +787,60 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 		);
 	}
 	return parseLocation;
+}
+
+bool CxxAstVisitor::shouldVisitStmt(const clang::Stmt* s) const
+{
+	if (s)
+	{
+		clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(s->getLocStart());
+
+		if (loc.isInvalid())
+		{
+			loc = s->getLocStart();
+		}
+
+		if (isLocatedInProjectFile(loc))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CxxAstVisitor::shouldVisitDecl(const clang::Decl* decl) const
+{
+	if (decl)
+	{
+		clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(decl->getLocation());
+
+		if (loc.isInvalid())
+		{
+			loc = decl->getLocation();
+		}
+
+		if (isLocatedInProjectFile(loc))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CxxAstVisitor::shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl) const
+{
+	clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(referenceLocation);
+	if (loc.isInvalid())
+	{
+		loc = referenceLocation;
+	}
+
+	if (isLocatedInProjectFile(loc))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool CxxAstVisitor::isLocatedInProjectFile(clang::SourceLocation loc) const

@@ -3,6 +3,7 @@
 
 #include <map>
 #include <mutex>
+#include <string>
 
 #include "data/indexer/IndexerCommandJava.h"
 #include "data/parser/Parser.h"
@@ -27,6 +28,7 @@ class _jstring;
 typedef _jstring *jstring;
 
 class FilePath;
+class TextAccess;
 
 class JavaParser: public Parser
 {
@@ -41,7 +43,7 @@ public:
 
 private:
 	void buildIndex(
-		const FilePath& sourceFilePath, 
+		const FilePath& sourceFilePath,
 		const std::string& languageStandard,
 		const std::string& classPath,
 		std::shared_ptr<TextAccess> textAccess);
@@ -130,7 +132,7 @@ private:
 			LOG_ERROR("parser with id " + std::to_string(parserId) + " not found");		\
 		}																				\
 	}
-	
+
 	DEF_RELAYING_METHOD_1(LogInfo, jstring)
 	DEF_RELAYING_METHOD_1(LogWarning, jstring)
 	DEF_RELAYING_METHOD_1(LogError, jstring)

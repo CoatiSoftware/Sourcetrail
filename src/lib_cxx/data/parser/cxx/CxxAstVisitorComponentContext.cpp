@@ -5,10 +5,6 @@ CxxAstVisitorComponentContext::CxxAstVisitorComponentContext(CxxAstVisitor* astV
 {
 }
 
-CxxAstVisitorComponentContext::~CxxAstVisitorComponentContext()
-{
-}
-
 const clang::NamedDecl* CxxAstVisitorComponentContext::getTopmostContextDecl() const
 {
 	for (std::vector<std::shared_ptr<CxxContext>>::const_reverse_iterator it = m_contextStack.rbegin(); it != m_contextStack.rend(); it ++)

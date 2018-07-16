@@ -22,10 +22,10 @@ public:
 		bool useLogging = true
 	);
 
-	void BeginSourceFile(const clang::LangOptions& langOptions, const clang::Preprocessor* preProcessor);
-	void EndSourceFile();
+	void BeginSourceFile(const clang::LangOptions& langOptions, const clang::Preprocessor* preProcessor) override;
+	void EndSourceFile() override;
 
-	void HandleDiagnostic(clang::DiagnosticsEngine::Level level, const clang::Diagnostic& info);
+	void HandleDiagnostic(clang::DiagnosticsEngine::Level level, const clang::Diagnostic& info) override;
 
 private:
 	std::shared_ptr<ParserClient> m_client;

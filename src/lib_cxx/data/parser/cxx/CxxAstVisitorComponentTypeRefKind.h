@@ -15,18 +15,17 @@ class CxxAstVisitorComponentTypeRefKind: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentTypeRefKind(CxxAstVisitor* astVisitor);
-	virtual ~CxxAstVisitorComponentTypeRefKind();
 
 	ReferenceKind getReferenceKind() const;
 
-	virtual void beginTraverseCXXBaseSpecifier() override;
-	virtual void endTraverseCXXBaseSpecifier() override;
+	void beginTraverseCXXBaseSpecifier() override;
+	void endTraverseCXXBaseSpecifier() override;
 
-	virtual void beginTraverseTemplateDefaultArgumentLoc() override;
-	virtual void endTraverseTemplateDefaultArgumentLoc() override;
+	void beginTraverseTemplateDefaultArgumentLoc() override;
+	void endTraverseTemplateDefaultArgumentLoc() override;
 
-	virtual void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
-	virtual void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
+	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
+	void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
 
 private:
 	std::vector<ReferenceKind> m_refKindStack;

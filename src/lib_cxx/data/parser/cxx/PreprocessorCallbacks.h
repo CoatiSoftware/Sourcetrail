@@ -27,28 +27,28 @@ public:
 		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
 
-	virtual void FileChanged(
+	void FileChanged(
 		clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID) override;
 
-	virtual void InclusionDirective(
+	void InclusionDirective(
 		clang::SourceLocation hashLocation, const clang::Token& includeToken, llvm::StringRef fileName, bool isAngled,
 		clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
 		llvm::StringRef relativePath, const clang::Module* imported) override;
 
-	virtual void MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective) override;
-	virtual void MacroUndefined(
-		const clang::Token& macroNameToken, 
-		const clang::MacroDefinition& macroDefinition, 
+	void MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective) override;
+	void MacroUndefined(
+		const clang::Token& macroNameToken,
+		const clang::MacroDefinition& macroDefinition,
 		const clang::MacroDirective* macroUndefinition) override;
 
-	virtual void Defined(
+	void Defined(
 		const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition, clang::SourceRange range) override;
-	virtual void Ifdef(clang::SourceLocation location, const clang::Token& macroNameToken,
+	void Ifdef(clang::SourceLocation location, const clang::Token& macroNameToken,
 		const clang::MacroDefinition& macroDefinition) override;
-	virtual void Ifndef(clang::SourceLocation location, const clang::Token& macroNameToken,
+	void Ifndef(clang::SourceLocation location, const clang::Token& macroNameToken,
 		const clang::MacroDefinition& macroDefinition) override;
 
-	virtual void MacroExpands(
+	void MacroExpands(
 		const clang::Token& macroNameToken, const clang::MacroDefinition& macroDirective,
 		clang::SourceRange range, const clang::MacroArgs* args
 	) override;

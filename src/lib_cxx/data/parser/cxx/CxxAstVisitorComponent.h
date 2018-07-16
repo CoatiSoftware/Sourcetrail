@@ -10,7 +10,7 @@ class CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponent(CxxAstVisitor* astVisitor);
-	virtual ~CxxAstVisitorComponent();
+	virtual ~CxxAstVisitorComponent() = default;
 
 #define DEF_TRAVERSE_CUSTOM_TYPE_PTR(__NAME_TYPE__, __PARAM_TYPE__)				\
 	virtual void beginTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__ *v) {}		\

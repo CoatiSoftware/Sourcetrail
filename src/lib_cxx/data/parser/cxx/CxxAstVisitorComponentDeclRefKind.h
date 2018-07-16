@@ -15,58 +15,57 @@ class CxxAstVisitorComponentDeclRefKind: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentDeclRefKind(CxxAstVisitor* astVisitor);
-	virtual ~CxxAstVisitorComponentDeclRefKind();
 
 	ReferenceKind getReferenceKind() const;
 
-	virtual void beginTraverseDecl(clang::Decl* d) override;
-	virtual void endTraverseDecl(clang::Decl* d) override;
+	void beginTraverseDecl(clang::Decl* d) override;
+	void endTraverseDecl(clang::Decl* d) override;
 
-	virtual void beginTraverseStmt(clang::Stmt* s) override;
-	virtual void endTraverseStmt(clang::Stmt* s) override;
+	void beginTraverseStmt(clang::Stmt* s) override;
+	void endTraverseStmt(clang::Stmt* s) override;
 
-	virtual void beginTraverseType(const clang::QualType& t) override;
-	virtual void endTraverseType(const clang::QualType& t) override;
+	void beginTraverseType(const clang::QualType& t) override;
+	void endTraverseType(const clang::QualType& t) override;
 
-	virtual void beginTraverseTypeLoc(const clang::TypeLoc& tl) override;
-	virtual void endTraverseTypeLoc(const clang::TypeLoc& tl) override;
+	void beginTraverseTypeLoc(const clang::TypeLoc& tl) override;
+	void endTraverseTypeLoc(const clang::TypeLoc& tl) override;
 
-	virtual void beginTraverseCallCommonCallee() override;
+	void beginTraverseCallCommonCallee() override;
 
-	virtual void beginTraverseCallCommonArgument() override;
+	void beginTraverseCallCommonArgument() override;
 
-	virtual void beginTraverseBinCommaLhs() override;
+	void beginTraverseBinCommaLhs() override;
 
-	virtual void beginTraverseBinCommaRhs() override;
+	void beginTraverseBinCommaRhs() override;
 
-	virtual void beginTraverseAssignCommonLhs() override;
+	void beginTraverseAssignCommonLhs() override;
 
-	virtual void beginTraverseAssignCommonRhs() override;
+	void beginTraverseAssignCommonRhs() override;
 
-	virtual void beginTraverseConstructorInitializer(clang::CXXCtorInitializer* init) override;
+	void beginTraverseConstructorInitializer(clang::CXXCtorInitializer* init) override;
 
-	virtual void beginTraverseCXXTemporaryObjectExpr(clang::CXXTemporaryObjectExpr* s) override;
+	void beginTraverseCXXTemporaryObjectExpr(clang::CXXTemporaryObjectExpr* s) override;
 
-	virtual void beginTraverseUnresolvedMemberExpr(clang::UnresolvedMemberExpr* s) override;
+	void beginTraverseUnresolvedMemberExpr(clang::UnresolvedMemberExpr* s) override;
 
-	virtual void visitVarDecl(clang::VarDecl* d) override;
+	void visitVarDecl(clang::VarDecl* d) override;
 
-	virtual void visitCastExpr(clang::CastExpr* s) override;
+	void visitCastExpr(clang::CastExpr* s) override;
 
-	virtual void visitUnaryAddrOf(clang::UnaryOperator* s) override;
+	void visitUnaryAddrOf(clang::UnaryOperator* s) override;
 
-	virtual void visitUnaryDeref(clang::UnaryOperator* s) override;
+	void visitUnaryDeref(clang::UnaryOperator* s) override;
 
-	virtual void visitDeclStmt(clang::DeclStmt* s) override;
+	void visitDeclStmt(clang::DeclStmt* s) override;
 
-	virtual void visitReturnStmt(clang::ReturnStmt* s) override;
+	void visitReturnStmt(clang::ReturnStmt* s) override;
 
-	virtual void visitInitListExpr(clang::InitListExpr* s) override;
+	void visitInitListExpr(clang::InitListExpr* s) override;
 
-	virtual void visitMemberExpr(clang::MemberExpr* s) override;
+	void visitMemberExpr(clang::MemberExpr* s) override;
 
-	virtual void visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s) override;
-	
+	void visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s) override;
+
 private:
 	void saveAll();
 	void restoreAll();

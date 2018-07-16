@@ -8,15 +8,14 @@ class CxxAstVisitorComponentImplicitCode: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentImplicitCode(CxxAstVisitor* astVisitor);
-	virtual ~CxxAstVisitorComponentImplicitCode();
 
 	bool shouldVisitImplicitCode() const;
 
-	virtual void beginTraverseDecl(clang::Decl* d) override;
-	virtual void endTraverseDecl(clang::Decl* d) override;
+	void beginTraverseDecl(clang::Decl* d) override;
+	void endTraverseDecl(clang::Decl* d) override;
 
-	virtual void beginTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s) override;
-	virtual void endTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s) override;
+	void beginTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s) override;
+	void endTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s) override;
 
 private:
 	std::vector<bool> m_stack;

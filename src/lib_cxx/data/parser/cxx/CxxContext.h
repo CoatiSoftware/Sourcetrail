@@ -12,7 +12,7 @@ typedef UnorderedCache<const clang::Type*, NameHierarchy> TypeNameCache;
 class CxxContext
 {
 public:
-	virtual ~CxxContext();
+	virtual ~CxxContext() = default;
 	virtual NameHierarchy getName() = 0;
 	virtual const clang::NamedDecl* getDecl() = 0;
 };
@@ -21,9 +21,8 @@ class CxxContextDecl: public CxxContext
 {
 public:
 	CxxContextDecl(const clang::NamedDecl* decl, std::shared_ptr<DeclNameCache> nameCache);
-	virtual ~CxxContextDecl();
-	virtual NameHierarchy getName();
-	virtual const clang::NamedDecl* getDecl();
+	NameHierarchy getName() override;
+	const clang::NamedDecl* getDecl() override;
 
 private:
 	const clang::NamedDecl* m_decl;
@@ -34,9 +33,8 @@ class CxxContextType: public CxxContext
 {
 public:
 	CxxContextType(const clang::Type* type, std::shared_ptr<TypeNameCache> nameCache);
-	virtual ~CxxContextType();
-	virtual NameHierarchy getName();
-	virtual const clang::NamedDecl* getDecl();
+	NameHierarchy getName() override;
+	const clang::NamedDecl* getDecl() override;
 
 private:
 	const clang::Type* m_type;

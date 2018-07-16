@@ -5,10 +5,6 @@ CxxAstVisitorComponent::CxxAstVisitorComponent(CxxAstVisitor* astVisitor)
 {
 }
 
-CxxAstVisitorComponent::~CxxAstVisitorComponent()
-{
-}
-
 CxxAstVisitor* CxxAstVisitorComponent::getAstVisitor()
 {
 	return m_astVisitor;

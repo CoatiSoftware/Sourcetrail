@@ -9,7 +9,6 @@
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
-
 #include "utility/file/FilePath.h"
 #include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
@@ -64,10 +63,6 @@ CxxParser::CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileR
 {
 	llvm::InitializeNativeTarget();
 	llvm::InitializeNativeTargetAsmParser();
-}
-
-CxxParser::~CxxParser()
-{
 }
 
 void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)

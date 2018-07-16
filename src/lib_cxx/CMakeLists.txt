@@ -51,6 +51,8 @@ add_files(
 	data/parser/cxx/CxxAstVisitor.h
 	data/parser/cxx/CxxAstVisitorComponent.cpp
 	data/parser/cxx/CxxAstVisitorComponent.h
+	data/parser/cxx/CxxAstVisitorComponentBraceRecorder.cpp
+	data/parser/cxx/CxxAstVisitorComponentBraceRecorder.h
 	data/parser/cxx/CxxAstVisitorComponentContext.cpp
 	data/parser/cxx/CxxAstVisitorComponentContext.h
 	data/parser/cxx/CxxAstVisitorComponentDeclRefKind.cpp

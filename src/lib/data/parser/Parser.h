@@ -2,17 +2,14 @@
 #define PARSER_H
 
 #include <memory>
-#include <string>
-#include <vector>
 
 class ParserClient;
-class TextAccess;
 
 class Parser
 {
 public:
 	Parser(std::shared_ptr<ParserClient> client);
-	virtual ~Parser();
+	virtual ~Parser() = default;
 
 protected:
 	std::shared_ptr<ParserClient> m_client;

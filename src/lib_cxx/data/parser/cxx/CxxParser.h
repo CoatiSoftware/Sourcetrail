@@ -1,6 +1,9 @@
 #ifndef CXX_PARSER_H
 #define CXX_PARSER_H
 
+#include <string>
+#include <vector>
+
 #include "data/parser/Parser.h"
 
 class CanonicalFilePathCache;
@@ -10,6 +13,7 @@ class FileRegister;
 class IndexerCommandCxxCdb;
 class IndexerCommandCxxEmpty;
 class TaskParseCxx;
+class TextAccess;
 
 namespace clang {
 	namespace tooling {
@@ -22,7 +26,6 @@ class CxxParser: public Parser
 {
 public:
 	CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
-	~CxxParser();
 
 	void buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand);
 	void buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand);

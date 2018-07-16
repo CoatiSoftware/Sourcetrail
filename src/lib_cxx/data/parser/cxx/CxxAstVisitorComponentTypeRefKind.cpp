@@ -5,10 +5,6 @@ CxxAstVisitorComponentTypeRefKind::CxxAstVisitorComponentTypeRefKind(CxxAstVisit
 {
 }
 
-CxxAstVisitorComponentTypeRefKind::~CxxAstVisitorComponentTypeRefKind()
-{
-}
-
 ReferenceKind CxxAstVisitorComponentTypeRefKind::getReferenceKind() const
 {
 	for (auto it = m_refKindStack.rbegin(); it != m_refKindStack.rend(); it++)

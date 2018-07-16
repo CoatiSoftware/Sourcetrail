@@ -3,7 +3,6 @@
 
 #include <unordered_map>
 
-#include "data/parser/cxx/CxxAstVisitor.h"
 #include "data/parser/cxx/CxxAstVisitorComponent.h"
 #include "data/parser/ReferenceKind.h"
 #include "data/parser/SymbolKind.h"
@@ -12,7 +11,7 @@
 class CxxAstVisitorComponentIndexer: public CxxAstVisitorComponent
 {
 public:
-	CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
+	CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client);
 
 	void beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc& loc) override;
 	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
@@ -38,13 +37,10 @@ public:
 
 	void visitTypeLoc(clang::TypeLoc tl) override;
 
-	void visitCompoundStmt(clang::CompoundStmt* s) override;
-	void visitInitListExpr(clang::InitListExpr* s) override;
 	void visitDeclRefExpr(clang::DeclRefExpr* s) override;
 	void visitMemberExpr(clang::MemberExpr* s) override;
 	void visitCXXConstructExpr(clang::CXXConstructExpr* s) override;
 	void visitLambdaExpr(clang::LambdaExpr* s) override;
-	void visitMSAsmStmt(clang::MSAsmStmt* s) override;
 
 	void visitConstructorInitializer(clang::CXXCtorInitializer* init) override;
 
@@ -56,8 +52,6 @@ private:
 		SymbolKind symbolKind
 	);
 
-	void recordBraces(const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
-
 	ParseLocation getParseLocationOfTagDeclBody(clang::TagDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
@@ -65,13 +59,8 @@ private:
 
 	ReferenceKind consumeDeclRefContextKind();
 
-	bool shouldVisitStmt(const clang::Stmt* s) const;
-	bool shouldVisitDecl(const clang::Decl* decl) const;
-	bool shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl) const;
-
 	clang::ASTContext* m_astContext;
 	std::shared_ptr<ParserClient> m_client;
-	std::shared_ptr<FileRegister> m_fileRegister;
 };
 
 #endif // CXX_AST_VISITOR_COMPONENT_INDEXER_H

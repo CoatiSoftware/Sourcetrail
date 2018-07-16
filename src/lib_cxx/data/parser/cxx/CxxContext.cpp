@@ -1,16 +1,8 @@
 #include "data/parser/cxx/CxxContext.h"
 
-CxxContext::~CxxContext()
-{
-}
-
 CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl, std::shared_ptr<DeclNameCache> nameCache)
 	: m_decl(decl)
 	, m_nameCache(nameCache)
-{
-}
-
-CxxContextDecl::~CxxContextDecl()
 {
 }
 
@@ -27,10 +19,6 @@ const clang::NamedDecl* CxxContextDecl::getDecl()
 CxxContextType::CxxContextType(const clang::Type* type, std::shared_ptr<TypeNameCache> nameCache)
 	: m_type(type)
 	, m_nameCache(nameCache)
-{
-}
-
-CxxContextType::~CxxContextType()
 {
 }
 

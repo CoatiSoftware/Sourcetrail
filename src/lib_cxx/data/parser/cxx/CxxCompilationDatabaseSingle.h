@@ -9,9 +9,9 @@ class CxxCompilationDatabaseSingle
 public:
 	CxxCompilationDatabaseSingle(const clang::tooling::CompileCommand& command);
 
-	virtual std::vector<clang::tooling::CompileCommand> getCompileCommands(llvm::StringRef FilePath) const override;
-	virtual std::vector<std::string> getAllFiles() const override;
-	virtual std::vector<clang::tooling::CompileCommand> getAllCompileCommands() const override;
+	std::vector<clang::tooling::CompileCommand> getCompileCommands(llvm::StringRef FilePath) const override;
+	std::vector<std::string> getAllFiles() const override;
+	std::vector<clang::tooling::CompileCommand> getAllCompileCommands() const override;
 
 private:
 	clang::tooling::CompileCommand m_command;
