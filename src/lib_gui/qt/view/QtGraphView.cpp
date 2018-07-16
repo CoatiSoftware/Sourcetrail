@@ -560,7 +560,7 @@ void QtGraphView::updateScrollBars()
 	}
 	else if (m_scrollToTop)
 	{
-		performScroll(vb, vb->minimum());
+		vb->setValue(vb->minimum());
 	}
 	else if (!m_centerActiveNode)
 	{
