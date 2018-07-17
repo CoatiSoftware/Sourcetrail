@@ -649,15 +649,16 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	TRACE();
 
 	// search in indices
-	const size_t maxResultsCount = 100;
+	const size_t maxResultsCount = std::pow(3, query.size() + 3);
 	const size_t maxBestScoredResultsLength = 100;
+	const size_t maxMatchesReturned = 1000;
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
 
 	if (!acceptedNodeTypes.getWithMatchingRemoved([](const NodeType& type) { return type.isFile(); }).isEmpty())
 	{
-		utility::append(matches, getAutocompletionSymbolMatches(query, acceptedNodeTypes, maxResultsCount, maxBestScoredResultsLength));
+		matches = getAutocompletionSymbolMatches(query, acceptedNodeTypes, maxResultsCount, maxBestScoredResultsLength);
 	}
 
 	if (acceptedNodeTypes.containsMatching([](const NodeType& type) { return type.isFile(); }))
@@ -678,43 +679,55 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 				SearchIndex::rescoreText(match.name, match.text, match.indices, match.score, maxBestScoredResultsLength);
 
 			match.score = newResult.score;
-			match.indices = newResult.indices;
+			match.indices = std::move(newResult.indices);
 		}
 
 		matchesMap.emplace(match.name, match);
 	}
 
 	// Score child symbol matches with same score as parent lower
-	SearchMatch lastMatch;
+	const SearchMatch* lastMatch = nullptr;
 	std::set<SearchMatch> matchesSet;
-	for (const auto& p : matchesMap)
+	for (auto& p : matchesMap)
 	{
-		SearchMatch match = p.second;
-		if (!lastMatch.name.size() || !utility::isPrefix(lastMatch.name, match.name))
+		SearchMatch& match = p.second;
+		if (lastMatch == nullptr || !utility::isPrefix(lastMatch->name, match.name))
 		{
-			lastMatch = match;
+			lastMatch = &match;
 		}
-		else if (lastMatch.score == match.score)
+		else if (lastMatch->score == match.score)
 		{
-			if (utility::isPrefix(nameDelimiterTypeToString(match.tokenName.getDelimiter()), match.name.substr(lastMatch.name.size())))
+			size_t lastSize = lastMatch->name.size();
+			if (match.name.find(nameDelimiterTypeToString(match.tokenName.getDelimiter()), lastSize) == lastSize)
 			{
 				match.score -= 10;
 			}
 			else
 			{
-				lastMatch = match;
+				lastMatch = &match;
 			}
 		}
 
 		matchesSet.insert(match);
 	}
 
-	// for (auto a : matchesSet)
+	if (matchesSet.size() > maxMatchesReturned)
+	{
+		auto it = matchesSet.begin();
+		std::advance(it, maxMatchesReturned);
+		matches = std::vector<SearchMatch>(matchesSet.begin(), it);
+	}
+	else
+	{
+		matches = utility::toVector(matchesSet);
+	}
+
+	// for (auto a : matches)
 	// {
 	// 	std::wcout << a.score << " " << a.name << std::endl;
 	// }
 
-	return utility::toVector(matchesSet);
+	return matches;
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
@@ -726,7 +739,6 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 	// fetch StorageNodes for node ids
 	std::map<Id, StorageNode> storageNodeMap;
-	std::map<Id, StorageSymbol> storageSymbolMap;
 	{
 		std::vector<Id> elementIds;
 
@@ -738,11 +750,6 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(elementIds))
 		{
 			storageNodeMap[node.id] = node;
-		}
-
-		for (const StorageSymbol& symbol : m_sqliteIndexStorage.getAllByIds<StorageSymbol>(elementIds))
-		{
-			storageSymbolMap[symbol.id] = symbol;
 		}
 	}
 
@@ -778,8 +785,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		if (name.getQualifiedName() == match.name)
 		{
 			const size_t idx = m_hierarchyCache.getIndexOfLastVisibleParentNode(firstNode->id);
-			match.text = name.getRange(idx, name.size()).getQualifiedName();
-			match.subtext = name.getRange(0, idx).getQualifiedName();
+			if (idx != 0)
+			{
+				match.text = name.getRange(idx, name.size()).getQualifiedName();
+				match.subtext = name.getRange(0, idx).getQualifiedName();
+			}
 		}
 
 		match.tokenName = name;
@@ -789,7 +799,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.typeName = match.nodeType.getReadableTypeWString();
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
-		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end())
+		if (m_symbolDefinitionKinds.find(firstNode->id) == m_symbolDefinitionKinds.end())
 		{
 			match.typeName = L"non-indexed " + match.typeName;
 		}

@@ -27,6 +27,7 @@ set(PROJECT_NAME_LOWER_CASE sourcetrail)
 # speed up recompiling on unix with ccache
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
+	MESSAGE(STATUS "ccache found")
 	# Support Unix Makefiles and Ninja
 	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
 endif()
@@ -759,7 +760,7 @@ if (WIN32)
 		COMMAND cd $(ProjectDir)../../bin/test/\n$(OutDir)$(TargetName)$(TargetExt)
 		COMMENT "Running unittest code"
 	)
-	
+
 	set_target_properties(${TEST_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/bigobj")
 
 elseif (UNIX)

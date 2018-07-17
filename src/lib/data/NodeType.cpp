@@ -309,12 +309,14 @@ std::string NodeType::getReadableTypeString() const
 
 std::wstring NodeType::getUnderscoredTypeWString() const
 {
-	return utility::decodeFromUtf8(getUnderscoredTypeString());
+	std::string str = getUnderscoredTypeString();
+	return std::wstring(str.begin(), str.end());
 }
 
 std::wstring NodeType::getReadableTypeWString() const
 {
-	return utility::decodeFromUtf8(getReadableTypeString());
+	std::string str = getReadableTypeString();
+	return std::wstring(str.begin(), str.end());
 }
 
 int utility::nodeTypeToInt(NodeType::Type type)
@@ -420,7 +422,8 @@ std::string utility::getReadableTypeString(NodeType::Type type)
 
 std::wstring utility::getReadableTypeWString(NodeType::Type type)
 {
-	return utility::decodeFromUtf8(getReadableTypeString(type));
+	std::string str = getReadableTypeString(type);
+	return std::wstring(str.begin(), str.end());
 }
 
 NodeType::Type utility::getTypeForReadableTypeString(const std::wstring str)

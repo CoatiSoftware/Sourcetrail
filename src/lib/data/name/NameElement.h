@@ -13,11 +13,9 @@ public:
 	class Signature
 	{
 	public:
-		static std::wstring serialize(Signature signature);
-		static Signature deserialize(const std::wstring& serialized);
-
 		Signature();
-		Signature(std::wstring prefix, std::wstring postfix);
+		Signature(const std::wstring& prefix, const std::wstring& postfix);
+
 		std::wstring qualifyName(const std::wstring& name) const;
 		bool isValid() const;
 
@@ -26,23 +24,23 @@ public:
 		std::wstring getParameterString() const;
 
 	private:
-		std::wstring m_prefix;
-		std::wstring m_postfix;
+		const std::wstring m_prefix;
+		const std::wstring m_postfix;
 	};
 
 	NameElement(const std::wstring& name);
 	NameElement(const std::wstring& name, const Signature& signature);
 	~NameElement();
 
-	std::wstring getName() const;
+	const std::wstring& getName() const;
 	std::wstring getNameWithSignature() const;
 	std::wstring getNameWithSignatureParameters() const;
 	bool hasSignature() const;
-	Signature getSignature();
+	const Signature& getSignature();
 
 private:
-	std::wstring m_name;
-	Signature m_signature;
+	const std::wstring m_name;
+	const Signature m_signature;
 };
 
 #endif // NAME_ELEMENT_H

@@ -3,33 +3,13 @@
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
-std::wstring NameElement::Signature::serialize(Signature signature)
-{
-	return signature.m_prefix + L"\tp" + signature.m_postfix;
-}
-
-NameElement::Signature NameElement::Signature::deserialize(const std::wstring& serialized)
-{
-	if (serialized == L"\tp")
-	{
-		return Signature();
-	}
-
-	std::vector<std::wstring> serializedElements = utility::splitToVector(serialized, L"\tp");
-	if (serializedElements.size() != 2)
-	{
-		LOG_ERROR(L"unable to deserialize name signature: " + serialized); // todo: obfuscate serialized!
-	}
-	return Signature(serializedElements[0], serializedElements[1]);
-}
-
 NameElement::Signature::Signature()
 	: m_prefix(L"")
 	, m_postfix(L"")
 {
 }
 
-NameElement::Signature::Signature(std::wstring prefix, std::wstring postfix)
+NameElement::Signature::Signature(const std::wstring& prefix, const std::wstring& postfix)
 	: m_prefix(prefix)
 	, m_postfix(postfix)
 {
@@ -91,7 +71,7 @@ NameElement::~NameElement()
 {
 }
 
-std::wstring NameElement::getName() const
+const std::wstring& NameElement::getName() const
 {
 	return m_name;
 }
@@ -111,7 +91,7 @@ bool NameElement::hasSignature() const
 	return m_signature.isValid();
 }
 
-NameElement::Signature NameElement::getSignature()
+const NameElement::Signature& NameElement::getSignature()
 {
 	return m_signature;
 }

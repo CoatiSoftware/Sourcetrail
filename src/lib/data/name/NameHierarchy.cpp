@@ -1,45 +1,87 @@
 #include "data/name/NameHierarchy.h"
 
+#include <sstream>
+
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
+namespace
+{
+	const std::wstring META_DELIMITER = L"\tm";
+	const std::wstring NAME_DELIMITER = L"\tn";
+	const std::wstring PART_DELIMITER = L"\ts";
+	const std::wstring SIGNATURE_DELIMITER = L"\tp";
+}
+
 std::wstring NameHierarchy::serialize(const NameHierarchy& nameHierarchy)
 {
-	std::wstring serializedName = nameDelimiterTypeToString(nameHierarchy.getDelimiter()) + L"\tm";
+	std::wstringstream ss;
+	ss << nameDelimiterTypeToString(nameHierarchy.getDelimiter());
+	ss << META_DELIMITER;
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
 		if (i > 0)
 		{
-			serializedName += L"\tn";
+			ss << NAME_DELIMITER;
 		}
-		serializedName += nameHierarchy[i]->getName() + L"\ts";
-		serializedName += NameElement::Signature::serialize(nameHierarchy[i]->getSignature());
+
+		ss << nameHierarchy[i]->getName() << PART_DELIMITER;
+		ss << nameHierarchy[i]->getSignature().getPrefix();
+		ss << SIGNATURE_DELIMITER;
+		ss << nameHierarchy[i]->getSignature().getPostfix();
 	}
-	return serializedName;
+	return ss.str();
 }
 
 NameHierarchy NameHierarchy::deserialize(const std::wstring& serializedName)
 {
-	std::vector<std::wstring> serializedNameAndMetaElements = utility::splitToVector(serializedName, L"\tm");
-	if (serializedNameAndMetaElements.size() != 2)
+	size_t mpos = serializedName.find(META_DELIMITER);
+	if (mpos == std::wstring::npos)
 	{
 		LOG_ERROR(L"unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
 		return NameHierarchy(NAME_DELIMITER_UNKNOWN);
 	}
 
-	const NameDelimiterType delimiter = stringToNameDelimiterType(serializedNameAndMetaElements[0]);
-	NameHierarchy nameHierarchy(delimiter);
+	NameHierarchy nameHierarchy(stringToNameDelimiterType(serializedName.substr(0, mpos)));
 
-	std::vector<std::wstring> serializedNameElements = utility::splitToVector(serializedNameAndMetaElements[1], L"\tn");
-	for (size_t i = 0; i < serializedNameElements.size(); i++)
+	size_t npos = mpos + META_DELIMITER.size();
+	while (npos != std::wstring::npos && npos < serializedName.size())
 	{
-		std::vector<std::wstring> nameParts = utility::splitToVector(serializedNameElements[i], L"\ts");
-		if (nameParts.size() != 2)
+		// name
+		size_t spos = serializedName.find(PART_DELIMITER, npos);
+		if (spos == std::wstring::npos)
 		{
 			LOG_ERROR(L"unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
-			return NameHierarchy(delimiter);
+			return NameHierarchy(NAME_DELIMITER_UNKNOWN);
 		}
-		nameHierarchy.push(std::make_shared<NameElement>(nameParts[0], NameElement::Signature::deserialize(nameParts[1])));
+
+		std::wstring name = serializedName.substr(npos, spos - npos);
+		spos += PART_DELIMITER.size();
+
+		// signature
+		size_t ppos = serializedName.find(SIGNATURE_DELIMITER, spos);
+		if (ppos == std::wstring::npos)
+		{
+			LOG_ERROR(L"unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
+			return NameHierarchy(NAME_DELIMITER_UNKNOWN);
+		}
+
+		std::wstring prefix = serializedName.substr(spos, ppos - spos);
+		ppos += SIGNATURE_DELIMITER.size();
+
+		std::wstring postfix;
+		npos = serializedName.find(NAME_DELIMITER, ppos);
+		if (npos == std::wstring::npos)
+		{
+			postfix = serializedName.substr(ppos, std::wstring::npos);
+		}
+		else
+		{
+			postfix = serializedName.substr(ppos, npos - ppos);
+			npos += NAME_DELIMITER.size();
+		}
+
+		nameHierarchy.push(std::make_shared<NameElement>(name, NameElement::Signature(prefix, postfix)));
 	}
 
 	return nameHierarchy;
@@ -148,16 +190,16 @@ size_t NameHierarchy::size() const
 
 std::wstring NameHierarchy::getQualifiedName() const
 {
-	std::wstring name;
+	std::wstringstream ss;
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		if (i > 0)
 		{
-			name += nameDelimiterTypeToString(m_delimiter);
+			ss << nameDelimiterTypeToString(m_delimiter);
 		}
-		name += m_elements[i]->getName();
+		ss << m_elements[i]->getName();
 	}
-	return name;
+	return ss.str();
 }
 
 std::wstring NameHierarchy::getQualifiedNameWithSignature() const

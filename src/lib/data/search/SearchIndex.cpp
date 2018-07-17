@@ -112,12 +112,29 @@ std::vector<SearchResult> SearchIndex::search(
 	// create scored search results
 	std::multiset<SearchResult> searchResults = createScoredResults(paths, acceptedNodeTypes, maxResultCount * 3);
 
+	// find maximum length for best scores
+	std::multiset<size_t> resultLengths;
+	for (const SearchResult& result : searchResults)
+	{
+		resultLengths.insert(result.text.size());
+	}
+	size_t maxResultLength = 0;
+	if (resultLengths.size() > 1000)
+	{
+		auto it = resultLengths.begin();
+		std::advance(it, 1000);
+		maxResultLength = *it;
+	}
+
 	// find best scores
 	std::map<std::wstring, SearchResult> scoresCache;
 	std::multiset<SearchResult> bestResults;
 	for (const SearchResult& result : searchResults)
 	{
-		bestResults.insert(bestScoredResult(result, &scoresCache, maxBestScoredResultsLength));
+		if (!maxResultLength || result.text.size() <= maxResultLength)
+		{
+			bestResults.insert(bestScoredResult(result, &scoresCache, maxBestScoredResultsLength));
+		}
 	}
 
 	// narrow down to max result count
