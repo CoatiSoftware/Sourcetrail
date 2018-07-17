@@ -64,7 +64,8 @@ NameHierarchy CxxVariableDeclName::toNameHierarchy() const
 	NameHierarchy ret = CxxDeclName::toNameHierarchy();
 	std::shared_ptr<NameElement> nameElement = std::make_shared<NameElement>(
 		ret.back()->getName(),
-		NameElement::Signature(signaturePrefix, signaturePostfix)
+		std::move(signaturePrefix),
+		std::move(signaturePostfix)
 	);
 
 	ret.pop();

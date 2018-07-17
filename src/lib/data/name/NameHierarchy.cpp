@@ -81,7 +81,7 @@ NameHierarchy NameHierarchy::deserialize(const std::wstring& serializedName)
 			npos += NAME_DELIMITER.size();
 		}
 
-		nameHierarchy.push(std::make_shared<NameElement>(name, NameElement::Signature(prefix, postfix)));
+		nameHierarchy.push(std::make_shared<NameElement>(std::move(name), std::move(prefix), std::move(postfix)));
 	}
 
 	return nameHierarchy;

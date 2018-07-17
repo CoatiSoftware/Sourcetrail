@@ -9,9 +9,9 @@ NameElement::Signature::Signature()
 {
 }
 
-NameElement::Signature::Signature(const std::wstring& prefix, const std::wstring& postfix)
-	: m_prefix(prefix)
-	, m_postfix(postfix)
+NameElement::Signature::Signature(std::wstring prefix, std::wstring postfix)
+	: m_prefix(std::move(prefix))
+	, m_postfix(std::move(postfix))
 {
 }
 
@@ -56,14 +56,14 @@ std::wstring NameElement::Signature::getParameterString() const
 	return utility::substrBeforeLast(m_postfix, L')') + L')';
 }
 
-NameElement::NameElement(const std::wstring& name)
-	: m_name(name)
+NameElement::NameElement(std::wstring name)
+	: m_name(std::move(name))
 {
 }
 
-NameElement::NameElement(const std::wstring& name, const Signature& signature)
-	: m_name(name)
-	, m_signature(signature)
+NameElement::NameElement(std::wstring name, std::wstring prefix, std::wstring postfix)
+	: m_name(std::move(name))
+	, m_signature(std::move(prefix), std::move(postfix))
 {
 }
 

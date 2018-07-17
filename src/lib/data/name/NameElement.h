@@ -14,7 +14,7 @@ public:
 	{
 	public:
 		Signature();
-		Signature(const std::wstring& prefix, const std::wstring& postfix);
+		Signature(std::wstring prefix, std::wstring postfix);
 
 		std::wstring qualifyName(const std::wstring& name) const;
 		bool isValid() const;
@@ -28,8 +28,8 @@ public:
 		const std::wstring m_postfix;
 	};
 
-	NameElement(const std::wstring& name);
-	NameElement(const std::wstring& name, const Signature& signature);
+	NameElement(std::wstring name);
+	NameElement(std::wstring name, std::wstring prefix, std::wstring postfix);
 	~NameElement();
 
 	const std::wstring& getName() const;

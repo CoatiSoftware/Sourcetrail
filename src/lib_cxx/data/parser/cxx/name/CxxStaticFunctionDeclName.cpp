@@ -57,7 +57,8 @@ NameHierarchy CxxStaticFunctionDeclName::toNameHierarchy() const
 
 	std::shared_ptr<NameElement> nameElement = std::make_shared<NameElement>(
 		ret.back()->getName(),
-		NameElement::Signature(sig.getPrefix(), sig.getPostfix() + L" (" + m_translationUnitFileName + L")")
+		sig.getPrefix(),
+		sig.getPostfix() + L" (" + m_translationUnitFileName + L")"
 	);
 
 	ret.pop();
