@@ -20,7 +20,7 @@ LOCAL_SYMBOL: ClassComparator.java<8:62> [ClassComparator.java <25:1 25:1>]
 COMMENT: comment [ClassComparator.java <5:1 7:3>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator -> java.util.Comparator<T> [ClassComparator.java <8:41 8:50>]
 REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator -> java.lang.Class<T> [ClassComparator.java <8:52 8:56>]
-SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) [ClassComparator.java <10:5 <11:16 11:22> 24:5>]
+SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) [ClassComparator.java <10:5 <10:5  <11:16 11:22> 11:48> 24:5>]
 SYMBOL_METHOD int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T)
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T) [ClassComparator.java <11:16 11:22>]
 SYMBOL_BUILTIN_TYPE int

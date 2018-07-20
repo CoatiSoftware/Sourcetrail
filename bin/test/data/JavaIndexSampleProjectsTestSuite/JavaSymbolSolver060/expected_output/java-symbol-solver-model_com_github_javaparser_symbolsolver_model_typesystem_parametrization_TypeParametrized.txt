@@ -16,6 +16,6 @@ SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.typesystem.para
 LOCAL_SYMBOL: TypeParametrized.java<24:35> [TypeParametrized.java <24:35 24:35>]
 LOCAL_SYMBOL: TypeParametrized.java<24:35> [TypeParametrized.java <26:1 26:1>]
 COMMENT: comment [TypeParametrized.java <19:1 23:3>]
-SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() [TypeParametrized.java <25:5 <25:23 25:39> 25:42>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() [TypeParametrized.java <25:5 <25:5  <25:23 25:39> 25:41> 25:42>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [TypeParametrized.java <25:5 25:21>]
 COMMENT: comment [TypeParametrized.java <1:1 15:3>]

@@ -161,7 +161,7 @@ void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, 
 		locationFile->forEachStartSourceLocation(
 			[&](SourceLocation* location)
 			{
-				if (location->isScopeLocation())
+				if (location->isScopeLocation() || location->getType() == LOCATION_SIGNATURE)
 				{
 					return;
 				}

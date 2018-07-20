@@ -24,7 +24,7 @@ SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.resolution.SymbolDecl
 LOCAL_SYMBOL: SymbolDeclarator.java<26:35> [SymbolDeclarator.java <26:35 26:35>]
 LOCAL_SYMBOL: SymbolDeclarator.java<26:35> [SymbolDeclarator.java <30:1 30:1>]
 COMMENT: comment [SymbolDeclarator.java <23:1 25:3>]
-SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [SymbolDeclarator.java <28:5 <28:28 28:48> 28:51>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [SymbolDeclarator.java <28:5 <28:5  <28:28 28:48> 28:50> 28:51>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [SymbolDeclarator.java <28:5 28:8>]
 REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [SymbolDeclarator.java <28:10 28:25>]
 COMMENT: comment [SymbolDeclarator.java <1:1 15:3>]

@@ -162,7 +162,7 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 		}
 
 		const SymbolKind symbolKind = utility::convertTagKind(d->getTagKind());
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocationAndScope(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			symbolKind,
 			getParseLocation(d->getLocation()),
@@ -237,7 +237,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 		}
 		else
 		{
-			m_client->recordSymbol(
+			m_client->recordSymbolWithLocation(
 				getAstVisitor()->getDeclNameCache()->getValue(d),
 				symbolKind,
 				getParseLocation(d->getLocation()),
@@ -285,7 +285,7 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_FIELD,
 			getParseLocation(d->getLocation()),
@@ -323,14 +323,29 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbol(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			clang::isa<clang::CXXMethodDecl>(d) ? SYMBOL_METHOD : SYMBOL_FUNCTION,
-			getParseLocation(d->getNameInfo().getSourceRange()),
-			getParseLocationOfFunctionBody(d),
-			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		if (d->isFirstDecl())
+		{
+			m_client->recordSymbolWithLocationAndScopeAndSignature(
+				getAstVisitor()->getDeclNameCache()->getValue(d),
+				clang::isa<clang::CXXMethodDecl>(d) ? SYMBOL_METHOD : SYMBOL_FUNCTION,
+				getParseLocation(d->getNameInfo().getSourceRange()),
+				getParseLocationOfFunctionBody(d),
+				getSignatureLocation(d),
+				utility::convertAccessSpecifier(d->getAccess()),
+				utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
+			);
+		}
+		else
+		{
+			m_client->recordSymbolWithLocationAndScope(
+				getAstVisitor()->getDeclNameCache()->getValue(d),
+				clang::isa<clang::CXXMethodDecl>(d) ? SYMBOL_METHOD : SYMBOL_FUNCTION,
+				getParseLocation(d->getNameInfo().getSourceRange()),
+				getParseLocationOfFunctionBody(d),
+				utility::convertAccessSpecifier(d->getAccess()),
+				utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
+			);
+		}
 
 		if (d->isFunctionTemplateSpecialization())
 		{
@@ -381,7 +396,7 @@ void CxxAstVisitorComponentIndexer::visitEnumConstantDecl(clang::EnumConstantDec
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_ENUM_CONSTANT,
 			getParseLocation(d->getLocation()),
@@ -395,7 +410,7 @@ void CxxAstVisitorComponentIndexer::visitNamespaceDecl(clang::NamespaceDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocationAndScope(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_NAMESPACE,
 			getParseLocation(d->getLocation()),
@@ -410,7 +425,7 @@ void CxxAstVisitorComponentIndexer::visitNamespaceAliasDecl(clang::NamespaceAlia
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_NAMESPACE,
 			getParseLocation(d->getLocation()),
@@ -433,7 +448,7 @@ void CxxAstVisitorComponentIndexer::visitTypedefDecl(clang::TypedefDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
 			getParseLocation(d->getLocation()),
@@ -447,7 +462,7 @@ void CxxAstVisitorComponentIndexer::visitTypeAliasDecl(clang::TypeAliasDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
 			getParseLocation(d->getLocation()),
@@ -493,7 +508,7 @@ void CxxAstVisitorComponentIndexer::visitNonTypeTemplateParmDecl(clang::NonTypeT
 {
 	if (getAstVisitor()->shouldVisitDecl(d) && !d->getName().empty()) // We don't create symbols for unnamed template parameters.
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_TEMPLATE_PARAMETER,
 			getParseLocation(d->getLocation()),
@@ -507,7 +522,7 @@ void CxxAstVisitorComponentIndexer::visitTemplateTypeParmDecl(clang::TemplateTyp
 {
 	if (getAstVisitor()->shouldVisitDecl(d) && !d->getName().empty()) // We don't create symbols for unnamed template parameters.
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_TEMPLATE_PARAMETER,
 			getParseLocation(d->getLocation()),
@@ -521,7 +536,7 @@ void CxxAstVisitorComponentIndexer::visitTemplateTemplateParmDecl(clang::Templat
 {
 	if (getAstVisitor()->shouldVisitDecl(d) && !d->getName().empty()) // We don't create symbols for unnamed template parameters.
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocation(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_TEMPLATE_PARAMETER,
 			getParseLocation(d->getLocation()),
@@ -701,7 +716,7 @@ void CxxAstVisitorComponentIndexer::visitLambdaExpr(clang::LambdaExpr* s)
 	clang::CXXMethodDecl* methodDecl = s->getCallOperator();
 	if (getAstVisitor()->shouldVisitDecl(methodDecl))
 	{
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocationAndScope(
 			getAstVisitor()->getDeclNameCache()->getValue(methodDecl),
 			SYMBOL_FUNCTION,
 			getParseLocation(s->getLocStart()),
@@ -746,6 +761,51 @@ void CxxAstVisitorComponentIndexer::recordTemplateMemberSpecialization(
 			location
 		);
 	}
+}
+
+ParseLocation CxxAstVisitorComponentIndexer::getSignatureLocation(clang::FunctionDecl* d)
+{
+	clang::SourceRange signatureRange = d->getSourceRange();
+
+	if (d->doesThisDeclarationHaveABody())
+	{
+		const clang::TypeSourceInfo *TSI = d->getTypeSourceInfo();
+		if (!TSI)
+		{
+			return ParseLocation();
+		}
+
+		clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
+		if (FTL.isNull())
+		{
+			return ParseLocation();
+		}
+
+		const clang::SourceManager& sm = m_astContext->getSourceManager();
+		const clang::LangOptions& opts = m_astContext->getLangOpts();
+
+		clang::SourceLocation endLoc = FTL.getSourceRange().getEnd();
+		while (endLoc < signatureRange.getEnd())
+		{
+			llvm::Optional<clang::Token> token = clang::Lexer::findNextToken(endLoc, sm, opts);
+			if (token.hasValue())
+			{
+				const clang::tok::TokenKind tokenKind = token.getValue().getKind();
+				if (tokenKind == clang::tok::l_brace || tokenKind == clang::tok::colon)
+				{
+					signatureRange.setEnd(endLoc);
+					break;
+				}
+				endLoc = token.getValue().getLocation();
+			}
+			else
+			{
+				return ParseLocation();
+			}
+		}
+	}
+
+	return getParseLocation(signatureRange);
 }
 
 ParseLocation CxxAstVisitorComponentIndexer::getParseLocationOfTagDeclBody(clang::TagDecl* decl) const

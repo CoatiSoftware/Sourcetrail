@@ -16,14 +16,14 @@ LOCAL_SYMBOL: EnumDeclaration.java<24:83> [EnumDeclaration.java <35:1 35:1>]
 COMMENT: comment [EnumDeclaration.java <19:1 23:3>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [EnumDeclaration.java <24:42 24:65>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration -> com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [EnumDeclaration.java <24:68 24:81>]
-SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.isEnum() [EnumDeclaration.java <26:5 <27:21 27:26> 29:5>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.isEnum() [EnumDeclaration.java <26:5 <26:5  <27:21 27:26> 27:28> 29:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isEnum()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.isEnum() -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isEnum() [EnumDeclaration.java <27:21 27:26>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.isEnum() -> boolean [EnumDeclaration.java <27:13 27:19>]
 LOCAL_SYMBOL: EnumDeclaration.java<27:30> [EnumDeclaration.java <27:30 27:30>]
 LOCAL_SYMBOL: EnumDeclaration.java<27:30> [EnumDeclaration.java <29:5 29:5>]
-SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.asEnum() [EnumDeclaration.java <31:5 <32:29 32:34> 34:5>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.asEnum() [EnumDeclaration.java <31:5 <31:5  <32:29 32:34> 32:36> 34:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.asEnum()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.asEnum() -> com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.asEnum() [EnumDeclaration.java <32:29 32:34>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration.asEnum() -> com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration [EnumDeclaration.java <32:13 32:27>]

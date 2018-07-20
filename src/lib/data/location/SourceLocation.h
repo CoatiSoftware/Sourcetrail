@@ -24,6 +24,8 @@ public:
 	bool operator<(const SourceLocation& rhs) const;
 	bool operator>(const SourceLocation& rhs) const;
 
+	bool contains(const SourceLocation& other) const;
+
 	SourceLocationFile* getSourceLocationFile() const;
 
 	Id getLocationId() const;

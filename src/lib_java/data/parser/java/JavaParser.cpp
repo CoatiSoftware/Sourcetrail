@@ -47,18 +47,19 @@ JavaParser::JavaParser(std::shared_ptr<ParserClient> client)
 
 		std::vector<JavaEnvironment::NativeMethod> methods;
 
-		methods.push_back({"getInterrupted", "(I)Z", (void*)&JavaParser::GetInterrupted});
-		methods.push_back({"logInfo", "(ILjava/lang/String;)V", (void*)&JavaParser::LogInfo});
-		methods.push_back({"logWarning", "(ILjava/lang/String;)V", (void*)&JavaParser::LogWarning});
-		methods.push_back({"logError", "(ILjava/lang/String;)V", (void*)&JavaParser::LogError});
-		methods.push_back({"recordSymbol", "(ILjava/lang/String;III)V", (void*)&JavaParser::RecordSymbol});
-		methods.push_back({"recordSymbolWithLocation", "(ILjava/lang/String;IIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocation});
-		methods.push_back({"recordSymbolWithLocationAndScope", "(ILjava/lang/String;IIIIIIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocationAndScope});
-		methods.push_back({"recordReference", "(IILjava/lang/String;Ljava/lang/String;IIII)V", (void*)&JavaParser::RecordReference});
-		methods.push_back({"recordQualifierLocation", "(ILjava/lang/String;IIII)V", (void*)&JavaParser::RecordQualifierLocation});
-		methods.push_back({"recordLocalSymbol", "(ILjava/lang/String;IIII)V", (void*)&JavaParser::RecordLocalSymbol});
-		methods.push_back({"recordComment", "(IIIII)V", (void*)&JavaParser::RecordComment});
-		methods.push_back({"recordError", "(ILjava/lang/String;IIIIII)V", (void*)&JavaParser::RecordError});
+		methods.push_back({ "getInterrupted", "(I)Z", (void*)&JavaParser::GetInterrupted });
+		methods.push_back({ "logInfo", "(ILjava/lang/String;)V", (void*)&JavaParser::LogInfo });
+		methods.push_back({ "logWarning", "(ILjava/lang/String;)V", (void*)&JavaParser::LogWarning });
+		methods.push_back({ "logError", "(ILjava/lang/String;)V", (void*)&JavaParser::LogError });
+		methods.push_back({ "recordSymbol", "(ILjava/lang/String;III)V", (void*)&JavaParser::RecordSymbol });
+		methods.push_back({ "recordSymbolWithLocation", "(ILjava/lang/String;IIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocation });
+		methods.push_back({ "recordSymbolWithLocationAndScope", "(ILjava/lang/String;IIIIIIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocationAndScope });
+		methods.push_back({ "recordSymbolWithLocationAndScopeAndSignature", "(ILjava/lang/String;IIIIIIIIIIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocationAndScopeAndSignature });
+		methods.push_back({ "recordReference", "(IILjava/lang/String;Ljava/lang/String;IIII)V", (void*)&JavaParser::RecordReference });
+		methods.push_back({ "recordQualifierLocation", "(ILjava/lang/String;IIII)V", (void*)&JavaParser::RecordQualifierLocation });
+		methods.push_back({ "recordLocalSymbol", "(ILjava/lang/String;IIII)V", (void*)&JavaParser::RecordLocalSymbol });
+		methods.push_back({ "recordComment", "(IIIII)V", (void*)&JavaParser::RecordComment });
+		methods.push_back({ "recordError", "(ILjava/lang/String;IIIIII)V", (void*)&JavaParser::RecordError });
 
 		m_javaEnvironment->registerNativeMethods("com/sourcetrail/JavaIndexer", methods);
 	}
@@ -183,7 +184,7 @@ void JavaParser::doRecordSymbolWithLocation(
 	AccessKind access = intToAccessKind(jAccess);
 	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
-	m_client->recordSymbol(
+	m_client->recordSymbolWithLocation(
 		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
 		intToSymbolKind(jSymbolKind),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
@@ -202,11 +203,33 @@ void JavaParser::doRecordSymbolWithLocationAndScope(
 	AccessKind access = intToAccessKind(jAccess);
 	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
-	m_client->recordSymbol(
+	m_client->recordSymbolWithLocationAndScope(
 		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
 		intToSymbolKind(jSymbolKind),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
+		access,
+		definitionKind
+	);
+}
+
+void JavaParser::doRecordSymbolWithLocationAndScopeAndSignature(
+	jstring jSymbolName, jint jSymbolKind,
+	jint beginLine, jint beginColumn, jint endLine, jint endColumn,
+	jint scopeBeginLine, jint scopeBeginColumn, jint scopeEndLine, jint scopeEndColumn,
+	jint signatureBeginLine, jint signatureBeginColumn, jint signatureEndLine, jint signatureEndColumn,
+	jint jAccess, jint jDefinitionKind
+)
+{
+	AccessKind access = intToAccessKind(jAccess);
+	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
+
+	m_client->recordSymbolWithLocationAndScopeAndSignature(
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
+		intToSymbolKind(jSymbolKind),
+		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
+		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
+		ParseLocation(m_currentFilePath, signatureBeginLine, signatureBeginColumn, signatureEndLine, signatureEndColumn),
 		access,
 		definitionKind
 	);

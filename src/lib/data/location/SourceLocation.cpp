@@ -91,6 +91,39 @@ bool SourceLocation::operator>(const SourceLocation& rhs) const
 	return getLocationId() > rhs.getLocationId();
 }
 
+bool SourceLocation::contains(const SourceLocation& other) const
+{
+	const SourceLocation* start = getStartLocation();
+	const SourceLocation* otherStart = other.getStartLocation();
+
+	if (start->getLineNumber() > otherStart->getLineNumber())
+	{
+		return false;
+	}
+
+	if (start->getLineNumber() == otherStart->getLineNumber() &&
+		start->getColumnNumber() > otherStart->getColumnNumber())
+	{
+		return false;
+	}
+
+	const SourceLocation* end = getEndLocation();
+	const SourceLocation* otherEnd = other.getEndLocation();
+
+	if (end->getLineNumber() < otherEnd->getLineNumber())
+	{
+		return false;
+	}
+
+	if (end->getLineNumber() == otherEnd->getLineNumber() &&
+		end->getColumnNumber() < otherEnd->getColumnNumber())
+	{
+		return false;
+	}
+
+	return true;
+}
+
 SourceLocationFile* SourceLocation::getSourceLocationFile() const
 {
 	return m_file;

@@ -15,7 +15,7 @@ LOCAL_SYMBOL: MethodAmbiguityException.java<24:64> [MethodAmbiguityException.jav
 LOCAL_SYMBOL: MethodAmbiguityException.java<24:64> [MethodAmbiguityException.java <33:1 33:1>]
 COMMENT: comment [MethodAmbiguityException.java <19:1 23:3>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException -> java.lang.RuntimeException [MethodAmbiguityException.java <24:47 24:62>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) [MethodAmbiguityException.java <29:1 <29:12 29:35> 31:5>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) [MethodAmbiguityException.java <29:1 <29:1  <29:12 29:35> 29:55> 31:5>]
 SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [MethodAmbiguityException.java <29:12 29:35>]
 COMMENT: comment [MethodAmbiguityException.java <26:5 28:7>]

@@ -25,7 +25,7 @@ LOCAL_SYMBOL: ParameterComparator.java<9:67> [ParameterComparator.java <19:1 19:
 COMMENT: comment [ParameterComparator.java <6:1 8:3>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator -> java.util.Comparator<T> [ParameterComparator.java <9:45 9:54>]
 REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator -> java.lang.reflect.Parameter [ParameterComparator.java <9:56 9:64>]
-SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) [ParameterComparator.java <11:5 <12:16 12:22> 18:5>]
+SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) [ParameterComparator.java <11:5 <11:5  <12:16 12:22> 12:50> 18:5>]
 SYMBOL_METHOD int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T)
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) -> int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T) [ParameterComparator.java <12:16 12:22>]
 SYMBOL_BUILTIN_TYPE int

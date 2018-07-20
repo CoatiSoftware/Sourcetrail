@@ -14,7 +14,7 @@ SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.typesystem.Type
 LOCAL_SYMBOL: TypeTransformer.java<23:34> [TypeTransformer.java <23:34 23:34>]
 LOCAL_SYMBOL: TypeTransformer.java<23:34> [TypeTransformer.java <25:1 25:1>]
 COMMENT: comment [TypeTransformer.java <19:1 21:3>]
-SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeTransformer.java <24:5 <24:10 24:18> 24:30>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeTransformer.java <24:5 <24:5  <24:10 24:18> 24:29> 24:30>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeTransformer.java <24:5 24:8>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeTransformer.java <24:20 24:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<0> [TypeTransformer.java <24:25 24:28>]

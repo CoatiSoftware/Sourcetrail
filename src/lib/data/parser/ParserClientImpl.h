@@ -13,38 +13,42 @@ class ParserClientImpl
 {
 public:
 	ParserClientImpl();
-	virtual ~ParserClientImpl();
 
 	void setStorage(std::shared_ptr<IntermediateStorage> storage);
 	void resetStorage();
 
-	virtual Id recordSymbol(
+	Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) override;
 
-	virtual Id recordSymbol(
+	Id recordSymbolWithLocation(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) override;
 
-	virtual Id recordSymbol(
+	Id recordSymbolWithLocationAndScope(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind) override;
 
-	virtual void recordReference(
+	Id recordSymbolWithLocationAndScopeAndSignature(
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
+		const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation,
+		AccessKind access, DefinitionKind definitionKind) override;
+
+	void recordReference(
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 		const ParseLocation& location) override;
 
-	virtual void recordQualifierLocation(
+	void recordQualifierLocation(
 		const NameHierarchy& qualifierName, const ParseLocation& location) override;
-	
-	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override;
-	virtual void recordFile(const FileInfo& fileInfo, bool indexed) override;
-	virtual void recordComment(const ParseLocation& location) override;
+
+	void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override;
+	void recordFile(const FileInfo& fileInfo, bool indexed) override;
+	void recordComment(const ParseLocation& location) override;
 
 private:
-	virtual void doRecordError(
+	void doRecordError(
 		const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed, const FilePath& sourceFilePath) override;
 
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;

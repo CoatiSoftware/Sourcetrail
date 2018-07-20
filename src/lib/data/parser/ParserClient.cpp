@@ -70,6 +70,33 @@ std::wstring ParserClient::addLocationSuffix(
 	return ss.str();
 }
 
+std::wstring ParserClient::addLocationSuffix(
+	const std::wstring& str, const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation
+) {
+	if (!location.isValid())
+	{
+		return addLocationSuffix(str, scopeLocation, signatureLocation);
+	}
+	if (!scopeLocation.isValid())
+	{
+		return addLocationSuffix(str, location, signatureLocation);
+	}
+	if (!signatureLocation.isValid())
+	{
+		return addLocationSuffix(str, location, scopeLocation);
+	}
+
+	std::wstringstream ss;
+	ss << str;
+	ss << L" <" << scopeLocation.startLineNumber << L":" << scopeLocation.startColumnNumber;
+	ss << L" <" << signatureLocation.startLineNumber << L":" << signatureLocation.startColumnNumber << L" ";
+	ss << L" <" << location.startLineNumber << L":" << location.startColumnNumber << L" ";
+	ss << location.endLineNumber << L":" << location.endColumnNumber << L"> ";
+	ss << signatureLocation.endLineNumber << L":" << signatureLocation.endColumnNumber << L"> ";
+	ss << scopeLocation.endLineNumber << L":" << scopeLocation.endColumnNumber << L">";
+	return ss.str();
+}
+
 ParserClient::ParserClient()
 	: m_hasFatalErrors(false)
 {

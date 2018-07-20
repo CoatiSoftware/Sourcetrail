@@ -52,6 +52,7 @@ private:
 		SymbolKind symbolKind
 	);
 
+	ParseLocation getSignatureLocation(clang::FunctionDecl* d);
 	ParseLocation getParseLocationOfTagDeclBody(clang::TagDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;

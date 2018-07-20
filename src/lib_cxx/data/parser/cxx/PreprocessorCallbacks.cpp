@@ -76,7 +76,7 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 
 		const NameHierarchy nameHierarchy(utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
 
-		m_client->recordSymbol(
+		m_client->recordSymbolWithLocationAndScope(
 			nameHierarchy,
 			SYMBOL_MACRO,
 			getParseLocation(macroNameToken),

@@ -252,6 +252,14 @@ public class JavaIndexer
 			int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
 			int access, int definitionKind
 	);
+	
+	static public native void recordSymbolWithLocationAndScopeAndSignature(
+			int address, String symbolName, int symbolType, 
+			int beginLine, int beginColumn, int endLine, int endColumn,
+			int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
+			int signatureBeginLine, int signatureBeginColumn, int signatureEndLine, int signatureEndColumn,
+			int access, int definitionKind
+	);
 
 	static public native void recordReference(
 			int address, int referenceKind, String referencedName, String contextName, int beginLine, int beginColumn, int endLine, int endColumn);

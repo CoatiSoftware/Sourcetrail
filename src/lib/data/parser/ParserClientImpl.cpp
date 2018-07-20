@@ -10,10 +10,6 @@ ParserClientImpl::ParserClientImpl()
 {
 }
 
-ParserClientImpl::~ParserClientImpl()
-{
-}
-
 void ParserClientImpl::setStorage(std::shared_ptr<IntermediateStorage> storage)
 {
 	m_storage = storage;
@@ -35,7 +31,7 @@ Id ParserClientImpl::recordSymbol(
 	return nodeId;
 }
 
-Id ParserClientImpl::recordSymbol(
+Id ParserClientImpl::recordSymbolWithLocation(
 	const NameHierarchy& symbolName, SymbolKind symbolKind,
 	const ParseLocation& location,
 	AccessKind access, DefinitionKind definitionKind
@@ -46,14 +42,24 @@ Id ParserClientImpl::recordSymbol(
 	return nodeId;
 }
 
-Id ParserClientImpl::recordSymbol(
+Id ParserClientImpl::recordSymbolWithLocationAndScope(
 	const NameHierarchy& symbolName, SymbolKind symbolKind,
 	const ParseLocation& location, const ParseLocation& scopeLocation,
 	AccessKind access, DefinitionKind definitionKind
 )
 {
-	Id nodeId = recordSymbol(symbolName, symbolKind, location, access, definitionKind);
+	Id nodeId = recordSymbolWithLocation(symbolName, symbolKind, location, access, definitionKind);
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
+	return nodeId;
+}
+
+Id ParserClientImpl::recordSymbolWithLocationAndScopeAndSignature(
+	const NameHierarchy& symbolName, SymbolKind symbolKind,
+	const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation,
+	AccessKind access, DefinitionKind definitionKind)
+{
+	Id nodeId = recordSymbolWithLocation(symbolName, symbolKind, location, access, definitionKind);
+	addSourceLocation(nodeId, signatureLocation, locationTypeToInt(LOCATION_SIGNATURE));
 	return nodeId;
 }
 

@@ -149,7 +149,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"public foo.A.A() <4:2 <4:9 4:9> 6:2>"
+			client->methods, L"public foo.A.A() <4:2 <4:2  <4:9 4:9> 4:11> 6:2>"
 		));
 	}
 
@@ -166,7 +166,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"public void foo.A.bar(foo.A) <4:2 <4:14 4:16> 6:2>"
+			client->methods, L"public void foo.A.bar(foo.A) <4:2 <4:2  <4:14 4:16> 4:21> 6:2>"
 		));
 	}
 
@@ -209,7 +209,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"public void foo.A.bar.anonymous class (input.cc<10:3>).foo() <11:4 <11:16 11:18> 11:23>"
+			client->methods, L"public void foo.A.bar.anonymous class (input.cc<10:3>).foo() <11:4 <11:4  <11:16 11:18> 11:20> 11:23>"
 		));
 	}
 
@@ -226,7 +226,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"public static void foo.A.bar() <4:2 <4:21 4:23> 6:2>"
+			client->methods, L"public static void foo.A.bar() <4:2 <4:2  <4:21 4:23> 4:25> 6:2>"
 		));
 	}
 

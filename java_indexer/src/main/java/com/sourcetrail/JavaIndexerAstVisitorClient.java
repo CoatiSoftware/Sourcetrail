@@ -69,6 +69,19 @@ public class JavaIndexerAstVisitorClient extends AstVisitorClient
 	}
 
 	@Override
+	public void recordSymbolWithLocationAndScopeAndSignature(
+			NameHierarchy symbolName, SymbolKind symbolKind, Range range,
+			Range scopeRange, Range signatureRange, AccessKind access, DefinitionKind definitionKind) 
+	{
+		JavaIndexer.recordSymbolWithLocationAndScopeAndSignature(
+				m_address, symbolName.serialize(), symbolKind.getValue(), 
+				range.begin.line, range.begin.column, range.end.line, range.end.column, 
+				scopeRange.begin.line, scopeRange.begin.column, scopeRange.end.line, scopeRange.end.column, 
+				signatureRange.begin.line, signatureRange.begin.column, signatureRange.end.line, signatureRange.end.column, 
+				access.getValue(), definitionKind.getValue());
+	}
+
+	@Override
 	public void recordReference(
 			ReferenceKind referenceKind, NameHierarchy referencedName, 
 			NameHierarchy contextName, Range range) 

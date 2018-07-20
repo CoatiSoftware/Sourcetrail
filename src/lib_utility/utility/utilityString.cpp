@@ -336,6 +336,76 @@ namespace utility
 		return ret;
 	}
 
+	std::wstring breakSignature(std::wstring signature, size_t maxLineLength, size_t tabWidth)
+	{
+		if (signature.size() <= maxLineLength)
+		{
+			return signature;
+		}
+
+		size_t parenCount = 0;
+		size_t parenPos = 0;
+		size_t openParenPos = 0;
+		size_t closeParenPos = 0;
+
+		while (true)
+		{
+			closeParenPos = signature.find(L')', openParenPos);
+			openParenPos = signature.find(L'(', openParenPos);
+
+			if (openParenPos == std::wstring::npos)
+			{
+				break;
+			}
+			else if (closeParenPos == std::wstring::npos)
+			{
+				return signature;
+			}
+			else if (closeParenPos < openParenPos)
+			{
+				if (parenCount == 0)
+				{
+					return signature;
+				}
+				parenCount--;
+				openParenPos = closeParenPos;
+			}
+			else
+			{
+				if (!parenCount)
+				{
+					parenPos = openParenPos;
+				}
+				parenCount++;
+			}
+
+			openParenPos++;
+		}
+
+		if (!parenPos)
+		{
+			return signature;
+		}
+
+		std::wstring returnPart;
+		std::wstring namePart = signature.substr(0, parenPos);
+		std::wstring paramPart = signature.substr(parenPos);
+
+		if (namePart.size() && namePart.back() == L' ')
+		{
+			namePart.pop_back();
+		}
+
+		size_t splitPos = namePart.rfind(L' ');
+		if (splitPos != std::wstring::npos)
+		{
+			returnPart = namePart.substr(0, splitPos);
+			namePart = namePart.substr(splitPos + 1);
+		}
+
+		return breakSignature(returnPart, namePart, paramPart, maxLineLength, tabWidth);
+	}
+
 	std::wstring breakSignature(
 		std::wstring returnPart, std::wstring namePart, std::wstring paramPart,
 		size_t maxLineLength, size_t tabWidth)
@@ -352,6 +422,11 @@ namespace utility
 		{
 			namePart += paramPart[0];
 			paramPart.erase(0, 1);
+
+			if (paramPart.front() == L' ')
+			{
+				paramPart.erase(0, 1);
+			}
 		}
 
 		size_t parenPos = paramPart.rfind(L')');
@@ -490,5 +565,23 @@ namespace utility
 		case ELIDE_RIGHT:
 			return str.substr(0, size - 3) + L"...";
 		}
+	}
+
+	std::wstring convertWhiteSpacesToSingleSpaces(const std::wstring &str)
+	{
+		std::wstring res = replace(str, L"\n", L" ");
+		res = replace(res, L"\t", L" ");
+
+		std::deque<std::wstring> parts = split<std::deque<std::wstring>>(res, L" ");
+		for (size_t i = 1; i <= parts.size(); i++)
+		{
+			if (!parts[i-1].size())
+			{
+				parts.erase(parts.begin() + i-1);
+				i--;
+			}
+		}
+
+		return join<std::deque<std::wstring>>(parts, L" ");
 	}
 }

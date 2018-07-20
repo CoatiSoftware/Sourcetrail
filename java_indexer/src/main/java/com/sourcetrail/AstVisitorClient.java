@@ -20,11 +20,18 @@ public abstract class AstVisitorClient
 			NameHierarchy symbolName, SymbolKind symbolKind, 
 			Range range,
 			AccessKind access, DefinitionKind definitionKind);
-	
+
 	public abstract void recordSymbolWithLocationAndScope(
 			NameHierarchy symbolName, SymbolKind symbolKind, 
 			Range range,
 			Range scopeRange,
+			AccessKind access, DefinitionKind definitionKind);
+	
+	public abstract void recordSymbolWithLocationAndScopeAndSignature(
+			NameHierarchy symbolName, SymbolKind symbolKind, 
+			Range range,
+			Range scopeRange,
+			Range signatureRange,
 			AccessKind access, DefinitionKind definitionKind);
 
 	public abstract void recordReference(

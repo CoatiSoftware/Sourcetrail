@@ -47,7 +47,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSol
 SYMBOL_FIELD private boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.variadic [JavassistParameterDeclaration.java <30:21 30:28>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.variadic -> boolean [JavassistParameterDeclaration.java <30:13 30:19>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [JavassistParameterDeclaration.java <32:5 <32:12 32:40> 34:5>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [JavassistParameterDeclaration.java <32:5 <32:5  <32:12 32:40> 32:95> 34:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> javassist.CtClass [JavassistParameterDeclaration.java <32:42 32:48>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration<0> [JavassistParameterDeclaration.java <32:50 32:53>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistParameterDeclaration.java <32:56 32:65>]
@@ -65,7 +65,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParamet
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration<1> [JavassistParameterDeclaration.java <33:50 33:59>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration<1> [JavassistParameterDeclaration.java <33:63 33:72>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration<2> [JavassistParameterDeclaration.java <33:75 33:82>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [JavassistParameterDeclaration.java <36:5 <36:12 36:40> 40:5>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [JavassistParameterDeclaration.java <36:5 <36:5  <36:12 36:40> 36:92> 40:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistParameterDeclaration.java <36:42 36:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration<0> [JavassistParameterDeclaration.java <36:47 36:50>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistParameterDeclaration.java <36:53 36:62>]
@@ -86,7 +86,7 @@ QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterD
 SYMBOL_FIELD boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.variadic
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.variadic [JavassistParameterDeclaration.java <39:14 39:21>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration<2> [JavassistParameterDeclaration.java <39:25 39:32>]
-SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() [JavassistParameterDeclaration.java <42:5 <43:19 43:26> 49:5>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() [JavassistParameterDeclaration.java <42:5 <42:5  <43:19 43:26> 43:28> 49:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> java.lang.String java.lang.Object.toString() [JavassistParameterDeclaration.java <43:19 43:26>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> java.lang.String [JavassistParameterDeclaration.java <43:12 43:17>]
@@ -95,7 +95,7 @@ LOCAL_SYMBOL: JavassistParameterDeclaration.java<43:30> [JavassistParameterDecla
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.type [JavassistParameterDeclaration.java <45:27 45:30>]
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.typeSolver [JavassistParameterDeclaration.java <46:35 46:44>]
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.variadic [JavassistParameterDeclaration.java <47:33 47:40>]
-SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getName() [JavassistParameterDeclaration.java <51:5 <52:19 52:25> 54:5>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getName() [JavassistParameterDeclaration.java <51:5 <51:5  <52:19 52:25> 52:27> 54:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [JavassistParameterDeclaration.java <52:19 52:25>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getName() -> java.lang.String [JavassistParameterDeclaration.java <52:12 52:17>]
@@ -104,7 +104,7 @@ LOCAL_SYMBOL: JavassistParameterDeclaration.java<52:29> [JavassistParameterDecla
 SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getName() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistParameterDeclaration.java <53:19 53:47>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getName() -> java.lang.UnsupportedOperationException [JavassistParameterDeclaration.java <53:19 53:47>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isField() [JavassistParameterDeclaration.java <56:5 <57:20 57:26> 59:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isField() [JavassistParameterDeclaration.java <56:5 <56:5  <57:20 57:26> 57:28> 59:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField() [JavassistParameterDeclaration.java <57:20 57:26>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isField() -> boolean [JavassistParameterDeclaration.java <57:12 57:18>]
@@ -112,7 +112,7 @@ LOCAL_SYMBOL: JavassistParameterDeclaration.java<57:30> [JavassistParameterDecla
 LOCAL_SYMBOL: JavassistParameterDeclaration.java<57:30> [JavassistParameterDeclaration.java <59:5 59:5>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isField() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistParameterDeclaration.java <58:19 58:47>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isField() -> java.lang.UnsupportedOperationException [JavassistParameterDeclaration.java <58:19 58:47>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isParameter() [JavassistParameterDeclaration.java <61:5 <62:20 62:30> 64:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isParameter() [JavassistParameterDeclaration.java <61:5 <61:5  <62:20 62:30> 62:32> 64:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter() [JavassistParameterDeclaration.java <62:20 62:30>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isParameter() -> boolean [JavassistParameterDeclaration.java <62:12 62:18>]
@@ -120,14 +120,14 @@ LOCAL_SYMBOL: JavassistParameterDeclaration.java<62:34> [JavassistParameterDecla
 LOCAL_SYMBOL: JavassistParameterDeclaration.java<62:34> [JavassistParameterDeclaration.java <64:5 64:5>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isParameter() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistParameterDeclaration.java <63:19 63:47>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isParameter() -> java.lang.UnsupportedOperationException [JavassistParameterDeclaration.java <63:19 63:47>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isVariadic() [JavassistParameterDeclaration.java <66:5 <67:20 67:29> 69:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isVariadic() [JavassistParameterDeclaration.java <66:5 <66:5  <67:20 67:29> 67:31> 69:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isVariadic() -> boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic() [JavassistParameterDeclaration.java <67:20 67:29>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isVariadic() -> boolean [JavassistParameterDeclaration.java <67:12 67:18>]
 LOCAL_SYMBOL: JavassistParameterDeclaration.java<67:33> [JavassistParameterDeclaration.java <67:33 67:33>]
 LOCAL_SYMBOL: JavassistParameterDeclaration.java<67:33> [JavassistParameterDeclaration.java <69:5 69:5>]
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isVariadic() -> boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.variadic [JavassistParameterDeclaration.java <68:16 68:23>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isType() [JavassistParameterDeclaration.java <71:5 <72:20 72:25> 74:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isType() [JavassistParameterDeclaration.java <71:5 <71:5  <72:20 72:25> 72:27> 74:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [JavassistParameterDeclaration.java <72:20 72:25>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isType() -> boolean [JavassistParameterDeclaration.java <72:12 72:18>]
@@ -135,7 +135,7 @@ LOCAL_SYMBOL: JavassistParameterDeclaration.java<72:29> [JavassistParameterDecla
 LOCAL_SYMBOL: JavassistParameterDeclaration.java<72:29> [JavassistParameterDeclaration.java <74:5 74:5>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isType() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistParameterDeclaration.java <73:19 73:47>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.isType() -> java.lang.UnsupportedOperationException [JavassistParameterDeclaration.java <73:19 73:47>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getType() [JavassistParameterDeclaration.java <76:5 <77:17 77:23> 79:5>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getType() [JavassistParameterDeclaration.java <76:5 <76:5  <77:17 77:23> 77:25> 79:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [JavassistParameterDeclaration.java <77:17 77:23>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistParameterDeclaration.java <77:12 77:15>]

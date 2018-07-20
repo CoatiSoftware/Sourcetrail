@@ -186,7 +186,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->functions, L"int ceil(float) <1:1 <1:5 1:8> 4:1>"
+			client->functions, L"int ceil(float) <1:1 <1:1  <1:5 1:8> 1:17> 4:1>"
 		));
 	}
 
@@ -200,7 +200,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->functions, L"static int ceil(float) (input.cc) <1:1 <1:12 1:15> 4:1>"
+			client->functions, L"static int ceil(float) (input.cc) <1:1 <1:1  <1:12 1:15> 1:24> 4:1>"
 		));
 	}
 
@@ -215,7 +215,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"public void B::B() <4:2 4:2>"
+			client->methods, L"public void B::B() <4:2 <4:2 4:2> 4:4>"
 		));
 	}
 
@@ -230,7 +230,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"public B & B::operator=(const B &) <4:5 4:13>"
+			client->methods, L"public B & B::operator=(const B &) <4:2 <4:5 4:13> 4:29>"
 		));
 	}
 
@@ -263,7 +263,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"public void B::process() <4:15 4:21>"
+			client->methods, L"public void B::process() <4:2 <4:15 4:21> 4:23>"
 		));
 	}
 
@@ -278,7 +278,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"protected void B::process() <4:15 4:21>"
+			client->methods, L"protected void B::process() <4:2 <4:15 4:21> 4:27>"
 		));
 	}
 
@@ -1108,7 +1108,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"private int A<typename T>::foo() <4:6 4:8>"
+			client->methods, L"private int A<typename T>::foo() <4:2 <4:6 4:8> 4:10>"
 		));
 	}
 
@@ -1225,7 +1225,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->functions, L"int test<int>(int) <2:1 <2:3 2:6> 5:1>"
+			client->functions, L"int test<int>(int) <2:1 <2:1  <2:3 2:6> 2:11> 5:1>"
 		));
 	}
 
@@ -1436,7 +1436,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->functions, L"int anonymous namespace (input.cc<1:1>)::sum(int, int) <3:6 3:8>"
+			client->functions, L"int anonymous namespace (input.cc<1:1>)::sum(int, int) <3:2 <3:6 3:8> 3:22>"
 		));
 	}
 
@@ -1453,7 +1453,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"private bool B::C::isGreat() const <5:8 5:14>"
+			client->methods, L"private bool B::C::isGreat() const <5:3 <5:8 5:14> 5:22>"
 		));
 	}
 
@@ -1664,7 +1664,7 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::wstring>(client->methods, L"public void TestClass::TestClass() <1:7 <1:7 1:15> 1:15>"));
 		TS_ASSERT(utility::containsElement<std::wstring>(client->methods, L"public void TestClass::TestClass(const TestClass &) <1:7 <1:7 1:15> 1:15>"));
-		TS_ASSERT(utility::containsElement<std::wstring>(client->methods, L"public void TestClass::TestClass(TestClass &&) <1:7 1:15>"));
+		TS_ASSERT(utility::containsElement<std::wstring>(client->methods, L"public void TestClass::TestClass(TestClass &&) <1:7 <1:7 1:15> 1:15>"));
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -4185,6 +4185,23 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->localSymbols.size(), 9);
+	}
+
+	void test_cxx_parser_finds_correct_signature_location_of_constructor_with_initializer_list()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A\n"
+			"{\n"
+			"	A(const int& foo) : m_foo(foo)\n"
+			"	{\n"
+			"	}\n"
+			"	const int m_foo\n"
+			"}\n"
+		);;
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->methods, L"private void A::A(const int &) <3:2 <3:2  <3:2 3:2> 3:18> 5:2>"
+		));
 	}
 
 	void test_cxx_parser_catches_error()

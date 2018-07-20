@@ -24,6 +24,12 @@ public:
 	static std::wstring addLocationSuffix(const std::wstring& str, const ParseLocation& location);
 	static std::wstring addLocationSuffix(
 		const std::wstring& str, const ParseLocation& location, const ParseLocation& scopeLocation);
+	static std::wstring addLocationSuffix(
+		const std::wstring& str,
+		const ParseLocation& location,
+		const ParseLocation& scopeLocation,
+		const ParseLocation& signatureLocation
+	);
 
 	ParserClient();
 	virtual ~ParserClient() = default;
@@ -32,14 +38,19 @@ public:
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) = 0;
 
-	virtual Id recordSymbol(
+	virtual Id recordSymbolWithLocation(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) = 0;
 
-	virtual Id recordSymbol(
+	virtual Id recordSymbolWithLocationAndScope(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
+		AccessKind access, DefinitionKind definitionKind) = 0;
+
+	virtual Id recordSymbolWithLocationAndScopeAndSignature(
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
+		const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation,
 		AccessKind access, DefinitionKind definitionKind) = 0;
 
 	virtual void recordReference(

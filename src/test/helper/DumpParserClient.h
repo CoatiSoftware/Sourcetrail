@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	virtual Id recordSymbol(
+	Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
@@ -22,7 +22,7 @@ public:
 		return 0;
 	}
 
-	virtual Id recordSymbol(
+	Id recordSymbolWithLocation(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) override
@@ -31,12 +31,21 @@ public:
 		return 0;
 	}
 
-	virtual Id recordSymbol(
+	Id recordSymbolWithLocationAndScope(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
 		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.fileName(), location, scopeLocation) + L"]\n");
+		return 0;
+	}
+
+	Id recordSymbolWithLocationAndScopeAndSignature(
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
+		const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation,
+		AccessKind access, DefinitionKind definitionKind) override
+	{
+		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.fileName(), location, scopeLocation, signatureLocation) + L"]\n");
 		return 0;
 	}
 
@@ -78,17 +87,17 @@ public:
 		recordLine(L"QUALIFIER: " + addLocationSuffix(qualifierName.getQualifiedNameWithSignature() + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
-	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override
+	void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override
 	{
 		recordLine(L"LOCAL_SYMBOL: " + addLocationSuffix(name + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
-	virtual void recordFile(const FileInfo& fileInfo, bool indexed) override
+	void recordFile(const FileInfo& fileInfo, bool indexed) override
 	{
 		recordLine(L"FILE: " + fileInfo.path.fileName() + (indexed ? L"" : L" non-indexed") + L"\n");
 	}
 
-	virtual void recordComment(const ParseLocation& location) override
+	void recordComment(const ParseLocation& location) override
 	{
 		recordLine(L"COMMENT: " + addLocationSuffix(L"comment [" + location.filePath.fileName(), location) + L"]\n");
 	}
@@ -96,7 +105,7 @@ public:
 	std::wstring m_lines;
 
 private:
-	virtual void doRecordError(const ParseLocation& location, const std::wstring& message,
+	void doRecordError(const ParseLocation& location, const std::wstring& message,
 		bool fatal, bool indexed, const FilePath& translationUnit) override
 	{
 		recordLine(L"ERROR: " + addLocationSuffix(message + L" [" + location.filePath.fileName(), location) + L"]\n");

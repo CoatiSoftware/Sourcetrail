@@ -7,7 +7,7 @@
 class TestParserClient: public ParserClient
 {
 public:
-	virtual Id recordSymbol(
+	Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
@@ -19,7 +19,7 @@ public:
 		return 0;
 	}
 
-	virtual Id recordSymbol(
+	Id recordSymbolWithLocation(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) override
@@ -32,7 +32,7 @@ public:
 		return 0;
 	}
 
-	virtual Id recordSymbol(
+	Id recordSymbolWithLocationAndScope(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind) override
@@ -41,6 +41,19 @@ public:
 		if (bin != nullptr)
 		{
 			bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access), location, scopeLocation));
+		}
+		return 0;
+	}
+
+	Id recordSymbolWithLocationAndScopeAndSignature(
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
+		const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation,
+		AccessKind access, DefinitionKind definitionKind) override
+	{
+		std::vector<std::wstring>* bin = getBinForSymbolKind(symbolKind);
+		if (bin != nullptr)
+		{
+			bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access), location, scopeLocation, signatureLocation));
 		}
 		return 0;
 	}
@@ -102,23 +115,23 @@ public:
 		}
 	}
 
-	virtual void recordQualifierLocation(
+	void recordQualifierLocation(
 		const NameHierarchy& qualifierName, const ParseLocation& location) override
 	{
 		qualifiers.push_back(addLocationSuffix(qualifierName.getQualifiedNameWithSignature(), location));
 	}
 
-	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override
+	void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override
 	{
 		localSymbols.push_back(addLocationSuffix(name, location));
 	}
 
-	virtual void recordFile(const FileInfo& fileInfo, bool indexed) override
+	void recordFile(const FileInfo& fileInfo, bool indexed) override
 	{
 		files.insert(fileInfo.path.wstr());
 	}
 
-	virtual void recordComment(const ParseLocation& location) override
+	void recordComment(const ParseLocation& location) override
 	{
 		comments.push_back(addLocationSuffix(L"comment", location));
 	}
@@ -162,7 +175,7 @@ public:
 	std::vector<std::wstring> imports;
 
 private:
-	virtual void doRecordError(
+	void doRecordError(
 		const ParseLocation& location,
 		const std::wstring& message,
 		bool fatal,

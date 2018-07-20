@@ -73,6 +73,7 @@ namespace utility
 	std::wstring replaceBetween(const std::wstring& str, wchar_t startDelimiter, wchar_t endDelimiter, const std::wstring& to);
 
 	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength);
+	std::wstring breakSignature(std::wstring signature, size_t maxLineLength, size_t tabWidth);
 	std::wstring breakSignature(
 		std::wstring returnPart, std::wstring namePart, std::wstring paramPart,
 		size_t maxLineLength, size_t tabWidth);
@@ -89,6 +90,8 @@ namespace utility
 
 	std::string elide(const std::string& str, ElideMode mode, size_t size);
 	std::wstring elide(const std::wstring& str, ElideMode mode, size_t size);
+
+	std::wstring convertWhiteSpacesToSingleSpaces(const std::wstring &str);
 
 	template <typename ContainerType>
 	ContainerType split(const std::string& str, const std::string& delimiter)

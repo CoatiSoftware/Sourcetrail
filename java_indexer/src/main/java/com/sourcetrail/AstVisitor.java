@@ -234,11 +234,39 @@ public abstract class AstVisitor extends ASTVisitor
 		
 		DeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
 		
-		m_client.recordSymbolWithLocationAndScope(
+		
+		Range signatureRange = getRange(node);
+		if (!node.thrownExceptionTypes().isEmpty())
+		{
+			Object lastExceptionType = node.thrownExceptionTypes().get(node.thrownExceptionTypes().size() - 1);
+			if (lastExceptionType instanceof ASTNode)
+			{
+				signatureRange.end = getRange((ASTNode) lastExceptionType).end;
+			}
+		}
+		else
+		{
+			signatureRange.end = getRange(node.getName()).end;
+			
+			if (!node.parameters().isEmpty())
+			{
+				Object lastParametersType = node.parameters().get(node.parameters().size() - 1);
+				if (lastParametersType instanceof ASTNode)
+				{
+					signatureRange.end = getRange((ASTNode) lastParametersType).end;
+				}
+			}
+			
+			signatureRange.end = m_fileContent.findStartPosition(")", signatureRange.end);
+		}
+		
+		
+		m_client.recordSymbolWithLocationAndScopeAndSignature(
 				symbolName.toNameHierarchy(), 
 				SymbolKind.METHOD,
 				getRange(node.getName()), 
 				getRange(node), 
+				signatureRange,
 				AccessKind.fromModifiers(node.getModifiers()),
 				DefinitionKind.EXPLICIT);
 		

@@ -1391,7 +1391,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		for (const StorageSourceLocation& sourceLocation: m_sqliteIndexStorage.getAllByIds<StorageSourceLocation>(locationIds))
 		{
 			const LocationType type = intToLocationType(sourceLocation.type);
-			if (type == LOCATION_QUALIFIER)
+			if (type == LOCATION_QUALIFIER || type == LOCATION_SIGNATURE)
 			{
 				continue;
 			}
@@ -1967,6 +1967,127 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 
 	if (nameHierarchy.hasSignature())
 	{
+		std::shared_ptr<SourceLocationCollection> locations = m_sqliteIndexStorage.getSourceLocationsForElementIds({ node.id });
+		SourceLocation* sigLoc = nullptr;
+
+		locations->forEachSourceLocation(
+			[&sigLoc](SourceLocation* location)
+			{
+				if (!sigLoc && location->isStartLocation() && location->getType() == LOCATION_SIGNATURE)
+				{
+					sigLoc = location;
+				}
+			}
+		);
+
+		// if node has a signature location use that one
+		if (sigLoc)
+		{
+			struct Annotation
+			{
+				Id locationId = 0;
+				size_t startPos = 0;
+				size_t endPos = 0;
+			};
+
+			std::vector<Annotation> annotations;
+			std::vector<std::string> lines = getFileContent(sigLoc->getFilePath())->getLines(
+				sigLoc->getLineNumber(), sigLoc->getEndLocation()->getLineNumber());
+
+			std::shared_ptr<SourceLocationFile> file = getSourceLocationsForLinesInFile(
+				sigLoc->getFilePath(),
+				sigLoc->getStartLocation()->getLineNumber(),
+				sigLoc->getEndLocation()->getLineNumber()
+			);
+
+			file->forEachStartSourceLocation(
+				[&sigLoc, &annotations, &lines](SourceLocation* loc)
+				{
+					if ((loc->getType() == LOCATION_TOKEN || loc->getType() == LOCATION_QUALIFIER) &&
+						sigLoc->contains(*loc))
+					{
+						Annotation annotation;
+						annotation.locationId = loc->getLocationId();
+
+						for (size_t i = 0; i < loc->getLineNumber() - sigLoc->getLineNumber(); i++)
+						{
+							annotation.startPos += lines[i].size();
+						}
+						annotation.startPos += loc->getColumnNumber() - sigLoc->getColumnNumber();
+
+						for (size_t i = 0; i < loc->getEndLocation()->getLineNumber() - sigLoc->getLineNumber(); i++)
+						{
+							annotation.endPos += lines[i].size();
+						}
+						annotation.endPos += loc->getEndLocation()->getColumnNumber() - sigLoc->getColumnNumber();
+
+						annotations.push_back(annotation);
+					}
+				}
+			);
+
+			// remove characters after signature end
+			lines[lines.size()-1] = lines[lines.size()-1].substr(0, sigLoc->getEndLocation()->getColumnNumber());
+
+			// remove characters before signature start
+			lines[0] = lines[0].substr(sigLoc->getColumnNumber() - 1);
+
+			std::wstring code = utility::decodeFromUtf8(utility::join(lines, ""));
+
+			// store texts of annotations
+			std::vector<std::pair<Id, std::wstring>> annotatedTexts;
+			size_t offset = 0;
+			for (const Annotation& annotation : annotations)
+			{
+				std::wstring text = code.substr(
+					annotation.startPos + offset,
+					annotation.endPos - annotation.startPos + 1
+				);
+
+				// if is function name itself, replace with qualified name
+				if (utility::containsElement(file->getSourceLocationById(annotation.locationId)->getTokenIds(), node.id) &&
+					text.size() <= nameHierarchy.getRawName().size())
+				{
+					std::wstring name = nameHierarchy.getQualifiedName();
+					offset = name.size() - text.size();
+
+					code = code.replace(annotation.startPos, annotation.endPos - annotation.startPos + 1, name);
+					text = name;
+				}
+				else
+				{
+					text = utility::convertWhiteSpacesToSingleSpaces(text);
+				}
+				annotatedTexts.push_back(std::make_pair(annotation.locationId, text));
+			}
+
+			// format
+			code = utility::convertWhiteSpacesToSingleSpaces(code);
+			snippet.code = utility::breakSignature(code, 50, ApplicationSettings::getInstance()->getCodeTabWidth());
+
+			// create source locations for annotations via stored texts
+			size_t pos = 0;
+			for (const std::pair<Id, std::wstring>& p : annotatedTexts)
+			{
+				pos = snippet.code.find(p.second, pos);
+				if (pos != std::wstring::npos)
+				{
+					SourceLocation* loc = file->getSourceLocationById(p.first);
+
+					snippet.locationFile->addSourceLocation(
+						loc->getType(), loc->getLocationId(), loc->getTokenIds(),
+						1, pos + 1, 1, pos + p.second.size()
+					);
+
+					pos += p.second.size();
+				}
+			}
+
+			return snippet;
+		}
+
+
+		// otherwise augment the name with signature with locations for type usages
 		snippet.code = utility::breakSignature(
 			nameHierarchy.getSignature().getPrefix(),
 			nameHierarchy.getQualifiedName(),
