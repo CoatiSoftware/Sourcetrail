@@ -3,6 +3,7 @@
 #include <QMessageBox>
 
 #include "settings/ProjectSettings.h"
+#include "utility/file/FileSystem.h"
 
 QtProjectWizzardContentProjectData::QtProjectWizzardContentProjectData(
 	std::shared_ptr<ProjectSettings> projectSettings,
@@ -87,12 +88,30 @@ bool QtProjectWizzardContentProjectData::check()
 	}
 
 	std::vector<FilePath> paths = FilePath(m_projectFileLocation->getText().toStdWString()).expandEnvironmentVariables();
-	if (paths.size() != 1 || !paths[0].exists())
+	if (paths.size() != 1 || !paths[0].isAbsolute())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("The specified location does not exist.");
+		msgBox.setText("The specified location is invalid. Please enter an absolute directory path.");
 		msgBox.exec();
 		return false;
+	}
+	else if (!paths[0].exists())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("The specified location does not exist. Do you want to create the directory?");
+		msgBox.addButton("Abort", QMessageBox::ButtonRole::NoRole);
+		QPushButton* createButton = msgBox.addButton("Create", QMessageBox::ButtonRole::YesRole);
+		msgBox.setDefaultButton(createButton);
+		msgBox.setIcon(QMessageBox::Icon::Question);
+		int ret = msgBox.exec();
+		if (ret == 1) // QMessageBox::Yes
+		{
+			FileSystem::createDirectory(paths[0]);
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	return true;

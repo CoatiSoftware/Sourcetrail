@@ -5,9 +5,9 @@
 #include <vector>
 #include <memory>
 
-namespace boost 
+namespace boost
 {
-	namespace filesystem 
+	namespace filesystem
 	{
 		class path;
 	}
