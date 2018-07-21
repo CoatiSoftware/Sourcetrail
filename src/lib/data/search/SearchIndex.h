@@ -6,7 +6,6 @@
 #include <vector>
 #include <set>
 #include <string>
-#include <unordered_set>
 
 #include "utility/types.h"
 #include "data/graph/Node.h"
@@ -15,13 +14,21 @@
 // SearchResult is only used as an internal type in the SearchIndex and the PersistentStorage
 struct SearchResult
 {
+	SearchResult(std::wstring text, std::vector<Id> elementIds, std::vector<size_t> indices, int score)
+		: text(std::move(text))
+		, elementIds(std::move(elementIds))
+		, indices(std::move(indices))
+		, score(score)
+	{
+	}
+
 	bool operator<(const SearchResult& other) const
 	{
 		return score > other.score;
 	}
 
 	std::wstring text;
-	std::set<Id> elementIds;
+	std::vector<Id> elementIds;
 	std::vector<size_t> indices;
 	int score;
 };
@@ -32,7 +39,7 @@ public:
 	SearchIndex();
 	virtual ~SearchIndex();
 
-	void addNode(Id id, const std::wstring& name, NodeTypeSet typeSet = NodeTypeSet::all());
+	void addNode(Id id, std::wstring name, NodeType type = NodeType::NODE_SYMBOL);
 	void finishSetup();
 	void clear();
 
@@ -45,20 +52,36 @@ private:
 
 	struct SearchNode
 	{
-		std::set<Id> elementIds;
+		SearchNode(NodeTypeSet containedTypes)
+			: containedTypes(containedTypes)
+		{}
+
+		std::map<Id, NodeType> elementIds;
 		NodeTypeSet containedTypes;
 		std::map<wchar_t, SearchEdge*> edges;
 	};
 
 	struct SearchEdge
 	{
+		SearchEdge(SearchNode* target, std::wstring s)
+			: target(target)
+			, s(std::move(s))
+		{}
+
 		SearchNode* target;
 		std::wstring s;
-		std::unordered_set<wchar_t> gate;
+		std::set<wchar_t> gate;
 	};
 
 	struct SearchPath
 	{
+		SearchPath(std::wstring text, std::vector<size_t> indices, SearchNode* node)
+			: text(std::move(text))
+			, indices(std::move(indices))
+			, node(node)
+		{
+		}
+
 		std::wstring text;
 		std::vector<size_t> indices;
 		SearchNode* node;
@@ -89,8 +112,8 @@ public:
 	static bool isNoLetter(const wchar_t c);
 
 private:
-	std::vector<std::shared_ptr<SearchNode>> m_nodes;
-	std::vector<std::shared_ptr<SearchEdge>> m_edges;
+	std::vector<std::unique_ptr<SearchNode>> m_nodes;
+	std::vector<std::unique_ptr<SearchEdge>> m_edges;
 	SearchNode* m_root;
 };
 

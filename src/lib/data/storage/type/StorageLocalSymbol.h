@@ -11,8 +11,8 @@ struct StorageLocalSymbolData
 		: name(L"")
 	{}
 
-	StorageLocalSymbolData(const std::wstring& name)
-		: name(name)
+	StorageLocalSymbolData(std::wstring name)
+		: name(std::move(name))
 	{}
 
 	std::wstring name;
@@ -30,8 +30,8 @@ struct StorageLocalSymbol: public StorageLocalSymbolData
 		, id(id)
 	{}
 
-	StorageLocalSymbol(Id id, const std::wstring& name)
-		: StorageLocalSymbolData(name)
+	StorageLocalSymbol(Id id, std::wstring name)
+		: StorageLocalSymbolData(std::move(name))
 		, id(id)
 	{}
 

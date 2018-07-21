@@ -9,10 +9,10 @@
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 
-Node::Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, DefinitionKind definitionKind)
+Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, DefinitionKind definitionKind)
 	: Token(id)
 	, m_type(type)
-	, m_nameHierarchy(nameHierarchy)
+	, m_nameHierarchy(std::move(nameHierarchy))
 	, m_definitionKind(definitionKind)
 	, m_childCount(0)
 {

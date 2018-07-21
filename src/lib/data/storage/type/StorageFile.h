@@ -15,10 +15,10 @@ struct StorageFile
 		, complete(true)
 	{}
 
-	StorageFile(Id id, const std::wstring& filePath, const std::string& modificationTime, bool indexed, bool complete)
+	StorageFile(Id id, std::wstring filePath, std::string modificationTime, bool indexed, bool complete)
 		: id(id)
-		, filePath(filePath)
-		, modificationTime(modificationTime)
+		, filePath(std::move(filePath))
+		, modificationTime(std::move(modificationTime))
 		, indexed(indexed)
 		, complete(complete)
 	{}

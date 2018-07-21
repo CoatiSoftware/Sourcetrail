@@ -1319,29 +1319,21 @@ std::shared_ptr<DummyNode> GraphController::bundleByType(
 
 		if (!bundleInfoTree.children.empty())
 		{
-			std::list<std::shared_ptr<DummyNode>> bundledNodes;
-			for (const std::shared_ptr<DummyNode>& node : bundleNode->bundledNodes)
-			{
-				bundledNodes.push_back(node);
-			}
+			std::list<std::shared_ptr<DummyNode>> bundledNodes(
+				bundleNode->bundledNodes.begin(), bundleNode->bundledNodes.end());
 			bundleNode->bundledNodes.clear();
 
 			// crate a sub-bundle for anonymous namespaces
 			for (const Tree<NodeType::BundleInfo>& childBundleInfoTree : bundleInfoTree.children)
 			{
 				std::shared_ptr<DummyNode> childBundle = bundleByType(bundledNodes, type, childBundleInfoTree, true);
-
-
 				if (childBundle)
 				{
 					bundleNode->bundledNodes.insert(childBundle);
 				}
 			}
 
-			for (const std::shared_ptr<DummyNode>& bundledNode : bundledNodes)
-			{
-				bundleNode->bundledNodes.insert(bundledNode);
-			}
+			bundleNode->bundledNodes.insert(bundledNodes.begin(), bundledNodes.end());
 		}
 	}
 
@@ -1352,21 +1344,16 @@ void GraphController::bundleNodesByType()
 {
 	TRACE();
 
-	std::vector<std::shared_ptr<DummyNode>> oldNodes = m_dummyNodes;
+	std::list<std::shared_ptr<DummyNode>> nodes(m_dummyNodes.begin(), m_dummyNodes.end());
+	std::vector<std::shared_ptr<DummyNode>> oldNodes = std::move(m_dummyNodes);
 	m_dummyNodes.clear();
-
-	std::list<std::shared_ptr<DummyNode>> nodes;
-	for (size_t i = 0; i < oldNodes.size(); i++)
-	{
-		nodes.push_back(oldNodes[i]);
-	}
 
 	for (const NodeType& nodeType : NodeType::getOverviewBundleNodeTypesOrdered())
 	{
 		Tree<NodeType::BundleInfo> bundleInfoTree = nodeType.getOverviewBundleTree();
 		if (bundleInfoTree.data.isValid())
 		{
-			std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, nodeType, bundleInfoTree);
+			std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, nodeType, bundleInfoTree, false);
 			if (bundleNode)
 			{
 				m_dummyNodes.push_back(bundleNode);

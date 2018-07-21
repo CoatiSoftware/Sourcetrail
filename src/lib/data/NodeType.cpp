@@ -13,12 +13,12 @@ std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
 		NodeType(NodeType::NODE_CLASS),
 		NodeType(NodeType::NODE_INTERFACE),
 		NodeType(NodeType::NODE_STRUCT),
+		NodeType(NodeType::NODE_UNION),
 		NodeType(NodeType::NODE_FUNCTION),
 		NodeType(NodeType::NODE_GLOBAL_VARIABLE),
 		NodeType(NodeType::NODE_TYPE),
 		NodeType(NodeType::NODE_TYPEDEF),
-		NodeType(NodeType::NODE_ENUM),
-		NodeType(NodeType::NODE_UNION),
+		NodeType(NodeType::NODE_ENUM)
 	};
 }
 

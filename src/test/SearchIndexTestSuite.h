@@ -2,6 +2,7 @@
 
 #include "data/name/NameHierarchy.h"
 #include "data/search/SearchIndex.h"
+#include "utility/utility.h"
 
 class SearchIndexTestSuite : public CxxTest::TestSuite
 {
@@ -16,7 +17,7 @@ public:
 
 		TS_ASSERT_EQUALS(1, results.size());
 		TS_ASSERT_EQUALS(1, results[0].elementIds.size());
-		TS_ASSERT_DIFFERS(results[0].elementIds.end(), results[0].elementIds.find(1));
+		TS_ASSERT(utility::containsElement<Id>(results[0].elementIds, 1));
 	}
 
 	void test_search_index_finds_correct_indices_for_query()
@@ -42,9 +43,9 @@ public:
 
 		TS_ASSERT_EQUALS(2, results.size());
 		TS_ASSERT_EQUALS(1, results[0].elementIds.size());
-		TS_ASSERT_DIFFERS(results[0].elementIds.end(), results[0].elementIds.find(1));
+		TS_ASSERT(utility::containsElement<Id>(results[0].elementIds, 1));
 		TS_ASSERT_EQUALS(1, results[1].elementIds.size());
-		TS_ASSERT_DIFFERS(results[1].elementIds.end(), results[1].elementIds.find(2));
+		TS_ASSERT(utility::containsElement<Id>(results[1].elementIds, 2));
 	}
 
 	void test_search_index_does_not_find_anything_after_clear()

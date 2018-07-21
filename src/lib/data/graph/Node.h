@@ -16,7 +16,7 @@ class Node
 	: public Token
 {
 public:
-	Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, DefinitionKind definitionKind);
+	Node(Id id, NodeType type, NameHierarchy nameHierarchy, DefinitionKind definitionKind);
 	Node(const Node& other);
 	virtual ~Node();
 
@@ -69,7 +69,7 @@ private:
 	std::map<Id, Edge*> m_edges;
 
 	NodeType m_type;
-	NameHierarchy m_nameHierarchy;
+	const NameHierarchy m_nameHierarchy;
 	DefinitionKind m_definitionKind;
 
 	size_t m_childCount;

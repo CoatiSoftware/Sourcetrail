@@ -19,19 +19,19 @@ struct StorageErrorData
 	{}
 
 	StorageErrorData(
-		const std::wstring& message,
-		const std::wstring& filePath,
+		std::wstring message,
+		std::wstring filePath,
 		uint lineNumber,
 		uint columnNumber,
-		const std::wstring& translationUnit,
+		std::wstring translationUnit,
 		bool fatal,
 		bool indexed
 	)
-		: message(message)
-		, filePath(filePath)
+		: message(std::move(message))
+		, filePath(std::move(filePath))
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
-		, translationUnit(translationUnit)
+		, translationUnit(std::move(translationUnit))
 		, fatal(fatal)
 		, indexed(indexed)
 	{}
@@ -61,20 +61,20 @@ struct StorageError: public StorageErrorData
 
 	StorageError(
 		Id id,
-		const std::wstring& message,
-		const std::wstring& filePath,
+		std::wstring message,
+		std::wstring filePath,
 		uint lineNumber,
 		uint columnNumber,
-		const std::wstring& translationUnit,
+		std::wstring translationUnit,
 		bool fatal,
 		bool indexed
 	)
 		: StorageErrorData(
-			message,
-			filePath,
+			std::move(message),
+			std::move(filePath),
 			lineNumber,
 			columnNumber,
-			translationUnit,
+			std::move(translationUnit),
 			fatal,
 			indexed
 		)

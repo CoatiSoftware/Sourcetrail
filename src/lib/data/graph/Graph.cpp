@@ -41,7 +41,7 @@ void Graph::forEachToken(std::function<void(Token*)> func) const
 	forEachEdge(func);
 }
 
-Node* Graph::createNode(Id id, NodeType type, const NameHierarchy& nameHierarchy, DefinitionKind definitionKind)
+Node* Graph::createNode(Id id, NodeType type, NameHierarchy nameHierarchy, DefinitionKind definitionKind)
 {
 	Node* n = getNodeById(id);
 	if (n)
@@ -49,7 +49,7 @@ Node* Graph::createNode(Id id, NodeType type, const NameHierarchy& nameHierarchy
 		return n;
 	}
 
-	std::shared_ptr<Node> node = std::make_shared<Node>(id, type, nameHierarchy, definitionKind);
+	std::shared_ptr<Node> node = std::make_shared<Node>(id, type, std::move(nameHierarchy), definitionKind);
 	m_nodes.emplace(node->getId(), node);
 	return node.get();
 }

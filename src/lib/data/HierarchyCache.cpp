@@ -342,7 +342,7 @@ std::vector<std::tuple<Id, Id, std::vector<Id>>> HierarchyCache::getInheritanceE
 
 HierarchyCache::HierarchyNode* HierarchyCache::getNode(Id nodeId) const
 {
-	std::map<Id, std::shared_ptr<HierarchyNode>>::const_iterator it = m_nodes.find(nodeId);
+	auto it = m_nodes.find(nodeId);
 
 	if (it != m_nodes.end())
 	{
@@ -354,11 +354,11 @@ HierarchyCache::HierarchyNode* HierarchyCache::getNode(Id nodeId) const
 
 HierarchyCache::HierarchyNode* HierarchyCache::createNode(Id nodeId)
 {
-	std::map<Id, std::shared_ptr<HierarchyNode>>::iterator it = m_nodes.find(nodeId);
+	auto it = m_nodes.find(nodeId);
 
 	if (it == m_nodes.end())
 	{
-		it = m_nodes.emplace(nodeId, std::make_shared<HierarchyNode>(nodeId)).first;
+		it = m_nodes.emplace(nodeId, std::make_unique<HierarchyNode>(nodeId)).first;
 	}
 
 	return it->second.get();

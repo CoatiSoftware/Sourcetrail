@@ -749,7 +749,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(elementIds))
 		{
-			storageNodeMap[node.id] = node;
+			storageNodeMap.emplace(node.id, node);
 		}
 	}
 
@@ -830,7 +830,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		match.text = FilePath(match.name).fileName();
 		match.subtext = match.name;
 
-		match.tokenIds = utility::toVector(result.elementIds);
+		match.tokenIds = result.elementIds;
 		if (match.tokenIds.size())
 		{
 			match.tokenName = NameHierarchy(getFileNodePath(match.tokenIds[0]).wstr(), NAME_DELIMITER_FILE);
@@ -941,7 +941,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	TRACE();
 
 	std::vector<Id> tokenIds;
-	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
+	for (const StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
 	{
 		auto it = m_symbolDefinitionKinds.find(node.id);
 		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
@@ -2502,10 +2502,12 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 
 	for (const StorageNode& storageNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIds))
 	{
+		NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
+
 		const NodeType type(utility::intToType(storageNode.type));
 		if (type.isFile())
 		{
-			const FilePath filePath(NameHierarchy::deserialize(storageNode.serializedName).getRawName());
+			const FilePath filePath(nameHierarchy.getRawName());
 
 			bool complete = getFileNodeComplete(storageNode.id);
 			bool indexed = getFileNodeIndexed(storageNode.id);
@@ -2520,8 +2522,6 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 		}
 		else
 		{
-			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
-
 			DefinitionKind defKind = DEFINITION_NONE;
 			auto it = m_symbolDefinitionKinds.find(storageNode.id);
 			if (it != m_symbolDefinitionKinds.end())
@@ -2529,7 +2529,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 				defKind = it->second;
 			}
 
-			Node* node = graph->createNode(storageNode.id, type, nameHierarchy, defKind);
+			Node* node = graph->createNode(storageNode.id, type, std::move(nameHierarchy), defKind);
 
 			if (addChildCount)
 			{
@@ -2875,7 +2875,7 @@ void PersistentStorage::buildFilePathMaps()
 {
 	TRACE();
 
-	for (StorageFile& file: m_sqliteIndexStorage.getAll<StorageFile>())
+	for (const StorageFile& file: m_sqliteIndexStorage.getAll<StorageFile>())
 	{
 		const FilePath path(file.filePath);
 
@@ -2903,9 +2903,9 @@ void PersistentStorage::buildSearchIndex()
 
 	const FilePath dbPath = getIndexDbFilePath();
 
-	for (StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
+	for (const StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		NodeType type = utility::intToType(node.type);
+		const NodeType type = utility::intToType(node.type);
 		if (type.isFile())
 		{
 			bool indexed = getFileNodeIndexed(node.id);
@@ -2945,7 +2945,7 @@ void PersistentStorage::buildSearchIndex()
 					name = utility::replaceBetween(name, L'<', L'>', L"..");
 				}
 
-				m_symbolIndex.addNode(node.id, name, type);
+				m_symbolIndex.addNode(node.id, std::move(name), type);
 			}
 		}
 	}

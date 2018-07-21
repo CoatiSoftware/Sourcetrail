@@ -103,7 +103,7 @@ private:
 		std::list<std::shared_ptr<DummyNode>>& nodes,
 		const NodeType& type,
 		const Tree<NodeType::BundleInfo>& bundleInfoTree,
-		const bool considerInvisibleNodes = false);
+		const bool considerInvisibleNodes);
 	void bundleNodesByType();
 
 	void addCharacterIndex();

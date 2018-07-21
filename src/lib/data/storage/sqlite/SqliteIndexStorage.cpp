@@ -1168,7 +1168,7 @@ std::vector<StorageEdge> SqliteIndexStorage::doGetAll<StorageEdge>(const std::st
 
 		if (id != 0 && type != -1)
 		{
-			edges.push_back(StorageEdge(id, type, sourceId, targetId));
+			edges.emplace_back(id, type, sourceId, targetId);
 		}
 
 		q.nextRow();
@@ -1192,7 +1192,7 @@ std::vector<StorageNode> SqliteIndexStorage::doGetAll<StorageNode>(const std::st
 
 		if (id != 0 && type != -1)
 		{
-			nodes.push_back(StorageNode(id, type, utility::decodeFromUtf8(serializedName)));
+			nodes.emplace_back(id, type, utility::decodeFromUtf8(serializedName));
 		}
 
 		q.nextRow();
@@ -1215,7 +1215,7 @@ std::vector<StorageSymbol> SqliteIndexStorage::doGetAll<StorageSymbol>(const std
 
 		if (id != 0)
 		{
-			symbols.push_back(StorageSymbol(id, definitionKind));
+			symbols.emplace_back(id, definitionKind);
 		}
 
 		q.nextRow();
@@ -1241,7 +1241,7 @@ std::vector<StorageFile> SqliteIndexStorage::doGetAll<StorageFile>(const std::st
 
 		if (id != 0)
 		{
-			files.push_back(StorageFile(id, utility::decodeFromUtf8(filePath), modificationTime, indexed, complete));
+			files.emplace_back(id, utility::decodeFromUtf8(filePath), modificationTime, indexed, complete);
 		}
 		q.nextRow();
 	}
@@ -1265,7 +1265,7 @@ std::vector<StorageLocalSymbol> SqliteIndexStorage::doGetAll<StorageLocalSymbol>
 
 		if (id != 0)
 		{
-			localSymbols.push_back(StorageLocalSymbol(id, utility::decodeFromUtf8(name)));
+			localSymbols.emplace_back(id, utility::decodeFromUtf8(name));
 		}
 
 		q.nextRow();
@@ -1294,7 +1294,7 @@ std::vector<StorageSourceLocation> SqliteIndexStorage::doGetAll<StorageSourceLoc
 
 		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
 		{
-			sourceLocations.push_back(StorageSourceLocation(id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type));
+			sourceLocations.emplace_back(id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type);
 		}
 
 		q.nextRow();
@@ -1318,7 +1318,7 @@ std::vector<StorageOccurrence> SqliteIndexStorage::doGetAll<StorageOccurrence>(c
 
 		if (elementId != 0 && sourceLocationId != 0)
 		{
-			occurrences.push_back(StorageOccurrence(elementId, sourceLocationId));
+			occurrences.emplace_back(elementId, sourceLocationId);
 		}
 
 		q.nextRow();
@@ -1343,7 +1343,7 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::doGetAll<StorageComponen
 
 		if (id != 0 && nodeId != 0 && type != -1)
 		{
-			componentAccesses.push_back(StorageComponentAccess(id, nodeId, type));
+			componentAccesses.emplace_back(id, nodeId, type);
 		}
 
 		q.nextRow();
@@ -1371,9 +1371,9 @@ std::vector<StorageCommentLocation> SqliteIndexStorage::doGetAll<StorageCommentL
 
 		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1)
 		{
-			commentLocations.push_back(StorageCommentLocation(
+			commentLocations.emplace_back(
 				id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber
-			));
+			);
 		}
 
 		q.nextRow();
@@ -1402,8 +1402,9 @@ std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
-			errors.push_back(StorageError(
-				id, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath), lineNumber, columnNumber, utility::decodeFromUtf8(translationUnit), fatal, indexed)
+			errors.emplace_back(
+				id, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath), lineNumber, columnNumber,
+				utility::decodeFromUtf8(translationUnit), fatal, indexed
 			);
 			id++;
 		}

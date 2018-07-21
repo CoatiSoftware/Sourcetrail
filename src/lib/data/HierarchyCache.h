@@ -87,7 +87,7 @@ private:
 	HierarchyNode* getNode(Id nodeId) const;
 	HierarchyNode* createNode(Id nodeId);
 
-	std::map<Id, std::shared_ptr<HierarchyNode>> m_nodes;
+	std::map<Id, std::unique_ptr<HierarchyNode>> m_nodes;
 };
 
 #endif // HIERARCHY_CACHE_H

@@ -22,8 +22,8 @@ NodeTypeSet::NodeTypeSet()
 }
 
 NodeTypeSet::NodeTypeSet(const NodeType& type)
+	: m_nodeTypeMask(nodeTypeToMask(type))
 {
-	m_nodeTypeMask = nodeTypeToMask(type);
 }
 
 bool NodeTypeSet::operator==(const NodeTypeSet& other) const
@@ -34,6 +34,21 @@ bool NodeTypeSet::operator==(const NodeTypeSet& other) const
 bool NodeTypeSet::operator!=(const NodeTypeSet& other) const
 {
 	return !operator==(other);
+}
+
+std::vector<NodeType> NodeTypeSet::getNodeTypes() const
+{
+	std::vector<NodeType> nodeTypes;
+
+	for (const NodeType& type : s_allNodeTypes)
+	{
+		if (m_nodeTypeMask & nodeTypeToMask(type))
+		{
+			nodeTypes.push_back(type);
+		}
+	}
+
+	return nodeTypes;
 }
 
 void NodeTypeSet::invert()
@@ -53,19 +68,9 @@ void NodeTypeSet::add(const NodeTypeSet& typeSet)
 	m_nodeTypeMask |= typeSet.m_nodeTypeMask;
 }
 
-std::vector<NodeType> NodeTypeSet::getNodeTypes() const
+NodeTypeSet NodeTypeSet::getWithAdded(const NodeTypeSet& typeSet) const
 {
-	std::vector<NodeType> nodeTypes;
-
-	for (const NodeType& type : s_allNodeTypes)
-	{
-		if (m_nodeTypeMask & nodeTypeToMask(type))
-		{
-			nodeTypes.push_back(type);
-		}
-	}
-
-	return nodeTypes;
+	return NodeTypeSet(m_nodeTypeMask | typeSet.m_nodeTypeMask);
 }
 
 void NodeTypeSet::remove(const NodeTypeSet& typeSet)
@@ -75,9 +80,7 @@ void NodeTypeSet::remove(const NodeTypeSet& typeSet)
 
 NodeTypeSet NodeTypeSet::getWithRemoved(const NodeTypeSet& typeSet) const
 {
-	NodeTypeSet ret(*this);
-	ret.remove(typeSet);
-	return ret;
+	return NodeTypeSet(m_nodeTypeMask & ~typeSet.m_nodeTypeMask);
 }
 
 void NodeTypeSet::keepMatching(const std::function<bool(const NodeType&)>& matcher)
@@ -156,6 +159,11 @@ std::vector<Id> NodeTypeSet::getNodeTypeIds() const
 	}
 
 	return ids;
+}
+
+NodeTypeSet::NodeTypeSet(NodeTypeSet::MaskType typeMask)
+	: m_nodeTypeMask(typeMask)
+{
 }
 
 NodeTypeSet::MaskType NodeTypeSet::nodeTypeToMask(const NodeType& nodeType)

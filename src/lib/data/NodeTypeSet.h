@@ -20,11 +20,13 @@ public:
 	bool operator==(const NodeTypeSet& other) const;
 	bool operator!=(const NodeTypeSet& other) const;
 
+	std::vector<NodeType> getNodeTypes() const;
+
 	void invert();
 	NodeTypeSet getInverse() const;
 
 	void add(const NodeTypeSet& typeSet);
-	std::vector<NodeType> getNodeTypes() const;
+	NodeTypeSet getWithAdded(const NodeTypeSet& typeSet) const;
 
 	void remove(const NodeTypeSet& typeSet);
 	NodeTypeSet getWithRemoved(const NodeTypeSet& typeSet) const;
@@ -43,6 +45,8 @@ public:
 
 private:
 	typedef unsigned long int MaskType;
+
+	NodeTypeSet(MaskType typeMask);
 
 	static MaskType nodeTypeToMask(const NodeType& nodeType);
 	static const std::vector<NodeType> s_allNodeTypes;
