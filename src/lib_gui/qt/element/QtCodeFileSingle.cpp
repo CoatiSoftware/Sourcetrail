@@ -197,6 +197,8 @@ bool QtCodeFileSingle::requestScroll(
 	double percentB = endLineNumber ? double(endLineNumber - 1) / m_area->getEndLineNumber() : 0.0f;
 	ensurePercentVisibleAnimated(percentA, percentB, animated, target);
 
+	m_area->ensureLocationIdVisible(locationId, width(), animated);
+
 	m_scrollRequested = true;
 
 	return true;

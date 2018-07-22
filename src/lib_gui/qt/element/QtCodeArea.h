@@ -79,6 +79,7 @@ public:
 
 	Id getLocationIdOfFirstActiveLocation(Id tokenId) const;
 	Id getLocationIdOfFirstActiveScopeLocation(Id tokenId) const;
+	Id getLocationIdOfFirstHighlightedLocation() const;
 
 	size_t getActiveLocationCount() const;
 
@@ -86,6 +87,8 @@ public:
 
 	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 	void clearScreenMatches();
+
+	void ensureLocationIdVisible(Id locationId, int parentWidth, bool animated);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;

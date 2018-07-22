@@ -54,6 +54,8 @@ public:
 
 	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 
+	void ensureLocationIdVisible(Id locationId, bool animated);
+
 private slots:
 	void clickedTitle();
 	void clickedFooter();

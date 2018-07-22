@@ -228,6 +228,9 @@ bool QtCodeFileList::requestScroll(const FilePath& filePath, uint lineNumber, Id
 	}
 
 	ensureWidgetVisibleAnimated(m_filesArea, snippet, lineRect, animated, target);
+
+	snippet->ensureLocationIdVisible(locationId, animated);
+
 	return true;
 }
 

@@ -101,20 +101,16 @@ QSize QtCodeField::sizeHint() const
 	int width = 0;
 
 	QFontMetrics fm = fontMetrics();
-	int maxTextSize = 0;
 	for (QTextBlock block = document()->firstBlock(); block.isValid(); block = block.next())
 	{
 		QRectF rect = blockBoundingGeometry(block);
 		height += rect.height();
 
-		{
-			int blockWidth = fm.boundingRect(
-				0, 0, 1000000, 1000000,
-				Qt::AlignLeft | Qt::AlignTop | Qt::TextExpandTabs, block.text(), tabStopWidth()).width();
+		int blockWidth = fm.boundingRect(
+			0, 0, 1000000, 1000000,
+			Qt::AlignLeft | Qt::AlignTop | Qt::TextExpandTabs, block.text(), tabStopWidth()).width();
 
-			width = std::max(blockWidth, width);
-			maxTextSize = block.text().size();
-		}
+		width = std::max(blockWidth, width);
 	}
 
 	return QSize(width + 1, height + 5);

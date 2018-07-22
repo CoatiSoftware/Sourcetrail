@@ -142,6 +142,8 @@ int QtCodeSnippet::lineNumberDigits() const
 void QtCodeSnippet::updateCodeSnippet(const CodeSnippetParams& params)
 {
 	m_codeArea->updateSourceLocations(params.locationFile);
+
+	ensureLocationIdVisible(m_codeArea->getLocationIdOfFirstHighlightedLocation(), false);
 }
 
 void QtCodeSnippet::updateLineNumberAreaWidthForDigits(int digits)
@@ -195,6 +197,11 @@ std::string QtCodeSnippet::getCode() const
 void QtCodeSnippet::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
 	m_codeArea->findScreenMatches(query, screenMatches);
+}
+
+void QtCodeSnippet::ensureLocationIdVisible(Id locationId, bool animated)
+{
+	m_codeArea->ensureLocationIdVisible(locationId, width(), animated);
 }
 
 void QtCodeSnippet::clickedTitle()

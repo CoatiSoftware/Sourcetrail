@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QPainter>
+#include <QPropertyAnimation>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QTextBlock>
@@ -372,6 +373,21 @@ Id QtCodeArea::getLocationIdOfFirstActiveScopeLocation(Id tokenId) const
 	return 0;
 }
 
+Id QtCodeArea::getLocationIdOfFirstHighlightedLocation() const
+{
+	for (const Annotation& annotation : m_annotations)
+	{
+		if ((annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive) ||
+			annotation.locationType == LocationType::LOCATION_FULLTEXT_SEARCH ||
+			annotation.locationType == LocationType::LOCATION_ERROR)
+		{
+			return annotation.locationId;
+		}
+	}
+
+	return 0;
+}
+
 size_t QtCodeArea::getActiveLocationCount() const
 {
 	uint count = 0;
@@ -472,6 +488,85 @@ void QtCodeArea::clearScreenMatches()
 	{
 		m_annotations.erase(m_annotations.begin() + i, m_annotations.end());
 		viewport()->update();
+	}
+}
+
+void QtCodeArea::ensureLocationIdVisible(Id locationId, int parentWidth, bool animated)
+{
+	QScrollBar* scrollBar = horizontalScrollBar();
+	if (!scrollBar || scrollBar->minimum() == scrollBar->maximum())
+	{
+		return;
+	}
+
+	const int oldValue = scrollBar->value();
+	scrollBar->setValue(scrollBar->minimum());
+
+	const Annotation* annotationPtr = nullptr;
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (annotation.locationId == locationId)
+		{
+			annotationPtr = &annotation;
+			break;
+		}
+	}
+
+	if (!annotationPtr)
+	{
+		return;
+	}
+
+	std::vector<QRect> rects = getCursorRectsForAnnotation(*annotationPtr);
+	QRect boundingRect;
+	for (QRect rect : rects)
+	{
+		if (boundingRect.width())
+		{
+			boundingRect = boundingRect.united(rect);
+		}
+		else
+		{
+			boundingRect = rect;
+		}
+	}
+
+	if (!boundingRect.width())
+	{
+		return;
+	}
+
+	boundingRect.adjust(-50, 0, 50, 0);
+
+	int totalWidth = sizeHint().width() - lineNumberAreaWidth();
+	int visibleWidth = parentWidth - lineNumberAreaWidth();
+
+	int targetWidth = 0;
+	if (boundingRect.right() > visibleWidth)
+	{
+		targetWidth = boundingRect.right() - visibleWidth;
+
+		if (targetWidth > boundingRect.left())
+		{
+			targetWidth = boundingRect.left();
+		}
+	}
+
+	const double percentTarget = double(targetWidth) / (totalWidth - visibleWidth);
+	const int newValue = (scrollBar->maximum() - scrollBar->minimum()) * percentTarget + scrollBar->minimum();
+
+	if (animated && ApplicationSettings::getInstance()->getUseAnimations())
+	{
+		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
+		anim->setDuration(300);
+		anim->setStartValue(oldValue);
+		anim->setEndValue(newValue);
+		anim->setEasingCurve(QEasingCurve::InOutQuad);
+		anim->start();
+	}
+	else
+	{
+		scrollBar->setValue(newValue);
 	}
 }
 
