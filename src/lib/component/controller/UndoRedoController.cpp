@@ -139,6 +139,18 @@ void UndoRedoController::handleMessage(MessageChangeFileView* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageCodeShowDefinition* message)
+{
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageCodeShowDefinition*>(lastMessage())->nodeId == message->nodeId)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageCodeShowDefinition>(*message), Command::ORDER_ADAPT);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 {
 	if (m_iterator == m_list.begin())

@@ -5,6 +5,7 @@
 
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/code/MessageCodeShowDefinition.h"
 #include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/error/MessageShowError.h"
 #include "utility/messaging/type/history/MessageHistoryRedo.h"
@@ -44,6 +45,7 @@ class UndoRedoController
 	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
+	, public MessageListener<MessageCodeShowDefinition>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
@@ -93,6 +95,7 @@ private:
 	virtual void handleMessage(MessageActivateTrail* message);
 	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageChangeFileView* message);
+	virtual void handleMessage(MessageCodeShowDefinition* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);

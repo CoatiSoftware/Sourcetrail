@@ -78,9 +78,30 @@ SourceLocation* SourceLocationCollection::addSourceLocation(
 	return file->addSourceLocation(type, locationId, tokenIds, startLineNumber, startColumnNumber, endLineNumber, endColumnNumber);
 }
 
-SourceLocation* SourceLocationCollection::addSourceLocationCopy(SourceLocation* location)
+SourceLocation* SourceLocationCollection::addSourceLocationCopy(const SourceLocation* location)
 {
-	return createSourceLocationFile(location->getFilePath())->addSourceLocationCopy(location);
+	SourceLocationFile* other = location->getSourceLocationFile();
+	SourceLocationFile* file =
+		createSourceLocationFile(location->getFilePath(), other->isWhole(), other->isComplete(), other->isIndexed());
+	return file->addSourceLocationCopy(location);
+}
+
+void SourceLocationCollection::addSourceLocationCopies(const SourceLocationCollection* other)
+{
+	other->forEachSourceLocationFile(
+		[this](std::shared_ptr<SourceLocationFile> otherFile)
+		{
+			SourceLocationFile* file = createSourceLocationFile(
+				otherFile->getFilePath(), otherFile->isWhole(), otherFile->isComplete(), otherFile->isIndexed());
+
+			otherFile->forEachSourceLocation(
+				[file](SourceLocation* otherLocation)
+				{
+					file->addSourceLocationCopy(otherLocation);
+				}
+			);
+		}
+	);
 }
 
 void SourceLocationCollection::addSourceLocationFile(std::shared_ptr<SourceLocationFile> file)
@@ -105,7 +126,8 @@ void SourceLocationCollection::forEachSourceLocation(std::function<void(SourceLo
 	}
 }
 
-SourceLocationFile* SourceLocationCollection::createSourceLocationFile(const FilePath& filePath)
+SourceLocationFile* SourceLocationCollection::createSourceLocationFile(
+	const FilePath& filePath, bool isWhole, bool isComplete, bool isIndexed)
 {
 	SourceLocationFile* file = getSourceLocationFileByPath(filePath).get();
 	if (file)
@@ -113,7 +135,8 @@ SourceLocationFile* SourceLocationCollection::createSourceLocationFile(const Fil
 		return file;
 	}
 
-	std::shared_ptr<SourceLocationFile> filePtr = std::make_shared<SourceLocationFile>(filePath, false, false, false);
+	std::shared_ptr<SourceLocationFile> filePtr =
+		std::make_shared<SourceLocationFile>(filePath, isWhole, isComplete, isIndexed);
 	m_files.emplace(filePath, filePtr);
 	return filePtr.get();
 }

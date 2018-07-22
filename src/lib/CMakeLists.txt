@@ -418,6 +418,8 @@ add_files(
 	utility/messaging/filter_types/MessageFilterFocusInOut.h
 	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
 
+	utility/messaging/type/code/MessageCodeShowDefinition.h
+
 	utility/messaging/type/error/MessageActivateErrors.h
 	utility/messaging/type/error/MessageErrorCountClear.h
 	utility/messaging/type/error/MessageErrorCountUpdate.h

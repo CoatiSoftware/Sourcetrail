@@ -57,6 +57,7 @@ private slots:
 
 	void exportGraph();
 	void copyNodeName();
+	void showDefinition();
 	void hideNode();
 	void hideEdge();
 	void bookmarkNode();
@@ -94,6 +95,7 @@ private:
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
+	QAction* m_showDefinitionAction;
 	QAction* m_hideNodeAction;
 	QAction* m_hideEdgeAction;
 	QAction* m_bookmarkNodeAction;

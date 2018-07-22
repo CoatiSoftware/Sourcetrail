@@ -32,7 +32,9 @@ public:
 		LocationType type, Id locationId, std::vector<Id> tokenIds, const FilePath& filePath,
 		size_t startLineNumber, size_t startColumnNumber,
 		size_t endLineNumber, size_t endColumnNumber);
-	SourceLocation* addSourceLocationCopy(SourceLocation* location);
+
+	SourceLocation* addSourceLocationCopy(const SourceLocation* location);
+	void addSourceLocationCopies(const SourceLocationCollection* other);
 
 	void addSourceLocationFile(std::shared_ptr<SourceLocationFile> file);
 
@@ -40,7 +42,8 @@ public:
 	void forEachSourceLocation(std::function<void(SourceLocation*)> func) const;
 
 private:
-	SourceLocationFile* createSourceLocationFile(const FilePath& filePath);
+	SourceLocationFile* createSourceLocationFile(
+		const FilePath& filePath, bool isWhole = false, bool isComplete = false, bool isIndexed = false);
 
 	std::map<FilePath, std::shared_ptr<SourceLocationFile>> m_files;
 };

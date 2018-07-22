@@ -6,6 +6,7 @@
 
 #include "utility/file/FilePath.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/code/MessageCodeShowDefinition.h"
 #include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/error/MessageErrorCountClear.h"
 #include "utility/messaging/type/error/MessageShowError.h"
@@ -42,6 +43,7 @@ class CodeController
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
+	, public MessageListener<MessageCodeShowDefinition>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageErrorCountClear>
 	, public MessageListener<MessageFlushUpdates>
@@ -66,6 +68,7 @@ private:
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageChangeFileView* message);
+	virtual void handleMessage(MessageCodeShowDefinition* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageErrorCountClear* message);
 	virtual void handleMessage(MessageFlushUpdates* message);

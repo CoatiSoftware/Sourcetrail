@@ -20,6 +20,7 @@
 #include "qt/utility/QtFileDialog.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/messaging/type/code/MessageCodeShowDefinition.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/ResourcePaths.h"
@@ -51,29 +52,37 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_zoomLabelTimer = std::make_shared<QTimer>(this);
 	connect(m_zoomLabelTimer.get(), &QTimer::timeout, this, &QtGraphicsView::hideZoomLabel);
 
-	m_exportGraphAction = new QAction(tr("Save as Image"), this);
-	m_exportGraphAction->setStatusTip(tr("Save this graph as image file"));
-	m_exportGraphAction->setToolTip(tr("Save this graph as image file"));
+	m_exportGraphAction = new QAction("Save as Image", this);
+	m_exportGraphAction->setStatusTip("Save this graph as image file");
+	m_exportGraphAction->setToolTip("Save this graph as image file");
 	connect(m_exportGraphAction, &QAction::triggered, this, &QtGraphicsView::exportGraph);
 
-	m_copyNodeNameAction = new QAction(tr("Copy Name"), this);
-	m_copyNodeNameAction->setStatusTip(tr("Copies the name of this node to the clipboard"));
-	m_copyNodeNameAction->setToolTip(tr("Copies the name of this node to the clipboard"));
+	m_copyNodeNameAction = new QAction("Copy Name", this);
+	m_copyNodeNameAction->setStatusTip("Copies the name of this node to the clipboard");
+	m_copyNodeNameAction->setToolTip("Copies the name of this node to the clipboard");
 	connect(m_copyNodeNameAction, &QAction::triggered, this, &QtGraphicsView::copyNodeName);
 
-	m_hideNodeAction = new QAction(tr("Hide Node (Alt + Left Click)"), this);
-	m_hideNodeAction->setStatusTip(tr("Hide the node from this graph"));
-	m_hideNodeAction->setToolTip(tr("Hide the node from this graph"));
+	m_showDefinitionAction = new QAction("Show Definition (Ctrl + Left Click)", this);
+#if defined(Q_OS_MAC)
+	m_showDefinitionAction->setText("Show Definition (Cmd + Left Click)");
+#endif
+	m_showDefinitionAction->setStatusTip("Show definition of this symbol in the code");
+	m_showDefinitionAction->setToolTip("Show definition of this symbol in the code");
+	connect(m_showDefinitionAction, &QAction::triggered, this, &QtGraphicsView::showDefinition);
+
+	m_hideNodeAction = new QAction("Hide Node (Alt + Left Click)", this);
+	m_hideNodeAction->setStatusTip("Hide the node from this graph");
+	m_hideNodeAction->setToolTip("Hide the node from this graph");
 	connect(m_hideNodeAction, &QAction::triggered, this, &QtGraphicsView::hideNode);
 
-	m_hideEdgeAction = new QAction(tr("Hide Edge (Alt + Left Click)"), this);
-	m_hideEdgeAction->setStatusTip(tr("Hide the edge from this graph"));
-	m_hideEdgeAction->setToolTip(tr("Hide the edge from this graph"));
+	m_hideEdgeAction = new QAction("Hide Edge (Alt + Left Click)", this);
+	m_hideEdgeAction->setStatusTip("Hide the edge from this graph");
+	m_hideEdgeAction->setToolTip("Hide the edge from this graph");
 	connect(m_hideEdgeAction, &QAction::triggered, this, &QtGraphicsView::hideEdge);
 
-	m_bookmarkNodeAction = new QAction(tr("Bookmark Node"), this);
-	m_bookmarkNodeAction->setStatusTip(tr("Create a bookmark for this node"));
-	m_bookmarkNodeAction->setToolTip(tr("Create a bookmark for this node"));
+	m_bookmarkNodeAction = new QAction("Bookmark Node", this);
+	m_bookmarkNodeAction->setStatusTip("Create a bookmark for this node");
+	m_bookmarkNodeAction->setToolTip("Create a bookmark for this node");
 	connect(m_bookmarkNodeAction, &QAction::triggered, this, &QtGraphicsView::bookmarkNode);
 
 	m_zoomState = new QPushButton(this);
@@ -354,6 +363,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 		}
 	}
 
+	m_showDefinitionAction->setEnabled(m_hideNodeId);
 	m_hideNodeAction->setEnabled(m_hideNodeId);
 	m_hideEdgeAction->setEnabled(m_hideEdgeId);
 	m_bookmarkNodeAction->setEnabled(m_bookmarkNodeId);
@@ -366,8 +376,9 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	menu.addAction(m_exportGraphAction);
 
 	menu.addSeparator();
-	menu.addAction(m_hideEdgeAction);
+	menu.addAction(m_showDefinitionAction);
 	menu.addAction(m_hideNodeAction);
+	menu.addAction(m_hideEdgeAction);
 	menu.addAction(m_bookmarkNodeAction);
 
 	menu.addSeparator();
@@ -519,6 +530,11 @@ void QtGraphicsView::exportGraph()
 void QtGraphicsView::copyNodeName()
 {
 	QApplication::clipboard()->setText(QString::fromStdWString(m_clipboardNodeName));
+}
+
+void QtGraphicsView::showDefinition()
+{
+	MessageCodeShowDefinition(m_hideNodeId).dispatch();
 }
 
 void QtGraphicsView::hideNode()

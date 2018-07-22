@@ -215,6 +215,21 @@ std::wostream& operator<<(std::wostream& ostream, const SourceLocationFile& file
 {
 	ostream << L"file \"" << file.getFilePath().wstr() << L"\"";
 
+	if (file.isWhole())
+	{
+		ostream << L" whole";
+	}
+
+	if (file.isComplete())
+	{
+		ostream << L" complete";
+	}
+
+	if (file.isIndexed())
+	{
+		ostream << L" indexed";
+	}
+
 	size_t line = 0;
 	file.forEachSourceLocation(
 		[&ostream, &line](SourceLocation* location)

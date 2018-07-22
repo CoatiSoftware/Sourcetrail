@@ -11,6 +11,7 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
+#include "utility/messaging/type/code/MessageCodeShowDefinition.h"
 #include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 #include "utility/ResourcePaths.h"
@@ -397,6 +398,20 @@ void QtGraphNode::onHide()
 	else if (getParent())
 	{
 		getParent()->onHide();
+	}
+}
+
+void QtGraphNode::onShowDefinition()
+{
+	Id tokenId = getTokenId();
+
+	if (tokenId)
+	{
+		MessageCodeShowDefinition(tokenId).dispatch();
+	}
+	else if (getParent())
+	{
+		getParent()->onShowDefinition();
 	}
 }
 

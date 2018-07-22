@@ -98,6 +98,7 @@ public:
 
 	virtual void onClick();
 	virtual void onHide();
+	virtual void onShowDefinition();
 	virtual void moved(const Vec2i& oldPosition);
 
 	virtual void updateStyle() = 0;

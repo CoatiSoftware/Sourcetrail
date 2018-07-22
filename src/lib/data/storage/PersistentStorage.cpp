@@ -1380,6 +1380,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 
 	if (nonFileIds.size())
 	{
+		// FIXME: can we use get SqliteIndexStorage::getSourceLocationsForElementIds() here instead?
 		std::vector<Id> locationIds;
 		std::unordered_map<Id, Id> locationIdToElementIdMap;
 		for (const StorageOccurrence& occurrence: m_sqliteIndexStorage.getOccurrencesForElementIds(nonFileIds))
@@ -1403,6 +1404,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 			}
 
 			FilePath path = getFileNodePath(sourceLocation.fileNodeId);
+			// FIXME: This shouldn't be necessary since all files are stored, even non-indexed
 			if (path.empty())
 			{
 				const StorageNode fileNode = m_sqliteIndexStorage.getNodeById(sourceLocation.fileNodeId);
@@ -1421,7 +1423,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 				collection->addSourceLocation(
 					type,
 					sourceLocation.id,
-					std::vector<Id>(1, it->second),
+					{ it->second },
 					path,
 					sourceLocation.startLine,
 					sourceLocation.startCol,

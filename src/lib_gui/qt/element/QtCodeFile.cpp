@@ -120,44 +120,49 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 
 QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 {
-	QtCodeSnippet* snippet = new QtCodeSnippet(params, m_navigator, this);
+	QtCodeSnippet* newSnippet = new QtCodeSnippet(params, m_navigator, this);
 
 	size_t i = 0;
 	while (i < m_snippets.size())
 	{
-		uint start = snippet->getStartLineNumber();
-		uint end = snippet->getEndLineNumber();
+		uint start = newSnippet->getStartLineNumber();
+		uint end = newSnippet->getEndLineNumber();
 
-		QtCodeSnippet* s = m_snippets[i];
+		QtCodeSnippet* oldSnippet = m_snippets[i];
 
-		if (s->getEndLineNumber() + 1 < start)
+		if (oldSnippet->getEndLineNumber() + 1 < start) // before
 		{
 			i++;
 			continue;
 		}
-		else if (s->getStartLineNumber() > end + 1)
+		else if (oldSnippet->getStartLineNumber() > end + 1) // after
 		{
 			break;
 		}
-		else if (s->getStartLineNumber() < start || s->getEndLineNumber() > end)
+		else if (oldSnippet->getStartLineNumber() <= start && oldSnippet->getEndLineNumber() >= end) // containing
+		{
+			newSnippet->deleteLater();
+			return oldSnippet;
+		}
+		else if (oldSnippet->getStartLineNumber() < start || oldSnippet->getEndLineNumber() > end) // overlaping
 		{
 			m_navigator->clearSnippetReferences();
-			snippet = QtCodeSnippet::merged(snippet, s, m_navigator, this);
+			newSnippet = QtCodeSnippet::merged(newSnippet, oldSnippet, m_navigator, this);
 		}
 
-		s->hide();
-		m_snippetLayout->removeWidget(s);
-		s->deleteLater();
+		oldSnippet->hide();
+		m_snippetLayout->removeWidget(oldSnippet);
+		oldSnippet->deleteLater();
 
 		m_snippets.erase(m_snippets.begin() + i);
 	}
 
-	m_snippetLayout->insertWidget(i, snippet);
-	m_snippets.insert(m_snippets.begin() + i, snippet);
+	m_snippetLayout->insertWidget(i, newSnippet);
+	m_snippets.insert(m_snippets.begin() + i, newSnippet);
 
 	setSnippets();
 
-	return snippet;
+	return newSnippet;
 }
 
 void QtCodeFile::updateCodeSnippet(const CodeSnippetParams& params)

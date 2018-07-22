@@ -287,6 +287,91 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	}
 }
 
+void CodeController::handleMessage(MessageCodeShowDefinition* message)
+{
+	TRACE("code show definition");
+
+	Id nodeId = message->nodeId;
+
+	std::shared_ptr<SourceLocationCollection> collection = m_storageAccess->getSourceLocationsForTokenIds({ nodeId });
+	if (!collection->getSourceLocationFileCount())
+	{
+		LOG_ERROR("MessageCodeShowDefinition did not contain a nodeId with location files.");
+		return;
+	}
+
+	size_t lineNumber = 1;
+	FilePath filePath;
+
+	// use first scope location for nodeId, otherwise first location
+	if (collection->getSourceLocationCount())
+	{
+		std::shared_ptr<SourceLocationCollection> filteredCollection = std::make_shared<SourceLocationCollection>();
+		bool addedLocation = false;
+
+		collection->forEachSourceLocation(
+			[&](SourceLocation* location)
+			{
+				if (addedLocation || !location->isStartLocation())
+				{
+					return;
+				}
+
+				if (location->isScopeLocation())
+				{
+					filteredCollection->addSourceLocationCopy(location);
+					filteredCollection->addSourceLocationCopy(location->getEndLocation());
+
+					filePath = location->getFilePath();
+					lineNumber = location->getLineNumber();
+					addedLocation = true;
+					return;
+				}
+			}
+		);
+
+		if (!addedLocation)
+		{
+			SourceLocation* location = collection->getSourceLocationFiles().begin()->second->getSourceLocations().begin()->get();
+			filteredCollection->addSourceLocationCopy(location);
+			filteredCollection->addSourceLocationCopy(location->getOtherLocation());
+
+			filePath = location->getFilePath();
+			lineNumber = location->getStartLocation()->getLineNumber();
+		}
+
+		collection = filteredCollection;
+	}
+	else // otherwise first file
+	{
+		filePath = collection->getSourceLocationFiles().begin()->second->getFilePath();
+	}
+
+	std::vector<CodeSnippetParams> snippets = getSnippetsForFile(collection->getSourceLocationFiles().begin()->second);
+	if (snippets.size() != 1)
+	{
+		LOG_ERROR("MessageCodeShowDefinition snippet count is not 1");
+		return;
+	}
+
+	snippets[0].insertSnippet = true;
+	m_collection->addSourceLocationCopies(collection.get());
+
+	saveOrRestoreViewMode(message);
+
+	CodeView* view = getView();
+	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_LINE);
+	scrollParams.filePath = filePath;
+	scrollParams.line = lineNumber;
+	view->scrollTo(scrollParams);
+
+	CodeView::CodeParams params;
+	params.showContents = !message->isReplayed();
+
+	addAllSourceLocations(&snippets);
+	getView()->showCodeSnippets(snippets, params);
+}
+
 void CodeController::handleMessage(MessageDeactivateEdge* message)
 {
 	if (message->scrollToDefinition)
@@ -394,7 +479,7 @@ void CodeController::clear()
 {
 	getView()->clear();
 
-	m_collection.reset();
+	m_collection = std::make_shared<SourceLocationCollection>();
 }
 
 std::vector<CodeSnippetParams> CodeController::getSnippetsForFileWithState(
@@ -402,20 +487,18 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFileWithState(
 {
 	TRACE();
 
+	std::shared_ptr<SourceLocationFile> file = m_collection->getSourceLocationFileByPath(filePath);
+	if (!file)
+	{
+		return {};
+	}
+
 	std::vector<CodeSnippetParams> snippets;
 
 	switch (state)
 	{
 	case CodeView::FILE_SNIPPETS:
-		{
-			std::shared_ptr<SourceLocationFile> file = m_collection->getSourceLocationFileByPath(filePath);
-			if (!file)
-			{
-				return snippets;
-			}
-
-			snippets = getSnippetsForFile(file);
-		}
+		snippets = getSnippetsForFile(file);
 		break;
 
 	case CodeView::FILE_MAXIMIZED:
@@ -431,12 +514,8 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFileWithState(
 
 			// make a copy of SourceLocationFile so that isWhole flag is different for first snippet adding the file
 			// and second snippet adding the content
-			params.locationFile =
-				std::make_shared<SourceLocationFile>(*m_collection->getSourceLocationFileByPath(filePath).get());
-			if (params.locationFile)
-			{
-				params.locationFile->setIsWhole(true);
-			}
+			params.locationFile = std::make_shared<SourceLocationFile>(*file.get());
+			params.locationFile->setIsWhole(true);
 
 			snippets.push_back(params);
 		}
