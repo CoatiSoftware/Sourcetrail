@@ -287,7 +287,7 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 
 	if (question.size() && m_hasGUI)
 	{
-		if (dialogView->confirm(question, { "Yes", "No" }) == 1)
+		if (dialogView->confirm(question, { "Reindex", "Cancel" }) == 1)
 		{
 			return;
 		}
