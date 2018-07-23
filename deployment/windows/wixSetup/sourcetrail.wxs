@@ -426,6 +426,7 @@
 				<ComponentRef Id='GraphRightPng'/>
 				<ComponentRef Id='GraphUpPng'/>
 				<ComponentRef Id='GroupNamespacePng'/>
+				<ComponentRef Id='LegendPng'/>
 				<ComponentRef Id='MacroPng'/>
 				<ComponentRef Id='NamespacePng'/>
 				<ComponentRef Id='GraphPatternPng'/>
