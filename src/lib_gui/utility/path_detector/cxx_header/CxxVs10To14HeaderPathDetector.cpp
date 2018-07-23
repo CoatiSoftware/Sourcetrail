@@ -39,9 +39,10 @@ std::vector<FilePath> CxxVs10To14HeaderPathDetector::getPaths() const
 	if (!headerSearchPaths.empty())
 	{
 		utility::append(headerSearchPaths, utility::getWindowsSdkHeaderSearchPaths(m_architecture));
+		headerSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
 	}
 
-	return utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
+	return headerSearchPaths;
 }
 
 int CxxVs10To14HeaderPathDetector::visualStudioTypeToVersion(const VisualStudioType t)
@@ -66,13 +67,13 @@ std::string CxxVs10To14HeaderPathDetector::visualStudioTypeToString(const Visual
 	switch (t)
 	{
 	case VISUAL_STUDIO_2010:
-		ret += " 2010";
+		return ret + " 2010";
 	case VISUAL_STUDIO_2012:
-		ret += " 2012";
+		return ret + " 2012";
 	case VISUAL_STUDIO_2013:
-		ret += " 2013";
+		return ret + " 2013";
 	case VISUAL_STUDIO_2015:
-		ret += " 2015";
+		return ret + " 2015";
 	}
 	return ret;
 }
@@ -94,6 +95,7 @@ FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 	FilePath path(value.toStdWString());
 	if (path.exists())
 	{
+		std::cout << "key worked: " << key.toStdString() << std::endl;
 		return path;
 	}
 

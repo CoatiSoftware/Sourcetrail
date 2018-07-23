@@ -23,5 +23,10 @@ std::vector<FilePath> CxxHeaderPathDetector::getPaths() const
 		}
 	}
 
-	return utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
+	if (!headerSearchPaths.empty())
+	{
+		headerSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
+	}
+
+	return headerSearchPaths;
 }

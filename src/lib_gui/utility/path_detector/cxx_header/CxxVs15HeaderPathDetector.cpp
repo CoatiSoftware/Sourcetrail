@@ -51,7 +51,8 @@ std::vector<FilePath> CxxVs15HeaderPathDetector::getPaths() const
 			windowsSdkHeaderSearchPaths = utility::getWindowsSdkHeaderSearchPaths(APPLICATION_ARCHITECTURE_X86_64);
 		}
 		utility::append(headerSearchPaths, windowsSdkHeaderSearchPaths);
+		headerSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
 	}
 
-	return utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
+	return headerSearchPaths;
 }
