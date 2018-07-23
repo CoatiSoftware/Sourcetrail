@@ -284,8 +284,10 @@
 				<ComponentRef Id='BookmarkViewEditBookmarkIconPng'/>
 				
 				<ComponentRef Id='CodeViewCss'/>
+				<ComponentRef Id='CodeViewArrowDownPng'/>
 				<ComponentRef Id='CodeViewArrowLeftPng'/>
 				<ComponentRef Id='CodeViewArrowRightPng'/>
+				<ComponentRef Id='CodeViewArrowUpPng'/>
 				<ComponentRef Id='CodeViewButtonBackgroundPng'/>
 				<ComponentRef Id='CodeViewEditPng'/>
 				<ComponentRef Id='CodeViewFilePng'/>

@@ -435,11 +435,17 @@
 						</Component>
 
 						<Directory Id='DataCodeViewImages' Name='images'>
+							<Component Id='CodeViewArrowDownPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/arrow_down.png' KeyPath='yes' />
+							</Component>
 							<Component Id='CodeViewArrowLeftPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewArrowLeft' Name='arrow_left.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/arrow_left.png' KeyPath='yes' />
 							</Component>
 							<Component Id='CodeViewArrowRightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/arrow_right.png' KeyPath='yes' />
+							</Component>
+							<Component Id='CodeViewArrowUpPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewArrowUp' Name='arrow_up.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/arrow_up.png' KeyPath='yes' />
 							</Component>
 							<Component Id='CodeViewButtonBackgroundPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewButtonBackground' Name='button_background.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/button_background.png' KeyPath='yes' />
