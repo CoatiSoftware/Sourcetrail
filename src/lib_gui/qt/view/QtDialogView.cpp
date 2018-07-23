@@ -145,7 +145,8 @@ void QtDialogView::hideProgressDialog()
 }
 
 void QtDialogView::startIndexingDialog(
-	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info)
+	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info,
+	std::function<void(const RefreshInfo& info)> onStartIndexing)
 {
 	m_refreshInfos.clear();
 
@@ -206,7 +207,7 @@ void QtDialogView::startIndexingDialog(
 					Task::dispatch(std::make_shared<TaskLambda>(
 						[=]()
 						{
-							project->buildIndex(info, this);
+							onStartIndexing(info);
 						}
 					));
 

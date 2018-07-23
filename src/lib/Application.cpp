@@ -403,7 +403,7 @@ void Application::refreshProject(RefreshMode refreshMode)
 {
 	if (m_project && checkSharedMemory())
 	{
-		m_project->refresh(refreshMode, getDialogView(DialogView::UseCase::INDEXING).get());
+		m_project->refresh(refreshMode, getDialogView(DialogView::UseCase::INDEXING));
 	}
 }
 

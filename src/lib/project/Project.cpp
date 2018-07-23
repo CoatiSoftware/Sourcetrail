@@ -225,7 +225,7 @@ void Project::load()
 	}
 }
 
-void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
+void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialogView)
 {
 	if (m_isIndexing)
 	{
@@ -345,7 +345,7 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 			enabledModes.insert(enabledModes.end(), { REFRESH_UPDATED_FILES, REFRESH_UPDATED_AND_INCOMPLETE_FILES });
 		}
 
-		dialogView->startIndexingDialog(this, enabledModes, info);
+		dialogView->startIndexingDialog(this, enabledModes, info, [this, dialogView](const RefreshInfo& info) { buildIndex(info, dialogView); });
 	}
 	else
 	{
@@ -371,7 +371,7 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 	}
 }
 
-void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
+void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> dialogView)
 {
 	if (m_isIndexing)
 	{

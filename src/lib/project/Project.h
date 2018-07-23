@@ -37,11 +37,11 @@ public:
 
 	void load();
 
-	void refresh(RefreshMode refreshMode, DialogView* dialogView);
+	void refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialogView);
 
 	RefreshInfo getRefreshInfo(RefreshMode mode) const;
 
-	void buildIndex(const RefreshInfo& info, DialogView* dialogView);
+	void buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> dialogView);
 
 private:
 	enum ProjectStateType

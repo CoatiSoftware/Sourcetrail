@@ -40,7 +40,8 @@ public:
 	void hideProgressDialog() override;
 
 	void startIndexingDialog(
-		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info) override;
+		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info,
+		std::function<void(const RefreshInfo& info)> onStartIndexing) override;
 	void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths) override;
 	DatabasePolicy finishedIndexingDialog(
