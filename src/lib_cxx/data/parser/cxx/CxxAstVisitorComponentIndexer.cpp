@@ -785,7 +785,7 @@ ParseLocation CxxAstVisitorComponentIndexer::getSignatureLocation(clang::Functio
 		const clang::LangOptions& opts = m_astContext->getLangOpts();
 
 		clang::SourceLocation endLoc = FTL.getSourceRange().getEnd();
-		while (endLoc < signatureRange.getEnd())
+		while (sm.isBeforeInTranslationUnit(endLoc, signatureRange.getEnd()))
 		{
 			llvm::Optional<clang::Token> token = clang::Lexer::findNextToken(endLoc, sm, opts);
 			if (token.hasValue())
