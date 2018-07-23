@@ -7,9 +7,7 @@ class CxxHeaderPathDetector: public PathDetector
 {
 public:
 	CxxHeaderPathDetector(const std::string& compilerName);
-	virtual ~CxxHeaderPathDetector();
-
-	virtual std::vector<FilePath> getPaths() const;
+	std::vector<FilePath> getPaths() const override;
 
 private:
 	const std::string m_compilerName;

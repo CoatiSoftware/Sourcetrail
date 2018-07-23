@@ -7,9 +7,7 @@ class CxxFrameworkPathDetector: public PathDetector
 {
 public:
 	CxxFrameworkPathDetector(const std::string& compilerName);
-	virtual ~CxxFrameworkPathDetector();
-
-	virtual std::vector<FilePath> getPaths() const;
+	std::vector<FilePath> getPaths() const override;
 
 private:
 	const std::string m_compilerName;

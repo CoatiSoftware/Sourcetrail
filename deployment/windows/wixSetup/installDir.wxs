@@ -326,6 +326,362 @@
 
 			<Directory Id='LieutenantCommanderData' Name='data'>
 
+				<Directory Id='DataColorSchemes' Name='color_schemes'>
+					<Component Id='badRainbowXml' Guid='*' Win64="$(var.Win64)">
+						<File Id='badRainbowXml' Name='bad_rainbow.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bad_rainbow.xml' KeyPath='yes' />
+					</Component>
+					<Component Id='brightXml' Guid='*' Win64="$(var.Win64)">
+						<File Id='brightXml' Name='bright.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bright.xml' KeyPath='yes' />
+					</Component>
+					<Component Id='darkXml' Guid='*' Win64="$(var.Win64)">
+						<File Id='darkXml' Name='dark.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/dark.xml' KeyPath='yes' />
+					</Component>
+				</Directory>
+
+
+				<Directory Id='DataCxx' Name='cxx'>
+					<Directory Id='DataCxxInclude' Name='include'>
+						<Directory Id='DataCxxIncludeCudaWrappers' Name='cuda_wrappers'>
+							<Component Id='ClangHeaderalgorithm' Guid='*' Win64="$(var.Win64)">
+								<File Id='ClangHeaderalgorithm' Name='algorithm' DiskId='1' Source='./../../../bin/app/data/cxx/include/cuda_wrappers/algorithm' KeyPath='yes' />
+							</Component>
+							<Component Id='ClangHeadercomplex' Guid='*' Win64="$(var.Win64)">
+								<File Id='ClangHeadercomplex' Name='complex' DiskId='1' Source='./../../../bin/app/data/cxx/include/cuda_wrappers/complex' KeyPath='yes' />
+							</Component>
+							<Component Id='ClangHeadernew' Guid='*' Win64="$(var.Win64)">
+								<File Id='ClangHeadernew' Name='new' DiskId='1' Source='./../../../bin/app/data/cxx/include/cuda_wrappers/new' KeyPath='yes' />
+							</Component>
+						</Directory>
+						<Component Id='ClangHeaderadxintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderadxintrinH' Name='adxintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/adxintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderaltivecH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderaltivecH' Name='altivec.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/altivec.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderammintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderammintrinH' Name='ammintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/ammintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderarm64intrH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderarm64intrH' Name='arm64intr.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/arm64intr.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderarmintrH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderarmintrH' Name='armintr.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/armintr.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderarm_acleH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderarm_acleH' Name='arm_acle.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/arm_acle.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderarm_neonH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderarm_neonH' Name='arm_neon.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/arm_neon.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx2intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx2intrinH' Name='avx2intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx2intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512bitalgintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512bitalgintrinH' Name='avx512bitalgintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512bitalgintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512bwintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512bwintrinH' Name='avx512bwintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512bwintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512cdintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512cdintrinH' Name='avx512cdintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512cdintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512dqintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512dqintrinH' Name='avx512dqintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512dqintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512erintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512erintrinH' Name='avx512erintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512erintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512fintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512fintrinH' Name='avx512fintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512fintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512ifmaintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512ifmaintrinH' Name='avx512ifmaintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512ifmaintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512ifmavlintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512ifmavlintrinH' Name='avx512ifmavlintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512ifmavlintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512pfintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512pfintrinH' Name='avx512pfintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512pfintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vbmi2intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vbmi2intrinH' Name='avx512vbmi2intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vbmi2intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vbmiintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vbmiintrinH' Name='avx512vbmiintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vbmiintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vbmivlintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vbmivlintrinH' Name='avx512vbmivlintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vbmivlintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vlbitalgintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vlbitalgintrinH' Name='avx512vlbitalgintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vlbitalgintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vlbwintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vlbwintrinH' Name='avx512vlbwintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vlbwintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vlcdintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vlcdintrinH' Name='avx512vlcdintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vlcdintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vldqintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vldqintrinH' Name='avx512vldqintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vldqintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vlintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vlintrinH' Name='avx512vlintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vlintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vlvbmi2intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vlvbmi2intrinH' Name='avx512vlvbmi2intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vlvbmi2intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vlvnniintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vlvnniintrinH' Name='avx512vlvnniintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vlvnniintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vnniintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vnniintrinH' Name='avx512vnniintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vnniintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vpopcntdqintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vpopcntdqintrinH' Name='avx512vpopcntdqintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vpopcntdqintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavx512vpopcntdqvlintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavx512vpopcntdqvlintrinH' Name='avx512vpopcntdqvlintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avx512vpopcntdqvlintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderavxintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderavxintrinH' Name='avxintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/avxintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderbmi2intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderbmi2intrinH' Name='bmi2intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/bmi2intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderbmiintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderbmiintrinH' Name='bmiintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/bmiintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadercetintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadercetintrinH' Name='cetintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/cetintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderclflushoptintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderclflushoptintrinH' Name='clflushoptintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/clflushoptintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderclwbintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderclwbintrinH' Name='clwbintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/clwbintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderclzerointrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderclzerointrinH' Name='clzerointrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/clzerointrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadercpuidH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadercpuidH' Name='cpuid.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/cpuid.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderemmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderemmintrinH' Name='emmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/emmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderf16cintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderf16cintrinH' Name='f16cintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/f16cintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderfloatH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderfloatH' Name='float.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/float.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderfma4intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderfma4intrinH' Name='fma4intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/fma4intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderfmaintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderfmaintrinH' Name='fmaintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/fmaintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderfxsrintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderfxsrintrinH' Name='fxsrintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/fxsrintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadergfniintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadergfniintrinH' Name='gfniintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/gfniintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderhtmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderhtmintrinH' Name='htmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/htmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderhtmxlintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderhtmxlintrinH' Name='htmxlintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/htmxlintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderia32intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderia32intrinH' Name='ia32intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/ia32intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderimmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderimmintrinH' Name='immintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/immintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderintrinH' Name='intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderinttypesH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderinttypesH' Name='inttypes.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/inttypes.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderiso646H' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderiso646H' Name='iso646.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/iso646.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderlimitsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderlimitsH' Name='limits.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/limits.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderlwpintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderlwpintrinH' Name='lwpintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/lwpintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderlzcntintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderlzcntintrinH' Name='lzcntintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/lzcntintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadermm3dnowH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadermm3dnowH' Name='mm3dnow.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/mm3dnow.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadermmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadermmintrinH' Name='mmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/mmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadermm_mallocH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadermm_mallocH' Name='mm_malloc.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/mm_malloc.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadermoduleModulemap' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadermoduleModulemap' Name='module.modulemap' DiskId='1' Source='./../../../bin/app/data/cxx/include/module.modulemap' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadermsaH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadermsaH' Name='msa.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/msa.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadermwaitxintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadermwaitxintrinH' Name='mwaitxintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/mwaitxintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadernmmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadernmmintrinH' Name='nmmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/nmmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderopenclcH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderopenclcH' Name='opencl-c.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/opencl-c.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderpkuintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderpkuintrinH' Name='pkuintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/pkuintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderpmmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderpmmintrinH' Name='pmmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/pmmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderpopcntintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderpopcntintrinH' Name='popcntintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/popcntintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderprfchwintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderprfchwintrinH' Name='prfchwintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/prfchwintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderrdseedintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderrdseedintrinH' Name='rdseedintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/rdseedintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderrtmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderrtmintrinH' Name='rtmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/rtmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaders390intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaders390intrinH' Name='s390intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/s390intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadershaintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadershaintrinH' Name='shaintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/shaintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadersmmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadersmmintrinH' Name='smmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/smmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderstdalignH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderstdalignH' Name='stdalign.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/stdalign.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderstdargH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderstdargH' Name='stdarg.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/stdarg.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderstdatomicH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderstdatomicH' Name='stdatomic.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/stdatomic.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderstdboolH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderstdboolH' Name='stdbool.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/stdbool.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderstddefH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderstddefH' Name='stddef.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/stddef.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderstdintH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderstdintH' Name='stdint.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/stdint.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderstdnoreturnH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderstdnoreturnH' Name='stdnoreturn.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/stdnoreturn.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadertbmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadertbmintrinH' Name='tbmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/tbmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadertgmathH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadertgmathH' Name='tgmath.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/tgmath.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadertmmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadertmmintrinH' Name='tmmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/tmmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderunwindH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderunwindH' Name='unwind.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/unwind.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadervadefsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadervadefsH' Name='vadefs.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/vadefs.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadervaesintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadervaesintrinH' Name='vaesintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/vaesintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadervarargsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadervarargsH' Name='varargs.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/varargs.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadervecintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadervecintrinH' Name='vecintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/vecintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadervpclmulqdqintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadervpclmulqdqintrinH' Name='vpclmulqdqintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/vpclmulqdqintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderwmmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderwmmintrinH' Name='wmmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/wmmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderx86intrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderx86intrinH' Name='x86intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/x86intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderxmmintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderxmmintrinH' Name='xmmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xmmintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderxopintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderxopintrinH' Name='xopintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xopintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderxsavecintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderxsavecintrinH' Name='xsavecintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xsavecintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderxsaveintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderxsaveintrinH' Name='xsaveintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xsaveintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderxsaveoptintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderxsaveoptintrinH' Name='xsaveoptintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xsaveoptintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderxsavesintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderxsavesintrinH' Name='xsavesintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xsavesintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderxtestintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderxtestintrinH' Name='xtestintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xtestintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_builtin_varsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_builtin_varsH' Name='__clang_cuda_builtin_vars.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_builtin_vars.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_cmathH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_cmathH' Name='__clang_cuda_cmath.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_cmath.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_complex_builtinsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_complex_builtinsH' Name='__clang_cuda_complex_builtins.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_complex_builtins.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_intrinsicsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_intrinsicsH' Name='__clang_cuda_intrinsics.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_intrinsics.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_math_forward_declaresH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_math_forward_declaresH' Name='__clang_cuda_math_forward_declares.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_math_forward_declares.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_runtime_wrapperH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_runtime_wrapperH' Name='__clang_cuda_runtime_wrapper.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_runtime_wrapper.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__stddef_max_align_tH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__stddef_max_align_tH' Name='__stddef_max_align_t.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__stddef_max_align_t.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__wmmintrin_aesH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__wmmintrin_aesH' Name='__wmmintrin_aes.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__wmmintrin_aes.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__wmmintrin_pclmulH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__wmmintrin_pclmulH' Name='__wmmintrin_pclmul.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__wmmintrin_pclmul.h' KeyPath='yes' />
+						</Component>
+					</Directory>
+				</Directory>
+
+				<Directory Id='DataFallback' Name='fallback'>
+					<Component Id='applicationSettingsXml' Guid='*' Win64="$(var.Win64)">
+						<File Id='applicationSettingsXml' Name='ApplicationSettings.xml' DiskId='1' Source='./../../../bin/app/data/fallback/ApplicationSettings.xml' KeyPath='yes' />
+					</Component>
+					<Component Id='window_settingsIni' Guid='*' Win64="$(var.Win64)">
+						<File Id='window_settingsIni' Name='window_settings.ini' DiskId='1' Source='./../../../bin/app/data/fallback/window_settings.ini' KeyPath='yes' />
+					</Component>
+				</Directory>
+
 				<Directory Id='DataFonts' Name='fonts'>
 					<Component Id='FiraSansLicensetxt' Guid='*' Win64="$(var.Win64)">
 						<File Id='FiraSansLicensetxt' Name='FiraSans_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans_License.txt' KeyPath='yes' />
@@ -358,27 +714,6 @@
 					</Component>
 					<Component Id='SourceCodeProRegularotf' Guid='*' Win64="$(var.Win64)">
 						<File Id='SourceCodeProRegularotf' Name='SourceCodePro-Regular.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Regular.otf' KeyPath='yes' />
-					</Component>
-				</Directory>
-
-				<Directory Id='DataColorSchemes' Name='color_schemes'>
-					<Component Id='badRainbowXml' Guid='*' Win64="$(var.Win64)">
-						<File Id='badRainbowXml' Name='bad_rainbow.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bad_rainbow.xml' KeyPath='yes' />
-					</Component>
-					<Component Id='brightXml' Guid='*' Win64="$(var.Win64)">
-						<File Id='brightXml' Name='bright.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bright.xml' KeyPath='yes' />
-					</Component>
-					<Component Id='darkXml' Guid='*' Win64="$(var.Win64)">
-						<File Id='darkXml' Name='dark.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/dark.xml' KeyPath='yes' />
-					</Component>
-				</Directory>
-
-				<Directory Id='DataFallback' Name='fallback'>
-					<Component Id='applicationSettingsXml' Guid='*' Win64="$(var.Win64)">
-						<File Id='applicationSettingsXml' Name='ApplicationSettings.xml' DiskId='1' Source='./../../../bin/app/data/fallback/ApplicationSettings.xml' KeyPath='yes' />
-					</Component>
-					<Component Id='window_settingsIni' Guid='*' Win64="$(var.Win64)">
-						<File Id='window_settingsIni' Name='window_settings.ini' DiskId='1' Source='./../../../bin/app/data/fallback/window_settings.ini' KeyPath='yes' />
 					</Component>
 				</Directory>
 

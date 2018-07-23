@@ -8,9 +8,7 @@ class JavaPathDetectorLinux
 {
 public:
 	JavaPathDetectorLinux(const std::string javaVersion);
-	virtual ~JavaPathDetectorLinux();
-
-	virtual std::vector<FilePath> getPaths() const;
+	std::vector<FilePath> getPaths() const override;
 
 private:
 	FilePath getJavaInPath() const;

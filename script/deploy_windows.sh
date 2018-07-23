@@ -193,6 +193,8 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		cp -u -r bin/app/data/gui/installer/EULA.rtf $PORTABLE_PACKAGE_APP_DIR/license/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
 		cp -u -r bin/app/data/color_schemes/* $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/cxx/
+		cp -u -r bin/app/data/cxx/* $PORTABLE_PACKAGE_APP_DIR/data/cxx/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/fallback/
 		cp -u -r bin/app/data/fallback/* $PORTABLE_PACKAGE_APP_DIR/data/fallback/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/fonts/

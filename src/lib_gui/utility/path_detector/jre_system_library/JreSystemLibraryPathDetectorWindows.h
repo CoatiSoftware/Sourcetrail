@@ -7,7 +7,6 @@ class JreSystemLibraryPathDetectorWindows: public JreSystemLibraryPathDetector
 {
 public:
 	JreSystemLibraryPathDetectorWindows(const std::string javaVersion);
-	virtual ~JreSystemLibraryPathDetectorWindows();
 };
 
 #endif // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_WINDOWS_H

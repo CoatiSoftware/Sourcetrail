@@ -4,8 +4,7 @@
 class UpdateChecker
 {
 public:
-	virtual ~UpdateChecker() {}
-
+	virtual ~UpdateChecker() = default;
 	virtual void checkUpdate() = 0;
 };
 

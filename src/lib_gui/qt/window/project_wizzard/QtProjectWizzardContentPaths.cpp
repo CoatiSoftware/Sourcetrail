@@ -201,7 +201,6 @@ void QtProjectWizzardContentPaths::detectionClicked()
 	std::vector<FilePath> oldPaths = m_list->getPathsAsDisplayed();
 
 	paths = utility::unique(utility::concat(oldPaths, paths));
-	paths = utility::replaceOrAddCxxCompilerHeaderPath(paths);
 
 	m_list->setPaths(paths);
 }

@@ -7,10 +7,6 @@ CombinedPathDetector::CombinedPathDetector()
 {
 }
 
-CombinedPathDetector::~CombinedPathDetector()
-{
-}
-
 void CombinedPathDetector::addDetector(std::shared_ptr<PathDetector> detector)
 {
 	m_detectors.push_back(detector);

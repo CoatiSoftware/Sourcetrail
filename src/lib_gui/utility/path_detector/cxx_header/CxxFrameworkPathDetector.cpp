@@ -10,10 +10,6 @@ CxxFrameworkPathDetector::CxxFrameworkPathDetector(const std::string& compilerNa
 {
 }
 
-CxxFrameworkPathDetector::~CxxFrameworkPathDetector()
-{
-}
-
 std::vector<FilePath> CxxFrameworkPathDetector::getPaths() const
 {
 	std::vector<std::string> paths = utility::getCxxHeaderPaths(m_compilerName);

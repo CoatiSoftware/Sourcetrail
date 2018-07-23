@@ -7,7 +7,6 @@ class JavaPathDetector: public PathDetector
 {
 public:
 	JavaPathDetector(const std::string& name, const std::string& javaVersion);
-	virtual ~JavaPathDetector();
 
 protected:
 	const std::string m_javaVersion;

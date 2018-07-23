@@ -7,18 +7,20 @@ namespace utility
 {
 	std::vector<FilePath> replaceOrAddCxxCompilerHeaderPath(const std::vector<FilePath>& headerSearchPaths)
 	{
-		if (utility::getOsType() == OS_WINDOWS)
-		{
-			return headerSearchPaths;
-		}
-
 		std::vector<FilePath> newHeaderSearchPaths;
 
-		for (const FilePath& path : headerSearchPaths)
+		if (utility::getOsType() == OS_WINDOWS)
 		{
-			if (!path.getConcatenated(L"/stdarg.h").exists())
+			newHeaderSearchPaths = headerSearchPaths;
+		}
+		else
+		{
+			for (const FilePath& path : headerSearchPaths)
 			{
-				newHeaderSearchPaths.push_back(path);
+				if (!path.getConcatenated(L"/stdarg.h").exists())
+				{
+					newHeaderSearchPaths.push_back(path);
+				}
 			}
 		}
 

@@ -21,7 +21,7 @@ public:
 	static void createInstance();
 	static std::shared_ptr<LicenseChecker> getInstance();
 
-	~LicenseChecker();
+	~LicenseChecker() = default;
 
 	std::string getCurrentLicenseString() const;
 	void saveCurrentLicenseString(const std::string& licenseString) const;

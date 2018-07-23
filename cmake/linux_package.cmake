@@ -51,7 +51,6 @@ function(AddSharedToComponent)
 		DESTINATION Sourcetrail
 		PATTERN "log/*" EXCLUDE
 		PATTERN "data/src" EXCLUDE
-		PATTERN "data/cxx" EXCLUDE
 		PATTERN "projects" EXCLUDE
 		PATTERN "data/install" EXCLUDE
 		PATTERN "ProjectSettings_template.xml" EXCLUDE
@@ -102,12 +101,6 @@ function(AddSharedToComponent)
 	INSTALL(DIRECTORY
 		$ENV{QT_DIR}/plugins/platforms
 		DESTINATION Sourcetrail/lib
-	)
-
-	INSTALL(DIRECTORY DESTINATION Sourcetrail/data/cxx/include)
-	INSTALL(DIRECTORY
-		$ENV{LLVM_DIR}/lib/clang/6.0.0/include/
-		DESTINATION Sourcetrail/data/cxx/include
 	)
 
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user

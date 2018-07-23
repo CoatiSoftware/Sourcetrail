@@ -24,10 +24,6 @@ std::shared_ptr<LicenseChecker> LicenseChecker::getInstance()
 	return s_instance;
 }
 
-LicenseChecker::~LicenseChecker()
-{
-}
-
 std::string LicenseChecker::getCurrentLicenseString() const
 {
 	License license;

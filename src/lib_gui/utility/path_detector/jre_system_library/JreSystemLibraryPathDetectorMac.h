@@ -7,7 +7,6 @@ class JreSystemLibraryPathDetectorMac: public JreSystemLibraryPathDetector
 {
 public:
 	JreSystemLibraryPathDetectorMac(const std::string javaVersion);
-	virtual ~JreSystemLibraryPathDetectorMac();
 };
 
 #endif // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_MAC_H

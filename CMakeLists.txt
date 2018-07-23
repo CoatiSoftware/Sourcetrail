@@ -806,11 +806,6 @@ if (UNIX)
 		"-E" "create_symlink"
 		"${CMAKE_SOURCE_DIR}/bin/app/user"
 		"${CMAKE_BINARY_DIR}/app/user"
-		COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_SOURCE_DIR}/bin/app/data/cxx"
-		COMMAND "${CMAKE_COMMAND}"
-		"-E" "create_symlink"
-		"$ENV{LLVM_DIR}/build_release/lib/clang/6.0.0/include"
-		"${CMAKE_SOURCE_DIR}/bin/app/data/cxx/include"
 	)
 
 	if (UNIX AND NOT APPLE)

@@ -6,7 +6,3 @@ JreSystemLibraryPathDetectorMac::JreSystemLibraryPathDetectorMac(const std::stri
 	: JreSystemLibraryPathDetector(std::make_shared<JavaPathDetectorMac>(javaVersion))
 {
 }
-
-JreSystemLibraryPathDetectorMac::~JreSystemLibraryPathDetectorMac()
-{
-}

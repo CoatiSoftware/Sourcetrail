@@ -11,9 +11,7 @@ class JreSystemLibraryPathDetector: public PathDetector
 {
 public:
 	JreSystemLibraryPathDetector(std::shared_ptr<JavaPathDetector> javaPathDetector);
-	virtual ~JreSystemLibraryPathDetector();
-
-	virtual std::vector<FilePath> getPaths() const;
+	std::vector<FilePath> getPaths() const override;
 
 private:
 	std::shared_ptr<JavaPathDetector> m_javaPathDetector;

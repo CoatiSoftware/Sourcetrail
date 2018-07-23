@@ -8,10 +8,6 @@ MavenPathDetectorWindows::MavenPathDetectorWindows()
 {
 }
 
-MavenPathDetectorWindows::~MavenPathDetectorWindows()
-{
-}
-
 std::vector<FilePath> MavenPathDetectorWindows::getPaths() const
 {
 	std::string command = "cmd /c where mvn.cmd && exit";

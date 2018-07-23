@@ -16,10 +16,6 @@ JavaPathDetectorLinux::JavaPathDetectorLinux(const std::string javaVersion)
 {
 }
 
-JavaPathDetectorLinux::~JavaPathDetectorLinux()
-{
-}
-
 FilePath JavaPathDetectorLinux::getJavaInPath() const
 {
 	std::string command = "which java";

@@ -12,10 +12,6 @@ JreSystemLibraryPathDetector::JreSystemLibraryPathDetector(std::shared_ptr<JavaP
 {
 }
 
-JreSystemLibraryPathDetector::~JreSystemLibraryPathDetector()
-{
-}
-
 std::vector<FilePath> JreSystemLibraryPathDetector::getPaths() const
 {
 	std::vector<FilePath> paths;

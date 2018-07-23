@@ -5,15 +5,12 @@
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 #include "utility/path_detector/cxx_header/utilityCxxHeaderDetection.h"
-#include "utility/utilityApp.h"
 #include "utility/utility.h"
+#include "utility/utilityApp.h"
+#include "utility/utilityCxx.h"
 
 CxxVs15HeaderPathDetector::CxxVs15HeaderPathDetector()
 	: PathDetector("Visual Studio 2017")
-{
-}
-
-CxxVs15HeaderPathDetector::~CxxVs15HeaderPathDetector()
 {
 }
 
@@ -56,5 +53,5 @@ std::vector<FilePath> CxxVs15HeaderPathDetector::getPaths() const
 		utility::append(headerSearchPaths, windowsSdkHeaderSearchPaths);
 	}
 
-	return headerSearchPaths;
+	return utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
 }

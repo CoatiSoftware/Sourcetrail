@@ -13,6 +13,7 @@
 #include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+#include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 #include "utility/utility.h"
 
@@ -70,11 +71,8 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
 	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
-	compileCommand.CommandLine = utility::concat(
-		utility::convert<std::wstring, std::string>(indexerCommand->getCompilerFlags(), [](const std::wstring & flag) { return utility::encodeToUtf8(flag); }),
-		getCommandlineArgumentsEssential(
-			std::vector<std::wstring>(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
-		)
+	compileCommand.CommandLine = getCommandlineArgumentsEssential(
+		indexerCommand->getCompilerFlags(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
 	);
 
 	if (!utility::isPrefix<std::string>("-", compileCommand.CommandLine.front()))
@@ -134,7 +132,9 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 }
 
 std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
-	const std::vector<std::wstring>& compilerFlags, const std::vector<FilePath>& systemHeaderSearchPaths, const std::vector<FilePath>& frameworkSearchPaths
+	const std::vector<std::wstring>& compilerFlags,
+	const std::vector<FilePath>& systemHeaderSearchPaths,
+	const std::vector<FilePath>& frameworkSearchPaths
 ) const {
 	std::vector<std::string> args;
 
@@ -164,6 +164,13 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 
 	for (const FilePath& path : systemHeaderSearchPaths)
 	{
+#ifdef _WIN32
+		if (path == ResourcePaths::getCxxCompilerHeaderPath())
+		{
+			args = utility::concat({ "-isystem" , utility::encodeToUtf8(path.wstr()) }, args);
+			continue;
+		}
+#endif
 		args.push_back("-isystem");
 		args.push_back(utility::encodeToUtf8(path.wstr()));
 	}

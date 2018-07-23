@@ -5,7 +5,3 @@ JavaPathDetector::JavaPathDetector(const std::string& name, const std::string& j
 	, m_javaVersion(javaVersion)
 {
 }
-
-JavaPathDetector::~JavaPathDetector()
-{
-}

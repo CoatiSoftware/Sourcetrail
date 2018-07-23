@@ -8,10 +8,6 @@ MavenPathDetectorUnix::MavenPathDetectorUnix()
 {
 }
 
-MavenPathDetectorUnix::~MavenPathDetectorUnix()
-{
-}
-
 std::vector<FilePath> MavenPathDetectorUnix::getPaths() const
 {
 	std::string command = "which mvn";

@@ -12,13 +12,12 @@ class CombinedPathDetector: public PathDetector
 {
 public:
 	CombinedPathDetector();
-    virtual ~CombinedPathDetector();
 
 	void addDetector(std::shared_ptr<PathDetector> detector);
 
     std::vector<std::string> getWorkingDetectorNames();
 
-	virtual std::vector<FilePath> getPaths() const;
+	std::vector<FilePath> getPaths() const override;
 	std::vector<FilePath> getPaths(std::string detectorName) const;
 
 private:

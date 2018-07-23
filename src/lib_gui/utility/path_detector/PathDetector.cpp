@@ -7,10 +7,6 @@ PathDetector::PathDetector(const std::string& name)
 {
 }
 
-PathDetector::~PathDetector()
-{
-}
-
 std::string PathDetector::getName() const
 {
 	return m_name;

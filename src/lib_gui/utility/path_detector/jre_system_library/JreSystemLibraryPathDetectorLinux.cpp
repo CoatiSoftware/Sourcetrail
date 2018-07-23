@@ -6,7 +6,3 @@ JreSystemLibraryPathDetectorLinux::JreSystemLibraryPathDetectorLinux(const std::
 	: JreSystemLibraryPathDetector(std::make_shared<JavaPathDetectorLinux>(javaVersion))
 {
 }
-
-JreSystemLibraryPathDetectorLinux::~JreSystemLibraryPathDetectorLinux()
-{
-}

@@ -10,7 +10,7 @@ class PathDetector
 {
 public:
 	PathDetector(const std::string& name);
-	virtual ~PathDetector();
+	virtual ~PathDetector() = default;
 
 	std::string getName() const;
 	bool isWorking() const;

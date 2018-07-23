@@ -7,9 +7,7 @@ class JavaPathDetectorWindows: public JavaPathDetector
 {
 public:
 	JavaPathDetectorWindows(const std::string javaVersion);
-	virtual ~JavaPathDetectorWindows();
-
-	virtual std::vector<FilePath> getPaths() const;
+	virtual std::vector<FilePath> getPaths() const override;
 };
 
 #endif // JAVA_PATH_DETECTOR_WINDOWS_H

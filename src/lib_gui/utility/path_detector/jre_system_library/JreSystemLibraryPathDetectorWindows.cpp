@@ -6,7 +6,3 @@ JreSystemLibraryPathDetectorWindows::JreSystemLibraryPathDetectorWindows(const s
 	: JreSystemLibraryPathDetector(std::make_shared<JavaPathDetectorWindows>(javaVersion))
 {
 }
-
-JreSystemLibraryPathDetectorWindows::~JreSystemLibraryPathDetectorWindows()
-{
-}
