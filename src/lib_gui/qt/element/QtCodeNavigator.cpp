@@ -10,6 +10,7 @@
 #include "utility/messaging/type/error/MessageShowError.h"
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utility.h"
 
 #include "data/location/SourceLocation.h"
 #include "data/location/SourceLocationCollection.h"
@@ -18,6 +19,7 @@
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/element/QtSearchBarButton.h"
+#include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
@@ -44,32 +46,87 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navLayout->setSpacing(2);
 		navLayout->setContentsMargins(7, 7, 7, 6);
 
+		{
+			m_prevFileButton =
+				new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"), true);
+			m_nextFileButton =
+				new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"), true);
+			m_prevReferenceButton =
+				new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_up.png"), true);
+			m_nextReferenceButton =
+				new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
-		m_prevButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"), true);
-		m_nextButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"), true);
+			m_prevFileButton->setObjectName("file_button_previous");
+			m_nextFileButton->setObjectName("file_button_next");
+			m_prevReferenceButton->setObjectName("reference_button_previous");
+			m_nextReferenceButton->setObjectName("reference_button_next");
 
-		m_prevButton->setObjectName("reference_button_previous");
-		m_nextButton->setObjectName("reference_button_next");
+			m_prevFileButton->setToolTip("previous file");
+			m_nextFileButton->setToolTip("next file");
+			m_prevReferenceButton->setToolTip("previous reference");
+			m_nextReferenceButton->setToolTip("next reference");
 
-		m_prevButton->setToolTip("previous reference");
-		m_nextButton->setToolTip("next reference");
+			m_prevFileButton->setIconSize(QSize(12, 12));
+			m_nextFileButton->setIconSize(QSize(12, 12));
+			m_prevReferenceButton->setIconSize(QSize(12, 12));
+			m_nextReferenceButton->setIconSize(QSize(12, 12));
 
-		m_prevButton->setIconSize(QSize(12, 12));
-		m_nextButton->setIconSize(QSize(12, 12));
+			m_prevFileButton->hide();
+			m_nextFileButton->hide();
 
-		navLayout->addWidget(m_prevButton);
-		navLayout->addWidget(m_nextButton);
+			navLayout->addWidget(m_prevFileButton);
+			navLayout->addWidget(m_prevReferenceButton);
+			navLayout->addWidget(m_nextReferenceButton);
+			navLayout->addWidget(m_nextFileButton);
 
-		connect(m_prevButton, &QPushButton::clicked, this, &QtCodeNavigator::previousReference);
-		connect(m_nextButton, &QPushButton::clicked, this, &QtCodeNavigator::nextReference);
+			connect(m_prevFileButton, &QPushButton::clicked, this, &QtCodeNavigator::previousFile);
+			connect(m_nextFileButton, &QPushButton::clicked, this, &QtCodeNavigator::nextFile);
+			connect(m_prevReferenceButton, &QPushButton::clicked, this, &QtCodeNavigator::previousReference);
+			connect(m_nextReferenceButton, &QPushButton::clicked, this, &QtCodeNavigator::nextReference);
 
+			// m_refLabel = new QLabel("0 files  |  0 references");
+			m_refLabel = new QLabel("0 references");
+			m_refLabel->setObjectName("references_label");
+			navLayout->addWidget(m_refLabel);
 
-		m_refLabel = new QLabel("0/0 references");
-		m_refLabel->setObjectName("references_label");
-		navLayout->addWidget(m_refLabel);
+			navLayout->addStretch();
+		}
 
-		navLayout->addStretch();
+		{
+			m_prevLocalReferenceButton =
+				new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_up.png"), true);
+			m_nextLocalReferenceButton =
+				new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
+			m_prevLocalReferenceButton->setObjectName("local_reference_button_previous");
+			m_nextLocalReferenceButton->setObjectName("local_reference_button_next");
+
+			m_prevLocalReferenceButton->setToolTip("previous local reference");
+			m_nextLocalReferenceButton->setToolTip("next local reference");
+
+			m_prevLocalReferenceButton->setIconSize(QSize(12, 12));
+			m_nextLocalReferenceButton->setIconSize(QSize(12, 12));
+
+			navLayout->addWidget(m_prevLocalReferenceButton);
+			navLayout->addWidget(m_nextLocalReferenceButton);
+
+			connect(m_prevLocalReferenceButton, &QPushButton::clicked, this, &QtCodeNavigator::previousLocalReference);
+			connect(m_nextLocalReferenceButton, &QPushButton::clicked, this, &QtCodeNavigator::nextLocalReference);
+
+			m_localRefLabel = new QLabel("0/0 local references");
+			m_localRefLabel->setObjectName("references_label");
+			navLayout->addWidget(m_localRefLabel);
+
+			navLayout->addStretch();
+
+			utility::setWidgetRetainsSpaceWhenHidden(m_prevLocalReferenceButton);
+			utility::setWidgetRetainsSpaceWhenHidden(m_nextLocalReferenceButton);
+			utility::setWidgetRetainsSpaceWhenHidden(m_localRefLabel);
+
+			m_prevLocalReferenceButton->hide();
+			m_nextLocalReferenceButton->hide();
+			m_localRefLabel->hide();
+		}
 
 		m_listButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/list.png"), true);
 		m_fileButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"), true);
@@ -139,6 +196,12 @@ void QtCodeNavigator::addCodeSnippet(const CodeSnippetParams& params)
 	{
 		m_singleHasNewFile = true;
 	}
+
+	// refresh local reference count when visible code changes
+	if (m_localReferences.size() && m_localReferences[0].locationType == LOCATION_LOCAL_SYMBOL)
+	{
+		setActiveLocalTokenIds(utility::toVector(m_activeLocalTokenIds), LOCATION_LOCAL_SYMBOL);
+	}
 }
 
 void QtCodeNavigator::updateCodeSnippet(const CodeSnippetParams& params)
@@ -205,14 +268,16 @@ void QtCodeNavigator::addedFiles()
 
 	if (m_refIndex == 0)
 	{
-		updateRefLabel();
+		updateRefLabels();
 	}
 }
 
 void QtCodeNavigator::clear()
 {
 	clearCodeSnippets(false);
-	updateRefLabel();
+	clearCaches();
+
+	updateRefLabels();
 }
 
 void QtCodeNavigator::clearCodeSnippets(bool useSingleFileCache)
@@ -221,7 +286,7 @@ void QtCodeNavigator::clearCodeSnippets(bool useSingleFileCache)
 
 	m_currentActiveTokenIds.clear();
 	m_activeTokenIds.clear();
-	m_activeLocalSymbolIds.clear();
+	m_activeLocalTokenIds.clear();
 	m_focusedTokenIds.clear();
 	m_errorInfos.clear();
 
@@ -246,7 +311,7 @@ void QtCodeNavigator::clearFile()
 {
 	m_single->clearFile();
 
-	updateRefLabel();
+	updateRefLabels();
 }
 
 void QtCodeNavigator::clearCaches()
@@ -291,8 +356,20 @@ const std::set<Id>& QtCodeNavigator::getCurrentActiveLocationIds() const
 
 void QtCodeNavigator::setCurrentActiveLocationIds(const std::vector<Id>& currentActiveLocationIds)
 {
+	setActiveLocalTokenIds({ }, LOCATION_TOKEN);
+
 	m_currentActiveLocationIds = std::set<Id>(currentActiveLocationIds.begin(), currentActiveLocationIds.end());
 	m_currentActiveTokenIds.clear();
+}
+
+const std::set<Id>& QtCodeNavigator::getCurrentActiveLocalLocationIds() const
+{
+	return m_currentActiveLocalLocationIds;
+}
+
+void QtCodeNavigator::setCurrentActiveLocalLocationIds(const std::vector<Id>& currentActiveLocalLocationIds)
+{
+	m_currentActiveLocalLocationIds = std::set<Id>(currentActiveLocalLocationIds.begin(), currentActiveLocalLocationIds.end());
 }
 
 const std::set<Id>& QtCodeNavigator::getActiveTokenIds() const
@@ -302,22 +379,40 @@ const std::set<Id>& QtCodeNavigator::getActiveTokenIds() const
 
 void QtCodeNavigator::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
+	setActiveLocalTokenIds({ }, LOCATION_TOKEN);
 	setCurrentActiveTokenIds(activeTokenIds);
 
 	m_activeTokenIds = std::set<Id>(activeTokenIds.begin(), activeTokenIds.end());
 	m_activeTokenId = activeTokenIds.size() ? activeTokenIds[0] : 0;
-
-	m_activeLocalSymbolIds.clear();
 }
 
-const std::set<Id>& QtCodeNavigator::getActiveLocalSymbolIds() const
+const std::set<Id>& QtCodeNavigator::getActiveLocalTokenIds() const
 {
-	return m_activeLocalSymbolIds;
+	return m_activeLocalTokenIds;
 }
 
-void QtCodeNavigator::setActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds)
+void QtCodeNavigator::setActiveLocalTokenIds(const std::vector<Id>& activeLocalTokenIds, LocationType locationType)
 {
-	m_activeLocalSymbolIds = std::set<Id>(activeLocalSymbolIds.begin(), activeLocalSymbolIds.end());
+	setCurrentActiveTokenIds(locationType == LOCATION_TOKEN ? activeLocalTokenIds : std::vector<Id>());
+	setCurrentActiveLocalLocationIds({ });
+
+	m_activeLocalTokenIds.clear();
+	m_activeLocalTokenIds.insert(activeLocalTokenIds.begin(), activeLocalTokenIds.end());
+
+	m_localReferences.clear();
+	m_localRefIndex = 0;
+
+	if (m_activeLocalTokenIds.size())
+	{
+		for (std::pair<FilePath, Id> p : m_current->getLocationIdsForTokenIds(m_activeLocalTokenIds))
+		{
+			Reference ref;
+			ref.filePath = p.first;
+			ref.locationId = p.second;
+			ref.locationType = locationType;
+			m_localReferences.push_back(ref);
+		}
+	}
 }
 
 const std::set<Id>& QtCodeNavigator::getFocusedTokenIds() const
@@ -393,6 +488,13 @@ void QtCodeNavigator::showActiveSnippet(
 	m_activeReference = Reference();
 	Id tokenId = activeTokenIds[0];
 
+	// iterate local references when same tokenId get reactivated (consecutive edge clicks)
+	if (m_activeLocalTokenIds.size() == 1 && *m_activeLocalTokenIds.begin() == tokenId && m_localReferences.size())
+	{
+		nextLocalReference();
+		return;
+	}
+
 	std::vector<Id> locationIds;
 	size_t refIndex = 0;
 	Reference firstReference;
@@ -450,7 +552,7 @@ void QtCodeNavigator::showActiveSnippet(
 		);
 	}
 
-	setCurrentActiveLocationIds(locationIds);
+	setActiveLocalTokenIds({ tokenId }, LOCATION_TOKEN);
 	updateFiles();
 
 	if (m_mode == MODE_LIST)
@@ -474,7 +576,7 @@ void QtCodeNavigator::showActiveSnippet(
 		}
 
 		m_refIndex = refIndex;
-		updateRefLabel();
+		updateRefLabels();
 
 		if (!refIndex)
 		{
@@ -522,7 +624,7 @@ void QtCodeNavigator::setFileMaximized(const FilePath path)
 void QtCodeNavigator::updateFiles()
 {
 	m_current->updateFiles();
-	updateRefLabel();
+	updateRefLabels();
 }
 
 void QtCodeNavigator::showContents()
@@ -637,7 +739,7 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 	{
 		m_activeReference = Reference();
 		m_refIndex = 0;
-		updateRefLabel();
+		updateRefLabels();
 	}
 
 	if (m_activeReference.tokenId)
@@ -650,7 +752,7 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 		requestScroll(m_activeReference.filePath, 0, m_activeReference.locationId, true, QtCodeNavigateable::SCROLL_CENTER);
 		emit scrollRequest();
 
-		updateRefLabel();
+		updateRefLabels();
 		return;
 	}
 
@@ -772,6 +874,66 @@ void QtCodeNavigator::setValue()
 	}
 }
 
+void QtCodeNavigator::previousFile(bool fromUI)
+{
+	if (!m_references.size())
+	{
+		return;
+	}
+
+	if (m_refIndex == 0)
+	{
+		m_refIndex = m_references.size();
+	}
+	else
+	{
+		const Reference& ref = m_references[m_refIndex - 1];
+		do
+		{
+			m_refIndex--;
+			if (m_refIndex == 0)
+			{
+				m_refIndex = m_references.size();
+			}
+		}
+		while (&ref != &m_references[m_refIndex - 1] && ref.filePath == m_references[m_refIndex - 1].filePath);
+	}
+
+	m_activeReference = Reference();
+
+	showCurrentReference(fromUI);
+}
+
+void QtCodeNavigator::nextFile(bool fromUI)
+{
+	if (!m_references.size())
+	{
+		return;
+	}
+
+	if (m_refIndex == 0)
+	{
+		m_refIndex++;
+	}
+	else
+	{
+		const Reference& ref = m_references[m_refIndex - 1];
+		do
+		{
+			if (m_refIndex == m_references.size())
+			{
+				m_refIndex = 0;
+			}
+			m_refIndex++;
+		}
+		while (&ref != &m_references[m_refIndex - 1] && ref.filePath == m_references[m_refIndex - 1].filePath);
+	}
+
+	m_activeReference = Reference();
+
+	showCurrentReference(fromUI);
+}
+
 void QtCodeNavigator::previousReference(bool fromUI)
 {
 	if (!m_references.size())
@@ -812,6 +974,42 @@ void QtCodeNavigator::nextReference(bool fromUI)
 	showCurrentReference(fromUI);
 }
 
+void QtCodeNavigator::previousLocalReference(bool fromUI)
+{
+	if (!m_localReferences.size())
+	{
+		return;
+	}
+
+	if (m_localRefIndex < 2)
+	{
+		m_localRefIndex = m_localReferences.size();
+	}
+	else
+	{
+		m_localRefIndex--;
+	}
+
+	showCurrentLocalReference();
+}
+
+void QtCodeNavigator::nextLocalReference(bool fromUI)
+{
+	if (!m_localReferences.size())
+	{
+		return;
+	}
+
+	m_localRefIndex++;
+
+	if (m_localRefIndex == m_localReferences.size() + 1)
+	{
+		m_localRefIndex = 1;
+	}
+
+	showCurrentLocalReference();
+}
+
 void QtCodeNavigator::setModeList()
 {
 	if (m_mode == MODE_LIST)
@@ -846,38 +1044,115 @@ void QtCodeNavigator::showCurrentReference(bool fromUI)
 	MessageShowReference(m_refIndex, ref.tokenId, ref.locationId, fromUI).dispatch();
 }
 
-void QtCodeNavigator::updateRefLabel()
-{
-	size_t n = m_references.size();
-	size_t t = m_refIndex;
 
-	if (t)
+void QtCodeNavigator::showCurrentLocalReference()
+{
+	if (m_localRefIndex > 0)
 	{
-		m_refLabel->setText(QString::number(t) + "/" + QString::number(n) + " references");
+		const Reference& ref = m_localReferences[m_localRefIndex - 1];
+		setCurrentActiveLocalLocationIds({ ref.locationId });
+
+		if (ref.locationType == LOCATION_TOKEN)
+		{
+			setCurrentActiveTokenIds({ });
+
+			// synchronise reference navigation with local reference navigation
+			for (size_t i = 0; i < m_references.size(); i++)
+			{
+				if (m_references[i].locationId == ref.locationId)
+				{
+					m_refIndex = i + 1;
+				}
+			}
+		}
+
+		updateFiles();
+
+		requestScroll(ref.filePath, 0, ref.locationId, true, QtCodeNavigateable::SCROLL_CENTER);
+		emit scrollRequest();
+	}
+}
+
+void QtCodeNavigator::updateRefLabels()
+{
+	size_t refCount = m_references.size();
+
+	// std::set<FilePath> files;
+	// size_t fileIndex = 0;
+	// for (size_t i = 0; i < m_references.size(); i++)
+	// {
+	// 	const Reference& ref = m_references[i];
+	// 	files.insert(ref.filePath);
+	// 	if (i == m_refIndex - 1)
+	// 	{
+	// 		fileIndex = files.size();
+	// 	}
+	// }
+
+	if (m_refIndex)
+	{
+		m_refLabel->setText(QString::number(m_refIndex) + "/" + QString::number(refCount) + " references");
+		// m_refLabel->setText(
+		// 	QString::number(fileIndex) + "/" + QString::number(files.size()) + " files  |  " +
+		// 	QString::number(m_refIndex) + "/" + QString::number(refCount) + " references"
+		// );
 	}
 	else
 	{
-		m_refLabel->setText(QString::number(n) + " references");
+		m_refLabel->setText(QString::number(refCount) + " references");
+		// m_refLabel->setText(QString::number(files.size()) + " files  |  " + QString::number(refCount) + " references");
 	}
 
-	m_prevButton->setEnabled(n > 1);
-	m_nextButton->setEnabled(n > 1);
+	m_refLabel->setMinimumWidth(
+		m_refLabel->fontMetrics().width(QString(QString::number(refCount).size() * 2, 'a') + "/ references") + 30);
+
+	m_prevFileButton->setEnabled(refCount > 1);
+	m_nextFileButton->setEnabled(refCount > 1);
+	m_prevReferenceButton->setEnabled(refCount > 1);
+	m_nextReferenceButton->setEnabled(refCount > 1);
+
+
+	size_t localRefCount = m_localReferences.size();
+	if (m_localRefIndex)
+	{
+		m_localRefLabel->setText(QString::number(m_localRefIndex) + "/" + QString::number(localRefCount) + " local references");
+	}
+	else
+	{
+		m_localRefLabel->setText(QString::number(localRefCount) + " local references");
+	}
+
+	m_localRefLabel->setMinimumWidth(
+		m_localRefLabel->fontMetrics().width(QString(QString::number(localRefCount).size() * 2, 'a') + "/ local references") + 30);
+
+	m_nextLocalReferenceButton->setVisible(localRefCount > 1);
+	m_prevLocalReferenceButton->setVisible(localRefCount > 1);
+	m_localRefLabel->setVisible(localRefCount > 1);
 }
 
 void QtCodeNavigator::handleMessage(MessageCodeReference* message)
 {
-	MessageCodeReference::ReferenceType type = message->type;
+	bool next = (message->type == MessageCodeReference::REFERENCE_NEXT);
+	bool local = message->localReference;
 
 	m_onQtThread(
 		[=]()
 		{
-			if (type == MessageCodeReference::REFERENCE_PREVIOUS)
+			if (next && local)
 			{
-				previousReference();
+				nextLocalReference();
 			}
-			else if (type == MessageCodeReference::REFERENCE_NEXT)
+			else if (next)
 			{
 				nextReference();
+			}
+			else if (local)
+			{
+				previousLocalReference();
+			}
+			else
+			{
+				previousReference();
 			}
 		}
 	);
@@ -906,7 +1181,7 @@ void QtCodeNavigator::handleMessage(MessageShowReference* message)
 			if (m_refIndex > 0)
 			{
 				const Reference& ref = m_references[m_refIndex - 1];
-				setCurrentActiveLocationIds(std::vector<Id>(1, ref.locationId));
+				setCurrentActiveLocationIds({ ref.locationId });
 
 				if (!replayed)
 				{
@@ -924,7 +1199,7 @@ void QtCodeNavigator::handleMessage(MessageShowReference* message)
 
 			if (!replayed)
 			{
-				updateRefLabel();
+				updateRefLabels();
 			}
 		}
 	);

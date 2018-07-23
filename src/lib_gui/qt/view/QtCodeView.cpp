@@ -216,7 +216,7 @@ void QtCodeView::showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymb
 {
 	m_onQtThread([=]()
 	{
-		m_widget->setActiveLocalSymbolIds(activeLocalSymbolIds);
+		m_widget->setActiveLocalTokenIds(activeLocalSymbolIds, LOCATION_LOCAL_SYMBOL);
 		m_widget->updateFiles();
 	});
 }

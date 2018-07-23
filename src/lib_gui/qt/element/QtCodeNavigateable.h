@@ -41,6 +41,8 @@ public:
 
 	virtual void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) = 0;
 
+	virtual std::vector<std::pair<FilePath, Id>> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const = 0;
+
 protected:
 	void ensureWidgetVisibleAnimated(const QWidget* parentWidget, const QWidget *childWidget, QRectF rect, bool animated, ScrollTarget target);
 	void ensurePercentVisibleAnimated(double percentA, double percentB, bool animated, ScrollTarget target);

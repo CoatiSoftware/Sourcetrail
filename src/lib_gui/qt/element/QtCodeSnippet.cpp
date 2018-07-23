@@ -199,6 +199,11 @@ void QtCodeSnippet::findScreenMatches(const std::wstring& query, std::vector<std
 	m_codeArea->findScreenMatches(query, screenMatches);
 }
 
+std::vector<Id> QtCodeSnippet::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
+{
+	return m_codeArea->getLocationIdsForTokenIds(tokenIds);
+}
+
 void QtCodeSnippet::ensureLocationIdVisible(Id locationId, bool animated)
 {
 	m_codeArea->ensureLocationIdVisible(locationId, width(), animated);

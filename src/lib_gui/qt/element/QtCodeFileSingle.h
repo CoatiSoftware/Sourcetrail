@@ -25,28 +25,30 @@ class QtCodeFileSingle
 
 public:
 	QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent = nullptr);
-	virtual ~QtCodeFileSingle();
+	virtual ~QtCodeFileSingle() = default;
 
 	void clearFile();
 	void clearCache();
 
 	// QtCodeNavigateable implementation
-	virtual QAbstractScrollArea* getScrollArea() override;
+	QAbstractScrollArea* getScrollArea() override;
 
-	virtual void addCodeSnippet(const CodeSnippetParams& params) override;
-	virtual void updateCodeSnippet(const CodeSnippetParams& params) override;
+	void addCodeSnippet(const CodeSnippetParams& params) override;
+	void updateCodeSnippet(const CodeSnippetParams& params) override;
 
-	virtual void requestFileContent(const FilePath& filePath) override;
-	virtual bool requestScroll(
+	void requestFileContent(const FilePath& filePath) override;
+	bool requestScroll(
 		const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target) override;
 
-	virtual void updateFiles() override;
-	virtual void showContents() override;
+	void updateFiles() override;
+	void showContents() override;
 
-	virtual void onWindowFocus() override;
+	void onWindowFocus() override;
 
-	virtual void findScreenMatches(
+	void findScreenMatches(
 		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
+
+	std::vector<std::pair<FilePath, Id>> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const override;
 
 	const FilePath& getCurrentFilePath() const;
 	bool hasFileCached(const FilePath& filePath) const;

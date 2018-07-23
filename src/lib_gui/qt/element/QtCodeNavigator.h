@@ -62,11 +62,14 @@ public:
 	const std::set<Id>& getCurrentActiveLocationIds() const;
 	void setCurrentActiveLocationIds(const std::vector<Id>& currentActiveLocationIds);
 
+	const std::set<Id>& getCurrentActiveLocalLocationIds() const;
+	void setCurrentActiveLocalLocationIds(const std::vector<Id>& currentActiveLocalLocationIds);
+
 	const std::set<Id>& getActiveTokenIds() const;
 	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
-	const std::set<Id>& getActiveLocalSymbolIds() const;
-	void setActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds);
+	const std::set<Id>& getActiveLocalTokenIds() const;
+	void setActiveLocalTokenIds(const std::vector<Id>& activeLocalTokenIds, LocationType locationType);
 
 	const std::set<Id>& getFocusedTokenIds() const;
 	void setFocusedTokenIds(const std::vector<Id>& focusedTokenIds);
@@ -119,8 +122,14 @@ private slots:
 	void handleScrollRequest();
 	void setValue();
 
+	void previousFile(bool fromUI = true);
+	void nextFile(bool fromUI = true);
+
 	void previousReference(bool fromUI = true);
 	void nextReference(bool fromUI = true);
+
+	void previousLocalReference(bool fromUI = true);
+	void nextLocalReference(bool fromUI = true);
 
 	void setModeList();
 	void setModeSingle();
@@ -142,7 +151,8 @@ private:
 	};
 
 	void showCurrentReference(bool fromUI);
-	void updateRefLabel();
+	void showCurrentLocalReference();
+	void updateRefLabels();
 
 	struct ScrollRequest
 	{
@@ -179,9 +189,10 @@ private:
 
 	std::set<Id> m_currentActiveTokenIds;
 	std::set<Id> m_currentActiveLocationIds;
+	std::set<Id> m_currentActiveLocalLocationIds;
 
 	std::set<Id> m_activeTokenIds;
-	std::set<Id> m_activeLocalSymbolIds;
+	std::set<Id> m_activeLocalTokenIds;
 	std::set<Id> m_focusedTokenIds;
 	std::map<Id, ErrorInfo> m_errorInfos;
 
@@ -189,17 +200,27 @@ private:
 
 	int m_value;
 
-	QtSearchBarButton* m_listButton;
-	QtSearchBarButton* m_fileButton;
+	QtSearchBarButton* m_prevFileButton;
+	QtSearchBarButton* m_nextFileButton;
+	QtSearchBarButton* m_prevReferenceButton;
+	QtSearchBarButton* m_nextReferenceButton;
 	QLabel* m_refLabel;
 
-	QtSearchBarButton* m_prevButton;
-	QtSearchBarButton* m_nextButton;
+	QtSearchBarButton* m_prevLocalReferenceButton;
+	QtSearchBarButton* m_nextLocalReferenceButton;
+	QLabel* m_localRefLabel;
+
+	QtSearchBarButton* m_listButton;
+	QtSearchBarButton* m_fileButton;
+
 	QFrame* m_separatorLine;
 
 	std::vector<Reference> m_references;
 	Reference m_activeReference;
 	size_t m_refIndex;
+
+	std::vector<Reference> m_localReferences;
+	size_t m_localRefIndex;
 
 	ScrollRequest m_scrollRequest;
 	bool m_singleHasNewFile;

@@ -390,6 +390,19 @@ void QtCodeFile::findScreenMatches(const std::wstring& query, std::vector<std::p
 	}
 }
 
+std::vector<std::pair<FilePath, Id>> QtCodeFile::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
+{
+	std::vector<std::pair<FilePath, Id>> locationIds;
+	for (QtCodeSnippet* snippet : m_snippets)
+	{
+		for (Id locationId : snippet->getLocationIdsForTokenIds(tokenIds))
+		{
+			locationIds.push_back(std::make_pair(m_filePath, locationId));
+		}
+	}
+	return locationIds;
+}
+
 void QtCodeFile::clickedMinimizeButton()
 {
 	MessageChangeFileView(

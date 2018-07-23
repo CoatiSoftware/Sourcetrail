@@ -183,7 +183,7 @@
 						<fill>#C6EAFF</fill>
 					</focus>
 					<active>
-						<border>transparent</border>
+						<border>#136391</border>
 						<fill>#C6EAFF</fill>
 					</active>
 				</local_symbol>

@@ -6,6 +6,7 @@ QtSearchBarButton::QtSearchBarButton(const FilePath& iconPath, bool small, QWidg
 	: QtSelfRefreshIconButton("", iconPath, "search/button", parent)
 	, m_small(small)
 {
+	refresh();
 }
 
 void QtSearchBarButton::refresh()

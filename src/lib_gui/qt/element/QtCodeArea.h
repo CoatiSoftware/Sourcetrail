@@ -81,6 +81,8 @@ public:
 	Id getLocationIdOfFirstActiveScopeLocation(Id tokenId) const;
 	Id getLocationIdOfFirstHighlightedLocation() const;
 
+	std::vector<Id> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const;
+
 	size_t getActiveLocationCount() const;
 
 	QRectF getLineRectForLineNumber(uint lineNumber) const;

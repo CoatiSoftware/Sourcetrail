@@ -124,6 +124,8 @@ public slots:
 	void findOnScreen();
 	void codeReferencePrevious();
 	void codeReferenceNext();
+	void codeLocalReferencePrevious();
+	void codeLocalReferenceNext();
 	void overview();
 
 	void closeWindow();

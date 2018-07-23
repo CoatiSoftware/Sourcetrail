@@ -184,7 +184,7 @@
 						<text>#191919</text>
 					</focus>
 					<active>
-						<border>transparent</border>
+						<border>white</border>
 						<fill>#969696</fill>
 						<text>#272728</text>
 					</active>

@@ -184,7 +184,7 @@
 						<text>#262626</text>
 					</focus>
 					<active>
-						<border>transparent</border>
+						<border>white</border>
 						<fill>#A5DEFF</fill>
 						<text>#262626</text>
 					</active>

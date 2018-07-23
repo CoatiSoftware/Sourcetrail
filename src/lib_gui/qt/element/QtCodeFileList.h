@@ -23,7 +23,7 @@ class QtCodeFileList
 
 public:
 	QtCodeFileList(QtCodeNavigator* navigator);
-	virtual ~QtCodeFileList();
+	virtual ~QtCodeFileList() = default;
 
 	void clear();
 	void clearSnippetTitleAndScrollBar();
@@ -32,20 +32,22 @@ public:
 	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime);
 
 	// QtCodeNaviatebale implementation
-	virtual QScrollArea* getScrollArea();
+	QScrollArea* getScrollArea() override;
 
-	virtual void addCodeSnippet(const CodeSnippetParams& params);
-	virtual void updateCodeSnippet(const CodeSnippetParams& params);
+	void addCodeSnippet(const CodeSnippetParams& params) override;
+	void updateCodeSnippet(const CodeSnippetParams& params) override;
 
-	virtual void requestFileContent(const FilePath& filePath);
-	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target);
+	void requestFileContent(const FilePath& filePath) override;
+	bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target) override;
 
-	virtual void updateFiles();
-	virtual void showContents();
+	void updateFiles() override;
+	void showContents() override;
 
-	virtual void onWindowFocus();
+	void onWindowFocus() override;
 
-	virtual void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
+
+	std::vector<std::pair<FilePath, Id>> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const override;
 
 	void setFileMinimized(const FilePath path);
 	void setFileSnippets(const FilePath path);
@@ -57,7 +59,7 @@ public:
 	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event);
+	void resizeEvent(QResizeEvent* event) override;
 
 private slots:
 	void updateSnippetTitleAndScrollBarSlot();

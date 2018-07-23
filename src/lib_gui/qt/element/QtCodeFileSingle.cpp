@@ -44,10 +44,6 @@ QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	layout()->addWidget(m_areaWrapper);
 }
 
-QtCodeFileSingle::~QtCodeFileSingle()
-{
-}
-
 QAbstractScrollArea* QtCodeFileSingle::getScrollArea()
 {
 	return m_area;
@@ -232,6 +228,21 @@ void QtCodeFileSingle::findScreenMatches(const std::wstring& query, std::vector<
 	{
 		m_area->findScreenMatches(query, screenMatches);
 	}
+}
+
+std::vector<std::pair<FilePath, Id>> QtCodeFileSingle::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
+{
+	if (m_area)
+	{
+		std::vector<std::pair<FilePath, Id>> locationIds;
+		for (Id locationId : m_area->getLocationIdsForTokenIds(tokenIds))
+		{
+			locationIds.push_back(std::make_pair(getCurrentFilePath(), locationId));
+		}
+		return locationIds;
+	}
+
+	return { };
 }
 
 const FilePath& QtCodeFileSingle::getCurrentFilePath() const

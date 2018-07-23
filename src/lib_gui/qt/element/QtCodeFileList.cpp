@@ -7,6 +7,7 @@
 #include "utility/file/FilePath.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityApp.h"
+#include "utility/utility.h"
 
 #include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeFile.h"
@@ -67,10 +68,6 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 
 	connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &QtCodeFileList::updateSnippetTitleAndScrollBar);
 	connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, m_navigator, &QtCodeNavigator::scrolled);
-}
-
-QtCodeFileList::~QtCodeFileList()
-{
 }
 
 void QtCodeFileList::clear()
@@ -273,6 +270,16 @@ void QtCodeFileList::findScreenMatches(const std::wstring& query, std::vector<st
 	{
 		file->findScreenMatches(query, screenMatches);
 	}
+}
+
+std::vector<std::pair<FilePath, Id>> QtCodeFileList::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
+{
+	std::vector<std::pair<FilePath, Id>> locationIds;
+	for (QtCodeFile* file : m_files)
+	{
+		utility::append(locationIds, file->getLocationIdsForTokenIds(tokenIds));
+	}
+	return locationIds;
 }
 
 void QtCodeFileList::setFileMinimized(const FilePath path)

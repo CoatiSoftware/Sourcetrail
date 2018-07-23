@@ -13,8 +13,9 @@ public:
 		REFERENCE_NEXT
 	};
 
-	MessageCodeReference(ReferenceType type)
+	MessageCodeReference(ReferenceType type, bool localReference)
 		: type(type)
+		, localReference(localReference)
 	{
 	}
 
@@ -33,9 +34,15 @@ public:
 		{
 			os << L"next";
 		}
+
+		if (localReference)
+		{
+			os << L" local";
+		}
 	}
 
 	const ReferenceType type;
+	bool localReference;
 };
 
 #endif // MESSAGE_CODE_REFERENCE_H

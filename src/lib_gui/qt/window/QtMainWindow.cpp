@@ -617,12 +617,22 @@ void QtMainWindow::findOnScreen()
 
 void QtMainWindow::codeReferencePrevious()
 {
-	MessageCodeReference(MessageCodeReference::REFERENCE_PREVIOUS).dispatch();
+	MessageCodeReference(MessageCodeReference::REFERENCE_PREVIOUS, false).dispatch();
 }
 
 void QtMainWindow::codeReferenceNext()
 {
-	MessageCodeReference(MessageCodeReference::REFERENCE_NEXT).dispatch();
+	MessageCodeReference(MessageCodeReference::REFERENCE_NEXT, false).dispatch();
+}
+
+void QtMainWindow::codeLocalReferencePrevious()
+{
+	MessageCodeReference(MessageCodeReference::REFERENCE_PREVIOUS, true).dispatch();
+}
+
+void QtMainWindow::codeLocalReferenceNext()
+{
+	MessageCodeReference(MessageCodeReference::REFERENCE_NEXT, true).dispatch();
 }
 
 void QtMainWindow::overview()
@@ -827,6 +837,11 @@ void QtMainWindow::setupEditMenu()
 	menu->addAction(tr("Code Reference Next"), this, &QtMainWindow::codeReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_G));
 	menu->addAction(tr("Code Reference Previous"), this,
 		&QtMainWindow::codeReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
+
+	menu->addAction(tr("Code Local Reference Next"), this,
+		&QtMainWindow::codeLocalReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_T));
+	menu->addAction(tr("Code Local Reference Previous"), this,
+		&QtMainWindow::codeLocalReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_T));
 
 	menu->addSeparator();
 

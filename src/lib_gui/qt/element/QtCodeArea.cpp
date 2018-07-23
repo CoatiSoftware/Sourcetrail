@@ -151,8 +151,8 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	std::set<int> activeLineNumbers;
 	std::set<int> focusedLineNumbers;
 
-	std::set<Id> activeSymbolIds = m_navigator->getActiveTokenIds();
-	std::set<Id> activeLocationIds = m_navigator->getCurrentActiveLocationIds();
+	const std::set<Id>& activeSymbolIds = m_navigator->getActiveTokenIds();
+	const std::set<Id>& activeLocalTokenIds = m_navigator->getActiveLocalTokenIds();
 
 	for (const Annotation& annotation : m_annotations)
 	{
@@ -183,7 +183,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 		case LOCATION_TOKEN:
 		case LOCATION_SCOPE:
-			if (annotation.isActive && activeLocationIds.size())
+			if (annotation.isActive && activeLocalTokenIds.size())
 			{
 				focus = true;
 				break;
@@ -386,6 +386,19 @@ Id QtCodeArea::getLocationIdOfFirstHighlightedLocation() const
 	}
 
 	return 0;
+}
+
+std::vector<Id> QtCodeArea::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
+{
+	std::vector<Id> locationIds;
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (utility::shareElement(annotation.tokenIds, tokenIds))
+		{
+			locationIds.push_back(annotation.locationId);
+		}
+	}
+	return locationIds;
 }
 
 size_t QtCodeArea::getActiveLocationCount() const
@@ -636,7 +649,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 						activateAnnotations(annotations);
 					}
 				}
-				else if (m_navigator->getActiveLocalSymbolIds().size())
+				else if (m_navigator->getActiveLocalTokenIds().size())
 				{
 					MessageActivateLocalSymbols(std::vector<Id>()).dispatch();
 				}
@@ -816,12 +829,13 @@ void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotation
 
 void QtCodeArea::annotateText()
 {
-	std::set<Id> activeSymbolIds = m_navigator->getCurrentActiveTokenIds();
-	utility::append(activeSymbolIds, m_navigator->getActiveLocalSymbolIds());
-
-	const std::set<Id>& activeLocationIds = m_navigator->getCurrentActiveLocationIds();
+	const std::set<Id>& activeSymbolIds = m_navigator->getCurrentActiveTokenIds();
+	const std::set<Id>& activeLocationIds =
+		utility::concat(m_navigator->getCurrentActiveLocationIds(), m_navigator->getCurrentActiveLocalLocationIds());
 
 	std::set<Id> focusedSymbolIds = m_navigator->getActiveTokenIds();
+	utility::append(focusedSymbolIds, m_navigator->getActiveLocalTokenIds());
+
 	for (Id currentActiveId : activeSymbolIds)
 	{
 		focusedSymbolIds.erase(currentActiveId);

@@ -24,7 +24,7 @@
 	border: none;
 }
 
-#code_navigation * {
+#code_navigation QLabel {
 	color: <color:code/file/title/text>;
 	font-size: <setting:font_size>px;
 }
@@ -50,11 +50,39 @@
 }
 
 #code_navigation #reference_button_previous {
+	/*width: 20px;*/
+	padding-bottom: 2px;
+
 	border-bottom-left-radius: 11px;
 	border-top-left-radius: 11px;
 }
 
 #code_navigation #reference_button_next {
+	/*width: 20px;*/
+	padding-top: 3px;
+
+	border-bottom-right-radius: 11px;
+	border-top-right-radius: 11px;
+}
+
+#code_navigation #file_button_previous, #code_navigation #file_button_next {
+	width: 22px;
+}
+
+#code_navigation #file_button_previous, #code_navigation #local_reference_button_previous {
+	border-bottom-left-radius: 11px;
+	border-top-left-radius: 11px;
+}
+
+#code_navigation #local_reference_button_previous {
+	padding-bottom: 2px;
+}
+
+#code_navigation #local_reference_button_next {
+	padding-top: 3px;
+}
+
+#code_navigation #file_button_next, #code_navigation #local_reference_button_next {
 	border-bottom-right-radius: 11px;
 	border-top-right-radius: 11px;
 }

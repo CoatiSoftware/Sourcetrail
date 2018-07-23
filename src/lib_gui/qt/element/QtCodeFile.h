@@ -2,6 +2,7 @@
 #define QT_CODE_FILE_H
 
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -62,6 +63,8 @@ public:
 	void updateTitleBar();
 
 	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+
+	std::vector<std::pair<FilePath, Id>> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const;
 
 public slots:
 	void clickedMinimizeButton();
