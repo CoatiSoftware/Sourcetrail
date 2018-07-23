@@ -22,6 +22,127 @@ std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
 	};
 }
 
+int NodeType::typeToInt(NodeType::Type type)
+{
+	return type;
+}
+
+NodeType::Type NodeType::intToType(int value)
+{
+	switch (value)
+	{
+	case NodeType::NODE_TYPE:
+		return NodeType::NODE_TYPE;
+	case NodeType::NODE_BUILTIN_TYPE:
+		return NodeType::NODE_BUILTIN_TYPE;
+	case NodeType::NODE_NAMESPACE:
+		return NodeType::NODE_NAMESPACE;
+	case NodeType::NODE_PACKAGE:
+		return NodeType::NODE_PACKAGE;
+	case NodeType::NODE_STRUCT:
+		return NodeType::NODE_STRUCT;
+	case NodeType::NODE_CLASS:
+		return NodeType::NODE_CLASS;
+	case NodeType::NODE_INTERFACE:
+		return NodeType::NODE_INTERFACE;
+	case NodeType::NODE_GLOBAL_VARIABLE:
+		return NodeType::NODE_GLOBAL_VARIABLE;
+	case NodeType::NODE_FIELD:
+		return NodeType::NODE_FIELD;
+	case NodeType::NODE_FUNCTION:
+		return NodeType::NODE_FUNCTION;
+	case NodeType::NODE_METHOD:
+		return NodeType::NODE_METHOD;
+	case NodeType::NODE_ENUM:
+		return NodeType::NODE_ENUM;
+	case NodeType::NODE_ENUM_CONSTANT:
+		return NodeType::NODE_ENUM_CONSTANT;
+	case NodeType::NODE_TYPEDEF:
+		return NodeType::NODE_TYPEDEF;
+	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
+		return NodeType::NODE_TEMPLATE_PARAMETER_TYPE;
+	case NodeType::NODE_TYPE_PARAMETER:
+		return NodeType::NODE_TYPE_PARAMETER;
+	case NodeType::NODE_FILE:
+		return NodeType::NODE_FILE;
+	case NodeType::NODE_MACRO:
+		return NodeType::NODE_MACRO;
+	case NodeType::NODE_UNION:
+		return NodeType::NODE_UNION;
+	}
+
+	return NodeType::NODE_SYMBOL;
+}
+
+std::string NodeType::getReadableTypeString(NodeType::Type type)
+{
+	switch (type)
+	{
+	case NodeType::NODE_SYMBOL:
+		return "symbol";
+	case NodeType::NODE_BUILTIN_TYPE:
+		return "built-in type";
+	case NodeType::NODE_TYPE:
+		return "type";
+	case NodeType::NODE_NAMESPACE:
+		return "namespace";
+	case NodeType::NODE_PACKAGE:
+		return "package";
+	case NodeType::NODE_STRUCT:
+		return "struct";
+	case NodeType::NODE_CLASS:
+		return "class";
+	case NodeType::NODE_INTERFACE:
+		return "interface";
+	case NodeType::NODE_GLOBAL_VARIABLE:
+		return "global variable";
+	case NodeType::NODE_FIELD:
+		return "field";
+	case NodeType::NODE_FUNCTION:
+		return "function";
+	case NodeType::NODE_METHOD:
+		return "method";
+	case NodeType::NODE_ENUM:
+		return "enum";
+	case NodeType::NODE_ENUM_CONSTANT:
+		return "enum constant";
+	case NodeType::NODE_TYPEDEF:
+		return "typedef";
+	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
+		return "template parameter type";
+	case NodeType::NODE_TYPE_PARAMETER:
+		return "type parameter";
+	case NodeType::NODE_FILE:
+		return "file";
+	case NodeType::NODE_MACRO:
+		return "macro";
+	case NodeType::NODE_UNION:
+		return "union";
+	}
+
+	return "";
+}
+
+std::wstring NodeType::getReadableTypeWString(NodeType::Type type)
+{
+	std::string str = getReadableTypeString(type);
+	return std::wstring(str.begin(), str.end());
+}
+
+NodeType::Type NodeType::getTypeForReadableTypeString(const std::wstring str)
+{
+	for (NodeType::TypeMask mask = 1; mask <= NodeType::NODE_MAX_VALUE; mask *= 2)
+	{
+		NodeType::Type type = intToType(mask);
+		if (getReadableTypeWString(type) == str)
+		{
+			return type;
+		}
+	}
+
+	return NodeType::NODE_SYMBOL;
+}
+
 NodeType::NodeType(Type type)
 	: m_type(type)
 {
@@ -45,7 +166,7 @@ NodeType::Type NodeType::getType() const
 Id NodeType::getId() const
 {
 	// TODO: add id in constructor and return it here
-	return utility::nodeTypeToInt(m_type);
+	return typeToInt(m_type);
 }
 
 bool NodeType::isFile() const
@@ -304,7 +425,7 @@ std::string NodeType::getUnderscoredTypeString() const
 
 std::string NodeType::getReadableTypeString() const
 {
-	return utility::getReadableTypeString(m_type);
+	return getReadableTypeString(m_type);
 }
 
 std::wstring NodeType::getUnderscoredTypeWString() const
@@ -317,125 +438,4 @@ std::wstring NodeType::getReadableTypeWString() const
 {
 	std::string str = getReadableTypeString();
 	return std::wstring(str.begin(), str.end());
-}
-
-int utility::nodeTypeToInt(NodeType::Type type)
-{
-	return type;
-}
-
-NodeType::Type utility::intToType(int value)
-{
-	switch (value)
-	{
-	case NodeType::NODE_TYPE:
-		return NodeType::NODE_TYPE;
-	case NodeType::NODE_BUILTIN_TYPE:
-		return NodeType::NODE_BUILTIN_TYPE;
-	case NodeType::NODE_NAMESPACE:
-		return NodeType::NODE_NAMESPACE;
-	case NodeType::NODE_PACKAGE:
-		return NodeType::NODE_PACKAGE;
-	case NodeType::NODE_STRUCT:
-		return NodeType::NODE_STRUCT;
-	case NodeType::NODE_CLASS:
-		return NodeType::NODE_CLASS;
-	case NodeType::NODE_INTERFACE:
-		return NodeType::NODE_INTERFACE;
-	case NodeType::NODE_GLOBAL_VARIABLE:
-		return NodeType::NODE_GLOBAL_VARIABLE;
-	case NodeType::NODE_FIELD:
-		return NodeType::NODE_FIELD;
-	case NodeType::NODE_FUNCTION:
-		return NodeType::NODE_FUNCTION;
-	case NodeType::NODE_METHOD:
-		return NodeType::NODE_METHOD;
-	case NodeType::NODE_ENUM:
-		return NodeType::NODE_ENUM;
-	case NodeType::NODE_ENUM_CONSTANT:
-		return NodeType::NODE_ENUM_CONSTANT;
-	case NodeType::NODE_TYPEDEF:
-		return NodeType::NODE_TYPEDEF;
-	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
-		return NodeType::NODE_TEMPLATE_PARAMETER_TYPE;
-	case NodeType::NODE_TYPE_PARAMETER:
-		return NodeType::NODE_TYPE_PARAMETER;
-	case NodeType::NODE_FILE:
-		return NodeType::NODE_FILE;
-	case NodeType::NODE_MACRO:
-		return NodeType::NODE_MACRO;
-	case NodeType::NODE_UNION:
-		return NodeType::NODE_UNION;
-	}
-
-	return NodeType::NODE_SYMBOL;
-}
-
-std::string utility::getReadableTypeString(NodeType::Type type)
-{
-	switch (type)
-	{
-	case NodeType::NODE_SYMBOL:
-		return "symbol";
-	case NodeType::NODE_BUILTIN_TYPE:
-		return "built-in type";
-	case NodeType::NODE_TYPE:
-		return "type";
-	case NodeType::NODE_NAMESPACE:
-		return "namespace";
-	case NodeType::NODE_PACKAGE:
-		return "package";
-	case NodeType::NODE_STRUCT:
-		return "struct";
-	case NodeType::NODE_CLASS:
-		return "class";
-	case NodeType::NODE_INTERFACE:
-		return "interface";
-	case NodeType::NODE_GLOBAL_VARIABLE:
-		return "global variable";
-	case NodeType::NODE_FIELD:
-		return "field";
-	case NodeType::NODE_FUNCTION:
-		return "function";
-	case NodeType::NODE_METHOD:
-		return "method";
-	case NodeType::NODE_ENUM:
-		return "enum";
-	case NodeType::NODE_ENUM_CONSTANT:
-		return "enum constant";
-	case NodeType::NODE_TYPEDEF:
-		return "typedef";
-	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
-		return "template parameter type";
-	case NodeType::NODE_TYPE_PARAMETER:
-		return "type parameter";
-	case NodeType::NODE_FILE:
-		return "file";
-	case NodeType::NODE_MACRO:
-		return "macro";
-	case NodeType::NODE_UNION:
-		return "union";
-	}
-
-	return "";
-}
-
-std::wstring utility::getReadableTypeWString(NodeType::Type type)
-{
-	std::string str = getReadableTypeString(type);
-	return std::wstring(str.begin(), str.end());
-}
-
-NodeType::Type utility::getTypeForReadableTypeString(const std::wstring str)
-{
-	for (NodeType::TypeMask mask = 1; mask <= NodeType::NODE_MAX_VALUE; mask *= 2)
-	{
-		NodeType::Type type = intToType(mask);
-		if (getReadableTypeWString(type) == str)
-		{
-			return type;
-		}
-	}
-
-	return NodeType::NODE_SYMBOL;
 }

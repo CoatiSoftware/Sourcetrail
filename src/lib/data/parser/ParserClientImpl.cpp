@@ -228,7 +228,7 @@ Id ParserClientImpl::addNode(NodeType nodeType, const NameHierarchy& nameHierarc
 		return 0;
 	}
 
-	return m_storage->addNode(StorageNodeData(utility::nodeTypeToInt(nodeType.getType()), NameHierarchy::serialize(nameHierarchy)));
+	return m_storage->addNode(StorageNodeData(NodeType::typeToInt(nodeType.getType()), NameHierarchy::serialize(nameHierarchy)));
 }
 
 void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::string& modificationTime, bool indexed)

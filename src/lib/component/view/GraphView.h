@@ -23,11 +23,12 @@ public:
 
 	struct GraphParams
 	{
-		bool animatedTransition;
-		bool centerActiveNode;
-		bool scrollToTop;
-		bool isIndexedList;
-		bool bezierEdges;
+		bool animatedTransition = true;
+		bool centerActiveNode = false;
+		bool scrollToTop = false;
+		bool isIndexedList = false;
+		bool bezierEdges = false;
+		bool disableInteraction = false;
 	};
 
 	GraphView(ViewLayout* viewLayout);

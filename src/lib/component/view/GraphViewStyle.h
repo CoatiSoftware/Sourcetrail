@@ -104,7 +104,7 @@ public:
 	static size_t getFontSizeOfExpandToggleNode();
 	static size_t getFontSizeOfCountCircle();
 	static size_t getFontSizeOfQualifier();
-	static size_t getFontSizeOfTextNode();
+	static size_t getFontSizeOfTextNode(int fontSizeDiff);
 	static size_t getFontSizeOfGroupNode();
 
 	static std::string getFontNameForDataNode();
@@ -117,7 +117,7 @@ public:
 	static NodeMargins getMarginsOfAccessNode(AccessKind access);
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
-	static NodeMargins getMarginsOfTextNode();
+	static NodeMargins getMarginsOfTextNode(int fontSizeDiff);
 	static NodeMargins getMarginsOfGroupNode(GroupType type, bool hasName);
 
 	static NodeStyle getStyleForNodeType(
@@ -127,7 +127,7 @@ public:
 	static NodeStyle getStyleOfCountCircle();
 	static NodeStyle getStyleOfBundleNode(bool isFocused);
 	static NodeStyle getStyleOfQualifier();
-	static NodeStyle getStyleOfTextNode();
+	static NodeStyle getStyleOfTextNode(int fontSizeDiff);
 	static NodeStyle getStyleOfGroupNode(GroupType type, bool isFocused);
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge);
@@ -153,6 +153,9 @@ private:
 
 	static float getCharWidth(NodeType::StyleType type);
 	static float getCharHeight(NodeType::StyleType type);
+
+	static float getCharWidth(const std::string& fontName, size_t fontSize);
+	static float getCharHeight(const std::string& fontName, size_t fontSize);
 
 	static std::map<NodeType::StyleType, float> s_charWidths;
 	static std::map<NodeType::StyleType, float> s_charHeights;

@@ -67,6 +67,8 @@ private slots:
 
 	void hideZoomLabel();
 
+	void legendClicked();
+
 private:
 	bool moves() const;
 
@@ -103,6 +105,8 @@ private:
 	QPushButton* m_zoomState;
 	QtSelfRefreshIconButton* m_zoomInButton;
 	QtSelfRefreshIconButton* m_zoomOutButton;
+
+	QtSelfRefreshIconButton* m_legendButton;
 
 	float m_zoomInButtonSpeed;
 	float m_zoomOutButtonSpeed;

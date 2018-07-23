@@ -10,7 +10,7 @@ class QtGraphNodeData
 {
 	Q_OBJECT
 public:
-	QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier);
+	QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier, bool isInteractive);
 	virtual ~QtGraphNodeData();
 
 	const Node* getData() const;
@@ -32,6 +32,7 @@ private:
 	const Node* m_data;
 	bool m_childVisible;
 	bool m_hasQualifier;
+	bool m_isInteractive;
 };
 
 #endif // QT_GRAPH_NODE_DATA_H

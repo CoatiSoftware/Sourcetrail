@@ -80,6 +80,17 @@ void UndoRedoController::handleMessage(MessageActivateFullTextSearch* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageActivateLegend* message)
+{
+	if (sameMessageTypeAsLast(message))
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageActivateLegend>(*message), Command::ORDER_ACTIVATE);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message)
 {
 	if (sameMessageTypeAsLast(message))

@@ -5,6 +5,7 @@
 
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/activation/MessageActivateLegend.h"
 #include "utility/messaging/type/code/MessageCodeShowDefinition.h"
 #include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/error/MessageShowError.h"
@@ -40,6 +41,7 @@ class UndoRedoController
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageActivateFullTextSearch>
+	, public MessageListener<MessageActivateLegend>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
@@ -90,6 +92,7 @@ private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateErrors* message);
 	virtual void handleMessage(MessageActivateFullTextSearch* message);
+	virtual void handleMessage(MessageActivateLegend* message);
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrail* message);

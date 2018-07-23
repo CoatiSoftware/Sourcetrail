@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/activation/MessageActivateLegend.h"
 #include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateFullTextSearch.h"
@@ -35,6 +36,7 @@ class GraphController
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageActivateFullTextSearch>
+	, public MessageListener<MessageActivateLegend>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
@@ -56,6 +58,7 @@ private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateErrors* message);
 	virtual void handleMessage(MessageActivateFullTextSearch* message);
+	virtual void handleMessage(MessageActivateLegend* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrail* message);
 	virtual void handleMessage(MessageActivateTrailEdge* message);
@@ -129,12 +132,13 @@ private:
 	DummyEdge* getDummyGraphEdgeById(Id tokenId) const;
 
 	void relayoutGraph(
-		MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop, bool withCharacterIndex,
-		const std::wstring& groupName);
-	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop);
+		MessageBase* message, GraphView::GraphParams params, bool withCharacterIndex, const std::wstring& groupName);
+	void buildGraph(MessageBase* message, GraphView::GraphParams params);
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);
 	void forEachDummyEdge(std::function<void(DummyEdge*)> func);
+
+	void createLegendGraph();
 
 	StorageAccess* m_storageAccess;
 
@@ -150,7 +154,8 @@ private:
 
 	std::map<Id, Id> m_topLevelAncestorIds;
 
-	bool m_useBezierEdges;
+	bool m_useBezierEdges = false;
+	bool m_showsLegend = false;
 };
 
 #endif // GRAPH_CONTROLLER_H

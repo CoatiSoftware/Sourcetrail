@@ -110,6 +110,7 @@ public:
 		, groupType(GroupType::DEFAULT)
 		, groupLayout(GroupLayout::LIST)
 		, interactive(true)
+		, fontSizeDiff(5)
 	{
 	}
 
@@ -490,6 +491,9 @@ public:
 	GroupLayout groupLayout;
 	std::vector<Id> hiddenEdgeIds;
 	bool interactive;
+
+	// TextNode
+	int fontSizeDiff;
 };
 
 #endif // DUMMY_NODE_H

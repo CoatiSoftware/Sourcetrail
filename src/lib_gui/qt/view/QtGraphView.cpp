@@ -339,7 +339,8 @@ void QtGraphView::rebuildGraph(
 
 		for (unsigned int i = 0; i < nodes.size(); i++)
 		{
-			QtGraphNode* node = createNodeRecursive(view, nullptr, nodes[i].get(), activeNodeCount > 1);
+			QtGraphNode* node =
+				createNodeRecursive(view, nullptr, nodes[i].get(), activeNodeCount > 1, !params.disableInteraction);
 			if (node)
 			{
 				m_nodes.push_back(node);
@@ -367,14 +368,15 @@ void QtGraphView::rebuildGraph(
 		{
 			if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 			{
-				createEdge(view, edge.get(), &visibleEdgeIds, trailMode, offset, params.bezierEdges);
+				createEdge(
+					view, edge.get(), &visibleEdgeIds, trailMode, offset, params.bezierEdges, !params.disableInteraction);
 			}
 		}
 		for (const std::shared_ptr<DummyEdge>& edge : edges)
 		{
 			if (edge->data && edge->data->isType(Edge::EDGE_AGGREGATION))
 			{
-				createAggregationEdge(view, edge.get(), &visibleEdgeIds);
+				createAggregationEdge(view, edge.get(), &visibleEdgeIds, !params.disableInteraction);
 			}
 		}
 
@@ -965,7 +967,7 @@ QtGraphNode* QtGraphView::findNodeRecursive(const std::list<QtGraphNode*>& nodes
 }
 
 QtGraphNode* QtGraphView::createNodeRecursive(
-	QGraphicsView* view, QtGraphNode* parentNode, const DummyNode* node, bool multipleActive
+	QGraphicsView* view, QtGraphNode* parentNode, const DummyNode* node, bool multipleActive, bool interactive
 ){
 	if (!node->visible)
 	{
@@ -975,7 +977,8 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	QtGraphNode* newNode = nullptr;
 	if (node->isGraphNode())
 	{
-		newNode = new QtGraphNodeData(node->data, node->name, node->childVisible, node->getQualifierNode() != nullptr);
+		newNode = new QtGraphNodeData(
+			node->data, node->name, node->childVisible, node->getQualifierNode() != nullptr, interactive);
 	}
 	else if (node->isAccessNode())
 	{
@@ -995,7 +998,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	}
 	else if (node->isTextNode())
 	{
-		newNode = new QtGraphNodeText(node->name);
+		newNode = new QtGraphNodeText(node->name, node->fontSizeDiff);
 	}
 	else if (node->isGroupNode())
 	{
@@ -1013,7 +1016,10 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	newNode->setIsActive(node->active);
 	newNode->setMultipleActive(multipleActive);
 
-	newNode->addComponent(std::make_shared<QtGraphNodeComponentClickable>(newNode));
+	if (interactive)
+	{
+		newNode->addComponent(std::make_shared<QtGraphNodeComponentClickable>(newNode));
+	}
 
 	view->scene()->addItem(newNode);
 
@@ -1021,7 +1027,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	{
 		newNode->setParent(parentNode);
 	}
-	else if (!node->isTextNode())
+	else if (!node->isTextNode() && interactive)
 	{
 		newNode->addComponent(std::make_shared<QtGraphNodeComponentMoveable>(newNode));
 	}
@@ -1033,7 +1039,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 
 	for (unsigned int i = 0; i < node->subNodes.size(); i++)
 	{
-		QtGraphNode* subNode = createNodeRecursive(view, newNode, node->subNodes[i].get(), multipleActive);
+		QtGraphNode* subNode = createNodeRecursive(view, newNode, node->subNodes[i].get(), multipleActive, interactive);
 		if (subNode)
 		{
 			newNode->addSubNode(subNode);
@@ -1051,7 +1057,8 @@ QtGraphEdge* QtGraphView::createEdge(
 	std::set<Id>* visibleEdgeIds,
 	Graph::TrailMode trailMode,
 	QPointF pathOffset,
-	bool useBezier)
+	bool useBezier,
+	bool interactive)
 {
 	if (!edge->visible)
 	{
@@ -1064,7 +1071,7 @@ QtGraphEdge* QtGraphView::createEdge(
 	if (owner != nullptr && target != nullptr)
 	{
 		QtGraphEdge* qtEdge = new QtGraphEdge(
-			owner, target, edge->data, edge->getWeight(), edge->active && !useBezier, edge->layoutHorizontal,
+			owner, target, edge->data, edge->getWeight(), edge->active && !useBezier, interactive, edge->layoutHorizontal,
 			edge->getDirection());
 
 		if (trailMode != Graph::TRAIL_NONE)
@@ -1112,7 +1119,7 @@ QtGraphEdge* QtGraphView::createEdge(
 }
 
 QtGraphEdge* QtGraphView::createAggregationEdge(
-	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds)
+	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, bool interactive)
 {
 	if (!edge->visible)
 	{
@@ -1135,7 +1142,7 @@ QtGraphEdge* QtGraphView::createAggregationEdge(
 		return nullptr;
 	}
 
-	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE, QPointF(), false);
+	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE, QPointF(), false, interactive);
 }
 
 QRectF QtGraphView::itemsBoundingRect(const std::list<QtGraphNode*>& items) const

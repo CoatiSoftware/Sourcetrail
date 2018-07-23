@@ -27,7 +27,8 @@ struct SearchMatch
 	{
 		COMMAND_ALL,
 		COMMAND_ERROR,
-		COMMAND_NODE_FILTER
+		COMMAND_NODE_FILTER,
+		COMMAND_LEGEND
 	};
 
 	static void log(const std::vector<SearchMatch>& matches, const std::wstring& query);

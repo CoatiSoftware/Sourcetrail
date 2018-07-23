@@ -78,6 +78,13 @@ public:
 
 	static std::vector<NodeType> getOverviewBundleNodeTypesOrdered();
 
+	static int typeToInt(NodeType::Type type);
+	static NodeType::Type intToType(int value);
+
+	static std::string getReadableTypeString(NodeType::Type type);
+	static std::wstring getReadableTypeWString(NodeType::Type type);
+	static NodeType::Type getTypeForReadableTypeString(const std::wstring str);
+
 	NodeType(Type type);
 
 	bool operator==(const NodeType& o) const;
@@ -114,14 +121,5 @@ public:
 private:
 	Type m_type;
 };
-
-namespace utility
-{
-	int nodeTypeToInt(NodeType::Type type);
-	NodeType::Type intToType(int value);
-	std::string getReadableTypeString(NodeType::Type type);
-	std::wstring getReadableTypeWString(NodeType::Type type);
-	NodeType::Type getTypeForReadableTypeString(const std::wstring str);
-}
 
 #endif // NODE_TYPE_H

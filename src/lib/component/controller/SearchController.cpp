@@ -29,6 +29,11 @@ void SearchController::handleMessage(MessageActivateFullTextSearch* message)
 	getView()->setMatches(message->getSearchMatches());
 }
 
+void SearchController::handleMessage(MessageActivateLegend* message)
+{
+	getView()->setMatches(message->getSearchMatches());
+}
+
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
 	if (message->keepContent())

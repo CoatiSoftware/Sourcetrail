@@ -30,6 +30,7 @@ QtGraphEdge::QtGraphEdge(
 	const Edge* data,
 	size_t weight,
 	bool isActive,
+	bool isInteractive,
 	bool horizontal,
 	TokenComponentAggregation::Direction direction
 )
@@ -44,6 +45,7 @@ QtGraphEdge::QtGraphEdge(
 	, m_direction(direction)
 	, m_isTrailEdge(false)
 	, m_useBezier(false)
+	, m_isInteractive(isInteractive)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
 {
@@ -401,7 +403,7 @@ void QtGraphEdge::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-	if (!m_mouseMoved)
+	if (!m_mouseMoved && m_isInteractive)
 	{
 		if (event->modifiers() & Qt::AltModifier)
 		{

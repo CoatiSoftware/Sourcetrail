@@ -206,6 +206,13 @@ void Application::handleMessage(MessageEnteredLicense* message)
 	m_licenseType = message->type;
 
 	updateTitle();
+	loadSettings();
+
+	if (m_hasGUI)
+	{
+		m_mainView->refreshView();
+		m_componentManager->refreshViews();
+	}
 }
 
 void Application::handleMessage(MessageIndexingFinished* message)

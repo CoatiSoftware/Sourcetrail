@@ -3,6 +3,7 @@
 
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/activation/MessageActivateLegend.h"
 #include "utility/messaging/type/error/MessageActivateErrors.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateFullTextSearch.h"
@@ -18,6 +19,7 @@ class SearchController
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageActivateFullTextSearch>
+	, public MessageListener<MessageActivateLegend>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageSearchAutocomplete>
@@ -30,6 +32,7 @@ private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateErrors* message);
 	virtual void handleMessage(MessageActivateFullTextSearch* message);
+	virtual void handleMessage(MessageActivateLegend* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFind* message);
 	virtual void handleMessage(MessageSearchAutocomplete* message);

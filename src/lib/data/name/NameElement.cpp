@@ -53,7 +53,12 @@ const std::wstring& NameElement::Signature::getPostfix() const
 
 std::wstring NameElement::Signature::getParameterString() const
 {
-	return utility::substrBeforeLast(m_postfix, L')') + L')';
+	if (m_postfix.size())
+	{
+		return utility::substrBeforeLast(m_postfix, L')') + L')';
+	}
+
+	return m_postfix;
 }
 
 NameElement::NameElement(std::wstring name)

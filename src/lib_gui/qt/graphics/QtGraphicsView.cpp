@@ -20,6 +20,7 @@
 #include "qt/utility/QtFileDialog.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/messaging/type/activation/MessageActivateLegend.h"
 #include "utility/messaging/type/code/MessageCodeShowDefinition.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/messaging/type/MessageGraphNodeHide.h"
@@ -102,6 +103,12 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_zoomOutButton->setAutoRepeat(true);
 	m_zoomOutButton->setToolTip("Zoom out (" + modifierName + " + Mousewheel back)");
 	connect(m_zoomOutButton, &QPushButton::pressed, this, &QtGraphicsView::zoomOutPressed);
+
+	m_legendButton = new QtSelfRefreshIconButton(
+		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/legend.png"), "search/button", this);
+	m_legendButton->setObjectName("legend_button");
+	m_legendButton->setToolTip("Show graph legend");
+	connect(m_legendButton, &QPushButton::clicked, this, &QtGraphicsView::legendClicked);
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -201,10 +208,12 @@ void QtGraphicsView::resizeEvent(QResizeEvent* event)
 {
 	m_zoomState->setGeometry(QRect(31, event->size().height() - 27, 65, 19));
 	m_zoomInButton->setGeometry(QRect(8, event->size().height() - 50, 19, 19));
-	m_zoomOutButton->setGeometry(QRect(8, event->size().height() - 27, 19, 19));
+	m_zoomOutButton->setGeometry(QRect(8, event->size().height() - 27, 18, 19));
+	m_legendButton->setGeometry(QRect(event->size().width() - 24, event->size().height() - 24, 18, 18));
 
 	m_zoomInButton->setIconSize(QSize(15, 15));
 	m_zoomOutButton->setIconSize(QSize(15, 15));
+	m_legendButton->setIconSize(QSize(10, 10));
 
 	emit resized();
 }
@@ -565,6 +574,11 @@ void QtGraphicsView::zoomOutPressed()
 void QtGraphicsView::hideZoomLabel()
 {
 	m_zoomState->hide();
+}
+
+void QtGraphicsView::legendClicked()
+{
+	MessageActivateLegend().dispatch();
 }
 
 bool QtGraphicsView::moves() const

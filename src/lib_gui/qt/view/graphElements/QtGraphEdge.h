@@ -27,6 +27,7 @@ public:
 		const Edge* data,
 		size_t weight,
 		bool isActive,
+		bool isInteractive,
 		bool horizontal,
 		TokenComponentAggregation::Direction direction);
 	virtual ~QtGraphEdge();
@@ -92,6 +93,7 @@ private:
 	std::vector<Vec4i> m_path;
 
 	bool m_useBezier;
+	bool m_isInteractive;
 
 	Vec2i m_mousePos;
 	bool m_mouseMoved;

@@ -5,14 +5,16 @@
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/messaging/type/MessageTooltipShow.h"
 #include "utility/ResourcePaths.h"
 
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier)
+QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier, bool isInteractive)
 	: m_data(data)
 	, m_childVisible(childVisible)
 	, m_hasQualifier(hasQualifier)
+	, m_isInteractive(isInteractive)
 {
 	this->setAcceptHoverEvents(true);
 	this->setName(name);
@@ -76,6 +78,26 @@ void QtGraphNodeData::updateStyle()
 void QtGraphNodeData::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
 	MessageFocusIn(std::vector<Id>(1, m_data->getId()), TOOLTIP_ORIGIN_GRAPH).dispatch();
+
+	if (!m_isInteractive)
+	{
+		TooltipInfo info;
+		info.title = NodeType::getReadableTypeWString(m_data->getType().getType());
+		info.offset = Vec2i(10, 20);
+
+		if (!m_data->isDefined())
+		{
+			info.title = L"non-indexed " + info.title;
+		}
+		else if (m_data->isImplicit())
+		{
+			info.title = L"implicit " + info.title;
+		}
+
+		MessageTooltipShow msg(info, TOOLTIP_ORIGIN_GRAPH);
+		msg.setSendAsTask(true);
+		msg.dispatch();
+	}
 }
 
 void QtGraphNodeData::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)

@@ -1,22 +1,19 @@
 #include "qt/view/QtGraphViewStyleImpl.h"
 
+#include <QFont>
 #include <QFontMetrics>
 
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "component/view/GraphViewStyle.h"
 #include "utility/utilityApp.h"
 
-QtGraphViewStyleImpl::~QtGraphViewStyleImpl()
+float QtGraphViewStyleImpl::getCharWidth(const std::string& fontName, size_t fontSize)
 {
+	return QFontMetrics(getFontForStyleType(fontName, fontSize)).width("QtGraphNode::QtGraphNode::QtGraphNode") / 37.0f;
 }
 
-float QtGraphViewStyleImpl::getCharWidth(NodeType::StyleType type)
+float QtGraphViewStyleImpl::getCharHeight(const std::string& fontName, size_t fontSize)
 {
-	return QFontMetrics(QtGraphNode::getFontForStyleType(type)).width("QtGraphNode::QtGraphNode::QtGraphNode") / 37.0f;
-}
-
-float QtGraphViewStyleImpl::getCharHeight(NodeType::StyleType type)
-{
-	return QFontMetrics(QtGraphNode::getFontForStyleType(type)).height();
+	return QFontMetrics(getFontForStyleType(fontName, fontSize)).height();
 }
 
 float QtGraphViewStyleImpl::getGraphViewZoomDifferenceForPlatform()
@@ -27,4 +24,11 @@ float QtGraphViewStyleImpl::getGraphViewZoomDifferenceForPlatform()
 	}
 
 	return 1.25;
+}
+
+QFont QtGraphViewStyleImpl::getFontForStyleType(const std::string& fontName, size_t fontSize) const
+{
+	QFont font(fontName.c_str());
+	font.setPixelSize(fontSize);
+	return font;
 }

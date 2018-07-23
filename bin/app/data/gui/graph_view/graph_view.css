@@ -101,3 +101,8 @@ QPushButton:pressed {
 	max-height: 26px;
 	padding-right: 2px;
 }
+
+#legend_button
+{
+	border-radius: 9px;
+}

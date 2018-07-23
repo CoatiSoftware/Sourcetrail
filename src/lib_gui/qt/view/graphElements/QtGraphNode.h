@@ -31,8 +31,6 @@ public slots:
 	void hideNode();
 
 public:
-	static QFont getFontForStyleType(NodeType::StyleType type);
-
 	QtGraphNode();
 	virtual ~QtGraphNode();
 

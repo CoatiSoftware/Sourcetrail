@@ -141,7 +141,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	QString subtext = index.sibling(index.row(), index.column() + 2).data().toString();
 	QString type = index.sibling(index.row(), index.column() + 3).data().toString();
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 4).data().toList();
-	NodeType nodeType = utility::intToType(index.sibling(index.row(), index.column() + 5).data().toInt());
+	NodeType nodeType = NodeType::intToType(index.sibling(index.row(), index.column() + 5).data().toInt());
 
 	// define highlight colors
     ColorScheme* scheme = ColorScheme::getInstance().get();

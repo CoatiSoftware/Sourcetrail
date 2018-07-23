@@ -152,6 +152,11 @@ void CodeController::handleMessage(MessageActivateFullTextSearch* message)
 	showCodeSnippets(getSnippetsForCollection(m_collection), params);
 }
 
+void CodeController::handleMessage(MessageActivateLegend* message)
+{
+	clear();
+}
+
 void CodeController::handleMessage(MessageActivateLocalSymbols* message)
 {
 	CodeView* view = getView();

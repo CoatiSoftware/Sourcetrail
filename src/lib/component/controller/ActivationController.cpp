@@ -3,6 +3,7 @@
 #include "data/access/StorageAccess.h"
 #include "settings/ApplicationSettings.h"
 
+#include "utility/messaging/type/activation/MessageActivateLegend.h"
 #include "utility/messaging/type/error/MessageErrorsAll.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
@@ -147,6 +148,12 @@ void ActivationController::handleMessage(MessageSearch* message)
 			case SearchMatch::COMMAND_ERROR:
 			{
 				MessageErrorsAll().dispatch();
+				return;
+			}
+
+			case SearchMatch::COMMAND_LEGEND:
+			{
+				MessageActivateLegend().dispatch();
 				return;
 			}
 		}

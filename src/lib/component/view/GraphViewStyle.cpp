@@ -144,7 +144,7 @@ void GraphViewStyle::loadStyleSettings()
 	s_edgeColors.clear();
 	s_screenMatchColors.clear();
 
-	s_gridCellPadding = getImpl()->getCharHeight(NodeType::STYLE_BIG_NODE) - 8;
+	s_gridCellPadding = getCharHeight(NodeType::STYLE_BIG_NODE) - 8;
 	s_gridCellSize = s_gridCellPadding / 2;
 }
 
@@ -184,9 +184,9 @@ size_t GraphViewStyle::getFontSizeOfQualifier()
 	return s_fontSize - 3;
 }
 
-size_t GraphViewStyle::getFontSizeOfTextNode()
+size_t GraphViewStyle::getFontSizeOfTextNode(int fontSizeDiff)
 {
-	return s_fontSize + 5;
+	return s_fontSize + fontSizeDiff;
 }
 
 size_t GraphViewStyle::getFontSizeOfGroupNode()
@@ -324,13 +324,15 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfBundleNode()
 	return getMarginsForDataNode(NodeType::STYLE_BIG_NODE, true, false);
 }
 
-GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfTextNode()
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfTextNode(int fontSizeDiff)
 {
 	NodeMargins margins;
 
 	margins.left = margins.right = 0;
 	margins.top = margins.bottom = 6;
-	margins.minWidth = margins.charHeight = getFontSizeOfTextNode();
+	margins.minWidth = margins.charHeight = getFontSizeOfTextNode(fontSizeDiff);
+
+	margins.charWidth = getCharWidth(getFontNameOfTextNode(), getFontSizeOfTextNode(fontSizeDiff));
 
 	return margins;
 }
@@ -545,14 +547,14 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfQualifier()
 	return style;
 }
 
-GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfTextNode()
+GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfTextNode(int fontSizeDiff)
 {
 	NodeStyle style;
 
 	style.color = getNodeColor("text", false);
 
 	style.fontName = getFontNameOfTextNode();
-	style.fontSize = getFontSizeOfTextNode();
+	style.fontSize = getFontSizeOfTextNode(fontSizeDiff);
 	style.fontBold = true;
 
 	style.textOffset.y = 10;
@@ -803,13 +805,12 @@ const GraphViewStyle::NodeColor& GraphViewStyle::getScreenMatchColor(bool focus)
 float GraphViewStyle::getCharWidth(NodeType::StyleType type)
 {
 	std::map<NodeType::StyleType, float>::const_iterator it = s_charWidths.find(type);
-
 	if (it != s_charWidths.end())
 	{
 		return it->second;
 	}
 
-	float charWidth = getImpl()->getCharWidth(type);
+	float charWidth = getCharWidth(getFontNameForDataNode(), getFontSizeForStyleType(type));
 	s_charWidths.emplace(type, charWidth);
 	return charWidth;
 }
@@ -817,13 +818,22 @@ float GraphViewStyle::getCharWidth(NodeType::StyleType type)
 float GraphViewStyle::getCharHeight(NodeType::StyleType type)
 {
 	std::map<NodeType::StyleType, float>::const_iterator it = s_charHeights.find(type);
-
 	if (it != s_charHeights.end())
 	{
 		return it->second;
 	}
 
-	float charHeight = getImpl()->getCharHeight(type);
+	float charHeight = getCharHeight(getFontNameForDataNode(), getFontSizeForStyleType(type));
 	s_charHeights.emplace(type, charHeight);
 	return charHeight;
+}
+
+float GraphViewStyle::getCharWidth(const std::string& fontName, size_t fontSize)
+{
+	return getImpl()->getCharWidth(fontName, fontSize);
+}
+
+float GraphViewStyle::getCharHeight(const std::string& fontName, size_t fontSize)
+{
+	return getImpl()->getCharHeight(fontName, fontSize);
 }

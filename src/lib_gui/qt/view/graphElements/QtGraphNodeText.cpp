@@ -1,6 +1,7 @@
 #include "qt/view/graphElements/QtGraphNodeText.h"
 
-QtGraphNodeText::QtGraphNodeText(const std::wstring& name)
+QtGraphNodeText::QtGraphNodeText(const std::wstring& name, int fontSizeDiff)
+	: m_fontSizeDiff(fontSizeDiff)
 {
 	setName(name);
 }
@@ -16,5 +17,5 @@ bool QtGraphNodeText::isTextNode() const
 
 void QtGraphNodeText::updateStyle()
 {
-	setStyle(GraphViewStyle::getStyleOfTextNode());
+	setStyle(GraphViewStyle::getStyleOfTextNode(m_fontSizeDiff));
 }

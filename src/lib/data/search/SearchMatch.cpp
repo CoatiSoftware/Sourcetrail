@@ -85,6 +85,8 @@ std::wstring SearchMatch::getCommandName(CommandType type)
 		return L"error";
 	case COMMAND_NODE_FILTER:
 		return L"node_filter";
+	case COMMAND_LEGEND:
+		return L"legend";
 	}
 
 	return L"none";
@@ -243,6 +245,10 @@ SearchMatch::CommandType SearchMatch::getCommandType() const
 	else if (name == L"error")
 	{
 		return COMMAND_ERROR;
+	}
+	else if (name == L"legend")
+	{
+		return COMMAND_LEGEND;
 	}
 
 	return COMMAND_NODE_FILTER;
