@@ -58,7 +58,7 @@ Id ParserClientImpl::recordSymbolWithLocationAndScopeAndSignature(
 	const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation,
 	AccessKind access, DefinitionKind definitionKind)
 {
-	Id nodeId = recordSymbolWithLocation(symbolName, symbolKind, location, access, definitionKind);
+	Id nodeId = recordSymbolWithLocationAndScope(symbolName, symbolKind, location, scopeLocation, access, definitionKind);
 	addSourceLocation(nodeId, signatureLocation, locationTypeToInt(LOCATION_SIGNATURE));
 	return nodeId;
 }
