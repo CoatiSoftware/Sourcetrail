@@ -17,8 +17,7 @@ public:
 
 	static const size_t VERSION;
 
-	ApplicationSettings();
-	~ApplicationSettings();
+	ApplicationSettings() = default;
 
 	bool load(const FilePath& filePath, bool readOnly = false);
 
@@ -97,6 +96,9 @@ public:
 	FilePath getJavaPath() const;
 	void setJavaPath(const FilePath& path);
 
+	bool getHasPrefilledJavaPath() const;
+	void setHasPrefilledJavaPath(bool v);
+
 	int getJavaMaximumMemory() const;
 	void setJavaMaximumMemory(int size);
 
@@ -104,16 +106,28 @@ public:
 	std::vector<FilePath> getJreSystemLibraryPathsExpanded() const;
 	bool setJreSystemLibraryPaths(const std::vector<FilePath>& jreSystemLibraryPaths);
 
+	bool getHasPrefilledJreSystemLibraryPaths() const;
+	void setHasPrefilledJreSystemLibraryPaths(bool v);
+
 	FilePath getMavenPath() const;
 	void setMavenPath(const FilePath& path);
+
+	bool getHasPrefilledMavenPath() const;
+	void setHasPrefilledMavenPath(bool v);
 
 	std::vector<FilePath> getHeaderSearchPaths() const;
 	std::vector<FilePath> getHeaderSearchPathsExpanded() const;
 	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
 
+	bool getHasPrefilledHeaderSearchPaths() const;
+	void setHasPrefilledHeaderSearchPaths(bool v);
+
 	std::vector<FilePath> getFrameworkSearchPaths() const;
 	std::vector<FilePath> getFrameworkSearchPathsExpanded() const;
 	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
+
+	bool getHasPrefilledFrameworkSearchPaths() const;
+	void setHasPrefilledFrameworkSearchPaths(bool v);
 
 	// code
 	int getCodeTabWidth() const;

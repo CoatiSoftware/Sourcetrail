@@ -27,14 +27,6 @@ std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance()
 	return s_instance;
 }
 
-ApplicationSettings::ApplicationSettings()
-{
-}
-
-ApplicationSettings::~ApplicationSettings()
-{
-}
-
 bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 {
 	bool loaded = Settings::load(filePath, readOnly);
@@ -352,6 +344,16 @@ void ApplicationSettings::setJavaPath(const FilePath& path)
 	setValue<std::wstring>("indexing/java/java_path", path.wstr());
 }
 
+bool ApplicationSettings::getHasPrefilledJavaPath() const
+{
+	return getValue<bool>("indexing/java/has_prefilled_java_path", false);
+}
+
+void ApplicationSettings::setHasPrefilledJavaPath(bool v)
+{
+	setValue<bool>("indexing/java/has_prefilled_java_path", v);
+}
+
 int ApplicationSettings::getJavaMaximumMemory() const
 {
 	return getValue<int>("indexing/java/java_maximum_memory", -1);
@@ -377,6 +379,16 @@ bool ApplicationSettings::setJreSystemLibraryPaths(const std::vector<FilePath>& 
 	return setPathValues("indexing/java/jre_system_library_paths/jre_system_library_path", jreSystemLibraryPaths);
 }
 
+bool ApplicationSettings::getHasPrefilledJreSystemLibraryPaths() const
+{
+	return getValue<bool>("indexing/java/has_prefilled_jre_system_library_paths", false);
+}
+
+void ApplicationSettings::setHasPrefilledJreSystemLibraryPaths(bool v)
+{
+	setValue<bool>("indexing/java/has_prefilled_jre_system_library_paths", v);
+}
+
 FilePath ApplicationSettings::getMavenPath() const
 {
 	return FilePath(getValue<std::wstring>("indexing/java/maven_path", L""));
@@ -385,6 +397,16 @@ FilePath ApplicationSettings::getMavenPath() const
 void ApplicationSettings::setMavenPath(const FilePath& path)
 {
 	setValue<std::wstring>("indexing/java/maven_path", path.wstr());
+}
+
+bool ApplicationSettings::getHasPrefilledMavenPath() const
+{
+	return getValue<bool>("indexing/java/has_prefilled_maven_path", false);
+}
+
+void ApplicationSettings::setHasPrefilledMavenPath(bool v)
+{
+	setValue<bool>("indexing/java/has_prefilled_maven_path", v);
 }
 
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
@@ -402,6 +424,16 @@ bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& head
 	return setPathValues("indexing/cxx/header_search_paths/header_search_path", headerSearchPaths);
 }
 
+bool ApplicationSettings::getHasPrefilledHeaderSearchPaths() const
+{
+	return getValue<bool>("indexing/cxx/has_prefilled_header_search_paths", false);
+}
+
+void ApplicationSettings::setHasPrefilledHeaderSearchPaths(bool v)
+{
+	setValue<bool>("indexing/cxx/has_prefilled_header_search_paths", v);
+}
+
 std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
 {
 	return getPathValues("indexing/cxx/framework_search_paths/framework_search_path");
@@ -415,6 +447,16 @@ std::vector<FilePath> ApplicationSettings::getFrameworkSearchPathsExpanded() con
 bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
 {
 	return setPathValues("indexing/cxx/framework_search_paths/framework_search_path", frameworkSearchPaths);
+}
+
+bool ApplicationSettings::getHasPrefilledFrameworkSearchPaths() const
+{
+	return getValue<bool>("indexing/cxx/has_prefilled_framework_search_paths", false);
+}
+
+void ApplicationSettings::setHasPrefilledFrameworkSearchPaths(bool v)
+{
+	setValue<bool>("indexing/cxx/has_prefilled_framework_search_paths", v);
 }
 
 int ApplicationSettings::getCodeTabWidth() const

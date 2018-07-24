@@ -60,8 +60,9 @@ void setupLogging()
 void prefillJavaRuntimePath()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (settings->getJavaPath().empty())
+	if (!settings->getHasPrefilledJavaPath() && settings->getJavaPath().empty())
 	{
+		LOG_INFO("Prefilling Java path");
 		std::shared_ptr<CombinedPathDetector> javaPathDetector = utility::getJavaRuntimePathDetector();
 		std::vector<FilePath> paths = javaPathDetector->getPaths();
 		if (!paths.empty())
@@ -76,13 +77,15 @@ void prefillJavaRuntimePath()
 			MessageStatus(L"Ran Java runtime path detection, no path found.").dispatch();
 		}
 	}
+	settings->setHasPrefilledJavaPath(true);
 }
 
 void prefillJreSystemLibraryPaths()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (settings->getJreSystemLibraryPaths().empty())
+	if (!settings->getHasPrefilledJreSystemLibraryPaths() && settings->getJreSystemLibraryPaths().empty())
 	{
+		LOG_INFO("Prefilling JRE system library path");
 		std::shared_ptr<CombinedPathDetector> jreSystemLibraryPathsDetector = utility::getJreSystemLibraryPathsDetector();
 		std::vector<FilePath> paths = jreSystemLibraryPathsDetector->getPaths();
 		if (!paths.empty())
@@ -97,13 +100,15 @@ void prefillJreSystemLibraryPaths()
 			MessageStatus(L"Ran JRE system library path detection, no path found.").dispatch();
 		}
 	}
+	settings->setHasPrefilledJreSystemLibraryPaths(true);
 }
 
 void prefillMavenExecutablePath()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (settings->getMavenPath().empty())
+	if (!settings->getHasPrefilledMavenPath() && settings->getMavenPath().empty())
 	{
+		LOG_INFO("Prefilling Maven path");
 		std::shared_ptr<CombinedPathDetector> mavenPathDetector = utility::getMavenExecutablePathDetector();
 		std::vector<FilePath> paths = mavenPathDetector->getPaths();
 		if (!paths.empty())
@@ -118,13 +123,15 @@ void prefillMavenExecutablePath()
 			MessageStatus(L"Ran Maven executable path detection, no path found.").dispatch();
 		}
 	}
+	settings->setHasPrefilledMavenPath(true);
 }
 
 void prefillCxxHeaderPaths()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (settings->getHeaderSearchPaths().empty())
+	if (!settings->getHasPrefilledHeaderSearchPaths() && settings->getHeaderSearchPaths().empty())
 	{
+		LOG_INFO("Prefilling header search paths");
 		std::shared_ptr<CombinedPathDetector> cxxHeaderDetector = utility::getCxxHeaderPathDetector();
 		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
 
@@ -137,13 +144,15 @@ void prefillCxxHeaderPaths()
 			settings->save();
 		}
 	}
+	settings->setHasPrefilledHeaderSearchPaths(true);
 }
 
 void prefillCxxFrameworkPaths()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (settings->getFrameworkSearchPaths().empty())
+	if (!settings->getHasPrefilledFrameworkSearchPaths() && settings->getFrameworkSearchPaths().empty())
 	{
+		LOG_INFO("Prefilling framework search paths");
 		std::shared_ptr<CombinedPathDetector> cxxFrameworkDetector = utility::getCxxFrameworkPathDetector();
 		std::vector<FilePath> paths = cxxFrameworkDetector->getPaths();
 		if (!paths.empty())
@@ -155,6 +164,7 @@ void prefillCxxFrameworkPaths()
 			settings->save();
 		}
 	}
+	settings->setHasPrefilledFrameworkSearchPaths(true);
 }
 
 void prefillPaths()
@@ -164,6 +174,9 @@ void prefillPaths()
 	prefillJreSystemLibraryPaths();
 	prefillCxxHeaderPaths();
 	prefillCxxFrameworkPaths();
+
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	settings->save();
 }
 
 void addLanguagePackages()
