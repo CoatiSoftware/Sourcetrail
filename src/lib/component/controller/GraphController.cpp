@@ -618,6 +618,7 @@ void GraphController::createDummyGraph(const std::shared_ptr<Graph> graph)
 	m_graph = graph;
 
 	m_useBezierEdges = false;
+	m_showsLegend = false;
 }
 
 void GraphController::createDummyGraphAndSetActiveAndVisibility(
