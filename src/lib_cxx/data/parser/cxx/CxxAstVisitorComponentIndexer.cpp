@@ -769,14 +769,7 @@ ParseLocation CxxAstVisitorComponentIndexer::getSignatureLocation(clang::Functio
 
 	if (d->doesThisDeclarationHaveABody())
 	{
-		const clang::TypeSourceInfo *TSI = d->getTypeSourceInfo();
-		if (!TSI)
-		{
-			return ParseLocation();
-		}
-
-		clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
-		if (FTL.isNull())
+		if (!d->getTypeSourceInfo())
 		{
 			return ParseLocation();
 		}
@@ -784,7 +777,13 @@ ParseLocation CxxAstVisitorComponentIndexer::getSignatureLocation(clang::Functio
 		const clang::SourceManager& sm = m_astContext->getSourceManager();
 		const clang::LangOptions& opts = m_astContext->getLangOpts();
 
-		clang::SourceLocation endLoc = FTL.getSourceRange().getEnd();
+		clang::SourceLocation endLoc = signatureRange.getBegin();
+
+		if (d->getNumParams() > 0)
+		{
+			endLoc = d->getParamDecl(d->getNumParams() - 1)->getLocEnd();
+		}
+
 		while (sm.isBeforeInTranslationUnit(endLoc, signatureRange.getEnd()))
 		{
 			llvm::Optional<clang::Token> token = clang::Lexer::findNextToken(endLoc, sm, opts);
@@ -794,15 +793,23 @@ ParseLocation CxxAstVisitorComponentIndexer::getSignatureLocation(clang::Functio
 				if (tokenKind == clang::tok::l_brace || tokenKind == clang::tok::colon)
 				{
 					signatureRange.setEnd(endLoc);
-					break;
+					return getParseLocation(signatureRange);
 				}
-				endLoc = token.getValue().getLocation();
+
+				clang::SourceLocation nextEndLoc = token.getValue().getLocation();
+				if (nextEndLoc == endLoc)
+				{
+					return ParseLocation();
+				}
+
+				endLoc = nextEndLoc;
 			}
 			else
 			{
 				return ParseLocation();
 			}
 		}
+		return ParseLocation();
 	}
 
 	return getParseLocation(signatureRange);
