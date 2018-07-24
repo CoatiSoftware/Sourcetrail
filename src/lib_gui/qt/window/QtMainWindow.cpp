@@ -834,13 +834,13 @@ void QtMainWindow::setupEditMenu()
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Code Reference Next"), this, &QtMainWindow::codeReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_G));
-	menu->addAction(tr("Code Reference Previous"), this,
+	menu->addAction(tr("Next Reference"), this, &QtMainWindow::codeReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_G));
+	menu->addAction(tr("Previous Reference"), this,
 		&QtMainWindow::codeReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
 
-	menu->addAction(tr("Code Local Reference Next"), this,
+	menu->addAction(tr("Next Local Reference"), this,
 		&QtMainWindow::codeLocalReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_T));
-	menu->addAction(tr("Code Local Reference Previous"), this,
+	menu->addAction(tr("Previous Local Reference"), this,
 		&QtMainWindow::codeLocalReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_T));
 
 	menu->addSeparator();

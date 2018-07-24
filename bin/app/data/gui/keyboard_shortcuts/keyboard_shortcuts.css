@@ -2,7 +2,7 @@ QTableWidget {
 	font-family: "<setting:font_name>";
 	color: black;
 	margin-top: 6px;
-	background-color: #dadada;
+	background-color: white;
 	alternate-background-color: #f6f6f6;
 	selection-background-color: #227abf;
 	selection-color: white;

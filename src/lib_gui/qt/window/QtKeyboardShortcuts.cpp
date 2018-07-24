@@ -120,7 +120,7 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(3, 0, new QTableWidgetItem("Back"));
 	table->setItem(4, 0, new QTableWidgetItem("Forward"));
 	table->setItem(5, 0, new QTableWidgetItem("Refresh"));
-	table->setItem(6, 0, new QTableWidgetItem("Force Refresh"));
+	table->setItem(6, 0, new QTableWidgetItem("Full Refresh"));
 	table->setItem(7, 0, new QTableWidgetItem("Find Symbol"));
 	table->setItem(8, 0, new QTableWidgetItem("Find Text"));
 	table->setItem(9, 0, new QTableWidgetItem("Find On-Screen"));
@@ -186,16 +186,22 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_code");
 
-	table->setRowCount(2);
-	table->setItem(0, 0, new QTableWidgetItem("Code Reference Next"));
-	table->setItem(1, 0, new QTableWidgetItem("Code Reference Previous"));
+	table->setRowCount(4);
+	table->setItem(0, 0, new QTableWidgetItem("Next Reference"));
+	table->setItem(1, 0, new QTableWidgetItem("Previous Reference"));
+	table->setItem(2, 0, new QTableWidgetItem("Next Local Reference"));
+	table->setItem(3, 0, new QTableWidgetItem("Previous Local Reference"));
 
 #if defined(Q_OS_MAC)
 	table->setItem(0, 1, new QTableWidgetItem("Cmd + G"));
 	table->setItem(1, 1, new QTableWidgetItem("Cmd + Shift + G"));
+	table->setItem(2, 1, new QTableWidgetItem("Cmd + T"));
+	table->setItem(3, 1, new QTableWidgetItem("Cmd + Shift + T"));
 #else
 	table->setItem(0, 1, new QTableWidgetItem("Ctrl + G"));
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + Shift + G"));
+	table->setItem(2, 1, new QTableWidgetItem("Ctrl + T"));
+	table->setItem(3, 1, new QTableWidgetItem("Ctrl + Shift + T"));
 #endif
 
 	table->updateSize();

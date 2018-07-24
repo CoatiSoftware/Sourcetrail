@@ -1,7 +1,5 @@
 #include "includes.h"
 
-#include <QCoreApplication>
-
 #include "LanguagePackageCxx.h"
 #include "LanguagePackageJava.h"
 #include "LanguagePackageManager.h"
@@ -37,8 +35,6 @@ void suppressCrashMessage()
 
 int main(int argc, char *argv[])
 {
-	QCoreApplication qtApp(argc, argv);
-
 	int processId = -1;
 	std::string instanceUuid;
 	std::string appPath;
@@ -93,6 +89,5 @@ int main(int argc, char *argv[])
 	InterprocessIndexer indexer(instanceUuid, processId);
 	indexer.work();
 
-//	qtApp.quit();
 	return 0;
 }

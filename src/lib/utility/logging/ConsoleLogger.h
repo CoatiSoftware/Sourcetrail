@@ -6,7 +6,8 @@
 #include "utility/logging/Logger.h"
 #include "utility/logging/LogMessage.h"
 
-class ConsoleLogger: public Logger
+class ConsoleLogger
+	: public Logger
 {
 public:
 	ConsoleLogger();
@@ -17,8 +18,6 @@ private:
 	void logError(const LogMessage& message) override;
 
 	void logMessage(const std::string& type, const LogMessage& message);
-
-	std::mutex m_consoleMutex;
 };
 
 #endif // CONSOLE_LOGGER_H

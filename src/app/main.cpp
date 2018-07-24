@@ -51,7 +51,8 @@ void setupLogging()
 	logManager->addLogger(consoleLogger);
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
-	fileLogger->setLogDirectory(UserPaths::getLogPath());
+	fileLogger->setLogDirectory(UserPaths::getLogPath().getAbsolute());
+
 	fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
 	fileLogger->setLogLevel(Logger::LOG_ALL);
 	logManager->addLogger(fileLogger);

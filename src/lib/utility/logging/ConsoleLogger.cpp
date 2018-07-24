@@ -24,8 +24,6 @@ void ConsoleLogger::logError(const LogMessage& message)
 
 void ConsoleLogger::logMessage(const std::string& type, const LogMessage& message)
 {
-	std::lock_guard<std::mutex> lock(m_consoleMutex);
-
 	std::cout << message.getTimeString("%H:%M:%S") << " | ";
 
 	if (!message.filePath.empty())

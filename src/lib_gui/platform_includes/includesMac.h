@@ -15,7 +15,7 @@
 
 void setupPlatform(int argc, char *argv[])
 {
-	UserPaths::setUserDataPath(FilePath(L"./user/"));
+	UserPaths::setUserDataPath(FilePath(L"./user/").getAbsolute());
 
 	// ----------------------------------------------------------------------------
 	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
@@ -81,7 +81,7 @@ void setupPlatform(int argc, char *argv[])
 	utility::copyNewFilesFromDirectory(oldDataPath, dataPath);
 
 	// ----------------------------------------------------------------------------
-	UserPaths::setUserDataPath(FilePath(dataPath.toStdWString() + L"/"));
+	UserPaths::setUserDataPath(FilePath(dataPath.toStdWString() + L"/").getAbsolute());
 }
 
 void setupApp(int argc, char *argv[])
