@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "component/view/DialogView.h"
 #include "data/access/StorageAccess.h"
+#include "project/Project.h"
 #include "settings/ApplicationSettings.h"
 
 ErrorController::ErrorController(StorageAccess* storageAccess)
@@ -114,12 +115,18 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message)
 
 void ErrorController::handleMessage(MessageErrorsAll* message)
 {
-	MessageActivateErrors(getView()->getErrorFilter()).dispatch();
+	if (canDisplayErrors())
+	{
+		MessageActivateErrors(getView()->getErrorFilter()).dispatch();
+	}
 }
 
 void ErrorController::handleMessage(MessageErrorsForFile* message)
 {
-	MessageActivateErrors(ErrorFilter(), message->file).dispatch();
+	if (canDisplayErrors())
+	{
+		MessageActivateErrors(ErrorFilter(), message->file).dispatch();
+	}
 }
 
 void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
@@ -204,4 +211,18 @@ bool ErrorController::showErrors(const ErrorFilter& filter, bool scrollTo)
 	view->addErrors(errors, errorCount, scrollTo);
 
 	return errors.size();
+}
+
+bool ErrorController::canDisplayErrors() const
+{
+	Project* project = Application::getInstance()->getCurrentProject().get();
+	if (project && project->isIndexing())
+	{
+		Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
+			"Errors cannot be activated while indexing."
+		);
+		return false;
+	}
+
+	return true;
 }

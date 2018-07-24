@@ -61,6 +61,7 @@ private:
 	virtual void clear();
 
 	bool showErrors(const ErrorFilter& filter, bool scrollTo);
+	bool canDisplayErrors() const;
 
 	StorageAccess* m_storageAccess;
 

@@ -1,5 +1,46 @@
 ### Changelog
 
+#### 2018.3.0
+released 2018-07-24
+
+* C/C++: Fixed file logging broken when indexing a compilation database project in single process
+* Only prefill system specific paths in application settings once
+* Added check if entered project name is a valid file name
+* Windows: Fixed names of available header path detectors
+* Graph: Show graph legend via 'legend' command or '?' button in the lower right corner (issue #308, #540)
+* C/C++: Ship clang compiler headers also for Windows
+* Code: Added on-demand local reference navigation to code view navigation bar (issue #453, #538)
+* Improved button texts for "reindexing required" dialog
+* Code: Scroll code horizontally to active source location if out of view
+* Graph: Added show definition context menu action/shortcut to show definition of any node in the code (issue #83)
+* Improved project loading speed
+* Create project directory during project setup if not existing
+* Tooltip: Show function/method signatures exactly as declared in source file
+* Search: Improved autocompletion scoring to process more symbols
+* Search: Fixed autocompletions fail with wide characters (issue #598)
+* Windows: Show error text when opening external .dll fails
+* C/C++: Highlight opening and closing brackets in code when hovering either one (issue #12)
+* macOS: Fixed start screen not disappearing when launching Sourcetrail by opening a project
+* Graph: Fixed restoring of scroll position in graph on undo broken
+* Graph: Hide children with type use edges to parent if parent is active
+* Bookmark: Fixed bookmark creator dialog header not visible
+* Graph: Show parameters for functions/methods with same name (issue #259)
+* Graph: exporting graph as .svg (issue #596)
+* Show indexing progress bar in status bar
+* Keep browsing old project state while indexing (issue #175)
+* Java: Added support for Java 10
+* Check if Sonargraph paths exist before allowing to continue.
+* Added project setup from Sonargraph project for C, C++ and Java.
+* Migrate old ".coatiproject" settings to new ".srctrlprj" extension when loading project
+* Allow discarding unfinished index when aborting indexing
+* Fixed partly indexed project can't be opened after closing while indexing (issue #594)
+* C/C++: Show translation unit of indexing errors
+* Fixed activating history item from menu showed wrong symbol (issue #572)
+* Fixed all errors shown when only showing errors for certain file and changing error filter (issue #577)
+* Added page steps to project setup dialogs
+* C/C++: Make complete file incomplete if it has errors in later translation units
+
+
 #### 2018.2.77
 released 2018-06-18
 

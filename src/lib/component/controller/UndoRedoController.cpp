@@ -7,6 +7,7 @@
 #include "Application.h"
 #include "component/view/UndoRedoView.h"
 #include "data/access/StorageAccess.h"
+#include "project/Project.h"
 
 UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -473,8 +474,6 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 {
 	std::shared_ptr<MessageBase> m = it->message;
-	m->setIsReplayed(true);
-	m->setIsLast(it == std::prev(m_iterator));
 
 	if (m->getType() == MessageActivateTokens::getStaticType())
 	{
@@ -489,6 +488,33 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 			msg->searchMatches = ret.second;
 		}
 	}
+	else if (m->getType() == MessageActivateErrors::getStaticType())
+	{
+		Project* project = Application::getInstance()->getCurrentProject().get();
+		if (project && project->isIndexing())
+		{
+			Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
+				"Errors cannot be activated while indexing."
+			);
+
+			ErrorFilter filter;
+			filter.error = false;
+			filter.fatal = false;
+			filter.unindexedError = false;
+			filter.unindexedFatal = false;
+
+			MessageActivateErrors msg(filter);
+			msg.setIsReplayed(true);
+			msg.setIsLast(it == std::prev(m_iterator));
+			msg.dispatch();
+
+			return;
+		}
+
+	}
+
+	m->setIsReplayed(true);
+	m->setIsLast(it == std::prev(m_iterator));
 
 	m->dispatch();
 
