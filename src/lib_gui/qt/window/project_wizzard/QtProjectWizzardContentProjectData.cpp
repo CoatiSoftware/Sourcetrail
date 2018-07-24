@@ -1,6 +1,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentProjectData.h"
 
 #include <QMessageBox>
+#include <boost/filesystem/path.hpp>
 
 #include "settings/ProjectSettings.h"
 #include "utility/file/FileSystem.h"
@@ -75,6 +76,14 @@ bool QtProjectWizzardContentProjectData::check()
 	{
 		QMessageBox msgBox;
 		msgBox.setText("Please enter a project name.");
+		msgBox.exec();
+		return false;
+	}
+
+	if (!boost::filesystem::portable_file_name(m_projectName->text().toStdString()))
+	{
+		QMessageBox msgBox;
+		msgBox.setText("The provided project name is not a valid file name. Please adjust the name accordingly.");
 		msgBox.exec();
 		return false;
 	}
