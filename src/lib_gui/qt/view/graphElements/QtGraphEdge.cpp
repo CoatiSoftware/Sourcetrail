@@ -218,7 +218,16 @@ void QtGraphEdge::updateLine()
 			}
 		}
 
-		if (type == Edge::EDGE_INHERITANCE || (type == Edge::EDGE_TEMPLATE_SPECIALIZATION &&
+		// increase z-value for inheritance and specialization edges between members
+		if ((type == Edge::EDGE_INHERITANCE || type == Edge::EDGE_TEMPLATE_SPECIALIZATION) &&
+			(owner != ownerNonGroupParent || target != targetNonGroupParent))
+		{
+			if (style.zValue < 0)
+			{
+				style.zValue += 5;
+			}
+		}
+		else if (type == Edge::EDGE_INHERITANCE || (type == Edge::EDGE_TEMPLATE_SPECIALIZATION &&
 				owner == ownerNonGroupParent && target == targetNonGroupParent))
 		{
 			route = QtLineItemBase::ROUTE_VERTICAL;
