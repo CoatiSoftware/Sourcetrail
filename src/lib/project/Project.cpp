@@ -24,6 +24,7 @@
 #include "utility/messaging/type/error/MessageErrorCountClear.h"
 #include "utility/messaging/type/indexing/MessageIndexingFinished.h"
 #include "utility/messaging/type/indexing/MessageIndexingStarted.h"
+#include "utility/messaging/type/indexing/MessageIndexingStatus.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskDecoratorRepeat.h"
@@ -398,6 +399,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	MessageErrorCountClear().dispatch();
 
 	dialogView->showUnknownProgressDialog(L"Preparing Indexing", L"Setting up Indexers");
+	MessageIndexingStatus(true, 0).dispatch();
 
 	m_storageCache->clear();
 	m_storageCache->setSubject(m_storage.get());
@@ -417,7 +419,6 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 
 	bool hideable = m_state == PROJECT_STATE_LOADED || m_state == PROJECT_STATE_OUTDATED;
 	dialogView->setDialogsHideable(hideable);
-	dialogView->setUpdateIndexingStatus(true);
 
 	if (info.mode != REFRESH_ALL_FILES && (info.filesToClear.size() || info.nonIndexedFilesToClear.size()))
 	{
@@ -560,7 +561,6 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	taskSequential->addTask(std::make_shared<TaskLambda>([dialogView, this]() {
 		m_isIndexing = false;
 		dialogView->setDialogsHideable(false);
-		dialogView->setUpdateIndexingStatus(false);
 
 		MessageIndexingFinished().dispatch();
 	}));

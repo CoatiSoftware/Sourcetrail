@@ -2,6 +2,7 @@
 
 #include "utility/AppPath.h"
 #include "utility/logging/FileLogger.h"
+#include "utility/messaging/type/indexing/MessageIndexingStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/UserPaths.h"
 #include "utility/utilityApp.h"
@@ -298,4 +299,11 @@ void TaskBuildIndex::updateIndexingDialog(
 
 	Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->updateIndexingDialog(
 		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePaths);
+
+	int progress = 0;
+	if (sourceFileCount)
+	{
+		progress = indexedSourceFileCount * 100 / sourceFileCount;
+	}
+	MessageIndexingStatus(true, progress).dispatch();
 }

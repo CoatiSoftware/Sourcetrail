@@ -16,11 +16,6 @@ void DialogView::setDialogsHideable(bool hideable)
 	m_dialogsHideable = hideable;
 }
 
-void DialogView::setUpdateIndexingStatus(bool updateStatus)
-{
-	m_updateIndexingStatus = updateStatus;
-}
-
 bool DialogView::dialogsHidden() const
 {
 	return false;

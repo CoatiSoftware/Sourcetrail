@@ -19,7 +19,7 @@ public:
 
 	virtual void showIdeStatus(const std::wstring& message) = 0;
 
-	virtual void showIndexingProgress(bool unknownProgress, size_t progressPercent) = 0;
+	virtual void showIndexingProgress(size_t progressPercent) = 0;
 	virtual void hideIndexingProgress() = 0;
 
 protected:

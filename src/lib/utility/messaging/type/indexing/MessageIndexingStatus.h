@@ -12,16 +12,14 @@ public:
 		return "MessageIndexingStatus";
 	}
 
-	MessageIndexingStatus(bool showProgress, bool unknownProgress, size_t progressPercent)
+	MessageIndexingStatus(bool showProgress, size_t progressPercent = 0)
 		: showProgress(showProgress)
-		, unknownProgress(unknownProgress)
 		, progressPercent(progressPercent)
 	{
 		setSendAsTask(false);
 	}
 
 	const bool showProgress;
-	const bool unknownProgress;
 	const size_t progressPercent;
 };
 

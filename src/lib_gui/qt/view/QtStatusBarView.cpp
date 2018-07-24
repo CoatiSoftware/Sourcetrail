@@ -57,12 +57,12 @@ void QtStatusBarView::showIdeStatus(const std::wstring& message)
 	);
 }
 
-void QtStatusBarView::showIndexingProgress(bool unknownProgress, size_t progressPercent)
+void QtStatusBarView::showIndexingProgress(size_t progressPercent)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_widget->showIndexingProgress(unknownProgress, progressPercent);
+			m_widget->showIndexingProgress(progressPercent);
 		}
 	);
 }

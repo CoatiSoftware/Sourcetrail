@@ -84,8 +84,8 @@ QtStatusBar::QtStatusBar()
 
 		m_indexingProgress = new QProgressBar();
 		m_indexingProgress->setMinimum(0);
-		m_indexingProgress->setMaximum(0);
-		m_indexingProgress->setValue(0);
+		m_indexingProgress->setMaximum(100);
+		m_indexingProgress->setValue(100);
 		layout->addWidget(m_indexingProgress);
 
 		m_indexingStatus->setLayout(layout);
@@ -155,23 +155,14 @@ void QtStatusBar::setIdeStatus(const std::wstring& text)
 	m_ideStatusText.setText(QString::fromStdWString(text));
 }
 
-void QtStatusBar::showIndexingProgress(bool unknownProgress, size_t progressPercent)
+void QtStatusBar::showIndexingProgress(size_t progressPercent)
 {
 	m_indexingStatus->show();
 	m_vlineIndexing->show();
 
 	m_errorButton.setEnabled(false);
 
-	if (unknownProgress)
-	{
-		m_indexingProgress->setValue(0);
-		m_indexingProgress->setMaximum(0);
-	}
-	else
-	{
-		m_indexingProgress->setValue(progressPercent);
-		m_indexingProgress->setMaximum(100);
-	}
+	m_indexingProgress->setValue(progressPercent);
 }
 
 void QtStatusBar::hideIndexingProgress()

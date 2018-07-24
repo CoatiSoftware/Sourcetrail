@@ -43,7 +43,7 @@ void StatusBarController::handleMessage(MessageIndexingStatus* message)
 {
 	if (message->showProgress)
 	{
-		getView()->showIndexingProgress(message->unknownProgress, message->progressPercent);
+		getView()->showIndexingProgress(message->progressPercent);
 	}
 	else
 	{

@@ -2,6 +2,7 @@
 
 #include "component/view/DialogView.h"
 #include "data/storage/PersistentStorage.h"
+#include "utility/messaging/type/indexing/MessageIndexingStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 #include "Application.h"
@@ -20,6 +21,8 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 	{
 		dialogView->clearDialogs();
 		dialogView->updateIndexingDialog(0, 0, sourceFileCount, { });
+
+		MessageIndexingStatus(true, 0).dispatch();
 	}
 
 	m_start = utility::durationStart();

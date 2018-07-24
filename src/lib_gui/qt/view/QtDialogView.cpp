@@ -33,13 +33,7 @@ QtDialogView::~QtDialogView()
 
 bool QtDialogView::dialogsHidden() const
 {
-	QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
-	if (window)
-	{
-		return window->isHidden();
-	}
-
-	return false;
+	return !m_dialogsVisible;
 }
 
 void QtDialogView::clearDialogs()
@@ -113,11 +107,6 @@ void QtDialogView::showProgressDialog(const std::wstring& title, const std::wstr
 			window->updateTitle(QString::fromStdWString(title));
 			window->updateMessage(QString::fromStdWString(message));
 			window->updateProgress(progress);
-
-			if (m_updateIndexingStatus)
-			{
-				MessageIndexingStatus(true, false, progress).dispatch();
-			}
 
 			setUIBlocked(m_dialogsVisible);
 		}
@@ -239,9 +228,11 @@ void QtDialogView::updateIndexingDialog(
 				std::vector<std::wstring> stati;
 				for (const FilePath& path : sourcePaths)
 				{
-					stati.push_back(L"[" + std::to_wstring(startedFileCount) + L"/" + std::to_wstring(totalFileCount) + L"] Indexing file: " + path.wstr());
+					stati.push_back(
+						L"[" + std::to_wstring(startedFileCount) + L"/" + std::to_wstring(totalFileCount) +
+						L"] Indexing file: " + path.wstr());
 				}
-				MessageStatus(stati, false, true, m_dialogsVisible).dispatch();
+				MessageStatus(stati, false, false, m_dialogsVisible).dispatch();
 			}
 
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
@@ -255,20 +246,10 @@ void QtDialogView::updateIndexingDialog(
 
 			if (window && window->getType() == QtIndexingDialog::DIALOG_INDEXING)
 			{
-				window->updateIndexingProgress(finishedFileCount, totalFileCount, sourcePaths.empty() ? FilePath() : sourcePaths.back());
+				window->updateIndexingProgress(
+					finishedFileCount, totalFileCount, sourcePaths.empty() ? FilePath() : sourcePaths.back());
 			}
 			m_mainWindow->setWindowsTaskbarProgress(float(finishedFileCount) / totalFileCount);
-
-			if (m_updateIndexingStatus)
-			{
-				int progress = 0;
-				if (totalFileCount)
-				{
-					progress = finishedFileCount * 100 / totalFileCount;
-				}
-
-				MessageIndexingStatus(true, false, progress).dispatch();
-			}
 
 			setUIBlocked(m_dialogsVisible);
 		}
@@ -279,11 +260,6 @@ DatabasePolicy QtDialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 	float time, ErrorCountInfo errorInfo, bool interrupted)
 {
-	if (m_updateIndexingStatus)
-	{
-		MessageIndexingStatus(false, false, 0).dispatch();
-	}
-
 	DatabasePolicy policy = DATABASE_POLICY_UNKNOWN;
 	m_resultReady = false;
 
@@ -440,11 +416,6 @@ void QtDialogView::showUnknownProgress(const std::wstring& title, const std::wst
 
 	window->updateTitle(QString::fromStdWString(title));
 	window->updateMessage(QString::fromStdWString(message));
-
-	if (m_updateIndexingStatus)
-	{
-		MessageIndexingStatus(true, true, 0).dispatch();
-	}
 
 	setUIBlocked(m_dialogsVisible);
 }

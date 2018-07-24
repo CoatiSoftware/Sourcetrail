@@ -3,6 +3,7 @@
 #include "component/view/DialogView.h"
 #include "data/storage/PersistentStorage.h"
 #include "utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "utility/messaging/type/indexing/MessageIndexingStatus.h"
 #include "utility/messaging/type/MessageQuitApplication.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
@@ -90,6 +91,8 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		errorInfo,
 		interruptedIndexing
 	);
+
+	MessageIndexingStatus(false).dispatch();
 
 	{
 		std::lock_guard<std::mutex> lock(blackboard->getMutex());

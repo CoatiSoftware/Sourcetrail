@@ -25,7 +25,7 @@ public:
 
 	void setIdeStatus(const std::wstring& text);
 
-	void showIndexingProgress(bool unknownProgress, size_t progressPercent);
+	void showIndexingProgress(size_t progressPercent);
 	void hideIndexingProgress();
 
 protected:

@@ -34,7 +34,6 @@ public:
 	UseCase getUseCase() const;
 
 	void setDialogsHideable(bool hideable);
-	void setUpdateIndexingStatus(bool updateStatus);
 
 	virtual bool dialogsHidden() const;
 	virtual void clearDialogs();
@@ -64,7 +63,6 @@ protected:
 	StorageAccess* m_storageAccess;
 
 	bool m_dialogsHideable = false;
-	bool m_updateIndexingStatus = false;
 };
 
 #endif // DIALOG_VIEW_H
