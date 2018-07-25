@@ -1287,39 +1287,27 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 {
 	TRACE();
 
-	std::set<Id> edgeIds;
 	std::set<Id> nodeIds;
-	std::set<Id> implicitEdgeIds;
 	std::set<Id> implicitNodeIds;
 
 	for (const StorageOccurrence& occurrence: m_sqliteIndexStorage.getOccurrencesForLocationIds(locationIds))
 	{
-		const Id elementId = occurrence.elementId;
+		Id elementId = occurrence.elementId;
 
 		const StorageEdge edge = m_sqliteIndexStorage.getFirstById<StorageEdge>(elementId);
 		if (edge.id != 0)
 		{
-			auto it = m_symbolDefinitionKinds.find(edge.targetNodeId);
-			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
-			{
-				implicitEdgeIds.insert(edge.targetNodeId);
-			}
-			else
-			{
-				edgeIds.insert(edge.targetNodeId);
-			}
+			elementId = edge.targetNodeId;
 		}
-		else if (m_sqliteIndexStorage.isNode(elementId))
+
+		auto it = m_symbolDefinitionKinds.find(elementId);
+		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
 		{
-			auto it = m_symbolDefinitionKinds.find(elementId);
-			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
-			{
-				implicitNodeIds.insert(elementId);
-			}
-			else
-			{
-				nodeIds.insert(elementId);
-			}
+			implicitNodeIds.insert(elementId);
+		}
+		else
+		{
+			nodeIds.insert(elementId);
 		}
 	}
 
@@ -1327,18 +1315,8 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 	{
 		return utility::toVector(nodeIds);
 	}
-	else if (implicitNodeIds.size())
-	{
-		return utility::toVector(implicitNodeIds);
-	}
-	else if (edgeIds.size())
-	{
-		return utility::toVector(edgeIds);
-	}
-	else
-	{
-		return utility::toVector(implicitEdgeIds);
-	}
+
+	return utility::toVector(implicitNodeIds);
 }
 
 std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsForTokenIds(
