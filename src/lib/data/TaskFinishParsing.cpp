@@ -11,18 +11,15 @@
 #include "utility/utilityString.h"
 #include "Application.h"
 
-TaskFinishParsing::TaskFinishParsing(std::shared_ptr<PersistentStorage> storage)
+TaskFinishParsing::TaskFinishParsing(std::shared_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)
 	: m_storage(storage)
+	, m_dialogView(dialogView)
 {
 }
 
 void TaskFinishParsing::terminate()
 {
-	Application* app = Application::getInstance().get();
-	if (app)
-	{
-		app->getDialogView(DialogView::UseCase::INDEXING)->clearDialogs();
-	}
+	m_dialogView->clearDialogs();
 
 	MessageStatus(L"An unknown exception was thrown during indexing.", true, false).dispatch();
 	MessageIndexingFinished().dispatch();
@@ -37,11 +34,9 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 {
 	TimeStamp start = utility::durationStart();
 
-	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING);
-
-	dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Optimizing database");
+	m_dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Optimizing database");
 	m_storage->optimizeMemory();
-	dialogView->hideUnknownProgressDialog();
+	m_dialogView->hideUnknownProgressDialog();
 
 	float time = utility::duration(start);
 
@@ -82,7 +77,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	MessageStatus(status, false, false).dispatch();
 
 	StorageStats stats = m_storage->getStorageStats();
-	DatabasePolicy policy = dialogView->finishedIndexingDialog(
+	DatabasePolicy policy = m_dialogView->finishedIndexingDialog(
 		indexedSourceFileCount,
 		sourceFileCount,
 		stats.completedFileCount,

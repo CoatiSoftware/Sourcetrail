@@ -16,7 +16,7 @@ class TaskParseWrapper
 	: public TaskDecorator
 {
 public:
-	TaskParseWrapper(std::weak_ptr<PersistentStorage> storage);
+	TaskParseWrapper(std::weak_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView);
 
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
@@ -25,6 +25,7 @@ private:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	std::weak_ptr<PersistentStorage> m_storage;
+	std::shared_ptr<DialogView> m_dialogView;
 
 	TimeStamp m_start;
 };

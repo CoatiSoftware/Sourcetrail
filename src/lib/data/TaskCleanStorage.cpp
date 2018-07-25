@@ -8,9 +8,11 @@
 #include "Application.h"
 
 TaskCleanStorage::TaskCleanStorage(
-	std::weak_ptr<PersistentStorage> storage, const std::vector<FilePath>& filePaths, bool clearAllErrors
+	std::weak_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView,
+	const std::vector<FilePath>& filePaths, bool clearAllErrors
 )
 	: m_storage(storage)
+	, m_dialogView(dialogView)
 	, m_filePaths(filePaths)
 	, m_clearAllErrors(clearAllErrors)
 {
@@ -18,8 +20,7 @@ TaskCleanStorage::TaskCleanStorage(
 
 void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->showUnknownProgressDialog(
-		L"Clearing Files", std::to_wstring(m_filePaths.size()) + L" Files");
+	m_dialogView->showUnknownProgressDialog(L"Clearing Files", std::to_wstring(m_filePaths.size()) + L" Files");
 
 	m_start = utility::durationStart();
 
@@ -43,8 +44,7 @@ Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboar
 
 		storage->clearFileElements(m_filePaths, [=](int progress)
 			{
-				Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->showProgressDialog(
-					L"Clearing", std::to_wstring(m_filePaths.size()) + L" Files", progress);
+				m_dialogView->showProgressDialog(L"Clearing", std::to_wstring(m_filePaths.size()) + L" Files", progress);
 			}
 		);
 	}
@@ -58,7 +58,7 @@ void TaskCleanStorage::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 	blackboard->set("clear_time", utility::duration(m_start));
 
-	Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->hideProgressDialog();
+	m_dialogView->hideProgressDialog();
 }
 
 void TaskCleanStorage::doReset(std::shared_ptr<Blackboard> blackboard)

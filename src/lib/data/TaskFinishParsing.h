@@ -14,7 +14,7 @@ class TaskFinishParsing
 	: public Task
 {
 public:
-	TaskFinishParsing(std::shared_ptr<PersistentStorage> storage);
+	TaskFinishParsing(std::shared_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView);
 
 	void terminate() override;
 
@@ -25,6 +25,7 @@ private:
 	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
 	std::shared_ptr<PersistentStorage> m_storage;
+	std::shared_ptr<DialogView> m_dialogView;
 };
 
 #endif // TASK_FINISH_PARSING_H

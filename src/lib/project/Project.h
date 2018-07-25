@@ -24,7 +24,7 @@ public:
 	static const std::wstring INDEX_DB_FILE_EXTENSION;
 	static const std::wstring TEMP_INDEX_DB_FILE_EXTENSION;
 
-	Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, bool hasGUI);
+	Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, const std::string& appUUID, bool hasGUI);
 	virtual ~Project();
 
 	FilePath getProjectSettingsFilePath() const;
@@ -35,7 +35,7 @@ public:
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
 	void setStateOutdated();
 
-	void load();
+	void load(std::shared_ptr<DialogView> dialogView);
 
 	void refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialogView);
 
@@ -71,6 +71,7 @@ private:
 	std::shared_ptr<PersistentStorage> m_storage;
 	std::vector<std::shared_ptr<SourceGroup>> m_sourceGroups;
 
+	std::string m_appUUID;
 	bool m_hasGUI;
 };
 

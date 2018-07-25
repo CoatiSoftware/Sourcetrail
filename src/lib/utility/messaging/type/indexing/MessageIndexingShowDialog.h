@@ -15,6 +15,7 @@ public:
 	MessageIndexingShowDialog(bool showDialog)
 		: showDialog(showDialog)
 	{
+		setSendAsTask(false);
 	}
 
 	const bool showDialog;

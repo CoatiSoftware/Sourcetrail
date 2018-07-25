@@ -9,6 +9,7 @@
 #include "utility/messaging/type/error/MessageErrorCountClear.h"
 #include "utility/messaging/type/error/MessageErrorCountUpdate.h"
 #include "utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "utility/messaging/type/indexing/MessageIndexingStarted.h"
 #include "utility/messaging/type/indexing/MessageIndexingStatus.h"
 #include "utility/messaging/type/MessagePingReceived.h"
 #include "utility/messaging/type/MessageRefresh.h"
@@ -22,6 +23,7 @@ class StatusBarController
 	, public MessageListener<MessageErrorCountClear>
 	, public MessageListener<MessageErrorCountUpdate>
 	, public MessageListener<MessageIndexingFinished>
+	, public MessageListener<MessageIndexingStarted>
 	, public MessageListener<MessageIndexingStatus>
 	, public MessageListener<MessagePingReceived>
 	, public MessageListener<MessageRefresh>
@@ -39,6 +41,7 @@ private:
 	virtual void handleMessage(MessageErrorCountClear* message);
 	virtual void handleMessage(MessageErrorCountUpdate* message);
 	virtual void handleMessage(MessageIndexingFinished* message);
+	virtual void handleMessage(MessageIndexingStarted* message);
 	virtual void handleMessage(MessageIndexingStatus* message);
 	virtual void handleMessage(MessagePingReceived* message);
 	virtual void handleMessage(MessageRefresh* message);

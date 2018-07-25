@@ -41,18 +41,18 @@
 #include "utility/utilityApp.h"
 #include "utility/utilityFile.h"
 #include "utility/utilityString.h"
-#include "Application.h"
 
 const std::wstring Project::PROJECT_FILE_EXTENSION = L".srctrlprj";
 const std::wstring Project::BOOKMARK_DB_FILE_EXTENSION = L".srctrlbm";
 const std::wstring Project::INDEX_DB_FILE_EXTENSION = L".srctrldb";
 const std::wstring Project::TEMP_INDEX_DB_FILE_EXTENSION = L".srctrldb_tmp";
 
-Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, bool hasGUI)
+Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, const std::string& appUUID, bool hasGUI)
 	: m_settings(settings)
 	, m_storageCache(storageCache)
 	, m_state(PROJECT_STATE_NOT_LOADED)
 	, m_isIndexing(false)
+	, m_appUUID(appUUID)
 	, m_hasGUI(hasGUI)
 {
 }
@@ -89,7 +89,7 @@ void Project::setStateOutdated()
 	}
 }
 
-void Project::load()
+void Project::load(std::shared_ptr<DialogView> dialogView)
 {
 	if (m_isIndexing)
 	{
@@ -114,9 +114,10 @@ void Project::load()
 		{
 			if (dbPath.exists())
 			{
-				if (Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
-					"Sourcetrail has been closed unexpectedly while indexing this project. You can either choose to keep the data that has "
-					"already been indexed or discard that data and restore the state of your project before indexing?",
+				if (dialogView->confirm(
+					"Sourcetrail has been closed unexpectedly while indexing this project. You can either choose to keep "
+					"the data that has already been indexed or discard that data and restore the state of your project "
+					"before indexing?",
 					{ "Keep and Continue", "Discard and Restore" }) == 0)
 				{
 					LOG_INFO("Switching to temporary indexing data on user's decision");
@@ -346,7 +347,12 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 			enabledModes.insert(enabledModes.end(), { REFRESH_UPDATED_FILES, REFRESH_UPDATED_AND_INCOMPLETE_FILES });
 		}
 
-		dialogView->startIndexingDialog(this, enabledModes, info, [this, dialogView](const RefreshInfo& info) { buildIndex(info, dialogView); });
+		dialogView->startIndexingDialog(this, enabledModes, info,
+			[this, dialogView](const RefreshInfo& info)
+			{
+				buildIndex(info, dialogView);
+			}
+		);
 	}
 	else
 	{
@@ -412,18 +418,17 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		FileSystem::copyFile(indexDbFilePath, tempIndexDbFilePath);
 	}
 
-	std::shared_ptr<PersistentStorage> tempStorage = std::make_shared<PersistentStorage>(tempIndexDbFilePath, m_storage->getBookmarkDbFilePath());
+	std::shared_ptr<PersistentStorage> tempStorage =
+		std::make_shared<PersistentStorage>(tempIndexDbFilePath, m_storage->getBookmarkDbFilePath());
 	tempStorage->setup();
 
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
-
-	bool hideable = m_state == PROJECT_STATE_LOADED || m_state == PROJECT_STATE_OUTDATED;
-	dialogView->setDialogsHideable(hideable);
 
 	if (info.mode != REFRESH_ALL_FILES && (info.filesToClear.size() || info.nonIndexedFilesToClear.size()))
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			tempStorage,
+			dialogView,
 			utility::toVector(utility::concat(info.filesToClear, info.nonIndexedFilesToClear)),
 			info.mode == REFRESH_UPDATED_AND_INCOMPLETE_FILES
 		));
@@ -468,11 +473,12 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexer_count", 0));
 
-		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(tempStorage);
-
+		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(tempStorage, dialogView);
 		taskSequential->addTask(taskParserWrapper);
+
 		std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
 		taskParserWrapper->setTask(taskParallelIndexing);
+
 		// add task for indexing
 		if (indexerThreadCount > 0)
 		{
@@ -480,7 +486,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 
 			taskParallelIndexing->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskBuildIndex>(indexerThreadCount, indexerCommandList, storageProvider, multiProcess)
+					std::make_shared<TaskBuildIndex>(indexerThreadCount, indexerCommandList, storageProvider, dialogView, m_appUUID, multiProcess)
 				)
 			);
 		}
@@ -536,7 +542,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		dialogView->hideUnknownProgressDialog();
 	}
 
-	taskSequential->addTask(std::make_shared<TaskFinishParsing>(tempStorage));
+	taskSequential->addTask(std::make_shared<TaskFinishParsing>(tempStorage, dialogView));
 
 	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
 		std::make_shared<TaskGroupSequence>()->addChildTasks(
@@ -560,7 +566,6 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 
 	taskSequential->addTask(std::make_shared<TaskLambda>([dialogView, this]() {
 		m_isIndexing = false;
-		dialogView->setDialogsHideable(false);
 
 		MessageIndexingFinished().dispatch();
 	}));

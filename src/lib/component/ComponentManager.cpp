@@ -70,6 +70,8 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 		);
 	}
 
+	m_dialogViews[DialogView::UseCase::INDEXING]->setDialogsHideable(true);
+
 	std::shared_ptr<TabbedView> tabbedView =
 		m_componentFactory->getViewFactory()->createTabbedView(viewLayout, "Status");
 	m_tabbedViews.push_back(tabbedView);

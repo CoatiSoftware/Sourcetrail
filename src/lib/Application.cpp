@@ -273,11 +273,11 @@ void Application::handleMessage(MessageLoadProject* message)
 			m_storageCache->setSubject(nullptr);
 
 			m_project = std::make_shared<Project>(
-				std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get(), hasGUI());
+				std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get(), getUUID(), hasGUI());
 
 			if (m_project)
 			{
-				m_project->load();
+				m_project->load(getDialogView(DialogView::UseCase::GENERAL));
 			}
 			else
 			{

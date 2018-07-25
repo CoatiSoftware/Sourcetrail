@@ -39,6 +39,11 @@ void StatusBarController::handleMessage(MessageIndexingFinished* message)
 	getView()->hideIndexingProgress();
 }
 
+void StatusBarController::handleMessage(MessageIndexingStarted* message)
+{
+	getView()->showIndexingProgress(0);
+}
+
 void StatusBarController::handleMessage(MessageIndexingStatus* message)
 {
 	if (message->showProgress)

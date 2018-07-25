@@ -142,6 +142,7 @@ void QtDialogView::startIndexingDialog(
 	m_onQtThread(
 		[=]()
 		{
+			m_dialogsVisible = true;
 			m_windowStack.clearWindows();
 
 			QtIndexingDialog* window = createWindow();
@@ -177,6 +178,7 @@ void QtDialogView::startIndexingDialog(
 							m_onQtThread2(
 								[=]()
 								{
+									m_dialogsVisible = true;
 									m_refreshInfos.emplace(info.mode, info);
 									window->updateRefreshInfo(info);
 
@@ -464,7 +466,7 @@ void QtDialogView::setUIBlocked(bool blocked)
 
 void QtDialogView::dialogVisibilityChanged(bool visible)
 {
-	QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
+	QtWindowStackElement* window = m_windowStack.getTopWindow();
 	if (!window)
 	{
 		return;
@@ -474,7 +476,7 @@ void QtDialogView::dialogVisibilityChanged(bool visible)
 	m_dialogsVisible = visible;
 	setUIBlocked(visible);
 
-	if (!visible)
+	if (!visible && dynamic_cast<QtIndexingDialog*>(window))
 	{
 		MessageStatus(L"", false, false).dispatch();
 	}

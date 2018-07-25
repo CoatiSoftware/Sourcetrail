@@ -2,13 +2,12 @@
 
 #include "component/view/DialogView.h"
 #include "data/storage/PersistentStorage.h"
-#include "utility/messaging/type/indexing/MessageIndexingStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
-#include "Application.h"
 
-TaskParseWrapper::TaskParseWrapper(std::weak_ptr<PersistentStorage> storage)
+TaskParseWrapper::TaskParseWrapper(std::weak_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)
 	: m_storage(storage)
+	, m_dialogView(dialogView)
 {
 }
 
@@ -17,13 +16,8 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 	int sourceFileCount = 0;
 	blackboard->get("source_file_count", sourceFileCount);
 
-	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING))
-	{
-		dialogView->clearDialogs();
-		dialogView->updateIndexingDialog(0, 0, sourceFileCount, { });
-
-		MessageIndexingStatus(true, 0).dispatch();
-	}
+	m_dialogView->clearDialogs();
+	m_dialogView->updateIndexingDialog(0, 0, sourceFileCount, { });
 
 	m_start = utility::durationStart();
 

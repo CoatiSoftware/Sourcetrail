@@ -3,16 +3,16 @@
 #include "utility/AppPath.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/messaging/type/indexing/MessageIndexingStatus.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
+#include "utility/TimeStamp.h"
 #include "utility/UserPaths.h"
 #include "utility/utilityApp.h"
 
-#include "Application.h"
 #include "component/view/DialogView.h"
 #include "data/indexer/IndexerCommandList.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
 #include "data/storage/StorageProvider.h"
-#include "utility/messaging/type/MessageStatus.h"
 
 #if _WIN32
 const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer.exe");
@@ -21,16 +21,20 @@ const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer");
 #endif
 
 TaskBuildIndex::TaskBuildIndex(
-	unsigned int processCount,
+	size_t processCount,
 	std::shared_ptr<IndexerCommandList> indexerCommandList,
 	std::shared_ptr<StorageProvider> storageProvider,
+	std::shared_ptr<DialogView> dialogView,
+	const std::string& appUUID,
 	bool multiProcessIndexing
 )
 	: m_indexerCommandList(indexerCommandList)
 	, m_storageProvider(storageProvider)
+	, m_dialogView(dialogView)
+	, m_appUUID(appUUID)
 	, m_multiProcessIndexing(multiProcessIndexing)
-	, m_interprocessIndexerCommandManager(Application::getUUID(), 0, true)
-	, m_interprocessIndexingStatusManager(Application::getUUID(), 0, true)
+	, m_interprocessIndexerCommandManager(appUUID, 0, true)
+	, m_interprocessIndexingStatusManager(appUUID, 0, true)
 	, m_processCount(processCount)
 	, m_interrupted(false)
 	, m_lastCommandCount(0)
@@ -66,7 +70,7 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 		const int processId = i + 1; // 0 remains reserved for the main process
 
 		m_interprocessIntermediateStorageManagers.push_back(
-			std::make_shared<InterprocessIntermediateStorageManager>(Application::getUUID(), processId, true)
+			std::make_shared<InterprocessIntermediateStorageManager>(m_appUUID, processId, true)
 		);
 
 		if (m_multiProcessIndexing)
@@ -168,7 +172,7 @@ void TaskBuildIndex::terminate()
 
 void TaskBuildIndex::handleMessage(MessageInterruptTasks* message)
 {
-	if (!Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->dialogsHidden())
+	if (!m_dialogView->dialogsHidden())
 	{
 		m_interrupted = true;
 	}
@@ -192,7 +196,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 	const std::wstring commandPath = L"\"" + indexerProcessPath.wstr() + L"\"";
 	std::vector<std::wstring> commandArguments;
 	commandArguments.push_back(std::to_wstring(processId));
-	commandArguments.push_back(utility::decodeFromUtf8(Application::getUUID()));
+	commandArguments.push_back(utility::decodeFromUtf8(m_appUUID));
 	commandArguments.push_back(L"\"" + AppPath::getAppPath().getAbsolute().wstr() + L"\"");
 	commandArguments.push_back(L"\"" + UserPaths::getUserDataPath().getAbsolute().wstr() + L"\"");
 
@@ -222,7 +226,7 @@ void TaskBuildIndex::runIndexerThread(int processId)
 		m_runningThreadCount++;
 	}
 
-	InterprocessIndexer indexer(Application::getUUID(), processId);
+	InterprocessIndexer indexer(m_appUUID, processId);
 	indexer.work();
 
 	{
@@ -297,8 +301,7 @@ void TaskBuildIndex::updateIndexingDialog(
 
 	m_indexingFileCount += sourcePaths.size();
 
-	Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->updateIndexingDialog(
-		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePaths);
+	m_dialogView->updateIndexingDialog(m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePaths);
 
 	int progress = 0;
 	if (sourceFileCount)
