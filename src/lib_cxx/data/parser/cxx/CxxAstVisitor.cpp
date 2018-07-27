@@ -17,7 +17,6 @@
 #include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseLocation.h"
-#include "utility/file/FileRegister.h"
 
 #include "utility/utilityString.h"
 
@@ -25,13 +24,11 @@ CxxAstVisitor::CxxAstVisitor(
 	clang::ASTContext* astContext,
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<ParserClient> client,
-	 std::shared_ptr<FileRegister> fileRegister,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 )
 	: m_astContext(astContext)
 	, m_preprocessor(preprocessor)
 	, m_client(client)
-	, m_fileRegister(fileRegister)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
 {
 	m_declNameCache = std::make_shared<DeclNameCache>([&](const clang::NamedDecl* decl) -> NameHierarchy
@@ -702,14 +699,7 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceLocation& sourc
 		const clang::FileID fileId = sourceManager.getFileID(startLoc);
 
 		// find the location file
-		if (!fileId.isInvalid())
-		{
-			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-			if (fileEntry != nullptr && fileEntry->isValid())
-			{
-				parseLocation.filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-			}
-		}
+		parseLocation.filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager);
 
 		// find the start location
 		{
@@ -765,17 +755,10 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 		const clang::PresumedLoc presumedBegin = sourceManager.getPresumedLoc(beginLoc, false);
 		const clang::PresumedLoc presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : range.getEnd(), false);
 
-		FilePath filePath;
+		FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(sourceManager.getFileID(beginLoc), sourceManager);
+		if (filePath.empty())
 		{
-			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(beginLoc));
-			if (fileEntry != nullptr && fileEntry->isValid())
-			{
-				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-			}
-			else
-			{
-				filePath = m_canonicalFilePathCache->getCanonicalFilePath(utility::decodeFromUtf8(presumedBegin.getFilename()));
-			}
+			filePath = m_canonicalFilePathCache->getCanonicalFilePath(utility::decodeFromUtf8(presumedBegin.getFilename()));
 		}
 
 		parseLocation = ParseLocation(
@@ -845,36 +828,11 @@ bool CxxAstVisitor::shouldVisitReference(const clang::SourceLocation& referenceL
 
 bool CxxAstVisitor::isLocatedInProjectFile(clang::SourceLocation loc) const
 {
+	if (loc.isInvalid())
+	{
+		return false;
+	}
+
 	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-
-	clang::FileID fileId;
-	if (loc.isValid())
-	{
-		if (sourceManager.isWrittenInMainFile(loc))
-		{
-			return true;
-		}
-
-		fileId = sourceManager.getFileID(loc);
-	}
-
-	if (fileId.isValid())
-	{
-		auto it = m_inProjectFileMap.find(fileId);
-		if (it != m_inProjectFileMap.end())
-		{
-			return it->second;
-		}
-
-		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		if (fileEntry != nullptr && fileEntry->isValid())
-		{
-			FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-			const bool ret = m_fileRegister->hasFilePath(filePath);
-			m_inProjectFileMap[fileId] = ret;
-			return ret;
-		}
-	}
-
-	return false;
+	return m_canonicalFilePathCache->isProjectFile(sourceManager.getFileID(loc), sourceManager);
 }

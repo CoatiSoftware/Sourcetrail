@@ -11,7 +11,6 @@
 class CanonicalFilePathCache;
 class ParserClient;
 struct ParseLocation;
-class FileRegister;
 class FilePath;
 
 class CxxAstVisitorComponent;
@@ -41,7 +40,6 @@ public:
 		clang::ASTContext* astContext,
 		clang::Preprocessor* preprocessor,
 		std::shared_ptr<ParserClient> client,
-		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
 	virtual ~CxxAstVisitor() = default;
@@ -161,7 +159,6 @@ private:
 	clang::ASTContext* m_astContext;
 	clang::Preprocessor* m_preprocessor;
 	std::shared_ptr<ParserClient> m_client;
-	std::shared_ptr<FileRegister> m_fileRegister;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
 	MessageInterruptTasksCounter m_interruptCounter;
@@ -176,16 +173,6 @@ private:
 
 	std::shared_ptr<DeclNameCache> m_declNameCache;
 	std::shared_ptr<TypeNameCache> m_typeNameCache;
-
-	struct FileIdHash
-	{
-		size_t operator()(clang::FileID fileID) const
-		{
-			return fileID.getHashValue();
-		}
-	};
-
-	mutable std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 };
 
 template <>

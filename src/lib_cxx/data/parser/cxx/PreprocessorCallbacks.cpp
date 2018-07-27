@@ -1,8 +1,8 @@
 #include "data/parser/cxx/PreprocessorCallbacks.h"
 
-#include "clang/Driver/Util.h"
-#include "clang/Basic/IdentifierTable.h"
-#include "clang/Lex/MacroArgs.h"
+#include <clang/Driver/Util.h>
+#include <clang/Basic/IdentifierTable.h>
+#include <clang/Lex/MacroArgs.h>
 
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/utilityClang.h"
@@ -10,18 +10,15 @@
 #include "data/parser/ParseLocation.h"
 
 #include "utility/file/FileSystem.h"
-#include "utility/file/FileRegister.h"
 #include "utility/utilityString.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
 	clang::SourceManager& sourceManager,
 	std::shared_ptr<ParserClient> client,
-	std::shared_ptr<FileRegister> fileRegister,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 )
 	: m_sourceManager(sourceManager)
 	, m_client(client)
-	, m_fileRegister(fileRegister)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
 {
 }
@@ -29,17 +26,18 @@ PreprocessorCallbacks::PreprocessorCallbacks(
 void PreprocessorCallbacks::FileChanged(
 	clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID prevID)
 {
-	m_currentPath = FilePath();
+	const clang::FileID fileId = m_sourceManager.getFileID(location);
+	m_currentPath = m_canonicalFilePathCache->getCanonicalFilePath(fileId, m_sourceManager);
+	m_currentPathIsProjectFile = false;
 
-	const clang::FileEntry* fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
-	if (fileEntry != nullptr && fileEntry->isValid())
+	if (!m_currentPath.empty())
 	{
-		m_currentPath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+		m_currentPathIsProjectFile = m_canonicalFilePathCache->getFileRegister()->hasFilePath(m_currentPath);
 
-		if (!m_currentPath.empty())
+		if (m_fileWasRecorded.find(fileId) == m_fileWasRecorded.end())
 		{
-			bool hasFilePath = m_fileRegister->hasFilePath(m_currentPath);
-			m_client->recordFile(FileSystem::getFileInfoForPath(m_currentPath), hasFilePath); // todo: fix for tests
+			m_client->recordFile(FileSystem::getFileInfoForPath(m_currentPath), m_currentPathIsProjectFile); // todo: fix for tests
+			m_fileWasRecorded.insert(fileId);
 		}
 	}
 }
@@ -66,7 +64,7 @@ void PreprocessorCallbacks::InclusionDirective(
 
 void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective)
 {
-	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath))
+	if (m_currentPathIsProjectFile)
 	{
 		// ignore builtin macros
 		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
@@ -119,7 +117,7 @@ void PreprocessorCallbacks::MacroExpands(
 
 void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 {
-	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath) && isLocatedInProjectFile(macroNameToken.getLocation()))
+	if (m_currentPathIsProjectFile && isLocatedInProjectFile(macroNameToken.getLocation()))
 	{
 		const ParseLocation loc = getParseLocation(macroNameToken);
 
@@ -140,11 +138,11 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 	const clang::SourceLocation& location = m_sourceManager.getSpellingLoc(macroNameTok.getLocation());
 	const clang::SourceLocation& endLocation = m_sourceManager.getSpellingLoc(macroNameTok.getEndLoc());
 
-	const clang::FileEntry* fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
-	if (fileEntry != nullptr && fileEntry->isValid())
+	FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(m_sourceManager.getFileID(location), m_sourceManager);
+	if (!filePath.empty())
 	{
 		return ParseLocation(
-			m_canonicalFilePathCache->getCanonicalFilePath(fileEntry),
+			filePath,
 			m_sourceManager.getSpellingLineNumber(location),
 			m_sourceManager.getSpellingColumnNumber(location),
 			m_sourceManager.getSpellingLineNumber(endLocation),
@@ -160,11 +158,11 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* ma
 	clang::SourceLocation location = macroInfo->getDefinitionLoc();
 	clang::SourceLocation endLocation = macroInfo->getDefinitionEndLoc();
 
-	const clang::FileEntry* fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
-	if (fileEntry != nullptr && fileEntry->isValid())
+	FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(m_sourceManager.getFileID(location), m_sourceManager);
+	if (!filePath.empty())
 	{
 		return ParseLocation(
-			m_canonicalFilePathCache->getCanonicalFilePath(fileEntry),
+			filePath,
 			m_sourceManager.getSpellingLineNumber(location),
 			m_sourceManager.getSpellingColumnNumber(location),
 			m_sourceManager.getSpellingLineNumber(endLocation),
@@ -182,11 +180,13 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& 
 		const clang::PresumedLoc& presumedBegin = m_sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
 		const clang::PresumedLoc& presumedEnd = m_sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
 
-		const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(sourceRange.getBegin()));
-		if (fileEntry != nullptr && fileEntry->isValid())
+		FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(
+			m_sourceManager.getFileID(sourceRange.getBegin()), m_sourceManager);
+
+		if (!filePath.empty())
 		{
 			return ParseLocation(
-				m_canonicalFilePathCache->getCanonicalFilePath(fileEntry),
+				filePath,
 				presumedBegin.getLine(),
 				presumedBegin.getColumn(),
 				presumedEnd.getLine(),
@@ -201,30 +201,10 @@ bool PreprocessorCallbacks::isLocatedInProjectFile(const clang::SourceLocation l
 {
 	// we need the spelling loc here, since this is the location where the macro comes from
 	clang::SourceLocation spellingLoc = m_sourceManager.getSpellingLoc(loc);
-
-	clang::FileID fileId;
-	if (spellingLoc.isValid())
+	if (!spellingLoc.isValid())
 	{
-		fileId = m_sourceManager.getFileID(spellingLoc);
+		return false;
 	}
 
-	if (fileId.isValid())
-	{
-		auto it = m_inProjectFileMap.find(fileId);
-		if (it != m_inProjectFileMap.end())
-		{
-			return it->second;
-		}
-
-		const clang::FileEntry* fileEntry = m_sourceManager.getFileEntryForID(fileId);
-		if (fileEntry != nullptr && fileEntry->isValid())
-		{
-			const FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-			bool ret = m_fileRegister->hasFilePath(filePath);
-			m_inProjectFileMap[fileId] = ret;
-			return ret;
-		}
-	}
-
-	return false;
+	return m_canonicalFilePathCache->isProjectFile(m_sourceManager.getFileID(spellingLoc), m_sourceManager);
 }

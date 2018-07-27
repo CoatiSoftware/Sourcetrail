@@ -215,7 +215,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
 				{
 					return std::make_shared<CxxDeclName>(
-						std::move(declNameString), 
+						std::move(declNameString),
 						getTemplateParameterStringsOfPatrialSpecialitarion(
 							clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)
 						)
@@ -431,24 +431,20 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 std::wstring CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-	clang::FileID fileId = sourceManager.getMainFileID();
-	if (fileId.isValid())
-	{
-		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
-	}
-	return L"";
+	return getCanonicalFilePathCache()->getCanonicalFilePath(sourceManager.getMainFileID(), sourceManager).fileName();
 }
 
 std::wstring CxxDeclNameResolver::getDeclarationFileName(const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(declaration->getLocStart()));
+	const clang::FileID fileId = sourceManager.getFileID(declaration->getLocStart());
+	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 	if (fileEntry != nullptr && fileEntry->isValid())
 	{
-		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
+		return getCanonicalFilePathCache()->getCanonicalFilePath(fileId, sourceManager).fileName();
 	}
-	return getCanonicalFilePathCache()->getCanonicalFilePath(utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename())).fileName();
+	return getCanonicalFilePathCache()->getCanonicalFilePath(
+		utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename())).fileName();
 }
 
 std::wstring CxxDeclNameResolver::getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration)

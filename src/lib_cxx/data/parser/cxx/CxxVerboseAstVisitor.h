@@ -1,3 +1,4 @@
+
 #ifndef CXX_VERBOSE_AST_VISITOR_H
 #define CXX_VERBOSE_AST_VISITOR_H
 
@@ -7,7 +8,6 @@
 
 class CanonicalFilePathCache;
 class ParserClient;
-class FileRegister;
 
 class CxxVerboseAstVisitor: public CxxAstVisitor
 {
@@ -16,7 +16,6 @@ public:
 		clang::ASTContext* context,
 		clang::Preprocessor* preprocessor,
 		std::shared_ptr<ParserClient> client,
-		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
 

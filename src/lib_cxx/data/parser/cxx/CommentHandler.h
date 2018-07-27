@@ -1,10 +1,9 @@
 #ifndef COMMENT_HANDLER_H
 #define COMMENT_HANDLER_H
 
-#include "clang/Lex/Preprocessor.h"
+#include <clang/Lex/Preprocessor.h>
 
 class CanonicalFilePathCache;
-class FileRegister;
 class ParserClient;
 
 class CommentHandler
@@ -13,7 +12,6 @@ class CommentHandler
 public:
 	CommentHandler(
 		std::shared_ptr<ParserClient> client,
-		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
 
@@ -23,7 +21,6 @@ public:
 
 private:
 	std::shared_ptr<ParserClient> m_client;
-	std::shared_ptr<FileRegister> m_fileRegister;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 };
 

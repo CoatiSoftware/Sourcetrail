@@ -2,7 +2,7 @@
 #define PREPROCESSOR_CALLBACKS_H
 
 #include <memory>
-#include <unordered_map>
+#include <set>
 
 #include "clang/Basic/SourceManager.h"
 #include "clang/Lex/MacroInfo.h"
@@ -12,7 +12,6 @@
 #include "utility/file/FilePath.h"
 
 class CanonicalFilePathCache;
-class FileRegister;
 class ParserClient;
 
 struct ParseLocation;
@@ -24,7 +23,6 @@ public:
 	explicit PreprocessorCallbacks(
 		clang::SourceManager& sourceManager,
 		std::shared_ptr<ParserClient> client,
-		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
 
 	void FileChanged(
@@ -54,14 +52,6 @@ public:
 	) override;
 
 private:
-	struct FileIdHash
-	{
-		size_t operator()(clang::FileID fileID) const
-		{
-			return fileID.getHashValue();
-		}
-	};
-
 	void onMacroUsage(const clang::Token& macroNameToken);
 
 	ParseLocation getParseLocation(const clang::Token& macroNameToc) const;
@@ -71,11 +61,12 @@ private:
 
 	const clang::SourceManager& m_sourceManager;
 	std::shared_ptr<ParserClient> m_client;
-	std::shared_ptr<FileRegister> m_fileRegister;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
-	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 
 	FilePath m_currentPath;
+	bool m_currentPathIsProjectFile = false;
+
+	std::set<clang::FileID> m_fileWasRecorded;
 };
 
 #endif // PREPROCESSOR_CALLBACKS_H

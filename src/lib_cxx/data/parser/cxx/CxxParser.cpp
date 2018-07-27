@@ -1,7 +1,7 @@
 #include "data/parser/cxx/CxxParser.h"
 
-#include "clang/Tooling/Tooling.h"
-#include "llvm/Support/TargetSelect.h"
+#include <clang/Tooling/Tooling.h>
+#include <llvm/Support/TargetSelect.h>
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "data/indexer/IndexerCommandCxxEmpty.h"
@@ -101,10 +101,11 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerComman
 
 void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAccess> fileContent, std::vector<std::wstring> compilerFlags)
 {
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache =
+		std::make_shared<CanonicalFilePathCache>(m_fileRegister);
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(FilePath(), canonicalFilePathCache, false);
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache);
+	ASTActionFactory actionFactory(m_client, canonicalFilePathCache);
 
 	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags, std::vector<FilePath>(), std::vector<FilePath>());
 
@@ -121,13 +122,13 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 {
 	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, utility::encodeToUtf8(sourceFilePath.wstr())));
 
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>(m_fileRegister);
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(sourceFilePath, canonicalFilePathCache, true);
 
 	tool.setDiagnosticConsumer(diagnostics.get());
 
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache);
+	ASTActionFactory actionFactory(m_client, canonicalFilePathCache);
 	tool.run(&actionFactory);
 }
 
@@ -201,6 +202,6 @@ std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const FilePath&
 {
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	return std::make_shared<CxxDiagnosticConsumer>(
-		llvm::errs(), &*options, m_client, m_fileRegister, canonicalFilePathCache, sourceFilePath, logErrors
+		llvm::errs(), &*options, m_client, canonicalFilePathCache, sourceFilePath, logErrors
 	);
 }

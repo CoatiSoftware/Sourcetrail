@@ -7,21 +7,18 @@
 #include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
-#include "utility/file/FileRegister.h"
 #include "utility/utilityString.h"
 
 CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::raw_ostream &os,
 	clang::DiagnosticOptions *diags,
 	std::shared_ptr<ParserClient> client,
-	std::shared_ptr<FileRegister> fileRegister,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 	const FilePath& sourceFilePath,
 	bool useLogging
 )
 	: clang::TextDiagnosticPrinter(os, diags)
 	, m_client(client)
-	, m_register(fileRegister)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
 	, m_sourceFilePath(sourceFilePath)
 	, m_isParsingFile(false)
@@ -35,8 +32,6 @@ void CxxDiagnosticConsumer::BeginSourceFile(const clang::LangOptions& langOption
 	{
 		clang::TextDiagnosticPrinter::BeginSourceFile(langOptions, preProcessor);
 	}
-
-
 
 	m_isParsingFile = true;
 }
@@ -111,7 +106,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			location,
 			utility::decodeFromUtf8(message),
 			level == clang::DiagnosticsEngine::Fatal,
-			m_register->hasFilePath(location.filePath),
+			m_canonicalFilePathCache->getFileRegister()->hasFilePath(location.filePath),
 			m_sourceFilePath
 		);
 	}

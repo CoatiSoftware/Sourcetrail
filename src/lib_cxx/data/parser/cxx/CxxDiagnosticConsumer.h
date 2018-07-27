@@ -5,7 +5,6 @@
 #include "utility/file/FilePath.h"
 
 class CanonicalFilePathCache;
-class FileRegister;
 class ParserClient;
 
 class CxxDiagnosticConsumer
@@ -16,7 +15,6 @@ public:
 		clang::raw_ostream &os,
 		clang::DiagnosticOptions *diags,
 		std::shared_ptr<ParserClient> client,
-		std::shared_ptr<FileRegister> fileRegister,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 		const FilePath& sourceFilePath,
 		bool useLogging = true
@@ -29,7 +27,6 @@ public:
 
 private:
 	std::shared_ptr<ParserClient> m_client;
-	std::shared_ptr<FileRegister> m_register;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
 	const FilePath m_sourceFilePath;
