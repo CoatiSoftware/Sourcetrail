@@ -513,7 +513,7 @@
 			</macro_use>
 
 			<aggregation>
-				<normal>#5D5D5D</normal>
+				<normal>#666666</normal>
 				<focus>#6D6D6D</focus>
 			</aggregation>
 		</edge>

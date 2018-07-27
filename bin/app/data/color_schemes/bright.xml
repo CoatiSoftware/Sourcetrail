@@ -301,15 +301,15 @@
 
 			<global_variable>
 				<fill>
-					<normal>#7BB5D4</normal>
-					<focus>#42A1D4</focus>
+					<normal>#81C1E3</normal>
+					<focus>#72B3D6</focus>
 				</fill>
 				<border>
 					<normal>transparent</normal>
 					<focus>#3C3C3C</focus>
 				</border>
 				<hatching>
-					<normal>#B3D4E5</normal>
+					<normal>#C9E3F0</normal>
 				</hatching>
 			</global_variable>
 			<field>
@@ -460,7 +460,7 @@
 			</call>
 
 			<use>
-				<normal>#3190BA</normal>
+				<normal>#4B9FC4</normal>
 			</use>
 
 			<template_argument>

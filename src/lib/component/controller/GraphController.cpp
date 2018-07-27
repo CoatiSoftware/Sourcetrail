@@ -2314,8 +2314,8 @@ void GraphController::createLegendGraph()
 		Node* base = addNode(NodeType::NODE_CLASS, L"Base Class", Vec2i(x + 220, y + 50));
 		Node* main = addNode(NodeType::NODE_CLASS, L"Class", Vec2i(x + 200, y + 130));
 		Node* derived = addNode(NodeType::NODE_CLASS, L"Derived Class", Vec2i(x + 210, y + 380));
-		Node* user = addNode(NodeType::NODE_TYPE, L"Referencing Type", Vec2i(x, y + 220));
-		Node* usee = addNode(NodeType::NODE_TYPE, L"Referenced Type", Vec2i(x + 400, y + 220));
+		Node* user = addNode(NodeType::NODE_TYPE, L"Referencing Type", Vec2i(x - 10, y + 220));
+		Node* usee = addNode(NodeType::NODE_TYPE, L"Referenced Type", Vec2i(x + 410, y + 220));
 
 		addEdge(Edge::EDGE_INHERITANCE, main, base);
 		addEdge(Edge::EDGE_INHERITANCE, derived, main);
@@ -2351,9 +2351,9 @@ void GraphController::createLegendGraph()
 
 		Node* func = addNode(NodeType::NODE_FUNCTION, L"function", Vec2i(x + 220, y));
 		Node* caller = addNode(NodeType::NODE_FUNCTION, L"calling function", Vec2i(x, y));
-		Node* var = addNode(NodeType::NODE_GLOBAL_VARIABLE, L"accessed variable", Vec2i(x + 400, y - 50));
-		Node* called = addNode(NodeType::NODE_FUNCTION, L"called function", Vec2i(x + 400, y - 10));
-		Node* type = addNode(NodeType::NODE_TYPE, L"Referenced Type", Vec2i(x + 400, y + 30));
+		Node* var = addNode(NodeType::NODE_GLOBAL_VARIABLE, L"accessed variable", Vec2i(x + 410, y - 50));
+		Node* called = addNode(NodeType::NODE_FUNCTION, L"called function", Vec2i(x + 410, y - 10));
+		Node* type = addNode(NodeType::NODE_TYPE, L"Referenced Type", Vec2i(x + 410, y + 30));
 
 		addEdge(Edge::EDGE_CALL, func, called);
 		addEdge(Edge::EDGE_CALL, caller, func);

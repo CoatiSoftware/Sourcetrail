@@ -408,6 +408,13 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 			emit showScreenSearch();
 			break;
 
+		case Qt::Key_R:
+			if (event->modifiers() & (Qt::ControlModifier | Qt::AltModifier))
+			{
+				MessageRefresh().refreshUiOnly().dispatch();
+			}
+			break;
+
 		case Qt::Key_Space:
 			PRINT_TRACES();
 			break;
@@ -653,14 +660,7 @@ void QtMainWindow::closeWindow()
 
 void QtMainWindow::refresh()
 {
-	if (Qt::KeyboardModifier::AltModifier & QApplication::keyboardModifiers())
-	{
-		MessageRefresh().refreshUiOnly().dispatch();
-	}
-	else
-	{
-		MessageRefresh().dispatch();
-	}
+	MessageRefresh().dispatch();
 }
 
 void QtMainWindow::forceRefresh()
