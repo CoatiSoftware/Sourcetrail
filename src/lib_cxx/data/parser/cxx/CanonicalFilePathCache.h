@@ -23,12 +23,20 @@ public:
 	bool isProjectFile(const clang::FileID fileId, const clang::SourceManager& sourceManager);
 
 private:
+	struct FileIdHash
+	{
+		size_t operator()(clang::FileID fileID) const
+		{
+			return fileID.getHashValue();
+		}
+	};
+
 	std::shared_ptr<FileRegister> m_fileRegister;
 
-	std::map<clang::FileID, FilePath> m_fileIdMap;
+	std::unordered_map<clang::FileID, FilePath, FileIdHash> m_fileIdMap;
 	std::unordered_map<std::wstring, FilePath> m_fileStringMap;
 
-	std::map<clang::FileID, bool> m_isProjectFileMap;
+	std::unordered_map<clang::FileID, bool, FileIdHash> m_isProjectFileMap;
 };
 
 #endif // CANONICAL_FILE_PATH_CACHE_H
