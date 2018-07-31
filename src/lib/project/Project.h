@@ -57,7 +57,8 @@ private:
 
 	Project(const Project&);
 
-	void swapToTempStorage();
+	void swapToTempStorage(std::shared_ptr<DialogView> dialogView);
+	bool swapToTempStorageFile(const FilePath& indexDbFilePath, const FilePath& tempIndexDbFilePath, std::shared_ptr<DialogView> dialogView);
 	void discardTempStorage();
 
 	bool hasCxxSourceGroup() const;

@@ -121,8 +121,12 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 					{ "Keep and Continue", "Discard and Restore" }) == 0)
 				{
 					LOG_INFO("Switching to temporary indexing data on user's decision");
-					FileSystem::remove(dbPath);
-					FileSystem::rename(tempDbPath, dbPath);
+					if (!swapToTempStorageFile(dbPath, tempDbPath, dialogView))
+					{
+						m_state = PROJECT_STATE_NOT_LOADED;
+						MessageStatus(L"Unable to load project", true, false).dispatch();
+						return;
+					}
 				}
 				else
 				{
@@ -547,10 +551,9 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
 		std::make_shared<TaskGroupSequence>()->addChildTasks(
 			std::make_shared<TaskFindValue>("keep_database"),
-			std::make_shared<TaskLambda>([this]() {
-				Task::dispatch(std::make_shared<TaskLambda>([this]() {
-					swapToTempStorage();
-					m_state = PROJECT_STATE_LOADED;
+			std::make_shared<TaskLambda>([dialogView, this]() {
+				Task::dispatch(std::make_shared<TaskLambda>([dialogView, this]() {
+					swapToTempStorage(dialogView);
 				}));
 			})
 		),
@@ -566,7 +569,6 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 
 	taskSequential->addTask(std::make_shared<TaskLambda>([dialogView, this]() {
 		m_isIndexing = false;
-
 		MessageIndexingFinished().dispatch();
 	}));
 
@@ -577,7 +579,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	MessageIndexingStarted().dispatch();
 }
 
-void Project::swapToTempStorage()
+void Project::swapToTempStorage(std::shared_ptr<DialogView> dialogView)
 {
 	LOG_INFO("Switching to temporary indexing data");
 
@@ -586,8 +588,13 @@ void Project::swapToTempStorage()
 	const FilePath bookmarkDbFilePath = m_storage->getBookmarkDbFilePath();
 
 	m_storage.reset();
-	FileSystem::remove(indexDbFilePath);
-	FileSystem::rename(tempIndexDbFilePath, indexDbFilePath);
+
+	if (!swapToTempStorageFile(indexDbFilePath, tempIndexDbFilePath, dialogView))
+	{
+		m_state = PROJECT_STATE_NOT_LOADED;
+		return;
+	}
+
 	m_storage = std::make_shared<PersistentStorage>(indexDbFilePath, bookmarkDbFilePath);
 	m_storage->setup();
 
@@ -597,6 +604,29 @@ void Project::swapToTempStorage()
 	//dialogView->hideUnknownProgressDialog();
 
 	m_storageCache->setSubject(m_storage);
+	m_state = PROJECT_STATE_LOADED;
+}
+
+bool Project::swapToTempStorageFile(const FilePath& indexDbFilePath, const FilePath& tempIndexDbFilePath, std::shared_ptr<DialogView> dialogView)
+{
+	try
+	{
+		FileSystem::remove(indexDbFilePath);
+		FileSystem::rename(tempIndexDbFilePath, indexDbFilePath);
+	}
+	catch (std::exception& e)
+	{
+		if (m_hasGUI)
+		{
+			dialogView->confirm(
+				"<p>The old index database file of this project seems to be used by a different process and cannot "
+				"be updated.</p><p>Please close all processes that are using this database and re-load this project to "
+				"apply or discard the changes pending from the current indexer run.</p>"
+			);
+		}
+		return false;
+	}
+	return true;
 }
 
 void Project::discardTempStorage()
