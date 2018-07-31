@@ -270,7 +270,7 @@ void Application::handleMessage(MessageLoadProject* message)
 			updateRecentProjects(projectSettingsFilePath);
 
 			m_storageCache->clear();
-			m_storageCache->setSubject(nullptr);
+			m_storageCache->setSubject(std::weak_ptr<StorageAccess>()); // TODO: check if this is really required.
 
 			m_project = std::make_shared<Project>(
 				std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get(), getUUID(), hasGUI());

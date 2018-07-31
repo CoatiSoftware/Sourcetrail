@@ -98,7 +98,7 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 	}
 
 	m_storageCache->clear();
-	m_storageCache->setSubject(nullptr);
+	m_storageCache->setSubject(std::weak_ptr<StorageAccess>()); // TODO: check if this is really required.
 
 	if (!m_settings->reload())
 	{
@@ -192,7 +192,7 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 	{
 		m_storage->setMode(SqliteStorage::STORAGE_MODE_READ);
 		m_storage->buildCaches();
-		m_storageCache->setSubject(m_storage.get());
+		m_storageCache->setSubject(m_storage);
 
 		if (m_hasGUI)
 		{
@@ -408,7 +408,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	MessageIndexingStatus(true, 0).dispatch();
 
 	m_storageCache->clear();
-	m_storageCache->setSubject(m_storage.get());
+	m_storageCache->setSubject(m_storage);
 
 	const FilePath indexDbFilePath = m_storage->getIndexDbFilePath();
 	const FilePath tempIndexDbFilePath = indexDbFilePath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
@@ -596,7 +596,7 @@ void Project::swapToTempStorage()
 	m_storage->buildCaches();
 	//dialogView->hideUnknownProgressDialog();
 
-	m_storageCache->setSubject(m_storage.get());
+	m_storageCache->setSubject(m_storage);
 }
 
 void Project::discardTempStorage()

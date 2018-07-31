@@ -9,384 +9,108 @@
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 
-StorageAccessProxy::StorageAccessProxy()
-	: m_subject(nullptr)
-{
-}
-
-StorageAccessProxy::~StorageAccessProxy()
-{
-}
-
-bool StorageAccessProxy::hasSubject() const
-{
-	if (m_subject)
-	{
-		return true;
-	}
-
-	LOG_ERROR("StorageAccessProxy has no subject.");
-	return false;
-}
-
-void StorageAccessProxy::setSubject(StorageAccess* subject)
+void StorageAccessProxy::setSubject(std::weak_ptr<StorageAccess> subject)
 {
 	m_subject = subject;
 }
 
-Id StorageAccessProxy::getNodeIdForFileNode(const FilePath& filePath) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeIdForFileNode(filePath);
+#define UNWRAP(...) __VA_ARGS__
+
+#define DEF_GETTER_0(_METHOD_NAME_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_() const						\
+	{																			\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
+		{																		\
+			return subject->_METHOD_NAME_();									\
+		}																		\
+		return _DEFAULT_VALUE_;													\
 	}
 
-	return 0;
-}
-
-Id StorageAccessProxy::getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeIdForNameHierarchy(nameHierarchy);
+#define DEF_GETTER_1(_METHOD_NAME_, _PATAMETER_1_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1) const						\
+	{																			\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
+		{																		\
+			return subject->_METHOD_NAME_(p1);									\
+		}																		\
+		return _DEFAULT_VALUE_;													\
 	}
 
-	return 0;
-}
-
-std::vector<Id> StorageAccessProxy::getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeIdsForNameHierarchies(nameHierarchies);
-	}
-	return std::vector<Id>();
-}
-
-NameHierarchy StorageAccessProxy::getNameHierarchyForNodeId(Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNameHierarchyForNodeId(id);
+#define DEF_GETTER_2(_METHOD_NAME_, _PATAMETER_1_TYPE_, _PATAMETER_2_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1,  _PATAMETER_2_TYPE_ p2) const						\
+	{																			\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
+		{																		\
+			return subject->_METHOD_NAME_(p1, p2);									\
+		}																		\
+		return _DEFAULT_VALUE_;													\
 	}
 
-	return NameHierarchy(NAME_DELIMITER_UNKNOWN);
-}
-
-std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNameHierarchiesForNodeIds(nodeIds);
-	}
-	return std::vector<NameHierarchy>();
-}
-
-std::map<Id, std::pair<Id, NameHierarchy>> StorageAccessProxy::getNodeIdToParentFileMap(const std::vector<Id>& nodeIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeIdToParentFileMap(nodeIds);
+#define DEF_GETTER_3(_METHOD_NAME_, _PATAMETER_1_TYPE_, _PATAMETER_2_TYPE_, _PATAMETER_3_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1, _PATAMETER_2_TYPE_ p2, _PATAMETER_3_TYPE_ p3) const						\
+	{																			\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
+		{																		\
+			return subject->_METHOD_NAME_(p1, p2, p3);									\
+		}																		\
+		return _DEFAULT_VALUE_;													\
 	}
 
-	return { };
-}
-
-NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeTypeForNodeWithId(id);
-	}
-	return NodeType(NodeType::NODE_SYMBOL);
-}
-
-Id StorageAccessProxy::getIdForEdge(
-	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
-) const {
-	if (hasSubject())
-	{
-		return m_subject->getIdForEdge(type, fromNameHierarchy, toNameHierarchy);
+#define DEF_GETTER_4(_METHOD_NAME_, _PATAMETER_1_TYPE_, _PATAMETER_2_TYPE_, _PATAMETER_3_TYPE_, _PATAMETER_4_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1, _PATAMETER_2_TYPE_ p2, _PATAMETER_3_TYPE_ p3, _PATAMETER_4_TYPE_ p4) const						\
+	{																			\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
+		{																		\
+			return subject->_METHOD_NAME_(p1, p2, p3, p4);									\
+		}																		\
+		return _DEFAULT_VALUE_;													\
 	}
 
-	return 0;
-}
-
-StorageEdge StorageAccessProxy::getEdgeById(Id edgeId) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getEdgeById(edgeId);
-	}
-
-	return StorageEdge();
-}
-
-std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
-		const std::wstring &searchTerm, bool caseSensitive) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getFullTextSearchLocations(searchTerm, caseSensitive);
-	}
-
-	return std::make_shared<SourceLocationCollection>();
-}
-
-std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getAutocompletionMatches(query, acceptedNodeTypes);
-	}
-
-	return std::vector<SearchMatch>();
-}
-
-std::vector<SearchMatch> StorageAccessProxy::getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getSearchMatchesForTokenIds(tokenIds);
-	}
-
-	return std::vector<SearchMatch>();
-}
-
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForAll() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getGraphForAll();
-	}
-
-	return std::make_shared<Graph>();
-}
-
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForNodeTypes(NodeTypeSet nodeTypes) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getGraphForNodeTypes(nodeTypes);
-	}
-
-	return std::make_shared<Graph>();
-}
-
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(
-	const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getGraphForActiveTokenIds(tokenIds, expandedNodeIds, isActiveNamespace);
-	}
-
-	return std::make_shared<Graph>();
-}
-
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForChildrenOfNodeId(Id nodeId) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getGraphForChildrenOfNodeId(nodeId);
-	}
-
-	return std::make_shared<Graph>();
-}
-
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getGraphForTrail(originId, targetId, trailType, depth);
-	}
-
-	return std::make_shared<Graph>();
-}
-
-std::vector<Id> StorageAccessProxy::getActiveTokenIdsForId(Id tokenId, Id* delcarationId) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getActiveTokenIdsForId(tokenId, delcarationId);
-	}
-
-	return std::vector<Id>();
-}
-
-std::vector<Id> StorageAccessProxy::getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeIdsForLocationIds(locationIds);
-	}
-
-	return std::vector<Id>();
-}
-
-std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getSourceLocationsForTokenIds(
-		const std::vector<Id>& tokenIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getSourceLocationsForTokenIds(tokenIds);
-	}
-
-	return std::make_shared<SourceLocationCollection>();
-}
-
-std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getSourceLocationsForLocationIds(
-		const std::vector<Id>& locationIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getSourceLocationsForLocationIds(locationIds);
-	}
-
-	return std::make_shared<SourceLocationCollection>();
-}
-
-std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForFile(const FilePath& filePath) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getSourceLocationsForFile(filePath);
-	}
-
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
-}
-
-std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForLinesInFile(
-	const FilePath& filePath, size_t startLine, size_t endLine
-) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getSourceLocationsForLinesInFile(filePath, startLine, endLine);
-	}
-
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
-}
-
-std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsOfTypeInFile(
-	const FilePath& filePath, LocationType type
-) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getSourceLocationsOfTypeInFile(filePath, type);
-	}
-
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
-}
-
-std::shared_ptr<SourceLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getCommentLocationsInFile(filePath);
-	}
-
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
-}
-
-std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& filePath) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getFileContent(filePath);
-	}
-
-	return nullptr;
-}
-
-FileInfo StorageAccessProxy::getFileInfoForFileId(Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getFileInfoForFileId(id);
-	}
-
-	return FileInfo();
-}
-
-FileInfo StorageAccessProxy::getFileInfoForFilePath(const FilePath& filePath) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getFileInfoForFilePath(filePath);
-	}
-
-	return FileInfo();
-}
-
-std::vector<FileInfo> StorageAccessProxy::getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getFileInfosForFilePaths(filePaths);
-	}
-
-	return std::vector<FileInfo>();
-}
-
-StorageStats StorageAccessProxy::getStorageStats() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getStorageStats();
-	}
-
-	return StorageStats();
-}
 
 
-ErrorCountInfo StorageAccessProxy::getErrorCount() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getErrorCount();
-	}
+DEF_GETTER_1(getNodeIdForFileNode, const FilePath&, Id, 0)
+DEF_GETTER_1(getNodeIdForNameHierarchy, const NameHierarchy&, Id, 0)
+DEF_GETTER_1(getNodeIdsForNameHierarchies, const std::vector<NameHierarchy>, std::vector<Id>, {})
+DEF_GETTER_1(getNameHierarchyForNodeId, Id, NameHierarchy, NameHierarchy(NAME_DELIMITER_UNKNOWN))
+DEF_GETTER_1(getNameHierarchiesForNodeIds, const std::vector<Id>&, std::vector<NameHierarchy>, {})
 
-	return ErrorCountInfo();
-}
+typedef std::map<Id, std::pair<Id, NameHierarchy>> NodeIdToParentFileMap;
+DEF_GETTER_1(getNodeIdToParentFileMap, const std::vector<Id>&, NodeIdToParentFileMap, {})
 
-std::vector<ErrorInfo> StorageAccessProxy::getErrorsLimited(const ErrorFilter& filter) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getErrorsLimited(filter);
-	}
-
-	return std::vector<ErrorInfo>();
-}
-
-std::vector<ErrorInfo> StorageAccessProxy::getErrorsForFileLimited(const ErrorFilter& filter, const FilePath& filePath) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getErrorsForFileLimited(filter, filePath);
-	}
-
-	return std::vector<ErrorInfo>();
-}
-
-std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocations(
-	const std::vector<ErrorInfo>& errors) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getErrorSourceLocations(errors);
-	}
-
-	return std::make_shared<SourceLocationCollection>();
-}
+DEF_GETTER_1(getNodeTypeForNodeWithId, Id, NodeType, NodeType(NodeType::NODE_SYMBOL))
+DEF_GETTER_3(getIdForEdge, Edge::EdgeType, const NameHierarchy&, const NameHierarchy&, Id, 0)
+DEF_GETTER_1(getEdgeById, Id, StorageEdge, StorageEdge())
+DEF_GETTER_2(getFullTextSearchLocations, const std::wstring &, bool, std::shared_ptr<SourceLocationCollection>, std::make_shared<SourceLocationCollection>())
+DEF_GETTER_2(getAutocompletionMatches, const std::wstring &, NodeTypeSet, std::vector<SearchMatch>, std::vector<SearchMatch>())
+DEF_GETTER_1(getSearchMatchesForTokenIds, const std::vector<Id>&, std::vector<SearchMatch>, std::vector<SearchMatch>())
+DEF_GETTER_0(getGraphForAll, std::shared_ptr<Graph>, std::make_shared<Graph>())
+DEF_GETTER_1(getGraphForNodeTypes, NodeTypeSet, std::shared_ptr<Graph>, std::make_shared<Graph>())
+DEF_GETTER_3(getGraphForActiveTokenIds, const std::vector<Id>&, const std::vector<Id>&, bool*, std::shared_ptr<Graph>, std::make_shared<Graph>())
+DEF_GETTER_1(getGraphForChildrenOfNodeId, Id, std::shared_ptr<Graph>, std::make_shared<Graph>())
+DEF_GETTER_4(getGraphForTrail, Id, Id, Edge::TypeMask, size_t, std::shared_ptr<Graph>, std::make_shared<Graph>())
+DEF_GETTER_2(getActiveTokenIdsForId, Id, Id*, std::vector<Id>, {})
+DEF_GETTER_1(getNodeIdsForLocationIds, const std::vector<Id>&, std::vector<Id>, {})
+DEF_GETTER_1(getSourceLocationsForTokenIds, const std::vector<Id>&, std::shared_ptr<SourceLocationCollection>, std::make_shared<SourceLocationCollection>())
+DEF_GETTER_1(getSourceLocationsForLocationIds, const std::vector<Id>&, std::shared_ptr<SourceLocationCollection>, std::make_shared<SourceLocationCollection>())
+DEF_GETTER_1(getSourceLocationsForFile, const FilePath&, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
+DEF_GETTER_3(getSourceLocationsForLinesInFile, const FilePath&, size_t, size_t, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
+DEF_GETTER_2(getSourceLocationsOfTypeInFile, const FilePath&, LocationType, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
+DEF_GETTER_1(getCommentLocationsInFile, const FilePath&, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
+DEF_GETTER_1(getFileContent, const FilePath&, std::shared_ptr<TextAccess>, nullptr)
+DEF_GETTER_1(getFileInfoForFileId, Id, FileInfo, FileInfo())
+DEF_GETTER_1(getFileInfoForFilePath, const FilePath&, FileInfo, FileInfo())
+DEF_GETTER_1(getFileInfosForFilePaths, const std::vector<FilePath>&, std::vector<FileInfo>, {})
+DEF_GETTER_0(getStorageStats, StorageStats, StorageStats())
+DEF_GETTER_0(getErrorCount, ErrorCountInfo, ErrorCountInfo())
+DEF_GETTER_1(getErrorsLimited, const ErrorFilter&, std::vector<ErrorInfo>, {})
+DEF_GETTER_2(getErrorsForFileLimited, const ErrorFilter&, const FilePath&, std::vector<ErrorInfo>, {})
+DEF_GETTER_1(getErrorSourceLocations, const std::vector<ErrorInfo>&, std::shared_ptr<SourceLocationCollection>, std::make_shared<SourceLocationCollection>())
 
 Id StorageAccessProxy::addNodeBookmark(const NodeBookmark& bookmark)
 {
-	if (hasSubject())
+	if (std::shared_ptr<StorageAccess> subject = m_subject.lock())
 	{
-		return m_subject->addNodeBookmark(bookmark);
+		return subject->addNodeBookmark(bookmark);
 	}
 
 	return -1;
@@ -394,9 +118,9 @@ Id StorageAccessProxy::addNodeBookmark(const NodeBookmark& bookmark)
 
 Id StorageAccessProxy::addEdgeBookmark(const EdgeBookmark& bookmark)
 {
-	if (hasSubject())
+	if (std::shared_ptr<StorageAccess> subject = m_subject.lock())
 	{
-		return m_subject->addEdgeBookmark(bookmark);
+		return subject->addEdgeBookmark(bookmark);
 	}
 
 	return -1;
@@ -404,9 +128,9 @@ Id StorageAccessProxy::addEdgeBookmark(const EdgeBookmark& bookmark)
 
 Id StorageAccessProxy::addBookmarkCategory(const std::wstring& categoryName)
 {
-	if (hasSubject())
+	if (std::shared_ptr<StorageAccess> subject = m_subject.lock())
 	{
-		return m_subject->addBookmarkCategory(categoryName);
+		return subject->addBookmarkCategory(categoryName);
 	}
 
 	return -1;
@@ -414,75 +138,30 @@ Id StorageAccessProxy::addBookmarkCategory(const std::wstring& categoryName)
 
 void StorageAccessProxy::updateBookmark(const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName)
 {
-	if (hasSubject())
+	if (std::shared_ptr<StorageAccess> subject = m_subject.lock())
 	{
-		m_subject->updateBookmark(bookmarkId, name, comment, categoryName);
+		subject->updateBookmark(bookmarkId, name, comment, categoryName);
 	}
 }
 
 void StorageAccessProxy::removeBookmark(const Id id)
 {
-	if (hasSubject())
+	if (std::shared_ptr<StorageAccess> subject = m_subject.lock())
 	{
-		m_subject->removeBookmark(id);
+		subject->removeBookmark(id);
 	}
 }
 
 void StorageAccessProxy::removeBookmarkCategory(const Id id)
 {
-	if (hasSubject())
+	if (std::shared_ptr<StorageAccess> subject = m_subject.lock())
 	{
-		m_subject->removeBookmarkCategory(id);
+		subject->removeBookmarkCategory(id);
 	}
 }
 
-std::vector<NodeBookmark> StorageAccessProxy::getAllNodeBookmarks() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getAllNodeBookmarks();
-	}
-
-	return std::vector<NodeBookmark>();
-}
-
-std::vector<EdgeBookmark> StorageAccessProxy::getAllEdgeBookmarks() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getAllEdgeBookmarks();
-	}
-
-	return std::vector<EdgeBookmark>();
-}
-
-std::vector<BookmarkCategory> StorageAccessProxy::getAllBookmarkCategories() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getAllBookmarkCategories();
-	}
-
-	return std::vector<BookmarkCategory>();
-}
-
-TooltipInfo StorageAccessProxy::getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getTooltipInfoForTokenIds(tokenIds, origin);
-	}
-
-	return TooltipInfo();
-}
-
-TooltipInfo StorageAccessProxy::getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
-	const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(locationIds, localSymbolIds);
-	}
-
-	return TooltipInfo();
-}
+DEF_GETTER_0(getAllNodeBookmarks, std::vector<NodeBookmark>, {})
+DEF_GETTER_0(getAllEdgeBookmarks, std::vector<EdgeBookmark>, {})
+DEF_GETTER_0(getAllBookmarkCategories, std::vector<BookmarkCategory>, {})
+DEF_GETTER_2(getTooltipInfoForTokenIds, const std::vector<Id>&, TooltipOrigin, TooltipInfo, TooltipInfo())
+DEF_GETTER_2(getTooltipInfoForSourceLocationIdsAndLocalSymbolIds, const std::vector<Id>&, const std::vector<Id>&, TooltipInfo, TooltipInfo())
