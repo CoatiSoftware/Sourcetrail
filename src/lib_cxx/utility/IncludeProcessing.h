@@ -42,7 +42,7 @@ private:
 	);
 
 	static FilePath resolveIncludeDirective(
-		const IncludeDirective& includeDirective, 
+		const IncludeDirective& includeDirective,
 		const std::set<FilePath>& headerSearchDirectories
 	);
 

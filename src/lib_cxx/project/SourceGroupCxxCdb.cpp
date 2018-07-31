@@ -7,6 +7,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
+#include "utility/utilitySourceGroupCxx.h"
 #include "Application.h"
 
 SourceGroupCxxCdb::SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings)
@@ -38,46 +39,12 @@ bool SourceGroupCxxCdb::prepareIndexing()
 
 std::set<FilePath> SourceGroupCxxCdb::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	std::set<FilePath> containedFilePaths;
-
-	const std::set<FilePath> indexedPaths = utility::concat(
+	return utility::filterToContainedFilePaths(
+		filePaths,
 		getAllSourceFilePaths(),
-		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute())
+		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute()),
+		m_settings->getExcludeFiltersExpandedAndAbsolute()
 	);
-
-	const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
-
-	for (const FilePath& filePath : filePaths)
-	{
-		bool isInIndexedPaths = false;
-		for (const FilePath& indexedPath : indexedPaths)
-		{
-			if (indexedPath == filePath || indexedPath.contains(filePath))
-			{
-				isInIndexedPaths = true;
-				break;
-			}
-		}
-
-		if (isInIndexedPaths)
-		{
-			for (const FilePathFilter& excludeFilter : excludeFilters)
-			{
-				if (excludeFilter.isMatching(filePath))
-				{
-					isInIndexedPaths = false;
-					break;
-				}
-			}
-		}
-
-		if (isInIndexedPaths)
-		{
-			containedFilePaths.insert(filePath);
-		}
-	}
-
-	return containedFilePaths;
 }
 
 std::set<FilePath> SourceGroupCxxCdb::getAllSourceFilePaths() const

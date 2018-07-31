@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/sonargraph/SonargraphProject.h"
 #include "utility/utility.h"
+#include "utility/utilitySourceGroupCxx.h"
 #include "Application.h"
 
 SourceGroupCxxSonargraph::SourceGroupCxxSonargraph(std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings)
@@ -37,26 +38,12 @@ bool SourceGroupCxxSonargraph::prepareIndexing()
 
 std::set<FilePath> SourceGroupCxxSonargraph::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	std::set<FilePath> containedFilePaths;
-
-	const std::set<FilePath> indexedPaths = utility::concat(
+	return utility::filterToContainedFilePaths(
+		filePaths,
 		getAllSourceFilePaths(),
-		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute())
+		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute()),
+		std::vector<FilePathFilter>()
 	);
-
-	for (const FilePath& filePath : filePaths)
-	{
-		for (const FilePath& indexedPath : indexedPaths)
-		{
-			if (indexedPath == filePath || indexedPath.contains(filePath))
-			{
-				containedFilePaths.insert(filePath);
-				break;
-			}
-		}
-	}
-
-	return containedFilePaths;
 }
 
 std::set<FilePath> SourceGroupCxxSonargraph::getAllSourceFilePaths() const

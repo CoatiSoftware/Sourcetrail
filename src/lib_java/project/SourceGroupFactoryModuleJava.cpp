@@ -9,10 +9,6 @@
 #include "settings/SourceGroupSettingsJavaMaven.h"
 #include "settings/SourceGroupSettingsJavaSonargraph.h"
 
-SourceGroupFactoryModuleJava::~SourceGroupFactoryModuleJava()
-{
-}
-
 bool SourceGroupFactoryModuleJava::supports(SourceGroupType type) const
 {
 	switch (type)
@@ -28,7 +24,7 @@ bool SourceGroupFactoryModuleJava::supports(SourceGroupType type) const
 	return false;
 }
 
-std::shared_ptr<SourceGroup> SourceGroupFactoryModuleJava::createSourceGroup(std::shared_ptr<SourceGroupSettings> settings)
+std::shared_ptr<SourceGroup> SourceGroupFactoryModuleJava::createSourceGroup(std::shared_ptr<SourceGroupSettings> settings) const
 {
 	std::shared_ptr<SourceGroup> sourceGroup;
 	if (std::shared_ptr<SourceGroupSettingsJavaEmpty> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(settings))

@@ -10,10 +10,6 @@
 #include "settings/SourceGroupSettingsCppEmpty.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 
-SourceGroupFactoryModuleCxx::~SourceGroupFactoryModuleCxx()
-{
-}
-
 bool SourceGroupFactoryModuleCxx::supports(SourceGroupType type) const
 {
 	switch (type)
@@ -30,7 +26,7 @@ bool SourceGroupFactoryModuleCxx::supports(SourceGroupType type) const
 	return false;
 }
 
-std::shared_ptr<SourceGroup> SourceGroupFactoryModuleCxx::createSourceGroup(std::shared_ptr<SourceGroupSettings> settings)
+std::shared_ptr<SourceGroup> SourceGroupFactoryModuleCxx::createSourceGroup(std::shared_ptr<SourceGroupSettings> settings) const
 {
 	std::shared_ptr<SourceGroup> sourceGroup;
 	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(settings))

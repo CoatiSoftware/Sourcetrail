@@ -107,6 +107,8 @@ add_files(
 	utility/IncludeDirective.h
 	utility/IncludeProcessing.cpp
 	utility/IncludeProcessing.h
+	utility/utilitySourceGroupCxx.cpp
+	utility/utilitySourceGroupCxx.h
 	
 	LanguagePackageCxx.cpp
 	LanguagePackageCxx.h

@@ -6,9 +6,8 @@
 class SourceGroupFactoryModuleCxx: public SourceGroupFactoryModule
 {
 public:
-	virtual ~SourceGroupFactoryModuleCxx();
-	virtual bool supports(SourceGroupType type) const;
-	virtual std::shared_ptr<SourceGroup> createSourceGroup(std::shared_ptr<SourceGroupSettings> settings);
+	bool supports(SourceGroupType type) const override;
+	std::shared_ptr<SourceGroup> createSourceGroup(std::shared_ptr<SourceGroupSettings> settings) const override;
 };
 
 #endif // SOURCE_GROUP_FACTORY_MODULE_CXX_H
