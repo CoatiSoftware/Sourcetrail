@@ -21,7 +21,7 @@ class Storage
 {
 public:
 	Storage();
-	virtual ~Storage();
+	virtual ~Storage() = default;
 
 	virtual Id addNode(const StorageNodeData& data) = 0;
 	virtual void addSymbol(const StorageSymbol& data) = 0;
@@ -30,6 +30,7 @@ public:
 	virtual Id addLocalSymbol(const StorageLocalSymbolData& data) = 0;
 	virtual Id addSourceLocation(const StorageSourceLocationData& data) = 0;
 	virtual void addOccurrence(const StorageOccurrence& data) = 0;
+	virtual void addOccurrences(const std::vector<StorageOccurrence>& occurrences) = 0;
 	virtual void addComponentAccess(const StorageComponentAccessData& data) = 0;
 	virtual void addCommentLocation(const StorageCommentLocationData& data) = 0;
 	virtual void addError(const StorageErrorData& data) = 0;

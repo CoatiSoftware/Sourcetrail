@@ -18,10 +18,6 @@ Storage::Storage()
 {
 }
 
-Storage::~Storage()
-{
-}
-
 void Storage::inject(Storage* injected)
 {
 	std::lock_guard<std::mutex> lock(m_dataMutex);
@@ -36,7 +32,7 @@ void Storage::inject(Storage* injected)
 		}
 	);
 
-	std::unordered_map<Id, Id> injectedIdToOwnId;
+	std::unordered_map<Id, Id> injectedIdToOwnElementId;
 
 	injected->forEachNode(
 		[&](const StorageNode& injectedData)
@@ -44,7 +40,7 @@ void Storage::inject(Storage* injected)
 			const Id ownId = addNode(injectedData);
 			if (ownId != 0)
 			{
-				injectedIdToOwnId[injectedData.id] = ownId;
+				injectedIdToOwnElementId[injectedData.id] = ownId;
 			}
 		}
 	);
@@ -53,8 +49,8 @@ void Storage::inject(Storage* injected)
 		[&](const StorageFile& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.id);
-			if (it != injectedIdToOwnId.end())
+			it = injectedIdToOwnElementId.find(injectedData.id);
+			if (it != injectedIdToOwnElementId.end())
 			{
 				const Id ownId = it->second;
 				addFile(StorageFile(ownId, injectedData.filePath, injectedData.modificationTime, injectedData.indexed, injectedData.complete));
@@ -66,8 +62,8 @@ void Storage::inject(Storage* injected)
 		[&](const StorageSymbol& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.id);
-			if (it != injectedIdToOwnId.end())
+			it = injectedIdToOwnElementId.find(injectedData.id);
+			if (it != injectedIdToOwnElementId.end())
 			{
 				const Id ownId = it->second;
 				addSymbol(StorageSymbol(ownId, injectedData.definitionKind));
@@ -79,15 +75,15 @@ void Storage::inject(Storage* injected)
 		[&](const StorageEdge& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.sourceNodeId);
-			if (it == injectedIdToOwnId.end())
+			it = injectedIdToOwnElementId.find(injectedData.sourceNodeId);
+			if (it == injectedIdToOwnElementId.end())
 			{
 				return;
 			}
 			const Id ownSourceId = it->second;
 
-			it = injectedIdToOwnId.find(injectedData.targetNodeId);
-			if (it == injectedIdToOwnId.end())
+			it = injectedIdToOwnElementId.find(injectedData.targetNodeId);
+			if (it == injectedIdToOwnElementId.end())
 			{
 				return;
 			}
@@ -97,7 +93,7 @@ void Storage::inject(Storage* injected)
 
 			if (ownId != 0)
 			{
-				injectedIdToOwnId[injectedData.id] = ownId;
+				injectedIdToOwnElementId[injectedData.id] = ownId;
 			}
 		}
 	);
@@ -108,17 +104,19 @@ void Storage::inject(Storage* injected)
 			const Id ownId = addLocalSymbol(injectedData);
 			if (ownId != 0)
 			{
-				injectedIdToOwnId[injectedData.id] = ownId;
+				injectedIdToOwnElementId[injectedData.id] = ownId;
 			}
 		}
 	);
+
+	std::unordered_map<Id, Id> injectedIdToOwnSourceLocationId;
 
 	injected->forEachSourceLocation(
 		[&](const StorageSourceLocation& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.fileNodeId);
-			if (it != injectedIdToOwnId.end())
+			it = injectedIdToOwnElementId.find(injectedData.fileNodeId);
+			if (it != injectedIdToOwnElementId.end())
 			{
 				const Id ownFileNodeId = it->second;
 
@@ -132,40 +130,49 @@ void Storage::inject(Storage* injected)
 				));
 				if (ownId != 0)
 				{
-					injectedIdToOwnId[injectedData.id] = ownId;
+					injectedIdToOwnSourceLocationId[injectedData.id] = ownId;
 				}
 			}
 		}
 	);
 
-	injected->forEachOccurrence(
-		[&](const StorageOccurrence& injectedData)
-		{
-			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.elementId);
-			if (it == injectedIdToOwnId.end())
+	{
+		std::vector<StorageOccurrence> occurrences;
+		injected->forEachOccurrence(
+			[&](const StorageOccurrence& injectedData)
 			{
-				return;
-			}
-			const Id ownElementId = it->second;
+				std::unordered_map<Id, Id>::const_iterator it;
+				it = injectedIdToOwnElementId.find(injectedData.elementId);
+				if (it == injectedIdToOwnElementId.end())
+				{
+					return;
+				}
+				const Id ownElementId = it->second;
 
-			it = injectedIdToOwnId.find(injectedData.sourceLocationId);
-			if (it == injectedIdToOwnId.end())
-			{
-				return;
-			}
-			const Id ownSourceLocationId = it->second;
+				it = injectedIdToOwnSourceLocationId.find(injectedData.sourceLocationId);
+				if (it == injectedIdToOwnSourceLocationId.end())
+				{
+					return;
+				}
+				const Id ownSourceLocationId = it->second;
 
-			addOccurrence(StorageOccurrence(ownElementId, ownSourceLocationId));
-		}
-	);
+				occurrences.push_back(StorageOccurrence(ownElementId, ownSourceLocationId));
+				if (occurrences.size() >= 100)
+				{
+					addOccurrences(occurrences);
+					occurrences.clear();
+				}
+			}
+		);
+		addOccurrences(occurrences);
+	}
 
 	injected->forEachComponentAccess(
 		[&](const StorageComponentAccessData& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.nodeId);
-			if (it == injectedIdToOwnId.end())
+			it = injectedIdToOwnElementId.find(injectedData.nodeId);
+			if (it == injectedIdToOwnElementId.end())
 			{
 				return;
 			}
@@ -179,8 +186,8 @@ void Storage::inject(Storage* injected)
 		[&](const StorageCommentLocationData& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.fileNodeId);
-			if (it == injectedIdToOwnId.end())
+			it = injectedIdToOwnElementId.find(injectedData.fileNodeId);
+			if (it == injectedIdToOwnElementId.end())
 			{
 				return;
 			}

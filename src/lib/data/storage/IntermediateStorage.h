@@ -22,7 +22,6 @@ class IntermediateStorage: public Storage
 {
 public:
 	IntermediateStorage();
-	virtual ~IntermediateStorage();
 
 	void clear();
 
@@ -32,28 +31,28 @@ public:
 	void setAllFilesIncomplete();
 	void setFilesWithErrorsIncomplete();
 
-	virtual Id addNode(const StorageNodeData& nodeData) override;
-	virtual void addSymbol(const StorageSymbol& symbol) override;
-	virtual void addFile(const StorageFile& file) override;
-	virtual Id addEdge(const StorageEdgeData& edgeData) override;
-	virtual Id addLocalSymbol(const StorageLocalSymbolData& localSymbolData) override;
-	virtual Id addSourceLocation(const StorageSourceLocationData& sourceLocationData) override;
-	virtual void addOccurrence(const StorageOccurrence& occurrence) override;
-	virtual void addComponentAccess(const StorageComponentAccessData& componentAccessData) override;
-	virtual void addCommentLocation(const StorageCommentLocationData& commentLocationData) override;
-	virtual void addError(const StorageErrorData& errorData) override;
+	Id addNode(const StorageNodeData& nodeData) override;
+	void addSymbol(const StorageSymbol& symbol) override;
+	void addFile(const StorageFile& file) override;
+	Id addEdge(const StorageEdgeData& edgeData) override;
+	Id addLocalSymbol(const StorageLocalSymbolData& localSymbolData) override;
+	Id addSourceLocation(const StorageSourceLocationData& sourceLocationData) override;
+	void addOccurrence(const StorageOccurrence& occurrence) override;
+	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
+	void addComponentAccess(const StorageComponentAccessData& componentAccessData) override;
+	void addCommentLocation(const StorageCommentLocationData& commentLocationData) override;
+	void addError(const StorageErrorData& errorData) override;
 
-	virtual void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const override;
-	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const override;
-	virtual void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const override;
-	virtual void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const override;
-	virtual void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
-	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
-	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
-	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const override;
-	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
-	virtual void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
-
+	void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const override;
+	void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const override;
+	void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const override;
+	void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const override;
+	void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
+	void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
+	void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
+	void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const override;
+	void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
+	void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
 
 	// for conversion to and from 'SharedIntermediateStorage'
 

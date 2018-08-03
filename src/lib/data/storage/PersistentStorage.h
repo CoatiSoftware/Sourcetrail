@@ -18,32 +18,32 @@ class PersistentStorage
 {
 public:
 	PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath);
-	virtual ~PersistentStorage();
 
-	virtual Id addNode(const StorageNodeData& data) override;
-	virtual void addSymbol(const StorageSymbol& data) override;
-	virtual void addFile(const StorageFile& data) override;
-	virtual Id addEdge(const StorageEdgeData& data) override;
-	virtual Id addLocalSymbol(const StorageLocalSymbolData& data) override;
-	virtual Id addSourceLocation(const StorageSourceLocationData& data) override;
-	virtual void addOccurrence(const StorageOccurrence& data) override;
-	virtual void addComponentAccess(const StorageComponentAccessData& data) override;
-	virtual void addCommentLocation(const StorageCommentLocationData& data) override;
-	virtual void addError(const StorageErrorData& data) override;
+	Id addNode(const StorageNodeData& data) override;
+	void addSymbol(const StorageSymbol& data) override;
+	void addFile(const StorageFile& data) override;
+	Id addEdge(const StorageEdgeData& data) override;
+	Id addLocalSymbol(const StorageLocalSymbolData& data) override;
+	Id addSourceLocation(const StorageSourceLocationData& data) override;
+	void addOccurrence(const StorageOccurrence& data) override;
+	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
+	void addComponentAccess(const StorageComponentAccessData& data) override;
+	void addCommentLocation(const StorageCommentLocationData& data) override;
+	void addError(const StorageErrorData& data) override;
 
-	virtual void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const override;
-	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const override;
-	virtual void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const override;
-	virtual void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const override;
-	virtual void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
-	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
-	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
-	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const override;
-	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
-	virtual void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
+	void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const override;
+	void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const override;
+	void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const override;
+	void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const override;
+	void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
+	void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
+	void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
+	void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const override;
+	void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
+	void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
 
-	virtual void startInjection() override;
-	virtual void finishInjection() override;
+	void startInjection() override;
+	void finishInjection() override;
 
 	void setMode(const SqliteIndexStorage::StorageModeType mode);
 
@@ -75,82 +75,82 @@ public:
 	void optimizeMemory();
 
 	// StorageAccess implementation
-	virtual Id getNodeIdForFileNode(const FilePath& filePath) const override;
-	virtual Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const override;
-	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const override;
+	Id getNodeIdForFileNode(const FilePath& filePath) const override;
+	Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const override;
+	std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const override;
 
-	virtual NameHierarchy getNameHierarchyForNodeId(Id nodeId) const override;
-	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const override;
-	virtual std::map<Id, std::pair<Id, NameHierarchy>> getNodeIdToParentFileMap(const std::vector<Id>& nodeIds) const override;
+	NameHierarchy getNameHierarchyForNodeId(Id nodeId) const override;
+	std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const override;
+	std::map<Id, std::pair<Id, NameHierarchy>> getNodeIdToParentFileMap(const std::vector<Id>& nodeIds) const override;
 
-	virtual NodeType getNodeTypeForNodeWithId(Id nodeId) const override;
+	NodeType getNodeTypeForNodeWithId(Id nodeId) const override;
 
-	virtual Id getIdForEdge(
+	Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const override;
-	virtual StorageEdge getEdgeById(Id edgeId) const override;
+	StorageEdge getEdgeById(Id edgeId) const override;
 
-	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
+	std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 		const std::wstring& searchTerm, bool caseSensitive) const override;
 
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const override;
+	std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const override;
 	std::vector<SearchMatch> getAutocompletionSymbolMatches(
 		const std::wstring& query, const NodeTypeSet& acceptedNodeTypes, size_t maxResultsCount, size_t maxBestScoredResultsLength) const;
 	std::vector<SearchMatch> getAutocompletionFileMatches(const std::wstring& query, size_t maxResultsCount) const;
 	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const;
-	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const override;
+	std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const override;
 
-	virtual std::shared_ptr<Graph> getGraphForAll() const override;
-	virtual std::shared_ptr<Graph> getGraphForNodeTypes(NodeTypeSet nodeTypes) const override;
-	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
+	std::shared_ptr<Graph> getGraphForAll() const override;
+	std::shared_ptr<Graph> getGraphForNodeTypes(NodeTypeSet nodeTypes) const override;
+	std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const override;
-	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const override;
-	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const override;
+	std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const override;
+	std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const override;
 
-	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const override;
-	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const override;
+	std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const override;
+	std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const override;
 
-	virtual std::shared_ptr<SourceLocationCollection> getSourceLocationsForTokenIds(const std::vector<Id>& tokenIds) const override;
-	virtual std::shared_ptr<SourceLocationCollection> getSourceLocationsForLocationIds(const std::vector<Id>& locationIds) const override;
+	std::shared_ptr<SourceLocationCollection> getSourceLocationsForTokenIds(const std::vector<Id>& tokenIds) const override;
+	std::shared_ptr<SourceLocationCollection> getSourceLocationsForLocationIds(const std::vector<Id>& locationIds) const override;
 
-	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const override;
-	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
+	std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const override;
+	std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
 		const FilePath& filePath, size_t startLine, size_t endLine) const override;
-	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
+	std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const override;
 
-	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const override;
+	std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const override;
 
-	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
+	std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
 
-	virtual FileInfo getFileInfoForFileId(Id id) const override;
+	FileInfo getFileInfoForFileId(Id id) const override;
 
-	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
-	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const override;
+	FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
+	std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const override;
 
-	virtual StorageStats getStorageStats() const override;
+	StorageStats getStorageStats() const override;
 
-	virtual ErrorCountInfo getErrorCount() const override;
-	virtual std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const override;
-	virtual std::vector<ErrorInfo> getErrorsForFileLimited(
+	ErrorCountInfo getErrorCount() const override;
+	std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const override;
+	std::vector<ErrorInfo> getErrorsForFileLimited(
 		const ErrorFilter& filter, const FilePath& filePath) const override;
-	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
+	std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
 		const std::vector<ErrorInfo>& errors) const override;
 
-	virtual Id addNodeBookmark(const NodeBookmark& bookmark) override;
-	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) override;
-	virtual Id addBookmarkCategory(const std::wstring& categoryName) override;
+	Id addNodeBookmark(const NodeBookmark& bookmark) override;
+	Id addEdgeBookmark(const EdgeBookmark& bookmark) override;
+	Id addBookmarkCategory(const std::wstring& categoryName) override;
 
-	virtual void updateBookmark(const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName) override;
-	virtual void removeBookmark(const Id id) override;
-	virtual void removeBookmarkCategory(const Id id) override;
+	void updateBookmark(const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName) override;
+	void removeBookmark(const Id id) override;
+	void removeBookmarkCategory(const Id id) override;
 
-	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const override;
-	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const override;
-	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const override;
+	std::vector<NodeBookmark> getAllNodeBookmarks() const override;
+	std::vector<EdgeBookmark> getAllEdgeBookmarks() const override;
+	std::vector<BookmarkCategory> getAllBookmarkCategories() const override;
 
-	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const override;
+	TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const override;
 	TooltipSnippet getTooltipSnippetForNode(const StorageNode& node) const;
-	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
+	TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const override;
 
 private:

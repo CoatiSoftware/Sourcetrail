@@ -173,21 +173,33 @@ StorageSourceLocation SqliteIndexStorage::addSourceLocation(const StorageSourceL
 bool SqliteIndexStorage::addOccurrence(const StorageOccurrence& data)
 {
 	{
-		m_checkOccurrenceExistsStmt.bind(1, int(data.elementId));
-		m_checkOccurrenceExistsStmt.bind(2, int(data.sourceLocationId));
-
-		const int checkResult = executeStatementScalar(m_checkOccurrenceExistsStmt, 0);
-		m_checkOccurrenceExistsStmt.reset();
-		if (checkResult != 0)
-		{
-			return false;
-		}
-	}
-	{
 		m_insertOccurrenceStmt.bind(1, int(data.elementId));
 		m_insertOccurrenceStmt.bind(2, int(data.sourceLocationId));
 		executeStatement(m_insertOccurrenceStmt);
 		m_insertOccurrenceStmt.reset();
+	}
+	return true;
+}
+
+bool SqliteIndexStorage::addOccurrences(const std::vector<StorageOccurrence>& occurrences)
+{
+	if (!occurrences.empty())
+	{
+		std::string stmt = "INSERT OR IGNORE INTO occurrence(element_id, source_location_id) VALUES";
+		{
+			bool isFirst = true;
+			for (const StorageOccurrence& occurrence : occurrences)
+			{
+				if (!isFirst)
+				{
+					stmt += ",";
+				}
+				isFirst = false;
+				stmt += "(" + std::to_string(occurrence.elementId) + "," + std::to_string(occurrence.sourceLocationId) + ")";
+			}
+			stmt += ";";
+		}
+		return executeStatement(stmt);
 	}
 	return true;
 }
@@ -1107,11 +1119,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_insertSourceLocationStmt = m_database.compileStatement(
 			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) VALUES(NULL, ?, ?, ?, ?, ?, ?);"
 		);
-		m_checkOccurrenceExistsStmt = m_database.compileStatement(
-			"SELECT EXISTS(SELECT * FROM occurrence WHERE element_id = ? AND source_location_id = ? LIMIT 1);"
-		);
 		m_insertOccurrenceStmt = m_database.compileStatement(
-			"INSERT INTO occurrence(element_id, source_location_id) VALUES(?, ?);"
+			"INSERT OR IGNORE INTO occurrence(element_id, source_location_id) VALUES(?, ?);"
 		);
 		m_insertComponentAccessStmt = m_database.compileStatement(
 			"INSERT INTO component_access(id, node_id, type) VALUES(NULL, ?, ?);"

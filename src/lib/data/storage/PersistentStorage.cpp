@@ -46,10 +46,6 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.finishSetup();
 }
 
-PersistentStorage::~PersistentStorage()
-{
-}
-
 Id PersistentStorage::addNode(const StorageNodeData& data)
 {
 	const StorageNode storedNode = m_sqliteIndexStorage.getNodeBySerializedName(data.serializedName);
@@ -126,6 +122,11 @@ Id PersistentStorage::addSourceLocation(const StorageSourceLocationData& data)
 void PersistentStorage::addOccurrence(const StorageOccurrence& data)
 {
 	m_sqliteIndexStorage.addOccurrence(data);
+}
+
+void PersistentStorage::addOccurrences(const std::vector<StorageOccurrence>& occurrences)
+{
+	m_sqliteIndexStorage.addOccurrences(occurrences);
 }
 
 void PersistentStorage::addComponentAccess(const StorageComponentAccessData& data)

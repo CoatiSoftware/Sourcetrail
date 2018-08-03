@@ -7,10 +7,6 @@ IntermediateStorage::IntermediateStorage()
 {
 }
 
-IntermediateStorage::~IntermediateStorage()
-{
-}
-
 void IntermediateStorage::clear()
 {
 	m_nodes.clear();
@@ -202,6 +198,14 @@ void IntermediateStorage::addOccurrence(const StorageOccurrence& occurrence)
 	{
 		m_occurrences.push_back(occurrence);
 		m_serializedOccurrences.insert(serialized);
+	}
+}
+
+void IntermediateStorage::addOccurrences(const std::vector<StorageOccurrence>& occurrences)
+{
+	for (const StorageOccurrence& occurrence : occurrences)
+	{
+		addOccurrence(occurrence);
 	}
 }
 

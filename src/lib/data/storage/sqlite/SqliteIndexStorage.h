@@ -46,6 +46,7 @@ public:
 	StorageLocalSymbol addLocalSymbol(const StorageLocalSymbolData& data);
 	StorageSourceLocation addSourceLocation(const StorageSourceLocationData& data);
 	bool addOccurrence(const StorageOccurrence& data);
+	bool addOccurrences(const std::vector<StorageOccurrence>& occurrences);
 	StorageComponentAccess addComponentAccess(const StorageComponentAccessData& data);
 	StorageCommentLocation addCommentLocation(const StorageCommentLocationData& data);
 	StorageError addError(const StorageErrorData& data);
