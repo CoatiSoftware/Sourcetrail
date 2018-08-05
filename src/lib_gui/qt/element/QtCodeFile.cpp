@@ -149,6 +149,13 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 			m_navigator->clearSnippetReferences();
 			newSnippet = QtCodeSnippet::merged(newSnippet, oldSnippet, m_navigator, this);
 		}
+		else if (oldSnippet->getStartLineNumber() >= start && oldSnippet->getEndLineNumber() <= end) // enclosing
+		{
+			// copy all source locations from old to new snippet: fulltext locations got lost
+			oldSnippet->getArea()->getSourceLocationFile()->copySourceLocations(
+				newSnippet->getArea()->getSourceLocationFile());
+			newSnippet->getArea()->updateSourceLocations(oldSnippet->getArea()->getSourceLocationFile());
+		}
 
 		oldSnippet->hide();
 		m_snippetLayout->removeWidget(oldSnippet);
