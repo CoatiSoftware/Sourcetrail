@@ -89,3 +89,8 @@ void QtGraphNodeExpandToggle::updateStyle()
 
 	m_icon->setPixmap(utility::colorizePixmap(m_icon->pixmap(), style.color.icon.c_str()));
 }
+
+bool QtGraphNodeExpandToggle::isExpanded() const
+{
+	return m_expanded;
+}

@@ -19,6 +19,8 @@ public:
 	virtual void onClick();
 	virtual void updateStyle();
 
+	bool isExpanded() const;
+
 protected:
 	virtual void matchName(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes) {}
 

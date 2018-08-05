@@ -57,6 +57,10 @@ private slots:
 
 	void exportGraph();
 	void copyNodeName();
+
+	void collapseNode();
+	void expandNode();
+
 	void showDefinition();
 	void hideNode();
 	void hideEdge();
@@ -90,6 +94,8 @@ private:
 	Id m_hideNodeId;
 	Id m_hideEdgeId;
 	Id m_bookmarkNodeId;
+	Id m_collapseNodeId;
+	Id m_expandNodeId;
 
 	std::shared_ptr<QTimer> m_timer;
 	std::shared_ptr<QTimer> m_timerStopper;
@@ -97,6 +103,8 @@ private:
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
+	QAction* m_collapseAction;
+	QAction* m_expandAction;
 	QAction* m_showDefinitionAction;
 	QAction* m_hideNodeAction;
 	QAction* m_hideEdgeAction;

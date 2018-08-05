@@ -14,8 +14,9 @@
 #include "qt/element/QtIconButton.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
-#include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
+#include "qt/view/graphElements/QtGraphNodeData.h"
+#include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/QtFileDialog.h"
 #include "qt/utility/utilityQt.h"
@@ -23,6 +24,7 @@
 #include "utility/messaging/type/activation/MessageActivateLegend.h"
 #include "utility/messaging/type/code/MessageCodeShowDefinition.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
+#include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityApp.h"
@@ -62,6 +64,16 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_copyNodeNameAction->setStatusTip("Copies the name of this node to the clipboard");
 	m_copyNodeNameAction->setToolTip("Copies the name of this node to the clipboard");
 	connect(m_copyNodeNameAction, &QAction::triggered, this, &QtGraphicsView::copyNodeName);
+
+	m_collapseAction = new QAction("Collapse Node (Shift + Left Click)", this);
+	m_collapseAction->setStatusTip("Hide the unconnected members of the node");
+	m_collapseAction->setToolTip("Hide the unconnected members of the node");
+	connect(m_collapseAction, &QAction::triggered, this, &QtGraphicsView::collapseNode);
+
+	m_expandAction = new QAction("Expand Node (Shift + Left Click)", this);
+	m_expandAction->setStatusTip("Show unconnected members of the node");
+	m_expandAction->setToolTip("Show unconnected members of the node");
+	connect(m_expandAction, &QAction::triggered, this, &QtGraphicsView::expandNode);
 
 	m_showDefinitionAction = new QAction("Show Definition (Ctrl + Left Click)", this);
 #if defined(Q_OS_MAC)
@@ -334,6 +346,8 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
 	m_clipboardNodeName = L"";
+	m_collapseNodeId = 0;
+	m_expandNodeId = 0;
 	m_hideNodeId = 0;
 	m_hideEdgeId = 0;
 	m_bookmarkNodeId = 0;
@@ -344,20 +358,42 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	{
 		while (node)
 		{
-			m_hideNodeId = node->getTokenId();
-
-			QtGraphNodeData* dataNode = dynamic_cast<QtGraphNodeData*>(node);
-			if (dataNode)
+			if (!m_hideNodeId)
 			{
-				m_clipboardNodeName = dataNode->getName();
-				m_bookmarkNodeId = dataNode->getTokenId();
-				clipboardFilePath = dataNode->getFilePath();
-				break;
+				m_hideNodeId = node->getTokenId();
 			}
-			else if (dynamic_cast<QtGraphNodeBundle*>(node))
+
+			if (!m_clipboardNodeName.size())
 			{
-				m_clipboardNodeName = node->getName();
-				break;
+				QtGraphNodeData* dataNode = dynamic_cast<QtGraphNodeData*>(node);
+				if (dataNode)
+				{
+					m_clipboardNodeName = dataNode->getName();
+					m_bookmarkNodeId = dataNode->getTokenId();
+					clipboardFilePath = dataNode->getFilePath();
+				}
+				else if (dynamic_cast<QtGraphNodeBundle*>(node))
+				{
+					m_clipboardNodeName = node->getName();
+				}
+			}
+
+			if (!m_collapseNodeId && !m_expandNodeId)
+			{
+				for (auto subNode : node->getSubNodes())
+				{
+					if (subNode->isExpandToggleNode())
+					{
+						if (dynamic_cast<QtGraphNodeExpandToggle*>(subNode)->isExpanded())
+						{
+							m_collapseNodeId = node->getTokenId();
+						}
+						else
+						{
+							m_expandNodeId = node->getTokenId();
+						}
+					}
+				}
 			}
 
 			node = node->getParent();
@@ -372,6 +408,8 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 		}
 	}
 
+	m_collapseAction->setEnabled(m_collapseNodeId);
+	m_expandAction->setEnabled(m_expandNodeId);
 	m_showDefinitionAction->setEnabled(m_hideNodeId);
 	m_hideNodeAction->setEnabled(m_hideNodeId);
 	m_hideEdgeAction->setEnabled(m_hideEdgeId);
@@ -385,6 +423,16 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	menu.addAction(m_exportGraphAction);
 
 	menu.addSeparator();
+
+	if (m_collapseNodeId)
+	{
+		menu.addAction(m_collapseAction);
+	}
+	else
+	{
+		menu.addAction(m_expandAction);
+	}
+
 	menu.addAction(m_showDefinitionAction);
 	menu.addAction(m_hideNodeAction);
 	menu.addAction(m_hideEdgeAction);
@@ -539,6 +587,16 @@ void QtGraphicsView::exportGraph()
 void QtGraphicsView::copyNodeName()
 {
 	QApplication::clipboard()->setText(QString::fromStdWString(m_clipboardNodeName));
+}
+
+void QtGraphicsView::collapseNode()
+{
+	MessageGraphNodeExpand(m_collapseNodeId, false).dispatch();
+}
+
+void QtGraphicsView::expandNode()
+{
+	MessageGraphNodeExpand(m_expandNodeId, true).dispatch();
 }
 
 void QtGraphicsView::showDefinition()

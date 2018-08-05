@@ -95,8 +95,11 @@ public:
 	virtual void addSubNode(QtGraphNode* node);
 
 	virtual void onClick();
-	virtual void onHide();
-	virtual void onShowDefinition();
+
+	void onHide();
+	void onCollapseExpand();
+	void onShowDefinition();
+
 	virtual void moved(const Vec2i& oldPosition);
 
 	virtual void updateStyle() = 0;

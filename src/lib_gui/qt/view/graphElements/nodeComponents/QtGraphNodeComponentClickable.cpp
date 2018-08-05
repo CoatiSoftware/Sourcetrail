@@ -39,6 +39,10 @@ void QtGraphNodeComponentClickable::nodeMouseReleaseEvent(QGraphicsSceneMouseEve
 		{
 			m_graphNode->onHide();
 		}
+		else if (event->modifiers() & Qt::ShiftModifier)
+		{
+			m_graphNode->onCollapseExpand();
+		}
 		else if (event->modifiers() & Qt::ControlModifier)
 		{
 			m_graphNode->onShowDefinition();
