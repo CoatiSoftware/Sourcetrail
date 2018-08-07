@@ -1,10 +1,18 @@
 ### Changelog
 
-#### 2018.3.0
-released 2018-07-24
+#### 2018.3.13
+released 2018-08-07
 
+* Code: Fixed text search locations sometimes disappearing when expanding scope of code snippets
+* Graph: Added Expand/Collapse Node actions to graph context menu
+* Indexer: Improved storing performance
+* Warn user after indexing if project index is used in multiple processes and cannot be updated
+* Search: Fixed text search sometimes showed wrong results for queries with non-letter characters
+* Graph: Improved graph node color contrasts
+* C/C++: Improved file path caching for faster indexing times
+* C/C++: Fixed click on macro reference activated first of multiple symbols instead of showing tooltip list
 * C/C++: Fixed file logging broken when indexing a compilation database project in single process
-* Only prefill system specific paths in application settings once
+* Prefill system specific paths in application settings only once
 * Added check if entered project name is a valid file name
 * Windows: Fixed names of available header path detectors
 * Graph: Show graph legend via 'legend' command or '?' button in the lower right corner (issue #308, #540)
@@ -19,7 +27,7 @@ released 2018-07-24
 * Search: Improved autocompletion scoring to process more symbols
 * Search: Fixed autocompletions fail with wide characters (issue #598)
 * Windows: Show error text when opening external .dll fails
-* C/C++: Highlight opening and closing brackets in code when hovering either one (issue #12)
+* C/C++: Highlight opening and closing braces in code when hovering either one (issue #12)
 * macOS: Fixed start screen not disappearing when launching Sourcetrail by opening a project
 * Graph: Fixed restoring of scroll position in graph on undo broken
 * Graph: Hide children with type use edges to parent if parent is active
@@ -28,8 +36,7 @@ released 2018-07-24
 * Graph: exporting graph as .svg (issue #596)
 * Show indexing progress bar in status bar
 * Keep browsing old project state while indexing (issue #175)
-* Java: Added support for Java 10
-* Check if Sonargraph paths exist before allowing to continue.
+* Java: Added support for Java 9 & 10
 * Added project setup from Sonargraph project for C, C++ and Java.
 * Migrate old ".coatiproject" settings to new ".srctrlprj" extension when loading project
 * Allow discarding unfinished index when aborting indexing
@@ -37,7 +44,7 @@ released 2018-07-24
 * C/C++: Show translation unit of indexing errors
 * Fixed activating history item from menu showed wrong symbol (issue #572)
 * Fixed all errors shown when only showing errors for certain file and changing error filter (issue #577)
-* Added page steps to project setup dialogs
+* Added pagination to project setup dialogs
 * C/C++: Make complete file incomplete if it has errors in later translation units
 
 
