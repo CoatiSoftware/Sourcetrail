@@ -56,16 +56,16 @@ public:
 
 	// for conversion to and from 'SharedIntermediateStorage'
 
-	std::vector<StorageNode> getStorageNodes() const;
-	std::vector<StorageFile> getStorageFiles() const;
-	std::vector<StorageSymbol> getStorageSymbols() const;
-	std::vector<StorageEdge> getStorageEdges() const;
+	const std::vector<StorageNode>& getStorageNodes() const;
+	const std::vector<StorageFile>& getStorageFiles() const;
+	const std::vector<StorageSymbol>& getStorageSymbols() const;
+	const std::vector<StorageEdge>& getStorageEdges() const;
 	std::vector<StorageLocalSymbol> getStorageLocalSymbols() const;
 	std::vector<StorageSourceLocation> getStorageSourceLocations() const;
-	std::vector<StorageOccurrence> getStorageOccurrences() const;
-	std::vector<StorageComponentAccess> getComponentAccesses() const;
-	std::vector<StorageCommentLocationData> getCommentLocations() const;
-	std::vector<StorageErrorData> getErrors() const;
+	const std::vector<StorageOccurrence>& getStorageOccurrences() const;
+	const std::vector<StorageComponentAccess>& getComponentAccesses() const;
+	const std::vector<StorageCommentLocationData>& getCommentLocations() const;
+	const std::vector<StorageErrorData>& getErrors() const;
 
 	void setStorageNodes(const std::vector<StorageNode>& storageNodes);
 	void setStorageFiles(const std::vector<StorageFile>& storageFiles);

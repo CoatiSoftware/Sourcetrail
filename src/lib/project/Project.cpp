@@ -508,12 +508,14 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 				)
 			)
 		);
+
 		// add task for injecting the intermediate storages into the persistent storage
 		taskParallelIndexing->addTask(
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
+				// block until there are indexers running
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 					std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_EQUALS, 0)
-					),
+				),
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 					std::make_shared<TaskGroupSequence>()->addChildTasks(
 						// stopping when indexer count is zero, regardless wether there are still storages left to insert.
@@ -527,6 +529,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 				)
 			)
 		);
+
 		// add task that notifies the user of what's going on
 		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
 			std::make_shared<TaskLambda>([dialogView]() {

@@ -323,22 +323,22 @@ void IntermediateStorage::forEachError(std::function<void(const StorageErrorData
 	}
 }
 
-std::vector<StorageNode> IntermediateStorage::getStorageNodes() const
+const std::vector<StorageNode>& IntermediateStorage::getStorageNodes() const
 {
 	return m_nodes;
 }
 
-std::vector<StorageFile> IntermediateStorage::getStorageFiles() const
+const std::vector<StorageFile>& IntermediateStorage::getStorageFiles() const
 {
 	return m_files;
 }
 
-std::vector<StorageSymbol> IntermediateStorage::getStorageSymbols() const
+const std::vector<StorageSymbol>& IntermediateStorage::getStorageSymbols() const
 {
 	return m_symbols;
 }
 
-std::vector<StorageEdge> IntermediateStorage::getStorageEdges() const
+const std::vector<StorageEdge>& IntermediateStorage::getStorageEdges() const
 {
 	return m_edges;
 }
@@ -365,22 +365,22 @@ std::vector<StorageSourceLocation> IntermediateStorage::getStorageSourceLocation
 	return sourceLocations;
 }
 
-std::vector<StorageOccurrence> IntermediateStorage::getStorageOccurrences() const
+const std::vector<StorageOccurrence>& IntermediateStorage::getStorageOccurrences() const
 {
 	return m_occurrences;
 }
 
-std::vector<StorageComponentAccess> IntermediateStorage::getComponentAccesses() const
+const std::vector<StorageComponentAccess>& IntermediateStorage::getComponentAccesses() const
 {
 	return m_componentAccesses;
 }
 
-std::vector<StorageCommentLocationData> IntermediateStorage::getCommentLocations() const
+const std::vector<StorageCommentLocationData>& IntermediateStorage::getCommentLocations() const
 {
 	return m_commentLocations;
 }
 
-std::vector<StorageErrorData> IntermediateStorage::getErrors() const
+const std::vector<StorageErrorData>& IntermediateStorage::getErrors() const
 {
 	return m_errors;
 }
