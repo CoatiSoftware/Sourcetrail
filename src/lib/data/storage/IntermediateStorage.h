@@ -39,7 +39,7 @@ public:
 	Id addSourceLocation(const StorageSourceLocationData& sourceLocationData) override;
 	void addOccurrence(const StorageOccurrence& occurrence) override;
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
-	void addComponentAccess(const StorageComponentAccessData& componentAccessData) override;
+	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
 	void addCommentLocation(const StorageCommentLocationData& commentLocationData) override;
 	void addError(const StorageErrorData& errorData) override;
 
@@ -50,7 +50,7 @@ public:
 	void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
 	void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
 	void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
-	void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const override;
+	void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const override;
 	void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
 	void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
 
@@ -63,7 +63,7 @@ public:
 	std::vector<StorageLocalSymbol> getStorageLocalSymbols() const;
 	std::vector<StorageSourceLocation> getStorageSourceLocations() const;
 	std::vector<StorageOccurrence> getStorageOccurrences() const;
-	std::vector<StorageComponentAccessData> getComponentAccesses() const;
+	std::vector<StorageComponentAccess> getComponentAccesses() const;
 	std::vector<StorageCommentLocationData> getCommentLocations() const;
 	std::vector<StorageErrorData> getErrors() const;
 
@@ -74,7 +74,7 @@ public:
 	void setStorageLocalSymbols(const std::vector<StorageLocalSymbol>& storageLocalSymbols);
 	void setStorageSourceLocations(const std::vector<StorageSourceLocation>& storageSourceLocations);
 	void setStorageOccurrences(const std::vector<StorageOccurrence>& storageOccurrences);
-	void setComponentAccesses(const std::vector<StorageComponentAccessData>& componentAccesses);
+	void setComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses);
 	void setCommentLocations(const std::vector<StorageCommentLocationData>& commentLocations);
 	void setErrors(const std::vector<StorageErrorData>& errors);
 
@@ -88,7 +88,7 @@ private:
 	std::wstring serialize(const StorageLocalSymbolData& localSymbolData) const;
 	std::wstring serialize(const StorageSourceLocationData& sourceLocationData) const;
 	std::wstring serialize(const StorageOccurrence& occurrence) const;
-	std::wstring serialize(const StorageComponentAccessData& componentAccessData) const;
+	std::wstring serialize(const StorageComponentAccess& componentAccessData) const;
 	std::wstring serialize(const StorageCommentLocationData& commentLocationData) const;
 	std::wstring serialize(const StorageErrorData& errorData) const;
 
@@ -111,7 +111,7 @@ private:
 	std::vector<StorageOccurrence> m_occurrences;
 
 	std::unordered_set<std::wstring> m_serializedComponentAccesses; // this is used to prevent duplicates (unique)
-	std::vector<StorageComponentAccessData> m_componentAccesses;
+	std::vector<StorageComponentAccess> m_componentAccesses;
 
 	std::unordered_set<std::wstring> m_serializedCommentLocations; // this is used to prevent duplicates (unique)
 	std::vector<StorageCommentLocationData> m_commentLocations;

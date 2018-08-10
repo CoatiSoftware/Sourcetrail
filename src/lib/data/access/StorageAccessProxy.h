@@ -24,8 +24,6 @@ public:
 
 	NodeType getNodeTypeForNodeWithId(Id id) const override;
 
-	Id getIdForEdge(
-		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const override;
 	StorageEdge getEdgeById(Id edgeId) const override;
 
 	std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(

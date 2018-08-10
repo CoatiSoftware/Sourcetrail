@@ -36,8 +36,8 @@ CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageEdge,				SharedStorageEdge )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSymbol,				SharedStorageSymbol )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSourceLocation,		SharedStorageSourceLocation )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageOccurrence,			SharedStorageOccurrence )
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageComponentAccessData,		SharedStorageComponentAccessData)
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageCommentLocationData,		SharedStorageCommentLocationData)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageComponentAccess,		SharedStorageComponentAccess)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageCommentLocationData,	SharedStorageCommentLocationData)
 
 
 struct SharedStorageNode
@@ -151,9 +151,9 @@ struct SharedStorageErrorData
 inline SharedStorageErrorData toShared(const StorageErrorData& error, SharedMemory::Allocator* allocator)
 {
 	return SharedStorageErrorData(
-		utility::encodeToUtf8(error.message), 
+		utility::encodeToUtf8(error.message),
 		utility::encodeToUtf8(error.filePath),
-		error.lineNumber, 
+		error.lineNumber,
 		error.columnNumber,
 		utility::encodeToUtf8(error.translationUnit),
 		error.fatal,
@@ -164,12 +164,12 @@ inline SharedStorageErrorData toShared(const StorageErrorData& error, SharedMemo
 inline StorageErrorData fromShared(const SharedStorageErrorData& error)
 {
 	return StorageErrorData(
-		utility::decodeFromUtf8(error.message.c_str()), 
+		utility::decodeFromUtf8(error.message.c_str()),
 		utility::decodeFromUtf8(error.filePath.c_str()),
 		error.lineNumber,
-		error.columnNumber, 
+		error.columnNumber,
 		utility::decodeFromUtf8(error.translationUnit.c_str()),
-		error.fatal, 
+		error.fatal,
 		error.indexed
 	);
 }

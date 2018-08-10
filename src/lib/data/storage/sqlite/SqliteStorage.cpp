@@ -16,8 +16,6 @@ SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	m_database.open(utility::encodeToUtf8(m_dbFilePath.wstr()).c_str());
 
 	executeStatement("PRAGMA foreign_keys=ON;");
-
-	m_mode = STORAGE_MODE_UNKNOWN;
 }
 
 SqliteStorage::~SqliteStorage()
@@ -34,8 +32,6 @@ SqliteStorage::~SqliteStorage()
 
 void SqliteStorage::setup()
 {
-	m_indices = getIndices();
-
 	executeStatement("PRAGMA foreign_keys=ON;");
 	setupMetaTable();
 
@@ -49,8 +45,6 @@ void SqliteStorage::setup()
 			m_precompiledStatementsInitialized = true;
 		}
 	}
-
-	m_mode = STORAGE_MODE_UNKNOWN;
 }
 
 void SqliteStorage::clear()
@@ -77,28 +71,6 @@ size_t SqliteStorage::getVersion() const
 void SqliteStorage::setVersion(size_t version)
 {
 	insertOrUpdateMetaValue("storage_version", std::to_string(version));
-}
-
-void SqliteStorage::setMode(const StorageModeType mode)
-{
-	if (mode == m_mode)
-	{
-		return;
-	}
-
-	for (size_t i = 0; i < m_indices.size(); i++)
-	{
-		if (m_indices[i].first & mode)
-		{
-			m_indices[i].second.createOnDatabase(m_database);
-		}
-		else
-		{
-			m_indices[i].second.removeFromDatabase(m_database);
-		}
-	}
-
-	m_mode = mode;
 }
 
 void SqliteStorage::beginTransaction()

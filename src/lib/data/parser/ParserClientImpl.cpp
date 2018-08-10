@@ -317,7 +317,7 @@ void ParserClientImpl::addComponentAccess(Id nodeId , int type)
 		return;
 	}
 
-	m_storage->addComponentAccess(StorageComponentAccessData(nodeId, type));
+	m_storage->addComponentAccess(StorageComponentAccess(nodeId, type));
 }
 
 void ParserClientImpl::addCommentLocation(const ParseLocation& location)

@@ -168,7 +168,7 @@ void Storage::inject(Storage* injected)
 	}
 
 	injected->forEachComponentAccess(
-		[&](const StorageComponentAccessData& injectedData)
+		[&](const StorageComponentAccess& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
 			it = injectedIdToOwnElementId.find(injectedData.nodeId);
@@ -178,7 +178,7 @@ void Storage::inject(Storage* injected)
 			}
 			const Id ownNodeId = it->second;
 
-			addComponentAccess(StorageComponentAccessData(ownNodeId, injectedData.type));
+			addComponentAccess(StorageComponentAccess(ownNodeId, injectedData.type));
 		}
 	);
 

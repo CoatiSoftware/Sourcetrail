@@ -56,7 +56,7 @@ size_t IntermediateStorage::getByteSize(size_t stringSize) const
 
 	byteSize += sizeof(StorageEdge) * getStorageEdges().size();
 	byteSize += sizeof(StorageCommentLocationData) * getCommentLocations().size();
-	byteSize += sizeof(StorageComponentAccessData) * getComponentAccesses().size();
+	byteSize += sizeof(StorageComponentAccess) * getComponentAccesses().size();
 	byteSize += sizeof(StorageOccurrence) * getStorageOccurrences().size();
 	byteSize += sizeof(StorageSymbol) * getStorageSymbols().size();
 	byteSize += sizeof(StorageSourceLocation) * getStorageSourceLocations().size();
@@ -147,7 +147,6 @@ void IntermediateStorage::addFile(const StorageFile& file)
 
 Id IntermediateStorage::addEdge(const StorageEdgeData& edgeData)
 {
-
 	const std::wstring serialized = serialize(edgeData);
 	std::unordered_map<std::wstring, size_t>::const_iterator it = m_edgesIndex.find(serialized);
 	if (it != m_edgesIndex.end())
@@ -209,13 +208,13 @@ void IntermediateStorage::addOccurrences(const std::vector<StorageOccurrence>& o
 	}
 }
 
-void IntermediateStorage::addComponentAccess(const StorageComponentAccessData& componentAccessData)
+void IntermediateStorage::addComponentAccess(const StorageComponentAccess& componentAccess)
 {
-	const std::wstring serialized = serialize(componentAccessData);
+	const std::wstring serialized = serialize(componentAccess);
 
 	if (m_serializedComponentAccesses.find(serialized) == m_serializedComponentAccesses.end())
 	{
-		m_componentAccesses.push_back(componentAccessData);
+		m_componentAccesses.push_back(componentAccess);
 		m_serializedComponentAccesses.insert(serialized);
 	}
 }
@@ -300,9 +299,9 @@ void IntermediateStorage::forEachOccurrence(std::function<void(const StorageOccu
 	}
 }
 
-void IntermediateStorage::forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const
+void IntermediateStorage::forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const
 {
-	for (std::vector<StorageComponentAccessData>::const_iterator it = m_componentAccesses.begin(); it != m_componentAccesses.end(); it++)
+	for (std::vector<StorageComponentAccess>::const_iterator it = m_componentAccesses.begin(); it != m_componentAccesses.end(); it++)
 	{
 		callback(*it);
 	}
@@ -371,7 +370,7 @@ std::vector<StorageOccurrence> IntermediateStorage::getStorageOccurrences() cons
 	return m_occurrences;
 }
 
-std::vector<StorageComponentAccessData> IntermediateStorage::getComponentAccesses() const
+std::vector<StorageComponentAccess> IntermediateStorage::getComponentAccesses() const
 {
 	return m_componentAccesses;
 }
@@ -441,7 +440,7 @@ void IntermediateStorage::setStorageOccurrences(const std::vector<StorageOccurre
 	m_occurrences = storageOccurrences;
 }
 
-void IntermediateStorage::setComponentAccesses(const std::vector<StorageComponentAccessData>& componentAccesses)
+void IntermediateStorage::setComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses)
 {
 	m_componentAccesses = componentAccesses;
 }
@@ -508,7 +507,7 @@ std::wstring IntermediateStorage::serialize(const StorageOccurrence& occurrence)
 }
 
 
-std::wstring IntermediateStorage::serialize(const StorageComponentAccessData& componentAccessData) const
+std::wstring IntermediateStorage::serialize(const StorageComponentAccess& componentAccessData) const
 {
 	return std::to_wstring(componentAccessData.nodeId);
 }

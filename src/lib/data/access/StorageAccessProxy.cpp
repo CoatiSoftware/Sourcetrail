@@ -78,7 +78,6 @@ typedef std::map<Id, std::pair<Id, NameHierarchy>> NodeIdToParentFileMap;
 DEF_GETTER_1(getNodeIdToParentFileMap, const std::vector<Id>&, NodeIdToParentFileMap, {})
 
 DEF_GETTER_1(getNodeTypeForNodeWithId, Id, NodeType, NodeType(NodeType::NODE_SYMBOL))
-DEF_GETTER_3(getIdForEdge, Edge::EdgeType, const NameHierarchy&, const NameHierarchy&, Id, 0)
 DEF_GETTER_1(getEdgeById, Id, StorageEdge, StorageEdge())
 DEF_GETTER_2(getFullTextSearchLocations, const std::wstring &, bool, std::shared_ptr<SourceLocationCollection>, std::make_shared<SourceLocationCollection>())
 DEF_GETTER_2(getAutocompletionMatches, const std::wstring &, NodeTypeSet, std::vector<SearchMatch>, std::vector<SearchMatch>())

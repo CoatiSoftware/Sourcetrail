@@ -27,7 +27,7 @@ public:
 	Id addSourceLocation(const StorageSourceLocationData& data) override;
 	void addOccurrence(const StorageOccurrence& data) override;
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
-	void addComponentAccess(const StorageComponentAccessData& data) override;
+	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
 	void addCommentLocation(const StorageCommentLocationData& data) override;
 	void addError(const StorageErrorData& data) override;
 
@@ -38,7 +38,7 @@ public:
 	void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
 	void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
 	void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
-	void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const override;
+	void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const override;
 	void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
 	void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
 
@@ -85,8 +85,6 @@ public:
 
 	NodeType getNodeTypeForNodeWithId(Id nodeId) const override;
 
-	Id getIdForEdge(
-		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const override;
 	StorageEdge getEdgeById(Id edgeId) const override;
 
 	std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(

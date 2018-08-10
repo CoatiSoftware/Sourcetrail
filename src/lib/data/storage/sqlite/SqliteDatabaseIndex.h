@@ -8,7 +8,8 @@ class SqliteDatabaseIndex
 {
 public:
 	SqliteDatabaseIndex(const std::string& indexName, const std::string& indexTarget);
-	~SqliteDatabaseIndex();
+
+	std::string getName() const;
 
 	void createOnDatabase(CppSQLite3DB& database);
 	void removeFromDatabase(CppSQLite3DB& database);

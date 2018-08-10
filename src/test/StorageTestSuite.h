@@ -65,8 +65,19 @@ public:
 		intermetiateStorage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId));
 
 		storage.inject(intermetiateStorage.get());
+		bool foundEdge = false;
 
-		TS_ASSERT(storage.getIdForEdge(Edge::EDGE_MEMBER, a, b) != 0);
+		const Id sourceId = storage.getNodeIdForNameHierarchy(a);
+		const Id targetId = storage.getNodeIdForNameHierarchy(b);
+		storage.forEachEdge([&](const StorageEdge& edge)
+			{
+				if (edge.sourceNodeId == sourceId && edge.targetNodeId == targetId && edge.type == Edge::typeToInt(Edge::EDGE_MEMBER))
+				{
+					foundEdge = true;
+				}
+			}
+		);
+		TS_ASSERT(foundEdge);
 	}
 
 
@@ -244,11 +255,6 @@ private:
 		//{
 		//	return getGraph().getEdgeCount();
 		//}
-
-		Id getEdgeId(Edge::EdgeType type, const NameHierarchy& fromName, const NameHierarchy& toName) const
-		{
-			return getIdForEdge(type, fromName, toName);
-		}
 	};
 
 	ParseLocation validLocation(Id locationId = 0) const

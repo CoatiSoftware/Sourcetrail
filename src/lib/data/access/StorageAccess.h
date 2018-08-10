@@ -45,8 +45,6 @@ public:
 
 	virtual NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 
-	virtual Id getIdForEdge(
-		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const = 0;
 	virtual StorageEdge getEdgeById(Id edgeId) const = 0;
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(

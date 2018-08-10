@@ -8,8 +8,9 @@ SqliteDatabaseIndex::SqliteDatabaseIndex(const std::string& indexName, const std
 {
 }
 
-SqliteDatabaseIndex::~SqliteDatabaseIndex()
+std::string SqliteDatabaseIndex::getName() const
 {
+	return m_indexName;
 }
 
 void SqliteDatabaseIndex::createOnDatabase(CppSQLite3DB& database)

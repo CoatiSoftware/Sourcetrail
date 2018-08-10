@@ -48,28 +48,12 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 
 Id PersistentStorage::addNode(const StorageNodeData& data)
 {
-	const StorageNode storedNode = m_sqliteIndexStorage.getNodeBySerializedName(data.serializedName);
-
-	if (storedNode.id == 0)
-	{
-		return m_sqliteIndexStorage.addNode(data).id;
-	}
-
-	if (storedNode.type < data.type)
-	{
-		m_sqliteIndexStorage.setNodeType(data.type, storedNode.id);
-		return storedNode.id;
-	}
-
-	return storedNode.id;
+	return m_sqliteIndexStorage.addNode(data).id;
 }
 
 void PersistentStorage::addSymbol(const StorageSymbol& data)
 {
-	if (m_sqliteIndexStorage.getFirstById<StorageSymbol>(data.id).id == 0)
-	{
-		m_sqliteIndexStorage.addSymbol(data);
-	}
+	m_sqliteIndexStorage.addSymbol(data);
 }
 
 void PersistentStorage::addFile(const StorageFile& data)
@@ -96,22 +80,12 @@ void PersistentStorage::addFile(const StorageFile& data)
 
 Id PersistentStorage::addEdge(const StorageEdgeData& data)
 {
-	const StorageEdge storedEdge = m_sqliteIndexStorage.getEdgeBySourceTargetType(data.sourceNodeId, data.targetNodeId, data.type);
-	if (storedEdge.id == 0)
-	{
-		return m_sqliteIndexStorage.addEdge(data).id;
-	}
-	return storedEdge.id;
+	return m_sqliteIndexStorage.addEdge(data).id;
 }
 
 Id PersistentStorage::addLocalSymbol(const StorageLocalSymbolData& data)
 {
-	const StorageLocalSymbol storedLocalSymbol = m_sqliteIndexStorage.getLocalSymbolByName(data.name);
-	if (storedLocalSymbol.id == 0)
-	{
-		return m_sqliteIndexStorage.addLocalSymbol(data).id;
-	}
-	return storedLocalSymbol.id;
+	return m_sqliteIndexStorage.addLocalSymbol(data).id;
 }
 
 Id PersistentStorage::addSourceLocation(const StorageSourceLocationData& data)
@@ -129,9 +103,9 @@ void PersistentStorage::addOccurrences(const std::vector<StorageOccurrence>& occ
 	m_sqliteIndexStorage.addOccurrences(occurrences);
 }
 
-void PersistentStorage::addComponentAccess(const StorageComponentAccessData& data)
+void PersistentStorage::addComponentAccess(const StorageComponentAccess& componentAccess)
 {
-	m_sqliteIndexStorage.addComponentAccess(data);
+	m_sqliteIndexStorage.addComponentAccess(componentAccess);
 }
 
 void PersistentStorage::addCommentLocation(const StorageCommentLocationData& data)
@@ -200,7 +174,7 @@ void PersistentStorage::forEachOccurrence(std::function<void(const StorageOccurr
 	}
 }
 
-void PersistentStorage::forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const
+void PersistentStorage::forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const
 {
 	for (StorageComponentAccess& componentAccess: m_sqliteIndexStorage.getAll<StorageComponentAccess>())
 	{
@@ -538,15 +512,6 @@ std::map<Id, std::pair<Id, NameHierarchy>> PersistentStorage::getNodeIdToParentF
 NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
 {
 	return NodeType::intToType(m_sqliteIndexStorage.getFirstById<StorageNode>(nodeId).type);
-}
-
-Id PersistentStorage::getIdForEdge(
-	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
-) const
-{
-	const Id sourceId = getNodeIdForNameHierarchy(fromNameHierarchy);
-	const Id targetId = getNodeIdForNameHierarchy(toNameHierarchy);
-	return m_sqliteIndexStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
 }
 
 StorageEdge PersistentStorage::getEdgeById(Id edgeId) const

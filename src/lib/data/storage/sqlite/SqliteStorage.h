@@ -12,14 +12,6 @@ class TimeStamp;
 class SqliteStorage
 {
 public:
-	enum StorageModeType
-	{
-		STORAGE_MODE_UNKNOWN = 0,
-		STORAGE_MODE_READ = 1,
-		STORAGE_MODE_WRITE = 2,
-		STORAGE_MODE_CLEAR = 4,
-	};
-
 	SqliteStorage(const FilePath& dbFilePath);
 	virtual ~SqliteStorage();
 
@@ -28,8 +20,6 @@ public:
 
 	size_t getVersion() const;
 	void setVersion(size_t version);
-
-	void setMode(const StorageModeType mode);
 
 	void beginTransaction();
 	void commitTransaction();
@@ -64,11 +54,8 @@ protected:
 	mutable CppSQLite3DB m_database;
 	FilePath m_dbFilePath;
 
-	StorageModeType m_mode;
-
 private:
 	virtual size_t getStaticVersion() const = 0;
-	virtual std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const = 0;
 	virtual void clearTables() = 0;
 	virtual void setupTables() = 0;
 	virtual void setupPrecompiledStatements() = 0;

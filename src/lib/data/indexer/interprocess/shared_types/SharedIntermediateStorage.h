@@ -31,8 +31,8 @@ public:
 	std::vector<StorageOccurrence> getStorageOccurrences() const;
 	void setStorageOccurrences(const std::vector<StorageOccurrence>& storageOccurences);
 
-	std::vector<StorageComponentAccessData> getStorageComponentAccesses() const;
-	void setStorageComponentAccesses(const std::vector<StorageComponentAccessData>& storageComponentAccesses);
+	std::vector<StorageComponentAccess> getStorageComponentAccesses() const;
+	void setStorageComponentAccesses(const std::vector<StorageComponentAccess>& storageComponentAccesses);
 
 	std::vector<StorageCommentLocationData> getStorageCommentLocations() const;
 	void setStorageCommentLocations(const std::vector<StorageCommentLocationData>& commentLocations);
@@ -47,7 +47,7 @@ private:
 	SharedMemory::Vector<SharedStorageFile> m_storageFiles;
 	SharedMemory::Vector<SharedStorageSymbol> m_storageSymbols;
 	SharedMemory::Vector<SharedStorageOccurrence> m_storageOccurrences;
-	SharedMemory::Vector<SharedStorageComponentAccessData> m_storageComponentAccesses;
+	SharedMemory::Vector<SharedStorageComponentAccess> m_storageComponentAccesses;
 	SharedMemory::Vector<SharedStorageCommentLocationData> m_storageCommentLocations;
 	SharedMemory::Vector<SharedStorageNode> m_storageNodes;
 	SharedMemory::Vector<SharedStorageEdge> m_storageEdges;

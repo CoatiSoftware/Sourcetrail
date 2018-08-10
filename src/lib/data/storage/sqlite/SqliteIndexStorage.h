@@ -32,9 +32,18 @@ class SqliteIndexStorage
 	: public SqliteStorage
 {
 public:
+	enum StorageModeType
+	{
+		STORAGE_MODE_READ = 1,
+		STORAGE_MODE_WRITE = 2,
+		STORAGE_MODE_CLEAR = 4,
+	};
+
 	SqliteIndexStorage(const FilePath& dbFilePath);
 
 	virtual size_t getStaticVersion() const;
+
+	void setMode(const StorageModeType mode);
 
 	std::string getProjectSettingsText() const;
 	void setProjectSettingsText(std::string text);
@@ -47,7 +56,7 @@ public:
 	StorageSourceLocation addSourceLocation(const StorageSourceLocationData& data);
 	bool addOccurrence(const StorageOccurrence& data);
 	bool addOccurrences(const std::vector<StorageOccurrence>& occurrences);
-	StorageComponentAccess addComponentAccess(const StorageComponentAccessData& data);
+	bool addComponentAccess(const StorageComponentAccess& componentAccess);
 	StorageCommentLocation addCommentLocation(const StorageCommentLocationData& data);
 	StorageError addError(const StorageErrorData& data);
 
@@ -79,8 +88,6 @@ public:
 
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::wstring& serializedName) const;
-
-	StorageLocalSymbol getLocalSymbolByName(const std::wstring& name) const;
 
 	StorageFile getFileByPath(const std::wstring& filePath) const;
 
@@ -147,7 +154,8 @@ public:
 private:
 	static const size_t s_storageVersion;
 
-	virtual std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
+	std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
+
 	virtual void clearTables();
 	virtual void setupTables();
 	virtual void setupPrecompiledStatements();
@@ -166,6 +174,11 @@ private:
 		return ResultType();
 	}
 
+	std::map<std::wstring, std::pair<Id, int>> m_tempNodeIndex;
+	std::map<std::string, Id> m_tempEdgeIndex;
+	std::map<std::wstring, Id> m_tempLocalSymbolIndex;
+	std::map<Id, std::map<std::string, Id>> m_tempSourceLocationIndices;
+
 	CppSQLite3Statement m_insertElementStmt;
 	CppSQLite3Statement m_insertEdgeStmt;
 	CppSQLite3Statement m_inserNodeStmt;
@@ -173,10 +186,9 @@ private:
 	CppSQLite3Statement m_insertFileStmt;
 	CppSQLite3Statement m_insertFileContentStmt;
 	CppSQLite3Statement m_inserLocalSymbolStmt;
-	CppSQLite3Statement m_checkSourceLocationExistsStmt;
 	CppSQLite3Statement m_insertSourceLocationStmt;
-	CppSQLite3Statement m_checkOccurrenceExistsStmt;
 	CppSQLite3Statement m_insertOccurrenceStmt;
+	CppSQLite3Statement m_insert100OccurrencesStmt;
 	CppSQLite3Statement m_insertComponentAccessStmt;
 	CppSQLite3Statement m_checkCommentLocationExistsStmt;
 	CppSQLite3Statement m_insertCommentLocationStmt;

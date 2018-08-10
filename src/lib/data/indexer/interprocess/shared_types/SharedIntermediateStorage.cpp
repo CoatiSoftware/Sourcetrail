@@ -174,9 +174,9 @@ void SharedIntermediateStorage::setStorageOccurrences(const std::vector<StorageO
 	}
 }
 
-std::vector<StorageComponentAccessData> SharedIntermediateStorage::getStorageComponentAccesses() const
+std::vector<StorageComponentAccess> SharedIntermediateStorage::getStorageComponentAccesses() const
 {
-	std::vector<StorageComponentAccessData> result;
+	std::vector<StorageComponentAccess> result;
 
 	for (unsigned int i = 0; i < m_storageComponentAccesses.size(); i++)
 	{
@@ -186,7 +186,7 @@ std::vector<StorageComponentAccessData> SharedIntermediateStorage::getStorageCom
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageComponentAccesses(const std::vector<StorageComponentAccessData>& storageComponentAccesses)
+void SharedIntermediateStorage::setStorageComponentAccesses(const std::vector<StorageComponentAccess>& storageComponentAccesses)
 {
 	m_storageComponentAccesses.clear();
 

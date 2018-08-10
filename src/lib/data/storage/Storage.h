@@ -31,7 +31,7 @@ public:
 	virtual Id addSourceLocation(const StorageSourceLocationData& data) = 0;
 	virtual void addOccurrence(const StorageOccurrence& data) = 0;
 	virtual void addOccurrences(const std::vector<StorageOccurrence>& occurrences) = 0;
-	virtual void addComponentAccess(const StorageComponentAccessData& data) = 0;
+	virtual void addComponentAccess(const StorageComponentAccess& componentAccess) = 0;
 	virtual void addCommentLocation(const StorageCommentLocationData& data) = 0;
 	virtual void addError(const StorageErrorData& data) = 0;
 
@@ -42,7 +42,7 @@ public:
 	virtual void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const = 0;
 	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const = 0;
 	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const = 0;
-	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const = 0;
+	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const = 0;
 	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const = 0;
 	virtual void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const = 0;
 
