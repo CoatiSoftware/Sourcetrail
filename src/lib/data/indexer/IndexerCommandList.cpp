@@ -1,7 +1,6 @@
 #include "data/indexer/IndexerCommandList.h"
 
 #include <algorithm>
-#include <random>
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
@@ -26,7 +25,7 @@ size_t IndexerCommandList::size() const
 	return m_commands.size();
 }
 
-void IndexerCommandList::shuffle()
+void IndexerCommandList::sort()
 {
 	std::lock_guard<std::mutex> lock(m_commandsMutex);
 
@@ -48,9 +47,16 @@ void IndexerCommandList::shuffle()
 
 	if (sourceFileSizesToCommands.size() > 2)
 	{
-		srand(unsigned(time(NULL)));
-		std::random_shuffle(sourceFileSizesToCommands.begin(), sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() / 2);
-		std::random_shuffle(sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() / 2, sourceFileSizesToCommands.end());
+		std::sort(
+			sourceFileSizesToCommands.begin(),
+			sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() / 2,
+			[](const PairType& p, const PairType& q) { return p.second->getSourceFilePath().wstr() < q.second->getSourceFilePath().wstr(); }
+		);
+		std::sort(
+			sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() / 2,
+			sourceFileSizesToCommands.end(),
+			[](const PairType& p, const PairType& q) { return p.second->getSourceFilePath().wstr() < q.second->getSourceFilePath().wstr(); }
+		);
 	}
 
 	m_commands.clear();

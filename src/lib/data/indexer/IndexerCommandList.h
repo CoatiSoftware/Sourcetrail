@@ -14,7 +14,7 @@ public:
 
 	size_t size() const;
 
-	void shuffle();
+	void sort();
 
 	std::shared_ptr<IndexerCommand> consumeCommand();
 

@@ -468,7 +468,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		indexerThreadCount = std::min<int>(indexerThreadCount, indexerCommandList->size());
 		if (indexerThreadCount > 1)
 		{
-			indexerCommandList->shuffle();
+			indexerCommandList->sort();
 		}
 
 		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
