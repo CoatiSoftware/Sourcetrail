@@ -1,6 +1,11 @@
 #include "data/parser/cxx/CxxParser.h"
 
+#include <clang/Driver/Compilation.h>
+#include <clang/Driver/Driver.h>
+#include <clang/Driver/Options.h>
+#include <clang/Frontend/CompilerInvocation.h>
 #include <clang/Tooling/Tooling.h>
+#include <llvm/Option/ArgList.h>
 #include <llvm/Support/TargetSelect.h>
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
@@ -19,6 +24,57 @@
 
 namespace
 {
+	// copied from clang codebase
+	clang::driver::Driver *newDriver(
+		clang::DiagnosticsEngine *Diagnostics, const char *BinaryName,
+		clang::IntrusiveRefCntPtr<clang::vfs::FileSystem> VFS) {
+		clang::driver::Driver *CompilerDriver =
+			new clang::driver::Driver(BinaryName, llvm::sys::getDefaultTargetTriple(),
+				*Diagnostics, std::move(VFS));
+		CompilerDriver->setTitle("clang_based_tool");
+		return CompilerDriver;
+	}
+
+	// copied and stitched together from clang codebase
+	std::string getClangInvocationString(const clang::tooling::CompilationDatabase* compilationDatabase)
+	{
+		if (!compilationDatabase->getAllCompileCommands().empty())
+		{
+			std::vector<std::string> CommandLine = compilationDatabase->getAllCompileCommands().front().CommandLine;
+
+			std::vector<const char*> Argv;
+			for (const std::string &Str : CommandLine)
+				Argv.push_back(Str.c_str());
+			const char *const BinaryName = Argv[0];
+			clang::IntrusiveRefCntPtr<clang::DiagnosticOptions> DiagOpts = new clang::DiagnosticOptions();
+			unsigned MissingArgIndex, MissingArgCount;
+			std::unique_ptr<llvm::opt::OptTable> Opts = clang::driver::createDriverOptTable();
+			llvm::opt::InputArgList ParsedArgs = Opts->ParseArgs(
+				clang::ArrayRef<const char *>(Argv).slice(1), MissingArgIndex, MissingArgCount);
+			clang::ParseDiagnosticArgs(*DiagOpts, ParsedArgs);
+			clang::DiagnosticsEngine Diagnostics(
+				clang::IntrusiveRefCntPtr<clang::DiagnosticIDs>(new clang::DiagnosticIDs()), &*DiagOpts);
+
+			llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
+
+			const std::unique_ptr<clang::driver::Driver> Driver(
+				newDriver(&Diagnostics, BinaryName, Files->getVirtualFileSystem()));
+			// Since the input might only be virtual, don't check whether it exists.
+			Driver->setCheckInputsExist(false);
+			const std::unique_ptr<clang::driver::Compilation> Compilation(
+				Driver->BuildCompilation(llvm::makeArrayRef(Argv)));
+			if (Compilation)
+			{
+				std::string s;
+				llvm::raw_string_ostream ss(s);
+				Compilation->getJobs().Print(ss, "", true);
+				ss.flush();
+				return utility::trim(s);
+			}
+		}
+		return "";
+	}
+
 	std::vector<std::string> prependSyntaxOnlyToolArgs(const std::vector<std::string>& args)
 	{
 		return utility::concat({ "clang-tool", "-fsyntax-only" }, args);
@@ -128,6 +184,8 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 
 	tool.setDiagnosticConsumer(diagnostics.get());
 
+	LOG_INFO("Clang Invocation: " + getClangInvocationString(compilationDatabase));
+
 	ASTActionFactory actionFactory(m_client, canonicalFilePathCache);
 	tool.run(&actionFactory);
 }
@@ -138,9 +196,6 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 	const std::vector<FilePath>& frameworkSearchPaths
 ) const {
 	std::vector<std::string> args;
-
-	// verbose
-	// args.push_back("-v");
 
 	// The option -fno-delayed-template-parsing signals that templates that there should
 	// be AST elements for unused template functions as well.
