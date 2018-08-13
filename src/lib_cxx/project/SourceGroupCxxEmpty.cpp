@@ -113,6 +113,12 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 		}
 	}
 
+	if (std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
+	{
+		compilerFlags.push_back(L"-x");
+		compilerFlags.push_back(L"c++");
+	}
+
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
 
 	std::string languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
@@ -121,10 +127,10 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	{
 		languageStandard = cSettings->getCStandard();
 	}
-	else if (std::shared_ptr<SourceGroupSettingsWithCppStandard> cppSettisngs =
+	else if (std::shared_ptr<SourceGroupSettingsWithCppStandard> cppSettings =
 		std::dynamic_pointer_cast<SourceGroupSettingsWithCppStandard>(m_settings))
 	{
-		languageStandard = cppSettisngs->getCppStandard();
+		languageStandard = cppSettings->getCppStandard();
 	}
 	else
 	{
