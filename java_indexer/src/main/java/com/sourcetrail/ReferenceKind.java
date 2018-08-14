@@ -15,7 +15,8 @@ public enum ReferenceKind
 	TEMPLATE_MEMBER_SPECIALIZATION_OF(10),
 	INCLUDE(11),
 	IMPORT(12),
-	MACRO_USAGE(13);
+	MACRO_USAGE(13),
+	ANNOTATION_USAGE(14);
 	
 	private final int m_value;
 	

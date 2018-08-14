@@ -357,6 +357,9 @@
 			<macro>
 				<like>file</like>
 			</macro>
+			<annotation>
+				<like>file</like>
+			</annotation>
 
 			<access>
 				<fill>
@@ -478,6 +481,19 @@
 			<template_member_specialization>
 				<like>template_argument</like>
 			</template_member_specialization>
+
+			<include>
+				<normal>#719660</normal>
+			</include>
+			<import>
+				<normal>#719660</normal>
+			</import>
+			<macro_use>
+				<normal>#719660</normal>
+			</macro_use>
+			<annotation_use>
+				<normal>#719660</normal>
+			</annotation_use>
 
 			<aggregation>
 				<normal>#DDD</normal>

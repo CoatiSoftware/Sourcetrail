@@ -194,6 +194,8 @@ private:
 			return L"REFERENCE_IMPORT";
 		case REFERENCE_MACRO_USAGE:
 			return L"REFERENCE_MACRO_USAGE";
+		case REFERENCE_ANNOTATION_USAGE:
+			return L"REFERENCE_ANNOTATION_USAGE";
 		default:
 			break;
 		}

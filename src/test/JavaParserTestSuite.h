@@ -53,6 +53,33 @@ public:
 		));
 	}
 
+	void test_java_parser_finds_anotation_declaration_in_defaut_package()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public @interface SampleAnnotation\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->annotations, L"public SampleAnnotation <1:1 <1:19 1:34> 3:1>"
+		));
+	}
+
+	void test_java_parser_finds_anotation_member_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public @interface SampleAnnotation\n"
+			"{\n"
+			"	public int value() default 0;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->fields, L"public int SampleAnnotation.value <3:13 3:17>"
+		));
+	}
+
 	void test_java_parser_finds_class_declaration_in_defaut_package()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -780,6 +807,83 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 // test finding usages of symbols
+
+	void test_java_parser_finds_usage_of_marker_annotation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public @interface SampleAnnotation\n"
+			"{\n"
+			"}\n"
+			"\n"
+			"@SampleAnnotation\n"
+			"class Foo\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->annotationUses, L"Foo -> SampleAnnotation <5:2 5:17>"
+		));
+	}
+
+	void test_java_parser_finds_usage_of_single_member_annotation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public @interface SampleAnnotation\n"
+			"{\n"
+			"	public int value() default 0;\n"
+			"}\n"
+			"\n"
+			"@SampleAnnotation(33)\n"
+			"class Foo\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->annotationUses, L"Foo -> SampleAnnotation <6:2 6:17>"
+		));
+	}
+
+	void test_java_parser_finds_usage_of_normal_annotation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public @interface SampleAnnotation\n"
+			"{\n"
+			"	public int a() default 0;\n"
+			"	public int b() default 0;\n"
+			"}\n"
+			"\n"
+			"@SampleAnnotation()\n"
+			"class Foo\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->annotationUses, L"Foo -> SampleAnnotation <7:2 7:17>"
+		));
+	}
+
+	void test_java_parser_finds_usage_of_normal_annotation_member_in_initialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public @interface SampleAnnotation\n"
+			"{\n"
+			"	public int a() default 0;\n"
+			"	public int b() default 0;\n"
+			"}\n"
+			"\n"
+			"@SampleAnnotation(a = 9)\n"
+			"class Foo\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"Foo -> int SampleAnnotation.a <7:19 7:19>"
+		));
+	}
 
 	void test_java_parser_finds_inheritance_using_extends_keyword()
 	{

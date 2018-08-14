@@ -73,6 +73,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbol
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() [UnsolvedSymbolException.java <48:5 <48:5  <49:19 49:26> 49:28> 55:5>]
 SYMBOL_METHOD java.lang.String java.lang.Throwable.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() -> java.lang.String java.lang.Throwable.toString() [UnsolvedSymbolException.java <49:19 49:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() -> java.lang.Override [UnsolvedSymbolException.java <48:6 48:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() -> java.lang.String [UnsolvedSymbolException.java <49:12 49:17>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<49:30> [UnsolvedSymbolException.java <49:30 49:30>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<49:30> [UnsolvedSymbolException.java <55:5 55:5>]

@@ -23,6 +23,7 @@ REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.reflectionmodel.compa
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) [ClassComparator.java <10:5 <10:5  <11:16 11:22> 11:48> 24:5>]
 SYMBOL_METHOD int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T)
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T) [ClassComparator.java <11:16 11:22>]
+REFERENCE_ANNOTATION_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> java.lang.Override [ClassComparator.java <10:6 10:13>]
 SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> int [ClassComparator.java <11:12 11:14>]
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> java.lang.Class<T> [ClassComparator.java <11:24 11:28>]

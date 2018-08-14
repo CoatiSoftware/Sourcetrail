@@ -28,6 +28,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LambdaConstrai
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.describe() [LambdaConstraintType.java <10:5 <10:5  <11:19 11:26> 11:28> 13:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [LambdaConstraintType.java <11:19 11:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.describe() -> java.lang.Override [LambdaConstraintType.java <10:6 10:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.describe() -> java.lang.String [LambdaConstraintType.java <11:12 11:17>]
 LOCAL_SYMBOL: LambdaConstraintType.java<11:30> [LambdaConstraintType.java <11:30 11:30>]
 LOCAL_SYMBOL: LambdaConstraintType.java<11:30> [LambdaConstraintType.java <13:5 13:5>]
@@ -41,6 +42,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.git
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isConstraint() [LambdaConstraintType.java <19:5 <19:5  <20:20 20:31> 20:33> 22:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isConstraint()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isConstraint() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isConstraint() [LambdaConstraintType.java <20:20 20:31>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isConstraint() -> java.lang.Override [LambdaConstraintType.java <19:6 19:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isConstraint() -> boolean [LambdaConstraintType.java <20:12 20:18>]
 LOCAL_SYMBOL: LambdaConstraintType.java<20:35> [LambdaConstraintType.java <20:35 20:35>]
@@ -48,6 +50,7 @@ LOCAL_SYMBOL: LambdaConstraintType.java<20:35> [LambdaConstraintType.java <22:5 
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.asConstraintType() [LambdaConstraintType.java <24:5 <24:5  <25:33 25:48> 25:50> 27:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType com.github.javaparser.symbolsolver.model.typesystem.Type.asConstraintType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.asConstraintType() -> com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType com.github.javaparser.symbolsolver.model.typesystem.Type.asConstraintType() [LambdaConstraintType.java <25:33 25:48>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.asConstraintType() -> java.lang.Override [LambdaConstraintType.java <24:6 24:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.asConstraintType() -> com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType [LambdaConstraintType.java <25:12 25:31>]
 LOCAL_SYMBOL: LambdaConstraintType.java<25:52> [LambdaConstraintType.java <25:52 25:52>]
 LOCAL_SYMBOL: LambdaConstraintType.java<25:52> [LambdaConstraintType.java <27:5 27:5>]
@@ -64,6 +67,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LambdaConstrai
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [LambdaConstraintType.java <33:5 <33:5  <34:20 34:33> 34:45> 36:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [LambdaConstraintType.java <34:20 34:33>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Override [LambdaConstraintType.java <33:6 33:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [LambdaConstraintType.java <34:12 34:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LambdaConstraintType.java <34:35 34:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.isAssignableBy<0> [LambdaConstraintType.java <34:40 34:44>]

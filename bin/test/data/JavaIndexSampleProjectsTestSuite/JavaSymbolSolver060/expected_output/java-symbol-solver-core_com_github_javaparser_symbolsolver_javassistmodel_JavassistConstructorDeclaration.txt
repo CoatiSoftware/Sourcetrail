@@ -77,6 +77,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstru
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() [JavassistConstructorDeclaration.java <43:5 <43:5  <44:19 44:26> 44:28> 48:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> java.lang.String java.lang.Object.toString() [JavassistConstructorDeclaration.java <44:19 44:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> java.lang.Override [JavassistConstructorDeclaration.java <43:6 43:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> java.lang.String [JavassistConstructorDeclaration.java <44:12 44:17>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<44:30> [JavassistConstructorDeclaration.java <44:30 44:30>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<44:30> [JavassistConstructorDeclaration.java <48:5 48:5>]
@@ -84,6 +85,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmod
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getName() [JavassistConstructorDeclaration.java <50:5 <50:5  <51:19 51:25> 51:27> 53:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [JavassistConstructorDeclaration.java <51:19 51:25>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getName() -> java.lang.Override [JavassistConstructorDeclaration.java <50:6 50:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getName() -> java.lang.String [JavassistConstructorDeclaration.java <51:12 51:17>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<51:29> [JavassistConstructorDeclaration.java <51:29 51:29>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<51:29> [JavassistConstructorDeclaration.java <53:5 53:5>]
@@ -93,6 +95,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmod
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isField() [JavassistConstructorDeclaration.java <55:5 <55:5  <56:20 56:26> 56:28> 58:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField() [JavassistConstructorDeclaration.java <56:20 56:26>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isField() -> java.lang.Override [JavassistConstructorDeclaration.java <55:6 55:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isField() -> boolean [JavassistConstructorDeclaration.java <56:12 56:18>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<56:30> [JavassistConstructorDeclaration.java <56:30 56:30>]
@@ -100,18 +103,21 @@ LOCAL_SYMBOL: JavassistConstructorDeclaration.java<56:30> [JavassistConstructorD
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isParameter() [JavassistConstructorDeclaration.java <60:5 <60:5  <61:20 61:30> 61:32> 63:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [JavassistConstructorDeclaration.java <61:20 61:30>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isParameter() -> java.lang.Override [JavassistConstructorDeclaration.java <60:6 60:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isParameter() -> boolean [JavassistConstructorDeclaration.java <61:12 61:18>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<61:34> [JavassistConstructorDeclaration.java <61:34 61:34>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<61:34> [JavassistConstructorDeclaration.java <63:5 63:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isType() [JavassistConstructorDeclaration.java <65:5 <65:5  <66:20 66:25> 66:27> 68:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [JavassistConstructorDeclaration.java <66:20 66:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isType() -> java.lang.Override [JavassistConstructorDeclaration.java <65:6 65:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isType() -> boolean [JavassistConstructorDeclaration.java <66:12 66:18>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<66:29> [JavassistConstructorDeclaration.java <66:29 66:29>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<66:29> [JavassistConstructorDeclaration.java <68:5 68:5>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() [JavassistConstructorDeclaration.java <70:5 <70:5  <71:29 71:41> 71:43> 73:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration.declaringType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration.declaringType() [JavassistConstructorDeclaration.java <71:29 71:41>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() -> java.lang.Override [JavassistConstructorDeclaration.java <70:6 70:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration [JavassistConstructorDeclaration.java <71:12 71:27>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<71:45> [JavassistConstructorDeclaration.java <71:45 71:45>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<71:45> [JavassistConstructorDeclaration.java <73:5 73:5>]
@@ -125,6 +131,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ClassDecla
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() [JavassistConstructorDeclaration.java <75:5 <75:5  <76:16 76:32> 76:34> 82:5>]
 SYMBOL_METHOD int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams()
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() -> int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams() [JavassistConstructorDeclaration.java <76:16 76:32>]
+REFERENCE_ANNOTATION_USAGE int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() -> java.lang.Override [JavassistConstructorDeclaration.java <75:6 75:13>]
 SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() -> int [JavassistConstructorDeclaration.java <76:12 76:14>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<76:36> [JavassistConstructorDeclaration.java <76:36 76:36>]
@@ -147,6 +154,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstru
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) [JavassistConstructorDeclaration.java <84:5 <84:5  <85:33 85:40> 85:47> 103:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int) [JavassistConstructorDeclaration.java <85:33 85:40>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> java.lang.Override [JavassistConstructorDeclaration.java <84:6 84:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [JavassistConstructorDeclaration.java <85:12 85:31>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> int [JavassistConstructorDeclaration.java <85:42 85:44>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<0> [JavassistConstructorDeclaration.java <85:46 85:46>]
@@ -227,6 +235,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstru
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() [JavassistConstructorDeclaration.java <105:5 <105:5  <106:43 106:59> 106:61> 116:5>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters()
 REFERENCE_OVERRIDE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() [JavassistConstructorDeclaration.java <106:43 106:59>]
+REFERENCE_ANNOTATION_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.lang.Override [JavassistConstructorDeclaration.java <105:6 105:13>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.util.List<E> [JavassistConstructorDeclaration.java <106:12 106:15>]
 REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [JavassistConstructorDeclaration.java <106:17 106:40>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<106:63> [JavassistConstructorDeclaration.java <106:63 106:63>]
@@ -276,6 +285,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstru
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.accessLevel() [JavassistConstructorDeclaration.java <118:5 <118:5  <119:24 119:34> 119:36> 121:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [JavassistConstructorDeclaration.java <119:24 119:34>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.accessLevel() -> java.lang.Override [JavassistConstructorDeclaration.java <118:6 118:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistConstructorDeclaration.java <119:12 119:22>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<119:38> [JavassistConstructorDeclaration.java <119:38 119:38>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<119:38> [JavassistConstructorDeclaration.java <121:5 121:5>]

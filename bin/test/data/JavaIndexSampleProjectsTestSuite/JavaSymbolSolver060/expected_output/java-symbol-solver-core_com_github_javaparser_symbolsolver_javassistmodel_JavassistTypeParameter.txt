@@ -96,6 +96,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypePar
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) [JavassistTypeParameter.java <46:5 <46:5  <47:20 47:25> 47:35> 64:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [JavassistTypeParameter.java <47:20 47:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) -> java.lang.Override [JavassistTypeParameter.java <46:6 46:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) -> boolean [JavassistTypeParameter.java <47:12 47:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) -> java.lang.Object [JavassistTypeParameter.java <47:27 47:32>]
@@ -132,6 +133,7 @@ LOCAL_SYMBOL: JavassistTypeParameter.java<59:60> [JavassistTypeParameter.java <6
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.toString() [JavassistTypeParameter.java <66:5 <66:5  <67:19 67:26> 67:28> 71:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.toString() -> java.lang.String java.lang.Object.toString() [JavassistTypeParameter.java <67:19 67:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.toString() -> java.lang.Override [JavassistTypeParameter.java <66:6 66:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.toString() -> java.lang.String [JavassistTypeParameter.java <67:12 67:17>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<67:30> [JavassistTypeParameter.java <67:30 67:30>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<67:30> [JavassistTypeParameter.java <71:5 71:5>]
@@ -141,6 +143,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmod
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getName() [JavassistTypeParameter.java <73:5 <73:5  <74:19 74:25> 74:27> 76:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [JavassistTypeParameter.java <74:19 74:25>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getName() -> java.lang.Override [JavassistTypeParameter.java <73:6 73:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getName() -> java.lang.String [JavassistTypeParameter.java <74:12 74:17>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<74:29> [JavassistTypeParameter.java <74:29 74:29>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<74:29> [JavassistTypeParameter.java <76:5 76:5>]
@@ -149,6 +152,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmod
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerQualifiedName() [JavassistTypeParameter.java <78:5 <78:5  <79:19 79:43> 79:45> 86:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getContainerQualifiedName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerQualifiedName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getContainerQualifiedName() [JavassistTypeParameter.java <79:19 79:43>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerQualifiedName() -> java.lang.Override [JavassistTypeParameter.java <78:6 78:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerQualifiedName() -> java.lang.String [JavassistTypeParameter.java <79:12 79:17>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<79:47> [JavassistTypeParameter.java <79:47 79:47>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<79:47> [JavassistTypeParameter.java <86:5 86:5>]
@@ -178,6 +182,7 @@ REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassi
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerId() [JavassistTypeParameter.java <88:5 <88:5  <89:19 89:32> 89:34> 91:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getContainerId()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerId() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getContainerId() [JavassistTypeParameter.java <89:19 89:32>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerId() -> java.lang.Override [JavassistTypeParameter.java <88:6 88:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainerId() -> java.lang.String [JavassistTypeParameter.java <89:12 89:17>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<89:36> [JavassistTypeParameter.java <89:36 89:36>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<89:36> [JavassistTypeParameter.java <91:5 91:5>]
@@ -186,6 +191,7 @@ REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javassistmode
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainer() [JavassistTypeParameter.java <93:5 <93:5  <94:31 94:42> 94:44> 96:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getContainer()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainer() -> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getContainer() [JavassistTypeParameter.java <94:31 94:42>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainer() -> java.lang.Override [JavassistTypeParameter.java <93:6 93:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getContainer() -> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [JavassistTypeParameter.java <94:12 94:29>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<94:46> [JavassistTypeParameter.java <94:46 94:46>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<94:46> [JavassistTypeParameter.java <96:5 96:5>]
@@ -194,6 +200,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParame
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getBounds(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistTypeParameter.java <98:5 <98:5  <99:49 99:57> 99:80> 108:5>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getBounds(com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_OVERRIDE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getBounds(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getBounds(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistTypeParameter.java <99:49 99:57>]
+REFERENCE_ANNOTATION_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getBounds(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Override [JavassistTypeParameter.java <98:6 98:13>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getBounds(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.List<E> [JavassistTypeParameter.java <99:12 99:15>]
 REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.getBounds(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound [JavassistTypeParameter.java <99:42 99:46>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [JavassistTypeParameter.java <99:17 99:40>]
@@ -241,6 +248,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypePar
 SYMBOL_METHOD public java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.containerType() [JavassistTypeParameter.java <110:5 <110:5  <111:47 111:59> 111:61> 116:5>]
 SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.containerType()
 REFERENCE_OVERRIDE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.containerType() -> java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.containerType() [JavassistTypeParameter.java <111:47 111:59>]
+REFERENCE_ANNOTATION_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.containerType() -> java.lang.Override [JavassistTypeParameter.java <110:6 110:13>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.containerType() -> java.util.Optional<T> [JavassistTypeParameter.java <111:12 111:19>]
 REFERENCE_TYPE_ARGUMENT java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.containerType() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistTypeParameter.java <111:21 111:44>]
 LOCAL_SYMBOL: JavassistTypeParameter.java<111:63> [JavassistTypeParameter.java <111:63 111:63>]

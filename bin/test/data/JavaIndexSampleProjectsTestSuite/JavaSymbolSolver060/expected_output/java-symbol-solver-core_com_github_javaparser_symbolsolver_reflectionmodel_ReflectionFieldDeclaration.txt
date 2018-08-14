@@ -107,6 +107,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionField
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getType() [ReflectionFieldDeclaration.java <49:5 <49:5  <50:17 50:23> 50:25> 52:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [ReflectionFieldDeclaration.java <50:17 50:23>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getType() -> java.lang.Override [ReflectionFieldDeclaration.java <49:6 49:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionFieldDeclaration.java <50:12 50:15>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<50:27> [ReflectionFieldDeclaration.java <50:27 50:27>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<50:27> [ReflectionFieldDeclaration.java <52:5 52:5>]
@@ -125,6 +126,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.git
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getName() [ReflectionFieldDeclaration.java <59:5 <59:5  <60:19 60:25> 60:27> 62:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [ReflectionFieldDeclaration.java <60:19 60:25>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getName() -> java.lang.Override [ReflectionFieldDeclaration.java <59:6 59:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getName() -> java.lang.String [ReflectionFieldDeclaration.java <60:12 60:17>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<60:29> [ReflectionFieldDeclaration.java <60:29 60:29>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<60:29> [ReflectionFieldDeclaration.java <62:5 62:5>]
@@ -134,6 +136,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmo
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() [ReflectionFieldDeclaration.java <64:5 <64:5  <65:20 65:27> 65:29> 67:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic() [ReflectionFieldDeclaration.java <65:20 65:27>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() -> java.lang.Override [ReflectionFieldDeclaration.java <64:6 64:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() -> boolean [ReflectionFieldDeclaration.java <65:12 65:18>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<65:31> [ReflectionFieldDeclaration.java <65:31 65:31>]
@@ -147,12 +150,14 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.Refle
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isField() [ReflectionFieldDeclaration.java <69:5 <69:5  <70:20 70:26> 70:28> 72:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() [ReflectionFieldDeclaration.java <70:20 70:26>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isField() -> java.lang.Override [ReflectionFieldDeclaration.java <69:6 69:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isField() -> boolean [ReflectionFieldDeclaration.java <70:12 70:18>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<70:30> [ReflectionFieldDeclaration.java <70:30 70:30>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<70:30> [ReflectionFieldDeclaration.java <72:5 72:5>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() [ReflectionFieldDeclaration.java <74:5 <74:5  <75:28 75:40> 75:42> 77:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType() [ReflectionFieldDeclaration.java <75:28 75:40>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() -> java.lang.Override [ReflectionFieldDeclaration.java <74:6 74:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [ReflectionFieldDeclaration.java <75:12 75:26>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<75:44> [ReflectionFieldDeclaration.java <75:44 75:44>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<75:44> [ReflectionFieldDeclaration.java <77:5 77:5>]
@@ -178,18 +183,21 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionField
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isParameter() [ReflectionFieldDeclaration.java <83:5 <83:5  <84:20 84:30> 84:32> 86:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [ReflectionFieldDeclaration.java <84:20 84:30>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isParameter() -> java.lang.Override [ReflectionFieldDeclaration.java <83:6 83:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isParameter() -> boolean [ReflectionFieldDeclaration.java <84:12 84:18>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<84:34> [ReflectionFieldDeclaration.java <84:34 84:34>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<84:34> [ReflectionFieldDeclaration.java <86:5 86:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isType() [ReflectionFieldDeclaration.java <88:5 <88:5  <89:20 89:25> 89:27> 91:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [ReflectionFieldDeclaration.java <89:20 89:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isType() -> java.lang.Override [ReflectionFieldDeclaration.java <88:6 88:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isType() -> boolean [ReflectionFieldDeclaration.java <89:12 89:18>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<89:29> [ReflectionFieldDeclaration.java <89:29 89:29>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<89:29> [ReflectionFieldDeclaration.java <91:5 91:5>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.accessLevel() [ReflectionFieldDeclaration.java <93:5 <93:5  <94:24 94:34> 94:36> 96:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [ReflectionFieldDeclaration.java <94:24 94:34>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.accessLevel() -> java.lang.Override [ReflectionFieldDeclaration.java <93:6 93:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ReflectionFieldDeclaration.java <94:12 94:22>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<94:38> [ReflectionFieldDeclaration.java <94:38 94:38>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<94:38> [ReflectionFieldDeclaration.java <96:5 96:5>]

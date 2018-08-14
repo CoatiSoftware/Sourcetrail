@@ -128,6 +128,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrizatio
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.equals(java.lang.Object) [TypeParametersMap.java <61:5 <61:5  <62:20 62:25> 62:35> 70:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [TypeParametersMap.java <62:20 62:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.equals(java.lang.Object) -> java.lang.Override [TypeParametersMap.java <61:6 61:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.equals(java.lang.Object) -> boolean [TypeParametersMap.java <62:12 62:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.equals(java.lang.Object) -> java.lang.Object [TypeParametersMap.java <62:27 62:32>]
@@ -155,6 +156,7 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.para
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.hashCode() [TypeParametersMap.java <72:5 <72:5  <73:16 73:23> 73:25> 75:5>]
 SYMBOL_METHOD int java.lang.Object.hashCode()
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.hashCode() -> int java.lang.Object.hashCode() [TypeParametersMap.java <73:16 73:23>]
+REFERENCE_ANNOTATION_USAGE int com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.hashCode() -> java.lang.Override [TypeParametersMap.java <72:6 72:13>]
 SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.hashCode() -> int [TypeParametersMap.java <73:12 73:14>]
 LOCAL_SYMBOL: TypeParametersMap.java<73:27> [TypeParametersMap.java <73:27 73:27>]
@@ -165,6 +167,7 @@ REFERENCE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.parametr
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.toString() [TypeParametersMap.java <77:5 <77:5  <78:19 78:26> 78:28> 82:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.toString() -> java.lang.String java.lang.Object.toString() [TypeParametersMap.java <78:19 78:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.toString() -> java.lang.Override [TypeParametersMap.java <77:6 77:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.toString() -> java.lang.String [TypeParametersMap.java <78:12 78:17>]
 LOCAL_SYMBOL: TypeParametersMap.java<78:30> [TypeParametersMap.java <78:30 78:30>]
 LOCAL_SYMBOL: TypeParametersMap.java<78:30> [TypeParametersMap.java <82:5 82:5>]

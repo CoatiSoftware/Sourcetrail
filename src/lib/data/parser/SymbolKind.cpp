@@ -4,6 +4,8 @@ SymbolKind intToSymbolKind(int v)
 {
 	switch (v)
 	{
+	case SYMBOL_ANNOTATION:
+		return SYMBOL_ANNOTATION;
 	case SYMBOL_BUILTIN_TYPE:
 		return SYMBOL_BUILTIN_TYPE;
 	case SYMBOL_CLASS:

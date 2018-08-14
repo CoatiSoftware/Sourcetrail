@@ -65,6 +65,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.logic.InferenceVariable
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() [InferenceVariableType.java <35:5 <35:5  <36:19 36:26> 36:28> 40:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.String java.lang.Object.toString() [InferenceVariableType.java <36:19 36:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.Override [InferenceVariableType.java <35:6 35:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.String [InferenceVariableType.java <36:12 36:17>]
 LOCAL_SYMBOL: InferenceVariableType.java<36:30> [InferenceVariableType.java <36:30 36:30>]
 LOCAL_SYMBOL: InferenceVariableType.java<36:30> [InferenceVariableType.java <40:5 40:5>]
@@ -109,6 +110,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.reg
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) [InferenceVariableType.java <56:5 <56:5  <57:20 57:25> 57:35> 65:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [InferenceVariableType.java <57:20 57:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> java.lang.Override [InferenceVariableType.java <56:6 56:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> boolean [InferenceVariableType.java <57:12 57:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> java.lang.Object [InferenceVariableType.java <57:27 57:32>]
@@ -128,6 +130,7 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariab
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() [InferenceVariableType.java <67:5 <67:5  <68:16 68:23> 68:25> 70:5>]
 SYMBOL_METHOD int java.lang.Object.hashCode()
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() -> int java.lang.Object.hashCode() [InferenceVariableType.java <68:16 68:23>]
+REFERENCE_ANNOTATION_USAGE int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() -> java.lang.Override [InferenceVariableType.java <67:6 67:13>]
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() -> int [InferenceVariableType.java <68:12 68:14>]
 LOCAL_SYMBOL: InferenceVariableType.java<68:27> [InferenceVariableType.java <68:27 68:27>]
 LOCAL_SYMBOL: InferenceVariableType.java<68:27> [InferenceVariableType.java <70:5 70:5>]
@@ -194,6 +197,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fro
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() [InferenceVariableType.java <91:5 <91:5  <92:19 92:26> 92:28> 94:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [InferenceVariableType.java <92:19 92:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() -> java.lang.Override [InferenceVariableType.java <91:6 91:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() -> java.lang.String [InferenceVariableType.java <92:12 92:17>]
 LOCAL_SYMBOL: InferenceVariableType.java<92:30> [InferenceVariableType.java <92:30 92:30>]
 LOCAL_SYMBOL: InferenceVariableType.java<92:30> [InferenceVariableType.java <94:5 94:5>]
@@ -201,6 +205,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.Infere
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <96:5 <96:5  <97:20 97:33> 97:45> 99:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <97:20 97:33>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Override [InferenceVariableType.java <96:6 96:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [InferenceVariableType.java <97:12 97:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <97:35 97:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy<0> [InferenceVariableType.java <97:40 97:44>]

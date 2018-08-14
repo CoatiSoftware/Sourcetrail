@@ -109,6 +109,8 @@ NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const
 {
 	switch (symbolKind)
 	{
+	case SYMBOL_ANNOTATION:
+		return NodeType::NODE_ANNOTATION;
 	case SYMBOL_BUILTIN_TYPE:
 		return NodeType::NODE_BUILTIN_TYPE;
 	case SYMBOL_CLASS:
@@ -179,6 +181,8 @@ Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind reference
 		return Edge::EDGE_IMPORT;
 	case REFERENCE_MACRO_USAGE:
 		return Edge::EDGE_MACRO_USAGE;
+	case REFERENCE_ANNOTATION_USAGE:
+		return Edge::EDGE_ANNOTATION_USAGE;
 	default:
 		break;
 	}

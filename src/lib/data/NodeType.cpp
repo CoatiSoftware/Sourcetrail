@@ -8,6 +8,7 @@ std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
 	return {
 		NodeType(NodeType::NODE_FILE),
 		NodeType(NodeType::NODE_MACRO),
+		NodeType(NodeType::NODE_ANNOTATION),
 		NodeType(NodeType::NODE_NAMESPACE),
 		NodeType(NodeType::NODE_PACKAGE),
 		NodeType(NodeType::NODE_CLASS),
@@ -45,6 +46,8 @@ NodeType::Type NodeType::intToType(int value)
 		return NodeType::NODE_CLASS;
 	case NodeType::NODE_INTERFACE:
 		return NodeType::NODE_INTERFACE;
+	case NodeType::NODE_ANNOTATION:
+		return NodeType::NODE_ANNOTATION;
 	case NodeType::NODE_GLOBAL_VARIABLE:
 		return NodeType::NODE_GLOBAL_VARIABLE;
 	case NodeType::NODE_FIELD:
@@ -94,6 +97,8 @@ std::string NodeType::getReadableTypeString(NodeType::Type type)
 		return "class";
 	case NodeType::NODE_INTERFACE:
 		return "interface";
+	case NodeType::NODE_ANNOTATION:
+		return "annotation";
 	case NodeType::NODE_GLOBAL_VARIABLE:
 		return "global variable";
 	case NodeType::NODE_FIELD:
@@ -237,6 +242,7 @@ bool NodeType::isUsable() const
 		NodeType::NODE_ENUM |
 		NodeType::NODE_UNION |
 		NodeType::NODE_INTERFACE |
+		NodeType::NODE_ANNOTATION |
 		NodeType::NODE_TYPEDEF;
 	return ((m_type & mask) > 0);
 }
@@ -248,6 +254,7 @@ bool NodeType::isPotentialMember() const
 		NodeType::NODE_FIELD |
 		NodeType::NODE_CLASS |
 		NodeType::NODE_INTERFACE |
+		NodeType::NODE_ANNOTATION |
 		NodeType::NODE_STRUCT |
 		NodeType::NODE_UNION |
 		NodeType::NODE_TYPEDEF |
@@ -265,6 +272,7 @@ bool NodeType::isCollapsible() const
 		NodeType::NODE_STRUCT |
 		NodeType::NODE_CLASS |
 		NodeType::NODE_INTERFACE |
+		NodeType::NODE_ANNOTATION |
 		NodeType::NODE_ENUM |
 		NodeType::NODE_UNION |
 		NodeType::NODE_FILE;
@@ -285,6 +293,7 @@ bool NodeType::hasSearchFilter() const
 		NodeType::NODE_STRUCT |
 		NodeType::NODE_CLASS |
 		NodeType::NODE_INTERFACE |
+		NodeType::NODE_ANNOTATION |
 		NodeType::NODE_GLOBAL_VARIABLE |
 		NodeType::NODE_FIELD |
 		NodeType::NODE_FUNCTION |
@@ -324,6 +333,8 @@ Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 		return Tree<BundleInfo>(BundleInfo(L"Classes"));
 	case NodeType::NODE_INTERFACE:
 		return Tree<BundleInfo>(BundleInfo(L"Interfaces"));
+	case NodeType::NODE_ANNOTATION:
+		return Tree<BundleInfo>(BundleInfo(L"Annotations"));
 	case NodeType::NODE_STRUCT:
 		return Tree<BundleInfo>(BundleInfo(L"Structs"));
 	case NodeType::NODE_FUNCTION:
@@ -355,6 +366,8 @@ FilePath NodeType::getIconPath() const
 
 	switch (m_type)
 	{
+	case NodeType::NODE_ANNOTATION:
+		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/annotation.png");
 	case NodeType::NODE_ENUM:
 		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/enum.png");
 	case NodeType::NODE_TYPEDEF:
@@ -376,6 +389,7 @@ bool NodeType::hasIcon() const
 	}
 
 	const NodeType::TypeMask mask =
+		NODE_ANNOTATION |
 		NodeType::NODE_ENUM |
 		NodeType::NODE_TYPEDEF |
 		NodeType::NODE_FILE |
@@ -397,6 +411,7 @@ NodeType::StyleType NodeType::getNodeStyle() const
 	case NodeType::NODE_CLASS:
 	case NodeType::NODE_UNION:
 	case NodeType::NODE_INTERFACE:
+	case NodeType::NODE_ANNOTATION:
 	case NodeType::NODE_ENUM:
 	case NodeType::NODE_TYPEDEF:
 	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:

@@ -2377,6 +2377,7 @@ void GraphController::createLegendGraph()
 		incompleteFile->addComponent(std::make_shared<TokenComponentFilePath>(FilePath(), false));
 
 		addNode(NodeType::NODE_MACRO, L"Macro", Vec2i(x, y + dy * ++i));
+		addNode(NodeType::NODE_ANNOTATION, L"Annotation", Vec2i(x, y + dy * ++i));
 
 		addNode(NodeType::NODE_NAMESPACE, L"namespace", Vec2i(x, y + dy * ++i));
 		y -= 15;
@@ -2486,6 +2487,13 @@ void GraphController::createLegendGraph()
 			Node* file = addNode(NodeType::NODE_FILE, L"File", Vec2i(x, y + dy * ++i));
 			Node* macro = addNode(NodeType::NODE_MACRO, L"Macro", Vec2i(x + dx, y + dy * i));
 			addEdge(Edge::EDGE_MACRO_USAGE, file, macro);
+		}
+
+		{
+			addText(L"annotation use", 0, Vec2i(x, y + dy * ++i));
+			Node* type = addNode(NodeType::NODE_TYPE, L"Type", Vec2i(x, y + dy * ++i));
+			Node* macro = addNode(NodeType::NODE_ANNOTATION, L"Annotation", Vec2i(x + dx, y + dy * i));
+			addEdge(Edge::EDGE_ANNOTATION_USAGE, type, macro);
 		}
 
 		{

@@ -200,20 +200,30 @@ public class BindingNameResolver extends NameResolver
 			}
 		}
 		
-		ContextList ignoredContexts = m_ignoredContexts.copy();
-		ignoredContexts.add(binding);
-		
-		TypeName returnTypeName = binding.isConstructor() ? null : getQualifiedName(binding.getReturnType(), m_currentFile, m_compilationUnit, ignoredContexts).orElse(TypeName.unsolved());
-		
-		List<TypeName> parameterTypeNames =  new ArrayList<>();
-		for (ITypeBinding parameterType: binding.getParameterTypes())
+		DeclName declName = null;
 		{
-			parameterTypeNames.add(getQualifiedName(parameterType, m_currentFile, m_compilationUnit, ignoredContexts).orElse(TypeName.unsolved()));
+			boolean isStatic = Modifier.isStatic(binding.getModifiers());
+
+			ContextList ignoredContexts = m_ignoredContexts.copy();
+			ignoredContexts.add(binding);
+			
+			TypeName returnTypeName = binding.isConstructor() ? null : getQualifiedName(binding.getReturnType(), m_currentFile, m_compilationUnit, ignoredContexts).orElse(TypeName.unsolved());
+			
+			if (binding.isAnnotationMember())
+			{
+				declName = new VariableDeclName(name, returnTypeName, isStatic);
+			}
+			else
+			{
+				List<TypeName> parameterTypeNames =  new ArrayList<>();
+				for (ITypeBinding parameterType: binding.getParameterTypes())
+				{
+					parameterTypeNames.add(getQualifiedName(parameterType, m_currentFile, m_compilationUnit, ignoredContexts).orElse(TypeName.unsolved()));
+				}
+				
+				declName = new FunctionDeclName(name, typeParameterNames, returnTypeName, parameterTypeNames, isStatic);
+			}
 		}
-		
-		boolean isStatic = Modifier.isStatic(binding.getModifiers());
-		
-		FunctionDeclName declName = new FunctionDeclName(name, typeParameterNames, returnTypeName, parameterTypeNames, isStatic);
 		
 		DeclName parentDeclName = getQualifiedContextName(binding);
 		if (parentDeclName != null)

@@ -151,7 +151,7 @@ public class DeclNameResolver extends NameResolver
 		{
 			if (decl instanceof AnnotationTypeDeclaration)
 			{
-				declName = new DeclName("AnnotationTypeDeclaration");
+				declName = new DeclName(((AnnotationTypeDeclaration) decl).getName().getIdentifier());
 			}
 			else if (decl instanceof EnumDeclaration)
 			{
@@ -174,7 +174,7 @@ public class DeclNameResolver extends NameResolver
 			}
 			else if (decl instanceof AnnotationTypeMemberDeclaration)
 			{
-				declName = new DeclName("AnnotationTypeMemberDeclaration");
+				declName = new DeclName(((AnnotationTypeMemberDeclaration) decl).getName().getIdentifier());
 			}
 			else if (decl instanceof EnumConstantDeclaration)
 			{

@@ -33,6 +33,7 @@ SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarati
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isClass()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration.isClass() -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isClass() [ClassDeclaration.java <34:21 34:27>]
 COMMENT: comment [ClassDeclaration.java <30:5 32:7>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration.isClass() -> java.lang.Override [ClassDeclaration.java <33:6 33:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration.isClass() -> boolean [ClassDeclaration.java <34:13 34:19>]
 LOCAL_SYMBOL: ClassDeclaration.java<34:31> [ClassDeclaration.java <34:31 34:31>]

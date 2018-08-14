@@ -81,6 +81,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getName() [JavaParserParameterDeclaration.java <39:5 <39:5  <40:19 40:25> 40:27> 42:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [JavaParserParameterDeclaration.java <40:19 40:25>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getName() -> java.lang.Override [JavaParserParameterDeclaration.java <39:6 39:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getName() -> java.lang.String [JavaParserParameterDeclaration.java <40:12 40:17>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<40:29> [JavaParserParameterDeclaration.java <40:29 40:29>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<40:29> [JavaParserParameterDeclaration.java <42:5 42:5>]
@@ -92,6 +93,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermo
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isField() [JavaParserParameterDeclaration.java <44:5 <44:5  <45:20 45:26> 45:28> 47:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField() [JavaParserParameterDeclaration.java <45:20 45:26>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isField() -> java.lang.Override [JavaParserParameterDeclaration.java <44:6 44:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isField() -> boolean [JavaParserParameterDeclaration.java <45:12 45:18>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<45:30> [JavaParserParameterDeclaration.java <45:30 45:30>]
@@ -99,12 +101,14 @@ LOCAL_SYMBOL: JavaParserParameterDeclaration.java<45:30> [JavaParserParameterDec
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isParameter() [JavaParserParameterDeclaration.java <49:5 <49:5  <50:20 50:30> 50:32> 52:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter() [JavaParserParameterDeclaration.java <50:20 50:30>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isParameter() -> java.lang.Override [JavaParserParameterDeclaration.java <49:6 49:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isParameter() -> boolean [JavaParserParameterDeclaration.java <50:12 50:18>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<50:34> [JavaParserParameterDeclaration.java <50:34 50:34>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<50:34> [JavaParserParameterDeclaration.java <52:5 52:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isVariadic() [JavaParserParameterDeclaration.java <54:5 <54:5  <55:20 55:29> 55:31> 57:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isVariadic() -> boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic() [JavaParserParameterDeclaration.java <55:20 55:29>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isVariadic() -> java.lang.Override [JavaParserParameterDeclaration.java <54:6 54:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isVariadic() -> boolean [JavaParserParameterDeclaration.java <55:12 55:18>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<55:33> [JavaParserParameterDeclaration.java <55:33 55:33>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<55:33> [JavaParserParameterDeclaration.java <57:5 57:5>]
@@ -114,6 +118,7 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.decla
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isType() [JavaParserParameterDeclaration.java <59:5 <59:5  <60:20 60:25> 60:27> 62:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [JavaParserParameterDeclaration.java <60:20 60:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isType() -> java.lang.Override [JavaParserParameterDeclaration.java <59:6 59:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.isType() -> boolean [JavaParserParameterDeclaration.java <60:12 60:18>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<60:29> [JavaParserParameterDeclaration.java <60:29 60:29>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<60:29> [JavaParserParameterDeclaration.java <62:5 62:5>]
@@ -123,6 +128,7 @@ REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getType() [JavaParserParameterDeclaration.java <64:5 <64:5  <65:17 65:23> 65:25> 71:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [JavaParserParameterDeclaration.java <65:17 65:23>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getType() -> java.lang.Override [JavaParserParameterDeclaration.java <64:6 64:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavaParserParameterDeclaration.java <65:12 65:15>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<65:27> [JavaParserParameterDeclaration.java <65:27 65:27>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<65:27> [JavaParserParameterDeclaration.java <71:5 71:5>]
@@ -151,6 +157,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.asParameter() [JavaParserParameterDeclaration.java <73:5 <73:5  <74:33 74:43> 74:45> 76:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.asParameter()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.asParameter() -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.asParameter() [JavaParserParameterDeclaration.java <74:33 74:43>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.asParameter() -> java.lang.Override [JavaParserParameterDeclaration.java <73:6 73:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration.asParameter() -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [JavaParserParameterDeclaration.java <74:12 74:31>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<74:47> [JavaParserParameterDeclaration.java <74:47 74:47>]
 LOCAL_SYMBOL: JavaParserParameterDeclaration.java<74:47> [JavaParserParameterDeclaration.java <76:5 76:5>]

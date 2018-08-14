@@ -18,6 +18,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.Para
 SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter() [ParameterDeclaration.java <26:5 <26:5  <27:21 27:31> 27:33> 29:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [ParameterDeclaration.java <27:21 27:31>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter() -> java.lang.Override [ParameterDeclaration.java <26:6 26:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter() -> boolean [ParameterDeclaration.java <27:13 27:19>]
 LOCAL_SYMBOL: ParameterDeclaration.java<27:35> [ParameterDeclaration.java <27:35 27:35>]
@@ -25,6 +26,7 @@ LOCAL_SYMBOL: ParameterDeclaration.java<27:35> [ParameterDeclaration.java <29:5 
 SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.asParameter() [ParameterDeclaration.java <31:5 <31:5  <32:34 32:44> 32:46> 34:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.Declaration.asParameter()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.asParameter() -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.Declaration.asParameter() [ParameterDeclaration.java <32:34 32:44>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.asParameter() -> java.lang.Override [ParameterDeclaration.java <31:6 31:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.asParameter() -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [ParameterDeclaration.java <32:13 32:32>]
 LOCAL_SYMBOL: ParameterDeclaration.java<32:48> [ParameterDeclaration.java <32:48 32:48>]
 LOCAL_SYMBOL: ParameterDeclaration.java<32:48> [ParameterDeclaration.java <34:5 34:5>]

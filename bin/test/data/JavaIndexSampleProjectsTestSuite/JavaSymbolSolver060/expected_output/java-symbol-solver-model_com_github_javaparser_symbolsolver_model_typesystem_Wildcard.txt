@@ -91,6 +91,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.exten
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.toString() [Wildcard.java <58:5 <58:5  <59:19 59:26> 59:28> 64:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.toString() -> java.lang.String java.lang.Object.toString() [Wildcard.java <59:19 59:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.toString() -> java.lang.Override [Wildcard.java <58:6 58:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.toString() -> java.lang.String [Wildcard.java <59:12 59:17>]
 LOCAL_SYMBOL: Wildcard.java<59:30> [Wildcard.java <59:30 59:30>]
 LOCAL_SYMBOL: Wildcard.java<59:30> [Wildcard.java <64:5 64:5>]
@@ -112,6 +113,7 @@ LOCAL_SYMBOL: Wildcard.java<70:34> [Wildcard.java <72:5 72:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) [Wildcard.java <74:5 <74:5  <75:20 75:25> 75:35> 85:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [Wildcard.java <75:20 75:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> java.lang.Override [Wildcard.java <74:6 74:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> boolean [Wildcard.java <75:12 75:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> java.lang.Object [Wildcard.java <75:27 75:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals<0> [Wildcard.java <75:34 75:34>]
@@ -137,6 +139,7 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wild
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() [Wildcard.java <87:5 <87:5  <88:16 88:23> 88:25> 92:5>]
 SYMBOL_METHOD int java.lang.Object.hashCode()
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> int java.lang.Object.hashCode() [Wildcard.java <88:16 88:23>]
+REFERENCE_ANNOTATION_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> java.lang.Override [Wildcard.java <87:6 87:13>]
 SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> int [Wildcard.java <88:12 88:14>]
 LOCAL_SYMBOL: Wildcard.java<88:27> [Wildcard.java <88:27 88:27>]
@@ -156,6 +159,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashC
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() [Wildcard.java <94:5 <94:5  <95:19 95:26> 95:28> 105:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [Wildcard.java <95:19 95:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.Override [Wildcard.java <94:6 94:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.String [Wildcard.java <95:12 95:17>]
 LOCAL_SYMBOL: Wildcard.java<95:30> [Wildcard.java <95:30 95:30>]
 LOCAL_SYMBOL: Wildcard.java<95:30> [Wildcard.java <105:5 105:5>]
@@ -217,6 +221,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.git
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <126:5 <126:5  <127:20 127:33> 127:45> 138:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <127:20 127:33>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Override [Wildcard.java <126:6 126:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [Wildcard.java <127:12 127:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [Wildcard.java <127:35 127:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy<0> [Wildcard.java <127:40 127:44>]
@@ -246,6 +251,7 @@ REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [Wildcard.java <140:5 <140:5  <141:17 141:36> 141:140> 157:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [Wildcard.java <141:17 141:36>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.Override [Wildcard.java <140:6 140:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [Wildcard.java <141:12 141:15>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [Wildcard.java <141:38 141:61>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<0> [Wildcard.java <141:63 141:73>]

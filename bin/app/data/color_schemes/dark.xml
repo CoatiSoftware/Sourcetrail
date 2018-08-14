@@ -360,6 +360,9 @@
 			<macro>
 				<like>file</like>
 			</macro>
+			<annotation>
+				<like>file</like>
+			</annotation>
 
 			<access>
 				<fill>
@@ -485,9 +488,15 @@
 			<include>
 				<normal>#247368</normal>
 			</include>
+			<import>
+				<normal>#247368</normal>
+			</import>
 			<macro_use>
 				<normal>#247368</normal>
 			</macro_use>
+			<annotation_use>
+				<normal>#247368</normal>
+			</annotation_use>
 
 			<aggregation>
 				<normal>#4D4D4D</normal>

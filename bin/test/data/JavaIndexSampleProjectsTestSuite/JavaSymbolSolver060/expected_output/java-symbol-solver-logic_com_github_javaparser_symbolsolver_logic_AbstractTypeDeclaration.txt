@@ -64,6 +64,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.logic.AbstractTypeDecla
 SYMBOL_METHOD public java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() [AbstractTypeDeclaration.java <36:5 <36:5  <37:35 37:47> 37:49> 58:5>]
 SYMBOL_METHOD java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllMethods()
 REFERENCE_OVERRIDE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllMethods() [AbstractTypeDeclaration.java <37:35 37:47>]
+REFERENCE_ANNOTATION_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.lang.Override [AbstractTypeDeclaration.java <36:6 36:13>]
 REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.util.Set<E> [AbstractTypeDeclaration.java <37:18 37:20>]
 REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [AbstractTypeDeclaration.java <37:22 37:32>]
 LOCAL_SYMBOL: AbstractTypeDeclaration.java<37:51> [AbstractTypeDeclaration.java <37:51 37:51>]
@@ -132,6 +133,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.g
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.isFunctionalInterface() [AbstractTypeDeclaration.java <60:5 <60:5  <61:26 61:46> 61:48> 63:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isFunctionalInterface()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.isFunctionalInterface() -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isFunctionalInterface() [AbstractTypeDeclaration.java <61:26 61:46>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.isFunctionalInterface() -> java.lang.Override [AbstractTypeDeclaration.java <60:6 60:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.isFunctionalInterface() -> boolean [AbstractTypeDeclaration.java <61:18 61:24>]
 LOCAL_SYMBOL: AbstractTypeDeclaration.java<61:50> [AbstractTypeDeclaration.java <61:50 61:50>]

@@ -190,6 +190,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getType() [JavaParserFieldDeclaration.java <65:5 <65:5  <66:17 66:23> 66:25> 74:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [JavaParserFieldDeclaration.java <66:17 66:23>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getType() -> java.lang.Override [JavaParserFieldDeclaration.java <65:6 65:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavaParserFieldDeclaration.java <66:12 66:15>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<66:27> [JavaParserFieldDeclaration.java <66:27 66:27>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<66:27> [JavaParserFieldDeclaration.java <74:5 74:5>]
@@ -238,6 +239,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getName() [JavaParserFieldDeclaration.java <76:5 <76:5  <77:19 77:25> 77:27> 83:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [JavaParserFieldDeclaration.java <77:19 77:25>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getName() -> java.lang.Override [JavaParserFieldDeclaration.java <76:6 76:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.getName() -> java.lang.String [JavaParserFieldDeclaration.java <77:12 77:17>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<77:29> [JavaParserFieldDeclaration.java <77:29 77:29>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<77:29> [JavaParserFieldDeclaration.java <83:5 83:5>]
@@ -258,6 +260,7 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermo
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isStatic() [JavaParserFieldDeclaration.java <85:5 <85:5  <86:20 86:27> 86:29> 88:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isStatic() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic() [JavaParserFieldDeclaration.java <86:20 86:27>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isStatic() -> java.lang.Override [JavaParserFieldDeclaration.java <85:6 85:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isStatic() -> boolean [JavaParserFieldDeclaration.java <86:12 86:18>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<86:31> [JavaParserFieldDeclaration.java <86:31 86:31>]
@@ -273,6 +276,7 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.decla
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isField() [JavaParserFieldDeclaration.java <90:5 <90:5  <91:20 91:26> 91:28> 93:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() [JavaParserFieldDeclaration.java <91:20 91:26>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isField() -> java.lang.Override [JavaParserFieldDeclaration.java <90:6 90:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.isField() -> boolean [JavaParserFieldDeclaration.java <91:12 91:18>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<91:30> [JavaParserFieldDeclaration.java <91:30 91:30>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<91:30> [JavaParserFieldDeclaration.java <93:5 93:5>]
@@ -290,6 +294,7 @@ REFERENCE_USAGE com.github.javaparser.ast.body.FieldDeclaration com.github.javap
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.toString() [JavaParserFieldDeclaration.java <104:5 <104:5  <105:19 105:26> 105:28> 107:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.toString() -> java.lang.String java.lang.Object.toString() [JavaParserFieldDeclaration.java <105:19 105:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.toString() -> java.lang.Override [JavaParserFieldDeclaration.java <104:6 104:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.toString() -> java.lang.String [JavaParserFieldDeclaration.java <105:12 105:17>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<105:30> [JavaParserFieldDeclaration.java <105:30 105:30>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<105:30> [JavaParserFieldDeclaration.java <107:5 107:5>]
@@ -298,6 +303,7 @@ REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermod
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.accessLevel() [JavaParserFieldDeclaration.java <109:5 <109:5  <110:24 110:34> 110:36> 112:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [JavaParserFieldDeclaration.java <110:24 110:34>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.accessLevel() -> java.lang.Override [JavaParserFieldDeclaration.java <109:6 109:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavaParserFieldDeclaration.java <110:12 110:22>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<110:38> [JavaParserFieldDeclaration.java <110:38 110:38>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<110:38> [JavaParserFieldDeclaration.java <112:5 112:5>]
@@ -309,6 +315,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLeve
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.declaringType() [JavaParserFieldDeclaration.java <114:5 <114:5  <115:28 115:40> 115:42> 122:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType() [JavaParserFieldDeclaration.java <115:28 115:40>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.declaringType() -> java.lang.Override [JavaParserFieldDeclaration.java <114:6 114:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavaParserFieldDeclaration.java <115:12 115:26>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<115:44> [JavaParserFieldDeclaration.java <115:44 115:44>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<115:44> [JavaParserFieldDeclaration.java <122:5 122:5>]

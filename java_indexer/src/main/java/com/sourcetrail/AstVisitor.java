@@ -8,6 +8,9 @@ import java.util.Stack;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
+import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
 import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Block;
@@ -21,6 +24,7 @@ import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.ExpressionMethodReference;
 import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
@@ -29,16 +33,20 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.LineComment;
+import org.eclipse.jdt.core.dom.MarkerAnnotation;
+import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NameQualifiedType;
+import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
 import org.eclipse.jdt.core.dom.SuperFieldAccess;
 import org.eclipse.jdt.core.dom.SuperMethodInvocation;
@@ -116,7 +124,60 @@ public abstract class AstVisitor extends ASTVisitor
 		
 		return true;
 	}
+	
+	
+	@Override 
+	public boolean visit(AnnotationTypeDeclaration node)
+	{
+		DeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+		Range scopeRange = getRange(node);
+		
+		m_client.recordSymbolWithLocationAndScope(
+				symbolName.toNameHierarchy(), 
+				SymbolKind.ANNOTATION,
+				getRange(node.getName()), 
+				scopeRange, 
+				AccessKind.fromModifiers(node.getModifiers()),
+				DefinitionKind.EXPLICIT);
+		
+		scopeRange.begin = m_fileContent.findStartPosition("{", scopeRange.begin);
+		recordScope(scopeRange);
 
+		m_contextStack.push(Arrays.asList(symbolName));
+		
+		return true;
+	}
+	
+	@Override 
+	public void endVisit(AnnotationTypeDeclaration node)
+	{
+		m_contextStack.pop();
+	}
+	
+	
+	@Override 
+	public boolean visit(AnnotationTypeMemberDeclaration node)
+	{
+		DeclName symbolName = BindingNameResolver.getQualifiedName(node.resolveBinding(), m_filePath, m_compilationUnit).orElse(DeclName.unsolved());
+		
+		m_client.recordSymbolWithLocation(
+				symbolName.toNameHierarchy(), 
+				SymbolKind.FIELD, 
+				getRange(node.getName()),
+				AccessKind.fromModifiers(node.getModifiers()), 
+				DefinitionKind.EXPLICIT);
+
+		m_contextStack.push(Arrays.asList(symbolName));
+		
+		return true;
+	}
+	
+	@Override 
+	public void endVisit(AnnotationTypeMemberDeclaration node)
+	{
+		m_contextStack.pop();
+	}
+	
 
 	@Override 
 	public boolean visit(TypeDeclaration node)
@@ -153,7 +214,8 @@ public abstract class AstVisitor extends ASTVisitor
 		DeclName symbolName = BindingNameResolver.getQualifiedName(node.resolveBinding(), m_filePath, m_compilationUnit).map(tn -> tn.toDeclName()).orElse(DeclName.unsolved());
 		
 		m_client.recordSymbolWithLocation(
-				symbolName.toNameHierarchy(), SymbolKind.TYPE_PARAMETER, 
+				symbolName.toNameHierarchy(), 
+				SymbolKind.TYPE_PARAMETER, 
 				getRange(node.getName()),
 				AccessKind.TYPE_PARAMETER, 
 				DefinitionKind.EXPLICIT);
@@ -316,7 +378,8 @@ public abstract class AstVisitor extends ASTVisitor
 				DeclName symbolName = DeclNameResolver.getQualifiedDeclName(fragment, m_filePath, m_compilationUnit);
 				
 				m_client.recordSymbolWithLocation(
-						symbolName.toNameHierarchy(), SymbolKind.FIELD, 
+						symbolName.toNameHierarchy(), 
+						SymbolKind.FIELD, 
 						getRange(fragment.getName()),
 						AccessKind.fromModifiers(node.getModifiers()), 
 						DefinitionKind.EXPLICIT);
@@ -389,6 +452,70 @@ public abstract class AstVisitor extends ASTVisitor
 		
 		return true;
 	}
+
+	@Override 
+	public boolean visit(SingleMemberAnnotation node)
+	{
+		return recordAnnotation(node);
+	}
+
+	@Override 
+	public boolean visit(NormalAnnotation node)
+	{
+		for (Object value: node.values())
+		{
+			if (value instanceof MemberValuePair)
+			{
+				SimpleName name = ((MemberValuePair)value).getName();
+				IBinding binding = name.resolveBinding();
+				if (binding instanceof IMethodBinding)
+				{
+					DeclName symbolName = BindingNameResolver.getQualifiedName((IMethodBinding) binding, m_filePath, m_compilationUnit).orElse(DeclName.unsolved());
+
+					for (SymbolName context: m_contextStack.peek())
+					{
+						m_client.recordReference(ReferenceKind.USAGE, symbolName.toNameHierarchy(), context.toNameHierarchy(), getRange(name));
+					}
+				}
+			}
+		}
+		
+		return recordAnnotation(node);
+	}
+
+	@Override 
+	public boolean visit(MarkerAnnotation node)
+	{
+		return recordAnnotation(node);
+	}
+	
+	private boolean recordAnnotation(Annotation node)
+	{
+		for (SymbolName context: m_contextStack.peek())
+		{
+			IAnnotationBinding annotationBinding = node.resolveAnnotationBinding();
+			ITypeBinding typeBinding = null;
+			if (annotationBinding != null)
+			{
+				typeBinding = annotationBinding.getAnnotationType();
+			}
+			
+			Range range = getRange(node.getTypeName());
+			if (node.getTypeName() instanceof QualifiedName)
+			{
+				range = getRange(((QualifiedName) node.getTypeName()).getName());
+			}
+			
+			m_client.recordReference(
+					ReferenceKind.ANNOTATION_USAGE, 
+					BindingNameResolver.getQualifiedName(typeBinding, m_filePath, m_compilationUnit).orElse(TypeName.unsolved()).toDeclName().toNameHierarchy(),
+					context.toNameHierarchy(), 
+					range);
+		}
+		
+		return true;
+	}
+	
 	
 	@Override 
 	public boolean visit(SimpleType node)

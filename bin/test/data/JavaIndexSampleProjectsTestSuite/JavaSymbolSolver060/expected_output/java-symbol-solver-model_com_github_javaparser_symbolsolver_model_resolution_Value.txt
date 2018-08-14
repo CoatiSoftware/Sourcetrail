@@ -71,6 +71,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.Value.from<0> 
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.toString() [Value.java <44:5 <44:5  <45:19 45:26> 45:28> 50:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.toString() -> java.lang.String java.lang.Object.toString() [Value.java <45:19 45:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.toString() -> java.lang.Override [Value.java <44:6 44:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.toString() -> java.lang.String [Value.java <45:12 45:17>]
 LOCAL_SYMBOL: Value.java<45:30> [Value.java <45:30 45:30>]
 LOCAL_SYMBOL: Value.java<45:30> [Value.java <50:5 50:5>]

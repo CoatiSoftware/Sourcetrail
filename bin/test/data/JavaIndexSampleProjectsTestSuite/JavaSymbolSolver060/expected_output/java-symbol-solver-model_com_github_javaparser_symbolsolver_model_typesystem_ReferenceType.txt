@@ -200,6 +200,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.equals(java.lang.Object) [ReferenceType.java <80:5 <80:5  <81:20 81:25> 81:35> 91:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [ReferenceType.java <81:20 81:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.equals(java.lang.Object) -> java.lang.Override [ReferenceType.java <80:6 80:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.equals(java.lang.Object) -> boolean [ReferenceType.java <81:12 81:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.equals(java.lang.Object) -> java.lang.Object [ReferenceType.java <81:27 81:32>]
@@ -228,6 +229,7 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Refe
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.hashCode() [ReferenceType.java <93:5 <93:5  <94:16 94:23> 94:25> 98:5>]
 SYMBOL_METHOD int java.lang.Object.hashCode()
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.hashCode() -> int java.lang.Object.hashCode() [ReferenceType.java <94:16 94:23>]
+REFERENCE_ANNOTATION_USAGE int com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.hashCode() -> java.lang.Override [ReferenceType.java <93:6 93:13>]
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.hashCode() -> int [ReferenceType.java <94:12 94:14>]
 LOCAL_SYMBOL: ReferenceType.java<94:27> [ReferenceType.java <94:27 94:27>]
 LOCAL_SYMBOL: ReferenceType.java<94:27> [ReferenceType.java <98:5 98:5>]
@@ -244,6 +246,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.toString() [ReferenceType.java <100:5 <100:5  <101:19 101:26> 101:28> 105:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.toString() -> java.lang.String java.lang.Object.toString() [ReferenceType.java <101:19 101:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.toString() -> java.lang.Override [ReferenceType.java <100:6 100:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.toString() -> java.lang.String [ReferenceType.java <101:12 101:17>]
 LOCAL_SYMBOL: ReferenceType.java<101:30> [ReferenceType.java <101:30 101:30>]
 LOCAL_SYMBOL: ReferenceType.java<101:30> [ReferenceType.java <105:5 105:5>]
@@ -253,18 +256,21 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesy
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isReferenceType() [ReferenceType.java <111:5 <111:5  <112:26 112:40> 112:42> 114:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [ReferenceType.java <112:26 112:40>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isReferenceType() -> java.lang.Override [ReferenceType.java <111:6 111:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isReferenceType() -> boolean [ReferenceType.java <112:18 112:24>]
 LOCAL_SYMBOL: ReferenceType.java<112:44> [ReferenceType.java <112:44 112:44>]
 LOCAL_SYMBOL: ReferenceType.java<112:44> [ReferenceType.java <114:5 114:5>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.asReferenceType() [ReferenceType.java <120:5 <120:5  <121:26 121:40> 121:42> 123:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.asReferenceType() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [ReferenceType.java <121:26 121:40>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.asReferenceType() -> java.lang.Override [ReferenceType.java <120:6 120:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.asReferenceType() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceType.java <121:12 121:24>]
 LOCAL_SYMBOL: ReferenceType.java<121:44> [ReferenceType.java <121:44 121:44>]
 LOCAL_SYMBOL: ReferenceType.java<121:44> [ReferenceType.java <123:5 123:5>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.describe() [ReferenceType.java <129:5 <129:5  <130:19 130:26> 130:28> 145:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [ReferenceType.java <130:19 130:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.describe() -> java.lang.Override [ReferenceType.java <129:6 129:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.describe() -> java.lang.String [ReferenceType.java <130:12 130:17>]
 LOCAL_SYMBOL: ReferenceType.java<130:30> [ReferenceType.java <130:30 130:30>]
 LOCAL_SYMBOL: ReferenceType.java<130:30> [ReferenceType.java <145:5 145:5>]
@@ -372,6 +378,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [ReferenceType.java <170:5 <170:5  <171:17 171:36> 171:140> 201:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [ReferenceType.java <171:17 171:36>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.Override [ReferenceType.java <170:6 170:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReferenceType.java <171:12 171:15>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReferenceType.java <171:38 171:61>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.replaceTypeVariables<0> [ReferenceType.java <171:63 171:73>]
@@ -479,6 +486,7 @@ SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReferenceType.java <211:29 211:42>]
 COMMENT: comment [ReferenceType.java <207:5 209:7>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Override [ReferenceType.java <210:6 210:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [ReferenceType.java <211:21 211:27>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReferenceType.java <211:44 211:47>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isAssignableBy<0> [ReferenceType.java <211:49 211:53>]
@@ -668,6 +676,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeParametersMap() [ReferenceType.java <298:5 <298:5  <299:30 299:46> 299:48> 301:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeParametersMap() -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() [ReferenceType.java <299:30 299:46>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeParametersMap() -> java.lang.Override [ReferenceType.java <298:6 298:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeParametersMap() -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [ReferenceType.java <299:12 299:28>]
 LOCAL_SYMBOL: ReferenceType.java<299:50> [ReferenceType.java <299:50 299:50>]
 LOCAL_SYMBOL: ReferenceType.java<299:50> [ReferenceType.java <301:5 301:5>]

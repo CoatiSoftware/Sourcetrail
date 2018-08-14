@@ -84,6 +84,7 @@ REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.resoluti
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.toString() [SymbolReference.java <51:5 <51:5  <52:19 52:26> 52:28> 54:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.toString() -> java.lang.String java.lang.Object.toString() [SymbolReference.java <52:19 52:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.toString() -> java.lang.Override [SymbolReference.java <51:6 51:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.toString() -> java.lang.String [SymbolReference.java <52:12 52:17>]
 LOCAL_SYMBOL: SymbolReference.java<52:30> [SymbolReference.java <52:30 52:30>]
 LOCAL_SYMBOL: SymbolReference.java<52:30> [SymbolReference.java <54:5 54:5>]

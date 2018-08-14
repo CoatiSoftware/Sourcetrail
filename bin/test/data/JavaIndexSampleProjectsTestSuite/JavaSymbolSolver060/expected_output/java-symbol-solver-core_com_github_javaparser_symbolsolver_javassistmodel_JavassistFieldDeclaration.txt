@@ -83,6 +83,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDe
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() [JavassistFieldDeclaration.java <41:5 <41:5  <42:17 42:23> 42:25> 48:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [JavassistFieldDeclaration.java <42:17 42:23>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> java.lang.Override [JavassistFieldDeclaration.java <41:6 41:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistFieldDeclaration.java <42:12 42:15>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<42:27> [JavassistFieldDeclaration.java <42:27 42:27>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<42:27> [JavassistFieldDeclaration.java <48:5 48:5>]
@@ -106,6 +107,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDe
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isStatic() [JavassistFieldDeclaration.java <50:5 <50:5  <51:20 51:27> 51:29> 53:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isStatic() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic() [JavassistFieldDeclaration.java <51:20 51:27>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isStatic() -> java.lang.Override [JavassistFieldDeclaration.java <50:6 50:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isStatic() -> boolean [JavassistFieldDeclaration.java <51:12 51:18>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<51:31> [JavassistFieldDeclaration.java <51:31 51:31>]
@@ -119,6 +121,7 @@ REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.Javass
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getName() [JavassistFieldDeclaration.java <55:5 <55:5  <56:19 56:25> 56:27> 58:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [JavassistFieldDeclaration.java <56:19 56:25>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getName() -> java.lang.Override [JavassistFieldDeclaration.java <55:6 55:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getName() -> java.lang.String [JavassistFieldDeclaration.java <56:12 56:17>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<56:29> [JavassistFieldDeclaration.java <56:29 56:29>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<56:29> [JavassistFieldDeclaration.java <58:5 58:5>]
@@ -128,24 +131,28 @@ REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmod
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isField() [JavassistFieldDeclaration.java <60:5 <60:5  <61:20 61:26> 61:28> 63:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() [JavassistFieldDeclaration.java <61:20 61:26>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isField() -> java.lang.Override [JavassistFieldDeclaration.java <60:6 60:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isField() -> boolean [JavassistFieldDeclaration.java <61:12 61:18>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<61:30> [JavassistFieldDeclaration.java <61:30 61:30>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<61:30> [JavassistFieldDeclaration.java <63:5 63:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isParameter() [JavassistFieldDeclaration.java <65:5 <65:5  <66:20 66:30> 66:32> 68:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [JavassistFieldDeclaration.java <66:20 66:30>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isParameter() -> java.lang.Override [JavassistFieldDeclaration.java <65:6 65:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isParameter() -> boolean [JavassistFieldDeclaration.java <66:12 66:18>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<66:34> [JavassistFieldDeclaration.java <66:34 66:34>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<66:34> [JavassistFieldDeclaration.java <68:5 68:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isType() [JavassistFieldDeclaration.java <70:5 <70:5  <71:20 71:25> 71:27> 73:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [JavassistFieldDeclaration.java <71:20 71:25>]
+REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isType() -> java.lang.Override [JavassistFieldDeclaration.java <70:6 70:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isType() -> boolean [JavassistFieldDeclaration.java <71:12 71:18>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<71:29> [JavassistFieldDeclaration.java <71:29 71:29>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<71:29> [JavassistFieldDeclaration.java <73:5 73:5>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.accessLevel() [JavassistFieldDeclaration.java <75:5 <75:5  <76:24 76:34> 76:36> 78:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [JavassistFieldDeclaration.java <76:24 76:34>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.accessLevel() -> java.lang.Override [JavassistFieldDeclaration.java <75:6 75:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistFieldDeclaration.java <76:12 76:22>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<76:38> [JavassistFieldDeclaration.java <76:38 76:38>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<76:38> [JavassistFieldDeclaration.java <78:5 78:5>]
@@ -157,6 +164,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLeve
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() [JavassistFieldDeclaration.java <80:5 <80:5  <81:28 81:40> 81:42> 83:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType() [JavassistFieldDeclaration.java <81:28 81:40>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() -> java.lang.Override [JavassistFieldDeclaration.java <80:6 80:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavassistFieldDeclaration.java <81:12 81:26>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<81:44> [JavassistFieldDeclaration.java <81:44 81:44>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<81:44> [JavassistFieldDeclaration.java <83:5 83:5>]

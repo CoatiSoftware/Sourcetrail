@@ -30,7 +30,7 @@ namespace
 	}
 }
 
-const size_t SqliteIndexStorage::s_storageVersion = 18;
+const size_t SqliteIndexStorage::s_storageVersion = 19;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
 	: SqliteStorage(dbFilePath.getCanonical())

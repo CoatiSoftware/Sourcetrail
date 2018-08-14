@@ -104,6 +104,9 @@ public:
 		case REFERENCE_MACRO_USAGE:
 			referenceContainer = &macroUses;
 			break;
+		case REFERENCE_ANNOTATION_USAGE:
+			referenceContainer = &annotationUses;
+			break;
 		default:
 			break;
 		}
@@ -145,6 +148,7 @@ public:
 	std::vector<std::wstring> classes;
 	std::vector<std::wstring> unions;
 	std::vector<std::wstring> interfaces;
+	std::vector<std::wstring> annotations;
 	std::vector<std::wstring> enums;
 	std::vector<std::wstring> enumConstants;
 	std::vector<std::wstring> functions;
@@ -166,6 +170,7 @@ public:
 	std::vector<std::wstring> usages;	// for variables
 	std::vector<std::wstring> typeUses;	// for types
 	std::vector<std::wstring> macroUses;
+	std::vector<std::wstring> annotationUses;
 	std::vector<std::wstring> templateArgumentTypes;
 	std::vector<std::wstring> typeArguments;
 	std::vector<std::wstring> templateDefaultArgumentTypes;
@@ -204,6 +209,8 @@ private:
 			return &unions;
 		case SYMBOL_INTERFACE:
 			return &interfaces;
+		case SYMBOL_ANNOTATION:
+			return &annotations;
 		case SYMBOL_ENUM:
 			return &enums;
 		case SYMBOL_ENUM_CONSTANT:

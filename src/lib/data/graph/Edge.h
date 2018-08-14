@@ -15,22 +15,23 @@ public:
 	typedef int TypeMask;
 	enum EdgeType : TypeMask
 	{
-		EDGE_UNDEFINED							= 0x0,
-		EDGE_MEMBER								= 0x1,
-		EDGE_TYPE_USAGE							= 0x2,
-		EDGE_USAGE								= 0x4,
-		EDGE_CALL								= 0x8,
-		EDGE_INHERITANCE						= 0x10,
-		EDGE_OVERRIDE							= 0x20,
-		EDGE_TEMPLATE_ARGUMENT					= 0x40,
-		EDGE_TYPE_ARGUMENT						= 0x80,
-		EDGE_TEMPLATE_DEFAULT_ARGUMENT			= 0x100,
-		EDGE_TEMPLATE_SPECIALIZATION			= 0x200,
-		EDGE_TEMPLATE_MEMBER_SPECIALIZATION		= 0x400,
-		EDGE_INCLUDE							= 0x800,
-		EDGE_IMPORT								= 0x1000,
-		EDGE_AGGREGATION						= 0x2000,
-		EDGE_MACRO_USAGE						= 0x4000
+		EDGE_UNDEFINED							= 0,
+		EDGE_MEMBER								= 1 << 0,
+		EDGE_TYPE_USAGE							= 1 << 1,
+		EDGE_USAGE								= 1 << 2,
+		EDGE_CALL								= 1 << 3,
+		EDGE_INHERITANCE						= 1 << 4,
+		EDGE_OVERRIDE							= 1 << 5,
+		EDGE_TEMPLATE_ARGUMENT					= 1 << 6,
+		EDGE_TYPE_ARGUMENT						= 1 << 7,
+		EDGE_TEMPLATE_DEFAULT_ARGUMENT			= 1 << 8,
+		EDGE_TEMPLATE_SPECIALIZATION			= 1 << 9,
+		EDGE_TEMPLATE_MEMBER_SPECIALIZATION		= 1 << 10,
+		EDGE_INCLUDE							= 1 << 11,
+		EDGE_IMPORT								= 1 << 12,
+		EDGE_AGGREGATION						= 1 << 13,
+		EDGE_MACRO_USAGE						= 1 << 14,
+		EDGE_ANNOTATION_USAGE					= 1 << 15
 	};
 
 	static int typeToInt(EdgeType type);

@@ -161,6 +161,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.methods.MethodUsage.Metho
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() [MethodUsage.java <60:5 <60:5  <61:19 61:26> 61:28> 66:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() -> java.lang.String java.lang.Object.toString() [MethodUsage.java <61:19 61:26>]
+REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() -> java.lang.Override [MethodUsage.java <60:6 60:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() -> java.lang.String [MethodUsage.java <61:12 61:17>]
 LOCAL_SYMBOL: MethodUsage.java<61:30> [MethodUsage.java <61:30 61:30>]
 LOCAL_SYMBOL: MethodUsage.java<61:30> [MethodUsage.java <66:5 66:5>]
@@ -350,6 +351,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.methods.MethodUsage.repla
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.methods.MethodUsage.typeParametersMap() [MethodUsage.java <139:5 <139:5  <140:30 140:46> 140:48> 142:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.methods.MethodUsage.typeParametersMap() -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() [MethodUsage.java <140:30 140:46>]
+REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.methods.MethodUsage.typeParametersMap() -> java.lang.Override [MethodUsage.java <139:6 139:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.methods.MethodUsage.typeParametersMap() -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [MethodUsage.java <140:12 140:28>]
 LOCAL_SYMBOL: MethodUsage.java<140:50> [MethodUsage.java <140:50 140:50>]
 LOCAL_SYMBOL: MethodUsage.java<140:50> [MethodUsage.java <142:5 142:5>]

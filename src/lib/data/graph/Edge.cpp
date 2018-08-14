@@ -46,6 +46,8 @@ Edge::EdgeType Edge::intToType(int value)
 		return EDGE_AGGREGATION;
 	case EDGE_MACRO_USAGE:
 		return EDGE_MACRO_USAGE;
+	case EDGE_ANNOTATION_USAGE:
+		return EDGE_ANNOTATION_USAGE;
 	}
 
 	return EDGE_UNDEFINED;
@@ -159,6 +161,8 @@ std::wstring Edge::getReadableTypeString(EdgeType type)
 		return L"aggregation";
 	case EDGE_MACRO_USAGE:
 		return L"macro use";
+	case EDGE_ANNOTATION_USAGE:
+		return L"annotation use";
 	}
 
 	return L"";
