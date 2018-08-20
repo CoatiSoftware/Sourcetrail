@@ -41,6 +41,7 @@ import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NameQualifiedType;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.QualifiedType;
@@ -53,6 +54,7 @@ import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 import org.eclipse.jdt.core.dom.SuperMethodReference;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.ThisExpression;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
 import org.eclipse.jdt.core.dom.TypeParameter;
@@ -120,7 +122,6 @@ public abstract class AstVisitor extends ASTVisitor
 					AccessKind.NONE, 
 					DefinitionKind.EXPLICIT);
 		}
-		
 		
 		return true;
 	}
@@ -295,7 +296,6 @@ public abstract class AstVisitor extends ASTVisitor
 		}
 		
 		DeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
-		
 		
 		Range signatureRange = getRange(node);
 		if (!node.thrownExceptionTypes().isEmpty())
@@ -652,6 +652,32 @@ public abstract class AstVisitor extends ASTVisitor
 		}
 		return true;
 	}
+
+	@Override
+	public boolean visit(ParameterizedType node)
+	{
+		ITypeBinding binding = node.resolveBinding();
+		if (binding != null)
+		{
+			binding = binding.getTypeDeclaration();
+		}
+		
+		for (Object o : node.typeArguments())
+		{
+			if (o instanceof Type)
+			{
+				Type type = (Type)o;
+				ITypeBinding typeBinding = type.resolveBinding();
+				m_client.recordReference(
+						ReferenceKind.TYPE_ARGUMENT, 
+						BindingNameResolver.getQualifiedName(typeBinding, m_filePath, m_compilationUnit).orElse(TypeName.unsolved()).toDeclName().toNameHierarchy(),
+						BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(TypeName.unsolved()).toDeclName().toNameHierarchy(), 
+						getRange(type));
+			}
+		}
+				
+		return true;
+	}
 	
 	@Override 
 	public boolean visit(QualifiedName node)
@@ -688,7 +714,15 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(MethodInvocation node)
 	{
-		recordReferenceToMethodDeclaration(node.resolveMethodBinding(), getRange(node.getName()), ReferenceKind.CALL, m_contextStack.peek());
+		IMethodBinding methodBinding = node.resolveMethodBinding();
+		
+		recordReferenceToMethodDeclaration(
+				methodBinding, 
+				getRange(node.getName()), 
+				ReferenceKind.CALL, 
+				m_contextStack.peek());
+		
+		recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 		
 		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
@@ -698,7 +732,15 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(SuperMethodInvocation node)
 	{
-		recordReferenceToMethodDeclaration(node.resolveMethodBinding(), getRange(node.getName()), ReferenceKind.CALL, m_contextStack.peek());
+		IMethodBinding methodBinding = node.resolveMethodBinding();
+		
+		recordReferenceToMethodDeclaration(
+				methodBinding, 
+				getRange(node.getName()), 
+				ReferenceKind.CALL, 
+				m_contextStack.peek());
+		
+		recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 
 		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
@@ -708,11 +750,15 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(ConstructorInvocation node)
 	{
+		IMethodBinding methodBinding = node.resolveConstructorBinding();
+		
 		recordReferenceToMethodDeclaration(
-				node.resolveConstructorBinding(), 
+				methodBinding, 
 				m_fileContent.findRange("this", getRange(node).begin), 
 				ReferenceKind.CALL,
 				m_contextStack.peek());
+		
+		recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 		
 		return true;
 	}
@@ -720,11 +766,15 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(SuperConstructorInvocation node)
 	{
+		IMethodBinding methodBinding = node.resolveConstructorBinding();
+		
 		recordReferenceToMethodDeclaration(
-				node.resolveConstructorBinding(), 
+				methodBinding, 
 				m_fileContent.findRange("super", getRange(node).begin), 
 				ReferenceKind.CALL,
 				m_contextStack.peek());
+		
+		recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 		
 		return true;
 	}
@@ -732,11 +782,15 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(CreationReference node)
 	{
+		IMethodBinding methodBinding = node.resolveMethodBinding();
+		
 		recordReferenceToMethodDeclaration(
-				node.resolveMethodBinding(), 
+				methodBinding, 
 				m_fileContent.findRange("new", getRange(node).begin), 
 				ReferenceKind.USAGE,
 				m_contextStack.peek());
+		
+		recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 
 		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		
@@ -746,11 +800,15 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(ExpressionMethodReference node)
 	{
+		IMethodBinding methodBinding = node.resolveMethodBinding();
+		
 		recordReferenceToMethodDeclaration(
-				node.resolveMethodBinding(), 
+				methodBinding, 
 				getRange(node.getName()), 
 				ReferenceKind.USAGE,
 				m_contextStack.peek());
+		
+		recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 
 		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
@@ -760,11 +818,15 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(SuperMethodReference node)
 	{
+		IMethodBinding methodBinding = node.resolveMethodBinding();
+		
 		recordReferenceToMethodDeclaration(
-				node.resolveMethodBinding(), 
+				methodBinding, 
 				getRange(node.getName()), 
 				ReferenceKind.USAGE,
 				m_contextStack.peek());
+		
+		recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 
 		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
@@ -774,18 +836,20 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(TypeMethodReference node)
 	{
-		IMethodBinding binding = node.resolveMethodBinding();
-		if (binding == null && node.getType() != null && node.getType().isArrayType())
+		IMethodBinding methodBinding = node.resolveMethodBinding();
+		if (methodBinding == null && node.getType() != null && node.getType().isArrayType())
 		{
 			// Do nothing. We ignore the case of unsolved symbols on array type
 		}
 		else
 		{
 			recordReferenceToMethodDeclaration(
-					binding, 
+					methodBinding, 
 					getRange(node.getName()), 
 					ReferenceKind.USAGE,
 					m_contextStack.peek());
+			
+			recordReferenceToTypeArguments(methodBinding, node.typeArguments());
 
 			new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		}
@@ -840,6 +904,8 @@ public abstract class AstVisitor extends ASTVisitor
 						context.toNameHierarchy(), 
 						getRange(node.getType()));
 			}
+			
+			recordReferenceToTypeArguments(constructorBinding, node.typeArguments());
 		}
 
 		return true;
@@ -923,6 +989,32 @@ public abstract class AstVisitor extends ASTVisitor
 					referencedDeclName.toNameHierarchy(),
 					context.toNameHierarchy(), 
 					range);
+		}
+	}
+	
+	private void recordReferenceToTypeArguments(IMethodBinding methodBinding, List typeArguments)
+	{
+		if (!typeArguments.isEmpty())
+		{
+			if (methodBinding != null)
+			{
+				// replacing type arguments of invocation with type variables of declaration
+				methodBinding = methodBinding.getMethodDeclaration();
+			}
+			
+			for (Object o : typeArguments)
+			{
+				if (o instanceof Type)
+				{
+					Type type = (Type)o;
+					ITypeBinding typeBinding = type.resolveBinding();
+					m_client.recordReference(
+							ReferenceKind.TYPE_ARGUMENT, 
+							BindingNameResolver.getQualifiedName(typeBinding, m_filePath, m_compilationUnit).orElse(TypeName.unsolved()).toDeclName().toNameHierarchy(),
+							BindingNameResolver.getQualifiedName(methodBinding, m_filePath, m_compilationUnit).orElse(DeclName.unsolved()).toNameHierarchy(), 
+							getRange(type));
+				}
+			}
 		}
 	}
 	

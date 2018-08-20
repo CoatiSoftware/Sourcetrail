@@ -25,8 +25,9 @@ SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.comparato
 LOCAL_SYMBOL: MethodComparator.java<9:61> [MethodComparator.java <9:61 9:61>]
 LOCAL_SYMBOL: MethodComparator.java<9:61> [MethodComparator.java <25:1 25:1>]
 COMMENT: comment [MethodComparator.java <6:1 8:3>]
+REFERENCE_TYPE_ARGUMENT java.util.Comparator<T> -> java.lang.reflect.Method [MethodComparator.java <9:53 9:58>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator -> java.util.Comparator<T> [MethodComparator.java <9:42 9:51>]
-REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator -> java.lang.reflect.Method [MethodComparator.java <9:53 9:58>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator -> java.lang.reflect.Method [MethodComparator.java <9:53 9:58>]
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) [MethodComparator.java <11:5 <11:5  <12:16 12:22> 12:44> 24:5>]
 SYMBOL_METHOD int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T)
 REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T) [MethodComparator.java <12:16 12:22>]
