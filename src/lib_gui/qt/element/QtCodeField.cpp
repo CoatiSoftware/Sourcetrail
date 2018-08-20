@@ -48,9 +48,19 @@ QtCodeField::QtCodeField(
 	viewport()->setCursor(Qt::ArrowCursor);
 
 	std::string displayCode = m_code;
-	if (!locationFile->isWhole() && !displayCode.empty() && *displayCode.rbegin() == '\n')
+
+	// avoid extra line at end of snippet
+	if (!locationFile->isWhole())
 	{
-		displayCode.pop_back();
+		if (!displayCode.empty() && *displayCode.rbegin() == '\n')
+		{
+			displayCode.pop_back();
+		}
+
+		if (!displayCode.empty() && *displayCode.rbegin() == '\r')
+		{
+			displayCode.pop_back();
+		}
 	}
 
 	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding().c_str());
