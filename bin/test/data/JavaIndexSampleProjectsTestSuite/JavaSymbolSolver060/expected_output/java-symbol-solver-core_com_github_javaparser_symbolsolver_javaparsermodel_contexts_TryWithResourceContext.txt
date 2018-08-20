@@ -13,6 +13,7 @@ QUALIFIER: com [TryWithResourceContext.java <17:9 17:11>]
 REFERENCE_IMPORT TryWithResourceContext.java -> com.github.javaparser.ast.body.VariableDeclarator [TryWithResourceContext.java <19:39 19:56>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [TryWithResourceContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [TryWithResourceContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [TryWithResourceContext.java <19:19 19:28>]
 QUALIFIER: com.github [TryWithResourceContext.java <19:12 19:17>]
@@ -48,6 +49,7 @@ QUALIFIER: com [TryWithResourceContext.java <23:8 23:10>]
 REFERENCE_IMPORT TryWithResourceContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [TryWithResourceContext.java <24:62 24:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [TryWithResourceContext.java <24:49 24:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [TryWithResourceContext.java <24:43 24:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [TryWithResourceContext.java <24:30 24:41>]
 QUALIFIER: com.github.javaparser [TryWithResourceContext.java <24:19 24:28>]
@@ -100,13 +102,14 @@ QUALIFIER: com [TryWithResourceContext.java <30:8 30:10>]
 REFERENCE_IMPORT TryWithResourceContext.java -> java.util.List<E> [TryWithResourceContext.java <32:18 32:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [TryWithResourceContext.java <32:13 32:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [TryWithResourceContext.java <32:8 32:11>]
 REFERENCE_IMPORT TryWithResourceContext.java -> java.util.Optional<T> [TryWithResourceContext.java <33:18 33:25>]
 QUALIFIER: java.util [TryWithResourceContext.java <33:13 33:16>]
 QUALIFIER: java [TryWithResourceContext.java <33:8 33:11>]
 REFERENCE_IMPORT TryWithResourceContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [TryWithResourceContext.java <35:71 35:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [TryWithResourceContext.java <35:61 35:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [TryWithResourceContext.java <35:50 35:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [TryWithResourceContext.java <35:37 35:48>]
 QUALIFIER: com.github.javaparser [TryWithResourceContext.java <35:26 35:35>]

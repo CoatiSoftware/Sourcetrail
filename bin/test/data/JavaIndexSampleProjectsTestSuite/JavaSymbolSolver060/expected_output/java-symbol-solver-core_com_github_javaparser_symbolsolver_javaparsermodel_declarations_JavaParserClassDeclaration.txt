@@ -39,6 +39,7 @@ QUALIFIER: com [JavaParserClassDeclaration.java <22:8 22:10>]
 REFERENCE_IMPORT JavaParserClassDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserClassDeclaration.java <23:59 23:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserClassDeclaration.java <23:48 23:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserClassDeclaration.java <23:43 23:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserClassDeclaration.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [JavaParserClassDeclaration.java <23:19 23:28>]
@@ -71,6 +72,7 @@ QUALIFIER: com.github [JavaParserClassDeclaration.java <27:12 27:17>]
 QUALIFIER: com [JavaParserClassDeclaration.java <27:8 27:10>]
 REFERENCE_IMPORT JavaParserClassDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserClassDeclaration.java <28:49 28:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserClassDeclaration.java <28:43 28:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserClassDeclaration.java <28:30 28:41>]
 QUALIFIER: com.github.javaparser [JavaParserClassDeclaration.java <28:19 28:28>]
@@ -158,11 +160,14 @@ QUALIFIER: com [JavaParserClassDeclaration.java <39:8 39:10>]
 REFERENCE_IMPORT JavaParserClassDeclaration.java -> com.google.common.collect.ImmutableList<E> [JavaParserClassDeclaration.java <40:34 40:46>]
 SYMBOL_PACKAGE com.google.common.collect
 QUALIFIER: com.google.common.collect [JavaParserClassDeclaration.java <40:26 40:32>]
+SYMBOL_PACKAGE com.google.common
 QUALIFIER: com.google.common [JavaParserClassDeclaration.java <40:19 40:24>]
+SYMBOL_PACKAGE com.google
 QUALIFIER: com.google [JavaParserClassDeclaration.java <40:12 40:17>]
 QUALIFIER: com [JavaParserClassDeclaration.java <40:8 40:10>]
 REFERENCE_IMPORT JavaParserClassDeclaration.java -> java.util [JavaParserClassDeclaration.java <42:13 42:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserClassDeclaration.java <42:8 42:11>]
 REFERENCE_IMPORT JavaParserClassDeclaration.java -> java.util.stream.Collectors [JavaParserClassDeclaration.java <43:25 43:34>]
 SYMBOL_PACKAGE java.util.stream

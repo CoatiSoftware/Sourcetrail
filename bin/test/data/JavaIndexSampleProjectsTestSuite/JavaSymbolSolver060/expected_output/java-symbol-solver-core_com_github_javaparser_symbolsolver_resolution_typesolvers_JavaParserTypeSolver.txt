@@ -37,6 +37,7 @@ QUALIFIER: com [JavaParserTypeSolver.java <22:8 22:10>]
 REFERENCE_IMPORT JavaParserTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavaParserTypeSolver.java <23:62 23:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserTypeSolver.java <23:49 23:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeSolver.java <23:43 23:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeSolver.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeSolver.java <23:19 23:28>]
@@ -60,6 +61,7 @@ QUALIFIER: com [JavaParserTypeSolver.java <25:8 25:10>]
 REFERENCE_IMPORT JavaParserTypeSolver.java -> java.io.File [JavaParserTypeSolver.java <27:16 27:19>]
 SYMBOL_PACKAGE java.io
 QUALIFIER: java.io [JavaParserTypeSolver.java <27:13 27:14>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserTypeSolver.java <27:8 27:11>]
 REFERENCE_IMPORT JavaParserTypeSolver.java -> java.io.FileNotFoundException [JavaParserTypeSolver.java <28:16 28:36>]
 QUALIFIER: java.io [JavaParserTypeSolver.java <28:13 28:14>]

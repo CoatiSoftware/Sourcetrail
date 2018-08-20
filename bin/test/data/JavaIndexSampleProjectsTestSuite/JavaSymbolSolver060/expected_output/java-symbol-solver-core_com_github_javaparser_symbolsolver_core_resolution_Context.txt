@@ -12,6 +12,7 @@ QUALIFIER: com.github [Context.java <17:13 17:18>]
 QUALIFIER: com [Context.java <17:9 17:11>]
 REFERENCE_IMPORT Context.java -> com.github.javaparser.symbolsolver.model.declarations [Context.java <19:49 19:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [Context.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [Context.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [Context.java <19:19 19:28>]
@@ -58,6 +59,7 @@ QUALIFIER: com [Context.java <24:8 24:10>]
 REFERENCE_IMPORT Context.java -> java.util.List<E> [Context.java <26:18 26:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [Context.java <26:13 26:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [Context.java <26:8 26:11>]
 REFERENCE_IMPORT Context.java -> java.util.Optional<T> [Context.java <27:18 27:25>]
 QUALIFIER: java.util [Context.java <27:13 27:16>]

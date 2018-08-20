@@ -59,6 +59,7 @@ QUALIFIER: com [AbstractMethodLikeDeclarationContext.java <9:8 9:10>]
 REFERENCE_IMPORT AbstractMethodLikeDeclarationContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [AbstractMethodLikeDeclarationContext.java <10:62 10:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractMethodLikeDeclarationContext.java <10:49 10:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractMethodLikeDeclarationContext.java <10:43 10:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [AbstractMethodLikeDeclarationContext.java <10:30 10:41>]
 QUALIFIER: com.github.javaparser [AbstractMethodLikeDeclarationContext.java <10:19 10:28>]
@@ -125,6 +126,7 @@ QUALIFIER: com [AbstractMethodLikeDeclarationContext.java <18:8 18:10>]
 REFERENCE_IMPORT AbstractMethodLikeDeclarationContext.java -> java.util.List<E> [AbstractMethodLikeDeclarationContext.java <20:18 20:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [AbstractMethodLikeDeclarationContext.java <20:13 20:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [AbstractMethodLikeDeclarationContext.java <20:8 20:11>]
 REFERENCE_IMPORT AbstractMethodLikeDeclarationContext.java -> java.util.Optional<T> [AbstractMethodLikeDeclarationContext.java <21:18 21:25>]
 QUALIFIER: java.util [AbstractMethodLikeDeclarationContext.java <21:13 21:16>]

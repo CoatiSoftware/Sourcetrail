@@ -13,6 +13,7 @@ QUALIFIER: com [ContextHelper.java <17:9 17:11>]
 REFERENCE_IMPORT ContextHelper.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration [ContextHelper.java <19:72 19:96>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [ContextHelper.java <19:59 19:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ContextHelper.java <19:43 19:57>]
 QUALIFIER: com.github.javaparser.symbolsolver [ContextHelper.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [ContextHelper.java <19:19 19:28>]
@@ -35,6 +36,7 @@ QUALIFIER: com [ContextHelper.java <21:8 21:10>]
 REFERENCE_IMPORT ContextHelper.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ContextHelper.java <22:62 22:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ContextHelper.java <22:49 22:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ContextHelper.java <22:43 22:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ContextHelper.java <22:30 22:41>]
 QUALIFIER: com.github.javaparser [ContextHelper.java <22:19 22:28>]
@@ -66,6 +68,7 @@ QUALIFIER: com [ContextHelper.java <25:8 25:10>]
 REFERENCE_IMPORT ContextHelper.java -> java.util.List<E> [ContextHelper.java <27:18 27:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ContextHelper.java <27:13 27:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ContextHelper.java <27:8 27:11>]
 SYMBOL_CLASS default com.github.javaparser.symbolsolver.core.resolution.ContextHelper [ContextHelper.java <32:1 <32:7 32:19> 51:1>]
 LOCAL_SYMBOL: ContextHelper.java<32:21> [ContextHelper.java <32:21 32:21>]

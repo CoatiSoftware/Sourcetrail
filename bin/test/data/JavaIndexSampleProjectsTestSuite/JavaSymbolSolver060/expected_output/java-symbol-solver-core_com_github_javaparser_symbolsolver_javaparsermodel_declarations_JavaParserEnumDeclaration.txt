@@ -45,6 +45,7 @@ QUALIFIER: com [JavaParserEnumDeclaration.java <23:8 23:10>]
 REFERENCE_IMPORT JavaParserEnumDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserEnumDeclaration.java <24:59 24:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserEnumDeclaration.java <24:48 24:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserEnumDeclaration.java <24:43 24:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserEnumDeclaration.java <24:30 24:41>]
 QUALIFIER: com.github.javaparser [JavaParserEnumDeclaration.java <24:19 24:28>]
@@ -77,6 +78,7 @@ QUALIFIER: com.github [JavaParserEnumDeclaration.java <28:12 28:17>]
 QUALIFIER: com [JavaParserEnumDeclaration.java <28:8 28:10>]
 REFERENCE_IMPORT JavaParserEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserEnumDeclaration.java <29:49 29:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserEnumDeclaration.java <29:43 29:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserEnumDeclaration.java <29:30 29:41>]
 QUALIFIER: com.github.javaparser [JavaParserEnumDeclaration.java <29:19 29:28>]
@@ -160,6 +162,7 @@ QUALIFIER: com [JavaParserEnumDeclaration.java <39:8 39:10>]
 REFERENCE_IMPORT JavaParserEnumDeclaration.java -> java.io.Serializable [JavaParserEnumDeclaration.java <41:16 41:27>]
 SYMBOL_PACKAGE java.io
 QUALIFIER: java.io [JavaParserEnumDeclaration.java <41:13 41:14>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserEnumDeclaration.java <41:8 41:11>]
 REFERENCE_IMPORT JavaParserEnumDeclaration.java -> java.util [JavaParserEnumDeclaration.java <42:13 42:16>]
 SYMBOL_PACKAGE java.util

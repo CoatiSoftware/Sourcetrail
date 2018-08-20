@@ -26,6 +26,7 @@ QUALIFIER: com [JavaParserMethodDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavaParserMethodDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserMethodDeclaration.java <21:59 21:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserMethodDeclaration.java <21:48 21:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserMethodDeclaration.java <21:43 21:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserMethodDeclaration.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [JavaParserMethodDeclaration.java <21:19 21:28>]
@@ -34,6 +35,7 @@ QUALIFIER: com [JavaParserMethodDeclaration.java <21:8 21:10>]
 REFERENCE_IMPORT JavaParserMethodDeclaration.java -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [JavaParserMethodDeclaration.java <22:63 22:90>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations.common
 QUALIFIER: com.github.javaparser.symbolsolver.declarations.common [JavaParserMethodDeclaration.java <22:56 22:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.declarations [JavaParserMethodDeclaration.java <22:43 22:54>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserMethodDeclaration.java <22:30 22:41>]
 QUALIFIER: com.github.javaparser [JavaParserMethodDeclaration.java <22:19 22:28>]
@@ -53,6 +55,7 @@ QUALIFIER: com.github [JavaParserMethodDeclaration.java <24:12 24:17>]
 QUALIFIER: com [JavaParserMethodDeclaration.java <24:8 24:10>]
 REFERENCE_IMPORT JavaParserMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserMethodDeclaration.java <25:49 25:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserMethodDeclaration.java <25:43 25:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserMethodDeclaration.java <25:30 25:41>]
 QUALIFIER: com.github.javaparser [JavaParserMethodDeclaration.java <25:19 25:28>]
@@ -85,6 +88,7 @@ QUALIFIER: com [JavaParserMethodDeclaration.java <28:8 28:10>]
 REFERENCE_IMPORT JavaParserMethodDeclaration.java -> java.util.List<E> [JavaParserMethodDeclaration.java <30:18 30:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserMethodDeclaration.java <30:13 30:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserMethodDeclaration.java <30:8 30:11>]
 REFERENCE_IMPORT JavaParserMethodDeclaration.java -> java.util.stream.Collectors [JavaParserMethodDeclaration.java <31:25 31:34>]
 SYMBOL_PACKAGE java.util.stream
@@ -92,8 +96,8 @@ QUALIFIER: java.util.stream [JavaParserMethodDeclaration.java <31:18 31:23>]
 QUALIFIER: java.util [JavaParserMethodDeclaration.java <31:13 31:16>]
 QUALIFIER: java [JavaParserMethodDeclaration.java <31:8 31:11>]
 REFERENCE_IMPORT JavaParserMethodDeclaration.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserMethodDeclaration.java <33:71 33:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserMethodDeclaration.java <33:61 33:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserMethodDeclaration.java <33:50 33:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserMethodDeclaration.java <33:37 33:48>]
 QUALIFIER: com.github.javaparser [JavaParserMethodDeclaration.java <33:26 33:35>]

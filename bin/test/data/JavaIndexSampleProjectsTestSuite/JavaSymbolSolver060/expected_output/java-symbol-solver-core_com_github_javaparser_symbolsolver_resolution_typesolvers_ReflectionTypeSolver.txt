@@ -13,6 +13,7 @@ QUALIFIER: com [ReflectionTypeSolver.java <17:9 17:11>]
 REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionTypeSolver.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionTypeSolver.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionTypeSolver.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionTypeSolver.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [ReflectionTypeSolver.java <19:19 19:28>]
@@ -43,6 +44,7 @@ QUALIFIER: com [ReflectionTypeSolver.java <22:8 22:10>]
 REFERENCE_IMPORT ReflectionTypeSolver.java -> java.util.Optional<T> [ReflectionTypeSolver.java <24:18 24:25>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ReflectionTypeSolver.java <24:13 24:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionTypeSolver.java <24:8 24:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <29:1 <29:14 29:33> 94:1>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<29:57> [ReflectionTypeSolver.java <29:57 29:57>]

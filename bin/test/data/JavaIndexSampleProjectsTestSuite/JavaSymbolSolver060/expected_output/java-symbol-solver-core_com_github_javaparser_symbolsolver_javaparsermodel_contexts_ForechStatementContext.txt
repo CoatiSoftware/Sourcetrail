@@ -13,6 +13,7 @@ QUALIFIER: com [ForechStatementContext.java <17:9 17:11>]
 REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.ast.body.VariableDeclarator [ForechStatementContext.java <19:39 19:56>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [ForechStatementContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [ForechStatementContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [ForechStatementContext.java <19:19 19:28>]
 QUALIFIER: com.github [ForechStatementContext.java <19:12 19:17>]
@@ -41,6 +42,7 @@ QUALIFIER: com [ForechStatementContext.java <22:8 22:10>]
 REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ForechStatementContext.java <23:62 23:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ForechStatementContext.java <23:49 23:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ForechStatementContext.java <23:43 23:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [ForechStatementContext.java <23:19 23:28>]
@@ -79,10 +81,11 @@ QUALIFIER: com [ForechStatementContext.java <27:8 27:10>]
 REFERENCE_IMPORT ForechStatementContext.java -> java.util.List<E> [ForechStatementContext.java <29:18 29:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ForechStatementContext.java <29:13 29:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ForechStatementContext.java <29:8 29:11>]
 REFERENCE_IMPORT ForechStatementContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [ForechStatementContext.java <31:71 31:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [ForechStatementContext.java <31:61 31:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [ForechStatementContext.java <31:50 31:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <31:37 31:48>]
 QUALIFIER: com.github.javaparser [ForechStatementContext.java <31:26 31:35>]

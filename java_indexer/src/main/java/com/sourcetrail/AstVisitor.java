@@ -109,7 +109,8 @@ public abstract class AstVisitor extends ASTVisitor
 				range, 
 				AccessKind.NONE, 
 				DefinitionKind.EXPLICIT);
-		
+
+		// Here we just record the symbol types of qualifiers. The nodes and their location are visited and recorded because the "name" is a QualifiedName
 		while (name instanceof QualifiedName)
 		{
 			name = ((QualifiedName) name).getQualifier();
@@ -120,7 +121,6 @@ public abstract class AstVisitor extends ASTVisitor
 					DefinitionKind.EXPLICIT);
 		}
 		
-		// qualifiers are visited and recorded because the "name" is a QualifiedName
 		
 		return true;
 	}
@@ -439,16 +439,20 @@ public abstract class AstVisitor extends ASTVisitor
 					ReferenceKind.IMPORT, 
 					symbolName.toNameHierarchy(), context.toNameHierarchy(), 
 					range);
-		}
-		
-		Optional<DeclName> packageName = BindingNameResolver.getQualifiedName(getDeclaringPackage(binding), m_filePath, m_compilationUnit);
-		if (packageName.isPresent())
+		}	
+	
+		// record package symbol kind of current node if appliccable
+		if (binding instanceof IPackageBinding)
 		{
-			m_client.recordSymbol(packageName.get().toNameHierarchy(), 
-					SymbolKind.PACKAGE, AccessKind.NONE, DefinitionKind.NONE);
+			Optional<DeclName> packageName = BindingNameResolver.getQualifiedName((IPackageBinding)binding, m_filePath, m_compilationUnit);
+			if (packageName.isPresent())
+			{
+				m_client.recordSymbol(packageName.get().toNameHierarchy(), 
+						SymbolKind.PACKAGE, AccessKind.NONE, DefinitionKind.NONE);
+			}
 		}
-
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node);
+	
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, true).recordQualifierOfNode(node);
 		
 		return true;
 	}
@@ -541,7 +545,7 @@ public abstract class AstVisitor extends ASTVisitor
 					range);
 		}
 
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		
 		return true;
 	}
@@ -564,7 +568,7 @@ public abstract class AstVisitor extends ASTVisitor
 					getRange(node.getName()));
 		}
 		
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		
 		return true;
 	}
@@ -587,7 +591,7 @@ public abstract class AstVisitor extends ASTVisitor
 					getRange(node.getName()));
 		}
 
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		
 		return true;
 	}
@@ -652,7 +656,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(QualifiedName node)
 	{
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		
 		return true;
 	}
@@ -660,7 +664,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(FieldAccess node)
 	{
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node, m_fileContent);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
 		return true;
 	}
@@ -668,7 +672,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(SuperFieldAccess node)
 	{
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node, m_fileContent);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
 		return true;
 	}
@@ -676,7 +680,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(ThisExpression node)
 	{
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node, m_fileContent);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
 		return true;
 	}
@@ -686,7 +690,7 @@ public abstract class AstVisitor extends ASTVisitor
 	{
 		recordReferenceToMethodDeclaration(node.resolveMethodBinding(), getRange(node.getName()), ReferenceKind.CALL, m_contextStack.peek());
 		
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node, m_fileContent);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
 		return true;
 	}
@@ -696,7 +700,7 @@ public abstract class AstVisitor extends ASTVisitor
 	{
 		recordReferenceToMethodDeclaration(node.resolveMethodBinding(), getRange(node.getName()), ReferenceKind.CALL, m_contextStack.peek());
 
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node, m_fileContent);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
 		return true;
 	}
@@ -734,7 +738,7 @@ public abstract class AstVisitor extends ASTVisitor
 				ReferenceKind.USAGE,
 				m_contextStack.peek());
 
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		
 		return true;
 	}
@@ -748,7 +752,7 @@ public abstract class AstVisitor extends ASTVisitor
 				ReferenceKind.USAGE,
 				m_contextStack.peek());
 
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node, m_fileContent);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
 		return true;
 	}
@@ -762,7 +766,7 @@ public abstract class AstVisitor extends ASTVisitor
 				ReferenceKind.USAGE,
 				m_contextStack.peek());
 
-		new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node, m_fileContent);
+		new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node, m_fileContent);
 		
 		return true;
 	}
@@ -783,7 +787,7 @@ public abstract class AstVisitor extends ASTVisitor
 					ReferenceKind.USAGE,
 					m_contextStack.peek());
 
-			new QualifierVisitor(m_client, m_filePath, m_compilationUnit).recordQualifierOfNode(node);
+			new QualifierVisitor(m_client, m_filePath, m_compilationUnit, false).recordQualifierOfNode(node);
 		}
 
 		return true;
@@ -936,13 +940,14 @@ public abstract class AstVisitor extends ASTVisitor
 	
 	private IPackageBinding getDeclaringPackage(IBinding binding)
 	{
-		if (binding instanceof IPackageBinding)
+		if (binding != null)
 		{
-			return (IPackageBinding) binding;
-		}
-		else if (binding != null)
-		{
-			return getDeclaringPackage(BindingNameResolver.getParentBinding(binding));
+			IBinding parentBinding = BindingNameResolver.getParentBinding(binding);
+			if (parentBinding instanceof IPackageBinding)
+			{
+				return (IPackageBinding) parentBinding;
+			}
+			return getDeclaringPackage(parentBinding);
 		}
 		return null;
 	}

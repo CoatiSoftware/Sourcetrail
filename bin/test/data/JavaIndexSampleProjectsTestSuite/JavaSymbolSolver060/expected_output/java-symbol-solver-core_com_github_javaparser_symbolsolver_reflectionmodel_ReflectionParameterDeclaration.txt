@@ -11,6 +11,7 @@ QUALIFIER: com [ReflectionParameterDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT ReflectionParameterDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [ReflectionParameterDeclaration.java <19:62 19:81>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionParameterDeclaration.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionParameterDeclaration.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionParameterDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [ReflectionParameterDeclaration.java <19:19 19:28>]

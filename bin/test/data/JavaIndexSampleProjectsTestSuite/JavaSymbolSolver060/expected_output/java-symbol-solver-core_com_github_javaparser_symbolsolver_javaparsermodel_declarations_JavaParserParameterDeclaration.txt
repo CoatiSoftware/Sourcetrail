@@ -13,6 +13,7 @@ QUALIFIER: com [JavaParserParameterDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT JavaParserParameterDeclaration.java -> com.github.javaparser.ast.body.Parameter [JavaParserParameterDeclaration.java <19:39 19:47>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [JavaParserParameterDeclaration.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [JavaParserParameterDeclaration.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [JavaParserParameterDeclaration.java <19:19 19:28>]
 QUALIFIER: com.github [JavaParserParameterDeclaration.java <19:12 19:17>]
@@ -26,6 +27,7 @@ QUALIFIER: com [JavaParserParameterDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavaParserParameterDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [JavaParserParameterDeclaration.java <21:62 21:81>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserParameterDeclaration.java <21:49 21:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserParameterDeclaration.java <21:43 21:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserParameterDeclaration.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [JavaParserParameterDeclaration.java <21:19 21:28>]

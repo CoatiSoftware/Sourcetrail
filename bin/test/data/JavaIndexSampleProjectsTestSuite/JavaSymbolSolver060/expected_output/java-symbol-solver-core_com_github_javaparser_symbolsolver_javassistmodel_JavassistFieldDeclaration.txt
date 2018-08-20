@@ -11,6 +11,7 @@ QUALIFIER: com [JavassistFieldDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistFieldDeclaration.java <19:62 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistFieldDeclaration.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistFieldDeclaration.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistFieldDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [JavassistFieldDeclaration.java <19:19 19:28>]
@@ -54,7 +55,9 @@ QUALIFIER: javassist [JavassistFieldDeclaration.java <25:8 25:16>]
 REFERENCE_IMPORT JavassistFieldDeclaration.java -> java.lang.reflect.Modifier [JavassistFieldDeclaration.java <27:26 27:33>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [JavassistFieldDeclaration.java <27:18 27:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [JavassistFieldDeclaration.java <27:13 27:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistFieldDeclaration.java <27:8 27:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration [JavassistFieldDeclaration.java <32:1 <32:14 32:38> 84:1>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<32:68> [JavassistFieldDeclaration.java <32:68 32:68>]

@@ -11,6 +11,7 @@ QUALIFIER: com [AbstractTypeDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [AbstractTypeDeclaration.java <19:62 19:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractTypeDeclaration.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractTypeDeclaration.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [AbstractTypeDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [AbstractTypeDeclaration.java <19:19 19:28>]
@@ -49,6 +50,7 @@ QUALIFIER: com [AbstractTypeDeclaration.java <23:8 23:10>]
 REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.HashSet<E> [AbstractTypeDeclaration.java <25:18 25:24>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [AbstractTypeDeclaration.java <25:13 25:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [AbstractTypeDeclaration.java <25:8 25:11>]
 REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.List<E> [AbstractTypeDeclaration.java <26:18 26:21>]
 QUALIFIER: java.util [AbstractTypeDeclaration.java <26:13 26:16>]

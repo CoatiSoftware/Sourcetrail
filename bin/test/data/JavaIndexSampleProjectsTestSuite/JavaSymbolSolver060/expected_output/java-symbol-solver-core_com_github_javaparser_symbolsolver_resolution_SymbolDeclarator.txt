@@ -11,6 +11,7 @@ QUALIFIER: com [SymbolDeclarator.java <17:9 17:11>]
 REFERENCE_IMPORT SymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [SymbolDeclarator.java <19:62 19:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SymbolDeclarator.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [SymbolDeclarator.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [SymbolDeclarator.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [SymbolDeclarator.java <19:19 19:28>]
@@ -19,6 +20,7 @@ QUALIFIER: com [SymbolDeclarator.java <19:8 19:10>]
 REFERENCE_IMPORT SymbolDeclarator.java -> java.util.List<E> [SymbolDeclarator.java <21:18 21:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [SymbolDeclarator.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [SymbolDeclarator.java <21:8 21:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [SymbolDeclarator.java <26:1 <26:18 26:33> 30:1>]
 LOCAL_SYMBOL: SymbolDeclarator.java<26:35> [SymbolDeclarator.java <26:35 26:35>]

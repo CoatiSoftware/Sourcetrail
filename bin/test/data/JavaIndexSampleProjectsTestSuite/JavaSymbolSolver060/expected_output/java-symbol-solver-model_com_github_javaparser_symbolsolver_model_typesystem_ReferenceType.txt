@@ -52,6 +52,7 @@ QUALIFIER: com [ReferenceType.java <23:8 23:10>]
 REFERENCE_IMPORT ReferenceType.java -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider [ReferenceType.java <24:76 24:101>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.parametrization [ReferenceType.java <24:60 24:74>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReferenceType.java <24:49 24:58>]
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceType.java <24:43 24:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReferenceType.java <24:30 24:41>]
@@ -79,6 +80,7 @@ SYMBOL_PACKAGE javaslang
 QUALIFIER: javaslang [ReferenceType.java <27:8 27:16>]
 REFERENCE_IMPORT ReferenceType.java -> java.util [ReferenceType.java <29:13 29:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReferenceType.java <29:8 29:11>]
 REFERENCE_IMPORT ReferenceType.java -> java.util.stream.Collectors [ReferenceType.java <30:25 30:34>]
 SYMBOL_PACKAGE java.util.stream

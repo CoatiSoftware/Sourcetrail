@@ -13,6 +13,7 @@ QUALIFIER: com [StatementContext.java <17:9 17:11>]
 REFERENCE_IMPORT StatementContext.java -> com.github.javaparser.ast.expr.LambdaExpr [StatementContext.java <19:39 19:48>]
 SYMBOL_PACKAGE com.github.javaparser.ast.expr
 QUALIFIER: com.github.javaparser.ast.expr [StatementContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [StatementContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [StatementContext.java <19:19 19:28>]
 QUALIFIER: com.github [StatementContext.java <19:12 19:17>]
@@ -40,6 +41,7 @@ QUALIFIER: com [StatementContext.java <22:8 22:10>]
 REFERENCE_IMPORT StatementContext.java -> com.github.javaparser.symbolsolver.core.resolution.Context [StatementContext.java <23:59 23:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [StatementContext.java <23:48 23:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [StatementContext.java <23:43 23:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [StatementContext.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [StatementContext.java <23:19 23:28>]
@@ -54,6 +56,7 @@ QUALIFIER: com [StatementContext.java <24:8 24:10>]
 REFERENCE_IMPORT StatementContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [StatementContext.java <25:62 25:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [StatementContext.java <25:49 25:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [StatementContext.java <25:43 25:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [StatementContext.java <25:30 25:41>]
 QUALIFIER: com.github.javaparser [StatementContext.java <25:19 25:28>]
@@ -113,13 +116,14 @@ QUALIFIER: com [StatementContext.java <32:8 32:10>]
 REFERENCE_IMPORT StatementContext.java -> java.util.List<E> [StatementContext.java <34:18 34:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [StatementContext.java <34:13 34:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [StatementContext.java <34:8 34:11>]
 REFERENCE_IMPORT StatementContext.java -> java.util.Optional<T> [StatementContext.java <35:18 35:25>]
 QUALIFIER: java.util [StatementContext.java <35:13 35:16>]
 QUALIFIER: java [StatementContext.java <35:8 35:11>]
 REFERENCE_IMPORT StatementContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [StatementContext.java <37:71 37:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [StatementContext.java <37:61 37:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [StatementContext.java <37:50 37:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [StatementContext.java <37:37 37:48>]
 QUALIFIER: com.github.javaparser [StatementContext.java <37:26 37:35>]

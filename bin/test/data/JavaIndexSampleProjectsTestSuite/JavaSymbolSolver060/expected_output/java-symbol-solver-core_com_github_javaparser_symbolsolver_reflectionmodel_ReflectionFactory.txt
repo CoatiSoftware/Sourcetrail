@@ -11,6 +11,7 @@ QUALIFIER: com [ReflectionFactory.java <17:9 17:11>]
 REFERENCE_IMPORT ReflectionFactory.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ReflectionFactory.java <19:62 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionFactory.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionFactory.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionFactory.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [ReflectionFactory.java <19:19 19:28>]
@@ -48,7 +49,9 @@ QUALIFIER: com [ReflectionFactory.java <23:8 23:10>]
 REFERENCE_IMPORT ReflectionFactory.java -> java.lang.reflect.GenericArrayType [ReflectionFactory.java <25:26 25:41>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionFactory.java <25:18 25:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionFactory.java <25:13 25:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionFactory.java <25:8 25:11>]
 REFERENCE_IMPORT ReflectionFactory.java -> java.lang.reflect.Modifier [ReflectionFactory.java <26:26 26:33>]
 QUALIFIER: java.lang.reflect [ReflectionFactory.java <26:18 26:24>]

@@ -13,6 +13,7 @@ QUALIFIER: com [ParameterSymbolDeclarator.java <17:9 17:11>]
 REFERENCE_IMPORT ParameterSymbolDeclarator.java -> com.github.javaparser.ast.body.Parameter [ParameterSymbolDeclarator.java <19:39 19:47>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [ParameterSymbolDeclarator.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [ParameterSymbolDeclarator.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [ParameterSymbolDeclarator.java <19:19 19:28>]
 QUALIFIER: com.github [ParameterSymbolDeclarator.java <19:12 19:17>]
@@ -28,6 +29,7 @@ QUALIFIER: com [ParameterSymbolDeclarator.java <20:8 20:10>]
 REFERENCE_IMPORT ParameterSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ParameterSymbolDeclarator.java <21:62 21:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ParameterSymbolDeclarator.java <21:49 21:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ParameterSymbolDeclarator.java <21:43 21:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ParameterSymbolDeclarator.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [ParameterSymbolDeclarator.java <21:19 21:28>]
@@ -44,6 +46,7 @@ QUALIFIER: com [ParameterSymbolDeclarator.java <22:8 22:10>]
 REFERENCE_IMPORT ParameterSymbolDeclarator.java -> java.util.LinkedList<E> [ParameterSymbolDeclarator.java <24:18 24:27>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ParameterSymbolDeclarator.java <24:13 24:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ParameterSymbolDeclarator.java <24:8 24:11>]
 REFERENCE_IMPORT ParameterSymbolDeclarator.java -> java.util.List<E> [ParameterSymbolDeclarator.java <25:18 25:21>]
 QUALIFIER: java.util [ParameterSymbolDeclarator.java <25:13 25:16>]

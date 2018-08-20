@@ -19,6 +19,7 @@ QUALIFIER: com.github [JavaParserAnnotationDeclaration.java <3:12 3:17>]
 QUALIFIER: com [JavaParserAnnotationDeclaration.java <3:8 3:10>]
 REFERENCE_IMPORT JavaParserAnnotationDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserAnnotationDeclaration.java <4:49 4:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserAnnotationDeclaration.java <4:43 4:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserAnnotationDeclaration.java <4:30 4:41>]
 QUALIFIER: com.github.javaparser [JavaParserAnnotationDeclaration.java <4:19 4:28>]
@@ -50,6 +51,7 @@ QUALIFIER: com [JavaParserAnnotationDeclaration.java <7:8 7:10>]
 REFERENCE_IMPORT JavaParserAnnotationDeclaration.java -> java.util.List<E> [JavaParserAnnotationDeclaration.java <9:18 9:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserAnnotationDeclaration.java <9:13 9:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserAnnotationDeclaration.java <9:8 9:11>]
 REFERENCE_IMPORT JavaParserAnnotationDeclaration.java -> java.util.Optional<T> [JavaParserAnnotationDeclaration.java <10:18 10:25>]
 QUALIFIER: java.util [JavaParserAnnotationDeclaration.java <10:13 10:16>]
@@ -58,8 +60,8 @@ REFERENCE_IMPORT JavaParserAnnotationDeclaration.java -> java.util.Set<E> [JavaP
 QUALIFIER: java.util [JavaParserAnnotationDeclaration.java <11:13 11:16>]
 QUALIFIER: java [JavaParserAnnotationDeclaration.java <11:8 11:11>]
 REFERENCE_IMPORT JavaParserAnnotationDeclaration.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserAnnotationDeclaration.java <13:71 13:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserAnnotationDeclaration.java <13:61 13:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserAnnotationDeclaration.java <13:50 13:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserAnnotationDeclaration.java <13:37 13:48>]
 QUALIFIER: com.github.javaparser [JavaParserAnnotationDeclaration.java <13:26 13:35>]

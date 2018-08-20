@@ -13,7 +13,9 @@ QUALIFIER: com [ParameterComparator.java <1:9 1:11>]
 REFERENCE_IMPORT ParameterComparator.java -> java.lang.reflect.Parameter [ParameterComparator.java <3:26 3:34>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ParameterComparator.java <3:18 3:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ParameterComparator.java <3:13 3:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ParameterComparator.java <3:8 3:11>]
 REFERENCE_IMPORT ParameterComparator.java -> java.util.Comparator<T> [ParameterComparator.java <4:18 4:27>]
 SYMBOL_PACKAGE java.util

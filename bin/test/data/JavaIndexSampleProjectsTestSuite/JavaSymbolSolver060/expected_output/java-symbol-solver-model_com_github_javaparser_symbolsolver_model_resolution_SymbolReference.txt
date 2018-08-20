@@ -21,6 +21,7 @@ QUALIFIER: com [SymbolReference.java <19:8 19:10>]
 REFERENCE_IMPORT SymbolReference.java -> java.util.Optional<T> [SymbolReference.java <21:18 21:25>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [SymbolReference.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [SymbolReference.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [SymbolReference.java <29:1 <29:14 29:28> 80:1>]
 LOCAL_SYMBOL: SymbolReference.java<29:53> [SymbolReference.java <29:53 29:53>]

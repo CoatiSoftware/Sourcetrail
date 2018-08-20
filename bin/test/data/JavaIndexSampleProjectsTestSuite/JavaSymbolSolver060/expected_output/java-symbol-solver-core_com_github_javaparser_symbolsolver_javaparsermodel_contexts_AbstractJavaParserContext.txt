@@ -38,6 +38,7 @@ QUALIFIER: com [AbstractJavaParserContext.java <22:8 22:10>]
 REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.core.resolution.Context [AbstractJavaParserContext.java <23:59 23:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [AbstractJavaParserContext.java <23:48 23:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [AbstractJavaParserContext.java <23:43 23:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <23:19 23:28>]
@@ -52,6 +53,7 @@ QUALIFIER: com [AbstractJavaParserContext.java <24:8 24:10>]
 REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [AbstractJavaParserContext.java <25:62 25:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractJavaParserContext.java <25:49 25:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractJavaParserContext.java <25:43 25:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <25:30 25:41>]
 QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <25:19 25:28>]
@@ -97,10 +99,11 @@ QUALIFIER: com [AbstractJavaParserContext.java <30:8 30:10>]
 REFERENCE_IMPORT AbstractJavaParserContext.java -> java.util.Optional<T> [AbstractJavaParserContext.java <32:18 32:25>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [AbstractJavaParserContext.java <32:13 32:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [AbstractJavaParserContext.java <32:8 32:11>]
 REFERENCE_IMPORT AbstractJavaParserContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <34:71 34:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [AbstractJavaParserContext.java <34:61 34:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [AbstractJavaParserContext.java <34:50 34:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <34:37 34:48>]
 QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <34:26 34:35>]

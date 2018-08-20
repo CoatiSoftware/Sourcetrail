@@ -59,6 +59,7 @@ QUALIFIER: com.github [MethodUsage.java <24:12 24:17>]
 QUALIFIER: com [MethodUsage.java <24:8 24:10>]
 REFERENCE_IMPORT MethodUsage.java -> java.util [MethodUsage.java <26:13 26:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [MethodUsage.java <26:8 26:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.methods.MethodUsage [MethodUsage.java <34:1 <34:14 34:24> 148:1>]
 LOCAL_SYMBOL: MethodUsage.java<34:54> [MethodUsage.java <34:54 34:54>]

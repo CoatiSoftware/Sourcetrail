@@ -13,6 +13,7 @@ QUALIFIER: com [LambdaExprContext.java <17:9 17:11>]
 REFERENCE_IMPORT LambdaExprContext.java -> com.github.javaparser.ast.body.Parameter [LambdaExprContext.java <19:39 19:47>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [LambdaExprContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [LambdaExprContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [LambdaExprContext.java <19:19 19:28>]
 QUALIFIER: com.github [LambdaExprContext.java <19:12 19:17>]
@@ -70,6 +71,7 @@ QUALIFIER: com [LambdaExprContext.java <27:8 27:10>]
 REFERENCE_IMPORT LambdaExprContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [LambdaExprContext.java <28:62 28:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [LambdaExprContext.java <28:49 28:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [LambdaExprContext.java <28:43 28:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [LambdaExprContext.java <28:30 28:41>]
 QUALIFIER: com.github.javaparser [LambdaExprContext.java <28:19 28:28>]
@@ -167,10 +169,11 @@ SYMBOL_PACKAGE javaslang
 QUALIFIER: javaslang [LambdaExprContext.java <41:8 41:16>]
 REFERENCE_IMPORT LambdaExprContext.java -> java.util [LambdaExprContext.java <43:13 43:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [LambdaExprContext.java <43:8 43:11>]
 REFERENCE_IMPORT LambdaExprContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [LambdaExprContext.java <45:71 45:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [LambdaExprContext.java <45:61 45:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [LambdaExprContext.java <45:50 45:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [LambdaExprContext.java <45:37 45:48>]
 QUALIFIER: com.github.javaparser [LambdaExprContext.java <45:26 45:35>]

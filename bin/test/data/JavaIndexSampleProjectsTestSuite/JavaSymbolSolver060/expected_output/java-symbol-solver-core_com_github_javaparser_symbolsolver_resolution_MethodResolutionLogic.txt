@@ -11,6 +11,7 @@ QUALIFIER: com [MethodResolutionLogic.java <17:9 17:11>]
 REFERENCE_IMPORT MethodResolutionLogic.java -> com.github.javaparser.symbolsolver.core.resolution.Context [MethodResolutionLogic.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [MethodResolutionLogic.java <19:48 19:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [MethodResolutionLogic.java <19:43 19:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodResolutionLogic.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [MethodResolutionLogic.java <19:19 19:28>]
@@ -19,6 +20,7 @@ QUALIFIER: com [MethodResolutionLogic.java <19:8 19:10>]
 REFERENCE_IMPORT MethodResolutionLogic.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration [MethodResolutionLogic.java <20:72 20:97>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [MethodResolutionLogic.java <20:59 20:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [MethodResolutionLogic.java <20:43 20:57>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodResolutionLogic.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [MethodResolutionLogic.java <20:19 20:28>]
@@ -66,6 +68,7 @@ QUALIFIER: com.github [MethodResolutionLogic.java <26:12 26:17>]
 QUALIFIER: com [MethodResolutionLogic.java <26:8 26:10>]
 REFERENCE_IMPORT MethodResolutionLogic.java -> com.github.javaparser.symbolsolver.model.declarations [MethodResolutionLogic.java <27:49 27:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [MethodResolutionLogic.java <27:43 27:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodResolutionLogic.java <27:30 27:41>]
 QUALIFIER: com.github.javaparser [MethodResolutionLogic.java <27:19 27:28>]
@@ -122,6 +125,7 @@ QUALIFIER: com.github [MethodResolutionLogic.java <34:12 34:17>]
 QUALIFIER: com [MethodResolutionLogic.java <34:8 34:10>]
 REFERENCE_IMPORT MethodResolutionLogic.java -> java.util [MethodResolutionLogic.java <36:13 36:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [MethodResolutionLogic.java <36:8 36:11>]
 REFERENCE_IMPORT MethodResolutionLogic.java -> java.util.stream.Collectors [MethodResolutionLogic.java <37:25 37:34>]
 SYMBOL_PACKAGE java.util.stream

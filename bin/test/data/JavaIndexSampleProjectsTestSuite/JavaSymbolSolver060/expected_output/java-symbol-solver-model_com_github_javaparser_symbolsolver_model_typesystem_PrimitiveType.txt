@@ -13,12 +13,15 @@ QUALIFIER: com [PrimitiveType.java <17:9 17:11>]
 REFERENCE_IMPORT PrimitiveType.java -> com.google.common.collect.ImmutableList<E> [PrimitiveType.java <19:34 19:46>]
 SYMBOL_PACKAGE com.google.common.collect
 QUALIFIER: com.google.common.collect [PrimitiveType.java <19:26 19:32>]
+SYMBOL_PACKAGE com.google.common
 QUALIFIER: com.google.common [PrimitiveType.java <19:19 19:24>]
+SYMBOL_PACKAGE com.google
 QUALIFIER: com.google [PrimitiveType.java <19:12 19:17>]
 QUALIFIER: com [PrimitiveType.java <19:8 19:10>]
 REFERENCE_IMPORT PrimitiveType.java -> java.util.List<E> [PrimitiveType.java <21:18 21:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [PrimitiveType.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [PrimitiveType.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <26:1 <26:14 26:26> 127:1>]
 LOCAL_SYMBOL: PrimitiveType.java<26:44> [PrimitiveType.java <26:44 26:44>]

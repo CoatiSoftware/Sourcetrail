@@ -13,6 +13,7 @@ QUALIFIER: com [MethodLikeDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT MethodLikeDeclaration.java -> java.util.Optional<T> [MethodLikeDeclaration.java <19:18 19:25>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [MethodLikeDeclaration.java <19:13 19:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [MethodLikeDeclaration.java <19:8 19:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [MethodLikeDeclaration.java <26:1 <26:18 26:38> 122:1>]
 LOCAL_SYMBOL: MethodLikeDeclaration.java<26:96> [MethodLikeDeclaration.java <26:96 26:96>]

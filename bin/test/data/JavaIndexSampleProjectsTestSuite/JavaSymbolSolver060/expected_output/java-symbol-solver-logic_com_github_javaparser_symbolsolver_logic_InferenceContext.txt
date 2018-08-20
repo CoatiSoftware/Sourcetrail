@@ -11,6 +11,7 @@ QUALIFIER: com [InferenceContext.java <17:9 17:11>]
 REFERENCE_IMPORT InferenceContext.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [InferenceContext.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [InferenceContext.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [InferenceContext.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [InferenceContext.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [InferenceContext.java <19:19 19:28>]
@@ -26,6 +27,7 @@ QUALIFIER: com [InferenceContext.java <20:8 20:10>]
 REFERENCE_IMPORT InferenceContext.java -> java.util.ArrayList<E> [InferenceContext.java <22:18 22:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [InferenceContext.java <22:13 22:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [InferenceContext.java <22:8 22:11>]
 REFERENCE_IMPORT InferenceContext.java -> java.util.HashMap<K, V> [InferenceContext.java <23:18 23:24>]
 QUALIFIER: java.util [InferenceContext.java <23:13 23:16>]

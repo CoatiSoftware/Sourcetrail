@@ -63,6 +63,7 @@ QUALIFIER: com [JavaParserTypeAdapter.java <10:8 10:10>]
 REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavaParserTypeAdapter.java <11:62 11:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserTypeAdapter.java <11:49 11:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <11:43 11:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <11:30 11:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <11:19 11:28>]
@@ -122,13 +123,14 @@ QUALIFIER: com [JavaParserTypeAdapter.java <18:8 18:10>]
 REFERENCE_IMPORT JavaParserTypeAdapter.java -> java.util.List<E> [JavaParserTypeAdapter.java <20:18 20:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserTypeAdapter.java <20:13 20:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserTypeAdapter.java <20:8 20:11>]
 REFERENCE_IMPORT JavaParserTypeAdapter.java -> java.util.Optional<T> [JavaParserTypeAdapter.java <21:18 21:25>]
 QUALIFIER: java.util [JavaParserTypeAdapter.java <21:13 21:16>]
 QUALIFIER: java [JavaParserTypeAdapter.java <21:8 21:11>]
 REFERENCE_IMPORT JavaParserTypeAdapter.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserTypeAdapter.java <23:71 23:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserTypeAdapter.java <23:61 23:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserTypeAdapter.java <23:50 23:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <23:37 23:48>]
 QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <23:26 23:35>]

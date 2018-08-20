@@ -12,6 +12,7 @@ QUALIFIER: com.github [DefaultConstructorDeclaration.java <17:13 17:18>]
 QUALIFIER: com [DefaultConstructorDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT DefaultConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [DefaultConstructorDeclaration.java <19:49 19:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [DefaultConstructorDeclaration.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [DefaultConstructorDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [DefaultConstructorDeclaration.java <19:19 19:28>]
@@ -20,6 +21,7 @@ QUALIFIER: com [DefaultConstructorDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT DefaultConstructorDeclaration.java -> java.util.Collections [DefaultConstructorDeclaration.java <21:18 21:28>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [DefaultConstructorDeclaration.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [DefaultConstructorDeclaration.java <21:8 21:11>]
 REFERENCE_IMPORT DefaultConstructorDeclaration.java -> java.util.List<E> [DefaultConstructorDeclaration.java <22:18 22:21>]
 QUALIFIER: java.util [DefaultConstructorDeclaration.java <22:13 22:16>]

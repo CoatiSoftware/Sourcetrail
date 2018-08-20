@@ -11,6 +11,7 @@ QUALIFIER: com [LambdaArgumentTypePlaceholder.java <17:9 17:11>]
 REFERENCE_IMPORT LambdaArgumentTypePlaceholder.java -> com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [LambdaArgumentTypePlaceholder.java <19:62 19:82>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [LambdaArgumentTypePlaceholder.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [LambdaArgumentTypePlaceholder.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [LambdaArgumentTypePlaceholder.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [LambdaArgumentTypePlaceholder.java <19:19 19:28>]

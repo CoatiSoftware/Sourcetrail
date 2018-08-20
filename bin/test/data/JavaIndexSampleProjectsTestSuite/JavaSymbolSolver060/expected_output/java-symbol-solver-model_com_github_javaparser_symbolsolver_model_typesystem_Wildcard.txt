@@ -21,6 +21,7 @@ QUALIFIER: com [Wildcard.java <19:8 19:10>]
 REFERENCE_IMPORT Wildcard.java -> java.util.Map<K, V> [Wildcard.java <21:18 21:20>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [Wildcard.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [Wildcard.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <32:1 <32:14 32:21> 163:1>]
 LOCAL_SYMBOL: Wildcard.java<32:39> [Wildcard.java <32:39 32:39>]

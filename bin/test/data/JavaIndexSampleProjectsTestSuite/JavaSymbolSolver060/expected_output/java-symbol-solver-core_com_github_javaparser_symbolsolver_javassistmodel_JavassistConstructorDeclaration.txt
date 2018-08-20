@@ -10,6 +10,7 @@ QUALIFIER: com.github [JavassistConstructorDeclaration.java <17:13 17:18>]
 QUALIFIER: com [JavassistConstructorDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT JavassistConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistConstructorDeclaration.java <19:49 19:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistConstructorDeclaration.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistConstructorDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [JavassistConstructorDeclaration.java <19:19 19:28>]
@@ -38,6 +39,7 @@ QUALIFIER: javassist [JavassistConstructorDeclaration.java <24:8 24:16>]
 REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.Arrays [JavassistConstructorDeclaration.java <26:18 26:23>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavassistConstructorDeclaration.java <26:13 26:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistConstructorDeclaration.java <26:8 26:11>]
 REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.Collections [JavassistConstructorDeclaration.java <27:18 27:28>]
 QUALIFIER: java.util [JavassistConstructorDeclaration.java <27:13 27:16>]

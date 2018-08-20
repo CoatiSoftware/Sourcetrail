@@ -71,6 +71,7 @@ QUALIFIER: com [JavaParserFacade.java <28:8 28:10>]
 REFERENCE_IMPORT JavaParserFacade.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserFacade.java <29:59 29:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserFacade.java <29:48 29:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserFacade.java <29:43 29:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserFacade.java <29:30 29:41>]
 QUALIFIER: com.github.javaparser [JavaParserFacade.java <29:19 29:28>]
@@ -78,6 +79,7 @@ QUALIFIER: com.github [JavaParserFacade.java <29:12 29:17>]
 QUALIFIER: com [JavaParserFacade.java <29:8 29:10>]
 REFERENCE_IMPORT JavaParserFacade.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations [JavaParserFacade.java <30:59 30:70>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [JavaParserFacade.java <30:43 30:57>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserFacade.java <30:30 30:41>]
 QUALIFIER: com.github.javaparser [JavaParserFacade.java <30:19 30:28>]
@@ -85,6 +87,7 @@ QUALIFIER: com.github [JavaParserFacade.java <30:12 30:17>]
 QUALIFIER: com [JavaParserFacade.java <30:8 30:10>]
 REFERENCE_IMPORT JavaParserFacade.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserFacade.java <31:49 31:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserFacade.java <31:43 31:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserFacade.java <31:30 31:41>]
 QUALIFIER: com.github.javaparser [JavaParserFacade.java <31:19 31:28>]
@@ -163,6 +166,7 @@ QUALIFIER: com.github [JavaParserFacade.java <41:12 41:17>]
 QUALIFIER: com [JavaParserFacade.java <41:8 41:10>]
 REFERENCE_IMPORT JavaParserFacade.java -> java.util [JavaParserFacade.java <43:13 43:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserFacade.java <43:8 43:11>]
 REFERENCE_IMPORT JavaParserFacade.java -> java.util.logging.ConsoleHandler [JavaParserFacade.java <44:26 44:39>]
 SYMBOL_PACKAGE java.util.logging
@@ -183,8 +187,8 @@ QUALIFIER: java.util.stream [JavaParserFacade.java <47:18 47:23>]
 QUALIFIER: java.util [JavaParserFacade.java <47:13 47:16>]
 QUALIFIER: java [JavaParserFacade.java <47:8 47:11>]
 REFERENCE_IMPORT JavaParserFacade.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserFacade.java <49:71 49:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserFacade.java <49:61 49:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserFacade.java <49:50 49:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserFacade.java <49:37 49:48>]
 QUALIFIER: com.github.javaparser [JavaParserFacade.java <49:26 49:35>]

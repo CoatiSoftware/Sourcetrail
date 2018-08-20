@@ -60,6 +60,7 @@ QUALIFIER: com [Navigator.java <26:8 26:10>]
 REFERENCE_IMPORT Navigator.java -> java.util.LinkedList<E> [Navigator.java <28:18 28:27>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [Navigator.java <28:13 28:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [Navigator.java <28:8 28:11>]
 REFERENCE_IMPORT Navigator.java -> java.util.List<E> [Navigator.java <29:18 29:21>]
 QUALIFIER: java.util [Navigator.java <29:13 29:16>]

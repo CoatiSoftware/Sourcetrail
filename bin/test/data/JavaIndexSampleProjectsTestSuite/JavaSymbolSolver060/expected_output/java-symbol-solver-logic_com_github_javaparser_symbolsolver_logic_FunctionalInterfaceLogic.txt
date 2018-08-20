@@ -11,6 +11,7 @@ QUALIFIER: com [FunctionalInterfaceLogic.java <17:9 17:11>]
 REFERENCE_IMPORT FunctionalInterfaceLogic.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [FunctionalInterfaceLogic.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [FunctionalInterfaceLogic.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [FunctionalInterfaceLogic.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [FunctionalInterfaceLogic.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [FunctionalInterfaceLogic.java <19:19 19:28>]
@@ -35,7 +36,9 @@ QUALIFIER: com [FunctionalInterfaceLogic.java <21:8 21:10>]
 REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.lang.reflect.Method [FunctionalInterfaceLogic.java <23:26 23:31>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [FunctionalInterfaceLogic.java <23:18 23:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [FunctionalInterfaceLogic.java <23:13 23:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [FunctionalInterfaceLogic.java <23:8 23:11>]
 REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.lang.reflect.Parameter [FunctionalInterfaceLogic.java <24:26 24:34>]
 QUALIFIER: java.lang.reflect [FunctionalInterfaceLogic.java <24:18 24:24>]

@@ -13,6 +13,7 @@ QUALIFIER: com [SwitchEntryContext.java <17:9 17:11>]
 REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.ast.stmt.Statement [SwitchEntryContext.java <19:39 19:47>]
 SYMBOL_PACKAGE com.github.javaparser.ast.stmt
 QUALIFIER: com.github.javaparser.ast.stmt [SwitchEntryContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [SwitchEntryContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [SwitchEntryContext.java <19:19 19:28>]
 QUALIFIER: com.github [SwitchEntryContext.java <19:12 19:17>]
@@ -44,6 +45,7 @@ QUALIFIER: com [SwitchEntryContext.java <23:8 23:10>]
 REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [SwitchEntryContext.java <24:62 24:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SwitchEntryContext.java <24:49 24:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [SwitchEntryContext.java <24:43 24:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <24:30 24:41>]
 QUALIFIER: com.github.javaparser [SwitchEntryContext.java <24:19 24:28>]
@@ -96,10 +98,11 @@ QUALIFIER: com [SwitchEntryContext.java <30:8 30:10>]
 REFERENCE_IMPORT SwitchEntryContext.java -> java.util.List<E> [SwitchEntryContext.java <32:18 32:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [SwitchEntryContext.java <32:13 32:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [SwitchEntryContext.java <32:8 32:11>]
 REFERENCE_IMPORT SwitchEntryContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [SwitchEntryContext.java <34:71 34:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [SwitchEntryContext.java <34:61 34:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [SwitchEntryContext.java <34:50 34:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <34:37 34:48>]
 QUALIFIER: com.github.javaparser [SwitchEntryContext.java <34:26 34:35>]

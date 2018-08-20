@@ -12,6 +12,7 @@ QUALIFIER: com.github [JavaParserConstructorDeclaration.java <17:13 17:18>]
 QUALIFIER: com [JavaParserConstructorDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT JavaParserConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserConstructorDeclaration.java <19:49 19:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserConstructorDeclaration.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserConstructorDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [JavaParserConstructorDeclaration.java <19:19 19:28>]
@@ -28,6 +29,7 @@ QUALIFIER: com [JavaParserConstructorDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavaParserConstructorDeclaration.java -> java.util.List<E> [JavaParserConstructorDeclaration.java <22:18 22:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserConstructorDeclaration.java <22:13 22:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserConstructorDeclaration.java <22:8 22:11>]
 REFERENCE_IMPORT JavaParserConstructorDeclaration.java -> java.util.stream.Collectors [JavaParserConstructorDeclaration.java <23:25 23:34>]
 SYMBOL_PACKAGE java.util.stream

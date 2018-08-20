@@ -21,6 +21,7 @@ QUALIFIER: com [TypeDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT TypeDeclaration.java -> java.util.Optional<T> [TypeDeclaration.java <21:18 21:25>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [TypeDeclaration.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [TypeDeclaration.java <21:8 21:11>]
 REFERENCE_IMPORT TypeDeclaration.java -> java.util.Set<E> [TypeDeclaration.java <22:18 22:20>]
 QUALIFIER: java.util [TypeDeclaration.java <22:13 22:16>]

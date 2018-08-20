@@ -21,6 +21,7 @@ QUALIFIER: com [LazyType.java <3:8 3:10>]
 REFERENCE_IMPORT LazyType.java -> java.util.Map<K, V> [LazyType.java <5:18 5:20>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [LazyType.java <5:13 5:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [LazyType.java <5:8 5:11>]
 REFERENCE_IMPORT LazyType.java -> java.util.function.Function<T, R> [LazyType.java <6:27 6:34>]
 SYMBOL_PACKAGE java.util.function

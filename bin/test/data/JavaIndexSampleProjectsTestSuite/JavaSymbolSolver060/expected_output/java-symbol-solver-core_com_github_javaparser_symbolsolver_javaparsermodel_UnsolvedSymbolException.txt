@@ -11,6 +11,7 @@ QUALIFIER: com [UnsolvedSymbolException.java <17:9 17:11>]
 REFERENCE_IMPORT UnsolvedSymbolException.java -> com.github.javaparser.symbolsolver.core.resolution.Context [UnsolvedSymbolException.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [UnsolvedSymbolException.java <19:48 19:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [UnsolvedSymbolException.java <19:43 19:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [UnsolvedSymbolException.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [UnsolvedSymbolException.java <19:19 19:28>]
@@ -19,6 +20,7 @@ QUALIFIER: com [UnsolvedSymbolException.java <19:8 19:10>]
 REFERENCE_IMPORT UnsolvedSymbolException.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [UnsolvedSymbolException.java <20:60 20:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [UnsolvedSymbolException.java <20:49 20:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [UnsolvedSymbolException.java <20:43 20:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [UnsolvedSymbolException.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [UnsolvedSymbolException.java <20:19 20:28>]

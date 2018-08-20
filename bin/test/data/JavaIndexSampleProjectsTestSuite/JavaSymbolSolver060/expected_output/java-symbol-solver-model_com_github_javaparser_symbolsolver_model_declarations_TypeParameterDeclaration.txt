@@ -29,6 +29,7 @@ QUALIFIER: com [TypeParameterDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT TypeParameterDeclaration.java -> java.util.List<E> [TypeParameterDeclaration.java <22:18 22:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [TypeParameterDeclaration.java <22:13 22:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [TypeParameterDeclaration.java <22:8 22:11>]
 REFERENCE_IMPORT TypeParameterDeclaration.java -> java.util.Optional<T> [TypeParameterDeclaration.java <23:18 23:25>]
 QUALIFIER: java.util [TypeParameterDeclaration.java <23:13 23:16>]

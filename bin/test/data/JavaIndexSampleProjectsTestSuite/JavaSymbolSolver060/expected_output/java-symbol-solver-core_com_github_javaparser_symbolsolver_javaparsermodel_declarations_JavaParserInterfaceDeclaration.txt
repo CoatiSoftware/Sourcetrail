@@ -52,6 +52,7 @@ QUALIFIER: com [JavaParserInterfaceDeclaration.java <24:8 24:10>]
 REFERENCE_IMPORT JavaParserInterfaceDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserInterfaceDeclaration.java <25:59 25:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserInterfaceDeclaration.java <25:48 25:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserInterfaceDeclaration.java <25:43 25:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserInterfaceDeclaration.java <25:30 25:41>]
 QUALIFIER: com.github.javaparser [JavaParserInterfaceDeclaration.java <25:19 25:28>]
@@ -84,6 +85,7 @@ QUALIFIER: com.github [JavaParserInterfaceDeclaration.java <29:12 29:17>]
 QUALIFIER: com [JavaParserInterfaceDeclaration.java <29:8 29:10>]
 REFERENCE_IMPORT JavaParserInterfaceDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserInterfaceDeclaration.java <30:49 30:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserInterfaceDeclaration.java <30:43 30:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserInterfaceDeclaration.java <30:30 30:41>]
 QUALIFIER: com.github.javaparser [JavaParserInterfaceDeclaration.java <30:19 30:28>]
@@ -142,6 +144,7 @@ QUALIFIER: com.github [JavaParserInterfaceDeclaration.java <37:12 37:17>]
 QUALIFIER: com [JavaParserInterfaceDeclaration.java <37:8 37:10>]
 REFERENCE_IMPORT JavaParserInterfaceDeclaration.java -> java.util [JavaParserInterfaceDeclaration.java <39:13 39:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserInterfaceDeclaration.java <39:8 39:11>]
 REFERENCE_IMPORT JavaParserInterfaceDeclaration.java -> java.util.stream.Collectors [JavaParserInterfaceDeclaration.java <40:25 40:34>]
 SYMBOL_PACKAGE java.util.stream

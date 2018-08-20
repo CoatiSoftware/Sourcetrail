@@ -11,6 +11,7 @@ QUALIFIER: com [ConfilictingGenericTypesException.java <1:9 1:11>]
 REFERENCE_IMPORT ConfilictingGenericTypesException.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ConfilictingGenericTypesException.java <3:60 3:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ConfilictingGenericTypesException.java <3:49 3:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ConfilictingGenericTypesException.java <3:43 3:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ConfilictingGenericTypesException.java <3:30 3:41>]
 QUALIFIER: com.github.javaparser [ConfilictingGenericTypesException.java <3:19 3:28>]

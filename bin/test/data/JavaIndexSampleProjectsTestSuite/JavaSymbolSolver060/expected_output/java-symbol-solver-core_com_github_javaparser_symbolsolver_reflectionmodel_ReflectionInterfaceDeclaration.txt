@@ -17,6 +17,7 @@ QUALIFIER: com [ReflectionInterfaceDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT ReflectionInterfaceDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionInterfaceDeclaration.java <20:59 20:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [ReflectionInterfaceDeclaration.java <20:48 20:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [ReflectionInterfaceDeclaration.java <20:43 20:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionInterfaceDeclaration.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [ReflectionInterfaceDeclaration.java <20:19 20:28>]
@@ -50,6 +51,7 @@ QUALIFIER: com.github [ReflectionInterfaceDeclaration.java <24:12 24:17>]
 QUALIFIER: com [ReflectionInterfaceDeclaration.java <24:8 24:10>]
 REFERENCE_IMPORT ReflectionInterfaceDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionInterfaceDeclaration.java <25:49 25:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionInterfaceDeclaration.java <25:43 25:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionInterfaceDeclaration.java <25:30 25:41>]
 QUALIFIER: com.github.javaparser [ReflectionInterfaceDeclaration.java <25:19 25:28>]
@@ -110,7 +112,9 @@ QUALIFIER: com [ReflectionInterfaceDeclaration.java <32:8 32:10>]
 REFERENCE_IMPORT ReflectionInterfaceDeclaration.java -> java.lang.reflect.Field [ReflectionInterfaceDeclaration.java <34:26 34:30>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionInterfaceDeclaration.java <34:18 34:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionInterfaceDeclaration.java <34:13 34:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionInterfaceDeclaration.java <34:8 34:11>]
 REFERENCE_IMPORT ReflectionInterfaceDeclaration.java -> java.util [ReflectionInterfaceDeclaration.java <35:13 35:16>]
 SYMBOL_PACKAGE java.util

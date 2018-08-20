@@ -21,6 +21,7 @@ QUALIFIER: com [Type.java <19:8 19:10>]
 REFERENCE_IMPORT Type.java -> java.util.HashMap<K, V> [Type.java <21:18 21:24>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [Type.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [Type.java <21:8 21:11>]
 REFERENCE_IMPORT Type.java -> java.util.Map<K, V> [Type.java <22:18 22:20>]
 QUALIFIER: java.util [Type.java <22:13 22:16>]

@@ -37,6 +37,7 @@ QUALIFIER: com [TypeParameterValueProvider.java <5:8 5:10>]
 REFERENCE_IMPORT TypeParameterValueProvider.java -> java.util.Optional<T> [TypeParameterValueProvider.java <7:18 7:25>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [TypeParameterValueProvider.java <7:13 7:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [TypeParameterValueProvider.java <7:8 7:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider [TypeParameterValueProvider.java <12:1 <12:18 12:43> 51:1>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<12:45> [TypeParameterValueProvider.java <12:45 12:45>]

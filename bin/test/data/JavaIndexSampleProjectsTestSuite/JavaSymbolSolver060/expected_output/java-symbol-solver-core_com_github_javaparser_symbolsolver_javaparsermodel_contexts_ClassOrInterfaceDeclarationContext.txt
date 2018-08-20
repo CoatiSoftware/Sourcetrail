@@ -13,6 +13,7 @@ QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <17:9 17:11>]
 REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [ClassOrInterfaceDeclarationContext.java <19:39 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [ClassOrInterfaceDeclarationContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [ClassOrInterfaceDeclarationContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <19:19 19:28>]
 QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <19:12 19:17>]
@@ -33,6 +34,7 @@ QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <21:12 21:17>]
 QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <21:8 21:10>]
 REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.declarations [ClassOrInterfaceDeclarationContext.java <22:49 22:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ClassOrInterfaceDeclarationContext.java <22:43 22:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <22:30 22:41>]
 QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <22:19 22:28>]
@@ -78,6 +80,7 @@ QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <27:8 27:10>]
 REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> java.util.List<E> [ClassOrInterfaceDeclarationContext.java <29:18 29:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ClassOrInterfaceDeclarationContext.java <29:13 29:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ClassOrInterfaceDeclarationContext.java <29:8 29:11>]
 REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> java.util.Optional<T> [ClassOrInterfaceDeclarationContext.java <30:18 30:25>]
 QUALIFIER: java.util [ClassOrInterfaceDeclarationContext.java <30:13 30:16>]

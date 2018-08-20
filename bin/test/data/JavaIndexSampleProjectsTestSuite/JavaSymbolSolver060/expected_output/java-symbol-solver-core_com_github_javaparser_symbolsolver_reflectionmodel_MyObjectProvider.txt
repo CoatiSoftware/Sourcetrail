@@ -18,6 +18,7 @@ QUALIFIER: com [MyObjectProvider.java <3:8 3:10>]
 REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MyObjectProvider.java <4:62 4:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [MyObjectProvider.java <4:49 4:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [MyObjectProvider.java <4:43 4:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <4:30 4:41>]
 QUALIFIER: com.github.javaparser [MyObjectProvider.java <4:19 4:28>]
@@ -49,6 +50,7 @@ QUALIFIER: com [MyObjectProvider.java <7:8 7:10>]
 REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [MyObjectProvider.java <8:66 8:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution.typesolvers
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers [MyObjectProvider.java <8:54 8:64>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.resolution [MyObjectProvider.java <8:43 8:52>]
 QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <8:30 8:41>]
 QUALIFIER: com.github.javaparser [MyObjectProvider.java <8:19 8:28>]

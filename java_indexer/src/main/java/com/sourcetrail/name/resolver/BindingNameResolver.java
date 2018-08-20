@@ -29,11 +29,11 @@ public class BindingNameResolver extends NameResolver
 		{
 			return getParentBinding((ITypeBinding) binding);
 		}
-		else if (binding instanceof IMethodBinding)
+		if (binding instanceof IMethodBinding)
 		{
 			return ((IMethodBinding) binding).getDeclaringClass();
 		}
-		else if (binding instanceof IVariableBinding)
+		if (binding instanceof IVariableBinding)
 		{
 			return ((IVariableBinding) binding).getDeclaringClass();
 		}

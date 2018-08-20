@@ -13,6 +13,7 @@ QUALIFIER: com [MethodContext.java <17:9 17:11>]
 REFERENCE_IMPORT MethodContext.java -> com.github.javaparser.ast.body.MethodDeclaration [MethodContext.java <20:39 20:55>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [MethodContext.java <20:34 20:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [MethodContext.java <20:30 20:32>]
 QUALIFIER: com.github.javaparser [MethodContext.java <20:19 20:28>]
 QUALIFIER: com.github [MethodContext.java <20:12 20:17>]
@@ -20,6 +21,7 @@ QUALIFIER: com [MethodContext.java <20:8 20:10>]
 REFERENCE_IMPORT MethodContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MethodContext.java <21:60 21:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [MethodContext.java <21:49 21:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [MethodContext.java <21:43 21:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodContext.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [MethodContext.java <21:19 21:28>]

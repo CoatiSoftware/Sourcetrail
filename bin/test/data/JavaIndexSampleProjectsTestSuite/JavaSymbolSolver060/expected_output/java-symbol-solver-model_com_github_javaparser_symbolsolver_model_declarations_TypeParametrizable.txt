@@ -13,6 +13,7 @@ QUALIFIER: com [TypeParametrizable.java <17:9 17:11>]
 REFERENCE_IMPORT TypeParametrizable.java -> java.util.List<E> [TypeParametrizable.java <19:18 19:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [TypeParametrizable.java <19:13 19:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [TypeParametrizable.java <19:8 19:11>]
 REFERENCE_IMPORT TypeParametrizable.java -> java.util.Optional<T> [TypeParametrizable.java <20:18 20:25>]
 QUALIFIER: java.util [TypeParametrizable.java <20:13 20:16>]

@@ -11,6 +11,7 @@ QUALIFIER: com [JavassistInterfaceDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT JavassistInterfaceDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistInterfaceDeclaration.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavassistInterfaceDeclaration.java <19:48 19:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavassistInterfaceDeclaration.java <19:43 19:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistInterfaceDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [JavassistInterfaceDeclaration.java <19:19 19:28>]
@@ -25,6 +26,7 @@ QUALIFIER: com.github [JavassistInterfaceDeclaration.java <20:12 20:17>]
 QUALIFIER: com [JavassistInterfaceDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavassistInterfaceDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistInterfaceDeclaration.java <21:49 21:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistInterfaceDeclaration.java <21:43 21:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistInterfaceDeclaration.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [JavassistInterfaceDeclaration.java <21:19 21:28>]
@@ -108,7 +110,9 @@ QUALIFIER: javassist [JavassistInterfaceDeclaration.java <35:8 35:16>]
 REFERENCE_IMPORT JavassistInterfaceDeclaration.java -> java.lang.reflect.Modifier [JavassistInterfaceDeclaration.java <37:26 37:33>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [JavassistInterfaceDeclaration.java <37:18 37:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [JavassistInterfaceDeclaration.java <37:13 37:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistInterfaceDeclaration.java <37:8 37:11>]
 REFERENCE_IMPORT JavassistInterfaceDeclaration.java -> java.util [JavassistInterfaceDeclaration.java <38:13 38:16>]
 SYMBOL_PACKAGE java.util

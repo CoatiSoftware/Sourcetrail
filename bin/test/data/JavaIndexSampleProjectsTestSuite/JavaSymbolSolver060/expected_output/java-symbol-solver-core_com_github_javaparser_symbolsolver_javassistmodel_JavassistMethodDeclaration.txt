@@ -17,6 +17,7 @@ QUALIFIER: com [JavassistMethodDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistMethodDeclaration.java <20:59 20:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavassistMethodDeclaration.java <20:48 20:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavassistMethodDeclaration.java <20:43 20:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <20:19 20:28>]
@@ -25,6 +26,7 @@ QUALIFIER: com [JavassistMethodDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [JavassistMethodDeclaration.java <21:63 21:90>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations.common
 QUALIFIER: com.github.javaparser.symbolsolver.declarations.common [JavassistMethodDeclaration.java <21:56 21:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.declarations [JavassistMethodDeclaration.java <21:43 21:54>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <21:19 21:28>]
@@ -32,6 +34,7 @@ QUALIFIER: com.github [JavassistMethodDeclaration.java <21:12 21:17>]
 QUALIFIER: com [JavassistMethodDeclaration.java <21:8 21:10>]
 REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistMethodDeclaration.java <22:49 22:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistMethodDeclaration.java <22:43 22:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <22:30 22:41>]
 QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <22:19 22:28>]
@@ -76,7 +79,9 @@ QUALIFIER: javassist [JavassistMethodDeclaration.java <29:8 29:16>]
 REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.lang.reflect.Modifier [JavassistMethodDeclaration.java <31:26 31:33>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [JavassistMethodDeclaration.java <31:18 31:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [JavassistMethodDeclaration.java <31:13 31:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistMethodDeclaration.java <31:8 31:11>]
 REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.Arrays [JavassistMethodDeclaration.java <32:18 32:23>]
 SYMBOL_PACKAGE java.util

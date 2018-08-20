@@ -77,6 +77,7 @@ QUALIFIER: com [SourceFileInfoExtractor.java <30:8 30:10>]
 REFERENCE_IMPORT SourceFileInfoExtractor.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [SourceFileInfoExtractor.java <31:59 31:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [SourceFileInfoExtractor.java <31:43 31:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 QUALIFIER: com.github.javaparser.symbolsolver [SourceFileInfoExtractor.java <31:30 31:41>]
 QUALIFIER: com.github.javaparser [SourceFileInfoExtractor.java <31:19 31:28>]
 QUALIFIER: com.github [SourceFileInfoExtractor.java <31:12 31:17>]
@@ -84,6 +85,7 @@ QUALIFIER: com [SourceFileInfoExtractor.java <31:8 31:10>]
 REFERENCE_IMPORT SourceFileInfoExtractor.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [SourceFileInfoExtractor.java <32:62 32:76>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SourceFileInfoExtractor.java <32:49 32:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [SourceFileInfoExtractor.java <32:43 32:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [SourceFileInfoExtractor.java <32:30 32:41>]
 QUALIFIER: com.github.javaparser [SourceFileInfoExtractor.java <32:19 32:28>]
@@ -122,6 +124,7 @@ QUALIFIER: com [SourceFileInfoExtractor.java <36:8 36:10>]
 REFERENCE_IMPORT SourceFileInfoExtractor.java -> java.io.File [SourceFileInfoExtractor.java <38:16 38:19>]
 SYMBOL_PACKAGE java.io
 QUALIFIER: java.io [SourceFileInfoExtractor.java <38:13 38:14>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [SourceFileInfoExtractor.java <38:8 38:11>]
 REFERENCE_IMPORT SourceFileInfoExtractor.java -> java.io.IOException [SourceFileInfoExtractor.java <39:16 39:26>]
 QUALIFIER: java.io [SourceFileInfoExtractor.java <39:13 39:14>]
@@ -137,8 +140,8 @@ REFERENCE_IMPORT SourceFileInfoExtractor.java -> java.util.List<E> [SourceFileIn
 QUALIFIER: java.util [SourceFileInfoExtractor.java <42:13 42:16>]
 QUALIFIER: java [SourceFileInfoExtractor.java <42:8 42:11>]
 REFERENCE_IMPORT SourceFileInfoExtractor.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [SourceFileInfoExtractor.java <44:71 44:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [SourceFileInfoExtractor.java <44:61 44:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [SourceFileInfoExtractor.java <44:50 44:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [SourceFileInfoExtractor.java <44:37 44:48>]
 QUALIFIER: com.github.javaparser [SourceFileInfoExtractor.java <44:26 44:35>]

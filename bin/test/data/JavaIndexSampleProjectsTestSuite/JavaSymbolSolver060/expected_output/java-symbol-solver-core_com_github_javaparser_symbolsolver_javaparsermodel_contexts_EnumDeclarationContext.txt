@@ -13,6 +13,7 @@ QUALIFIER: com [EnumDeclarationContext.java <17:9 17:11>]
 REFERENCE_IMPORT EnumDeclarationContext.java -> com.github.javaparser.ast.body.EnumConstantDeclaration [EnumDeclarationContext.java <19:39 19:61>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [EnumDeclarationContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [EnumDeclarationContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [EnumDeclarationContext.java <19:19 19:28>]
 QUALIFIER: com.github [EnumDeclarationContext.java <19:12 19:17>]
@@ -41,6 +42,7 @@ QUALIFIER: com [EnumDeclarationContext.java <22:8 22:10>]
 REFERENCE_IMPORT EnumDeclarationContext.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [EnumDeclarationContext.java <23:62 23:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [EnumDeclarationContext.java <23:49 23:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [EnumDeclarationContext.java <23:43 23:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [EnumDeclarationContext.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [EnumDeclarationContext.java <23:19 23:28>]
@@ -79,6 +81,7 @@ QUALIFIER: com [EnumDeclarationContext.java <27:8 27:10>]
 REFERENCE_IMPORT EnumDeclarationContext.java -> java.util.List<E> [EnumDeclarationContext.java <29:18 29:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [EnumDeclarationContext.java <29:13 29:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [EnumDeclarationContext.java <29:8 29:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.EnumDeclarationContext [EnumDeclarationContext.java <34:1 <34:14 34:35> 80:1>]
 LOCAL_SYMBOL: EnumDeclarationContext.java<34:88> [EnumDeclarationContext.java <34:88 34:88>]

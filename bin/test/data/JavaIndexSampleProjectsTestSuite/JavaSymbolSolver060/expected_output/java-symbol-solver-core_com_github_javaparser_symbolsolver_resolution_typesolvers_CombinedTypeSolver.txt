@@ -20,6 +20,7 @@ QUALIFIER: com [CombinedTypeSolver.java <19:8 19:10>]
 REFERENCE_IMPORT CombinedTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [CombinedTypeSolver.java <20:62 20:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [CombinedTypeSolver.java <20:49 20:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [CombinedTypeSolver.java <20:43 20:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [CombinedTypeSolver.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [CombinedTypeSolver.java <20:19 20:28>]
@@ -43,6 +44,7 @@ QUALIFIER: com [CombinedTypeSolver.java <22:8 22:10>]
 REFERENCE_IMPORT CombinedTypeSolver.java -> java.util.ArrayList<E> [CombinedTypeSolver.java <24:18 24:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [CombinedTypeSolver.java <24:13 24:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [CombinedTypeSolver.java <24:8 24:11>]
 REFERENCE_IMPORT CombinedTypeSolver.java -> java.util.List<E> [CombinedTypeSolver.java <25:18 25:21>]
 QUALIFIER: java.util [CombinedTypeSolver.java <25:13 25:16>]

@@ -20,6 +20,7 @@ QUALIFIER: com [JarTypeSolver.java <17:8 17:10>]
 REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JarTypeSolver.java <18:62 18:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JarTypeSolver.java <18:49 18:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JarTypeSolver.java <18:43 18:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JarTypeSolver.java <18:30 18:41>]
 QUALIFIER: com.github.javaparser [JarTypeSolver.java <18:19 18:28>]
@@ -57,6 +58,7 @@ QUALIFIER: javassist [JarTypeSolver.java <24:8 24:16>]
 REFERENCE_IMPORT JarTypeSolver.java -> java.io.IOException [JarTypeSolver.java <26:16 26:26>]
 SYMBOL_PACKAGE java.io
 QUALIFIER: java.io [JarTypeSolver.java <26:13 26:14>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JarTypeSolver.java <26:8 26:11>]
 REFERENCE_IMPORT JarTypeSolver.java -> java.io.InputStream [JarTypeSolver.java <27:16 27:26>]
 QUALIFIER: java.io [JarTypeSolver.java <27:13 27:14>]

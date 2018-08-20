@@ -13,6 +13,7 @@ QUALIFIER: com [JavaParserEnumConstantDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT JavaParserEnumConstantDeclaration.java -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserEnumConstantDeclaration.java <19:39 19:53>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [JavaParserEnumConstantDeclaration.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [JavaParserEnumConstantDeclaration.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [JavaParserEnumConstantDeclaration.java <19:19 19:28>]
 QUALIFIER: com.github [JavaParserEnumConstantDeclaration.java <19:12 19:17>]
@@ -20,6 +21,7 @@ QUALIFIER: com [JavaParserEnumConstantDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT JavaParserEnumConstantDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [JavaParserEnumConstantDeclaration.java <20:62 20:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserEnumConstantDeclaration.java <20:49 20:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserEnumConstantDeclaration.java <20:43 20:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserEnumConstantDeclaration.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [JavaParserEnumConstantDeclaration.java <20:19 20:28>]
@@ -49,8 +51,8 @@ QUALIFIER: com.github.javaparser [JavaParserEnumConstantDeclaration.java <23:19 
 QUALIFIER: com.github [JavaParserEnumConstantDeclaration.java <23:12 23:17>]
 QUALIFIER: com [JavaParserEnumConstantDeclaration.java <23:8 23:10>]
 REFERENCE_IMPORT JavaParserEnumConstantDeclaration.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserEnumConstantDeclaration.java <25:71 25:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserEnumConstantDeclaration.java <25:61 25:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserEnumConstantDeclaration.java <25:50 25:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserEnumConstantDeclaration.java <25:37 25:48>]
 QUALIFIER: com.github.javaparser [JavaParserEnumConstantDeclaration.java <25:26 25:35>]

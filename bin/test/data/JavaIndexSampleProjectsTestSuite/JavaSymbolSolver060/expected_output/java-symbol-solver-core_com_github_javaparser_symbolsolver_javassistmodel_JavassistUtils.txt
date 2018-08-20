@@ -11,6 +11,7 @@ QUALIFIER: com [JavassistUtils.java <17:9 17:11>]
 REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistUtils.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavassistUtils.java <19:48 19:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavassistUtils.java <19:43 19:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [JavassistUtils.java <19:19 19:28>]
@@ -19,6 +20,7 @@ QUALIFIER: com [JavassistUtils.java <19:8 19:10>]
 REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistUtils.java <20:62 20:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistUtils.java <20:49 20:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <20:43 20:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [JavassistUtils.java <20:19 20:28>]
@@ -91,6 +93,7 @@ QUALIFIER: javassist.bytecode [JavassistUtils.java <32:18 32:25>]
 QUALIFIER: javassist [JavassistUtils.java <32:8 32:16>]
 REFERENCE_IMPORT JavassistUtils.java -> java.util [JavassistUtils.java <34:13 34:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistUtils.java <34:8 34:11>]
 REFERENCE_IMPORT JavassistUtils.java -> java.util.stream.Collectors [JavassistUtils.java <35:25 35:34>]
 SYMBOL_PACKAGE java.util.stream

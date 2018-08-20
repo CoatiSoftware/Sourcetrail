@@ -13,6 +13,7 @@ QUALIFIER: com [MethodDeclarationCommonLogic.java <17:9 17:11>]
 REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.core.resolution.Context [MethodDeclarationCommonLogic.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [MethodDeclarationCommonLogic.java <19:48 19:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [MethodDeclarationCommonLogic.java <19:43 19:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <19:19 19:28>]
@@ -28,6 +29,7 @@ QUALIFIER: com [MethodDeclarationCommonLogic.java <20:8 20:10>]
 REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [MethodDeclarationCommonLogic.java <21:62 21:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [MethodDeclarationCommonLogic.java <21:49 21:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclarationCommonLogic.java <21:43 21:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <21:19 21:28>]
@@ -81,6 +83,7 @@ QUALIFIER: com [MethodDeclarationCommonLogic.java <27:8 27:10>]
 REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.ArrayList<E> [MethodDeclarationCommonLogic.java <29:18 29:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [MethodDeclarationCommonLogic.java <29:13 29:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [MethodDeclarationCommonLogic.java <29:8 29:11>]
 REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.List<E> [MethodDeclarationCommonLogic.java <30:18 30:21>]
 QUALIFIER: java.util [MethodDeclarationCommonLogic.java <30:13 30:16>]

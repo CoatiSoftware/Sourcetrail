@@ -21,6 +21,7 @@ QUALIFIER: com [InterfaceDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.ArrayList<E> [InterfaceDeclaration.java <21:18 21:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [InterfaceDeclaration.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [InterfaceDeclaration.java <21:8 21:11>]
 REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.List<E> [InterfaceDeclaration.java <22:18 22:21>]
 QUALIFIER: java.util [InterfaceDeclaration.java <22:13 22:16>]

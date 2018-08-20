@@ -21,6 +21,7 @@ QUALIFIER: com [TypeVariable.java <19:8 19:10>]
 REFERENCE_IMPORT TypeVariable.java -> java.util.Map<K, V> [TypeVariable.java <21:18 21:20>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [TypeVariable.java <21:13 21:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [TypeVariable.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <29:1 <29:14 29:25> 119:1>]
 LOCAL_SYMBOL: TypeVariable.java<29:43> [TypeVariable.java <29:43 29:43>]

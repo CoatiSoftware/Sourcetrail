@@ -10,6 +10,7 @@ QUALIFIER: com.github [ReflectionConstructorDeclaration.java <17:13 17:18>]
 QUALIFIER: com [ReflectionConstructorDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT ReflectionConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionConstructorDeclaration.java <19:49 19:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionConstructorDeclaration.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionConstructorDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [ReflectionConstructorDeclaration.java <19:19 19:28>]
@@ -26,7 +27,9 @@ QUALIFIER: com [ReflectionConstructorDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT ReflectionConstructorDeclaration.java -> java.lang.reflect.Constructor<T> [ReflectionConstructorDeclaration.java <22:26 22:36>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionConstructorDeclaration.java <22:18 22:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionConstructorDeclaration.java <22:13 22:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionConstructorDeclaration.java <22:8 22:11>]
 REFERENCE_IMPORT ReflectionConstructorDeclaration.java -> java.util.Arrays [ReflectionConstructorDeclaration.java <23:18 23:23>]
 SYMBOL_PACKAGE java.util

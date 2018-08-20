@@ -13,6 +13,7 @@ QUALIFIER: com [JavaParserTypeDeclarationAdapter.java <1:9 1:11>]
 REFERENCE_IMPORT JavaParserTypeDeclarationAdapter.java -> com.github.javaparser.ast.body.BodyDeclaration<T> [JavaParserTypeDeclarationAdapter.java <3:39 3:53>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
 QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeDeclarationAdapter.java <3:34 3:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [JavaParserTypeDeclarationAdapter.java <3:30 3:32>]
 QUALIFIER: com.github.javaparser [JavaParserTypeDeclarationAdapter.java <3:19 3:28>]
 QUALIFIER: com.github [JavaParserTypeDeclarationAdapter.java <3:12 3:17>]
@@ -34,6 +35,7 @@ QUALIFIER: com [JavaParserTypeDeclarationAdapter.java <5:8 5:10>]
 REFERENCE_IMPORT JavaParserTypeDeclarationAdapter.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserTypeDeclarationAdapter.java <6:59 6:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserTypeDeclarationAdapter.java <6:48 6:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserTypeDeclarationAdapter.java <6:43 6:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeDeclarationAdapter.java <6:30 6:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeDeclarationAdapter.java <6:19 6:28>]
@@ -61,6 +63,7 @@ QUALIFIER: com.github [JavaParserTypeDeclarationAdapter.java <9:12 9:17>]
 QUALIFIER: com [JavaParserTypeDeclarationAdapter.java <9:8 9:10>]
 REFERENCE_IMPORT JavaParserTypeDeclarationAdapter.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserTypeDeclarationAdapter.java <10:49 10:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeDeclarationAdapter.java <10:43 10:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeDeclarationAdapter.java <10:30 10:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeDeclarationAdapter.java <10:19 10:28>]
@@ -119,6 +122,7 @@ QUALIFIER: com [JavaParserTypeDeclarationAdapter.java <17:8 17:10>]
 REFERENCE_IMPORT JavaParserTypeDeclarationAdapter.java -> java.util.List<E> [JavaParserTypeDeclarationAdapter.java <19:18 19:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserTypeDeclarationAdapter.java <19:13 19:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserTypeDeclarationAdapter.java <19:8 19:11>]
 REFERENCE_IMPORT JavaParserTypeDeclarationAdapter.java -> java.util.stream.Collectors [JavaParserTypeDeclarationAdapter.java <20:25 20:34>]
 SYMBOL_PACKAGE java.util.stream

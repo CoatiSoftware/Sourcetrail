@@ -36,6 +36,7 @@ QUALIFIER: com.github [TypeParametersMap.java <21:12 21:17>]
 QUALIFIER: com [TypeParametersMap.java <21:8 21:10>]
 REFERENCE_IMPORT TypeParametersMap.java -> java.util [TypeParametersMap.java <23:13 23:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [TypeParametersMap.java <23:8 23:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [TypeParametersMap.java <30:1 <30:14 30:30> 138:1>]
 LOCAL_SYMBOL: TypeParametersMap.java<30:32> [TypeParametersMap.java <30:32 30:32>]

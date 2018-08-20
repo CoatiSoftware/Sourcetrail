@@ -11,6 +11,7 @@ QUALIFIER: com [ReflectionMethodResolutionLogic.java <17:9 17:11>]
 REFERENCE_IMPORT ReflectionMethodResolutionLogic.java -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionMethodResolutionLogic.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [ReflectionMethodResolutionLogic.java <19:48 19:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [ReflectionMethodResolutionLogic.java <19:43 19:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodResolutionLogic.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [ReflectionMethodResolutionLogic.java <19:19 19:28>]
@@ -19,6 +20,7 @@ QUALIFIER: com [ReflectionMethodResolutionLogic.java <19:8 19:10>]
 REFERENCE_IMPORT ReflectionMethodResolutionLogic.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ReflectionMethodResolutionLogic.java <20:62 20:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionMethodResolutionLogic.java <20:49 20:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionMethodResolutionLogic.java <20:43 20:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodResolutionLogic.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [ReflectionMethodResolutionLogic.java <20:19 20:28>]
@@ -100,7 +102,9 @@ QUALIFIER: com [ReflectionMethodResolutionLogic.java <30:8 30:10>]
 REFERENCE_IMPORT ReflectionMethodResolutionLogic.java -> java.lang.reflect.Method [ReflectionMethodResolutionLogic.java <32:26 32:31>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionMethodResolutionLogic.java <32:18 32:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionMethodResolutionLogic.java <32:13 32:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionMethodResolutionLogic.java <32:8 32:11>]
 REFERENCE_IMPORT ReflectionMethodResolutionLogic.java -> java.lang.reflect.Modifier [ReflectionMethodResolutionLogic.java <33:26 33:33>]
 QUALIFIER: java.lang.reflect [ReflectionMethodResolutionLogic.java <33:18 33:24>]

@@ -13,6 +13,7 @@ QUALIFIER: com [ClassComparator.java <1:9 1:11>]
 REFERENCE_IMPORT ClassComparator.java -> java.util.Comparator<T> [ClassComparator.java <3:18 3:27>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ClassComparator.java <3:13 3:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ClassComparator.java <3:8 3:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator [ClassComparator.java <8:1 <8:14 8:28> 25:1>]
 LOCAL_SYMBOL: ClassComparator.java<8:62> [ClassComparator.java <8:62 8:62>]

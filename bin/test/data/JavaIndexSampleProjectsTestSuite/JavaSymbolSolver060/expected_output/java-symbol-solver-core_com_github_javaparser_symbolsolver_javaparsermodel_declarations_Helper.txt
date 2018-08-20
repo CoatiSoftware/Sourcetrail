@@ -34,6 +34,7 @@ QUALIFIER: com [Helper.java <22:8 22:10>]
 REFERENCE_IMPORT Helper.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [Helper.java <23:62 23:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [Helper.java <23:49 23:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [Helper.java <23:43 23:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [Helper.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [Helper.java <23:19 23:28>]
@@ -42,13 +43,14 @@ QUALIFIER: com [Helper.java <23:8 23:10>]
 REFERENCE_IMPORT Helper.java -> java.util.EnumSet<E> [Helper.java <25:18 25:24>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [Helper.java <25:13 25:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [Helper.java <25:8 25:11>]
 REFERENCE_IMPORT Helper.java -> java.util.Optional<T> [Helper.java <26:18 26:25>]
 QUALIFIER: java.util [Helper.java <26:13 26:16>]
 QUALIFIER: java [Helper.java <26:8 26:11>]
 REFERENCE_IMPORT Helper.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Helper.java <28:71 28:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [Helper.java <28:61 28:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [Helper.java <28:50 28:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [Helper.java <28:37 28:48>]
 QUALIFIER: com.github.javaparser [Helper.java <28:26 28:35>]

@@ -24,6 +24,7 @@ QUALIFIER: com.github [ReflectionClassAdapter.java <4:12 4:17>]
 QUALIFIER: com [ReflectionClassAdapter.java <4:8 4:10>]
 REFERENCE_IMPORT ReflectionClassAdapter.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionClassAdapter.java <5:49 5:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionClassAdapter.java <5:43 5:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionClassAdapter.java <5:30 5:41>]
 QUALIFIER: com.github.javaparser [ReflectionClassAdapter.java <5:19 5:28>]
@@ -76,7 +77,9 @@ QUALIFIER: com [ReflectionClassAdapter.java <11:8 11:10>]
 REFERENCE_IMPORT ReflectionClassAdapter.java -> java.lang.annotation.Annotation [ReflectionClassAdapter.java <13:29 13:38>]
 SYMBOL_PACKAGE java.lang.annotation
 QUALIFIER: java.lang.annotation [ReflectionClassAdapter.java <13:18 13:27>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionClassAdapter.java <13:13 13:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionClassAdapter.java <13:8 13:11>]
 REFERENCE_IMPORT ReflectionClassAdapter.java -> java.lang.reflect.Field [ReflectionClassAdapter.java <14:26 14:30>]
 SYMBOL_PACKAGE java.lang.reflect

@@ -13,6 +13,7 @@ QUALIFIER: com [MethodCallExprContext.java <17:9 17:11>]
 REFERENCE_IMPORT MethodCallExprContext.java -> com.github.javaparser.ast.expr.Expression [MethodCallExprContext.java <19:39 19:48>]
 SYMBOL_PACKAGE com.github.javaparser.ast.expr
 QUALIFIER: com.github.javaparser.ast.expr [MethodCallExprContext.java <19:34 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [MethodCallExprContext.java <19:30 19:32>]
 QUALIFIER: com.github.javaparser [MethodCallExprContext.java <19:19 19:28>]
 QUALIFIER: com.github [MethodCallExprContext.java <19:12 19:17>]
@@ -32,6 +33,7 @@ QUALIFIER: com [MethodCallExprContext.java <21:8 21:10>]
 REFERENCE_IMPORT MethodCallExprContext.java -> com.github.javaparser.symbolsolver.core.resolution.Context [MethodCallExprContext.java <22:59 22:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [MethodCallExprContext.java <22:48 22:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [MethodCallExprContext.java <22:43 22:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodCallExprContext.java <22:30 22:41>]
 QUALIFIER: com.github.javaparser [MethodCallExprContext.java <22:19 22:28>]
@@ -46,6 +48,7 @@ QUALIFIER: com [MethodCallExprContext.java <23:8 23:10>]
 REFERENCE_IMPORT MethodCallExprContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [MethodCallExprContext.java <24:62 24:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [MethodCallExprContext.java <24:49 24:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [MethodCallExprContext.java <24:43 24:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [MethodCallExprContext.java <24:30 24:41>]
 QUALIFIER: com.github.javaparser [MethodCallExprContext.java <24:19 24:28>]
@@ -164,6 +167,7 @@ QUALIFIER: javaslang [MethodCallExprContext.java <40:8 40:16>]
 REFERENCE_IMPORT MethodCallExprContext.java -> java.util.ArrayList<E> [MethodCallExprContext.java <42:18 42:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [MethodCallExprContext.java <42:13 42:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [MethodCallExprContext.java <42:8 42:11>]
 REFERENCE_IMPORT MethodCallExprContext.java -> java.util.HashMap<K, V> [MethodCallExprContext.java <43:18 43:24>]
 QUALIFIER: java.util [MethodCallExprContext.java <43:13 43:16>]

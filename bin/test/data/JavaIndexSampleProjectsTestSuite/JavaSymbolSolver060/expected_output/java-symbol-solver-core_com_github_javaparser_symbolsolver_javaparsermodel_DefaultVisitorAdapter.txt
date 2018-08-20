@@ -72,6 +72,7 @@ QUALIFIER: com [DefaultVisitorAdapter.java <12:8 12:10>]
 REFERENCE_IMPORT DefaultVisitorAdapter.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [DefaultVisitorAdapter.java <13:60 13:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [DefaultVisitorAdapter.java <13:49 13:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [DefaultVisitorAdapter.java <13:43 13:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [DefaultVisitorAdapter.java <13:30 13:41>]
 QUALIFIER: com.github.javaparser [DefaultVisitorAdapter.java <13:19 13:28>]

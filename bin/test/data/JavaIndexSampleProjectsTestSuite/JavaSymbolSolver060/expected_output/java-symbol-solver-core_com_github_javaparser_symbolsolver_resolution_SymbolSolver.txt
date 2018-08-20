@@ -24,6 +24,7 @@ QUALIFIER: com [SymbolSolver.java <20:8 20:10>]
 REFERENCE_IMPORT SymbolSolver.java -> com.github.javaparser.symbolsolver.core.resolution.Context [SymbolSolver.java <21:59 21:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [SymbolSolver.java <21:48 21:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [SymbolSolver.java <21:43 21:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [SymbolSolver.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [SymbolSolver.java <21:19 21:28>]
@@ -74,6 +75,7 @@ QUALIFIER: com [SymbolSolver.java <27:8 27:10>]
 REFERENCE_IMPORT SymbolSolver.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [SymbolSolver.java <28:62 28:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SymbolSolver.java <28:49 28:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [SymbolSolver.java <28:43 28:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [SymbolSolver.java <28:30 28:41>]
 QUALIFIER: com.github.javaparser [SymbolSolver.java <28:19 28:28>]
@@ -161,6 +163,7 @@ QUALIFIER: com [SymbolSolver.java <39:8 39:10>]
 REFERENCE_IMPORT SymbolSolver.java -> java.util.List<E> [SymbolSolver.java <41:18 41:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [SymbolSolver.java <41:13 41:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [SymbolSolver.java <41:8 41:11>]
 REFERENCE_IMPORT SymbolSolver.java -> java.util.Optional<T> [SymbolSolver.java <42:18 42:25>]
 QUALIFIER: java.util [SymbolSolver.java <42:13 42:16>]

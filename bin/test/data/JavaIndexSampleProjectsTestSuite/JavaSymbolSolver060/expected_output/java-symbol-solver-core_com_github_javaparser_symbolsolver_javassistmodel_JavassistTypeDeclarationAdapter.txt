@@ -10,6 +10,7 @@ QUALIFIER: com.github [JavassistTypeDeclarationAdapter.java <15:13 15:18>]
 QUALIFIER: com [JavassistTypeDeclarationAdapter.java <15:9 15:11>]
 REFERENCE_IMPORT JavassistTypeDeclarationAdapter.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistTypeDeclarationAdapter.java <17:49 17:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistTypeDeclarationAdapter.java <17:43 17:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistTypeDeclarationAdapter.java <17:30 17:41>]
 QUALIFIER: com.github.javaparser [JavassistTypeDeclarationAdapter.java <17:19 17:28>]
@@ -37,6 +38,7 @@ QUALIFIER: javassist.bytecode [JavassistTypeDeclarationAdapter.java <22:18 22:25
 QUALIFIER: javassist [JavassistTypeDeclarationAdapter.java <22:8 22:16>]
 REFERENCE_IMPORT JavassistTypeDeclarationAdapter.java -> java.util [JavassistTypeDeclarationAdapter.java <24:13 24:16>]
 SYMBOL_PACKAGE java.util
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistTypeDeclarationAdapter.java <24:8 24:11>]
 REFERENCE_IMPORT JavassistTypeDeclarationAdapter.java -> java.util.stream.Collectors [JavassistTypeDeclarationAdapter.java <25:25 25:34>]
 SYMBOL_PACKAGE java.util.stream

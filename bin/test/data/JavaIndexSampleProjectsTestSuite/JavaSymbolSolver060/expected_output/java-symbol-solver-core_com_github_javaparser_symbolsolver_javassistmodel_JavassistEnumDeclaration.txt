@@ -11,6 +11,7 @@ QUALIFIER: com [JavassistEnumDeclaration.java <17:9 17:11>]
 REFERENCE_IMPORT JavassistEnumDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistEnumDeclaration.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavassistEnumDeclaration.java <19:48 19:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavassistEnumDeclaration.java <19:43 19:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistEnumDeclaration.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [JavassistEnumDeclaration.java <19:19 19:28>]
@@ -25,6 +26,7 @@ QUALIFIER: com.github [JavassistEnumDeclaration.java <20:12 20:17>]
 QUALIFIER: com [JavassistEnumDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavassistEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistEnumDeclaration.java <21:49 21:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistEnumDeclaration.java <21:43 21:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavassistEnumDeclaration.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [JavassistEnumDeclaration.java <21:19 21:28>]
@@ -99,7 +101,9 @@ QUALIFIER: javassist [JavassistEnumDeclaration.java <33:8 33:16>]
 REFERENCE_IMPORT JavassistEnumDeclaration.java -> java.lang.reflect.Modifier [JavassistEnumDeclaration.java <35:26 35:33>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [JavassistEnumDeclaration.java <35:18 35:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [JavassistEnumDeclaration.java <35:13 35:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistEnumDeclaration.java <35:8 35:11>]
 REFERENCE_IMPORT JavassistEnumDeclaration.java -> java.util [JavassistEnumDeclaration.java <36:13 36:16>]
 SYMBOL_PACKAGE java.util

@@ -11,6 +11,7 @@ QUALIFIER: com [InferenceVariableType.java <17:9 17:11>]
 REFERENCE_IMPORT InferenceVariableType.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [InferenceVariableType.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [InferenceVariableType.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [InferenceVariableType.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [InferenceVariableType.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [InferenceVariableType.java <19:19 19:28>]
@@ -48,6 +49,7 @@ QUALIFIER: com [InferenceVariableType.java <23:8 23:10>]
 REFERENCE_IMPORT InferenceVariableType.java -> java.util.HashSet<E> [InferenceVariableType.java <25:18 25:24>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [InferenceVariableType.java <25:13 25:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [InferenceVariableType.java <25:8 25:11>]
 REFERENCE_IMPORT InferenceVariableType.java -> java.util.Set<E> [InferenceVariableType.java <26:18 26:20>]
 QUALIFIER: java.util [InferenceVariableType.java <26:13 26:16>]

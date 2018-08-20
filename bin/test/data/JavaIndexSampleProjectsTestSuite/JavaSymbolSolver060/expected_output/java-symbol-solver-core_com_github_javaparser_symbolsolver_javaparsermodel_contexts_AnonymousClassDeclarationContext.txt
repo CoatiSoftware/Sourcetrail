@@ -67,6 +67,7 @@ QUALIFIER: com [AnonymousClassDeclarationContext.java <11:8 11:10>]
 REFERENCE_IMPORT AnonymousClassDeclarationContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [AnonymousClassDeclarationContext.java <12:62 12:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AnonymousClassDeclarationContext.java <12:49 12:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [AnonymousClassDeclarationContext.java <12:43 12:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [AnonymousClassDeclarationContext.java <12:30 12:41>]
 QUALIFIER: com.github.javaparser [AnonymousClassDeclarationContext.java <12:19 12:28>]
@@ -133,12 +134,15 @@ QUALIFIER: com [AnonymousClassDeclarationContext.java <20:8 20:10>]
 REFERENCE_IMPORT AnonymousClassDeclarationContext.java -> com.google.common.base.Preconditions [AnonymousClassDeclarationContext.java <21:31 21:43>]
 SYMBOL_PACKAGE com.google.common.base
 QUALIFIER: com.google.common.base [AnonymousClassDeclarationContext.java <21:26 21:29>]
+SYMBOL_PACKAGE com.google.common
 QUALIFIER: com.google.common [AnonymousClassDeclarationContext.java <21:19 21:24>]
+SYMBOL_PACKAGE com.google
 QUALIFIER: com.google [AnonymousClassDeclarationContext.java <21:12 21:17>]
 QUALIFIER: com [AnonymousClassDeclarationContext.java <21:8 21:10>]
 REFERENCE_IMPORT AnonymousClassDeclarationContext.java -> java.util.List<E> [AnonymousClassDeclarationContext.java <23:18 23:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [AnonymousClassDeclarationContext.java <23:13 23:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [AnonymousClassDeclarationContext.java <23:8 23:11>]
 REFERENCE_IMPORT AnonymousClassDeclarationContext.java -> java.util.Optional<T> [AnonymousClassDeclarationContext.java <24:18 24:25>]
 QUALIFIER: java.util [AnonymousClassDeclarationContext.java <24:13 24:16>]

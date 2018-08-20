@@ -19,6 +19,7 @@ QUALIFIER: com [AbstractSymbolDeclarator.java <19:8 19:10>]
 REFERENCE_IMPORT AbstractSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [AbstractSymbolDeclarator.java <20:60 20:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [AbstractSymbolDeclarator.java <20:49 20:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractSymbolDeclarator.java <20:43 20:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [AbstractSymbolDeclarator.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [AbstractSymbolDeclarator.java <20:19 20:28>]

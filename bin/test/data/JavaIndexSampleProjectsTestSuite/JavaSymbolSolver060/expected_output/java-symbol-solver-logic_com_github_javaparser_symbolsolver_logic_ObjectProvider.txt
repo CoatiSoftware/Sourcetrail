@@ -11,6 +11,7 @@ QUALIFIER: com [ObjectProvider.java <17:9 17:11>]
 REFERENCE_IMPORT ObjectProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ObjectProvider.java <19:60 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ObjectProvider.java <19:49 19:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ObjectProvider.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ObjectProvider.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [ObjectProvider.java <19:19 19:28>]

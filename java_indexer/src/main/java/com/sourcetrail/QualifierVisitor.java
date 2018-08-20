@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
 
 import com.sourcetrail.name.DeclName;
+import com.sourcetrail.name.NameHierarchy;
 import com.sourcetrail.name.TypeName;
 import com.sourcetrail.name.resolver.BindingNameResolver;
 
@@ -36,12 +37,14 @@ public class QualifierVisitor
 	protected AstVisitorClient m_client = null;
 	private File m_filePath;
 	private CompilationUnit m_compilationUnit;
+	private boolean m_recordSymbolKinds = false;
 	
-	public QualifierVisitor(AstVisitorClient client, File filePath, CompilationUnit compilationUnit)
+	public QualifierVisitor(AstVisitorClient client, File filePath, CompilationUnit compilationUnit, boolean recordSymbolKinds)
 	{		
 		m_client = client;
 		m_filePath = filePath;
 		m_compilationUnit = compilationUnit;
+		m_recordSymbolKinds = recordSymbolKinds;
 	}
 
 	public void recordQualifierOfNode(ImportDeclaration node) 
@@ -292,11 +295,18 @@ public class QualifierVisitor
 					range = getRange(((QualifiedName) node).getName());
 				}
 				
+				NameHierarchy symbolName = BindingNameResolver
+						.getQualifiedName((IPackageBinding) binding, m_filePath, m_compilationUnit)
+						.orElse(DeclName.unsolved())
+						.toNameHierarchy();
+				
+				if (m_recordSymbolKinds)
+				{
+					m_client.recordSymbol(symbolName, SymbolKind.PACKAGE, AccessKind.NONE, DefinitionKind.NONE);
+				}
+				
 				m_client.recordQualifierLocation(
-						BindingNameResolver
-							.getQualifiedName((IPackageBinding) binding, m_filePath, m_compilationUnit)
-							.orElse(DeclName.unsolved())
-							.toNameHierarchy(), 
+						symbolName, 
 						range);
 			}
 			

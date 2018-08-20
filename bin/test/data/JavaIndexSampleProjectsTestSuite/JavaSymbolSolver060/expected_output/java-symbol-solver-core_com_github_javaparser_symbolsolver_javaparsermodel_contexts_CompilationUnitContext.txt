@@ -77,6 +77,7 @@ QUALIFIER: com [CompilationUnitContext.java <28:8 28:10>]
 REFERENCE_IMPORT CompilationUnitContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [CompilationUnitContext.java <29:62 29:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [CompilationUnitContext.java <29:49 29:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [CompilationUnitContext.java <29:43 29:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [CompilationUnitContext.java <29:30 29:41>]
 QUALIFIER: com.github.javaparser [CompilationUnitContext.java <29:19 29:28>]
@@ -128,6 +129,7 @@ QUALIFIER: com [CompilationUnitContext.java <35:8 35:10>]
 REFERENCE_IMPORT CompilationUnitContext.java -> java.util.List<E> [CompilationUnitContext.java <37:18 37:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [CompilationUnitContext.java <37:13 37:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [CompilationUnitContext.java <37:8 37:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext [CompilationUnitContext.java <42:1 <42:14 42:35> 285:1>]
 LOCAL_SYMBOL: CompilationUnitContext.java<42:88> [CompilationUnitContext.java <42:88 42:88>]

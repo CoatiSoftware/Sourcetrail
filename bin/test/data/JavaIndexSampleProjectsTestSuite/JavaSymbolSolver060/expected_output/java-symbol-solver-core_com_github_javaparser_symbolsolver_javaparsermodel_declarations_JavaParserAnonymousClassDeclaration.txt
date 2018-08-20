@@ -11,8 +11,8 @@ QUALIFIER: com.github.javaparser [JavaParserAnonymousClassDeclaration.java <1:20
 QUALIFIER: com.github [JavaParserAnonymousClassDeclaration.java <1:13 1:18>]
 QUALIFIER: com [JavaParserAnonymousClassDeclaration.java <1:9 1:11>]
 REFERENCE_IMPORT JavaParserAnonymousClassDeclaration.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserAnonymousClassDeclaration.java <3:71 3:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserAnonymousClassDeclaration.java <3:61 3:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserAnonymousClassDeclaration.java <3:50 3:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserAnonymousClassDeclaration.java <3:37 3:48>]
 QUALIFIER: com.github.javaparser [JavaParserAnonymousClassDeclaration.java <3:26 3:35>]
@@ -53,6 +53,7 @@ QUALIFIER: com [JavaParserAnonymousClassDeclaration.java <8:8 8:10>]
 REFERENCE_IMPORT JavaParserAnonymousClassDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavaParserAnonymousClassDeclaration.java <9:62 9:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserAnonymousClassDeclaration.java <9:49 9:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserAnonymousClassDeclaration.java <9:43 9:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserAnonymousClassDeclaration.java <9:30 9:41>]
 QUALIFIER: com.github.javaparser [JavaParserAnonymousClassDeclaration.java <9:19 9:28>]
@@ -133,7 +134,9 @@ QUALIFIER: com [JavaParserAnonymousClassDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT JavaParserAnonymousClassDeclaration.java -> com.google.common.collect.ImmutableList<E> [JavaParserAnonymousClassDeclaration.java <20:34 20:46>]
 SYMBOL_PACKAGE com.google.common.collect
 QUALIFIER: com.google.common.collect [JavaParserAnonymousClassDeclaration.java <20:26 20:32>]
+SYMBOL_PACKAGE com.google.common
 QUALIFIER: com.google.common [JavaParserAnonymousClassDeclaration.java <20:19 20:24>]
+SYMBOL_PACKAGE com.google
 QUALIFIER: com.google [JavaParserAnonymousClassDeclaration.java <20:12 20:17>]
 QUALIFIER: com [JavaParserAnonymousClassDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavaParserAnonymousClassDeclaration.java -> com.google.common.collect.Lists [JavaParserAnonymousClassDeclaration.java <21:34 21:38>]
@@ -144,6 +147,7 @@ QUALIFIER: com [JavaParserAnonymousClassDeclaration.java <21:8 21:10>]
 REFERENCE_IMPORT JavaParserAnonymousClassDeclaration.java -> java.util.List<E> [JavaParserAnonymousClassDeclaration.java <23:18 23:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserAnonymousClassDeclaration.java <23:13 23:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserAnonymousClassDeclaration.java <23:8 23:11>]
 REFERENCE_IMPORT JavaParserAnonymousClassDeclaration.java -> java.util.Optional<T> [JavaParserAnonymousClassDeclaration.java <24:18 24:25>]
 QUALIFIER: java.util [JavaParserAnonymousClassDeclaration.java <24:13 24:16>]

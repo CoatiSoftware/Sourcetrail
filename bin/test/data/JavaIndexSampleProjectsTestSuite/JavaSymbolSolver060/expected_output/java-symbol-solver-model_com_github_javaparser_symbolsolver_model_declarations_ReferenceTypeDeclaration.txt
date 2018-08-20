@@ -44,6 +44,7 @@ QUALIFIER: com [ReferenceTypeDeclaration.java <6:8 6:10>]
 REFERENCE_IMPORT ReferenceTypeDeclaration.java -> java.util.ArrayList<E> [ReferenceTypeDeclaration.java <8:18 8:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ReferenceTypeDeclaration.java <8:13 8:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReferenceTypeDeclaration.java <8:8 8:11>]
 REFERENCE_IMPORT ReferenceTypeDeclaration.java -> java.util.List<E> [ReferenceTypeDeclaration.java <9:18 9:21>]
 QUALIFIER: java.util [ReferenceTypeDeclaration.java <9:13 9:16>]

@@ -17,6 +17,7 @@ QUALIFIER: com [ReflectionClassDeclaration.java <19:8 19:10>]
 REFERENCE_IMPORT ReflectionClassDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionClassDeclaration.java <20:59 20:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [ReflectionClassDeclaration.java <20:48 20:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [ReflectionClassDeclaration.java <20:43 20:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionClassDeclaration.java <20:30 20:41>]
 QUALIFIER: com.github.javaparser [ReflectionClassDeclaration.java <20:19 20:28>]
@@ -46,6 +47,7 @@ QUALIFIER: com.github [ReflectionClassDeclaration.java <23:12 23:17>]
 QUALIFIER: com [ReflectionClassDeclaration.java <23:8 23:10>]
 REFERENCE_IMPORT ReflectionClassDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionClassDeclaration.java <24:49 24:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionClassDeclaration.java <24:43 24:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionClassDeclaration.java <24:30 24:41>]
 QUALIFIER: com.github.javaparser [ReflectionClassDeclaration.java <24:19 24:28>]
@@ -99,6 +101,7 @@ QUALIFIER: com [ReflectionClassDeclaration.java <30:8 30:10>]
 REFERENCE_IMPORT ReflectionClassDeclaration.java -> com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator [ReflectionClassDeclaration.java <31:71 31:86>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel.comparators
 QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.comparators [ReflectionClassDeclaration.java <31:59 31:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel
 QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel [ReflectionClassDeclaration.java <31:43 31:57>]
 QUALIFIER: com.github.javaparser.symbolsolver [ReflectionClassDeclaration.java <31:30 31:41>]
 QUALIFIER: com.github.javaparser [ReflectionClassDeclaration.java <31:19 31:28>]
@@ -114,7 +117,9 @@ QUALIFIER: com [ReflectionClassDeclaration.java <32:8 32:10>]
 REFERENCE_IMPORT ReflectionClassDeclaration.java -> java.lang.reflect.Field [ReflectionClassDeclaration.java <34:26 34:30>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionClassDeclaration.java <34:18 34:24>]
+SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionClassDeclaration.java <34:13 34:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionClassDeclaration.java <34:8 34:11>]
 REFERENCE_IMPORT ReflectionClassDeclaration.java -> java.lang.reflect.Method [ReflectionClassDeclaration.java <35:26 35:31>]
 QUALIFIER: java.lang.reflect [ReflectionClassDeclaration.java <35:18 35:24>]

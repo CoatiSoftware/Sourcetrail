@@ -13,6 +13,7 @@ QUALIFIER: com [MemoryTypeSolver.java <17:9 17:11>]
 REFERENCE_IMPORT MemoryTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MemoryTypeSolver.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [MemoryTypeSolver.java <19:49 19:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [MemoryTypeSolver.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [MemoryTypeSolver.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [MemoryTypeSolver.java <19:19 19:28>]
@@ -36,6 +37,7 @@ QUALIFIER: com [MemoryTypeSolver.java <21:8 21:10>]
 REFERENCE_IMPORT MemoryTypeSolver.java -> java.util.HashMap<K, V> [MemoryTypeSolver.java <23:18 23:24>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [MemoryTypeSolver.java <23:13 23:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [MemoryTypeSolver.java <23:8 23:11>]
 REFERENCE_IMPORT MemoryTypeSolver.java -> java.util.Map<K, V> [MemoryTypeSolver.java <24:18 24:20>]
 QUALIFIER: java.util [MemoryTypeSolver.java <24:13 24:16>]

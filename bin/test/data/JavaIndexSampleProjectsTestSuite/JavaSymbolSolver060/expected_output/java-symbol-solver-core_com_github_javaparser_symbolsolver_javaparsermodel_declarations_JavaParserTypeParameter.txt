@@ -33,6 +33,7 @@ QUALIFIER: com [JavaParserTypeParameter.java <21:8 21:10>]
 REFERENCE_IMPORT JavaParserTypeParameter.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserTypeParameter.java <22:59 22:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserTypeParameter.java <22:48 22:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserTypeParameter.java <22:43 22:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeParameter.java <22:30 22:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeParameter.java <22:19 22:28>]
@@ -53,6 +54,7 @@ QUALIFIER: com.github [JavaParserTypeParameter.java <24:12 24:17>]
 QUALIFIER: com [JavaParserTypeParameter.java <24:8 24:10>]
 REFERENCE_IMPORT JavaParserTypeParameter.java -> com.github.javaparser.symbolsolver.model.declarations [JavaParserTypeParameter.java <25:49 25:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeParameter.java <25:43 25:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeParameter.java <25:30 25:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeParameter.java <25:19 25:28>]
@@ -98,6 +100,7 @@ QUALIFIER: com [JavaParserTypeParameter.java <30:8 30:10>]
 REFERENCE_IMPORT JavaParserTypeParameter.java -> java.util.ArrayList<E> [JavaParserTypeParameter.java <32:18 32:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserTypeParameter.java <32:13 32:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserTypeParameter.java <32:8 32:11>]
 REFERENCE_IMPORT JavaParserTypeParameter.java -> java.util.Collections [JavaParserTypeParameter.java <33:18 33:28>]
 QUALIFIER: java.util [JavaParserTypeParameter.java <33:13 33:16>]
@@ -117,8 +120,8 @@ QUALIFIER: java.util.stream [JavaParserTypeParameter.java <37:18 37:23>]
 QUALIFIER: java.util [JavaParserTypeParameter.java <37:13 37:16>]
 QUALIFIER: java [JavaParserTypeParameter.java <37:8 37:11>]
 REFERENCE_IMPORT JavaParserTypeParameter.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserTypeParameter.java <39:71 39:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserTypeParameter.java <39:61 39:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserTypeParameter.java <39:50 39:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeParameter.java <39:37 39:48>]
 QUALIFIER: com.github.javaparser [JavaParserTypeParameter.java <39:26 39:35>]

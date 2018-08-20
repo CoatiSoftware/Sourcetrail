@@ -11,6 +11,7 @@ QUALIFIER: com [ConstructorResolutionLogic.java <15:9 15:11>]
 REFERENCE_IMPORT ConstructorResolutionLogic.java -> com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration [ConstructorResolutionLogic.java <17:62 17:83>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ConstructorResolutionLogic.java <17:49 17:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [ConstructorResolutionLogic.java <17:43 17:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [ConstructorResolutionLogic.java <17:30 17:41>]
 QUALIFIER: com.github.javaparser [ConstructorResolutionLogic.java <17:19 17:28>]
@@ -63,6 +64,7 @@ QUALIFIER: com [ConstructorResolutionLogic.java <23:8 23:10>]
 REFERENCE_IMPORT ConstructorResolutionLogic.java -> java.util.ArrayList<E> [ConstructorResolutionLogic.java <25:18 25:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ConstructorResolutionLogic.java <25:13 25:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ConstructorResolutionLogic.java <25:8 25:11>]
 REFERENCE_IMPORT ConstructorResolutionLogic.java -> java.util.HashMap<K, V> [ConstructorResolutionLogic.java <26:18 26:24>]
 QUALIFIER: java.util [ConstructorResolutionLogic.java <26:13 26:16>]

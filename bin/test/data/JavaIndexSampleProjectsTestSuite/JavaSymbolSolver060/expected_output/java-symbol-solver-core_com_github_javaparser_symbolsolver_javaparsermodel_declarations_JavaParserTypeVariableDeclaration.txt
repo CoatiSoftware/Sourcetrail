@@ -26,6 +26,7 @@ QUALIFIER: com [JavaParserTypeVariableDeclaration.java <20:8 20:10>]
 REFERENCE_IMPORT JavaParserTypeVariableDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavaParserTypeVariableDeclaration.java <21:59 21:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavaParserTypeVariableDeclaration.java <21:48 21:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [JavaParserTypeVariableDeclaration.java <21:43 21:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeVariableDeclaration.java <21:30 21:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeVariableDeclaration.java <21:19 21:28>]
@@ -41,6 +42,7 @@ QUALIFIER: com [JavaParserTypeVariableDeclaration.java <22:8 22:10>]
 REFERENCE_IMPORT JavaParserTypeVariableDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [JavaParserTypeVariableDeclaration.java <23:62 23:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserTypeVariableDeclaration.java <23:49 23:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeVariableDeclaration.java <23:43 23:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeVariableDeclaration.java <23:30 23:41>]
 QUALIFIER: com.github.javaparser [JavaParserTypeVariableDeclaration.java <23:19 23:28>]
@@ -107,6 +109,7 @@ QUALIFIER: com [JavaParserTypeVariableDeclaration.java <31:8 31:10>]
 REFERENCE_IMPORT JavaParserTypeVariableDeclaration.java -> java.util.ArrayList<E> [JavaParserTypeVariableDeclaration.java <33:18 33:26>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [JavaParserTypeVariableDeclaration.java <33:13 33:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [JavaParserTypeVariableDeclaration.java <33:8 33:11>]
 REFERENCE_IMPORT JavaParserTypeVariableDeclaration.java -> java.util.Collections [JavaParserTypeVariableDeclaration.java <34:18 34:28>]
 QUALIFIER: java.util [JavaParserTypeVariableDeclaration.java <34:13 34:16>]

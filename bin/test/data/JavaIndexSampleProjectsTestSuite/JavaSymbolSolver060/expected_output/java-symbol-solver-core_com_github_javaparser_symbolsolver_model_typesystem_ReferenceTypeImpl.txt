@@ -81,6 +81,7 @@ QUALIFIER: com [ReferenceTypeImpl.java <27:8 27:10>]
 REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.HashSet<E> [ReferenceTypeImpl.java <29:18 29:24>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [ReferenceTypeImpl.java <29:13 29:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [ReferenceTypeImpl.java <29:8 29:11>]
 REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.List<E> [ReferenceTypeImpl.java <30:18 30:21>]
 QUALIFIER: java.util [ReferenceTypeImpl.java <30:13 30:16>]

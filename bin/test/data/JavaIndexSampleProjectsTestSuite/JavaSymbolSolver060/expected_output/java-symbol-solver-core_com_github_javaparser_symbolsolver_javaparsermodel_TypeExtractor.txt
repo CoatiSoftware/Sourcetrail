@@ -85,6 +85,7 @@ QUALIFIER: com [TypeExtractor.java <14:8 14:10>]
 REFERENCE_IMPORT TypeExtractor.java -> com.github.javaparser.symbolsolver.core.resolution.Context [TypeExtractor.java <15:59 15:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
 QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [TypeExtractor.java <15:48 15:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core
 QUALIFIER: com.github.javaparser.symbolsolver.core [TypeExtractor.java <15:43 15:46>]
 QUALIFIER: com.github.javaparser.symbolsolver [TypeExtractor.java <15:30 15:41>]
 QUALIFIER: com.github.javaparser [TypeExtractor.java <15:19 15:28>]
@@ -93,6 +94,7 @@ QUALIFIER: com [TypeExtractor.java <15:8 15:10>]
 REFERENCE_IMPORT TypeExtractor.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [TypeExtractor.java <16:72 16:98>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [TypeExtractor.java <16:59 16:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [TypeExtractor.java <16:43 16:57>]
 QUALIFIER: com.github.javaparser.symbolsolver [TypeExtractor.java <16:30 16:41>]
 QUALIFIER: com.github.javaparser [TypeExtractor.java <16:19 16:28>]
@@ -113,6 +115,7 @@ QUALIFIER: com.github [TypeExtractor.java <18:12 18:17>]
 QUALIFIER: com [TypeExtractor.java <18:8 18:10>]
 REFERENCE_IMPORT TypeExtractor.java -> com.github.javaparser.symbolsolver.model.declarations [TypeExtractor.java <19:49 19:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [TypeExtractor.java <19:43 19:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [TypeExtractor.java <19:30 19:41>]
 QUALIFIER: com.github.javaparser [TypeExtractor.java <19:19 19:28>]
@@ -186,12 +189,15 @@ QUALIFIER: com [TypeExtractor.java <28:8 28:10>]
 REFERENCE_IMPORT TypeExtractor.java -> com.google.common.collect.ImmutableList<E> [TypeExtractor.java <29:34 29:46>]
 SYMBOL_PACKAGE com.google.common.collect
 QUALIFIER: com.google.common.collect [TypeExtractor.java <29:26 29:32>]
+SYMBOL_PACKAGE com.google.common
 QUALIFIER: com.google.common [TypeExtractor.java <29:19 29:24>]
+SYMBOL_PACKAGE com.google
 QUALIFIER: com.google [TypeExtractor.java <29:12 29:17>]
 QUALIFIER: com [TypeExtractor.java <29:8 29:10>]
 REFERENCE_IMPORT TypeExtractor.java -> java.util.List<E> [TypeExtractor.java <31:18 31:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [TypeExtractor.java <31:13 31:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [TypeExtractor.java <31:8 31:11>]
 REFERENCE_IMPORT TypeExtractor.java -> java.util.Optional<T> [TypeExtractor.java <32:18 32:25>]
 QUALIFIER: java.util [TypeExtractor.java <32:13 32:16>]
@@ -210,8 +216,8 @@ QUALIFIER: java.util.logging [TypeExtractor.java <35:18 35:24>]
 QUALIFIER: java.util [TypeExtractor.java <35:13 35:16>]
 QUALIFIER: java [TypeExtractor.java <35:8 35:11>]
 REFERENCE_IMPORT TypeExtractor.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [TypeExtractor.java <37:71 37:83>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [TypeExtractor.java <37:61 37:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [TypeExtractor.java <37:50 37:59>]
 QUALIFIER: com.github.javaparser.symbolsolver [TypeExtractor.java <37:37 37:48>]
 QUALIFIER: com.github.javaparser [TypeExtractor.java <37:26 37:35>]

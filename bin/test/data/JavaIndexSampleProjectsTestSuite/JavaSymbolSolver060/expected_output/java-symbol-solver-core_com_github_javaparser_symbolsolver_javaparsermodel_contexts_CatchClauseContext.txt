@@ -13,6 +13,7 @@ QUALIFIER: com [CatchClauseContext.java <1:9 1:11>]
 REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.ast.stmt.CatchClause [CatchClauseContext.java <3:39 3:49>]
 SYMBOL_PACKAGE com.github.javaparser.ast.stmt
 QUALIFIER: com.github.javaparser.ast.stmt [CatchClauseContext.java <3:34 3:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
 QUALIFIER: com.github.javaparser.ast [CatchClauseContext.java <3:30 3:32>]
 QUALIFIER: com.github.javaparser [CatchClauseContext.java <3:19 3:28>]
 QUALIFIER: com.github [CatchClauseContext.java <3:12 3:17>]
@@ -26,6 +27,7 @@ QUALIFIER: com [CatchClauseContext.java <4:8 4:10>]
 REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [CatchClauseContext.java <5:62 5:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [CatchClauseContext.java <5:49 5:60>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 QUALIFIER: com.github.javaparser.symbolsolver.model [CatchClauseContext.java <5:43 5:47>]
 QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <5:30 5:41>]
 QUALIFIER: com.github.javaparser [CatchClauseContext.java <5:19 5:28>]
@@ -78,6 +80,7 @@ QUALIFIER: com [CatchClauseContext.java <11:8 11:10>]
 REFERENCE_IMPORT CatchClauseContext.java -> java.util.List<E> [CatchClauseContext.java <13:18 13:21>]
 SYMBOL_PACKAGE java.util
 QUALIFIER: java.util [CatchClauseContext.java <13:13 13:16>]
+SYMBOL_PACKAGE java
 QUALIFIER: java [CatchClauseContext.java <13:8 13:11>]
 REFERENCE_IMPORT CatchClauseContext.java -> java.util.Optional<T> [CatchClauseContext.java <14:18 14:25>]
 QUALIFIER: java.util [CatchClauseContext.java <14:13 14:16>]
