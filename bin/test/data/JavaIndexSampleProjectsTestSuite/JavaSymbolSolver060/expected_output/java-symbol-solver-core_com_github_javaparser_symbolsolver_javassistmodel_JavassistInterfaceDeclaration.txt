@@ -107,10 +107,10 @@ QUALIFIER: javassist [JavassistInterfaceDeclaration.java <34:8 34:16>]
 REFERENCE_IMPORT JavassistInterfaceDeclaration.java -> javassist.bytecode.SyntheticAttribute [JavassistInterfaceDeclaration.java <35:27 35:44>]
 QUALIFIER: javassist.bytecode [JavassistInterfaceDeclaration.java <35:18 35:25>]
 QUALIFIER: javassist [JavassistInterfaceDeclaration.java <35:8 35:16>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT JavassistInterfaceDeclaration.java -> java.lang.reflect.Modifier [JavassistInterfaceDeclaration.java <37:26 37:33>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [JavassistInterfaceDeclaration.java <37:18 37:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [JavassistInterfaceDeclaration.java <37:13 37:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistInterfaceDeclaration.java <37:8 37:11>]

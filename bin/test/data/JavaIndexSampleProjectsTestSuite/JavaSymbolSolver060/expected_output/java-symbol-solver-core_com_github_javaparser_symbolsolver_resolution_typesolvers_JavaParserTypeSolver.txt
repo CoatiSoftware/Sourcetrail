@@ -92,6 +92,7 @@ REFERENCE_TYPE_USAGE java.io.File com.github.javaparser.symbolsolver.resolution.
 SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver.parent [JavaParserTypeSolver.java <42:24 42:29>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver.parent -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavaParserTypeSolver.java <42:13 42:22>]
 SYMBOL_FIELD private java.util.Map<java.lang.String, com.github.javaparser.ast.CompilationUnit> com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver.parsedFiles [JavaParserTypeSolver.java <44:42 44:52>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> java.lang.String [JavaParserTypeSolver.java <44:17 44:22>]
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> com.github.javaparser.ast.CompilationUnit [JavaParserTypeSolver.java <44:25 44:39>]
 REFERENCE_TYPE_USAGE java.util.Map<java.lang.String, com.github.javaparser.ast.CompilationUnit> com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver.parsedFiles -> java.util.Map<K, V> [JavaParserTypeSolver.java <44:13 44:15>]

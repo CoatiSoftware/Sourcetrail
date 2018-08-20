@@ -21,6 +21,7 @@ SYMBOL_CLASS public com.github.javaparser.symbolsolver.logic.ConfilictingGeneric
 LOCAL_SYMBOL: ConfilictingGenericTypesException.java<8:73> [ConfilictingGenericTypesException.java <8:73 8:73>]
 LOCAL_SYMBOL: ConfilictingGenericTypesException.java<8:73> [ConfilictingGenericTypesException.java <13:1 13:1>]
 COMMENT: comment [ConfilictingGenericTypesException.java <5:1 7:3>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException -> java.lang.RuntimeException [ConfilictingGenericTypesException.java <8:56 8:71>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException.ConfilictingGenericTypesException(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.typesystem.Type) [ConfilictingGenericTypesException.java <10:5 <10:5  <10:12 10:44> 10:78> 12:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException.ConfilictingGenericTypesException(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ConfilictingGenericTypesException.java <10:46 10:49>]

@@ -210,6 +210,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 LOCAL_SYMBOL: JavaParserClassDeclaration.java<64:40> [JavaParserClassDeclaration.java <64:40 64:40>]
 LOCAL_SYMBOL: JavaParserClassDeclaration.java<64:40> [JavaParserClassDeclaration.java <66:9 66:9>]
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.JavaParserClassDeclaration(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [JavaParserClassDeclaration.java <65:23 65:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.JavaParserClassDeclaration(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [JavaParserClassDeclaration.java <65:23 65:46>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration [JavaParserClassDeclaration.java <67:9 67:12>]

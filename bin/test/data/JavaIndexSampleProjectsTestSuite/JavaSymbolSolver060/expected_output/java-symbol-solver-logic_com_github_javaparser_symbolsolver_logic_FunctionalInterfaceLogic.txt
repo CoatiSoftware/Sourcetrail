@@ -33,10 +33,10 @@ QUALIFIER: com.github.javaparser.symbolsolver [FunctionalInterfaceLogic.java <21
 QUALIFIER: com.github.javaparser [FunctionalInterfaceLogic.java <21:19 21:28>]
 QUALIFIER: com.github [FunctionalInterfaceLogic.java <21:12 21:17>]
 QUALIFIER: com [FunctionalInterfaceLogic.java <21:8 21:10>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.lang.reflect.Method [FunctionalInterfaceLogic.java <23:26 23:31>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [FunctionalInterfaceLogic.java <23:18 23:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [FunctionalInterfaceLogic.java <23:13 23:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [FunctionalInterfaceLogic.java <23:8 23:11>]

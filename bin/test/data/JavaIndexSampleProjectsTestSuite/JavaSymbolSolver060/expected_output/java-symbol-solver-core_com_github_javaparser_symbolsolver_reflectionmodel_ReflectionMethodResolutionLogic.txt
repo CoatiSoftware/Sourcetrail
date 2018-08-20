@@ -99,10 +99,10 @@ QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodResolutionLogic.j
 QUALIFIER: com.github.javaparser [ReflectionMethodResolutionLogic.java <30:19 30:28>]
 QUALIFIER: com.github [ReflectionMethodResolutionLogic.java <30:12 30:17>]
 QUALIFIER: com [ReflectionMethodResolutionLogic.java <30:8 30:10>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT ReflectionMethodResolutionLogic.java -> java.lang.reflect.Method [ReflectionMethodResolutionLogic.java <32:26 32:31>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionMethodResolutionLogic.java <32:18 32:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionMethodResolutionLogic.java <32:13 32:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionMethodResolutionLogic.java <32:8 32:11>]

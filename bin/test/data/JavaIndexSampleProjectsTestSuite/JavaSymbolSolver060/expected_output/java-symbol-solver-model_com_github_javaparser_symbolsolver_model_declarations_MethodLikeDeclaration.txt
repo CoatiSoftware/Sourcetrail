@@ -24,6 +24,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.Meth
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration -> com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [MethodLikeDeclaration.java <26:81 26:94>]
 SYMBOL_METHOD default java.lang.String com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getPackageName() [MethodLikeDeclaration.java <30:1 <30:1  <30:20 30:33> 30:35> 32:5>]
 COMMENT: comment [MethodLikeDeclaration.java <27:5 29:7>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getPackageName() -> java.lang.String [MethodLikeDeclaration.java <30:13 30:18>]
 LOCAL_SYMBOL: MethodLikeDeclaration.java<30:37> [MethodLikeDeclaration.java <30:37 30:37>]
 LOCAL_SYMBOL: MethodLikeDeclaration.java<30:37> [MethodLikeDeclaration.java <32:5 32:5>]

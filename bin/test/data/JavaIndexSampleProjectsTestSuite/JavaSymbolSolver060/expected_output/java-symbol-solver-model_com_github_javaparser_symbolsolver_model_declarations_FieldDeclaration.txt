@@ -23,6 +23,7 @@ REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declaratio
 SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() [FieldDeclaration.java <31:5 <31:5  <32:21 32:27> 32:29> 34:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField() [FieldDeclaration.java <32:21 32:27>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() -> java.lang.Override [FieldDeclaration.java <31:6 31:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() -> boolean [FieldDeclaration.java <32:13 32:19>]
 LOCAL_SYMBOL: FieldDeclaration.java<32:31> [FieldDeclaration.java <32:31 32:31>]

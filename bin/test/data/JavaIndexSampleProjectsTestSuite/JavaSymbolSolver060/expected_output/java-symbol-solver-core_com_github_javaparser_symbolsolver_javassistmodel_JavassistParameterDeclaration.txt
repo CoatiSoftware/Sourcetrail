@@ -89,6 +89,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistParam
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration<2> [JavassistParameterDeclaration.java <39:25 39:32>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() [JavassistParameterDeclaration.java <42:5 <42:5  <43:19 43:26> 43:28> 49:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> java.lang.String java.lang.Object.toString() [JavassistParameterDeclaration.java <43:19 43:26>]
 REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> java.lang.Override [JavassistParameterDeclaration.java <42:6 42:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.toString() -> java.lang.String [JavassistParameterDeclaration.java <43:12 43:17>]

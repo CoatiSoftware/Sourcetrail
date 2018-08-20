@@ -50,6 +50,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.resolution.typesolvers.
 SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <33:24 33:29>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MemoryTypeSolver.java <33:13 33:22>]
 SYMBOL_FIELD private java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <34:51 34:64>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> java.lang.String [MemoryTypeSolver.java <34:17 34:22>]
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MemoryTypeSolver.java <34:25 34:48>]
 REFERENCE_TYPE_USAGE java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap -> java.util.Map<K, V> [MemoryTypeSolver.java <34:13 34:15>]

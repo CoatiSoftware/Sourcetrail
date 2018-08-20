@@ -129,6 +129,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<46:33> [JavaParserFieldDeclaration.java <46:33 46:33>]
 LOCAL_SYMBOL: JavaParserFieldDeclaration.java<46:33> [JavaParserFieldDeclaration.java <48:9 48:9>]
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.JavaParserFieldDeclaration(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [JavaParserFieldDeclaration.java <47:23 47:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration.JavaParserFieldDeclaration(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [JavaParserFieldDeclaration.java <47:23 47:46>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration [JavaParserFieldDeclaration.java <49:9 49:12>]

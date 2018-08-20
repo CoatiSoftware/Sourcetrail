@@ -44,10 +44,10 @@ SYMBOL_PACKAGE javassist
 QUALIFIER: javassist [JavassistFactory.java <21:8 21:16>]
 REFERENCE_IMPORT JavassistFactory.java -> javassist.NotFoundException [JavassistFactory.java <22:18 22:34>]
 QUALIFIER: javassist [JavassistFactory.java <22:8 22:16>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT JavassistFactory.java -> java.lang.reflect.Modifier [JavassistFactory.java <24:26 24:33>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [JavassistFactory.java <24:18 24:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [JavassistFactory.java <24:13 24:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistFactory.java <24:8 24:11>]

@@ -114,10 +114,10 @@ QUALIFIER: com.github.javaparser.symbolsolver [ReflectionClassDeclaration.java <
 QUALIFIER: com.github.javaparser [ReflectionClassDeclaration.java <32:19 32:28>]
 QUALIFIER: com.github [ReflectionClassDeclaration.java <32:12 32:17>]
 QUALIFIER: com [ReflectionClassDeclaration.java <32:8 32:10>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT ReflectionClassDeclaration.java -> java.lang.reflect.Field [ReflectionClassDeclaration.java <34:26 34:30>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionClassDeclaration.java <34:18 34:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionClassDeclaration.java <34:13 34:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionClassDeclaration.java <34:8 34:11>]

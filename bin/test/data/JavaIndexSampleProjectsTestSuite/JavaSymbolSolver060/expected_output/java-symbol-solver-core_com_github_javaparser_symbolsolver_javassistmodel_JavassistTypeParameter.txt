@@ -98,6 +98,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeP
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.JavassistTypeParameter<1> [JavassistTypeParameter.java <43:26 43:34>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) [JavassistTypeParameter.java <46:5 <46:5  <47:20 47:25> 47:35> 64:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [JavassistTypeParameter.java <47:20 47:25>]
 REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.equals(java.lang.Object) -> java.lang.Override [JavassistTypeParameter.java <46:6 46:13>]
 SYMBOL_BUILTIN_TYPE boolean

@@ -141,6 +141,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.context
 SYMBOL_METHOD private static boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext.isQualifiedName(java.lang.String) [CompilationUnitContext.java <48:5 <48:5  <48:28 48:42> 48:55> 50:5>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE static boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext.isQualifiedName(java.lang.String) -> boolean [CompilationUnitContext.java <48:20 48:26>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE static boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext.isQualifiedName(java.lang.String) -> java.lang.String [CompilationUnitContext.java <48:44 48:49>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext.isQualifiedName<0> [CompilationUnitContext.java <48:51 48:54>]
 LOCAL_SYMBOL: CompilationUnitContext.java<48:57> [CompilationUnitContext.java <48:57 48:57>]

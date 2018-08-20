@@ -58,10 +58,10 @@ QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java 
 QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <24:19 24:28>]
 QUALIFIER: com.github [ReflectionMethodDeclaration.java <24:12 24:17>]
 QUALIFIER: com [ReflectionMethodDeclaration.java <24:8 24:10>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.lang.reflect.Method [ReflectionMethodDeclaration.java <26:26 26:31>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionMethodDeclaration.java <26:18 26:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionMethodDeclaration.java <26:13 26:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionMethodDeclaration.java <26:8 26:11>]

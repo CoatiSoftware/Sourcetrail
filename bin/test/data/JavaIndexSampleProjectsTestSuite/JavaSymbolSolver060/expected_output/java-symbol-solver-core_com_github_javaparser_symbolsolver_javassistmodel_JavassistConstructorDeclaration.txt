@@ -78,6 +78,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistConst
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.JavassistConstructorDeclaration<1> [JavassistConstructorDeclaration.java <40:27 40:36>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() [JavassistConstructorDeclaration.java <43:5 <43:5  <44:19 44:26> 44:28> 48:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> java.lang.String java.lang.Object.toString() [JavassistConstructorDeclaration.java <44:19 44:26>]
 REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> java.lang.Override [JavassistConstructorDeclaration.java <43:6 43:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> java.lang.String [JavassistConstructorDeclaration.java <44:12 44:17>]

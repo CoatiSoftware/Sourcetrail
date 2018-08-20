@@ -74,10 +74,10 @@ QUALIFIER: com.github.javaparser.symbolsolver [ReflectionClassAdapter.java <11:3
 QUALIFIER: com.github.javaparser [ReflectionClassAdapter.java <11:19 11:28>]
 QUALIFIER: com.github [ReflectionClassAdapter.java <11:12 11:17>]
 QUALIFIER: com [ReflectionClassAdapter.java <11:8 11:10>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT ReflectionClassAdapter.java -> java.lang.annotation.Annotation [ReflectionClassAdapter.java <13:29 13:38>]
 SYMBOL_PACKAGE java.lang.annotation
 QUALIFIER: java.lang.annotation [ReflectionClassAdapter.java <13:18 13:27>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionClassAdapter.java <13:13 13:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionClassAdapter.java <13:8 13:11>]

@@ -228,6 +228,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDec
 LOCAL_SYMBOL: JavassistTypeDeclarationAdapter.java<78:41> [JavassistTypeDeclarationAdapter.java <78:41 78:41>]
 LOCAL_SYMBOL: JavassistTypeDeclarationAdapter.java<78:41> [JavassistTypeDeclarationAdapter.java <80:7 80:7>]
 SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDeclarationAdapter.getTypeParameters() -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistTypeDeclarationAdapter.java <79:19 79:34>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDeclarationAdapter.getTypeParameters() -> java.lang.RuntimeException [JavassistTypeDeclarationAdapter.java <79:19 79:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDeclarationAdapter.getTypeParameters<3> [JavassistTypeDeclarationAdapter.java <79:36 79:46>]

@@ -25,6 +25,7 @@ SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.Refere
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.logic.ObjectProvider.object() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ObjectProvider.java <25:5 25:17>]
 SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.logic.ObjectProvider.byName(java.lang.String) [ObjectProvider.java <26:5 <26:5  <26:19 26:24> 26:38> 26:39>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.logic.ObjectProvider.byName(java.lang.String) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ObjectProvider.java <26:5 26:17>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.logic.ObjectProvider.byName(java.lang.String) -> java.lang.String [ObjectProvider.java <26:26 26:31>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.ObjectProvider.byName<0> [ObjectProvider.java <26:33 26:37>]
 COMMENT: comment [ObjectProvider.java <1:1 15:3>]

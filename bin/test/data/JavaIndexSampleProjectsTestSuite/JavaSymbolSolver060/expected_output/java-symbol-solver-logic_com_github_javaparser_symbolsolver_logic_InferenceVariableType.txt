@@ -66,6 +66,7 @@ COMMENT: comment [InferenceVariableType.java <29:1 33:3>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.logic.InferenceVariableType -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <34:47 34:50>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() [InferenceVariableType.java <35:5 <35:5  <36:19 36:26> 36:28> 40:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.String java.lang.Object.toString() [InferenceVariableType.java <36:19 36:26>]
 REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.Override [InferenceVariableType.java <35:6 35:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.String [InferenceVariableType.java <36:12 36:17>]

@@ -101,6 +101,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.Reflect
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration -> com.github.javaparser.symbolsolver.model.declarations.EnumDeclaration [ReflectionEnumDeclaration.java <34:83 34:97>]
 SYMBOL_FIELD private java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <40:20 40:24>]
 REFERENCE_TYPE_ARGUMENT java.lang.Class<T> -> ? [ReflectionEnumDeclaration.java <40:17 40:17>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz -> java.lang.Class<T> [ReflectionEnumDeclaration.java <40:11 40:15>]
 SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver [ReflectionEnumDeclaration.java <41:22 41:31>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionEnumDeclaration.java <41:11 41:20>]

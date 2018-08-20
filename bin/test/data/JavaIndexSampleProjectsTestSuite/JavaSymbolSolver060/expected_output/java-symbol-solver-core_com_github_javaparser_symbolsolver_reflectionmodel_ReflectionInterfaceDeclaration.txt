@@ -109,10 +109,10 @@ QUALIFIER: com.github.javaparser.symbolsolver [ReflectionInterfaceDeclaration.ja
 QUALIFIER: com.github.javaparser [ReflectionInterfaceDeclaration.java <32:19 32:28>]
 QUALIFIER: com.github [ReflectionInterfaceDeclaration.java <32:12 32:17>]
 QUALIFIER: com [ReflectionInterfaceDeclaration.java <32:8 32:10>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT ReflectionInterfaceDeclaration.java -> java.lang.reflect.Field [ReflectionInterfaceDeclaration.java <34:26 34:30>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [ReflectionInterfaceDeclaration.java <34:18 34:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [ReflectionInterfaceDeclaration.java <34:13 34:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [ReflectionInterfaceDeclaration.java <34:8 34:11>]

@@ -175,6 +175,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.ast.expr.ObjectCreationExpr com.githu
 SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserAnonymousClassDeclaration.superTypeDeclaration [JavaParserAnonymousClassDeclaration.java <36:33 36:52>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserAnonymousClassDeclaration.superTypeDeclaration -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavaParserAnonymousClassDeclaration.java <36:17 36:31>]
 SYMBOL_FIELD private java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserAnonymousClassDeclaration.name [JavaParserAnonymousClassDeclaration.java <37:24 37:27>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserAnonymousClassDeclaration.name -> java.lang.String [JavaParserAnonymousClassDeclaration.java <37:17 37:22>]
 SYMBOL_METHOD static java.util.UUID java.util.UUID.randomUUID()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserAnonymousClassDeclaration.name -> static java.util.UUID java.util.UUID.randomUUID() [JavaParserAnonymousClassDeclaration.java <37:51 37:60>]

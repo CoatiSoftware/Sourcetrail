@@ -19,6 +19,7 @@ SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.comparato
 LOCAL_SYMBOL: ClassComparator.java<8:62> [ClassComparator.java <8:62 8:62>]
 LOCAL_SYMBOL: ClassComparator.java<8:62> [ClassComparator.java <25:1 25:1>]
 COMMENT: comment [ClassComparator.java <5:1 7:3>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_ARGUMENT java.util.Comparator<T> -> java.lang.Class<T> [ClassComparator.java <8:52 8:59>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator -> java.util.Comparator<T> [ClassComparator.java <8:41 8:50>]
 REFERENCE_TYPE_ARGUMENT java.lang.Class<T> -> ? [ClassComparator.java <8:58 8:58>]

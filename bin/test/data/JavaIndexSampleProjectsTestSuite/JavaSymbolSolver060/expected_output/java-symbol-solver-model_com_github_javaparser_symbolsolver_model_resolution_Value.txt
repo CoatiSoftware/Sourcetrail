@@ -33,6 +33,7 @@ COMMENT: comment [Value.java <22:1 26:3>]
 SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type [Value.java <28:18 28:21>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type -> com.github.javaparser.symbolsolver.model.typesystem.Type [Value.java <28:13 28:16>]
 SYMBOL_FIELD private java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name [Value.java <29:20 29:23>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name -> java.lang.String [Value.java <29:13 29:18>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.Value.Value(com.github.javaparser.symbolsolver.model.typesystem.Type, java.lang.String) [Value.java <31:5 <31:5  <31:12 31:16> 31:40> 34:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.Value.Value(com.github.javaparser.symbolsolver.model.typesystem.Type, java.lang.String) -> com.github.javaparser.symbolsolver.model.typesystem.Type [Value.java <31:18 31:21>]

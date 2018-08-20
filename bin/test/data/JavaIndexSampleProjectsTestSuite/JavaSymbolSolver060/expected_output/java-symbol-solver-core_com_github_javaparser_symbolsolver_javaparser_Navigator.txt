@@ -96,6 +96,7 @@ REFERENCE_TYPE_ARGUMENT com.github.javaparser.ast.body.TypeDeclaration<T> -> ? [
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.ast.body.TypeDeclaration<?>> com.github.javaparser.symbolsolver.javaparser.Navigator.findType(com.github.javaparser.ast.CompilationUnit, java.lang.String) -> com.github.javaparser.ast.body.TypeDeclaration<T> [Navigator.java <48:28 48:42>]
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.ast.body.TypeDeclaration<?>> com.github.javaparser.symbolsolver.javaparser.Navigator.findType(com.github.javaparser.ast.CompilationUnit, java.lang.String) -> com.github.javaparser.ast.CompilationUnit [Navigator.java <48:57 48:71>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparser.Navigator.findType<0> [Navigator.java <48:73 48:74>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.ast.body.TypeDeclaration<?>> com.github.javaparser.symbolsolver.javaparser.Navigator.findType(com.github.javaparser.ast.CompilationUnit, java.lang.String) -> java.lang.String [Navigator.java <48:77 48:82>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparser.Navigator.findType<1> [Navigator.java <48:84 48:96>]
 LOCAL_SYMBOL: Navigator.java<48:99> [Navigator.java <48:99 48:99>]

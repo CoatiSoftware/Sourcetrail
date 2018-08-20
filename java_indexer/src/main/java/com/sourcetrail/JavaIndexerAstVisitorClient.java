@@ -1,14 +1,23 @@
 package com.sourcetrail;
 
+import com.sourcetrail.name.NameElement;
 import com.sourcetrail.name.NameHierarchy;
 
 public class JavaIndexerAstVisitorClient extends AstVisitorClient 
 {
 	private int m_address;
+	private String m_javaLangPackageName;
+	private boolean m_javaLangPackageRecorded;
 
 	public JavaIndexerAstVisitorClient(int address)
 	{
 		m_address = address;
+		
+		NameHierarchy javaLangPackageNameHierarchy = new NameHierarchy();
+		javaLangPackageNameHierarchy.push(new NameElement("java"));
+		javaLangPackageNameHierarchy.push(new NameElement("lang"));
+		m_javaLangPackageName = javaLangPackageNameHierarchy.serialize();
+		m_javaLangPackageRecorded = false;
 	}
 	
 	@Override
@@ -86,8 +95,18 @@ public class JavaIndexerAstVisitorClient extends AstVisitorClient
 			ReferenceKind referenceKind, NameHierarchy referencedName, 
 			NameHierarchy contextName, Range range) 
 	{
+		String serializedReferencedName = referencedName.serialize();
+		if (!m_javaLangPackageRecorded && serializedReferencedName.startsWith(m_javaLangPackageName))
+		{
+			JavaIndexer.recordSymbol(
+					m_address, m_javaLangPackageName, SymbolKind.PACKAGE.getValue(),  
+					AccessKind.NONE.getValue(), DefinitionKind.NONE.getValue());
+			
+			m_javaLangPackageRecorded = true;
+		}
+		
 		JavaIndexer.recordReference(
-				m_address, referenceKind.getValue(), referencedName.serialize(), contextName.serialize(), 
+				m_address, referenceKind.getValue(), serializedReferencedName, contextName.serialize(), 
 				range.begin.line, range.begin.column, range.end.line, range.end.column);
 	}
 

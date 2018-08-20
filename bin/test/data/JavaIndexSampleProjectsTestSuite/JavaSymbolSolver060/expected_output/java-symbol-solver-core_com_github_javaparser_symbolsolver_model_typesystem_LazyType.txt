@@ -35,6 +35,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.typesystem.LazyTy
 SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete [LazyType.java <9:18 9:25>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <9:13 9:16>]
 SYMBOL_FIELD private java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider [LazyType.java <10:34 10:41>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_ARGUMENT java.util.function.Function<T, R> -> java.lang.Void [LazyType.java <10:22 10:25>]
 REFERENCE_TYPE_ARGUMENT java.util.function.Function<T, R> -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <10:28 10:31>]
 REFERENCE_TYPE_USAGE java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider -> java.util.function.Function<T, R> [LazyType.java <10:13 10:20>]

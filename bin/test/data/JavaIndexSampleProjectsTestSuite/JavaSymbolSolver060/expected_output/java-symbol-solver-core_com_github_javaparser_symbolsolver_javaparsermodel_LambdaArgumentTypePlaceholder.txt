@@ -57,6 +57,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentT
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isArray() [LambdaArgumentTypePlaceholder.java <38:5 <38:5  <39:20 39:26> 39:28> 41:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isArray() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [LambdaArgumentTypePlaceholder.java <39:20 39:26>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isArray() -> java.lang.Override [LambdaArgumentTypePlaceholder.java <38:6 38:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isArray() -> boolean [LambdaArgumentTypePlaceholder.java <39:12 39:18>]

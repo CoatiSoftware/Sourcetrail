@@ -49,6 +49,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildc
 LOCAL_SYMBOL: Wildcard.java<40:50> [Wildcard.java <40:50 40:50>]
 LOCAL_SYMBOL: Wildcard.java<40:50> [Wildcard.java <42:9 42:9>]
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.IllegalArgumentException.IllegalArgumentException() [Wildcard.java <41:23 41:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.IllegalArgumentException [Wildcard.java <41:23 41:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard<0> [Wildcard.java <43:13 43:16>]

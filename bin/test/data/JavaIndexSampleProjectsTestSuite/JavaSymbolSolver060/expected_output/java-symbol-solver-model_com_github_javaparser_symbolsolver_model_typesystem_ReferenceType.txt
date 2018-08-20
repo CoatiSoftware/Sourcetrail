@@ -129,6 +129,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.
 LOCAL_SYMBOL: ReferenceType.java<57:33> [ReferenceType.java <57:33 57:33>]
 LOCAL_SYMBOL: ReferenceType.java<57:33> [ReferenceType.java <59:9 59:9>]
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.ReferenceType(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [ReferenceType.java <58:23 58:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.ReferenceType(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReferenceType.java <58:23 58:46>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isTypeParameter()

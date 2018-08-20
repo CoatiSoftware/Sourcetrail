@@ -167,6 +167,7 @@ SYMBOL_FIELD private java.io.PrintStream com.github.javaparser.symbolsolver.Sour
 REFERENCE_TYPE_USAGE java.io.PrintStream com.github.javaparser.symbolsolver.SourceFileInfoExtractor.out -> java.io.PrintStream [SourceFileInfoExtractor.java <59:13 59:23>]
 QUALIFIER: java.lang.System [SourceFileInfoExtractor.java <59:31 59:36>]
 SYMBOL_FIELD static java.io.PrintStream java.lang.System.out
+SYMBOL_PACKAGE java.lang
 REFERENCE_USAGE java.io.PrintStream com.github.javaparser.symbolsolver.SourceFileInfoExtractor.out -> static java.io.PrintStream java.lang.System.out [SourceFileInfoExtractor.java <59:38 59:40>]
 SYMBOL_FIELD private java.io.PrintStream com.github.javaparser.symbolsolver.SourceFileInfoExtractor.err [SourceFileInfoExtractor.java <60:25 60:27>]
 REFERENCE_TYPE_USAGE java.io.PrintStream com.github.javaparser.symbolsolver.SourceFileInfoExtractor.err -> java.io.PrintStream [SourceFileInfoExtractor.java <60:13 60:23>]

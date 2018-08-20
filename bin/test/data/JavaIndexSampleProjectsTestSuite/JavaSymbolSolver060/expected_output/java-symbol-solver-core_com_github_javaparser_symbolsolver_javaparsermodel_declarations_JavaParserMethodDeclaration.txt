@@ -139,6 +139,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations.
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration.JavaParserMethodDeclaration<1> [JavaParserMethodDeclaration.java <45:27 45:36>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration.toString() [JavaParserMethodDeclaration.java <48:5 <48:5  <49:19 49:26> 49:28> 54:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration.toString() -> java.lang.String java.lang.Object.toString() [JavaParserMethodDeclaration.java <49:19 49:26>]
 REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration.toString() -> java.lang.Override [JavaParserMethodDeclaration.java <48:6 48:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration.toString() -> java.lang.String [JavaParserMethodDeclaration.java <49:12 49:17>]

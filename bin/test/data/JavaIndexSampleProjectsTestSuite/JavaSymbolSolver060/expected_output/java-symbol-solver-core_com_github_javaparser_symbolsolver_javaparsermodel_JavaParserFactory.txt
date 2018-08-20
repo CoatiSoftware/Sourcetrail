@@ -539,6 +539,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacto
 LOCAL_SYMBOL: JavaParserFactory.java<131:16> [JavaParserFactory.java <131:16 131:16>]
 LOCAL_SYMBOL: JavaParserFactory.java<131:16> [JavaParserFactory.java <133:9 133:9>]
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.toTypeDeclaration(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [JavaParserFactory.java <132:23 132:46>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.toTypeDeclaration(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [JavaParserFactory.java <132:23 132:46>]
 SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()

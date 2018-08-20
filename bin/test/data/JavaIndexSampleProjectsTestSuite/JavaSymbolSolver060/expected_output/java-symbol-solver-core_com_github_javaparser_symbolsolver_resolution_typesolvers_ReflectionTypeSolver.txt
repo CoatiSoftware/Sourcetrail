@@ -65,6 +65,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.resolution.typesolvers.Reflec
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver<0> [ReflectionTypeSolver.java <34:24 34:30>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver() [ReflectionTypeSolver.java <37:5 <37:5  <37:12 37:31> 37:33> 39:5>]
 SYMBOL_METHOD java.lang.Object.Object()
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver() -> java.lang.Object.Object() [ReflectionTypeSolver.java <37:12 37:31>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<37:35> [ReflectionTypeSolver.java <37:35 37:35>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<37:35> [ReflectionTypeSolver.java <39:5 39:5>]

@@ -126,6 +126,7 @@ LOCAL_SYMBOL: JavaParserSymbolDeclaration.java<40:70> [JavaParserSymbolDeclarati
 COMMENT: comment [JavaParserSymbolDeclaration.java <37:1 39:3>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [JavaParserSymbolDeclaration.java <40:53 40:68>]
 SYMBOL_FIELD private java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.name [JavaParserSymbolDeclaration.java <42:20 42:23>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.name -> java.lang.String [JavaParserSymbolDeclaration.java <42:13 42:18>]
 SYMBOL_FIELD private com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.wrappedNode [JavaParserSymbolDeclaration.java <43:18 43:28>]
 REFERENCE_TYPE_USAGE com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.wrappedNode -> com.github.javaparser.ast.Node [JavaParserSymbolDeclaration.java <43:13 43:16>]

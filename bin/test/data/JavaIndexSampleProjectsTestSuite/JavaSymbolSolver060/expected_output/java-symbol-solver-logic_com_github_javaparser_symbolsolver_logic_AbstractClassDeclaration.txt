@@ -49,6 +49,7 @@ REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.logic.AbstractClassDecl
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.hasName() [AbstractClassDeclaration.java <37:5 <37:5  <38:20 38:26> 38:28> 40:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.hasName()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.hasName() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.hasName() [AbstractClassDeclaration.java <38:20 38:26>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.hasName() -> java.lang.Override [AbstractClassDeclaration.java <37:6 37:13>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.hasName() -> boolean [AbstractClassDeclaration.java <38:12 38:18>]

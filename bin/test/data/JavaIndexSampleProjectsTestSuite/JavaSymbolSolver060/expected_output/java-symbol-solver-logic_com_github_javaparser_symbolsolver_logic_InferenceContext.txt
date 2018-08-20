@@ -69,6 +69,7 @@ SYMBOL_FIELD com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.
 REFERENCE_USAGE com.github.javaparser.symbolsolver.logic.InferenceContext.InferenceContext(com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.javaparser.symbolsolver.logic.InferenceContext.objectProvider [InferenceContext.java <38:14 38:27>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceContext.InferenceContext<0> [InferenceContext.java <38:31 38:44>]
 SYMBOL_FIELD private java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.logic.InferenceVariableType> com.github.javaparser.symbolsolver.logic.InferenceContext.inferenceVariableTypeMap [InferenceContext.java <41:48 41:71>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> java.lang.String [InferenceContext.java <41:17 41:22>]
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceContext.java <41:25 41:45>]
 REFERENCE_TYPE_USAGE java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.logic.InferenceVariableType> com.github.javaparser.symbolsolver.logic.InferenceContext.inferenceVariableTypeMap -> java.util.Map<K, V> [InferenceContext.java <41:13 41:15>]

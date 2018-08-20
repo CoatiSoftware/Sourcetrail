@@ -105,6 +105,7 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.AccessLevel [He
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED [Helper.java <43:32 43:48>]
 SYMBOL_METHOD default static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node) [Helper.java <47:5 <47:5  <47:19 47:31> 47:47> 53:5>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node) -> java.lang.String [Helper.java <47:12 47:17>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node) -> com.github.javaparser.ast.Node [Helper.java <47:33 47:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName<0> [Helper.java <47:38 47:46>]

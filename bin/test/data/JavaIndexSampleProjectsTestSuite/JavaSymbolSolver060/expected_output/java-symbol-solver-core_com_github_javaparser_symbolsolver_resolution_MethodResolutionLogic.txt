@@ -208,6 +208,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.MethodResolutionLogi
 LOCAL_SYMBOL: MethodResolutionLogic.java<58:39> [MethodResolutionLogic.java <58:39 58:39>]
 LOCAL_SYMBOL: MethodResolutionLogic.java<58:39> [MethodResolutionLogic.java <60:9 60:9>]
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.resolution.MethodResolutionLogic.findCommonType(java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.IllegalArgumentException.IllegalArgumentException() [MethodResolutionLogic.java <59:23 59:46>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.resolution.MethodResolutionLogic.findCommonType(java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.IllegalArgumentException [MethodResolutionLogic.java <59:23 59:46>]
 SYMBOL_METHOD java.util.List<E>.E java.util.List<E>.get(int)

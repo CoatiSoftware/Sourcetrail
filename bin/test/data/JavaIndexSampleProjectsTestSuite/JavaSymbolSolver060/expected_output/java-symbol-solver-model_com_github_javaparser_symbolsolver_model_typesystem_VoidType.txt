@@ -26,6 +26,7 @@ LOCAL_SYMBOL: VoidType.java<27:24> [VoidType.java <28:5 28:5>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.VoidType.describe() [VoidType.java <30:5 <30:5  <31:19 31:26> 31:28> 33:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.VoidType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [VoidType.java <31:19 31:26>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.VoidType.describe() -> java.lang.Override [VoidType.java <30:6 30:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.VoidType.describe() -> java.lang.String [VoidType.java <31:12 31:17>]
 LOCAL_SYMBOL: VoidType.java<31:30> [VoidType.java <31:30 31:30>]

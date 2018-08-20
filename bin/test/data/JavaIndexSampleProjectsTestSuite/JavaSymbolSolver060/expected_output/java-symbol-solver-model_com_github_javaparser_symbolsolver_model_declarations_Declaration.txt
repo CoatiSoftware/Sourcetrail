@@ -22,6 +22,7 @@ LOCAL_SYMBOL: Declaration.java<29:31> [Declaration.java <29:31 29:31>]
 LOCAL_SYMBOL: Declaration.java<29:31> [Declaration.java <31:5 31:5>]
 SYMBOL_METHOD default java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [Declaration.java <36:1 <36:1  <36:12 36:18> 36:20> 36:21>]
 COMMENT: comment [Declaration.java <33:5 35:7>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() -> java.lang.String [Declaration.java <36:5 36:10>]
 SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField() [Declaration.java <41:1 <41:1  <41:21 41:27> 41:29> 43:5>]
 COMMENT: comment [Declaration.java <38:5 40:7>]

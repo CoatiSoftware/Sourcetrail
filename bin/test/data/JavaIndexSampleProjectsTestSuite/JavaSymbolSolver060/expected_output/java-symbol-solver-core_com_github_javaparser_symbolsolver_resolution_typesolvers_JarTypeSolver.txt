@@ -92,6 +92,7 @@ REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.resolution.typeso
 SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.parent [JarTypeSolver.java <41:24 41:29>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.parent -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JarTypeSolver.java <41:13 41:22>]
 SYMBOL_FIELD private java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classpathElements [JarTypeSolver.java <42:43 42:59>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> java.lang.String [JarTypeSolver.java <42:17 42:22>]
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement [JarTypeSolver.java <42:25 42:40>]
 REFERENCE_TYPE_USAGE java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classpathElements -> java.util.Map<K, V> [JarTypeSolver.java <42:13 42:15>]

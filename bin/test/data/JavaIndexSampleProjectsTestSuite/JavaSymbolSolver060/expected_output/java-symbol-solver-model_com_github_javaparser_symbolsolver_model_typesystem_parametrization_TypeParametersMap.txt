@@ -46,6 +46,7 @@ SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.parametr
 LOCAL_SYMBOL: TypeParametersMap.java<32:33> [TypeParametersMap.java <32:33 32:33>]
 LOCAL_SYMBOL: TypeParametersMap.java<32:33> [TypeParametersMap.java <59:5 59:5>]
 SYMBOL_FIELD private java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.Builder.nameToValue [TypeParametersMap.java <33:35 33:45>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> java.lang.String [TypeParametersMap.java <33:21 33:26>]
 REFERENCE_TYPE_ARGUMENT java.util.Map<K, V> -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeParametersMap.java <33:29 33:32>]
 REFERENCE_TYPE_USAGE java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap.Builder.nameToValue -> java.util.Map<K, V> [TypeParametersMap.java <33:17 33:19>]

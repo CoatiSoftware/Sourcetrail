@@ -30,6 +30,7 @@ SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.UnsolvedS
 LOCAL_SYMBOL: UnsolvedSymbolException.java<29:63> [UnsolvedSymbolException.java <29:63 29:63>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<29:63> [UnsolvedSymbolException.java <67:1 67:1>]
 COMMENT: comment [UnsolvedSymbolException.java <22:1 26:3>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.javaparsermodel.UnsolvedSymbolException -> java.lang.Deprecated [UnsolvedSymbolException.java <28:2 28:11>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.UnsolvedSymbolException -> java.lang.RuntimeException [UnsolvedSymbolException.java <29:46 29:61>]
 SYMBOL_FIELD private java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.UnsolvedSymbolException.context [UnsolvedSymbolException.java <31:20 31:26>]

@@ -14,6 +14,7 @@ SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.resolution.Unsolved
 LOCAL_SYMBOL: UnsolvedSymbolException.java<24:63> [UnsolvedSymbolException.java <24:63 24:63>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<24:63> [UnsolvedSymbolException.java <56:1 56:1>]
 COMMENT: comment [UnsolvedSymbolException.java <19:1 23:3>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException -> java.lang.RuntimeException [UnsolvedSymbolException.java <24:46 24:61>]
 SYMBOL_FIELD private java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context [UnsolvedSymbolException.java <26:20 26:26>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context -> java.lang.String [UnsolvedSymbolException.java <26:13 26:18>]

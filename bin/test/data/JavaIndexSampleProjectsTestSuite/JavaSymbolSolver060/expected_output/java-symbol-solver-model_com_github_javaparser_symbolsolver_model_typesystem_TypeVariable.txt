@@ -41,6 +41,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.TypeVariable
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable<0> [TypeVariable.java <34:30 34:42>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.toString() [TypeVariable.java <37:5 <37:5  <38:19 38:26> 38:28> 40:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.toString() -> java.lang.String java.lang.Object.toString() [TypeVariable.java <38:19 38:26>]
 REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.toString() -> java.lang.Override [TypeVariable.java <37:6 37:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.toString() -> java.lang.String [TypeVariable.java <38:12 38:17>]

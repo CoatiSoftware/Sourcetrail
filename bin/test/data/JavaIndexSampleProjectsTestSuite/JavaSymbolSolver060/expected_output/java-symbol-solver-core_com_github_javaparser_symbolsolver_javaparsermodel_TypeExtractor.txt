@@ -233,6 +233,7 @@ SYMBOL_METHOD static java.util.logging.Logger java.util.logging.Logger.getLogger
 REFERENCE_CALL static java.util.logging.Logger com.github.javaparser.symbolsolver.javaparsermodel.TypeExtractor.logger -> static java.util.logging.Logger java.util.logging.Logger.getLogger(java.lang.String) [TypeExtractor.java <41:43 41:51>]
 QUALIFIER: java.util.logging.Logger [TypeExtractor.java <41:36 41:41>]
 SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL static java.util.logging.Logger com.github.javaparser.symbolsolver.javaparsermodel.TypeExtractor.logger -> java.lang.String java.lang.Class<T>.getCanonicalName() [TypeExtractor.java <41:73 41:88>]
 REFERENCE_TYPE_USAGE static java.util.logging.Logger com.github.javaparser.symbolsolver.javaparsermodel.TypeExtractor.logger -> com.github.javaparser.symbolsolver.javaparsermodel.TypeExtractor [TypeExtractor.java <41:53 41:65>]
 LOCAL_SYMBOL: TypeExtractor.java<43:12> [TypeExtractor.java <43:12 43:12>]

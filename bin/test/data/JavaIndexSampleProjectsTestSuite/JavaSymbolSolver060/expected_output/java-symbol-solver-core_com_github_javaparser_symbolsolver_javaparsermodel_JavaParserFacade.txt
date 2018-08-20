@@ -204,6 +204,7 @@ SYMBOL_METHOD static java.util.logging.Logger java.util.logging.Logger.getLogger
 REFERENCE_CALL static java.util.logging.Logger com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.logger -> static java.util.logging.Logger java.util.logging.Logger.getLogger(java.lang.String) [JavaParserFacade.java <58:43 58:51>]
 QUALIFIER: java.util.logging.Logger [JavaParserFacade.java <58:36 58:41>]
 SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL static java.util.logging.Logger com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.logger -> java.lang.String java.lang.Class<T>.getCanonicalName() [JavaParserFacade.java <58:76 58:91>]
 REFERENCE_TYPE_USAGE static java.util.logging.Logger com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.logger -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [JavaParserFacade.java <58:53 58:68>]
 LOCAL_SYMBOL: JavaParserFacade.java<60:12> [JavaParserFacade.java <60:12 60:12>]

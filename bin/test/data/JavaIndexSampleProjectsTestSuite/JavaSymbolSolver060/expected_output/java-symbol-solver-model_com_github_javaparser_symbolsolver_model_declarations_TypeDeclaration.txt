@@ -39,6 +39,7 @@ REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.decl
 LOCAL_SYMBOL: TypeDeclaration.java<39:59> [TypeDeclaration.java <39:59 39:59>]
 LOCAL_SYMBOL: TypeDeclaration.java<39:59> [TypeDeclaration.java <41:5 41:5>]
 SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String)
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.internalTypes() -> java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String) [TypeDeclaration.java <40:19 40:47>]
 REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.internalTypes() -> java.lang.UnsupportedOperationException [TypeDeclaration.java <40:19 40:47>]
 SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()

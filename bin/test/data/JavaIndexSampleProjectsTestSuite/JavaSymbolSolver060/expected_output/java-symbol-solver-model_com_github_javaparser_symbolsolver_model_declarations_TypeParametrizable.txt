@@ -32,6 +32,7 @@ COMMENT: comment [TypeParametrizable.java <34:5 37:7>]
 REFERENCE_TYPE_ARGUMENT java.util.Optional<T> -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParametrizable.java <38:14 38:37>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> java.util.Optional<T> [TypeParametrizable.java <38:5 38:12>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParametrizable.java <38:14 38:37>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> java.lang.String [TypeParametrizable.java <38:58 38:63>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter<0> [TypeParametrizable.java <38:65 38:68>]
 COMMENT: comment [TypeParametrizable.java <1:1 15:3>]

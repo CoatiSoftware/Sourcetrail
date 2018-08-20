@@ -41,6 +41,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ArrayType.Ar
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ArrayType.ArrayType<0> [ArrayType.java <33:25 33:32>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.ArrayType.equals(java.lang.Object) [ArrayType.java <40:5 <40:5  <41:20 41:25> 41:35> 50:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.ArrayType.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [ArrayType.java <41:20 41:25>]
 REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ArrayType.equals(java.lang.Object) -> java.lang.Override [ArrayType.java <40:6 40:13>]
 SYMBOL_BUILTIN_TYPE boolean

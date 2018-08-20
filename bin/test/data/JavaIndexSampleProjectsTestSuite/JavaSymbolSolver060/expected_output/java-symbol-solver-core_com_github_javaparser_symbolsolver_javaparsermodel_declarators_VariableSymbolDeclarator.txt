@@ -97,6 +97,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarat
 LOCAL_SYMBOL: VariableSymbolDeclarator.java<38:69> [VariableSymbolDeclarator.java <38:69 38:69>]
 LOCAL_SYMBOL: VariableSymbolDeclarator.java<38:69> [VariableSymbolDeclarator.java <40:9 40:9>]
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException() [VariableSymbolDeclarator.java <39:23 39:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [VariableSymbolDeclarator.java <39:23 39:46>]
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() [VariableSymbolDeclarator.java <43:5 <43:5  <44:35 44:55> 44:57> 50:5>]

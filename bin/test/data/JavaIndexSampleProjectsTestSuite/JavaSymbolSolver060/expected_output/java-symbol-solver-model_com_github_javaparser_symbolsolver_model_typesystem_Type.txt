@@ -105,6 +105,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ArrayTy
 LOCAL_SYMBOL: Type.java<105:37> [Type.java <105:37 105:37>]
 LOCAL_SYMBOL: Type.java<105:37> [Type.java <107:5 107:5>]
 SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String)
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.Type.asArrayType() -> java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String) [Type.java <106:19 106:47>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.Type.asArrayType() -> java.lang.UnsupportedOperationException [Type.java <106:19 106:47>]
 SYMBOL_METHOD static java.lang.String java.lang.String.format(java.lang.String, java.lang.Object)

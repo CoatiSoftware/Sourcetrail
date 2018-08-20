@@ -126,10 +126,10 @@ QUALIFIER: javassist [JavassistClassDeclaration.java <38:8 38:16>]
 REFERENCE_IMPORT JavassistClassDeclaration.java -> javassist.bytecode.SyntheticAttribute [JavassistClassDeclaration.java <39:27 39:44>]
 QUALIFIER: javassist.bytecode [JavassistClassDeclaration.java <39:18 39:25>]
 QUALIFIER: javassist [JavassistClassDeclaration.java <39:8 39:16>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT JavassistClassDeclaration.java -> java.lang.reflect.Modifier [JavassistClassDeclaration.java <41:26 41:33>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [JavassistClassDeclaration.java <41:18 41:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [JavassistClassDeclaration.java <41:13 41:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [JavassistClassDeclaration.java <41:8 41:11>]

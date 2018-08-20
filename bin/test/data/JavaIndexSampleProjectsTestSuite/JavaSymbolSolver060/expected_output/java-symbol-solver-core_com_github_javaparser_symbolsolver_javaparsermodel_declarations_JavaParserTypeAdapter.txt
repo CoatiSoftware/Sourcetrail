@@ -171,6 +171,7 @@ SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.JavaParserTypeAdapter(com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver [JavaParserTypeAdapter.java <35:14 35:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.JavaParserTypeAdapter<1> [JavaParserTypeAdapter.java <35:27 35:36>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getPackageName() [JavaParserTypeAdapter.java <38:5 <38:5  <38:19 38:32> 38:34> 40:5>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getPackageName() -> java.lang.String [JavaParserTypeAdapter.java <38:12 38:17>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<38:36> [JavaParserTypeAdapter.java <38:36 38:36>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<38:36> [JavaParserTypeAdapter.java <40:5 40:5>]

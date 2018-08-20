@@ -134,6 +134,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.core.resolution.ContextHelper.r
 LOCAL_SYMBOL: ContextHelper.java<47:16> [ContextHelper.java <47:16 47:16>]
 LOCAL_SYMBOL: ContextHelper.java<47:16> [ContextHelper.java <49:9 49:9>]
 SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.core.resolution.ContextHelper.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [ContextHelper.java <48:23 48:51>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.core.resolution.ContextHelper.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.UnsupportedOperationException [ContextHelper.java <48:23 48:51>]
 COMMENT: comment [ContextHelper.java <1:1 15:3>]

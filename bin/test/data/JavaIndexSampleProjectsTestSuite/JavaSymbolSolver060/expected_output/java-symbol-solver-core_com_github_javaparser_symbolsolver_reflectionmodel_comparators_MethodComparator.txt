@@ -10,10 +10,10 @@ QUALIFIER: com.github.javaparser.symbolsolver [MethodComparator.java <1:31 1:42>
 QUALIFIER: com.github.javaparser [MethodComparator.java <1:20 1:29>]
 QUALIFIER: com.github [MethodComparator.java <1:13 1:18>]
 QUALIFIER: com [MethodComparator.java <1:9 1:11>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_IMPORT MethodComparator.java -> java.lang.reflect.Method [MethodComparator.java <3:26 3:31>]
 SYMBOL_PACKAGE java.lang.reflect
 QUALIFIER: java.lang.reflect [MethodComparator.java <3:18 3:24>]
-SYMBOL_PACKAGE java.lang
 QUALIFIER: java.lang [MethodComparator.java <3:13 3:16>]
 SYMBOL_PACKAGE java
 QUALIFIER: java [MethodComparator.java <3:8 3:11>]

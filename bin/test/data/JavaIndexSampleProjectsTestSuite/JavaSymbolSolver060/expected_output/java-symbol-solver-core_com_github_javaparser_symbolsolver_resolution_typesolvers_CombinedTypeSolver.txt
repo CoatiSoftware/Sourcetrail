@@ -79,6 +79,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.Combined
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver.getParent() [CombinedTypeSolver.java <41:5 <41:5  <42:23 42:31> 42:33> 44:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent()
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() [CombinedTypeSolver.java <42:23 42:31>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_ANNOTATION_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver.getParent() -> java.lang.Override [CombinedTypeSolver.java <41:6 41:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [CombinedTypeSolver.java <42:12 42:21>]
 LOCAL_SYMBOL: CombinedTypeSolver.java<42:35> [CombinedTypeSolver.java <42:35 42:35>]

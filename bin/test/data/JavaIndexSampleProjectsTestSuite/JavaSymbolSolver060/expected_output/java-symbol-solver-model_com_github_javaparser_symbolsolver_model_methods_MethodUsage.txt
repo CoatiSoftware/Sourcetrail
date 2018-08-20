@@ -164,6 +164,7 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage.Met
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.methods.MethodUsage.MethodUsage<3> [MethodUsage.java <57:34 57:50>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() [MethodUsage.java <60:5 <60:5  <61:19 61:26> 61:28> 66:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+SYMBOL_PACKAGE java.lang
 REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() -> java.lang.String java.lang.Object.toString() [MethodUsage.java <61:19 61:26>]
 REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() -> java.lang.Override [MethodUsage.java <60:6 60:13>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.methods.MethodUsage.toString() -> java.lang.String [MethodUsage.java <61:12 61:17>]

@@ -133,6 +133,7 @@ REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.conte
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.contexts.FieldAccessContext -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N> [FieldAccessContext.java <42:41 42:65>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.contexts.FieldAccessContext -> com.github.javaparser.ast.expr.FieldAccessExpr [FieldAccessContext.java <42:67 42:81>]
 SYMBOL_FIELD private static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.contexts.FieldAccessContext.ARRAY_LENGTH_FIELD_NAME [FieldAccessContext.java <44:33 44:55>]
+SYMBOL_PACKAGE java.lang
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.contexts.FieldAccessContext.ARRAY_LENGTH_FIELD_NAME -> java.lang.String [FieldAccessContext.java <44:26 44:31>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.contexts.FieldAccessContext.FieldAccessContext(com.github.javaparser.ast.expr.FieldAccessExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [FieldAccessContext.java <46:5 <46:5  <46:12 46:29> 46:81> 48:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)

@@ -34,6 +34,7 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <32:50 32:62>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <32:50 32:62>]
 SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+SYMBOL_PACKAGE java.lang
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <32:83 32:98>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE -> java.lang.Byte [PrimitiveType.java <32:72 32:75>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>()
