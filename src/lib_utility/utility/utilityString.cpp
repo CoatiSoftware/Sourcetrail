@@ -396,7 +396,26 @@ namespace utility
 			namePart.pop_back();
 		}
 
-		size_t splitPos = namePart.rfind(L' ');
+		size_t splitPos = std::wstring::npos;
+		parenCount = 0;
+		for (size_t i = namePart.size(); i > 0; i--)
+		{
+			const wchar_t c = namePart[i];
+			if (c == L'>' || c == L')')
+			{
+				parenCount++;
+			}
+			else if (c == L'<' || c == L'(')
+			{
+				parenCount--;
+			}
+			else if (!parenCount && c == L' ')
+			{
+				splitPos = i;
+				break;
+			}
+		}
+
 		if (splitPos != std::wstring::npos)
 		{
 			returnPart = namePart.substr(0, splitPos);

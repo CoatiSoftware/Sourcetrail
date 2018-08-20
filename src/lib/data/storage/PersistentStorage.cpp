@@ -1928,7 +1928,8 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 		);
 
 		// if node has a signature location use that one
-		if (sigLoc)
+		// use while for breaking out
+		while (sigLoc)
 		{
 			struct Annotation
 			{
@@ -1940,6 +1941,16 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			std::vector<Annotation> annotations;
 			std::vector<std::string> lines = getFileContent(sigLoc->getFilePath())->getLines(
 				sigLoc->getLineNumber(), sigLoc->getEndLocation()->getLineNumber());
+
+			// check if signature location refers to correct locations in the code
+			// wrongly recorded signature locations of implicit template methods in C++ caused crashes
+			if (lines.empty() ||
+				lines.size() != sigLoc->getOtherLocation()->getLineNumber() - sigLoc->getLineNumber() + 1 ||
+				sigLoc->getColumnNumber() > lines[0].size() ||
+				sigLoc->getOtherLocation()->getColumnNumber() > lines[lines.size() - 1].size())
+			{
+				break;
+			}
 
 			std::shared_ptr<SourceLocationFile> file = getSourceLocationsForLinesInFile(
 				sigLoc->getFilePath(),
@@ -1956,13 +1967,13 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 						Annotation annotation;
 						annotation.locationId = loc->getLocationId();
 
-						for (size_t i = 0; i < loc->getLineNumber() - sigLoc->getLineNumber(); i++)
+						for (size_t i = 0; i < loc->getLineNumber() - sigLoc->getLineNumber() && i < lines.size(); i++)
 						{
 							annotation.startPos += lines[i].size();
 						}
 						annotation.startPos += loc->getColumnNumber() - sigLoc->getColumnNumber();
 
-						for (size_t i = 0; i < loc->getEndLocation()->getLineNumber() - sigLoc->getLineNumber(); i++)
+						for (size_t i = 0; i < loc->getEndLocation()->getLineNumber() - sigLoc->getLineNumber() && i < lines.size(); i++)
 						{
 							annotation.endPos += lines[i].size();
 						}
@@ -1983,6 +1994,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 
 			// store texts of annotations
 			std::vector<std::pair<Id, std::wstring>> annotatedTexts;
+			std::wstring delimiter = nameDelimiterTypeToString(nameHierarchy.getDelimiter());
 			size_t offset = 0;
 			for (const Annotation& annotation : annotations)
 			{
@@ -1991,8 +2003,12 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 					annotation.endPos - annotation.startPos + 1
 				);
 
+				// only replace name if not already prepended with other qualifiers
+				size_t delimiterPos = code.rfind(delimiter, annotation.startPos);
+
 				// if is function name itself, replace with qualified name
 				if (utility::containsElement(file->getSourceLocationById(annotation.locationId)->getTokenIds(), node.id) &&
+					(delimiterPos == std::wstring::npos || delimiterPos < annotation.startPos - delimiter.size()) &&
 					text.size() <= nameHierarchy.getRawName().size())
 				{
 					std::wstring name = nameHierarchy.getQualifiedName();
@@ -2032,7 +2048,6 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 
 			return snippet;
 		}
-
 
 		// otherwise augment the name with signature with locations for type usages
 		snippet.code = utility::breakSignature(
