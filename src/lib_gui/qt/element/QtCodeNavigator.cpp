@@ -552,9 +552,6 @@ void QtCodeNavigator::showActiveSnippet(
 		);
 	}
 
-	setActiveLocalTokenIds({ tokenId }, LOCATION_TOKEN);
-	updateFiles();
-
 	if (m_mode == MODE_LIST)
 	{
 		for (const FilePath& filePath : filePathsToExpand)
@@ -566,6 +563,9 @@ void QtCodeNavigator::showActiveSnippet(
 	{
 		m_single->requestFileContent(firstReference.filePath);
 	}
+
+	setActiveLocalTokenIds({ tokenId }, LOCATION_TOKEN);
+	updateFiles();
 
 	if (firstReference.tokenId)
 	{
@@ -660,6 +660,13 @@ void QtCodeNavigator::showContents()
 	}
 
 	m_current->showContents();
+
+	// look for local references again, in case file content was not present when local symbols were activated
+	if (m_activeLocalTokenIds.size() && !m_localReferences.size())
+	{
+		setActiveLocalTokenIds(utility::toVector(m_activeLocalTokenIds), LOCATION_TOKEN);
+		updateRefLabels();
+	}
 }
 
 size_t QtCodeNavigator::findScreenMatches(const std::wstring& query)
