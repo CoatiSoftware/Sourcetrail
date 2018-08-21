@@ -34,8 +34,8 @@ std::set<FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::se
 
 	return utility::filterToContainedFilePaths(
 		filePaths,
-		utility::toSet(indexedPaths),
 		std::set<FilePath>(),
+		utility::toSet(indexedPaths),
 		excludeFilters
 	);
 }

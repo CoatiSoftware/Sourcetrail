@@ -10,10 +10,10 @@
 namespace utility
 {
 	std::set<FilePath> filterToContainedFilePaths(
-		const std::set<FilePath> filePaths,
-		const std::set<FilePath>& indexedSourcePaths,
-		const std::set<FilePath>& indexedHeaderPaths,
-		const std::vector<FilePathFilter> excludeFilters);
+		const std::set<FilePath>& filePaths,
+		const std::set<FilePath>& indexedFilePaths,
+		const std::set<FilePath>& indexedFileOrDirectoryPaths,
+		const std::vector<FilePathFilter>& excludeFilters);
 }
 
 #endif // UTILITY_SOURCE_GROUP_CXX_H

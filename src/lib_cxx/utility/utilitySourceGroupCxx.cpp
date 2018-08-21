@@ -1,36 +1,29 @@
 #include "utility/utilitySourceGroupCxx.h"
 
 std::set<FilePath> utility::filterToContainedFilePaths(
-	const std::set<FilePath> filePaths,
-	const std::set<FilePath>& indexedSourcePaths,
-	const std::set<FilePath>& indexedHeaderPaths,
-	const std::vector<FilePathFilter> excludeFilters)
+	const std::set<FilePath>& filePaths,
+	const std::set<FilePath>& indexedFilePaths,
+	const std::set<FilePath>& indexedFileOrDirectoryPaths,
+	const std::vector<FilePathFilter>& excludeFilters)
 {
 	std::set<FilePath> containedFilePaths;
 
 	for (const FilePath& filePath : filePaths)
 	{
 		bool isInIndexedPaths = false;
+
+		for (const FilePath& indexedFileOrDirectoryPath : indexedFileOrDirectoryPaths)
 		{
-			for (const FilePath& indexedHeaderPath : indexedHeaderPaths)
+			if (indexedFileOrDirectoryPath == filePath || indexedFileOrDirectoryPath.contains(filePath))
 			{
-				if (indexedHeaderPath == filePath || indexedHeaderPath.contains(filePath))
-				{
-					isInIndexedPaths = true;
-					break;
-				}
+				isInIndexedPaths = true;
+				break;
 			}
 		}
-		if (!isInIndexedPaths)
+
+		if (!isInIndexedPaths && indexedFilePaths.find(filePath) != indexedFilePaths.end())
 		{
-			for (const FilePath& indexedSourcePath : indexedSourcePaths)
-			{
-				if (indexedSourcePath == filePath)
-				{
-					isInIndexedPaths = true;
-					break;
-				}
-			}
+			isInIndexedPaths = true;
 		}
 
 		if (isInIndexedPaths)
