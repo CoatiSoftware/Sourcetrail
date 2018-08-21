@@ -308,6 +308,114 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_multiple_anonymous_namespace_declarations_as_same_symbol()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace\n"
+			"{\n"
+			"}\n"
+			"namespace\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"anonymous namespace (input.cc<1:1>) <1:1 <2:1 2:1> 3:1>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"anonymous namespace (input.cc<1:1>) <4:1 <5:1 5:1> 6:1>"
+		));
+	}
+
+	void test_cxx_parser_finds_multiple_nested_anonymous_namespace_declarations_as_different_symbol()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace\n"
+			"{\n"
+			"	namespace\n"
+			"	{\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"anonymous namespace (input.cc<1:1>) <1:1 <2:1 2:1> 6:1>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"anonymous namespace (input.cc<1:1>)::anonymous namespace (input.cc<3:2>) <3:2 <4:2 4:2> 5:2>"
+		));
+	}
+
+	void test_cxx_parser_finds_anonymous_namespace_declarations_nested_inside_namespaces_with_different_name_as_different_symbol()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace a\n"
+			"{\n"
+			"	namespace\n"
+			"	{\n"
+			"	}\n"
+			"}\n"
+			"namespace b\n"
+			"{\n"
+			"	namespace\n"
+			"	{\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"a <1:1 <1:11 1:11> 6:1>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"a::anonymous namespace (input.cc<3:2>) <3:2 <4:2 4:2> 5:2>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"b <7:1 <7:11 7:11> 12:1>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"b::anonymous namespace (input.cc<9:2>) <9:2 <10:2 10:2> 11:2>"
+		));
+	}
+
+	void test_cxx_parser_finds_anonymous_namespace_declarations_nested_inside_namespaces_with_same_name_as_same_symbol()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace a\n"
+			"{\n"
+			"	namespace\n"
+			"	{\n"
+			"	}\n"
+			"}\n"
+			"namespace a\n"
+			"{\n"
+			"	namespace\n"
+			"	{\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"a <1:1 <1:11 1:11> 6:1>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"a::anonymous namespace (input.cc<3:2>) <3:2 <4:2 4:2> 5:2>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"a <7:1 <7:11 7:11> 12:1>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->namespaces, L"a::anonymous namespace (input.cc<3:2>) <9:2 <10:2 10:2> 11:2>"
+		));
+	}
+
 	void test_cxx_parser_finds_anonymous_struct_declaration()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

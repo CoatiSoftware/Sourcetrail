@@ -320,6 +320,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		}
 		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
+			declaration = clang::dyn_cast<clang::NamespaceDecl>(declaration)->getOriginalNamespace();
 			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"namespace", declaration), std::vector<std::wstring>());
 		}
 		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.empty())
