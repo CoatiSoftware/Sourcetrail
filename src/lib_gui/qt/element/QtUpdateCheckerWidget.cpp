@@ -12,6 +12,7 @@
 
 QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	: QWidget(parent)
+	, m_deleteCheck(std::make_shared<bool>(false))
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
@@ -30,9 +31,17 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 		{
 			m_button->setText("checking for update...");
 			m_button->setEnabled(false);
+
+			std::shared_ptr<bool> deleteCheck = m_deleteCheck;
+
 			QTimer::singleShot(250,
-				[this]()
+				[deleteCheck, this]()
 				{
+					if (*deleteCheck.get())
+					{
+						return;
+					}
+
 					checkUpdate(false);
 				}
 			);
@@ -60,10 +69,7 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 
 QtUpdateCheckerWidget::~QtUpdateCheckerWidget()
 {
-	if (m_deleteCheck)
-	{
-		*m_deleteCheck.get() = true;
-	}
+	*m_deleteCheck.get() = true;
 }
 
 void QtUpdateCheckerWidget::checkUpdate(bool force)
@@ -71,14 +77,12 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 	m_button->setText("checking for update...");
 	m_button->setEnabled(false);
 
-	std::shared_ptr<bool> deleteCheck = std::make_shared<bool>(false);
-	m_deleteCheck = deleteCheck;
+	std::shared_ptr<bool> deleteCheck = m_deleteCheck;
 
 	QtUpdateChecker::check(force,
 		[deleteCheck, this](QtUpdateChecker::Result result)
 		{
-			bool deleted = *deleteCheck.get();
-			if (deleted)
+			if (*deleteCheck.get())
 			{
 				return;
 			}
