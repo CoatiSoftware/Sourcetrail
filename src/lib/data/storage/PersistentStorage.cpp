@@ -1267,7 +1267,8 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 		}
 
 		auto it = m_symbolDefinitionKinds.find(elementId);
-		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
+		if ((it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT) ||
+			Edge::intToType(edge.type) == Edge::EDGE_OVERRIDE)
 		{
 			implicitNodeIds.insert(elementId);
 		}
