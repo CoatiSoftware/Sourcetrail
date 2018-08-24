@@ -55,8 +55,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	std::set<std::wstring> ext;
 	for (const std::wstring& e : fileExtensions)
 	{
-		// ext.insert(utility::toLowerCase(e));
-		ext.insert(e);
+		ext.insert(utility::toLowerCase(e));
 	}
 
 	std::set<boost::filesystem::path> symlinkDirs;
