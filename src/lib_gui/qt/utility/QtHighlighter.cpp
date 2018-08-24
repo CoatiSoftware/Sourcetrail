@@ -52,6 +52,7 @@ void QtHighlighter::createHighlightingRules()
 		<< "short" << "void";
 
 	QRegExp directiveRegExp = QRegExp("#[a-z]+\\b");
+	QRegExp annotationRegExp = QRegExp("@[A-Za-z0-9_]+");
 	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
 	QRegExp functionRegExp = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
 	QRegExp stringQuotationRegExp = QRegExp("\"([^\"]|\\\\.)*\"");
@@ -64,17 +65,19 @@ void QtHighlighter::createHighlightingRules()
 	s_textFormat.setForeground(QColor(scheme->getSyntaxColor("normal").c_str()));
 
 	QColor directiveColor(scheme->getSyntaxColor("directive").c_str());
+	QColor annotationColor = directiveColor;
 	QColor keywordColor(scheme->getSyntaxColor("keyword").c_str());
 	QColor typeColor(scheme->getSyntaxColor("type").c_str());
 	QColor numberColor(scheme->getSyntaxColor("number").c_str());
 	QColor functionColor(scheme->getSyntaxColor("function").c_str());
 	QColor quotationColor(scheme->getSyntaxColor("quotation").c_str());
-	QColor commentColor = scheme->getSyntaxColor("comment").c_str();
+	QColor commentColor(scheme->getSyntaxColor("comment").c_str());
 
 	s_highlightingRules.clear();
 	s_highlightingRules.append(HighlightingRule(directiveColor, directiveRegExp));
 	s_highlightingRules.append(HighlightingRule(numberColor, numberRegExp));
 	s_highlightingRules.append(HighlightingRule(functionColor, functionRegExp));
+	s_highlightingRules.append(HighlightingRule(annotationColor, annotationRegExp));
 	s_highlightingRules.append(HighlightingRule(quotationColor, tagQuotationRegExp));
 
 	s_highlightingRulesCpp.clear();
