@@ -35,24 +35,40 @@ void setupApp(int argc, char *argv[])
 		{
 			appPath = appPath.substr(0, pos + 1);
 		}
-		AppPath::setAppPath(FilePath(appPath)); 
+		AppPath::setAppPath(FilePath(appPath));
 	}
 
 	{
 		FilePath userDataPath = AppPath::getAppPath().concatenate(L"user/");
 		if (!userDataPath.exists())
 		{
-			userDataPath = FilePath(std::string(std::getenv("APPDATA")) + "/../local/Coati Software/");
-			if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
+			FilePath userLocalPath = FilePath(std::string(std::getenv("LOCALAPPDATA")));
+			if (!userLocalPath.exists())
 			{
-				userDataPath.concatenate(L"Sourcetrail 64-bit/");
+				userLocalPath = FilePath(std::string(std::getenv("APPDATA")) + "/../local");
+			}
+
+			if (userLocalPath.exists())
+			{
+				userDataPath = userLocalPath.getConcatenated(L"Coati Software/");
+				if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
+				{
+					userDataPath.concatenate(L"Sourcetrail 64-bit/");
+				}
+				else
+				{
+					userDataPath.concatenate(L"Sourcetrail/");
+				}
+				userDataPath.makeCanonical();
 			}
 			else
 			{
-				userDataPath.concatenate(L"Sourcetrail/");
+				userDataPath = AppPath::getAppPath().concatenate(L"user_fallback/");
+				LOG_ERROR(L"The \"%LOCALAPPDATA%\" path could not be found. Falling back to \"" + userDataPath.wstr() + L"\" to store settings data.");
+				FileSystem::createDirectory(userDataPath);
 			}
-			userDataPath.makeCanonical();
 		}
+
 		UserPaths::setUserDataPath(userDataPath);
 	}
 
