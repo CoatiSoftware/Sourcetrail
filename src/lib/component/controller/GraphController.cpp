@@ -36,10 +36,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 {
 	TRACE("graph all");
 
-	m_activeNodeIds.clear();
-	m_activeEdgeIds.clear();
-
-	m_dummyGraphNodes.clear();
+	clear();
 
 	if (message->acceptedNodeTypes != NodeTypeSet::all())
 	{

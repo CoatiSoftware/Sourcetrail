@@ -422,8 +422,9 @@ void QtGraphView::clear()
 		m_oldGraph.reset();
 
 		m_matchedNodes.clear();
-	});
 
+		getView()->scene()->clear();
+	});
 }
 
 void QtGraphView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
