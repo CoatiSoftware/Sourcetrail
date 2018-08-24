@@ -57,13 +57,14 @@ std::string Generator::getPublicKeyFilename()
 	return m_publicKeyFile;
 }
 
-std::string Generator::encodeLicense(
+std::string Generator::encodeLicenseByVersion(
 	const std::string& user,
 	const std::string& licenseType,
 	size_t numberOfUsers,
 	const std::string& version
 ){
 	m_license = nullptr;
+
 	if (user.size() <= 0)
 	{
 		std::cout << "No user given" << std::endl;
@@ -76,24 +77,31 @@ std::string Generator::encodeLicense(
 		return "";
 	}
 
-	if (!version.empty())
+	if (version.empty())
 	{
-		Version tempVersion = Version::fromString(version);
-		if (tempVersion.isValid())
-		{
-			createLicense(user, licenseType, tempVersion.toShortString(), false, numberOfUsers);
-		}
+		std::cout << "No version given" << std::endl;
+		return "";
 	}
 
-	if (!m_license)
+	Version tempVersion = Version::fromString(version);
+	if (tempVersion.isValid())
 	{
-		createLicense(user, licenseType, getExpireVersion(), false, numberOfUsers);
+		createLicense(user, licenseType, tempVersion.toShortString(), false, numberOfUsers);
 	}
 
 	return m_license->getLicenseString();
 }
 
-std::string Generator::encodeLicense(
+std::string Generator::encodeLicenseByQuarters(
+	const std::string& user,
+	const std::string& licenseType,
+	size_t numberOfUsers,
+	size_t quarters
+){
+	return encodeLicenseByVersion(user, licenseType, numberOfUsers, getExpireVersion(quarters));
+}
+
+std::string Generator::encodeLicenseByDays(
 	const std::string& user,
 	const std::string& licenseType,
 	size_t numberOfUsers,
@@ -273,11 +281,11 @@ int Generator::mapMonthToVersion(int month)
 	return (month-1)/3+1;
 }
 
-std::string Generator::getExpireVersion(int versions)
+std::string Generator::getExpireVersion(int quarters)
 {
 	boost::gregorian::date today = boost::gregorian::day_clock::local_day();
 	int monthNumber = today.month().as_number();
 	Version version(today.year(), mapMonthToVersion(monthNumber));
-	version += versions;
+	version += quarters;
 	return version.toShortString();
 }

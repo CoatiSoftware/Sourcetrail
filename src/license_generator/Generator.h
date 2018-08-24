@@ -18,13 +18,19 @@ public:
 	Generator();
 	~Generator();
 
-	std::string encodeLicense(
+	std::string encodeLicenseByVersion(
 		const std::string& user,
 		const std::string& licenseType,
 		size_t numberOfUsers,
 		const std::string& version
 	);
-	std::string encodeLicense(
+	std::string encodeLicenseByQuarters(
+		const std::string& user,
+		const std::string& licenseType,
+		size_t numberOfUsers,
+		size_t quarters
+	);
+	std::string encodeLicenseByDays(
 		const std::string& user,
 		const std::string& licenseType,
 		size_t numberOfUsers,
@@ -52,7 +58,7 @@ public:
 		size_t numberOfUsers
 	);
 
-	std::string getExpireVersion(int versions = 4);
+	std::string getExpireVersion(int quarters);
 	void setVersionLine(int year, int minorVersion);
 private:
 	int mapMonthToVersion(int month);

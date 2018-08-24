@@ -21,6 +21,7 @@ bool process_command_line(int argc, char** argv)
 		std::string publicKeyFile;
 		std::string licenseFile = "";
 		std::string type = "";
+		int quarters = 4;
 		int days = 0;
 		int numberOfUsers = 0;
 
@@ -33,6 +34,7 @@ bool process_command_line(int argc, char** argv)
 		po::options_description keygen_description("Options Keygeneration");
 		keygen_description.add_options()
 			("version,v", po::value<std::string>(&version), "Versionnumber (in format 20xx.x) until Sourcetrail valid")
+			("quarters,q", po::value<int>(&quarters), "Number of quarters Sourcetrail is valid from now")
 			("users,u", po::value<int>(&numberOfUsers), "Number of users")
 			("licenseType,t", po::value<std::string>(&type), "License Type of ")
 			("expiration,e", po::value<int>(&days), "Valid for <value> days");
@@ -117,11 +119,15 @@ bool process_command_line(int argc, char** argv)
 		{
 			if (days > 0)
 			{
-				keygen.encodeLicense(user, type, numberOfUsers, days);
+				keygen.encodeLicenseByDays(user, type, numberOfUsers, days);
+			}
+			else if (!version.empty())
+			{
+				keygen.encodeLicenseByVersion(user, type, numberOfUsers, version);
 			}
 			else
 			{
-				keygen.encodeLicense(user, type, numberOfUsers, version);
+				keygen.encodeLicenseByQuarters(user, type, numberOfUsers, quarters);
 			}
 			keygen.printLicenseAndWriteItToFile();
 		}
