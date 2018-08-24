@@ -2,7 +2,10 @@
 
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/DeclTemplate.h>
+#include <clang/Lex/Preprocessor.h>
 
+#include "data/parser/cxx/CanonicalFilePathCache.h"
+#include "data/parser/ParseLocation.h"
 #include "utility/file/FilePath.h"
 #include "utility/utilityString.h"
 
@@ -125,4 +128,110 @@ std::wstring utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 		}
 	}
 	return fileName;
+}
+
+ParseLocation utility::getParseLocation(
+	const clang::SourceLocation& sourceLocation,
+	const clang::SourceManager& sourceManager,
+	clang::Preprocessor* preprocessor,
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
+{
+	ParseLocation parseLocation;
+	if (sourceLocation.isValid())
+	{
+		clang::SourceLocation loc = sourceLocation;
+		if (sourceManager.isMacroBodyExpansion(sourceLocation))
+		{
+			loc = sourceManager.getExpansionLoc(sourceLocation);
+			if (loc.isInvalid())
+			{
+				loc = sourceLocation;
+			}
+		}
+
+		const clang::SourceLocation startLoc = sourceManager.getSpellingLoc(loc);
+		const clang::FileID fileId = sourceManager.getFileID(startLoc);
+
+		// find the location file
+		parseLocation.filePath = canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager);
+
+		// find the start location
+		{
+			const unsigned int offset = sourceManager.getFileOffset(startLoc);
+			parseLocation.startLineNumber = sourceManager.getLineNumber(fileId, offset);
+			parseLocation.startColumnNumber = sourceManager.getColumnNumber(fileId, offset);
+		}
+
+		// General case -- find the end of the token starting at loc.
+		if (preprocessor != nullptr)
+		{
+			const clang::SourceLocation endSloc = preprocessor->getLocForEndOfToken(startLoc);
+			const unsigned int offset = sourceManager.getFileOffset(endSloc);
+			parseLocation.endLineNumber = sourceManager.getLineNumber(fileId, offset);
+			parseLocation.endColumnNumber = sourceManager.getColumnNumber(fileId, offset) - 1;
+		}
+		else
+		{
+			parseLocation.endLineNumber = parseLocation.startLineNumber;
+			parseLocation.endColumnNumber = parseLocation.startColumnNumber;
+		}
+	}
+
+	return parseLocation;
+}
+
+
+ParseLocation utility::getParseLocation(
+	const clang::SourceRange& sourceRange,
+	const clang::SourceManager& sourceManager,
+	clang::Preprocessor* preprocessor,
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
+{
+	ParseLocation parseLocation;
+	if (sourceRange.isValid())
+	{
+		clang::SourceRange range = sourceRange;
+		clang::SourceLocation endLoc = preprocessor->getLocForEndOfToken(range.getEnd());
+
+		if (
+			(
+				sourceManager.isMacroArgExpansion(range.getBegin()) ||
+				sourceManager.isMacroBodyExpansion(range.getBegin())
+			) &&
+			(
+				sourceManager.isMacroArgExpansion(range.getEnd()) ||
+				sourceManager.isMacroBodyExpansion(range.getEnd())
+			)
+		){
+			range = sourceManager.getExpansionRange(sourceRange);
+			if (range.isValid())
+			{
+				endLoc = preprocessor->getLocForEndOfToken(range.getBegin());
+			}
+			else
+			{
+				range = sourceRange;
+			}
+		}
+
+		const clang::SourceLocation beginLoc = range.getBegin();
+
+		const clang::PresumedLoc presumedBegin = sourceManager.getPresumedLoc(beginLoc, false);
+		const clang::PresumedLoc presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : range.getEnd(), false);
+
+		FilePath filePath = canonicalFilePathCache->getCanonicalFilePath(sourceManager.getFileID(beginLoc), sourceManager);
+		if (filePath.empty())
+		{
+			filePath = canonicalFilePathCache->getCanonicalFilePath(utility::decodeFromUtf8(presumedBegin.getFilename()));
+		}
+
+		parseLocation = ParseLocation(
+			filePath,
+			presumedBegin.getLine(),
+			presumedBegin.getColumn(),
+			presumedEnd.getLine(),
+			presumedEnd.getColumn() - (endLoc.isValid() ? 1 : 0)
+		);
+	}
+	return parseLocation;
 }

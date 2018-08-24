@@ -4323,15 +4323,27 @@ public:
 		));
 	}
 
-	void test_cxx_parser_catches_error_in_macro_expasdsadansion()
+	void test_cxx_parser_catches_error_in_force_include()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"void foo() {} \n", { L"-include nothing" }
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->errors, L"' nothing' file not found <1:10 1:10>"
-			));
+			client->errors, L"' nothing' file not found <1:1 1:1>"
+		));
+	}
+
+	void test_cxx_parser_finds_correct_error_location_after_line_directive()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#line 55 \"foo.hpp\"\n"
+			"void foo()\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->errors, L"expected function body after function declarator <2:11 2:11>"
+		));
 	}
 
 	void test_cxx_parser_catches_error_in_macro_expansion()

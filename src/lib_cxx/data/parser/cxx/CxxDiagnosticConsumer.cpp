@@ -69,18 +69,10 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			return;
 		}
 
-		FilePath filePath;
-		uint line = 0;
-		uint column = 0;
-
+		ParseLocation location(FilePath(), 0, 0);
 		if (info.getLocation().isValid() && info.hasSourceManager())
 		{
 			const clang::SourceManager& sourceManager = info.getSourceManager();
-			{
-				const clang::PresumedLoc presumedLocation = sourceManager.getPresumedLoc(info.getLocation());
-				line = presumedLocation.getLine();
-				column = presumedLocation.getColumn();
-			}
 
 			clang::SourceLocation loc = sourceManager.getExpansionLoc(info.getLocation());
 			if (loc.isInvalid())
@@ -88,26 +80,31 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 				loc = info.getLocation();
 			}
 
-			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(loc));
-			if (fileEntry == nullptr || !fileEntry->isValid())
-			{
-				fileEntry = sourceManager.getFileEntryForID(sourceManager.getMainFileID());
-			}
+			clang::FileID fileId = sourceManager.getFileID(loc);
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 
 			if (fileEntry != nullptr && fileEntry->isValid())
 			{
-				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+				location = utility::getParseLocation(loc, sourceManager, nullptr, m_canonicalFilePathCache);
+			}
+			else
+			{
+				fileEntry = sourceManager.getFileEntryForID(sourceManager.getMainFileID());
+				if (fileEntry != nullptr && fileEntry->isValid())
+				{
+					location = ParseLocation(m_canonicalFilePathCache->getCanonicalFilePath(fileEntry), 1, 1);
+				}
 			}
 		}
-
-		ParseLocation location(filePath, line, column);
-
-		m_client->recordError(
-			location,
-			utility::decodeFromUtf8(message),
-			level == clang::DiagnosticsEngine::Fatal,
-			m_canonicalFilePathCache->getFileRegister()->hasFilePath(location.filePath),
-			m_sourceFilePath
-		);
+		if (location.isValid())
+		{
+			m_client->recordError(
+				location,
+				utility::decodeFromUtf8(message),
+				level == clang::DiagnosticsEngine::Fatal,
+				m_canonicalFilePathCache->getFileRegister()->hasFilePath(location.filePath),
+				m_sourceFilePath
+			);
+		}
 	}
 }

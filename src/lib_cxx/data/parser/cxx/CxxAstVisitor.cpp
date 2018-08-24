@@ -680,96 +680,12 @@ ParseLocation CxxAstVisitor::getParseLocationOfFunctionBody(const clang::Functio
 
 ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceLocation& sourceLocation) const
 {
-	ParseLocation parseLocation;
-	if (sourceLocation.isValid())
-	{
-		const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-
-		clang::SourceLocation loc = sourceLocation;
-		if (sourceManager.isMacroBodyExpansion(sourceLocation))
-		{
-			loc = sourceManager.getExpansionLoc(sourceLocation);
-			if (loc.isInvalid())
-			{
-				loc = sourceLocation;
-			}
-		}
-
-		const clang::SourceLocation startLoc = sourceManager.getSpellingLoc(loc);
-		const clang::FileID fileId = sourceManager.getFileID(startLoc);
-
-		// find the location file
-		parseLocation.filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager);
-
-		// find the start location
-		{
-			const unsigned int offset = sourceManager.getFileOffset(startLoc);
-			parseLocation.startLineNumber = sourceManager.getLineNumber(fileId, offset);
-			parseLocation.startColumnNumber = sourceManager.getColumnNumber(fileId, offset);
-		}
-
-		// General case -- find the end of the token starting at loc.
-		{
-			const clang::SourceLocation endSloc = m_preprocessor->getLocForEndOfToken(startLoc);
-			const unsigned int offset = sourceManager.getFileOffset(endSloc);
-			parseLocation.endLineNumber = sourceManager.getLineNumber(fileId, offset);
-			parseLocation.endColumnNumber = sourceManager.getColumnNumber(fileId, offset) - 1;
-		}
-	}
-
-	return parseLocation;
+	return utility::getParseLocation(sourceLocation, m_astContext->getSourceManager(), m_preprocessor, m_canonicalFilePathCache);
 }
 
 ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRange) const
 {
-	ParseLocation parseLocation;
-	if (sourceRange.isValid())
-	{
-		const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-
-		clang::SourceRange range = sourceRange;
-		clang::SourceLocation endLoc = m_preprocessor->getLocForEndOfToken(range.getEnd());
-
-		if ((
-				sourceManager.isMacroArgExpansion(range.getBegin()) ||
-				sourceManager.isMacroBodyExpansion(range.getBegin())
-			) &&
-			(
-				sourceManager.isMacroArgExpansion(range.getEnd()) ||
-				sourceManager.isMacroBodyExpansion(range.getEnd())
-			))
-		{
-			range = sourceManager.getExpansionRange(sourceRange);
-			if (range.isValid())
-			{
-				endLoc = m_preprocessor->getLocForEndOfToken(range.getBegin());
-			}
-			else
-			{
-				range = sourceRange;
-			}
-		}
-
-		const clang::SourceLocation beginLoc = range.getBegin();
-
-		const clang::PresumedLoc presumedBegin = sourceManager.getPresumedLoc(beginLoc, false);
-		const clang::PresumedLoc presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : range.getEnd(), false);
-
-		FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(sourceManager.getFileID(beginLoc), sourceManager);
-		if (filePath.empty())
-		{
-			filePath = m_canonicalFilePathCache->getCanonicalFilePath(utility::decodeFromUtf8(presumedBegin.getFilename()));
-		}
-
-		parseLocation = ParseLocation(
-			filePath,
-			presumedBegin.getLine(),
-			presumedBegin.getColumn(),
-			presumedEnd.getLine(),
-			presumedEnd.getColumn() - (endLoc.isValid() ? 1 : 0)
-		);
-	}
-	return parseLocation;
+	return utility::getParseLocation(sourceRange, m_astContext->getSourceManager(), m_preprocessor, m_canonicalFilePathCache);
 }
 
 bool CxxAstVisitor::shouldVisitStmt(const clang::Stmt* s) const

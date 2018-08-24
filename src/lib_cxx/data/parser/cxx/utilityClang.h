@@ -6,6 +6,16 @@
 #include "data/parser/AccessKind.h"
 #include "data/parser/SymbolKind.h"
 
+struct ParseLocation;
+class CanonicalFilePathCache;
+
+namespace clang
+{
+	class SourceRange;
+	class Preprocessor;
+	class SourceManager;
+}
+
 namespace utility
 {
 	template <typename T>
@@ -15,6 +25,18 @@ namespace utility
 	SymbolKind convertTagKind(const clang::TagTypeKind tagKind);
 	SymbolKind getSymbolKind(const clang::VarDecl* d);
 	std::wstring getFileNameOfFileEntry(const clang::FileEntry* entry);
+
+	ParseLocation getParseLocation(
+		const clang::SourceLocation& sourceLocation,
+		const clang::SourceManager& sourceManager,
+		clang::Preprocessor* preprocessor,
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
+
+	ParseLocation getParseLocation(
+		const clang::SourceRange& sourceRange,
+		const clang::SourceManager& sourceManager,
+		clang::Preprocessor* preprocessor,
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
 }
 
 template <typename T>
