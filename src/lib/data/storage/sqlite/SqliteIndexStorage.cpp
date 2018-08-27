@@ -9,27 +9,6 @@
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
 
-namespace
-{
-	std::string serialize(const StorageEdgeData& data)
-	{
-		return (
-			std::to_string(data.sourceNodeId) + "," +
-			std::to_string(data.targetNodeId) + "," +
-			std::to_string(data.type)
-		);
-	}
-
-	std::string serialize(const StorageSourceLocationData& loc)
-	{
-		return (
-			std::to_string(loc.startLine) + "," + std::to_string(loc.startCol) + "," +
-			std::to_string(loc.endLine) + "," + std::to_string(loc.endCol) + "," +
-			std::to_string(loc.type)
-		);
-	}
-}
-
 const size_t SqliteIndexStorage::s_storageVersion = 19;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
@@ -79,17 +58,17 @@ StorageNode SqliteIndexStorage::addNode(const StorageNodeData& data)
 	{
 		for (const StorageNode& node : getAll<StorageNode>())
 		{
-			m_tempNodeIndex[node.serializedName] = std::make_pair(node.id, node.type);
+			m_tempNodeIndex.emplace(utility::encodeToUtf8(node.serializedName), std::make_pair(node.id, node.type));
 		}
 	}
 
+	std::string name = utility::encodeToUtf8(data.serializedName);
 	{
-		std::map<std::wstring, std::pair<Id, int>>::iterator it = m_tempNodeIndex.find(data.serializedName);
+		std::map<std::string, std::pair<Id, int>>::const_iterator it = m_tempNodeIndex.find(name);
 		if (it != m_tempNodeIndex.end())
 		{
 			if (it->second.second < data.type)
 			{
-				it->second.second = data.type;
 				setNodeType(data.type, it->second.first);
 			}
 			return StorageNode(it->second.first, data);
@@ -105,12 +84,12 @@ StorageNode SqliteIndexStorage::addNode(const StorageNodeData& data)
 	{
 		m_inserNodeStmt.bind(1, int(id));
 		m_inserNodeStmt.bind(2, data.type);
-		m_inserNodeStmt.bind(3, utility::encodeToUtf8(data.serializedName).c_str());
+		m_inserNodeStmt.bind(3, name.c_str());
 		executeStatement(m_inserNodeStmt);
 		m_inserNodeStmt.reset();
 	}
 
-	m_tempNodeIndex[data.serializedName] = std::make_pair(id, data.type);
+	m_tempNodeIndex.emplace(name, std::make_pair(id, data.type));
 
 	return StorageNode(id, data);
 }
@@ -165,13 +144,12 @@ StorageEdge SqliteIndexStorage::addEdge(const StorageEdgeData& data)
 	{
 		for (const StorageEdge& edge : getAll<StorageEdge>())
 		{
-			m_tempEdgeIndex[serialize(edge)] = edge.id;
+			m_tempEdgeIndex.emplace(StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId), edge.id);
 		}
 	}
 
-	const std::string serialized = serialize(data);
 	{
-		std::map<std::string, Id>::const_iterator it = m_tempEdgeIndex.find(serialized);
+		std::map<StorageEdgeData, Id>::const_iterator it = m_tempEdgeIndex.find(data);
 		if (it != m_tempEdgeIndex.end())
 		{
 			return StorageEdge(it->second, data);
@@ -193,7 +171,7 @@ StorageEdge SqliteIndexStorage::addEdge(const StorageEdgeData& data)
 		m_insertEdgeStmt.reset();
 	}
 
-	m_tempEdgeIndex[serialized] = id;
+	m_tempEdgeIndex.emplace(data, id);
 
 	return StorageEdge(id, data);
 }
@@ -204,12 +182,13 @@ StorageLocalSymbol SqliteIndexStorage::addLocalSymbol(const StorageLocalSymbolDa
 	{
 		for (const StorageLocalSymbol& localSymbol : getAll<StorageLocalSymbol>())
 		{
-			m_tempLocalSymbolIndex[localSymbol.name] = localSymbol.id;
+			m_tempLocalSymbolIndex.emplace(utility::encodeToUtf8(localSymbol.name), localSymbol.id);
 		}
 	}
 
+	std::string name = utility::encodeToUtf8(data.name);
 	{
-		std::map<std::wstring, Id>::const_iterator it = m_tempLocalSymbolIndex.find(data.name);
+		std::map<std::string, Id>::const_iterator it = m_tempLocalSymbolIndex.find(name);
 		if (it != m_tempLocalSymbolIndex.end())
 		{
 			return StorageLocalSymbol(it->second, data);
@@ -224,12 +203,12 @@ StorageLocalSymbol SqliteIndexStorage::addLocalSymbol(const StorageLocalSymbolDa
 	}
 	{
 		m_inserLocalSymbolStmt.bind(1, int(id));
-		m_inserLocalSymbolStmt.bind(2, utility::encodeToUtf8(data.name).c_str());
+		m_inserLocalSymbolStmt.bind(2, name.c_str());
 		executeStatement(m_inserLocalSymbolStmt);
 		m_inserLocalSymbolStmt.reset();
 	}
 
-	m_tempLocalSymbolIndex[data.name] = id;
+	m_tempLocalSymbolIndex.emplace(name, id);
 
 	return StorageLocalSymbol(id, data);
 }
@@ -238,16 +217,20 @@ StorageSourceLocation SqliteIndexStorage::addSourceLocation(const StorageSourceL
 {
 	if (m_tempSourceLocationIndices.empty())
 	{
-		for (const StorageSourceLocation& sourceLocation : getAll<StorageSourceLocation>())
+		for (const StorageSourceLocation& loc : getAll<StorageSourceLocation>())
 		{
-			m_tempSourceLocationIndices[sourceLocation.fileNodeId][serialize(sourceLocation)] = sourceLocation.id;
+			std::map<TempSourceLocation, Id>& index = m_tempSourceLocationIndices[loc.fileNodeId];
+			index.emplace(
+				TempSourceLocation(loc.startLine, loc.endLine - loc.startLine, loc.startCol, loc.endCol, loc.type),
+				loc.id);
 		}
 	}
 
-	const std::string serialized = serialize(data);
-	std::map<std::string, Id>& index = m_tempSourceLocationIndices[data.fileNodeId];
+	const TempSourceLocation tempLoc(data.startLine, data.endLine - data.startLine, data.startCol, data.endCol, data.type);
+
+	std::map<TempSourceLocation, Id>& index = m_tempSourceLocationIndices[data.fileNodeId];
 	{
-		std::map<std::string, Id>::const_iterator it = index.find(serialized);
+		std::map<TempSourceLocation, Id>::const_iterator it = index.find(tempLoc);
 		if (it != index.end())
 		{
 			return StorageSourceLocation(it->second, data);
@@ -266,7 +249,7 @@ StorageSourceLocation SqliteIndexStorage::addSourceLocation(const StorageSourceL
 	if (success)
 	{
 		id = m_database.lastRowId();
-		index[serialized] = id;
+		index.emplace(tempLoc, id);
 	}
 
 	m_insertSourceLocationStmt.reset();
@@ -285,35 +268,46 @@ bool SqliteIndexStorage::addOccurrence(const StorageOccurrence& data)
 
 bool SqliteIndexStorage::addOccurrences(const std::vector<StorageOccurrence>& occurrences)
 {
-	if (occurrences.size() == 100)
+	size_t i = 0;
+	while (occurrences.size() - i >= 100)
 	{
-		for (int i = 0; i < occurrences.size(); i++)
+		for (size_t j = 0; j < 100; j++)
 		{
-			m_insert100OccurrencesStmt.bind((i * 2) + 1, int(occurrences[i].elementId));
-			m_insert100OccurrencesStmt.bind((i * 2) + 2, int(occurrences[i].sourceLocationId));
+			m_insert100OccurrencesStmt.bind((j * 2) + 1, int(occurrences[i + j].elementId));
+			m_insert100OccurrencesStmt.bind((j * 2) + 2, int(occurrences[i + j].sourceLocationId));
 		}
+
 		const bool success = executeStatement(m_insert100OccurrencesStmt);
 		m_insert100OccurrencesStmt.reset();
-		return success;
+
+		if (!success)
+		{
+			return false;
+		}
+
+		i += 100;
 	}
-	else if (!occurrences.empty())
+
+	if (i < occurrences.size())
 	{
 		std::string stmt = "INSERT OR IGNORE INTO occurrence(element_id, source_location_id) VALUES";
 		{
 			bool isFirst = true;
-			for (const StorageOccurrence& occurrence : occurrences)
+			while (i < occurrences.size())
 			{
 				if (!isFirst)
 				{
 					stmt += ",";
 				}
 				isFirst = false;
-				stmt += "(" + std::to_string(occurrence.elementId) + "," + std::to_string(occurrence.sourceLocationId) + ")";
+				stmt += "(" + std::to_string(occurrences[i].elementId) + "," + std::to_string(occurrences[i].sourceLocationId) + ")";
+				i++;
 			}
 			stmt += ";";
 		}
 		return executeStatement(stmt);
 	}
+
 	return true;
 }
 
@@ -422,7 +416,8 @@ void SqliteIndexStorage::removeElements(const std::vector<Id>& ids)
 	);
 }
 
-void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback)
+void SqliteIndexStorage::removeElementsWithLocationInFiles(
+	const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback)
 {
 	if (updateStatusCallback != nullptr)
 	{
@@ -467,7 +462,8 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 
 	// delete all edges in element_id_to_clear
 	executeStatement(
-		"DELETE FROM element WHERE element.id IN (SELECT element_id_to_clear.id FROM element_id_to_clear INNER JOIN edge ON (element_id_to_clear.id = edge.id))"
+		"DELETE FROM element WHERE element.id IN "
+		"	(SELECT element_id_to_clear.id FROM element_id_to_clear INNER JOIN edge ON (element_id_to_clear.id = edge.id))"
 	);
 
 	if (updateStatusCallback != nullptr)
@@ -522,7 +518,8 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 	// remove all ids from element_id_to_clear that still have occurrences
 	executeStatement(
 		"DELETE FROM element_id_to_clear WHERE id IN ("
-		"	SELECT element_id_to_clear.id FROM element_id_to_clear INNER JOIN occurrence ON element_id_to_clear.id = occurrence.element_id"
+		"	SELECT element_id_to_clear.id FROM element_id_to_clear INNER JOIN occurrence ON "
+		"		element_id_to_clear.id = occurrence.element_id"
 		")"
 	);
 
@@ -654,7 +651,8 @@ std::vector<StorageEdge> SqliteIndexStorage::getEdgesBySourceType(Id sourceId, i
 
 std::vector<StorageEdge> SqliteIndexStorage::getEdgesBySourcesType(const std::vector<Id>& sourceIds, int type) const
 {
-	return doGetAll<StorageEdge>("WHERE source_node_id IN (" + utility::join(utility::toStrings(sourceIds), ',') + ") AND type == " + std::to_string(type));
+	return doGetAll<StorageEdge>("WHERE source_node_id IN (" + utility::join(utility::toStrings(sourceIds), ',') + ")"
+		" AND type == " + std::to_string(type));
 }
 
 std::vector<StorageEdge> SqliteIndexStorage::getEdgesByTargetType(Id targetId, int type) const
@@ -664,7 +662,8 @@ std::vector<StorageEdge> SqliteIndexStorage::getEdgesByTargetType(Id targetId, i
 
 std::vector<StorageEdge> SqliteIndexStorage::getEdgesByTargetsType(const std::vector<Id>& targetIds, int type) const
 {
-	return doGetAll<StorageEdge>("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ") AND type == " + std::to_string(type));
+	return doGetAll<StorageEdge>("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ")"
+		" AND type == " + std::to_string(type));
 }
 
 StorageNode SqliteIndexStorage::getNodeById(Id id) const
@@ -980,7 +979,8 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 	));
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,
-		SqliteDatabaseIndex("comment_location_all_data_index", "comment_location(file_node_id, start_line, start_column, end_line, end_column)")
+		SqliteDatabaseIndex("comment_location_all_data_index",
+			"comment_location(file_node_id, start_line, start_column, end_line, end_column)")
 	));
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_CLEAR,
@@ -1186,7 +1186,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"INSERT INTO local_symbol(id, name) VALUES(?, ?);"
 		);
 		m_insertSourceLocationStmt = m_database.compileStatement(
-			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) VALUES(NULL, ?, ?, ?, ?, ?, ?);"
+			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) "
+			"VALUES(NULL, ?, ?, ?, ?, ?, ?);"
 		);
 		m_insertOccurrenceStmt = m_database.compileStatement(
 			"INSERT OR IGNORE INTO occurrence(element_id, source_location_id) VALUES(?, ?);"
@@ -1217,7 +1218,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"LIMIT 1;"
 		);
 		m_insertCommentLocationStmt = m_database.compileStatement(
-			"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) VALUES(NULL, ?, ?, ?, ?, ?);"
+			"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) "
+			"VALUES(NULL, ?, ?, ?, ?, ?);"
 		);
 		m_checkErrorExistsStmt = m_database.compileStatement(
 			"SELECT id FROM error WHERE "
@@ -1229,7 +1231,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"LIMIT 1;"
 		);
 		m_insertErrorStmt = m_database.compileStatement(
-			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number, translation_unit) VALUES(?, ?, ?, ?, ?, ?, ?);"
+			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number, translation_unit) "
+			"VALUES(?, ?, ?, ?, ?, ?, ?);"
 		);
 	}
 	catch (CppSQLite3Exception& e)
@@ -1383,7 +1386,8 @@ std::vector<StorageSourceLocation> SqliteIndexStorage::doGetAll<StorageSourceLoc
 		const int endColNumber		= q.getIntField(5, -1);
 		const int type				= q.getIntField(6, -1);
 
-		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
+		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 &&
+			endColNumber != -1 && type != -1)
 		{
 			sourceLocations.emplace_back(id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type);
 		}
@@ -1459,7 +1463,8 @@ std::vector<StorageCommentLocation> SqliteIndexStorage::doGetAll<StorageCommentL
 		const int endLineNumber = q.getIntField(4, -1);
 		const int endColNumber = q.getIntField(5, -1);
 
-		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1)
+		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 &&
+			endColNumber != -1)
 		{
 			commentLocations.emplace_back(
 				id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber

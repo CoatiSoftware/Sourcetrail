@@ -154,6 +154,47 @@ public:
 private:
 	static const size_t s_storageVersion;
 
+	struct TempSourceLocation
+	{
+		TempSourceLocation(uint32_t startLine, uint16_t lineDiff, uint16_t startCol, uint16_t endCol, uint8_t type)
+			: startLine(startLine)
+			, lineDiff(lineDiff)
+			, startCol(startCol)
+			, endCol(endCol)
+			, type(type)
+		{}
+
+		bool operator<(const TempSourceLocation& other) const
+		{
+			if (startLine != other.startLine)
+			{
+				return startLine < other.startLine;
+			}
+			else if (lineDiff != other.lineDiff)
+			{
+				return lineDiff < other.lineDiff;
+			}
+			else if (startCol != other.startCol)
+			{
+				return startCol < other.startCol;
+			}
+			else if (endCol != other.endCol)
+			{
+				return endCol < other.endCol;
+			}
+			else
+			{
+				return type < other.type;
+			}
+		}
+
+		uint32_t startLine;
+		uint16_t lineDiff;
+		uint16_t startCol;
+		uint16_t endCol;
+		uint8_t type;
+	};
+
 	std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
 
 	virtual void clearTables();
@@ -174,10 +215,11 @@ private:
 		return ResultType();
 	}
 
-	std::map<std::wstring, std::pair<Id, int>> m_tempNodeIndex;
-	std::map<std::string, Id> m_tempEdgeIndex;
-	std::map<std::wstring, Id> m_tempLocalSymbolIndex;
-	std::map<Id, std::map<std::string, Id>> m_tempSourceLocationIndices;
+
+	std::map<std::string, std::pair<Id, int>> m_tempNodeIndex;
+	std::map<StorageEdgeData, Id> m_tempEdgeIndex;
+	std::map<std::string, Id> m_tempLocalSymbolIndex;
+	std::map<Id, std::map<TempSourceLocation, Id>> m_tempSourceLocationIndices;
 
 	CppSQLite3Statement m_insertElementStmt;
 	CppSQLite3Statement m_insertEdgeStmt;

@@ -156,12 +156,7 @@ void Storage::inject(Storage* injected)
 				}
 				const Id ownSourceLocationId = it->second;
 
-				occurrences.push_back(StorageOccurrence(ownElementId, ownSourceLocationId));
-				if (occurrences.size() >= 100)
-				{
-					addOccurrences(occurrences);
-					occurrences.clear();
-				}
+				occurrences.emplace_back(ownElementId, ownSourceLocationId);
 			}
 		);
 		addOccurrences(occurrences);

@@ -17,6 +17,22 @@ struct StorageEdgeData
 		, targetNodeId(targetNodeId)
 	{}
 
+	bool operator<(const StorageEdgeData& other) const
+	{
+		if (type != other.type)
+		{
+			return type < other.type;
+		}
+		else if (sourceNodeId != other.sourceNodeId)
+		{
+			return sourceNodeId < other.sourceNodeId;
+		}
+		else
+		{
+			return targetNodeId < other.targetNodeId;
+		}
+	}
+
 	int type;
 	Id sourceNodeId;
 	Id targetNodeId;
