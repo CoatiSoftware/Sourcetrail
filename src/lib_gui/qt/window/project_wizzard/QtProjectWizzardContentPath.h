@@ -4,6 +4,7 @@
 #include <set>
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "utility/SingleValueCache.h"
 
 class QCheckBox;
 class QComboBox;
@@ -76,7 +77,7 @@ private:
 
 	std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings;
 	QLabel* m_fileCountLabel;
-	std::vector<FilePath> m_filePaths;
+	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
 };
 
 
@@ -108,7 +109,7 @@ private:
 
 	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> m_settings;
 	QLabel* m_fileCountLabel;
-	std::vector<FilePath> m_filePaths;
+	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
 };
 
 
@@ -145,7 +146,7 @@ private:
 	std::shared_ptr<SourceGroupSettingsCxxSonargraph> m_settingsCxxSonargraph;
 	std::shared_ptr<SourceGroupSettingsWithSonargraphProjectPath> m_settingsWithSonargraphProjectPath;
 	QLabel* m_fileCountLabel;
-	std::vector<FilePath> m_filePaths;
+	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
 };
 
 

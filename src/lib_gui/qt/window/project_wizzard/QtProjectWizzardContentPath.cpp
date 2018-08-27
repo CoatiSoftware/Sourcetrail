@@ -128,6 +128,14 @@ QtProjectWizzardContentPathCDB::QtProjectWizzardContentPathCDB(
 )
 	: QtProjectWizzardContentPath(window)
 	, m_settings(settings)
+	, m_filePaths([&]()
+		{
+			return utility::getAsRelativeIfShorter(
+				utility::toVector(SourceGroupCxxCdb(m_settings).getAllSourceFilePaths()),
+				m_settings->getProjectDirectoryPath()
+			);
+		}
+	)
 {
 	setTitleString("Compilation Database (compile_commands.json)");
 	setHelpString(
@@ -172,14 +180,11 @@ void QtProjectWizzardContentPathCDB::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settings->getCompilationDatabasePath().wstr()));
 
-	m_filePaths = utility::getAsRelativeIfShorter(
-		utility::toVector(SourceGroupCxxCdb(m_settings).getAllSourceFilePaths()),
-		m_settings->getProjectDirectoryPath()
-	);
+	m_filePaths.clear();
 
 	if (m_fileCountLabel)
 	{
-		m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the compilation database.");
+		m_fileCountLabel->setText("<b>" + QString::number(getFilePaths().size()) + "</b> source files were found in the compilation database.");
 	}
 }
 
@@ -190,9 +195,7 @@ void QtProjectWizzardContentPathCDB::save()
 
 std::vector<FilePath> QtProjectWizzardContentPathCDB::getFilePaths() const
 {
-	const_cast<QtProjectWizzardContentPathCDB*>(this)->load();
-
-	return m_filePaths;
+	return m_filePaths.getValue();
 }
 
 QString QtProjectWizzardContentPathCDB::getFileNamesTitle() const
@@ -235,6 +238,14 @@ QtProjectWizzardContentCodeblocksProjectPath::QtProjectWizzardContentCodeblocksP
 )
 	: QtProjectWizzardContentPath(window)
 	, m_settings(settings)
+	, m_filePaths([&]()
+		{
+			return utility::getAsRelativeIfShorter(
+				utility::toVector(SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths()),
+				m_settings->getProjectDirectoryPath()
+			);
+		}
+	)
 {
 	setTitleString("Code::Blocks Project (.cbp)");
 	setHelpString(
@@ -278,14 +289,11 @@ void QtProjectWizzardContentCodeblocksProjectPath::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settings->getCodeblocksProjectPath().wstr()));
 
-	m_filePaths = utility::getAsRelativeIfShorter(
-		utility::toVector(SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths()),
-		m_settings->getProjectDirectoryPath()
-	);
+	m_filePaths.clear();
 
 	if (m_fileCountLabel)
 	{
-		m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Code::Blocks project.");
+		m_fileCountLabel->setText("<b>" + QString::number(getFilePaths().size()) + "</b> source files were found in the Code::Blocks project.");
 	}
 }
 
@@ -296,9 +304,7 @@ void QtProjectWizzardContentCodeblocksProjectPath::save()
 
 std::vector<FilePath> QtProjectWizzardContentCodeblocksProjectPath::getFilePaths() const
 {
-	const_cast<QtProjectWizzardContentCodeblocksProjectPath*>(this)->load();
-
-	return m_filePaths;
+	return m_filePaths.getValue();
 }
 
 QString QtProjectWizzardContentCodeblocksProjectPath::getFileNamesTitle() const
@@ -346,6 +352,24 @@ QtProjectWizzardContentSonargraphProjectPath::QtProjectWizzardContentSonargraphP
 	, m_settings(settings)
 	, m_settingsCxxSonargraph(settingsCxxSonargraph)
 	, m_settingsWithSonargraphProjectPath(settingsWithSonargraphProjectPath)
+	, m_filePaths([&]()
+		{
+			std::set<FilePath> allSourceFilePaths;
+			if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
+			{
+				allSourceFilePaths = SourceGroupCxxSonargraph(settings).getAllSourceFilePaths();
+			}
+			else if (std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaSonargraph>(m_settings))
+			{
+				allSourceFilePaths = SourceGroupJavaSonargraph(settings).getAllSourceFilePaths();
+			}
+
+			return utility::getAsRelativeIfShorter(
+				utility::toVector(allSourceFilePaths),
+				m_settings->getProjectDirectoryPath()
+			);
+		}
+	)
 {
 	setTitleString("Sonargraph Project (system.sonargraph)");
 	setHelpString(
@@ -389,24 +413,11 @@ void QtProjectWizzardContentSonargraphProjectPath::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settingsWithSonargraphProjectPath->getSonargraphProjectPath().wstr()));
 
-	std::set<FilePath> allSourceFilePaths;
-	if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
-	{
-		allSourceFilePaths = SourceGroupCxxSonargraph(settings).getAllSourceFilePaths();
-	}
-	else if (std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaSonargraph>(m_settings))
-	{
-		allSourceFilePaths = SourceGroupJavaSonargraph(settings).getAllSourceFilePaths();
-	}
-
-	m_filePaths = utility::getAsRelativeIfShorter(
-		utility::toVector(allSourceFilePaths),
-		m_settings->getProjectDirectoryPath()
-	);
+	m_filePaths.clear();
 
 	if (m_fileCountLabel)
 	{
-		m_fileCountLabel->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the Sonargraph project.");
+		m_fileCountLabel->setText("<b>" + QString::number(getFilePaths().size()) + "</b> source files were found in the Sonargraph project.");
 	}
 }
 
@@ -445,9 +456,7 @@ bool QtProjectWizzardContentSonargraphProjectPath::check()
 
 std::vector<FilePath> QtProjectWizzardContentSonargraphProjectPath::getFilePaths() const
 {
-	const_cast<QtProjectWizzardContentSonargraphProjectPath*>(this)->load();
-
-	return m_filePaths;
+	return m_filePaths.getValue();
 }
 
 QString QtProjectWizzardContentSonargraphProjectPath::getFileNamesTitle() const

@@ -595,6 +595,7 @@ add_files(
 	utility/ScopedFunctor.cpp
 	utility/ScopedFunctor.h
 	utility/ScopedSwitcher.h
+	utility/SingleValueCache.h
 	utility/TimeStamp.cpp
 	utility/TimeStamp.h
 	utility/tracing.cpp
