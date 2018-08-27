@@ -129,9 +129,9 @@ public:
 		localSymbols.push_back(addLocationSuffix(name, location));
 	}
 
-	void recordFile(const FileInfo& fileInfo, bool indexed) override
+	void recordFile(const FilePath& filePath, bool indexed) override
 	{
-		files.insert(fileInfo.path.wstr());
+		files.insert(filePath.wstr());
 	}
 
 	void recordComment(const ParseLocation& location) override

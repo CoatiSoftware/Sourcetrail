@@ -92,9 +92,9 @@ public:
 		recordLine(L"LOCAL_SYMBOL: " + addLocationSuffix(name + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
-	void recordFile(const FileInfo& fileInfo, bool indexed) override
+	void recordFile(const FilePath& filePath, bool indexed) override
 	{
-		recordLine(L"FILE: " + fileInfo.path.fileName() + (indexed ? L"" : L" non-indexed") + L"\n");
+		recordLine(L"FILE: " + filePath.fileName() + (indexed ? L"" : L" non-indexed") + L"\n");
 	}
 
 	void recordComment(const ParseLocation& location) override

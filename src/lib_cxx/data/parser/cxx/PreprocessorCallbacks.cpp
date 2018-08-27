@@ -9,7 +9,6 @@
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseLocation.h"
 
-#include "utility/file/FileSystem.h"
 #include "utility/utilityString.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
@@ -36,7 +35,7 @@ void PreprocessorCallbacks::FileChanged(
 
 		if (m_fileWasRecorded.find(fileId) == m_fileWasRecorded.end())
 		{
-			m_client->recordFile(FileSystem::getFileInfoForPath(m_currentPath), m_currentPathIsProjectFile); // todo: fix for tests
+			m_client->recordFile(m_currentPath, m_currentPathIsProjectFile); // todo: fix for tests
 			m_fileWasRecorded.insert(fileId);
 		}
 	}

@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
@@ -109,11 +110,19 @@ void SqliteIndexStorage::addFile(const StorageFile& data)
 		return;
 	}
 
+	FilePath filePath(data.filePath);
+
+	std::string modificationTime(data.modificationTime);
+	if (modificationTime.empty())
+	{
+		modificationTime = FileSystem::getFileInfoForPath(filePath).lastWriteTime.toString();
+	}
+
 	std::shared_ptr<TextAccess> content;
 	int lineCount = 0;
 	if (data.indexed)
 	{
-		content = TextAccess::createFromFile(FilePath(data.filePath));
+		content = TextAccess::createFromFile(filePath);
 		lineCount = content->getLineCount();
 	}
 
@@ -121,7 +130,7 @@ void SqliteIndexStorage::addFile(const StorageFile& data)
 	{
 		m_insertFileStmt.bind(1, int(data.id));
 		m_insertFileStmt.bind(2, utility::encodeToUtf8(data.filePath).c_str());
-		m_insertFileStmt.bind(3, data.modificationTime.c_str());
+		m_insertFileStmt.bind(3, modificationTime.c_str());
 		m_insertFileStmt.bind(4, data.indexed);
 		m_insertFileStmt.bind(5, data.complete);
 		m_insertFileStmt.bind(6, lineCount);

@@ -8,7 +8,6 @@
 #include "data/parser/ReferenceKind.h"
 #include "data/parser/ParserClient.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityJava.h"
@@ -101,7 +100,7 @@ void JavaParser::buildIndex(
 	{
 		m_currentFilePath = sourceFilePath;
 
-		m_client->recordFile(FileSystem::getFileInfoForPath(sourceFilePath), true);
+		m_client->recordFile(sourceFilePath, true);
 
 		// remove tabs because they screw with javaparser's location resolver
 		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");

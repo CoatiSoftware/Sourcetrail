@@ -15,6 +15,14 @@ struct StorageFile
 		, complete(true)
 	{}
 
+	StorageFile(Id id, std::wstring filePath, bool indexed, bool complete)
+		: id(id)
+		, filePath(std::move(filePath))
+		, modificationTime("")
+		, indexed(indexed)
+		, complete(complete)
+	{}
+
 	StorageFile(Id id, std::wstring filePath, std::string modificationTime, bool indexed, bool complete)
 		: id(id)
 		, filePath(std::move(filePath))

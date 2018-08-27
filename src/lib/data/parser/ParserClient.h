@@ -64,7 +64,7 @@ public:
 		const ParseLocation& errorLocation, const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit);
 
 	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) = 0;
-	virtual void recordFile(const FileInfo& fileInfo, bool indexed) = 0;
+	virtual void recordFile(const FilePath& filePath, bool indexed) = 0;
 	virtual void recordComment(const ParseLocation& location) = 0;
 
 	bool hasFatalErrors() const;
