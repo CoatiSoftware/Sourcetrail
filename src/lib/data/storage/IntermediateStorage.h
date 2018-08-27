@@ -3,8 +3,7 @@
 
 #include <memory>
 #include <map>
-#include <unordered_map>
-#include <unordered_set>
+#include <set>
 
 #include "data/storage/type/StorageCommentLocation.h"
 #include "data/storage/type/StorageComponentAccess.h"
@@ -60,63 +59,52 @@ public:
 	const std::vector<StorageFile>& getStorageFiles() const;
 	const std::vector<StorageSymbol>& getStorageSymbols() const;
 	const std::vector<StorageEdge>& getStorageEdges() const;
-	std::vector<StorageLocalSymbol> getStorageLocalSymbols() const;
-	std::vector<StorageSourceLocation> getStorageSourceLocations() const;
-	const std::vector<StorageOccurrence>& getStorageOccurrences() const;
-	const std::vector<StorageComponentAccess>& getComponentAccesses() const;
-	const std::vector<StorageCommentLocationData>& getCommentLocations() const;
+	const std::set<StorageLocalSymbol>& getStorageLocalSymbols() const;
+	const std::set<StorageSourceLocation>& getStorageSourceLocations() const;
+	const std::set<StorageOccurrence>& getStorageOccurrences() const;
+	const std::set<StorageComponentAccess>& getComponentAccesses() const;
+	const std::set<StorageCommentLocationData>& getCommentLocations() const;
 	const std::vector<StorageErrorData>& getErrors() const;
 
-	void setStorageNodes(const std::vector<StorageNode>& storageNodes);
-	void setStorageFiles(const std::vector<StorageFile>& storageFiles);
-	void setStorageSymbols(const std::vector<StorageSymbol>& storageSymbols);
-	void setStorageEdges(const std::vector<StorageEdge>& storageEdges);
-	void setStorageLocalSymbols(const std::vector<StorageLocalSymbol>& storageLocalSymbols);
-	void setStorageSourceLocations(const std::vector<StorageSourceLocation>& storageSourceLocations);
-	void setStorageOccurrences(const std::vector<StorageOccurrence>& storageOccurrences);
-	void setComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses);
-	void setCommentLocations(const std::vector<StorageCommentLocationData>& commentLocations);
-	void setErrors(const std::vector<StorageErrorData>& errors);
+	void setStorageNodes(std::vector<StorageNode> storageNodes);
+	void setStorageFiles(std::vector<StorageFile> storageFiles);
+	void setStorageSymbols(std::vector<StorageSymbol> storageSymbols);
+	void setStorageEdges(std::vector<StorageEdge> storageEdges);
+	void setStorageLocalSymbols(std::set<StorageLocalSymbol> storageLocalSymbols);
+	void setStorageSourceLocations(std::set<StorageSourceLocation> storageSourceLocations);
+	void setStorageOccurrences(std::set<StorageOccurrence> storageOccurrences);
+	void setComponentAccesses(std::set<StorageComponentAccess> componentAccesses);
+	void setCommentLocations(std::set<StorageCommentLocationData> commentLocations);
+	void setErrors(std::vector<StorageErrorData> errors);
 
 	Id getNextId() const;
 	void setNextId(const Id nextId);
 
 private:
-	std::wstring serialize(const StorageNodeData& nodeData) const;
-	std::wstring serialize(const StorageFile& file) const;
-	std::wstring serialize(const StorageEdgeData& edgeData) const;
-	std::wstring serialize(const StorageLocalSymbolData& localSymbolData) const;
-	std::wstring serialize(const StorageSourceLocationData& sourceLocationData) const;
-	std::wstring serialize(const StorageOccurrence& occurrence) const;
-	std::wstring serialize(const StorageComponentAccess& componentAccessData) const;
-	std::wstring serialize(const StorageCommentLocationData& commentLocationData) const;
 	std::wstring serialize(const StorageErrorData& errorData) const;
 
-	std::unordered_map<std::wstring, size_t> m_nodesIndex;
+	std::map<StorageNodeData, size_t> m_nodesIndex;
 	std::vector<StorageNode> m_nodes;
 
-	std::unordered_map<std::wstring, size_t> m_serializedFiles; // this is used to prevent duplicates (unique)
+	std::map<StorageFile, size_t> m_filesIndex; // this is used to prevent duplicates (unique)
 	std::vector<StorageFile> m_files;
 
 	std::vector<StorageSymbol> m_symbols;
 
-	std::unordered_map<std::wstring, size_t> m_edgesIndex;
+	std::map<StorageEdgeData, size_t> m_edgesIndex;
 	std::vector<StorageEdge> m_edges;
 
-	std::unordered_map<std::wstring, StorageLocalSymbol> m_localSymbols;
+	std::set<StorageLocalSymbol> m_localSymbols;
 
-	std::unordered_map<std::wstring, StorageSourceLocation> m_sourceLocations;
+	std::set<StorageSourceLocation> m_sourceLocations;
 
-	std::unordered_set<std::wstring> m_serializedOccurrences; // this is used to prevent duplicates (unique)
-	std::vector<StorageOccurrence> m_occurrences;
+	std::set<StorageOccurrence> m_occurrences;
 
-	std::unordered_set<std::wstring> m_serializedComponentAccesses; // this is used to prevent duplicates (unique)
-	std::vector<StorageComponentAccess> m_componentAccesses;
+	std::set<StorageComponentAccess> m_componentAccesses;
 
-	std::unordered_set<std::wstring> m_serializedCommentLocations; // this is used to prevent duplicates (unique)
-	std::vector<StorageCommentLocationData> m_commentLocations;
+	std::set<StorageCommentLocationData> m_commentLocations;
 
-	std::unordered_set<std::wstring> m_serializedErrors; // this is used to prevent duplicates (unique)
+	std::set<StorageErrorData> m_errorsIndex; // this is used to prevent duplicates (unique)
 	std::vector<StorageErrorData> m_errors;
 
 	Id m_nextId;

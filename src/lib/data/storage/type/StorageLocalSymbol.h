@@ -15,6 +15,11 @@ struct StorageLocalSymbolData
 		: name(std::move(name))
 	{}
 
+	bool operator<(const StorageLocalSymbolData& other) const
+	{
+		return name < other.name;
+	}
+
 	std::wstring name;
 };
 

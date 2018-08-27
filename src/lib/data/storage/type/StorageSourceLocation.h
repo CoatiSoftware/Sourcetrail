@@ -23,6 +23,34 @@ struct StorageSourceLocationData
 		, type(type)
 	{}
 
+	bool operator<(const StorageSourceLocationData& other) const
+	{
+		if (fileNodeId != other.fileNodeId)
+		{
+			return fileNodeId < other.fileNodeId;
+		}
+		else if (startLine != other.startLine)
+		{
+			return startLine < other.startLine;
+		}
+		else if (startCol != other.startCol)
+		{
+			return startCol < other.startCol;
+		}
+		else if (endLine != other.endLine)
+		{
+			return endLine < other.endLine;
+		}
+		else if (endCol != other.endCol)
+		{
+			return endCol < other.endCol;
+		}
+		else
+		{
+			return type < other.type;
+		}
+	}
+
 	Id fileNodeId;
 	uint startLine;
 	uint startCol;

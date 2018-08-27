@@ -21,6 +21,30 @@ struct StorageCommentLocationData
 		, endCol(endCol)
 	{}
 
+	bool operator<(const StorageCommentLocationData& other) const
+	{
+		if (fileNodeId != other.fileNodeId)
+		{
+			return fileNodeId < other.fileNodeId;
+		}
+		else if (startLine != other.startLine)
+		{
+			return startLine < other.startLine;
+		}
+		else if (startCol != other.startCol)
+		{
+			return startCol < other.startCol;
+		}
+		else if (endLine != other.endLine)
+		{
+			return endLine < other.endLine;
+		}
+		else
+		{
+			return endCol < other.endCol;
+		}
+	}
+
 	Id fileNodeId;
 	uint startLine;
 	uint startCol;

@@ -36,6 +36,26 @@ struct StorageErrorData
 		, indexed(indexed)
 	{}
 
+	bool operator<(const StorageErrorData& other) const
+	{
+		if (message != other.message)
+		{
+			return message < other.message;
+		}
+		else if (filePath != other.filePath)
+		{
+			return filePath < other.filePath;
+		}
+		else if (lineNumber != other.lineNumber)
+		{
+			return lineNumber < other.lineNumber;
+		}
+		else
+		{
+			return columnNumber < other.columnNumber;
+		}
+	}
+
 	std::wstring message;
 
 	std::wstring filePath;

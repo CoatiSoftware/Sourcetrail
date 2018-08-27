@@ -15,6 +15,18 @@ struct StorageOccurrence
 		, sourceLocationId(sourceLocationId)
 	{}
 
+	bool operator<(const StorageOccurrence& other) const
+	{
+		if (elementId != other.elementId)
+		{
+			return elementId < other.elementId;
+		}
+		else
+		{
+			return sourceLocationId < other.sourceLocationId;
+		}
+	}
+
 	Id elementId;
 	Id sourceLocationId;
 };

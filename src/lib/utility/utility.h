@@ -221,6 +221,7 @@ template<typename T>
 std::vector<T> utility::toVector(const std::deque<T>& d)
 {
 	std::vector<T> v;
+	v.reserve(d.size());
 	v.insert(v.begin(), d.begin(), d.end());
 	return v;
 }
@@ -229,6 +230,7 @@ template<typename T>
 std::vector<T> utility::toVector(const std::set<T>& d)
 {
 	std::vector<T> v;
+	v.reserve(d.size());
 	v.insert(v.begin(), d.begin(), d.end());
 	return v;
 }
@@ -236,8 +238,7 @@ std::vector<T> utility::toVector(const std::set<T>& d)
 template<typename T>
 std::set<T> utility::toSet(const std::vector<T>& v)
 {
-	std::set<T> s(v.begin(), v.end());
-	return s;
+	return std::set<T>(v.begin(), v.end());
 }
 
 template<typename T>

@@ -15,6 +15,11 @@ struct StorageComponentAccess
 		, type(type)
 	{}
 
+	bool operator<(const StorageComponentAccess& other) const
+	{
+		return nodeId < other.nodeId;
+	}
+
 	Id nodeId;
 	int type;
 };

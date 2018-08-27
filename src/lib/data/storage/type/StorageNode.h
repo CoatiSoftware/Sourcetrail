@@ -17,6 +17,11 @@ struct StorageNodeData
 		, serializedName(std::move(serializedName))
 	{}
 
+	bool operator<(const StorageNodeData& other) const
+	{
+		return serializedName < other.serializedName;
+	}
+
 	int type;
 	std::wstring serializedName;
 };

@@ -31,6 +31,11 @@ struct StorageFile
 		, complete(complete)
 	{}
 
+	bool operator<(const StorageFile& other) const
+	{
+		return filePath < other.filePath;
+	}
+
 	Id id;
 	std::wstring filePath;
 	std::string modificationTime;

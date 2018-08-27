@@ -22,20 +22,20 @@ public:
 	std::vector<StorageEdge> getStorageEdges() const;
 	void setStorageEdges(const std::vector<StorageEdge>& storageEdges);
 
-	std::vector<StorageLocalSymbol> getStorageLocalSymbols() const;
-	void setStorageLocalSymbols(const std::vector<StorageLocalSymbol>& storageLocalSymbols);
+	std::set<StorageLocalSymbol> getStorageLocalSymbols() const;
+	void setStorageLocalSymbols(const std::set<StorageLocalSymbol>& storageLocalSymbols);
 
-	std::vector<StorageSourceLocation> getStorageSourceLocations() const;
-	void setStorageSourceLocations(const std::vector<StorageSourceLocation>& storageSourceLocations);
+	std::set<StorageSourceLocation> getStorageSourceLocations() const;
+	void setStorageSourceLocations(const std::set<StorageSourceLocation>& storageSourceLocations);
 
-	std::vector<StorageOccurrence> getStorageOccurrences() const;
-	void setStorageOccurrences(const std::vector<StorageOccurrence>& storageOccurences);
+	std::set<StorageOccurrence> getStorageOccurrences() const;
+	void setStorageOccurrences(const std::set<StorageOccurrence>& storageOccurences);
 
-	std::vector<StorageComponentAccess> getStorageComponentAccesses() const;
-	void setStorageComponentAccesses(const std::vector<StorageComponentAccess>& storageComponentAccesses);
+	std::set<StorageComponentAccess> getStorageComponentAccesses() const;
+	void setStorageComponentAccesses(const std::set<StorageComponentAccess>& storageComponentAccesses);
 
-	std::vector<StorageCommentLocationData> getStorageCommentLocations() const;
-	void setStorageCommentLocations(const std::vector<StorageCommentLocationData>& commentLocations);
+	std::set<StorageCommentLocationData> getStorageCommentLocations() const;
+	void setStorageCommentLocations(const std::set<StorageCommentLocationData>& commentLocations);
 
 	std::vector<StorageErrorData> getStorageErrors() const;
 	void setStorageErrors(const std::vector<StorageErrorData>& errors);

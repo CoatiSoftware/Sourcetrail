@@ -23,10 +23,11 @@ SharedIntermediateStorage::~SharedIntermediateStorage()
 std::vector<StorageFile> SharedIntermediateStorage::getStorageFiles() const
 {
 	std::vector<StorageFile> result;
+	result.reserve(m_storageFiles.size());
 
 	for (unsigned int i = 0; i < m_storageFiles.size(); i++)
 	{
-		result.push_back(fromShared(m_storageFiles[i]));
+		result.emplace_back(fromShared(m_storageFiles[i]));
 	}
 
 	return result;
@@ -45,10 +46,11 @@ void SharedIntermediateStorage::setStorageFiles(const std::vector<StorageFile>& 
 std::vector<StorageNode> SharedIntermediateStorage::getStorageNodes() const
 {
 	std::vector<StorageNode> result;
+	result.reserve(m_storageNodes.size());
 
 	for (unsigned int i = 0; i < m_storageNodes.size(); i++)
 	{
-		result.push_back(fromShared(m_storageNodes[i]));
+		result.emplace_back(fromShared(m_storageNodes[i]));
 	}
 
 	return result;
@@ -67,10 +69,11 @@ void SharedIntermediateStorage::setStorageNodes(const std::vector<StorageNode>& 
 std::vector<StorageSymbol> SharedIntermediateStorage::getStorageSymbols() const
 {
 	std::vector<StorageSymbol> result;
+	result.reserve(m_storageSymbols.size());
 
 	for (unsigned int i = 0; i < m_storageSymbols.size(); i++)
 	{
-		result.push_back(fromShared(m_storageSymbols[i]));
+		result.emplace_back(fromShared(m_storageSymbols[i]));
 	}
 
 	return result;
@@ -89,10 +92,11 @@ void SharedIntermediateStorage::setStorageSymbols(const std::vector<StorageSymbo
 std::vector<StorageEdge> SharedIntermediateStorage::getStorageEdges() const
 {
 	std::vector<StorageEdge> result;
+	result.reserve(m_storageEdges.size());
 
 	for (unsigned int i = 0; i < m_storageEdges.size(); i++)
 	{
-		result.push_back(fromShared(m_storageEdges[i]));
+		result.emplace_back(fromShared(m_storageEdges[i]));
 	}
 
 	return result;
@@ -108,123 +112,124 @@ void SharedIntermediateStorage::setStorageEdges(const std::vector<StorageEdge>& 
 	}
 }
 
-std::vector<StorageLocalSymbol> SharedIntermediateStorage::getStorageLocalSymbols() const
+std::set<StorageLocalSymbol> SharedIntermediateStorage::getStorageLocalSymbols() const
 {
-	std::vector<StorageLocalSymbol> result;
+	std::set<StorageLocalSymbol> result;
 
 	for (unsigned int i = 0; i < m_storageLocalSymbols.size(); i++)
 	{
-		result.push_back(fromShared(m_storageLocalSymbols[i]));
+		result.emplace(fromShared(m_storageLocalSymbols[i]));
 	}
 
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageLocalSymbols(const std::vector<StorageLocalSymbol>& storageLocalSymbols)
+void SharedIntermediateStorage::setStorageLocalSymbols(const std::set<StorageLocalSymbol>& storageLocalSymbols)
 {
 	m_storageLocalSymbols.clear();
 
-	for (unsigned int i = 0; i < storageLocalSymbols.size(); i++)
+	for (const StorageLocalSymbol& localSymbol : storageLocalSymbols)
 	{
-		m_storageLocalSymbols.push_back(toShared(storageLocalSymbols[i], m_allocator));
+		m_storageLocalSymbols.push_back(toShared(localSymbol, m_allocator));
 	}
 }
 
-std::vector<StorageSourceLocation> SharedIntermediateStorage::getStorageSourceLocations() const
+std::set<StorageSourceLocation> SharedIntermediateStorage::getStorageSourceLocations() const
 {
-	std::vector<StorageSourceLocation> result;
+	std::set<StorageSourceLocation> result;
 
 	for (unsigned int i = 0; i < m_storageSourceLocations.size(); i++)
 	{
-		result.push_back(fromShared(m_storageSourceLocations[i]));
+		result.emplace(fromShared(m_storageSourceLocations[i]));
 	}
 
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageSourceLocations(const std::vector<StorageSourceLocation>& storageSourceLocations)
+void SharedIntermediateStorage::setStorageSourceLocations(const std::set<StorageSourceLocation>& storageSourceLocations)
 {
 	m_storageSourceLocations.clear();
 
-	for (unsigned int i = 0; i < storageSourceLocations.size(); i++)
+	for (const StorageSourceLocation& sourceLocation : storageSourceLocations)
 	{
-		m_storageSourceLocations.push_back(toShared(storageSourceLocations[i], m_allocator));
+		m_storageSourceLocations.push_back(toShared(sourceLocation, m_allocator));
 	}
 }
 
-std::vector<StorageOccurrence> SharedIntermediateStorage::getStorageOccurrences() const
+std::set<StorageOccurrence> SharedIntermediateStorage::getStorageOccurrences() const
 {
-	std::vector<StorageOccurrence> result;
+	std::set<StorageOccurrence> result;
 
 	for (unsigned int i = 0; i < m_storageOccurrences.size(); i++)
 	{
-		result.push_back(fromShared(m_storageOccurrences[i]));
+		result.emplace(fromShared(m_storageOccurrences[i]));
 	}
 
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageOccurrences(const std::vector<StorageOccurrence>& storageOccurences)
+void SharedIntermediateStorage::setStorageOccurrences(const std::set<StorageOccurrence>& storageOccurences)
 {
 	m_storageOccurrences.clear();
 
-	for (unsigned int i = 0; i < storageOccurences.size(); i++)
+	for (const StorageOccurrence& occurrence : storageOccurences)
 	{
-		m_storageOccurrences.push_back(toShared(storageOccurences[i], m_allocator));
+		m_storageOccurrences.push_back(toShared(occurrence, m_allocator));
 	}
 }
 
-std::vector<StorageComponentAccess> SharedIntermediateStorage::getStorageComponentAccesses() const
+std::set<StorageComponentAccess> SharedIntermediateStorage::getStorageComponentAccesses() const
 {
-	std::vector<StorageComponentAccess> result;
+	std::set<StorageComponentAccess> result;
 
 	for (unsigned int i = 0; i < m_storageComponentAccesses.size(); i++)
 	{
-		result.push_back(fromShared(m_storageComponentAccesses[i]));
+		result.emplace(fromShared(m_storageComponentAccesses[i]));
 	}
 
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageComponentAccesses(const std::vector<StorageComponentAccess>& storageComponentAccesses)
+void SharedIntermediateStorage::setStorageComponentAccesses(const std::set<StorageComponentAccess>& storageComponentAccesses)
 {
 	m_storageComponentAccesses.clear();
 
-	for (unsigned int i = 0; i < storageComponentAccesses.size(); i++)
+	for (const StorageComponentAccess& componentAccess : storageComponentAccesses)
 	{
-		m_storageComponentAccesses.push_back(toShared(storageComponentAccesses[i], m_allocator));
+		m_storageComponentAccesses.push_back(toShared(componentAccess, m_allocator));
 	}
 }
 
-std::vector<StorageCommentLocationData> SharedIntermediateStorage::getStorageCommentLocations() const
+std::set<StorageCommentLocationData> SharedIntermediateStorage::getStorageCommentLocations() const
 {
-	std::vector<StorageCommentLocationData> result;
+	std::set<StorageCommentLocationData> result;
 
 	for (unsigned int i = 0; i < m_storageCommentLocations.size(); i++)
 	{
-		result.push_back(fromShared(m_storageCommentLocations[i]));
+		result.emplace(fromShared(m_storageCommentLocations[i]));
 	}
 
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageCommentLocations(const std::vector<StorageCommentLocationData>& commentLocations)
+void SharedIntermediateStorage::setStorageCommentLocations(const std::set<StorageCommentLocationData>& commentLocations)
 {
 	m_storageCommentLocations.clear();
 
-	for (unsigned int i = 0; i < commentLocations.size(); i++)
+	for (const StorageCommentLocationData commentLocation : commentLocations)
 	{
-		m_storageCommentLocations.push_back(toShared(commentLocations[i], m_allocator));
+		m_storageCommentLocations.push_back(toShared(commentLocation, m_allocator));
 	}
 }
 
 std::vector<StorageErrorData> SharedIntermediateStorage::getStorageErrors() const
 {
 	std::vector<StorageErrorData> result;
+	result.reserve(m_storageErrors.size());
 
 	for (unsigned int i = 0; i < m_storageErrors.size(); i++)
 	{
-		result.push_back(fromShared(m_storageErrors[i]));
+		result.emplace_back(fromShared(m_storageErrors[i]));
 	}
 
 	return result;
