@@ -9,7 +9,7 @@
 QtCountCircleItem::QtCountCircleItem(QGraphicsItem* parent)
 	: QtRoundedRectItem(parent)
 {
-	this->setRadius(100);
+	this->setRadius(10);
 	this->setAcceptHoverEvents(true);
 
 	QFont font;
@@ -27,22 +27,21 @@ QtCountCircleItem::~QtCountCircleItem()
 
 void QtCountCircleItem::setPosition(const Vec2f& pos)
 {
-	qreal radius = getRadius();
-	this->setRect(pos.x - radius, pos.y - radius, 2 * radius, 2 * radius);
+	qreal width = QFontMetrics(m_number->font()).width(m_number->text());
+	qreal height = QFontMetrics(m_number->font()).height();
 
-	m_number->setPos(
-		pos.x - radius + 5,
-		pos.y - QFontMetrics(m_number->font()).height() / 2
+	this->setRadius(height / 2 + 1);
+	this->setRect(
+		pos.x - std::max(width / 2 + 4, height / 2 + 1), pos.y - height / 2 - 1,
+		std::max(width + 8, height + 2), height + 2
 	);
+	m_number->setPos(pos.x - width / 2, pos.y - height / 2);
 }
 
 void QtCountCircleItem::setNumber(size_t number)
 {
 	QString numberStr = QString::number(number);
 	m_number->setText(numberStr);
-
-	qreal radius = QFontMetrics(m_number->font()).width(numberStr) / 2 + 5;
-	this->setRadius(radius);
 
 	QPointF center = this->rect().center();
 	this->setPosition(Vec2f(center.x(), center.y()));

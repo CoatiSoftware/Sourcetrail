@@ -59,8 +59,12 @@ void QtGraphNodeBundle::updateStyle()
 	}
 	setStyle(style);
 
-	m_circle->setPosition(
-		Vec2f(m_rect->rect().right() - 3 + m_circle->getRadius() / 2, m_rect->rect().top() + 3 - m_circle->getRadius() / 4));
+	Vec2f pos(m_rect->rect().right(), m_rect->rect().top() - 2);
+	if (m_type.getNodeStyle() == NodeType::STYLE_BIG_NODE)
+	{
+		pos += Vec2f(-2, 2);
+	}
+	m_circle->setPosition(pos);
 
 	GraphViewStyle::NodeStyle accessStyle = GraphViewStyle::getStyleOfCountCircle();
 	m_circle->setStyle(
