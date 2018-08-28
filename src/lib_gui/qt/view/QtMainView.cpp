@@ -142,6 +142,7 @@ void QtMainView::activateWindow()
 			m_window->setEnabled(true);
 			m_window->raise();
 			m_window->setFocus(Qt::ActiveWindowFocusReason);
+			m_window->setWindowState(m_window->windowState() & ~Qt::WindowMinimized);
 		}
 	);
 }
