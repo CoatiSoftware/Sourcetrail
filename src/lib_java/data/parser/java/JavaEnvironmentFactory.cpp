@@ -8,6 +8,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityLibrary.h"
+#include "utility/utilityWindows.h"
 
 void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& errorString)
 {
@@ -41,7 +42,22 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 
 	s_classPath = classPath;
 
-	const int jvmMaximumMemory = ApplicationSettings::getInstance()->getJavaMaximumMemory();
+	int jvmMaximumMemory = ApplicationSettings::getInstance()->getJavaMaximumMemory();
+
+#ifdef WIN32
+	if (jvmMaximumMemory > 0)
+	{
+		const float underestimationFactor = 0.8f;
+		const int maximumMB = utility::getLargestByteSizeOfAllocatableMemory() / 1024 / 1024 * underestimationFactor;
+		if (jvmMaximumMemory > maximumMB)
+		{
+			LOG_WARNING("Selected amount of maximum JVM memory of " + std::to_string(jvmMaximumMemory) + " MB exceeds maximum allocatable "
+				"memory on system. Correcting selected value to " + std::to_string(maximumMB) + " MB.");
+			jvmMaximumMemory = maximumMB;
+		}
+	}
+#endif // WIN32
+
 	const int optionCount = (jvmMaximumMemory < 0 ? 2 : 3);
 	const std::string maximumMemoryOprionString = "-Xmx" + std::to_string(jvmMaximumMemory) + "m";
 

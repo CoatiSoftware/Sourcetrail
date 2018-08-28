@@ -616,6 +616,8 @@ add_files(
 	utility/utilityMath.h
 	utility/utilityUuid.cpp
 	utility/utilityUuid.h
+	utility/utilityWindows.cpp
+	utility/utilityWindows.h
 	utility/utilityXml.cpp
 	utility/utilityXml.h
 
