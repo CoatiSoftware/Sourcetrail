@@ -6,11 +6,11 @@
 * Click "Add Source Group"
 * Select "Java" -> Java Source Group from Gradle"
 * Click "Next"
-* Select "./working_copy/build.gradle" at "Gradle Project File"
+* Select "build.gradle" at "Gradle Project File"
 * Click "show source files"
 * Validate 2 files are listed
 * Click "OK"
-* Check "Sould Index Tests"
+* Check "Should Index Tests"
 * Click "show source files"
 * Validate 3 files are listed
 * Click "OK"
@@ -36,4 +36,3 @@
 * Click "OK"
 * Close Sourcetrail
 * Run "3_teardown.sh"
- 
