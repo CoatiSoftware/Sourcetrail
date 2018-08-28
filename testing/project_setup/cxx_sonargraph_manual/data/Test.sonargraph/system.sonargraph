@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<ns2:softwareSystem xmlns:ns2="http://www.hello2morrow.com/sonargraph/core" id="0c1ca5dfc52cd6e30960e06c4d5cb96a" version="9.8.1.519">
+    <description></description>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCppManualModule" name="Test" id="24d0b2632bc424febb83b42d77e8eae5" language="CPlusPlus">
+        <description></description>
+        <rootPath name="."></rootPath>
+    </module>
+</ns2:softwareSystem>
