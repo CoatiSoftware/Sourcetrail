@@ -413,6 +413,7 @@
 				<ComponentRef Id='CodeViewSnippetInactivePng'/>
 
 				<ComponentRef Id='GraphViewCss'/>
+				<ComponentRef Id='AnnotationPng'/>
 				<ComponentRef Id='ArrowGraphPng'/>
 				<ComponentRef Id='BundlePng'/>
 				<ComponentRef Id='DefaultPng'/>

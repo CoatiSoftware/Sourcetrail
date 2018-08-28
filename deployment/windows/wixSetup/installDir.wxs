@@ -831,6 +831,9 @@
 						</Component>
 
 						<Directory Id='DataGraphViewImages' Name='images'>
+							<Component Id='AnnotationPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='Annotation' Name='annotation.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/annotation.png' KeyPath='yes' />
+							</Component>
 							<Component Id='ArrowGraphPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowGraph' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/arrow.png' KeyPath='yes' />
 							</Component>
