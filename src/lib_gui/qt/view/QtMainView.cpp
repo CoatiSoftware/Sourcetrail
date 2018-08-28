@@ -138,6 +138,7 @@ void QtMainView::activateWindow()
 		[=]()
 		{
 			// It's platform dependent which of these commands does the right thing, for now we just use them all at once.
+			m_window->activateWindow();
 			m_window->setEnabled(true);
 			m_window->raise();
 			m_window->setFocus(Qt::ActiveWindowFocusReason);
