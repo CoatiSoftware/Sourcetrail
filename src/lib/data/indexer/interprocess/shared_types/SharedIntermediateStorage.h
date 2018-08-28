@@ -1,6 +1,9 @@
 #ifndef SHARED_INTERMEDIATE_STORAGE_H
 #define SHARED_INTERMEDIATE_STORAGE_H
 
+#include <set>
+#include <vector>
+
 #include "data/indexer/interprocess/shared_types/SharedStorageTypes.h"
 #include "utility/interprocess/SharedMemory.h"
 
