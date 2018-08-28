@@ -669,6 +669,10 @@ void QtProjectWizzardContentPathSourceGradle::save()
 
 std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() const
 {
+	QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
+		Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
+	dialogView->setParentWindow(m_window);
+
 	return utility::getAsRelativeIfShorter(
 		utility::toVector(SourceGroupJavaGradle(m_settings).getAllSourceFilePaths()),
 		m_settings->getProjectDirectoryPath()
