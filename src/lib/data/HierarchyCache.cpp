@@ -148,6 +148,11 @@ void HierarchyCache::clear()
 void HierarchyCache::createConnection(
 	Id edgeId, Id fromId, Id toId, bool sourceVisible, bool sourceImplicit, bool targetImplicit)
 {
+	if (fromId == toId)
+	{
+		return;
+	}
+
 	HierarchyNode* from = createNode(fromId);
 	HierarchyNode* to = createNode(toId);
 
@@ -163,6 +168,11 @@ void HierarchyCache::createConnection(
 
 void HierarchyCache::createInheritance(Id edgeId, Id fromId, Id toId)
 {
+	if (fromId == toId)
+	{
+		return;
+	}
+
 	HierarchyNode* from = createNode(fromId);
 	HierarchyNode* to = createNode(toId);
 
