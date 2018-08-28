@@ -56,9 +56,9 @@ void QtRecentProjectButton::handleButtonClick()
 		QMessageBox msgBox;
 		msgBox.setText("Missing Project File");
 		msgBox.setInformativeText(QString::fromStdWString(
-			L"Couldn't find " + m_projectFilePath.wstr() + L" in your filesystem. Delete it from this recent Proejct list?"
+			L"<p>Couldn't find \"" + m_projectFilePath.wstr() + L"\" on your filesystem.</p><p>Do you want to remove it from recent project list?</p>"
 		));
-		msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
+		msgBox.addButton("Remove", QMessageBox::ButtonRole::YesRole);
 		msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();
