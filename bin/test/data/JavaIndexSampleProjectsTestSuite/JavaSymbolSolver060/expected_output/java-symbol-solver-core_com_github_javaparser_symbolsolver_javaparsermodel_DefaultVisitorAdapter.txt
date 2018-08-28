@@ -81,12 +81,10 @@ QUALIFIER: com [DefaultVisitorAdapter.java <13:8 13:10>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter [DefaultVisitorAdapter.java <15:1 <15:14 15:34> 465:1>]
 LOCAL_SYMBOL: DefaultVisitorAdapter.java<15:77> [DefaultVisitorAdapter.java <15:77 15:77>]
 LOCAL_SYMBOL: DefaultVisitorAdapter.java<15:77> [DefaultVisitorAdapter.java <465:1 465:1>]
-REFERENCE_TYPE_ARGUMENT com.github.javaparser.ast.visitor.GenericVisitor<R, A> -> com.github.javaparser.symbolsolver.model.typesystem.Type [DefaultVisitorAdapter.java <15:62 15:65>]
-SYMBOL_PACKAGE java.lang
-REFERENCE_TYPE_ARGUMENT com.github.javaparser.ast.visitor.GenericVisitor<R, A> -> java.lang.Boolean [DefaultVisitorAdapter.java <15:68 15:74>]
 REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter -> com.github.javaparser.ast.visitor.GenericVisitor<R, A> [DefaultVisitorAdapter.java <15:47 15:60>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter -> com.github.javaparser.symbolsolver.model.typesystem.Type [DefaultVisitorAdapter.java <15:62 15:65>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter -> java.lang.Boolean [DefaultVisitorAdapter.java <15:68 15:74>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter -> com.github.javaparser.symbolsolver.model.typesystem.Type [DefaultVisitorAdapter.java <15:62 15:65>]
+SYMBOL_PACKAGE java.lang
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter -> java.lang.Boolean [DefaultVisitorAdapter.java <15:68 15:74>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter.visit(com.github.javaparser.ast.CompilationUnit, java.lang.Boolean) [DefaultVisitorAdapter.java <16:5 <16:5  <17:17 17:21> 17:61> 19:5>]
 SYMBOL_METHOD com.github.javaparser.ast.visitor.GenericVisitor<R, A>.R com.github.javaparser.ast.visitor.GenericVisitor<R, A>.visit(com.github.javaparser.ast.CompilationUnit, com.github.javaparser.ast.visitor.GenericVisitor<R, A>.A)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.DefaultVisitorAdapter.visit(com.github.javaparser.ast.CompilationUnit, java.lang.Boolean) -> com.github.javaparser.ast.visitor.GenericVisitor<R, A>.R com.github.javaparser.ast.visitor.GenericVisitor<R, A>.visit(com.github.javaparser.ast.CompilationUnit, com.github.javaparser.ast.visitor.GenericVisitor<R, A>.A) [DefaultVisitorAdapter.java <17:17 17:21>]

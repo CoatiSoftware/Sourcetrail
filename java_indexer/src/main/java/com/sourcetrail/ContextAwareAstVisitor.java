@@ -11,7 +11,6 @@ import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.CreationReference;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
-import org.eclipse.jdt.core.dom.ExpressionMethodReference;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.Javadoc;
@@ -134,7 +133,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		if (visitChildren)
 		{
 			acceptChild(node.getType());
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 		}
 				
 		return false;
@@ -178,7 +181,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		if (visitChildren)
 		{
 			acceptChild(node.getExpression());
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 			acceptChild(node.getName());
 			acceptChildren(node.arguments());
 		}
@@ -194,7 +201,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 			acceptChild(node.getName());
 			acceptChildren(node.arguments());
 		}
@@ -209,7 +220,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 			acceptChildren(node.arguments());
 		}
 		
@@ -224,7 +239,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		if (visitChildren)
 		{
 			acceptChild(node.getExpression());
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 			acceptChildren(node.arguments());
 		}
 		
@@ -239,23 +258,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			acceptChildren(node.typeArguments());
-		}
-		
-		return false;
-	}
-
-	@Override 
-	public boolean visit(ExpressionMethodReference node)
-	{
-		// We don't want to visit qualifiers right now.
-		boolean visitChildren = super.visit(node);
-		
-		if (visitChildren)
-		{
-			acceptChild(node.getExpression());
-			acceptChildren(node.typeArguments());
-			acceptChild(node.getName());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 		}
 		
 		return false;
@@ -269,7 +276,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 			acceptChild(node.getName());
 		}
 		
@@ -284,7 +295,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren) 
 		{
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 			acceptChild(node.getName());
 		}
 		
@@ -299,7 +314,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		if (visitChildren)
 		{
 			acceptChild(node.getExpression());
-			acceptChildren(node.typeArguments());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
 			
 			if (node.getAnonymousClassDeclaration() != null)
 			{
