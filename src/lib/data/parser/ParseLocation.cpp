@@ -10,11 +10,11 @@ ParseLocation::ParseLocation()
 }
 
 ParseLocation::ParseLocation(
-	const FilePath& filePath,
+	FilePath filePath,
 	uint lineNumber,
 	uint columnNumber
 )
-	: filePath(filePath.getCanonical())
+	: filePath(std::move(filePath.makeCanonical()))
 	, startLineNumber(lineNumber)
 	, startColumnNumber(columnNumber)
 	, endLineNumber(lineNumber)
@@ -23,11 +23,11 @@ ParseLocation::ParseLocation(
 }
 
 ParseLocation::ParseLocation(
-	const FilePath& filePath,
+	FilePath filePath,
 	uint startLineNumber, uint startColumnNumber,
 	uint endLineNumber, uint endColumnNumber
 )
-	: filePath(filePath.getCanonical())
+	: filePath(std::move(filePath.makeCanonical()))
 	, startLineNumber(startLineNumber)
 	, startColumnNumber(startColumnNumber)
 	, endLineNumber(endLineNumber)

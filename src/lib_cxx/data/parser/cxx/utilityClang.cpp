@@ -136,7 +136,6 @@ ParseLocation utility::getParseLocation(
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
 {
-	ParseLocation parseLocation;
 	if (sourceLocation.isValid())
 	{
 		clang::SourceLocation loc = sourceLocation;
@@ -152,32 +151,34 @@ ParseLocation utility::getParseLocation(
 		const clang::SourceLocation startLoc = sourceManager.getSpellingLoc(loc);
 		const clang::FileID fileId = sourceManager.getFileID(startLoc);
 
-		// find the location file
-		parseLocation.filePath = canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager);
-
 		// find the start location
-		{
-			const unsigned int offset = sourceManager.getFileOffset(startLoc);
-			parseLocation.startLineNumber = sourceManager.getLineNumber(fileId, offset);
-			parseLocation.startColumnNumber = sourceManager.getColumnNumber(fileId, offset);
-		}
+		const unsigned int startOffset = sourceManager.getFileOffset(startLoc);
 
 		// General case -- find the end of the token starting at loc.
 		if (preprocessor != nullptr)
 		{
 			const clang::SourceLocation endSloc = preprocessor->getLocForEndOfToken(startLoc);
-			const unsigned int offset = sourceManager.getFileOffset(endSloc);
-			parseLocation.endLineNumber = sourceManager.getLineNumber(fileId, offset);
-			parseLocation.endColumnNumber = sourceManager.getColumnNumber(fileId, offset) - 1;
+			const unsigned int endOffset = sourceManager.getFileOffset(endSloc);
+
+			return ParseLocation(
+				canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager),
+				sourceManager.getLineNumber(fileId, startOffset),
+				sourceManager.getColumnNumber(fileId, startOffset),
+				sourceManager.getLineNumber(fileId, endOffset),
+				sourceManager.getColumnNumber(fileId, endOffset) - 1
+			);
 		}
 		else
 		{
-			parseLocation.endLineNumber = parseLocation.startLineNumber;
-			parseLocation.endColumnNumber = parseLocation.startColumnNumber;
+			return ParseLocation(
+				canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager),
+				sourceManager.getLineNumber(fileId, startOffset),
+				sourceManager.getColumnNumber(fileId, startOffset)
+			);
 		}
 	}
 
-	return parseLocation;
+	return ParseLocation();
 }
 
 
@@ -187,7 +188,6 @@ ParseLocation utility::getParseLocation(
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
 {
-	ParseLocation parseLocation;
 	if (sourceRange.isValid())
 	{
 		clang::SourceRange range = sourceRange;
@@ -225,13 +225,14 @@ ParseLocation utility::getParseLocation(
 			filePath = canonicalFilePathCache->getCanonicalFilePath(utility::decodeFromUtf8(presumedBegin.getFilename()));
 		}
 
-		parseLocation = ParseLocation(
-			filePath,
+		return ParseLocation(
+			std::move(filePath),
 			presumedBegin.getLine(),
 			presumedBegin.getColumn(),
 			presumedEnd.getLine(),
 			presumedEnd.getColumn() - (endLoc.isValid() ? 1 : 0)
 		);
 	}
-	return parseLocation;
+
+	return ParseLocation();
 }

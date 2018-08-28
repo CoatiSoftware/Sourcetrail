@@ -31,7 +31,7 @@ bool CommentHandler::HandleComment(clang::Preprocessor& preprocessor, clang::Sou
 		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
 
 		m_client->recordComment(ParseLocation(
-			filePath,
+			std::move(filePath),
 			presumedBegin.getLine(),
 			presumedBegin.getColumn(),
 			presumedEnd.getLine(),

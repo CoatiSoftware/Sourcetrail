@@ -10,12 +10,12 @@ struct ParseLocation
 {
 	ParseLocation();
 	ParseLocation(
-		const FilePath& filePath,
+		FilePath filePath,
 		uint lineNumber,
 		uint columnNumber
 	);
 	ParseLocation(
-		const FilePath& filePath,
+		FilePath filePath,
 		uint startLineNumber, uint startColumnNumber,
 		uint endLineNumber, uint endColumnNumber
 	);

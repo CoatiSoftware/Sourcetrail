@@ -71,7 +71,8 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 			return;
 		}
 
-		const NameHierarchy nameHierarchy(utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
+		const NameHierarchy nameHierarchy(
+			utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
 
 		m_client->recordSymbolWithLocationAndScope(
 			nameHierarchy,
@@ -85,7 +86,9 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 }
 
 void PreprocessorCallbacks::MacroUndefined(
-	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition, const clang::MacroDirective* macroUndefinition)
+	const clang::Token& macroNameToken,
+	const clang::MacroDefinition& macroDefinition,
+	const clang::MacroDirective* macroUndefinition)
 {
 	onMacroUsage(macroNameToken);
 }
@@ -120,7 +123,8 @@ void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 	{
 		const ParseLocation loc = getParseLocation(macroNameToken);
 
-		const NameHierarchy referencedNameHierarchy(utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
+		const NameHierarchy referencedNameHierarchy(
+			utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
 		const NameHierarchy contextNameHierarchy(loc.filePath.wstr(), NAME_DELIMITER_FILE);
 
 		m_client->recordReference(
@@ -141,7 +145,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 	if (!filePath.empty())
 	{
 		return ParseLocation(
-			filePath,
+			std::move(filePath),
 			m_sourceManager.getSpellingLineNumber(location),
 			m_sourceManager.getSpellingColumnNumber(location),
 			m_sourceManager.getSpellingLineNumber(endLocation),
@@ -161,7 +165,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* ma
 	if (!filePath.empty())
 	{
 		return ParseLocation(
-			filePath,
+			std::move(filePath),
 			m_sourceManager.getSpellingLineNumber(location),
 			m_sourceManager.getSpellingColumnNumber(location),
 			m_sourceManager.getSpellingLineNumber(endLocation),
@@ -185,7 +189,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& 
 		if (!filePath.empty())
 		{
 			return ParseLocation(
-				filePath,
+				std::move(filePath),
 				presumedBegin.getLine(),
 				presumedBegin.getColumn(),
 				presumedEnd.getLine(),
