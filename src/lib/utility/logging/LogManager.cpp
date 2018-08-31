@@ -35,7 +35,7 @@ void LogManager::setLoggingEnabled(bool enabled)
 		if (enabled)
 		{
 			LOG_INFO(
-				std::string("Enabled logging for Sourcetrail ") + 
+				std::string("Enabled logging for Sourcetrail ") +
 				(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit, " +
 				"version " + Version::getApplicationVersion().toDisplayString()
 			);
@@ -47,6 +47,11 @@ void LogManager::setLoggingEnabled(bool enabled)
 			MessageStatus(L"Disabled console and file logging.").dispatch();
 		}
 	}
+}
+
+bool LogManager::getLoggingEnabled() const
+{
+	return m_loggingEnabled;
 }
 
 void LogManager::addLogger(std::shared_ptr<Logger> logger)

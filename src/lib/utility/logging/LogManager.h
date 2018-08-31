@@ -15,6 +15,7 @@ public:
 	~LogManager();
 
 	void setLoggingEnabled(bool enabled);
+	bool getLoggingEnabled() const;
 
 	void addLogger(std::shared_ptr<Logger> logger);
 	void removeLogger(std::shared_ptr<Logger> logger);

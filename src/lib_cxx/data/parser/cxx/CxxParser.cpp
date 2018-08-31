@@ -24,6 +24,12 @@
 
 namespace
 {
+	struct ClangInvocationInfo
+	{
+		std::string invocation;
+		std::string errors;
+	};
+
 	// copied from clang codebase
 	clang::driver::Driver *newDriver(
 		clang::DiagnosticsEngine *Diagnostics, const char *BinaryName,
@@ -36,8 +42,10 @@ namespace
 	}
 
 	// copied and stitched together from clang codebase
-	std::string getClangInvocationString(const clang::tooling::CompilationDatabase* compilationDatabase)
+	ClangInvocationInfo getClangInvocationString(const clang::tooling::CompilationDatabase* compilationDatabase)
 	{
+		ClangInvocationInfo invocationInfo;
+
 		if (!compilationDatabase->getAllCompileCommands().empty())
 		{
 			std::vector<std::string> CommandLine = compilationDatabase->getAllCompileCommands().front().CommandLine;
@@ -52,8 +60,13 @@ namespace
 			llvm::opt::InputArgList ParsedArgs = Opts->ParseArgs(
 				clang::ArrayRef<const char *>(Argv).slice(1), MissingArgIndex, MissingArgCount);
 			clang::ParseDiagnosticArgs(*DiagOpts, ParsedArgs);
+
+			llvm::raw_string_ostream diagnosticsStream(invocationInfo.errors);
+			clang::TextDiagnosticPrinter DiagnosticPrinter(
+				diagnosticsStream, &*DiagOpts);
 			clang::DiagnosticsEngine Diagnostics(
-				clang::IntrusiveRefCntPtr<clang::DiagnosticIDs>(new clang::DiagnosticIDs()), &*DiagOpts);
+				clang::IntrusiveRefCntPtr<clang::DiagnosticIDs>(new clang::DiagnosticIDs()), &*DiagOpts,
+				&DiagnosticPrinter, false);
 
 			llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
 
@@ -63,16 +76,20 @@ namespace
 			Driver->setCheckInputsExist(false);
 			const std::unique_ptr<clang::driver::Compilation> Compilation(
 				Driver->BuildCompilation(llvm::makeArrayRef(Argv)));
+
 			if (Compilation)
 			{
-				std::string s;
-				llvm::raw_string_ostream ss(s);
+				llvm::raw_string_ostream ss(invocationInfo.invocation);
 				Compilation->getJobs().Print(ss, "", true);
 				ss.flush();
-				return utility::trim(s);
 			}
+
+			diagnosticsStream.flush();
+
+			invocationInfo.invocation = utility::trim(invocationInfo.invocation);
+			invocationInfo.errors = utility::trim(invocationInfo.errors);
 		}
-		return "";
+		return invocationInfo;
 	}
 
 	std::vector<std::string> prependSyntaxOnlyToolArgs(const std::vector<std::string>& args)
@@ -184,7 +201,12 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 
 	tool.setDiagnosticConsumer(diagnostics.get());
 
-	LOG_INFO("Clang Invocation: " + getClangInvocationString(compilationDatabase));
+	if (LogManager::getInstance()->getLoggingEnabled())
+	{
+		const ClangInvocationInfo info = getClangInvocationString(compilationDatabase);
+		LOG_INFO("Clang Invocation: " + info.invocation);
+		LOG_INFO("Clang Invocation errors: " + info.errors);
+	}
 
 	ASTActionFactory actionFactory(m_client, canonicalFilePathCache);
 	tool.run(&actionFactory);
