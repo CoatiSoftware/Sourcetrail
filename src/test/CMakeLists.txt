@@ -22,13 +22,14 @@ add_files(
 	GeneratorTestSuite.h
 	GraphTestSuite.h
 	LogManagerTestSuite.h
+	LowMemoryStringMapTestSuite.h
 	MatrixBaseTestSuite.h
 	MessageQueueTestSuite.h
 	NetworkProtocolHelperTestSuite.h
 	RefreshInfoGeneratorTestSuite.h
 	SearchIndexTestSuite.h
 	SettingsMigratorTestSuite.h
-    SettingsTestSuite.h
+	SettingsTestSuite.h
 	SharedMemoryTestSuite.h
 	SonargraphProjectTestSuite.h
 	SourceLocationCollectionTestSuite.h
@@ -43,6 +44,6 @@ add_files(
 	Vector2TestSuite.h
 
 # Java tests need to be executed last because of some linux related issues.
-    JavaParserTestSuite.h
+	JavaParserTestSuite.h
 	JavaIndexSampleProjectsTestSuite.h
 )

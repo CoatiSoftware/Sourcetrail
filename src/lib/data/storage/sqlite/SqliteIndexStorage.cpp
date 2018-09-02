@@ -24,9 +24,12 @@ size_t SqliteIndexStorage::getStaticVersion() const
 
 void SqliteIndexStorage::setMode(const StorageModeType mode)
 {
-	m_tempNodeIndex.clear();
+	m_tempNodeNameIndex.clear();
+	m_tempWNodeNameIndex.clear();
+	m_tempNodeTypes.clear();
 	m_tempEdgeIndex.clear();
-	m_tempLocalSymbolIndex.clear();
+	m_tempLocalSymbolNameIndex.clear();
+	m_tempWLocalSymbolNameIndex.clear();
 	m_tempSourceLocationIndices.clear();
 
 	std::vector<std::pair<int, SqliteDatabaseIndex>> indices = getIndices();
@@ -55,24 +58,45 @@ void SqliteIndexStorage::setProjectSettingsText(std::string text)
 
 StorageNode SqliteIndexStorage::addNode(const StorageNodeData& data)
 {
-	if (m_tempNodeIndex.empty())
+	if (m_tempNodeNameIndex.empty() && m_tempWNodeNameIndex.empty())
 	{
 		for (const StorageNode& node : getAll<StorageNode>())
 		{
-			m_tempNodeIndex.emplace(utility::encodeToUtf8(node.serializedName), std::make_pair(node.id, node.type));
+			std::string name = utility::encodeToUtf8(node.serializedName);
+			if (name.size() != node.serializedName.size())
+			{
+				m_tempWNodeNameIndex.add(node.serializedName, node.id);
+			}
+			else
+			{
+				m_tempNodeNameIndex.add(name, node.id);
+			}
+
+			m_tempNodeTypes.emplace(node.id, node.type);
 		}
 	}
 
 	std::string name = utility::encodeToUtf8(data.serializedName);
 	{
-		std::map<std::string, std::pair<Id, int>>::const_iterator it = m_tempNodeIndex.find(name);
-		if (it != m_tempNodeIndex.end())
+		Id nodeId;
+		if (name.size() != data.serializedName.size())
 		{
-			if (it->second.second < data.type)
+			nodeId = m_tempWNodeNameIndex.find(data.serializedName);
+		}
+		else
+		{
+			nodeId = m_tempNodeNameIndex.find(name);
+		}
+
+		if (nodeId)
+		{
+			auto it = m_tempNodeTypes.find(nodeId);
+			if (it != m_tempNodeTypes.end() && it->second < data.type)
 			{
-				setNodeType(data.type, it->second.first);
+				setNodeType(data.type, nodeId);
+				m_tempNodeTypes[nodeId] = data.type;
 			}
-			return StorageNode(it->second.first, data);
+			return StorageNode(nodeId, data);
 		}
 	}
 
@@ -90,7 +114,15 @@ StorageNode SqliteIndexStorage::addNode(const StorageNodeData& data)
 		m_inserNodeStmt.reset();
 	}
 
-	m_tempNodeIndex.emplace(name, std::make_pair(id, data.type));
+	if (name.size() != data.serializedName.size())
+	{
+		m_tempWNodeNameIndex.add(data.serializedName, id);
+	}
+	else
+	{
+		m_tempNodeNameIndex.add(name, id);
+	}
+	m_tempNodeTypes.emplace(id, data.type);
 
 	return StorageNode(id, data);
 }
@@ -187,20 +219,37 @@ StorageEdge SqliteIndexStorage::addEdge(const StorageEdgeData& data)
 
 StorageLocalSymbol SqliteIndexStorage::addLocalSymbol(const StorageLocalSymbolData& data)
 {
-	if (m_tempLocalSymbolIndex.empty())
+	if (m_tempLocalSymbolNameIndex.empty() && m_tempWLocalSymbolNameIndex.empty())
 	{
 		for (const StorageLocalSymbol& localSymbol : getAll<StorageLocalSymbol>())
 		{
-			m_tempLocalSymbolIndex.emplace(utility::encodeToUtf8(localSymbol.name), localSymbol.id);
+			std::string name = utility::encodeToUtf8(localSymbol.name);
+			if (name.size() != localSymbol.name.size())
+			{
+				m_tempWLocalSymbolNameIndex.add(localSymbol.name, localSymbol.id);
+			}
+			else
+			{
+				m_tempLocalSymbolNameIndex.add(name, localSymbol.id);
+			}
 		}
 	}
 
 	std::string name = utility::encodeToUtf8(data.name);
 	{
-		std::map<std::string, Id>::const_iterator it = m_tempLocalSymbolIndex.find(name);
-		if (it != m_tempLocalSymbolIndex.end())
+		Id localSymbolId;
+		if (name.size() != data.name.size())
 		{
-			return StorageLocalSymbol(it->second, data);
+			localSymbolId = m_tempWLocalSymbolNameIndex.find(data.name);
+		}
+		else
+		{
+			localSymbolId = m_tempLocalSymbolNameIndex.find(name);
+		}
+
+		if (localSymbolId)
+		{
+			return StorageLocalSymbol(localSymbolId, data);
 		}
 	}
 
@@ -217,7 +266,14 @@ StorageLocalSymbol SqliteIndexStorage::addLocalSymbol(const StorageLocalSymbolDa
 		m_inserLocalSymbolStmt.reset();
 	}
 
-	m_tempLocalSymbolIndex.emplace(name, id);
+	if (name.size() != data.name.size())
+	{
+		m_tempWLocalSymbolNameIndex.add(data.name, id);
+	}
+	else
+	{
+		m_tempLocalSymbolNameIndex.add(name, id);
+	}
 
 	return StorageLocalSymbol(id, data);
 }

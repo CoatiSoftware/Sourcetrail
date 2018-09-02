@@ -18,6 +18,7 @@
 #include "data/storage/type/StorageOccurrence.h"
 #include "data/storage/type/StorageSourceLocation.h"
 #include "data/storage/type/StorageSymbol.h"
+#include "utility/LowMemoryStringMap.h"
 #include "utility/types.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -215,10 +216,12 @@ private:
 		return ResultType();
 	}
 
-
-	std::map<std::string, std::pair<Id, int>> m_tempNodeIndex;
+	LowMemoryStringMap<std::string, Id, 0, 32> m_tempNodeNameIndex;
+	LowMemoryStringMap<std::wstring, Id, 0, 32> m_tempWNodeNameIndex;
+	std::map<Id, int> m_tempNodeTypes;
 	std::map<StorageEdgeData, Id> m_tempEdgeIndex;
-	std::map<std::string, Id> m_tempLocalSymbolIndex;
+	LowMemoryStringMap<std::string, Id, 0, 8> m_tempLocalSymbolNameIndex;
+	LowMemoryStringMap<std::wstring, Id, 0, 8> m_tempWLocalSymbolNameIndex;
 	std::map<Id, std::map<TempSourceLocation, Id>> m_tempSourceLocationIndices;
 
 	CppSQLite3Statement m_insertElementStmt;

@@ -586,6 +586,7 @@ add_files(
 	utility/AppPath.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
+	utility/LowMemoryStringMap.h
 	utility/Optional.h
 	utility/OrderedCache.h
 	utility/OsType.h
