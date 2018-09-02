@@ -1,5 +1,35 @@
 ### Changelog
 
+#### 2018.3.55
+released 2018-08-31
+
+* C/C++: Fixed crash on logging Clang invocation info with flags that throw errors (issue #617)
+* Plugin: Move window to the front when sending symbol via plugin (issue #605)
+* Java: Fixed crash on Windows if JVM tries to allocate too much memory
+* Java: Fixed loading dialogs shown in main window instead of project setup dialog for setup with gradle
+* Graph: Display bundle node count as pill instead of circle
+* Fixed crash that had a chance to occur when showing source files of cdb/cbp/sonargraph project during setup
+* Fixed source extensions not converted to lowercase (issue #614)
+* C/C++: fixed line of errors wrong when appearing after #line directives (issue #610)
+* Graph: Clear graph contents on overview (issue #609)
+* Windows: Fixed policy for finding Windows user data folder (issue #612)
+* C/C++: Fixed recording of multiple cxx anonymous namespaces within the same file
+* C/C++: Fixed files within indexed directories always refreshed in empty C/C++ source groups
+* Code: Don't show list of overriden methods when clicking overriding method
+* Code: Fixed local reference navigation not shown for edges when file content was not cached
+* Fixed crash related to update check when app was opened with a project
+* Tooltip: Fixed repeated signature name qualification and line breaks
+* Tooltip: Fixed app crash when signature location was wrongly recorded
+* Java: always record 'java.lang' as package
+* Java: Record all parent packages of an import declaration as packages
+* Code: Fixed code annotations missing in snippet mode for files with /r/n line endings
+* Java: Added support for annotations
+* C/C++: log Clang invocation with implicit and derived arguments
+* Indexer: Reduced copies in handling intermediate storage representation
+* Indexer: Don't shuffle file order for indexing
+* Indexer: Improved storing performance by optimizing insertion statements and indices
+
+
 #### 2018.3.13
 released 2018-08-07
 
