@@ -26,7 +26,7 @@ void SuffixArray::printArray() const
 {
 	std::cout << "Suffix Array : \n";
 	printArr(m_array);
-	for (int i = 0; i < m_array.size(); i++)
+	for (size_t i = 0; i < m_array.size(); i++)
 	{
 		std::wstring suffix = m_text.substr(m_array[i]);
 		std::wcout << i << ": \"" << suffix << "\"" << std::endl;
@@ -37,7 +37,7 @@ void SuffixArray::printLCP() const
 {
 	std::cout << "\nLCP Array : \n";
 	printArr(m_lcp);
-	for (int i = 0; i < m_array.size(); i++)
+	for (size_t i = 0; i < m_array.size(); i++)
 	{
 		std::wstring prefix = m_text.substr(m_array[i], m_lcp[i]);
 		std::wcout << i << ": \"" << prefix << "\"" << std::endl;

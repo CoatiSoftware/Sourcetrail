@@ -12,6 +12,8 @@ namespace Codeblocks
 			return "C";
 		case COMPILER_VAR_WINDRES:
 			return "WINDRES";
+		default:
+			break;
 		}
 		return "unknown";
 	}

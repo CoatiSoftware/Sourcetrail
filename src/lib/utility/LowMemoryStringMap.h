@@ -396,7 +396,7 @@ private:
 			idx++;
 
 			std::unique_ptr<Node> child = std::move(it->second);
-			const StringT& childStr = child->getString();
+			StringT childStr = child->getString();
 
 			auto p = std::mismatch(childStr.begin(), childStr.end(), str.begin() + idx);
 
@@ -471,7 +471,7 @@ private:
 
 		void print(StreamT& os, size_t depth) const override
 		{
-			const StringT& myStr = this->getString();
+			StringT myStr = this->getString();
 			if (myStr.size())
 			{
 				os << StringT(depth, ' ') << myStr << std::endl;
@@ -491,7 +491,7 @@ private:
 
 		std::unique_ptr<Branch> split(std::unique_ptr<Node> node, size_t idx) const
 		{
-			const StringT& str = node->getString();
+			StringT str = node->getString();
 			std::unique_ptr<Branch> frontBranch = createBranch(str.substr(0, idx));
 
 			CharT c(0);
