@@ -4,6 +4,7 @@
 #include "clang/Tooling/JSONCompilationDatabase.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/OrderedCache.h"
 
 std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
 {
@@ -21,14 +22,21 @@ std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath
 	std::vector<FilePath> filePaths;
 	if (cdb)
 	{
-		for (const clang::tooling::CompileCommand& command : cdb->getAllCompileCommands())
+		OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache([](const FilePath& path) { return path.getCanonical(); });
+
+		for (const std::string& fileString : cdb->getAllFiles())
 		{
-			FilePath path = FilePath(utility::decodeFromUtf8(command.Filename)).makeCanonical();
+			FilePath path = FilePath(utility::decodeFromUtf8(fileString));
 			if (!path.isAbsolute())
 			{
-				path = FilePath(utility::decodeFromUtf8(command.Directory + '/' + command.Filename)).makeCanonical();
+				std::vector<clang::tooling::CompileCommand> commands = cdb->getCompileCommands(fileString);
+				if (!commands.empty())
+				{
+					path = FilePath(utility::decodeFromUtf8(commands.front().Directory + '/' + commands.front().Filename));
+				}
 			}
-			filePaths.push_back(path);
+
+			filePaths.push_back(canonicalDirectoryPathCache.getValue(path.getParentDirectory()).concatenate(path.fileName()));
 		}
 	}
 	return filePaths;
@@ -50,13 +58,13 @@ IndexerCommandCxxCdb::IndexerCommandCxxCdb(
 	const std::vector<FilePath>& frameworkSearchPaths
 )
 	: IndexerCommandCxx(
-		sourceFilePath, 
-		indexedPaths, 
-		excludeFilters, 
-		includeFilters, 
-		workingDirectory, 
+		sourceFilePath,
+		indexedPaths,
+		excludeFilters,
+		includeFilters,
+		workingDirectory,
 		systemHeaderSearchPaths,
-		frameworkSearchPaths, 
+		frameworkSearchPaths,
 		compilerFlags)
 {
 }
