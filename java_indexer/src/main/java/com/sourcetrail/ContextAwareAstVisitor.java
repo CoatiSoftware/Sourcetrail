@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.CreationReference;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.ExpressionMethodReference;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.Javadoc;
@@ -41,6 +42,7 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChild(node.getJavadoc());
 			acceptChildren(node.modifiers());
 			acceptChild(node.getName());
@@ -52,6 +54,7 @@ public class ContextAwareAstVisitor extends AstVisitor
 				m_typeRefKind.pop();
 			}
 			acceptChildren(node.bodyDeclarations());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -64,6 +67,7 @@ public class ContextAwareAstVisitor extends AstVisitor
 
 		if (visitChildren)
 		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChild(node.getJavadoc());
 			acceptChildren(node.modifiers());
 			acceptChild(node.getName());
@@ -74,6 +78,7 @@ public class ContextAwareAstVisitor extends AstVisitor
 			}
 			acceptChildren(node.enumConstants());
 			acceptChildren(node.bodyDeclarations());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -88,10 +93,12 @@ public class ContextAwareAstVisitor extends AstVisitor
 		{
 			// we don't visit and record the name of enum constant declarations because 
 			// this would create an unwanted self-reference.
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChild(node.getJavadoc());
 			acceptChildren(node.modifiers());
 			acceptChildren(node.arguments());
 			acceptChild(node.getAnonymousClassDeclaration());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -106,12 +113,14 @@ public class ContextAwareAstVisitor extends AstVisitor
 		{
 			// we don't visit and record the name of field declarations because 
 			// this would create an unwanted self-reference.
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			if (!(node.getParent() instanceof FieldDeclaration))
 			{
 				acceptChild(node.getName());
 			}
 			acceptChildren(node.extraDimensions());
 			acceptChild(node.getInitializer());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -129,12 +138,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 	public boolean visit(ParameterizedType node)
 	{
 		boolean visitChildren = super.visit(node);
-
 		if (visitChildren)
 		{
 			acceptChild(node.getType());
 			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 				acceptChildren(node.typeArguments());
 				m_typeRefKind.pop();
 			}
@@ -151,8 +159,10 @@ public class ContextAwareAstVisitor extends AstVisitor
 
 		if (visitChildren)
 		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChildren(node.annotations());
 			acceptChild(node.getName());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -166,8 +176,10 @@ public class ContextAwareAstVisitor extends AstVisitor
 
 		if (visitChildren)
 		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChildren(node.annotations());
 			acceptChild(node.getName());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -180,14 +192,12 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChild(node.getExpression());
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			acceptChildren(node.typeArguments());
 			acceptChild(node.getName());
 			acceptChildren(node.arguments());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -201,13 +211,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
+			acceptChildren(node.typeArguments());
 			acceptChild(node.getName());
 			acceptChildren(node.arguments());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -220,12 +228,10 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
+			acceptChildren(node.typeArguments());
 			acceptChildren(node.arguments());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -238,13 +244,11 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChild(node.getExpression());
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			acceptChildren(node.typeArguments());
 			acceptChildren(node.arguments());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -258,11 +262,27 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
+			acceptChildren(node.typeArguments());
+			m_typeRefKind.pop();
+		}
+		
+		return false;
+	}
+
+	@Override 
+	public boolean visit(ExpressionMethodReference node)
+	{
+		// We don't want to visit qualifiers right now.
+		boolean visitChildren = super.visit(node);
+		
+		if (visitChildren)
+		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
+			acceptChild(node.getExpression());
+			acceptChildren(node.typeArguments());
+			acceptChild(node.getName());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -276,12 +296,10 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
+			acceptChildren(node.typeArguments());
 			acceptChild(node.getName());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -295,12 +313,10 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren) 
 		{
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
+			acceptChildren(node.typeArguments());
 			acceptChild(node.getName());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -313,12 +329,9 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		if (visitChildren)
 		{
+			m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
 			acceptChild(node.getExpression());
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
+			acceptChildren(node.typeArguments());
 			
 			if (node.getAnonymousClassDeclaration() != null)
 			{
@@ -333,6 +346,7 @@ public class ContextAwareAstVisitor extends AstVisitor
 			
 			acceptChildren(node.arguments());
 			acceptChild(node.getAnonymousClassDeclaration());
+			m_typeRefKind.pop();
 		}
 		
 		return false;
@@ -378,3 +392,4 @@ public class ContextAwareAstVisitor extends AstVisitor
 		}
 	}
 }
+
