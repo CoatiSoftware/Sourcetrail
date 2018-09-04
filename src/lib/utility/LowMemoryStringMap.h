@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <memory>
 
 /*
  * StringTraits
@@ -398,7 +399,7 @@ private:
 			std::unique_ptr<Node> child = std::move(it->second);
 			StringT childStr = child->getString();
 
-			auto p = std::mismatch(childStr.begin(), childStr.end(), str.begin() + idx);
+			auto p = std::mismatch(childStr.begin(), childStr.end(), str.begin() + idx, str.end());
 
 			if (p.first == childStr.end() && p.second == str.end())
 			{
