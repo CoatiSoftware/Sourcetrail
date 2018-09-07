@@ -1,0 +1,49 @@
+
+WINDOW
+	First launch - eula, license
+	About
+	Help Menu
+	dock widgets
+	title bars
+	overview - shortcut
+	window layout - save/reset
+	start window - recent projects, buttons, update check
+	screen search - graph, code
+	tooltips
+
+PROJECT SETUP
+	source groups - add, remove, copy, disable, rename
+	multi language
+	header search - validation and detection
+	global header detection
+	file endings
+	exclude - file, directory, wildcart
+	project location within subdirectory - e.g. indexed path = ../../src
+
+PREFERENCES
+	font size - shortcut
+	font face
+	color scheme
+	animations
+	built-in types
+	logging
+	update-check
+
+INDEXING
+	refresh types - shortcuts
+	errors - filter and limit
+
+BOOKMARKS
+	node
+	edge
+	from graph
+	work after close, restart
+	work after refresh
+	shortcuts
+
+CODE
+	show definition
+
+PLUGIN COMMUNICATION
+	from
+	to
