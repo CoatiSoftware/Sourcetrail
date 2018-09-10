@@ -192,7 +192,7 @@ namespace Codeblocks
 		return paths;
 	}
 
-	std::vector<std::shared_ptr<IndexerCommand>> Project::getIndexerCommands(
+	std::vector<std::shared_ptr<IndexerCommandCxx>> Project::getIndexerCommands(
 		std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> appSettings) const
 	{
@@ -240,7 +240,7 @@ namespace Codeblocks
 			return std::vector<FilePath>();
 		});
 
-		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
+		std::vector<std::shared_ptr<IndexerCommandCxx>> indexerCommands;
 		for (std::shared_ptr<Unit> unit : m_units)
 		{
 			if (!unit || !unit->getCompile())

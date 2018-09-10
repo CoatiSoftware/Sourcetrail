@@ -1,6 +1,7 @@
 #include "project/SourceGroupCxxCodeblocks.h"
 
-#include "data/indexer/IndexerCommand.h"
+#include "data/indexer/CxxIndexerCommandProvider.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxCodeblocks.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -76,22 +77,28 @@ std::set<FilePath> SourceGroupCxxCodeblocks::getAllSourceFilePaths() const
 	return sourceFilePaths;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCodeblocks::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCodeblocks::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
 {
-	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
+	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
+
 	if (std::shared_ptr<Codeblocks::Project> project = Codeblocks::Project::load(
 		m_settings->getCodeblocksProjectPathExpandedAndAbsolute()
 	))
 	{
-		for (std::shared_ptr<IndexerCommand> indexerCommand: project->getIndexerCommands(m_settings, ApplicationSettings::getInstance()))
+		for (std::shared_ptr<IndexerCommandCxx> indexerCommand: project->getIndexerCommands(m_settings, ApplicationSettings::getInstance()))
 		{
 			if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
 			{
-				indexerCommands.push_back(indexerCommand);
+				provider->addCommand(indexerCommand);
 			}
 		}
 	}
-	return indexerCommands;
+	return provider;
+}
+
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCodeblocks::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+{
+	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxCodeblocks::getSourceGroupSettings()

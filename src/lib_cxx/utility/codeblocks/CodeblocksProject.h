@@ -8,7 +8,7 @@
 
 class ApplicationSettings;
 class FilePath;
-class IndexerCommand;
+class IndexerCommandCxx;
 class SourceGroupSettingsCxxCodeblocks;
 class SourceGroupSettingsWithSourceExtensions;
 class TextAccess;
@@ -32,7 +32,7 @@ namespace Codeblocks
 		) const;
 		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
 
-		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
+		std::vector<std::shared_ptr<IndexerCommandCxx>> getIndexerCommands(
 			std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> sourceGroupSettings,
 			std::shared_ptr<const ApplicationSettings> appSettings) const;
 

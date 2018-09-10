@@ -1,6 +1,7 @@
 #include "project/SourceGroupCxxSonargraph.h"
 
-#include "data/indexer/IndexerCommand.h"
+#include "data/indexer/CxxIndexerCommandProvider.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -64,22 +65,30 @@ std::set<FilePath> SourceGroupCxxSonargraph::getAllSourceFilePaths() const
 	return sourceFilePaths;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxSonargraph::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroupCxxSonargraph::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
 {
-	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
+	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 	if (std::shared_ptr<Sonargraph::Project> project = Sonargraph::Project::load(
 		m_settings->getSonargraphProjectPathExpandedAndAbsolute(), getLanguage()
 	))
 	{
 		for (std::shared_ptr<IndexerCommand> indexerCommand : project->getIndexerCommands(m_settings, ApplicationSettings::getInstance()))
 		{
-			if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
+			if (std::shared_ptr<IndexerCommandCxx> indexerCommandCxx = std::dynamic_pointer_cast<IndexerCommandCxx>(indexerCommand))
 			{
-				indexerCommands.push_back(indexerCommand);
+				if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
+				{
+					provider->addCommand(indexerCommandCxx);
+				}
 			}
 		}
 	}
-	return indexerCommands;
+	return provider;
+}
+
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxSonargraph::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+{
+	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxSonargraph::getSourceGroupSettings()
