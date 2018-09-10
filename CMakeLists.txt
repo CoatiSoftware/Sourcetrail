@@ -131,14 +131,14 @@ else()
 	STRING(REGEX REPLACE "\\\\" "/" BOOST_LIBRARYDIR ${BOOST_LIBRARYDIR})
 
 	if(${WINXXBITS} STREQUAL "Win32")
-		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib32-msvc-14")
+		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib32-msvc-14.0")
 	else()
-		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib64-msvc-14")
+		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib64-msvc-14.0")
 	endif()
 	set(Boost_NO_SYSTEM_PATHS ON)
 endif()
 
-find_package(Boost 1.64 COMPONENTS system program_options filesystem date_time REQUIRED)
+find_package(Boost 1.68 COMPONENTS system program_options filesystem date_time REQUIRED)
 
 
 # Botan ------------------------------------------------------------------------

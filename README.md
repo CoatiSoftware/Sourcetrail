@@ -8,7 +8,7 @@
 * QT 5.10.1
 * CxxTest 4.3
 * Clang & LLVM 6.0 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
-* Boost 1.64
+* Boost 1.68
 * Botan 2.1.0
 * Image Magick 7.0.6
 * ccache (Unix)
@@ -54,7 +54,7 @@ Execute Cmake twice (once for each target compiler (32 and 64 bit)). Set the res
 ##### Boost setup
 
 For Windows:
-Build the Boost libs for 32 and 64 bit. Make sure that the platform specific libs are located in ${BOOST_DIR}/lib32-msvc-14 and ${BOOST_DIR}/lib64-msvc-14.
+Build the Boost libs for 32 and 64 bit. Make sure that the platform specific libs are located in ${BOOST_DIR}/lib32-msvc-14.0 and ${BOOST_DIR}/lib64-msvc-14.0.
 
 For Mac:
 $ ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time
