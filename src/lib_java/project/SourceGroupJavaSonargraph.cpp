@@ -76,7 +76,7 @@ std::set<FilePath> SourceGroupJavaSonargraph::getAllSourceFilePaths() const
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJavaSonargraph::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-	
+
 	if (std::shared_ptr<Sonargraph::Project> project = Sonargraph::Project::load(
 		m_settings->getSonargraphProjectPathExpandedAndAbsolute(), getLanguage()
 	))

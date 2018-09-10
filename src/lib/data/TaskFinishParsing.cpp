@@ -89,17 +89,13 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 
 	MessageIndexingStatus(false).dispatch();
 
+	if (policy == DATABASE_POLICY_KEEP)
 	{
-		std::lock_guard<std::mutex> lock(blackboard->getMutex());
-
-		if (policy == DATABASE_POLICY_KEEP)
-		{
-			blackboard->set("keep_database", true);
-		}
-		else if (policy == DATABASE_POLICY_DISCARD)
-		{
-			blackboard->set("discard_database", true);
-		}
+		blackboard->set("keep_database", true);
+	}
+	else if (policy == DATABASE_POLICY_DISCARD)
+	{
+		blackboard->set("discard_database", true);
 	}
 
 	return STATE_SUCCESS;

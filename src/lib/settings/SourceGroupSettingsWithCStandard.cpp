@@ -2,9 +2,9 @@
 
 #include "settings/ProjectSettings.h"
 
-std::string SourceGroupSettingsWithCStandard::getDefaultCStandardStatic()
+std::wstring SourceGroupSettingsWithCStandard::getDefaultCStandardStatic()
 {
-	return "c11";
+	return L"c11";
 }
 
 bool SourceGroupSettingsWithCStandard::equals(std::shared_ptr<SourceGroupSettingsWithCStandard> other) const
@@ -17,7 +17,7 @@ bool SourceGroupSettingsWithCStandard::equals(std::shared_ptr<SourceGroupSetting
 
 void SourceGroupSettingsWithCStandard::load(std::shared_ptr<const ConfigManager> config, const std::string& key)
 {
-	setCStandard(config->getValueOrDefault<std::string>(key + "/c_standard", ""));
+	setCStandard(config->getValueOrDefault<std::wstring>(key + "/c_standard", L""));
 }
 
 void SourceGroupSettingsWithCStandard::save(std::shared_ptr<ConfigManager> config, const std::string& key)
@@ -25,7 +25,7 @@ void SourceGroupSettingsWithCStandard::save(std::shared_ptr<ConfigManager> confi
 	config->setValue(key + "/c_standard", getCStandard());
 }
 
-std::string SourceGroupSettingsWithCStandard::getCStandard() const
+std::wstring SourceGroupSettingsWithCStandard::getCStandard() const
 {
 	if (m_cStandard.empty())
 	{
@@ -34,30 +34,30 @@ std::string SourceGroupSettingsWithCStandard::getCStandard() const
 	return m_cStandard;
 }
 
-void SourceGroupSettingsWithCStandard::setCStandard(const std::string& standard)
+void SourceGroupSettingsWithCStandard::setCStandard(const std::wstring& standard)
 {
 	m_cStandard = standard;
 }
 
-std::vector<std::string> SourceGroupSettingsWithCStandard::getAvailableCStandards() const
+std::vector<std::wstring> SourceGroupSettingsWithCStandard::getAvailableCStandards() const
 {
 	return {
-		"c11",
-		"gnu11",
-		"iso9899:2011",
-		"c99",
-		"gnu99",
-		"iso9899:1999",
-		"iso9899:199409",
-		"c90",
-		"gnu90",
-		"iso9899:1990",
-		"c89",
-		"gnu89"
+		L"c11",
+		L"gnu11",
+		L"iso9899:2011",
+		L"c99",
+		L"gnu99",
+		L"iso9899:1999",
+		L"iso9899:199409",
+		L"c90",
+		L"gnu90",
+		L"iso9899:1990",
+		L"c89",
+		L"gnu89"
 	};
 }
 
-std::string SourceGroupSettingsWithCStandard::getDefaultCStandard() const
+std::wstring SourceGroupSettingsWithCStandard::getDefaultCStandard() const
 {
 	return getDefaultCStandardStatic();
 }

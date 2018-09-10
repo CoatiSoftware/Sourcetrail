@@ -1,7 +1,6 @@
 #include "SharedIndexerCommand.h"
 
-#include "data/indexer/IndexerCommandCxxCdb.h"
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "data/indexer/IndexerCommandJava.h"
 
 #include "utility/logging/logging.h"
@@ -11,29 +10,15 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 {
 	setSourceFilePath(indexerCommand->getSourceFilePath());
 
-	if (dynamic_cast<IndexerCommandCxxCdb*>(indexerCommand) != nullptr)
+	if (dynamic_cast<IndexerCommandCxx*>(indexerCommand) != nullptr)
 	{
-		IndexerCommandCxxCdb* cmd = dynamic_cast<IndexerCommandCxxCdb*>(indexerCommand);
+		IndexerCommandCxx* cmd = dynamic_cast<IndexerCommandCxx*>(indexerCommand);
 
-		setType(CXX_CDB);
+		setType(CXX);
 		setIndexedPaths(cmd->getIndexedPaths());
 		setExcludeFilters(cmd->getExcludeFilters());
 		setIncludeFilters(cmd->getIncludeFilters());
 		setWorkingDirectory(cmd->getWorkingDirectory());
-		setCompilerFlags(cmd->getCompilerFlags());
-		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
-		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
-	}
-	else if (dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand) != nullptr)
-	{
-		IndexerCommandCxxEmpty* cmd = dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand);
-
-		setType(CXX_EMPTY);
-		setIndexedPaths(cmd->getIndexedPaths());
-		setExcludeFilters(cmd->getExcludeFilters());
-		setIncludeFilters(cmd->getIncludeFilters());
-		setWorkingDirectory(cmd->getWorkingDirectory());
-		setLanguageStandard(cmd->getLanguageStandard());
 		setCompilerFlags(cmd->getCompilerFlags());
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
@@ -49,7 +34,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 	else
 	{
 		LOG_ERROR(L"Trying to push unhandled type of IndexerCommand for file: " +
-			indexerCommand->getSourceFilePath().wstr() + L". Type string is: " + 
+			indexerCommand->getSourceFilePath().wstr() + L". Type string is: " +
 			utility::decodeFromUtf8(indexerCommandTypeToString(indexerCommand->getIndexerCommandType())) +
 			L". It will be ignored.");
 	}
@@ -57,23 +42,9 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 
 std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedIndexerCommand& indexerCommand)
 {
-	if (indexerCommand.getType() == CXX_CDB)
+	if (indexerCommand.getType() == CXX)
 	{
-		std::shared_ptr<IndexerCommand> command = std::make_shared<IndexerCommandCxxCdb>(
-			indexerCommand.getSourceFilePath(),
-			indexerCommand.getIndexedPaths(),
-			indexerCommand.getExcludeFilters(),
-			indexerCommand.getIncludeFilters(),
-			indexerCommand.getWorkingDirectory(),
-			indexerCommand.getCompilerFlags(),
-			indexerCommand.getSystemHeaderSearchPaths(),
-			indexerCommand.getFrameworkSearchhPaths()
-		);
-		return command;
-	}
-	else if (indexerCommand.getType() == CXX_EMPTY)
-	{
-		std::shared_ptr<IndexerCommand> command = std::make_shared<IndexerCommandCxxEmpty>(
+		std::shared_ptr<IndexerCommand> command = std::make_shared<IndexerCommandCxx>(
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getIndexedPaths(),
 			indexerCommand.getExcludeFilters(),
@@ -81,8 +52,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getWorkingDirectory(),
 			indexerCommand.getSystemHeaderSearchPaths(),
 			indexerCommand.getFrameworkSearchhPaths(),
-			indexerCommand.getCompilerFlags(),
-			indexerCommand.getLanguageStandard()
+			indexerCommand.getCompilerFlags()
 		);
 		return command;
 	}
@@ -215,14 +185,14 @@ void SharedIndexerCommand::setWorkingDirectory(const FilePath& workingDirectory)
 	m_workingDirectory = utility::encodeToUtf8(workingDirectory.wstr()).c_str();
 }
 
-std::string SharedIndexerCommand::getLanguageStandard() const
+std::wstring SharedIndexerCommand::getLanguageStandard() const
 {
-	return m_languageStandard.c_str();
+	return utility::decodeFromUtf8(m_languageStandard.c_str());
 }
 
-void SharedIndexerCommand::setLanguageStandard(const std::string& languageStandard)
+void SharedIndexerCommand::setLanguageStandard(const std::wstring& languageStandard)
 {
-	m_languageStandard = languageStandard.c_str();
+	m_languageStandard = utility::encodeToUtf8(languageStandard).c_str();
 }
 
 std::vector<std::wstring> SharedIndexerCommand::getCompilerFlags() const

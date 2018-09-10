@@ -11,17 +11,17 @@ class ProjectSettings;
 class SourceGroupSettingsWithCppStandard
 {
 public:
-	static std::string getDefaultCppStandardStatic();
+	static std::wstring getDefaultCppStandardStatic();
 
 	SourceGroupSettingsWithCppStandard() = default;
 	virtual ~SourceGroupSettingsWithCppStandard() = default;
 
 	bool equals(std::shared_ptr<SourceGroupSettingsWithCppStandard> other) const;
 
-	std::string getCppStandard() const;
-	void setCppStandard(const std::string& standard);
+	std::wstring getCppStandard() const;
+	void setCppStandard(const std::wstring& standard);
 
-	std::vector<std::string> getAvailableCppStandards() const;
+	std::vector<std::wstring> getAvailableCppStandards() const;
 
 protected:
 	void load(std::shared_ptr<const ConfigManager> config, const std::string& key);
@@ -29,9 +29,9 @@ protected:
 
 private:
 	virtual const ProjectSettings* getProjectSettings() const = 0;
-	std::string getDefaultCppStandard() const;
+	std::wstring getDefaultCppStandard() const;
 
-	std::string m_cppStandard;
+	std::wstring m_cppStandard;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_WITH_CPP_STANDARD_H

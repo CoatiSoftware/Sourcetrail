@@ -4,7 +4,7 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "data/parser/cxx/CxxParser.h"
 
 #include "helper/TestFileRegister.h"
@@ -4116,17 +4116,17 @@ public:
 		const std::set<FilePathFilter> excludeFilters;
 		const std::set<FilePathFilter> includeFilters;
 		const FilePath workingDirectory(L".");
+		const FilePath sourceFilePath(L"data/CxxParserTestSuite/code.cpp");
 
-		std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand = std::make_shared<IndexerCommandCxxEmpty>(
-			FilePath(L"data/CxxParserTestSuite/code.cpp"),
+		std::shared_ptr<IndexerCommandCxx> indexerCommand = std::make_shared<IndexerCommandCxx>(
+			sourceFilePath,
 			indexedPaths,
 			excludeFilters,
 			includeFilters,
 			workingDirectory,
 			std::vector<FilePath>(),
 			std::vector<FilePath>(),
-			std::vector<std::wstring>(),
-			"c++1z"
+			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc", L"-std=c++1z", sourceFilePath.wstr() }
 		);
 
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();

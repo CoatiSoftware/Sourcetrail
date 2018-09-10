@@ -2,9 +2,9 @@
 
 #include "settings/ProjectSettings.h"
 
-std::string SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic()
+std::wstring SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic()
 {
-	return "c++17";
+	return L"c++17";
 }
 
 bool SourceGroupSettingsWithCppStandard::equals(std::shared_ptr<SourceGroupSettingsWithCppStandard> other) const
@@ -17,7 +17,7 @@ bool SourceGroupSettingsWithCppStandard::equals(std::shared_ptr<SourceGroupSetti
 
 void SourceGroupSettingsWithCppStandard::load(std::shared_ptr<const ConfigManager> config, const std::string& key)
 {
-	setCppStandard(config->getValueOrDefault<std::string>(key + "/cpp_standard", ""));
+	setCppStandard(config->getValueOrDefault<std::wstring>(key + "/cpp_standard", L""));
 }
 
 void SourceGroupSettingsWithCppStandard::save(std::shared_ptr<ConfigManager> config, const std::string& key)
@@ -25,7 +25,7 @@ void SourceGroupSettingsWithCppStandard::save(std::shared_ptr<ConfigManager> con
 	config->setValue(key + "/cpp_standard", getCppStandard());
 }
 
-std::string SourceGroupSettingsWithCppStandard::getCppStandard() const
+std::wstring SourceGroupSettingsWithCppStandard::getCppStandard() const
 {
 	if (m_cppStandard.empty())
 	{
@@ -34,30 +34,30 @@ std::string SourceGroupSettingsWithCppStandard::getCppStandard() const
 	return m_cppStandard;
 }
 
-void SourceGroupSettingsWithCppStandard::setCppStandard(const std::string& standard)
+void SourceGroupSettingsWithCppStandard::setCppStandard(const std::wstring& standard)
 {
 	m_cppStandard = standard;
 }
 
-std::vector<std::string> SourceGroupSettingsWithCppStandard::getAvailableCppStandards() const
+std::vector<std::wstring> SourceGroupSettingsWithCppStandard::getAvailableCppStandards() const
 {
 	return {
-		"c++2a",
-		"gnu++2a",
-		"c++17",
-		"gnu++17",
-		"c++14",
-		"gnu++14",
-		"c++11",
-		"gnu++11",
-		"c++03",
-		"gnu++03",
-		"c++98",
-		"gnu++98"
+		L"c++2a",
+		L"gnu++2a",
+		L"c++17",
+		L"gnu++17",
+		L"c++14",
+		L"gnu++14",
+		L"c++11",
+		L"gnu++11",
+		L"c++03",
+		L"gnu++03",
+		L"c++98",
+		L"gnu++98"
 	};
 }
 
-std::string SourceGroupSettingsWithCppStandard::getDefaultCppStandard() const
+std::wstring SourceGroupSettingsWithCppStandard::getDefaultCppStandard() const
 {
 	return getDefaultCppStandardStatic();
 }

@@ -2,9 +2,9 @@
 
 #include "settings/ProjectSettings.h"
 
-std::string SourceGroupSettingsWithJavaStandard::getDefaultJavaStandardStatic()
+std::wstring SourceGroupSettingsWithJavaStandard::getDefaultJavaStandardStatic()
 {
-	return "8";
+	return L"8";
 }
 
 bool SourceGroupSettingsWithJavaStandard::equals(std::shared_ptr<SourceGroupSettingsWithJavaStandard> other) const
@@ -17,7 +17,7 @@ bool SourceGroupSettingsWithJavaStandard::equals(std::shared_ptr<SourceGroupSett
 
 void SourceGroupSettingsWithJavaStandard::load(std::shared_ptr<const ConfigManager> config, const std::string& key)
 {
-	setJavaStandard(config->getValueOrDefault<std::string>(key + "/java_standard", ""));
+	setJavaStandard(config->getValueOrDefault<std::wstring>(key + "/java_standard", L""));
 }
 
 void SourceGroupSettingsWithJavaStandard::save(std::shared_ptr<ConfigManager> config, const std::string& key)
@@ -25,7 +25,7 @@ void SourceGroupSettingsWithJavaStandard::save(std::shared_ptr<ConfigManager> co
 	config->setValue(key + "/java_standard", getJavaStandard());
 }
 
-std::string SourceGroupSettingsWithJavaStandard::getJavaStandard() const
+std::wstring SourceGroupSettingsWithJavaStandard::getJavaStandard() const
 {
 	if (m_javaStandard.empty())
 	{
@@ -34,17 +34,17 @@ std::string SourceGroupSettingsWithJavaStandard::getJavaStandard() const
 	return m_javaStandard;
 }
 
-void SourceGroupSettingsWithJavaStandard::setJavaStandard(const std::string& standard)
+void SourceGroupSettingsWithJavaStandard::setJavaStandard(const std::wstring& standard)
 {
 	m_javaStandard = standard;
 }
 
-std::vector<std::string> SourceGroupSettingsWithJavaStandard::getAvailableJavaStandards() const
+std::vector<std::wstring> SourceGroupSettingsWithJavaStandard::getAvailableJavaStandards() const
 {
-	return {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	return {L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9", L"10"};
 }
 
-std::string SourceGroupSettingsWithJavaStandard::getDefaultJavaStandard() const
+std::wstring SourceGroupSettingsWithJavaStandard::getDefaultJavaStandard() const
 {
 	return getDefaultJavaStandardStatic();
 }

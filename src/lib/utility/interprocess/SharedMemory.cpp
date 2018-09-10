@@ -32,6 +32,11 @@ size_t SharedMemory::ScopedAccess::getFreeMemorySize() const
 	return m_memory.get_free_memory();
 }
 
+size_t SharedMemory::ScopedAccess::getUsedMemorySize() const
+{
+	return getMemorySize() - getFreeMemorySize();
+}
+
 void SharedMemory::ScopedAccess::growMemory(size_t size)
 {
 	m_memory = boost::interprocess::managed_shared_memory();
@@ -46,8 +51,8 @@ std::string SharedMemory::ScopedAccess::logString() const
 	std::string log = m_memoryName + " -";
 	log += " size: " + std::to_string(getMemorySize());
 	log += " free: " + std::to_string(getFreeMemorySize());
-	log += " used: " + std::to_string(getMemorySize() - getFreeMemorySize());
-	log += " pct: " + std::to_string(100 - int(float(getFreeMemorySize()) / getMemorySize() * 100));
+	log += " used: " + std::to_string(getUsedMemorySize());
+	log += " used pct: " + std::to_string(100 - int(float(getFreeMemorySize()) / getMemorySize() * 100));
 	return log;
 }
 

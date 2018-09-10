@@ -2,7 +2,7 @@
 
 #include "tinyxml/tinyxml.h"
 
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/LanguageType.h"
 #include "settings/SourceGroupSettings.h"
@@ -129,14 +129,14 @@ namespace Sonargraph
 		std::set<std::wstring> usedCompilerOptions;
 		for (Id compilerOptionSetId : usedCompilerOptionSetIds)
 		{
-			for (std::shared_ptr<const XsdCppSystemSettings> systemExtension : 
+			for (std::shared_ptr<const XsdCppSystemSettings> systemExtension :
 				softwareSystem->getSpecificSystemExtensions<XsdCppSystemSettings>()
 			)
 			{
 				if (systemExtension->hasCompilerOptionsForId(compilerOptionSetId))
 				{
 					utility::append(
-						usedCompilerOptions, 
+						usedCompilerOptions,
 						utility::toSet(systemExtension->getCompilerOptionsForId(compilerOptionSetId))
 					);
 					break;
@@ -186,7 +186,7 @@ namespace Sonargraph
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
 		std::set<FilePath> indexedHeaderPaths;
-		std::string languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
+		std::wstring languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
 
 		if (std::shared_ptr<const SourceGroupSettingsCxxSonargraph> sonargraphSettings =
 			std::dynamic_pointer_cast<const SourceGroupSettingsCxxSonargraph>(sourceGroupSettings))
@@ -196,8 +196,8 @@ namespace Sonargraph
 		}
 		else
 		{
-			LOG_ERROR("Source group doesn't specify language standard. Falling back to \"" + languageStandard + "\".");
-			LOG_ERROR("Source group doesn't specify any indexed header paths");
+			LOG_ERROR(L"Source group doesn't specify language standard. Falling back to \"" + languageStandard + L"\".");
+			LOG_ERROR(L"Source group doesn't specify any indexed header paths");
 		}
 
 		const std::vector<FilePath> systemHeaderSearchPaths = (appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>());
@@ -216,7 +216,7 @@ namespace Sonargraph
 		for (std::shared_ptr<XsdRootPathWithFiles> rootPath : m_rootPathWithFiles)
 		{
 			utility::append(indexerCommands, getIndexerCommandsForRootPath(
-				rootPath, indexedHeaderPaths ,languageStandard, systemHeaderSearchPaths, frameworkSearchPaths
+				rootPath, indexedHeaderPaths, languageStandard, systemHeaderSearchPaths, frameworkSearchPaths
 			));
 		}
 
@@ -251,8 +251,8 @@ namespace Sonargraph
 
 	std::vector<XsdRootPathWithFiles::SourceFile> XsdCmakeJsonModule::getIncludedSourceFilesForRootPath(
 		std::shared_ptr<XsdRootPath> rootPath,
-		const FilePath& baseDir, 
-		const std::set<FilePathFilter>& excludeFilters, 
+		const FilePath& baseDir,
+		const std::set<FilePathFilter>& excludeFilters,
 		const std::set<FilePathFilter>& includeFilters) const
 	{
 		std::vector<XsdRootPathWithFiles::SourceFile> sourceFiles;
@@ -294,7 +294,7 @@ namespace Sonargraph
 	std::vector<std::shared_ptr<IndexerCommand>> XsdCmakeJsonModule::getIndexerCommandsForRootPath(
 		std::shared_ptr<XsdRootPathWithFiles> rootPath,
 		const std::set<FilePath>& indexedHeaderPaths,
-		const std::string& languageStandard,
+		const std::wstring& languageStandard,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths) const
 	{
@@ -331,7 +331,7 @@ namespace Sonargraph
 				)
 			{
 				const FilePath sourceFilePath = sourceFile.getFilePath(baseDir).makeCanonical();
-				indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
+				indexerCommands.push_back(std::make_shared<IndexerCommandCxx>(
 					sourceFilePath,
 					utility::concat(indexedHeaderPaths, { sourceFilePath }),
 					excludeFilters,
@@ -339,8 +339,13 @@ namespace Sonargraph
 					softwareSystem->getBaseDirectory(),
 					systemHeaderSearchPaths,
 					frameworkSearchPaths,
-					compilerOptionCache.getValue(sourceFile.compilerOptionSetId),
-					languageStandard
+					utility::concat(
+						compilerOptionCache.getValue(sourceFile.compilerOptionSetId),
+						{
+							L"-std=" + languageStandard,
+							sourceFilePath.wstr()
+						}
+					)
 				));
 			}
 		}

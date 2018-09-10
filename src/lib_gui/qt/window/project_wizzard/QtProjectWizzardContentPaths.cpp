@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 
 #include "component/view/DialogView.h"
-#include "data/indexer/IndexerCommandCxxCdb.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "project/SourceGroupCxxEmpty.h"
 #include "project/SourceGroupJavaEmpty.h"
 #include "qt/view/QtDialogView.h"
@@ -354,7 +354,7 @@ std::vector<FilePath> QtProjectWizzardContentIndexedHeaderPaths::getIndexedPaths
 		const FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
 		if (!cdbPath.empty() && cdbPath.exists())
 		{
-			for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
+			for (const FilePath& path : IndexerCommandCxx::getSourceFilesFromCDB(cdbPath))
 			{
 				indexedHeaderPaths.insert(path.getCanonical().getParentDirectory());
 			}

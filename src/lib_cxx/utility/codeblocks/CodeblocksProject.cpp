@@ -2,7 +2,7 @@
 
 #include "tinyxml/tinyxml.h"
 
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxCodeblocks.h"
 #include "utility/codeblocks/CodeblocksCompiler.h"
@@ -254,7 +254,7 @@ namespace Codeblocks
 				continue;
 			}
 
-			std::string languageStandard;
+			std::wstring languageStandard;
 			switch (unit->getCompilerVar())
 			{
 			case COMPILER_VAR_C:
@@ -267,9 +267,11 @@ namespace Codeblocks
 				continue;
 			}
 
+			const std::vector<std::wstring> compilerFlagsWithStandard = utility::concat(compilerFlags, { L"-std=" + languageStandard });
+
 			for (const std::wstring& targetName : unit->getTargetNames())
 			{
-				indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
+				indexerCommands.push_back(std::make_shared<IndexerCommandCxx>(
 					filePath,
 					utility::concat(indexedHeaderPaths, { filePath }),
 					excludeFilters,
@@ -277,8 +279,7 @@ namespace Codeblocks
 					sourceGroupSettings->getCodeblocksProjectPathExpandedAndAbsolute().getParentDirectory(),
 					utility::concat(systemHeaderSearchPaths, headerSearchPathsCache.getValue(targetName)),
 					frameworkSearchPaths,
-					utility::concat(compilerFlags, optionsCache.getValue(targetName)),
-					languageStandard
+					utility::concat(utility::concat(optionsCache.getValue(targetName), compilerFlagsWithStandard), { filePath.wstr() })
 				));
 			}
 		}

@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "data/indexer/IndexerCommandJava.h"
 #include "project/SourceGroupJavaSonargraph.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
@@ -146,13 +146,13 @@ public:
 		return TextAccess::createFromString(utility::encodeToUtf8(outputString));
 	}
 
-	std::wstring indexerCommandToString(std::shared_ptr<const IndexerCommand> indexerCommand, const FilePath& baseDirectory)
+	std::wstring indexerCommandToString(std::shared_ptr<IndexerCommand> indexerCommand, const FilePath& baseDirectory)
 	{
 		if (indexerCommand)
 		{
-			if (std::shared_ptr<const IndexerCommandCxxEmpty> indexerCommandCxxEmpty = std::dynamic_pointer_cast<const IndexerCommandCxxEmpty>(indexerCommand))
+			if (std::shared_ptr<const IndexerCommandCxx> indexerCommandCxx = std::dynamic_pointer_cast<const IndexerCommandCxx>(indexerCommand))
 			{
-				return indexerCommandCxxEmptyToString(indexerCommandCxxEmpty, baseDirectory);
+				return indexerCommandCxxToString(indexerCommandCxx, baseDirectory);
 			}
 			if (std::shared_ptr<const IndexerCommandJava> indexerCommandJava = std::dynamic_pointer_cast<const IndexerCommandJava>(indexerCommand))
 			{
@@ -163,11 +163,10 @@ public:
 		return L"No IndexerCommand provided.";
 	}
 
-	std::wstring indexerCommandCxxEmptyToString(std::shared_ptr<const IndexerCommandCxxEmpty> indexerCommand, const FilePath& baseDirectory)
+	std::wstring indexerCommandCxxToString(std::shared_ptr<const IndexerCommandCxx> indexerCommand, const FilePath& baseDirectory)
 	{
 		std::wstring result;
 		result += L"SourceFilePath: \"" + indexerCommand->getSourceFilePath().getRelativeTo(baseDirectory).wstr() + L"\"\n";
-		result += L"\tLanguageStandard: \"" + utility::decodeFromUtf8(indexerCommand->getLanguageStandard()) + L"\"\n";
 		for (const FilePath& indexedPath : indexerCommand->getIndexedPaths())
 		{
 			result += L"\tIndexedPath: \"" + indexedPath.getRelativeTo(baseDirectory).wstr() + L"\"\n";
@@ -196,7 +195,7 @@ public:
 	{
 		std::wstring result;
 		result += L"SourceFilePath: \"" + indexerCommand->getSourceFilePath().getRelativeTo(baseDirectory).wstr() + L"\"\n";
-		result += L"\tLanguageStandard: \"" + utility::decodeFromUtf8(indexerCommand->getLanguageStandard()) + L"\"\n";
+		result += L"\tLanguageStandard: \"" + indexerCommand->getLanguageStandard() + L"\"\n";
 		for (const FilePath& classPathItem : indexerCommand->getClassPath())
 		{
 			result += L"\tClassPathItem: \"" + classPathItem.getRelativeTo(baseDirectory).wstr() + L"\"\n";

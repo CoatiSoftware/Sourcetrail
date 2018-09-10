@@ -10,7 +10,6 @@ class IndexerJava: public Indexer<IndexerCommandJava>
 {
 public:
 	virtual ~IndexerJava();
-
 	virtual std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<IndexerCommandJava> indexerCommand);
 };
 

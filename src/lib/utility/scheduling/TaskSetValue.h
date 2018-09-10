@@ -36,7 +36,6 @@ void TaskSetValue<T>::doEnter(std::shared_ptr<Blackboard> blackboard)
 template <typename T>
 Task::TaskState TaskSetValue<T>::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	std::lock_guard<std::mutex> lock(blackboard->getMutex());
 	blackboard->set<T>(m_valueName, m_value);
 	return STATE_SUCCESS;
 }

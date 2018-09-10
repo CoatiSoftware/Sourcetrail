@@ -13,7 +13,6 @@ void TaskFindValue::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskFindValue::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	std::lock_guard<std::mutex> lock(blackboard->getMutex());
 	return (blackboard->exists(m_valueName)) ? STATE_SUCCESS : STATE_FAILURE;
 }
 

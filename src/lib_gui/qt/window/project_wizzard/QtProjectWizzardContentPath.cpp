@@ -6,7 +6,6 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
-#include "data/indexer/IndexerCommandCxxCdb.h"
 #include "project/SourceGroupCxxCdb.h"
 #include "project/SourceGroupCxxCodeblocks.h"
 #include "project/SourceGroupCxxSonargraph.h"

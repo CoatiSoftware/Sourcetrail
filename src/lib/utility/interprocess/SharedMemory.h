@@ -59,6 +59,7 @@ public:
 
 		size_t getMemorySize() const;
 		size_t getFreeMemorySize() const;
+		size_t getUsedMemorySize() const;
 
 		void growMemory(size_t size);
 

@@ -9,15 +9,6 @@ Blackboard::Blackboard(std::shared_ptr<Blackboard> parent)
 {
 }
 
-Blackboard::~Blackboard()
-{
-}
-
-std::mutex& Blackboard::getMutex()
-{
-	return m_mutex;
-}
-
 bool Blackboard::exists(const std::string& key)
 {
 	std::lock_guard<std::mutex> lock(m_itemMutex);

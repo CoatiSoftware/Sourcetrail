@@ -22,7 +22,6 @@ class TaskBuildIndex
 public:
 	TaskBuildIndex(
 		size_t processCount,
-		std::shared_ptr<IndexerCommandList> indexerCommandList,
 		std::shared_ptr<StorageProvider> storageProvider,
 		std::shared_ptr<DialogView> dialogView,
 		const std::string& appUUID,
@@ -51,12 +50,10 @@ protected:
 	const std::string m_appUUID;
 	bool m_multiProcessIndexing;
 
-	InterprocessIndexerCommandManager m_interprocessIndexerCommandManager;
 	InterprocessIndexingStatusManager m_interprocessIndexingStatusManager;
-
+	bool m_indexerCommandQueueStopped;
 	size_t m_processCount;
 	bool m_interrupted;
-	size_t m_lastCommandCount;
 	size_t m_indexingFileCount;
 
 	// store as plain pointers to avoid deallocation issues when closing app during indexing

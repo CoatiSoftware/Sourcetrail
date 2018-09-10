@@ -159,19 +159,25 @@ add_files(
 	data/indexer/interprocess/InterprocessIntermediateStorageManager.cpp
 	data/indexer/interprocess/InterprocessIntermediateStorageManager.h
 
+	data/indexer/CombinedIndexerCommandProvider.cpp
+	data/indexer/CombinedIndexerCommandProvider.h
 	data/indexer/Indexer.h
 	data/indexer/IndexerBase.cpp
 	data/indexer/IndexerBase.h
 	data/indexer/IndexerCommand.cpp
 	data/indexer/IndexerCommand.h
-	data/indexer/IndexerCommandList.cpp
-	data/indexer/IndexerCommandList.h
+	data/indexer/IndexerCommandProvider.cpp
+	data/indexer/IndexerCommandProvider.h
 	data/indexer/IndexerCommandType.cpp
 	data/indexer/IndexerCommandType.h
 	data/indexer/IndexerComposite.cpp
 	data/indexer/IndexerComposite.h
+	data/indexer/MemoryIndexerCommandProvider.cpp
+	data/indexer/MemoryIndexerCommandProvider.h
 	data/indexer/TaskBuildIndex.cpp
 	data/indexer/TaskBuildIndex.h
+	data/indexer/TaskFillIndexerCommandQueue.cpp
+	data/indexer/TaskFillIndexerCommandQueue.h
 
 	data/location/LocationType.cpp
 	data/location/LocationType.h

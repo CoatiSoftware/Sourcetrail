@@ -36,11 +36,13 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	size_t freeMemory = access.getFreeMemorySize();
 	if (freeMemory < size)
 	{
+		size_t requiredSize = size - freeMemory;
+
 		LOG_INFO_STREAM(
 			<< "grow memory - est: " << size << " size: " << access.getMemorySize()
-			<< " free: " << access.getFreeMemorySize() << " alloc: " << (size - freeMemory));
+			<< " free: " << access.getFreeMemorySize() << " alloc: " << requiredSize);
 
-		access.growMemory(size - freeMemory);
+		access.growMemory(requiredSize);
 
 		LOG_INFO("growing memory succeeded");
 	}

@@ -10,7 +10,6 @@
 #include "utility/utilityApp.h"
 
 #include "component/view/DialogView.h"
-#include "data/indexer/IndexerCommandList.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
 #include "data/storage/StorageProvider.h"
 
@@ -22,24 +21,21 @@ const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer");
 
 TaskBuildIndex::TaskBuildIndex(
 	size_t processCount,
-	std::shared_ptr<IndexerCommandList> indexerCommandList,
 	std::shared_ptr<StorageProvider> storageProvider,
 	std::shared_ptr<DialogView> dialogView,
 	const std::string& appUUID,
 	bool multiProcessIndexing
 )
-	: m_indexerCommandList(indexerCommandList)
-	, m_storageProvider(storageProvider)
+	: m_storageProvider(storageProvider)
 	, m_dialogView(dialogView)
 	, m_appUUID(appUUID)
 	, m_multiProcessIndexing(multiProcessIndexing)
-	, m_interprocessIndexerCommandManager(appUUID, 0, true)
 	, m_interprocessIndexingStatusManager(appUUID, 0, true)
 	, m_processCount(processCount)
 	, m_interrupted(false)
-	, m_lastCommandCount(0)
 	, m_indexingFileCount(0)
 	, m_runningThreadCount(0)
+	, m_indexerCommandQueueStopped(false)
 {
 }
 
@@ -48,14 +44,7 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 	m_indexingFileCount = 0;
 	updateIndexingDialog(blackboard, std::vector<FilePath>());
 
-	{
-		std::lock_guard<std::mutex> lock(blackboard->getMutex());
-		blackboard->set("indexer_count", (int)m_processCount);
-	}
-
-	// move indexer commands to shared memory
-	m_lastCommandCount = m_indexerCommandList->size();
-	m_interprocessIndexerCommandManager.setIndexerCommands(m_indexerCommandList->getAllCommands());
+	blackboard->set("indexer_count", (int)m_processCount);
 
 	std::wstring logFilePath;
 	Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
@@ -92,29 +81,21 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 		runningThreadCount = m_runningThreadCount;
 	}
 
-	size_t commandCount = m_interprocessIndexerCommandManager.indexerCommandCount();
-	if (commandCount != m_lastCommandCount)
-	{
-		std::vector<FilePath> indexingFiles = m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
-		if (indexingFiles.size())
-		{
-			updateIndexingDialog(blackboard, indexingFiles);
-		}
+	blackboard->get<bool>("indexer_command_queue_stopped", m_indexerCommandQueueStopped);
 
-		m_lastCommandCount = commandCount;
+	const std::vector<FilePath> indexingFiles = m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
+	if (!indexingFiles.empty())
+	{
+		updateIndexingDialog(blackboard, indexingFiles);
 	}
 
-	if (commandCount == 0 && runningThreadCount == 0)
+	if (runningThreadCount == 0)
 	{
 		return STATE_FAILURE;
 	}
 	else if (m_interrupted)
 	{
-		std::lock_guard<std::mutex> lock(blackboard->getMutex());
 		blackboard->set("interrupted_indexing", true);
-
-		// clear indexer commands, this causes the indexer processes to return when finished with respective current indexer commands
-		m_interprocessIndexerCommandManager.clearIndexerCommands();
 		return STATE_FAILURE;
 	}
 
@@ -156,7 +137,6 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 		m_storageProvider->insert(is);
 	}
 
-	std::lock_guard<std::mutex> lock(blackboard->getMutex());
 	blackboard->set("indexer_count", 0);
 }
 
@@ -185,11 +165,11 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 		m_runningThreadCount++;
 	}
 
-	FilePath indexerProcessPath = AppPath::getAppPath().concatenate(s_processName);
+	const FilePath indexerProcessPath = AppPath::getAppPath().concatenate(s_processName);
 	if (!indexerProcessPath.exists())
 	{
 		m_interrupted = true;
-		LOG_ERROR("Cannot start indexer process because executable is missing at \"" + indexerProcessPath.str() + "\"");
+		LOG_ERROR(L"Cannot start indexer process because executable is missing at \"" + indexerProcessPath.wstr() + L"\"");
 		return;
 	}
 
@@ -206,7 +186,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 	}
 
 	int result = 1;
-	while (result != 0 && !m_interrupted)
+	while ((!m_indexerCommandQueueStopped || result != 0) && !m_interrupted)
 	{
 		result = utility::executeProcessAndGetExitCode(commandPath, commandArguments, FilePath(), -1);
 
@@ -226,8 +206,16 @@ void TaskBuildIndex::runIndexerThread(int processId)
 		m_runningThreadCount++;
 	}
 
-	InterprocessIndexer indexer(m_appUUID, processId);
-	indexer.work();
+	while (!m_indexerCommandQueueStopped && !m_interrupted)
+	{
+		InterprocessIndexer indexer(m_appUUID, processId);
+		indexer.work(); // this will only return if there are no indexer commands left in the queue
+		if (!m_interrupted)
+		{
+			// sleeping if interrupted may result in a crash due to objects that are already destroyed after waking up again
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
+		}
+	}
 
 	{
 		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
@@ -276,11 +264,7 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 
 	if (poppedStorageCount > 0)
 	{
-		std::lock_guard<std::mutex> lock(blackboard->getMutex());
-
-		int indexedSourceFileCount = 0;
-		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
-		blackboard->set("indexed_source_file_count", indexedSourceFileCount + poppedStorageCount);
+		blackboard->update<int>("indexed_source_file_count", [=](int count) { return count + poppedStorageCount; });
 		return true;
 	}
 
@@ -293,11 +277,8 @@ void TaskBuildIndex::updateIndexingDialog(
 	// TODO: factor in unindexed files...
 	int sourceFileCount = 0;
 	int indexedSourceFileCount = 0;
-	{
-		std::lock_guard<std::mutex> lock(blackboard->getMutex());
-		blackboard->get("source_file_count", sourceFileCount);
-		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
-	}
+	blackboard->get("source_file_count", sourceFileCount);
+	blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 
 	m_indexingFileCount += sourcePaths.size();
 

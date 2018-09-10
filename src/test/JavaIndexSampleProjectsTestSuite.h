@@ -274,7 +274,7 @@ private:
 		std::shared_ptr<DumpParserClient> parserClient = std::make_shared<DumpParserClient>();
 
 		JavaParser parser(parserClient);
-		std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(sourceFilePath, "8", classpath);
+		std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(sourceFilePath, L"8", classpath);
 
 		TimeStamp startTime = TimeStamp::now();
 		parser.buildIndex(command);

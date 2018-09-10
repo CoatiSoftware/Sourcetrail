@@ -33,8 +33,8 @@ public:
 	FilePath getWorkingDirectory() const;
 	void setWorkingDirectory(const FilePath& workingDirectory);
 
-	std::string getLanguageStandard() const;
-	void setLanguageStandard(const std::string& languageStandard);
+	std::wstring getLanguageStandard() const;
+	void setLanguageStandard(const std::wstring& languageStandard);
 
 	std::vector<std::wstring> getCompilerFlags() const;
 	void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
@@ -52,8 +52,7 @@ private:
 	enum Type
 	{
 		UNKNOWN = 0,
-		CXX_CDB,
-		CXX_EMPTY,
+		CXX,
 		JAVA
 	};
 

@@ -1,6 +1,6 @@
 #include "project/SourceGroupCxxEmpty.h"
 
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCEmpty.h"
 #include "settings/SourceGroupSettingsCppEmpty.h"
@@ -121,7 +121,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
 
-	std::string languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
+	std::wstring languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
 	if (std::shared_ptr<SourceGroupSettingsWithCStandard> cSettings =
 		std::dynamic_pointer_cast<SourceGroupSettingsWithCStandard>(m_settings))
 	{
@@ -134,15 +134,17 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	}
 	else
 	{
-		LOG_ERROR("Source group doesn't specify language standard. Falling back to \"" + languageStandard + "\".");
+		LOG_ERROR(L"Source group doesn't specify language standard. Falling back to \"" + languageStandard + L"\".");
 	}
+
+	compilerFlags.push_back(L"-std=" + languageStandard);
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
 		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{
-			indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
+			indexerCommands.push_back(std::make_shared<IndexerCommandCxx>(
 				sourcePath,
 				indexedPaths,
 				excludeFilters,
@@ -150,8 +152,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 				m_settings->getProjectDirectoryPath(),
 				systemHeaderSearchPaths,
 				frameworkSearchPaths,
-				compilerFlags,
-				languageStandard
+				utility::concat(compilerFlags, { sourcePath.wstr() })
 			));
 		}
 	}

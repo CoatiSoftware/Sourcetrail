@@ -10,6 +10,7 @@
 #include "settings/SourceGroupType.h"
 
 class IndexerCommand;
+class IndexerCommandProvider;
 class FilePath;
 class SourceGroupSettings;
 
@@ -21,6 +22,7 @@ public:
 	virtual bool prepareIndexing();
 	virtual std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const = 0;
 	virtual std::set<FilePath> getAllSourceFilePaths() const = 0;
+	virtual std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const;
 	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const = 0;
 
 	SourceGroupType getType() const;

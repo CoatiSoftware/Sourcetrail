@@ -13,7 +13,7 @@ public:
 	InterprocessIndexerCommandManager(const std::string& instanceUuid, Id processId, bool isOwner);
 	virtual ~InterprocessIndexerCommandManager();
 
-	void setIndexerCommands(const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands);
+	void pushIndexerCommands(const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands);
 	std::shared_ptr<IndexerCommand> popIndexerCommand();
 
 	void clearIndexerCommands();

@@ -2,7 +2,7 @@
 
 #include "tinyxml/tinyxml.h"
 
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxSonargraph.h"
 #include "utility/file/FileSystem.h"
@@ -153,7 +153,7 @@ namespace Sonargraph
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
 		std::set<FilePath> indexedHeaderPaths;
-		std::string languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
+		std::wstring languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
 
 		if (std::shared_ptr<const SourceGroupSettingsCxxSonargraph> sonargraphSettings =
 			std::dynamic_pointer_cast<const SourceGroupSettingsCxxSonargraph>(sourceGroupSettings))
@@ -163,8 +163,8 @@ namespace Sonargraph
 		}
 		else
 		{
-			LOG_ERROR("Source group doesn't specify language standard. Falling back to \"" + languageStandard + "\".");
-			LOG_ERROR("Source group doesn't specify any indexed header paths");
+			LOG_ERROR(L"Source group doesn't specify language standard. Falling back to \"" + languageStandard + L"\".");
+			LOG_ERROR(L"Source group doesn't specify any indexed header paths");
 		}
 
 		const std::vector<FilePath> systemHeaderSearchPaths = (appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>());
@@ -173,7 +173,6 @@ namespace Sonargraph
 		const std::set<FilePathFilter> excludeFilters = utility::toSet(getDerivedExcludeFilters());
 		const std::set<FilePathFilter> includeFilters = utility::toSet(getDerivedIncludeFilters());
 
-		
 		std::vector<std::wstring> processedOptions;
 		{
 			const std::vector<std::wstring> optionPrefixes = getIncludeOptionPrefixes();
@@ -210,9 +209,11 @@ namespace Sonargraph
 			}
 		}
 
+		processedOptions.push_back(L"-std=" + languageStandard);
+
 		for (const FilePath& sourceFilePath : getAllSourceFilePathsCanonical())
 		{
-			indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
+			indexerCommands.push_back(std::make_shared<IndexerCommandCxx>(
 				sourceFilePath,
 				utility::concat(indexedHeaderPaths, { sourceFilePath }),
 				excludeFilters,
@@ -220,8 +221,7 @@ namespace Sonargraph
 				softwareSystem->getBaseDirectory(),
 				systemHeaderSearchPaths,
 				frameworkSearchPaths,
-				processedOptions,
-				languageStandard
+				utility::concat(processedOptions, { sourceFilePath.wstr() })
 			));
 		}
 

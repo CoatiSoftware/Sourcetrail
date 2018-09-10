@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "helper/DumpParserClient.h"
 #include "settings/ApplicationSettings.h"
@@ -167,7 +167,7 @@ private:
 
 		CxxParser parser(parserClient, fileRegister);
 
-		std::shared_ptr<IndexerCommandCxxEmpty> command = std::make_shared<IndexerCommandCxxEmpty>(
+		std::shared_ptr<IndexerCommandCxx> command = std::make_shared<IndexerCommandCxx>(
 			sourceFilePath,
 			indexedPaths,
 			excludedFilters,
@@ -175,8 +175,7 @@ private:
 			workingDirectory,
 			utility::concat(std::vector<FilePath> { projectDataSrcRoot }, ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded()),
 			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded(),
-			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc" },
-			"c++1z"
+			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc", L"-std=c++1z", sourceFilePath.wstr() }
 		);
 
 		TimeStamp startTime = TimeStamp::now();

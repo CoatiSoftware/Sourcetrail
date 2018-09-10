@@ -16,28 +16,28 @@ InterprocessIndexerCommandManager::~InterprocessIndexerCommandManager()
 {
 }
 
-void InterprocessIndexerCommandManager::setIndexerCommands(
+void InterprocessIndexerCommandManager::pushIndexerCommands(
 	const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands)
 {
-	const size_t overestimationMultiplier = 2;
-
-	size_t estimatedSize = 1048576; /* 1 MB */
-	for (auto& command : indexerCommands)
+	size_t size = 0;
 	{
-		estimatedSize += command->getByteSize(sizeof(SharedMemory::String)) + sizeof(SharedIndexerCommand);
+		const size_t overestimationMultiplier = 2;
+		for (auto& command : indexerCommands)
+		{
+			size += command->getByteSize(sizeof(SharedMemory::String)) + sizeof(SharedIndexerCommand);
+		}
+		size *= overestimationMultiplier;
 	}
-	estimatedSize *= overestimationMultiplier;
 
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
-
-	size_t freeMemory = access.getFreeMemorySize();
-	if (freeMemory < estimatedSize)
+	while (access.getFreeMemorySize() < size)
 	{
+		size_t currentSize = access.getMemorySize();
 		LOG_INFO_STREAM(
-			<< "grow memory - est: " << estimatedSize << " size: " << access.getMemorySize()
-			<< " free: " << access.getFreeMemorySize() << " alloc: " << (estimatedSize - freeMemory));
+			<< "grow memory - est: " << size << " size: " << currentSize
+			<< " free: " << access.getFreeMemorySize() << " alloc: " << (currentSize));
 
-		access.growMemory(estimatedSize - freeMemory);
+		access.growMemory(currentSize);
 
 		LOG_INFO("growing memory succeeded");
 	}

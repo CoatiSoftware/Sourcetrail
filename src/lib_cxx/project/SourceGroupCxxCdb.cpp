@@ -2,7 +2,8 @@
 
 #include "clang/Tooling/Tooling.h"
 #include "clang/Tooling/JSONCompilationDatabase.h"
-#include "data/indexer/IndexerCommandCxxCdb.h"
+#include "data/indexer/CxxIndexerCommandProvider.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -56,7 +57,7 @@ std::set<FilePath> SourceGroupCxxCdb::getAllSourceFilePaths() const
 
 	if (!cdbPath.empty() && cdbPath.exists())
 	{
-		for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
+		for (const FilePath& path : IndexerCommandCxx::getSourceFilesFromCDB(cdbPath))
 		{
 			bool excluded = false;
 			for (const FilePathFilter& filter : excludeFilters)
@@ -78,28 +79,28 @@ std::set<FilePath> SourceGroupCxxCdb::getAllSourceFilePaths() const
 	return sourceFilePaths;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
 {
-	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
+	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 
-	std::vector<FilePath> systemHeaderSearchPaths;
-	utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
-	utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
-
-	std::vector<FilePath> frameworkSearchPaths;
-	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
-	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
-
-	const std::vector<std::wstring> compilerFlags = m_settings->getCompilerFlags();
-
-	const std::set<FilePath> indexedHeaderPaths = utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute());
-	const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
-
-	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-
-	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
+	const FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (cdbPath.exists())
 	{
+		std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
+
+		std::vector<FilePath> systemHeaderSearchPaths;
+		utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
+		utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
+
+		std::vector<FilePath> frameworkSearchPaths;
+		utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
+		utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
+
+		const std::vector<std::wstring> compilerFlags = m_settings->getCompilerFlags();
+
+		const std::set<FilePath> indexedHeaderPaths = utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute());
+		const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
+
 		std::string error;
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb =
 			std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
@@ -129,24 +130,31 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 			if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
 				sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
 			{
-				indexerCommands.push_back(std::make_shared<IndexerCommandCxxCdb>(
+				provider->addCommand(std::make_shared<IndexerCommandCxx>(
 					sourcePath,
 					utility::concat(indexedHeaderPaths, { sourcePath }),
 					excludeFilters,
 					std::set<FilePathFilter>(),
 					FilePath(utility::decodeFromUtf8(command.Directory)),
+					systemHeaderSearchPaths,
+					frameworkSearchPaths,
 					utility::concat(
 						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }),
 						compilerFlags
-					),
-					systemHeaderSearchPaths,
-					frameworkSearchPaths
+					)
 				));
 			}
 		}
 	}
 
-	return indexerCommands;
+	provider->logStats();
+
+	return provider;
+}
+
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+{
+	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxCdb::getSourceGroupSettings()

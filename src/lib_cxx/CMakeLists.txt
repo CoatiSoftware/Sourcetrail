@@ -2,12 +2,11 @@
 add_files(
 	LIB_CXX_FILES
 
+	data/indexer/CxxIndexerCommandProvider.cpp
+	data/indexer/CxxIndexerCommandProvider.h
 	data/indexer/IndexerCommandCxx.cpp
 	data/indexer/IndexerCommandCxx.h
-	data/indexer/IndexerCommandCxxCdb.cpp
-	data/indexer/IndexerCommandCxxCdb.h
-	data/indexer/IndexerCommandCxxEmpty.cpp
-	data/indexer/IndexerCommandCxxEmpty.h
+	data/indexer/IndexerCxx.cpp
 	data/indexer/IndexerCxx.h
 
 	data/parser/cxx/name/CxxDeclName.cpp

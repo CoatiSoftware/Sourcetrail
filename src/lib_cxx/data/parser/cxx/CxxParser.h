@@ -10,8 +10,7 @@ class CanonicalFilePathCache;
 class CxxDiagnosticConsumer;
 class FilePath;
 class FileRegister;
-class IndexerCommandCxxCdb;
-class IndexerCommandCxxEmpty;
+class IndexerCommandCxx;
 class TaskParseCxx;
 class TextAccess;
 
@@ -27,8 +26,7 @@ class CxxParser: public Parser
 public:
 	CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 
-	void buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand);
-	void buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand);
+	void buildIndex(std::shared_ptr<IndexerCommandCxx> indexerCommand);
 	void buildIndex(const std::wstring& fileName, std::shared_ptr<TextAccess> fileContent, std::vector<std::wstring> compilerFlags = {});
 
 private:
@@ -38,7 +36,6 @@ private:
 		const std::vector<std::wstring>& compilerFlags,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths) const;
-	std::vector<std::string> getCommandlineArguments(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand) const;
 
 	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(
 		const FilePath& sourceFilePath, std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const;

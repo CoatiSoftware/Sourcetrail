@@ -33,7 +33,7 @@ namespace Sonargraph
 		}
 		return std::shared_ptr<XsdJavaModule>();
 	}
-	
+
 	LanguageType XsdJavaModule::getSupportedLanguage() const
 	{
 		return LANGUAGE_JAVA;
@@ -96,12 +96,12 @@ namespace Sonargraph
 
 		return sourceFilePaths;
 	}
-	
+
 	std::set<FilePath> XsdJavaModule::getAllCxxHeaderSearchPathsCanonical() const
 	{
 		return std::set<FilePath>();
 	}
-	
+
 	std::vector<std::shared_ptr<IndexerCommand>> XsdJavaModule::getIndexerCommands(
 		std::shared_ptr<const SourceGroupSettings> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> appSettings) const
@@ -109,15 +109,15 @@ namespace Sonargraph
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
 		{
-			std::string languageStandard = SourceGroupSettingsWithJavaStandard::getDefaultJavaStandardStatic();
-			if (std::shared_ptr<const SourceGroupSettingsJavaSonargraph> settings = 
+			std::wstring languageStandard = SourceGroupSettingsWithJavaStandard::getDefaultJavaStandardStatic();
+			if (std::shared_ptr<const SourceGroupSettingsJavaSonargraph> settings =
 				std::dynamic_pointer_cast<const SourceGroupSettingsJavaSonargraph>(sourceGroupSettings))
 			{
 				languageStandard = settings->getJavaStandard();
 			}
 			else
 			{
-				LOG_ERROR("Source group doesn't specify language standard. Falling back to \"" + languageStandard + "\".");
+				LOG_ERROR(L"Source group doesn't specify language standard. Falling back to \"" + languageStandard + L"\".");
 			}
 
 			for (const FilePath& sourceFilePath : getAllSourceFilePathsCanonical())
@@ -125,7 +125,7 @@ namespace Sonargraph
 				indexerCommands.push_back(std::make_shared<IndexerCommandJava>(
 					sourceFilePath,
 					languageStandard,
-					std::vector<FilePath>() // the classpath is set later... TODO: fix this hack 
+					std::vector<FilePath>() // the classpath is set later... TODO: fix this hack
 				));
 			}
 		}

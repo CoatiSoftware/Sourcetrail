@@ -8,8 +8,7 @@
 #include <llvm/Option/ArgList.h>
 #include <llvm/Support/TargetSelect.h>
 
-#include "data/indexer/IndexerCommandCxxCdb.h"
-#include "data/indexer/IndexerCommandCxxEmpty.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
@@ -139,7 +138,7 @@ CxxParser::CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileR
 	llvm::InitializeNativeTargetAsmParser();
 }
 
-void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
+void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxx> indexerCommand)
 {
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
@@ -153,20 +152,6 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 		compileCommand.CommandLine.erase(compileCommand.CommandLine.begin());
 	}
 	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(compileCommand.CommandLine);
-
-	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
-	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());
-}
-
-void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand)
-{
-	clang::tooling::CompileCommand compileCommand;
-	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
-	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
-	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(appendFilePath(
-		getCommandlineArguments(indexerCommand),
-		utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr())
-	));
 
 	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
 	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());
@@ -258,19 +243,6 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 		args.push_back("-iframework");
 		args.push_back(utility::encodeToUtf8(path.wstr()));
 	}
-
-	return args;
-}
-
-std::vector<std::string> CxxParser::getCommandlineArguments(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand) const
-{
-	std::vector<std::string> args = getCommandlineArgumentsEssential(
-		indexerCommand->getCompilerFlags(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
-	);
-
-	// Set language standard
-	std::string standard = "-std=" + indexerCommand->getLanguageStandard();
-	args.push_back(standard);
 
 	return args;
 }
