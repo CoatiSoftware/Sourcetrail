@@ -529,8 +529,8 @@ add_files(
 	utility/scheduling/TaskDecoratorRepeat.h
 	utility/scheduling/TaskDecoratorDelay.cpp
 	utility/scheduling/TaskDecoratorDelay.h
-	utility/scheduling/TaskFindValue.cpp
-	utility/scheduling/TaskFindValue.h
+	utility/scheduling/TaskFindKeyOnBlackboard.cpp
+	utility/scheduling/TaskFindKeyOnBlackboard.h
 	utility/scheduling/TaskGroup.cpp
 	utility/scheduling/TaskGroup.h
 	utility/scheduling/TaskGroupParallel.cpp
@@ -541,7 +541,7 @@ add_files(
 	utility/scheduling/TaskGroupSequence.h
 	utility/scheduling/TaskLambda.cpp
 	utility/scheduling/TaskLambda.h
-	utility/scheduling/TaskReturnSuccessWhile.h
+	utility/scheduling/TaskReturnSuccessIf.h
 	utility/scheduling/TaskRunner.cpp
 	utility/scheduling/TaskRunner.h
 	utility/scheduling/TaskScheduler.cpp

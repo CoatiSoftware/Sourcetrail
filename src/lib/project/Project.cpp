@@ -29,12 +29,12 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskDecoratorRepeat.h"
-#include "utility/scheduling/TaskFindValue.h"
+#include "utility/scheduling/TaskFindKeyOnBlackboard.h"
 #include "utility/scheduling/TaskGroupSelector.h"
 #include "utility/scheduling/TaskGroupSequence.h"
 #include "utility/scheduling/TaskGroupParallel.h"
 #include "utility/scheduling/TaskLambda.h"
-#include "utility/scheduling/TaskReturnSuccessWhile.h"
+#include "utility/scheduling/TaskReturnSuccessIf.h"
 #include "utility/scheduling/TaskSetValue.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/text/TextAccess.h"
@@ -488,7 +488,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 				std::make_shared<TaskGroupSequence>()->addChildTasks(
 					// block until there are indexer commands to process
 					std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-						std::make_shared<TaskReturnSuccessWhile<bool>>("indexer_command_queue_started", TaskReturnSuccessWhile<bool>::CONDITION_EQUALS, false)
+						std::make_shared<TaskReturnSuccessIf<bool>>("indexer_command_queue_started", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
 					),
 					std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 						std::make_shared<TaskBuildIndex>(indexerThreadCount, storageProvider, dialogView, m_appUUID, multiProcess)
@@ -507,13 +507,13 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
 				// block until there are indexers running
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_EQUALS, 0)
+					std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_EQUALS, 0)
 				),
 				// merge until all indexers stopped and nothing left to merge
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 					std::make_shared<TaskGroupSelector>()->addChildTasks(
 						std::make_shared<TaskMergeStorages>(storageProvider),
-						std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0)
+						std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_GREATER_THAN, 0)
 					)
 				)
 			)
@@ -524,16 +524,16 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
 				// block until there are indexers running
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_EQUALS, 0)
+					std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_EQUALS, 0)
 				),
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 					std::make_shared<TaskGroupSequence>()->addChildTasks(
 						// stopping when indexer count is zero, regardless wether there are still storages left to insert.
-						std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0),
+						std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_GREATER_THAN, 0),
 						std::make_shared<TaskGroupSelector>()->addChildTasks(
 							std::make_shared<TaskInjectStorage>(storageProvider, tempStorage),
 							// continuing when indexer count is greater than zero, even if there are no storages right now.
-							std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0)
+							std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_GREATER_THAN, 0)
 						)
 					)
 				)
@@ -563,7 +563,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 
 	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
 		std::make_shared<TaskGroupSequence>()->addChildTasks(
-			std::make_shared<TaskFindValue>("keep_database"),
+			std::make_shared<TaskFindKeyOnBlackboard>("keep_database"),
 			std::make_shared<TaskLambda>([dialogView, this]() {
 				Task::dispatch(std::make_shared<TaskLambda>([dialogView, this]() {
 					swapToTempStorage(dialogView);
@@ -571,7 +571,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 			})
 		),
 		std::make_shared<TaskGroupSequence>()->addChildTasks(
-			std::make_shared<TaskFindValue>("discard_database"),
+			std::make_shared<TaskFindKeyOnBlackboard>("discard_database"),
 			std::make_shared<TaskLambda>([this]() {
 				Task::dispatch(std::make_shared<TaskLambda>([this]() {
 					discardTempStorage();

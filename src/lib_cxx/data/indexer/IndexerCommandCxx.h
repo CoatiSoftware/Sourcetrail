@@ -26,8 +26,8 @@ public:
 		const std::vector<FilePath>& frameworkSearchPaths,
 		const std::vector<std::wstring>& compilerFlags);
 
-	virtual IndexerCommandType getIndexerCommandType() const override;
-	virtual size_t getByteSize(size_t stringSize) const override;
+	IndexerCommandType getIndexerCommandType() const override;
+	size_t getByteSize(size_t stringSize) const override;
 
 	const std::set<FilePath>& getIndexedPaths() const;
 	const std::set<FilePathFilter>& getExcludeFilters() const;

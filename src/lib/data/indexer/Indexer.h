@@ -12,19 +12,12 @@ class Indexer
 	: public IndexerBase
 {
 public:
-	virtual ~Indexer();
+	IndexerCommandType getSupportedIndexerCommandType() const override;
 
-	virtual IndexerCommandType getSupportedIndexerCommandType() const;
-
-	virtual std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand);
+	std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand) override;
 
 	virtual std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<T> indexerCommand) = 0;
 };
-
-template <typename T>
-Indexer<T>::~Indexer()
-{
-}
 
 template <typename T>
 IndexerCommandType Indexer<T>::getSupportedIndexerCommandType() const

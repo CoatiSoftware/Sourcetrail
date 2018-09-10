@@ -1,11 +1,11 @@
-#ifndef TASK_RETURN_SUCCESS_WHILE_H
-#define TASK_RETURN_SUCCESS_WHILE_H
+#ifndef TASK_RETURN_SUCCESS_IF_H
+#define TASK_RETURN_SUCCESS_IF_H
 
 #include "utility/scheduling/Task.h"
 #include "utility/scheduling/Blackboard.h"
 
 template <typename T>
-class TaskReturnSuccessWhile:
+class TaskReturnSuccessIf:
 	public Task
 {
 public:
@@ -15,7 +15,7 @@ public:
 		CONDITION_EQUALS
 	};
 
-	TaskReturnSuccessWhile(const std::string& lhsValueName, ConditionType condition, T rhsValue);
+	TaskReturnSuccessIf(const std::string& lhsValueName, ConditionType condition, T rhsValue);
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -29,7 +29,7 @@ private:
 };
 
 template <typename T>
-TaskReturnSuccessWhile<T>::TaskReturnSuccessWhile(const std::string& lhsValueName, ConditionType condition, T rhsValue)
+TaskReturnSuccessIf<T>::TaskReturnSuccessIf(const std::string& lhsValueName, ConditionType condition, T rhsValue)
 	: m_lhsValueName(lhsValueName)
 	, m_condition(condition)
 	, m_rhsValue(rhsValue)
@@ -37,12 +37,12 @@ TaskReturnSuccessWhile<T>::TaskReturnSuccessWhile(const std::string& lhsValueNam
 }
 
 template <typename T>
-void TaskReturnSuccessWhile<T>::doEnter(std::shared_ptr<Blackboard> blackboard)
+void TaskReturnSuccessIf<T>::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
 template <typename T>
-Task::TaskState TaskReturnSuccessWhile<T>::doUpdate(std::shared_ptr<Blackboard> blackboard)
+Task::TaskState TaskReturnSuccessIf<T>::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
 	const int SLEEP_TIME_MS = 25;
 	std::this_thread::sleep_for(std::chrono::microseconds(SLEEP_TIME_MS));
@@ -69,13 +69,13 @@ Task::TaskState TaskReturnSuccessWhile<T>::doUpdate(std::shared_ptr<Blackboard> 
 }
 
 template <typename T>
-void TaskReturnSuccessWhile<T>::doExit(std::shared_ptr<Blackboard> blackboard)
+void TaskReturnSuccessIf<T>::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
 template <typename T>
-void TaskReturnSuccessWhile<T>::doReset(std::shared_ptr<Blackboard> blackboard)
+void TaskReturnSuccessIf<T>::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
-#endif // TASK_RETURN_SUCCESS_WHILE_H
+#endif // TASK_RETURN_SUCCESS_IF_H

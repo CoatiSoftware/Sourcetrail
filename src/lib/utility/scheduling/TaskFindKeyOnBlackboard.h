@@ -1,5 +1,5 @@
-#ifndef TASK_FIND_VALUE_H
-#define TASK_FIND_VALUE_H
+#ifndef TASK_FIND_KEY_ON_BLACKBOARD_H
+#define TASK_FIND_KEY_ON_BLACKBOARD_H
 
 #include <string>
 
@@ -7,11 +7,11 @@
 
 class Blackboard;
 
-class TaskFindValue:
+class TaskFindKeyOnBlackboard:
 	public Task
 {
 public:
-	TaskFindValue(const std::string& valueName);
+	TaskFindKeyOnBlackboard(const std::string& valueName);
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -19,7 +19,7 @@ private:
 	void doExit(std::shared_ptr<Blackboard> blackboard) override;
 	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 
-	const std::string m_valueName;
+	const std::string m_key;
 };
 
-#endif // TASK_FIND_VALUE_H
+#endif // TASK_FIND_KEY_ON_BLACKBOARD_H

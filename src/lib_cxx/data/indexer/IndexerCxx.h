@@ -9,8 +9,7 @@
 class IndexerCxx: public Indexer<IndexerCommandCxx>
 {
 public:
-	virtual ~IndexerCxx() = default;
-	virtual std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<IndexerCommandCxx> indexerCommand);
+	std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<IndexerCommandCxx> indexerCommand) override;
 };
 
 #endif // INDEXER_CXX_H

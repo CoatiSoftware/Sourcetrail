@@ -19,8 +19,8 @@ public:
 		const std::wstring& languageStandard,
 		const std::vector<FilePath>& classPath);
 
-	virtual IndexerCommandType getIndexerCommandType() const override;
-	virtual size_t getByteSize(size_t stringSize) const override;
+	IndexerCommandType getIndexerCommandType() const override;
+	size_t getByteSize(size_t stringSize) const override;
 
 	std::wstring getLanguageStandard() const;
 

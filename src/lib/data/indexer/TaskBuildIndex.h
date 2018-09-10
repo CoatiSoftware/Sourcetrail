@@ -29,13 +29,13 @@ public:
 	);
 
 protected:
-	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
-	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
-	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
-	virtual void terminate();
+	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
+	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
+	void doExit(std::shared_ptr<Blackboard> blackboard) override;
+	void doReset(std::shared_ptr<Blackboard> blackboard) override;
+	void terminate() override;
 
-	virtual void handleMessage(MessageInterruptTasks* message);
+	void handleMessage(MessageInterruptTasks* message) override;
 
 	void runIndexerProcess(int processId, const std::wstring& logFilePath);
 	void runIndexerThread(int processId);

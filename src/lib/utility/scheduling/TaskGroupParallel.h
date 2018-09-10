@@ -13,7 +13,6 @@ class TaskGroupParallel
 {
 public:
 	TaskGroupParallel();
-	virtual ~TaskGroupParallel();
 
 	void addTask(std::shared_ptr<Task> task) override;
 
