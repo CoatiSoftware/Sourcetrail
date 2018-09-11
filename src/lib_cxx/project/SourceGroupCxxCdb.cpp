@@ -102,9 +102,8 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 		const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
 
 		std::string error;
-		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb =
-			std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
-				clang::tooling::JSONCompilationDatabase::loadFromFile(utility::encodeToUtf8(cdbPath.wstr()),
+		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
+			clang::tooling::JSONCompilationDatabase::loadFromFile(utility::encodeToUtf8(cdbPath.wstr()),
 				error,
 				clang::tooling::JSONCommandLineSyntax::AutoDetect
 			)
@@ -118,31 +117,38 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 		}
 
 		const std::set<FilePath>& sourceFilePaths = getAllSourceFilePaths();
-
-		for (const clang::tooling::CompileCommand& command: cdb->getAllCompileCommands())
+		if (cdb)
 		{
-			FilePath sourcePath = FilePath(utility::decodeFromUtf8(command.Filename)).makeCanonical();
-			if (!sourcePath.isAbsolute())
+			for (const clang::tooling::CompileCommand& command: cdb->getAllCompileCommands())
 			{
-				sourcePath = FilePath(utility::decodeFromUtf8(command.Directory + '/' + command.Filename)).makeCanonical();
-			}
+				FilePath sourcePath = FilePath(utility::decodeFromUtf8(command.Filename)).makeCanonical();
+				if (!sourcePath.isAbsolute())
+				{
+					sourcePath = FilePath(utility::decodeFromUtf8(command.Directory + '/' + command.Filename)).makeCanonical();
+				}
 
-			if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
-				sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
-			{
-				provider->addCommand(std::make_shared<IndexerCommandCxx>(
-					sourcePath,
-					utility::concat(indexedHeaderPaths, { sourcePath }),
-					excludeFilters,
-					std::set<FilePathFilter>(),
-					FilePath(utility::decodeFromUtf8(command.Directory)),
-					systemHeaderSearchPaths,
-					frameworkSearchPaths,
-					utility::concat(
-						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }),
-						compilerFlags
-					)
-				));
+				if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
+					sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
+				{
+					std::vector<std::wstring> mergedCompilerFlags;
+					mergedCompilerFlags.reserve(compilerFlags.size() + command.CommandLine.size());
+					for (const std::string& arg : command.CommandLine)
+					{
+						mergedCompilerFlags.emplace_back(utility::decodeFromUtf8(arg));
+					}
+					mergedCompilerFlags.insert(mergedCompilerFlags.end(), compilerFlags.begin(), compilerFlags.end());
+
+					provider->addCommand(std::make_shared<IndexerCommandCxx>(
+						sourcePath,
+						utility::concat(indexedHeaderPaths, { sourcePath }),
+						excludeFilters,
+						std::set<FilePathFilter>(),
+						FilePath(utility::decodeFromUtf8(command.Directory)),
+						systemHeaderSearchPaths,
+						frameworkSearchPaths,
+						mergedCompilerFlags
+					));
+				}
 			}
 		}
 	}

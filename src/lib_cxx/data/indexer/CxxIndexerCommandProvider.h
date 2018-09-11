@@ -3,6 +3,7 @@
 
 #include <map>
 #include <set>
+#include <unordered_map>
 
 #include "data/indexer/IndexerCommandProvider.h"
 #include "utility/types.h"
@@ -54,7 +55,7 @@ private:
 	std::map<Id, FilePath> m_idsToFrameworkSearchPaths;
 	std::map<FilePath, Id> m_frameworkSearchPathsToIds;
 	std::map<Id, std::wstring> m_idsToCompilerFlags;
-	std::map<std::wstring, Id> m_compilerFlagsToIds;
+	std::unordered_map<std::wstring, Id> m_compilerFlagsToIds;
 };
 
 #endif // CXX_INDEXER_COMMAND_PROVIDER_H

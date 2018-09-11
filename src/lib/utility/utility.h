@@ -145,13 +145,13 @@ std::vector<std::vector<T>> utility::splitToEqualySizedParts(const std::vector<T
 	std::vector<std::vector<T>> parts;
 	for (size_t i = 0; i < partCount; i++)
 	{
-		parts.push_back(std::vector<T>());
+		parts.emplace_back(std::vector<T>());
 	}
 
 	int i = 0;
 	for (const T& value : values)
 	{
-		parts[i % partCount].push_back(value);
+		parts[i % partCount].emplace_back(value);
 		++i;
 	}
 
@@ -244,7 +244,7 @@ std::set<T> utility::toSet(const std::vector<T>& v)
 template<typename T>
 void utility::fillVectorWithElements(std::vector<T>& v, const T& arg)
 {
-	v.push_back(arg);
+	v.emplace_back(arg);
 }
 
 template<typename T, typename... Args>
@@ -269,7 +269,7 @@ std::vector<TargetType> utility::convert(const std::vector<SourceType>& sourceCo
 	targetContainer.reserve(sourceContainer.size());
 	for (const SourceType& sourceElement : sourceContainer)
 	{
-		targetContainer.push_back(conversion(sourceElement));
+		targetContainer.emplace_back(conversion(sourceElement));
 	}
 	return targetContainer;
 }
@@ -281,7 +281,7 @@ std::vector<TargetType> utility::convert(const std::vector<SourceType>& sourceCo
 	targetContainer.reserve(sourceContainer.size());
 	for (const SourceType& sourceElement : sourceContainer)
 	{
-		targetContainer.push_back(TargetType(sourceElement));
+		targetContainer.emplace_back(TargetType(sourceElement));
 	}
 	return targetContainer;
 }
