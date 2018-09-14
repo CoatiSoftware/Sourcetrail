@@ -21,7 +21,6 @@ CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	, m_client(client)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
 	, m_sourceFilePath(sourceFilePath)
-	, m_isParsingFile(false)
 	, m_useLogging(useLogging)
 {
 }
@@ -32,8 +31,6 @@ void CxxDiagnosticConsumer::BeginSourceFile(const clang::LangOptions& langOption
 	{
 		clang::TextDiagnosticPrinter::BeginSourceFile(langOptions, preProcessor);
 	}
-
-	m_isParsingFile = true;
 }
 
 void CxxDiagnosticConsumer::EndSourceFile()
@@ -42,8 +39,6 @@ void CxxDiagnosticConsumer::EndSourceFile()
 	{
 		clang::TextDiagnosticPrinter::EndSourceFile();
 	}
-
-	m_isParsingFile = false;
 }
 
 void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level level, const clang::Diagnostic& info)
@@ -53,11 +48,6 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		clang::TextDiagnosticPrinter::HandleDiagnostic(level, info);
 	}
 
-	if (!m_isParsingFile)
-	{
-		return;
-	}
-
 	if (level >= clang::DiagnosticsEngine::Error)
 	{
 		llvm::SmallString<100> messageStr;
@@ -65,6 +55,10 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		std::string message = messageStr.str();
 
 		if (message == "MS-style inline assembly is not available: Unable to find target for this triple (no targets are registered)")
+		{
+			return;
+		}
+		if (utility::isPrefix<std::string>("unknown argument:", message))
 		{
 			return;
 		}
@@ -95,6 +89,10 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 					location = ParseLocation(m_canonicalFilePathCache->getCanonicalFilePath(fileEntry), 1, 1);
 				}
 			}
+		}
+		else
+		{
+			location = ParseLocation(m_canonicalFilePathCache->getCanonicalFilePath(m_sourceFilePath.wstr()), 1, 1);
 		}
 		if (location.isValid())
 		{

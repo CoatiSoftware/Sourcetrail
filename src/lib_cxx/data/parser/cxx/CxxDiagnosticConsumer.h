@@ -30,7 +30,6 @@ private:
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
 	const FilePath m_sourceFilePath;
-	bool m_isParsingFile;
 	bool m_useLogging;
 };
 
