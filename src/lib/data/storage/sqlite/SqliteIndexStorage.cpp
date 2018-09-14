@@ -811,7 +811,7 @@ std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentByPath(const std::
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 	}
 
-	return TextAccess::createFromFile(FilePath(filePath));
+	return TextAccess::createFromString("");
 }
 
 void SqliteIndexStorage::setFileIndexed(Id fileId, bool indexed)

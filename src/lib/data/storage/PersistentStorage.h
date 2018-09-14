@@ -66,7 +66,7 @@ public:
 	void clearAllErrors();
 	void clearFileElements(const std::vector<FilePath>& filePaths, std::function<void(int)> updateStatusCallback);
 
-	std::vector<FileInfo> getFileInfoForAllIndexedFiles() const;
+	std::vector<FileInfo> getFileInfoForAllFiles() const;
 	std::set<FilePath> getIncompleteFiles() const;
 	bool getFilePathIndexed(const FilePath& path) const;
 
@@ -119,6 +119,7 @@ public:
 	std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const override;
 
 	std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
+	bool hasContentForFile(const FilePath& filePath) const;
 
 	FileInfo getFileInfoForFileId(Id id) const override;
 

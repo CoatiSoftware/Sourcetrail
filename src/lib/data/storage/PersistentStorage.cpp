@@ -344,18 +344,13 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 	}
 }
 
-std::vector<FileInfo> PersistentStorage::getFileInfoForAllIndexedFiles() const
+std::vector<FileInfo> PersistentStorage::getFileInfoForAllFiles() const
 {
 	TRACE();
 
 	std::vector<FileInfo> fileInfos;
 	for (StorageFile file : m_sqliteIndexStorage.getAll<StorageFile>())
 	{
-		if (!file.indexed)
-		{
-			continue;
-		}
-
 		boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
 		if (file.modificationTime != "not-a-date-time")
 		{
@@ -1471,7 +1466,22 @@ std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& fi
 {
 	TRACE();
 
-	return m_sqliteIndexStorage.getFileContentByPath(filePath.wstr());
+	std::shared_ptr<TextAccess> fileContent = m_sqliteIndexStorage.getFileContentByPath(filePath.wstr());
+	if (fileContent->getLineCount() > 0)
+	{
+		return fileContent;
+	}
+	return TextAccess::createFromFile(FilePath(filePath));
+}
+
+bool PersistentStorage::hasContentForFile(const FilePath& filePath) const
+{
+	std::shared_ptr<TextAccess> fileContent = m_sqliteIndexStorage.getFileContentByPath(filePath.wstr());
+	if (fileContent->getLineCount() > 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 FileInfo PersistentStorage::getFileInfoForFileId(Id id) const

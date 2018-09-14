@@ -15,12 +15,12 @@ class RefreshInfoGenerator
 {
 public:
 	static RefreshInfo getRefreshInfoForUpdatedFiles(
-		const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups, 
+		const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups,
 		std::shared_ptr<const PersistentStorage> storage
 	);
 
 	static RefreshInfo getRefreshInfoForIncompleteFiles(
-		const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups, 
+		const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups,
 		std::shared_ptr<const PersistentStorage> storage
 	);
 

@@ -23,7 +23,7 @@
 * Click "Cancel"
 * Run "2_update.sh"
 * Press "Refresh" button
-* Validate "Files to clear" shows "2"
+* Validate "Files to clear" shows "3"
 * Validate "source files to index" shows "1"
 * Click "Start"
 * Validate Project indexed without error
