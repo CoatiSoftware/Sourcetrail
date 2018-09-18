@@ -16,7 +16,7 @@ namespace
 {
 	struct IncludeDirectiveComparator
 	{
-		bool operator()(const IncludeDirective& a, const IncludeDirective& b)
+		bool operator()(const IncludeDirective& a, const IncludeDirective& b) const
 		{
 			return a.getIncludedFile() < b.getIncludedFile();
 		}

@@ -31,11 +31,11 @@ TaskBuildIndex::TaskBuildIndex(
 	, m_appUUID(appUUID)
 	, m_multiProcessIndexing(multiProcessIndexing)
 	, m_interprocessIndexingStatusManager(appUUID, 0, true)
+	, m_indexerCommandQueueStopped(false)
 	, m_processCount(processCount)
 	, m_interrupted(false)
 	, m_indexingFileCount(0)
 	, m_runningThreadCount(0)
-	, m_indexerCommandQueueStopped(false)
 {
 }
 

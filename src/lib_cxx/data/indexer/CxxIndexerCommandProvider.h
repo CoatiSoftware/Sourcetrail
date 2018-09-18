@@ -3,6 +3,7 @@
 
 #include <map>
 #include <set>
+#include <string>
 #include <unordered_map>
 
 #include "data/indexer/IndexerCommandProvider.h"

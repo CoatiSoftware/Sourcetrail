@@ -20,7 +20,7 @@
 
 * CXX_TEST_DIR - .../cxxtest-4.3
 * CLANG_DIR - .../clang-llvm
-* BOOST_DIR - .../boost_1_64_0
+* BOOST_DIR - .../boost_1_68_0
 * BOTAN_DIR - .../Botan-2.1.0
 
 For MacOS and Linux
