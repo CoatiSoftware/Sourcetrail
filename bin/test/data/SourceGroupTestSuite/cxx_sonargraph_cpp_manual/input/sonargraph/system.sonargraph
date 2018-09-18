@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<ns2:softwareSystem xmlns:ns2="http://www.hello2morrow.com/sonargraph/core" id="648f7faac44bfd5ac3cdd4bb5222efee" version="9.7.0.500">
+    <description></description>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCppManualModule" name="TicTacToe" id="7f4e2c6be18676bc5959cfb7c802d27e" language="CPlusPlus">
+        <description></description>
+        <rootPath name="./tictactoe/src"></rootPath>
+        <basePathForIncludes>./tictactoe</basePathForIncludes>
+        <sourceFileExtensions>.cpp,.cc</sourceFileExtensions>
+        <moduleCompilerOptions installationCompilerDefinitionRef="CopyOfVisualCpp_14.0_x86">-I./include
+-v</moduleCompilerOptions>
+    </module>
+</ns2:softwareSystem>

@@ -38,6 +38,12 @@ namespace utility
 	std::set<T> concat(const std::set<T>& a, const std::set<T>& b);
 
 	template<typename T>
+	std::vector<T> concat(const std::vector<T>& a, const T& b);
+
+	template<typename T>
+	std::set<T> concat(const std::set<T>& a, const T& b);
+
+	template<typename T>
 	void append(std::vector<T>& a, const std::vector<T>& b);
 
 	template<typename T>
@@ -162,6 +168,7 @@ template<typename T>
 std::vector<T> utility::concat(const std::vector<T>& a, const std::vector<T>& b)
 {
 	std::vector<T> r;
+	r.reserve(a.size() + b.size());
 	append(r, a);
 	append(r, b);
 	return r;
@@ -173,6 +180,22 @@ std::set<T> utility::concat(const std::set<T>& a, const std::set<T>& b)
 	std::set<T> r;
 	append(r, a);
 	append(r, b);
+	return r;
+}
+
+template<typename T>
+std::vector<T> utility::concat(const std::vector<T>& a, const T& b)
+{
+	std::vector<T> r = a;
+	r.emplace_back(b);
+	return r;
+}
+
+template<typename T>
+std::set<T> utility::concat(const std::set<T>& a, const T& b)
+{
+	std::set<T> r = a;
+	r.emplace(b);
 	return r;
 }
 

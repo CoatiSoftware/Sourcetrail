@@ -31,8 +31,6 @@ private:
 		std::set<Id> m_excludeFilterIds;
 		std::set<Id> m_includeFilterIds;
 		Id m_workingDirectoryId;
-		std::vector<Id> m_systemHeaderSearchPathIds;
-		std::vector<Id> m_frameworkSearchPathIds;
 		std::vector<Id> m_compilerFlagIds;
 	};
 
@@ -51,10 +49,6 @@ private:
 	std::map<std::wstring, Id> m_includeFiltersToIds;
 	std::map<Id, FilePath> m_idsToWorkingDirectories;
 	std::map<FilePath, Id> m_workingDirectoriesToIds;
-	std::map<Id, FilePath> m_idsToSystemHeaderSearchPaths;
-	std::map<FilePath, Id> m_systemHeaderSearchPathsToIds;
-	std::map<Id, FilePath> m_idsToFrameworkSearchPaths;
-	std::map<FilePath, Id> m_frameworkSearchPathsToIds;
 	std::map<Id, std::wstring> m_idsToCompilerFlags;
 	std::unordered_map<std::wstring, Id> m_compilerFlagsToIds;
 };

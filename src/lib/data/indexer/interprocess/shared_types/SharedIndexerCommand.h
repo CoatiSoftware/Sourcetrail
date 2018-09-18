@@ -39,12 +39,6 @@ public:
 	std::vector<std::wstring> getCompilerFlags() const;
 	void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
 
-	std::vector<FilePath> getSystemHeaderSearchPaths() const;
-	void setSystemHeaderSearchPaths(const std::vector<FilePath>& filePaths);
-
-	std::vector<FilePath> getFrameworkSearchhPaths() const;
-	void setFrameworkSearchhPaths(const std::vector<FilePath>& searchPaths);
-
 	std::vector<FilePath> getClassPaths() const;
 	void setClassPaths(const std::vector<FilePath>& classPaths);
 
@@ -71,8 +65,6 @@ private:
 	SharedMemory::String m_workingDirectory;
 	SharedMemory::String m_languageStandard;
 	SharedMemory::Vector<SharedMemory::String> m_compilerFlags;
-	SharedMemory::Vector<SharedMemory::String> m_systemHeaderSearchPaths;
-	SharedMemory::Vector<SharedMemory::String> m_frameworkSearchPaths;
 
 	// java
 	SharedMemory::Vector<SharedMemory::String> m_classPaths;

@@ -88,15 +88,16 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 	{
 		std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
-		std::vector<FilePath> systemHeaderSearchPaths;
-		utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
-		utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
+		std::vector<std::wstring> compilerFlags;
+		{
+			utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(m_settings->getHeaderSearchPathsExpandedAndAbsolute()));
+			utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(appSettings->getHeaderSearchPathsExpanded()));
 
-		std::vector<FilePath> frameworkSearchPaths;
-		utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
-		utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
+			utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(m_settings->getFrameworkSearchPathsExpandedAndAbsolute()));
+			utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(appSettings->getFrameworkSearchPathsExpanded()));
 
-		const std::vector<std::wstring> compilerFlags = m_settings->getCompilerFlags();
+			utility::append(compilerFlags, m_settings->getCompilerFlags());
+		}
 
 		const std::set<FilePath> indexedHeaderPaths = utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute());
 		const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
@@ -126,6 +127,10 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 				{
 					sourcePath = FilePath(utility::decodeFromUtf8(command.Directory + '/' + command.Filename)).makeCanonical();
 				}
+				if (!sourcePath.isAbsolute())
+				{
+					sourcePath = cdbPath.getParentDirectory().getConcatenated(sourcePath).makeCanonical();
+				}
 
 				if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
 					sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
@@ -144,8 +149,6 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 						excludeFilters,
 						std::set<FilePathFilter>(),
 						FilePath(utility::decodeFromUtf8(command.Directory)),
-						systemHeaderSearchPaths,
-						frameworkSearchPaths,
 						mergedCompilerFlags
 					));
 				}

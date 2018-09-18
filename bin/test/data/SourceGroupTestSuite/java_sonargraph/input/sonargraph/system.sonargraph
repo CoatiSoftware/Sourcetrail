@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<ns2:softwareSystem xmlns:ns2="http://www.hello2morrow.com/sonargraph/core" id="09b0549ac37bf7c2fd086e4b8903768e" version="9.3.0.100">
+    <description>Sonargraph Next Generation</description>
+    <exclude>**/*cluded*</exclude>
+    <exclude>**/included*</exclude>
+    <issueFilterExclude>**/generated*/**</issueFilterExclude> 
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdJavaModule" name="Common" id="Common" language="Java">
+        <description>sourcetrail test code</description>
+        <rootPath xsi:type="ns4:xsdSourceRootPath" name="./src/main/java"></rootPath>
+        <rootPath name="./src"></rootPath>
+    </module>
+</ns2:softwareSystem>

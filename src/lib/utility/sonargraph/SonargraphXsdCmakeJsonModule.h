@@ -34,9 +34,7 @@ namespace Sonargraph
 		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommandsForRootPath(
 			std::shared_ptr<XsdRootPathWithFiles> rootPath,
 			const std::set<FilePath>& indexedHeaderPaths,
-			const std::wstring& languageStandard,
-			const std::vector<FilePath>& systemHeaderSearchPaths,
-			const std::vector<FilePath>& frameworkSearchPaths) const;
+			const std::vector<std::wstring>& compilerFlags) const;
 
 		std::vector<std::shared_ptr<XsdRootPathWithFiles>> m_rootPathWithFiles;
 	};

@@ -157,6 +157,17 @@ private:
 		const std::set<FilePathFilter> includedFilters = {};
 		const FilePath workingDirectory(L".");
 
+		std::vector<std::wstring> compilerFlags;
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
+			utility::concat(std::vector<FilePath> { projectDataSrcRoot }, ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded())
+		));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(
+			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded()
+		));
+		compilerFlags.emplace_back(L"--target=x86_64-pc-windows-msvc");
+		compilerFlags.emplace_back(L"-std=c++1z");
+		compilerFlags.emplace_back(sourceFilePath.wstr());
+
 		std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
 			sourceFilePath,
 			indexedPaths,
@@ -173,9 +184,7 @@ private:
 			excludedFilters,
 			includedFilters,
 			workingDirectory,
-			utility::concat(std::vector<FilePath> { projectDataSrcRoot }, ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded()),
-			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded(),
-			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc", L"-std=c++1z", sourceFilePath.wstr() }
+			compilerFlags
 		);
 
 		TimeStamp startTime = TimeStamp::now();

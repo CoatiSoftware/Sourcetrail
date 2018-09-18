@@ -150,8 +150,6 @@ namespace Sonargraph
 			return std::vector<std::shared_ptr<IndexerCommand>>();
 		}
 
-		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-
 		std::set<FilePath> indexedHeaderPaths;
 		std::wstring languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
 
@@ -167,13 +165,10 @@ namespace Sonargraph
 			LOG_ERROR(L"Source group doesn't specify any indexed header paths");
 		}
 
-		const std::vector<FilePath> systemHeaderSearchPaths = (appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>());
-		const std::vector<FilePath> frameworkSearchPaths = (appSettings ? appSettings->getFrameworkSearchPathsExpanded() : std::vector<FilePath>());
-
 		const std::set<FilePathFilter> excludeFilters = utility::toSet(getDerivedExcludeFilters());
 		const std::set<FilePathFilter> includeFilters = utility::toSet(getDerivedIncludeFilters());
 
-		std::vector<std::wstring> processedOptions;
+		std::vector<std::wstring> compilerFlags;
 		{
 			const std::vector<std::wstring> optionPrefixes = getIncludeOptionPrefixes();
 			const FilePath baseIncludeDir = m_basePathForIncludes.isAbsolute() ? m_basePathForIncludes : softwareSystem->getBaseDirectory().getConcatenated(m_basePathForIncludes);
@@ -187,16 +182,16 @@ namespace Sonargraph
 					{
 						isIncludeOption = true;
 
-						processedOptions.push_back(L"-isystem");
+						compilerFlags.push_back(L"-isystem");
 
 						FilePath headerSearchPath(utility::trim(compilerOption.substr(optionPrefix.size())));
 						if (headerSearchPath.isAbsolute())
 						{
-							processedOptions.push_back(headerSearchPath.wstr());
+							compilerFlags.push_back(headerSearchPath.wstr());
 						}
 						else
 						{
-							processedOptions.push_back(baseIncludeDir.getConcatenated(headerSearchPath).wstr());
+							compilerFlags.push_back(baseIncludeDir.getConcatenated(headerSearchPath).wstr());
 						}
 						break;
 					}
@@ -204,13 +199,16 @@ namespace Sonargraph
 
 				if (!isIncludeOption)
 				{
-					processedOptions.push_back(compilerOption);
+					compilerFlags.push_back(compilerOption);
 				}
 			}
 		}
 
-		processedOptions.push_back(L"-std=" + languageStandard);
+		compilerFlags.emplace_back(IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>()));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(appSettings ? appSettings->getFrameworkSearchPathsExpanded() : std::vector<FilePath>()));
 
+		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 		for (const FilePath& sourceFilePath : getAllSourceFilePathsCanonical())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCxx>(
@@ -219,9 +217,7 @@ namespace Sonargraph
 				excludeFilters,
 				includeFilters,
 				softwareSystem->getBaseDirectory(),
-				systemHeaderSearchPaths,
-				frameworkSearchPaths,
-				utility::concat(processedOptions, { sourceFilePath.wstr() })
+				utility::concat(compilerFlags, sourceFilePath.wstr())
 			));
 		}
 

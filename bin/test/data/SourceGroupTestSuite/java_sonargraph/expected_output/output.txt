@@ -1,0 +1,3 @@
+SourceFilePath: "src/main/java/main.java"
+	LanguageStandard: "8"
+	ClassPathItem: "test/jre/system/library/path.jar"

@@ -200,15 +200,17 @@ namespace Sonargraph
 			LOG_ERROR(L"Source group doesn't specify any indexed header paths");
 		}
 
-		const std::vector<FilePath> systemHeaderSearchPaths = (appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>());
-		const std::vector<FilePath> frameworkSearchPaths = (appSettings ? appSettings->getFrameworkSearchPathsExpanded() : std::vector<FilePath>());
+		std::vector<std::wstring> compilerFlags;
+		compilerFlags.emplace_back(IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(appSettings ? appSettings->getHeaderSearchPathsExpanded() : std::vector<FilePath>()));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(appSettings ? appSettings->getFrameworkSearchPathsExpanded() : std::vector<FilePath>()));
 
 		for (std::shared_ptr<XsdRootPath> rootPath : getRootPaths())
 		{
 			if (std::shared_ptr<XsdRootPathWithFiles> rootPathWithFiles = std::dynamic_pointer_cast<XsdRootPathWithFiles>(rootPath))
 			{
 				utility::append(indexerCommands, getIndexerCommandsForRootPath(
-					rootPathWithFiles, indexedHeaderPaths, languageStandard, systemHeaderSearchPaths, frameworkSearchPaths
+					rootPathWithFiles, indexedHeaderPaths, compilerFlags
 				));
 			}
 		}
@@ -216,7 +218,7 @@ namespace Sonargraph
 		for (std::shared_ptr<XsdRootPathWithFiles> rootPath : m_rootPathWithFiles)
 		{
 			utility::append(indexerCommands, getIndexerCommandsForRootPath(
-				rootPath, indexedHeaderPaths, languageStandard, systemHeaderSearchPaths, frameworkSearchPaths
+				rootPath, indexedHeaderPaths, compilerFlags
 			));
 		}
 
@@ -294,9 +296,7 @@ namespace Sonargraph
 	std::vector<std::shared_ptr<IndexerCommand>> XsdCmakeJsonModule::getIndexerCommandsForRootPath(
 		std::shared_ptr<XsdRootPathWithFiles> rootPath,
 		const std::set<FilePath>& indexedHeaderPaths,
-		const std::wstring& languageStandard,
-		const std::vector<FilePath>& systemHeaderSearchPaths,
-		const std::vector<FilePath>& frameworkSearchPaths) const
+		const std::vector<std::wstring>& compilerFlags) const
 	{
 		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 		if (rootPath)
@@ -319,11 +319,11 @@ namespace Sonargraph
 					{
 						if (systemExtension->hasCompilerOptionsForId(id))
 						{
-							return systemExtension->getCompilerOptionsForId(id);
+							return utility::concat(systemExtension->getCompilerOptionsForId(id), compilerFlags);
 						}
 					}
 				}
-				return std::vector<std::wstring>();
+				return compilerFlags;
 			});
 
 			for (const XsdRootPathWithFiles::SourceFile& sourceFile : getIncludedSourceFilesForRootPath(
@@ -337,14 +337,9 @@ namespace Sonargraph
 					excludeFilters,
 					includeFilters,
 					softwareSystem->getBaseDirectory(),
-					systemHeaderSearchPaths,
-					frameworkSearchPaths,
 					utility::concat(
 						compilerOptionCache.getValue(sourceFile.compilerOptionSetId),
-						{
-							L"-std=" + languageStandard,
-							sourceFilePath.wstr()
-						}
+						sourceFilePath.wstr()
 					)
 				));
 			}

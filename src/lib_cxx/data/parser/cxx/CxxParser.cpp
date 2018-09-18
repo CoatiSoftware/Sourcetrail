@@ -93,7 +93,7 @@ namespace
 
 	std::vector<std::string> prependSyntaxOnlyToolArgs(const std::vector<std::string>& args)
 	{
-		return utility::concat({ "clang-tool", "-fsyntax-only" }, args);
+		return utility::concat(std::vector<std::string>({ "clang-tool", "-fsyntax-only" }), args);
 	}
 
 	std::vector<std::string> appendFilePath(const std::vector<std::string>& args, llvm::StringRef filePath)
@@ -143,9 +143,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxx> indexerCommand)
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
 	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
-	compileCommand.CommandLine = getCommandlineArgumentsEssential(
-		indexerCommand->getCompilerFlags(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
-	);
+	compileCommand.CommandLine = getCommandlineArgumentsEssential(indexerCommand->getCompilerFlags());
 
 	if (!utility::isPrefix<std::string>("-", compileCommand.CommandLine.front()))
 	{
@@ -165,7 +163,7 @@ void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAcc
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(FilePath(), canonicalFilePathCache, false);
 	ASTActionFactory actionFactory(m_client, canonicalFilePathCache);
 
-	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags, std::vector<FilePath>(), std::vector<FilePath>());
+	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags);
 
 	runToolOnCodeWithArgs(
 		diagnostics.get(),
@@ -197,11 +195,8 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 	tool.run(&actionFactory);
 }
 
-std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
-	const std::vector<std::wstring>& compilerFlags,
-	const std::vector<FilePath>& systemHeaderSearchPaths,
-	const std::vector<FilePath>& frameworkSearchPaths
-) const {
+std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const std::vector<std::wstring>& compilerFlags) const
+{
 	std::vector<std::string> args;
 
 	// The option -fno-delayed-template-parsing signals that templates that there should
@@ -223,25 +218,6 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 	for (const std::wstring& compilerFlag: compilerFlags)
 	{
 		args.push_back(utility::encodeToUtf8(compilerFlag));
-	}
-
-	for (const FilePath& path : systemHeaderSearchPaths)
-	{
-#ifdef _WIN32
-		if (path == ResourcePaths::getCxxCompilerHeaderPath())
-		{
-			args = utility::concat({ "-isystem" , utility::encodeToUtf8(path.wstr()) }, args);
-			continue;
-		}
-#endif
-		args.push_back("-isystem");
-		args.push_back(utility::encodeToUtf8(path.wstr()));
-	}
-
-	for (const FilePath& path: frameworkSearchPaths)
-	{
-		args.push_back("-iframework");
-		args.push_back(utility::encodeToUtf8(path.wstr()));
 	}
 
 	return args;

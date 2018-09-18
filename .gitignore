@@ -55,7 +55,6 @@
 .ycm_extra_conf.pyc
 
 sourcetrail.srctrlprj
-compile_commands.json
 
 Makefile
 CMakeLists.txt.user*

@@ -8,6 +8,8 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/OrderedCache.h"
+#include "utility/ResourcePaths.h"
+#include "utility/utility.h"
 #include "utility/utilityString.h"
 
 std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
@@ -36,14 +38,54 @@ std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& c
 				std::vector<clang::tooling::CompileCommand> commands = cdb->getCompileCommands(fileString);
 				if (!commands.empty())
 				{
-					path = FilePath(utility::decodeFromUtf8(commands.front().Directory + '/' + commands.front().Filename));
+					path = FilePath(utility::decodeFromUtf8(commands.front().Directory + '/' + commands.front().Filename)).makeCanonical();
 				}
 			}
-
+			if (!path.isAbsolute())
+			{
+				path = compilationDatabasePath.getParentDirectory().getConcatenated(path).makeCanonical();
+			}
 			filePaths.push_back(canonicalDirectoryPathCache.getValue(path.getParentDirectory()).concatenate(path.fileName()));
 		}
 	}
 	return filePaths;
+}
+
+std::wstring IndexerCommandCxx::getCompilerFlagLanguageStandard(const std::wstring &languageStandard)
+{
+	return L"-std=" + languageStandard;
+}
+
+std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(const std::vector<FilePath>& systemHeaderSearchPaths)
+{
+	std::vector<std::wstring> compilerFlags;
+	compilerFlags.reserve(systemHeaderSearchPaths.size() * 2);
+	for (const FilePath& path : systemHeaderSearchPaths)
+	{
+#ifdef _WIN32
+		// prepend clang system includes on windows
+		if (path == ResourcePaths::getCxxCompilerHeaderPath())
+		{
+			compilerFlags = utility::concat({ L"-isystem" , path.wstr() }, compilerFlags);
+			continue;
+		}
+#endif
+		compilerFlags.push_back(L"-isystem");
+		compilerFlags.push_back(path.wstr());
+	}
+	return compilerFlags;
+}
+
+std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
+{
+	std::vector<std::wstring> compilerFlags;
+	compilerFlags.reserve(frameworkSearchPaths.size() * 2);
+	for (const FilePath& path : frameworkSearchPaths)
+	{
+		compilerFlags.push_back(L"-iframework");
+		compilerFlags.push_back(path.wstr());
+	}
+	return compilerFlags;
 }
 
 IndexerCommandType IndexerCommandCxx::getStaticIndexerCommandType()
@@ -57,8 +99,6 @@ IndexerCommandCxx::IndexerCommandCxx(
 	const std::set<FilePathFilter>& excludeFilters,
 	const std::set<FilePathFilter>& includeFilters,
 	const FilePath& workingDirectory,
-	const std::vector<FilePath>& systemHeaderSearchPaths,
-	const std::vector<FilePath>& frameworkSearchPaths,
 	const std::vector<std::wstring>& compilerFlags
 )
 	: IndexerCommand(sourceFilePath)
@@ -66,8 +106,6 @@ IndexerCommandCxx::IndexerCommandCxx(
 	, m_excludeFilters(excludeFilters)
 	, m_includeFilters(includeFilters)
 	, m_workingDirectory(workingDirectory)
-	, m_systemHeaderSearchPaths(systemHeaderSearchPaths)
-	, m_frameworkSearchPaths(frameworkSearchPaths)
 	, m_compilerFlags(compilerFlags)
 {
 }
@@ -96,16 +134,6 @@ size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 		size += stringSize + utility::encodeToUtf8(filter.wstr()).size();
 	}
 
-	for (const FilePath& path : m_systemHeaderSearchPaths)
-	{
-		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
-	}
-
-	for (const FilePath& path : m_frameworkSearchPaths)
-	{
-		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
-	}
-
 	for (const std::wstring& flag : m_compilerFlags)
 	{
 		size += stringSize + flag.size();
@@ -127,16 +155,6 @@ const std::set<FilePathFilter>& IndexerCommandCxx::getExcludeFilters() const
 const std::set<FilePathFilter>& IndexerCommandCxx::getIncludeFilters() const
 {
 	return m_includeFilters;
-}
-
-const std::vector<FilePath>& IndexerCommandCxx::getSystemHeaderSearchPaths() const
-{
-	return m_systemHeaderSearchPaths;
-}
-
-const std::vector<FilePath>& IndexerCommandCxx::getFrameworkSearchPaths() const
-{
-	return m_frameworkSearchPaths;
 }
 
 const std::vector<std::wstring>& IndexerCommandCxx::getCompilerFlags() const
@@ -179,22 +197,6 @@ QJsonObject IndexerCommandCxx::doSerialize() const
 	}
 	{
 		jsonObject["working_directory"] = QString::fromStdWString(getWorkingDirectory().wstr());
-	}
-	{
-		QJsonArray systemHeaderSearchPathsArray;
-		for (const FilePath& systemHeaderSearchPath : m_systemHeaderSearchPaths)
-		{
-			systemHeaderSearchPathsArray.append(QString::fromStdWString(systemHeaderSearchPath.wstr()));
-		}
-		jsonObject["system_header_search_paths"] = systemHeaderSearchPathsArray;
-	}
-	{
-		QJsonArray frameworkSearchPathsArray;
-		for (const FilePath& frameworkSearchPath : m_frameworkSearchPaths)
-		{
-			frameworkSearchPathsArray.append(QString::fromStdWString(frameworkSearchPath.wstr()));
-		}
-		jsonObject["framework_search_paths"] = frameworkSearchPathsArray;
 	}
 	{
 		QJsonArray compilerFlagsArray;

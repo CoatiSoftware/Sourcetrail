@@ -39,18 +39,18 @@ namespace utility
 
 		std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
 		bool success = javaEnvironment->callStaticVoidMethod(
-			"com/sourcetrail/gradle/InfoRetriever", 
-			"copyCompileLibs", 
+			"com/sourcetrail/gradle/InfoRetriever",
+			"copyCompileLibs",
 			utility::encodeToUtf8(projectDirectoryPath.wstr()),
 			utility::encodeToUtf8(gradleInitScriptPath.wstr()),
 			utility::encodeToUtf8(outputDirectoryPath.wstr())
 		);
-		
+
 		if (success && addTestDependencies)
 		{
 			success = javaEnvironment->callStaticVoidMethod(
 				"com/sourcetrail/gradle/InfoRetriever",
-				"copyTestCompileLibs", 
+				"copyTestCompileLibs",
 				utility::encodeToUtf8(projectDirectoryPath.wstr()),
 				utility::encodeToUtf8(gradleInitScriptPath.wstr()),
 				utility::encodeToUtf8(outputDirectoryPath.wstr())
@@ -73,9 +73,9 @@ namespace utility
 			{
 				std::string output = "";
 				javaEnvironment->callStaticStringMethod(
-					"com/sourcetrail/gradle/InfoRetriever", 
-					"getMainSrcDirs", 
-					output, 
+					"com/sourcetrail/gradle/InfoRetriever",
+					"getMainSrcDirs",
+					output,
 					utility::encodeToUtf8(projectDirectoryPath.wstr()),
 					utility::encodeToUtf8(gradleInitScriptPath.wstr())
 				);
@@ -84,7 +84,7 @@ namespace utility
 				{
 					// TODO: move error handling to caller of this function
 					const std::wstring dialogMessage =
-						L"The following error occurred while executing a Gradle command:\n\n" + 
+						L"The following error occurred while executing a Gradle command:\n\n" +
 						utility::decodeFromUtf8(utility::replace(output, "\r\n", "\n"));
 					MessageStatus(dialogMessage, true, false).dispatch();
 					Application::getInstance()->handleDialog(dialogMessage);
@@ -102,18 +102,18 @@ namespace utility
 			{
 				std::string output = "";
 				javaEnvironment->callStaticStringMethod(
-					"com/sourcetrail/gradle/InfoRetriever", 
-					"getTestSrcDirs", 
+					"com/sourcetrail/gradle/InfoRetriever",
+					"getTestSrcDirs",
 					output,
 					utility::encodeToUtf8(projectDirectoryPath.wstr()),
 					utility::encodeToUtf8(gradleInitScriptPath.wstr())
 				);
-				
+
 				if (utility::isPrefix<std::string>("[ERROR]", utility::trim(output)))
 				{
 					// TODO: move error handling to caller of this function
 					const std::wstring dialogMessage =
-						L"The following error occurred while executing a Gradle command:\n\n" + 
+						L"The following error occurred while executing a Gradle command:\n\n" +
 						utility::decodeFromUtf8(utility::replace(output, "\r\n", "\n"));
 					MessageStatus(dialogMessage, true, false).dispatch();
 					Application::getInstance()->handleDialog(dialogMessage);

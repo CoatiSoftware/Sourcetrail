@@ -102,46 +102,6 @@ void CxxIndexerCommandProvider::addCommand(const std::shared_ptr<IndexerCommandC
 		}
 	}
 
-	{
-		const std::vector<FilePath>& systemHeaderSearchPaths = command->getSystemHeaderSearchPaths();
-		representation->m_systemHeaderSearchPathIds.reserve(systemHeaderSearchPaths.size());
-		for (const FilePath& systemHeaderSearchPath : systemHeaderSearchPaths)
-		{
-			std::map<FilePath, Id>::const_iterator it = m_systemHeaderSearchPathsToIds.find(systemHeaderSearchPath);
-			if (it != m_systemHeaderSearchPathsToIds.end())
-			{
-				representation->m_systemHeaderSearchPathIds.emplace_back(it->second);
-			}
-			else
-			{
-				const Id id = getId();
-				m_systemHeaderSearchPathsToIds[systemHeaderSearchPath] = id;
-				m_idsToSystemHeaderSearchPaths[id] = systemHeaderSearchPath;
-				representation->m_systemHeaderSearchPathIds.emplace_back(id);
-			}
-		}
-	}
-
-	{
-		const std::vector<FilePath>& frameworkSearchPaths = command->getFrameworkSearchPaths();
-		representation->m_frameworkSearchPathIds.reserve(frameworkSearchPaths.size());
-		for (const FilePath& frameworkSearchPath : frameworkSearchPaths)
-		{
-			std::map<FilePath, Id>::const_iterator it = m_frameworkSearchPathsToIds.find(frameworkSearchPath);
-			if (it != m_frameworkSearchPathsToIds.end())
-			{
-				representation->m_frameworkSearchPathIds.emplace_back(it->second);
-			}
-			else
-			{
-				const Id id = getId();
-				m_frameworkSearchPathsToIds[frameworkSearchPath] = id;
-				m_idsToFrameworkSearchPaths[id] = frameworkSearchPath;
-				representation->m_frameworkSearchPathIds.emplace_back(id);
-			}
-		}
-	}
-
 	m_commands[command->getSourceFilePath()] = representation;
 }
 
@@ -214,8 +174,6 @@ void CxxIndexerCommandProvider::logStats() const
 	LOG_INFO("\texclude filter count: " + std::to_string(m_idsToExcludeFilters.size()));
 	LOG_INFO("\tinclude filter count: " + std::to_string(m_idsToIncludeFilters.size()));
 	LOG_INFO("\tworking directory count: " + std::to_string(m_idsToWorkingDirectories.size()));
-	LOG_INFO("\theader search paths count: " + std::to_string(m_idsToSystemHeaderSearchPaths.size()));
-	LOG_INFO("\tframework search path count: " + std::to_string(m_idsToFrameworkSearchPaths.size()));
 	LOG_INFO("\tcompiler flag count: " + std::to_string(m_idsToCompilerFlags.size()));
 }
 
@@ -252,26 +210,12 @@ std::shared_ptr<IndexerCommandCxx> CxxIndexerCommandProvider::represetationToCom
 		compilerFlags.push_back(m_idsToCompilerFlags[id]);
 	}
 
-	std::vector<FilePath> systemHeaderSearchPaths;
-	for (const Id id : representation->m_systemHeaderSearchPathIds)
-	{
-		systemHeaderSearchPaths.push_back(m_idsToSystemHeaderSearchPaths[id]);
-	}
-
-	std::vector<FilePath> frameworkSearchPaths;
-	for (const Id id : representation->m_frameworkSearchPathIds)
-	{
-		frameworkSearchPaths.push_back(m_idsToFrameworkSearchPaths[id]);
-	}
-
 	return std::make_shared<IndexerCommandCxx>(
 		sourceFilePath,
 		indexedPaths,
 		excludeFilters,
 		includeFilters,
 		workingDirectory,
-		systemHeaderSearchPaths,
-		frameworkSearchPaths,
 		compilerFlags
 	);
 }

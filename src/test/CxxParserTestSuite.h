@@ -4124,8 +4124,6 @@ public:
 			excludeFilters,
 			includeFilters,
 			workingDirectory,
-			std::vector<FilePath>(),
-			std::vector<FilePath>(),
 			std::vector<std::wstring> { L"--target=x86_64-pc-windows-msvc", L"-std=c++1z", sourceFilePath.wstr() }
 		);
 

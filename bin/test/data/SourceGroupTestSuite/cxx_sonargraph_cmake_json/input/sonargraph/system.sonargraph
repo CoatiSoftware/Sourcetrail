@@ -1,0 +1,698 @@
+<?xml version="1.0" ?>
+<ns2:softwareSystem xmlns:ns2="http://www.hello2morrow.com/sonargraph/core" id="09ce8979514ea235797ab4a553f5667e" version="9.4.3.100">
+    <description></description>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="Foundation" id="4152aded03a38d56f21c0c8250f829e5" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/Foundation/src">
+            <sourceFile compilerOptionSetId="0" fileName="./AbstractObserver.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ActiveDispatcher.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ArchiveStrategy.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Ascii.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ASCIIEncoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./AsyncChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./AtomicCounter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Base32Decoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Base32Encoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Base64Decoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Base64Encoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./BinaryReader.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./BinaryWriter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Bugcheck.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ByteOrder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Channel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Checksum.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Clock.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Condition.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Configurable.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ConsoleChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./CountingStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DateTime.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DateTimeFormat.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DateTimeFormatter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DateTimeParser.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Debugger.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DeflatingStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DigestEngine.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DigestStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DirectoryIterator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DirectoryIteratorStrategy.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./DirectoryWatcher.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Environment.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Error.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ErrorHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Event.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./EventArgs.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Exception.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./FIFOBufferStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./File.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./FileChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./FileStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./FileStreamFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Format.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Formatter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./FormattingChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./FPEnvironment.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Glob.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Hash.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./HashStatistic.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./HexBinaryDecoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./HexBinaryEncoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./InflatingStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Latin1Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Latin2Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Latin9Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./LineEndingConverter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./LocalDateTime.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./LogFile.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Logger.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./LoggingFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./LoggingRegistry.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./LogStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Manifest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./MD4Engine.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./MD5Engine.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./MemoryPool.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./MemoryStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Message.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Mutex.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NamedEvent.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NamedMutex.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NestedDiagnosticContext.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Notification.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NotificationCenter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NotificationQueue.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NullChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NullStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NumberFormatter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NumberParser.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./NumericString.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Path.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./PatternFormatter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Pipe.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./PipeImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./PipeStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./PriorityNotificationQueue.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Process.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./PurgeStrategy.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Random.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./RandomStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./RefCountedObject.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./RegularExpression.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./RotateStrategy.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Runnable.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./RWLock.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Semaphore.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SHA1Engine.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SharedLibrary.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SharedMemory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SignalHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SimpleFileChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SortedDirectoryIterator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SplitterChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Stopwatch.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./StreamChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./StreamConverter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./StreamCopier.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./StreamTokenizer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./String.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./StringTokenizer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SynchronizedObject.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./SyslogChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Task.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TaskManager.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TaskNotification.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TeeStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TemporaryFile.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TextBufferIterator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TextConverter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TextEncoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TextIterator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Thread.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ThreadLocal.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ThreadPool.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./ThreadTarget.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./TimedNotificationQueue.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Timer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Timespan.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Timestamp.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Timezone.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Token.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Unicode.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./UnicodeConverter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./URI.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./URIStreamFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./URIStreamOpener.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./UTF16Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./UTF32Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./UTF8Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./UTF8String.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./UUID.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./UUIDGenerator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Var.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./VarHolder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./VarIterator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Void.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Windows1250Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Windows1251Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./Windows1252Encoding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_config.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_byte_order.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_chartables.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_compile.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_exec.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_fullinfo.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_globals.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_maketables.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_newline.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_ord2utf8.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_study.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_tables.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_dfa_exec.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_get.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_jit_compile.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_refcount.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_string_utils.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_version.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_ucd.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_valid_utf8.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./pcre_xclass.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./adler32.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./compress.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./crc32.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./deflate.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./infback.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./inffast.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./inflate.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./inftrees.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./trees.c"></sourceFile>
+            <sourceFile compilerOptionSetId="0" fileName="./zutil.c"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="XML" id="9ef5d881e5b5e637c9fbfa8c41d3d57e" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/XML/src">
+            <sourceFile compilerOptionSetId="1" fileName="./AbstractContainerNode.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./AbstractNode.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Attr.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Attributes.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./AttributesImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./AttrMap.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./CDATASection.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./CharacterData.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./ChildNodesList.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Comment.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./ContentHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DeclHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DefaultHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Document.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DocumentEvent.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DocumentFragment.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DocumentType.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DOMBuilder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DOMException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DOMImplementation.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DOMObject.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DOMParser.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DOMSerializer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DOMWriter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DTDHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./DTDMap.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Element.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./ElementsByTagNameList.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Entity.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./EntityReference.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./EntityResolver.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./EntityResolverImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./ErrorHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Event.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./EventDispatcher.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./EventException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./EventListener.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./EventTarget.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./InputSource.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./LexicalHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Locator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./LocatorImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./MutationEvent.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Name.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NamedNodeMap.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NamePool.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NamespaceStrategy.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NamespaceSupport.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Node.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NodeAppender.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NodeFilter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NodeIterator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./NodeList.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Notation.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./ParserEngine.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./ProcessingInstruction.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./SAXException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./SAXParser.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./Text.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./TreeWalker.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./WhitespaceFilter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./XMLException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./XMLFilter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./XMLFilterImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./xmlparse.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./XMLReader.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./XMLString.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./XMLWriter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./xmlrole.c"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./xmltok.c"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./xmltok_impl.c"></sourceFile>
+            <sourceFile compilerOptionSetId="1" fileName="./xmltok_ns.c"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="JSON" id="68de4aa4dac693305f37877732f3897e" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/JSON/src">
+            <sourceFile compilerOptionSetId="2" fileName="./Array.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./Handler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./JSONException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./Object.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./ParseHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./Parser.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./PrintHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./Query.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./Stringifier.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./Template.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="2" fileName="./TemplateCache.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="MongoDB" id="0f4e83045501563f323381214a26695d" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/MongoDB/src">
+            <sourceFile compilerOptionSetId="3" fileName="./Array.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./Binary.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./Connection.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./Cursor.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./Database.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./DeleteRequest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./Document.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./Element.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./GetMoreRequest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./InsertRequest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./JavaScriptCode.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./KillCursorsRequest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./Message.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./MessageHeader.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./ObjectId.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./QueryRequest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./RegularExpression.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./ReplicaSet.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./RequestMessage.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./ResponseMessage.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="3" fileName="./UpdateRequest.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="Util" id="31cf178eb745b68b72adf0491de8e51d" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/Util/src">
+            <sourceFile compilerOptionSetId="4" fileName="./AbstractConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./Application.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./ConfigurationMapper.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./ConfigurationView.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./FilesystemConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./HelpFormatter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./IniFileConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./IntValidator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./JSONConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./LayeredConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./LoggingConfigurator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./LoggingSubsystem.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./MapConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./Option.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./OptionCallback.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./OptionException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./OptionProcessor.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./OptionSet.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./PropertyFileConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./RegExpValidator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./ServerApplication.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./Subsystem.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./SystemConfiguration.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./Timer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./TimerTask.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./Validator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="4" fileName="./XMLConfiguration.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="Net" id="17007d64582fe066274cbb04c385781e" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/Net/src">
+            <sourceFile compilerOptionSetId="5" fileName="./AbstractHTTPRequestHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./DatagramSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./DatagramSocketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./DialogSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./DNS.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./FilePartSource.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./FTPClientSession.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./FTPStreamFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HostEntry.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTMLForm.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPAuthenticationParams.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPBasicCredentials.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPBufferAllocator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPChunkedStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPClientSession.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPCookie.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPCredentials.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPDigestCredentials.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPFixedLengthStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPHeaderStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPIOStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPMessage.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPRequest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPRequestHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPRequestHandlerFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPResponse.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerConnection.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerConnectionFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerParams.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerRequest.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerRequestImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerResponse.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerResponseImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPServerSession.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPSession.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPSessionFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPSessionInstantiator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./HTTPStreamFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ICMPClient.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ICMPEventArgs.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ICMPPacket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ICMPPacketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ICMPSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ICMPSocketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ICMPv4PacketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./IPAddress.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./IPAddressImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MailMessage.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MailRecipient.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MailStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MediaType.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MessageHeader.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MulticastSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MultipartReader.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./MultipartWriter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./NameValueCollection.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./Net.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./NetException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./NetworkInterface.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./NTPClient.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./NTPEventArgs.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./NTPPacket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./NullPartHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./OAuth10Credentials.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./OAuth20Credentials.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./PartHandler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./PartSource.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./PartStore.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./POP3ClientSession.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./QuotedPrintableDecoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./QuotedPrintableEncoder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./RawSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./RawSocketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./RemoteSyslogChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./RemoteSyslogListener.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ServerSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./ServerSocketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SMTPChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SMTPClientSession.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./Socket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SocketAddress.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SocketAddressImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SocketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SocketNotification.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SocketNotifier.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SocketReactor.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./SocketStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./StreamSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./StreamSocketImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./StringPartSource.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./TCPServer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./TCPServerConnection.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./TCPServerConnectionFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./TCPServerDispatcher.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./TCPServerParams.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./WebSocket.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="5" fileName="./WebSocketImpl.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="Data" id="8d1b2342d3e64c1f9c9140b110485206" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/Data/src">
+            <sourceFile compilerOptionSetId="6" fileName="./AbstractBinder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./AbstractBinding.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./AbstractExtraction.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./AbstractExtractor.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./AbstractPreparation.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./AbstractPreparator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./ArchiveStrategy.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Bulk.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Connector.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./DataException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Date.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./DynamicLOB.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Limit.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./MetaColumn.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./PooledSessionHolder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./PooledSessionImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Position.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Range.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./RecordSet.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Row.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./RowFilter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./RowFormatter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./RowIterator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Session.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./SessionFactory.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./SessionImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./SessionPool.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./SessionPoolContainer.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./SimpleRowFormatter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./SQLChannel.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Statement.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./StatementCreator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./StatementImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Time.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="6" fileName="./Transaction.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="SQLLite" id="9be362dcc09b6acb1f035696e0193b2c" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/Data/SQLite/src">
+            <sourceFile compilerOptionSetId="7" fileName="./Binder.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./Connector.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./Extractor.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./Notifier.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./SessionImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./SQLiteException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./SQLiteStatementImpl.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./Utility.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="7" fileName="./sqlite3.c"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="Zip" id="573d0fb5c14cb4ecf11f126723603a7b" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/Zip/src">
+            <sourceFile compilerOptionSetId="8" fileName="./Add.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./AutoDetectStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./Compress.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./Decompress.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./Delete.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./Keep.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ParseCallback.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./PartialStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./Rename.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./Replace.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./SkipCallback.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipArchive.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipArchiveInfo.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipCommon.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipDataInfo.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipException.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipFileInfo.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipLocalFileHeader.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipManipulator.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipOperation.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipStream.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="8" fileName="./ZipUtil.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="PageCompiler" id="92f7608c6c437fecef60b7f33c24b4f8" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/PageCompiler/src">
+            <sourceFile compilerOptionSetId="9" fileName="./ApacheCodeWriter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="9" fileName="./CodeWriter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="9" fileName="./OSPCodeWriter.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="9" fileName="./Page.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="9" fileName="./PageCompiler.cpp"></sourceFile>
+            <sourceFile compilerOptionSetId="9" fileName="./PageReader.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <module xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCmakeJsonModule" name="File2Page" id="743174a01a27658a3e9f06c71597bce5" language="CPlusPlus">
+        <description></description>
+        <rootPath xsi:type="ns4:xsdRootPathWithFiles" name="./src/PageCompiler/File2Page/src">
+            <sourceFile compilerOptionSetId="9" fileName="./File2Page.cpp"></sourceFile>
+        </rootPath>
+    </module>
+    <systemExtension xmlns:ns4="http://www.hello2morrow.com/sonargraph/languageprovider/cplusplus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:xsdCppSystemSettings" language="CPlusPlus">
+        <jsonFile>./cmake-build/compile_commands.json</jsonFile>
+        <compilerOptionSets id="0">
+            <option>-DFoundation_EXPORTS</option>
+            <option>-DPCRE_STATIC</option>
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/Foundation/include</option>
+            <option>-I./src/Foundation/src</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="1">
+            <option>-DHAVE_EXPAT_CONFIG_H</option>
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-DXML_DTD</option>
+            <option>-DXML_EXPORTS</option>
+            <option>-DXML_NS</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/XML/include</option>
+            <option>-I./src/XML/src</option>
+            <option>-I./src/Foundation/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="2">
+            <option>-DJSON_EXPORTS</option>
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/JSON/include</option>
+            <option>-I./src/JSON/src</option>
+            <option>-I./src/Foundation/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="3">
+            <option>-DMongoDB_EXPORTS</option>
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/MongoDB/include</option>
+            <option>-I./src/MongoDB/src</option>
+            <option>-I./src/Net/include</option>
+            <option>-I./src/Foundation/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="4">
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-DUtil_EXPORTS</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/Util/include</option>
+            <option>-I./src/Util/src</option>
+            <option>-I./src/Foundation/include</option>
+            <option>-I./src/XML/include</option>
+            <option>-I./src/JSON/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="5">
+            <option>-DNet_EXPORTS</option>
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/Net/include</option>
+            <option>-I./src/Net/src</option>
+            <option>-I./src/Foundation/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="6">
+            <option>-DData_EXPORTS</option>
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-DTHREADSAFE</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/Data/include</option>
+            <option>-I./src/Data/src</option>
+            <option>-I./src/Foundation/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="7">
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-DSQLITE_DISABLE_LFS</option>
+            <option>-DSQLITE_OMIT_COMPLETE</option>
+            <option>-DSQLITE_OMIT_DEPRECATED</option>
+            <option>-DSQLITE_OMIT_PROGRESS_CALLBACK</option>
+            <option>-DSQLITE_OMIT_TCL_VARIABLE</option>
+            <option>-DSQLITE_OMIT_UTF16</option>
+            <option>-DSQLITE_THREADSAFE=1</option>
+            <option>-DSQLite_EXPORTS</option>
+            <option>-DTHREADSAFE</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/Data/SQLite/include</option>
+            <option>-I./src/Data/SQLite/src</option>
+            <option>-I./src/Foundation/include</option>
+            <option>-I./src/Data/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="8">
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-DZip_EXPORTS</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-fPIC</option>
+            <option>-I./src/Zip/include</option>
+            <option>-I./src/Zip/src</option>
+            <option>-I./src/Util/include</option>
+            <option>-I./src/Foundation/include</option>
+            <option>-I./src/XML/include</option>
+            <option>-I./src/JSON/include</option>
+        </compilerOptionSets>
+        <compilerOptionSets id="9">
+            <option>-DPOCO_HAVE_IPv6</option>
+            <option>-DPOCO_NO_STAT64</option>
+            <option>-DPOCO_OS_FAMILY_UNIX</option>
+            <option>-O2</option>
+            <option>-g</option>
+            <option>-DNDEBUG</option>
+            <option>-I../../../../usr/include/apache2</option>
+            <option>-I../../../../usr/include/apr-1</option>
+            <option>-I./src/Net/include</option>
+            <option>-I./src/Foundation/include</option>
+            <option>-I./src/Util/include</option>
+            <option>-I./src/XML/include</option>
+            <option>-I./src/JSON/include</option>
+        </compilerOptionSets>
+    </systemExtension>
+</ns2:softwareSystem>

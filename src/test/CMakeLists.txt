@@ -31,7 +31,7 @@ add_files(
 	SettingsMigratorTestSuite.h
 	SettingsTestSuite.h
 	SharedMemoryTestSuite.h
-	SonargraphProjectTestSuite.h
+	SourceGroupTestSuite.h
 	SourceLocationCollectionTestSuite.h
 	SqliteBookmarkStorageTestSuite.h
 	SqliteIndexStorageTestSuite.h

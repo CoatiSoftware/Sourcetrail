@@ -70,7 +70,6 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
-	std::vector<FilePath> systemHeaderSearchPaths;
 
 	std::set<FilePath> indexedPaths;
 	std::set<FilePathFilter> excludeFilters;
@@ -90,22 +89,6 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 		targetFlag = settings->getTargetFlag();
 	}
 
-	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	for (const FilePath& sourcePath: indexedPaths)
-	{
-		if (sourcePath.isDirectory())
-		{
-			systemHeaderSearchPaths.push_back(sourcePath);
-		}
-	}
-
-	utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
-	utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
-
-	std::vector<FilePath> frameworkSearchPaths;
-	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
-	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
-
 	std::vector<std::wstring> compilerFlags;
 	{
 		if (!targetFlag.empty())
@@ -114,31 +97,53 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 		}
 	}
 
+	{
+		std::wstring languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
+		if (std::shared_ptr<SourceGroupSettingsWithCStandard> cSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsWithCStandard>(m_settings))
+		{
+			languageStandard = cSettings->getCStandard();
+		}
+		else if (std::shared_ptr<SourceGroupSettingsWithCppStandard> cppSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsWithCppStandard>(m_settings))
+		{
+			languageStandard = cppSettings->getCppStandard();
+		}
+		else
+		{
+			LOG_ERROR(L"Source group doesn't specify language standard. Falling back to \"" + languageStandard + L"\".");
+		}
+
+		compilerFlags.push_back(IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard));
+	}
+
 	if (std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
 	{
 		compilerFlags.push_back(L"-x");
 		compilerFlags.push_back(L"c++");
 	}
 
+	{
+		// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
+		std::vector<FilePath> indexedDirectoryPaths;
+		for (const FilePath& sourcePath : indexedPaths)
+		{
+			if (sourcePath.isDirectory())
+			{
+				indexedDirectoryPaths.push_back(sourcePath);
+			}
+		}
+
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(indexedDirectoryPaths));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(m_settings->getHeaderSearchPathsExpandedAndAbsolute()));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(appSettings->getHeaderSearchPathsExpanded()));
+	}
+	{
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(m_settings->getFrameworkSearchPathsExpandedAndAbsolute()));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(appSettings->getFrameworkSearchPathsExpanded()));
+	}
+
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
-
-	std::wstring languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
-	if (std::shared_ptr<SourceGroupSettingsWithCStandard> cSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsWithCStandard>(m_settings))
-	{
-		languageStandard = cSettings->getCStandard();
-	}
-	else if (std::shared_ptr<SourceGroupSettingsWithCppStandard> cppSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsWithCppStandard>(m_settings))
-	{
-		languageStandard = cppSettings->getCppStandard();
-	}
-	else
-	{
-		LOG_ERROR(L"Source group doesn't specify language standard. Falling back to \"" + languageStandard + L"\".");
-	}
-
-	compilerFlags.push_back(L"-std=" + languageStandard);
 
 	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
@@ -151,9 +156,7 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 				excludeFilters,
 				std::set<FilePathFilter>(),
 				m_settings->getProjectDirectoryPath(),
-				systemHeaderSearchPaths,
-				frameworkSearchPaths,
-				utility::concat(compilerFlags, { sourcePath.wstr() })
+				utility::concat(compilerFlags, sourcePath.wstr())
 			));
 		}
 	}

@@ -32,10 +32,7 @@ public:
 private:
 	void runTool(clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath);
 
-	std::vector<std::string> getCommandlineArgumentsEssential(
-		const std::vector<std::wstring>& compilerFlags,
-		const std::vector<FilePath>& systemHeaderSearchPaths,
-		const std::vector<FilePath>& frameworkSearchPaths) const;
+	std::vector<std::string> getCommandlineArgumentsEssential(const std::vector<std::wstring>& compilerFlags) const;
 
 	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(
 		const FilePath& sourceFilePath, std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const;

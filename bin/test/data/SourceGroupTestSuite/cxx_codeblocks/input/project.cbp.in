@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Test"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="<source_path>"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Test">
+				<Option output="<source_path>/Test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="<source_path>"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DDEFINE_FROM_CBP" />
+					<Add directory="<source_path>/header/search/path/from/cbp"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 Test"/>
+					<CompileFile command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Test/fast">
+				<Option output="<source_path>/Test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="<source_path>"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="<source_path>/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 Test/fast"/>
+					<CompileFile command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="<source_path>"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="<source_path>"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f <source_path>\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="<source_path>/Test.cpp">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="<source_path>/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
