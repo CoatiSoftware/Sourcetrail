@@ -216,12 +216,11 @@ private:
 		return ResultType();
 	}
 
-	LowMemoryStringMap<std::string, Id, 0, 32> m_tempNodeNameIndex;
-	LowMemoryStringMap<std::wstring, Id, 0, 32> m_tempWNodeNameIndex;
+	LowMemoryStringMap<std::string, Id, 0> m_tempNodeNameIndex;
+	LowMemoryStringMap<std::wstring, Id, 0> m_tempWNodeNameIndex;
 	std::map<Id, int> m_tempNodeTypes;
 	std::map<StorageEdgeData, Id> m_tempEdgeIndex;
-	LowMemoryStringMap<std::string, Id, 0, 8> m_tempLocalSymbolNameIndex;
-	LowMemoryStringMap<std::wstring, Id, 0, 8> m_tempWLocalSymbolNameIndex;
+	std::map<std::wstring, std::map<std::pair<uint32_t, uint32_t>, Id>> m_tempLocalSymbolIndex;
 	std::map<Id, std::map<TempSourceLocation, Id>> m_tempSourceLocationIndices;
 
 	CppSQLite3Statement m_insertElementStmt;

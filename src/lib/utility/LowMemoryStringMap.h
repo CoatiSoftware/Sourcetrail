@@ -59,19 +59,12 @@ public:
  * Map of string - value pairs, where equal suffixes of strings are used to build tree structure reducing memory
  * consumption.
  *
- * NOTE: It is not guaranteed that equal strings cannot be added twice. If uniqueness of strings is important, use
- *   find() first to check if the string was already added.
- *
  * - StringT: string type (supported: std::string, std::wstring)
  * - ValueT: value type
  * - defaultVal: default value of type ValueT (cannot be stored as value)
- * - branchSplitThreshold: minimum number of characters necessary to split remaining string part into another branch.
- *     (e.g. storing 'code' and 'copy' as two strings takes up less space than storing them as tree 'co' -> 'de' | 'py',
- * 	   because that also needs pointers and a map. For that reason strings are only split into branches if the newly
- *     added one is above this threshold. This is also the reason std::multimap is used to reference children.
  */
 
-template <typename StringT, typename ValueT, ValueT defaultVal, size_t branchSplitThreshold = 8>
+template <typename StringT, typename ValueT, ValueT defaultVal>
 class LowMemoryStringMap
 {
 public:
@@ -94,9 +87,6 @@ public:
 
 	/*
 	 * Adds a new string - value pair to the map.
-	 * NOTE: Adding a previously added string does not replace the value. It can also lead to a second entry, in which
-	 *   case it is not defined which value will be retrieved on calling find(). If uniqueness of keys is important
-	 *   always call find() first.
 	 */
 	void add(const StringT& str, const ValueT& val)
 	{
@@ -359,9 +349,7 @@ private:
 	/*
 	 * Branch
 	 *
-	 * Has branches and leaves as children, each referenced by their first character (std::multimap is used, because
-	 * it takes less memory to store multiple short string with an equal prefix in full lenght instead of splitting them
-	 * into a tree).
+	 * Has branches and leaves as children, each referenced by their first character.
 	 */
 	class Branch
 		: public Node
@@ -386,8 +374,7 @@ private:
 			}
 
 			auto it = branch->m_children.find(c);
-			if (it == branch->m_children.end() ||
-				(str.size() - idx <= branchSplitThreshold && branch->m_children.count(c) < MAX_EQUAL_RANGE_COUNT))
+			if (it == branch->m_children.end())
 			{
 				size_t newIdx = idx + 1 >= str.size() ? str.size() : idx + 1;
 				branch->m_children.emplace(c, branch->createLeaf(str.substr(newIdx), val));
@@ -458,13 +445,10 @@ private:
 				idx++;
 			}
 
-			for (auto it = m_children.find(c); it != m_children.end() && it->first == c; it++)
+			auto it = m_children.find(c);
+			if (it != m_children.end())
 			{
-				ValueT val = it->second->find(str, idx);
-				if (val != defaultVal)
-				{
-					return val;
-				}
+				return it->second->find(str, idx);
 			}
 
 			return defaultVal;
@@ -517,13 +501,7 @@ private:
 			return frontBranch;
 		}
 
-		/*
-		 * Having lots of leaves in the multimap not split into branches makes finding slow. For that reason only a
-		 * certain amount of leaves with the same start character are allowed.
-		 */
-		static const size_t MAX_EQUAL_RANGE_COUNT = 10;
-
-		std::multimap<CharT, std::unique_ptr<Node>> m_children;
+		std::map<CharT, std::unique_ptr<Node>> m_children;
 	};
 
 
