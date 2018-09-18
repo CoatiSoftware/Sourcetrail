@@ -1,8 +1,8 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
 #define SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
 
-#include "settings/SourceGroupSettingsJava.h"
-#include "utility/file/FilePath.h"
+#include "SourceGroupSettingsJava.h"
+#include "FilePath.h"
 
 class SourceGroupSettingsJavaGradle
 	: public SourceGroupSettingsJava

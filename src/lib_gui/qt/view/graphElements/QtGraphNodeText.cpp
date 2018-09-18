@@ -1,4 +1,4 @@
-#include "qt/view/graphElements/QtGraphNodeText.h"
+#include "QtGraphNodeText.h"
 
 QtGraphNodeText::QtGraphNodeText(const std::wstring& name, int fontSizeDiff)
 	: m_fontSizeDiff(fontSizeDiff)

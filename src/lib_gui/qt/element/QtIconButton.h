@@ -3,11 +3,11 @@
 
 #include <QPushButton>
 
-#include "utility/file/FilePath.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageRefresh.h"
+#include "FilePath.h"
+#include "MessageListener.h"
+#include "MessageRefresh.h"
 
-#include "qt/utility/QtThreadedFunctor.h"
+#include "QtThreadedFunctor.h"
 
 class QtHoverButton
 	: public QPushButton

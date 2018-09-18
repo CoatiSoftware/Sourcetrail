@@ -3,11 +3,11 @@
 
 #include <queue>
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageInterruptTasks.h"
-#include "utility/scheduling/Task.h"
+#include "MessageListener.h"
+#include "MessageInterruptTasks.h"
+#include "Task.h"
 
-#include "data/indexer/interprocess/InterprocessIndexerCommandManager.h"
+#include "InterprocessIndexerCommandManager.h"
 
 class IndexerCommandProvider;
 

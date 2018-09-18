@@ -1,6 +1,6 @@
-#include "utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.h"
+#include "JreSystemLibraryPathDetectorMac.h"
 
-#include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
+#include "JavaPathDetectorMac.h"
 
 JreSystemLibraryPathDetectorMac::JreSystemLibraryPathDetectorMac(const std::string javaVersion)
 	: JreSystemLibraryPathDetector(std::make_shared<JavaPathDetectorMac>(javaVersion))

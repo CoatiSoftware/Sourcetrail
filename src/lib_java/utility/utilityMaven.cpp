@@ -1,15 +1,15 @@
-#include "utility/utilityMaven.h"
+#include "utilityMaven.h"
 
 #include <cstdlib>
 
-#include "settings/ApplicationSettings.h"
-#include "utility/file/FilePath.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utilityApp.h"
-#include "utility/utilityString.h"
-#include "utility/utilityXml.h"
-#include "utility/utility.h"
+#include "ApplicationSettings.h"
+#include "FilePath.h"
+#include "MessageStatus.h"
+#include "TextAccess.h"
+#include "utilityApp.h"
+#include "utilityString.h"
+#include "utilityXml.h"
+#include "utility.h"
 #include "Application.h"
 
 namespace

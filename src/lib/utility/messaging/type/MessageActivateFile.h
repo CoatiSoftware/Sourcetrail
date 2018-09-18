@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_FILE_H
 #define MESSAGE_ACTIVATE_FILE_H
 
-#include "utility/messaging/Message.h"
-#include "utility/file/FilePath.h"
+#include "Message.h"
+#include "FilePath.h"
 
 class MessageActivateFile: public Message<MessageActivateFile>
 {

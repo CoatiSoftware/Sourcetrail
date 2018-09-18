@@ -1,11 +1,11 @@
-#include "data/search/SearchIndex.h"
+#include "SearchIndex.h"
 
 #include <algorithm>
 #include <ctype.h>
 #include <iterator>
 
-#include "utility/utility.h"
-#include "utility/utilityString.h"
+#include "utility.h"
+#include "utilityString.h"
 
 SearchIndex::SearchIndex()
 {

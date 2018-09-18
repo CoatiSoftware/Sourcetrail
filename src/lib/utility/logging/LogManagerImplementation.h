@@ -6,7 +6,7 @@
 #include <mutex>
 #include <vector>
 
-#include "utility/logging/Logger.h"
+#include "Logger.h"
 
 class LogManagerImplementation
 {

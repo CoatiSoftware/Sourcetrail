@@ -1,7 +1,7 @@
 #ifndef MESSAGE_INTERRUPT_TASKS_H
 #define MESSAGE_INTERRUPT_TASKS_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageInterruptTasks:
 	public Message<MessageInterruptTasks>

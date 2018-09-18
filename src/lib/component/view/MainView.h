@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "component/view/ViewLayout.h"
+#include "ViewLayout.h"
 
 struct SearchMatch;
 class Bookmark;

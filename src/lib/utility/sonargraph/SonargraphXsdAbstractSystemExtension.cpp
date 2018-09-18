@@ -1,9 +1,9 @@
-#include "utility/sonargraph/SonargraphXsdAbstractSystemExtension.h"
+#include "SonargraphXsdAbstractSystemExtension.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
-#include "utility/logging/logging.h"
-#include "utility/sonargraph/SonargraphXsdCppSystemSettings.h"
+#include "logging.h"
+#include "SonargraphXsdCppSystemSettings.h"
 
 namespace Sonargraph
 {

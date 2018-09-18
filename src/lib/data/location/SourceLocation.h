@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "data/location/LocationType.h"
-#include "utility/types.h"
+#include "LocationType.h"
+#include "types.h"
 
 class FilePath;
 class SourceLocationFile;

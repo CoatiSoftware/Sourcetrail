@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "utility/text/TextAccess.h"
+#include "TextAccess.h"
 
 class TiXmlElement;
 

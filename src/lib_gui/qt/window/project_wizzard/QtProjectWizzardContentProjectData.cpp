@@ -1,10 +1,10 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentProjectData.h"
+#include "QtProjectWizzardContentProjectData.h"
 
 #include <QMessageBox>
 #include <boost/filesystem/path.hpp>
 
-#include "settings/ProjectSettings.h"
-#include "utility/file/FileSystem.h"
+#include "ProjectSettings.h"
+#include "FileSystem.h"
 
 QtProjectWizzardContentProjectData::QtProjectWizzardContentProjectData(
 	std::shared_ptr<ProjectSettings> projectSettings,

@@ -5,17 +5,17 @@
 #include <map>
 #include <set>
 
-#include "data/storage/type/StorageCommentLocation.h"
-#include "data/storage/type/StorageComponentAccess.h"
-#include "data/storage/type/StorageEdge.h"
-#include "data/storage/type/StorageError.h"
-#include "data/storage/type/StorageFile.h"
-#include "data/storage/type/StorageLocalSymbol.h"
-#include "data/storage/type/StorageNode.h"
-#include "data/storage/type/StorageOccurrence.h"
-#include "data/storage/type/StorageSourceLocation.h"
-#include "data/storage/type/StorageSymbol.h"
-#include "data/storage/Storage.h"
+#include "StorageCommentLocation.h"
+#include "StorageComponentAccess.h"
+#include "StorageEdge.h"
+#include "StorageError.h"
+#include "StorageFile.h"
+#include "StorageLocalSymbol.h"
+#include "StorageNode.h"
+#include "StorageOccurrence.h"
+#include "StorageSourceLocation.h"
+#include "StorageSymbol.h"
+#include "Storage.h"
 
 class IntermediateStorage: public Storage
 {

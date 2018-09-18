@@ -1,10 +1,10 @@
-#include "utility/file/FileManager.h"
+#include "FileManager.h"
 
 #include <set>
 
-#include "utility/file/FileSystem.h"
-#include "utility/file/FilePath.h"
-#include "utility/file/FilePathFilter.h"
+#include "FileSystem.h"
+#include "FilePath.h"
+#include "FilePathFilter.h"
 
 FileManager::FileManager()
 {

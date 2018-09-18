@@ -1,5 +1,5 @@
 add_files(
-	INDEXER_FILES
+	INDEXER
 
 	main.cpp
 )

@@ -1,4 +1,4 @@
-#include "qt/element/QtTooltip.h"
+#include "QtTooltip.h"
 
 #include <QApplication>
 #include <QCursor>
@@ -8,11 +8,11 @@
 #include <QStyle>
 #include <QTimer>
 
-#include "data/location/SourceLocationFile.h"
-#include "data/tooltip/TooltipInfo.h"
-#include "qt/element/QtCodeField.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/TextCodec.h"
+#include "SourceLocationFile.h"
+#include "TooltipInfo.h"
+#include "QtCodeField.h"
+#include "ApplicationSettings.h"
+#include "TextCodec.h"
 
 QtTooltip::QtTooltip(QWidget* parent)
 	: QFrame(parent)

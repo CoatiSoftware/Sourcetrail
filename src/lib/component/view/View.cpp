@@ -1,6 +1,6 @@
-#include "component/view/View.h"
+#include "View.h"
 
-#include "component/view/ViewWidgetWrapper.h"
+#include "ViewWidgetWrapper.h"
 
 View::View(ViewLayout* viewLayout)
 	: m_viewLayout(viewLayout)

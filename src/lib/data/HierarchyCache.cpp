@@ -1,4 +1,4 @@
-#include "data/HierarchyCache.h"
+#include "HierarchyCache.h"
 
 HierarchyCache::HierarchyNode::HierarchyNode(Id nodeId)
 	: m_nodeId(nodeId)

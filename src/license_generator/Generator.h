@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "botan/auto_rng.h"
+#include <botan/auto_rng.h>
 
 namespace Botan
 {

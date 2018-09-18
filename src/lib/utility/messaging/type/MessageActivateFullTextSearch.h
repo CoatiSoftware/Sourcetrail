@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_FULLTEXT_SEARCH_H
 #define MESSAGE_ACTIVATE_FULLTEXT_SEARCH_H
 
-#include "utility/messaging/Message.h"
-#include "utility/messaging/type/MessageActivateBase.h"
+#include "Message.h"
+#include "MessageActivateBase.h"
 
 class MessageActivateFullTextSearch
 	: public Message<MessageActivateFullTextSearch>

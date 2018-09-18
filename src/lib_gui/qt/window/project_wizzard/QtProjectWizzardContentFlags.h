@@ -1,7 +1,7 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_FLAGS_H
 #define QT_PROJECT_WIZZARD_CONTENT_FLAGS_H
 
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "QtProjectWizzardContent.h"
 
 class QtStringListBox;
 class SourceGroupSettingsCxx;

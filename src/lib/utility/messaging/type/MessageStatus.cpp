@@ -1,6 +1,6 @@
-#include "utility/messaging/type/MessageStatus.h"
+#include "MessageStatus.h"
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 MessageStatus::MessageStatus(const std::wstring& status, bool isError, bool showLoader, bool showInStatusBar)
 	: isError(isError)

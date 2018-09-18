@@ -1,5 +1,5 @@
 add_files(
-	APP_FILES
+	APP
 
 	main.cpp
 )

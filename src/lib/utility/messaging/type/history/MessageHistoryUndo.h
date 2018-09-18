@@ -1,7 +1,7 @@
 #ifndef MESSAGE_HISTORY_UNDO_H
 #define MESSAGE_HISTORY_UNDO_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageHistoryUndo
 	: public Message<MessageHistoryUndo>

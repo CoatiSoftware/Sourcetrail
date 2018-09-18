@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-#include "utility/logging/LogManager.h"
+#include "LogManager.h"
 
 /**
 * @brief Makros to simplify usage of the log manager

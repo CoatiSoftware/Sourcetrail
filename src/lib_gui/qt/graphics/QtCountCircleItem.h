@@ -1,9 +1,9 @@
 #ifndef QT_COUNT_CIRCLE_ITEM_H
 #define QT_COUNT_CIRCLE_ITEM_H
 
-#include "utility/math/Vector2.h"
+#include "Vector2.h"
 
-#include "qt/graphics/QtRoundedRectItem.h"
+#include "QtRoundedRectItem.h"
 
 class QtCountCircleItem
 	: public QtRoundedRectItem

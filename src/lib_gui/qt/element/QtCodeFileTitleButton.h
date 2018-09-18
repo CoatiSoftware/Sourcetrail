@@ -1,10 +1,10 @@
 #ifndef QT_CODE_FILE_TITLE_BUTTON_H
 #define QT_CODE_FILE_TITLE_BUTTON_H
 
-#include "utility/file/FilePath.h"
-#include "utility/TimeStamp.h"
+#include "FilePath.h"
+#include "TimeStamp.h"
 
-#include "qt/element/QtIconButton.h"
+#include "QtIconButton.h"
 
 class QtCodeFileTitleButton
 	: public QtSelfRefreshIconButton

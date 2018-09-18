@@ -1,6 +1,6 @@
-#include "utility/scheduling/TaskFindKeyOnBlackboard.h"
+#include "TaskFindKeyOnBlackboard.h"
 
-#include "utility/scheduling/Blackboard.h"
+#include "Blackboard.h"
 
 TaskFindKeyOnBlackboard::TaskFindKeyOnBlackboard(const std::string& key)
 	: m_key(key)

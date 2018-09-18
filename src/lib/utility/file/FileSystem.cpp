@@ -1,11 +1,11 @@
-#include "utility/file/FileSystem.h"
+#include "FileSystem.h"
 
 #include <set>
 
-#include "boost/date_time.hpp"
-#include "boost/filesystem.hpp"
+#include <boost/date_time.hpp>
+#include <boost/filesystem.hpp>
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 	const FilePath& path, const std::vector<std::wstring>& extensions

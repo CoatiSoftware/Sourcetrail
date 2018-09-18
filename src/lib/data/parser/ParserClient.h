@@ -4,13 +4,13 @@
 #include <string>
 #include <vector>
 
-#include "data/name/NameHierarchy.h"
-#include "data/parser/AccessKind.h"
-#include "data/parser/ReferenceKind.h"
-#include "data/parser/SymbolKind.h"
-#include "data/DefinitionKind.h"
-#include "utility/file/FileInfo.h"
-#include "utility/types.h"
+#include "NameHierarchy.h"
+#include "AccessKind.h"
+#include "ReferenceKind.h"
+#include "SymbolKind.h"
+#include "DefinitionKind.h"
+#include "FileInfo.h"
+#include "types.h"
 
 struct ParseLocation;
 class DataType;

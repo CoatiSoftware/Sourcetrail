@@ -1,4 +1,4 @@
-#include "component/NetworkFactory.h"
+#include "NetworkFactory.h"
 
 NetworkFactory::NetworkFactory()
 {

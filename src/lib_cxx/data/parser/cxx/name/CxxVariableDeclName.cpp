@@ -1,4 +1,4 @@
-#include "data/parser/cxx/name/CxxVariableDeclName.h"
+#include "CxxVariableDeclName.h"
 
 //CxxVariableDeclName::CxxVariableDeclName(
 //	const std::wstring& name,

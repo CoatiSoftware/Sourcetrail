@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "data/graph/Token.h"
+#include "Token.h"
 
 class Node;
 

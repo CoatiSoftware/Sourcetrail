@@ -1,4 +1,4 @@
-#include "utility/codeblocks/CodeblocksCompilerVarType.h"
+#include "CodeblocksCompilerVarType.h"
 
 namespace Codeblocks
 {

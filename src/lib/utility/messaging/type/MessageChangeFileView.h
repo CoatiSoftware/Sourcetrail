@@ -1,8 +1,8 @@
 #ifndef MESSAGE_CHANGE_FILE_VIEW_H
 #define MESSAGE_CHANGE_FILE_VIEW_H
 
-#include "utility/file/FilePath.h"
-#include "utility/messaging/Message.h"
+#include "FilePath.h"
+#include "Message.h"
 
 class MessageChangeFileView
 	: public Message<MessageChangeFileView>

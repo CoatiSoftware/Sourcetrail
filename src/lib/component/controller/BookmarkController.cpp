@@ -1,18 +1,18 @@
 #include "BookmarkController.h"
 
 #include "Application.h"
-#include "component/view/BookmarkView.h"
-#include "data/access/StorageAccess.h"
-#include "data/bookmark/Bookmark.h"
-#include "data/bookmark/EdgeBookmark.h"
-#include "data/bookmark/NodeBookmark.h"
-#include "data/storage/type/StorageEdge.h"
+#include "BookmarkView.h"
+#include "StorageAccess.h"
+#include "Bookmark.h"
+#include "EdgeBookmark.h"
+#include "NodeBookmark.h"
+#include "StorageEdge.h"
 
-#include "utility/messaging/type/MessageActivateEdge.h"
-#include "utility/messaging/type/MessageActivateNodes.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
-#include "utility/utility.h"
+#include "MessageActivateEdge.h"
+#include "MessageActivateNodes.h"
+#include "logging.h"
+#include "utilityString.h"
+#include "utility.h"
 
 const std::wstring BookmarkController::s_edgeSeperatorToken = L" => ";
 const std::wstring BookmarkController::s_defaultCategoryName = L"default";

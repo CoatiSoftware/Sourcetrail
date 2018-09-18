@@ -1,10 +1,10 @@
 #ifndef SOURCE_GROUP_SETTINGS_CXX_CDB_H
 #define SOURCE_GROUP_SETTINGS_CXX_CDB_H
 
-#include "settings/SourceGroupSettingsCxx.h"
-#include "settings/SourceGroupSettingsWithExcludeFilters.h"
-#include "settings/SourceGroupSettingsWithIndexedHeaderPaths.h"
-#include "utility/file/FilePath.h"
+#include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettingsWithExcludeFilters.h"
+#include "SourceGroupSettingsWithIndexedHeaderPaths.h"
+#include "FilePath.h"
 
 class SourceGroupSettingsCxxCdb
 	: public SourceGroupSettingsCxx

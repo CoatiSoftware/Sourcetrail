@@ -1,6 +1,6 @@
-#include "component/view/StatusBarView.h"
+#include "StatusBarView.h"
 
-#include "component/controller/StatusBarController.h"
+#include "StatusBarController.h"
 
 StatusBarView::StatusBarView(ViewLayout* viewLayout)
 	: View(viewLayout)

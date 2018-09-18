@@ -1,8 +1,8 @@
-#include "data/indexer/IndexerComposite.h"
+#include "IndexerComposite.h"
 
-#include "data/indexer/IndexerCommand.h"
-#include "utility/logging/logging.h"
-#include "data/storage/IntermediateStorage.h"
+#include "IndexerCommand.h"
+#include "logging.h"
+#include "IntermediateStorage.h"
 
 IndexerComposite::~IndexerComposite()
 {

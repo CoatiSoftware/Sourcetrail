@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "data/parser/cxx/name_resolver/CxxNameResolver.h"
+#include "CxxNameResolver.h"
 
 class DataType;
 

@@ -1,9 +1,9 @@
-#include "qt/element/QtIconButton.h"
+#include "QtIconButton.h"
 
 #include <QEvent>
 
-#include "qt/utility/utilityQt.h"
-#include "settings/ColorScheme.h"
+#include "utilityQt.h"
+#include "ColorScheme.h"
 
 
 QtHoverButton::QtHoverButton(QWidget* parent)

@@ -1,11 +1,11 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.h"
+#include "QtProjectWizzardContentCrossCompilationOptions.h"
 
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
 
-#include "settings/SourceGroupSettingsWithCxxCrossCompilationOptions.h"
-#include "utility/logging/logging.h"
+#include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
+#include "logging.h"
 
 QtProjectWizzardContentCrossCompilationOptions::QtProjectWizzardContentCrossCompilationOptions(
 	std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> sourceGroupSettings,

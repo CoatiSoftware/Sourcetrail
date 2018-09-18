@@ -1,7 +1,7 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/ConfigManager.h"
-#include "utility/text/TextAccess.h"
+#include "ConfigManager.h"
+#include "TextAccess.h"
 
 class ConfigManagerTestSuite: public CxxTest::TestSuite
 {

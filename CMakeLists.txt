@@ -234,6 +234,19 @@ if(Qt5Widgets_FOUND)
 endif()
 
 
+add_subdirectory(src/app)
+add_subdirectory(src/external)
+add_subdirectory(src/indexer)
+add_subdirectory(src/lib)
+add_subdirectory(src/lib_cxx)
+add_subdirectory(src/lib_gui)
+add_subdirectory(src/lib_java)
+add_subdirectory(src/lib_license)
+add_subdirectory(src/lib_utility)
+add_subdirectory(src/license_generator)
+add_subdirectory(src/test)
+
+
 # Lib License ------------------------------------------------------------------
 
 if (UNIX)
@@ -245,14 +258,12 @@ else ()
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
-add_subdirectory(src/lib_license)
-
 add_library(${LIB_LICENSE_PROJECT_NAME} STATIC ${LIB_LICENSE_FILES})
 
 create_source_groups(${LIB_LICENSE_FILES})
 
 target_include_directories( ${LIB_LICENSE_PROJECT_NAME} PUBLIC
-	"${CMAKE_SOURCE_DIR}/src/lib_license"
+	"${LIB_LICENSE_INCLUDE_PATHS}"
 	"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
@@ -275,8 +286,6 @@ endif()
 
 # Lib Utility ------------------------------------------------------------------
 
-add_subdirectory(src/lib_utility)
-
 add_library(${LIB_UTILITY_PROJECT_NAME} ${LIB_UTILITY_FILES})
 
 create_source_groups(${LIB_UTILITY_FILES})
@@ -284,7 +293,7 @@ create_source_groups(${LIB_UTILITY_FILES})
 set_property(
 	TARGET ${LIB_UTILITY_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_utility"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
 )
 
 target_include_directories(${LIB_UTILITY_PROJECT_NAME} SYSTEM
@@ -300,9 +309,6 @@ endif()
 
 # Lib --------------------------------------------------------------------------
 
-add_subdirectory(src/lib)
-add_subdirectory(src/external)
-
 set_source_files_properties(${EXTERNAL_FILES} PROPERTIES COMPILE_FLAGS "-w")
 set_source_files_properties(${EXTERNAL_C_FILES} PROPERTIES COMPILE_FLAGS "-std=gnu89 -w")
 
@@ -315,27 +321,25 @@ create_source_groups(${EXTERNAL_C_FILES})
 set_property(
 	TARGET ${LIB_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/external"
-		"${CMAKE_SOURCE_DIR}/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/src/lib_utility"
+		"${LIB_INCLUDE_PATHS}"
+		"${LIB_LICENSE_INCLUDE_PATHS}"
+		"${LIB_GUI_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_CXX_INCLUDE_PATHS}"
+		"${LIB_JAVA_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
-		"${CMAKE_SOURCE_DIR}/src/lib_java"
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	PUBLIC ${Boost_INCLUDE_DIR}
-	"${CMAKE_SOURCE_DIR}/src/external"
+	"${EXTERNAL_INCLUDE_PATHS}"
+	"${EXTERNAL_C_INCLUDE_PATHS}"
 )
 
 target_link_libraries(${LIB_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES})
 
 
 # Lib Cxx ----------------------------------------------------------------------
-
-add_subdirectory(src/lib_cxx)
 
 add_library(${LIB_CXX_PROJECT_NAME} ${LIB_CXX_FILES})
 
@@ -344,16 +348,17 @@ create_source_groups(${LIB_CXX_FILES})
 set_property(
 	TARGET ${LIB_CXX_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
-		"${CMAKE_SOURCE_DIR}/src/lib_utility"
-		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${LIB_CXX_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_INCLUDE_PATHS}"
 )
 
 target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
 	PUBLIC ${LLVM_INCLUDE_DIRS}
 	${CLANG_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
-	"${CMAKE_SOURCE_DIR}/src/external"
+	"${EXTERNAL_INCLUDE_PATHS}"
+	"${EXTERNAL_C_INCLUDE_PATHS}"
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
@@ -370,8 +375,6 @@ endif()
 
 find_package(JNI)
 
-add_subdirectory(src/lib_java)
-
 add_library(${LIB_JAVA_PROJECT_NAME} ${LIB_JAVA_FILES})
 
 create_source_groups(${LIB_JAVA_FILES})
@@ -379,10 +382,10 @@ create_source_groups(${LIB_JAVA_FILES})
 set_property(
 	TARGET ${LIB_JAVA_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_java"
-		"${CMAKE_SOURCE_DIR}/src/lib_utility"
-		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${LIB_JAVA_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_INCLUDE_PATHS}"
+		"${LIB_GUI_INCLUDE_PATHS}"
 )
 
 target_include_directories(${LIB_JAVA_PROJECT_NAME} SYSTEM
@@ -404,8 +407,6 @@ add_custom_command(
 
 # Lib Gui ----------------------------------------------------------------------
 
-add_subdirectory(src/lib_gui)
-
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
@@ -417,7 +418,7 @@ add_custom_target(
 	versionnumber ALL
 )
 
-add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/version.h)
+add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h)
 
 if(UNIX)
 	target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::Svg)
@@ -430,7 +431,7 @@ add_custom_command(
 	TARGET versionnumber
 	PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -DBINARY_DIR=${CMAKE_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
-	BYPRODUCTS ${CMAKE_BINARY_DIR}/src/lib_gui/version.h
+	BYPRODUCTS ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h
 	DEPENDS ${LIB_GUI_PROJECT_NAME}
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	COMMENT "check/update version number"
@@ -442,20 +443,21 @@ create_source_groups(${LIB_GUI_FILES})
 set_property(
 	TARGET ${LIB_GUI_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/src/lib_utility"
-		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
-		"${CMAKE_SOURCE_DIR}/src/lib_java"
-		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${LIB_GUI_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_INCLUDE_PATHS}"
+		"${LIB_CXX_INCLUDE_PATHS}"
+		"${LIB_JAVA_INCLUDE_PATHS}"
+		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 # include external header without warnings
 target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
-		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
-		PUBLIC ${Boost_INCLUDE_DIRS}
+	PUBLIC ${Boost_INCLUDE_DIRS}
+	"${EXTERNAL_INCLUDE_PATHS}"
+	"${EXTERNAL_C_INCLUDE_PATHS}"
 )
 
 # configure platform specific include file
@@ -487,8 +489,6 @@ else ()
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
-add_subdirectory(src/indexer)
-
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -519,13 +519,13 @@ endif ()
 set_property(
 	TARGET ${APP_INDEXER_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/app"
-		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/lib_utility"
-		"${CMAKE_SOURCE_DIR}/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
-		"${CMAKE_SOURCE_DIR}/src/lib_java"
+		"${APP_INCLUDE_PATHS}"
+		"${LIB_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_GUI_INCLUDE_PATHS}"
+		"${LIB_LICENSE_INCLUDE_PATHS}"
+		"${LIB_CXX_INCLUDE_PATHS}"
+		"${LIB_JAVA_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
@@ -541,8 +541,6 @@ else ()
 		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/app/")
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
-
-add_subdirectory(src/app)
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -577,20 +575,21 @@ target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_CXX_PROJ
 set_property(
 	TARGET ${APP_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/app"
-		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/lib_utility"
-		"${CMAKE_SOURCE_DIR}/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
-		"${CMAKE_SOURCE_DIR}/src/lib_java"
+		"${APP_INCLUDE_PATHS}"
+		"${LIB_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_GUI_INCLUDE_PATHS}"
+		"${LIB_LICENSE_INCLUDE_PATHS}"
+		"${LIB_CXX_INCLUDE_PATHS}"
+		"${LIB_JAVA_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
-		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
-		PUBLIC ${Boost_INCLUDE_DIRS}
+	PUBLIC ${Boost_INCLUDE_DIRS}
+	"${EXTERNAL_INCLUDE_PATHS}"
+	"${EXTERNAL_C_INCLUDE_PATHS}"
 )
 
 # Use the Widgets module from Qt 5.
@@ -657,8 +656,6 @@ endif ()
 
 # License Generator  -----------------------------------------------------------
 
-add_subdirectory(src/license_generator)
-
 # configure private key for the sourcetrail version
 include(cmake/private_key.cmake)
 
@@ -671,14 +668,15 @@ else ()
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
-add_executable(${LICENSE_GENERATOR_PROJECT_NAME} ${LICENSE_GENERATOR_FILES} ${LICENSE_GENERATOR_MAIN})
+add_executable(${LICENSE_GENERATOR_PROJECT_NAME} ${LICENSE_GENERATOR_FILES} ${LICENSE_GENERATOR_MAIN_FILES})
 
-create_source_groups(${LICENSE_GENERATOR_FILES} ${LICENSE_GENERATOR_MAIN})
+create_source_groups(${LICENSE_GENERATOR_FILES} ${LICENSE_GENERATOR_MAIN_FILES})
 
 set_property(
 		TARGET ${LICENSE_GENERATOR_PROJECT_NAME}
 		PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${LICENSE_GENERATOR_MAIN_INCLUDE_PATHS}"
+		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/license_generator"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
@@ -710,8 +708,6 @@ if (WIN32)
 	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp "")
 endif ()
 
-add_subdirectory(src/test)
-
 set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
 set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
 set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
@@ -731,15 +727,17 @@ if (CXXTEST_FOUND)
 		TARGET ${TEST_PROJECT_NAME}
 		PROPERTY INCLUDE_DIRECTORIES
 			"${CXXTEST_INCLUDE_DIR}"
-			"${CMAKE_SOURCE_DIR}/src/lib"
-			"${CMAKE_SOURCE_DIR}/src/lib_utility"
-			"${CMAKE_SOURCE_DIR}/src/lib_gui"
-			"${CMAKE_SOURCE_DIR}/src/lib_cxx"
-			"${CMAKE_SOURCE_DIR}/src/lib_java"
-			"${CMAKE_SOURCE_DIR}/src/external"
-			"${CMAKE_SOURCE_DIR}/src/lib_license"
+			"${TEST_INCLUDE_PATHS}"
+			"${LIB_INCLUDE_PATHS}"
+			"${LIB_UTILITY_INCLUDE_PATHS}"
+			"${LIB_GUI_INCLUDE_PATHS}"
+			"${LIB_LICENSE_INCLUDE_PATHS}"
+			"${LIB_CXX_INCLUDE_PATHS}"
+			"${LIB_JAVA_INCLUDE_PATHS}"
+			"${EXTERNAL_INCLUDE_PATHS}"
+			"${EXTERNAL_C_INCLUDE_PATHS}"
+			"${LICENSE_GENERATOR_INCLUDE_PATHS}"
 			"${CMAKE_BINARY_DIR}/src/lib_license"
-			"${CMAKE_SOURCE_DIR}/src/license_generator"
 			"${CMAKE_BINARY_DIR}/src/license_generator"
 			"${Boost_INCLUDE_DIRS}"
 	)

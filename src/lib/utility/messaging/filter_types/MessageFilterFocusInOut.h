@@ -1,9 +1,9 @@
 #ifndef MESSAGE_FILTER_FOCUS_IN_OUT_H
 #define MESSAGE_FILTER_FOCUS_IN_OUT_H
 
-#include "utility/messaging/MessageFilter.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
+#include "MessageFilter.h"
+#include "MessageFocusIn.h"
+#include "MessageFocusOut.h"
 
 class MessageFilterFocusInOut
 	: public MessageFilter

@@ -1,4 +1,4 @@
-#include "qt/QtCoreApplication.h"
+#include "QtCoreApplication.h"
 
 #include <iostream>
 

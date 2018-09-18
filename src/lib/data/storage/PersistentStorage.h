@@ -4,13 +4,13 @@
 #include <memory>
 #include <vector>
 
-#include "data/access/StorageAccess.h"
-#include "data/fulltextsearch/FullTextSearchIndex.h"
-#include "data/search/SearchIndex.h"
-#include "data/HierarchyCache.h"
-#include "data/storage/sqlite/SqliteIndexStorage.h"
-#include "data/storage/sqlite/SqliteBookmarkStorage.h"
-#include "data/storage/Storage.h"
+#include "StorageAccess.h"
+#include "FullTextSearchIndex.h"
+#include "SearchIndex.h"
+#include "HierarchyCache.h"
+#include "SqliteIndexStorage.h"
+#include "SqliteBookmarkStorage.h"
+#include "Storage.h"
 
 class PersistentStorage
 	: public Storage

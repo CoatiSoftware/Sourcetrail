@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_SOURCE_LOCATIONS_H
 #define MESSAGE_ACTIVATE_SOURCE_LOCATIONS_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageActivateSourceLocations
 	: public Message<MessageActivateSourceLocations>

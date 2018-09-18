@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "data/graph/token_component/TokenComponent.h"
-#include "data/parser/AccessKind.h"
+#include "TokenComponent.h"
+#include "AccessKind.h"
 
 class TokenComponentAccess
 	: public TokenComponent

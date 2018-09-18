@@ -1,13 +1,13 @@
-#include "qt/view/QtScreenSearchView.h"
+#include "QtScreenSearchView.h"
 
 #include <QToolBar>
 
-#include "qt/element/QtScreenSearchBox.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtMainView.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "qt/window/QtMainWindow.h"
-#include "utility/ResourcePaths.h"
+#include "QtScreenSearchBox.h"
+#include "utilityQt.h"
+#include "QtMainView.h"
+#include "QtViewWidgetWrapper.h"
+#include "QtMainWindow.h"
+#include "ResourcePaths.h"
 
 QtScreenSearchView::QtScreenSearchView(ViewLayout* viewLayout)
 	: ScreenSearchView(viewLayout)

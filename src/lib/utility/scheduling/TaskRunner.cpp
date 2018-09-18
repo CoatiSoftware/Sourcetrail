@@ -1,8 +1,8 @@
-#include "utility/scheduling/TaskRunner.h"
+#include "TaskRunner.h"
 
-#include "utility/logging/logging.h"
-#include "utility/scheduling/Blackboard.h"
-#include "utility/scheduling/TaskScheduler.h"
+#include "logging.h"
+#include "Blackboard.h"
+#include "TaskScheduler.h"
 
 TaskRunner::TaskRunner(std::shared_ptr<Task> task)
 	: m_task(task)

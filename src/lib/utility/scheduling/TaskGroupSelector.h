@@ -1,8 +1,8 @@
 #ifndef TASK_GROUP_SELECTOR_H
 #define TASK_GROUP_SELECTOR_H
 
-#include "utility/scheduling/TaskGroup.h"
-#include "utility/scheduling/TaskRunner.h"
+#include "TaskGroup.h"
+#include "TaskRunner.h"
 
 class TaskGroupSelector
 	: public TaskGroup

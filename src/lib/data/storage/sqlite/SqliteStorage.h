@@ -1,10 +1,10 @@
 #ifndef SQLITE_STORAGE_H
 #define SQLITE_STORAGE_H
 
-#include "sqlite/CppSQLite3.h"
+#include "CppSQLite3.h"
 
-#include "data/storage/sqlite/SqliteDatabaseIndex.h"
-#include "utility/file/FilePath.h"
+#include "SqliteDatabaseIndex.h"
+#include "FilePath.h"
 
 class SqliteStorageMigration;
 class TimeStamp;

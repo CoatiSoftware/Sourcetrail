@@ -1,6 +1,6 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "data/graph/Graph.h"
+#include "Graph.h"
 
 class GraphTestSuite : public CxxTest::TestSuite
 {

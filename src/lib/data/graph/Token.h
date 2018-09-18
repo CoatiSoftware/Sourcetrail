@@ -4,8 +4,8 @@
 #include <typeinfo>
 #include <vector>
 
-#include "data/graph/token_component/TokenComponent.h"
-#include "utility/types.h"
+#include "TokenComponent.h"
+#include "types.h"
 
 class Token
 {

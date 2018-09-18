@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "utility/sonargraph/SonargraphXsdRootPath.h"
-#include "utility/types.h"
+#include "SonargraphXsdRootPath.h"
+#include "types.h"
 
 namespace Sonargraph
 {

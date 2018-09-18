@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "settings/LanguageType.h"
-#include "utility/file/FilePathFilter.h"
+#include "LanguageType.h"
+#include "FilePathFilter.h"
 
 class ApplicationSettings;
 class IndexerCommand;

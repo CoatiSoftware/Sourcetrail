@@ -1,6 +1,6 @@
-#include "settings/ColorScheme.h"
+#include "ColorScheme.h"
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 std::shared_ptr<ColorScheme> ColorScheme::s_instance;
 

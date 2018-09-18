@@ -4,7 +4,7 @@
 #include <memory>
 #include <set>
 
-#include "utility/codeblocks/CodeblocksCompilerVarType.h"
+#include "CodeblocksCompilerVarType.h"
 
 class TiXmlElement;
 

@@ -1,11 +1,11 @@
-#include "data/graph/Edge.h"
+#include "Edge.h"
 
 #include <sstream>
 
-#include "data/graph/Node.h"
-#include "data/graph/token_component/TokenComponentAggregation.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "Node.h"
+#include "TokenComponentAggregation.h"
+#include "logging.h"
+#include "utilityString.h"
 
 int Edge::typeToInt(EdgeType type)
 {

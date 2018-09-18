@@ -1,9 +1,9 @@
 #include <cxxtest/TestSuite.h>
 
-#include "settings/ProjectSettings.h"
-#include "settings/Settings.h"
-#include "settings/SourceGroupSettingsCxx.h"
-#include "settings/SourceGroupSettingsWithSourcePaths.h"
+#include "ProjectSettings.h"
+#include "Settings.h"
+#include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettingsWithSourcePaths.h"
 
 class SettingsTestSuite : public CxxTest::TestSuite
 {

@@ -1,6 +1,6 @@
-#include "data/indexer/MemoryIndexerCommandProvider.h"
+#include "MemoryIndexerCommandProvider.h"
 
-#include "data/indexer/IndexerCommand.h"
+#include "IndexerCommand.h"
 
 MemoryIndexerCommandProvider::MemoryIndexerCommandProvider(const std::vector<std::shared_ptr<IndexerCommand>>& commands)
 {

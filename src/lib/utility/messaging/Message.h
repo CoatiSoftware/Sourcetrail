@@ -4,8 +4,8 @@
 #include <memory>
 #include <string>
 
-#include "utility/messaging/MessageBase.h"
-#include "utility/messaging/MessageQueue.h"
+#include "MessageBase.h"
+#include "MessageQueue.h"
 
 template<typename MessageType>
 class Message

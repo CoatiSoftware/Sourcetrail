@@ -1,7 +1,7 @@
 #ifndef MESSAGE_HISTORY_TO_POSITION_H
 #define MESSAGE_HISTORY_TO_POSITION_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageHistoryToPosition
 	: public Message<MessageHistoryToPosition>

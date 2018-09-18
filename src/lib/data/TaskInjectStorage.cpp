@@ -1,10 +1,10 @@
-#include "data/TaskInjectStorage.h"
+#include "TaskInjectStorage.h"
 
 #include <chrono>
 #include <thread>
 
-#include "data/storage/Storage.h"
-#include "data/storage/StorageProvider.h"
+#include "Storage.h"
+#include "StorageProvider.h"
 
 TaskInjectStorage::TaskInjectStorage(
 	std::shared_ptr<StorageProvider> storageProvider,

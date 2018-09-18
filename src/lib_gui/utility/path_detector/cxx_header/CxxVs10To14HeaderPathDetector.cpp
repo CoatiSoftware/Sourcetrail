@@ -1,14 +1,14 @@
-#include "utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.h"
+#include "CxxVs10To14HeaderPathDetector.h"
 
 #include <string>
 
 #include <QSettings>
 #include <QSysInfo>
 
-#include "utility/file/FilePath.h"
-#include "utility/path_detector/cxx_header/utilityCxxHeaderDetection.h"
-#include "utility/utility.h"
-#include "utility/utilityCxx.h"
+#include "FilePath.h"
+#include "utilityCxxHeaderDetection.h"
+#include "utility.h"
+#include "utilityCxx.h"
 
 CxxVs10To14HeaderPathDetector::CxxVs10To14HeaderPathDetector(VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture)
 	: PathDetector(visualStudioTypeToString(type) + (isExpress ? " Express" : "") + (architecture == APPLICATION_ARCHITECTURE_X86_64 ? " 64 Bit" : ""))

@@ -1,4 +1,4 @@
-#include "qt/element/QtSmartSearchBox.h"
+#include "QtSmartSearchBox.h"
 
 #include <stdlib.h>
 
@@ -6,14 +6,14 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
-#include "component/view/GraphViewStyle.h"
-#include "data/NodeTypeSet.h"
-#include "settings/ColorScheme.h"
-#include "utility/messaging/type/MessageActivateFullTextSearch.h"
-#include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageSearchAutocomplete.h"
-#include "utility/utility.h"
-#include "utility/utilityString.h"
+#include "GraphViewStyle.h"
+#include "NodeTypeSet.h"
+#include "ColorScheme.h"
+#include "MessageActivateFullTextSearch.h"
+#include "MessageSearch.h"
+#include "MessageSearchAutocomplete.h"
+#include "utility.h"
+#include "utilityString.h"
 
 QtSearchElement::QtSearchElement(const QString& text, QWidget* parent)
 	: QPushButton(text, parent)

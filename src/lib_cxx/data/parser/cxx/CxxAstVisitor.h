@@ -5,8 +5,8 @@
 
 #include <clang/AST/RecursiveASTVisitor.h>
 
-#include "data/parser/cxx/CxxContext.h"
-#include "utility/messaging/MessageInterruptTasksCounter.h"
+#include "CxxContext.h"
+#include "MessageInterruptTasksCounter.h"
 
 class CanonicalFilePathCache;
 class ParserClient;

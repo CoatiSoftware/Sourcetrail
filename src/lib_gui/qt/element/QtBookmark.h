@@ -6,9 +6,9 @@
 #include <QPushButton>
 #include <QTreeWidget>
 
-#include "component/controller/BookmarkController.h"
-#include "component/controller/helper/ControllerProxy.h"
-#include "data/bookmark/Bookmark.h"
+#include "BookmarkController.h"
+#include "ControllerProxy.h"
+#include "Bookmark.h"
 
 class Bookmark;
 

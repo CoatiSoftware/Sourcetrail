@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "utility/scheduling/TaskDecorator.h"
-#include "utility/scheduling/TaskRunner.h"
-#include "utility/TimeStamp.h"
+#include "TaskDecorator.h"
+#include "TaskRunner.h"
+#include "TimeStamp.h"
 
 class TaskDecoratorDelay
 	: public TaskDecorator

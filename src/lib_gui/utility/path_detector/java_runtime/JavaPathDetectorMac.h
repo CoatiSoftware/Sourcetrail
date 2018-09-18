@@ -1,7 +1,7 @@
 #ifndef JAVA_PATH_DETECTOR_MAC_H
 #define JAVA_PATH_DETECTOR_MAC_H
 
-#include "utility/path_detector/java_runtime/JavaPathDetector.h"
+#include "JavaPathDetector.h"
 
 class JavaPathDetectorMac
 	: public JavaPathDetector

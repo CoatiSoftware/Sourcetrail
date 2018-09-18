@@ -3,17 +3,17 @@
 
 #include <memory>
 
-#include "component/controller/Controller.h"
+#include "Controller.h"
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageActivateEdge.h"
-#include "utility/messaging/type/MessageActivateFile.h"
-#include "utility/messaging/type/MessageActivateNodes.h"
-#include "utility/messaging/type/MessageActivateTokenIds.h"
-#include "utility/messaging/type/MessageActivateSourceLocations.h"
-#include "utility/messaging/type/MessageResetZoom.h"
-#include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageZoom.h"
+#include "MessageListener.h"
+#include "MessageActivateEdge.h"
+#include "MessageActivateFile.h"
+#include "MessageActivateNodes.h"
+#include "MessageActivateTokenIds.h"
+#include "MessageActivateSourceLocations.h"
+#include "MessageResetZoom.h"
+#include "MessageSearch.h"
+#include "MessageZoom.h"
 
 class StorageAccess;
 

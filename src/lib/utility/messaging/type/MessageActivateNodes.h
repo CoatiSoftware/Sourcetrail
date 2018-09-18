@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_NODES_H
 #define MESSAGE_ACTIVATE_NODES_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageActivateNodes
 	: public Message<MessageActivateNodes>

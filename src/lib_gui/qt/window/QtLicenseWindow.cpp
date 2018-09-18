@@ -1,4 +1,4 @@
-#include "qt/window/QtLicenseWindow.h"
+#include "QtLicenseWindow.h"
 
 #include <QApplication>
 #include <QCheckBox>
@@ -8,9 +8,9 @@
 #include <QTextEdit>
 
 #include "LicenseChecker.h"
-#include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/ResourcePaths.h"
+#include "utilityQt.h"
+#include "ApplicationSettings.h"
+#include "ResourcePaths.h"
 
 QtLicenseWindow::QtLicenseWindow(QWidget *parent)
 	: QtWindow(false, parent)

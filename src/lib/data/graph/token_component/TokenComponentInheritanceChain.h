@@ -1,7 +1,7 @@
 #ifndef TOKEN_COMPONENT_INHERITANCE_CHAIN_H
 #define TOKEN_COMPONENT_INHERITANCE_CHAIN_H
 
-#include "data/graph/token_component/TokenComponent.h"
+#include "TokenComponent.h"
 
 class TokenComponentInheritanceChain
 	: public TokenComponent

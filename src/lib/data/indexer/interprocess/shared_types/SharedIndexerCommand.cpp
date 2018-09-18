@@ -1,10 +1,10 @@
 #include "SharedIndexerCommand.h"
 
-#include "data/indexer/IndexerCommandCxx.h"
-#include "data/indexer/IndexerCommandJava.h"
+#include "IndexerCommandCxx.h"
+#include "IndexerCommandJava.h"
 
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "logging.h"
+#include "utilityString.h"
 
 void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 {

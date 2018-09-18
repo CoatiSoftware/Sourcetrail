@@ -3,11 +3,11 @@
 
 #include <memory>
 
-#include "data/ErrorInfo.h"
+#include "ErrorInfo.h"
 
-#include "component/controller/helper/ScreenSearchInterfaces.h"
-#include "component/view/helper/CodeSnippetParams.h"
-#include "component/view/View.h"
+#include "ScreenSearchInterfaces.h"
+#include "CodeSnippetParams.h"
+#include "View.h"
 
 class CodeController;
 class FilePath;

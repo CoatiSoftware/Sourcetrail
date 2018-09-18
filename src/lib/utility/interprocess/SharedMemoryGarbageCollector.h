@@ -6,7 +6,7 @@
 #include <string>
 #include <set>
 
-#include "utility/interprocess/SharedMemory.h"
+#include "SharedMemory.h"
 
 #include <mutex>
 #include <thread>

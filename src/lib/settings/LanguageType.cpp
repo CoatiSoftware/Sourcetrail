@@ -1,4 +1,4 @@
-#include "settings/LanguageType.h"
+#include "LanguageType.h"
 
 std::string languageTypeToString(LanguageType t)
 {

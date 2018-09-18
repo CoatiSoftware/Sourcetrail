@@ -1,4 +1,4 @@
-#include "data/parser/cxx/CxxAstVisitorComponentContext.h"
+#include "CxxAstVisitorComponentContext.h"
 
 CxxAstVisitorComponentContext::CxxAstVisitorComponentContext(CxxAstVisitor* astVisitor)
 	: CxxAstVisitorComponent(astVisitor)

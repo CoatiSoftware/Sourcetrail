@@ -1,16 +1,16 @@
-#include "utility/IncludeProcessing.h"
+#include "IncludeProcessing.h"
 
 #include <set>
 #include <unordered_set>
 
-#include "settings/ApplicationSettings.h"
-#include "utility/IncludeDirective.h"
-#include "utility/file/FilePath.h"
-#include "utility/file/FileTree.h"
-#include "utility/text/TextAccess.h"
-#include "utility/TextCodec.h"
-#include "utility/utility.h"
-#include "utility/utilityString.h"
+#include "ApplicationSettings.h"
+#include "IncludeDirective.h"
+#include "FilePath.h"
+#include "FileTree.h"
+#include "TextAccess.h"
+#include "TextCodec.h"
+#include "utility.h"
+#include "utilityString.h"
 
 namespace
 {

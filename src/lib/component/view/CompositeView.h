@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "component/view/View.h"
-#include "component/view/ViewLayout.h"
+#include "View.h"
+#include "ViewLayout.h"
 
 class CompositeView
 	: public View

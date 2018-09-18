@@ -1,7 +1,7 @@
 #ifndef QT_ABOUT_LICENSE_H
 #define QT_ABOUT_LICENSE_H
 
-#include "qt/window/QtWindow.h"
+#include "QtWindow.h"
 
 class QtAboutLicense
 	: public QtWindow

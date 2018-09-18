@@ -1,7 +1,7 @@
 #ifndef CXX_AST_VISITOR_COMPONENT_IMPLICIT_CODE_H
 #define CXX_AST_VISITOR_COMPONENT_IMPLICIT_CODE_H
 
-#include "data/parser/cxx/CxxAstVisitorComponent.h"
+#include "CxxAstVisitorComponent.h"
 
 // This CxxAstVisitorComponent is responsible for deciding if the AstVisitor should visit implicit code in the current context.
 class CxxAstVisitorComponentImplicitCode: public CxxAstVisitorComponent

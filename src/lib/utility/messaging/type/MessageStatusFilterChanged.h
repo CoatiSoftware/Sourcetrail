@@ -1,8 +1,8 @@
 #ifndef MESSAGE_STATUS_FILTER_CHANGED_H
 #define MESSAGE_STATUS_FILTER_CHANGED_H
 
-#include "utility/messaging/Message.h"
-#include "utility/Status.h"
+#include "Message.h"
+#include "Status.h"
 
 class MessageStatusFilterChanged
 	: public Message<MessageStatusFilterChanged>

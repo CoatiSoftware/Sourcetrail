@@ -1,4 +1,4 @@
-#include "qt/element/QtCodeNavigator.h"
+#include "QtCodeNavigator.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -6,21 +6,21 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/error/MessageShowError.h"
-#include "utility/messaging/type/MessageScrollCode.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utility.h"
+#include "logging.h"
+#include "MessageShowError.h"
+#include "MessageScrollCode.h"
+#include "ResourcePaths.h"
+#include "utility.h"
 
-#include "data/location/SourceLocation.h"
-#include "data/location/SourceLocationCollection.h"
-#include "data/location/SourceLocationFile.h"
-#include "qt/element/QtCodeArea.h"
-#include "qt/element/QtCodeFile.h"
-#include "qt/element/QtCodeSnippet.h"
-#include "qt/element/QtSearchBarButton.h"
-#include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
+#include "SourceLocation.h"
+#include "SourceLocationCollection.h"
+#include "SourceLocationFile.h"
+#include "QtCodeArea.h"
+#include "QtCodeFile.h"
+#include "QtCodeSnippet.h"
+#include "QtSearchBarButton.h"
+#include "utilityQt.h"
+#include "ApplicationSettings.h"
 
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)

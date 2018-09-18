@@ -1,8 +1,8 @@
 #ifndef MESSAGE_SCROLL_TO_LINE_H
 #define MESSAGE_SCROLL_TO_LINE_H
 
-#include "utility/file/FilePath.h"
-#include "utility/messaging/Message.h"
+#include "FilePath.h"
+#include "Message.h"
 
 class MessageScrollToLine
 	: public Message<MessageScrollToLine>

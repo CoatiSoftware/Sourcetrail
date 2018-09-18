@@ -1,7 +1,7 @@
 #ifndef MESSAGE_CODE_REFERENCE_H
 #define MESSAGE_CODE_REFERENCE_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageCodeReference
 	: public Message<MessageCodeReference>

@@ -1,9 +1,9 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentExtensions.h"
+#include "QtProjectWizzardContentExtensions.h"
 
 #include <QFormLayout>
 
-#include "settings/SourceGroupSettingsWithSourceExtensions.h"
-#include "qt/element/QtStringListBox.h"
+#include "SourceGroupSettingsWithSourceExtensions.h"
+#include "QtStringListBox.h"
 
 QtProjectWizzardContentExtensions::QtProjectWizzardContentExtensions(
 	std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settings, 

@@ -1,4 +1,4 @@
-#include "qt/view/QtGraphView.h"
+#include "QtGraphView.h"
 
 #include <QBoxLayout>
 #include <QFrame>
@@ -13,31 +13,31 @@
 #include <QSlider>
 #include <QStackedLayout>
 
-#include "utility/messaging/type/MessageActivateTrail.h"
-#include "utility/messaging/type/MessageDeactivateEdge.h"
-#include "utility/messaging/type/MessageRefresh.h"
-#include "utility/messaging/type/MessageScrollGraph.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/ResourcePaths.h"
+#include "MessageActivateTrail.h"
+#include "MessageDeactivateEdge.h"
+#include "MessageRefresh.h"
+#include "MessageScrollGraph.h"
+#include "MessageStatus.h"
+#include "ResourcePaths.h"
 
-#include "component/controller/helper/DummyEdge.h"
-#include "component/controller/helper/DummyNode.h"
-#include "component/view/GraphViewStyle.h"
-#include "qt/element/QtIconButton.h"
-#include "qt/graphics/QtGraphicsView.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
-#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
-#include "qt/view/graphElements/QtGraphEdge.h"
-#include "qt/view/graphElements/QtGraphNodeAccess.h"
-#include "qt/view/graphElements/QtGraphNodeBundle.h"
-#include "qt/view/graphElements/QtGraphNodeData.h"
-#include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
-#include "qt/view/graphElements/QtGraphNodeGroup.h"
-#include "qt/view/graphElements/QtGraphNodeQualifier.h"
-#include "qt/view/graphElements/QtGraphNodeText.h"
-#include "settings/ApplicationSettings.h"
+#include "DummyEdge.h"
+#include "DummyNode.h"
+#include "GraphViewStyle.h"
+#include "QtIconButton.h"
+#include "QtGraphicsView.h"
+#include "utilityQt.h"
+#include "QtViewWidgetWrapper.h"
+#include "QtGraphNodeComponentClickable.h"
+#include "QtGraphNodeComponentMoveable.h"
+#include "QtGraphEdge.h"
+#include "QtGraphNodeAccess.h"
+#include "QtGraphNodeBundle.h"
+#include "QtGraphNodeData.h"
+#include "QtGraphNodeExpandToggle.h"
+#include "QtGraphNodeGroup.h"
+#include "QtGraphNodeQualifier.h"
+#include "QtGraphNodeText.h"
+#include "ApplicationSettings.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)

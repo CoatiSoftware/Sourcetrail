@@ -1,7 +1,7 @@
 #ifndef MESSAGE_ERRORS_ALL_H
 #define MESSAGE_ERRORS_ALL_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageErrorsAll:
 	public Message<MessageErrorsAll>

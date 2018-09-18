@@ -1,4 +1,4 @@
-#include "component/view/MainView.h"
+#include "MainView.h"
 
 MainView::MainView()
 {

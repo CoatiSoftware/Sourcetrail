@@ -1,4 +1,4 @@
-#include "qt/element/QtCodeArea.h"
+#include "QtCodeArea.h"
 
 #include <algorithm>
 
@@ -13,20 +13,20 @@
 #include <QTextBlock>
 #include <QToolTip>
 
-#include "data/location/SourceLocationFile.h"
-#include "qt/element/QtCodeNavigator.h"
-#include "qt/utility/QtContextMenu.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
-#include "utility/messaging/type/error/MessageShowError.h"
-#include "utility/messaging/type/MessageActivateLocalSymbols.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
-#include "utility/messaging/type/MessageMoveIDECursor.h"
-#include "utility/TextCodec.h"
-#include "utility/utility.h"
-#include "utility/utilityApp.h"
-#include "utility/utilityString.h"
+#include "SourceLocationFile.h"
+#include "QtCodeNavigator.h"
+#include "QtContextMenu.h"
+#include "ApplicationSettings.h"
+#include "ColorScheme.h"
+#include "MessageShowError.h"
+#include "MessageActivateLocalSymbols.h"
+#include "MessageFocusIn.h"
+#include "MessageFocusOut.h"
+#include "MessageMoveIDECursor.h"
+#include "TextCodec.h"
+#include "utility.h"
+#include "utilityApp.h"
+#include "utilityString.h"
 
 MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter()
 {

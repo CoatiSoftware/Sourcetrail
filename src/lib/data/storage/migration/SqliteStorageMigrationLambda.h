@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "data/storage/migration/SqliteStorageMigration.h"
+#include "SqliteStorageMigration.h"
 
 class SqliteStorageMigrationLambda: public SqliteStorageMigration
 {

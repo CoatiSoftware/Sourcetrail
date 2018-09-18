@@ -3,9 +3,9 @@
 
 #include <QFrame>
 
-#include "component/controller/BookmarkController.h"
-#include "component/controller/helper/ControllerProxy.h"
-#include "utility/types.h"
+#include "BookmarkController.h"
+#include "ControllerProxy.h"
+#include "types.h"
 
 class QLabel;
 class QPushButton;

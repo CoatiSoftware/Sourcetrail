@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "data/indexer/IndexerCommand.h"
+#include "IndexerCommand.h"
 
 class FilePath;
 class FilePathFilter;

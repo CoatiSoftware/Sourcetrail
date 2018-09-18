@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "component/view/CompositeView.h"
-#include "component/view/DialogView.h"
+#include "CompositeView.h"
+#include "DialogView.h"
 
 class BookmarkView;
 class CodeView;

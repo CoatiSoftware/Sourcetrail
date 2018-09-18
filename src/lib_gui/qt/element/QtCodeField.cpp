@@ -4,18 +4,18 @@
 #include <QTextBlock>
 #include <QTextCodec>
 
-#include "data/location/SourceLocation.h"
-#include "data/location/SourceLocationFile.h"
-#include "qt/utility/QtHighlighter.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
-#include "utility/messaging/type/MessageActivateLocalSymbols.h"
-#include "utility/messaging/type/MessageActivateSourceLocations.h"
-#include "utility/messaging/type/MessageActivateTokenIds.h"
-#include "utility/messaging/type/MessageTooltipShow.h"
-#include "utility/TextCodec.h"
-#include "utility/tracing.h"
-#include "utility/utility.h"
+#include "SourceLocation.h"
+#include "SourceLocationFile.h"
+#include "QtHighlighter.h"
+#include "ApplicationSettings.h"
+#include "ColorScheme.h"
+#include "MessageActivateLocalSymbols.h"
+#include "MessageActivateSourceLocations.h"
+#include "MessageActivateTokenIds.h"
+#include "MessageTooltipShow.h"
+#include "TextCodec.h"
+#include "tracing.h"
+#include "utility.h"
 
 std::vector<QtCodeField::AnnotationColor> QtCodeField::s_annotationColors;
 

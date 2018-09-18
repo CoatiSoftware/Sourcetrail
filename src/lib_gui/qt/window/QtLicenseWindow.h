@@ -1,7 +1,7 @@
 #ifndef QT_LICENSE_WINDOW_H
 #define QT_LICENSE_WINDOW_H
 
-#include "qt/window/QtWindow.h"
+#include "QtWindow.h"
 
 class QLabel;
 class QRadioButton;

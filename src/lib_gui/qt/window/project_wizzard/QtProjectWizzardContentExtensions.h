@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "QtProjectWizzardContent.h"
 
 class QtStringListBox;
 class SourceGroupSettingsWithSourceExtensions;

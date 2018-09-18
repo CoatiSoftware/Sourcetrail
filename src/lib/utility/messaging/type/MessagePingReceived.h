@@ -1,7 +1,7 @@
 #ifndef MESSAGE_PING_RECEIVED_H
 #define MESSAGE_PING_RECEIVED_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessagePingReceived
 	: public Message<MessagePingReceived>

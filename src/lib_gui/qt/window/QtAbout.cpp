@@ -1,15 +1,15 @@
-#include "qt/window/QtAbout.h"
+#include "QtAbout.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "qt/utility/QtDeviceScaledPixmap.h"
-#include "qt/utility/utilityQt.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utility.h"
-#include "utility/Version.h"
+#include "QtDeviceScaledPixmap.h"
+#include "utilityQt.h"
+#include "ResourcePaths.h"
+#include "utility.h"
+#include "Version.h"
 
 QtAbout::QtAbout(QWidget *parent)
 	: QtWindow(false, parent)

@@ -1,8 +1,8 @@
 #ifndef MESSAGE_DISPLAY_BOOKMARKS_H
 #define MESSAGE_DISPLAY_BOOKMARKS_H
 
-#include "data/bookmark/Bookmark.h"
-#include "utility/messaging/Message.h"
+#include "Bookmark.h"
+#include "Message.h"
 
 class MessageDisplayBookmarks
 	: public Message<MessageDisplayBookmarks>

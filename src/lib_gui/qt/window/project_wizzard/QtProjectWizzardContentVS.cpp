@@ -1,6 +1,6 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentVS.h"
+#include "QtProjectWizzardContentVS.h"
 
-#include "utility/messaging/type/MessageIDECreateCDB.h"
+#include "MessageIDECreateCDB.h"
 
 QtProjectWizzardContentVS::QtProjectWizzardContentVS(QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(window)

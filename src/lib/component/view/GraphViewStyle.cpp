@@ -1,11 +1,11 @@
-#include "component/view/GraphViewStyle.h"
+#include "GraphViewStyle.h"
 
-#include "component/view/GraphViewStyleImpl.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
-#include "utility/logging/logging.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
+#include "GraphViewStyleImpl.h"
+#include "ApplicationSettings.h"
+#include "ColorScheme.h"
+#include "logging.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
 
 int GraphViewStyle::s_gridCellSize = 5;
 int GraphViewStyle::s_gridCellPadding = 10;

@@ -3,8 +3,8 @@
 
 #include <QPushButton>
 
-#include "qt/window/QtWindow.h"
-#include "utility/file/FilePath.h"
+#include "QtWindow.h"
+#include "FilePath.h"
 
 class QtRecentProjectButton
 	: public QPushButton

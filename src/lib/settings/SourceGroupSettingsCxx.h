@@ -1,9 +1,9 @@
 #ifndef SOURCE_GROUP_SETTINGS_CXX_H
 #define SOURCE_GROUP_SETTINGS_CXX_H
 
-#include "settings/SourceGroupSettings.h"
+#include "SourceGroupSettings.h"
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class SourceGroupSettingsCxx
 	: public SourceGroupSettings

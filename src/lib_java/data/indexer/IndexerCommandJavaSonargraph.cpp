@@ -1,6 +1,6 @@
-#include "data/indexer/IndexerCommandJava.h"
+#include "IndexerCommandJava.h"
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
 {

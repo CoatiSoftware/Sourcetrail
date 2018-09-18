@@ -1,13 +1,13 @@
 #include "LicenseChecker.h"
 
-#include "utility/AppPath.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityApp.h"
-#include "utility/messaging/type/MessageForceEnterLicense.h"
+#include "AppPath.h"
+#include "logging.h"
+#include "utilityApp.h"
+#include "MessageForceEnterLicense.h"
 
 #include "License.h"
 #include "PublicKey.h"
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 void LicenseChecker::createInstance()
 {

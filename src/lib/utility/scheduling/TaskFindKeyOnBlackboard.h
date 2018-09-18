@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "utility/scheduling/Task.h"
+#include "Task.h"
 
 class Blackboard;
 

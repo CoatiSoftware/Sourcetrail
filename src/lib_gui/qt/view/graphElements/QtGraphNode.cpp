@@ -1,4 +1,4 @@
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "QtGraphNode.h"
 
 #include <QBrush>
 #include <QFont>
@@ -6,18 +6,18 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
-#include "qt/graphics/QtRoundedRectItem.h"
-#include "qt/utility/QtDeviceScaledPixmap.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
-#include "qt/view/graphElements/QtGraphEdge.h"
-#include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
-#include "utility/messaging/type/code/MessageCodeShowDefinition.h"
-#include "utility/messaging/type/MessageGraphNodeExpand.h"
-#include "utility/messaging/type/MessageGraphNodeHide.h"
-#include "utility/messaging/type/MessageGraphNodeMove.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
+#include "QtRoundedRectItem.h"
+#include "QtDeviceScaledPixmap.h"
+#include "utilityQt.h"
+#include "QtGraphNodeComponent.h"
+#include "QtGraphEdge.h"
+#include "QtGraphNodeExpandToggle.h"
+#include "MessageCodeShowDefinition.h"
+#include "MessageGraphNodeExpand.h"
+#include "MessageGraphNodeHide.h"
+#include "MessageGraphNodeMove.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
 
 void QtGraphNode::blendIn()
 {

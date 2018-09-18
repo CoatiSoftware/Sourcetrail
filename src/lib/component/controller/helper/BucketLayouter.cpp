@@ -1,7 +1,7 @@
-#include "component/controller/helper/BucketLayouter.h"
+#include "BucketLayouter.h"
 
-#include "component/controller/helper/DummyEdge.h"
-#include "component/view/GraphViewStyle.h"
+#include "DummyEdge.h"
+#include "GraphViewStyle.h"
 
 Bucket::Bucket()
 	: i(0)

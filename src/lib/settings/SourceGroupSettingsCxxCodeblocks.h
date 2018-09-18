@@ -1,12 +1,12 @@
 #ifndef SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H
 #define SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H
 
-#include "settings/SourceGroupSettingsCxx.h"
-#include "settings/SourceGroupSettingsWithCppStandard.h"
-#include "settings/SourceGroupSettingsWithCStandard.h"
-#include "settings/SourceGroupSettingsWithExcludeFilters.h"
-#include "settings/SourceGroupSettingsWithIndexedHeaderPaths.h"
-#include "settings/SourceGroupSettingsWithSourceExtensions.h"
+#include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettingsWithCppStandard.h"
+#include "SourceGroupSettingsWithCStandard.h"
+#include "SourceGroupSettingsWithExcludeFilters.h"
+#include "SourceGroupSettingsWithIndexedHeaderPaths.h"
+#include "SourceGroupSettingsWithSourceExtensions.h"
 
 class SourceGroupSettingsCxxCodeblocks
 	: public SourceGroupSettingsCxx

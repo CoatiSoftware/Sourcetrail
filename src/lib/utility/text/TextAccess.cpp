@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
 std::shared_ptr<TextAccess> TextAccess::createFromFile(const FilePath& filePath)
 {

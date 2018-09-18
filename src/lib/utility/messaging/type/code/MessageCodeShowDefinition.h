@@ -1,8 +1,8 @@
 #ifndef MESSAGE_CODE_SHOW_DEFINITION_H
 #define MESSAGE_CODE_SHOW_DEFINITION_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageCodeShowDefinition
 	: public Message<MessageCodeShowDefinition>

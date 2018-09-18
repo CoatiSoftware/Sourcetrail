@@ -1,10 +1,10 @@
 #ifndef MESSAGE_ACTIVATE_ALL_H
 #define MESSAGE_ACTIVATE_ALL_H
 
-#include "utility/messaging/Message.h"
-#include "utility/messaging/type/MessageActivateBase.h"
+#include "Message.h"
+#include "MessageActivateBase.h"
 
-#include "data/NodeTypeSet.h"
+#include "NodeTypeSet.h"
 
 class MessageActivateAll
 	: public Message<MessageActivateAll>

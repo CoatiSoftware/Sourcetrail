@@ -3,8 +3,8 @@
 
 #include <functional>
 
-#include "project/RefreshInfo.h"
-#include "qt/window/QtWindow.h"
+#include "RefreshInfo.h"
+#include "QtWindow.h"
 
 class QCheckBox;
 class QLabel;

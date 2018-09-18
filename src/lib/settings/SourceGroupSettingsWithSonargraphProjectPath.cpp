@@ -1,6 +1,6 @@
-#include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
+#include "SourceGroupSettingsWithSonargraphProjectPath.h"
 
-#include "settings/ProjectSettings.h"
+#include "ProjectSettings.h"
 
 SourceGroupSettingsWithSonargraphProjectPath::SourceGroupSettingsWithSonargraphProjectPath()
 {

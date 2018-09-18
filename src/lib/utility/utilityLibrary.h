@@ -13,8 +13,8 @@
 #define __stdcall
 #endif
 
-#include "utility/file/FilePath.h"
-#include "utility/utilityString.h"
+#include "FilePath.h"
+#include "utilityString.h"
 
 namespace utility
 {

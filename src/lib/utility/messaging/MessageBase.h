@@ -4,8 +4,8 @@
 #include <ostream>
 #include <sstream>
 
-#include "utility/types.h"
-#include "utility/utilityString.h"
+#include "types.h"
+#include "utilityString.h"
 
 class MessageBase
 {

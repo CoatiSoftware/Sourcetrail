@@ -1,7 +1,7 @@
-#include "utility/commandline/commands/CommandlineCommandAcceptEULA.h"
+#include "CommandlineCommandAcceptEULA.h"
 
-#include "utility/commandline/CommandlineHelper.h"
-#include "utility/commandline/CommandLineParser.h"
+#include "CommandlineHelper.h"
+#include "CommandLineParser.h"
 
 namespace commandline
 {

@@ -1,6 +1,6 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 class UtilityStringTestSuite : public CxxTest::TestSuite
 {

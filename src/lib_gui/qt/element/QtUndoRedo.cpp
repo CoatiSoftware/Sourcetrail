@@ -1,15 +1,15 @@
-#include "qt/element/QtUndoRedo.h"
+#include "QtUndoRedo.h"
 
 #include <QHBoxLayout>
 #include <QTimer>
 
-#include "utility/messaging/type/history/MessageHistoryUndo.h"
-#include "utility/messaging/type/history/MessageHistoryRedo.h"
-#include "utility/ResourcePaths.h"
+#include "MessageHistoryUndo.h"
+#include "MessageHistoryRedo.h"
+#include "ResourcePaths.h"
 
-#include "qt/element/QtHistoryList.h"
-#include "qt/element/QtSearchBarButton.h"
-#include "qt/utility/QtContextMenu.h"
+#include "QtHistoryList.h"
+#include "QtSearchBarButton.h"
+#include "QtContextMenu.h"
 
 QtUndoRedo::QtUndoRedo()
 	: m_pressed(false)

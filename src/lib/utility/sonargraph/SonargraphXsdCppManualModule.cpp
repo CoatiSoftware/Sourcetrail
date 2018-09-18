@@ -1,16 +1,16 @@
-#include "utility/sonargraph/SonargraphXsdCppManualModule.h"
+#include "SonargraphXsdCppManualModule.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
-#include "data/indexer/IndexerCommandCxx.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/SourceGroupSettingsCxxSonargraph.h"
-#include "utility/file/FileSystem.h"
-#include "utility/sonargraph/SonargraphSoftwareSystem.h"
-#include "utility/sonargraph/utilitySonargraph.h"
-#include "utility/utility.h"
-#include "utility/utilityFile.h"
-#include "utility/utilityXml.h"
+#include "IndexerCommandCxx.h"
+#include "ApplicationSettings.h"
+#include "SourceGroupSettingsCxxSonargraph.h"
+#include "FileSystem.h"
+#include "SonargraphSoftwareSystem.h"
+#include "utilitySonargraph.h"
+#include "utility.h"
+#include "utilityFile.h"
+#include "utilityXml.h"
 
 namespace Sonargraph
 {

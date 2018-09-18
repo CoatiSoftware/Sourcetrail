@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "utility/TimeStamp.h"
-#include "utility/types.h"
+#include "TimeStamp.h"
+#include "types.h"
 
 class SourceLocationFile;
 

@@ -8,20 +8,20 @@
 #include <istream>
 #include <sstream>
 
-//#include "botan_all.h"
-#include "boost/date_time.hpp"
-#include "boost/date_time/gregorian/gregorian.hpp"
-#include "boost/filesystem.hpp"
-#include "botan/rsa.h"
-#include "botan/cryptobox.h"
-#include "botan/passhash9.h"
-#include "botan/base64.h"
-#include "botan/pubkey.h"
-#include "botan/pk_keys.h"
-#include "botan/auto_rng.h"
-#include "botan/pbkdf.h"
+//#include <botan_all.h>
+#include <boost/date_time.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/filesystem.hpp>
+#include <botan/rsa.h>
+#include <botan/cryptobox.h>
+#include <botan/passhash9.h>
+#include <botan/base64.h>
+#include <botan/pubkey.h>
+#include <botan/pk_keys.h>
+#include <botan/auto_rng.h>
+#include <botan/pbkdf.h>
 
-#include "utility/Version.h"
+#include "Version.h"
 #include "PublicKey.h"
 
 namespace

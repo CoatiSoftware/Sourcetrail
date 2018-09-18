@@ -1,10 +1,10 @@
 #ifndef VECTOR_4_H
 #define VECTOR_4_H
 
-#include "utility/logging/logging.h"
-#include "utility/Property.h"
+#include "logging.h"
+#include "Property.h"
 
-#include "utility/math/VectorBase.h"
+#include "VectorBase.h"
 
 template<class T>
 class Vector4 : public VectorBase<T, 4>

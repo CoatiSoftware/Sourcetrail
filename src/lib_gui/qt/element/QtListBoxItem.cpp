@@ -1,14 +1,14 @@
-#include "qt/element/QtListBoxItem.h"
+#include "QtListBoxItem.h"
 
 #include <QBoxLayout>
 #include <QListWidget>
 #include <QPushButton>
 
-#include "qt/element/QtLineEdit.h"
-#include "qt/element/QtListBox.h"
-#include "qt/element/QtIconButton.h"
-#include "qt/utility/QtFileDialog.h"
-#include "utility/ResourcePaths.h"
+#include "QtLineEdit.h"
+#include "QtListBox.h"
+#include "QtIconButton.h"
+#include "QtFileDialog.h"
+#include "ResourcePaths.h"
 
 QtListBoxItem::QtListBoxItem(QListWidgetItem* item, QWidget *parent)
 	: QWidget(parent)

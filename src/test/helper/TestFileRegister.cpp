@@ -1,6 +1,6 @@
 #include "TestFileRegister.h"
 
-#include "utility/file/FilePathFilter.h"
+#include "FilePathFilter.h"
 
 TestFileRegister::TestFileRegister()
 	: FileRegister(FilePath(), std::set<FilePath>(), { FilePathFilter(L"") })

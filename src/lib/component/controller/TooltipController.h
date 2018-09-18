@@ -1,18 +1,18 @@
 #ifndef TOOLTIP_CONTROLLER_H
 #define TOOLTIP_CONTROLLER_H
 
-#include "component/controller/Controller.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageActivateLocalSymbols.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
-#include "utility/messaging/type/MessageGraphNodeExpand.h"
-#include "utility/messaging/type/MessageScrollCode.h"
-#include "utility/messaging/type/MessageScrollGraph.h"
-#include "utility/messaging/type/MessageTooltipHide.h"
-#include "utility/messaging/type/MessageTooltipShow.h"
-#include "utility/messaging/type/MessageWindowFocus.h"
+#include "Controller.h"
+#include "MessageListener.h"
+#include "MessageActivateTokens.h"
+#include "MessageActivateLocalSymbols.h"
+#include "MessageFocusIn.h"
+#include "MessageFocusOut.h"
+#include "MessageGraphNodeExpand.h"
+#include "MessageScrollCode.h"
+#include "MessageScrollGraph.h"
+#include "MessageTooltipHide.h"
+#include "MessageTooltipShow.h"
+#include "MessageWindowFocus.h"
 
 class StorageAccess;
 class TooltipView;

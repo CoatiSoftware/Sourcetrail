@@ -1,12 +1,12 @@
-#include "qt/element/QtSearchBar.h"
+#include "QtSearchBar.h"
 
 #include <QHBoxLayout>
 
-#include "utility/messaging/type/MessageActivateAll.h"
-#include "utility/ResourcePaths.h"
+#include "MessageActivateAll.h"
+#include "ResourcePaths.h"
 
-#include "qt/element/QtSearchBarButton.h"
-#include "qt/element/QtSmartSearchBox.h"
+#include "QtSearchBarButton.h"
+#include "QtSmartSearchBox.h"
 
 QtSearchBar::QtSearchBar()
 {

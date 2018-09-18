@@ -1,12 +1,12 @@
-#include "qt/utility/QtHighlighter.h"
+#include "QtHighlighter.h"
 
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
 
-#include "settings/ColorScheme.h"
-#include "utility/tracing.h"
-#include "utility/utility.h"
+#include "ColorScheme.h"
+#include "tracing.h"
+#include "utility.h"
 
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesCpp;

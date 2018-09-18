@@ -1,4 +1,4 @@
-#include "component/view/CompositeView.h"
+#include "CompositeView.h"
 
 #include <algorithm>
 

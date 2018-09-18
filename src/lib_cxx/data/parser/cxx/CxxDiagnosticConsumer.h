@@ -1,8 +1,8 @@
 #ifndef CXX_DIAGNOSTIC_CONSUMER
 #define CXX_DIAGNOSTIC_CONSUMER
 
-#include "clang/Frontend/TextDiagnosticPrinter.h"
-#include "utility/file/FilePath.h"
+#include <clang/Frontend/TextDiagnosticPrinter.h>
+#include "FilePath.h"
 
 class CanonicalFilePathCache;
 class ParserClient;

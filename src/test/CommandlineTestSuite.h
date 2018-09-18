@@ -1,7 +1,7 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/commandline/CommandLineParser.h"
-#include "settings/ApplicationSettings.h"
+#include "CommandLineParser.h"
+#include "ApplicationSettings.h"
 
 #include <string>
 #include <iostream>

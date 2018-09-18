@@ -7,7 +7,7 @@
 #include <mutex>
 #include <string>
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
 struct BlackboardItemBase
 {

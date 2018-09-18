@@ -1,7 +1,7 @@
 #ifndef STORAGE_EDGE_H
 #define STORAGE_EDGE_H
 
-#include "utility/types.h"
+#include "types.h"
 
 struct StorageEdgeData
 {

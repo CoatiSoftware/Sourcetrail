@@ -1,4 +1,4 @@
-#include "qt/graphics/QtGraphicsView.h"
+#include "QtGraphicsView.h"
 
 #include <QDir>
 #include <QMouseEvent>
@@ -11,23 +11,23 @@
 #include <QParallelAnimationGroup>
 #include <QSvgGenerator>
 
-#include "qt/element/QtIconButton.h"
-#include "qt/view/graphElements/QtGraphEdge.h"
-#include "qt/view/graphElements/QtGraphNode.h"
-#include "qt/view/graphElements/QtGraphNodeBundle.h"
-#include "qt/view/graphElements/QtGraphNodeData.h"
-#include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
-#include "qt/utility/QtContextMenu.h"
-#include "qt/utility/QtFileDialog.h"
-#include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/messaging/type/activation/MessageActivateLegend.h"
-#include "utility/messaging/type/code/MessageCodeShowDefinition.h"
-#include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
-#include "utility/messaging/type/MessageGraphNodeExpand.h"
-#include "utility/messaging/type/MessageGraphNodeHide.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityApp.h"
+#include "QtIconButton.h"
+#include "QtGraphEdge.h"
+#include "QtGraphNode.h"
+#include "QtGraphNodeBundle.h"
+#include "QtGraphNodeData.h"
+#include "QtGraphNodeExpandToggle.h"
+#include "QtContextMenu.h"
+#include "QtFileDialog.h"
+#include "utilityQt.h"
+#include "ApplicationSettings.h"
+#include "MessageActivateLegend.h"
+#include "MessageCodeShowDefinition.h"
+#include "MessageDisplayBookmarkCreator.h"
+#include "MessageGraphNodeExpand.h"
+#include "MessageGraphNodeHide.h"
+#include "ResourcePaths.h"
+#include "utilityApp.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)

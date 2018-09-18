@@ -1,5 +1,5 @@
 add_files(
-	LIB_GUI_FILES
+	LIB_GUI
 
 	platform_includes/includesLinux.h
 	platform_includes/includesMac.h

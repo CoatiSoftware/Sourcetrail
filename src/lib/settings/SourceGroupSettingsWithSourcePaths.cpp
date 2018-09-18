@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsWithSourcePaths.h"
+#include "SourceGroupSettingsWithSourcePaths.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/utility.h"
+#include "ProjectSettings.h"
+#include "utility.h"
 
 SourceGroupSettingsWithSourcePaths::SourceGroupSettingsWithSourcePaths()
 	: m_sourcePaths(std::vector<FilePath>())

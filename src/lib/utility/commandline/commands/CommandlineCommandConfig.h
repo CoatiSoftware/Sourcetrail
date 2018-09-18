@@ -1,7 +1,7 @@
 #ifndef COMMANDLINE_COMMAND_CONFIG_H
 #define COMMANDLINE_COMMAND_CONFIG_H
 
-#include "utility/commandline/commands/CommandlineCommand.h"
+#include "CommandlineCommand.h"
 
 namespace commandline
 {

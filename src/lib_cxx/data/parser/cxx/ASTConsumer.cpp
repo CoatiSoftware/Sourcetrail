@@ -1,8 +1,8 @@
-#include "data/parser/cxx/ASTConsumer.h"
+#include "ASTConsumer.h"
 
-#include "data/parser/cxx/CxxAstVisitor.h"
-#include "data/parser/cxx/CxxVerboseAstVisitor.h"
-#include "settings/ApplicationSettings.h"
+#include "CxxAstVisitor.h"
+#include "CxxVerboseAstVisitor.h"
+#include "ApplicationSettings.h"
 
 ASTConsumer::ASTConsumer(
 	clang::ASTContext* context,

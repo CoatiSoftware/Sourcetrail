@@ -1,7 +1,7 @@
 #ifndef COMMANDLINE_COMMAND_INDEX_H
 #define COMMANDLINE_COMMAND_INDEX_H
 
-#include "utility/commandline/commands/CommandlineCommand.h"
+#include "CommandlineCommand.h"
 
 namespace commandline {
 

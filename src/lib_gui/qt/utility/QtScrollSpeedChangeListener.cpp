@@ -1,10 +1,10 @@
-#include "qt/utility/QtScrollSpeedChangeListener.h"
+#include "QtScrollSpeedChangeListener.h"
 
 #include <cmath>
 
 #include <QScrollBar>
 
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 QtScrollSpeedChangeListener::QtScrollSpeedChangeListener()
 	: m_changeScrollSpeedFunctor(std::bind(&QtScrollSpeedChangeListener::doChangeScrollSpeed, this, std::placeholders::_1))

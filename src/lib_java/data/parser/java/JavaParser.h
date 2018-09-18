@@ -5,12 +5,12 @@
 #include <mutex>
 #include <string>
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "data/parser/Parser.h"
-#include "data/parser/java/JavaEnvironment.h"
-#include "utility/file/FilePath.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/MessageInterruptTasksCounter.h"
+#include "IndexerCommandJava.h"
+#include "Parser.h"
+#include "JavaEnvironment.h"
+#include "FilePath.h"
+#include "logging.h"
+#include "MessageInterruptTasksCounter.h"
 
 struct JNIEnv_;
 typedef JNIEnv_ JNIEnv;

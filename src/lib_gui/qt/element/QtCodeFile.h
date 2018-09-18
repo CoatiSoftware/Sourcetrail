@@ -8,9 +8,9 @@
 
 #include <QFrame>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
-#include "component/view/helper/CodeSnippetParams.h"
+#include "CodeSnippetParams.h"
 
 class QtCodeArea;
 class QtCodeFileTitleBar;

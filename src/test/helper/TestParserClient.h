@@ -1,8 +1,8 @@
 #ifndef TEST_PARSER_CLIENT_H
 #define TEST_PARSER_CLIENT_H
 
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ParserClient.h"
+#include "ParseLocation.h"
+#include "ParserClient.h"
 
 class TestParserClient: public ParserClient
 {

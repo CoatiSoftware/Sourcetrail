@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class TiXmlElement;
 

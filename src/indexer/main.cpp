@@ -3,13 +3,13 @@
 #include "LanguagePackageCxx.h"
 #include "LanguagePackageJava.h"
 #include "LanguagePackageManager.h"
-#include "data/indexer/interprocess/InterprocessIndexer.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/AppPath.h"
-#include "utility/logging/ConsoleLogger.h"
-#include "utility/logging/FileLogger.h"
-#include "utility/logging/logging.h"
-#include "utility/logging/LogManager.h"
+#include "InterprocessIndexer.h"
+#include "ApplicationSettings.h"
+#include "AppPath.h"
+#include "ConsoleLogger.h"
+#include "FileLogger.h"
+#include "logging.h"
+#include "LogManager.h"
 
 void setupLogging(const FilePath& logFilePath)
 {

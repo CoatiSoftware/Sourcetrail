@@ -4,8 +4,8 @@
 #include <set>
 #include <vector>
 
-#include "utility/file/FilePath.h"
-#include "utility/file/FilePathFilter.h"
+#include "FilePath.h"
+#include "FilePathFilter.h"
 
 namespace utility
 {

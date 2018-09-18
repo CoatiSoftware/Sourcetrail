@@ -1,8 +1,8 @@
-#include "data/parser/cxx/ASTActionFactory.h"
+#include "ASTActionFactory.h"
 
 #include <clang/Frontend/FrontendActions.h>
 
-#include "data/parser/cxx/ASTAction.h"
+#include "ASTAction.h"
 
 ASTActionFactory::ASTActionFactory(
 	std::shared_ptr<ParserClient> client,

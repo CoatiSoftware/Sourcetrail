@@ -3,10 +3,10 @@
 
 #include <map>
 
-#include "utility/math/Vector2.h"
-#include "utility/types.h"
+#include "Vector2.h"
+#include "types.h"
 
-#include "component/controller/helper/DummyNode.h"
+#include "DummyNode.h"
 
 struct DummyEdge;
 

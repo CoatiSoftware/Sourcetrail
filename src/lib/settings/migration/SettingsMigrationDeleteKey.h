@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "settings/migration/SettingsMigration.h"
+#include "SettingsMigration.h"
 
 class SettingsMigrationDeleteKey: public SettingsMigration
 {

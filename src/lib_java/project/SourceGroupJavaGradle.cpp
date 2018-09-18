@@ -1,12 +1,12 @@
-#include "project/SourceGroupJavaGradle.h"
+#include "SourceGroupJavaGradle.h"
 
-#include "component/view/DialogView.h"
-#include "settings/SourceGroupSettingsJavaGradle.h"
-#include "utility/file/FileSystem.h"
-#include "utility/ScopedFunctor.h"
-#include "utility/utility.h"
-#include "utility/utilityGradle.h"
-#include "utility/utilityJava.h"
+#include "DialogView.h"
+#include "SourceGroupSettingsJavaGradle.h"
+#include "FileSystem.h"
+#include "ScopedFunctor.h"
+#include "utility.h"
+#include "utilityGradle.h"
+#include "utilityJava.h"
 #include "Application.h"
 
 SourceGroupJavaGradle::SourceGroupJavaGradle(std::shared_ptr<SourceGroupSettingsJavaGradle> settings)

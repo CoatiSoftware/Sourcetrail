@@ -3,10 +3,10 @@
 
 #include <string>
 
-#include "boost/date_time.hpp"
+#include <boost/date_time.hpp>
 
-#include "utility/file/FilePath.h"
-#include "utility/TimeStamp.h"
+#include "FilePath.h"
+#include "TimeStamp.h"
 
 struct FileInfo
 {

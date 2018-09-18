@@ -1,7 +1,7 @@
 #ifndef JAVA_PATH_DETECTOR_H
 #define JAVA_PATH_DETECTOR_H
 
-#include "utility/path_detector/PathDetector.h"
+#include "PathDetector.h"
 
 class JavaPathDetector: public PathDetector
 {

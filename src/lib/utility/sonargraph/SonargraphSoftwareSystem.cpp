@@ -1,12 +1,12 @@
-#include "utility/sonargraph/SonargraphSoftwareSystem.h"
+#include "SonargraphSoftwareSystem.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
-#include "data/indexer/IndexerCommand.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
-#include "utility/utilityXml.h"
-#include "utility/utility.h"
+#include "IndexerCommand.h"
+#include "logging.h"
+#include "utilityString.h"
+#include "utilityXml.h"
+#include "utility.h"
 
 namespace Sonargraph
 {

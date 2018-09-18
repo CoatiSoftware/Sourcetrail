@@ -1,4 +1,4 @@
-#include "qt/graphics/QtLineItemBase.h"
+#include "QtLineItemBase.h"
 
 #include <QBrush>
 #include <QPen>

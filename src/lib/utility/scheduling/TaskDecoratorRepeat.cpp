@@ -1,4 +1,4 @@
-#include "utility/scheduling/TaskDecoratorRepeat.h"
+#include "TaskDecoratorRepeat.h"
 
 TaskDecoratorRepeat::TaskDecoratorRepeat(ConditionType condition, TaskState exitState)
 	: m_condition(condition)

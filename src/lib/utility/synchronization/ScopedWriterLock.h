@@ -1,7 +1,7 @@
 #ifndef SCOPED_WRITER_LOCK_H
 #define SCOPED_WRITER_LOCK_H
 
-#include "utility/synchronization/ReaderWriterLock.h"
+#include "ReaderWriterLock.h"
 
 class ScopedWriterLock
 {

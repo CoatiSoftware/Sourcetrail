@@ -1,4 +1,4 @@
-#include "qt/window/QtTextEditDialog.h"
+#include "QtTextEditDialog.h"
 
 #include <QLabel>
 #include <QPlainTextEdit>

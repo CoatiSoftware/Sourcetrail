@@ -1,8 +1,8 @@
-#include "data/indexer/IndexerJava.h"
+#include "IndexerJava.h"
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "data/parser/ParserClientImpl.h"
-#include "data/parser/java/JavaParser.h"
+#include "IndexerCommandJava.h"
+#include "ParserClientImpl.h"
+#include "JavaParser.h"
 
 IndexerJava::~IndexerJava()
 {

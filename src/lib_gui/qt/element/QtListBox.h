@@ -3,7 +3,7 @@
 
 #include <QFrame>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class QEvent;
 class QHBoxLayout;

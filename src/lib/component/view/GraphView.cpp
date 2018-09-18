@@ -1,4 +1,4 @@
-#include "component/view/GraphView.h"
+#include "GraphView.h"
 
 const char* GraphView::VIEW_NAME = "Graph";
 

@@ -1,4 +1,4 @@
-#include "data/location/SourceLocationFile.h"
+#include "SourceLocationFile.h"
 
 SourceLocationFile::SourceLocationFile(const FilePath& filePath, bool isWhole, bool isComplete, bool isIndexed)
 	: m_filePath(filePath)

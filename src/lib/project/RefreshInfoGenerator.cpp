@@ -1,13 +1,13 @@
-#include "project/RefreshInfoGenerator.h"
+#include "RefreshInfoGenerator.h"
 
-#include "data/storage/PersistentStorage.h"
-#include "project/RefreshInfo.h"
-#include "project/SourceGroup.h"
-#include "settings/SourceGroupStatusType.h"
-#include "utility/file/FileInfo.h"
-#include "utility/file/FileSystem.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utility.h"
+#include "PersistentStorage.h"
+#include "RefreshInfo.h"
+#include "SourceGroup.h"
+#include "SourceGroupStatusType.h"
+#include "FileInfo.h"
+#include "FileSystem.h"
+#include "TextAccess.h"
+#include "utility.h"
 
 RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 	const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups, std::shared_ptr<const PersistentStorage> storage)

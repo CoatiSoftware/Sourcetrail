@@ -3,8 +3,8 @@
 
 #include <set>
 
-#include "utility/file/FilePath.h"
-#include "utility/UnorderedCache.h"
+#include "FilePath.h"
+#include "UnorderedCache.h"
 
 class FilePathFilter;
 

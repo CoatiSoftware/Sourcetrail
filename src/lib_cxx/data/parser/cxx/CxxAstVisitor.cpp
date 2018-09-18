@@ -1,24 +1,24 @@
-#include "data/parser/cxx/CxxAstVisitor.h"
+#include "CxxAstVisitor.h"
 
 #include <clang/AST/ASTContext.h>
 #include <clang/Lex/Preprocessor.h>
 
-#include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
-#include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+#include "CxxDeclNameResolver.h"
+#include "CxxTypeNameResolver.h"
 
-#include "data/parser/cxx/CanonicalFilePathCache.h"
-#include "data/parser/cxx/CxxAstVisitorComponent.h"
-#include "data/parser/cxx/CxxAstVisitorComponentBraceRecorder.h"
-#include "data/parser/cxx/CxxAstVisitorComponentContext.h"
-#include "data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h"
-#include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
-#include "data/parser/cxx/CxxAstVisitorComponentImplicitCode.h"
-#include "data/parser/cxx/CxxAstVisitorComponentIndexer.h"
-#include "data/parser/cxx/utilityClang.h"
-#include "data/parser/ParserClient.h"
-#include "data/parser/ParseLocation.h"
+#include "CanonicalFilePathCache.h"
+#include "CxxAstVisitorComponent.h"
+#include "CxxAstVisitorComponentBraceRecorder.h"
+#include "CxxAstVisitorComponentContext.h"
+#include "CxxAstVisitorComponentDeclRefKind.h"
+#include "CxxAstVisitorComponentTypeRefKind.h"
+#include "CxxAstVisitorComponentImplicitCode.h"
+#include "CxxAstVisitorComponentIndexer.h"
+#include "utilityClang.h"
+#include "ParserClient.h"
+#include "ParseLocation.h"
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 CxxAstVisitor::CxxAstVisitor(
 	clang::ASTContext* astContext,

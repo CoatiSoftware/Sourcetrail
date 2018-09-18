@@ -1,5 +1,5 @@
 add_files(
-	LIB_LICENSE_FILES
+	LIB_LICENSE
 
 	utility/Version.cpp
 	utility/Version.h

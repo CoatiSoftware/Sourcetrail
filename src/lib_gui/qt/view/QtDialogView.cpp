@@ -1,4 +1,4 @@
-#include "qt/view/QtDialogView.h"
+#include "QtDialogView.h"
 
 #include <chrono>
 #include <sstream>
@@ -7,15 +7,15 @@
 #include <QMessageBox>
 #include <QTimer>
 
-#include "data/access/StorageAccess.h"
-#include "qt/window/QtIndexingDialog.h"
-#include "qt/window/QtMainWindow.h"
-#include "qt/window/QtWindow.h"
-#include "utility/messaging/type/indexing/MessageIndexingStatus.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/scheduling/TaskLambda.h"
-#include "utility/utility.h"
-#include "project/Project.h"
+#include "StorageAccess.h"
+#include "QtIndexingDialog.h"
+#include "QtMainWindow.h"
+#include "QtWindow.h"
+#include "MessageIndexingStatus.h"
+#include "MessageStatus.h"
+#include "TaskLambda.h"
+#include "utility.h"
+#include "Project.h"
 
 QtDialogView::QtDialogView(QtMainWindow* mainWindow, UseCase useCase, StorageAccess* storageAccess)
 	: DialogView(useCase, storageAccess)

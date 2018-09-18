@@ -4,10 +4,10 @@
 #include <memory>
 #include <vector>
 
-#include "settings/SourceGroupSettings.h"
-#include "settings/SourceGroupSettingsWithExcludeFilters.h"
-#include "settings/SourceGroupSettingsWithJavaStandard.h"
-#include "settings/SourceGroupSettingsWithSourceExtensions.h"
+#include "SourceGroupSettings.h"
+#include "SourceGroupSettingsWithExcludeFilters.h"
+#include "SourceGroupSettingsWithJavaStandard.h"
+#include "SourceGroupSettingsWithSourceExtensions.h"
 
 class SourceGroupSettingsJava
 	: public SourceGroupSettings

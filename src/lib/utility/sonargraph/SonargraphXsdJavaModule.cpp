@@ -1,18 +1,18 @@
-#include "utility/sonargraph/SonargraphXsdJavaModule.h"
+#include "SonargraphXsdJavaModule.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "settings/LanguageType.h"
-#include "settings/SourceGroupSettingsJavaSonargraph.h"
-#include "utility/file/FileSystem.h"
-#include "utility/sonargraph/SonargraphSoftwareSystem.h"
-#include "utility/sonargraph/SonargraphSourceRootPath.h"
-#include "utility/sonargraph/SonargraphXsdRootPath.h"
-#include "utility/sonargraph/utilitySonargraph.h"
-#include "utility/utility.h"
-#include "utility/utilityFile.h"
-#include "utility/utilityXml.h"
+#include "IndexerCommandJava.h"
+#include "LanguageType.h"
+#include "SourceGroupSettingsJavaSonargraph.h"
+#include "FileSystem.h"
+#include "SonargraphSoftwareSystem.h"
+#include "SonargraphSourceRootPath.h"
+#include "SonargraphXsdRootPath.h"
+#include "utilitySonargraph.h"
+#include "utility.h"
+#include "utilityFile.h"
+#include "utilityXml.h"
 
 namespace Sonargraph
 {

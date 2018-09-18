@@ -1,4 +1,4 @@
-#include "component/view/TabbedView.h"
+#include "TabbedView.h"
 
 #include <algorithm>
 

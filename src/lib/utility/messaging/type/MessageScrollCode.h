@@ -1,7 +1,7 @@
 #ifndef MESSAGE_SCROLL_CODE_H
 #define MESSAGE_SCROLL_CODE_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageScrollCode
 	: public Message<MessageScrollCode>

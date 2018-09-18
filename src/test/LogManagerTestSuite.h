@@ -1,8 +1,8 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
 #include <thread>
 
-#include "utility/logging/LogManagerImplementation.h"
+#include "LogManagerImplementation.h"
 
 class LogManagerTestSuite : public CxxTest::TestSuite
 {

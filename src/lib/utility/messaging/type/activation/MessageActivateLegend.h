@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_LEGEND_H
 #define MESSAGE_ACTIVATE_LEGEND_H
 
-#include "utility/messaging/Message.h"
-#include "utility/messaging/type/MessageActivateBase.h"
+#include "Message.h"
+#include "MessageActivateBase.h"
 
 class MessageActivateLegend
 	: public Message<MessageActivateLegend>

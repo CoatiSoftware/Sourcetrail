@@ -1,8 +1,8 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_SOURCE_GROUP_DATA_H
 #define QT_PROJECT_WIZZARD_CONTENT_SOURCE_GROUP_DATA_H
 
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
-#include "settings/SourceGroupStatusType.h"
+#include "QtProjectWizzardContent.h"
+#include "SourceGroupStatusType.h"
 
 class QCheckBox;
 class QLineEdit;

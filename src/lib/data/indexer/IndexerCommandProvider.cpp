@@ -1,4 +1,4 @@
-#include "data/indexer/IndexerCommandProvider.h"
+#include "IndexerCommandProvider.h"
 
 bool IndexerCommandProvider::empty() const
 {

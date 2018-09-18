@@ -1,14 +1,14 @@
-#include "qt/view/QtRefreshView.h"
+#include "QtRefreshView.h"
 
 #include <QHBoxLayout>
 #include <QFrame>
 
-#include "utility/messaging/type/MessageRefresh.h"
-#include "utility/ResourcePaths.h"
+#include "MessageRefresh.h"
+#include "ResourcePaths.h"
 
-#include "qt/element/QtSearchBarButton.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtViewWidgetWrapper.h"
+#include "QtSearchBarButton.h"
+#include "utilityQt.h"
+#include "QtViewWidgetWrapper.h"
 
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 	: RefreshView(viewLayout)

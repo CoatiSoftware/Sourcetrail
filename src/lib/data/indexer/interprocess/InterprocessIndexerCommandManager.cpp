@@ -1,7 +1,7 @@
 #include "InterprocessIndexerCommandManager.h"
 
-#include "data/indexer/IndexerCommand.h"
-#include "utility/logging/logging.h"
+#include "IndexerCommand.h"
+#include "logging.h"
 
 const char* InterprocessIndexerCommandManager::s_sharedMemoryNamePrefix = "icmd_";
 

@@ -1,4 +1,4 @@
-#include "settings/SourceGroupSettingsJavaSonargraph.h"
+#include "SourceGroupSettingsJavaSonargraph.h"
 
 SourceGroupSettingsJavaSonargraph::SourceGroupSettingsJavaSonargraph(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, SOURCE_GROUP_JAVA_SONARGRAPH, projectSettings)

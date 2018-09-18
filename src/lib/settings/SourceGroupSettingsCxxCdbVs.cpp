@@ -1,4 +1,4 @@
-#include "settings/SourceGroupSettingsCxxCdbVs.h"
+#include "SourceGroupSettingsCxxCdbVs.h"
 
 SourceGroupSettingsCxxCdbVs::SourceGroupSettingsCxxCdbVs(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxxCdb(id, projectSettings)

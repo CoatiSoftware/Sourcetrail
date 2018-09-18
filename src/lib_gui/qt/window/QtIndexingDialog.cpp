@@ -1,17 +1,17 @@
-#include "qt/window/QtIndexingDialog.h"
+#include "QtIndexingDialog.h"
 
 #include <QCheckBox>
 #include <QLabel>
 #include <QRadioButton>
 #include <QPushButton>
 
-#include "qt/utility/utilityQt.h"
-#include "qt/element/QtHelpButton.h"
-#include "qt/element/QtProgressBar.h"
-#include "utility/messaging/type/error/MessageErrorsHelpMessage.h"
-#include "utility/messaging/type/MessageInterruptTasks.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utility.h"
+#include "utilityQt.h"
+#include "QtHelpButton.h"
+#include "QtProgressBar.h"
+#include "MessageErrorsHelpMessage.h"
+#include "MessageInterruptTasks.h"
+#include "ResourcePaths.h"
+#include "utility.h"
 
 QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	: QtWindow(true, parent)

@@ -1,4 +1,4 @@
-#include "utility/synchronization/ScopedWriterLock.h"
+#include "ScopedWriterLock.h"
 
 ScopedWriterLock::ScopedWriterLock(ReaderWriterLock& lock)
 	: m_lock(lock)

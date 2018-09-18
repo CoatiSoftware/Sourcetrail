@@ -1,11 +1,11 @@
-#include "qt/element/QtCodeFileTitleBar.h"
+#include "QtCodeFileTitleBar.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVariant>
 
-#include "utility/ResourcePaths.h"
-#include "utility/messaging/type/error/MessageErrorsForFile.h"
+#include "ResourcePaths.h"
+#include "MessageErrorsForFile.h"
 
 QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool isSingle)
 	: QtHoverButton(parent)

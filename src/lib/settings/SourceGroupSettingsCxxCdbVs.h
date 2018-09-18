@@ -1,8 +1,8 @@
 #ifndef SOURCE_GROUP_SETTINGS_CXX_CDB_VS_H
 #define SOURCE_GROUP_SETTINGS_CXX_CDB_VS_H
 
-#include "settings/SourceGroupSettingsCxxCdb.h"
-#include "utility/file/FilePath.h"
+#include "SourceGroupSettingsCxxCdb.h"
+#include "FilePath.h"
 
 class SourceGroupSettingsCxxCdbVs
 	: public SourceGroupSettingsCxxCdb

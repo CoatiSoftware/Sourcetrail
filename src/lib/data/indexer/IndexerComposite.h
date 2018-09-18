@@ -4,7 +4,7 @@
 #include <map>
 #include <memory>
 
-#include "data/indexer/IndexerBase.h"
+#include "IndexerBase.h"
 
 class IndexerComposite: public IndexerBase
 {

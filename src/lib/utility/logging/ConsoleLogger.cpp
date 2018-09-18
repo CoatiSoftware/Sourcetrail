@@ -1,4 +1,4 @@
-#include "utility/logging/ConsoleLogger.h"
+#include "ConsoleLogger.h"
 
 #include <iostream>
 

@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsWithClasspath.h"
+#include "SourceGroupSettingsWithClasspath.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/utility.h"
+#include "ProjectSettings.h"
+#include "utility.h"
 
 SourceGroupSettingsWithClasspath::SourceGroupSettingsWithClasspath()
 	: m_classpath(std::vector<FilePath>())

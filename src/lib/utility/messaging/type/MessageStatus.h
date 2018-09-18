@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageStatus
 	: public Message<MessageStatus>

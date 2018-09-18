@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_LOCAL_SYMBOLS_H
 #define MESSAGE_ACTIVATE_LOCAL_SYMBOLS_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageActivateLocalSymbols
 	: public Message<MessageActivateLocalSymbols>

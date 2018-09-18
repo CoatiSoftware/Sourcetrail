@@ -1,9 +1,9 @@
-#include "project/SourceGroupJava.h"
+#include "SourceGroupJava.h"
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "settings/SourceGroupSettingsJava.h"
-#include "utility/file/FileManager.h"
-#include "utility/logging/logging.h"
+#include "IndexerCommandJava.h"
+#include "SourceGroupSettingsJava.h"
+#include "FileManager.h"
+#include "logging.h"
 
 std::set<FilePath> SourceGroupJava::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {

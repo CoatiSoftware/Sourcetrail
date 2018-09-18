@@ -5,6 +5,6 @@ void setupPlatform(int argc, char *argv[]);
 void setupApp(int argc, char *argv[]);
 
 // platform specific include
-#include "platform_includes/@PLATFORM_INCLUDE@"
+#include "@PLATFORM_INCLUDE@"
 
 #endif // INCLUDES_H

@@ -1,7 +1,7 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_CPP_STANDARD
 #define QT_PROJECT_WIZZARD_CONTENT_CPP_STANDARD
 
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "QtProjectWizzardContent.h"
 
 class QComboBox;
 class SourceGroupSettingsWithCppStandard;

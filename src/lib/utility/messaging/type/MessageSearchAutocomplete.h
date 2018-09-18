@@ -1,9 +1,9 @@
 #ifndef MESSAGE_SEARCH_AUTOCOMPLETE_H
 #define MESSAGE_SEARCH_AUTOCOMPLETE_H
 
-#include "data/graph/Node.h"
-#include "data/NodeTypeSet.h"
-#include "utility/messaging/Message.h"
+#include "Node.h"
+#include "NodeTypeSet.h"
+#include "Message.h"
 
 class MessageSearchAutocomplete
 	: public Message<MessageSearchAutocomplete>

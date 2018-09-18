@@ -1,16 +1,16 @@
 #ifndef DUMMY_NODE_H
 #define DUMMY_NODE_H
 
-#include "utility/math/Vector2.h"
-#include "utility/math/Vector4.h"
-#include "utility/types.h"
-#include "utility/utility.h"
-#include "utility/utilityString.h"
+#include "Vector2.h"
+#include "Vector4.h"
+#include "types.h"
+#include "utility.h"
+#include "utilityString.h"
 
-#include "data/graph/Node.h"
-#include "data/GroupType.h"
-#include "data/name/NameHierarchy.h"
-#include "data/parser/AccessKind.h"
+#include "Node.h"
+#include "GroupType.h"
+#include "NameHierarchy.h"
+#include "AccessKind.h"
 
 // temporary data structure for (visual) graph creation process
 struct DummyNode

@@ -1,8 +1,8 @@
-#include "qt/utility/QtDeviceScaledPixmap.h"
+#include "QtDeviceScaledPixmap.h"
 
 #include <QApplication>
 
-#include "qt/utility/utilityQt.h"
+#include "utilityQt.h"
 
 qreal QtDeviceScaledPixmap::devicePixelRatio()
 {

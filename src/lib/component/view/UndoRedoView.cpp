@@ -1,6 +1,6 @@
-#include "component/view/UndoRedoView.h"
+#include "UndoRedoView.h"
 
-#include "component/controller/UndoRedoController.h"
+#include "UndoRedoController.h"
 
 UndoRedoView::UndoRedoView(ViewLayout* viewLayout)
 	: View(viewLayout)

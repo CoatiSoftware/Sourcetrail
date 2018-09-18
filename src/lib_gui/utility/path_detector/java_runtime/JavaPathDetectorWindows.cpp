@@ -1,10 +1,10 @@
-#include "utility/path_detector/java_runtime/JavaPathDetectorWindows.h"
+#include "JavaPathDetectorWindows.h"
 
 #include <QSettings>
 #include <QSysInfo>
 
-#include "utility/file/FilePath.h"
-#include "utility/utility.h"
+#include "FilePath.h"
+#include "utility.h"
 
 JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion)
 	: JavaPathDetector("Java " + javaVersion + " for Windows", javaVersion)

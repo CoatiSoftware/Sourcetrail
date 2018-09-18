@@ -1,4 +1,4 @@
-#include "component/view/DialogView.h"
+#include "DialogView.h"
 
 DialogView::DialogView(UseCase useCase, StorageAccess* storageAccess)
 	: m_useCase(useCase)

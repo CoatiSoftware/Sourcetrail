@@ -1,7 +1,7 @@
 #ifndef TOKEN_COMPONENT_CONST_H
 #define TOKEN_COMPONENT_CONST_H
 
-#include "data/graph/token_component/TokenComponent.h"
+#include "TokenComponent.h"
 
 class TokenComponentConst
 	: public TokenComponent

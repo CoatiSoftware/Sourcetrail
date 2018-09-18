@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 TestSuiteFixture::TestSuiteFixture()
 {

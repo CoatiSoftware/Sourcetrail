@@ -1,9 +1,9 @@
-#include "data/indexer/IndexerCommandJava.h"
+#include "IndexerCommandJava.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
 {

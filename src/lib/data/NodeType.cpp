@@ -1,7 +1,7 @@
-#include "data/NodeType.h"
+#include "NodeType.h"
 
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
 
 std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
 {

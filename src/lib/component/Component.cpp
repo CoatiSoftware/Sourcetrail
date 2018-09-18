@@ -1,7 +1,7 @@
-#include "component/Component.h"
+#include "Component.h"
 
-#include "component/view/View.h"
-#include "component/controller/Controller.h"
+#include "View.h"
+#include "Controller.h"
 
 Component::Component(std::shared_ptr<View> view, std::shared_ptr<Controller> controller)
 	: m_controller(controller)

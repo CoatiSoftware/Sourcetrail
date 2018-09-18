@@ -1,4 +1,4 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentSourceGroupInfoText.h"
+#include "QtProjectWizzardContentSourceGroupInfoText.h"
 
 QtProjectWizzardContentSourceGroupInfoText::QtProjectWizzardContentSourceGroupInfoText(QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(window)

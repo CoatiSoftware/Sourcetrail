@@ -1,6 +1,6 @@
-#include "utility/file/FileTree.h"
+#include "FileTree.h"
 
-#include "utility/file/FileSystem.h"
+#include "FileSystem.h"
 
 FileTree::FileTree(const FilePath& rootPath)
 	: m_rootPath(rootPath.getAbsolute().makeCanonical())

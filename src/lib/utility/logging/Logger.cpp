@@ -1,4 +1,4 @@
-#include "utility/logging/Logger.h"
+#include "Logger.h"
 
 Logger::Logger(const std::string& type)
 	: m_type(type)

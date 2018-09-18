@@ -1,7 +1,7 @@
 #ifndef MESSAGE_INDEXING_SHOW_DIALOG_H
 #define MESSAGE_INDEXING_SHOW_DIALOG_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageIndexingShowDialog
 	: public Message<MessageIndexingShowDialog>

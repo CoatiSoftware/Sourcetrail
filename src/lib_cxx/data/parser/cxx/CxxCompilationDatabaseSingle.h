@@ -1,7 +1,7 @@
 #ifndef CXX_COMPILATION_DATABASE_SINGLE_H
 #define CXX_COMPILATION_DATABASE_SINGLE_H
 
-#include "clang/Tooling/CompilationDatabase.h"
+#include <clang/Tooling/CompilationDatabase.h>
 
 class CxxCompilationDatabaseSingle
 	: public clang::tooling::CompilationDatabase

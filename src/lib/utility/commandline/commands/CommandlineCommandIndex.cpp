@@ -1,7 +1,7 @@
-#include "utility/commandline/commands/CommandlineCommandIndex.h"
+#include "CommandlineCommandIndex.h"
 
-#include "utility/commandline/CommandlineHelper.h"
-#include "utility/commandline/CommandLineParser.h"
+#include "CommandlineHelper.h"
+#include "CommandLineParser.h"
 
 namespace po = boost::program_options;
 

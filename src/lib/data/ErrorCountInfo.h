@@ -1,7 +1,7 @@
 #ifndef ERROR_COUNT_INFO_H
 #define ERROR_COUNT_INFO_H
 
-#include "data/ErrorInfo.h"
+#include "ErrorInfo.h"
 
 struct ErrorCountInfo
 {

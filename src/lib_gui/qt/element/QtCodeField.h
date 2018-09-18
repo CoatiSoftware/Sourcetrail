@@ -6,8 +6,8 @@
 
 #include <QPlainTextEdit>
 
-#include "data/location/LocationType.h"
-#include "utility/types.h"
+#include "LocationType.h"
+#include "types.h"
 
 class QtHighlighter;
 class SourceLocation;

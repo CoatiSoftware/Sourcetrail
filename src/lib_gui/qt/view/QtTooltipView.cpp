@@ -1,11 +1,11 @@
-#include "qt/view/QtTooltipView.h"
+#include "QtTooltipView.h"
 
-#include "qt/element/QtTooltip.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtMainView.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "qt/window/QtMainWindow.h"
-#include "utility/ResourcePaths.h"
+#include "QtTooltip.h"
+#include "utilityQt.h"
+#include "QtMainView.h"
+#include "QtViewWidgetWrapper.h"
+#include "QtMainWindow.h"
+#include "ResourcePaths.h"
 
 QtTooltipView::QtTooltipView(ViewLayout* viewLayout)
 	: TooltipView(viewLayout)

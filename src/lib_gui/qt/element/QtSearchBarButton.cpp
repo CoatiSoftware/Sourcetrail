@@ -1,6 +1,6 @@
-#include "qt/element/QtSearchBarButton.h"
+#include "QtSearchBarButton.h"
 
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 QtSearchBarButton::QtSearchBarButton(const FilePath& iconPath, bool small, QWidget* parent)
 	: QtSelfRefreshIconButton("", iconPath, "search/button", parent)

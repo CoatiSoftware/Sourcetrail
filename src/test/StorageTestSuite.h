@@ -1,10 +1,10 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
-#include "data/parser/ParseLocation.h"
-#include "data/storage/IntermediateStorage.h"
-#include "data/storage/PersistentStorage.h"
+#include "ParseLocation.h"
+#include "IntermediateStorage.h"
+#include "PersistentStorage.h"
 
 class StorageTestSuite: public CxxTest::TestSuite
 {

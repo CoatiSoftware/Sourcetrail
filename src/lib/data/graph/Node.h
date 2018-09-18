@@ -6,11 +6,11 @@
 #include <map>
 #include <string>
 
-#include "data/DefinitionKind.h"
-#include "data/graph/Edge.h"
-#include "data/graph/Token.h"
-#include "data/name/NameHierarchy.h"
-#include "data/NodeType.h"
+#include "DefinitionKind.h"
+#include "Edge.h"
+#include "Token.h"
+#include "NameHierarchy.h"
+#include "NodeType.h"
 
 class Node
 	: public Token

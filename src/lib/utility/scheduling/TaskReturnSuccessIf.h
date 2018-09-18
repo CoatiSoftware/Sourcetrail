@@ -1,8 +1,8 @@
 #ifndef TASK_RETURN_SUCCESS_IF_H
 #define TASK_RETURN_SUCCESS_IF_H
 
-#include "utility/scheduling/Task.h"
-#include "utility/scheduling/Blackboard.h"
+#include "Task.h"
+#include "Blackboard.h"
 
 template <typename T>
 class TaskReturnSuccessIf:

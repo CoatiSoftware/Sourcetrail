@@ -3,9 +3,9 @@
 #include <chrono>
 #include <thread>
 
-#include "utility/messaging/Message.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/MessageQueue.h"
+#include "Message.h"
+#include "MessageListener.h"
+#include "MessageQueue.h"
 
 class MessageQueueTestSuite: public CxxTest::TestSuite
 {

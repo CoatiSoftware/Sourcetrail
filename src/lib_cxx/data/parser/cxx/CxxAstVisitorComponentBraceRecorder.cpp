@@ -1,11 +1,11 @@
-#include "data/parser/cxx/CxxAstVisitorComponentBraceRecorder.h"
+#include "CxxAstVisitorComponentBraceRecorder.h"
 
 #include <clang/Lex/Preprocessor.h>
 
-#include "data/parser/cxx/CxxAstVisitorComponentContext.h"
-#include "data/parser/cxx/utilityClang.h"
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ParserClient.h"
+#include "CxxAstVisitorComponentContext.h"
+#include "utilityClang.h"
+#include "ParseLocation.h"
+#include "ParserClient.h"
 
 CxxAstVisitorComponentBraceRecorder::CxxAstVisitorComponentBraceRecorder(
 	CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client

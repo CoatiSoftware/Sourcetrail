@@ -1,6 +1,6 @@
-#include "utility/scheduling/TaskDecorator.h"
+#include "TaskDecorator.h"
 
-#include "utility/scheduling/TaskRunner.h"
+#include "TaskRunner.h"
 
 TaskDecorator::TaskDecorator()
 {

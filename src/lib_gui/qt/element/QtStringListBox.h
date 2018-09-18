@@ -1,8 +1,8 @@
 #ifndef QT_STRING_LIST_BOX_H
 #define QT_STRING_LIST_BOX_H
 
-#include "qt/element/QtListBox.h"
-#include "qt/element/QtStringListBoxItem.h"
+#include "QtListBox.h"
+#include "QtStringListBoxItem.h"
 
 class QtStringListBox
 	: public QtListBox

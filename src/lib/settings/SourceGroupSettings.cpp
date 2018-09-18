@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettings.h"
+#include "SourceGroupSettings.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/ConfigManager.h"
+#include "ProjectSettings.h"
+#include "ConfigManager.h"
 
 const size_t SourceGroupSettings::s_version = 1;
 const std::string SourceGroupSettings::s_keyPrefix = "source_groups/source_group_";

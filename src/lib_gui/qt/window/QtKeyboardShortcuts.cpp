@@ -3,8 +3,8 @@
 #include <QHeaderView>
 #include <QLabel>
 
-#include "qt/utility/utilityQt.h"
-#include "utility/ResourcePaths.h"
+#include "utilityQt.h"
+#include "ResourcePaths.h"
 
 QtShortcutTable::QtShortcutTable(QWidget* parent)
 	: QTableWidget(parent)

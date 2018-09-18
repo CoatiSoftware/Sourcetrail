@@ -1,6 +1,6 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/text/TextAccess.h"
+#include "TextAccess.h"
 
 class TextAccessTestSuite : public CxxTest::TestSuite
 {

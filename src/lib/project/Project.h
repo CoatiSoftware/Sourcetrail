@@ -6,8 +6,8 @@
 #include <set>
 #include <vector>
 
-#include "project/RefreshInfo.h"
-#include "project/SourceGroup.h"
+#include "RefreshInfo.h"
+#include "SourceGroup.h"
 
 struct FileInfo;
 class DialogView;

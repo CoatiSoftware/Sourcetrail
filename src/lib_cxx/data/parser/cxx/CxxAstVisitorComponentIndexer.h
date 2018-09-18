@@ -3,9 +3,9 @@
 
 #include <unordered_map>
 
-#include "data/parser/cxx/CxxAstVisitorComponent.h"
-#include "data/parser/ReferenceKind.h"
-#include "data/parser/SymbolKind.h"
+#include "CxxAstVisitorComponent.h"
+#include "ReferenceKind.h"
+#include "SymbolKind.h"
 
 // This CxxAstVisitorComponent is responsible for recording all symbols and relations throughout the visited AST.
 class CxxAstVisitorComponentIndexer: public CxxAstVisitorComponent

@@ -1,9 +1,9 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/LowMemoryStringMap.h"
-#include "utility/text/TextAccess.h"
-#include "utility/types.h"
-#include "utility/utilityString.h"
+#include "LowMemoryStringMap.h"
+#include "TextAccess.h"
+#include "types.h"
+#include "utilityString.h"
 
 class LowMemoryStringMapTestSuite : public CxxTest::TestSuite
 {

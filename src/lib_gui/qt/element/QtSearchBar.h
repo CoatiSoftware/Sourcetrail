@@ -6,7 +6,7 @@
 #include <QAbstractItemView>
 #include <QFrame>
 
-#include "data/search/SearchMatch.h"
+#include "SearchMatch.h"
 
 class QtSearchBarButton;
 class QtSmartSearchBox;

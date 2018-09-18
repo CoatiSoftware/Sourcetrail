@@ -4,9 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "settings/migration/SettingsMigrator.h"
-#include "settings/LanguageType.h"
-#include "settings/Settings.h"
+#include "SettingsMigrator.h"
+#include "LanguageType.h"
+#include "Settings.h"
 
 class SourceGroupSettings;
 

@@ -1,4 +1,4 @@
-#include "settings/SourceGroupSettingsJava.h"
+#include "SourceGroupSettingsJava.h"
 
 SourceGroupSettingsJava::SourceGroupSettingsJava(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)

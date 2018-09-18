@@ -10,9 +10,9 @@
 #include <stack>
 #include <thread>
 
-#include "utility/TimeStamp.h"
-#include "utility/types.h"
-#include "utility/utility.h"
+#include "TimeStamp.h"
+#include "types.h"
+#include "utility.h"
 
 struct TraceEvent
 {

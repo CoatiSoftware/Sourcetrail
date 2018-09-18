@@ -1,4 +1,4 @@
-#include "data/graph/token_component/TokenComponentStatic.h"
+#include "TokenComponentStatic.h"
 
 std::shared_ptr<TokenComponent> TokenComponentStatic::copy() const
 {

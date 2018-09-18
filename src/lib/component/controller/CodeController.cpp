@@ -1,18 +1,18 @@
-#include "component/controller/CodeController.h"
+#include "CodeController.h"
 
 #include <memory>
 
-#include "data/access/StorageAccess.h"
-#include "data/location/SourceLocation.h"
-#include "data/location/SourceLocationCollection.h"
-#include "data/location/SourceLocationFile.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/file/FileInfo.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/text/TextAccess.h"
-#include "utility/tracing.h"
-#include "utility/utilityString.h"
+#include "StorageAccess.h"
+#include "SourceLocation.h"
+#include "SourceLocationCollection.h"
+#include "SourceLocationFile.h"
+#include "ApplicationSettings.h"
+#include "FileInfo.h"
+#include "logging.h"
+#include "MessageStatus.h"
+#include "TextAccess.h"
+#include "tracing.h"
+#include "utilityString.h"
 #include "Application.h"
 
 CodeController::CodeController(StorageAccess* storageAccess)

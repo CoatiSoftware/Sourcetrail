@@ -3,13 +3,13 @@
 
 #include <thread>
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageInterruptTasks.h"
-#include "utility/scheduling/Task.h"
+#include "MessageListener.h"
+#include "MessageInterruptTasks.h"
+#include "Task.h"
 
-#include "data/indexer/interprocess/InterprocessIndexerCommandManager.h"
-#include "data/indexer/interprocess/InterprocessIndexingStatusManager.h"
-#include "data/indexer/interprocess/InterprocessIntermediateStorageManager.h"
+#include "InterprocessIndexerCommandManager.h"
+#include "InterprocessIndexingStatusManager.h"
+#include "InterprocessIntermediateStorageManager.h"
 
 class DialogView;
 class StorageProvider;

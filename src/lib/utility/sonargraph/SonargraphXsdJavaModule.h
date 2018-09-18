@@ -1,7 +1,7 @@
 #ifndef SONARGRAPH_XSD_JAVA_MODULE_H
 #define SONARGRAPH_XSD_JAVA_MODULE_H
 
-#include "utility/sonargraph/SonargraphXsdAbstractModule.h"
+#include "SonargraphXsdAbstractModule.h"
 
 namespace Sonargraph
 {

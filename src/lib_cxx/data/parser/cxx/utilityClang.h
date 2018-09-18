@@ -3,8 +3,8 @@
 
 #include <clang/AST/Decl.h>
 
-#include "data/parser/AccessKind.h"
-#include "data/parser/SymbolKind.h"
+#include "AccessKind.h"
+#include "SymbolKind.h"
 
 struct ParseLocation;
 class CanonicalFilePathCache;

@@ -1,4 +1,4 @@
-#include "component/view/ViewLayout.h"
+#include "ViewLayout.h"
 
 ViewLayout::ViewLayout()
 {

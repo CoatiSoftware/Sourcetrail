@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsCxxCodeblocks.h"
+#include "SourceGroupSettingsCxxCodeblocks.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/ConfigManager.h"
+#include "ProjectSettings.h"
+#include "ConfigManager.h"
 
 SourceGroupSettingsCxxCodeblocks::SourceGroupSettingsCxxCodeblocks(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_CXX_CODEBLOCKS, projectSettings)

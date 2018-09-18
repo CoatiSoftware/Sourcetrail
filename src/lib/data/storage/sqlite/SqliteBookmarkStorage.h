@@ -1,12 +1,12 @@
 #ifndef SQLITE_BOOKMARK_STORAGE_H
 #define SQLITE_BOOKMARK_STORAGE_H
 
-#include "data/storage/sqlite/SqliteStorage.h"
-#include "data/storage/type/StorageBookmark.h"
-#include "data/storage/type/StorageBookmarkCategory.h"
-#include "data/storage/type/StorageBookmarkedNode.h"
-#include "data/storage/type/StorageBookmarkedEdge.h"
-#include "utility/types.h"
+#include "SqliteStorage.h"
+#include "StorageBookmark.h"
+#include "StorageBookmarkCategory.h"
+#include "StorageBookmarkedNode.h"
+#include "StorageBookmarkedEdge.h"
+#include "types.h"
 
 class SqliteBookmarkStorage
 	: public SqliteStorage

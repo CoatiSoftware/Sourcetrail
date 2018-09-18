@@ -1,8 +1,8 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "data/name/NameHierarchy.h"
-#include "data/search/SearchIndex.h"
-#include "utility/utility.h"
+#include "NameHierarchy.h"
+#include "SearchIndex.h"
+#include "utility.h"
 
 class SearchIndexTestSuite : public CxxTest::TestSuite
 {

@@ -1,4 +1,4 @@
-#include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
+#include "CxxCompilationDatabaseSingle.h"
 
 CxxCompilationDatabaseSingle::CxxCompilationDatabaseSingle(const clang::tooling::CompileCommand& command)
 	: m_command(command)

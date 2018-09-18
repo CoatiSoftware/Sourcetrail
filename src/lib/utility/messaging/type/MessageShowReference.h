@@ -1,8 +1,8 @@
 #ifndef MESSAGE_SHOW_REFERENCE_H
 #define MESSAGE_SHOW_REFERENCE_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageShowReference
 	: public Message<MessageShowReference>

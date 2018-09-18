@@ -1,4 +1,4 @@
-#include "data/storage/migration/SqliteStorageMigration.h"
+#include "SqliteStorageMigration.h"
 
 SqliteStorageMigration::~SqliteStorageMigration()
 {

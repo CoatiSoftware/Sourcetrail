@@ -4,14 +4,14 @@
 #include <QCoreApplication>
 #include <QDir>
 
-#include "qt/utility/utilityQt.h"
-#include "utility/AppPath.h"
-#include "utility/file/FilePath.h"
-#include "utility/file/FileSystem.h"
-#include "utility/ResourcePaths.h"
-#include "utility/UserPaths.h"
+#include "utilityQt.h"
+#include "AppPath.h"
+#include "FilePath.h"
+#include "FileSystem.h"
+#include "ResourcePaths.h"
+#include "UserPaths.h"
 
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 void setupPlatform(int argc, char *argv[])
 {

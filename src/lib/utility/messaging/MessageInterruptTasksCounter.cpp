@@ -1,7 +1,7 @@
-#include "utility/messaging/MessageInterruptTasksCounter.h"
+#include "MessageInterruptTasksCounter.h"
 
-#include "utility/messaging/type/MessageInterruptTasks.h"
-#include "utility/messaging/MessageListener.h"
+#include "MessageInterruptTasks.h"
+#include "MessageListener.h"
 
 MessageInterruptTasksCounter::MessageInterruptTasksCounter()
 	: m_count(0)

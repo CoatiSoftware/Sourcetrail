@@ -1,7 +1,7 @@
 #ifndef MESSAGE_SWITCH_COLOR_SCHEME_H
 #define MESSAGE_SWITCH_COLOR_SCHEME_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageSwitchColorScheme
 	: public Message<MessageSwitchColorScheme>

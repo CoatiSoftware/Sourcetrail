@@ -1,13 +1,13 @@
-#include "data/parser/cxx/utilityClang.h"
+#include "utilityClang.h"
 
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/DeclTemplate.h>
 #include <clang/Lex/Preprocessor.h>
 
-#include "data/parser/cxx/CanonicalFilePathCache.h"
-#include "data/parser/ParseLocation.h"
-#include "utility/file/FilePath.h"
-#include "utility/utilityString.h"
+#include "CanonicalFilePathCache.h"
+#include "ParseLocation.h"
+#include "FilePath.h"
+#include "utilityString.h"
 
 bool utility::isImplicit(const clang::Decl* d)
 {

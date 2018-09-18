@@ -1,6 +1,6 @@
-#include "component/controller/ScreenSearchController.h"
+#include "ScreenSearchController.h"
 
-#include "component/view/ScreenSearchView.h"
+#include "ScreenSearchView.h"
 
 ScreenSearchController::ScreenSearchController()
 {

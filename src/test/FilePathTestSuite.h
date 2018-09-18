@@ -1,6 +1,6 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class FilePathTestSuite : public CxxTest::TestSuite
 {

@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageFocusOut
 	: public Message<MessageFocusOut>

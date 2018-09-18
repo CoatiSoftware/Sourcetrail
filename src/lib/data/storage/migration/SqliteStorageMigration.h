@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "data/storage/sqlite/SqliteStorage.h"
-#include "utility/migration/Migration.h"
+#include "SqliteStorage.h"
+#include "Migration.h"
 
 class SqliteStorageMigration: public Migration<SqliteStorage>
 {

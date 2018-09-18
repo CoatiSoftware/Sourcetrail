@@ -1,9 +1,9 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/file/FileManager.h"
-#include "utility/file/FilePath.h"
-#include "utility/file/FileSystem.h"
-#include "utility/utility.h"
+#include "FileManager.h"
+#include "FilePath.h"
+#include "FileSystem.h"
+#include "utility.h"
 
 class FileManagerTestSuite : public CxxTest::TestSuite
 {

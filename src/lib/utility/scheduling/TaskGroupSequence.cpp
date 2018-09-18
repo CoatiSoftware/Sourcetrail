@@ -1,4 +1,4 @@
-#include "utility/scheduling/TaskGroupSequence.h"
+#include "TaskGroupSequence.h"
 
 TaskGroupSequence::TaskGroupSequence()
 {

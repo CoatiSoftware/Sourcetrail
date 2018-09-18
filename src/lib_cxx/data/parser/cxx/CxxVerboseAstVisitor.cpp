@@ -1,15 +1,15 @@
-#include "data/parser/cxx/CxxVerboseAstVisitor.h"
+#include "CxxVerboseAstVisitor.h"
 
 #include <sstream>
 
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Basic/SourceManager.h>
 
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ParserClient.h"
+#include "ParseLocation.h"
+#include "ParserClient.h"
 
-#include "utility/logging/logging.h"
-#include "utility/ScopedSwitcher.h"
+#include "logging.h"
+#include "ScopedSwitcher.h"
 
 CxxVerboseAstVisitor::CxxVerboseAstVisitor(
 	clang::ASTContext* context,

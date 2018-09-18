@@ -1,14 +1,14 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/text/TextAccess.h"
-#include "utility/utility.h"
-#include "utility/utilityString.h"
+#include "TextAccess.h"
+#include "utility.h"
+#include "utilityString.h"
 
-#include "data/indexer/IndexerCommandCxx.h"
-#include "data/parser/cxx/CxxParser.h"
+#include "IndexerCommandCxx.h"
+#include "CxxParser.h"
 
-#include "helper/TestFileRegister.h"
-#include "helper/TestParserClient.h"
+#include "TestFileRegister.h"
+#include "TestParserClient.h"
 
 class CxxParserTestSuite: public CxxTest::TestSuite
 {

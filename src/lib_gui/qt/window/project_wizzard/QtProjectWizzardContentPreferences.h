@@ -3,10 +3,10 @@
 
 #include <QComboBox>
 
-#include "qt/element/QtLocationPicker.h"
-#include "qt/element/QtPathListBox.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
-#include "utility/path_detector/CombinedPathDetector.h"
+#include "QtLocationPicker.h"
+#include "QtPathListBox.h"
+#include "QtProjectWizzardContent.h"
+#include "CombinedPathDetector.h"
 
 class QCheckBox;
 class QFontComboBox;

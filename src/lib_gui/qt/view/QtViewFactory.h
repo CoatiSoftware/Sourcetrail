@@ -1,7 +1,7 @@
 #ifndef QT_VIEW_FACTORY_H
 #define QT_VIEW_FACTORY_H
 
-#include "component/view/ViewFactory.h"
+#include "ViewFactory.h"
 
 class QtViewFactory
 	: public ViewFactory

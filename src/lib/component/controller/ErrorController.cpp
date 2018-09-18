@@ -1,10 +1,10 @@
-#include "component/controller/ErrorController.h"
+#include "ErrorController.h"
 
 #include "Application.h"
-#include "component/view/DialogView.h"
-#include "data/access/StorageAccess.h"
-#include "project/Project.h"
-#include "settings/ApplicationSettings.h"
+#include "DialogView.h"
+#include "StorageAccess.h"
+#include "Project.h"
+#include "ApplicationSettings.h"
 
 ErrorController::ErrorController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

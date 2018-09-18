@@ -1,8 +1,8 @@
-#include "data/parser/ParserClient.h"
+#include "ParserClient.h"
 
 #include <sstream>
 
-#include "data/parser/ParseLocation.h"
+#include "ParseLocation.h"
 
 std::wstring ParserClient::addAccessPrefix(const std::wstring& str, AccessKind access)
 {

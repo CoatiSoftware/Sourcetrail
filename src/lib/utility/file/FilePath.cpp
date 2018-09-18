@@ -1,12 +1,12 @@
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 #include <regex>
 
-#include "boost/filesystem/path.hpp"
-#include "boost/filesystem.hpp"
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "logging.h"
+#include "utilityString.h"
 
 FilePath::FilePath()
 	: m_path(std::make_unique<boost::filesystem::path>(""))

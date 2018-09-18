@@ -5,7 +5,7 @@
 #include <vector>
 #include <set>
 
-#include "project/SourceGroup.h"
+#include "SourceGroup.h"
 
 class SourceGroupSettingsCxxCdb;
 

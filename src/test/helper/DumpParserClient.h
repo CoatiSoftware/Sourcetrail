@@ -1,8 +1,8 @@
 #ifndef DUMP_PARSER_CLIENT_H
 #define DUMP_PARSER_CLIENT_H
 
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ParserClient.h"
+#include "ParseLocation.h"
+#include "ParserClient.h"
 
 #include <boost/filesystem.hpp>
 

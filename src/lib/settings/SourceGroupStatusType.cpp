@@ -1,6 +1,6 @@
-#include "settings/SourceGroupStatusType.h"
+#include "SourceGroupStatusType.h"
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
 std::string sourceGroupStatusTypeToString(SourceGroupStatusType v)
 {

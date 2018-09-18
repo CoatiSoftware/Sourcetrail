@@ -1,7 +1,7 @@
-#include "qt/view/QtMainView.h"
+#include "QtMainView.h"
 
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "qt/window/QtMainWindow.h"
+#include "QtViewWidgetWrapper.h"
+#include "QtMainWindow.h"
 
 QtMainView::QtMainView()
 {

@@ -1,4 +1,4 @@
-#include "data/graph/token_component/TokenComponentAggregation.h"
+#include "TokenComponentAggregation.h"
 
 TokenComponentAggregation::Direction TokenComponentAggregation::opposite(Direction direction)
 {

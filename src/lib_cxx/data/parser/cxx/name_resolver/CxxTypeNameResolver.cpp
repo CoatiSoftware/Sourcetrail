@@ -1,14 +1,14 @@
-#include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+#include "CxxTypeNameResolver.h"
 
 #include <clang/AST/PrettyPrinter.h>
 #include <clang/AST/DeclTemplate.h>
 #include <clang/AST/ASTContext.h>
 
-#include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
-#include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
-#include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "CxxDeclNameResolver.h"
+#include "CxxSpecifierNameResolver.h"
+#include "CxxTemplateArgumentNameResolver.h"
+#include "logging.h"
+#include "utilityString.h"
 
 CxxTypeNameResolver::CxxTypeNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())

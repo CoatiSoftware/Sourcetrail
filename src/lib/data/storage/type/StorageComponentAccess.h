@@ -1,7 +1,7 @@
 #ifndef STORAGE_COMPONENT_ACCESS_H
 #define STORAGE_COMPONENT_ACCESS_H
 
-#include "utility/types.h"
+#include "types.h"
 
 struct StorageComponentAccess
 {

@@ -5,11 +5,11 @@
 
 #include <QFrame>
 
-#include "utility/types.h"
+#include "types.h"
 
-#include "qt/element/QtCodeArea.h"
+#include "QtCodeArea.h"
 
-#include "component/view/helper/CodeSnippetParams.h"
+#include "CodeSnippetParams.h"
 
 class QBoxLayout;
 class QPushButton;

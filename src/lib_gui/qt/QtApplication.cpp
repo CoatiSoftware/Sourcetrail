@@ -1,12 +1,12 @@
-#include "qt/QtApplication.h"
+#include "QtApplication.h"
 
 #include <QFileOpenEvent>
 
-#include "utility/file/FilePath.h"
-#include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageWindowFocus.h"
-#include "utility/logging/LogManager.h"
-#include "utility/utilityApp.h"
+#include "FilePath.h"
+#include "MessageLoadProject.h"
+#include "MessageWindowFocus.h"
+#include "LogManager.h"
+#include "utilityApp.h"
 
 QtApplication::QtApplication(int& argc, char** argv)
 	: QApplication(argc, argv)

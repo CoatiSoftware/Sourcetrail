@@ -1,4 +1,4 @@
-#include "utility/TextCodec.h"
+#include "TextCodec.h"
 
 #include <QTextCodec>
 

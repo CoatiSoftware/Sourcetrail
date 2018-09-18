@@ -1,4 +1,4 @@
-#include "qt/view/QtErrorView.h"
+#include "QtErrorView.h"
 
 #include <QBoxLayout>
 #include <QCheckBox>
@@ -13,14 +13,14 @@
 #include <QStandardItem>
 #include <QStyledItemDelegate>
 
-#include "qt/element/QtHelpButton.h"
-#include "qt/element/QtIconButton.h"
-#include "qt/element/QtTable.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "settings/ColorScheme.h"
-#include "utility/messaging/type/MessageProjectEdit.h"
-#include "utility/ResourcePaths.h"
+#include "QtHelpButton.h"
+#include "QtIconButton.h"
+#include "QtTable.h"
+#include "utilityQt.h"
+#include "QtViewWidgetWrapper.h"
+#include "ColorScheme.h"
+#include "MessageProjectEdit.h"
+#include "ResourcePaths.h"
 
 QIcon QtErrorView::s_errorIcon;
 

@@ -1,7 +1,7 @@
 #ifndef MESSAGE_IDE_CREATE_CDB_H
 #define MESSAGE_IDE_CREATE_CDB_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageIDECreateCDB : public Message<MessageIDECreateCDB>
 {

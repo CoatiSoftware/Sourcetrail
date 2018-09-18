@@ -5,9 +5,9 @@
 
 #include <QGraphicsItem>
 
-#include "utility/math/Vector4.h"
+#include "Vector4.h"
 
-#include "component/view/GraphViewStyle.h"
+#include "GraphViewStyle.h"
 
 class QFont;
 class QtGraphEdge;

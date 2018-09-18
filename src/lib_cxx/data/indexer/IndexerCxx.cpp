@@ -1,8 +1,8 @@
-#include "data/indexer/IndexerCxx.h"
+#include "IndexerCxx.h"
 
-#include "data/parser/cxx/CxxParser.h"
-#include "data/parser/ParserClientImpl.h"
-#include "utility/file/FileRegister.h"
+#include "CxxParser.h"
+#include "ParserClientImpl.h"
+#include "FileRegister.h"
 
 std::shared_ptr<IntermediateStorage> IndexerCxx::doIndex(std::shared_ptr<IndexerCommandCxx> indexerCommand)
 {

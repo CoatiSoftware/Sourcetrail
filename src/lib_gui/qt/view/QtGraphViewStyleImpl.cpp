@@ -1,10 +1,10 @@
-#include "qt/view/QtGraphViewStyleImpl.h"
+#include "QtGraphViewStyleImpl.h"
 
 #include <QFont>
 #include <QFontMetrics>
 
-#include "component/view/GraphViewStyle.h"
-#include "utility/utilityApp.h"
+#include "GraphViewStyle.h"
+#include "utilityApp.h"
 
 float QtGraphViewStyleImpl::getCharWidth(const std::string& fontName, size_t fontSize)
 {

@@ -1,4 +1,4 @@
-#include "qt/graphics/QtRoundedRectItem.h"
+#include "QtRoundedRectItem.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>

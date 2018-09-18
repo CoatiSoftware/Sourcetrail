@@ -1,9 +1,9 @@
-#include "component/controller/helper/ListLayouter.h"
+#include "ListLayouter.h"
 
 #include <algorithm>
 
-#include "component/controller/helper/DummyNode.h"
-#include "component/view/GraphViewStyle.h"
+#include "DummyNode.h"
+#include "GraphViewStyle.h"
 
 void ListLayouter::layoutRow(std::vector<std::shared_ptr<DummyNode>>* nodes, int gap)
 {

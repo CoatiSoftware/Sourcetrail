@@ -1,4 +1,4 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
 #include "License.h"
 #include "Generator.h"

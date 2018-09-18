@@ -1,13 +1,13 @@
-#include "utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.h"
+#include "CxxVs15HeaderPathDetector.h"
 
 #include <string>
 
-#include "utility/file/FilePath.h"
-#include "utility/file/FileSystem.h"
-#include "utility/path_detector/cxx_header/utilityCxxHeaderDetection.h"
-#include "utility/utility.h"
-#include "utility/utilityApp.h"
-#include "utility/utilityCxx.h"
+#include "FilePath.h"
+#include "FileSystem.h"
+#include "utilityCxxHeaderDetection.h"
+#include "utility.h"
+#include "utilityApp.h"
+#include "utilityCxx.h"
 
 CxxVs15HeaderPathDetector::CxxVs15HeaderPathDetector()
 	: PathDetector("Visual Studio 2017")

@@ -1,9 +1,9 @@
-#include "data/parser/java/JavaEnvironment.h"
+#include "JavaEnvironment.h"
 
 #include <jni.h>
 
-#include "utility/logging/logging.h"
-#include "data/parser/java/JavaEnvironmentFactory.h"
+#include "logging.h"
+#include "JavaEnvironmentFactory.h"
 
 JavaEnvironment::~JavaEnvironment()
 {

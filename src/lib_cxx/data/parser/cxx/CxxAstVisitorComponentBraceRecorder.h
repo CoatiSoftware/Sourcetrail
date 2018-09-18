@@ -1,7 +1,7 @@
 #ifndef CXX_AST_VISITOR_COMPONENT_BRACE_RECORDER_H
 #define CXX_AST_VISITOR_COMPONENT_BRACE_RECORDER_H
 
-#include "data/parser/cxx/CxxAstVisitorComponent.h"
+#include "CxxAstVisitorComponent.h"
 
 // This CxxAstVisitorComponent is responsible for recording all matching braces ["{", "}"] throughout the visited AST.
 class CxxAstVisitorComponentBraceRecorder: public CxxAstVisitorComponent

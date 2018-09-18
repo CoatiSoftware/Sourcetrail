@@ -2,7 +2,7 @@
 #define SQLITE_DATABASE_INDEX_H
 
 #include <string>
-#include "sqlite/CppSQLite3.h"
+#include "CppSQLite3.h"
 
 class SqliteDatabaseIndex
 {

@@ -1,4 +1,4 @@
-#include "settings/migration/SettingsMigrationDeleteKey.h"
+#include "SettingsMigrationDeleteKey.h"
 
 SettingsMigrationDeleteKey::SettingsMigrationDeleteKey(const std::string& key)
 	: m_key(key)

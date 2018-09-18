@@ -1,6 +1,6 @@
-#include "data/indexer/CombinedIndexerCommandProvider.h"
+#include "CombinedIndexerCommandProvider.h"
 
-#include "utility/utility.h"
+#include "utility.h"
 
 void CombinedIndexerCommandProvider::addProvider(std::shared_ptr<IndexerCommandProvider> provider)
 {

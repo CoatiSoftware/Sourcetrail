@@ -1,6 +1,6 @@
 
 add_files(
-	LIB_CXX_FILES
+	LIB_CXX
 
 	data/indexer/CxxIndexerCommandProvider.cpp
 	data/indexer/CxxIndexerCommandProvider.h

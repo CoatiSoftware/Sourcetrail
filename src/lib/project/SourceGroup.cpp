@@ -1,8 +1,8 @@
-#include "project/SourceGroup.h"
+#include "SourceGroup.h"
 
-#include "data/indexer/MemoryIndexerCommandProvider.h"
-#include "settings/SourceGroupSettings.h"
-#include "utility/file/FilePath.h"
+#include "MemoryIndexerCommandProvider.h"
+#include "SourceGroupSettings.h"
+#include "FilePath.h"
 
 std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
 {

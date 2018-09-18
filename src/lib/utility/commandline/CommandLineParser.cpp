@@ -1,17 +1,17 @@
-#include "utility/commandline/CommandLineParser.h"
+#include "CommandLineParser.h"
 
 #include <iostream>
 #include <utility>
 
-#include "boost/program_options.hpp"
+#include <boost/program_options.hpp>
 
-#include "utility/commandline/CommandlineHelper.h"
-#include "utility/commandline/commands/CommandlineCommandAcceptEULA.h"
-#include "utility/commandline/commands/CommandlineCommandConfig.h"
-#include "utility/commandline/commands/CommandlineCommandIndex.h"
-#include "utility/ConfigManager.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utilityString.h"
+#include "CommandlineHelper.h"
+#include "CommandlineCommandAcceptEULA.h"
+#include "CommandlineCommandConfig.h"
+#include "CommandlineCommandIndex.h"
+#include "ConfigManager.h"
+#include "TextAccess.h"
+#include "utilityString.h"
 
 namespace po = boost::program_options;
 

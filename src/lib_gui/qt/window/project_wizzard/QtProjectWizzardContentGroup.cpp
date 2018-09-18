@@ -1,4 +1,4 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentGroup.h"
+#include "QtProjectWizzardContentGroup.h"
 
 QtProjectWizzardContentGroup::QtProjectWizzardContentGroup(
 	QtProjectWizzardWindow* window

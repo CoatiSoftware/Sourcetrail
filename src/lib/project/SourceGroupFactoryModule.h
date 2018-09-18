@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "settings/SourceGroupType.h"
+#include "SourceGroupType.h"
 
 class SourceGroup;
 class SourceGroupSettings;

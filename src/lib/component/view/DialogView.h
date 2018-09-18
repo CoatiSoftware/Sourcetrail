@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "data/ErrorCountInfo.h"
-#include "project/RefreshInfo.h"
+#include "ErrorCountInfo.h"
+#include "RefreshInfo.h"
 
 class Project;
 class StorageAccess;

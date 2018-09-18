@@ -1,4 +1,4 @@
-#include "utility/utilityMath.h"
+#include "utilityMath.h"
 
 unsigned long int utility::getPowerOfTwo(unsigned int exponent)
 {

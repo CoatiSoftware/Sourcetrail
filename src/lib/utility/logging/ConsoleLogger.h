@@ -3,8 +3,8 @@
 
 #include <mutex>
 
-#include "utility/logging/Logger.h"
-#include "utility/logging/LogMessage.h"
+#include "Logger.h"
+#include "LogMessage.h"
 
 class ConsoleLogger
 	: public Logger

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "data/name/NameHierarchy.h"
+#include "NameHierarchy.h"
 
 class CxxName
 {

@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsCxxCdb.h"
+#include "SourceGroupSettingsCxxCdb.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/ConfigManager.h"
+#include "ProjectSettings.h"
+#include "ConfigManager.h"
 
 SourceGroupSettingsCxxCdb::SourceGroupSettingsCxxCdb(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_CXX_CDB, projectSettings)

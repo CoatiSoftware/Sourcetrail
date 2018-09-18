@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "utility/logging/LogMessage.h"
+#include "LogMessage.h"
 
 class Logger
 {

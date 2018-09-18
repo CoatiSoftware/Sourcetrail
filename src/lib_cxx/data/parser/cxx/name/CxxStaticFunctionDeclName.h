@@ -1,7 +1,7 @@
 #ifndef CXX_STATIC_FUNCTION_DECL_NAME_H
 #define CXX_STATIC_FUNCTION_DECL_NAME_H
 
-#include "data/parser/cxx/name/CxxFunctionDeclName.h"
+#include "CxxFunctionDeclName.h"
 
 class CxxStaticFunctionDeclName: public CxxFunctionDeclName
 {

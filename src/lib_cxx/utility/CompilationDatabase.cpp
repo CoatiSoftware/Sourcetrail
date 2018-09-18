@@ -1,12 +1,12 @@
-#include "utility/CompilationDatabase.h"
+#include "CompilationDatabase.h"
 
 #include <set>
 
-#include "clang/Tooling/JSONCompilationDatabase.h"
-#include "clang/Tooling/CompilationDatabase.h"
-#include "utility/file/FilePath.h"
-#include "utility/utilityString.h"
-#include "utility/utility.h"
+#include <clang/Tooling/JSONCompilationDatabase.h>
+#include <clang/Tooling/CompilationDatabase.h>
+#include "FilePath.h"
+#include "utilityString.h"
+#include "utility.h"
 
 utility::CompilationDatabase::CompilationDatabase(const FilePath& filePath)
 	: m_filePath(filePath)

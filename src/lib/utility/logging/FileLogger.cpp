@@ -5,8 +5,8 @@
 #include <ctime>
 #include <cstdio>
 
-#include "utility/file/FileSystem.h"
-#include "utility/utilityString.h"
+#include "FileSystem.h"
+#include "utilityString.h"
 
 std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix, const std::wstring& suffix)
 {

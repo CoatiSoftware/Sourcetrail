@@ -1,7 +1,7 @@
-#include "data/name/NameElement.h"
+#include "NameElement.h"
 
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "logging.h"
+#include "utilityString.h"
 
 NameElement::Signature::Signature()
 	: m_prefix(L"")

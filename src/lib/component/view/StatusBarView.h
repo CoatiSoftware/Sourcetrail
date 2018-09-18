@@ -1,8 +1,8 @@
 #ifndef STATUS_BAR_VIEW_H
 #define STATUS_BAR_VIEW_H
 
-#include "component/view/View.h"
-#include "data/ErrorCountInfo.h"
+#include "View.h"
+#include "ErrorCountInfo.h"
 
 class StatusBarController;
 

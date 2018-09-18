@@ -5,8 +5,8 @@
 #include <vector>
 #include <unordered_map>
 
-#include "data/fulltextsearch/SuffixArray.h"
-#include "utility/types.h"
+#include "SuffixArray.h"
+#include "types.h"
 
 class StorageAccess;
 

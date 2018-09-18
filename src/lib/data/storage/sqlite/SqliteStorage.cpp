@@ -1,9 +1,9 @@
-#include "data/storage/sqlite/SqliteStorage.h"
+#include "SqliteStorage.h"
 
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/TimeStamp.h"
-#include "utility/utilityString.h"
+#include "FileSystem.h"
+#include "logging.h"
+#include "TimeStamp.h"
+#include "utilityString.h"
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.getCanonical())

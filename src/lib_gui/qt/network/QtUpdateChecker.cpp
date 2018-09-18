@@ -1,4 +1,4 @@
-#include "qt/network/QtUpdateChecker.h"
+#include "QtUpdateChecker.h"
 
 #include <QDesktopServices>
 #include <QMessageBox>
@@ -7,12 +7,12 @@
 #include <QUrl>
 
 #include "LicenseChecker.h"
-#include "qt/network/QtRequest.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/Version.h"
-#include "utility/utility.h"
-#include "utility/utilityApp.h"
-#include "utility/utilityUuid.h"
+#include "QtRequest.h"
+#include "ApplicationSettings.h"
+#include "Version.h"
+#include "utility.h"
+#include "utilityApp.h"
+#include "utilityUuid.h"
 
 bool QtUpdateChecker::needsAutomaticCheck()
 {

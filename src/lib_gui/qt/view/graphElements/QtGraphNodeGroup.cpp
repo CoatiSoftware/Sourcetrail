@@ -1,4 +1,4 @@
-#include "qt/view/graphElements/QtGraphNodeGroup.h"
+#include "QtGraphNodeGroup.h"
 
 #include <QBrush>
 #include <QGraphicsPolygonItem>
@@ -6,12 +6,12 @@
 #include <QPainterPath>
 #include <QPen>
 
-#include "utility/messaging/type/MessageActivateNodes.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
-#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+#include "MessageActivateNodes.h"
+#include "MessageFocusIn.h"
+#include "MessageFocusOut.h"
+#include "MessageGraphNodeBundleSplit.h"
 
-#include "qt/graphics/QtRoundedRectItem.h"
+#include "QtRoundedRectItem.h"
 
 QtGraphNodeGroup::QtGraphNodeGroup(
 	Id tokenId, const std::wstring& name, GroupType type, bool interactive

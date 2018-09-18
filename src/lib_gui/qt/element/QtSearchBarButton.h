@@ -1,7 +1,7 @@
 #ifndef QT_SEARCH_BAR_BUTTON_H
 #define QT_SEARCH_BAR_BUTTON_H
 
-#include "qt/element/QtIconButton.h"
+#include "QtIconButton.h"
 
 class QtSearchBarButton
 	: public QtSelfRefreshIconButton

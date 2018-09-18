@@ -1,8 +1,8 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/file/FilePath.h"
-#include "utility/utilityMaven.h"
-#include "utility/utilityPathDetection.h"
+#include "FilePath.h"
+#include "utilityMaven.h"
+#include "utilityPathDetection.h"
 
 class UtilityMavenTestSuite : public CxxTest::TestSuite
 {

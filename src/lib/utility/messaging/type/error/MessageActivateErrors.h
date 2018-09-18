@@ -1,10 +1,10 @@
 #ifndef MESSAGE_ACTIVATE_ERRORS_H
 #define MESSAGE_ACTIVATE_ERRORS_H
 
-#include "utility/messaging/Message.h"
-#include "utility/messaging/type/MessageActivateBase.h"
+#include "Message.h"
+#include "MessageActivateBase.h"
 
-#include "data/ErrorFilter.h"
+#include "ErrorFilter.h"
 
 class MessageActivateErrors
 	: public Message<MessageActivateErrors>

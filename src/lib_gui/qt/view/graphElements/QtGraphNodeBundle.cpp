@@ -1,12 +1,12 @@
-#include "qt/view/graphElements/QtGraphNodeBundle.h"
+#include "QtGraphNodeBundle.h"
 
 #include <QBrush>
 #include <QPen>
 
-#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+#include "MessageGraphNodeBundleSplit.h"
 
-#include "component/view/GraphViewStyle.h"
-#include "qt/graphics/QtCountCircleItem.h"
+#include "GraphViewStyle.h"
+#include "QtCountCircleItem.h"
 
 QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::wstring name)
 	: QtGraphNode()

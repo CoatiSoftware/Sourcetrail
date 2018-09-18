@@ -5,8 +5,8 @@
 #include <mutex>
 #include <deque>
 
-#include "utility/scheduling/Task.h"
-#include "utility/scheduling/TaskRunner.h"
+#include "Task.h"
+#include "TaskRunner.h"
 
 class TaskScheduler
 {

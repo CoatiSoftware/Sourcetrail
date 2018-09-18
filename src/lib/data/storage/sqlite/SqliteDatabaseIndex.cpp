@@ -1,6 +1,6 @@
-#include "data/storage/sqlite/SqliteDatabaseIndex.h"
+#include "SqliteDatabaseIndex.h"
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
 SqliteDatabaseIndex::SqliteDatabaseIndex(const std::string& indexName, const std::string& indexTarget)
 	: m_indexName(indexName)

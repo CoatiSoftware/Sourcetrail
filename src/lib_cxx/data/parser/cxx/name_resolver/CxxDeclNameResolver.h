@@ -1,10 +1,10 @@
 #ifndef CXX_DECL_NAME_RESOLVER_H
 #define CXX_DECL_NAME_RESOLVER_H
 
-#include "clang/AST/DeclTemplate.h"
+#include <clang/AST/DeclTemplate.h>
 
-#include "data/parser/cxx/name/CxxDeclName.h"
-#include "data/parser/cxx/name_resolver/CxxNameResolver.h"
+#include "CxxDeclName.h"
+#include "CxxNameResolver.h"
 
 class CanonicalFilePathCache;
 

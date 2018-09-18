@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsWithSourceExtensions.h"
+#include "SourceGroupSettingsWithSourceExtensions.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/utility.h"
+#include "ProjectSettings.h"
+#include "utility.h"
 
 SourceGroupSettingsWithSourceExtensions::SourceGroupSettingsWithSourceExtensions()
 	: m_sourceExtensions(std::vector<std::wstring>())

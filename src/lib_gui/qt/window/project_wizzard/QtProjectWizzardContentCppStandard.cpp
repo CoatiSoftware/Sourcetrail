@@ -1,9 +1,9 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentCppStandard.h"
+#include "QtProjectWizzardContentCppStandard.h"
 
 #include <QComboBox>
 #include <QLabel>
 
-#include "settings/SourceGroupSettingsWithCppStandard.h"
+#include "SourceGroupSettingsWithCppStandard.h"
 
 QtProjectWizzardContentCppStandard::QtProjectWizzardContentCppStandard(
 	std::shared_ptr<SourceGroupSettingsWithCppStandard> sourceGroupSettings,

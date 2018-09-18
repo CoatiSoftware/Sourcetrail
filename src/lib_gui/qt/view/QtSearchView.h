@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "component/view/SearchView.h"
-#include "qt/utility/QtThreadedFunctor.h"
+#include "SearchView.h"
+#include "QtThreadedFunctor.h"
 
 class QtSearchBar;
 

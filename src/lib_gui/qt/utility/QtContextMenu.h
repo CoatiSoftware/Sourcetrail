@@ -6,7 +6,7 @@
 #include <QMenu>
 #include <QObject>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class QtContextMenu
 	: public QObject

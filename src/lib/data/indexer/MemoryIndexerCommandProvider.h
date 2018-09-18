@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "data/indexer/IndexerCommandProvider.h"
+#include "IndexerCommandProvider.h"
 
 class MemoryIndexerCommandProvider : public IndexerCommandProvider
 {

@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsJavaMaven.h"
+#include "SourceGroupSettingsJavaMaven.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/ConfigManager.h"
+#include "ProjectSettings.h"
+#include "ConfigManager.h"
 
 SourceGroupSettingsJavaMaven::SourceGroupSettingsJavaMaven(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsJava(id, SOURCE_GROUP_JAVA_MAVEN, projectSettings)

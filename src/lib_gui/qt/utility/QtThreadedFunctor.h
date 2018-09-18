@@ -8,8 +8,8 @@
 #include <QObject>
 #include <QSemaphore>
 
-#include "utility/messaging/type/MessageWindowClosed.h"
-#include "utility/messaging/MessageListener.h"
+#include "MessageWindowClosed.h"
+#include "MessageListener.h"
 
 class QtThreadedFunctorHelper: public QObject, public MessageListener<MessageWindowClosed>
 {

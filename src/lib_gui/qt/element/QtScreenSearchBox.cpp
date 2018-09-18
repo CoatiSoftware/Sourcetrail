@@ -1,4 +1,4 @@
-#include "qt/element/QtScreenSearchBox.h"
+#include "QtScreenSearchBox.h"
 
 #include <QApplication>
 #include <QCheckBox>
@@ -8,9 +8,9 @@
 #include <QPushButton>
 #include <QTimer>
 
-#include "qt/element/QtIconButton.h"
-#include "qt/utility/utilityQt.h"
-#include "utility/ResourcePaths.h"
+#include "QtIconButton.h"
+#include "utilityQt.h"
+#include "ResourcePaths.h"
 
 
 QtFocusInFilter::QtFocusInFilter(QObject* parent)

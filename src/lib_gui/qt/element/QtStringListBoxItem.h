@@ -1,7 +1,7 @@
 #ifndef QT_STRING_LIST_BOX_ITEM_H
 #define QT_STRING_LIST_BOX_ITEM_H
 
-#include "qt/element/QtListBoxItem.h"
+#include "QtListBoxItem.h"
 
 class QListWidgetItem;
 

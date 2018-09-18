@@ -1,7 +1,7 @@
 #ifndef MESSAGE_SHOW_ERROR_H
 #define MESSAGE_SHOW_ERROR_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageShowError
 	: public Message<MessageShowError>

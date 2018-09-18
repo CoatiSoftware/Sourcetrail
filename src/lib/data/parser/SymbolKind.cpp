@@ -1,4 +1,4 @@
-#include "data/parser/SymbolKind.h"
+#include "SymbolKind.h"
 
 SymbolKind intToSymbolKind(int v)
 {

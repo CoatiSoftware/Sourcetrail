@@ -1,4 +1,4 @@
-#include "qt/graphics/QtLineItemAngled.h"
+#include "QtLineItemAngled.h"
 
 #include <cmath>
 

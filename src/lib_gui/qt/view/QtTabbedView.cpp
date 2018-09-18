@@ -1,4 +1,4 @@
-#include "qt/view/QtTabbedView.h"
+#include "QtTabbedView.h"
 
 #include <QEvent>
 #include <QFrame>
@@ -6,11 +6,11 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-#include "qt/element/QtIconButton.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "settings/ColorScheme.h"
-#include "utility/ResourcePaths.h"
+#include "QtIconButton.h"
+#include "utilityQt.h"
+#include "QtViewWidgetWrapper.h"
+#include "ColorScheme.h"
+#include "ResourcePaths.h"
 
 QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name)
 	: TabbedView(viewLayout, name)

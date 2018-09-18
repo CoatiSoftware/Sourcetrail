@@ -1,4 +1,4 @@
-#include "qt/window/QtPathListDialog.h"
+#include "QtPathListDialog.h"
 
 #include <QLabel>
 

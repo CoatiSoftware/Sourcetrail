@@ -3,8 +3,8 @@
 
 #include <clang/AST/Decl.h>
 
-#include "data/name/NameHierarchy.h"
-#include "utility/UnorderedCache.h"
+#include "NameHierarchy.h"
+#include "UnorderedCache.h"
 
 typedef UnorderedCache<const clang::NamedDecl*, NameHierarchy> DeclNameCache;
 typedef UnorderedCache<const clang::Type*, NameHierarchy> TypeNameCache;

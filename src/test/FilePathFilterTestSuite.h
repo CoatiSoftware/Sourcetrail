@@ -1,6 +1,6 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/file/FilePathFilter.h"
+#include "FilePathFilter.h"
 
 class FilePathFilterTestSuite: public CxxTest::TestSuite
 {

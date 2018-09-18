@@ -5,7 +5,7 @@
 
 #include <QGraphicsView>
 
-#include "utility/types.h"
+#include "types.h"
 
 class QPushButton;
 class QTimer;

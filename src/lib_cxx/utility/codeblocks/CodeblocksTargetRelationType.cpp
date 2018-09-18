@@ -1,4 +1,4 @@
-#include "utility/codeblocks/CodeblocksTargetRelationType.h"
+#include "CodeblocksTargetRelationType.h"
 
 namespace Codeblocks
 {

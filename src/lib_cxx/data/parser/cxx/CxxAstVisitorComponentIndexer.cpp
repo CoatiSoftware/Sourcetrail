@@ -1,18 +1,18 @@
-#include "data/parser/cxx/CxxAstVisitorComponentIndexer.h"
+#include "CxxAstVisitorComponentIndexer.h"
 
 #include <clang/AST/ASTContext.h>
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Basic/SourceManager.h>
 #include <clang/Lex/Preprocessor.h>
 
-#include "data/parser/cxx/CanonicalFilePathCache.h"
-#include "data/parser/cxx/CxxAstVisitorComponentContext.h"
-#include "data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h"
-#include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
-#include "data/parser/cxx/utilityClang.h"
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ParserClient.h"
-#include "utility/file/FileRegister.h"
+#include "CanonicalFilePathCache.h"
+#include "CxxAstVisitorComponentContext.h"
+#include "CxxAstVisitorComponentDeclRefKind.h"
+#include "CxxAstVisitorComponentTypeRefKind.h"
+#include "utilityClang.h"
+#include "ParseLocation.h"
+#include "ParserClient.h"
+#include "FileRegister.h"
 
 CxxAstVisitorComponentIndexer::CxxAstVisitorComponentIndexer(
 	CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client

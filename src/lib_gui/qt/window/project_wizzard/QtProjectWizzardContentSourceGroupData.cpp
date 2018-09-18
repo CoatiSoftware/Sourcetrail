@@ -1,10 +1,10 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.h"
+#include "QtProjectWizzardContentSourceGroupData.h"
 
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QMessageBox>
 
-#include "settings/SourceGroupSettings.h"
+#include "SourceGroupSettings.h"
 
 QtProjectWizzardContentSourceGroupData::QtProjectWizzardContentSourceGroupData(
 	std::shared_ptr<SourceGroupSettings> settings,

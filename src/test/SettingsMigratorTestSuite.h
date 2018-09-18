@@ -1,10 +1,10 @@
 #include <cxxtest/TestSuite.h>
 
-#include "settings/Settings.h"
-#include "settings/migration/SettingsMigrator.h"
-#include "settings/migration/SettingsMigrationLambda.h"
-#include "settings/migration/SettingsMigrationMoveKey.h"
-#include "utility/text/TextAccess.h"
+#include "Settings.h"
+#include "SettingsMigrator.h"
+#include "SettingsMigrationLambda.h"
+#include "SettingsMigrationMoveKey.h"
+#include "TextAccess.h"
 
 class SettingsMigratorTestSuite : public CxxTest::TestSuite
 {

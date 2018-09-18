@@ -1,7 +1,7 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_SOURCE_GROUP_INFO_TEXT_H
 #define QT_PROJECT_WIZZARD_CONTENT_SOURCE_GROUP_INFO_TEXT_H
 
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "QtProjectWizzardContent.h"
 
 class QtProjectWizzardContentSourceGroupInfoText
 	: public QtProjectWizzardContent

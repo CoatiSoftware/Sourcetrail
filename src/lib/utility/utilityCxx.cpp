@@ -1,7 +1,7 @@
-#include "utility/utilityCxx.h"
+#include "utilityCxx.h"
 
-#include "utility/ResourcePaths.h"
-#include "utility/utilityApp.h"
+#include "ResourcePaths.h"
+#include "utilityApp.h"
 
 namespace utility
 {

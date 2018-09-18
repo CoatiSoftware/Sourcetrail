@@ -1,7 +1,7 @@
-#include "utility/file/FileRegister.h"
+#include "FileRegister.h"
 
-#include "utility/file/FilePath.h"
-#include "utility/file/FilePathFilter.h"
+#include "FilePath.h"
+#include "FilePathFilter.h"
 
 FileRegister::FileRegister(
 	const FilePath& currentPath,

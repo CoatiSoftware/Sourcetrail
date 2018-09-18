@@ -1,12 +1,12 @@
-#include "utility/logging/LogManager.h"
+#include "LogManager.h"
 
 #include <algorithm>
 
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/utility.h"
-#include "utility/Version.h"
-#include "utility/utilityString.h"
+#include "logging.h"
+#include "MessageStatus.h"
+#include "utility.h"
+#include "Version.h"
+#include "utilityString.h"
 
 std::shared_ptr<LogManager> LogManager::getInstance()
 {

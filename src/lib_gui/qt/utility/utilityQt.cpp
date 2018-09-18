@@ -1,4 +1,4 @@
-#include "qt/utility/utilityQt.h"
+#include "utilityQt.h"
 
 #include <set>
 
@@ -9,16 +9,16 @@
 #include <QPainter>
 #include <QWidget>
 
-#include "utility/file/FilePath.h"
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/ResourcePaths.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utilityApp.h"
-#include "utility/utilityString.h"
+#include "FilePath.h"
+#include "FileSystem.h"
+#include "logging.h"
+#include "ResourcePaths.h"
+#include "TextAccess.h"
+#include "utilityApp.h"
+#include "utilityString.h"
 
-#include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
+#include "ApplicationSettings.h"
+#include "ColorScheme.h"
 
 namespace utility
 {

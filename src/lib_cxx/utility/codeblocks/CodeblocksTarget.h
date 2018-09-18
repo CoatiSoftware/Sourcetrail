@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "utility/codeblocks/CodeblocksTargetRelationType.h"
+#include "CodeblocksTargetRelationType.h"
 
 class TiXmlElement;
 

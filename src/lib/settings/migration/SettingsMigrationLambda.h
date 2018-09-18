@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "settings/migration/SettingsMigration.h"
+#include "SettingsMigration.h"
 
 class SettingsMigrationLambda: public SettingsMigration
 {

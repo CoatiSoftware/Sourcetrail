@@ -1,14 +1,14 @@
-#include "project/SourceGroupFactoryModuleCxx.h"
+#include "SourceGroupFactoryModuleCxx.h"
 
-#include "project/SourceGroupCxxCdb.h"
-#include "project/SourceGroupCxxCodeblocks.h"
-#include "project/SourceGroupCxxEmpty.h"
-#include "project/SourceGroupCxxSonargraph.h"
-#include "settings/SourceGroupSettingsCxxCdb.h"
-#include "settings/SourceGroupSettingsCxxCodeblocks.h"
-#include "settings/SourceGroupSettingsCEmpty.h"
-#include "settings/SourceGroupSettingsCppEmpty.h"
-#include "settings/SourceGroupSettingsCxxSonargraph.h"
+#include "SourceGroupCxxCdb.h"
+#include "SourceGroupCxxCodeblocks.h"
+#include "SourceGroupCxxEmpty.h"
+#include "SourceGroupCxxSonargraph.h"
+#include "SourceGroupSettingsCxxCdb.h"
+#include "SourceGroupSettingsCxxCodeblocks.h"
+#include "SourceGroupSettingsCEmpty.h"
+#include "SourceGroupSettingsCppEmpty.h"
+#include "SourceGroupSettingsCxxSonargraph.h"
 
 bool SourceGroupFactoryModuleCxx::supports(SourceGroupType type) const
 {

@@ -1,7 +1,7 @@
 #ifndef QT_LINE_ITEM_ANGLED_H
 #define QT_LINE_ITEM_ANGLED_H
 
-#include "qt/graphics/QtLineItemBase.h"
+#include "QtLineItemBase.h"
 
 class QtLineItemAngled
 	: public QtLineItemBase

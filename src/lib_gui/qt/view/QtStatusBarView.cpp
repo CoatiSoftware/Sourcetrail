@@ -1,8 +1,8 @@
-#include "qt/view/QtStatusBarView.h"
+#include "QtStatusBarView.h"
 
 #include <QStatusBar>
 
-#include "qt/view/QtMainView.h"
+#include "QtMainView.h"
 
 QtStatusBarView::QtStatusBarView(ViewLayout* viewLayout)
 	: StatusBarView(viewLayout)

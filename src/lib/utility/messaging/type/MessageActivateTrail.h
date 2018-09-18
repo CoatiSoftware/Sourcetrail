@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_TRAIL_H
 #define MESSAGE_ACTIVATE_TRAIL_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageActivateTrail
 	: public Message<MessageActivateTrail>

@@ -1,14 +1,14 @@
-#include "project/SourceGroupCxxCdb.h"
+#include "SourceGroupCxxCdb.h"
 
-#include "clang/Tooling/Tooling.h"
-#include "clang/Tooling/JSONCompilationDatabase.h"
-#include "data/indexer/CxxIndexerCommandProvider.h"
-#include "data/indexer/IndexerCommandCxx.h"
-#include "settings/SourceGroupSettingsCxxCdb.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/utility.h"
-#include "utility/utilitySourceGroupCxx.h"
+#include <clang/Tooling/Tooling.h>
+#include <clang/Tooling/JSONCompilationDatabase.h>
+#include "CxxIndexerCommandProvider.h"
+#include "IndexerCommandCxx.h"
+#include "SourceGroupSettingsCxxCdb.h"
+#include "ApplicationSettings.h"
+#include "MessageStatus.h"
+#include "utility.h"
+#include "utilitySourceGroupCxx.h"
 #include "Application.h"
 
 SourceGroupCxxCdb::SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings)

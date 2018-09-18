@@ -1,8 +1,8 @@
 #ifndef SEARCH_VIEW_H
 #define SEARCH_VIEW_H
 
-#include "component/view/View.h"
-#include "data/search/SearchMatch.h"
+#include "View.h"
+#include "SearchMatch.h"
 
 class SearchController;
 

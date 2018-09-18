@@ -1,8 +1,8 @@
 #ifndef MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H
 #define MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageGraphNodeBundleSplit
 	: public Message<MessageGraphNodeBundleSplit>

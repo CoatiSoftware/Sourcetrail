@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 
-#include "data/name/NameHierarchy.h"
-#include "data/parser/cxx/name/CxxName.h"
-#include "data/parser/cxx/name/CxxQualifierFlags.h"
+#include "NameHierarchy.h"
+#include "CxxName.h"
+#include "CxxQualifierFlags.h"
 
 class CxxTypeName: public CxxName
 {

@@ -1,15 +1,15 @@
-#include "utility/utilityGradle.h"
+#include "utilityGradle.h"
 
 #include <set>
 
-#include "data/parser/java/JavaEnvironment.h"
-#include "data/parser/java/JavaEnvironmentFactory.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityJava.h"
-#include "utility/utilityString.h"
+#include "JavaEnvironment.h"
+#include "JavaEnvironmentFactory.h"
+#include "ApplicationSettings.h"
+#include "logging.h"
+#include "MessageStatus.h"
+#include "ResourcePaths.h"
+#include "utilityJava.h"
+#include "utilityString.h"
 #include "Application.h"
 
 namespace

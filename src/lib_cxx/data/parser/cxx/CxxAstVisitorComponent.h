@@ -1,7 +1,7 @@
 #ifndef CXX_AST_VISITOR_COMPONENT_H
 #define CXX_AST_VISITOR_COMPONENT_H
 
-#include "data/parser/cxx/CxxAstVisitor.h"
+#include "CxxAstVisitor.h"
 
 // CxxAstVisitorComponent: This is the base class for all ast visitor components.
 // Each component can override it's begin-/endTraverse and visit methods in order to provide some functionality. The CxxAstVisitor

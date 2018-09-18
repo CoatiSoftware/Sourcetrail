@@ -1,6 +1,6 @@
-#include "data/storage/IntermediateStorage.h"
+#include "IntermediateStorage.h"
 
-#include "utility/utility.h"
+#include "utility.h"
 
 IntermediateStorage::IntermediateStorage()
 	: m_nextId(1)

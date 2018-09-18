@@ -1,4 +1,4 @@
-#include "qt/element/QtListBox.h"
+#include "QtListBox.h"
 
 #include <QBoxLayout>
 #include <QListWidget>
@@ -6,12 +6,12 @@
 #include <QListWidget>
 #include <QScrollBar>
 
-#include "qt/element/QtIconButton.h"
-#include "qt/element/QtStringListBoxItem.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/window/QtTextEditDialog.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
+#include "QtIconButton.h"
+#include "QtStringListBoxItem.h"
+#include "utilityQt.h"
+#include "QtTextEditDialog.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
 
 QtListBox::QtListBox(QWidget *parent, const QString& listName)
 	: QFrame(parent)

@@ -1,7 +1,7 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_GROUP_H
 #define QT_PROJECT_WIZZARD_CONTENT_GROUP_H
 
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "QtProjectWizzardContent.h"
 
 class QCheckBox;
 

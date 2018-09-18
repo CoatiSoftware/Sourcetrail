@@ -1,12 +1,12 @@
 #ifndef MESSAGE_ACTIVATE_TRAIL_EDGE_H
 #define MESSAGE_ACTIVATE_TRAIL_EDGE_H
 
-#include "data/graph/Edge.h"
-#include "data/name/NameHierarchy.h"
+#include "Edge.h"
+#include "NameHierarchy.h"
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
-#include "utility/utilityString.h"
+#include "Message.h"
+#include "types.h"
+#include "utilityString.h"
 
 class MessageActivateTrailEdge
 	: public Message<MessageActivateTrailEdge>

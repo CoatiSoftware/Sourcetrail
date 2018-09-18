@@ -1,17 +1,17 @@
-#include "data/parser/java/JavaParser.h"
+#include "JavaParser.h"
 
 #include <jni.h>
 
-#include "data/name/NameHierarchy.h"
-#include "data/parser/java/JavaEnvironmentFactory.h"
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ReferenceKind.h"
-#include "data/parser/ParserClient.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/text/TextAccess.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityJava.h"
-#include "utility/utilityString.h"
+#include "NameHierarchy.h"
+#include "JavaEnvironmentFactory.h"
+#include "ParseLocation.h"
+#include "ReferenceKind.h"
+#include "ParserClient.h"
+#include "ApplicationSettings.h"
+#include "TextAccess.h"
+#include "ResourcePaths.h"
+#include "utilityJava.h"
+#include "utilityString.h"
 
 void JavaParser::clearCaches()
 {

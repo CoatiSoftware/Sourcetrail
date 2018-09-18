@@ -7,9 +7,9 @@
 #include <clang/Frontend/FrontendAction.h>
 #include <clang/Lex/Preprocessor.h>
 
-#include "data/parser/cxx/ASTConsumer.h"
-#include "data/parser/cxx/CommentHandler.h"
-#include "data/parser/cxx/PreprocessorCallbacks.h"
+#include "ASTConsumer.h"
+#include "CommentHandler.h"
+#include "PreprocessorCallbacks.h"
 
 template <typename ASTActionBase>
 class ASTAction

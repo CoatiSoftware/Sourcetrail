@@ -1,4 +1,4 @@
-#include "settings/SourceGroupType.h"
+#include "SourceGroupType.h"
 
 std::string sourceGroupTypeToString(SourceGroupType v)
 {

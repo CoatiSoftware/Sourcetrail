@@ -1,6 +1,6 @@
 #include "LanguagePackageJava.h"
 
-#include "data/indexer/IndexerJava.h"
+#include "IndexerJava.h"
 
 std::vector<std::shared_ptr<IndexerBase>> LanguagePackageJava::instantiateSupportedIndexers() const
 {

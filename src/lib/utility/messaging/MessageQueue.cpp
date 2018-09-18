@@ -1,15 +1,15 @@
-#include "utility/messaging/MessageQueue.h"
+#include "MessageQueue.h"
 
 #include <chrono>
 #include <thread>
 
-#include "utility/logging/logging.h"
-#include "utility/messaging/MessageBase.h"
-#include "utility/messaging/MessageFilter.h"
-#include "utility/messaging/MessageListenerBase.h"
-#include "utility/scheduling/TaskGroupParallel.h"
-#include "utility/scheduling/TaskGroupSequence.h"
-#include "utility/scheduling/TaskLambda.h"
+#include "logging.h"
+#include "MessageBase.h"
+#include "MessageFilter.h"
+#include "MessageListenerBase.h"
+#include "TaskGroupParallel.h"
+#include "TaskGroupSequence.h"
+#include "TaskLambda.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 {

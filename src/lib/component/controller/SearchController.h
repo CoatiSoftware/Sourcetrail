@@ -1,15 +1,15 @@
 #ifndef SEARCH_CONTROLLER_H
 #define SEARCH_CONTROLLER_H
 
-#include "component/controller/Controller.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/activation/MessageActivateLegend.h"
-#include "utility/messaging/type/error/MessageActivateErrors.h"
-#include "utility/messaging/type/MessageActivateAll.h"
-#include "utility/messaging/type/MessageActivateFullTextSearch.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageFind.h"
-#include "utility/messaging/type/MessageSearchAutocomplete.h"
+#include "Controller.h"
+#include "MessageListener.h"
+#include "MessageActivateLegend.h"
+#include "MessageActivateErrors.h"
+#include "MessageActivateAll.h"
+#include "MessageActivateFullTextSearch.h"
+#include "MessageActivateTokens.h"
+#include "MessageFind.h"
+#include "MessageSearchAutocomplete.h"
 
 class StorageAccess;
 class SearchView;

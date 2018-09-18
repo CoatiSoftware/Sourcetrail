@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "utility/scheduling/Task.h"
+#include "Task.h"
 
 class TaskGroup
 	: public Task

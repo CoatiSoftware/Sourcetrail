@@ -50,6 +50,6 @@ message(STATUS "Version commit: ${VERSION_COMMIT}")
 message(STATUS "Git commit time: ${GIT_COMMIT_TIME}")
 
 configure_file(
-  ${CMAKE_SOURCE_DIR}/cmake/version.h.in
-  ${BINARY_DIR}/src/lib_gui/version.h
+  ${CMAKE_SOURCE_DIR}/cmake/productVersion.h.in
+  ${BINARY_DIR}/src/lib_gui/productVersion.h
 )

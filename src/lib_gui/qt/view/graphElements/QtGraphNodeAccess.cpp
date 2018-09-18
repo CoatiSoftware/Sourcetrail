@@ -1,15 +1,15 @@
-#include "qt/view/graphElements/QtGraphNodeAccess.h"
+#include "QtGraphNodeAccess.h"
 
 #include <QBrush>
 #include <QFontMetrics>
 #include <QPen>
 
-#include "utility/ResourcePaths.h"
+#include "ResourcePaths.h"
 
-#include "component/view/GraphViewStyle.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
-#include "qt/utility/QtDeviceScaledPixmap.h"
-#include "qt/utility/utilityQt.h"
+#include "GraphViewStyle.h"
+#include "TokenComponentAccess.h"
+#include "QtDeviceScaledPixmap.h"
+#include "utilityQt.h"
 
 QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 	: QtGraphNode()

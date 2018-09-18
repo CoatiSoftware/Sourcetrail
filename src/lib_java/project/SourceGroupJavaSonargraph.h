@@ -4,7 +4,7 @@
 #include <memory>
 #include <set>
 
-#include "project/SourceGroup.h"
+#include "SourceGroup.h"
 
 class SourceGroupSettingsJavaSonargraph;
 

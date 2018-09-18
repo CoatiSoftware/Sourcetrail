@@ -1,4 +1,4 @@
-#include "data/parser/cxx/name/CxxName.h"
+#include "CxxName.h"
 
 CxxName::CxxName()
 {

@@ -7,9 +7,9 @@
 #include <set>
 #include <string>
 
-#include "utility/types.h"
-#include "data/graph/Node.h"
-#include "data/NodeTypeSet.h"
+#include "types.h"
+#include "Node.h"
+#include "NodeTypeSet.h"
 
 // SearchResult is only used as an internal type in the SearchIndex and the PersistentStorage
 struct SearchResult

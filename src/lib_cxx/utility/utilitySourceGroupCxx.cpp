@@ -1,4 +1,4 @@
-#include "utility/utilitySourceGroupCxx.h"
+#include "utilitySourceGroupCxx.h"
 
 std::set<FilePath> utility::filterToContainedFilePaths(
 	const std::set<FilePath>& filePaths,

@@ -7,8 +7,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-#include "data/search/SearchMatch.h"
-#include "qt/element/QtAutocompletionList.h"
+#include "SearchMatch.h"
+#include "QtAutocompletionList.h"
 
 class NodeTypeSet;
 

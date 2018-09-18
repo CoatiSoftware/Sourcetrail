@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "utility/scheduling/TaskDecorator.h"
-#include "utility/scheduling/TaskRunner.h"
+#include "TaskDecorator.h"
+#include "TaskRunner.h"
 
 class TaskDecoratorRepeat
 	: public TaskDecorator

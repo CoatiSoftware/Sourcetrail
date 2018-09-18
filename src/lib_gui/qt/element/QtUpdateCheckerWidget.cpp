@@ -1,4 +1,4 @@
-#include "qt/element/QtUpdateCheckerWidget.h"
+#include "QtUpdateCheckerWidget.h"
 
 #include <QDesktopServices>
 #include <QHBoxLayout>
@@ -6,9 +6,9 @@
 #include <QTimer>
 #include <QUrl>
 
-#include "qt/network/QtUpdateChecker.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/TimeStamp.h"
+#include "QtUpdateChecker.h"
+#include "ApplicationSettings.h"
+#include "TimeStamp.h"
 
 QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	: QWidget(parent)

@@ -1,10 +1,10 @@
-#include "utility/interprocess/SharedMemoryGarbageCollector.h"
+#include "SharedMemoryGarbageCollector.h"
 
 #include <thread>
 
-#include "utility/logging/logging.h"
-#include "utility/TimeStamp.h"
-#include "utility/utility.h"
+#include "logging.h"
+#include "TimeStamp.h"
+#include "utility.h"
 
 std::string SharedMemoryGarbageCollector::s_memoryNamePrefix = "grbg_cllctr_";
 std::string SharedMemoryGarbageCollector::s_instancesKeyName = "running_instances";

@@ -1,4 +1,4 @@
-#include "settings/SourceGroupSettingsCxxSonargraph.h"
+#include "SourceGroupSettingsCxxSonargraph.h"
 
 SourceGroupSettingsCxxSonargraph::SourceGroupSettingsCxxSonargraph(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_CXX_SONARGRAPH, projectSettings)

@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include "clang/AST/DeclTemplate.h"
+#include <clang/AST/DeclTemplate.h>
 
-#include "data/parser/cxx/name_resolver/CxxNameResolver.h"
+#include "CxxNameResolver.h"
 
 class DataType;
 

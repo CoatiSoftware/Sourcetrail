@@ -1,14 +1,14 @@
-#include "qt/view/QtCodeView.h"
+#include "QtCodeView.h"
 
-#include "utility/ResourcePaths.h"
-#include "utility/tracing.h"
+#include "ResourcePaths.h"
+#include "tracing.h"
 
-#include "qt/element/QtCodeArea.h"
-#include "qt/element/QtCodeNavigator.h"
-#include "qt/utility/QtHighlighter.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "settings/ColorScheme.h"
+#include "QtCodeArea.h"
+#include "QtCodeNavigator.h"
+#include "QtHighlighter.h"
+#include "utilityQt.h"
+#include "QtViewWidgetWrapper.h"
+#include "ColorScheme.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)

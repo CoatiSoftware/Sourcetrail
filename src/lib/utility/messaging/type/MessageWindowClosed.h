@@ -1,7 +1,7 @@
 #ifndef MESSAGE_WINDOW_CLOSED_H
 #define MESSAGE_WINDOW_CLOSED_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageWindowClosed
 	: public Message<MessageWindowClosed>

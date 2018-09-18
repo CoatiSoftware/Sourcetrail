@@ -1,9 +1,9 @@
-#include "settings/SourceGroupSettingsWithExcludeFilters.h"
+#include "SourceGroupSettingsWithExcludeFilters.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/file/FilePathFilter.h"
-#include "utility/file/FileSystem.h"
-#include "utility/utility.h"
+#include "ProjectSettings.h"
+#include "FilePathFilter.h"
+#include "FileSystem.h"
+#include "utility.h"
 
 SourceGroupSettingsWithExcludeFilters::SourceGroupSettingsWithExcludeFilters()
 	: m_excludeFilters(std::vector<std::wstring>())

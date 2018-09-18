@@ -1,6 +1,6 @@
-#include "component/view/helper/CodeSnippetParams.h"
+#include "CodeSnippetParams.h"
 
-#include "data/location/SourceLocationFile.h"
+#include "SourceLocationFile.h"
 
 CodeSnippetParams::CodeSnippetParams()
 	: startLineNumber(0)

@@ -1,16 +1,16 @@
-#include "utility/sonargraph/SonargraphXsdAbstractModule.h"
+#include "SonargraphXsdAbstractModule.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
-#include "utility/logging/logging.h"
-#include "utility/sonargraph/SonargraphXsdCmakeJsonModule.h"
-#include "utility/sonargraph/SonargraphXsdCppManualModule.h"
-#include "utility/sonargraph/SonargraphXsdJavaModule.h"
-#include "utility/sonargraph/SonargraphXsdRootPath.h"
-#include "utility/sonargraph/SonargraphSoftwareSystem.h"
-#include "utility/utilityString.h"
-#include "utility/utilityXml.h"
-#include "utility/utility.h"
+#include "logging.h"
+#include "SonargraphXsdCmakeJsonModule.h"
+#include "SonargraphXsdCppManualModule.h"
+#include "SonargraphXsdJavaModule.h"
+#include "SonargraphXsdRootPath.h"
+#include "SonargraphSoftwareSystem.h"
+#include "utilityString.h"
+#include "utilityXml.h"
+#include "utility.h"
 
 namespace Sonargraph
 {

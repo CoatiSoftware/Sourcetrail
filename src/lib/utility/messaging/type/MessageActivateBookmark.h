@@ -1,9 +1,9 @@
 #ifndef MESSAGE_ACTIVATE_BOOKMARK_H
 #define MESSAGE_ACTIVATE_BOOKMARK_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
-#include "data/bookmark/Bookmark.h"
+#include "Bookmark.h"
 
 class MessageActivateBookmark
 	: public Message<MessageActivateBookmark>

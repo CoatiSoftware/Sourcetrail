@@ -1,13 +1,13 @@
-#include "project/SourceGroupFactoryModuleJava.h"
+#include "SourceGroupFactoryModuleJava.h"
 
-#include "project/SourceGroupJavaEmpty.h"
-#include "project/SourceGroupJavaGradle.h"
-#include "project/SourceGroupJavaMaven.h"
-#include "project/SourceGroupJavaSonargraph.h"
-#include "settings/SourceGroupSettingsJavaEmpty.h"
-#include "settings/SourceGroupSettingsJavaGradle.h"
-#include "settings/SourceGroupSettingsJavaMaven.h"
-#include "settings/SourceGroupSettingsJavaSonargraph.h"
+#include "SourceGroupJavaEmpty.h"
+#include "SourceGroupJavaGradle.h"
+#include "SourceGroupJavaMaven.h"
+#include "SourceGroupJavaSonargraph.h"
+#include "SourceGroupSettingsJavaEmpty.h"
+#include "SourceGroupSettingsJavaGradle.h"
+#include "SourceGroupSettingsJavaMaven.h"
+#include "SourceGroupSettingsJavaSonargraph.h"
 
 bool SourceGroupFactoryModuleJava::supports(SourceGroupType type) const
 {

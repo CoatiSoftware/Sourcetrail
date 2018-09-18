@@ -1,4 +1,4 @@
-#include "component/view/TooltipView.h"
+#include "TooltipView.h"
 
 TooltipView::TooltipView(ViewLayout* viewLayout)
 	: View(viewLayout)
@@ -13,4 +13,3 @@ std::string TooltipView::getName() const
 {
 	return "TooltipView";
 }
-

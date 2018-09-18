@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "utility/logging/Logger.h"
-#include "utility/logging/LogManagerImplementation.h"
+#include "Logger.h"
+#include "LogManagerImplementation.h"
 
 class LogManager
 {

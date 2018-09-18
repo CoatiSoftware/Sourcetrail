@@ -6,8 +6,8 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "qt/utility/utilityQt.h"
-#include "utility/ResourcePaths.h"
+#include "utilityQt.h"
+#include "ResourcePaths.h"
 
 QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	: m_controllerProxy(controllerProxy)

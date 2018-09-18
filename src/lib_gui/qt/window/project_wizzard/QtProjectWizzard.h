@@ -5,11 +5,11 @@
 
 #include <QWidget>
 
-#include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
-#include "qt/window/project_wizzard/QtSourceGroupWizzard.h"
-#include "qt/window/QtWindow.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/ProjectSettings.h"
+#include "QtProjectWizzardWindow.h"
+#include "QtSourceGroupWizzard.h"
+#include "QtWindow.h"
+#include "ApplicationSettings.h"
+#include "ProjectSettings.h"
 
 class QListWidget;
 class QPushButton;

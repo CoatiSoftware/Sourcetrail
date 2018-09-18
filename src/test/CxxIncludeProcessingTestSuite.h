@@ -1,9 +1,9 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/text/TextAccess.h"
-#include "utility/IncludeDirective.h"
-#include "utility/IncludeProcessing.h"
-#include "utility/utility.h"
+#include "TextAccess.h"
+#include "IncludeDirective.h"
+#include "IncludeProcessing.h"
+#include "utility.h"
 
 class CxxIncludeProcessingTestSuite: public CxxTest::TestSuite
 {

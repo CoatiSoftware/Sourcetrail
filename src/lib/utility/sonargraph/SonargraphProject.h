@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include "settings/LanguageType.h"
+#include "LanguageType.h"
 
 // xsdCppModule
 //	xsdCppManualModule -> basePathForIncludes(0, n), sourceFileExtensions(0, n), moduleCompilerOptions(0, n)

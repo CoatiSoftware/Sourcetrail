@@ -1,7 +1,7 @@
-#include "data/parser/cxx/CanonicalFilePathCache.h"
+#include "CanonicalFilePathCache.h"
 
-#include "utility/utilityString.h"
-#include "data/parser/cxx/utilityClang.h"
+#include "utilityString.h"
+#include "utilityClang.h"
 
 CanonicalFilePathCache::CanonicalFilePathCache(std::shared_ptr<FileRegister> fileRegister)
 	: m_fileRegister(fileRegister)

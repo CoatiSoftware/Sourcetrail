@@ -1,14 +1,14 @@
-#include "utility/sonargraph/SonargraphSourceRootPath.h"
+#include "SonargraphSourceRootPath.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "utility/logging/logging.h"
-#include "utility/sonargraph/SonargraphXsdAbstractModule.h"
-#include "utility/sonargraph/SonargraphXsdRootPathWithFiles.h"
-#include "utility/sonargraph/utilitySonargraph.h"
-#include "utility/utilityString.h"
-#include "utility/utilityXml.h"
+#include "IndexerCommandJava.h"
+#include "logging.h"
+#include "SonargraphXsdAbstractModule.h"
+#include "SonargraphXsdRootPathWithFiles.h"
+#include "utilitySonargraph.h"
+#include "utilityString.h"
+#include "utilityXml.h"
 
 namespace Sonargraph
 {

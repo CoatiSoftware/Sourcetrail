@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "data/access/StorageAccess.h"
+#include "StorageAccess.h"
 
 class StorageAccessProxy
 	: public StorageAccess

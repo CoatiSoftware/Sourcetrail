@@ -1,6 +1,6 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/math/Vector2.h"
+#include "Vector2.h"
 
 class Vector2TestSuite : public CxxTest::TestSuite
 {

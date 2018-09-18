@@ -1,14 +1,14 @@
-#include "qt/element/QtCodeSnippet.h"
+#include "QtCodeSnippet.h"
 
 #include <QBoxLayout>
 #include <qmenu.h>
 #include <QPushButton>
 
-#include "utility/messaging/type/MessageShowScope.h"
+#include "MessageShowScope.h"
 
-#include "data/location/SourceLocationFile.h"
-#include "qt/element/QtCodeNavigator.h"
-#include "qt/element/QtCodeFile.h"
+#include "SourceLocationFile.h"
+#include "QtCodeNavigator.h"
+#include "QtCodeFile.h"
 
 QtCodeSnippet* QtCodeSnippet::merged(
 	QtCodeSnippet* a, QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file)

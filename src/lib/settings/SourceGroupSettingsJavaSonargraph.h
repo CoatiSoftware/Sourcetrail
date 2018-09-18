@@ -1,10 +1,10 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_SONARGRAPH_H
 #define SOURCE_GROUP_SETTINGS_JAVA_SONARGRAPH_H
 
-#include "settings/SourceGroupSettings.h"
-#include "settings/SourceGroupSettingsWithClasspath.h"
-#include "settings/SourceGroupSettingsWithJavaStandard.h"
-#include "settings/SourceGroupSettingsWithSonargraphProjectPath.h"
+#include "SourceGroupSettings.h"
+#include "SourceGroupSettingsWithClasspath.h"
+#include "SourceGroupSettingsWithJavaStandard.h"
+#include "SourceGroupSettingsWithSonargraphProjectPath.h"
 
 class SourceGroupSettingsJavaSonargraph
 	: public SourceGroupSettings

@@ -1,8 +1,8 @@
 #ifndef QT_GRAPH_NODE_BUNDLE_H
 #define QT_GRAPH_NODE_BUNDLE_H
 
-#include "data/graph/Node.h"
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "Node.h"
+#include "QtGraphNode.h"
 
 class QtCountCircleItem;
 

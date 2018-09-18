@@ -1,25 +1,25 @@
-#include "qt/view/graphElements/QtGraphEdge.h"
+#include "QtGraphEdge.h"
 
 #include <QGraphicsSceneEvent>
 #include <QGraphicsItemGroup>
 
-#include "component/view/GraphViewStyle.h"
-#include "data/graph/Edge.h"
-#include "data/graph/token_component/TokenComponentAggregation.h"
-#include "data/graph/token_component/TokenComponentInheritanceChain.h"
-#include "qt/graphics/QtLineItemAngled.h"
-#include "qt/graphics/QtLineItemBezier.h"
-#include "qt/graphics/QtLineItemStraight.h"
-#include "qt/view/graphElements/QtGraphNode.h"
-#include "utility/messaging/type/MessageActivateEdge.h"
-#include "utility/messaging/type/MessageActivateTrailEdge.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
-#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
-#include "utility/messaging/type/MessageGraphNodeHide.h"
-#include "utility/messaging/type/MessageTooltipShow.h"
-#include "utility/messaging/type/MessageTooltipHide.h"
-#include "utility/utility.h"
+#include "GraphViewStyle.h"
+#include "Edge.h"
+#include "TokenComponentAggregation.h"
+#include "TokenComponentInheritanceChain.h"
+#include "QtLineItemAngled.h"
+#include "QtLineItemBezier.h"
+#include "QtLineItemStraight.h"
+#include "QtGraphNode.h"
+#include "MessageActivateEdge.h"
+#include "MessageActivateTrailEdge.h"
+#include "MessageFocusIn.h"
+#include "MessageFocusOut.h"
+#include "MessageGraphNodeBundleSplit.h"
+#include "MessageGraphNodeHide.h"
+#include "MessageTooltipShow.h"
+#include "MessageTooltipHide.h"
+#include "utility.h"
 
 QtGraphEdge* QtGraphEdge::s_focusedEdge = nullptr;
 QtGraphEdge* QtGraphEdge::s_focusedBezierEdge = nullptr;

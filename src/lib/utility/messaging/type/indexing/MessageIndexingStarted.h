@@ -1,7 +1,7 @@
 #ifndef MESSAGE_INDEXING_STARTED_H
 #define MESSAGE_INDEXING_STARTED_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageIndexingStarted
 	: public Message<MessageIndexingStarted>

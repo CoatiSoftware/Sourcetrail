@@ -5,10 +5,10 @@
 #include <memory>
 #include <vector>
 
-#include "qt/window/project_wizzard/QtProjectWizzardContentGroup.h"
-#include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
-#include "qt/window/project_wizzard/QtSourceGroupWizzardPage.h"
-#include "utility/logging/logging.h"
+#include "QtProjectWizzardContentGroup.h"
+#include "QtProjectWizzardWindow.h"
+#include "QtSourceGroupWizzardPage.h"
+#include "logging.h"
 
 class SourceGroupSettings;
 

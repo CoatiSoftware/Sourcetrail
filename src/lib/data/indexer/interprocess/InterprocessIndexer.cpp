@@ -1,9 +1,9 @@
 #include "InterprocessIndexer.h"
 
-#include "data/indexer/IndexerCommand.h"
-#include "data/indexer/IndexerComposite.h"
-#include "utility/file/FileRegister.h"
-#include "utility/logging/logging.h"
+#include "IndexerCommand.h"
+#include "IndexerComposite.h"
+#include "FileRegister.h"
+#include "logging.h"
 #include "LanguagePackageManager.h"
 
 InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)

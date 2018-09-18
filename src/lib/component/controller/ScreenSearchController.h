@@ -4,9 +4,9 @@
 #include <mutex>
 #include <set>
 
-#include "component/controller/Controller.h"
-#include "component/controller/helper/ScreenSearchInterfaces.h"
-#include "utility/messaging/MessageListener.h"
+#include "Controller.h"
+#include "ScreenSearchInterfaces.h"
+#include "MessageListener.h"
 
 class ScreenSearchController
 	: public Controller

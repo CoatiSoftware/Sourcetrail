@@ -6,10 +6,10 @@
 
 #include <QFrame>
 
-#include "utility/file/FilePath.h"
-#include "utility/TimeStamp.h"
+#include "FilePath.h"
+#include "TimeStamp.h"
 
-#include "qt/element/QtCodeNavigateable.h"
+#include "QtCodeNavigateable.h"
 
 class QLabel;
 class QPushButton;

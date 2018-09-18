@@ -1,14 +1,14 @@
-#include "qt/window/QtWindow.h"
+#include "QtWindow.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "qt/utility/QtDeviceScaledPixmap.h"
-#include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/ResourcePaths.h"
+#include "QtDeviceScaledPixmap.h"
+#include "utilityQt.h"
+#include "ApplicationSettings.h"
+#include "ResourcePaths.h"
 
 QtWindow::QtWindow(bool isSubWindow, QWidget* parent)
 	: QtWindowStackElement(parent)

@@ -6,11 +6,11 @@
 #include <QGraphicsView>
 #include <QPointF>
 
-#include "component/view/GraphView.h"
-#include "data/graph/Graph.h"
-#include "qt/utility/QtScrollSpeedChangeListener.h"
-#include "qt/utility/QtThreadedFunctor.h"
-#include "utility/types.h"
+#include "GraphView.h"
+#include "Graph.h"
+#include "QtScrollSpeedChangeListener.h"
+#include "QtThreadedFunctor.h"
+#include "types.h"
 
 struct DummyEdge;
 struct DummyNode;

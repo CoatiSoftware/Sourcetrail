@@ -1,4 +1,4 @@
-#include "data/parser/cxx/name/CxxDeclName.h"
+#include "CxxDeclName.h"
 
 //CxxDeclName::CxxDeclName(const std::wstring& name, const std::vector<std::wstring>& templateParameterNames)
 //	: m_name(name)

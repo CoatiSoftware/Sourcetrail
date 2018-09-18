@@ -1,7 +1,7 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "utility/math/MatrixBase.h"
-#include "utility/math/VectorBase.h"
+#include "MatrixBase.h"
+#include "VectorBase.h"
 
 class MatrixBaseTestSuite : public CxxTest::TestSuite
 {

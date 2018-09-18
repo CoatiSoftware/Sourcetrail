@@ -1,7 +1,7 @@
 #ifndef COMMANDLINE_COMMAND_ACCEPT_EULA_H
 #define COMMANDLINE_COMMAND_ACCEPT_EULA_H
 
-#include "utility/commandline/commands/CommandlineCommand.h"
+#include "CommandlineCommand.h"
 
 class CommandLineParser;
 

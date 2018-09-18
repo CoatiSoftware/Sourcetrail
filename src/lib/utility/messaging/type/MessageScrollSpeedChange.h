@@ -1,7 +1,7 @@
 #ifndef MESSAGE_SCROLL_SPEED_CHANGE_H
 #define MESSAGE_SCROLL_SPEED_CHANGE_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageScrollSpeedChange
 	: public Message<MessageScrollSpeedChange>

@@ -1,4 +1,4 @@
-#include "component/view/ErrorView.h"
+#include "ErrorView.h"
 
 ErrorView::ErrorView(ViewLayout* viewLayout)
 	: View(viewLayout)

@@ -1,8 +1,8 @@
 #ifndef TASK_GROUP_SEQUENCE_H
 #define TASK_GROUP_SEQUENCE_H
 
-#include "utility/scheduling/TaskGroup.h"
-#include "utility/scheduling/TaskRunner.h"
+#include "TaskGroup.h"
+#include "TaskRunner.h"
 
 class TaskGroupSequence
 	: public TaskGroup

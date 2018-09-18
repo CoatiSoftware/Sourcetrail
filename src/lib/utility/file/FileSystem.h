@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "utility/file/FileInfo.h"
-#include "utility/TimeStamp.h"
+#include "FileInfo.h"
+#include "TimeStamp.h"
 
 class FileSystem
 {

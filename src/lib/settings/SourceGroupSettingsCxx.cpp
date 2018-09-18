@@ -1,8 +1,8 @@
-#include "settings/SourceGroupSettingsCxx.h"
+#include "SourceGroupSettingsCxx.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/ConfigManager.h"
-#include "utility/utility.h"
+#include "ProjectSettings.h"
+#include "ConfigManager.h"
+#include "utility.h"
 
 SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)

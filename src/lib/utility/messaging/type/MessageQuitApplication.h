@@ -1,7 +1,7 @@
 #ifndef MESSAGE_QUIT_APPLICATION_H
 #define MESSAGE_QUIT_APPLICATION_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageQuitApplication
 	: public Message<MessageQuitApplication>

@@ -1,14 +1,14 @@
-#include "qt/view/graphElements/QtGraphNodeData.h"
+#include "QtGraphNodeData.h"
 
-#include "utility/file/FilePath.h"
-#include "utility/messaging/type/MessageActivateNodes.h"
-#include "utility/messaging/type/MessageDeactivateEdge.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
-#include "utility/messaging/type/MessageTooltipShow.h"
-#include "utility/ResourcePaths.h"
+#include "FilePath.h"
+#include "MessageActivateNodes.h"
+#include "MessageDeactivateEdge.h"
+#include "MessageFocusIn.h"
+#include "MessageFocusOut.h"
+#include "MessageTooltipShow.h"
+#include "ResourcePaths.h"
 
-#include "data/graph/token_component/TokenComponentFilePath.h"
+#include "TokenComponentFilePath.h"
 
 QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier, bool isInteractive)
 	: m_data(data)

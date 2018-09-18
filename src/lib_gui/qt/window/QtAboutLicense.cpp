@@ -1,4 +1,4 @@
-#include "qt/window/QtAboutLicense.h"
+#include "QtAboutLicense.h"
 
 #include <QVBoxLayout>
 #include <QLabel>

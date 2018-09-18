@@ -1,10 +1,10 @@
-#include "qt/graphics/QtCountCircleItem.h"
+#include "QtCountCircleItem.h"
 
 #include <QFont>
 #include <QFontMetrics>
 #include <QPen>
 
-#include "component/view/GraphViewStyle.h"
+#include "GraphViewStyle.h"
 
 QtCountCircleItem::QtCountCircleItem(QGraphicsItem* parent)
 	: QtRoundedRectItem(parent)

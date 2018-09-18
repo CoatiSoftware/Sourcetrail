@@ -1,10 +1,10 @@
-#include "utility/scheduling/TaskScheduler.h"
+#include "TaskScheduler.h"
 
 #include <chrono>
 #include <thread>
 
-#include "utility/logging/logging.h"
-#include "utility/ScopedFunctor.h"
+#include "logging.h"
+#include "ScopedFunctor.h"
 
 std::shared_ptr<TaskScheduler> TaskScheduler::getInstance()
 {

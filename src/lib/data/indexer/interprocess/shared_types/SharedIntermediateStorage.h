@@ -4,8 +4,8 @@
 #include <set>
 #include <vector>
 
-#include "data/indexer/interprocess/shared_types/SharedStorageTypes.h"
-#include "utility/interprocess/SharedMemory.h"
+#include "SharedStorageTypes.h"
+#include "SharedMemory.h"
 
 class SharedIntermediateStorage
 {

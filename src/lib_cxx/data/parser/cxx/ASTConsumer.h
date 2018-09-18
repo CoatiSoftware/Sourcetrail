@@ -1,8 +1,8 @@
 #ifndef AST_CONSUMER_H
 #define AST_CONSUMER_H
 
-#include "clang/AST/ASTConsumer.h"
-#include "clang/AST/ASTContext.h"
+#include <clang/AST/ASTConsumer.h>
+#include <clang/AST/ASTContext.h>
 
 class CanonicalFilePathCache;
 class CxxAstVisitor;

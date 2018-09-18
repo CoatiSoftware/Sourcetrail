@@ -1,10 +1,10 @@
 #ifndef MESSAGE_SEARCH_H
 #define MESSAGE_SEARCH_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
-#include "data/NodeTypeSet.h"
-#include "data/search/SearchMatch.h"
+#include "NodeTypeSet.h"
+#include "SearchMatch.h"
 
 class MessageSearch
 	: public Message<MessageSearch>

@@ -3,7 +3,7 @@
 
 #include <QTextCharFormat>
 
-#include "settings/LanguageType.h"
+#include "LanguageType.h"
 
 class QTextBlock;
 class QTextDocument;

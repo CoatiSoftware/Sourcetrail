@@ -6,13 +6,13 @@
 
 #include <QStatusBar>
 
-#include "component/view/MainView.h"
-#include "qt/utility/QtThreadedFunctor.h"
+#include "MainView.h"
+#include "QtThreadedFunctor.h"
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageForceEnterLicense.h"
-#include "utility/messaging/type/MessageProjectEdit.h"
-#include "utility/messaging/type/MessageProjectNew.h"
+#include "MessageListener.h"
+#include "MessageForceEnterLicense.h"
+#include "MessageProjectEdit.h"
+#include "MessageProjectNew.h"
 
 class QtMainWindow;
 class View;

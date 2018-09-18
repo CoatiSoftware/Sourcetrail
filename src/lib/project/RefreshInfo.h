@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 enum RefreshMode
 {

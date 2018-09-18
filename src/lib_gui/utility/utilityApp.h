@@ -5,8 +5,8 @@
 #include <set>
 #include <string>
 
-#include "utility/OsType.h"
-#include "utility/file/FilePath.h"
+#include "OsType.h"
+#include "FilePath.h"
 
 class License;
 

@@ -1,4 +1,4 @@
-#include "qt/element/QtTable.h"
+#include "QtTable.h"
 
 #include <cmath>
 
@@ -8,7 +8,7 @@
 #include <QStyledItemDelegate>
 #include <QLineEdit>
 
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 
 class SelectableCellDelegate : public QStyledItemDelegate

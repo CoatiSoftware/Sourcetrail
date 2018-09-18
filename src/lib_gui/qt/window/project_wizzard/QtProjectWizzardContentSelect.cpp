@@ -1,15 +1,15 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentSelect.h"
+#include "QtProjectWizzardContentSelect.h"
 
 #include <QButtonGroup>
 #include <QMessageBox>
 #include <QLabel>
 #include <QPushButton>
 
-#include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
-#include "qt/utility/QtFlowLayout.h"
-#include "settings/LanguageType.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
+#include "QtProjectWizzardWindow.h"
+#include "QtFlowLayout.h"
+#include "LanguageType.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
 
 QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(
 	QtProjectWizzardWindow* window

@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "utility/file/FilePathFilter.h"
-#include "utility/sonargraph/SonargraphXsdAbstractModule.h"
-#include "utility/sonargraph/SonargraphXsdAbstractSystemExtension.h"
+#include "FilePathFilter.h"
+#include "SonargraphXsdAbstractModule.h"
+#include "SonargraphXsdAbstractSystemExtension.h"
 
 class ApplicationSettings;
 class IndexerCommand;

@@ -1,7 +1,7 @@
 #ifndef MESSAGE_SHOW_STATUS_H
 #define MESSAGE_SHOW_STATUS_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageShowStatus
 	: public Message<MessageShowStatus>

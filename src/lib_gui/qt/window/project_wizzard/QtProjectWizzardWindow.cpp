@@ -1,12 +1,12 @@
-#include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "QtProjectWizzardWindow.h"
 
 #include <QGridLayout>
 #include <QFrame>
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "qt/utility/utilityQt.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "utilityQt.h"
+#include "QtProjectWizzardContent.h"
 
 QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent, bool showSeparator)
 	: QtWindow(false, parent)

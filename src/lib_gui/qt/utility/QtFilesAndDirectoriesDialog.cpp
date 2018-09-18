@@ -1,11 +1,11 @@
-#include "qt/utility/QtFilesAndDirectoriesDialog.h"
+#include "QtFilesAndDirectoriesDialog.h"
 
 #include <QListView>
 #include <QPushButton>
 #include <QEvent>
 
-#include "utility/file/FilePath.h"
-#include "utility/utilityApp.h"
+#include "FilePath.h"
+#include "utilityApp.h"
 
 QtFilesAndDirectoriesDialog::QtFilesAndDirectoriesDialog(QWidget* parent)
 	: QFileDialog(parent)

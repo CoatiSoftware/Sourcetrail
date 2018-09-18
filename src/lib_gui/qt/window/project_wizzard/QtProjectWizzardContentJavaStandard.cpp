@@ -1,9 +1,9 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentJavaStandard.h"
+#include "QtProjectWizzardContentJavaStandard.h"
 
 #include <QComboBox>
 #include <QLabel>
 
-#include "settings/SourceGroupSettingsWithJavaStandard.h"
+#include "SourceGroupSettingsWithJavaStandard.h"
 
 QtProjectWizzardContentJavaStandard::QtProjectWizzardContentJavaStandard(
 	std::shared_ptr<SourceGroupSettingsWithJavaStandard> sourceGroupSettings,

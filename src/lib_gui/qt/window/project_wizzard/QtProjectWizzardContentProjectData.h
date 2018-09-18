@@ -1,8 +1,8 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PROJECT_DATA_H
 #define QT_PROJECT_WIZZARD_CONTENT_PROJECT_DATA_H
 
-#include "qt/element/QtLocationPicker.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "QtLocationPicker.h"
+#include "QtProjectWizzardContent.h"
 
 class ProjectSettings;
 

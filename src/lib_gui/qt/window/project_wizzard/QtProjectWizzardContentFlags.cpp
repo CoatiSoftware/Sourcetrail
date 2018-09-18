@@ -1,10 +1,10 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentFlags.h"
+#include "QtProjectWizzardContentFlags.h"
 
 #include <QFormLayout>
 #include <QMessageBox>
 
-#include "qt/element/QtStringListBox.h"
-#include "settings/SourceGroupSettingsCxx.h"
+#include "QtStringListBox.h"
+#include "SourceGroupSettingsCxx.h"
 
 QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettingsCxx> settings, QtProjectWizzardWindow* window, bool indicateAsAdditional)
 	: QtProjectWizzardContent(window)

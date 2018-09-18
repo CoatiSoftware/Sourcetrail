@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class ConfigManager;
 class ProjectSettings;

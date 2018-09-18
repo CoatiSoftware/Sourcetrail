@@ -1,9 +1,9 @@
-#include "utility/utility.h"
+#include "utility.h"
 
 #include <iomanip>
 #include <sstream>
 
-#include "boost/date_time/time_clock.hpp"
+#include <boost/date_time/time_clock.hpp>
 
 
 ApplicationArchitectureType utility::getApplicationArchitectureType()

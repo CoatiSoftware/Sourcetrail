@@ -1,9 +1,9 @@
-#include "data/indexer/TaskFillIndexerCommandQueue.h"
+#include "TaskFillIndexerCommandQueue.h"
 
-#include "data/indexer/IndexerCommandProvider.h"
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/scheduling/Blackboard.h"
+#include "IndexerCommandProvider.h"
+#include "FileSystem.h"
+#include "logging.h"
+#include "Blackboard.h"
 
 TaskFillIndexerCommandsQueue::TaskFillIndexerCommandsQueue(
 	const std::string& appUUID,

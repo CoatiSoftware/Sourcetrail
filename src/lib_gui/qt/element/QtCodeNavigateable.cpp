@@ -1,10 +1,10 @@
-#include "qt/element/QtCodeNavigateable.h"
+#include "QtCodeNavigateable.h"
 
 #include <QPropertyAnimation>
 #include <QScrollArea>
 #include <QScrollBar>
 
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 QtCodeNavigateable::~QtCodeNavigateable()
 {

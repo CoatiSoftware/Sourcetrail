@@ -1,19 +1,19 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
 #include <fstream>
 #include <iostream>
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "data/parser/java/JavaEnvironmentFactory.h"
-#include "data/parser/java/JavaParser.h"
-#include "helper/DumpParserClient.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/file/FileRegister.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utility.h"
-#include "utility/utilityJava.h"
-#include "utility/utilityPathDetection.h"
-#include "utility/utilityString.h"
+#include "IndexerCommandJava.h"
+#include "JavaEnvironmentFactory.h"
+#include "JavaParser.h"
+#include "DumpParserClient.h"
+#include "ApplicationSettings.h"
+#include "FileRegister.h"
+#include "TextAccess.h"
+#include "utility.h"
+#include "utilityJava.h"
+#include "utilityPathDetection.h"
+#include "utilityString.h"
 
 class JavaIndexSampleProjectsTestSuite : public CxxTest::TestSuite
 {

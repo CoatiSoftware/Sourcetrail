@@ -3,17 +3,17 @@
 
 #include <QWidget>
 
-#include "data/ErrorInfo.h"
-#include "data/location/LocationType.h"
-#include "qt/element/QtCodeFileList.h"
-#include "qt/element/QtCodeFileSingle.h"
-#include "qt/utility/QtThreadedFunctor.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
-#include "utility/messaging/type/MessageCodeReference.h"
-#include "utility/messaging/type/MessageShowReference.h"
-#include "utility/messaging/type/MessageSwitchColorScheme.h"
-#include "utility/messaging/type/MessageWindowFocus.h"
+#include "ErrorInfo.h"
+#include "LocationType.h"
+#include "QtCodeFileList.h"
+#include "QtCodeFileSingle.h"
+#include "QtThreadedFunctor.h"
+#include "MessageListener.h"
+#include "MessageIndexingFinished.h"
+#include "MessageCodeReference.h"
+#include "MessageShowReference.h"
+#include "MessageSwitchColorScheme.h"
+#include "MessageWindowFocus.h"
 
 class QLabel;
 class QPushButton;

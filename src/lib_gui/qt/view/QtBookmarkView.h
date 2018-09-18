@@ -1,11 +1,11 @@
 #ifndef QT_BOOKMARK_VIEW_H
 #define QT_BOOKMARK_VIEW_H
 
-#include "component/controller/BookmarkController.h"
-#include "component/controller/helper/ControllerProxy.h"
-#include "component/view/BookmarkView.h"
+#include "BookmarkController.h"
+#include "ControllerProxy.h"
+#include "BookmarkView.h"
 
-#include "qt/utility/QtThreadedFunctor.h"
+#include "QtThreadedFunctor.h"
 
 class QFrame;
 class QtBookmarkBrowser;

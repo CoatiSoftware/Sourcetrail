@@ -1,8 +1,8 @@
-#include "utility/utilityFile.h"
+#include "utilityFile.h"
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
-#include "utility/utility.h"
+#include "utility.h"
 
 std::vector<FilePath> utility::getTopLevelPaths(const std::vector<FilePath>& paths)
 {

@@ -1,10 +1,10 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "QtProjectWizzardContent.h"
 
 #include <thread>
 
-#include "qt/window/QtTextEditDialog.h"
-#include "utility/utility.h"
-#include "utility/utilityString.h"
+#include "QtTextEditDialog.h"
+#include "utility.h"
+#include "utilityString.h"
 
 QtProjectWizzardContent::QtProjectWizzardContent(QtProjectWizzardWindow* window)
 	: QWidget(window)

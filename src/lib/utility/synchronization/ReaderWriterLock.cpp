@@ -1,4 +1,4 @@
-#include "utility/synchronization/ReaderWriterLock.h"
+#include "ReaderWriterLock.h"
 
 ReaderWriterLock::ReaderWriterLock()
 	: m_readerCount(0)

@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "data/name/NameDelimiterType.h"
-#include "data/name/NameElement.h"
+#include "NameDelimiterType.h"
+#include "NameElement.h"
 
 class NameHierarchy
 {

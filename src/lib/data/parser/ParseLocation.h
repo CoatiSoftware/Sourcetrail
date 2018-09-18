@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "utility/file/FilePath.h"
-#include "utility/types.h"
+#include "FilePath.h"
+#include "types.h"
 
 struct ParseLocation
 {

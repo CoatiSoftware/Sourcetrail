@@ -1,4 +1,4 @@
-#include "component/view/ViewFactory.h"
+#include "ViewFactory.h"
 
 ViewFactory::ViewFactory()
 {

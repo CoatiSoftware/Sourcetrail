@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "utility/messaging/MessageBase.h"
-#include "utility/messaging/MessageQueue.h"
-#include "utility/types.h"
+#include "MessageBase.h"
+#include "MessageQueue.h"
+#include "types.h"
 
 class MessageListenerBase
 {

@@ -4,10 +4,10 @@
 #include <memory>
 #include <string>
 
-#include "component/view/StatusBarView.h"
-#include "data/ErrorCountInfo.h"
-#include "qt/element/QtStatusBar.h"
-#include "qt/utility/QtThreadedFunctor.h"
+#include "StatusBarView.h"
+#include "ErrorCountInfo.h"
+#include "QtStatusBar.h"
+#include "QtThreadedFunctor.h"
 
 class QtStatusBarView
 	: public StatusBarView

@@ -1,6 +1,6 @@
-#include "data/graph/Graph.h"
+#include "Graph.h"
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
 Graph::Graph()
 	: m_trailMode(TRAIL_NONE)

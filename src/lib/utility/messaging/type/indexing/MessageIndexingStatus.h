@@ -1,7 +1,7 @@
 #ifndef MESSAGE_INDEXING_STATUS_H
 #define MESSAGE_INDEXING_STATUS_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageIndexingStatus
 	: public Message<MessageIndexingStatus>

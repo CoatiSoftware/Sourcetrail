@@ -1,6 +1,6 @@
 
 add_files(
-	LIB_JAVA_FILES
+	LIB_JAVA
 
 	data/indexer/IndexerCommandJava.cpp
 	data/indexer/IndexerCommandJava.h

@@ -1,4 +1,4 @@
-#include "utility/ScopedFunctor.h"
+#include "ScopedFunctor.h"
 
 ScopedFunctor::ScopedFunctor()
 	: m_onDestroy([](){})

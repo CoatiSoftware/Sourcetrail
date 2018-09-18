@@ -1,6 +1,6 @@
 #include "LanguagePackageManager.h"
 
-#include "data/indexer/IndexerComposite.h"
+#include "IndexerComposite.h"
 #include "LanguagePackage.h"
 
 std::shared_ptr<LanguagePackageManager> LanguagePackageManager::getInstance()

@@ -1,5 +1,5 @@
 add_files(
-	TEST_FILES
+	TEST
 
 	helper/DumpParserClient.h
 	helper/TestFileRegister.cpp

@@ -1,4 +1,4 @@
-#include "settings/SourceGroupSettingsCppEmpty.h"
+#include "SourceGroupSettingsCppEmpty.h"
 
 SourceGroupSettingsCppEmpty::SourceGroupSettingsCppEmpty(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_CPP_EMPTY, projectSettings)

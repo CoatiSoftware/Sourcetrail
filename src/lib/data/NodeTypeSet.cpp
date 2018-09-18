@@ -1,8 +1,8 @@
-#include "data/NodeTypeSet.h"
+#include "NodeTypeSet.h"
 
-#include "data/NodeType.h"
-#include "utility/utility.h"
-#include "utility/utilityMath.h"
+#include "NodeType.h"
+#include "utility.h"
+#include "utilityMath.h"
 
 NodeTypeSet NodeTypeSet::all()
 {

@@ -1,10 +1,10 @@
-#include "data/TaskCleanStorage.h"
+#include "TaskCleanStorage.h"
 
-#include "component/view/DialogView.h"
-#include "data/storage/PersistentStorage.h"
-#include "utility/file/FilePath.h"
-#include "utility/scheduling/Blackboard.h"
-#include "utility/utility.h"
+#include "DialogView.h"
+#include "PersistentStorage.h"
+#include "FilePath.h"
+#include "Blackboard.h"
+#include "utility.h"
 #include "Application.h"
 
 TaskCleanStorage::TaskCleanStorage(

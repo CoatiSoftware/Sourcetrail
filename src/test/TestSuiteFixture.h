@@ -1,7 +1,7 @@
 #ifndef TEST_SUITE_FIXTURE_H
 #define TEST_SUITE_FIXTURE_H
 
-#include "cxxtest/GlobalFixture.h"
+#include <cxxtest/GlobalFixture.h>
 
 class TestSuiteFixture : public CxxTest::GlobalFixture
 {

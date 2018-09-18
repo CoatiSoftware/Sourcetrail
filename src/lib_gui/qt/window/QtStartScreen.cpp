@@ -1,4 +1,4 @@
-#include "qt/window/QtStartScreen.h"
+#include "QtStartScreen.h"
 
 #include <QCheckBox>
 #include <QLabel>
@@ -7,17 +7,17 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 
-#include "utility/AppPath.h"
-#include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/ResourcePaths.h"
-#include "utility/Version.h"
+#include "AppPath.h"
+#include "MessageLoadProject.h"
+#include "ResourcePaths.h"
+#include "Version.h"
 
 #include "License.h"
 #include "PublicKey.h"
-#include "qt/element/QtUpdateCheckerWidget.h"
-#include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/ProjectSettings.h"
+#include "QtUpdateCheckerWidget.h"
+#include "utilityQt.h"
+#include "ApplicationSettings.h"
+#include "ProjectSettings.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent)
 	: QPushButton(parent)

@@ -5,8 +5,8 @@
 #include <memory>
 #include <deque>
 
-#include "data/graph/Edge.h"
-#include "data/graph/Node.h"
+#include "Edge.h"
+#include "Node.h"
 
 class Graph
 {

@@ -5,9 +5,9 @@
 #include <set>
 #include <vector>
 
-#include "settings/LanguageType.h"
-#include "settings/SourceGroupStatusType.h"
-#include "settings/SourceGroupType.h"
+#include "LanguageType.h"
+#include "SourceGroupStatusType.h"
+#include "SourceGroupType.h"
 
 class IndexerCommand;
 class IndexerCommandProvider;

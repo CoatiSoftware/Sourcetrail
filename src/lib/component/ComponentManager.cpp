@@ -1,13 +1,13 @@
-#include "component/ComponentManager.h"
+#include "ComponentManager.h"
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
-#include "component/controller/Controller.h"
-#include "component/controller/ScreenSearchController.h"
-#include "component/view/CompositeView.h"
-#include "component/view/DialogView.h"
-#include "component/view/TabbedView.h"
-#include "component/view/ViewFactory.h"
+#include "Controller.h"
+#include "ScreenSearchController.h"
+#include "CompositeView.h"
+#include "DialogView.h"
+#include "TabbedView.h"
+#include "ViewFactory.h"
 
 std::shared_ptr<ComponentManager> ComponentManager::create(ViewFactory* viewFactory, StorageAccess* storageAccess)
 {

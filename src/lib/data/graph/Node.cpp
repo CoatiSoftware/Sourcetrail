@@ -1,13 +1,13 @@
-#include "data/graph/Node.h"
+#include "Node.h"
 
 #include <sstream>
 
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "logging.h"
+#include "utilityString.h"
 
-#include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/token_component/TokenComponentConst.h"
-#include "data/graph/token_component/TokenComponentStatic.h"
+#include "TokenComponentAccess.h"
+#include "TokenComponentConst.h"
+#include "TokenComponentStatic.h"
 
 Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, DefinitionKind definitionKind)
 	: Token(id)

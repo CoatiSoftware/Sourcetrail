@@ -3,10 +3,10 @@
 
 #include <QWidget>
 
-#include "component/controller/BookmarkController.h"
-#include "component/controller/helper/ControllerProxy.h"
-#include "qt/window/QtWindow.h"
-#include "utility/types.h"
+#include "BookmarkController.h"
+#include "ControllerProxy.h"
+#include "QtWindow.h"
+#include "types.h"
 
 class BookmarkCategory;
 class QComboBox;

@@ -1,22 +1,22 @@
 #ifndef ERROR_CONTROLLER_H
 #define ERROR_CONTROLLER_H
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/error/MessageActivateErrors.h"
-#include "utility/messaging/type/error/MessageErrorCountClear.h"
-#include "utility/messaging/type/error/MessageErrorCountUpdate.h"
-#include "utility/messaging/type/error/MessageErrorsAll.h"
-#include "utility/messaging/type/error/MessageErrorsForFile.h"
-#include "utility/messaging/type/error/MessageErrorsHelpMessage.h"
-#include "utility/messaging/type/error/MessageShowError.h"
-#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
-#include "utility/messaging/type/indexing/MessageIndexingStarted.h"
-#include "utility/messaging/type/MessageActivateAll.h"
-#include "utility/messaging/type/MessageActivateFullTextSearch.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
+#include "MessageListener.h"
+#include "MessageActivateErrors.h"
+#include "MessageErrorCountClear.h"
+#include "MessageErrorCountUpdate.h"
+#include "MessageErrorsAll.h"
+#include "MessageErrorsForFile.h"
+#include "MessageErrorsHelpMessage.h"
+#include "MessageShowError.h"
+#include "MessageIndexingFinished.h"
+#include "MessageIndexingStarted.h"
+#include "MessageActivateAll.h"
+#include "MessageActivateFullTextSearch.h"
+#include "MessageActivateTokens.h"
 
-#include "component/controller/Controller.h"
-#include "component/view/ErrorView.h"
+#include "Controller.h"
+#include "ErrorView.h"
 
 class StorageAccess;
 

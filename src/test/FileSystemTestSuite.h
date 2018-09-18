@@ -1,12 +1,12 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
 #include <algorithm>
 #include <fstream>
 #include <string>
 #include <vector>
 
-#include "utility/file/FileSystem.h"
-#include "utility/utility.h"
+#include "FileSystem.h"
+#include "utility.h"
 
 class FileSystemTestSuite: public CxxTest::TestSuite
 {

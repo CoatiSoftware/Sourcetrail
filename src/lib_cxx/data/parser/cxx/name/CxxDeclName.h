@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "data/name/NameHierarchy.h"
-#include "data/parser/cxx/name/CxxName.h"
+#include "NameHierarchy.h"
+#include "CxxName.h"
 
 class CxxDeclName: public CxxName
 {

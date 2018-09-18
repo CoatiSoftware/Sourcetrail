@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include "data/indexer/IndexerBase.h"
-#include "data/indexer/IndexerCommand.h"
-#include "utility/logging/logging.h"
+#include "IndexerBase.h"
+#include "IndexerCommand.h"
+#include "logging.h"
 
 template <typename T>
 class Indexer

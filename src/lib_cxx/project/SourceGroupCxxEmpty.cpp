@@ -1,15 +1,15 @@
-#include "project/SourceGroupCxxEmpty.h"
+#include "SourceGroupCxxEmpty.h"
 
-#include "data/indexer/CxxIndexerCommandProvider.h"
-#include "data/indexer/IndexerCommandCxx.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/SourceGroupSettingsCEmpty.h"
-#include "settings/SourceGroupSettingsCppEmpty.h"
-#include "settings/SourceGroupSettingsWithCppStandard.h"
-#include "settings/SourceGroupSettingsWithCStandard.h"
-#include "utility/file/FileManager.h"
-#include "utility/utility.h"
-#include "utility/utilitySourceGroupCxx.h"
+#include "CxxIndexerCommandProvider.h"
+#include "IndexerCommandCxx.h"
+#include "ApplicationSettings.h"
+#include "SourceGroupSettingsCEmpty.h"
+#include "SourceGroupSettingsCppEmpty.h"
+#include "SourceGroupSettingsWithCppStandard.h"
+#include "SourceGroupSettingsWithCStandard.h"
+#include "FileManager.h"
+#include "utility.h"
+#include "utilitySourceGroupCxx.h"
 
 SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxx> settings)
 	: m_settings(settings)

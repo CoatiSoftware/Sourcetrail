@@ -1,9 +1,9 @@
 #ifndef COLOR_SCHEME_H
 #define COLOR_SCHEME_H
 
-#include "data/graph/Edge.h"
-#include "data/graph/Node.h"
-#include "settings/Settings.h"
+#include "Edge.h"
+#include "Node.h"
+#include "Settings.h"
 
 class ColorScheme
 	: public Settings

@@ -3,7 +3,7 @@
 #include <sstream>
 #include <memory>
 
-#include "boost/program_options.hpp"
+#include <boost/program_options.hpp>
 
 #include "Generator.h"
 #include "PrivateKey.h"

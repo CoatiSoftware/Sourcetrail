@@ -1,7 +1,7 @@
-#include "cxxtest/TestSuite.h"
+#include "TestSuite.h"
 
-#include "utility/logging/logging.h"
-#include "utility/math/MatrixDynamicBase.h"
+#include "logging.h"
+#include "MatrixDynamicBase.h"
 
 class MatrixDynamicBaseTestSuite : public CxxTest::TestSuite
 {

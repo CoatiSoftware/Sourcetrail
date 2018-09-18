@@ -1,9 +1,9 @@
-#include "data/name/NameHierarchy.h"
+#include "NameHierarchy.h"
 
 #include <sstream>
 
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "logging.h"
+#include "utilityString.h"
 
 namespace
 {

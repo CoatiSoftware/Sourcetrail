@@ -3,9 +3,9 @@
 
 #include <set>
 
-#include "utility/types.h"
+#include "types.h"
 
-#include "component/view/helper/CodeSnippetParams.h"
+#include "CodeSnippetParams.h"
 
 class FilePath;
 class QRectF;

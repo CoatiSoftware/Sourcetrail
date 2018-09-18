@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
-#include "component/view/UndoRedoView.h"
-#include "qt/element/QtUndoRedo.h"
-#include "qt/utility/QtThreadedFunctor.h"
+#include "UndoRedoView.h"
+#include "QtUndoRedo.h"
+#include "QtThreadedFunctor.h"
 
 class QtUndoRedoView : public UndoRedoView
 {

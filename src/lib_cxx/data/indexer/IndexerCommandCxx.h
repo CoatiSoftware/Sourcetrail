@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "data/indexer/IndexerCommand.h"
+#include "IndexerCommand.h"
 
 class FilePath;
 

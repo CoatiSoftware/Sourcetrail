@@ -1,7 +1,7 @@
 #ifndef MESSAGE_HISTORY_REDO_H
 #define MESSAGE_HISTORY_REDO_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageHistoryRedo
 	: public Message<MessageHistoryRedo>

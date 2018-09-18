@@ -4,16 +4,16 @@
 #include <QLabel>
 #include <QScrollBar>
 
-#include "utility/messaging/type/history/MessageHistoryToPosition.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
+#include "MessageHistoryToPosition.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
 
-#include "qt/utility/QtDeviceScaledPixmap.h"
-#include "qt/utility/utilityQt.h"
+#include "QtDeviceScaledPixmap.h"
+#include "utilityQt.h"
 
-#include "component/view/GraphViewStyle.h"
-#include "data/search/SearchMatch.h"
-#include "settings/ColorScheme.h"
+#include "GraphViewStyle.h"
+#include "SearchMatch.h"
+#include "ColorScheme.h"
 
 QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurrent)
 	: index(index)

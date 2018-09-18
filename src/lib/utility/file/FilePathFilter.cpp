@@ -1,4 +1,4 @@
-#include "utility/file/FilePathFilter.h"
+#include "FilePathFilter.h"
 
 FilePathFilter::FilePathFilter(const std::wstring& filterString)
 	: m_filterString(filterString)

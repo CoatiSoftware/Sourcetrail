@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsWithIndexedHeaderPaths.h"
+#include "SourceGroupSettingsWithIndexedHeaderPaths.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/utility.h"
+#include "ProjectSettings.h"
+#include "utility.h"
 
 SourceGroupSettingsWithIndexedHeaderPaths::SourceGroupSettingsWithIndexedHeaderPaths()
 	: m_indexedHeaderPaths(std::vector<FilePath>())

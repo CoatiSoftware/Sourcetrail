@@ -1,7 +1,7 @@
 #ifndef MESSAGE_FLUSH_UPDATES_H
 #define MESSAGE_FLUSH_UPDATES_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageFlushUpdates:
 	public Message<MessageFlushUpdates>

@@ -5,19 +5,19 @@
 #include <memory>
 #include <sstream>
 
-#include "boost/filesystem.hpp"
-#include "boost/date_time/gregorian/gregorian.hpp"
-#include "botan/pk_keys.h"
-#include "botan/pkcs8.h"
-#include "botan/rsa.h"
-#include "botan/pbkdf.h"
-#include "botan/pubkey.h"
-#include "botan/passhash9.h"
-#include "botan/base64.h"
-#include "botan/auto_rng.h"
+#include <boost/filesystem.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <botan/pk_keys.h>
+#include <botan/pkcs8.h>
+#include <botan/rsa.h>
+#include <botan/pbkdf.h>
+#include <botan/pubkey.h>
+#include <botan/passhash9.h>
+#include <botan/base64.h>
+#include <botan/auto_rng.h>
 
 #include "License.h"
-#include "utility/Version.h"
+#include "Version.h"
 #include "PrivateKey.h"
 #include "PublicKey.h"
 

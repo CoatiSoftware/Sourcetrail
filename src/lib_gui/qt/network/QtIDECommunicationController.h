@@ -5,8 +5,8 @@
 
 #include "QtTcpWrapper.h"
 
-#include "component/controller/IDECommunicationController.h"
-#include "qt/utility/QtThreadedFunctor.h"
+#include "IDECommunicationController.h"
+#include "QtThreadedFunctor.h"
 
 class StorageAccess;
 

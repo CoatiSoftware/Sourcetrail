@@ -1,8 +1,8 @@
 #ifndef MESSAGE_ACTIVATE_TOKEN_IDS_H
 #define MESSAGE_ACTIVATE_TOKEN_IDS_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
+#include "Message.h"
+#include "types.h"
 
 class MessageActivateTokenIds
 	: public Message<MessageActivateTokenIds>

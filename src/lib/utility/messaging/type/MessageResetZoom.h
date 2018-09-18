@@ -1,7 +1,7 @@
 #ifndef MESSAGE_RESET_ZOOM_H
 #define MESSAGE_RESET_ZOOM_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageResetZoom
 	: public Message<MessageResetZoom>

@@ -1,7 +1,7 @@
 #ifndef GRAPH_VIEW_STYLE_IMPL_H
 #define GRAPH_VIEW_STYLE_IMPL_H
 
-#include "data/graph/Node.h"
+#include "Node.h"
 
 class GraphViewStyleImpl
 {

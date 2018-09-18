@@ -1,4 +1,4 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
+#include "QtProjectWizzardContentPreferences.h"
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -8,14 +8,14 @@
 #include <QTextCodec>
 #include <QTimer>
 
-#include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageSwitchColorScheme.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityPathDetection.h"
-#include "utility/utilityApp.h"
-#include "utility/utility.h"
+#include "utilityQt.h"
+#include "ApplicationSettings.h"
+#include "FileSystem.h"
+#include "MessageSwitchColorScheme.h"
+#include "ResourcePaths.h"
+#include "utilityPathDetection.h"
+#include "utilityApp.h"
+#include "utility.h"
 
 QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 	QtProjectWizzardWindow* window

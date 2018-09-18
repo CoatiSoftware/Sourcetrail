@@ -1,15 +1,15 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "data/parser/java/JavaEnvironmentFactory.h"
-#include "data/parser/java/JavaParser.h"
+#include "JavaEnvironmentFactory.h"
+#include "JavaParser.h"
 
-#include "helper/TestParserClient.h"
+#include "TestParserClient.h"
 
-#include "settings/ApplicationSettings.h"
-#include "utility/utilityPathDetection.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utility.h"
-#include "utility/utilityJava.h"
+#include "ApplicationSettings.h"
+#include "utilityPathDetection.h"
+#include "TextAccess.h"
+#include "utility.h"
+#include "utilityJava.h"
 
 class JavaParserTestSuite: public CxxTest::TestSuite
 {

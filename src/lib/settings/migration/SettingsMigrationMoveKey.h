@@ -1,7 +1,7 @@
 #ifndef SETTINGS_MIGRATION_MOVE_KEY_H
 #define SETTINGS_MIGRATION_MOVE_KEY_H
 
-#include "settings/migration/SettingsMigration.h"
+#include "SettingsMigration.h"
 
 class SettingsMigrationMoveKey: public SettingsMigration
 {

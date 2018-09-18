@@ -1,7 +1,7 @@
-#include "settings/SourceGroupSettingsJavaGradle.h"
+#include "SourceGroupSettingsJavaGradle.h"
 
-#include "settings/ProjectSettings.h"
-#include "utility/ConfigManager.h"
+#include "ProjectSettings.h"
+#include "ConfigManager.h"
 
 SourceGroupSettingsJavaGradle::SourceGroupSettingsJavaGradle(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsJava(id, SOURCE_GROUP_JAVA_GRADLE, projectSettings)

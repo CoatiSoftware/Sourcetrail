@@ -1,6 +1,6 @@
-#include "settings/SourceGroupSettingsWithCxxCrossCompilationOptions.h"
+#include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
 
-#include "settings/ProjectSettings.h"
+#include "ProjectSettings.h"
 
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableArchTypes()

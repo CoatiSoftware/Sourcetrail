@@ -1,8 +1,8 @@
 #ifndef MESSAGE_FILTER_SEARCH_AUTOCOMPLETE_H
 #define MESSAGE_FILTER_SEARCH_AUTOCOMPLETE_H
 
-#include "utility/messaging/MessageFilter.h"
-#include "utility/messaging/type/MessageSearchAutocomplete.h"
+#include "MessageFilter.h"
+#include "MessageSearchAutocomplete.h"
 
 class MessageFilterSearchAutocomplete
 	: public MessageFilter

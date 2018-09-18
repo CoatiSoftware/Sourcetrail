@@ -1,7 +1,7 @@
 #ifndef REFRESH_VIEW_H
 #define REFRESH_VIEW_H
 
-#include "component/view/View.h"
+#include "View.h"
 
 class RefreshController;
 

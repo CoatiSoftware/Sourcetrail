@@ -1,24 +1,24 @@
-#include "utility/utilityPathDetection.h"
+#include "utilityPathDetection.h"
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
-#include "utility/path_detector/java_runtime/JavaPathDetectorLinux.h"
-#include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
-#include "utility/path_detector/java_runtime/JavaPathDetectorWindows.h"
+#include "JavaPathDetectorLinux.h"
+#include "JavaPathDetectorMac.h"
+#include "JavaPathDetectorWindows.h"
 
-#include "utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorLinux.h"
-#include "utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.h"
-#include "utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorWindows.h"
+#include "JreSystemLibraryPathDetectorLinux.h"
+#include "JreSystemLibraryPathDetectorMac.h"
+#include "JreSystemLibraryPathDetectorWindows.h"
 
-#include "utility/path_detector/maven_executable/MavenPathDetectorUnix.h"
-#include "utility/path_detector/maven_executable/MavenPathDetectorWindows.h"
+#include "MavenPathDetectorUnix.h"
+#include "MavenPathDetectorWindows.h"
 
-#include "utility/path_detector/cxx_header/CxxFrameworkPathDetector.h"
-#include "utility/path_detector/cxx_header/CxxHeaderPathDetector.h"
-#include "utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.h"
-#include "utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.h"
+#include "CxxFrameworkPathDetector.h"
+#include "CxxHeaderPathDetector.h"
+#include "CxxVs10To14HeaderPathDetector.h"
+#include "CxxVs15HeaderPathDetector.h"
 
-#include "utility/utilityApp.h"
+#include "utilityApp.h"
 
 std::shared_ptr<CombinedPathDetector> utility::getJavaRuntimePathDetector()
 {

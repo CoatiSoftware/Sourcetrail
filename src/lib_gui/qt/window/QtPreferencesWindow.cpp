@@ -1,16 +1,16 @@
-#include "qt/window/QtPreferencesWindow.h"
+#include "QtPreferencesWindow.h"
 
-#include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessagePluginPortChange.h"
-#include "utility/messaging/type/MessageRefresh.h"
-#include "utility/messaging/type/MessageScrollSpeedChange.h"
+#include "MessageLoadProject.h"
+#include "MessagePluginPortChange.h"
+#include "MessageRefresh.h"
+#include "MessageScrollSpeedChange.h"
 
 #include "Application.h"
-#include "component/view/DialogView.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentGroup.h"
-#include "utility/utilityApp.h"
+#include "DialogView.h"
+#include "QtProjectWizzardContentPaths.h"
+#include "QtProjectWizzardContentPreferences.h"
+#include "QtProjectWizzardContentGroup.h"
+#include "utilityApp.h"
 
 QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	: QtProjectWizzardWindow(parent)

@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "utility/scheduling/Task.h"
-#include "utility/TimeStamp.h"
+#include "Task.h"
+#include "TimeStamp.h"
 
 class DialogView;
 class FilePath;

@@ -1,7 +1,7 @@
 #ifndef MAVEN_PATH_DETECTOR_UNIX_H
 #define MAVEN_PATH_DETECTOR_UNIX_H
 
-#include "utility/path_detector/PathDetector.h"
+#include "PathDetector.h"
 
 class MavenPathDetectorUnix: public PathDetector
 {

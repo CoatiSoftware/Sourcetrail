@@ -5,7 +5,7 @@
 #include <set>
 #include <unordered_map>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class FileTree
 {

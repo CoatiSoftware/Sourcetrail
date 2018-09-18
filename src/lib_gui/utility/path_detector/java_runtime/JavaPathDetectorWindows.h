@@ -1,7 +1,7 @@
 #ifndef JAVA_PATH_DETECTOR_WINDOWS_H
 #define JAVA_PATH_DETECTOR_WINDOWS_H
 
-#include "utility/path_detector/java_runtime/JavaPathDetector.h"
+#include "JavaPathDetector.h"
 
 class JavaPathDetectorWindows: public JavaPathDetector
 {

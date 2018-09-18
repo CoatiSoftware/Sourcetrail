@@ -4,7 +4,7 @@
 #include <map>
 #include <memory>
 
-#include "utility/migration/Migration.h"
+#include "Migration.h"
 
 template <typename MigratableType>
 class Migrator

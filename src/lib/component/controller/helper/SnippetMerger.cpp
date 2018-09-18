@@ -1,7 +1,7 @@
-#include "component/controller/helper/SnippetMerger.h"
+#include "SnippetMerger.h"
 
 #include <algorithm>
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 SnippetMerger::SnippetMerger(int startRow, int endRow)
 	: m_start(startRow)

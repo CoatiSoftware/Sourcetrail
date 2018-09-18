@@ -1,9 +1,9 @@
-#include "data/indexer/IndexerCommand.h"
+#include "IndexerCommand.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 std::wstring IndexerCommand::serialize(std::shared_ptr<const IndexerCommand> indexerCommand, bool compact)
 {

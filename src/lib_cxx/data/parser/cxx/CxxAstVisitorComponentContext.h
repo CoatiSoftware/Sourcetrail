@@ -1,8 +1,8 @@
 #ifndef CXX_AST_VISITOR_COMPONENT_CONTEXT_H
 #define CXX_AST_VISITOR_COMPONENT_CONTEXT_H
 
-#include "data/parser/cxx/CxxAstVisitorComponent.h"
-#include "data/parser/cxx/CxxContext.h"
+#include "CxxAstVisitorComponent.h"
+#include "CxxContext.h"
 
 // This CxxAstVisitorComponent is responsible for recording and providing the decl/type that acts as the context of the currently traversed/visited node.
 // Example: void foo() { bar(); }

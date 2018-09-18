@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "settings/ApplicationSettings.h"
+#include "ApplicationSettings.h"
 
 QtIDECommunicationController::QtIDECommunicationController(QObject* parent, StorageAccess* storageAccess)
 	: IDECommunicationController(storageAccess)

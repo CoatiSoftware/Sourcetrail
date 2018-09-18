@@ -3,8 +3,8 @@
 
 #include <QFrame>
 
-#include "component/controller/helper/ControllerProxy.h"
-#include "component/controller/ScreenSearchController.h"
+#include "ControllerProxy.h"
+#include "ScreenSearchController.h"
 
 class QCheckBox;
 class QHBoxLayout;

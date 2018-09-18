@@ -1,10 +1,10 @@
-#include "utility/path_detector/jre_system_library/JreSystemLibraryPathDetector.h"
+#include "JreSystemLibraryPathDetector.h"
 
-#include "utility/path_detector/java_runtime/JavaPathDetector.h"
+#include "JavaPathDetector.h"
 
-#include "settings/ApplicationSettings.h"
-#include "utility/file/FilePath.h"
-#include "utility/file/FileSystem.h"
+#include "ApplicationSettings.h"
+#include "FilePath.h"
+#include "FileSystem.h"
 
 JreSystemLibraryPathDetector::JreSystemLibraryPathDetector(std::shared_ptr<JavaPathDetector> javaPathDetector)
 	: PathDetector("JRE System Library")

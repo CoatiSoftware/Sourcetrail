@@ -1,9 +1,9 @@
-#include "qt/network/QtRequest.h"
+#include "QtRequest.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-#include "utility/logging/logging.h"
+#include "logging.h"
 
 QtRequest::QtRequest()
 {

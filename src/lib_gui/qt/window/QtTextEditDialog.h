@@ -1,7 +1,7 @@
 #ifndef QT_TEXT_EDIT_DIALOG_H
 #define QT_TEXT_EDIT_DIALOG_H
 
-#include "qt/window/QtWindow.h"
+#include "QtWindow.h"
 
 class QPlainTextEdit;
 

@@ -1,7 +1,7 @@
 #ifndef QT_GRAPH_NODE_TEXT_H
 #define QT_GRAPH_NODE_TEXT_H
 
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "QtGraphNode.h"
 
 class QtGraphNodeText
 	: public QtGraphNode

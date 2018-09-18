@@ -6,8 +6,8 @@
 
 #include <clang/Basic/SourceManager.h>
 
-#include "utility/file/FilePath.h"
-#include "utility/file/FileRegister.h"
+#include "FilePath.h"
+#include "FileRegister.h"
 
 class CanonicalFilePathCache
 {

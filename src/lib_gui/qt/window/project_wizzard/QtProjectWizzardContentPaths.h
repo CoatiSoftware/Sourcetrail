@@ -3,9 +3,9 @@
 
 #include <set>
 
-#include "qt/element/QtPathListBox.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
-#include "utility/path_detector/CombinedPathDetector.h"
+#include "QtPathListBox.h"
+#include "QtProjectWizzardContent.h"
+#include "CombinedPathDetector.h"
 
 class IncludeDirective;
 class QCheckBox;

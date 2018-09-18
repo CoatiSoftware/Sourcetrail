@@ -3,8 +3,8 @@
 
 #include <QWidget>
 
-#include "component/view/CompositeView.h"
-#include "qt/utility/QtThreadedFunctor.h"
+#include "CompositeView.h"
+#include "QtThreadedFunctor.h"
 
 class QtCompositeView
 	: public CompositeView

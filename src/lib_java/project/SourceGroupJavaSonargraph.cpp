@@ -1,11 +1,11 @@
-#include "project/SourceGroupJavaSonargraph.h"
+#include "SourceGroupJavaSonargraph.h"
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/SourceGroupSettingsJavaSonargraph.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/sonargraph/SonargraphProject.h"
-#include "utility/utilityJava.h"
+#include "IndexerCommandJava.h"
+#include "ApplicationSettings.h"
+#include "SourceGroupSettingsJavaSonargraph.h"
+#include "MessageStatus.h"
+#include "SonargraphProject.h"
+#include "utilityJava.h"
 #include "Application.h"
 
 SourceGroupJavaSonargraph::SourceGroupJavaSonargraph(std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings)

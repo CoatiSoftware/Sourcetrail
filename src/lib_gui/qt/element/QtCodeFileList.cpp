@@ -1,21 +1,21 @@
-#include "qt/element/QtCodeFileList.h"
+#include "QtCodeFileList.h"
 
 #include <QScrollBar>
 #include <QVBoxLayout>
 #include <QTimer>
 
-#include "utility/file/FilePath.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityApp.h"
-#include "utility/utility.h"
+#include "FilePath.h"
+#include "ResourcePaths.h"
+#include "utilityApp.h"
+#include "utility.h"
 
-#include "data/location/SourceLocationFile.h"
-#include "qt/element/QtCodeFile.h"
-#include "qt/element/QtCodeFileTitleBar.h"
-#include "qt/element/QtCodeNavigator.h"
-#include "qt/element/QtCodeSnippet.h"
-#include "qt/utility/utilityQt.h"
-#include "settings/ColorScheme.h"
+#include "SourceLocationFile.h"
+#include "QtCodeFile.h"
+#include "QtCodeFileTitleBar.h"
+#include "QtCodeNavigator.h"
+#include "QtCodeSnippet.h"
+#include "utilityQt.h"
+#include "ColorScheme.h"
 
 QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	: QFrame()

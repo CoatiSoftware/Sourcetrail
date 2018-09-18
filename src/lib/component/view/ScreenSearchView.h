@@ -1,7 +1,7 @@
 #ifndef SCREEN_SEARCH_VIEW_H
 #define SCREEN_SEARCH_VIEW_H
 
-#include "component/view/View.h"
+#include "View.h"
 
 class ScreenSearchView
 	: public View

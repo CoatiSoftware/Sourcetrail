@@ -1,8 +1,8 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "boost/filesystem.hpp"
+#include <boost/filesystem.hpp>
 
-#include "data/storage/sqlite/SqliteIndexStorage.h"
+#include "SqliteIndexStorage.h"
 
 class SqliteIndexStorageTestSuite: public CxxTest::TestSuite
 {

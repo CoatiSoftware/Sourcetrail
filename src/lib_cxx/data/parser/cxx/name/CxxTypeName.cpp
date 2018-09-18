@@ -1,4 +1,4 @@
-#include "data/parser/cxx/name/CxxTypeName.h"
+#include "CxxTypeName.h"
 
 std::shared_ptr<CxxTypeName> CxxTypeName::makeUnsolvedIfNull(std::shared_ptr<CxxTypeName> name)
 {

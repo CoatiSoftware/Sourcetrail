@@ -1,7 +1,7 @@
 #ifndef QT_PATH_LIST_BOX_ITEM_H
 #define QT_PATH_LIST_BOX_ITEM_H
 
-#include "qt/element/QtListBoxItem.h"
+#include "QtListBoxItem.h"
 
 class QPushButton;
 class QListWidgetItem;

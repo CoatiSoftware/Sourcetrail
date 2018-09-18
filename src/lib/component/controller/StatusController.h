@@ -1,14 +1,14 @@
 #ifndef STATUS_CONTROLLER_H
 #define STATUS_CONTROLLER_H
 
-#include "component/controller/Controller.h"
+#include "Controller.h"
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageClearStatusView.h"
-#include "utility/messaging/type/MessageShowStatus.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/messaging/type/MessageStatusFilterChanged.h"
-#include "utility/Status.h"
+#include "MessageListener.h"
+#include "MessageClearStatusView.h"
+#include "MessageShowStatus.h"
+#include "MessageStatus.h"
+#include "MessageStatusFilterChanged.h"
+#include "Status.h"
 
 class StatusView;
 class StorageAccess;

@@ -1,14 +1,14 @@
-#include "qt/element/QtStatusBar.h"
+#include "QtStatusBar.h"
 
 #include <QHBoxLayout>
 #include <QMovie>
 #include <QProgressBar>
 
-#include "qt/utility/utilityQt.h"
-#include "utility/messaging/type/error/MessageErrorsAll.h"
-#include "utility/messaging/type/indexing/MessageIndexingShowDialog.h"
-#include "utility/messaging/type/MessageShowStatus.h"
-#include "utility/ResourcePaths.h"
+#include "utilityQt.h"
+#include "MessageErrorsAll.h"
+#include "MessageIndexingShowDialog.h"
+#include "MessageShowStatus.h"
+#include "ResourcePaths.h"
 
 QtStatusBar::QtStatusBar()
     : m_text(this)

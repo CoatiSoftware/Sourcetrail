@@ -1,7 +1,7 @@
 #ifndef QT_EULA_LICENSE_H
 #define QT_EULA_LICENSE_H
 
-#include "qt/window/QtWindow.h"
+#include "QtWindow.h"
 
 class QtEulaWindow
 	: public QtWindow

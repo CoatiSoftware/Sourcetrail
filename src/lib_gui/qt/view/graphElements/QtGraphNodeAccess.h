@@ -1,9 +1,9 @@
 #ifndef QT_GRAPH_NODE_ACCESS_H
 #define QT_GRAPH_NODE_ACCESS_H
 
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "QtGraphNode.h"
 
-#include "data/parser/AccessKind.h"
+#include "AccessKind.h"
 
 class QtGraphNodeAccess
 	: public QtGraphNode

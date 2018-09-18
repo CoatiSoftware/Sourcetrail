@@ -1,7 +1,7 @@
 #ifndef STORAGE_SOURCE_LOCATION_H
 #define STORAGE_SOURCE_LOCATION_H
 
-#include "utility/types.h"
+#include "types.h"
 
 struct StorageSourceLocationData
 {

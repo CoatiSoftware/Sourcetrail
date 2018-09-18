@@ -1,7 +1,7 @@
 #ifndef MESSAGE_FIND_H
 #define MESSAGE_FIND_H
 
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageFind
 	: public Message<MessageFind>

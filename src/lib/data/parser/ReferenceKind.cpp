@@ -1,4 +1,4 @@
-#include "data/parser/ReferenceKind.h"
+#include "ReferenceKind.h"
 
 ReferenceKind intToReferenceKind(int v)
 {

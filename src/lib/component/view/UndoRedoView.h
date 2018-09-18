@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "component/view/View.h"
+#include "View.h"
 #include <vector>
 
 class UndoRedoController;

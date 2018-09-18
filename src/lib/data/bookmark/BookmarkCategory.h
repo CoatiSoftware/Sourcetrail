@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "utility/types.h"
+#include "types.h"
 
 class BookmarkCategory
 {

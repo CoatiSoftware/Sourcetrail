@@ -1,11 +1,11 @@
-#include "utility/path_detector/cxx_header/utilityCxxHeaderDetection.h"
+#include "utilityCxxHeaderDetection.h"
 
 #include <QSettings>
 #include <QSysInfo>
 
-#include "utility/file/FileSystem.h"
-#include "utility/utilityApp.h"
-#include "utility/utilityString.h"
+#include "FileSystem.h"
+#include "utilityApp.h"
+#include "utilityString.h"
 
 namespace utility
 {

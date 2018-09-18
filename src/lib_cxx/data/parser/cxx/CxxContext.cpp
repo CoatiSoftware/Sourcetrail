@@ -1,4 +1,4 @@
-#include "data/parser/cxx/CxxContext.h"
+#include "CxxContext.h"
 
 CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl, std::shared_ptr<DeclNameCache> nameCache)
 	: m_decl(decl)

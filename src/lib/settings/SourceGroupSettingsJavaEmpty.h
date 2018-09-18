@@ -1,9 +1,9 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 
-#include "settings/SourceGroupSettingsJava.h"
-#include "settings/SourceGroupSettingsWithClasspath.h"
-#include "settings/SourceGroupSettingsWithSourcePaths.h"
+#include "SourceGroupSettingsJava.h"
+#include "SourceGroupSettingsWithClasspath.h"
+#include "SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsJavaEmpty
 	: public SourceGroupSettingsJava

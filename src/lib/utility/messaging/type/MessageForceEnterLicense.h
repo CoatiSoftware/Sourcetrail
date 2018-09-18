@@ -2,7 +2,7 @@
 #define MESSAGE_FORCE_ENTER_LICENSE_H
 
 #include "LicenseChecker.h"
-#include "utility/messaging/Message.h"
+#include "Message.h"
 
 class MessageForceEnterLicense
 	: public Message<MessageForceEnterLicense>

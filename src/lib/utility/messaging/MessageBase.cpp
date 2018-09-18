@@ -1,3 +1,3 @@
-#include "utility/messaging/MessageBase.h"
+#include "MessageBase.h"
 
 Id MessageBase::s_nextId = 1;

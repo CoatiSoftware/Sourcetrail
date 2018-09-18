@@ -1,4 +1,4 @@
-#include "utility/IncludeDirective.h"
+#include "IncludeDirective.h"
 
 IncludeDirective::IncludeDirective(
 	const FilePath& includedFilePath,

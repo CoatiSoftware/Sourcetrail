@@ -1,18 +1,18 @@
-#include "qt/view/QtBookmarkView.h"
+#include "QtBookmarkView.h"
 
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QPushButton>
 
-#include "qt/element/QtSearchBarButton.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/view/QtMainView.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "qt/window/QtBookmarkBrowser.h"
-#include "qt/window/QtBookmarkCreator.h"
-#include "qt/window/QtMainWindow.h"
-#include "utility/ResourcePaths.h"
+#include "QtSearchBarButton.h"
+#include "utilityQt.h"
+#include "QtMainView.h"
+#include "QtViewWidgetWrapper.h"
+#include "QtBookmarkBrowser.h"
+#include "QtBookmarkCreator.h"
+#include "QtMainWindow.h"
+#include "ResourcePaths.h"
 
 QtBookmarkView::QtBookmarkView(ViewLayout* viewLayout)
 	: BookmarkView(viewLayout)

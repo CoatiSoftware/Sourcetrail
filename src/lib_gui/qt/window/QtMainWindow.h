@@ -7,10 +7,10 @@
 
 #include <QMainWindow>
 
-#include "data/search/SearchMatch.h"
+#include "SearchMatch.h"
 #include "LicenseChecker.h"
-#include "qt/utility/QtWindowsTaskbarButton.h"
-#include "qt/window/QtWindowStack.h"
+#include "QtWindowsTaskbarButton.h"
+#include "QtWindowStack.h"
 
 class Bookmark;
 class QDockWidget;

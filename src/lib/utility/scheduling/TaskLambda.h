@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "utility/scheduling/Task.h"
+#include "Task.h"
 
 class TaskLambda
 	: public Task

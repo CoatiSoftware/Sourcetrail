@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "data/graph/token_component/TokenComponent.h"
+#include "TokenComponent.h"
 
 class TokenComponentAbstraction
 	: public TokenComponent

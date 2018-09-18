@@ -1,4 +1,4 @@
-#include "utility/synchronization/Semaphore.h"
+#include "Semaphore.h"
 
 Semaphore::Semaphore(unsigned int counter)
 	: m_counter(counter)

@@ -1,9 +1,9 @@
-#include "data/TaskMergeStorages.h"
+#include "TaskMergeStorages.h"
 
 #include <chrono>
 #include <thread>
 
-#include "data/storage/StorageProvider.h"
+#include "StorageProvider.h"
 
 TaskMergeStorages::TaskMergeStorages(
 	std::shared_ptr<StorageProvider> storageProvider

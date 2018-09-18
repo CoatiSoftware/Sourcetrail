@@ -1,6 +1,6 @@
 #include <cxxtest/TestSuite.h>
 
-#include "utility/interprocess/SharedMemory.h"
+#include "SharedMemory.h"
 
 class SharedMemoryTestSuite : public CxxTest::TestSuite
 {

@@ -1,14 +1,14 @@
-#include "qt/element/QtPathListBoxItem.h"
+#include "QtPathListBoxItem.h"
 
 #include <QBoxLayout>
 #include <QListWidget>
 #include <QPushButton>
 
-#include "qt/element/QtLineEdit.h"
-#include "qt/element/QtPathListBox.h"
-#include "qt/element/QtIconButton.h"
-#include "qt/utility/QtFileDialog.h"
-#include "utility/ResourcePaths.h"
+#include "QtLineEdit.h"
+#include "QtPathListBox.h"
+#include "QtIconButton.h"
+#include "QtFileDialog.h"
+#include "ResourcePaths.h"
 
 QtPathListBoxItem::QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* item, QWidget *parent)
 	: QtListBoxItem(item, parent)

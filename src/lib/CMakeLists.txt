@@ -1,6 +1,6 @@
 
 add_files(
-	LIB_FILES
+	LIB
 
 	component/controller/helper/BucketLayouter.cpp
 	component/controller/helper/BucketLayouter.h
@@ -424,6 +424,8 @@ add_files(
 	utility/messaging/filter_types/MessageFilterFocusInOut.h
 	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
 
+	utility/messaging/type/activation/MessageActivateLegend.h
+	
 	utility/messaging/type/code/MessageCodeShowDefinition.h
 
 	utility/messaging/type/error/MessageActivateErrors.h

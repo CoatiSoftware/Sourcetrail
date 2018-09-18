@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "data/indexer/IndexerCommandJava.h"
-#include "data/indexer/Indexer.h"
+#include "IndexerCommandJava.h"
+#include "Indexer.h"
 
 class IndexerJava: public Indexer<IndexerCommandJava>
 {

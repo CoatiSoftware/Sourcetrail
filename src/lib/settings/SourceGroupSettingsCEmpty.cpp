@@ -1,4 +1,4 @@
-#include "settings/SourceGroupSettingsCEmpty.h"
+#include "SourceGroupSettingsCEmpty.h"
 
 SourceGroupSettingsCEmpty::SourceGroupSettingsCEmpty(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_C_EMPTY, projectSettings)

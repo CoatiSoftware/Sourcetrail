@@ -7,9 +7,9 @@
 #include <set>
 #include <vector>
 
-#include "utility/file/FilePath.h"
-#include "utility/Tree.h"
-#include "utility/types.h"
+#include "FilePath.h"
+#include "Tree.h"
+#include "types.h"
 
 class NodeType
 {

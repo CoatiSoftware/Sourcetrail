@@ -1,15 +1,15 @@
-#include "data/parser/cxx/PreprocessorCallbacks.h"
+#include "PreprocessorCallbacks.h"
 
 #include <clang/Driver/Util.h>
 #include <clang/Basic/IdentifierTable.h>
 #include <clang/Lex/MacroArgs.h>
 
-#include "data/parser/cxx/CanonicalFilePathCache.h"
-#include "data/parser/cxx/utilityClang.h"
-#include "data/parser/ParserClient.h"
-#include "data/parser/ParseLocation.h"
+#include "CanonicalFilePathCache.h"
+#include "utilityClang.h"
+#include "ParserClient.h"
+#include "ParseLocation.h"
 
-#include "utility/utilityString.h"
+#include "utilityString.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
 	clang::SourceManager& sourceManager,

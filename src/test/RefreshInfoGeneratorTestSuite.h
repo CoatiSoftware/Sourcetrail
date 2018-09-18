@@ -1,13 +1,13 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "data/storage/PersistentStorage.h"
-#include "project/RefreshInfo.h"
-#include "project/RefreshInfoGenerator.h"
-#include "project/SourceGroup.h"
-#include "settings/ProjectSettings.h"
-#include "settings/SourceGroupSettings.h"
-#include "utility/file/FileSystem.h"
-#include "utility/utility.h"
+#include "PersistentStorage.h"
+#include "RefreshInfo.h"
+#include "RefreshInfoGenerator.h"
+#include "SourceGroup.h"
+#include "ProjectSettings.h"
+#include "SourceGroupSettings.h"
+#include "FileSystem.h"
+#include "utility.h"
 
 class RefreshInfoGeneratorTestSuite: public CxxTest::TestSuite
 {

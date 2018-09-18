@@ -1,7 +1,7 @@
 #ifndef LICENSE_CHECKER_H
 #define LICENSE_CHECKER_H
 
-#include "utility/messaging/type/MessageEnteredLicense.h"
+#include "MessageEnteredLicense.h"
 
 class License;
 

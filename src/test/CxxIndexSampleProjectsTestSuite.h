@@ -1,16 +1,16 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
 #include <fstream>
 #include <iostream>
 
-#include "data/indexer/IndexerCommandCxx.h"
-#include "data/parser/cxx/CxxParser.h"
-#include "helper/DumpParserClient.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/file/FileRegister.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utility.h"
-#include "utility/utilityString.h"
+#include "IndexerCommandCxx.h"
+#include "CxxParser.h"
+#include "DumpParserClient.h"
+#include "ApplicationSettings.h"
+#include "FileRegister.h"
+#include "TextAccess.h"
+#include "utility.h"
+#include "utilityString.h"
 
 class CxxIndexSampleProjectsTestSuite : public CxxTest::TestSuite
 {

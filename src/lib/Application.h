@@ -3,16 +3,16 @@
 
 #include <memory>
 
-#include "component/ComponentManager.h"
-#include "project/Project.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/indexing/MessageIndexingFinished.h"
-#include "utility/messaging/type/MessageActivateWindow.h"
-#include "utility/messaging/type/MessageEnteredLicense.h"
-#include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageRefresh.h"
-#include "utility/messaging/type/MessageSwitchColorScheme.h"
-#include "utility/messaging/type/MessageWindowFocus.h"
+#include "ComponentManager.h"
+#include "Project.h"
+#include "MessageListener.h"
+#include "MessageIndexingFinished.h"
+#include "MessageActivateWindow.h"
+#include "MessageEnteredLicense.h"
+#include "MessageLoadProject.h"
+#include "MessageRefresh.h"
+#include "MessageSwitchColorScheme.h"
+#include "MessageWindowFocus.h"
 
 class Bookmark;
 class DialogView;

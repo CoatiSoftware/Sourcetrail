@@ -4,9 +4,9 @@
 #include <map>
 #include <set>
 
-#include "utility/types.h"
+#include "types.h"
 
-#include "data/graph/token_component/TokenComponent.h"
+#include "TokenComponent.h"
 
 class TokenComponentAggregation
 	: public TokenComponent

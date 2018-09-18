@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "data/access/StorageAccessProxy.h"
+#include "StorageAccessProxy.h"
 
 class StorageCache
 	: public StorageAccessProxy

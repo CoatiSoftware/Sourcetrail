@@ -1,6 +1,6 @@
 #include <cxxtest/TestSuite.h>
 
-#include "component/controller/helper/NetworkProtocolHelper.h"
+#include "NetworkProtocolHelper.h"
 
 class NetworkProtocolHelperTestSuite : public CxxTest::TestSuite
 {

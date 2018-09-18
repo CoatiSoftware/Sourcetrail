@@ -1,11 +1,11 @@
-#include "utility/sonargraph/SonargraphXsdRootPathWithFiles.h"
+#include "SonargraphXsdRootPathWithFiles.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
-#include "utility/sonargraph/utilitySonargraph.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
-#include "utility/utilityXml.h"
+#include "utilitySonargraph.h"
+#include "logging.h"
+#include "utilityString.h"
+#include "utilityXml.h"
 
 namespace Sonargraph
 {

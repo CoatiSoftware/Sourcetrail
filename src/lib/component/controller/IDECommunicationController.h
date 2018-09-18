@@ -3,14 +3,14 @@
 
 #include <string>
 
-#include "component/controller/Controller.h"
-#include "component/controller/helper/NetworkProtocolHelper.h"
+#include "Controller.h"
+#include "NetworkProtocolHelper.h"
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageWindowFocus.h"
-#include "utility/messaging/type/MessageIDECreateCDB.h"
-#include "utility/messaging/type/MessageMoveIDECursor.h"
-#include "utility/messaging/type/MessagePluginPortChange.h"
+#include "MessageListener.h"
+#include "MessageWindowFocus.h"
+#include "MessageIDECreateCDB.h"
+#include "MessageMoveIDECursor.h"
+#include "MessagePluginPortChange.h"
 
 class StorageAccess;
 

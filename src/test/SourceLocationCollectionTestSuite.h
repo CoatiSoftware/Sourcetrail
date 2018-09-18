@@ -1,8 +1,8 @@
-#include "cxxtest/TestSuite.h"
+#include <cxxtest/TestSuite.h>
 
-#include "data/location/SourceLocation.h"
-#include "data/location/SourceLocationCollection.h"
-#include "data/location/SourceLocationFile.h"
+#include "SourceLocation.h"
+#include "SourceLocationCollection.h"
+#include "SourceLocationFile.h"
 
 class SourceLocationCollectionTestSuite : public CxxTest::TestSuite
 {

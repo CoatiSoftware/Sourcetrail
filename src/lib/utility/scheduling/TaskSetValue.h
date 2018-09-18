@@ -1,8 +1,8 @@
 #ifndef TASK_SET_VALUE_H
 #define TASK_SET_VALUE_H
 
-#include "utility/scheduling/Task.h"
-#include "utility/scheduling/Blackboard.h"
+#include "Task.h"
+#include "Blackboard.h"
 
 template <typename T>
 class TaskSetValue:

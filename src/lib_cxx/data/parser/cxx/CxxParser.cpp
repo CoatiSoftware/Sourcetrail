@@ -1,4 +1,4 @@
-#include "data/parser/cxx/CxxParser.h"
+#include "CxxParser.h"
 
 #include <clang/Driver/Compilation.h>
 #include <clang/Driver/Driver.h>
@@ -8,18 +8,18 @@
 #include <llvm/Option/ArgList.h>
 #include <llvm/Support/TargetSelect.h>
 
-#include "data/indexer/IndexerCommandCxx.h"
-#include "data/parser/cxx/ASTActionFactory.h"
-#include "data/parser/cxx/CanonicalFilePathCache.h"
-#include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
-#include "data/parser/cxx/CxxDiagnosticConsumer.h"
-#include "utility/file/FilePath.h"
-#include "utility/file/FileRegister.h"
-#include "utility/logging/logging.h"
-#include "utility/text/TextAccess.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
-#include "utility/utility.h"
+#include "IndexerCommandCxx.h"
+#include "ASTActionFactory.h"
+#include "CanonicalFilePathCache.h"
+#include "CxxCompilationDatabaseSingle.h"
+#include "CxxDiagnosticConsumer.h"
+#include "FilePath.h"
+#include "FileRegister.h"
+#include "logging.h"
+#include "TextAccess.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
+#include "utility.h"
 
 namespace
 {

@@ -1,13 +1,13 @@
-#include "data/access/StorageAccessProxy.h"
+#include "StorageAccessProxy.h"
 
-#include "data/graph/Graph.h"
-#include "data/location/SourceLocationCollection.h"
-#include "data/location/SourceLocationFile.h"
-#include "data/NodeTypeSet.h"
+#include "Graph.h"
+#include "SourceLocationCollection.h"
+#include "SourceLocationFile.h"
+#include "NodeTypeSet.h"
 
-#include "utility/file/FileInfo.h"
-#include "utility/file/FilePath.h"
-#include "utility/logging/logging.h"
+#include "FileInfo.h"
+#include "FilePath.h"
+#include "logging.h"
 
 void StorageAccessProxy::setSubject(std::weak_ptr<StorageAccess> subject)
 {

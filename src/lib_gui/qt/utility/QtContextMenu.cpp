@@ -1,4 +1,4 @@
-#include "qt/utility/QtContextMenu.h"
+#include "QtContextMenu.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -6,9 +6,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/history/MessageHistoryRedo.h"
-#include "utility/messaging/type/history/MessageHistoryUndo.h"
+#include "logging.h"
+#include "MessageHistoryRedo.h"
+#include "MessageHistoryUndo.h"
 
 QtContextMenu* QtContextMenu::s_instance;
 

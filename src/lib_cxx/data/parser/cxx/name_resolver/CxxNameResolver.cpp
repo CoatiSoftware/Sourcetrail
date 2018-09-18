@@ -1,4 +1,4 @@
-#include "data/parser/cxx/name_resolver/CxxNameResolver.h"
+#include "CxxNameResolver.h"
 
 CxxNameResolver::CxxNameResolver(
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,

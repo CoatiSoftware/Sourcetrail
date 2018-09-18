@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "data/indexer/IndexerCommandType.h"
+#include "IndexerCommandType.h"
 
 class FileRegister;
 class IndexerCommand;

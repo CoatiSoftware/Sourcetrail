@@ -3,11 +3,11 @@
 #include <chrono>
 #include <thread>
 
-#include "utility/scheduling/Blackboard.h"
-#include "utility/scheduling/Task.h"
-#include "utility/scheduling/TaskGroupSelector.h"
-#include "utility/scheduling/TaskGroupSequence.h"
-#include "utility/scheduling/TaskScheduler.h"
+#include "Blackboard.h"
+#include "Task.h"
+#include "TaskGroupSelector.h"
+#include "TaskGroupSequence.h"
+#include "TaskScheduler.h"
 
 class TaskSchedulerTestSuite: public CxxTest::TestSuite
 {

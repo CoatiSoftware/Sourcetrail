@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "utility/math/Vector2.h"
-#include "utility/types.h"
+#include "Vector2.h"
+#include "types.h"
 
 class SourceLocationFile;
 

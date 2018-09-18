@@ -1,17 +1,17 @@
-#include "data/indexer/TaskBuildIndex.h"
+#include "TaskBuildIndex.h"
 
-#include "utility/AppPath.h"
-#include "utility/logging/FileLogger.h"
-#include "utility/messaging/type/indexing/MessageIndexingStatus.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/scheduling/Blackboard.h"
-#include "utility/TimeStamp.h"
-#include "utility/UserPaths.h"
-#include "utility/utilityApp.h"
+#include "AppPath.h"
+#include "FileLogger.h"
+#include "MessageIndexingStatus.h"
+#include "MessageStatus.h"
+#include "Blackboard.h"
+#include "TimeStamp.h"
+#include "UserPaths.h"
+#include "utilityApp.h"
 
-#include "component/view/DialogView.h"
-#include "data/indexer/interprocess/InterprocessIndexer.h"
-#include "data/storage/StorageProvider.h"
+#include "DialogView.h"
+#include "InterprocessIndexer.h"
+#include "StorageProvider.h"
 
 #if _WIN32
 const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer.exe");

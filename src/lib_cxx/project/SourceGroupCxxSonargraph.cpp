@@ -1,13 +1,13 @@
-#include "project/SourceGroupCxxSonargraph.h"
+#include "SourceGroupCxxSonargraph.h"
 
-#include "data/indexer/CxxIndexerCommandProvider.h"
-#include "data/indexer/IndexerCommandCxx.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/SourceGroupSettingsCxxSonargraph.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/sonargraph/SonargraphProject.h"
-#include "utility/utility.h"
-#include "utility/utilitySourceGroupCxx.h"
+#include "CxxIndexerCommandProvider.h"
+#include "IndexerCommandCxx.h"
+#include "ApplicationSettings.h"
+#include "SourceGroupSettingsCxxSonargraph.h"
+#include "MessageStatus.h"
+#include "SonargraphProject.h"
+#include "utility.h"
+#include "utilitySourceGroupCxx.h"
 #include "Application.h"
 
 SourceGroupCxxSonargraph::SourceGroupCxxSonargraph(std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings)

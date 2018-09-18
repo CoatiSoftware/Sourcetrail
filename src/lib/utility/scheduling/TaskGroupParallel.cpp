@@ -1,9 +1,9 @@
-#include "utility/scheduling/TaskGroupParallel.h"
+#include "TaskGroupParallel.h"
 
 #include <chrono>
 #include <thread>
 
-#include "utility/ScopedFunctor.h"
+#include "ScopedFunctor.h"
 
 TaskGroupParallel::TaskGroupParallel()
 	: m_needsToStartThreads(true)

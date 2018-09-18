@@ -3,8 +3,8 @@
 
 #include <set>
 
-#include "qt/window/project_wizzard/QtProjectWizzardContent.h"
-#include "utility/SingleValueCache.h"
+#include "QtProjectWizzardContent.h"
+#include "SingleValueCache.h"
 
 class QCheckBox;
 class QComboBox;

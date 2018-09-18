@@ -1,4 +1,4 @@
-#include "data/GroupType.h"
+#include "GroupType.h"
 
 std::wstring groupTypeToString(GroupType type)
 {

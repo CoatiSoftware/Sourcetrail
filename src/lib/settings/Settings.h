@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 
-#include "utility/ConfigManager.h"
-#include "utility/file/FilePath.h"
+#include "ConfigManager.h"
+#include "FilePath.h"
 
 class SettingsMigration;
 

@@ -1,4 +1,4 @@
-#include "data/indexer/IndexerBase.h"
+#include "IndexerBase.h"
 
 IndexerBase::IndexerBase()
 	: m_interrupted(false)

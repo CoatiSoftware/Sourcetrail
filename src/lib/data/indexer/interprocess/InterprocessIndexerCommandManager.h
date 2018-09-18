@@ -2,7 +2,7 @@
 #define INTERPROCESS_INDEXER_COMMAND_MANAGER_H
 
 #include "BaseInterprocessDataManager.h"
-#include "shared_types/SharedIndexerCommand.h"
+#include "SharedIndexerCommand.h"
 
 class IndexerCommand;
 

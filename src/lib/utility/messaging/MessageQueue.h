@@ -6,7 +6,7 @@
 #include <mutex>
 #include <vector>
 
-#include "utility/types.h"
+#include "types.h"
 
 class MessageBase;
 class MessageFilter;

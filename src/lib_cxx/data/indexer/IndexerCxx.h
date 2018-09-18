@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "data/indexer/IndexerCommandCxx.h"
-#include "data/indexer/Indexer.h"
+#include "IndexerCommandCxx.h"
+#include "Indexer.h"
 
 class IndexerCxx: public Indexer<IndexerCommandCxx>
 {

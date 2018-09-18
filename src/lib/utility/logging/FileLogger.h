@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "utility/file/FilePath.h"
-#include "utility/logging/Logger.h"
-#include "utility/logging/LogMessage.h"
+#include "FilePath.h"
+#include "Logger.h"
+#include "LogMessage.h"
 
 class FileLogger: public Logger
 {

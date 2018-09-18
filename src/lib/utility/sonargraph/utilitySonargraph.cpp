@@ -1,6 +1,6 @@
-#include "utility/sonargraph/utilitySonargraph.h"
+#include "utilitySonargraph.h"
 
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
 namespace utility
 {

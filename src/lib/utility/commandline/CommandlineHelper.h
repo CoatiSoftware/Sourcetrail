@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "utility/utilityString.h"
-#include "utility/utility.h"
+#include "utilityString.h"
+#include "utility.h"
 
 namespace boost {
 namespace program_options {

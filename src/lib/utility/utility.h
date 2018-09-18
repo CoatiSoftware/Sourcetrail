@@ -10,13 +10,13 @@
 #include <vector>
 #include <unordered_set>
 
-#include "boost/date_time/posix_time/posix_time.hpp"
+#include <boost/date_time/posix_time/posix_time.hpp>
 
-#include "utility/ApplicationArchitectureType.h"
-#include "utility/file/FilePath.h"
-#include "utility/math/Vector2.h"
-#include "utility/TimeStamp.h"
-#include "utility/utilityString.h"
+#include "ApplicationArchitectureType.h"
+#include "FilePath.h"
+#include "Vector2.h"
+#include "TimeStamp.h"
+#include "utilityString.h"
 
 namespace utility
 {

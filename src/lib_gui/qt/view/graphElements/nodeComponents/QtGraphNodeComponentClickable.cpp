@@ -2,7 +2,7 @@
 
 #include <QGraphicsSceneEvent>
 
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "QtGraphNode.h"
 
 QtGraphNodeComponentClickable::QtGraphNodeComponentClickable(QtGraphNode* graphNode)
 	: QtGraphNodeComponent(graphNode)

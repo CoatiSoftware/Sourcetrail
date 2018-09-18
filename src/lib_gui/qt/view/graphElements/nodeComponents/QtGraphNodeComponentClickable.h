@@ -3,7 +3,7 @@
 
 #include "QtGraphNodeComponent.h"
 
-#include "utility/math/Vector2.h"
+#include "Vector2.h"
 
 class QtGraphNodeComponentClickable
 	: public QtGraphNodeComponent

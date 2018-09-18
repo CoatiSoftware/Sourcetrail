@@ -8,7 +8,7 @@
 #include <QLabel>
 #include <QStatusBar>
 
-#include "data/ErrorCountInfo.h"
+#include "ErrorCountInfo.h"
 
 class QProgressBar;
 

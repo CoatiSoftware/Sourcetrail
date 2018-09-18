@@ -4,12 +4,12 @@
 #include <memory>
 #include <set>
 
-#include "clang/Basic/SourceManager.h"
-#include "clang/Lex/MacroInfo.h"
-#include "clang/Lex/PPCallbacks.h"
-#include "clang/Lex/Token.h"
+#include <clang/Basic/SourceManager.h>
+#include <clang/Lex/MacroInfo.h>
+#include <clang/Lex/PPCallbacks.h>
+#include <clang/Lex/Token.h>
 
-#include "utility/file/FilePath.h"
+#include "FilePath.h"
 
 class CanonicalFilePathCache;
 class ParserClient;

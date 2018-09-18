@@ -4,7 +4,7 @@
 #include <QGraphicsPolygonItem>
 #include <QGraphicsRectItem>
 
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "QtGraphNode.h"
 
 class QtGraphNodeQualifier
 	: public QtGraphNode

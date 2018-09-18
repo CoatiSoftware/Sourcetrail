@@ -1,4 +1,4 @@
-#include "qt/element/QtLineEdit.h"
+#include "QtLineEdit.h"
 
 QtLineEdit::QtLineEdit(QWidget* parent)
 	: QLineEdit(parent)

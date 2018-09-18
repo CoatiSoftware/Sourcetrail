@@ -1,4 +1,4 @@
-#include "data/parser/ParseLocation.h"
+#include "ParseLocation.h"
 
 ParseLocation::ParseLocation()
 	: filePath(L"")

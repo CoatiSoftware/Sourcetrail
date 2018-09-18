@@ -1,6 +1,6 @@
-#include "component/view/CodeView.h"
+#include "CodeView.h"
 
-#include "component/controller/CodeController.h"
+#include "CodeController.h"
 
 const char* CodeView::VIEW_NAME = "Code";
 

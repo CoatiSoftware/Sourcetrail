@@ -1,4 +1,4 @@
-#include "data/access/StorageAccess.h"
+#include "StorageAccess.h"
 
 std::pair<std::vector<Id>, std::vector<SearchMatch>> StorageAccess::getNodeIdsAndSearchMatchesForNameHierarchies(
 	const std::vector<NameHierarchy> nameHierarchies) const

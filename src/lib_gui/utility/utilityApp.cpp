@@ -1,4 +1,4 @@
-#include "utility/utilityApp.h"
+#include "utilityApp.h"
 
 #include <QProcess>
 #include <QSysInfo>
@@ -6,11 +6,11 @@
 #include <qprocessordetection.h>
 
 #include "License.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/logging/logging.h"
-#include "utility/AppPath.h"
-#include "utility/UserPaths.h"
-#include "utility/utilityString.h"
+#include "ApplicationSettings.h"
+#include "logging.h"
+#include "AppPath.h"
+#include "UserPaths.h"
+#include "utilityString.h"
 
 namespace utility
 {

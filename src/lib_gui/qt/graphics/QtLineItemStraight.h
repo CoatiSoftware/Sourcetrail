@@ -3,7 +3,7 @@
 
 #include <QGraphicsItem>
 
-#include "component/view/GraphViewStyle.h"
+#include "GraphViewStyle.h"
 
 class QtLineItemStraight
 	: public QGraphicsLineItem

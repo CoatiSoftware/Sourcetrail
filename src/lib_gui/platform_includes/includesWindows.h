@@ -7,11 +7,11 @@
 
 #include "vld.h"
 
-#include "utility/file/FileSystem.h"
-#include "utility/AppPath.h"
-#include "utility/ResourcePaths.h"
-#include "utility/UserPaths.h"
-#include "utility/utility.h"
+#include "FileSystem.h"
+#include "AppPath.h"
+#include "ResourcePaths.h"
+#include "UserPaths.h"
+#include "utility.h"
 
 void setupPlatform(int argc, char *argv[])
 {

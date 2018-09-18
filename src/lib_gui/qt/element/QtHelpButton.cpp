@@ -1,8 +1,8 @@
-#include "qt/element/QtHelpButton.h"
+#include "QtHelpButton.h"
 
 #include <QMessageBox>
 
-#include "utility/ResourcePaths.h"
+#include "ResourcePaths.h"
 
 QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QWidget* parent)
 	: QtIconButton(

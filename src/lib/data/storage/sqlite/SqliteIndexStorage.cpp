@@ -1,14 +1,14 @@
-#include "data/storage/sqlite/SqliteIndexStorage.h"
+#include "SqliteIndexStorage.h"
 
 #include <unordered_map>
 
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utilityString.h"
+#include "FileSystem.h"
+#include "logging.h"
+#include "TextAccess.h"
+#include "utilityString.h"
 
-#include "data/location/SourceLocationCollection.h"
-#include "data/location/SourceLocationFile.h"
+#include "SourceLocationCollection.h"
+#include "SourceLocationFile.h"
 
 const size_t SqliteIndexStorage::s_storageVersion = 19;
 

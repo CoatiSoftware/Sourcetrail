@@ -1,8 +1,8 @@
 #ifndef SONARGRAPH_XSD_CMAKE_JSON_MODULE_H
 #define SONARGRAPH_XSD_CMAKE_JSON_MODULE_H
 
-#include "utility/sonargraph/SonargraphXsdAbstractModule.h"
-#include "utility/sonargraph/SonargraphXsdRootPathWithFiles.h"
+#include "SonargraphXsdAbstractModule.h"
+#include "SonargraphXsdRootPathWithFiles.h"
 
 namespace Sonargraph
 {

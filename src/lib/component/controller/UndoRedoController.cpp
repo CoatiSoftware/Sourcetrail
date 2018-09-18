@@ -1,13 +1,13 @@
-#include "component/controller/UndoRedoController.h"
+#include "UndoRedoController.h"
 
-#include "utility/messaging/type/MessageFlushUpdates.h"
-#include "utility/messaging/type/MessageSearch.h"
-#include "utility/utility.h"
+#include "MessageFlushUpdates.h"
+#include "MessageSearch.h"
+#include "utility.h"
 
 #include "Application.h"
-#include "component/view/UndoRedoView.h"
-#include "data/access/StorageAccess.h"
-#include "project/Project.h"
+#include "UndoRedoView.h"
+#include "StorageAccess.h"
+#include "Project.h"
 
 UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

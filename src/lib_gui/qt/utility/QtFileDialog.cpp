@@ -1,12 +1,12 @@
-#include "qt/utility/QtFileDialog.h"
+#include "QtFileDialog.h"
 
 #include <QFileDialog>
 #include <QListView>
 #include <QTreeView>
 
-#include "qt/utility/QtFilesAndDirectoriesDialog.h"
-#include "utility/file/FilePath.h"
-#include "utility/utilityApp.h"
+#include "QtFilesAndDirectoriesDialog.h"
+#include "FilePath.h"
+#include "utilityApp.h"
 
 QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const FilePath& path)
 {

@@ -1,11 +1,11 @@
-#include "qt/window/QtEulaWindow.h"
+#include "QtEulaWindow.h"
 
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QLabel>
 
-#include "utility/ResourcePaths.h"
-#include "utility/text/TextAccess.h"
+#include "ResourcePaths.h"
+#include "TextAccess.h"
 
 QtEulaWindow::QtEulaWindow(QWidget *parent, bool forceAccept)
 	: QtWindow(false, parent)

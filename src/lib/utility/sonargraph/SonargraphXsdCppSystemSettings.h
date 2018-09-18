@@ -4,8 +4,8 @@
 #include <map>
 #include <vector>
 
-#include "utility/sonargraph/SonargraphXsdAbstractSystemExtension.h"
-#include "utility/types.h"
+#include "SonargraphXsdAbstractSystemExtension.h"
+#include "types.h"
 
 namespace Sonargraph
 {

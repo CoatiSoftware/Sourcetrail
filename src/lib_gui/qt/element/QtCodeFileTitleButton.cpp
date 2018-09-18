@@ -1,15 +1,15 @@
-#include "qt/element/QtCodeFileTitleButton.h"
+#include "QtCodeFileTitleButton.h"
 
-#include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageActivateFile.h"
-#include "utility/messaging/type/MessageProjectEdit.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
+#include "FileSystem.h"
+#include "MessageActivateFile.h"
+#include "MessageProjectEdit.h"
+#include "ResourcePaths.h"
+#include "utilityString.h"
 
 #include "Application.h"
-#include "project/Project.h"
-#include "qt/utility/QtContextMenu.h"
-#include "settings/ColorScheme.h"
+#include "Project.h"
+#include "QtContextMenu.h"
+#include "ColorScheme.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QtSelfRefreshIconButton("", FilePath(), "code/file/title", parent)

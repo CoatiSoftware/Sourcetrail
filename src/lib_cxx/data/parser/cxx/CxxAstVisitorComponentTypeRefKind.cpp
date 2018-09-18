@@ -1,4 +1,4 @@
-#include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
+#include "CxxAstVisitorComponentTypeRefKind.h"
 
 CxxAstVisitorComponentTypeRefKind::CxxAstVisitorComponentTypeRefKind(CxxAstVisitor* astVisitor)
 	: CxxAstVisitorComponent(astVisitor)

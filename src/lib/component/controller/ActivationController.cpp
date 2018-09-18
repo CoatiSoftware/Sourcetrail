@@ -1,18 +1,18 @@
-#include "component/controller/ActivationController.h"
+#include "ActivationController.h"
 
-#include "data/access/StorageAccess.h"
-#include "settings/ApplicationSettings.h"
+#include "StorageAccess.h"
+#include "ApplicationSettings.h"
 
-#include "utility/messaging/type/activation/MessageActivateLegend.h"
-#include "utility/messaging/type/error/MessageErrorsAll.h"
-#include "utility/messaging/type/MessageActivateAll.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageChangeFileView.h"
-#include "utility/messaging/type/MessageFlushUpdates.h"
-#include "utility/messaging/type/MessageRefresh.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/messaging/type/MessageScrollToLine.h"
-#include "utility/utility.h"
+#include "MessageActivateLegend.h"
+#include "MessageErrorsAll.h"
+#include "MessageActivateAll.h"
+#include "MessageActivateTokens.h"
+#include "MessageChangeFileView.h"
+#include "MessageFlushUpdates.h"
+#include "MessageRefresh.h"
+#include "MessageStatus.h"
+#include "MessageScrollToLine.h"
+#include "utility.h"
 
 ActivationController::ActivationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

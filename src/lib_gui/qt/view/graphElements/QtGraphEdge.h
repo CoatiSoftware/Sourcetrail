@@ -5,10 +5,10 @@
 
 #include <QGraphicsItem>
 
-#include "utility/math/Vector2.h"
-#include "utility/math/Vector4.h"
+#include "Vector2.h"
+#include "Vector4.h"
 
-#include "data/graph/token_component/TokenComponentAggregation.h"
+#include "TokenComponentAggregation.h"
 
 class Edge;
 class QtGraphNode;
