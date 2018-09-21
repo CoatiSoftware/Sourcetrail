@@ -53,54 +53,72 @@
 #define LOG_INFO_STREAM(__s__) \
 	do \
 	{ \
-		std::stringstream __ss__; \
-		__ss__ __s__; \
-		LogManager::getInstance()->logInfo(__ss__.str(), __FILE__, __FUNCTION__, __LINE__); \
+		if (LogManager::getInstance()->getLoggingEnabled()) \
+		{ \
+			std::stringstream __ss__; \
+			__ss__ __s__; \
+			LogManager::getInstance()->logInfo(__ss__.str(), __FILE__, __FUNCTION__, __LINE__); \
+		} \
 	} \
 	while(0)
 
 #define LOG_WARNING_STREAM(__s__) \
 	do \
 	{ \
-		std::stringstream __ss__; \
-		__ss__ __s__; \
-		LogManager::getInstance()->logWarning(__ss__.str(), __FILE__, __FUNCTION__, __LINE__); \
+		if (LogManager::getInstance()->getLoggingEnabled()) \
+		{ \
+			std::stringstream __ss__; \
+			__ss__ __s__; \
+			LogManager::getInstance()->logWarning(__ss__.str(), __FILE__, __FUNCTION__, __LINE__); \
+		} \
 	} \
 	while(0)
 
 #define LOG_ERROR_STREAM(__s__) \
 	do \
 	{ \
-		std::stringstream __ss__; \
-		__ss__ __s__; \
-		LogManager::getInstance()->logError(__ss__.str(), __FILE__, __FUNCTION__, __LINE__); \
+		if (LogManager::getInstance()->getLoggingEnabled()) \
+		{ \
+			std::stringstream __ss__; \
+			__ss__ __s__; \
+			LogManager::getInstance()->logError(__ss__.str(), __FILE__, __FUNCTION__, __LINE__); \
+		} \
 	} \
 	while(0)
 
 #define LOG_INFO_STREAM_BARE(__s__) \
 	do \
 	{ \
-		std::stringstream __ss__; \
-		__ss__ __s__; \
-		LogManager::getInstance()->logInfo(__ss__.str(), "", "", 0); \
+		if (LogManager::getInstance()->getLoggingEnabled()) \
+		{ \
+			std::stringstream __ss__; \
+			__ss__ __s__; \
+			LogManager::getInstance()->logInfo(__ss__.str(), "", "", 0); \
+		} \
 	} \
 	while(0)
 
 #define LOG_WARNING_STREAM_BARE(__s__) \
 	do \
 	{ \
-		std::stringstream __ss__; \
-		__ss__ __s__; \
-		LogManager::getInstance()->logWarning(__ss__.str(), "", "", 0); \
+		if (LogManager::getInstance()->getLoggingEnabled()) \
+		{ \
+			std::stringstream __ss__; \
+			__ss__ __s__; \
+			LogManager::getInstance()->logWarning(__ss__.str(), "", "", 0); \
+		} \
 	} \
 	while(0)
 
 #define LOG_ERROR_STREAM_BARE(__s__) \
 	do \
 	{ \
-		std::stringstream __ss__; \
-		__ss__ __s__; \
-		LogManager::getInstance()->logError(__ss__.str(), "", "", 0); \
+		if (LogManager::getInstance()->getLoggingEnabled()) \
+		{ \
+			std::stringstream __ss__; \
+			__ss__ __s__; \
+			LogManager::getInstance()->logError(__ss__.str(), "", "", 0); \
+		} \
 	} \
 	while(0)
 
