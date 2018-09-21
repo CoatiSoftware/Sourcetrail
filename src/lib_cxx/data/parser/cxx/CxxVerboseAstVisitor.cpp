@@ -15,15 +15,12 @@ CxxVerboseAstVisitor::CxxVerboseAstVisitor(
 	clang::ASTContext* context,
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<ParserClient> client,
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+	std::shared_ptr<IndexerStateInfo> indexerStateInfo
 )
-	: base(context, preprocessor, client, canonicalFilePathCache)
+	: base(context, preprocessor, client, canonicalFilePathCache, indexerStateInfo)
 	, m_currentFilePath(L"")
 	, m_indentation(0)
-{
-}
-
-CxxVerboseAstVisitor::~CxxVerboseAstVisitor()
 {
 }
 

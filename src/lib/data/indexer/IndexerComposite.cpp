@@ -36,5 +36,4 @@ void IndexerComposite::interrupt()
 	{
 		it.second->interrupt();
 	}
-	IndexerBase::interrupt();
 }

@@ -11,13 +11,13 @@ class IndexerComposite: public IndexerBase
 public:
 	virtual ~IndexerComposite();
 
-	virtual IndexerCommandType getSupportedIndexerCommandType() const;
+	IndexerCommandType getSupportedIndexerCommandType() const override;
 
 	void addIndexer(std::shared_ptr<IndexerBase> indexer);
 
-	virtual std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand);
+	std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand) override;
 
-	virtual void interrupt();
+	void interrupt() override;
 
 private:
 	std::map<IndexerCommandType, std::shared_ptr<IndexerBase>> m_indexers;

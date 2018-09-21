@@ -9,6 +9,7 @@ const char* InterprocessIndexingStatusManager::s_indexingFilesKeyName = "indexin
 const char* InterprocessIndexingStatusManager::s_currentFilesKeyName = "current_files";
 const char* InterprocessIndexingStatusManager::s_crashedFilesKeyName = "crashed_files";
 const char* InterprocessIndexingStatusManager::s_finishedProcessIdsKeyName = "finished_process_ids";
+const char* InterprocessIndexingStatusManager::s_indexingInterruptedKeyName = "indexing_interrupted_flag";
 
 InterprocessIndexingStatusManager::InterprocessIndexingStatusManager(const std::string& instanceUuid, Id processId, bool isOwner)
 	: BaseInterprocessDataManager(s_sharedMemoryNamePrefix + instanceUuid, 1048576 /* 1 MB */, instanceUuid, processId, isOwner)
@@ -95,6 +96,32 @@ void InterprocessIndexingStatusManager::finishIndexingSourceFile()
 	{
 		finishedProcessIdsPtr->push_back(m_processId);
 	}
+}
+
+void InterprocessIndexingStatusManager::setIndexingInterrupted(bool interrupted)
+{
+	SharedMemory::ScopedAccess access(&m_sharedMemory);
+
+	bool* indexingInterruptedPtr =
+		access.accessValue<bool>(s_indexingInterruptedKeyName);
+	if (indexingInterruptedPtr)
+	{
+		*indexingInterruptedPtr = interrupted;
+	}
+}
+
+bool InterprocessIndexingStatusManager::getIndexingInterrupted()
+{
+	SharedMemory::ScopedAccess access(&m_sharedMemory);
+
+	bool* indexingInterruptedPtr =
+		access.accessValue<bool>(s_indexingInterruptedKeyName);
+	if (indexingInterruptedPtr)
+	{
+		return *indexingInterruptedPtr;
+	}
+
+	return false;
 }
 
 Id InterprocessIndexingStatusManager::getNextFinishedProcessId()

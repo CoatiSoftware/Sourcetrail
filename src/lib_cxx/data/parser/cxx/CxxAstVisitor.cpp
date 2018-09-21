@@ -3,32 +3,34 @@
 #include <clang/AST/ASTContext.h>
 #include <clang/Lex/Preprocessor.h>
 
+#include "CanonicalFilePathCache.h"
 #include "CxxDeclNameResolver.h"
 #include "CxxTypeNameResolver.h"
-
-#include "CanonicalFilePathCache.h"
-#include "utilityClang.h"
+#include "IndexerStateInfo.h"
+#include "logging.h"
 #include "ParserClient.h"
 #include "ParseLocation.h"
-
+#include "utilityClang.h"
 #include "utilityString.h"
 
 CxxAstVisitor::CxxAstVisitor(
 	clang::ASTContext* astContext,
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<ParserClient> client,
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+	std::shared_ptr<IndexerStateInfo> indexerStateInfo
 )
 	: m_astContext(astContext)
 	, m_preprocessor(preprocessor)
 	, m_client(client)
+	, m_indexerStateInfo(indexerStateInfo)
+	, m_canonicalFilePathCache(canonicalFilePathCache)
 	, m_contextComponent(this)
 	, m_declRefKindComponent(this)
 	, m_typeRefKindComponent(this)
 	, m_implicitCodeComponent(this)
 	, m_indexerComponent(this, astContext, client)
 	, m_braceRecorderComponent(this, astContext, client)
-	, m_canonicalFilePathCache(canonicalFilePathCache)
 	, m_declNameCache([&](const clang::NamedDecl* decl) -> NameHierarchy
 		{
 			if (decl)
@@ -99,6 +101,7 @@ CanonicalFilePathCache* CxxAstVisitor::getCanonicalFilePathCache()
 
 void CxxAstVisitor::indexDecl(clang::Decl* d)
 {
+	LOG_INFO("starting AST traversal");
 	this->TraverseDecl(d);
 }
 
@@ -194,7 +197,12 @@ bool CxxAstVisitor::TraverseDecl(clang::Decl* decl)
 		FOREACH_COMPONENT(endTraverseDecl(decl));
 	}
 
-	return m_interruptCounter.getCount() == 0;
+	if (m_indexerStateInfo && m_indexerStateInfo->indexingInterrupted)
+	{
+		LOG_INFO("interrupting AST traversal");
+		return false;
+	}
+	return true;
 }
 
 // same as Base::TraverseQualifiedTypeLoc(..) but we need to make sure to call this.TraverseTypeLoc(..)

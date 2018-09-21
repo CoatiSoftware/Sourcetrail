@@ -4128,7 +4128,7 @@ public:
 		);
 
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client, std::make_shared<TestFileRegister>());
+		CxxParser parser(client, std::make_shared<TestFileRegister>(), std::make_shared<IndexerStateInfo>());
 
 		parser.buildIndex(indexerCommand);
 
@@ -4398,9 +4398,8 @@ public:
 private:
 	std::shared_ptr<TestParserClient> parseCode(std::string code, std::vector<std::wstring> compilerFlags = {})
 	{
-		std::shared_ptr<TestFileRegister> fileRegister = std::make_shared<TestFileRegister>();
 		std::shared_ptr<TestParserClient> parserClient = std::make_shared<TestParserClient>();
-		CxxParser parser(parserClient, fileRegister);
+		CxxParser parser(parserClient, std::make_shared<TestFileRegister>(), std::make_shared<IndexerStateInfo>());
 		parser.buildIndex(L"input.cc", TextAccess::createFromString(code), utility::concat(compilerFlags, std::vector<std::wstring>(1, L"-std=c++1z")));
 		return parserClient;
 	}

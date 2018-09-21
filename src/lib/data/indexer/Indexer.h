@@ -13,11 +13,12 @@ class Indexer
 {
 public:
 	IndexerCommandType getSupportedIndexerCommandType() const override;
-
 	std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand) override;
 
+private:
 	virtual std::shared_ptr<IntermediateStorage> doIndex(std::shared_ptr<T> indexerCommand) = 0;
 };
+
 
 template <typename T>
 IndexerCommandType Indexer<T>::getSupportedIndexerCommandType() const

@@ -5,6 +5,7 @@
 #include "FileRegister.h"
 #include "logging.h"
 #include "LanguagePackageManager.h"
+#include "ScopedFunctor.h"
 
 InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 	: m_interprocessIndexerCommandManager(uuid, processId, false)
@@ -17,10 +18,42 @@ InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 
 void InterprocessIndexer::work()
 {
+	bool updaterThreadRunning = false;
+	std::shared_ptr<std::thread> updaterThread;
+	std::shared_ptr<IndexerBase> indexer;
+
 	try
 	{
 		LOG_INFO(std::to_wstring(m_processId) + L" starting up indexer");
-		std::shared_ptr<IndexerBase> indexer = LanguagePackageManager::getInstance()->instantiateSupportedIndexers();
+		indexer = LanguagePackageManager::getInstance()->instantiateSupportedIndexers();
+
+		updaterThread = std::make_shared<std::thread>([&]()
+		{
+			updaterThreadRunning = true;
+			while (updaterThreadRunning)
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+				if (m_interprocessIndexingStatusManager.getIndexingInterrupted())
+				{
+					LOG_INFO("received indexer interrupt command.");
+					if (indexer)
+					{
+						indexer->interrupt();
+					}
+					updaterThreadRunning = false;
+				}
+			}
+		});
+
+		ScopedFunctor threadStopper([&]()
+		{
+			updaterThreadRunning = false;
+			if (updaterThread)
+			{
+				updaterThread->join();
+				updaterThread.reset();
+			}
+		});
 
 		while (std::shared_ptr<IndexerCommand> indexerCommand = m_interprocessIndexerCommandManager.popIndexerCommand())
 		{
@@ -29,7 +62,7 @@ void InterprocessIndexer::work()
 
 			while (true)
 			{
-				size_t storageCount = m_interprocessIntermediateStorageManager.getIntermediateStorageCount();
+				const size_t storageCount = m_interprocessIntermediateStorageManager.getIntermediateStorageCount();
 				if (storageCount < 10)
 				{
 					break;
@@ -37,8 +70,7 @@ void InterprocessIndexer::work()
 
 				LOG_INFO_STREAM(<< m_processId << " waits, too many intermediate storages: " << storageCount);
 
-				const int SLEEP_TIME_MS = 200;
-				std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+				std::this_thread::sleep_for(std::chrono::milliseconds(200));
 			}
 
 			LOG_INFO_STREAM(<< m_processId << " updating indexer status with currently indexed filepath");
@@ -47,8 +79,11 @@ void InterprocessIndexer::work()
 			LOG_INFO_STREAM(<< m_processId << " starting to index current file");
 			std::shared_ptr<IntermediateStorage> result = indexer->index(indexerCommand);
 
-			LOG_INFO_STREAM(<< m_processId << " pushing index to shared memory");
-			m_interprocessIntermediateStorageManager.pushIntermediateStorage(result);
+			if (result)
+			{
+				LOG_INFO_STREAM(<< m_processId << " pushing index to shared memory");
+				m_interprocessIntermediateStorageManager.pushIntermediateStorage(result);
+			}
 
 			LOG_INFO_STREAM(<< m_processId << " finalizing indexer status for current file");
 			m_interprocessIndexingStatusManager.finishIndexingSourceFile();

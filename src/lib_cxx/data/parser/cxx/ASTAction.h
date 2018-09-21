@@ -18,10 +18,12 @@ class ASTAction
 public:
 	explicit ASTAction(
 		std::shared_ptr<ParserClient> client,
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+		std::shared_ptr<IndexerStateInfo> indexerStateInfo
 	)
 		: m_client(client)
 		, m_canonicalFilePathCache(canonicalFilePathCache)
+		, m_indexerStateInfo(indexerStateInfo)
 		, m_commentHandler(client, canonicalFilePathCache)
 	{}
 
@@ -31,7 +33,7 @@ protected:
 	virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile) override
 	{
 		return std::unique_ptr<clang::ASTConsumer>(
-			new ASTConsumer(&compiler.getASTContext(), &compiler.getPreprocessor(), m_client, m_canonicalFilePathCache));
+			new ASTConsumer(&compiler.getASTContext(), &compiler.getPreprocessor(), m_client, m_canonicalFilePathCache, m_indexerStateInfo));
 	}
 
 	virtual bool BeginSourceFileAction(clang::CompilerInstance& compiler) override
@@ -46,6 +48,7 @@ protected:
 private:
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
+	std::shared_ptr<IndexerStateInfo> m_indexerStateInfo;
 	CommentHandler m_commentHandler;
 };
 

@@ -5,8 +5,6 @@
 
 #include <clang/AST/RecursiveASTVisitor.h>
 
-#include "MessageInterruptTasksCounter.h"
-
 #include "CxxAstVisitorComponentBraceRecorder.h"
 #include "CxxAstVisitorComponentContext.h"
 #include "CxxAstVisitorComponentDeclRefKind.h"
@@ -17,9 +15,10 @@
 
 class CanonicalFilePathCache;
 class ParserClient;
-struct ParseLocation;
 class FilePath;
 
+struct IndexerStateInfo;
+struct ParseLocation;
 
 // methods are called in this order:
 //	TraverseDecl()
@@ -40,7 +39,8 @@ public:
 		clang::ASTContext* astContext,
 		clang::Preprocessor* preprocessor,
 		std::shared_ptr<ParserClient> client,
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+		std::shared_ptr<IndexerStateInfo> indexerStateInfo
 	);
 	virtual ~CxxAstVisitor() = default;
 
@@ -159,6 +159,8 @@ private:
 	clang::ASTContext* m_astContext;
 	clang::Preprocessor* m_preprocessor;
 	std::shared_ptr<ParserClient> m_client;
+	std::shared_ptr<IndexerStateInfo> m_indexerStateInfo;
+	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
 	CxxAstVisitorComponentContext m_contextComponent;
 	CxxAstVisitorComponentDeclRefKind m_declRefKindComponent;
@@ -167,9 +169,6 @@ private:
 	CxxAstVisitorComponentIndexer m_indexerComponent;
 	CxxAstVisitorComponentBraceRecorder m_braceRecorderComponent;
 
-	MessageInterruptTasksCounter m_interruptCounter;
-
-	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 	DeclNameCache m_declNameCache;
 	TypeNameCache m_typeNameCache;
 };

@@ -35,8 +35,7 @@ void TaskGroupParallel::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskGroupParallel::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	const int SLEEP_TIME_MS = 25;
-	std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
 	if (m_tasks.size() != 0 && getActiveTaskCount() > 0)
 	{

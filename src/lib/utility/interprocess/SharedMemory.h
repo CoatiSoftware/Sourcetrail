@@ -116,5 +116,4 @@ private:
 	AccessMode m_mode;
 };
 
-
 #endif // SHARED_MEMORY_H

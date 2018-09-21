@@ -172,6 +172,7 @@ add_files(
 	data/indexer/IndexerCommandType.h
 	data/indexer/IndexerComposite.cpp
 	data/indexer/IndexerComposite.h
+	data/indexer/IndexerStateInfo.h
 	data/indexer/MemoryIndexerCommandProvider.cpp
 	data/indexer/MemoryIndexerCommandProvider.h
 	data/indexer/TaskBuildIndex.cpp
@@ -510,8 +511,6 @@ add_files(
 	utility/messaging/MessageBase.cpp
 	utility/messaging/MessageBase.h
 	utility/messaging/MessageFilter.h
-	utility/messaging/MessageInterruptTasksCounter.cpp
-	utility/messaging/MessageInterruptTasksCounter.h
 	utility/messaging/MessageListener.h
 	utility/messaging/MessageListenerBase.cpp
 	utility/messaging/MessageListenerBase.h

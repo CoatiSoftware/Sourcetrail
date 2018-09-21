@@ -97,6 +97,8 @@ public class JavaIndexer
 				visitor = new ContextAwareAstVisitor(astVisitorClient, path.toFile(), fileContent, cu);
 			}
 			
+			astVisitorClient.logInfo("starting AST traversal");
+			
 			cu.accept(visitor);
 	
 			for (IProblem problem: cu.getProblems())

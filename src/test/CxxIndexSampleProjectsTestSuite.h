@@ -176,7 +176,7 @@ private:
 
 		std::shared_ptr<DumpParserClient> parserClient = std::make_shared<DumpParserClient>();
 
-		CxxParser parser(parserClient, fileRegister);
+		CxxParser parser(parserClient, fileRegister, std::make_shared<IndexerStateInfo>());
 
 		std::shared_ptr<IndexerCommandCxx> command = std::make_shared<IndexerCommandCxx>(
 			sourceFilePath,

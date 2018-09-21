@@ -71,8 +71,7 @@ void TaskScheduler::startSchedulerLoop()
 			}
 		}
 
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 	}
 
 	{
@@ -107,8 +106,7 @@ void TaskScheduler::stopSchedulerLoop()
 			}
 		}
 
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 	}
 }
 

@@ -41,6 +41,8 @@ TaskBuildIndex::TaskBuildIndex(
 
 void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
+	m_interprocessIndexingStatusManager.setIndexingInterrupted(false);
+
 	m_indexingFileCount = 0;
 	updateIndexingDialog(blackboard, std::vector<FilePath>());
 
@@ -104,8 +106,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 		updateIndexingDialog(blackboard, std::vector<FilePath>());
 	}
 
-	const int SLEEP_TIME_MS = 50;
-	std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 	return STATE_RUNNING;
 }
@@ -154,6 +155,8 @@ void TaskBuildIndex::handleMessage(MessageInterruptTasks* message)
 {
 	if (!m_dialogView->dialogsHidden())
 	{
+		LOG_INFO("sending indexer interrupt command.");
+		m_interprocessIndexingStatusManager.setIndexingInterrupted(true);
 		m_interrupted = true;
 	}
 }
@@ -232,8 +235,7 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 	{
 		LOG_INFO_STREAM(<< "waiting, too many storages queued: " << providerStorageCount);
 
-		const int SLEEP_TIME_MS = 100;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 		return true;
 	}

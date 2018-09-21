@@ -1909,7 +1909,7 @@ private:
 
 		setupJavaEnvironmentFactory();
 
-		JavaParser parser(parserClient);
+		JavaParser parser(parserClient, std::make_shared<IndexerStateInfo>());
 		parser.buildIndex(FilePath(L"input.cc"), textAccess);
 
 		return parserClient;

@@ -82,8 +82,7 @@ Task::TaskState TaskFillIndexerCommandsQueue::doUpdate(std::shared_ptr<Blackboar
 		}
 	}
 
-	const int SLEEP_TIME_MS = 200;
-	std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
 	return STATE_RUNNING;
 }

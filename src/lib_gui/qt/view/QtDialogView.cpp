@@ -298,8 +298,7 @@ DatabasePolicy QtDialogView::finishedIndexingDialog(
 
 	while (!m_resultReady)
 	{
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 	}
 
 	return policy;
@@ -338,8 +337,7 @@ int QtDialogView::confirm(const std::string& message, const std::vector<std::str
 
 	while (!m_resultReady)
 	{
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 	}
 
 	return result;
@@ -378,8 +376,7 @@ int QtDialogView::confirm(const std::wstring& message, const std::vector<std::ws
 
 	while (!m_resultReady)
 	{
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 	}
 
 	return result;

@@ -5,12 +5,12 @@
 #include <mutex>
 #include <string>
 
-#include "IndexerCommandJava.h"
-#include "Parser.h"
-#include "JavaEnvironment.h"
 #include "FilePath.h"
+#include "IndexerCommandJava.h"
+#include "IndexerStateInfo.h"
+#include "JavaEnvironment.h"
 #include "logging.h"
-#include "MessageInterruptTasksCounter.h"
+#include "Parser.h"
 
 struct JNIEnv_;
 typedef JNIEnv_ JNIEnv;
@@ -35,7 +35,7 @@ class JavaParser: public Parser
 public:
 	static void clearCaches();
 
-	JavaParser(std::shared_ptr<ParserClient> client);
+	JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<IndexerStateInfo> indexerStateInfo);
 	~JavaParser();
 
 	void buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand);
@@ -231,7 +231,7 @@ private:
 
 	const int m_id;
 	FilePath m_currentFilePath;
-	MessageInterruptTasksCounter m_interruptCounter;
+	std::shared_ptr<IndexerStateInfo> m_indexerStateInfo;
 };
 
 #endif // JAVA_PARSER_H

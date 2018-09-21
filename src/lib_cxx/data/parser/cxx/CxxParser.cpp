@@ -130,9 +130,14 @@ namespace
 	}
 }
 
-CxxParser::CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
+CxxParser::CxxParser(
+	std::shared_ptr<ParserClient> client,
+	std::shared_ptr<FileRegister> fileRegister,
+	std::shared_ptr<IndexerStateInfo> indexerStateInfo
+)
 	: Parser(client)
 	, m_fileRegister(fileRegister)
+	, m_indexerStateInfo(indexerStateInfo)
 {
 	llvm::InitializeNativeTarget();
 	llvm::InitializeNativeTargetAsmParser();
@@ -161,7 +166,7 @@ void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAcc
 		std::make_shared<CanonicalFilePathCache>(m_fileRegister);
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(FilePath(), canonicalFilePathCache, false);
-	ASTActionFactory actionFactory(m_client, canonicalFilePathCache);
+	ASTActionFactory actionFactory(m_client, canonicalFilePathCache, m_indexerStateInfo);
 
 	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags);
 
@@ -191,7 +196,7 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 		LOG_INFO("Clang Invocation errors: " + info.errors);
 	}
 
-	ASTActionFactory actionFactory(m_client, canonicalFilePathCache);
+	ASTActionFactory actionFactory(m_client, canonicalFilePathCache, m_indexerStateInfo);
 	tool.run(&actionFactory);
 }
 

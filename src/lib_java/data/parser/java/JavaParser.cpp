@@ -2,14 +2,15 @@
 
 #include <jni.h>
 
-#include "NameHierarchy.h"
-#include "JavaEnvironmentFactory.h"
-#include "ParseLocation.h"
-#include "ReferenceKind.h"
-#include "ParserClient.h"
 #include "ApplicationSettings.h"
-#include "TextAccess.h"
+#include "IndexerStateInfo.h"
+#include "JavaEnvironmentFactory.h"
+#include "NameHierarchy.h"
+#include "ParseLocation.h"
+#include "ParserClient.h"
+#include "ReferenceKind.h"
 #include "ResourcePaths.h"
+#include "TextAccess.h"
 #include "utilityJava.h"
 #include "utilityString.h"
 
@@ -29,8 +30,9 @@ void JavaParser::clearCaches()
 	}
 }
 
-JavaParser::JavaParser(std::shared_ptr<ParserClient> client)
+JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<IndexerStateInfo> indexerStateInfo)
 	: Parser(client)
+	, m_indexerStateInfo(indexerStateInfo)
 	, m_id(s_nextParserId++)
 {
 	const std::string errorString = utility::prepareJavaEnvironment();
@@ -140,7 +142,7 @@ std::mutex JavaParser::s_parsersMutex;
 
 bool JavaParser::doGetInterrupted()
 {
-	return m_interruptCounter.getCount() > 0;
+	return m_indexerStateInfo->indexingInterrupted;
 }
 
 void JavaParser::doLogInfo(jstring jInfo)
