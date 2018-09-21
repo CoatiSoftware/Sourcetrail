@@ -425,7 +425,7 @@ add_files(
 	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
 
 	utility/messaging/type/activation/MessageActivateLegend.h
-	
+
 	utility/messaging/type/code/MessageCodeShowDefinition.h
 
 	utility/messaging/type/error/MessageActivateErrors.h
@@ -576,15 +576,6 @@ add_files(
 	utility/sonargraph/SonargraphXsdSourceRootPath.h
 	utility/sonargraph/utilitySonargraph.cpp
 	utility/sonargraph/utilitySonargraph.h
-
-	utility/synchronization/ReaderWriterLock.cpp
-	utility/synchronization/ReaderWriterLock.h
-	utility/synchronization/ScopedReaderLock.cpp
-	utility/synchronization/ScopedReaderLock.h
-	utility/synchronization/ScopedWriterLock.cpp
-	utility/synchronization/ScopedWriterLock.h
-	utility/synchronization/Semaphore.cpp
-	utility/synchronization/Semaphore.h
 
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h

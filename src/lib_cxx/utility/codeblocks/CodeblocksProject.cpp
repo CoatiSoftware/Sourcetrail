@@ -275,7 +275,7 @@ namespace Codeblocks
 					sourceGroupSettings->getCodeblocksProjectPathExpandedAndAbsolute().getParentDirectory(),
 					utility::concat(
 						optionsCache.getValue(targetName),
-						{ IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard), filePath.wstr() }
+						std::vector<std::wstring>({ IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard), filePath.wstr() })
 					)
 				));
 			}

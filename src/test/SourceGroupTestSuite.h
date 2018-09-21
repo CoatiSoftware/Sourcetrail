@@ -436,12 +436,12 @@ public:
 private:
 	static FilePath getInputDirectoryPath(const std::wstring& projectName)
 	{
-		return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/input").makeAbsolute();
+		return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/input").makeAbsolute().makeCanonical();
 	}
 
 	static FilePath getOutputDirectoryPath(const std::wstring& projectName)
 	{
-		return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/expected_output").makeAbsolute();
+		return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/expected_output").makeAbsolute().makeCanonical();
 	}
 
 	std::string setupJavaEnvironmentFactory()

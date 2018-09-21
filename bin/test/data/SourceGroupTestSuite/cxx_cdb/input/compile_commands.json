@@ -1,7 +1,7 @@
 [
 	{
 		"directory": "src",
-		"command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem '/include/path/from/cdb'  -D DEFINE_FROM_CDB=\"some_value\" -std=c++14  /FS  './Test.cpp'",
+		"command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem /include/path/from/cdb  -D DEFINE_FROM_CDB=\"some_value\" -std=c++14  /FS  ./Test.cpp",
 		"file": "./Test.cpp"
 	}
 ]
