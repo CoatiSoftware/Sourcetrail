@@ -9,54 +9,43 @@
 #include "CxxName.h"
 #include "CxxQualifierFlags.h"
 
-class CxxTypeName: public CxxName
+class CxxTypeName
+	: public CxxName
 {
 public:
-	static std::shared_ptr<CxxTypeName> makeUnsolvedIfNull(std::shared_ptr<CxxTypeName> name);
+	static std::unique_ptr<CxxTypeName> makeUnsolvedIfNull(std::unique_ptr<CxxTypeName> name);
 
 	struct Modifier
 	{
-		Modifier(std::wstring&& symbol);
-		std::wstring symbol;
+		Modifier(std::wstring symbol);
+
+		const std::wstring symbol;
 		CxxQualifierFlags qualifierFlags;
 	};
 
-	// uncomment this constructor if required, but try to use the one using move constructors for the members
-	//CxxTypeName(
-	//	const std::wstring& name,
-	//	const std::vector<std::wstring>& templateArguments
-	//);
+	CxxTypeName(std::wstring name);
 
 	CxxTypeName(
-		std::wstring&& name,
-		std::vector<std::wstring>&& templateArguments
+		std::wstring name,
+		std::vector<std::wstring> templateArguments
 	);
 
-	// uncomment this constructor if required, but try to use the one using move constructors for the members
-	//CxxTypeName(
-	//	const std::wstring& name,
-	//	const std::vector<std::wstring>& templateArguments,
-	//	std::shared_ptr<CxxName> parent
-	//);
-
 	CxxTypeName(
-		std::wstring&& name,
-		std::vector<std::wstring>&& templateArguments,
+		std::wstring name,
+		std::vector<std::wstring> templateArguments,
 		std::shared_ptr<CxxName> parent
 	);
 
-	virtual NameHierarchy toNameHierarchy() const;
+	NameHierarchy toNameHierarchy() const override;
 
 	void addQualifier(const CxxQualifierFlags::QualifierType qualifier);
-	void addModifier(const Modifier& modifier);
+	void addModifier(Modifier modifier);
 
 	std::wstring toString() const;
 
 private:
-	std::wstring getTypeNameString() const;
-
-	std::wstring m_name;
-	std::vector<std::wstring> m_templateArguments;
+	const std::wstring m_name;
+	const std::vector<std::wstring> m_templateArguments;
 
 	CxxQualifierFlags m_qualifierFlags;
 	std::vector<Modifier> m_modifiers;

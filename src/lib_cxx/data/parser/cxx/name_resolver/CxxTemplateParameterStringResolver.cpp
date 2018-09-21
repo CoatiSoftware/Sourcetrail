@@ -1,21 +1,20 @@
 #include "CxxTemplateParameterStringResolver.h"
 
+#include <sstream>
+
 #include <clang/AST/PrettyPrinter.h>
 #include <clang/AST/DeclTemplate.h>
 
 #include "CxxTypeNameResolver.h"
 #include "utilityString.h"
 
-CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
-	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
+CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(CanonicalFilePathCache* canonicalFilePathCache)
+	: CxxNameResolver(canonicalFilePathCache)
 {
 }
 
-CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, 
-	std::vector<const clang::Decl*> ignoredContextDecls
-)
-	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
+CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(const CxxNameResolver* other)
+	: CxxNameResolver(other)
 {
 }
 
@@ -25,8 +24,6 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(cons
 
 	if (parameter)
 	{
-		const std::wstring parameterName = utility::decodeFromUtf8(parameter->getName());
-
 		const clang::Decl::Kind templateParameterKind = parameter->getKind();
 		switch (templateParameterKind)
 		{
@@ -44,9 +41,10 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(cons
 			break;
 		}
 
+		const std::wstring parameterName = utility::decodeFromUtf8(parameter->getName());
 		if (!parameterName.empty())
 		{
-			templateParameterTypeString += L" " + parameterName;
+			templateParameterTypeString += L' ' + parameterName;
 		}
 	}
 	return templateParameterTypeString;
@@ -54,10 +52,8 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(cons
 
 std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter)
 {
-	CxxTypeNameResolver typeNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
-	std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(parameter->getType()));
-
-	std::wstring typeString = typeName->toString();
+	std::wstring typeString =
+		CxxTypeName::makeUnsolvedIfNull(CxxTypeNameResolver(this).getName(parameter->getType()))->toString();
 
 	if (parameter->isTemplateParameterPack())
 	{
@@ -81,23 +77,27 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
 
 std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter)
 {
-	std::wstring templateParameterTypeString = L"template<";
-	clang::TemplateParameterList* parameterList = parameter->getTemplateParameters();
+	std::wstringstream ss;
+	ss << L"template<";
+	const clang::TemplateParameterList* parameterList = parameter->getTemplateParameters();
 	for (size_t i = 0; i < parameterList->size(); i++)
 	{
-		CxxTemplateParameterStringResolver parameterStringResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
+		if (i > 0)
+		{
+			ss << L", ";
+		}
+
+		CxxTemplateParameterStringResolver parameterStringResolver(this);
 		parameterStringResolver.ignoreContextDecl(parameterList->getParam(i));
 
-		templateParameterTypeString += parameterStringResolver.getTemplateParameterString(parameterList->getParam(i));
-		templateParameterTypeString += (i < parameterList->size() - 1) ? L", " : L"";
+		ss << parameterStringResolver.getTemplateParameterString(parameterList->getParam(i));
 	}
-	templateParameterTypeString += L">";
-	templateParameterTypeString += L" typename"; // TODO: what if template template parameter is defined with class keyword?
+	ss << L"> typename"; // TODO: what if template template parameter is defined with class keyword?
 
 	if (parameter->isTemplateParameterPack())
 	{
-		templateParameterTypeString += L"...";
+		ss << L"...";
 	}
 
-	return templateParameterTypeString;
+	return ss.str();
 }

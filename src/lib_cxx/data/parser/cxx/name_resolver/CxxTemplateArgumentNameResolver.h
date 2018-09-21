@@ -7,14 +7,12 @@
 
 class DataType;
 
-class CxxTemplateArgumentNameResolver: public CxxNameResolver
+class CxxTemplateArgumentNameResolver
+	: public CxxNameResolver
 {
 public:
-	CxxTemplateArgumentNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
-	CxxTemplateArgumentNameResolver(
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		std::vector<const clang::Decl*> ignoredContextDecls
-	);
+	CxxTemplateArgumentNameResolver(CanonicalFilePathCache* canonicalFilePathCache);
+	CxxTemplateArgumentNameResolver(const CxxNameResolver* other);
 
 	std::wstring getTemplateArgumentName(const clang::TemplateArgument& argument);
 };

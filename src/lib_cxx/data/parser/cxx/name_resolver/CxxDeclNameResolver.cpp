@@ -11,30 +11,25 @@
 #include "CxxTypeNameResolver.h"
 #include "CanonicalFilePathCache.h"
 #include "utilityClang.h"
-#include "FilePath.h"
 #include "ScopedSwitcher.h"
 #include "utilityString.h"
 
-CxxDeclNameResolver::CxxDeclNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
-	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
+CxxDeclNameResolver::CxxDeclNameResolver(CanonicalFilePathCache* canonicalFilePathCache)
+	: CxxNameResolver(canonicalFilePathCache)
 	, m_currentDecl(nullptr)
 {
 }
 
-CxxDeclNameResolver::CxxDeclNameResolver(
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-	std::vector<const clang::Decl*> ignoredContextDecls
-)
-	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
+CxxDeclNameResolver::CxxDeclNameResolver(const CxxNameResolver* other)
+	: CxxNameResolver(other)
 	, m_currentDecl(nullptr)
 {
 }
 
-std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl* declaration)
+std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl* declaration)
 {
 	declaration = utility::getFirstDecl(declaration);
 
-	std::shared_ptr<CxxDeclName> declName;
 	if ((declaration) &&
 		(clang::isa<clang::CXXRecordDecl>(declaration)) &&
 		(clang::dyn_cast<clang::CXXRecordDecl>(declaration)->isLambda()))
@@ -45,8 +40,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 		clang::DeclContext::lookup_result Calls = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->lookup(Name);
 		if (Calls.empty())
 		{
-			declaration = nullptr;
-			declName = std::make_shared<CxxDeclName>(L"unsolved-lambda", std::vector<std::wstring>());
+			return std::make_unique<CxxDeclName>(L"unsolved-lambda");
 		}
 		else
 		{
@@ -54,94 +48,95 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 		}
 	}
 
-	if (declaration)
+	if (!declaration)
 	{
-		declName = getDeclName(clang::dyn_cast<const clang::NamedDecl>(declaration));
+		return nullptr;
+	}
 
-		if (declName)
+	std::unique_ptr<CxxDeclName> declName = getDeclName(clang::dyn_cast<const clang::NamedDecl>(declaration));
+	if (declName)
+	{
+		if (const clang::UsingDecl* usingDecl = clang::dyn_cast_or_null<clang::UsingDecl>(declaration))
 		{
-			if (const clang::UsingDecl* usingDecl = clang::dyn_cast_or_null<clang::UsingDecl>(declaration))
+			declName->setParent(CxxSpecifierNameResolver(this).getName(usingDecl->getQualifier()));
+		}
+		else if (
+			clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
+			clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
+			clang::isa<clang::TemplateTemplateParmDecl>(declaration)
+		) {
+			clang::ASTContext::DynTypedNodeList parents = declaration->getASTContext().getParents(*declaration);
+			for (const clang::ast_type_traits::DynTypedNode* parent = parents.begin(); parent != parents.end(); parent++)
 			{
-				CxxSpecifierNameResolver specifierNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
-				declName->setParent(specifierNameResolver.getName(usingDecl->getQualifier()));
-			}
-			else if (
-				clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
-				clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
-				clang::isa<clang::TemplateTemplateParmDecl>(declaration)
-			) {
-				clang::ASTContext& context = declaration->getASTContext();
-
-				clang::ASTContext::DynTypedNodeList parents = context.getParents(*declaration);
-				for (const clang::ast_type_traits::DynTypedNode* parent = parents.begin(); parent != parents.end(); parent++)
+				const clang::Decl* parentDecl = parent->get<clang::Decl>();
+				while (parentDecl != nullptr)
 				{
-					const clang::Decl* parentDecl = parent->get<clang::Decl>();
-					while (parentDecl != nullptr)
+					parentDecl = utility::getFirstDecl(parentDecl);
+
+					if (clang::isa<clang::TemplateDecl>(parentDecl))
 					{
-						parentDecl = utility::getFirstDecl(parentDecl);
+						const clang::TemplateDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::TemplateDecl>(parentDecl);
+						if (!ignoresContext(parentTemplateDecl) && !ignoresContext(parentTemplateDecl->getTemplatedDecl()))
+						{
+							declName->setParent(getName(parentTemplateDecl));
+						}
+						break;
+					}
+					else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(parentDecl))
+					{
+						const clang::ClassTemplatePartialSpecializationDecl* parentClassTemplateDecl =
+							clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(parentDecl);
+						if (!ignoresContext(parentDecl))
+						{
+							declName->setParent(getName(parentClassTemplateDecl));
+						}
+						break;
+					}
+					else if (clang::isa<clang::VarTemplatePartialSpecializationDecl>(parentDecl))
+					{
+						const clang::VarTemplatePartialSpecializationDecl* parentVarTemplateDecl =
+							clang::dyn_cast_or_null<clang::VarTemplatePartialSpecializationDecl>(parentDecl);
+						if (!ignoresContext(parentDecl))
+						{
+							declName->setParent(getName(parentVarTemplateDecl));
+						}
+						break;
+					}
 
-						if (clang::isa<clang::TemplateDecl>(parentDecl))
-						{
-							const clang::TemplateDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::TemplateDecl>(parentDecl);
-							if (!ignoresContext(parentTemplateDecl) && !ignoresContext(parentTemplateDecl->getTemplatedDecl()))
-							{
-								declName->setParent(getName(parentTemplateDecl));
-							}
-							break;
-						}
-						else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(parentDecl))
-						{
-							const clang::ClassTemplatePartialSpecializationDecl* parentClassTemplateDecl = clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(parentDecl);
-							if (!ignoresContext(parentDecl))
-							{
-								declName->setParent(getName(parentClassTemplateDecl));
-							}
-							break;
-						}
-						else if (clang::isa<clang::VarTemplatePartialSpecializationDecl>(parentDecl))
-						{
-							const clang::VarTemplatePartialSpecializationDecl* parentVarTemplateDecl = clang::dyn_cast_or_null<clang::VarTemplatePartialSpecializationDecl>(parentDecl);
-							if (!ignoresContext(parentDecl))
-							{
-								declName->setParent(getName(parentVarTemplateDecl));
-							}
-							break;
-						}
-
-						if (const clang::DeclContext* parentDeclContext = parentDecl->getDeclContext())
-						{
-							if (ignoresContext(parentDeclContext))
-							{
-								break;
-							}
-							parentDecl = clang::dyn_cast_or_null<clang::Decl>(parentDeclContext);
-							if (parentDecl)
-							{
-								if (clang::TemplateDecl* describedTemplate = parentDecl->getDescribedTemplate())
-								{
-									parentDecl = describedTemplate;
-								}
-							}
-						}
-						else
+					if (const clang::DeclContext* parentDeclContext = parentDecl->getDeclContext())
+					{
+						if (ignoresContext(parentDeclContext))
 						{
 							break;
 						}
+						parentDecl = clang::dyn_cast_or_null<clang::Decl>(parentDeclContext);
+						if (parentDecl)
+						{
+							if (clang::TemplateDecl* describedTemplate = parentDecl->getDescribedTemplate())
+							{
+								parentDecl = describedTemplate;
+							}
+						}
+					}
+					else
+					{
+						break;
 					}
 				}
 			}
-			else
-			{
-				declName->setParent(getContextName(declaration->getDeclContext()));
-			}
+		}
+		else
+		{
+			declName->setParent(getContextName(declaration->getDeclContext()));
 		}
 	}
+
 	return declName;
 }
 
-std::shared_ptr<CxxName> CxxDeclNameResolver::getContextName(const clang::DeclContext* declContext)
+std::unique_ptr<CxxName> CxxDeclNameResolver::getContextName(const clang::DeclContext* declContext)
 {
-	std::shared_ptr<CxxName> contextDeclName;
+	std::unique_ptr<CxxName> contextDeclName;
 
 	if (declContext && !ignoresContext(declContext))
 	{
@@ -161,7 +156,7 @@ std::shared_ptr<CxxName> CxxDeclNameResolver::getContextName(const clang::DeclCo
 	return contextDeclName;
 }
 
-std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::NamedDecl* declaration)
+std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::NamedDecl* declaration)
 {
 	if (declaration)
 	{
@@ -189,7 +184,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			if (recordDecl->isLambda())
 			{
 				// we skip this node because its child (the lambda call operator) has already been recorded.
-				return std::shared_ptr<CxxDeclName>();
+				return std::unique_ptr<CxxDeclName>();
 			}
 			else if (declNameString.empty())
 			{
@@ -203,20 +198,19 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					symbolKindName = L"union";
 				}
 
-				return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, declaration), std::vector<std::wstring>());
+				return std::make_unique<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, declaration));
 			}
 			else if (const clang::CXXRecordDecl* cxxRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
 			{
-				clang::ClassTemplateDecl* templateClassDeclaration = cxxRecordDecl->getDescribedClassTemplate();
-				if (templateClassDeclaration)
+				if (clang::ClassTemplateDecl* templateClassDeclaration = cxxRecordDecl->getDescribedClassTemplate())
 				{
 					return getDeclName(templateClassDeclaration);
 				}
 				else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
 				{
-					return std::make_shared<CxxDeclName>(
+					return std::make_unique<CxxDeclName>(
 						std::move(declNameString),
-						getTemplateParameterStringsOfPatrialSpecialitarion(
+						getTemplateParameterStringsOfPartialSpecialization(
 							clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)
 						)
 					);
@@ -224,12 +218,13 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
 				{
 					std::vector<std::wstring> templateArguments;
-					const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
+					const clang::TemplateArgumentList& templateArgumentList =
+						clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
 					for (size_t i = 0; i < templateArgumentList.size(); i++)
 					{
 						templateArguments.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
 					}
-					return std::make_shared<CxxDeclName>(std::move(declNameString), std::move(templateArguments));
+					return std::make_unique<CxxDeclName>(std::move(declNameString), std::move(templateArguments));
 				}
 			}
 		}
@@ -244,7 +239,8 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->isLambda()))
 			{
 				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getLocStart());
+				const clang::PresumedLoc& presumedBegin =
+					sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getLocStart());
 				functionName = L"lambda at " + std::to_wstring(presumedBegin.getLine()) + L":" + std::to_wstring(presumedBegin.getColumn());
 			}
 			else if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
@@ -275,31 +271,33 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				isStatic = functionDecl->getStorageClass() == clang::SC_Static;
 			}
 
-			CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
+			CxxTypeNameResolver typenNameResolver(this);
 			typenNameResolver.ignoreContextDecl(functionDecl);
-			std::shared_ptr<CxxTypeName> returnTypeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->getReturnType()));
+			std::unique_ptr<CxxTypeName> returnTypeName =
+				CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->getReturnType()));
 
-			std::vector<std::shared_ptr<CxxTypeName>> parameterTypeNames;
+			std::vector<std::unique_ptr<CxxTypeName>> parameterTypeNames;
 			for (unsigned int i = 0; i < functionDecl->param_size(); i++)
 			{
-				parameterTypeNames.push_back(CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->parameters()[i]->getType())));
+				parameterTypeNames.push_back(
+					CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->parameters()[i]->getType())));
 			}
 
 			if (!clang::isa<clang::CXXMethodDecl>(declaration) && isStatic)
 			{
-				return std::make_shared<CxxStaticFunctionDeclName>(
+				return std::make_unique<CxxStaticFunctionDeclName>(
 					std::move(functionName),
 					std::move(templateArguments),
-					returnTypeName,
+					std::move(returnTypeName),
 					std::move(parameterTypeNames),
 					getTranslationUnitMainFileName(declaration)
 				);
 			}
 
-			return std::make_shared<CxxFunctionDeclName>(
+			return std::make_unique<CxxFunctionDeclName>(
 				std::move(functionName),
 				std::move(templateArguments),
-				returnTypeName,
+				std::move(returnTypeName),
 				std::move(parameterTypeNames),
 				isConst,
 				isStatic
@@ -313,19 +311,19 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		else if (clang::isa<clang::FieldDecl>(declaration))
 		{
 			const clang::FieldDecl* fieldDecl = clang::dyn_cast<clang::FieldDecl>(declaration);
-			CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
+			CxxTypeNameResolver typenNameResolver(this);
 			typenNameResolver.ignoreContextDecl(fieldDecl);
-			std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(fieldDecl->getType()));
-			return std::make_shared<CxxVariableDeclName>(std::move(declNameString), std::vector<std::wstring>(), typeName, false);
+			std::unique_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(fieldDecl->getType()));
+			return std::make_unique<CxxVariableDeclName>(std::move(declNameString), std::vector<std::wstring>(), std::move(typeName), false);
 		}
 		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
 			declaration = clang::dyn_cast<clang::NamespaceDecl>(declaration)->getOriginalNamespace();
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"namespace", declaration), std::vector<std::wstring>());
+			return std::make_unique<CxxDeclName>(getNameForAnonymousSymbol(L"namespace", declaration));
 		}
 		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"enum", declaration), std::vector<std::wstring>());
+			return std::make_unique<CxxDeclName>(getNameForAnonymousSymbol(L"enum", declaration));
 		}
 		else if (
 			(
@@ -334,11 +332,11 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				clang::isa<clang::TemplateTemplateParmDecl>(declaration)
 			) && declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"template parameter", declaration), std::vector<std::wstring>());
+			return std::make_unique<CxxDeclName>(getNameForAnonymousSymbol(L"template parameter", declaration));
 		}
 		else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"parameter", declaration), std::vector<std::wstring>());
+			return std::make_unique<CxxDeclName>(getNameForAnonymousSymbol(L"parameter", declaration));
 		}
 		else if (clang::isa<clang::VarDecl>(declaration))
 		{
@@ -356,32 +354,32 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					// nothing todo, varDecl is global (and non-static)
 				}
 
-				CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
+				CxxTypeNameResolver typenNameResolver(this);
 				typenNameResolver.ignoreContextDecl(varDecl);
-				std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(varDecl->getType()));
+				std::unique_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(varDecl->getType()));
 
 				std::wstring varName = declNameString;
 				if (utility::getSymbolKind(varDecl) == SYMBOL_GLOBAL_VARIABLE &&
 					varDecl->getStorageClass() == clang::SC_Static)
 				{
-					// if a global variable is static it is only visible in the current translation unit. Therefore if multiple instances of that global variable
-					// may be generated (one for each translation unit) we add the name of the translation unit's source file.
-					// If that global variable definition is const, we add the name of the (maybe header) file that variable is defined in instead. This causes
-					// different instances of the variable that all MUST contain the same value to be merged into a single node in Sourcetrail.
-					std::wstring scopeFileName = L"";
+					// if a global variable is static it is only visible in the current translation unit. Therefore if multiple
+					// instances of that global variable may be generated (one for each translation unit) we add the name of the
+					// translation unit's source file. If that global variable definition is const, we add the name of the
+					// (maybe header) file that variable is defined in instead. This causes different instances of the variable
+					// that all MUST contain the same value to be merged into a single node in Sourcetrail.
+					std::wstring scopeFileName;
+					if (varDecl->getType().isConstQualified())
 					{
-						if (varDecl->getType().isConstQualified())
-						{
-							scopeFileName = getDeclarationFileName(declaration);
-						}
-						else
-						{
-							scopeFileName = getTranslationUnitMainFileName(declaration);
-						}
+						scopeFileName = getDeclarationFileName(declaration);
 					}
+					else
+					{
+						scopeFileName = getTranslationUnitMainFileName(declaration);
+					}
+
 					if (!scopeFileName.empty())
 					{
-						varName = declNameString + L" (" + scopeFileName + L")";
+						varName = declNameString + L" (" + scopeFileName + L')';
 					}
 				}
 
@@ -393,20 +391,22 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				}
 				else if (clang::isa<clang::VarTemplatePartialSpecializationDecl>(declaration))
 				{
-					templateParameterNames = getTemplateParameterStringsOfPatrialSpecialitarion(clang::dyn_cast<clang::VarTemplatePartialSpecializationDecl>(declaration));
+					templateParameterNames = getTemplateParameterStringsOfPartialSpecialization(
+						clang::dyn_cast<clang::VarTemplatePartialSpecializationDecl>(declaration));
 				}
 				else if (clang::isa<clang::VarTemplateSpecializationDecl>(declaration))
 				{
-					const clang::VarTemplateSpecializationDecl* templateSpecializationDeclaration = clang::dyn_cast_or_null<clang::VarTemplateSpecializationDecl>(varDecl);
+					const clang::VarTemplateSpecializationDecl* templateSpecializationDeclaration =
+						clang::dyn_cast_or_null<clang::VarTemplateSpecializationDecl>(varDecl);
 					const clang::TemplateArgumentList& templateArgumentList = templateSpecializationDeclaration->getTemplateArgs();
 					for (size_t i = 0; i < templateArgumentList.size(); i++)
 					{
-						const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-						templateParameterNames.push_back(getTemplateArgumentName(templateArgument));
+						templateParameterNames.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
 					}
 				}
 
-				return std::make_shared<CxxVariableDeclName>(std::move(varName), std::move(templateParameterNames), typeName, isStatic);
+				return std::make_unique<CxxVariableDeclName>(
+					std::move(varName), std::move(templateParameterNames), std::move(typeName), isStatic);
 			}
 		}
 		else if (clang::isa<clang::VarTemplateDecl>(declaration))
@@ -416,17 +416,20 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		}
 		else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
 		{
-			return std::make_shared<CxxDeclName>(std::move(declNameString), getTemplateParameterStrings(clang::dyn_cast<clang::TemplateDecl>(declaration)));
+			return std::make_unique<CxxDeclName>(
+				std::move(declNameString),
+				getTemplateParameterStrings(clang::dyn_cast<clang::TemplateDecl>(declaration))
+			);
 		}
 
 		if (!declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(std::move(declNameString), std::vector<std::wstring>(), std::shared_ptr<CxxName>());
+			return std::make_unique<CxxDeclName>(std::move(declNameString));
 		}
 	}
 
 	// LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
-	return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"symbol", declaration), std::vector<std::wstring>());
+	return std::make_unique<CxxDeclName>(getNameForAnonymousSymbol(L"symbol", declaration));
 }
 
 std::wstring CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::Decl* declaration)
@@ -456,7 +459,8 @@ std::wstring CxxDeclNameResolver::getNameForAnonymousSymbol(const std::wstring& 
 	if (presumedBegin.isValid())
 	{
 		return L"anonymous " + symbolKindName +
-			L" (" + getDeclarationFileName(declaration) + L"<" + std::to_wstring(presumedBegin.getLine()) + L":" + std::to_wstring(presumedBegin.getColumn()) + L">)";
+			L" (" + getDeclarationFileName(declaration) + L'<' + std::to_wstring(presumedBegin.getLine()) + L':' +
+			std::to_wstring(presumedBegin.getColumn()) + L">)";
 	}
 	return L"anonymous " + symbolKindName;
 }
@@ -474,7 +478,7 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStrings(const
 
 std::wstring CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
 {
-	CxxTemplateParameterStringResolver parameterStringResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
+	CxxTemplateParameterStringResolver parameterStringResolver(this);
 	if (clang::isa<clang::TemplateDecl>(m_currentDecl) && clang::dyn_cast<clang::TemplateDecl>(m_currentDecl)->getTemplatedDecl())
 	{
 		parameterStringResolver.ignoreContextDecl(clang::dyn_cast<clang::TemplateDecl>(m_currentDecl)->getTemplatedDecl());
@@ -490,8 +494,5 @@ std::wstring CxxDeclNameResolver::getTemplateParameterString(const clang::NamedD
 
 std::wstring CxxDeclNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
-	CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
-	return resolver.getTemplateArgumentName(argument);
+	return CxxTemplateArgumentNameResolver(this).getTemplateArgumentName(argument);
 }
-
-

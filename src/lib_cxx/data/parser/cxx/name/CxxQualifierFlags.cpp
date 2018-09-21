@@ -27,11 +27,10 @@ bool CxxQualifierFlags::empty() const
 
 std::wstring CxxQualifierFlags::toString() const
 {
-	std::wstring ret = L"";
 	if (m_flags & QUALIFIER_CONST)
 	{
-		ret += L"const";
+		return L"const";
 	}
-	return ret;
-}
 
+	return L"";
+}

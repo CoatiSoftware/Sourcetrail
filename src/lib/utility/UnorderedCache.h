@@ -30,7 +30,7 @@ UnorderedCache<KeyType, ValType, Hasher>::UnorderedCache(std::function<ValType(c
 template <typename KeyType, typename ValType, typename Hasher>
 ValType UnorderedCache<KeyType, ValType, Hasher>::getValue(const KeyType& key)
 {
-	typename std::unordered_map<KeyType, ValType, Hasher>::const_iterator it = m_map.find(key);
+	auto it = m_map.find(key);
 	if (it != m_map.end())
 	{
 		++m_hitCount;
@@ -38,7 +38,7 @@ ValType UnorderedCache<KeyType, ValType, Hasher>::getValue(const KeyType& key)
 	}
 	++m_missCount;
 	ValType val = m_calculator(key);
-	m_map.insert(std::pair<KeyType, ValType>(key, val));
+	m_map.emplace(key, val);
 	return val;
 }
 

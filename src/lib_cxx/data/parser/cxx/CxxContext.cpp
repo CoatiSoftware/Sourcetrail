@@ -1,6 +1,6 @@
 #include "CxxContext.h"
 
-CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl, std::shared_ptr<DeclNameCache> nameCache)
+CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl, DeclNameCache* nameCache)
 	: m_decl(decl)
 	, m_nameCache(nameCache)
 {
@@ -16,7 +16,8 @@ const clang::NamedDecl* CxxContextDecl::getDecl()
 	return m_decl;
 }
 
-CxxContextType::CxxContextType(const clang::Type* type, std::shared_ptr<TypeNameCache> nameCache)
+
+CxxContextType::CxxContextType(const clang::Type* type, TypeNameCache* nameCache)
 	: m_type(type)
 	, m_nameCache(nameCache)
 {

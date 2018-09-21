@@ -24,8 +24,8 @@ public:
 		std::wstring getParameterString() const;
 
 	private:
-		const std::wstring m_prefix;
-		const std::wstring m_postfix;
+		std::wstring m_prefix;
+		std::wstring m_postfix;
 	};
 
 	NameElement(std::wstring name);
@@ -35,12 +35,14 @@ public:
 	const std::wstring& getName() const;
 	std::wstring getNameWithSignature() const;
 	std::wstring getNameWithSignatureParameters() const;
+
 	bool hasSignature() const;
 	const Signature& getSignature();
+	void setSignature(std::wstring prefix, std::wstring postfix);
 
 private:
 	const std::wstring m_name;
-	const Signature m_signature;
+	Signature m_signature;
 };
 
 #endif // NAME_ELEMENT_H

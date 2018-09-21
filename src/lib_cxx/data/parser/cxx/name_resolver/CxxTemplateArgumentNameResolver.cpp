@@ -1,21 +1,20 @@
 #include "CxxTemplateArgumentNameResolver.h"
 
+#include <sstream>
+
 #include <clang/AST/PrettyPrinter.h>
 #include <clang/AST/DeclTemplate.h>
 
 #include "CxxTypeNameResolver.h"
 #include "utilityString.h"
 
-CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
-	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
+CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(CanonicalFilePathCache* canonicalFilePathCache)
+	: CxxNameResolver(canonicalFilePathCache)
 {
 }
 
-CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, 
-	std::vector<const clang::Decl*> ignoredContextDecls
-)
-	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
+CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(const CxxNameResolver* other)
+	: CxxNameResolver(other)
 {
 }
 
@@ -28,8 +27,8 @@ std::wstring CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clan
 	{
 	case clang::TemplateArgument::Type:
 		{
-			CxxTypeNameResolver typeNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
-			std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(argument.getAsType()));
+			CxxTypeNameResolver typeNameResolver(this);
+			std::unique_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(argument.getAsType()));
 			return typeName->toString();
 		}
 	case clang::TemplateArgument::Integral:
@@ -47,25 +46,24 @@ std::wstring CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clan
 			std::string buf;
 			llvm::raw_string_ostream os(buf);
 			argument.print(pp, os);
-			const std::string typeName = os.str();
-
-			return utility::decodeFromUtf8(typeName);
+			return utility::decodeFromUtf8(os.str());
 		}
 	case clang::TemplateArgument::Pack:
 		{
-			std::wstring typeName = L"<";
+			std::wstringstream ss;
+			ss << L'<';
 			llvm::ArrayRef<clang::TemplateArgument> pack = argument.getPackAsArray();
 			for (size_t i = 0; i < pack.size(); i++)
 			{
-				typeName += getTemplateArgumentName(pack[i]);
-				if (i < pack.size() - 1)
+				if (i > 0)
 				{
-					typeName += L", ";
+					ss << L", ";
 				}
+				ss << getTemplateArgumentName(pack[i]);
 			}
-			typeName += L">";
+			ss << L'>';
 
-			return typeName;
+			return ss.str();
 		}
 	}
 

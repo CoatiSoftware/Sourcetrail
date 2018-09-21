@@ -5,21 +5,20 @@
 
 #include <clang/AST/RecursiveASTVisitor.h>
 
-#include "CxxContext.h"
 #include "MessageInterruptTasksCounter.h"
+
+#include "CxxAstVisitorComponentBraceRecorder.h"
+#include "CxxAstVisitorComponentContext.h"
+#include "CxxAstVisitorComponentDeclRefKind.h"
+#include "CxxAstVisitorComponentImplicitCode.h"
+#include "CxxAstVisitorComponentIndexer.h"
+#include "CxxAstVisitorComponentTypeRefKind.h"
+#include "CxxContext.h"
 
 class CanonicalFilePathCache;
 class ParserClient;
 struct ParseLocation;
 class FilePath;
-
-class CxxAstVisitorComponent;
-class CxxAstVisitorComponentBraceRecorder;
-class CxxAstVisitorComponentContext;
-class CxxAstVisitorComponentDeclRefKind;
-class CxxAstVisitorComponentTypeRefKind;
-class CxxAstVisitorComponentImplicitCode;
-class CxxAstVisitorComponentIndexer;
 
 
 // methods are called in this order:
@@ -33,7 +32,8 @@ class CxxAstVisitorComponentIndexer;
 // 		|	`-	VisitFunctionDecl()
 // 		`-	TraverseChildNodes()
 
-class CxxAstVisitor: public clang::RecursiveASTVisitor<CxxAstVisitor>
+class CxxAstVisitor
+	: public clang::RecursiveASTVisitor<CxxAstVisitor>
 {
 public:
 	CxxAstVisitor(
@@ -45,11 +45,11 @@ public:
 	virtual ~CxxAstVisitor() = default;
 
 	template <typename T>
-	std::shared_ptr<T> getComponent();
+	T* getComponent();
 
-	std::shared_ptr<DeclNameCache> getDeclNameCache();
-	std::shared_ptr<TypeNameCache> getTypeNameCache();
-	std::shared_ptr<CanonicalFilePathCache> getCanonicalFilePathCache();
+	DeclNameCache* getDeclNameCache();
+	TypeNameCache* getTypeNameCache();
+	CanonicalFilePathCache* getCanonicalFilePathCache();
 
 	// Indexing entry point
     void indexDecl(clang::Decl *d);
@@ -159,32 +159,31 @@ private:
 	clang::ASTContext* m_astContext;
 	clang::Preprocessor* m_preprocessor;
 	std::shared_ptr<ParserClient> m_client;
-	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
+
+	CxxAstVisitorComponentContext m_contextComponent;
+	CxxAstVisitorComponentDeclRefKind m_declRefKindComponent;
+	CxxAstVisitorComponentTypeRefKind m_typeRefKindComponent;
+	CxxAstVisitorComponentImplicitCode m_implicitCodeComponent;
+	CxxAstVisitorComponentIndexer m_indexerComponent;
+	CxxAstVisitorComponentBraceRecorder m_braceRecorderComponent;
 
 	MessageInterruptTasksCounter m_interruptCounter;
 
-	std::vector<std::shared_ptr<CxxAstVisitorComponent>> m_components;
-	std::shared_ptr<CxxAstVisitorComponentContext> m_contextComponent;
-	std::shared_ptr<CxxAstVisitorComponentDeclRefKind> m_declRefKindComponent;
-	std::shared_ptr<CxxAstVisitorComponentTypeRefKind> m_typeRefKindComponent;
-	std::shared_ptr<CxxAstVisitorComponentImplicitCode> m_implicitCodeComponent;
-	std::shared_ptr<CxxAstVisitorComponentIndexer> m_indexerComponent;
-	std::shared_ptr<CxxAstVisitorComponentBraceRecorder> m_braceRecorderComponent;
-
-	std::shared_ptr<DeclNameCache> m_declNameCache;
-	std::shared_ptr<TypeNameCache> m_typeNameCache;
+	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
+	DeclNameCache m_declNameCache;
+	TypeNameCache m_typeNameCache;
 };
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentContext> CxxAstVisitor::getComponent();
+CxxAstVisitorComponentContext* CxxAstVisitor::getComponent();
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentTypeRefKind> CxxAstVisitor::getComponent();
+CxxAstVisitorComponentTypeRefKind* CxxAstVisitor::getComponent();
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentDeclRefKind> CxxAstVisitor::getComponent();
+CxxAstVisitorComponentDeclRefKind* CxxAstVisitor::getComponent();
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentIndexer> CxxAstVisitor::getComponent();
+CxxAstVisitorComponentIndexer* CxxAstVisitor::getComponent();
 
 #endif // CXX_AST_VISITOR_H

@@ -100,3 +100,8 @@ const NameElement::Signature& NameElement::getSignature()
 {
 	return m_signature;
 }
+
+void NameElement::setSignature(std::wstring prefix, std::wstring postfix)
+{
+	m_signature = Signature(std::move(prefix), std::move(postfix));
+}

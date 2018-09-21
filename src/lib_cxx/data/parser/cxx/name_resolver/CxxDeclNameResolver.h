@@ -8,26 +8,24 @@
 
 class CanonicalFilePathCache;
 
-class CxxDeclNameResolver: public CxxNameResolver
+class CxxDeclNameResolver
+	: public CxxNameResolver
 {
 public:
-	CxxDeclNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
-	CxxDeclNameResolver(
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		std::vector<const clang::Decl*> ignoredContextDecls
-	);
+	CxxDeclNameResolver(CanonicalFilePathCache* canonicalFilePathCache);
+	CxxDeclNameResolver(const CxxNameResolver* other);
 
-	std::shared_ptr<CxxDeclName> getName(const clang::NamedDecl* declaration);
+	std::unique_ptr<CxxDeclName> getName(const clang::NamedDecl* declaration);
 
 private:
-	std::shared_ptr<CxxName> getContextName(const clang::DeclContext* declaration);
-	std::shared_ptr<CxxDeclName> getDeclName(const clang::NamedDecl* declaration);
+	std::unique_ptr<CxxName> getContextName(const clang::DeclContext* declaration);
+	std::unique_ptr<CxxDeclName> getDeclName(const clang::NamedDecl* declaration);
 	std::wstring getTranslationUnitMainFileName(const clang::Decl* declaration);
 	std::wstring getDeclarationFileName(const clang::Decl* declaration);
 	std::wstring getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration);
 	std::vector<std::wstring> getTemplateParameterStrings(const clang::TemplateDecl* templateDecl);
 	template <typename T>
-	std::vector<std::wstring> getTemplateParameterStringsOfPatrialSpecialitarion(const T* templateDecl);
+	std::vector<std::wstring> getTemplateParameterStringsOfPartialSpecialization(const T* templateDecl);
 	std::wstring getTemplateParameterString(const clang::NamedDecl* parameter);
 	std::wstring getTemplateArgumentName(const clang::TemplateArgument& argument);
 
@@ -36,7 +34,7 @@ private:
 
 
 template <typename T>
-std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPatrialSpecialitarion(const T* partialSpecializationDecl)
+std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPartialSpecialization(const T* partialSpecializationDecl)
 {
 	std::vector<std::wstring> templateParameterNames;
 	clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();

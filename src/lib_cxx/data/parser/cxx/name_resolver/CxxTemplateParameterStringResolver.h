@@ -9,14 +9,12 @@
 
 class DataType;
 
-class CxxTemplateParameterStringResolver: public CxxNameResolver
+class CxxTemplateParameterStringResolver
+	: public CxxNameResolver
 {
 public:
-	CxxTemplateParameterStringResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
-	CxxTemplateParameterStringResolver(
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		std::vector<const clang::Decl*> ignoredContextDecls
-	);
+	CxxTemplateParameterStringResolver(CanonicalFilePathCache* canonicalFilePathCache);
+	CxxTemplateParameterStringResolver(const CxxNameResolver* other);
 
 	std::wstring getTemplateParameterString(const clang::NamedDecl* parameter);
 	std::wstring getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);

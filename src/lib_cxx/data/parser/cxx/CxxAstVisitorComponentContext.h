@@ -7,44 +7,45 @@
 // This CxxAstVisitorComponent is responsible for recording and providing the decl/type that acts as the context of the currently traversed/visited node.
 // Example: void foo() { bar(); }
 // For this snippet the declaration of "foo" serves as the context of the call to "bar"
-class CxxAstVisitorComponentContext: public CxxAstVisitorComponent
+class CxxAstVisitorComponentContext
+	: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentContext(CxxAstVisitor* astVisitor);
 
 	const clang::NamedDecl* getTopmostContextDecl() const;
 	NameHierarchy getContextName(const size_t skip = 0);
-	NameHierarchy getContextName(const NameHierarchy& fallback, const size_t skip = 0);
+	NameHierarchy getContextName(const NameHierarchy& fallback);
 
-	void beginTraverseDecl(clang::Decl* d) override;
-	void endTraverseDecl(clang::Decl* d) override;
+	void beginTraverseDecl(clang::Decl* d);
+	void endTraverseDecl(clang::Decl* d);
 
-	void beginTraverseTypeLoc(const clang::TypeLoc& tl) override;
-	void endTraverseTypeLoc(const clang::TypeLoc& tl) override;
+	void beginTraverseTypeLoc(const clang::TypeLoc& tl);
+	void endTraverseTypeLoc(const clang::TypeLoc& tl);
 
-	void beginTraverseLambdaExpr(clang::LambdaExpr* s) override;
-	void endTraverseLambdaExpr(clang::LambdaExpr* s) override;
+	void beginTraverseLambdaExpr(clang::LambdaExpr* s);
+	void endTraverseLambdaExpr(clang::LambdaExpr* s);
 
-	void beginTraverseFunctionDecl(clang::FunctionDecl* d) override;
-	void endTraverseFunctionDecl(clang::FunctionDecl* d) override;
+	void beginTraverseFunctionDecl(clang::FunctionDecl* d);
+	void endTraverseFunctionDecl(clang::FunctionDecl* d);
 
-	void beginTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d) override;
-	void endTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d) override;
+	void beginTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d);
+	void endTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d);
 
-	void beginTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d) override;
-	void endTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d) override;
+	void beginTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d);
+	void endTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d);
 
-	void beginTraverseDeclRefExpr(clang::DeclRefExpr* s) override;
-	void endTraverseDeclRefExpr(clang::DeclRefExpr* s) override;
+	void beginTraverseDeclRefExpr(clang::DeclRefExpr* s);
+	void endTraverseDeclRefExpr(clang::DeclRefExpr* s);
 
-	void beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc) override;
-	void endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc) override;
+	void beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc);
+	void endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc);
 
-	void beginTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) override;
-	void endTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) override;
+	void beginTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e);
+	void endTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e);
 
-	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
-	void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
+	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
+	void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
 
 private:
 	std::vector<std::shared_ptr<CxxContext>> m_contextStack;

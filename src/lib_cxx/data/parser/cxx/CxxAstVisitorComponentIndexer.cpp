@@ -6,13 +6,12 @@
 #include <clang/Lex/Preprocessor.h>
 
 #include "CanonicalFilePathCache.h"
+#include "CxxAstVisitor.h"
 #include "CxxAstVisitorComponentContext.h"
 #include "CxxAstVisitorComponentDeclRefKind.h"
 #include "CxxAstVisitorComponentTypeRefKind.h"
 #include "utilityClang.h"
-#include "ParseLocation.h"
 #include "ParserClient.h"
-#include "FileRegister.h"
 
 CxxAstVisitorComponentIndexer::CxxAstVisitorComponentIndexer(
 	CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client
@@ -839,8 +838,7 @@ ReferenceKind CxxAstVisitorComponentIndexer::consumeDeclRefContextKind()
 {
 	ReferenceKind refKind = REFERENCE_UNDEFINED;
 
-	std::shared_ptr<CxxAstVisitorComponentTypeRefKind> typeRefKindComponent = getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>();
-
+	CxxAstVisitorComponentTypeRefKind* typeRefKindComponent = getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>();
 	if (typeRefKindComponent->getReferenceKind() == REFERENCE_TYPE_USAGE)
 	{
 		refKind = getAstVisitor()->getComponent<CxxAstVisitorComponentDeclRefKind>()->getReferenceKind();

@@ -2,18 +2,22 @@
 #define CXX_AST_VISITOR_COMPONENT_BRACE_RECORDER_H
 
 #include "CxxAstVisitorComponent.h"
+#include "ParseLocation.h"
+
+class ParserClient;
 
 // This CxxAstVisitorComponent is responsible for recording all matching braces ["{", "}"] throughout the visited AST.
-class CxxAstVisitorComponentBraceRecorder: public CxxAstVisitorComponent
+class CxxAstVisitorComponentBraceRecorder
+	: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentBraceRecorder(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client);
 
-	void visitTagDecl(clang::TagDecl* d) override;
-	void visitNamespaceDecl(clang::NamespaceDecl* d) override;
-	void visitCompoundStmt(clang::CompoundStmt* s) override;
-	void visitInitListExpr(clang::InitListExpr* s) override;
-	void visitMSAsmStmt(clang::MSAsmStmt* s) override;
+	void visitTagDecl(clang::TagDecl* d);
+	void visitNamespaceDecl(clang::NamespaceDecl* d);
+	void visitCompoundStmt(clang::CompoundStmt* s);
+	void visitInitListExpr(clang::InitListExpr* s);
+	void visitMSAsmStmt(clang::MSAsmStmt* s);
 
 private:
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;

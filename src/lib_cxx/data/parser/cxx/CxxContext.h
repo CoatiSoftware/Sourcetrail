@@ -4,10 +4,10 @@
 #include <clang/AST/Decl.h>
 
 #include "NameHierarchy.h"
-#include "UnorderedCache.h"
+#include "OrderedCache.h"
 
-typedef UnorderedCache<const clang::NamedDecl*, NameHierarchy> DeclNameCache;
-typedef UnorderedCache<const clang::Type*, NameHierarchy> TypeNameCache;
+typedef OrderedCache<const clang::NamedDecl*, NameHierarchy> DeclNameCache;
+typedef OrderedCache<const clang::Type*, NameHierarchy> TypeNameCache;
 
 class CxxContext
 {
@@ -17,28 +17,32 @@ public:
 	virtual const clang::NamedDecl* getDecl() = 0;
 };
 
-class CxxContextDecl: public CxxContext
+
+class CxxContextDecl
+	: public CxxContext
 {
 public:
-	CxxContextDecl(const clang::NamedDecl* decl, std::shared_ptr<DeclNameCache> nameCache);
+	CxxContextDecl(const clang::NamedDecl* decl, DeclNameCache* nameCache);
 	NameHierarchy getName() override;
 	const clang::NamedDecl* getDecl() override;
 
 private:
 	const clang::NamedDecl* m_decl;
-	std::shared_ptr<DeclNameCache> m_nameCache;
+	DeclNameCache* m_nameCache;
 };
 
-class CxxContextType: public CxxContext
+
+class CxxContextType
+	: public CxxContext
 {
 public:
-	CxxContextType(const clang::Type* type, std::shared_ptr<TypeNameCache> nameCache);
+	CxxContextType(const clang::Type* type, TypeNameCache* nameCache);
 	NameHierarchy getName() override;
 	const clang::NamedDecl* getDecl() override;
 
 private:
 	const clang::Type* m_type;
-	std::shared_ptr<TypeNameCache> m_nameCache;
+	TypeNameCache* m_nameCache;
 };
 
 #endif // CXX_CONTEXT_H

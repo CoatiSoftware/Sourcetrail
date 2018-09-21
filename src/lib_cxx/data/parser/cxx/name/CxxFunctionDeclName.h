@@ -7,56 +7,26 @@
 #include "CxxDeclName.h"
 #include "CxxTypeName.h"
 
-class CxxFunctionDeclName: public CxxDeclName
+class CxxFunctionDeclName
+	: public CxxDeclName
 {
 public:
-	// uncomment this constructor if required, but try to use the one using move constructors for the members
-	//CxxFunctionDeclName(
-	//	const std::wstring& name,
-	//	const std::vector<std::wstring>& templateParameterNames,
-	//	std::shared_ptr<CxxTypeName> returnTypeName,
-	//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-	//	const bool isConst,
-	//	const bool isStatic
-	//);
-
 	CxxFunctionDeclName(
-		std::wstring&& name,
-		std::vector<std::wstring>&& templateParameterNames,
-		std::shared_ptr<CxxTypeName> returnTypeName,
-		std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
+		std::wstring name,
+		std::vector<std::wstring> templateParameterNames,
+		std::unique_ptr<CxxTypeName> returnTypeName,
+		std::vector<std::unique_ptr<CxxTypeName>> parameterTypeNames,
 		const bool isConst,
 		const bool isStatic
 	);
 
-	// uncomment this constructor if required, but try to use the one using move constructors for the members
-	//CxxFunctionDeclName(
-	//	const std::wstring& name,
-	//	const std::vector<std::wstring>& templateParameterNames,
-	//	std::shared_ptr<CxxTypeName> returnTypeName,
-	//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-	//	const bool isConst,
-	//	const bool isStatic,
-	//	std::shared_ptr<CxxName> parent
-	//);
-
-	CxxFunctionDeclName(
-		std::wstring&& name,
-		std::vector<std::wstring>&& templateParameterNames,
-		std::shared_ptr<CxxTypeName> returnTypeName,
-		std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
-		const bool isConst,
-		const bool isStatic,
-		std::shared_ptr<CxxName> parent
-	);
-
-	virtual NameHierarchy toNameHierarchy() const;
+	NameHierarchy toNameHierarchy() const override;
 
 private:
-	std::shared_ptr<CxxTypeName> m_returnTypeName;
-	std::vector<std::shared_ptr<CxxTypeName>> m_parameterTypeNames;
-	bool m_isConst;
-	bool m_isStatic;
+	const std::unique_ptr<CxxTypeName> m_returnTypeName;
+	const std::vector<std::unique_ptr<CxxTypeName>> m_parameterTypeNames;
+	const bool m_isConst;
+	const bool m_isStatic;
 };
 
 #endif // CXX_FUNCTION_DECL_NAME_H

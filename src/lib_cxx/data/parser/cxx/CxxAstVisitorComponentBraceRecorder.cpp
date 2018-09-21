@@ -2,9 +2,9 @@
 
 #include <clang/Lex/Preprocessor.h>
 
+#include "CxxAstVisitor.h"
 #include "CxxAstVisitorComponentContext.h"
 #include "utilityClang.h"
-#include "ParseLocation.h"
 #include "ParserClient.h"
 
 CxxAstVisitorComponentBraceRecorder::CxxAstVisitorComponentBraceRecorder(

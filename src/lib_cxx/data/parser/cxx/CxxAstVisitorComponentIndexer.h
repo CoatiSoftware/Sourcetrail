@@ -4,45 +4,50 @@
 #include <unordered_map>
 
 #include "CxxAstVisitorComponent.h"
+#include "ParseLocation.h"
 #include "ReferenceKind.h"
 #include "SymbolKind.h"
 
+class ParserClient;
+class NameHierarchy;
+
 // This CxxAstVisitorComponent is responsible for recording all symbols and relations throughout the visited AST.
-class CxxAstVisitorComponentIndexer: public CxxAstVisitorComponent
+class CxxAstVisitorComponentIndexer
+	: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client);
 
-	void beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc& loc) override;
-	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
-	void beginTraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture) override;
+	void beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc& loc);
+	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
+	void beginTraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture);
 
-	void visitTagDecl(clang::TagDecl* d) override;
-	void visitClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl* d) override;
-	void visitVarDecl(clang::VarDecl* d) override;
-	void visitVarTemplateSpecializationDecl(clang::VarTemplateSpecializationDecl* d) override;
-	void visitFieldDecl(clang::FieldDecl* d) override;
-	void visitFunctionDecl(clang::FunctionDecl* d) override;
-	void visitCXXMethodDecl(clang::CXXMethodDecl* d) override;
-	void visitEnumConstantDecl(clang::EnumConstantDecl* d) override;
-	void visitNamespaceDecl(clang::NamespaceDecl* d) override;
-	void visitNamespaceAliasDecl(clang::NamespaceAliasDecl* d) override;
-	void visitTypedefDecl(clang::TypedefDecl* d) override;
-	void visitTypeAliasDecl(clang::TypeAliasDecl* d) override;
-	void visitUsingDirectiveDecl(clang::UsingDirectiveDecl* d) override;
-	void visitUsingDecl(clang::UsingDecl* d) override;
-	void visitNonTypeTemplateParmDecl(clang::NonTypeTemplateParmDecl* d) override;
-	void visitTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d) override;
-	void visitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d) override;
+	void visitTagDecl(clang::TagDecl* d);
+	void visitClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl* d);
+	void visitVarDecl(clang::VarDecl* d);
+	void visitVarTemplateSpecializationDecl(clang::VarTemplateSpecializationDecl* d);
+	void visitFieldDecl(clang::FieldDecl* d);
+	void visitFunctionDecl(clang::FunctionDecl* d);
+	void visitCXXMethodDecl(clang::CXXMethodDecl* d);
+	void visitEnumConstantDecl(clang::EnumConstantDecl* d);
+	void visitNamespaceDecl(clang::NamespaceDecl* d);
+	void visitNamespaceAliasDecl(clang::NamespaceAliasDecl* d);
+	void visitTypedefDecl(clang::TypedefDecl* d);
+	void visitTypeAliasDecl(clang::TypeAliasDecl* d);
+	void visitUsingDirectiveDecl(clang::UsingDirectiveDecl* d);
+	void visitUsingDecl(clang::UsingDecl* d);
+	void visitNonTypeTemplateParmDecl(clang::NonTypeTemplateParmDecl* d);
+	void visitTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d);
+	void visitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d);
 
-	void visitTypeLoc(clang::TypeLoc tl) override;
+	void visitTypeLoc(clang::TypeLoc tl);
 
-	void visitDeclRefExpr(clang::DeclRefExpr* s) override;
-	void visitMemberExpr(clang::MemberExpr* s) override;
-	void visitCXXConstructExpr(clang::CXXConstructExpr* s) override;
-	void visitLambdaExpr(clang::LambdaExpr* s) override;
+	void visitDeclRefExpr(clang::DeclRefExpr* s);
+	void visitMemberExpr(clang::MemberExpr* s);
+	void visitCXXConstructExpr(clang::CXXConstructExpr* s);
+	void visitLambdaExpr(clang::LambdaExpr* s);
 
-	void visitConstructorInitializer(clang::CXXCtorInitializer* init) override;
+	void visitConstructorInitializer(clang::CXXCtorInitializer* init);
 
 private:
 	void recordTemplateMemberSpecialization(

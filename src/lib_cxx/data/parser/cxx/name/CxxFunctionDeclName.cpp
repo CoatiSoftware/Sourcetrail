@@ -1,65 +1,17 @@
 #include "CxxFunctionDeclName.h"
 
-//CxxFunctionDeclName::CxxFunctionDeclName(
-//	const std::wstring& name,
-//	const std::vector<std::wstring>& templateParameterNames,
-//	std::shared_ptr<CxxTypeName> returnTypeName,
-//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-//	const bool isConst,
-//	const bool isStatic
-//)
-//	: CxxDeclName(name, templateParameterNames)
-//	, m_returnTypeName(returnTypeName)
-//	, m_parameterTypeNames(parameterTypeNames)
-//	, m_isConst(isConst)
-//	, m_isStatic(isStatic)
-//{
-//}
+#include <sstream>
 
 CxxFunctionDeclName::CxxFunctionDeclName(
-	std::wstring&& name,
-	std::vector<std::wstring>&& templateParameterNames,
-	std::shared_ptr<CxxTypeName> returnTypeName,
-	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
+	std::wstring name,
+	std::vector<std::wstring> templateParameterNames,
+	std::unique_ptr<CxxTypeName> returnTypeName,
+	std::vector<std::unique_ptr<CxxTypeName>> parameterTypeNames,
 	const bool isConst,
 	const bool isStatic
 )
 	: CxxDeclName(std::move(name), std::move(templateParameterNames))
-	, m_returnTypeName(returnTypeName)
-	, m_parameterTypeNames(std::move(parameterTypeNames))
-	, m_isConst(isConst)
-	, m_isStatic(isStatic)
-{
-}
-
-//CxxFunctionDeclName::CxxFunctionDeclName(
-//	const std::wstring& name,
-//	const std::vector<std::wstring>& templateParameterNames,
-//	std::shared_ptr<CxxTypeName> returnTypeName,
-//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-//	const bool isConst,
-//	const bool isStatic,
-//	std::shared_ptr<CxxName> parent
-//)
-//	: CxxDeclName(name, templateParameterNames, parent)
-//	, m_returnTypeName(returnTypeName)
-//	, m_parameterTypeNames(parameterTypeNames)
-//	, m_isConst(isConst)
-//	, m_isStatic(isStatic)
-//{
-//}
-
-CxxFunctionDeclName::CxxFunctionDeclName(
-	std::wstring&& name,
-	std::vector<std::wstring>&& templateParameterNames,
-	std::shared_ptr<CxxTypeName> returnTypeName,
-	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
-	const bool isConst,
-	const bool isStatic,
-	std::shared_ptr<CxxName> parent
-)
-	: CxxDeclName(std::move(name), std::move(templateParameterNames), parent)
-	, m_returnTypeName(returnTypeName)
+	, m_returnTypeName(std::move(returnTypeName))
 	, m_parameterTypeNames(std::move(parameterTypeNames))
 	, m_isConst(isConst)
 	, m_isStatic(isStatic)
@@ -68,37 +20,30 @@ CxxFunctionDeclName::CxxFunctionDeclName(
 
 NameHierarchy CxxFunctionDeclName::toNameHierarchy() const
 {
-	std::wstring signaturePrefix;
+	std::wstringstream prefix;
 	if (m_isStatic)
 	{
-		signaturePrefix += L"static ";
+		prefix << L"static ";
 	}
-	signaturePrefix += CxxTypeName::makeUnsolvedIfNull(m_returnTypeName)->toString();
+	prefix << m_returnTypeName->toString();
 
-	std::wstring signaturePostfix = L"(";
+	std::wstringstream postfix;
+	postfix << L'(';
 	for (size_t i = 0; i < m_parameterTypeNames.size(); i++)
 	{
 		if (i != 0)
 		{
-			signaturePostfix += L", ";
+			postfix << L", ";
 		}
-		signaturePostfix += CxxTypeName::makeUnsolvedIfNull(m_parameterTypeNames[i])->toString();
+		postfix << m_parameterTypeNames[i]->toString();
 	}
-	signaturePostfix += L")";
+	postfix << L')';
 	if (m_isConst)
 	{
-		signaturePostfix += L" const";
+		postfix << L" const";
 	}
 
 	NameHierarchy ret = CxxDeclName::toNameHierarchy();
-	std::shared_ptr<NameElement> nameElement = std::make_shared<NameElement>(
-		ret.back()->getName(),
-		std::move(signaturePrefix),
-		std::move(signaturePostfix)
-	);
-
-	ret.pop();
-	ret.push(nameElement);
-
+	ret.back()->setSignature(prefix.str(), postfix.str());
 	return ret;
 }

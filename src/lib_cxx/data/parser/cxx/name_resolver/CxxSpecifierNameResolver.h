@@ -7,16 +7,14 @@
 
 class CxxName;
 
-class CxxSpecifierNameResolver: public CxxNameResolver
+class CxxSpecifierNameResolver
+	: public CxxNameResolver
 {
 public:
-	CxxSpecifierNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
-	CxxSpecifierNameResolver(
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		std::vector<const clang::Decl*> ignoredContextDecls
-	);
+	CxxSpecifierNameResolver(CanonicalFilePathCache* canonicalFilePathCache);
+	CxxSpecifierNameResolver(const CxxNameResolver* other);
 
-	std::shared_ptr<CxxName> getName(const clang::NestedNameSpecifier* nestedNameSpecifier);
+	std::unique_ptr<CxxName> getName(const clang::NestedNameSpecifier* nestedNameSpecifier);
 };
 
 #endif // CXX_SPECIFIER_NAME_RESOLVER_H

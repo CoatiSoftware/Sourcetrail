@@ -10,22 +10,19 @@ class CanonicalFilePathCache;
 class CxxNameResolver
 {
 public:
-	CxxNameResolver(
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		std::vector<const clang::Decl*> ignoredContextDecls
-	);
-	virtual ~CxxNameResolver() = default;
+	CxxNameResolver(CanonicalFilePathCache* canonicalFilePathCache);
+	CxxNameResolver(const CxxNameResolver* other);
 
 	void ignoreContextDecl(const clang::Decl* decl);
-	bool ignoresContext(const clang::Decl* decl);
-	bool ignoresContext(const clang::DeclContext* declContext);
+	bool ignoresContext(const clang::Decl* decl) const;
+	bool ignoresContext(const clang::DeclContext* declContext) const;
 
 protected:
-	std::shared_ptr<CanonicalFilePathCache> getCanonicalFilePathCache() const;
-	std::vector<const clang::Decl*> getIgnoredContextDecls() const;
+	CanonicalFilePathCache* getCanonicalFilePathCache() const;
+	const std::vector<const clang::Decl*>& getIgnoredContextDecls() const;
 
 private:
-	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
+	CanonicalFilePathCache* m_canonicalFilePathCache;
 	std::vector<const clang::Decl*> m_ignoredContextDecls;
 };
 

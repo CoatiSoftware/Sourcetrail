@@ -7,46 +7,22 @@
 #include "CxxDeclName.h"
 #include "CxxTypeName.h"
 
-class CxxVariableDeclName: public CxxDeclName
+class CxxVariableDeclName
+	: public CxxDeclName
 {
 public:
-	// uncomment this constructor if required, but try to use the one using move constructors for the members
-	//CxxVariableDeclName(
-	//	const std::wstring& name,
-	//	const std::vector<std::wstring>& templateParameterNames,
-	//	std::shared_ptr<CxxTypeName> typeName,
-	//	bool isStatic
-	//);
-
 	CxxVariableDeclName(
-		std::wstring&& name,
-		std::vector<std::wstring>&& templateParameterNames,
-		std::shared_ptr<CxxTypeName> typeName,
+		std::wstring name,
+		std::vector<std::wstring> templateParameterNames,
+		std::unique_ptr<CxxTypeName> typeName,
 		bool isStatic
 	);
 
-	// uncomment this constructor if required, but try to use the one using move constructors for the members
-	//CxxVariableDeclName(
-	//	const std::wstring& name,
-	//	const std::vector<std::wstring>& templateParameterNames,
-	//	std::shared_ptr<CxxTypeName> typeName,
-	//	bool isStatic,
-	//	std::shared_ptr<CxxName> parent
-	//);
-
-	CxxVariableDeclName(
-		std::wstring&& name,
-		std::vector<std::wstring>&& templateParameterNames,
-		std::shared_ptr<CxxTypeName> typeName,
-		bool isStatic,
-		std::shared_ptr<CxxName> parent
-	);
-
-	virtual NameHierarchy toNameHierarchy() const;
+	NameHierarchy toNameHierarchy() const override;
 
 private:
-	std::shared_ptr<CxxTypeName> m_typeName;
-	bool m_isStatic;
+	std::unique_ptr<CxxTypeName> m_typeName;
+	const bool m_isStatic;
 };
 
 #endif // CXX_VARIABLE_DECL_NAME_H

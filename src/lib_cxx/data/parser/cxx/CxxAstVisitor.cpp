@@ -7,13 +7,6 @@
 #include "CxxTypeNameResolver.h"
 
 #include "CanonicalFilePathCache.h"
-#include "CxxAstVisitorComponent.h"
-#include "CxxAstVisitorComponentBraceRecorder.h"
-#include "CxxAstVisitorComponentContext.h"
-#include "CxxAstVisitorComponentDeclRefKind.h"
-#include "CxxAstVisitorComponentTypeRefKind.h"
-#include "CxxAstVisitorComponentImplicitCode.h"
-#include "CxxAstVisitorComponentIndexer.h"
 #include "utilityClang.h"
 #include "ParserClient.h"
 #include "ParseLocation.h"
@@ -29,85 +22,79 @@ CxxAstVisitor::CxxAstVisitor(
 	: m_astContext(astContext)
 	, m_preprocessor(preprocessor)
 	, m_client(client)
+	, m_contextComponent(this)
+	, m_declRefKindComponent(this)
+	, m_typeRefKindComponent(this)
+	, m_implicitCodeComponent(this)
+	, m_indexerComponent(this, astContext, client)
+	, m_braceRecorderComponent(this, astContext, client)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
-{
-	m_declNameCache = std::make_shared<DeclNameCache>([&](const clang::NamedDecl* decl) -> NameHierarchy
+	, m_declNameCache([&](const clang::NamedDecl* decl) -> NameHierarchy
 		{
 			if (decl)
 			{
-				CxxDeclNameResolver resolver(m_canonicalFilePathCache);
-				if (std::shared_ptr<CxxDeclName> declName = resolver.getName(decl))
+				std::shared_ptr<CxxDeclName> declName = CxxDeclNameResolver(m_canonicalFilePathCache.get()).getName(decl);
+				if (declName)
 				{
 					return declName->toNameHierarchy();
 				}
 			}
 			return NameHierarchy(L"global", NAME_DELIMITER_UNKNOWN);
 		}
-	);
-	m_typeNameCache = std::make_shared<TypeNameCache>([&](const clang::Type* type) -> NameHierarchy
+	)
+	, m_typeNameCache([&](const clang::Type* type) -> NameHierarchy
 		{
 			if (type)
 			{
-				CxxTypeNameResolver resolver(m_canonicalFilePathCache);
-				if (std::shared_ptr<CxxTypeName> typeName = resolver.getName(type))
+				std::shared_ptr<CxxTypeName> typeName = CxxTypeNameResolver(m_canonicalFilePathCache.get()).getName(type);
+				if (typeName)
 				{
 					return typeName->toNameHierarchy();
 				}
 			}
 			return NameHierarchy(L"global", NAME_DELIMITER_UNKNOWN);
 		}
-	);
-	m_contextComponent = std::make_shared<CxxAstVisitorComponentContext>(this);
-	m_components.push_back(m_contextComponent);
-	m_typeRefKindComponent = std::make_shared<CxxAstVisitorComponentTypeRefKind>(this);
-	m_components.push_back(m_typeRefKindComponent);
-	m_declRefKindComponent = std::make_shared<CxxAstVisitorComponentDeclRefKind>(this);
-	m_components.push_back(m_declRefKindComponent);
-	m_implicitCodeComponent = std::make_shared<CxxAstVisitorComponentImplicitCode>(this);
-	m_components.push_back(m_implicitCodeComponent);
-	m_indexerComponent = std::make_shared<CxxAstVisitorComponentIndexer>(this, astContext, client);
-	m_components.push_back(m_indexerComponent);
-	m_braceRecorderComponent = std::make_shared<CxxAstVisitorComponentBraceRecorder>(this, astContext, client);
-	m_components.push_back(m_braceRecorderComponent);
+	)
+{
 }
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentContext> CxxAstVisitor::getComponent()
+CxxAstVisitorComponentContext* CxxAstVisitor::getComponent()
 {
-	return m_contextComponent;
+	return &m_contextComponent;
 }
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentTypeRefKind> CxxAstVisitor::getComponent()
+CxxAstVisitorComponentTypeRefKind* CxxAstVisitor::getComponent()
 {
-	return m_typeRefKindComponent;
+	return &m_typeRefKindComponent;
 }
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentDeclRefKind> CxxAstVisitor::getComponent()
+CxxAstVisitorComponentDeclRefKind* CxxAstVisitor::getComponent()
 {
-	return m_declRefKindComponent;
+	return &m_declRefKindComponent;
 }
 
 template <>
-std::shared_ptr<CxxAstVisitorComponentIndexer> CxxAstVisitor::getComponent()
+CxxAstVisitorComponentIndexer* CxxAstVisitor::getComponent()
 {
-	return m_indexerComponent;
+	return &m_indexerComponent;
 }
 
-std::shared_ptr<DeclNameCache> CxxAstVisitor::getDeclNameCache()
+DeclNameCache* CxxAstVisitor::getDeclNameCache()
 {
-	return m_declNameCache;
+	return &m_declNameCache;
 }
 
-std::shared_ptr<TypeNameCache> CxxAstVisitor::getTypeNameCache()
+TypeNameCache* CxxAstVisitor::getTypeNameCache()
 {
-	return m_typeNameCache;
+	return &m_typeNameCache;
 }
 
-std::shared_ptr<CanonicalFilePathCache> CxxAstVisitor::getCanonicalFilePathCache()
+CanonicalFilePathCache* CxxAstVisitor::getCanonicalFilePathCache()
 {
-	return m_canonicalFilePathCache;
+	return m_canonicalFilePathCache.get();
 }
 
 void CxxAstVisitor::indexDecl(clang::Decl* d)
@@ -122,7 +109,7 @@ bool CxxAstVisitor::shouldVisitTemplateInstantiations() const
 
 bool CxxAstVisitor::shouldVisitImplicitCode() const
 {
-	return m_implicitCodeComponent->shouldVisitImplicitCode();
+	return m_implicitCodeComponent.shouldVisitImplicitCode();
 }
 
 bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
@@ -142,39 +129,37 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
 	return true;
 }
 
+#define FOREACH_COMPONENT(__METHOD_CALL__)				\
+	{													\
+		m_contextComponent.__METHOD_CALL__;				\
+		m_typeRefKindComponent.__METHOD_CALL__;			\
+		m_declRefKindComponent.__METHOD_CALL__;			\
+		m_implicitCodeComponent.__METHOD_CALL__;		\
+		m_indexerComponent.__METHOD_CALL__;				\
+		m_braceRecorderComponent.__METHOD_CALL__;		\
+	}
+
 #define DEF_TRAVERSE_CUSTOM_TYPE_PTR(__NAME_TYPE__, __PARAM_TYPE__, CODE_BEFORE, CODE_AFTER)	\
 	bool CxxAstVisitor::Traverse##__NAME_TYPE__(clang::__PARAM_TYPE__* v)						\
 	{																							\
-		for (auto it = m_components.begin(); it != m_components.end(); it++)					\
-		{																						\
-			(*it)->beginTraverse##__NAME_TYPE__(v);												\
-		}																						\
+		FOREACH_COMPONENT(beginTraverse##__NAME_TYPE__(v));										\
 		bool ret = true;																		\
 		{ CODE_BEFORE; }																		\
 		Base::Traverse##__NAME_TYPE__(v);														\
 		{ CODE_AFTER; }																			\
-		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)					\
-		{																						\
-			(*it)->endTraverse##__NAME_TYPE__(v);												\
-		}																						\
+		FOREACH_COMPONENT(endTraverse##__NAME_TYPE__(v));										\
 		return ret;																				\
 	}
 
 #define DEF_TRAVERSE_CUSTOM_TYPE(__NAME_TYPE__, __PARAM_TYPE__, CODE_BEFORE, CODE_AFTER)		\
 	bool CxxAstVisitor::Traverse##__NAME_TYPE__(clang::__PARAM_TYPE__ v)						\
 	{																							\
-		for (auto it = m_components.begin(); it != m_components.end(); it++)					\
-		{																						\
-			(*it)->beginTraverse##__NAME_TYPE__(v);												\
-		}																						\
+		FOREACH_COMPONENT(beginTraverse##__NAME_TYPE__(v));										\
 		bool ret = true;																		\
 		{ CODE_BEFORE; }																		\
 		Base::Traverse##__NAME_TYPE__(v);														\
 		{ CODE_AFTER; }																			\
-		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)					\
-		{																						\
-			(*it)->endTraverse##__NAME_TYPE__(v);												\
-		}																						\
+		FOREACH_COMPONENT(endTraverse##__NAME_TYPE__(v));										\
 		return ret;																				\
 	}
 
@@ -186,12 +171,6 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
 
 bool CxxAstVisitor::TraverseDecl(clang::Decl* decl)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseDecl(decl);
-	}
-	bool ret = m_interruptCounter.getCount() == 0;
-
 	bool traverse = true;
 	if (decl)
 	{
@@ -210,14 +189,12 @@ bool CxxAstVisitor::TraverseDecl(clang::Decl* decl)
 
 	if (traverse)
 	{
+		FOREACH_COMPONENT(beginTraverseDecl(decl));
 		Base::TraverseDecl(decl);
+		FOREACH_COMPONENT(endTraverseDecl(decl));
 	}
 
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseDecl(decl);
-	}
-	return ret;
+	return m_interruptCounter.getCount() == 0;
 }
 
 // same as Base::TraverseQualifiedTypeLoc(..) but we need to make sure to call this.TraverseTypeLoc(..)
@@ -262,15 +239,9 @@ bool CxxAstVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
 
 bool CxxAstVisitor::traverseCXXBaseSpecifier(const clang::CXXBaseSpecifier& d)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseCXXBaseSpecifier();
-	}
+	FOREACH_COMPONENT(beginTraverseCXXBaseSpecifier());
 	bool ret = TraverseTypeLoc(d.getTypeSourceInfo()->getTypeLoc());
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseCXXBaseSpecifier();
-	}
+	FOREACH_COMPONENT(endTraverseCXXBaseSpecifier());
 	return ret;
 }
 
@@ -281,15 +252,9 @@ bool CxxAstVisitor::TraverseTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d)
 
 	if (d->hasDefaultArgument() && !d->defaultArgumentWasInherited())
 	{
-		for (auto it = m_components.begin(); it != m_components.end(); it++)
-		{
-			(*it)->beginTraverseTemplateDefaultArgumentLoc();
-		}
+		FOREACH_COMPONENT(beginTraverseTemplateDefaultArgumentLoc());
 		TraverseTypeLoc(d->getDefaultArgumentInfo()->getTypeLoc());
-		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-		{
-			(*it)->endTraverseTemplateDefaultArgumentLoc();
-		}
+		FOREACH_COMPONENT(endTraverseTemplateDefaultArgumentLoc());
 	}
 
 	traverseDeclContextHelper(clang::dyn_cast<clang::DeclContext>(d));
@@ -305,15 +270,9 @@ bool CxxAstVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParm
 
 	if (d->hasDefaultArgument() && !d->defaultArgumentWasInherited())
 	{
-		for (auto it = m_components.begin(); it != m_components.end(); it++)
-		{
-			(*it)->beginTraverseTemplateDefaultArgumentLoc();
-		}
+		FOREACH_COMPONENT(beginTraverseTemplateDefaultArgumentLoc());
 		TraverseTemplateArgumentLoc(d->getDefaultArgument());
-		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-		{
-			(*it)->endTraverseTemplateDefaultArgumentLoc();
-		}
+		FOREACH_COMPONENT(endTraverseTemplateDefaultArgumentLoc());
 	}
 
 	clang::TemplateParameterList* TPL = d->getTemplateParameters();
@@ -339,10 +298,7 @@ bool CxxAstVisitor::TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc
 	bool ret = true;
 	if (loc)
 	{
-		for (auto it = m_components.begin(); it != m_components.end(); it++)
-		{
-			(*it)->beginTraverseNestedNameSpecifierLoc(loc);
-		}
+		FOREACH_COMPONENT(beginTraverseNestedNameSpecifierLoc(loc));
 
 		//todo: call method of base class...
 		if (clang::NestedNameSpecifierLoc prefix = loc.getPrefix())
@@ -350,31 +306,22 @@ bool CxxAstVisitor::TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc
 			ret = TraverseNestedNameSpecifierLoc(prefix);
 		}
 
-		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-		{
-			(*it)->endTraverseNestedNameSpecifierLoc(loc);
-		}
+		FOREACH_COMPONENT(endTraverseNestedNameSpecifierLoc(loc));
 	}
 	return ret;
 }
 
 bool CxxAstVisitor::TraverseConstructorInitializer(clang::CXXCtorInitializer* init)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
+	FOREACH_COMPONENT(beginTraverseConstructorInitializer(init));
+
+	bool ret = VisitConstructorInitializer(init);
+	if (ret)
 	{
-		(*it)->beginTraverseConstructorInitializer(init);
+		ret = Base::TraverseConstructorInitializer(init);
 	}
 
-	if (!VisitConstructorInitializer(init))
-	{
-		return false;
-	}
-	bool ret = Base::TraverseConstructorInitializer(init);
-
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseConstructorInitializer(init);
-	}
+	FOREACH_COMPONENT(endTraverseConstructorInitializer(init));
 
 	return ret;
 }
@@ -396,28 +343,15 @@ bool CxxAstVisitor::TraverseCXXOperatorCallExpr(clang::CXXOperatorCallExpr* s)
 
 bool CxxAstVisitor::TraverseCXXConstructExpr(clang::CXXConstructExpr* s)
 {
-	{
-		for (auto it = m_components.begin(); it != m_components.end(); it++)
-		{
-			(*it)->beginTraverseCallCommonCallee();
-		}
-		WalkUpFromCXXConstructExpr(s);
-		for (auto it = m_components.begin(); it != m_components.end(); it++)
-		{
-			(*it)->endTraverseCallCommonCallee();
-		}
-	}
+	FOREACH_COMPONENT(beginTraverseCallCommonCallee());
+	WalkUpFromCXXConstructExpr(s);
+	FOREACH_COMPONENT(endTraverseCallCommonCallee());
+
 	for (unsigned int i = 0; i < s->getNumArgs(); ++i)
 	{
-		for (auto it = m_components.begin(); it != m_components.end(); it++)
-		{
-			(*it)->beginTraverseCallCommonArgument();
-		}
+		FOREACH_COMPONENT(beginTraverseCallCommonArgument());
 		TraverseStmt(s->getArg(i));
-		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-		{
-			(*it)->endTraverseCallCommonArgument();
-		}
+		FOREACH_COMPONENT(endTraverseCallCommonArgument());
 	}
 	return true;
 }
@@ -435,62 +369,33 @@ DEF_TRAVERSE_TYPE_PTR(UnresolvedMemberExpr, {}, {})
 
 bool CxxAstVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseTemplateArgumentLoc(loc);
-	}
-
+	FOREACH_COMPONENT(beginTraverseTemplateArgumentLoc(loc));
 	bool ret = Base::TraverseTemplateArgumentLoc(loc);
-
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseTemplateArgumentLoc(loc);
-	}
+	FOREACH_COMPONENT(endTraverseTemplateArgumentLoc(loc));
 	return ret;
 }
 
 bool CxxAstVisitor::TraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture, clang::Expr *Init)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseLambdaCapture(lambdaExpr, capture);
-	}
-
+	FOREACH_COMPONENT(beginTraverseLambdaCapture(lambdaExpr, capture));
 	bool ret = true;
-
 	if (lambdaExpr->isInitCapture(capture))
 	{
 		ret = TraverseDecl(capture->getCapturedVar());
 	}
-
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseLambdaCapture(lambdaExpr, capture);
-	}
+	FOREACH_COMPONENT(endTraverseLambdaCapture(lambdaExpr, capture));
 	return ret;
 }
 
 bool CxxAstVisitor::TraverseBinComma(clang::BinaryOperator* s)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseBinCommaLhs();
-	}
+	FOREACH_COMPONENT(beginTraverseBinCommaLhs());
 	TraverseStmt(s->getLHS());
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseBinCommaLhs();
-	}
+	FOREACH_COMPONENT(endTraverseBinCommaLhs());
 
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseBinCommaRhs();
-	}
+	FOREACH_COMPONENT(beginTraverseBinCommaRhs());
 	TraverseStmt(s->getRHS());
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseBinCommaRhs();
-	}
+	FOREACH_COMPONENT(endTraverseBinCommaRhs());
 	return true;
 }
 
@@ -519,52 +424,28 @@ void CxxAstVisitor::traverseDeclContextHelper(clang::DeclContext* d)
 
 bool CxxAstVisitor::TraverseCallCommon(clang::CallExpr* s)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseCallCommonCallee();
-	}
+	FOREACH_COMPONENT(beginTraverseCallCommonCallee());
 	TraverseStmt(s->getCallee());
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseCallCommonCallee();
-	}
+	FOREACH_COMPONENT(endTraverseCallCommonCallee());
 
 	for (unsigned int i = 0; i < s->getNumArgs(); ++i)
 	{
-		for (auto it = m_components.begin(); it != m_components.end(); it++)
-		{
-			(*it)->beginTraverseCallCommonArgument();
-		}
+		FOREACH_COMPONENT(beginTraverseCallCommonArgument());
 		TraverseStmt(s->getArg(i));
-		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-		{
-			(*it)->endTraverseCallCommonArgument();
-		}
+		FOREACH_COMPONENT(endTraverseCallCommonArgument());
 	}
 	return true;
 }
 
 bool CxxAstVisitor::TraverseAssignCommon(clang::BinaryOperator* s)
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseAssignCommonLhs();
-	}
+	FOREACH_COMPONENT(beginTraverseAssignCommonLhs());
 	TraverseStmt(s->getLHS());
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseAssignCommonLhs();
-	}
+	FOREACH_COMPONENT(endTraverseAssignCommonLhs());
 
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->beginTraverseAssignCommonRhs();
-	}
+	FOREACH_COMPONENT(beginTraverseAssignCommonRhs());
 	TraverseStmt(s->getRHS());
-	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
-	{
-		(*it)->endTraverseAssignCommonRhs();
-	}
+	FOREACH_COMPONENT(endTraverseAssignCommonRhs());
 	return true;
 }
 
@@ -576,20 +457,14 @@ bool CxxAstVisitor::TraverseAssignCommon(clang::BinaryOperator* s)
 #define DEF_VISIT_CUSTOM_TYPE_PTR(__NAME_TYPE__, __PARAM_TYPE__)				\
 	bool CxxAstVisitor::Visit##__NAME_TYPE__(clang::__PARAM_TYPE__* v)			\
 	{																			\
-		for (auto it = m_components.begin(); it != m_components.end(); it++)	\
-		{																		\
-			(*it)->visit##__NAME_TYPE__(v);										\
-		}																		\
+		FOREACH_COMPONENT(visit##__NAME_TYPE__(v));								\
 		return true;															\
 	}
 
 #define DEF_VISIT_CUSTOM_TYPE(__NAME_TYPE__, __PARAM_TYPE__)					\
 	bool CxxAstVisitor::Visit##__NAME_TYPE__(clang::__PARAM_TYPE__ v)			\
 	{																			\
-		for (auto it = m_components.begin(); it != m_components.end(); it++)	\
-		{																		\
-			(*it)->visit##__NAME_TYPE__(v);										\
-		}																		\
+		FOREACH_COMPONENT(visit##__NAME_TYPE__(v));								\
 		return true;															\
 	}
 
@@ -636,6 +511,8 @@ DEF_VISIT_CUSTOM_TYPE_PTR(ConstructorInitializer, CXXCtorInitializer)
 #undef DEF_VISIT_CUSTOM_TYPE
 #undef DEF_VISIT_TYPE_PTR
 #undef DEF_VISIT_TYPE
+
+#undef FOREACH_COMPONENT
 
 ParseLocation CxxAstVisitor::getParseLocationOfTagDeclBody(clang::TagDecl* decl) const
 {

@@ -1,5 +1,7 @@
 #include "CxxAstVisitorComponentContext.h"
 
+#include "data/parser/cxx/CxxAstVisitor.h"
+
 CxxAstVisitorComponentContext::CxxAstVisitorComponentContext(CxxAstVisitor* astVisitor)
 	: CxxAstVisitorComponent(astVisitor)
 {
@@ -7,7 +9,7 @@ CxxAstVisitorComponentContext::CxxAstVisitorComponentContext(CxxAstVisitor* astV
 
 const clang::NamedDecl* CxxAstVisitorComponentContext::getTopmostContextDecl() const
 {
-	for (std::vector<std::shared_ptr<CxxContext>>::const_reverse_iterator it = m_contextStack.rbegin(); it != m_contextStack.rend(); it ++)
+	for (auto it = m_contextStack.rbegin(); it != m_contextStack.rend(); it++)
 	{
 		if (*it)
 		{
@@ -42,19 +44,13 @@ NameHierarchy CxxAstVisitorComponentContext::getContextName(const size_t skip)
 	return getAstVisitor()->getDeclNameCache()->getValue(nullptr);
 }
 
-NameHierarchy CxxAstVisitorComponentContext::getContextName(const NameHierarchy& fallback, const size_t skip)
+NameHierarchy CxxAstVisitorComponentContext::getContextName(const NameHierarchy& fallback)
 {
-	size_t skipped = 0;
-
 	for (auto it = m_contextStack.rbegin(); it != m_contextStack.rend(); it++)
 	{
 		if (*it)
 		{
-			if (skipped >= skip)
-			{
-				return (*it)->getName();
-			}
-			skipped++;
+			return (*it)->getName();
 		}
 	}
 	return fallback;
@@ -103,8 +99,7 @@ void CxxAstVisitorComponentContext::endTraverseTypeLoc(const clang::TypeLoc& tl)
 
 void CxxAstVisitorComponentContext::beginTraverseLambdaExpr(clang::LambdaExpr* s)
 {
-	clang::CXXMethodDecl* methodDecl = s->getCallOperator();
-	m_contextStack.push_back(std::make_shared<CxxContextDecl>(methodDecl, getAstVisitor()->getDeclNameCache()));
+	m_contextStack.push_back(std::make_shared<CxxContextDecl>(s->getCallOperator(), getAstVisitor()->getDeclNameCache()));
 }
 
 void CxxAstVisitorComponentContext::endTraverseLambdaExpr(clang::LambdaExpr* s)
@@ -164,8 +159,7 @@ void CxxAstVisitorComponentContext::endTraverseTemplateSpecializationTypeLoc(con
 
 void CxxAstVisitorComponentContext::beginTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) // TODO: do this for unresolved and dependent stuff
 {
-	std::shared_ptr<CxxContext> clear;
-	m_templateArgumentContext.push_back(clear);
+	m_templateArgumentContext.push_back(nullptr);
 }
 
 void CxxAstVisitorComponentContext::endTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e)
