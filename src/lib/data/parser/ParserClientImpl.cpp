@@ -2,22 +2,12 @@
 
 #include "Edge.h"
 #include "Node.h"
-#include "LocationType.h"
 #include "ParseLocation.h"
 #include "logging.h"
 
-ParserClientImpl::ParserClientImpl()
+ParserClientImpl::ParserClientImpl(IntermediateStorage* const storage)
+	: m_storage(storage)
 {
-}
-
-void ParserClientImpl::setStorage(std::shared_ptr<IntermediateStorage> storage)
-{
-	m_storage = storage;
-}
-
-void ParserClientImpl::resetStorage()
-{
-	m_storage.reset();
 }
 
 Id ParserClientImpl::recordSymbol(
@@ -26,8 +16,14 @@ Id ParserClientImpl::recordSymbol(
 )
 {
 	Id nodeId = addNodeHierarchy(symbolName, symbolKindToNodeType(symbolKind));
-	addSymbol(nodeId, definitionKind);
-	addAccess(nodeId, access);
+	if (definitionKind != DEFINITION_NONE)
+	{
+		m_storage->addSymbol(StorageSymbol(nodeId, definitionKindToInt(definitionKind)));
+	}
+	if (access != ACCESS_NONE)
+	{
+		m_storage->addComponentAccess(StorageComponentAccess(nodeId, accessKindToInt(access)));
+	}
 	return nodeId;
 }
 
@@ -38,7 +34,7 @@ Id ParserClientImpl::recordSymbolWithLocation(
 )
 {
 	Id nodeId = recordSymbol(symbolName, symbolKind, access, definitionKind);
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
+	addSourceLocation(nodeId, location, LOCATION_TOKEN);
 	return nodeId;
 }
 
@@ -49,7 +45,7 @@ Id ParserClientImpl::recordSymbolWithLocationAndScope(
 )
 {
 	Id nodeId = recordSymbolWithLocation(symbolName, symbolKind, location, access, definitionKind);
-	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
+	addSourceLocation(nodeId, scopeLocation, LOCATION_SCOPE);
 	return nodeId;
 }
 
@@ -59,7 +55,7 @@ Id ParserClientImpl::recordSymbolWithLocationAndScopeAndSignature(
 	AccessKind access, DefinitionKind definitionKind)
 {
 	Id nodeId = recordSymbolWithLocationAndScope(symbolName, symbolKind, location, scopeLocation, access, definitionKind);
-	addSourceLocation(nodeId, signatureLocation, locationTypeToInt(LOCATION_SIGNATURE));
+	addSourceLocation(nodeId, signatureLocation, LOCATION_SIGNATURE);
 	return nodeId;
 }
 
@@ -70,30 +66,36 @@ void ParserClientImpl::recordReference(
 	Id contextNodeId = addNodeHierarchy(contextName);
 	Id referencedNodeId = addNodeHierarchy(referencedName);
 	Id edgeId = addEdge(referenceKindToEdgeType(referenceKind), contextNodeId, referencedNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
+	addSourceLocation(edgeId, location, LOCATION_TOKEN);
 }
 
 void ParserClientImpl::recordQualifierLocation(const NameHierarchy& qualifierName, const ParseLocation& location)
 {
 	Id nodeId = addNodeHierarchy(qualifierName, NodeType::NODE_SYMBOL);
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_QUALIFIER));
+	addSourceLocation(nodeId, location, LOCATION_QUALIFIER);
 }
 
 void ParserClientImpl::recordLocalSymbol(const std::wstring& name, const ParseLocation& location)
 {
-	const Id localSymbolId = addLocalSymbol(name);
-	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
+	const Id localSymbolId = m_storage->addLocalSymbol(name);
+	addSourceLocation(localSymbolId, location, LOCATION_LOCAL_SYMBOL);
 }
 
 void ParserClientImpl::recordFile(const FilePath& filePath, bool indexed)
 {
-	const Id nodeId = addNodeHierarchy(NameHierarchy(filePath.wstr(), NAME_DELIMITER_FILE), NodeType::NODE_FILE);
-	addFile(nodeId, filePath, indexed);
+	const Id fileId = addFileName(filePath);
+	m_storage->addFile(StorageFile(fileId, filePath.wstr(), indexed, true));
 }
 
 void ParserClientImpl::recordComment(const ParseLocation& location)
 {
-	addCommentLocation(location);
+	m_storage->addCommentLocation(StorageCommentLocationData(
+		addFileName(location.filePath),
+		location.startLineNumber,
+		location.startColumnNumber,
+		location.endLineNumber,
+		location.endColumnNumber
+	));
 }
 
 void ParserClientImpl::doRecordError(
@@ -101,7 +103,15 @@ void ParserClientImpl::doRecordError(
 {
 	if (location.isValid())
 	{
-		addError(message, fatal, indexed, location, translationUnit);
+		m_storage->addError(StorageErrorData(
+			message,
+			location.filePath.wstr(),
+			location.startLineNumber,
+			location.startColumnNumber,
+			translationUnit.wstr(),
+			fatal,
+			indexed
+		));
 	}
 }
 
@@ -189,31 +199,15 @@ Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind reference
 	return Edge::EDGE_UNDEFINED;
 }
 
-void ParserClientImpl::addAccess(Id nodeId, AccessKind access)
-{
-	if (access != ACCESS_NONE)
-	{
-		addComponentAccess(nodeId, accessKindToInt(access));
-	}
-}
-
 Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType)
 {
-	if (nameHierarchy.size() == 0)
-	{
-		return 0;
-	}
-
 	Id parentNodeId = 0;
-	NameHierarchy currentNameHierarchy(nameHierarchy.getDelimiter());
-
-	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	for (size_t i = 1; i <= nameHierarchy.size(); i++)
 	{
-		currentNameHierarchy.push(nameHierarchy[i]);
-		const bool currentIsLastElement = (i == nameHierarchy.size() - 1);
-		const NodeType currentType = (currentIsLastElement ? nodeType : NodeType::NODE_SYMBOL); // TODO: rename to unknown!
+		const NodeType currentType = (i == nameHierarchy.size() ? nodeType : NodeType::NODE_SYMBOL); // TODO: rename to unknown!
 
-		Id nodeId = addNode(currentType, currentNameHierarchy);
+		Id nodeId = m_storage->addNode(StorageNodeData(
+			NodeType::typeToInt(currentType.getType()), NameHierarchy::serializeRange(nameHierarchy, 0, i)));
 
 		if (parentNodeId != 0)
 		{
@@ -225,69 +219,32 @@ Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeTy
 	return parentNodeId;
 }
 
-Id ParserClientImpl::addNode(NodeType nodeType, const NameHierarchy& nameHierarchy)
+Id ParserClientImpl::addFileName(const FilePath& filePath)
 {
-	if (!m_storage)
+	const std::wstring file = filePath.wstr();
+
+	auto it = m_fileIdMap.find(file);
+	if (it != m_fileIdMap.end())
 	{
-		return 0;
+		return it->second;
 	}
 
-	return m_storage->addNode(StorageNodeData(NodeType::typeToInt(nodeType.getType()), NameHierarchy::serialize(nameHierarchy)));
-}
-
-void ParserClientImpl::addFile(Id id, const FilePath& filePath, bool indexed)
-{
-	if (m_storage)
-	{
-		m_storage->addFile(StorageFile(id, filePath.wstr(), indexed, true));
-	}
-}
-
-void ParserClientImpl::addSymbol(Id id, DefinitionKind definitionKind)
-{
-	if (!m_storage)
-	{
-		return;
-	}
-
-	if (definitionKind != DEFINITION_NONE)
-	{
-		m_storage->addSymbol(StorageSymbol(id, definitionKindToInt(definitionKind)));
-	}
+	const Id fileId = addNodeHierarchy(NameHierarchy(file, NAME_DELIMITER_FILE), NodeType::NODE_FILE);
+	m_fileIdMap.emplace(file, fileId);
+	return fileId;
 }
 
 Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)
 {
-	if (!m_storage)
+	if (sourceId && targetId)
 	{
-		return 0;
+		return m_storage->addEdge(StorageEdgeData(type, sourceId, targetId));
 	}
-
-	if (!sourceId || !targetId)
-	{
-		return 0;
-	}
-
-	return m_storage->addEdge(StorageEdgeData(type, sourceId, targetId));
+	return 0;
 }
 
-Id ParserClientImpl::addLocalSymbol(const std::wstring& name)
+void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& location, LocationType type)
 {
-	if (!m_storage)
-	{
-		return 0;
-	}
-
-	return m_storage->addLocalSymbol(name);
-}
-
-void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& location, int type)
-{
-	if (!m_storage)
-	{
-		return;
-	}
-
 	if (!location.isValid())
 	{
 		return;
@@ -300,55 +257,16 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 	}
 
 	Id sourceLocationId = m_storage->addSourceLocation(StorageSourceLocationData(
-		addNodeHierarchy(NameHierarchy(location.filePath.wstr(), NAME_DELIMITER_FILE), NodeType::NODE_FILE),
+		addFileName(location.filePath),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
 		location.endColumnNumber,
-		type
+		locationTypeToInt(type)
 	));
 
 	m_storage->addOccurrence(StorageOccurrence(
 		elementId,
 		sourceLocationId
-	));
-}
-
-void ParserClientImpl::addComponentAccess(Id nodeId , int type)
-{
-	if (!m_storage)
-	{
-		return;
-	}
-
-	m_storage->addComponentAccess(StorageComponentAccess(nodeId, type));
-}
-
-void ParserClientImpl::addCommentLocation(const ParseLocation& location)
-{
-	if (!m_storage)
-	{
-		return;
-	}
-
-	m_storage->addCommentLocation(StorageCommentLocationData(
-		addNodeHierarchy(NameHierarchy(location.filePath.wstr(), NAME_DELIMITER_FILE), NodeType::NODE_FILE),
-		location.startLineNumber,
-		location.startColumnNumber,
-		location.endLineNumber,
-		location.endColumnNumber
-	));
-}
-
-void ParserClientImpl::addError(
-	const std::wstring& message, bool fatal, bool indexed, const ParseLocation& location, const FilePath& translationUnit)
-{
-	if (!m_storage)
-	{
-		return;
-	}
-
-	m_storage->addError(StorageErrorData(
-		message, location.filePath.wstr(), location.startLineNumber, location.startColumnNumber, translationUnit.wstr(), fatal, indexed
 	));
 }

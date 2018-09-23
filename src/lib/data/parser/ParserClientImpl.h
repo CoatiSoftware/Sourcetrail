@@ -6,16 +6,14 @@
 #include "DefinitionKind.h"
 #include "Node.h"
 #include "IntermediateStorage.h"
+#include "LocationType.h"
 #include "ParserClient.h"
 
 class ParserClientImpl
 	: public ParserClient
 {
 public:
-	ParserClientImpl();
-
-	void setStorage(std::shared_ptr<IntermediateStorage> storage);
-	void resetStorage();
+	ParserClientImpl(IntermediateStorage* const storage);
 
 	Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
@@ -54,20 +52,17 @@ private:
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
 	void addAccess(Id nodeId, AccessKind access);
-	Id addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType = NodeType::NODE_SYMBOL);
 
-	Id addNode(NodeType nodeType, const NameHierarchy& nameHierarchy);
-	void addFile(Id id, const FilePath& filePath, bool indexed);
-	void addSymbol(Id id, DefinitionKind definitionKind);
+	Id addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType = NodeType::NODE_SYMBOL);
+	Id addFileName(const FilePath& filePath);
 	Id addEdge(int type, Id sourceId, Id targetId);
-	Id addLocalSymbol(const std::wstring& name);
-	void addSourceLocation(Id elementId, const ParseLocation& location, int type);
-	void addComponentAccess(Id nodeId , int type);
-	void addCommentLocation(const ParseLocation& location);
+
+	void addSourceLocation(Id elementId, const ParseLocation& location, LocationType type);
 	void addError(const std::wstring& message, bool fatal, bool indexed,
 		const ParseLocation& location, const FilePath& sourceFilePath);
 
-	std::shared_ptr<IntermediateStorage> m_storage;
+	IntermediateStorage* const m_storage;
+	std::map<std::wstring, Id> m_fileIdMap;
 };
 
 #endif // PARSER_CLIENT_IMPL_H

@@ -15,10 +15,15 @@ namespace
 
 std::wstring NameHierarchy::serialize(const NameHierarchy& nameHierarchy)
 {
+	return serializeRange(nameHierarchy, 0, nameHierarchy.size());
+}
+
+std::wstring NameHierarchy::serializeRange(const NameHierarchy& nameHierarchy, size_t first, size_t last)
+{
 	std::wstringstream ss;
 	ss << nameDelimiterTypeToString(nameHierarchy.getDelimiter());
 	ss << META_DELIMITER;
-	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	for (size_t i = first; i < last && i < nameHierarchy.size(); i++)
 	{
 		if (i > 0)
 		{
@@ -102,10 +107,10 @@ NameHierarchy::NameHierarchy(const NameDelimiterType delimiter)
 {
 }
 
-NameHierarchy::NameHierarchy(const std::wstring& name, const NameDelimiterType delimiter)
+NameHierarchy::NameHierarchy(std::wstring name, const NameDelimiterType delimiter)
 	: m_delimiter(delimiter)
 {
-	push(std::make_shared<NameElement>(name));
+	push(std::make_shared<NameElement>(std::move(name)));
 }
 
 NameHierarchy::NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiter)
@@ -136,6 +141,11 @@ NameHierarchy::~NameHierarchy()
 void NameHierarchy::push(std::shared_ptr<NameElement> element)
 {
 	m_elements.push_back(element);
+}
+
+void NameHierarchy::push(std::wstring name)
+{
+	m_elements.push_back(std::make_shared<NameElement>(std::move(name)));
 }
 
 void NameHierarchy::pop()
