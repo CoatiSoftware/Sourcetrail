@@ -37,11 +37,11 @@ public:
 	std::wstring getNameWithSignatureParameters() const;
 
 	bool hasSignature() const;
-	const Signature& getSignature();
+	const Signature& getSignature() const;
 	void setSignature(std::wstring prefix, std::wstring postfix);
 
 private:
-	const std::wstring m_name;
+	std::wstring m_name;
 	Signature m_signature;
 };
 

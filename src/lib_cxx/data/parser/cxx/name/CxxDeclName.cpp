@@ -14,7 +14,7 @@ CxxDeclName::CxxDeclName(std::wstring name, std::vector<std::wstring> templatePa
 NameHierarchy CxxDeclName::toNameHierarchy() const
 {
 	NameHierarchy ret = getParent() ? getParent()->toNameHierarchy() : NameHierarchy(NAME_DELIMITER_CXX);
-	ret.push(std::make_shared<NameElement>(m_name + getTemplateSuffix(m_templateParameterNames)));
+	ret.push(m_name + getTemplateSuffix(m_templateParameterNames));
 	return ret;
 }
 

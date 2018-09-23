@@ -265,9 +265,9 @@ private:
 	NameHierarchy createFunctionNameHierarchy(std::wstring ret, std::wstring name, std::wstring parameters) const
 	{
 		NameHierarchy nameHierarchy = createNameHierarchy(name);
-		std::wstring lastName = nameHierarchy.back()->getName();
+		std::wstring lastName = nameHierarchy.back().getName();
 		nameHierarchy.pop();
-		nameHierarchy.push(std::make_shared<NameElement>(lastName, ret, parameters));
+		nameHierarchy.push(NameElement(lastName, ret, parameters));
 		return nameHierarchy;
 	}
 
@@ -276,7 +276,7 @@ private:
 		NameHierarchy nameHierarchy(NAME_DELIMITER_CXX);
 		for (std::wstring element: utility::splitToVector(s, nameDelimiterTypeToString(NAME_DELIMITER_CXX)))
 		{
-			nameHierarchy.push(std::make_shared<NameElement>(element));
+			nameHierarchy.push(element);
 		}
 		return nameHierarchy;
 	}

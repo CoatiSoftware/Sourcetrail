@@ -44,6 +44,6 @@ NameHierarchy CxxFunctionDeclName::toNameHierarchy() const
 	}
 
 	NameHierarchy ret = CxxDeclName::toNameHierarchy();
-	ret.back()->setSignature(prefix.str(), postfix.str());
+	ret.back().setSignature(prefix.str(), postfix.str());
 	return ret;
 }

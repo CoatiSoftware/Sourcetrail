@@ -96,7 +96,7 @@ bool NameElement::hasSignature() const
 	return m_signature.isValid();
 }
 
-const NameElement::Signature& NameElement::getSignature()
+const NameElement::Signature& NameElement::getSignature() const
 {
 	return m_signature;
 }

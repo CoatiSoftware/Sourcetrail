@@ -15,9 +15,10 @@ CxxStaticFunctionDeclName::CxxStaticFunctionDeclName(
 NameHierarchy CxxStaticFunctionDeclName::toNameHierarchy() const
 {
 	NameHierarchy ret = CxxFunctionDeclName::toNameHierarchy();
-	ret.back()->setSignature(
-		ret.back()->getSignature().getPrefix(),
-		ret.back()->getSignature().getPostfix() + L" (" + m_translationUnitFileName + L')'
+	NameElement& last = ret.back();
+	last.setSignature(
+		last.getSignature().getPrefix(),
+		last.getSignature().getPostfix() + L" (" + m_translationUnitFileName + L')'
 	);
 	return ret;
 }

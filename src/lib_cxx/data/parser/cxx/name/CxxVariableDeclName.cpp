@@ -22,6 +22,6 @@ NameHierarchy CxxVariableDeclName::toNameHierarchy() const
 	signaturePrefix += m_typeName->toString();
 
 	NameHierarchy ret = CxxDeclName::toNameHierarchy();
-	ret.back()->setSignature(std::move(signaturePrefix), L"");
+	ret.back().setSignature(std::move(signaturePrefix), L"");
 	return ret;
 }

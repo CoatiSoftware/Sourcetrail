@@ -42,7 +42,7 @@ CxxTypeName::CxxTypeName(
 NameHierarchy CxxTypeName::toNameHierarchy() const
 {
 	NameHierarchy ret = getParent() ? getParent()->toNameHierarchy() : NameHierarchy(NAME_DELIMITER_CXX);
-	ret.push(std::make_shared<NameElement>(m_name + getTemplateSuffix(m_templateArguments)));
+	ret.push(m_name + getTemplateSuffix(m_templateArguments));
 	return ret;
 }
 
