@@ -23,7 +23,7 @@ public:
 	Storage();
 	virtual ~Storage() = default;
 
-	virtual Id addNode(const StorageNodeData& data) = 0;
+	virtual std::pair<Id, bool> addNode(const StorageNodeData& data) = 0;
 	virtual void addSymbol(const StorageSymbol& data) = 0;
 	virtual void addFile(const StorageFile& data) = 0;
 	virtual Id addEdge(const StorageEdgeData& data) = 0;

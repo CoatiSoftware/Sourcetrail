@@ -906,7 +906,7 @@ private:
 
 	Id addFileToStorage(const FilePath& filePath, const std::string& modificationTime, bool indexed, bool complete, std::shared_ptr<PersistentStorage> storage)
 	{
-		const Id id = storage->addNode(StorageNodeData(NodeType::NODE_FILE, NameHierarchy::serialize(NameHierarchy(filePath.wstr(), NAME_DELIMITER_FILE))));
+		const Id id = storage->addNode(StorageNodeData(NodeType::NODE_FILE, NameHierarchy::serialize(NameHierarchy(filePath.wstr(), NAME_DELIMITER_FILE)))).first;
 		storage->addFile(StorageFile(id, filePath.wstr(), modificationTime, indexed, complete));
 		return id;
 	}

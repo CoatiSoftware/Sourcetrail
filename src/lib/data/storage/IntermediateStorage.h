@@ -30,7 +30,7 @@ public:
 	void setAllFilesIncomplete();
 	void setFilesWithErrorsIncomplete();
 
-	Id addNode(const StorageNodeData& nodeData) override;
+	std::pair<Id, bool> addNode(const StorageNodeData& nodeData) override;
 	void addSymbol(const StorageSymbol& symbol) override;
 	void addFile(const StorageFile& file) override;
 	Id addEdge(const StorageEdgeData& edgeData) override;

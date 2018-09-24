@@ -19,7 +19,7 @@ class PersistentStorage
 public:
 	PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath);
 
-	Id addNode(const StorageNodeData& data) override;
+	std::pair<Id, bool> addNode(const StorageNodeData& data) override;
 	void addSymbol(const StorageSymbol& data) override;
 	void addFile(const StorageFile& data) override;
 	Id addEdge(const StorageEdgeData& data) override;

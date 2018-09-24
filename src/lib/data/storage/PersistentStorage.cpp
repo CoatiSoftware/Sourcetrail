@@ -46,9 +46,9 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.finishSetup();
 }
 
-Id PersistentStorage::addNode(const StorageNodeData& data)
+std::pair<Id, bool> PersistentStorage::addNode(const StorageNodeData& data)
 {
-	return m_sqliteIndexStorage.addNode(data).id;
+	return std::make_pair(m_sqliteIndexStorage.addNode(data).id, true);
 }
 
 void PersistentStorage::addSymbol(const StorageSymbol& data)

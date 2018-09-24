@@ -102,7 +102,7 @@ void IntermediateStorage::setFilesWithErrorsIncomplete()
 	}
 }
 
-Id IntermediateStorage::addNode(const StorageNodeData& nodeData)
+std::pair<Id, bool> IntermediateStorage::addNode(const StorageNodeData& nodeData)
 {
 	auto it = m_nodesIndex.find(nodeData);
 	if (it != m_nodesIndex.end())
@@ -112,13 +112,13 @@ Id IntermediateStorage::addNode(const StorageNodeData& nodeData)
 		{
 			storedNode.type = nodeData.type;
 		}
-		return storedNode.id;
+		return std::make_pair(storedNode.id, false);
 	}
 
 	Id nodeId = m_nextId++;
 	m_nodes.emplace_back(nodeId, nodeData);
 	m_nodesIndex.emplace(nodeData, m_nodes.size() - 1);
-	return nodeId;
+	return std::make_pair(nodeId, true);
 }
 
 void IntermediateStorage::addSymbol(const StorageSymbol& symbol)

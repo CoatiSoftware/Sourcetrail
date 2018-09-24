@@ -37,7 +37,7 @@ void Storage::inject(Storage* injected)
 	injected->forEachNode(
 		[&](const StorageNode& injectedData)
 		{
-			const Id ownId = addNode(injectedData);
+			const Id ownId = addNode(injectedData).first;
 			if (ownId != 0)
 			{
 				injectedIdToOwnElementId[injectedData.id] = ownId;

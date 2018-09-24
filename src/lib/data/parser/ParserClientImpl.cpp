@@ -201,22 +201,33 @@ Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind reference
 
 Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType)
 {
-	Id parentNodeId = 0;
-	for (size_t i = 1; i <= nameHierarchy.size(); i++)
+	Id childNodeId = 0;
+	Id firstNodeId = 0;
+	for (size_t i = nameHierarchy.size(); i > 0; i--)
 	{
 		const NodeType currentType = (i == nameHierarchy.size() ? nodeType : NodeType::NODE_SYMBOL); // TODO: rename to unknown!
 
-		Id nodeId = m_storage->addNode(StorageNodeData(
+		std::pair<Id, bool> ret = m_storage->addNode(StorageNodeData(
 			NodeType::typeToInt(currentType.getType()), NameHierarchy::serializeRange(nameHierarchy, 0, i)));
 
-		if (parentNodeId != 0)
+		if (!firstNodeId)
 		{
-			addEdge(Edge::EDGE_MEMBER, parentNodeId, nodeId);
+			firstNodeId = ret.first;
 		}
 
-		parentNodeId = nodeId;
+		if (childNodeId != 0)
+		{
+			addEdge(Edge::EDGE_MEMBER, ret.first, childNodeId);
+		}
+
+		if (!ret.second)
+		{
+			return firstNodeId;
+		}
+
+		childNodeId = ret.first;
 	}
-	return parentNodeId;
+	return firstNodeId;
 }
 
 Id ParserClientImpl::addFileName(const FilePath& filePath)
