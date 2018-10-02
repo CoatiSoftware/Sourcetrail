@@ -49,15 +49,21 @@ public:
 	std::string getProjectSettingsText() const;
 	void setProjectSettingsText(std::string text);
 
-	StorageNode addNode(const StorageNodeData& data);
-	void addSymbol(const StorageSymbol& data);
-	void addFile(const StorageFile& data);
-	StorageEdge addEdge(const StorageEdgeData& data);
-	StorageLocalSymbol addLocalSymbol(const StorageLocalSymbolData& data);
-	StorageSourceLocation addSourceLocation(const StorageSourceLocationData& data);
+	Id addNode(const StorageNodeData& data);
+	std::vector<Id> addNodes(const std::vector<StorageNode>& nodes);
+	bool addSymbol(const StorageSymbol& data);
+	bool addSymbols(const std::vector<StorageSymbol>& symbols);
+	bool addFile(const StorageFile& data);
+	Id addEdge(const StorageEdgeData& data);
+	std::vector<Id> addEdges(const std::vector<StorageEdge>& edges);
+	Id addLocalSymbol(const StorageLocalSymbolData& data);
+	std::vector<Id> addLocalSymbols(const std::set<StorageLocalSymbol>& symbols);
+	Id addSourceLocation(const StorageSourceLocationData& data);
+	std::vector<Id> addSourceLocations(const std::vector<StorageSourceLocation>& locations);
 	bool addOccurrence(const StorageOccurrence& data);
 	bool addOccurrences(const std::vector<StorageOccurrence>& occurrences);
 	bool addComponentAccess(const StorageComponentAccess& componentAccess);
+	bool addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses);
 	StorageCommentLocation addCommentLocation(const StorageCommentLocationData& data);
 	StorageError addError(const StorageErrorData& data);
 
@@ -223,22 +229,91 @@ private:
 	std::map<std::wstring, std::map<std::pair<uint32_t, uint32_t>, Id>> m_tempLocalSymbolIndex;
 	std::map<Id, std::map<TempSourceLocation, Id>> m_tempSourceLocationIndices;
 
+	template <typename StorageType>
+	class InsertBatchStatement
+	{
+	public:
+		void compile(
+			const std::string header,
+			size_t valueCount,
+			std::function<void(CppSQLite3Statement& stmt, const StorageType&, size_t)> bindValuesFunc,
+			CppSQLite3DB& database)
+		{
+			m_bindValuesFunc = bindValuesFunc;
+
+			std::string valueStr = '(' + utility::join(std::vector<std::string>(valueCount, "?"), ',') + ')';
+
+			for (size_t j = 0; j < 4; j++)
+			{
+				std::stringstream stmt;
+				stmt << header;
+
+				for (size_t i = 0; i < BATCH_SIZES[j]; i++)
+				{
+					if (i != 0)
+					{
+						stmt << ',';
+					}
+					stmt << valueStr;
+				}
+				stmt << ';';
+
+				m_stmt[j] = database.compileStatement(stmt.str().c_str());
+			}
+		}
+
+		bool execute(const std::vector<StorageType>& types, SqliteIndexStorage* storage)
+		{
+			size_t i = 0;
+			for (size_t x = 0; x < 4; x++)
+			{
+				while (types.size() - i >= BATCH_SIZES[x])
+				{
+					for (size_t j = 0; j < BATCH_SIZES[x]; j++)
+					{
+						m_bindValuesFunc(m_stmt[x], types[i + j], j);
+					}
+
+					const bool success = storage->executeStatement(m_stmt[x]);
+					if (!success)
+					{
+						return false;
+					}
+
+					i += BATCH_SIZES[x];
+				}
+			}
+
+			return true;
+		}
+
+	private:
+		static const size_t BATCH_SIZES[4];
+
+		CppSQLite3Statement m_stmt[4];
+
+		std::function<void(CppSQLite3Statement& stmt, const StorageType&, size_t)> m_bindValuesFunc;
+	};
+
+	InsertBatchStatement<StorageNode> m_insertNodeBatchStatement;
+	InsertBatchStatement<StorageEdge> m_insertEdgeBatchStatement;
+	InsertBatchStatement<StorageSymbol> m_insertSymbolBatchStatement;
+	InsertBatchStatement<StorageLocalSymbol> m_insertLocalSymbolBatchStatement;
+	InsertBatchStatement<StorageSourceLocationData> m_insertSourceLocationBatchStatement;
+	InsertBatchStatement<StorageOccurrence> m_insertOccurenceBatchStatement;
+	InsertBatchStatement<StorageComponentAccess> m_insertComponentAccessBatchStatement;
+
 	CppSQLite3Statement m_insertElementStmt;
-	CppSQLite3Statement m_insertEdgeStmt;
-	CppSQLite3Statement m_inserNodeStmt;
-	CppSQLite3Statement m_insertSymbolStmt;
 	CppSQLite3Statement m_insertFileStmt;
 	CppSQLite3Statement m_insertFileContentStmt;
-	CppSQLite3Statement m_inserLocalSymbolStmt;
-	CppSQLite3Statement m_insertSourceLocationStmt;
-	CppSQLite3Statement m_insertOccurrenceStmt;
-	CppSQLite3Statement m_insert100OccurrencesStmt;
-	CppSQLite3Statement m_insertComponentAccessStmt;
 	CppSQLite3Statement m_checkCommentLocationExistsStmt;
 	CppSQLite3Statement m_insertCommentLocationStmt;
 	CppSQLite3Statement m_checkErrorExistsStmt;
 	CppSQLite3Statement m_insertErrorStmt;
 };
+
+template<typename StorageType>
+const size_t SqliteIndexStorage::InsertBatchStatement<StorageType>::BATCH_SIZES[4] = { 100, 27, 8, 1 };
 
 template <>
 std::vector<StorageEdge> SqliteIndexStorage::doGetAll<StorageEdge>(const std::string& query) const;

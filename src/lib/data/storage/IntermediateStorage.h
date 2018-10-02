@@ -31,40 +31,33 @@ public:
 	void setFilesWithErrorsIncomplete();
 
 	std::pair<Id, bool> addNode(const StorageNodeData& nodeData) override;
+	std::vector<Id> addNodes(const std::vector<StorageNode>& nodes) override;
 	void addSymbol(const StorageSymbol& symbol) override;
+	void addSymbols(const std::vector<StorageSymbol>& symbols) override;
 	void addFile(const StorageFile& file) override;
 	Id addEdge(const StorageEdgeData& edgeData) override;
+	std::vector<Id> addEdges(const std::vector<StorageEdge>& edges) override;
 	Id addLocalSymbol(const StorageLocalSymbolData& localSymbolData) override;
+	std::vector<Id> addLocalSymbols(const std::set<StorageLocalSymbol>& symbols) override;
 	Id addSourceLocation(const StorageSourceLocationData& sourceLocationData) override;
+	std::vector<Id> addSourceLocations(const std::vector<StorageSourceLocation>& locations) override;
 	void addOccurrence(const StorageOccurrence& occurrence) override;
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
 	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
+	void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) override;
 	void addCommentLocation(const StorageCommentLocationData& commentLocationData) override;
 	void addError(const StorageErrorData& errorData) override;
 
-	void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const override;
-	void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const override;
-	void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const override;
-	void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const override;
-	void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
-	void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
-	void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
-	void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const override;
-	void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
-	void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
-
-	// for conversion to and from 'SharedIntermediateStorage'
-
-	const std::vector<StorageNode>& getStorageNodes() const;
-	const std::vector<StorageFile>& getStorageFiles() const;
-	const std::vector<StorageSymbol>& getStorageSymbols() const;
-	const std::vector<StorageEdge>& getStorageEdges() const;
-	const std::set<StorageLocalSymbol>& getStorageLocalSymbols() const;
-	const std::set<StorageSourceLocation>& getStorageSourceLocations() const;
-	const std::set<StorageOccurrence>& getStorageOccurrences() const;
-	const std::set<StorageComponentAccess>& getComponentAccesses() const;
-	const std::set<StorageCommentLocationData>& getCommentLocations() const;
-	const std::vector<StorageErrorData>& getErrors() const;
+	const std::vector<StorageNode>& getStorageNodes() const override;
+	const std::vector<StorageFile>& getStorageFiles() const override;
+	const std::vector<StorageSymbol>& getStorageSymbols() const override;
+	const std::vector<StorageEdge>& getStorageEdges() const override;
+	const std::set<StorageLocalSymbol>& getStorageLocalSymbols() const override;
+	const std::set<StorageSourceLocation>& getStorageSourceLocations() const override;
+	const std::set<StorageOccurrence>& getStorageOccurrences() const override;
+	const std::set<StorageComponentAccess>& getComponentAccesses() const override;
+	const std::set<StorageCommentLocationData>& getCommentLocations() const override;
+	const std::vector<StorageErrorData>& getErrors() const override;
 
 	void setStorageNodes(std::vector<StorageNode> storageNodes);
 	void setStorageFiles(std::vector<StorageFile> storageFiles);

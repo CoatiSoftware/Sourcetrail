@@ -182,6 +182,8 @@ bool SqliteStorage::executeStatement(CppSQLite3Statement& statement) const
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 		return false;
 	}
+
+	statement.reset();
 	return true;
 }
 
@@ -222,6 +224,7 @@ int SqliteStorage::executeStatementScalar(CppSQLite3Statement& statement, const 
 	{
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 	}
+
 	return ret;
 }
 

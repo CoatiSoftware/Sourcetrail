@@ -69,14 +69,13 @@ public:
 
 		const Id sourceId = storage.getNodeIdForNameHierarchy(a);
 		const Id targetId = storage.getNodeIdForNameHierarchy(b);
-		storage.forEachEdge([&](const StorageEdge& edge)
+		for (auto edge : storage.getStorageEdges())
+		{
+			if (edge.sourceNodeId == sourceId && edge.targetNodeId == targetId && edge.type == Edge::typeToInt(Edge::EDGE_MEMBER))
 			{
-				if (edge.sourceNodeId == sourceId && edge.targetNodeId == targetId && edge.type == Edge::typeToInt(Edge::EDGE_MEMBER))
-				{
-					foundEdge = true;
-				}
+				foundEdge = true;
 			}
-		);
+		}
 		TS_ASSERT(foundEdge);
 	}
 

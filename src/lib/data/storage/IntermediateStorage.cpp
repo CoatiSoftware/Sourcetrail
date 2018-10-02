@@ -121,9 +121,25 @@ std::pair<Id, bool> IntermediateStorage::addNode(const StorageNodeData& nodeData
 	return std::make_pair(nodeId, true);
 }
 
+std::vector<Id> IntermediateStorage::addNodes(const std::vector<StorageNode>& nodes)
+{
+	std::vector<Id> nodeIds;
+	nodeIds.reserve(nodes.size());
+	for (const StorageNode& node : nodes)
+	{
+		nodeIds.emplace_back(addNode(node).first);
+	}
+	return nodeIds;
+}
+
 void IntermediateStorage::addSymbol(const StorageSymbol& symbol)
 {
 	m_symbols.push_back(symbol);
+}
+
+void IntermediateStorage::addSymbols(const std::vector<StorageSymbol>& symbols)
+{
+	m_symbols.insert(m_symbols.end(), symbols.begin(), symbols.end());
 }
 
 void IntermediateStorage::addFile(const StorageFile& file)
@@ -164,6 +180,17 @@ Id IntermediateStorage::addEdge(const StorageEdgeData& edgeData)
 	return edgeId;
 }
 
+std::vector<Id> IntermediateStorage::addEdges(const std::vector<StorageEdge>& edges)
+{
+	std::vector<Id> edgeIds;
+	edgeIds.reserve(edges.size());
+	for (const StorageEdge& edge : edges)
+	{
+		edgeIds.emplace_back(addEdge(edge));
+	}
+	return edgeIds;
+}
+
 Id IntermediateStorage::addLocalSymbol(const StorageLocalSymbolData& localSymbolData)
 {
 	auto it = m_localSymbols.find(StorageLocalSymbol(0, localSymbolData));
@@ -177,6 +204,17 @@ Id IntermediateStorage::addLocalSymbol(const StorageLocalSymbolData& localSymbol
 	return localSymbolId;
 }
 
+std::vector<Id> IntermediateStorage::addLocalSymbols(const std::set<StorageLocalSymbol>& symbols)
+{
+	std::vector<Id> symbolIds;
+	symbolIds.reserve(symbols.size());
+	for (const StorageLocalSymbol& symbol : symbols)
+	{
+		symbolIds.emplace_back(addLocalSymbol(symbol));
+	}
+	return symbolIds;
+}
+
 Id IntermediateStorage::addSourceLocation(const StorageSourceLocationData& sourceLocationData)
 {
 	auto it = m_sourceLocations.find(StorageSourceLocation(0, sourceLocationData));
@@ -188,6 +226,17 @@ Id IntermediateStorage::addSourceLocation(const StorageSourceLocationData& sourc
 	Id sourceLocationId = m_nextId++;
 	m_sourceLocations.emplace(sourceLocationId, sourceLocationData);
 	return sourceLocationId;
+}
+
+std::vector<Id> IntermediateStorage::addSourceLocations(const std::vector<StorageSourceLocation>& locations)
+{
+	std::vector<Id> locationIds;
+	locationIds.reserve(locations.size());
+	for (const StorageSourceLocation& location : locations)
+	{
+		locationIds.emplace_back(addSourceLocation(location));
+	}
+	return locationIds;
 }
 
 void IntermediateStorage::addOccurrence(const StorageOccurrence& occurrence)
@@ -205,6 +254,11 @@ void IntermediateStorage::addComponentAccess(const StorageComponentAccess& compo
 	m_componentAccesses.emplace(componentAccess);
 }
 
+void IntermediateStorage::addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses)
+{
+	m_componentAccesses.insert(componentAccesses.begin(), componentAccesses.end());
+}
+
 void IntermediateStorage::addCommentLocation(const StorageCommentLocationData& commentLocationData)
 {
 	m_commentLocations.emplace(commentLocationData);
@@ -216,86 +270,6 @@ void IntermediateStorage::addError(const StorageErrorData& errorData)
 	{
 		m_errors.emplace_back(errorData);
 		m_errorsIndex.emplace(errorData);
-	}
-}
-
-void IntermediateStorage::forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const
-{
-	for (const StorageNode& node : m_nodes)
-	{
-		callback(node);
-	}
-}
-
-void IntermediateStorage::forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const
-{
-	for (const StorageFile& file : m_files)
-	{
-		callback(file);
-	}
-}
-
-void IntermediateStorage::forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const
-{
-	for (const StorageSymbol& symbol : m_symbols)
-	{
-		callback(symbol);
-	}
-}
-
-void IntermediateStorage::forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const
-{
-	for (const StorageEdge& edge : m_edges)
-	{
-		callback(edge);
-	}
-}
-
-void IntermediateStorage::forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const
-{
-	for (const StorageLocalSymbol& localSymbol : m_localSymbols)
-	{
-		callback(localSymbol);
-	}
-}
-
-void IntermediateStorage::forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const
-{
-	for (const StorageSourceLocation& sourceLocation : m_sourceLocations)
-	{
-		callback(sourceLocation);
-	}
-}
-
-void IntermediateStorage::forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const
-{
-	for (const StorageOccurrence& occurrence : m_occurrences)
-	{
-		callback(occurrence);
-	}
-}
-
-void IntermediateStorage::forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const
-{
-	for (const StorageComponentAccess& componentAccess : m_componentAccesses)
-	{
-		callback(componentAccess);
-	}
-}
-
-void IntermediateStorage::forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const
-{
-	for (const StorageCommentLocationData& commentLocation : m_commentLocations)
-	{
-		callback(commentLocation);
-	}
-}
-
-void IntermediateStorage::forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const
-{
-	for (const StorageErrorData& error : m_errors)
-	{
-		callback(error);
 	}
 }
 

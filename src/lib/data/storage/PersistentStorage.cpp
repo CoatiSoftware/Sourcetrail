@@ -48,12 +48,22 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 
 std::pair<Id, bool> PersistentStorage::addNode(const StorageNodeData& data)
 {
-	return std::make_pair(m_sqliteIndexStorage.addNode(data).id, true);
+	return std::make_pair(m_sqliteIndexStorage.addNode(data), true);
+}
+
+std::vector<Id> PersistentStorage::addNodes(const std::vector<StorageNode>& nodes)
+{
+	return m_sqliteIndexStorage.addNodes(nodes);
 }
 
 void PersistentStorage::addSymbol(const StorageSymbol& data)
 {
 	m_sqliteIndexStorage.addSymbol(data);
+}
+
+void PersistentStorage::addSymbols(const std::vector<StorageSymbol>& symbols)
+{
+	m_sqliteIndexStorage.addSymbols(symbols);
 }
 
 void PersistentStorage::addFile(const StorageFile& data)
@@ -80,17 +90,32 @@ void PersistentStorage::addFile(const StorageFile& data)
 
 Id PersistentStorage::addEdge(const StorageEdgeData& data)
 {
-	return m_sqliteIndexStorage.addEdge(data).id;
+	return m_sqliteIndexStorage.addEdge(data);
+}
+
+std::vector<Id> PersistentStorage::addEdges(const std::vector<StorageEdge>& edges)
+{
+	return m_sqliteIndexStorage.addEdges(edges);
 }
 
 Id PersistentStorage::addLocalSymbol(const StorageLocalSymbolData& data)
 {
-	return m_sqliteIndexStorage.addLocalSymbol(data).id;
+	return m_sqliteIndexStorage.addLocalSymbol(data);
+}
+
+std::vector<Id> PersistentStorage::addLocalSymbols(const std::set<StorageLocalSymbol>& symbols)
+{
+	return m_sqliteIndexStorage.addLocalSymbols(symbols);
 }
 
 Id PersistentStorage::addSourceLocation(const StorageSourceLocationData& data)
 {
-	return m_sqliteIndexStorage.addSourceLocation(data).id;
+	return m_sqliteIndexStorage.addSourceLocation(data);
+}
+
+std::vector<Id> PersistentStorage::addSourceLocations(const std::vector<StorageSourceLocation>& locations)
+{
+	return m_sqliteIndexStorage.addSourceLocations(locations);
 }
 
 void PersistentStorage::addOccurrence(const StorageOccurrence& data)
@@ -108,6 +133,11 @@ void PersistentStorage::addComponentAccess(const StorageComponentAccess& compone
 	m_sqliteIndexStorage.addComponentAccess(componentAccess);
 }
 
+void PersistentStorage::addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses)
+{
+	m_sqliteIndexStorage.addComponentAccesses(componentAccesses);
+}
+
 void PersistentStorage::addCommentLocation(const StorageCommentLocationData& data)
 {
 	m_sqliteIndexStorage.addCommentLocation(data);
@@ -118,84 +148,64 @@ void PersistentStorage::addError(const StorageErrorData& data)
 	m_sqliteIndexStorage.addError(data);
 }
 
-void PersistentStorage::forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const
+const std::vector<StorageNode>& PersistentStorage::getStorageNodes() const
 {
-	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
-	{
-		callback(node);
-	}
+	return m_storageData.nodes = m_sqliteIndexStorage.getAll<StorageNode>();
 }
 
-void PersistentStorage::forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const
+const std::vector<StorageFile>& PersistentStorage::getStorageFiles() const
 {
-	for (StorageFile& file: m_sqliteIndexStorage.getAll<StorageFile>())
-	{
-		callback(file);
-	}
+	return m_storageData.files = m_sqliteIndexStorage.getAll<StorageFile>();
 }
 
-void PersistentStorage::forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const
+const std::vector<StorageSymbol>& PersistentStorage::getStorageSymbols() const
 {
-	for (StorageSymbol& symbol: m_sqliteIndexStorage.getAll<StorageSymbol>())
-	{
-		callback(symbol);
-	}
+	return m_storageData.symbols = m_sqliteIndexStorage.getAll<StorageSymbol>();
 }
 
-void PersistentStorage::forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const
+const std::vector<StorageEdge>& PersistentStorage::getStorageEdges() const
 {
-	for (StorageEdge& edge: m_sqliteIndexStorage.getAll<StorageEdge>())
-	{
-		callback(edge);
-	}
+	return m_storageData.edges = m_sqliteIndexStorage.getAll<StorageEdge>();
 }
 
-void PersistentStorage::forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const
+const std::set<StorageLocalSymbol>& PersistentStorage::getStorageLocalSymbols() const
 {
-	for (StorageLocalSymbol& localSymbol: m_sqliteIndexStorage.getAll<StorageLocalSymbol>())
-	{
-		callback(localSymbol);
-	}
+	return m_storageData.locals = utility::toSet(m_sqliteIndexStorage.getAll<StorageLocalSymbol>());
 }
 
-void PersistentStorage::forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const
+const std::set<StorageSourceLocation>& PersistentStorage::getStorageSourceLocations() const
 {
-	for (StorageSourceLocation& sourceLocation: m_sqliteIndexStorage.getAll<StorageSourceLocation>())
-	{
-		callback(sourceLocation);
-	}
+	return m_storageData.locations = utility::toSet(m_sqliteIndexStorage.getAll<StorageSourceLocation>());
 }
 
-void PersistentStorage::forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const
+const std::set<StorageOccurrence>& PersistentStorage::getStorageOccurrences() const
 {
-	for (StorageOccurrence& occurrence: m_sqliteIndexStorage.getAll<StorageOccurrence>())
-	{
-		callback(occurrence);
-	}
+	return m_storageData.occurrences = utility::toSet(m_sqliteIndexStorage.getAll<StorageOccurrence>());
 }
 
-void PersistentStorage::forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const
+const std::set<StorageComponentAccess>& PersistentStorage::getComponentAccesses() const
 {
-	for (StorageComponentAccess& componentAccess: m_sqliteIndexStorage.getAll<StorageComponentAccess>())
-	{
-		callback(componentAccess);
-	}
+	return m_storageData.accesses = utility::toSet(m_sqliteIndexStorage.getAll<StorageComponentAccess>());
 }
 
-void PersistentStorage::forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const
+const std::set<StorageCommentLocationData>& PersistentStorage::getCommentLocations() const
 {
-	for (StorageCommentLocation& commentLocation: m_sqliteIndexStorage.getAll<StorageCommentLocation>())
+	std::set<StorageCommentLocationData> comments;
+	for (const StorageCommentLocation& comment : m_sqliteIndexStorage.getAll<StorageCommentLocation>())
 	{
-		callback(commentLocation);
+		comments.emplace(comment);
 	}
+	return m_storageData.comments = comments;
 }
 
-void PersistentStorage::forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const
+const std::vector<StorageErrorData>& PersistentStorage::getErrors() const
 {
-	for (StorageError& error: m_sqliteIndexStorage.getAll<StorageError>())
+	std::vector<StorageErrorData> errors;
+	for (const StorageError& error : m_sqliteIndexStorage.getAll<StorageError>())
 	{
-		callback(error);
+		errors.emplace_back(error);
 	}
+	return m_storageData.errors = errors;
 }
 
 void PersistentStorage::startInjection()
