@@ -16,56 +16,55 @@ void StorageAccessProxy::setSubject(std::weak_ptr<StorageAccess> subject)
 
 #define UNWRAP(...) __VA_ARGS__
 
-#define DEF_GETTER_0(_METHOD_NAME_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
-	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_() const						\
-	{																			\
-		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
-		{																		\
-			return subject->_METHOD_NAME_();									\
-		}																		\
-		return _DEFAULT_VALUE_;													\
+#define DEF_GETTER_0(_METHOD_NAME_, _RETURN_TYPE_, _DEFAULT_VALUE_)			\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_() const			\
+	{																		\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())		\
+		{																	\
+			return subject->_METHOD_NAME_();								\
+		}																	\
+		return _DEFAULT_VALUE_;												\
 	}
 
-#define DEF_GETTER_1(_METHOD_NAME_, _PATAMETER_1_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
-	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1) const						\
-	{																			\
-		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
-		{																		\
-			return subject->_METHOD_NAME_(p1);									\
-		}																		\
-		return _DEFAULT_VALUE_;													\
+#define DEF_GETTER_1(_METHOD_NAME_, _PARAM_1_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)		\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PARAM_1_TYPE_ p1) const	\
+	{																					\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())					\
+		{																				\
+			return subject->_METHOD_NAME_(p1);											\
+		}																				\
+		return _DEFAULT_VALUE_;															\
 	}
 
-#define DEF_GETTER_2(_METHOD_NAME_, _PATAMETER_1_TYPE_, _PATAMETER_2_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
-	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1,  _PATAMETER_2_TYPE_ p2) const						\
-	{																			\
-		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
-		{																		\
-			return subject->_METHOD_NAME_(p1, p2);									\
-		}																		\
-		return _DEFAULT_VALUE_;													\
+#define DEF_GETTER_2(_METHOD_NAME_, _PARAM_1_TYPE_, _PARAM_2_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)			\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PARAM_1_TYPE_ p1,  _PARAM_2_TYPE_ p2) const	\
+	{																										\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())										\
+		{																									\
+			return subject->_METHOD_NAME_(p1, p2);															\
+		}																									\
+		return _DEFAULT_VALUE_;																				\
 	}
 
-#define DEF_GETTER_3(_METHOD_NAME_, _PATAMETER_1_TYPE_, _PATAMETER_2_TYPE_, _PATAMETER_3_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
-	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1, _PATAMETER_2_TYPE_ p2, _PATAMETER_3_TYPE_ p3) const						\
-	{																			\
-		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
-		{																		\
-			return subject->_METHOD_NAME_(p1, p2, p3);									\
-		}																		\
-		return _DEFAULT_VALUE_;													\
+#define DEF_GETTER_3(_METHOD_NAME_, _PARAM_1_TYPE_, _PARAM_2_TYPE_, _PARAM_3_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PARAM_1_TYPE_ p1, _PARAM_2_TYPE_ p2, _PARAM_3_TYPE_ p3) const		\
+	{																															\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())															\
+		{																														\
+			return subject->_METHOD_NAME_(p1, p2, p3);																			\
+		}																														\
+		return _DEFAULT_VALUE_;																									\
 	}
 
-#define DEF_GETTER_4(_METHOD_NAME_, _PATAMETER_1_TYPE_, _PATAMETER_2_TYPE_, _PATAMETER_3_TYPE_, _PATAMETER_4_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
-	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PATAMETER_1_TYPE_ p1, _PATAMETER_2_TYPE_ p2, _PATAMETER_3_TYPE_ p3, _PATAMETER_4_TYPE_ p4) const						\
-	{																			\
-		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())			\
-		{																		\
-			return subject->_METHOD_NAME_(p1, p2, p3, p4);									\
-		}																		\
-		return _DEFAULT_VALUE_;													\
+#define DEF_GETTER_4(_METHOD_NAME_, _PARAM_1_TYPE_, _PARAM_2_TYPE_, _PARAM_3_TYPE_, _PARAM_4_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)				\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PARAM_1_TYPE_ p1, _PARAM_2_TYPE_ p2, _PARAM_3_TYPE_ p3, _PARAM_4_TYPE_ p4) const	\
+	{																																			\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())																			\
+		{																																		\
+			return subject->_METHOD_NAME_(p1, p2, p3, p4);																						\
+		}																																		\
+		return _DEFAULT_VALUE_;																													\
 	}
-
 
 
 DEF_GETTER_1(getNodeIdForFileNode, const FilePath&, Id, 0)
@@ -94,7 +93,6 @@ DEF_GETTER_1(getSourceLocationsForLocationIds, const std::vector<Id>&, std::shar
 DEF_GETTER_1(getSourceLocationsForFile, const FilePath&, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
 DEF_GETTER_3(getSourceLocationsForLinesInFile, const FilePath&, size_t, size_t, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
 DEF_GETTER_2(getSourceLocationsOfTypeInFile, const FilePath&, LocationType, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
-DEF_GETTER_1(getCommentLocationsInFile, const FilePath&, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
 DEF_GETTER_1(getFileContent, const FilePath&, std::shared_ptr<TextAccess>, nullptr)
 DEF_GETTER_1(getFileInfoForFileId, Id, FileInfo, FileInfo())
 DEF_GETTER_1(getFileInfoForFilePath, const FilePath&, FileInfo, FileInfo())

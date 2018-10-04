@@ -65,7 +65,6 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	storage.setStorageSourceLocations(intermediateStorage->getStorageSourceLocations());
 	storage.setStorageOccurrences(intermediateStorage->getStorageOccurrences());
 	storage.setStorageComponentAccesses(intermediateStorage->getComponentAccesses());
-	storage.setStorageCommentLocations(intermediateStorage->getCommentLocations());
 	storage.setStorageErrors(intermediateStorage->getErrors());
 
 	storage.setNextId(intermediateStorage->getNextId());
@@ -96,7 +95,6 @@ std::shared_ptr<IntermediateStorage> InterprocessIntermediateStorageManager::pop
 	storage->setStorageSourceLocations(sharedIntermediateStorage.getStorageSourceLocations());
 	storage->setStorageOccurrences(sharedIntermediateStorage.getStorageOccurrences());
 	storage->setComponentAccesses(sharedIntermediateStorage.getStorageComponentAccesses());
-	storage->setCommentLocations(sharedIntermediateStorage.getStorageCommentLocations());
 	storage->setErrors(sharedIntermediateStorage.getStorageErrors());
 
 	storage->setNextId(sharedIntermediateStorage.getNextId());

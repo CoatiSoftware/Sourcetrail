@@ -5,7 +5,6 @@ SharedIntermediateStorage::SharedIntermediateStorage(SharedMemory::Allocator* al
 	, m_storageSymbols(allocator)
 	, m_storageOccurrences(allocator)
 	, m_storageComponentAccesses(allocator)
-	, m_storageCommentLocations(allocator)
 	, m_storageNodes(allocator)
 	, m_storageEdges(allocator)
 	, m_storageLocalSymbols(allocator)
@@ -197,28 +196,6 @@ void SharedIntermediateStorage::setStorageComponentAccesses(const std::set<Stora
 	for (const StorageComponentAccess& componentAccess : storageComponentAccesses)
 	{
 		m_storageComponentAccesses.push_back(toShared(componentAccess, m_allocator));
-	}
-}
-
-std::set<StorageCommentLocationData> SharedIntermediateStorage::getStorageCommentLocations() const
-{
-	std::set<StorageCommentLocationData> result;
-
-	for (unsigned int i = 0; i < m_storageCommentLocations.size(); i++)
-	{
-		result.emplace(fromShared(m_storageCommentLocations[i]));
-	}
-
-	return result;
-}
-
-void SharedIntermediateStorage::setStorageCommentLocations(const std::set<StorageCommentLocationData>& commentLocations)
-{
-	m_storageCommentLocations.clear();
-
-	for (const StorageCommentLocationData commentLocation : commentLocations)
-	{
-		m_storageCommentLocations.push_back(toShared(commentLocation, m_allocator));
 	}
 }
 

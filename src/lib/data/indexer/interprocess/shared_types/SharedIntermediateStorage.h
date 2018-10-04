@@ -37,9 +37,6 @@ public:
 	std::set<StorageComponentAccess> getStorageComponentAccesses() const;
 	void setStorageComponentAccesses(const std::set<StorageComponentAccess>& storageComponentAccesses);
 
-	std::set<StorageCommentLocationData> getStorageCommentLocations() const;
-	void setStorageCommentLocations(const std::set<StorageCommentLocationData>& commentLocations);
-
 	std::vector<StorageErrorData> getStorageErrors() const;
 	void setStorageErrors(const std::vector<StorageErrorData>& errors);
 
@@ -51,7 +48,6 @@ private:
 	SharedMemory::Vector<SharedStorageSymbol> m_storageSymbols;
 	SharedMemory::Vector<SharedStorageOccurrence> m_storageOccurrences;
 	SharedMemory::Vector<SharedStorageComponentAccess> m_storageComponentAccesses;
-	SharedMemory::Vector<SharedStorageCommentLocationData> m_storageCommentLocations;
 	SharedMemory::Vector<SharedStorageNode> m_storageNodes;
 	SharedMemory::Vector<SharedStorageEdge> m_storageEdges;
 	SharedMemory::Vector<SharedStorageLocalSymbol> m_storageLocalSymbols;

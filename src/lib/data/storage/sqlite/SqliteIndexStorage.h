@@ -8,7 +8,6 @@
 #include "LocationType.h"
 #include "SqliteDatabaseIndex.h"
 #include "SqliteStorage.h"
-#include "StorageCommentLocation.h"
 #include "StorageComponentAccess.h"
 #include "StorageEdge.h"
 #include "StorageError.h"
@@ -64,7 +63,6 @@ public:
 	bool addOccurrences(const std::vector<StorageOccurrence>& occurrences);
 	bool addComponentAccess(const StorageComponentAccess& componentAccess);
 	bool addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses);
-	StorageCommentLocation addCommentLocation(const StorageCommentLocationData& data);
 	StorageError addError(const StorageErrorData& data);
 
 	void removeElement(Id id);
@@ -121,8 +119,6 @@ public:
 
 	StorageComponentAccess getComponentAccessByNodeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& memberEdgeIds) const;
-
-	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 
 	template <typename ResultType>
 	std::vector<ResultType> getAll() const
@@ -306,8 +302,6 @@ private:
 	CppSQLite3Statement m_insertElementStmt;
 	CppSQLite3Statement m_insertFileStmt;
 	CppSQLite3Statement m_insertFileContentStmt;
-	CppSQLite3Statement m_checkCommentLocationExistsStmt;
-	CppSQLite3Statement m_insertCommentLocationStmt;
 	CppSQLite3Statement m_checkErrorExistsStmt;
 	CppSQLite3Statement m_insertErrorStmt;
 };
@@ -331,8 +325,6 @@ template <>
 std::vector<StorageOccurrence> SqliteIndexStorage::doGetAll<StorageOccurrence>(const std::string& query) const;
 template <>
 std::vector<StorageComponentAccess> SqliteIndexStorage::doGetAll<StorageComponentAccess>(const std::string& query) const;
-template <>
-std::vector<StorageCommentLocation> SqliteIndexStorage::doGetAll<StorageCommentLocation>(const std::string& query) const;
 template <>
 std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::string& query) const;
 

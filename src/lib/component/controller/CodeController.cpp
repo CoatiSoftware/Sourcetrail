@@ -630,7 +630,9 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 	);
 
 	std::vector<SnippetMerger::Range> atomicRanges;
-	m_storageAccess->getCommentLocationsInFile(activeSourceLocations->getFilePath())->forEachStartSourceLocation(
+	std::shared_ptr<SourceLocationFile> commentLocations =
+		m_storageAccess->getSourceLocationsOfTypeInFile(activeSourceLocations->getFilePath(), LOCATION_COMMENT);
+	commentLocations->forEachStartSourceLocation(
 		[&](SourceLocation* location)
 		{
 			atomicRanges.push_back(SnippetMerger::Range(

@@ -11,7 +11,7 @@
 #include "SourceLocationCollection.h"
 #include "SourceLocationFile.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 19;
+const size_t SqliteIndexStorage::s_storageVersion = 20;
 
 namespace
 {
@@ -408,42 +408,6 @@ bool SqliteIndexStorage::addComponentAccess(const StorageComponentAccess& compon
 bool SqliteIndexStorage::addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses)
 {
 	return m_insertComponentAccessBatchStatement.execute(componentAccesses, this);
-}
-
-StorageCommentLocation SqliteIndexStorage::addCommentLocation(const StorageCommentLocationData& data)
-{
-	Id id = 0;
-	{
-		m_checkCommentLocationExistsStmt.bind(1, int(data.fileNodeId));
-		m_checkCommentLocationExistsStmt.bind(2, int(data.startLine));
-		m_checkCommentLocationExistsStmt.bind(3, int(data.startCol));
-		m_checkCommentLocationExistsStmt.bind(4, int(data.endLine));
-		m_checkCommentLocationExistsStmt.bind(5, int(data.endCol));
-
-		CppSQLite3Query checkQuery = executeQuery(m_checkCommentLocationExistsStmt);
-		if (!checkQuery.eof() && checkQuery.numFields() > 0)
-		{
-			id = checkQuery.getIntField(0, 0);
-		}
-		m_checkCommentLocationExistsStmt.reset();
-	}
-
-	if (id == 0)
-	{
-		m_insertCommentLocationStmt.bind(1, int(data.fileNodeId));
-		m_insertCommentLocationStmt.bind(2, int(data.startLine));
-		m_insertCommentLocationStmt.bind(3, int(data.startCol));
-		m_insertCommentLocationStmt.bind(4, int(data.endLine));
-		m_insertCommentLocationStmt.bind(5, int(data.endCol));
-
-		const bool success = executeStatement(m_insertCommentLocationStmt);
-		if (success)
-		{
-			id = m_database.lastRowId();
-		}
-	}
-
-	return StorageCommentLocation(id, data);
 }
 
 StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
@@ -874,13 +838,14 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 	ret->setIsComplete(file.complete);
 	ret->setIsIndexed(file.indexed);
 
+	std::vector<StorageSourceLocation> sourceLocations =
+		doGetAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(file.id) + " " + query);
+
 	std::vector<Id> sourceLocationIds;
-	std::unordered_map<Id, StorageSourceLocation> sourceLocationIdToData;
-	for (const StorageSourceLocation& storageLocation:
-		doGetAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(file.id) + " " + query))
+	sourceLocationIds.reserve(sourceLocations.size());
+	for (const StorageSourceLocation& storageLocation : sourceLocations)
 	{
 		sourceLocationIds.push_back(storageLocation.id);
-		sourceLocationIdToData[storageLocation.id] = storageLocation;
 	}
 
 	std::map<Id, std::vector<Id>> sourceLocationIdToElementIds;
@@ -889,21 +854,19 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 		sourceLocationIdToElementIds[occurrence.sourceLocationId].push_back(occurrence.elementId);
 	}
 
-	for (const std::pair<Id, std::vector<Id>>& p : sourceLocationIdToElementIds)
+	for (const StorageSourceLocation& location : sourceLocations)
 	{
-		auto it = sourceLocationIdToData.find(p.first);
-		if (it != sourceLocationIdToData.end())
-		{
-			ret->addSourceLocation(
-				intToLocationType(it->second.type),
-				it->second.id,
-				p.second,
-				it->second.startLine,
-				it->second.startCol,
-				it->second.endLine,
-				it->second.endCol
-			);
-		}
+		auto it = sourceLocationIdToElementIds.find(location.id);
+
+		ret->addSourceLocation(
+			intToLocationType(location.type),
+			location.id,
+			it != sourceLocationIdToElementIds.end() ? it->second : std::vector<Id>(),
+			location.startLine,
+			location.startCol,
+			location.endLine,
+			location.endCol
+		);
 	}
 
 	return ret;
@@ -999,12 +962,6 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::getComponentAccessesByNo
 	return doGetAll<StorageComponentAccess>("WHERE node_id IN (" + utility::join(utility::toStrings(nodeIds), ',') + ")");
 }
 
-std::vector<StorageCommentLocation> SqliteIndexStorage::getCommentLocationsInFile(const FilePath& filePath) const
-{
-	Id fileNodeId = getFileByPath(filePath.wstr()).id;
-	return doGetAll<StorageCommentLocation>("WHERE file_node_id == " + std::to_string(fileNodeId));
-}
-
 int SqliteIndexStorage::getNodeCount() const
 {
 	return executeStatementScalar("SELECT COUNT(*) FROM node;", 0);
@@ -1065,15 +1022,6 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 	));
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,
-		SqliteDatabaseIndex("comment_location_all_data_index",
-			"comment_location(file_node_id, start_line, start_column, end_line, end_column)")
-	));
-	indices.push_back(std::make_pair(
-		STORAGE_MODE_CLEAR,
-		SqliteDatabaseIndex("comment_location_file_node_id_index", "comment_location(file_node_id)")
-	));
-	indices.push_back(std::make_pair(
-		STORAGE_MODE_WRITE,
 		SqliteDatabaseIndex("error_all_data_index", "error(message, fatal, file_path, line_number, column_number)")
 	));
 	indices.push_back(std::make_pair(
@@ -1096,7 +1044,6 @@ void SqliteIndexStorage::clearTables()
 	try
 	{
 		m_database.execDML("DROP TABLE IF EXISTS main.error;");
-		m_database.execDML("DROP TABLE IF EXISTS main.comment_location;");
 		m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
 		m_database.execDML("DROP TABLE IF EXISTS main.occurrence;");
 		m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
@@ -1214,18 +1161,6 @@ void SqliteIndexStorage::setupTables()
 		);
 
 		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS comment_location("
-				"id INTEGER NOT NULL, "
-				"file_node_id INTEGER, "
-				"start_line INTEGER, "
-				"start_column INTEGER, "
-				"end_line INTEGER, "
-				"end_column INTEGER, "
-				"PRIMARY KEY(id), "
-				"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
-		);
-
-		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS error("
 				"id INTEGER NOT NULL, "
 				"message TEXT, "
@@ -1336,19 +1271,6 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		);
 		m_insertFileContentStmt = m_database.compileStatement(
 			"INSERT INTO filecontent(id, content) VALUES(?, ?);"
-		);
-		m_checkCommentLocationExistsStmt = m_database.compileStatement(
-			"SELECT id FROM comment_location WHERE "
-			"file_node_id = ? AND "
-			"start_line == ? AND "
-			"start_column == ? AND "
-			"end_line == ? AND "
-			"end_column == ? "
-			"LIMIT 1;"
-		);
-		m_insertCommentLocationStmt = m_database.compileStatement(
-			"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) "
-			"VALUES(NULL, ?, ?, ?, ?, ?);"
 		);
 		m_checkErrorExistsStmt = m_database.compileStatement(
 			"SELECT id FROM error WHERE "
@@ -1572,37 +1494,6 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::doGetAll<StorageComponen
 		q.nextRow();
 	}
 	return componentAccesses;
-}
-
-template <>
-std::vector<StorageCommentLocation> SqliteIndexStorage::doGetAll<StorageCommentLocation>(const std::string& query) const
-{
-	CppSQLite3Query q = executeQuery(
-		"SELECT id, file_node_id, start_line, start_column, end_line, end_column FROM comment_location " + query + ";"
-	);
-
-	std::vector<StorageCommentLocation> commentLocations;
-
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const Id fileNodeId = q.getIntField(1, 0);
-		const int startLineNumber = q.getIntField(2, -1);
-		const int startColNumber = q.getIntField(3, -1);
-		const int endLineNumber = q.getIntField(4, -1);
-		const int endColNumber = q.getIntField(5, -1);
-
-		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 &&
-			endColNumber != -1)
-		{
-			commentLocations.emplace_back(
-				id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber
-			);
-		}
-
-		q.nextRow();
-	}
-	return commentLocations;
 }
 
 template <>

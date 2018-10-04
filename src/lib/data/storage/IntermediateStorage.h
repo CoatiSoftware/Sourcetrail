@@ -5,19 +5,10 @@
 #include <map>
 #include <set>
 
-#include "StorageCommentLocation.h"
-#include "StorageComponentAccess.h"
-#include "StorageEdge.h"
-#include "StorageError.h"
-#include "StorageFile.h"
-#include "StorageLocalSymbol.h"
-#include "StorageNode.h"
-#include "StorageOccurrence.h"
-#include "StorageSourceLocation.h"
-#include "StorageSymbol.h"
 #include "Storage.h"
 
-class IntermediateStorage: public Storage
+class IntermediateStorage
+	: public Storage
 {
 public:
 	IntermediateStorage();
@@ -45,7 +36,6 @@ public:
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
 	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
 	void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) override;
-	void addCommentLocation(const StorageCommentLocationData& commentLocationData) override;
 	void addError(const StorageErrorData& errorData) override;
 
 	const std::vector<StorageNode>& getStorageNodes() const override;
@@ -56,7 +46,6 @@ public:
 	const std::set<StorageSourceLocation>& getStorageSourceLocations() const override;
 	const std::set<StorageOccurrence>& getStorageOccurrences() const override;
 	const std::set<StorageComponentAccess>& getComponentAccesses() const override;
-	const std::set<StorageCommentLocationData>& getCommentLocations() const override;
 	const std::vector<StorageErrorData>& getErrors() const override;
 
 	void setStorageNodes(std::vector<StorageNode> storageNodes);
@@ -67,7 +56,6 @@ public:
 	void setStorageSourceLocations(std::set<StorageSourceLocation> storageSourceLocations);
 	void setStorageOccurrences(std::set<StorageOccurrence> storageOccurrences);
 	void setComponentAccesses(std::set<StorageComponentAccess> componentAccesses);
-	void setCommentLocations(std::set<StorageCommentLocationData> commentLocations);
 	void setErrors(std::vector<StorageErrorData> errors);
 
 	Id getNextId() const;
@@ -94,8 +82,6 @@ private:
 	std::set<StorageOccurrence> m_occurrences;
 
 	std::set<StorageComponentAccess> m_componentAccesses;
-
-	std::set<StorageCommentLocationData> m_commentLocations;
 
 	std::set<StorageErrorData> m_errorsIndex; // this is used to prevent duplicates (unique)
 	std::vector<StorageErrorData> m_errors;

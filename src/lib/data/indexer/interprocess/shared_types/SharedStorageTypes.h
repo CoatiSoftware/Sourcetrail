@@ -1,7 +1,6 @@
 #ifndef SHARED_STORAGE_TYPES_H
 #define SHARED_STORAGE_TYPES_H
 
-#include "StorageCommentLocation.h"
 #include "StorageComponentAccess.h"
 #include "StorageEdge.h"
 #include "StorageError.h"
@@ -37,7 +36,6 @@ CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSymbol,				SharedStorageSymbol )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSourceLocation,		SharedStorageSourceLocation )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageOccurrence,			SharedStorageOccurrence )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageComponentAccess,		SharedStorageComponentAccess)
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageCommentLocationData,	SharedStorageCommentLocationData)
 
 
 struct SharedStorageNode

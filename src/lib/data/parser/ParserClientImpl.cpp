@@ -89,12 +89,18 @@ void ParserClientImpl::recordFile(const FilePath& filePath, bool indexed)
 
 void ParserClientImpl::recordComment(const ParseLocation& location)
 {
-	m_storage->addCommentLocation(StorageCommentLocationData(
+	if (!location.isValid())
+	{
+		return;
+	}
+
+	m_storage->addSourceLocation(StorageSourceLocationData(
 		addFileName(location.filePath),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
-		location.endColumnNumber
+		location.endColumnNumber,
+		locationTypeToInt(LOCATION_COMMENT)
 	));
 }
 

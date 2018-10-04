@@ -229,9 +229,9 @@ private:
 
 	std::shared_ptr<JavaEnvironment> m_javaEnvironment;
 
-	const int m_id;
 	FilePath m_currentFilePath;
 	std::shared_ptr<IndexerStateInfo> m_indexerStateInfo;
+	const int m_id;
 };
 
 #endif // JAVA_PARSER_H

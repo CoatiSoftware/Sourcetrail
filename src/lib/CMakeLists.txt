@@ -237,7 +237,6 @@ add_files(
 	data/storage/type/StorageBookmark.h
 	data/storage/type/StorageBookmarkedEdge.h
 	data/storage/type/StorageBookmarkedNode.h
-	data/storage/type/StorageCommentLocation.h
 	data/storage/type/StorageComponentAccess.h
 	data/storage/type/StorageEdge.h
 	data/storage/type/StorageError.h

@@ -6,7 +6,6 @@
 #include <set>
 #include <string>
 
-#include "StorageCommentLocation.h"
 #include "StorageComponentAccess.h"
 #include "StorageEdge.h"
 #include "StorageError.h"
@@ -39,7 +38,6 @@ public:
 	virtual void addOccurrences(const std::vector<StorageOccurrence>& occurrences) = 0;
 	virtual void addComponentAccess(const StorageComponentAccess& componentAccess) = 0;
 	virtual void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) = 0;
-	virtual void addCommentLocation(const StorageCommentLocationData& data) = 0;
 	virtual void addError(const StorageErrorData& data) = 0;
 
 	virtual const std::vector<StorageNode>& getStorageNodes() const = 0;
@@ -50,7 +48,6 @@ public:
 	virtual const std::set<StorageSourceLocation>& getStorageSourceLocations() const = 0;
 	virtual const std::set<StorageOccurrence>& getStorageOccurrences() const = 0;
 	virtual const std::set<StorageComponentAccess>& getComponentAccesses() const = 0;
-	virtual const std::set<StorageCommentLocationData>& getCommentLocations() const = 0;
 	virtual const std::vector<StorageErrorData>& getErrors() const = 0;
 
 	void inject(Storage* injected);

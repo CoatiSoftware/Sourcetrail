@@ -224,7 +224,7 @@ void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, 
 		locationFile->forEachStartSourceLocation(
 			[&](SourceLocation* location)
 			{
-				if (location->isScopeLocation() || location->getType() == LOCATION_SIGNATURE)
+				if (location->isScopeLocation() || location->getType() == LOCATION_SIGNATURE || location->getType() == LOCATION_COMMENT)
 				{
 					return;
 				}

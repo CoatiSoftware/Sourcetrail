@@ -24,7 +24,6 @@ void IntermediateStorage::clear()
 	m_sourceLocations.clear();
 	m_occurrences.clear();
 	m_componentAccesses.clear();
-	m_commentLocations.clear();
 
 	m_errorsIndex.clear();
 	m_errors.clear();
@@ -63,7 +62,6 @@ size_t IntermediateStorage::getByteSize(size_t stringSize) const
 	}
 
 	byteSize += sizeof(StorageEdge) * getStorageEdges().size();
-	byteSize += sizeof(StorageCommentLocationData) * getCommentLocations().size();
 	byteSize += sizeof(StorageComponentAccess) * getComponentAccesses().size();
 	byteSize += sizeof(StorageOccurrence) * getStorageOccurrences().size();
 	byteSize += sizeof(StorageSymbol) * getStorageSymbols().size();
@@ -259,11 +257,6 @@ void IntermediateStorage::addComponentAccesses(const std::vector<StorageComponen
 	m_componentAccesses.insert(componentAccesses.begin(), componentAccesses.end());
 }
 
-void IntermediateStorage::addCommentLocation(const StorageCommentLocationData& commentLocationData)
-{
-	m_commentLocations.emplace(commentLocationData);
-}
-
 void IntermediateStorage::addError(const StorageErrorData& errorData)
 {
 	if (m_errorsIndex.find(errorData) == m_errorsIndex.end())
@@ -311,11 +304,6 @@ const std::set<StorageOccurrence>& IntermediateStorage::getStorageOccurrences() 
 const std::set<StorageComponentAccess>& IntermediateStorage::getComponentAccesses() const
 {
 	return m_componentAccesses;
-}
-
-const std::set<StorageCommentLocationData>& IntermediateStorage::getCommentLocations() const
-{
-	return m_commentLocations;
 }
 
 const std::vector<StorageErrorData>& IntermediateStorage::getErrors() const
@@ -379,11 +367,6 @@ void IntermediateStorage::setStorageOccurrences(std::set<StorageOccurrence> stor
 void IntermediateStorage::setComponentAccesses(std::set<StorageComponentAccess> componentAccesses)
 {
 	m_componentAccesses = std::move(componentAccesses);
-}
-
-void IntermediateStorage::setCommentLocations(std::set<StorageCommentLocationData> commentLocations)
-{
-	m_commentLocations = std::move(commentLocations);
 }
 
 void IntermediateStorage::setErrors(std::vector<StorageErrorData> errors)

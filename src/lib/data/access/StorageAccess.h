@@ -73,8 +73,6 @@ public:
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const = 0;
 
-	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
-
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
 
 	virtual FileInfo getFileInfoForFileId(Id id) const = 0;

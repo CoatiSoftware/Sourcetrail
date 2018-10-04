@@ -34,7 +34,6 @@ public:
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
 	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
 	void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) override;
-	void addCommentLocation(const StorageCommentLocationData& data) override;
 	void addError(const StorageErrorData& data) override;
 
 	const std::vector<StorageNode>& getStorageNodes() const override;
@@ -45,7 +44,6 @@ public:
 	const std::set<StorageSourceLocation>& getStorageSourceLocations() const override;
 	const std::set<StorageOccurrence>& getStorageOccurrences() const override;
 	const std::set<StorageComponentAccess>& getComponentAccesses() const override;
-	const std::set<StorageCommentLocationData>& getCommentLocations() const override;
 	const std::vector<StorageErrorData>& getErrors() const override;
 
 	void startInjection() override;
@@ -122,8 +120,6 @@ public:
 	std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const override;
 
-	std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const override;
-
 	std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
 	bool hasContentForFile(const FilePath& filePath) const;
 
@@ -168,7 +164,6 @@ private:
 		std::set<StorageSourceLocation> locations;
 		std::set<StorageOccurrence> occurrences;
 		std::set<StorageComponentAccess> accesses;
-		std::set<StorageCommentLocationData> comments;
 		std::vector<StorageErrorData> errors;
 	} m_storageData;
 

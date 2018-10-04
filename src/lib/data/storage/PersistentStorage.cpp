@@ -138,11 +138,6 @@ void PersistentStorage::addComponentAccesses(const std::vector<StorageComponentA
 	m_sqliteIndexStorage.addComponentAccesses(componentAccesses);
 }
 
-void PersistentStorage::addCommentLocation(const StorageCommentLocationData& data)
-{
-	m_sqliteIndexStorage.addCommentLocation(data);
-}
-
 void PersistentStorage::addError(const StorageErrorData& data)
 {
 	m_sqliteIndexStorage.addError(data);
@@ -186,16 +181,6 @@ const std::set<StorageOccurrence>& PersistentStorage::getStorageOccurrences() co
 const std::set<StorageComponentAccess>& PersistentStorage::getComponentAccesses() const
 {
 	return m_storageData.accesses = utility::toSet(m_sqliteIndexStorage.getAll<StorageComponentAccess>());
-}
-
-const std::set<StorageCommentLocationData>& PersistentStorage::getCommentLocations() const
-{
-	std::set<StorageCommentLocationData> comments;
-	for (const StorageCommentLocation& comment : m_sqliteIndexStorage.getAll<StorageCommentLocation>())
-	{
-		comments.emplace(comment);
-	}
-	return m_storageData.comments = comments;
 }
 
 const std::vector<StorageErrorData>& PersistentStorage::getErrors() const
@@ -1447,29 +1432,6 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsOfTypeI
 	TRACE();
 
 	return m_sqliteIndexStorage.getSourceLocationsOfTypeInFile(filePath, type);
-}
-
-std::shared_ptr<SourceLocationFile> PersistentStorage::getCommentLocationsInFile(const FilePath& filePath) const
-{
-	TRACE();
-
-	const std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(filePath, false, false, false);
-
-	const std::vector<StorageCommentLocation> storageLocations = m_sqliteIndexStorage.getCommentLocationsInFile(filePath);
-	for (size_t i = 0; i < storageLocations.size(); i++)
-	{
-		file->addSourceLocation(
-			LOCATION_TOKEN,
-			storageLocations[i].id,
-			std::vector<Id>(), // comment token location has no element.
-			storageLocations[i].startLine,
-			storageLocations[i].startCol,
-			storageLocations[i].endLine,
-			storageLocations[i].endCol
-		);
-	}
-
-	return file;
 }
 
 std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& filePath) const

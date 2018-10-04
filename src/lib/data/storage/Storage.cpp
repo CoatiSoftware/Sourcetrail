@@ -1,18 +1,6 @@
 #include "Storage.h"
 
-#include <unordered_map>
-
 #include "logging.h"
-#include "StorageCommentLocation.h"
-#include "StorageComponentAccess.h"
-#include "StorageEdge.h"
-#include "StorageError.h"
-#include "StorageFile.h"
-#include "StorageLocalSymbol.h"
-#include "StorageNode.h"
-#include "StorageOccurrence.h"
-#include "StorageSourceLocation.h"
-#include "StorageSymbol.h"
 #include "tracing.h"
 
 Storage::Storage()
@@ -259,26 +247,6 @@ void Storage::inject(Storage* injected)
 		}
 
 		addComponentAccesses(accesses);
-	}
-
-	{
-		// TRACE("inject comments");
-
-		for (const StorageCommentLocationData& location : injected->getCommentLocations())
-		{
-			auto it = injectedIdToOwnElementId.find(location.fileNodeId);
-			if (it != injectedIdToOwnElementId.end())
-			{
-				const Id ownFileNodeId = it->second;
-				addCommentLocation(StorageCommentLocationData(
-					ownFileNodeId,
-					location.startLine,
-					location.startCol,
-					location.endLine,
-					location.endCol
-				));
-			}
-		}
 	}
 
 	finishInjection();

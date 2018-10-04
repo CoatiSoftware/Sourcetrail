@@ -19,6 +19,8 @@ LocationType intToLocationType(int value)
 		return LOCATION_LOCAL_SYMBOL;
 	case LOCATION_SIGNATURE:
 		return LOCATION_SIGNATURE;
+	case LOCATION_COMMENT:
+		return LOCATION_COMMENT;
 	case LOCATION_ERROR:
 		return LOCATION_ERROR;
 	case LOCATION_FULLTEXT_SEARCH:
