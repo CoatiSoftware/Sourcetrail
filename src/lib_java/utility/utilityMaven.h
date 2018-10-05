@@ -7,7 +7,7 @@ class FilePath;
 
 namespace utility
 {
-	bool mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath);
+	std::wstring mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath);
 	bool mavenCopyDependencies(const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath);
 	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(const FilePath& mavenPath, const FilePath& projectDirectoryPath, bool addTestDirectories);
 }

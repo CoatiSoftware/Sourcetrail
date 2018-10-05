@@ -58,48 +58,76 @@ namespace
 			putenv(const_cast<char*>(("JAVA_HOME=" + javaHomePath.str()).c_str()));
 		}
 	}
+
+	std::wstring getErrorMessageFromMavenOutput(std::shared_ptr<const TextAccess> mavenOutput)
+	{
+		const std::string errorPrefix = "[ERROR]";
+		const std::string fatalPrefix = "[FATAL]";
+
+		std::wstring errorMessage;
+
+		for (const std::string& line : mavenOutput->getAllLines())
+		{
+			const std::string trimmedLine = utility::trim(line);
+
+			if (utility::isPrefix<std::string>(errorPrefix, trimmedLine))
+			{
+				errorMessage += utility::decodeFromUtf8(utility::trim(trimmedLine.substr(errorPrefix.size())) + "\n");
+			}
+			else if (utility::isPrefix<std::string>(fatalPrefix, trimmedLine))
+			{
+				errorMessage += utility::decodeFromUtf8(trimmedLine + "\n");
+			}
+		}
+
+		if (!errorMessage.empty())
+		{
+			errorMessage = L"The following error occurred while executing a Maven command:\n\n" + errorMessage;
+		}
+
+		return errorMessage;
+	}
 }
 
 namespace utility
 {
-	bool mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath)
+	std::wstring mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath)
 	{
 		setJavaHomeVariableIfNotExists();
 
-		const std::string output = utility::executeProcessUntilNoOutput(
+		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" generate-sources",
 			projectDirectoryPath,
 			60000
-		);
-		return !output.empty();
+		));
+
+		if (outputAccess->isEmpty())
+		{
+			return	L"Sourcetrail was unable to locate Maven on this machine.\nPlease make sure to provide the correct Maven Path in the preferences.";
+		}
+
+		return getErrorMessageFromMavenOutput(outputAccess);
 	}
 
 	bool mavenCopyDependencies(const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath)
 	{
 		setJavaHomeVariableIfNotExists();
 
-		const std::string output = utility::executeProcessUntilNoOutput(
+		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
 			projectDirectoryPath,
 			60000
-		);
+		));
 
-		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(output);
-		for (const std::string& line: outputAccess->getAllLines())
+		const std::wstring errorMessage = getErrorMessageFromMavenOutput(outputAccess);
+		if (!errorMessage.empty())
 		{
-			if (utility::isPrefix<std::string>("[ERROR]", utility::trim(line)))
-			{
-				// TODO: move error handling to caller of this function
-				const std::wstring dialogMessage =
-					L"The following error occurred while executing a Maven command:\n\n" + 
-					utility::decodeFromUtf8(utility::replace(line, "\r\n", "\n"));
-				MessageStatus(dialogMessage, true, false).dispatch();
-				Application::getInstance()->handleDialog(dialogMessage);
-				return false;
-			}
+			MessageStatus(errorMessage, true, false).dispatch();
+			Application::getInstance()->handleDialog(errorMessage);
+			return false;
 		}
 
-		return !output.empty();
+		return !outputAccess->isEmpty();
 	}
 
 	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(const FilePath& mavenPath, const FilePath& projectDirectoryPath, bool addTestDirectories)
@@ -112,17 +140,11 @@ namespace utility
 			60000
 		));
 
-		if (outputAccess->getLineCount() > 0 && utility::isPrefix<std::string>("Error", utility::trim(outputAccess->getLine(1))))
+		const std::wstring errorMessage = getErrorMessageFromMavenOutput(outputAccess);
+		if (!errorMessage.empty())
 		{
-			// TODO: move error handling to caller of this function
-			const std::wstring dialogMessage =
-				L"The following error occurred while executing a Maven command:\n\n" + 
-				utility::decodeFromUtf8(utility::replace(outputAccess->getText(), "\r\n", "\n"));
-
-			MessageStatus(dialogMessage, true, false).dispatch();
-
-			Application::getInstance()->handleDialog(dialogMessage);
-
+			MessageStatus(errorMessage, true, false).dispatch();
+			Application::getInstance()->handleDialog(errorMessage);
 			return std::vector<FilePath>();
 		}
 

@@ -16,6 +16,7 @@ public:
 	virtual ~TextAccess();
 
 	unsigned int getLineCount() const;
+	bool isEmpty() const;
 
 	FilePath getFilePath() const;
 

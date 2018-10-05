@@ -75,6 +75,11 @@ unsigned int TextAccess::getLineCount() const
 	return m_lines.size();
 }
 
+bool TextAccess::isEmpty() const
+{
+	return m_lines.empty();
+}
+
 FilePath TextAccess::getFilePath() const
 {
 	return m_filePath;

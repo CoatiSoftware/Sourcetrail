@@ -94,26 +94,19 @@ bool SourceGroupJavaMaven::prepareMavenData()
 			dialogView->hideUnknownProgressDialog();
 		});
 
-		bool success = utility::mavenGenerateSources(mavenPath, projectRootPath);
-
-		if (!success)
+		const std::wstring errorMessage = utility::mavenGenerateSources(mavenPath, projectRootPath);
+		if (!errorMessage.empty())
 		{
-			const std::wstring dialogMessage =
-				L"Sourcetrail was unable to locate Maven on this machine.\n"
-				"Please make sure to provide the correct Maven Path in the preferences.";
-
-			MessageStatus(dialogMessage, true, false).dispatch();
-			Application::getInstance()->handleDialog(dialogMessage);
+			MessageStatus(errorMessage, true, false).dispatch();
+			Application::getInstance()->handleDialog(errorMessage);
+			return false;
 		}
 
-		if (success)
-		{
-			dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nExporting Dependencies");
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nExporting Dependencies");
 
-			success = utility::mavenCopyDependencies(
-				mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute()
-			);
-		}
+		bool success = utility::mavenCopyDependencies(
+			mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute()
+		);
 
 		return success;
 	}

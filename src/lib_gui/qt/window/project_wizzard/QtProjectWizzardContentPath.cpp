@@ -563,17 +563,11 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 		dialogView->setParentWindow(m_window);
 		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nGenerating Source Files");
 
-		const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
-		if (!success)
+		const std::wstring errorMessage = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
+		if (!errorMessage.empty())
 		{
-			const std::wstring dialogMessage =
-				L"Sourcetrail was unable to locate Maven on this machine.\n"
-				"Please make sure to provide the correct Maven Path in the preferences.";
-
-			MessageStatus(dialogMessage, true, false).dispatch();
-
-			Application::getInstance()->handleDialog(dialogMessage);
-
+			MessageStatus(errorMessage, true, false).dispatch();
+			Application::getInstance()->handleDialog(errorMessage);
 			return std::vector<FilePath>();
 		}
 	}
