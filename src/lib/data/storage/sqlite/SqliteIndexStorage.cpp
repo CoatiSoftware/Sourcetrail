@@ -1017,10 +1017,6 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 		SqliteDatabaseIndex("source_location_file_node_id_index", "source_location(file_node_id)")
 	));
 	indices.push_back(std::make_pair(
-		STORAGE_MODE_READ,
-		SqliteDatabaseIndex("source_location_file_node_id_type_index", "source_location(file_node_id, type)")
-	));
-	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,
 		SqliteDatabaseIndex("error_all_data_index", "error(message, fatal, file_path, line_number, column_number)")
 	));
