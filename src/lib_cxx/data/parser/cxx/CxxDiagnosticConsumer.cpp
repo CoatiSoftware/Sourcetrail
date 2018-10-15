@@ -63,7 +63,9 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			return;
 		}
 
-		ParseLocation location(FilePath(), 0, 0);
+		FilePath filePath;
+		uint lineNumber = 0;
+		uint columnNumber = 0;
 		if (info.getLocation().isValid() && info.hasSourceManager())
 		{
 			const clang::SourceManager& sourceManager = info.getSourceManager();
@@ -79,28 +81,38 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 
 			if (fileEntry != nullptr && fileEntry->isValid())
 			{
-				location = utility::getParseLocation(loc, sourceManager, nullptr, m_canonicalFilePathCache);
+				ParseLocation location = utility::getParseLocation(loc, sourceManager, nullptr, m_canonicalFilePathCache);
+				filePath = m_canonicalFilePathCache->getCanonicalFilePath(location.fileId);
+				lineNumber = location.startLineNumber;
+				columnNumber = location.startColumnNumber;
 			}
 			else
 			{
 				fileEntry = sourceManager.getFileEntryForID(sourceManager.getMainFileID());
 				if (fileEntry != nullptr && fileEntry->isValid())
 				{
-					location = ParseLocation(m_canonicalFilePathCache->getCanonicalFilePath(fileEntry), 1, 1);
+					filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+					lineNumber = 1;
+					columnNumber = 1;
 				}
 			}
 		}
 		else
 		{
-			location = ParseLocation(m_canonicalFilePathCache->getCanonicalFilePath(m_sourceFilePath.wstr()), 1, 1);
+			filePath = m_sourceFilePath;
+			lineNumber = 1;
+			columnNumber = 1;
 		}
-		if (location.isValid())
+
+		if (!filePath.empty())
 		{
 			m_client->recordError(
-				location,
+				filePath,
+				lineNumber,
+				columnNumber,
 				utility::decodeFromUtf8(message),
 				level == clang::DiagnosticsEngine::Fatal,
-				m_canonicalFilePathCache->getFileRegister()->hasFilePath(location.filePath),
+				m_canonicalFilePathCache->getFileRegister()->hasFilePath(filePath),
 				m_sourceFilePath
 			);
 		}

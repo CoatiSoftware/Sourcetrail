@@ -11,6 +11,7 @@
 #include "JavaEnvironment.h"
 #include "logging.h"
 #include "Parser.h"
+#include "types.h"
 
 struct JNIEnv_;
 typedef JNIEnv_ JNIEnv;
@@ -227,11 +228,16 @@ private:
 	void doRecordComment(jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordError(jstring jMessage, jint jFatal, jint jIndexed, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 
-	std::shared_ptr<JavaEnvironment> m_javaEnvironment;
+	Id getOrCreateSymbolId(jstring jSymbolName);
 
-	FilePath m_currentFilePath;
+	std::shared_ptr<JavaEnvironment> m_javaEnvironment;
 	std::shared_ptr<IndexerStateInfo> m_indexerStateInfo;
 	const int m_id;
+
+	FilePath m_currentFilePath;
+	Id m_currentFileId;
+
+	std::map<std::string, Id> m_symbolNameToIdMap;
 };
 
 #endif // JAVA_PARSER_H

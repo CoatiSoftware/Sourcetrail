@@ -15,42 +15,26 @@ class ParserClientImpl
 public:
 	ParserClientImpl(IntermediateStorage* const storage);
 
-	Id recordSymbol(
-		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		AccessKind access, DefinitionKind definitionKind) override;
+	Id recordFile(const FilePath& filePath, bool indexed) override;
 
-	Id recordSymbolWithLocation(
-		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		const ParseLocation& location,
-		AccessKind access, DefinitionKind definitionKind) override;
+	Id recordSymbol(const NameHierarchy& symbolName) override;
+	void recordSymbolKind(Id symbolId, SymbolKind symbolKind) override;
+	void recordAccessKind(Id symbolId, AccessKind accessKind) override;
+	void recordDefinitionKind(Id symbolId, DefinitionKind definitionKind) override;
 
-	Id recordSymbolWithLocationAndScope(
-		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access, DefinitionKind definitionKind) override;
-
-	Id recordSymbolWithLocationAndScopeAndSignature(
-		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		const ParseLocation& location, const ParseLocation& scopeLocation, const ParseLocation& signatureLocation,
-		AccessKind access, DefinitionKind definitionKind) override;
-
-	void recordReference(
-		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
-		const ParseLocation& location) override;
-
-	void recordQualifierLocation(
-		const NameHierarchy& qualifierName, const ParseLocation& location) override;
+	Id recordReference(ReferenceKind referenceKind, Id referencedSymbolId, Id contextSymbolId, const ParseLocation& location) override;
 
 	void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override;
-	void recordFile(const FilePath& filePath, bool indexed) override;
+	void recordLocation(Id elementId, const ParseLocation& location, ParseLocationType type) override;
 	void recordComment(const ParseLocation& location) override;
 
-private:
-	void doRecordError(
-		const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed, const FilePath& sourceFilePath) override;
+	void recordError(const FilePath& filePath, uint lineNumber, uint columnNumber, const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit) override;
 
+private:
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
+	LocationType parseLocationTypeToLocationType(ParseLocationType type) const;
+
 	void addAccess(Id nodeId, AccessKind access);
 
 	Id addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType = NodeType::NODE_SYMBOL);
@@ -58,8 +42,6 @@ private:
 	Id addEdge(int type, Id sourceId, Id targetId);
 
 	void addSourceLocation(Id elementId, const ParseLocation& location, LocationType type);
-	void addError(const std::wstring& message, bool fatal, bool indexed,
-		const ParseLocation& location, const FilePath& sourceFilePath);
 
 	IntermediateStorage* const m_storage;
 	std::map<std::wstring, Id> m_fileIdMap;

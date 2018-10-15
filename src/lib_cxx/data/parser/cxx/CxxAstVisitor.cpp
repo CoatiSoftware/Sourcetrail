@@ -31,32 +31,6 @@ CxxAstVisitor::CxxAstVisitor(
 	, m_implicitCodeComponent(this)
 	, m_indexerComponent(this, astContext, client)
 	, m_braceRecorderComponent(this, astContext, client)
-	, m_declNameCache([&](const clang::NamedDecl* decl) -> NameHierarchy
-		{
-			if (decl)
-			{
-				std::shared_ptr<CxxDeclName> declName = CxxDeclNameResolver(m_canonicalFilePathCache.get()).getName(decl);
-				if (declName)
-				{
-					return declName->toNameHierarchy();
-				}
-			}
-			return NameHierarchy(L"global", NAME_DELIMITER_UNKNOWN);
-		}
-	)
-	, m_typeNameCache([&](const clang::Type* type) -> NameHierarchy
-		{
-			if (type)
-			{
-				std::shared_ptr<CxxTypeName> typeName = CxxTypeNameResolver(m_canonicalFilePathCache.get()).getName(type);
-				if (typeName)
-				{
-					return typeName->toNameHierarchy();
-				}
-			}
-			return NameHierarchy(L"global", NAME_DELIMITER_UNKNOWN);
-		}
-	)
 {
 }
 
@@ -84,17 +58,7 @@ CxxAstVisitorComponentIndexer* CxxAstVisitor::getComponent()
 	return &m_indexerComponent;
 }
 
-DeclNameCache* CxxAstVisitor::getDeclNameCache()
-{
-	return &m_declNameCache;
-}
-
-TypeNameCache* CxxAstVisitor::getTypeNameCache()
-{
-	return &m_typeNameCache;
-}
-
-CanonicalFilePathCache* CxxAstVisitor::getCanonicalFilePathCache()
+CanonicalFilePathCache* CxxAstVisitor::getCanonicalFilePathCache() const
 {
 	return m_canonicalFilePathCache.get();
 }

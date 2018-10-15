@@ -7,6 +7,7 @@
 #include "SymbolKind.h"
 
 struct ParseLocation;
+struct ParseLocation;
 class CanonicalFilePathCache;
 
 namespace clang

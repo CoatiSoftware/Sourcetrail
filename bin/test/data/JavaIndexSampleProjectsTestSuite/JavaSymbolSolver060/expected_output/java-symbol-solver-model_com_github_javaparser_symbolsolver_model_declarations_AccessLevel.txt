@@ -1,21 +1,21 @@
 FILE: AccessLevel.java
-SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations [ <17:50 17:61>]
-QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations [AccessLevel.java <17:50 17:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AccessLevel.java <17:44 17:48>]
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
-QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [AccessLevel.java <17:31 17:42>]
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
-QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [AccessLevel.java <17:20 17:29>]
 SYMBOL_PACKAGE: com.github.javaparser
-QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [AccessLevel.java <17:13 17:18>]
 SYMBOL_PACKAGE: com.github
-QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [AccessLevel.java <17:9 17:11>]
 SYMBOL_PACKAGE: com
-SYMBOL_ENUM: public com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ <22:1 <22:13 22:23> 27:1>]
-SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC [ <23:5 23:10>]
-SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE [ <24:5 24:11>]
-SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED [ <25:5 25:13>]
-SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED [ <26:5 26:21>]
-LOCAL_SYMBOL: AccessLevel.java<22:25> [ <22:25 22:25>]
-LOCAL_SYMBOL: AccessLevel.java<22:25> [ <27:1 27:1>]
-COMMENT: comment [ <1:1 15:3>]
-COMMENT: comment [ <19:1 21:3>]
+SYMBOL_ENUM: public com.github.javaparser.symbolsolver.model.declarations.AccessLevel [AccessLevel.java <22:1 <22:13 22:23> 27:1>]
+SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC [AccessLevel.java <23:5 23:10>]
+SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE [AccessLevel.java <24:5 24:11>]
+SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED [AccessLevel.java <25:5 25:13>]
+SYMBOL_ENUM_CONSTANT: com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED [AccessLevel.java <26:5 26:21>]
+LOCAL_SYMBOL: AccessLevel.java<22:25> [AccessLevel.java <22:25 22:25>]
+LOCAL_SYMBOL: AccessLevel.java<22:25> [AccessLevel.java <27:1 27:1>]
+COMMENT: comment [AccessLevel.java <1:1 15:3>]
+COMMENT: comment [AccessLevel.java <19:1 21:3>]

@@ -18,11 +18,13 @@ public:
 	size_t getByteSize(size_t stringSize) const;
 	size_t getSourceLocationCount() const;
 
+	bool hasFatalErrors() const;
 	void setAllFilesIncomplete();
 	void setFilesWithErrorsIncomplete();
 
 	std::pair<Id, bool> addNode(const StorageNodeData& nodeData) override;
 	std::vector<Id> addNodes(const std::vector<StorageNode>& nodes) override;
+	void setNodeType(Id nodeId, int nodeType);
 	void addSymbol(const StorageSymbol& symbol) override;
 	void addSymbols(const std::vector<StorageSymbol>& symbols) override;
 	void addFile(const StorageFile& file) override;
@@ -65,6 +67,7 @@ private:
 	std::wstring serialize(const StorageErrorData& errorData) const;
 
 	std::map<StorageNodeData, size_t> m_nodesIndex;
+	std::map<Id, size_t> m_nodeIdIndex;
 	std::vector<StorageNode> m_nodes;
 
 	std::map<StorageFile, size_t> m_filesIndex; // this is used to prevent duplicates (unique)

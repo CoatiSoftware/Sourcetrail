@@ -10,6 +10,7 @@ IntermediateStorage::IntermediateStorage()
 void IntermediateStorage::clear()
 {
 	m_nodesIndex.clear();
+	m_nodeIdIndex.clear();
 	m_nodes.clear();
 
 	m_filesIndex.clear();
@@ -75,6 +76,19 @@ size_t IntermediateStorage::getSourceLocationCount() const
 	return m_sourceLocations.size();
 }
 
+bool IntermediateStorage::hasFatalErrors() const
+{
+	for (const StorageErrorData& error : m_errors)
+	{
+		if (error.fatal)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void IntermediateStorage::setAllFilesIncomplete()
 {
 	for (StorageFile& file : m_files)
@@ -116,6 +130,7 @@ std::pair<Id, bool> IntermediateStorage::addNode(const StorageNodeData& nodeData
 	Id nodeId = m_nextId++;
 	m_nodes.emplace_back(nodeId, nodeData);
 	m_nodesIndex.emplace(nodeData, m_nodes.size() - 1);
+	m_nodeIdIndex.emplace(nodeId, m_nodes.size() - 1);
 	return std::make_pair(nodeId, true);
 }
 
@@ -128,6 +143,15 @@ std::vector<Id> IntermediateStorage::addNodes(const std::vector<StorageNode>& no
 		nodeIds.emplace_back(addNode(node).first);
 	}
 	return nodeIds;
+}
+
+void IntermediateStorage::setNodeType(Id nodeId, int nodeType)
+{
+	auto it = m_nodeIdIndex.find(nodeId);
+	if (it != m_nodeIdIndex.end() && m_nodes[it->second].type < nodeType)
+	{
+		m_nodes[it->second].type = nodeType;
+	}
 }
 
 void IntermediateStorage::addSymbol(const StorageSymbol& symbol)
@@ -316,9 +340,11 @@ void IntermediateStorage::setStorageNodes(std::vector<StorageNode> storageNodes)
 	m_nodes = std::move(storageNodes);
 
 	m_nodesIndex.clear();
+	m_nodeIdIndex.clear();
 	for (size_t i = 0; i < m_nodes.size(); i++)
 	{
 		m_nodesIndex.emplace(m_nodes[i], i);
+		m_nodeIdIndex.emplace(m_nodes[i].id, i);
 	}
 }
 

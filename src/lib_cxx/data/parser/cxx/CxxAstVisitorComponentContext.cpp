@@ -23,7 +23,7 @@ const clang::NamedDecl* CxxAstVisitorComponentContext::getTopmostContextDecl() c
 	return nullptr;
 }
 
-NameHierarchy CxxAstVisitorComponentContext::getContextName(const size_t skip)
+const CxxContext* CxxAstVisitorComponentContext::getContext(const size_t skip)
 {
 	size_t skipped = 0;
 
@@ -33,7 +33,7 @@ NameHierarchy CxxAstVisitorComponentContext::getContextName(const size_t skip)
 		{
 			if (skipped >= skip)
 			{
-				return (*it)->getName();
+				return it->get();
 			}
 			else
 			{
@@ -41,19 +41,7 @@ NameHierarchy CxxAstVisitorComponentContext::getContextName(const size_t skip)
 			}
 		}
 	}
-	return getAstVisitor()->getDeclNameCache()->getValue(nullptr);
-}
-
-NameHierarchy CxxAstVisitorComponentContext::getContextName(const NameHierarchy& fallback)
-{
-	for (auto it = m_contextStack.rbegin(); it != m_contextStack.rend(); it++)
-	{
-		if (*it)
-		{
-			return (*it)->getName();
-		}
-	}
-	return fallback;
+	return nullptr;
 }
 
 void CxxAstVisitorComponentContext::beginTraverseDecl(clang::Decl* d)
@@ -69,7 +57,7 @@ void CxxAstVisitorComponentContext::beginTraverseDecl(clang::Decl* d)
 		!clang::isa<clang::NamespaceDecl>(d)												// no namespace
 	){
 		clang::NamedDecl* nd = clang::dyn_cast<clang::NamedDecl>(d);
-		context = std::make_shared<CxxContextDecl>(nd, getAstVisitor()->getDeclNameCache());
+		context = std::make_shared<CxxContextDecl>(nd);
 	}
 
 	m_contextStack.push_back(context);
@@ -86,7 +74,7 @@ void CxxAstVisitorComponentContext::beginTraverseTypeLoc(const clang::TypeLoc& t
 
 	if (!getAstVisitor()->checkIgnoresTypeLoc(tl))
 	{
-		context = std::make_shared<CxxContextType>(tl.getTypePtr(), getAstVisitor()->getTypeNameCache());
+		context = std::make_shared<CxxContextType>(tl.getTypePtr());
 	}
 
 	m_contextStack.push_back(context);
@@ -99,7 +87,7 @@ void CxxAstVisitorComponentContext::endTraverseTypeLoc(const clang::TypeLoc& tl)
 
 void CxxAstVisitorComponentContext::beginTraverseLambdaExpr(clang::LambdaExpr* s)
 {
-	m_contextStack.push_back(std::make_shared<CxxContextDecl>(s->getCallOperator(), getAstVisitor()->getDeclNameCache()));
+	m_contextStack.push_back(std::make_shared<CxxContextDecl>(s->getCallOperator()));
 }
 
 void CxxAstVisitorComponentContext::endTraverseLambdaExpr(clang::LambdaExpr* s)
@@ -109,7 +97,7 @@ void CxxAstVisitorComponentContext::endTraverseLambdaExpr(clang::LambdaExpr* s)
 
 void CxxAstVisitorComponentContext::beginTraverseFunctionDecl(clang::FunctionDecl* d)
 {
-	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d, getAstVisitor()->getDeclNameCache()));
+	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d));
 }
 
 void CxxAstVisitorComponentContext::endTraverseFunctionDecl(clang::FunctionDecl* d)
@@ -119,7 +107,7 @@ void CxxAstVisitorComponentContext::endTraverseFunctionDecl(clang::FunctionDecl*
 
 void CxxAstVisitorComponentContext::beginTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d)
 {
-	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d, getAstVisitor()->getDeclNameCache()));
+	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d));
 }
 
 void CxxAstVisitorComponentContext::endTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d)
@@ -129,7 +117,7 @@ void CxxAstVisitorComponentContext::endTraverseClassTemplateSpecializationDecl(c
 
 void CxxAstVisitorComponentContext::beginTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d)
 {
-	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d, getAstVisitor()->getDeclNameCache()));
+	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d));
 }
 
 void CxxAstVisitorComponentContext::endTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d)
@@ -139,7 +127,7 @@ void CxxAstVisitorComponentContext::endTraverseClassTemplatePartialSpecializatio
 
 void CxxAstVisitorComponentContext::beginTraverseDeclRefExpr(clang::DeclRefExpr* s)
 {
-	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(s->getDecl(), getAstVisitor()->getDeclNameCache()));
+	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(s->getDecl()));
 }
 
 void CxxAstVisitorComponentContext::endTraverseDeclRefExpr(clang::DeclRefExpr* s)
@@ -149,7 +137,7 @@ void CxxAstVisitorComponentContext::endTraverseDeclRefExpr(clang::DeclRefExpr* s
 
 void CxxAstVisitorComponentContext::beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc)
 {
-	m_templateArgumentContext.push_back(std::make_shared<CxxContextType>(loc.getTypePtr(), getAstVisitor()->getTypeNameCache()));
+	m_templateArgumentContext.push_back(std::make_shared<CxxContextType>(loc.getTypePtr()));
 }
 
 void CxxAstVisitorComponentContext::endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc)

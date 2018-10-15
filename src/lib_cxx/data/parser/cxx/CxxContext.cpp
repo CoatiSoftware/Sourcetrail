@@ -1,34 +1,33 @@
 #include "CxxContext.h"
 
-CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl, DeclNameCache* nameCache)
+const clang::NamedDecl* CxxContext::getDecl() const
+{
+	return nullptr;
+}
+
+const clang::Type* CxxContext::getType() const
+{
+	return nullptr;
+}
+
+
+CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl)
 	: m_decl(decl)
-	, m_nameCache(nameCache)
 {
 }
 
-NameHierarchy CxxContextDecl::getName()
-{
-	return m_nameCache->getValue(m_decl);
-}
-
-const clang::NamedDecl* CxxContextDecl::getDecl()
+const clang::NamedDecl* CxxContextDecl::getDecl() const
 {
 	return m_decl;
 }
 
 
-CxxContextType::CxxContextType(const clang::Type* type, TypeNameCache* nameCache)
+CxxContextType::CxxContextType(const clang::Type* type)
 	: m_type(type)
-	, m_nameCache(nameCache)
 {
 }
 
-NameHierarchy CxxContextType::getName()
+const clang::Type* CxxContextType::getType() const
 {
-	return m_nameCache->getValue(m_type);
-}
-
-const clang::NamedDecl* CxxContextType::getDecl()
-{
-	return nullptr;
+	return m_type;
 }

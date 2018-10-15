@@ -26,7 +26,6 @@ class TextAccess;
 class Version;
 class SourceLocationCollection;
 class SourceLocationFile;
-struct ParseLocation;
 
 class SqliteIndexStorage
 	: public SqliteStorage

@@ -11,7 +11,8 @@ class CxxAstVisitorComponentBraceRecorder
 	: public CxxAstVisitorComponent
 {
 public:
-	CxxAstVisitorComponentBraceRecorder(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client);
+	CxxAstVisitorComponentBraceRecorder(
+		CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client);
 
 	void visitTagDecl(clang::TagDecl* d);
 	void visitNamespaceDecl(clang::NamespaceDecl* d);
@@ -21,9 +22,12 @@ public:
 
 private:
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
-	void recordBraces(const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
+	FilePath getFilePath(const clang::SourceLocation& loc);
+
+	void recordBraces(const FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
 	clang::SourceLocation getFirstLBraceLocation(clang::SourceLocation searchStartLoc) const;
-	clang::SourceLocation getLastRBraceLocation(clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const;
+	clang::SourceLocation getLastRBraceLocation(
+		const clang::SourceLocation& searchStartLoc, clang::SourceLocation searchEndLoc) const;
 
 	clang::ASTContext* m_astContext;
 	std::shared_ptr<ParserClient> m_client;

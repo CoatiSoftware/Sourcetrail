@@ -34,6 +34,7 @@ JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<Ind
 	: Parser(client)
 	, m_indexerStateInfo(indexerStateInfo)
 	, m_id(s_nextParserId++)
+	, m_currentFileId(0)
 {
 	const std::string errorString = utility::prepareJavaEnvironment();
 	if (!errorString.empty())
@@ -101,8 +102,7 @@ void JavaParser::buildIndex(
 	if (m_javaEnvironment)
 	{
 		m_currentFilePath = sourceFilePath;
-
-		m_client->recordFile(sourceFilePath, true);
+		m_currentFileId = m_client->recordFile(sourceFilePath, true);
 
 		// remove tabs because they screw with javaparser's location resolver
 		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");
@@ -165,15 +165,10 @@ void JavaParser::doRecordSymbol(
 	jint jAccess, jint jDefinitionKind
 )
 {
-	AccessKind access = intToAccessKind(jAccess);
-	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
-
-	m_client->recordSymbol(
-		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
-		intToSymbolKind(jSymbolKind),
-		access,
-		definitionKind
-	);
+	Id symbolId = getOrCreateSymbolId(jSymbolName);
+	m_client->recordSymbolKind(symbolId, intToSymbolKind(jSymbolKind));
+	m_client->recordAccessKind(symbolId, intToAccessKind(jAccess));
+	m_client->recordDefinitionKind(symbolId, intToDefinitionKind(jDefinitionKind));
 }
 
 void JavaParser::doRecordSymbolWithLocation(
@@ -182,16 +177,11 @@ void JavaParser::doRecordSymbolWithLocation(
 	jint jAccess, jint jDefinitionKind
 )
 {
-	AccessKind access = intToAccessKind(jAccess);
-	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
-
-	m_client->recordSymbolWithLocation(
-		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
-		intToSymbolKind(jSymbolKind),
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
-		access,
-		definitionKind
-	);
+	Id symbolId = getOrCreateSymbolId(jSymbolName);
+	m_client->recordSymbolKind(symbolId, intToSymbolKind(jSymbolKind));
+	m_client->recordLocation(symbolId, ParseLocation(m_currentFileId, beginLine, beginColumn, endLine, endColumn), ParseLocationType::TOKEN);
+	m_client->recordAccessKind(symbolId, intToAccessKind(jAccess));
+	m_client->recordDefinitionKind(symbolId, intToDefinitionKind(jDefinitionKind));
 }
 
 void JavaParser::doRecordSymbolWithLocationAndScope(
@@ -201,17 +191,12 @@ void JavaParser::doRecordSymbolWithLocationAndScope(
 	jint jAccess, jint jDefinitionKind
 )
 {
-	AccessKind access = intToAccessKind(jAccess);
-	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
-
-	m_client->recordSymbolWithLocationAndScope(
-		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
-		intToSymbolKind(jSymbolKind),
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
-		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
-		access,
-		definitionKind
-	);
+	Id symbolId = getOrCreateSymbolId(jSymbolName);
+	m_client->recordSymbolKind(symbolId, intToSymbolKind(jSymbolKind));
+	m_client->recordLocation(symbolId, ParseLocation(m_currentFileId, beginLine, beginColumn, endLine, endColumn), ParseLocationType::TOKEN);
+	m_client->recordLocation(symbolId, ParseLocation(m_currentFileId, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn), ParseLocationType::SCOPE);
+	m_client->recordAccessKind(symbolId, intToAccessKind(jAccess));
+	m_client->recordDefinitionKind(symbolId, intToDefinitionKind(jDefinitionKind));
 }
 
 void JavaParser::doRecordSymbolWithLocationAndScopeAndSignature(
@@ -222,18 +207,13 @@ void JavaParser::doRecordSymbolWithLocationAndScopeAndSignature(
 	jint jAccess, jint jDefinitionKind
 )
 {
-	AccessKind access = intToAccessKind(jAccess);
-	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
-
-	m_client->recordSymbolWithLocationAndScopeAndSignature(
-		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
-		intToSymbolKind(jSymbolKind),
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
-		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
-		ParseLocation(m_currentFilePath, signatureBeginLine, signatureBeginColumn, signatureEndLine, signatureEndColumn),
-		access,
-		definitionKind
-	);
+	Id symbolId = getOrCreateSymbolId(jSymbolName);
+	m_client->recordSymbolKind(symbolId, intToSymbolKind(jSymbolKind));
+	m_client->recordLocation(symbolId, ParseLocation(m_currentFileId, beginLine, beginColumn, endLine, endColumn), ParseLocationType::TOKEN);
+	m_client->recordLocation(symbolId, ParseLocation(m_currentFileId, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn), ParseLocationType::SCOPE);
+	m_client->recordLocation(symbolId, ParseLocation(m_currentFileId, signatureBeginLine, signatureBeginColumn, signatureEndLine, signatureEndColumn), ParseLocationType::SIGNATURE);
+	m_client->recordAccessKind(symbolId, intToAccessKind(jAccess));
+	m_client->recordDefinitionKind(symbolId, intToDefinitionKind(jDefinitionKind));
 }
 
 void JavaParser::doRecordReference(
@@ -243,9 +223,9 @@ void JavaParser::doRecordReference(
 {
 	m_client->recordReference(
 		intToReferenceKind(jReferenceKind),
-		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jReferencedName))),
-		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jContextName))),
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
+		getOrCreateSymbolId(jReferencedName),
+		getOrCreateSymbolId(jContextName),
+		ParseLocation(m_currentFileId, beginLine, beginColumn, endLine, endColumn)
 	);
 }
 
@@ -254,17 +234,15 @@ void JavaParser::doRecordQualifierLocation(
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn
 )
 {
-	m_client->recordQualifierLocation(
-		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jQualifierName))),
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
-	);
+	Id symbolId = getOrCreateSymbolId(jQualifierName);
+	m_client->recordLocation(symbolId, ParseLocation(m_currentFileId, beginLine, beginColumn, endLine, endColumn), ParseLocationType::QUALIFIER);
 }
 
 void JavaParser::doRecordLocalSymbol(jstring jSymbolName, jint beginLine, jint beginColumn, jint endLine, jint endColumn)
 {
 	m_client->recordLocalSymbol(
 		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))).getQualifiedName(),
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
+		ParseLocation(m_currentFileId, beginLine, beginColumn, endLine, endColumn)
 	);
 }
 
@@ -273,7 +251,7 @@ void JavaParser::doRecordComment(
 )
 {
 	m_client->recordComment(
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
+		ParseLocation(m_currentFileId, beginLine, beginColumn, endLine, endColumn)
 	);
 }
 
@@ -286,10 +264,28 @@ void JavaParser::doRecordError(
 	bool indexed = jIndexed;
 
 	m_client->recordError(
-		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
+		m_currentFilePath,
+		beginLine,
+		beginColumn,
 		utility::decodeFromUtf8(m_javaEnvironment->toStdString(jMessage)),
 		fatal,
 		indexed,
 		FilePath()
 	);
+}
+
+Id JavaParser::getOrCreateSymbolId(jstring jSymbolName)
+{
+	std::string name = m_javaEnvironment->toStdString(jSymbolName);
+
+	auto it = m_symbolNameToIdMap.find(name);
+	if (it != m_symbolNameToIdMap.end())
+	{
+		return it->second;
+	}
+
+	Id symbolId = m_client->recordSymbol(NameHierarchy::deserialize(utility::decodeFromUtf8(name)));
+
+	m_symbolNameToIdMap.emplace(name, symbolId);
+	return symbolId;
 }

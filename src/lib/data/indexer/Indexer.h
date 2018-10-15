@@ -65,7 +65,7 @@ std::shared_ptr<IntermediateStorage> Indexer<T>::index(std::shared_ptr<IndexerCo
 
 	doIndex(castCommand, parserClient, m_indexerStateInfo);
 
-	if (parserClient->hasFatalErrors())
+	if (storage->hasFatalErrors())
 	{
 		storage->setAllFilesIncomplete();
 	}

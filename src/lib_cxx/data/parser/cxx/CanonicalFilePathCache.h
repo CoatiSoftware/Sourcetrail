@@ -1,6 +1,7 @@
 #ifndef CANONICAL_FILE_PATH_CACHE_H
 #define CANONICAL_FILE_PATH_CACHE_H
 
+#include <map>
 #include <string>
 #include <unordered_map>
 
@@ -8,6 +9,7 @@
 
 #include "FilePath.h"
 #include "FileRegister.h"
+#include "types.h"
 
 class CanonicalFilePathCache
 {
@@ -19,24 +21,26 @@ public:
 	FilePath getCanonicalFilePath(const clang::FileID& fileId, const clang::SourceManager& sourceManager);
 	FilePath getCanonicalFilePath(const clang::FileEntry* entry);
 	FilePath getCanonicalFilePath(const std::wstring& path);
+	FilePath getCanonicalFilePath(const Id symbolId);
 
-	bool isProjectFile(const clang::FileID fileId, const clang::SourceManager& sourceManager);
+	void addFileSymbolId(const clang::FileID& fileId, const FilePath& path, Id symbolId);
+	Id getFileSymbolId(const clang::FileID& fileId);
+	Id getFileSymbolId(const clang::FileEntry* entry);
+	Id getFileSymbolId(const std::wstring& path);
+
+	bool isProjectFile(const clang::FileID& fileId, const clang::SourceManager& sourceManager);
 
 private:
-	struct FileIdHash
-	{
-		size_t operator()(clang::FileID fileID) const
-		{
-			return fileID.getHashValue();
-		}
-	};
-
 	std::shared_ptr<FileRegister> m_fileRegister;
 
-	std::unordered_map<clang::FileID, FilePath, FileIdHash> m_fileIdMap;
+	std::map<clang::FileID, FilePath> m_fileIdMap;
 	std::unordered_map<std::wstring, FilePath> m_fileStringMap;
 
-	std::unordered_map<clang::FileID, bool, FileIdHash> m_isProjectFileMap;
+	std::map<clang::FileID, Id> m_fileIdSymbolIdMap;
+	std::map<Id, clang::FileID> m_symbolIdFileIdMap;
+	std::unordered_map<std::wstring, Id> m_fileStringSymbolIdMap;
+
+	std::map<clang::FileID, bool> m_isProjectFileMap;
 };
 
 #endif // CANONICAL_FILE_PATH_CACHE_H

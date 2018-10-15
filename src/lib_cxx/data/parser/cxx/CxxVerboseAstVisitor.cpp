@@ -5,10 +5,10 @@
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Basic/SourceManager.h>
 
+#include "CanonicalFilePathCache.h"
+#include "logging.h"
 #include "ParseLocation.h"
 #include "ParserClient.h"
-
-#include "logging.h"
 #include "ScopedSwitcher.h"
 
 CxxVerboseAstVisitor::CxxVerboseAstVisitor(
@@ -19,7 +19,6 @@ CxxVerboseAstVisitor::CxxVerboseAstVisitor(
 	std::shared_ptr<IndexerStateInfo> indexerStateInfo
 )
 	: base(context, preprocessor, client, canonicalFilePathCache, indexerStateInfo)
-	, m_currentFilePath(L"")
 	, m_indentation(0)
 {
 }
@@ -38,10 +37,13 @@ bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl* d)
 		ParseLocation loc = getParseLocation(d->getSourceRange());
 		stream << " <" << loc.startLineNumber << ":" << loc.startColumnNumber << ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">";
 
-		if (m_currentFilePath != loc.filePath.wstr())
+		const clang::SourceManager& sm = m_astContext->getSourceManager();
+		FilePath currentFilePath =
+			getCanonicalFilePathCache()->getCanonicalFilePath(sm.getFileID(d->getSourceRange().getBegin()), sm);
+		if (m_currentFilePath != currentFilePath)
 		{
-			m_currentFilePath = loc.filePath.wstr();
-			LOG_INFO_BARE(L"Indexer - Traversing \"" + m_currentFilePath + L"\"" );
+			m_currentFilePath = currentFilePath;
+			LOG_INFO_BARE(L"Indexer - Traversing \"" + currentFilePath.wstr() + L"\"" );
 		}
 
 		LOG_INFO_STREAM_BARE(<< "Indexer - " << stream.str());

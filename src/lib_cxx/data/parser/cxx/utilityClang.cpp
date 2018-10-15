@@ -124,7 +124,8 @@ std::wstring utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 		}
 		else
 		{
-			fileName = FilePath(utility::decodeFromUtf8(entry->getName().str())).getParentDirectory().concatenate(FilePath(fileName).fileName()).wstr();
+			fileName = FilePath(utility::decodeFromUtf8(entry->getName().str()))
+				.getParentDirectory().concatenate(FilePath(fileName).fileName()).wstr();
 		}
 	}
 	return fileName;
@@ -161,7 +162,7 @@ ParseLocation utility::getParseLocation(
 			const unsigned int endOffset = sourceManager.getFileOffset(endSloc);
 
 			return ParseLocation(
-				canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager),
+				canonicalFilePathCache->getFileSymbolId(fileId),
 				sourceManager.getLineNumber(fileId, startOffset),
 				sourceManager.getColumnNumber(fileId, startOffset),
 				sourceManager.getLineNumber(fileId, endOffset),
@@ -171,7 +172,7 @@ ParseLocation utility::getParseLocation(
 		else
 		{
 			return ParseLocation(
-				canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager),
+				canonicalFilePathCache->getFileSymbolId(fileId),
 				sourceManager.getLineNumber(fileId, startOffset),
 				sourceManager.getColumnNumber(fileId, startOffset)
 			);
@@ -219,14 +220,14 @@ ParseLocation utility::getParseLocation(
 		const clang::PresumedLoc presumedBegin = sourceManager.getPresumedLoc(beginLoc, false);
 		const clang::PresumedLoc presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : range.getEnd(), false);
 
-		FilePath filePath = canonicalFilePathCache->getCanonicalFilePath(sourceManager.getFileID(beginLoc), sourceManager);
-		if (filePath.empty())
+		Id fileSymbolId = canonicalFilePathCache->getFileSymbolId(sourceManager.getFileID(beginLoc));
+		if (!fileSymbolId)
 		{
-			filePath = canonicalFilePathCache->getCanonicalFilePath(utility::decodeFromUtf8(presumedBegin.getFilename()));
+			fileSymbolId = canonicalFilePathCache->getFileSymbolId(utility::decodeFromUtf8(presumedBegin.getFilename()));
 		}
 
 		return ParseLocation(
-			std::move(filePath),
+			fileSymbolId,
 			presumedBegin.getLine(),
 			presumedBegin.getColumn(),
 			presumedEnd.getLine(),

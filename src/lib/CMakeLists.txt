@@ -202,7 +202,6 @@ add_files(
 	data/parser/ParseLocation.h
 	data/parser/Parser.cpp
 	data/parser/Parser.h
-	data/parser/ParserClient.cpp
 	data/parser/ParserClient.h
 	data/parser/ParserClientImpl.cpp
 	data/parser/ParserClientImpl.h

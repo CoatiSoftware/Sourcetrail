@@ -1,23 +1,23 @@
 FILE: TypeTransformer.java
-SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem [ <17:50 17:59>]
-QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem [TypeTransformer.java <17:50 17:59>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeTransformer.java <17:44 17:48>]
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
-QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeTransformer.java <17:31 17:42>]
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
-QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [TypeTransformer.java <17:20 17:29>]
 SYMBOL_PACKAGE: com.github.javaparser
-QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [TypeTransformer.java <17:13 17:18>]
 SYMBOL_PACKAGE: com.github
-QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [TypeTransformer.java <17:9 17:11>]
 SYMBOL_PACKAGE: com
-SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer [ <22:1 <23:18 23:32> 25:1>]
+SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer [TypeTransformer.java <22:1 <23:18 23:32> 25:1>]
 SYMBOL_PACKAGE: java.lang
-SYMBOL_METHOD: default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) [ <24:5 <24:5 <24:10 24:18> 24:29> 24:30>]
-REFERENCE_ANNOTATION_USAGE: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer -> java.lang.FunctionalInterface [ <22:2 22:20>]
-REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ <24:5 24:8>]
-REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ <24:20 24:23>]
-LOCAL_SYMBOL: TypeTransformer.java<23:34> [ <23:34 23:34>]
-LOCAL_SYMBOL: TypeTransformer.java<23:34> [ <25:1 25:1>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<0> [ <24:25 24:28>]
-COMMENT: comment [ <1:1 15:3>]
-COMMENT: comment [ <19:1 21:3>]
+SYMBOL_METHOD: default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeTransformer.java <24:5 <24:5 <24:10 24:18> 24:29> 24:30>]
+REFERENCE_ANNOTATION_USAGE: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer -> java.lang.FunctionalInterface [TypeTransformer.java <22:2 22:20>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeTransformer.java <24:5 24:8>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeTransformer.java <24:20 24:23>]
+LOCAL_SYMBOL: TypeTransformer.java<23:34> [TypeTransformer.java <23:34 23:34>]
+LOCAL_SYMBOL: TypeTransformer.java<23:34> [TypeTransformer.java <25:1 25:1>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<0> [TypeTransformer.java <24:25 24:28>]
+COMMENT: comment [TypeTransformer.java <1:1 15:3>]
+COMMENT: comment [TypeTransformer.java <19:1 21:3>]

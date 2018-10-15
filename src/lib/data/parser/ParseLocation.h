@@ -6,23 +6,32 @@
 #include "FilePath.h"
 #include "types.h"
 
+enum class ParseLocationType
+{
+	TOKEN,
+	SCOPE,
+	SIGNATURE,
+	QUALIFIER,
+	LOCAL
+};
+
 struct ParseLocation
 {
 	ParseLocation();
 	ParseLocation(
-		FilePath filePath,
+		Id fileId,
 		uint lineNumber,
 		uint columnNumber
 	);
 	ParseLocation(
-		FilePath filePath,
+		Id fileId,
 		uint startLineNumber, uint startColumnNumber,
 		uint endLineNumber, uint endColumnNumber
 	);
 
 	bool isValid() const;
 
-	FilePath filePath;
+	Id fileId;
 	uint startLineNumber;
 	uint startColumnNumber;
 	uint endLineNumber;

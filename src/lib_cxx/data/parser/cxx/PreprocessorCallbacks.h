@@ -10,6 +10,7 @@
 #include <clang/Lex/Token.h>
 
 #include "FilePath.h"
+#include "types.h"
 
 class CanonicalFilePathCache;
 class ParserClient;
@@ -63,7 +64,7 @@ private:
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
-	FilePath m_currentPath;
+	Id m_currentFileSymbolId;
 	bool m_currentPathIsProjectFile = false;
 
 	std::set<clang::FileID> m_fileWasRecorded;

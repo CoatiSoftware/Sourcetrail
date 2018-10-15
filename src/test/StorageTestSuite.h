@@ -258,7 +258,7 @@ private:
 
 	ParseLocation validLocation(Id locationId = 0) const
 	{
-		return ParseLocation(m_filePath, 1, locationId, 1, locationId);
+		return ParseLocation(1, 1, locationId, 1, locationId);
 	}
 
 	NameHierarchy createFunctionNameHierarchy(std::wstring ret, std::wstring name, std::wstring parameters) const

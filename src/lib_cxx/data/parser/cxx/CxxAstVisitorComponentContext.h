@@ -14,8 +14,7 @@ public:
 	CxxAstVisitorComponentContext(CxxAstVisitor* astVisitor);
 
 	const clang::NamedDecl* getTopmostContextDecl() const;
-	NameHierarchy getContextName(const size_t skip = 0);
-	NameHierarchy getContextName(const NameHierarchy& fallback);
+	const CxxContext* getContext(const size_t skip = 0);
 
 	void beginTraverseDecl(clang::Decl* d);
 	void endTraverseDecl(clang::Decl* d);

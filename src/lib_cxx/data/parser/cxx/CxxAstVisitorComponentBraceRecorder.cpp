@@ -2,6 +2,7 @@
 
 #include <clang/Lex/Preprocessor.h>
 
+#include "CanonicalFilePathCache.h"
 #include "CxxAstVisitor.h"
 #include "CxxAstVisitorComponentContext.h"
 #include "utilityClang.h"
@@ -26,7 +27,11 @@ void CxxAstVisitorComponentBraceRecorder::visitTagDecl(clang::TagDecl* d)
 				clang::dyn_cast<clang::CXXRecordDecl>(d)->getTemplateSpecializationKind() != clang::TSK_ImplicitInstantiation
 				))
 		{
-			recordBraces(getParseLocation(d->getBraceRange().getBegin()), getParseLocation(d->getBraceRange().getEnd()));
+			recordBraces(
+				getFilePath(d->getBraceRange().getBegin()),
+				getParseLocation(d->getBraceRange().getBegin()),
+				getParseLocation(d->getBraceRange().getEnd())
+			);
 		}
 	}
 }
@@ -36,6 +41,7 @@ void CxxAstVisitorComponentBraceRecorder::visitNamespaceDecl(clang::NamespaceDec
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
 		recordBraces(
+			getFilePath(d->getLocStart()),
 			getParseLocation(getFirstLBraceLocation(d->getLocStart())),
 			getParseLocation(getLastRBraceLocation(d->getLocStart(), d->getLocEnd()))
 		);
@@ -46,10 +52,15 @@ void CxxAstVisitorComponentBraceRecorder::visitCompoundStmt(clang::CompoundStmt*
 {
 	if (getAstVisitor()->shouldVisitStmt(s))
 	{
-		const clang::NamedDecl* contextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl();
+		const clang::NamedDecl* contextDecl =
+			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl();
 		if (!contextDecl || !utility::isImplicit(contextDecl))
 		{
-			recordBraces(getParseLocation(s->getLBracLoc()), getParseLocation(s->getRBracLoc()));
+			recordBraces(
+				getFilePath(s->getLBracLoc()),
+				getParseLocation(s->getLBracLoc()),
+				getParseLocation(s->getRBracLoc())
+			);
 		}
 	}
 }
@@ -60,10 +71,14 @@ void CxxAstVisitorComponentBraceRecorder::visitInitListExpr(clang::InitListExpr*
 	{
 		if (s->isSyntacticForm())
 		{
-			const clang::NamedDecl* contextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl();
+			const clang::NamedDecl* contextDecl =
+				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl();
 			if (!contextDecl || !utility::isImplicit(contextDecl))
 			{
-				recordBraces(getParseLocation(s->getLBraceLoc()), getParseLocation(s->getRBraceLoc()));
+				recordBraces(
+					getFilePath(s->getLBraceLoc()),
+					getParseLocation(s->getLBraceLoc()),
+					getParseLocation(s->getRBraceLoc()));
 			}
 		}
 	}
@@ -75,10 +90,12 @@ void CxxAstVisitorComponentBraceRecorder::visitMSAsmStmt(clang::MSAsmStmt* s)
 	{
 		if (s->hasBraces())
 		{
-			const clang::NamedDecl* contextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl();
+			const clang::NamedDecl* contextDecl =
+				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl();
 			if (!contextDecl || !utility::isImplicit(contextDecl))
 			{
 				recordBraces(
+					getFilePath(s->getLBraceLoc()),
 					getParseLocation(s->getLBraceLoc()),
 					getParseLocation(getLastRBraceLocation(s->getLocStart(), s->getLocEnd()))
 				);
@@ -92,18 +109,25 @@ ParseLocation CxxAstVisitorComponentBraceRecorder::getParseLocation(const clang:
 	return getAstVisitor()->getParseLocation(loc);
 }
 
-void CxxAstVisitorComponentBraceRecorder::recordBraces(const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc)
+FilePath CxxAstVisitorComponentBraceRecorder::getFilePath(const clang::SourceLocation& loc)
 {
-	std::wstring name =
-		lbraceLoc.filePath.fileName() + L"<" +
-		std::to_wstring(lbraceLoc.startLineNumber) + L":" +
-		std::to_wstring(lbraceLoc.startColumnNumber) + L">";
+	const clang::SourceManager& sm = m_astContext->getSourceManager();
+	return getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(sm.getFileID(loc), sm);
+}
 
+void CxxAstVisitorComponentBraceRecorder::recordBraces(
+	const FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc)
+{
 	if (lbraceLoc.startColumnNumber != rbraceLoc.startColumnNumber ||
 		lbraceLoc.endColumnNumber != rbraceLoc.endColumnNumber ||
 		lbraceLoc.startLineNumber != rbraceLoc.startLineNumber ||
 		lbraceLoc.endLineNumber != rbraceLoc.endLineNumber)
 	{
+		std::wstring name =
+			filePath.fileName() + L"<" +
+			std::to_wstring(lbraceLoc.startLineNumber) + L":" +
+			std::to_wstring(lbraceLoc.startColumnNumber) + L">";
+
 		if (lbraceLoc.startColumnNumber == lbraceLoc.endColumnNumber &&
 			lbraceLoc.startLineNumber == lbraceLoc.endLineNumber)
 		{
@@ -117,7 +141,8 @@ void CxxAstVisitorComponentBraceRecorder::recordBraces(const ParseLocation& lbra
 	}
 }
 
-clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getFirstLBraceLocation(clang::SourceLocation searchStartLoc) const
+clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getFirstLBraceLocation(
+	clang::SourceLocation searchStartLoc) const
 {
 	const clang::SourceManager& sm = m_astContext->getSourceManager();
 	const clang::LangOptions& opts = m_astContext->getLangOpts();
@@ -152,7 +177,8 @@ clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getFirstLBraceLocatio
 	return clang::SourceLocation();
 }
 
-clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getLastRBraceLocation(clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const
+clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getLastRBraceLocation(
+	const clang::SourceLocation& searchStartLoc, clang::SourceLocation searchEndLoc) const
 {
 	const clang::SourceManager& sm = m_astContext->getSourceManager();
 	const clang::LangOptions& opts = m_astContext->getLangOpts();

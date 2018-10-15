@@ -47,9 +47,7 @@ public:
 	template <typename T>
 	T* getComponent();
 
-	DeclNameCache* getDeclNameCache();
-	TypeNameCache* getTypeNameCache();
-	CanonicalFilePathCache* getCanonicalFilePathCache();
+	CanonicalFilePathCache* getCanonicalFilePathCache() const;
 
 	// Indexing entry point
     void indexDecl(clang::Decl *d);
@@ -153,7 +151,7 @@ public:
 
 	bool isLocatedInProjectFile(clang::SourceLocation loc) const;
 
-private:
+protected:
 	typedef clang::RecursiveASTVisitor<CxxAstVisitor> Base;
 
 	clang::ASTContext* m_astContext;
@@ -168,9 +166,6 @@ private:
 	CxxAstVisitorComponentImplicitCode m_implicitCodeComponent;
 	CxxAstVisitorComponentIndexer m_indexerComponent;
 	CxxAstVisitorComponentBraceRecorder m_braceRecorderComponent;
-
-	DeclNameCache m_declNameCache;
-	TypeNameCache m_typeNameCache;
 };
 
 template <>

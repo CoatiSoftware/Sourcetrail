@@ -46,7 +46,7 @@ private:
 		return "";
 	}
 
-	std::wstring m_currentFilePath;
+	FilePath m_currentFilePath;
 	unsigned int m_indentation;
 };
 

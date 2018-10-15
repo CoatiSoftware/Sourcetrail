@@ -10,6 +10,8 @@
 #include "CxxAstVisitorComponentContext.h"
 #include "CxxAstVisitorComponentDeclRefKind.h"
 #include "CxxAstVisitorComponentTypeRefKind.h"
+#include "CxxDeclNameResolver.h"
+#include "CxxTypeNameResolver.h"
 #include "utilityClang.h"
 #include "ParserClient.h"
 
@@ -35,35 +37,18 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(const cl
 		break;
 	case clang::NestedNameSpecifier::Namespace:
 		{
-			const NameHierarchy symbolName = getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespace());
-			m_client->recordSymbol(
-				symbolName,
-				SYMBOL_NAMESPACE,
-				ACCESS_NONE,
-				DEFINITION_NONE
-			);
-
-			m_client->recordQualifierLocation(
-				symbolName,
-				getParseLocation(loc.getLocalBeginLoc())
-			);
+			Id symbolId = getOrCreateSymbolId(loc.getNestedNameSpecifier()->getAsNamespace());
+			m_client->recordSymbolKind(symbolId, SYMBOL_NAMESPACE);
+			m_client->recordLocation(symbolId, getParseLocation(loc.getLocalBeginLoc()), ParseLocationType::QUALIFIER);
 		}
 		break;
 	case clang::NestedNameSpecifier::NamespaceAlias:
 		{
-			m_client->recordSymbol(
-				getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()),
-				SYMBOL_NAMESPACE,
-				ACCESS_NONE,
-				DEFINITION_NONE
-			);
+			Id symbolId = getOrCreateSymbolId(loc.getNestedNameSpecifier()->getAsNamespaceAlias());
+			m_client->recordSymbolKind(symbolId, SYMBOL_NAMESPACE);
 
-			m_client->recordSymbol(
-				getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()->getAliasedNamespace()),
-				SYMBOL_NAMESPACE,
-				ACCESS_NONE,
-				DEFINITION_NONE
-			);
+			symbolId = getOrCreateSymbolId(loc.getNestedNameSpecifier()->getAsNamespaceAlias()->getAliasedNamespace());
+			m_client->recordSymbolKind(symbolId, SYMBOL_NAMESPACE);
 		}
 		break;
 	case clang::NestedNameSpecifier::Global:
@@ -89,26 +74,15 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(const cl
 
 			if (symbolKind != SYMBOL_KIND_MAX)
 			{
-				const NameHierarchy symbolName = getAstVisitor()->getDeclNameCache()->getValue(recordDecl);
-				m_client->recordSymbol(
-					symbolName,
-					symbolKind,
-					ACCESS_NONE,
-					DEFINITION_NONE
-				);
-
-				m_client->recordQualifierLocation(
-					symbolName,
-					getParseLocation(loc.getLocalBeginLoc())
-				);
+				Id symbolId = getOrCreateSymbolId(recordDecl);
+				m_client->recordSymbolKind(symbolId, symbolKind);
+				m_client->recordLocation(symbolId, getParseLocation(loc.getLocalBeginLoc()), ParseLocationType::QUALIFIER);
 			}
 		}
 		else if (const clang::Type* type = loc.getNestedNameSpecifier()->getAsType())
 		{
-			m_client->recordQualifierLocation(
-				getAstVisitor()->getTypeNameCache()->getValue(type),
-				getParseLocation(loc.getLocalBeginLoc())
-			);
+			Id symbolId = getOrCreateSymbolId(type);
+			m_client->recordLocation(symbolId, getParseLocation(loc.getLocalBeginLoc()), ParseLocationType::QUALIFIER);
 		}
 	}
 }
@@ -122,8 +96,8 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(const clang
 		// TODO: maybe move this to VisitTemplateName
 		m_client->recordReference(
 			getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind(),
-			getAstVisitor()->getDeclNameCache()->getValue(loc.getArgument().getAsTemplate().getAsTemplateDecl()),
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
+			getOrCreateSymbolId(loc.getArgument().getAsTemplate().getAsTemplateDecl()),
+			getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
 			getParseLocation(loc.getLocation())
 		);
 	}
@@ -139,12 +113,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseLambdaCapture(clang::LambdaExpr
 		{
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
 			{
-				ParseLocation declLocation = getParseLocation(d->getLocation());
-				std::wstring name =
-					declLocation.filePath.fileName() + L"<" +
-					std::to_wstring(declLocation.startLineNumber) + L":" +
-					std::to_wstring(declLocation.startColumnNumber) + L">";
-				m_client->recordLocalSymbol(name, getParseLocation(capture->getLocation()));
+				m_client->recordLocalSymbol(getLocalSymbolName(d->getLocation()), getParseLocation(capture->getLocation()));
 			}
 		}
 	}
@@ -161,30 +130,31 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 		}
 
 		const SymbolKind symbolKind = utility::convertTagKind(d->getTagKind());
-		m_client->recordSymbolWithLocationAndScope(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			symbolKind,
-			getParseLocation(d->getLocation()),
-			getParseLocationOfTagDeclBody(d),
-			utility::convertAccessSpecifier(d->getAccess()),
-			definitionKind
-		);
+		const ParseLocation location = getParseLocation(d->getLocation());
+
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, symbolKind);
+		m_client->recordLocation(symbolId, location, ParseLocationType::TOKEN);
+		m_client->recordLocation(symbolId, getParseLocationOfTagDeclBody(d), ParseLocationType::SCOPE);
+		m_client->recordAccessKind(symbolId, utility::convertAccessSpecifier(d->getAccess()));
+		m_client->recordDefinitionKind(symbolId, definitionKind);
 
 		if (clang::EnumDecl* enumDecl = clang::dyn_cast_or_null<clang::EnumDecl>(d))
 		{
 			recordTemplateMemberSpecialization(
 				enumDecl->getMemberSpecializationInfo(),
-				getAstVisitor()->getDeclNameCache()->getValue(d),
-				getParseLocation(d->getLocation()),
+				symbolId,
+				location,
 				symbolKind
 			);
 		}
-		if(clang::CXXRecordDecl* recordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(d))
+
+		if (clang::CXXRecordDecl* recordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(d))
 		{
 			recordTemplateMemberSpecialization(
 				recordDecl->getMemberSpecializationInfo(),
-				getAstVisitor()->getDeclNameCache()->getValue(d),
-				getParseLocation(d->getLocation()),
+				symbolId,
+				location,
 				symbolKind
 			);
 		}
@@ -210,8 +180,8 @@ void CxxAstVisitorComponentIndexer::visitClassTemplateSpecializationDecl(clang::
 
 		m_client->recordReference(
 			REFERENCE_TEMPLATE_SPECIALIZATION,
-			getAstVisitor()->getDeclNameCache()->getValue(specializedFromDecl),
-			getAstVisitor()->getDeclNameCache()->getValue(d),
+			getOrCreateSymbolId(specializedFromDecl),
+			getOrCreateSymbolId(d),
 			getParseLocation(d->getLocation())
 		);
 	}
@@ -226,28 +196,23 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 		{
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
 			{
-				ParseLocation declLocation = getParseLocation(d->getLocation());
-				std::wstring name =
-					declLocation.filePath.fileName() + L"<" +
-					std::to_wstring(declLocation.startLineNumber) + L":" +
-					std::to_wstring(declLocation.startColumnNumber) + L">";
-				m_client->recordLocalSymbol(name, getParseLocation(d->getLocation()));
+				m_client->recordLocalSymbol(getLocalSymbolName(d->getLocation()), getParseLocation(d->getLocation()));
 			}
 		}
 		else
 		{
-			m_client->recordSymbolWithLocation(
-				getAstVisitor()->getDeclNameCache()->getValue(d),
-				symbolKind,
-				getParseLocation(d->getLocation()),
-				utility::convertAccessSpecifier(d->getAccess()),
-				utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-			);
+			const ParseLocation location = getParseLocation(d->getLocation());
+
+			Id symbolId = getOrCreateSymbolId(d);
+			m_client->recordSymbolKind(symbolId, symbolKind);
+			m_client->recordLocation(symbolId, location, ParseLocationType::TOKEN);
+			m_client->recordAccessKind(symbolId, utility::convertAccessSpecifier(d->getAccess()));
+			m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 
 			recordTemplateMemberSpecialization(
 				d->getMemberSpecializationInfo(),
-				getAstVisitor()->getDeclNameCache()->getValue(d),
-				getParseLocation(d->getLocation()),
+				symbolId,
+				location,
 				symbolKind
 			);
 		}
@@ -273,8 +238,8 @@ void CxxAstVisitorComponentIndexer::visitVarTemplateSpecializationDecl(clang::Va
 
 		m_client->recordReference(
 			REFERENCE_TEMPLATE_SPECIALIZATION,
-			getAstVisitor()->getDeclNameCache()->getValue(specializedFromDecl),
-			getAstVisitor()->getDeclNameCache()->getValue(d),
+			getOrCreateSymbolId(specializedFromDecl),
+			getOrCreateSymbolId(d),
 			getParseLocation(d->getLocation())
 		);
 	}
@@ -284,13 +249,13 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_FIELD,
-			getParseLocation(d->getLocation()),
-			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		const ParseLocation location = getParseLocation(d->getLocation());
+
+		Id fieldId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(fieldId, SYMBOL_FIELD);
+		m_client->recordLocation(fieldId, location, ParseLocationType::TOKEN);
+		m_client->recordAccessKind(fieldId, utility::convertAccessSpecifier(d->getAccess()));
+		m_client->recordDefinitionKind(fieldId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 
 		if (clang::CXXRecordDecl* declaringRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(d->getParent()))
 		{
@@ -300,15 +265,13 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 				{
 					if (d->getName() == templateFieldDecl->getName())
 					{
-						const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(templateFieldDecl);
-
-						m_client->recordSymbol(referencedName, SYMBOL_FIELD, ACCESS_NONE, DEFINITION_NONE);
-
+						Id templateFieldId = getOrCreateSymbolId(templateFieldDecl);
+						m_client->recordSymbolKind(templateFieldId, SYMBOL_FIELD);
 						m_client->recordReference(
 							REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
-							referencedName,
-							getAstVisitor()->getDeclNameCache()->getValue(d),
-							getParseLocation(d->getLocation())
+							templateFieldId,
+							fieldId,
+							location
 						);
 						break;
 					}
@@ -322,40 +285,26 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, clang::isa<clang::CXXMethodDecl>(d) ? SYMBOL_METHOD : SYMBOL_FUNCTION);
+		m_client->recordLocation(symbolId, getParseLocation(d->getNameInfo().getSourceRange()), ParseLocationType::TOKEN);
+		m_client->recordLocation(symbolId, getParseLocationOfFunctionBody(d), ParseLocationType::SCOPE);
+		m_client->recordAccessKind(symbolId, utility::convertAccessSpecifier(d->getAccess()));
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
+
 		if (d->isFirstDecl())
 		{
-			m_client->recordSymbolWithLocationAndScopeAndSignature(
-				getAstVisitor()->getDeclNameCache()->getValue(d),
-				clang::isa<clang::CXXMethodDecl>(d) ? SYMBOL_METHOD : SYMBOL_FUNCTION,
-				getParseLocation(d->getNameInfo().getSourceRange()),
-				getParseLocationOfFunctionBody(d),
-				getSignatureLocation(d),
-				utility::convertAccessSpecifier(d->getAccess()),
-				utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-			);
-		}
-		else
-		{
-			m_client->recordSymbolWithLocationAndScope(
-				getAstVisitor()->getDeclNameCache()->getValue(d),
-				clang::isa<clang::CXXMethodDecl>(d) ? SYMBOL_METHOD : SYMBOL_FUNCTION,
-				getParseLocation(d->getNameInfo().getSourceRange()),
-				getParseLocationOfFunctionBody(d),
-				utility::convertAccessSpecifier(d->getAccess()),
-				utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-			);
+			m_client->recordLocation(symbolId, getSignatureLocation(d), ParseLocationType::SIGNATURE);
 		}
 
 		if (d->isFunctionTemplateSpecialization())
 		{
-			const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(d->getPrimaryTemplate()->getTemplatedDecl()); // todo: use context and childcontext!!
-
-			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
-
+			Id templateId = getOrCreateSymbolId(d->getPrimaryTemplate()->getTemplatedDecl());
+			m_client->recordSymbolKind(templateId, SYMBOL_FUNCTION);
 			m_client->recordReference(
 				REFERENCE_TEMPLATE_SPECIALIZATION,
-				referencedName,
-				getAstVisitor()->getDeclNameCache()->getValue(d),
+				templateId,
+				symbolId,
 				getParseLocation(d->getLocation())
 			);
 		}
@@ -367,25 +316,26 @@ void CxxAstVisitorComponentIndexer::visitCXXMethodDecl(clang::CXXMethodDecl* d)
 	// Decl has been recorded in VisitFunctionDecl
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
+		Id symbolId = getOrCreateSymbolId(d);
+		ParseLocation location = getParseLocation(d->getLocation());
+
 		for (clang::CXXMethodDecl::method_iterator it = d->begin_overridden_methods(); // TODO: iterate in traversal and use REFERENCE_OVERRIDE or so..
 			it != d->end_overridden_methods(); it++)
 		{
-			const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(*it);
-
-			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
-
+			Id overrideId = getOrCreateSymbolId(*it);
+			m_client->recordSymbolKind(overrideId, SYMBOL_FUNCTION);
 			m_client->recordReference(
 				REFERENCE_OVERRIDE,
-				referencedName,
-				getAstVisitor()->getDeclNameCache()->getValue(d),
-				getParseLocation(d->getLocation())
+				overrideId,
+				symbolId,
+				location
 			);
 		}
 
 		recordTemplateMemberSpecialization(
 			d->getMemberSpecializationInfo(),
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			getParseLocation(d->getLocation()),
+			symbolId,
+			location,
 			SYMBOL_FUNCTION
 		);
 	}
@@ -395,13 +345,10 @@ void CxxAstVisitorComponentIndexer::visitEnumConstantDecl(clang::EnumConstantDec
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_ENUM_CONSTANT,
-			getParseLocation(d->getLocation()),
-			ACCESS_NONE,
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, SYMBOL_ENUM_CONSTANT);
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -409,14 +356,12 @@ void CxxAstVisitorComponentIndexer::visitNamespaceDecl(clang::NamespaceDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbolWithLocationAndScope(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_NAMESPACE,
-			getParseLocation(d->getLocation()),
-			getParseLocation(d->getSourceRange()),
-			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, SYMBOL_NAMESPACE);
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordLocation(symbolId, getParseLocation(d->getSourceRange()), ParseLocationType::SCOPE);
+		m_client->recordAccessKind(symbolId, utility::convertAccessSpecifier(d->getAccess()));
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -424,18 +369,16 @@ void CxxAstVisitorComponentIndexer::visitNamespaceAliasDecl(clang::NamespaceAlia
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_NAMESPACE,
-			getParseLocation(d->getLocation()),
-			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, SYMBOL_NAMESPACE);
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordAccessKind(symbolId, utility::convertAccessSpecifier(d->getAccess()));
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 
 		m_client->recordReference(
 			REFERENCE_USAGE,
-			getAstVisitor()->getDeclNameCache()->getValue(d->getAliasedNamespace()),
-			getAstVisitor()->getDeclNameCache()->getValue(d),
+			getOrCreateSymbolId(d->getAliasedNamespace()),
+			symbolId,
 			getParseLocation(d->getTargetNameLoc())
 		);
 
@@ -447,13 +390,12 @@ void CxxAstVisitorComponentIndexer::visitTypedefDecl(clang::TypedefDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
-			getParseLocation(d->getLocation()),
-			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId,
+			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()));
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordAccessKind(symbolId, utility::convertAccessSpecifier(d->getAccess()));
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -461,13 +403,12 @@ void CxxAstVisitorComponentIndexer::visitTypeAliasDecl(clang::TypeAliasDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
-			getParseLocation(d->getLocation()),
-			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId,
+			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()));
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordAccessKind(symbolId, utility::convertAccessSpecifier(d->getAccess()));
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -475,16 +416,18 @@ void CxxAstVisitorComponentIndexer::visitUsingDirectiveDecl(clang::UsingDirectiv
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		const NameHierarchy nameHierarchy = getAstVisitor()->getDeclNameCache()->getValue(d->getNominatedNamespaceAsWritten());
+		Id symbolId = getOrCreateSymbolId(d->getNominatedNamespaceAsWritten());
+		m_client->recordSymbolKind(symbolId, SYMBOL_NAMESPACE);
 
-		m_client->recordSymbol(nameHierarchy, SYMBOL_NAMESPACE, ACCESS_NONE, DEFINITION_NONE);
+		const ParseLocation location = getParseLocation(d->getLocation());
 
-		ParseLocation loc = getParseLocation(d->getLocation());
 		m_client->recordReference(
 			REFERENCE_USAGE,
-			nameHierarchy,
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.wstr(), NAME_DELIMITER_FILE)),
-			loc
+			symbolId,
+			getOrCreateSymbolId(
+				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext(),
+				NameHierarchy(getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(location.fileId).wstr(), NAME_DELIMITER_FILE)),
+			location
 		);
 	}
 }
@@ -493,12 +436,15 @@ void CxxAstVisitorComponentIndexer::visitUsingDecl(clang::UsingDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		ParseLocation loc = getParseLocation(d->getLocation());
+		const ParseLocation location = getParseLocation(d->getLocation());
+
 		m_client->recordReference(
 			REFERENCE_USAGE,
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.wstr(), NAME_DELIMITER_FILE)),
-			loc
+			getOrCreateSymbolId(d),
+			getOrCreateSymbolId(
+				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext(),
+				NameHierarchy(getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(location.fileId).wstr(), NAME_DELIMITER_FILE)),
+			location
 		);
 	}
 }
@@ -507,13 +453,11 @@ void CxxAstVisitorComponentIndexer::visitNonTypeTemplateParmDecl(clang::NonTypeT
 {
 	if (getAstVisitor()->shouldVisitDecl(d) && !d->getName().empty()) // We don't create symbols for unnamed template parameters.
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_TEMPLATE_PARAMETER,
-			getParseLocation(d->getLocation()),
-			ACCESS_TEMPLATE_PARAMETER,
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, SYMBOL_TEMPLATE_PARAMETER);
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordAccessKind(symbolId, ACCESS_TEMPLATE_PARAMETER);
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -521,13 +465,11 @@ void CxxAstVisitorComponentIndexer::visitTemplateTypeParmDecl(clang::TemplateTyp
 {
 	if (getAstVisitor()->shouldVisitDecl(d) && !d->getName().empty()) // We don't create symbols for unnamed template parameters.
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_TEMPLATE_PARAMETER,
-			getParseLocation(d->getLocation()),
-			ACCESS_TEMPLATE_PARAMETER,
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, SYMBOL_TEMPLATE_PARAMETER);
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordAccessKind(symbolId, ACCESS_TEMPLATE_PARAMETER);
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -535,13 +477,11 @@ void CxxAstVisitorComponentIndexer::visitTemplateTemplateParmDecl(clang::Templat
 {
 	if (getAstVisitor()->shouldVisitDecl(d) && !d->getName().empty()) // We don't create symbols for unnamed template parameters.
 	{
-		m_client->recordSymbolWithLocation(
-			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_TEMPLATE_PARAMETER,
-			getParseLocation(d->getLocation()),
-			ACCESS_TEMPLATE_PARAMETER,
-			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(d);
+		m_client->recordSymbolKind(symbolId, SYMBOL_TEMPLATE_PARAMETER);
+		m_client->recordLocation(symbolId, getParseLocation(d->getLocation()), ParseLocationType::TOKEN);
+		m_client->recordAccessKind(symbolId, ACCESS_TEMPLATE_PARAMETER);
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -550,9 +490,12 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 	if ((getAstVisitor()->shouldVisitReference(tl.getBeginLoc(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl())) &&
 		(!getAstVisitor()->checkIgnoresTypeLoc(tl)))
 	{
+		Id symbolId = getOrCreateSymbolId(tl.getTypePtr());
+
 		if (clang::dyn_cast_or_null<clang::BuiltinType>(tl.getTypePtr()))
 		{
-			m_client->recordSymbol(getAstVisitor()->getTypeNameCache()->getValue(tl.getTypePtr()), SYMBOL_BUILTIN_TYPE, ACCESS_NONE, DEFINITION_EXPLICIT);
+			m_client->recordSymbolKind(symbolId, SYMBOL_BUILTIN_TYPE);
+			m_client->recordDefinitionKind(symbolId, DEFINITION_EXPLICIT);
 		}
 
 		clang::SourceLocation loc;
@@ -568,8 +511,8 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 
 		m_client->recordReference(
 			getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind(),
-			getAstVisitor()->getTypeNameCache()->getValue(tl.getTypePtr()),
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(1), // we skip the last element because it refers to this typeloc.
+			symbolId,
+			getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext(1)), // we skip the last element because it refers to this typeloc.
 			getParseLocation(loc)
 		);
 	}
@@ -583,27 +526,22 @@ void CxxAstVisitorComponentIndexer::visitDeclRefExpr(clang::DeclRefExpr* s)
 		if ((clang::isa<clang::ParmVarDecl>(decl)) ||
 			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != nullptr)
 			) {
-			ParseLocation declLocation = getParseLocation(decl->getLocation());
-			std::wstring name = declLocation.filePath.fileName() + L"<" +
-				std::to_wstring(declLocation.startLineNumber) + L":" +
-				std::to_wstring(declLocation.startColumnNumber) + L">";
-
-			m_client->recordLocalSymbol(name, getParseLocation(s->getLocation()));
+			m_client->recordLocalSymbol(getLocalSymbolName(decl->getLocation()), getParseLocation(s->getLocation()));
 		}
 		else
 		{
-			const ReferenceKind refKind = consumeDeclRefContextKind();
-			const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(s->getDecl());
+			Id symbolId = getOrCreateSymbolId(decl);
 
+			const ReferenceKind refKind = consumeDeclRefContextKind();
 			if (refKind == REFERENCE_CALL)
 			{
-				m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+				m_client->recordSymbolKind(symbolId, SYMBOL_FUNCTION);
 			}
 
 			m_client->recordReference(
 				refKind,
-				referencedName,
-				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
+				symbolId,
+				getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
 				getParseLocation(s->getLocation())
 			);
 		}
@@ -614,18 +552,18 @@ void CxxAstVisitorComponentIndexer::visitMemberExpr(clang::MemberExpr* s)
 {
 	if (getAstVisitor()->shouldVisitReference(s->getMemberLoc(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()))
 	{
-		const ReferenceKind refKind = consumeDeclRefContextKind();
-		const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(s->getMemberDecl());
+		Id symbolId = getOrCreateSymbolId(s->getMemberDecl());
 
+		const ReferenceKind refKind = consumeDeclRefContextKind();
 		if (refKind == REFERENCE_CALL)
 		{
-			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+			m_client->recordSymbolKind(symbolId, SYMBOL_FUNCTION);
 		}
 
 		m_client->recordReference(
 			refKind,
-			referencedName,
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
+			symbolId,
+			getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
 			getParseLocation(s->getMemberLoc())
 		);
 	}
@@ -693,18 +631,18 @@ void CxxAstVisitorComponentIndexer::visitCXXConstructExpr(clang::CXXConstructExp
 		}
 		loc = clang::Lexer::GetBeginningOfToken(loc, m_astContext->getSourceManager(), m_astContext->getLangOpts());
 
-		const ReferenceKind refKind = consumeDeclRefContextKind();
-		const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(s->getConstructor());
+		Id symbolId = getOrCreateSymbolId(s->getConstructor());
 
+		const ReferenceKind refKind = consumeDeclRefContextKind();
 		if (refKind == REFERENCE_CALL)
 		{
-			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+			m_client->recordSymbolKind(symbolId, SYMBOL_FUNCTION);
 		}
 
 		m_client->recordReference(
 			refKind,
-			referencedName,
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
+			symbolId,
+			getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
 			getParseLocation(loc)
 		);
 	}
@@ -715,14 +653,11 @@ void CxxAstVisitorComponentIndexer::visitLambdaExpr(clang::LambdaExpr* s)
 	clang::CXXMethodDecl* methodDecl = s->getCallOperator();
 	if (getAstVisitor()->shouldVisitDecl(methodDecl))
 	{
-		m_client->recordSymbolWithLocationAndScope(
-			getAstVisitor()->getDeclNameCache()->getValue(methodDecl),
-			SYMBOL_FUNCTION,
-			getParseLocation(s->getLocStart()),
-			getParseLocationOfFunctionBody(methodDecl),
-			ACCESS_NONE,  // TODO: introduce AccessLambda
-			utility::isImplicit(methodDecl) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
-		);
+		Id symbolId = getOrCreateSymbolId(methodDecl);
+		m_client->recordSymbolKind(symbolId, SYMBOL_FUNCTION);
+		m_client->recordLocation(symbolId, getParseLocation(s->getLocStart()), ParseLocationType::TOKEN);
+		m_client->recordLocation(symbolId, getParseLocationOfFunctionBody(methodDecl), ParseLocationType::SCOPE);
+		m_client->recordDefinitionKind(symbolId, utility::isImplicit(methodDecl) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
 }
 
@@ -735,8 +670,8 @@ void CxxAstVisitorComponentIndexer::visitConstructorInitializer(clang::CXXCtorIn
 		{
 			m_client->recordReference(
 				REFERENCE_USAGE,
-				getAstVisitor()->getDeclNameCache()->getValue(memberDecl),
-				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
+				getOrCreateSymbolId(memberDecl),
+				getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
 				getParseLocation(init->getMemberLocation())
 			);
 		}
@@ -744,19 +679,16 @@ void CxxAstVisitorComponentIndexer::visitConstructorInitializer(clang::CXXCtorIn
 }
 
 void CxxAstVisitorComponentIndexer::recordTemplateMemberSpecialization(
-	const clang::MemberSpecializationInfo* memberSpecializationInfo, const NameHierarchy& context, const ParseLocation& location, SymbolKind symbolKind)
+	const clang::MemberSpecializationInfo* memberSpecializationInfo, Id contextId, const ParseLocation& location, SymbolKind symbolKind)
 {
 	if (memberSpecializationInfo != nullptr)
 	{
-		clang::NamedDecl* specializedNamedDecl = memberSpecializationInfo->getInstantiatedFrom();
-		const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(specializedNamedDecl);
-
-		m_client->recordSymbol(referencedName, symbolKind, ACCESS_NONE, DEFINITION_NONE);
-
+		Id symbolId = getOrCreateSymbolId(memberSpecializationInfo->getInstantiatedFrom());
+		m_client->recordSymbolKind(symbolId, symbolKind);
 		m_client->recordReference(
 			REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
-			referencedName,
-			context,
+			symbolId,
+			contextId,
 			location
 		);
 	}
@@ -834,6 +766,14 @@ ParseLocation CxxAstVisitorComponentIndexer::getParseLocation(const clang::Sourc
 	return getAstVisitor()->getParseLocation(sourceRange);
 }
 
+std::wstring CxxAstVisitorComponentIndexer::getLocalSymbolName(const clang::SourceLocation& loc) const
+{
+	const ParseLocation location = getParseLocation(loc);
+	return getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(location.fileId).fileName() + L"<" +
+		std::to_wstring(location.startLineNumber) + L":" +
+		std::to_wstring(location.startColumnNumber) + L">";
+}
+
 ReferenceKind CxxAstVisitorComponentIndexer::consumeDeclRefContextKind()
 {
 	ReferenceKind refKind = REFERENCE_UNDEFINED;
@@ -848,4 +788,87 @@ ReferenceKind CxxAstVisitorComponentIndexer::consumeDeclRefContextKind()
 		refKind = typeRefKindComponent->getReferenceKind();
 	}
 	return refKind;
+}
+
+Id CxxAstVisitorComponentIndexer::getOrCreateSymbolId(const clang::NamedDecl* decl)
+{
+	auto it = m_declSymbolIds.find(decl);
+	if (it != m_declSymbolIds.end())
+	{
+		return it->second;
+	}
+
+	NameHierarchy symbolName(L"global", NAME_DELIMITER_UNKNOWN);
+	if (decl)
+	{
+		std::unique_ptr<CxxDeclName> declName =
+			CxxDeclNameResolver(getAstVisitor()->getCanonicalFilePathCache()).getName(decl);
+		if (declName)
+		{
+			symbolName = declName->toNameHierarchy();
+		}
+	}
+
+	Id symbolId = m_client->recordSymbol(symbolName);
+	m_declSymbolIds.emplace(decl, symbolId);
+	return symbolId;
+}
+
+Id CxxAstVisitorComponentIndexer::getOrCreateSymbolId(const clang::Type* type)
+{
+	auto it = m_typeSymbolIds.find(type);
+	if (it != m_typeSymbolIds.end())
+	{
+		return it->second;
+	}
+
+	NameHierarchy symbolName(L"global", NAME_DELIMITER_UNKNOWN);
+	if (type)
+	{
+		std::unique_ptr<CxxTypeName> typeName =
+			CxxTypeNameResolver(getAstVisitor()->getCanonicalFilePathCache()).getName(type);
+		if (typeName)
+		{
+			symbolName = typeName->toNameHierarchy();
+		}
+	}
+
+	Id symbolId = m_client->recordSymbol(symbolName);
+	m_typeSymbolIds.emplace(type, symbolId);
+	return symbolId;
+}
+
+Id CxxAstVisitorComponentIndexer::getOrCreateSymbolId(const CxxContext* context)
+{
+	if (context)
+	{
+		if (context->getDecl())
+		{
+			return getOrCreateSymbolId(context->getDecl());
+		}
+		else
+		{
+			return getOrCreateSymbolId(context->getType());
+		}
+	}
+
+	const clang::NamedDecl* decl { nullptr };
+	return getOrCreateSymbolId(decl);
+}
+
+Id CxxAstVisitorComponentIndexer::getOrCreateSymbolId(const CxxContext* context, const NameHierarchy& fallback)
+{
+	if (context)
+	{
+		if (context->getDecl())
+		{
+			return getOrCreateSymbolId(context->getDecl());
+		}
+		else if (context->getType())
+		{
+			return getOrCreateSymbolId(context->getType());
+		}
+	}
+
+	return m_client->recordSymbol(fallback); // TODO: cache result somehow
 }

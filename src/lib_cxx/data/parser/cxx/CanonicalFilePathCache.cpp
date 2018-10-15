@@ -62,7 +62,63 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(const std::wstring& path)
 	return canonicalPath;
 }
 
-bool CanonicalFilePathCache::isProjectFile(const clang::FileID fileId, const clang::SourceManager& sourceManager)
+FilePath CanonicalFilePathCache::getCanonicalFilePath(const Id symbolId)
+{
+	auto it = m_symbolIdFileIdMap.find(symbolId);
+	if (it != m_symbolIdFileIdMap.end())
+	{
+		auto it2 = m_fileIdMap.find(it->second);
+		if (it2 != m_fileIdMap.end())
+		{
+			return it2->second;
+		}
+	}
+
+	return FilePath();
+}
+
+void CanonicalFilePathCache::addFileSymbolId(const clang::FileID& fileId, const FilePath& path, Id symbolId)
+{
+	m_fileIdSymbolIdMap.emplace(fileId, symbolId);
+	m_symbolIdFileIdMap.emplace(symbolId, fileId);
+	m_fileStringSymbolIdMap.emplace(utility::toLowerCase(path.wstr()), symbolId);
+}
+
+Id CanonicalFilePathCache::getFileSymbolId(const clang::FileID& fileId)
+{
+	if (!fileId.isValid())
+	{
+		return 0;
+	}
+
+	auto it = m_fileIdSymbolIdMap.find(fileId);
+	if (it != m_fileIdSymbolIdMap.end())
+	{
+		return it->second;
+	}
+
+	return 0;
+}
+
+Id CanonicalFilePathCache::getFileSymbolId(const clang::FileEntry* entry)
+{
+	return getFileSymbolId(utility::getFileNameOfFileEntry(entry));
+}
+
+Id CanonicalFilePathCache::getFileSymbolId(const std::wstring& path)
+{
+	std::wstring canonicalPath = utility::toLowerCase(getCanonicalFilePath(path).wstr());
+
+	auto it = m_fileStringSymbolIdMap.find(canonicalPath);
+	if (it != m_fileStringSymbolIdMap.end())
+	{
+		return it->second;
+	}
+
+	return 0;
+}
+
+bool CanonicalFilePathCache::isProjectFile(const clang::FileID& fileId, const clang::SourceManager& sourceManager)
 {
 	if (!fileId.isValid())
 	{

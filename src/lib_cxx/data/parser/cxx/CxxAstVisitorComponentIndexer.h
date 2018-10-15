@@ -8,6 +8,7 @@
 #include "ReferenceKind.h"
 #include "SymbolKind.h"
 
+class CxxContext;
 class ParserClient;
 class NameHierarchy;
 
@@ -52,7 +53,7 @@ public:
 private:
 	void recordTemplateMemberSpecialization(
 		const clang::MemberSpecializationInfo* memberSpecializationInfo,
-		const NameHierarchy& context,
+		Id contextId,
 		const ParseLocation& location,
 		SymbolKind symbolKind
 	);
@@ -63,10 +64,21 @@ private:
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 
+	std::wstring getLocalSymbolName(const clang::SourceLocation& loc) const;
+
 	ReferenceKind consumeDeclRefContextKind();
+
+	Id getOrCreateSymbolId(const clang::NamedDecl* decl);
+	Id getOrCreateSymbolId(const clang::Type* type);
+	Id getOrCreateSymbolId(const CxxContext* context);
+	Id getOrCreateSymbolId(const CxxContext* context, const NameHierarchy& fallback);
+
 
 	clang::ASTContext* m_astContext;
 	std::shared_ptr<ParserClient> m_client;
+
+	std::map<const clang::NamedDecl*, Id> m_declSymbolIds;
+	std::map<const clang::Type*, Id> m_typeSymbolIds;
 };
 
 #endif // CXX_AST_VISITOR_COMPONENT_INDEXER_H
