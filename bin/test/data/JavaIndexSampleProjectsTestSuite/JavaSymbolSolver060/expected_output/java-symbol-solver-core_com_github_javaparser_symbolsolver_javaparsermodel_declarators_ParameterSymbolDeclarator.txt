@@ -1,101 +1,101 @@
 FILE: ParameterSymbolDeclarator.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators [ParameterSymbolDeclarator.java <17:60 17:70>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ParameterSymbolDeclarator.java <17:44 17:58>]
-QUALIFIER: com.github.javaparser.symbolsolver [ParameterSymbolDeclarator.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [ParameterSymbolDeclarator.java <17:20 17:29>]
-QUALIFIER: com.github [ParameterSymbolDeclarator.java <17:13 17:18>]
-QUALIFIER: com [ParameterSymbolDeclarator.java <17:9 17:11>]
-REFERENCE_IMPORT ParameterSymbolDeclarator.java -> com.github.javaparser.ast.body.Parameter [ParameterSymbolDeclarator.java <19:39 19:47>]
-SYMBOL_PACKAGE com.github.javaparser.ast.body
-QUALIFIER: com.github.javaparser.ast.body [ParameterSymbolDeclarator.java <19:34 19:37>]
-SYMBOL_PACKAGE com.github.javaparser.ast
-QUALIFIER: com.github.javaparser.ast [ParameterSymbolDeclarator.java <19:30 19:32>]
-QUALIFIER: com.github.javaparser [ParameterSymbolDeclarator.java <19:19 19:28>]
-QUALIFIER: com.github [ParameterSymbolDeclarator.java <19:12 19:17>]
-QUALIFIER: com [ParameterSymbolDeclarator.java <19:8 19:10>]
-REFERENCE_IMPORT ParameterSymbolDeclarator.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ParameterSymbolDeclarator.java <20:72 20:98>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [ParameterSymbolDeclarator.java <20:59 20:70>]
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ParameterSymbolDeclarator.java <20:43 20:57>]
-QUALIFIER: com.github.javaparser.symbolsolver [ParameterSymbolDeclarator.java <20:30 20:41>]
-QUALIFIER: com.github.javaparser [ParameterSymbolDeclarator.java <20:19 20:28>]
-QUALIFIER: com.github [ParameterSymbolDeclarator.java <20:12 20:17>]
-QUALIFIER: com [ParameterSymbolDeclarator.java <20:8 20:10>]
-REFERENCE_IMPORT ParameterSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ParameterSymbolDeclarator.java <21:62 21:77>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ParameterSymbolDeclarator.java <21:49 21:60>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-QUALIFIER: com.github.javaparser.symbolsolver.model [ParameterSymbolDeclarator.java <21:43 21:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [ParameterSymbolDeclarator.java <21:30 21:41>]
-QUALIFIER: com.github.javaparser [ParameterSymbolDeclarator.java <21:19 21:28>]
-QUALIFIER: com.github [ParameterSymbolDeclarator.java <21:12 21:17>]
-QUALIFIER: com [ParameterSymbolDeclarator.java <21:8 21:10>]
-REFERENCE_IMPORT ParameterSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ParameterSymbolDeclarator.java <22:60 22:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ParameterSymbolDeclarator.java <22:49 22:58>]
-QUALIFIER: com.github.javaparser.symbolsolver.model [ParameterSymbolDeclarator.java <22:43 22:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [ParameterSymbolDeclarator.java <22:30 22:41>]
-QUALIFIER: com.github.javaparser [ParameterSymbolDeclarator.java <22:19 22:28>]
-QUALIFIER: com.github [ParameterSymbolDeclarator.java <22:12 22:17>]
-QUALIFIER: com [ParameterSymbolDeclarator.java <22:8 22:10>]
-REFERENCE_IMPORT ParameterSymbolDeclarator.java -> java.util.LinkedList<E> [ParameterSymbolDeclarator.java <24:18 24:27>]
-SYMBOL_PACKAGE java.util
-QUALIFIER: java.util [ParameterSymbolDeclarator.java <24:13 24:16>]
-SYMBOL_PACKAGE java
-QUALIFIER: java [ParameterSymbolDeclarator.java <24:8 24:11>]
-REFERENCE_IMPORT ParameterSymbolDeclarator.java -> java.util.List<E> [ParameterSymbolDeclarator.java <25:18 25:21>]
-QUALIFIER: java.util [ParameterSymbolDeclarator.java <25:13 25:16>]
-QUALIFIER: java [ParameterSymbolDeclarator.java <25:8 25:11>]
-SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator [ParameterSymbolDeclarator.java <30:1 <30:14 30:38> 42:1>]
-LOCAL_SYMBOL: ParameterSymbolDeclarator.java<30:84> [ParameterSymbolDeclarator.java <30:84 30:84>]
-LOCAL_SYMBOL: ParameterSymbolDeclarator.java<30:84> [ParameterSymbolDeclarator.java <42:1 42:1>]
-COMMENT: comment [ParameterSymbolDeclarator.java <27:1 29:3>]
-REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> -> com.github.javaparser.ast.body.Parameter [ParameterSymbolDeclarator.java <30:73 30:81>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> [ParameterSymbolDeclarator.java <30:48 30:71>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator -> com.github.javaparser.ast.body.Parameter [ParameterSymbolDeclarator.java <30:73 30:81>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ParameterSymbolDeclarator.java <32:5 <32:5  <32:12 32:36> 32:82> 34:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
-REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ParameterSymbolDeclarator.java <32:12 32:36>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.Parameter [ParameterSymbolDeclarator.java <32:38 32:46>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<0> [ParameterSymbolDeclarator.java <32:48 32:58>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ParameterSymbolDeclarator.java <32:61 32:70>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<1> [ParameterSymbolDeclarator.java <32:72 32:81>]
-LOCAL_SYMBOL: ParameterSymbolDeclarator.java<32:84> [ParameterSymbolDeclarator.java <32:84 32:84>]
-LOCAL_SYMBOL: ParameterSymbolDeclarator.java<32:84> [ParameterSymbolDeclarator.java <34:5 34:5>]
-REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ParameterSymbolDeclarator.java <33:9 33:13>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<0> [ParameterSymbolDeclarator.java <33:15 33:25>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<1> [ParameterSymbolDeclarator.java <33:28 33:37>]
-SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() [ParameterSymbolDeclarator.java <36:5 <36:5  <37:35 37:55> 37:57> 41:5>]
-SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations()
-REFERENCE_OVERRIDE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [ParameterSymbolDeclarator.java <37:35 37:55>]
-SYMBOL_PACKAGE java.lang
-REFERENCE_ANNOTATION_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.lang.Override [ParameterSymbolDeclarator.java <36:6 36:13>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ParameterSymbolDeclarator.java <37:17 37:32>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [ParameterSymbolDeclarator.java <37:12 37:15>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ParameterSymbolDeclarator.java <37:17 37:32>]
-LOCAL_SYMBOL: ParameterSymbolDeclarator.java<37:59> [ParameterSymbolDeclarator.java <37:59 37:59>]
-LOCAL_SYMBOL: ParameterSymbolDeclarator.java<37:59> [ParameterSymbolDeclarator.java <41:5 41:5>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ParameterSymbolDeclarator.java <38:14 38:29>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [ParameterSymbolDeclarator.java <38:9 38:12>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ParameterSymbolDeclarator.java <38:14 38:29>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations<0> [ParameterSymbolDeclarator.java <38:32 38:38>]
-SYMBOL_METHOD java.util.LinkedList<E>.LinkedList()
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E>.LinkedList() [ParameterSymbolDeclarator.java <38:46 38:57>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E> [ParameterSymbolDeclarator.java <38:46 38:55>]
-SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> boolean java.util.List<E>.add(java.util.List<E>.E) [ParameterSymbolDeclarator.java <39:17 39:19>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations<0> [ParameterSymbolDeclarator.java <39:9 39:15>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.parameter(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.parameter(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ParameterSymbolDeclarator.java <39:49 39:57>]
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ParameterSymbolDeclarator.java <39:21 39:47>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode
-REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode [ParameterSymbolDeclarator.java <39:59 39:69>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver
-REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver [ParameterSymbolDeclarator.java <39:72 39:81>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations<0> [ParameterSymbolDeclarator.java <40:16 40:22>]
-COMMENT: comment [ParameterSymbolDeclarator.java <1:1 15:3>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators [ <17:60 17:70>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ <20:43 20:57>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <20:30 20:41>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <21:30 21:41>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <22:30 22:41>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [ <19:19 19:28>]
+QUALIFIER: com.github.javaparser [ <20:19 20:28>]
+QUALIFIER: com.github.javaparser [ <21:19 21:28>]
+QUALIFIER: com.github.javaparser [ <22:19 22:28>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [ <19:12 19:17>]
+QUALIFIER: com.github [ <20:12 20:17>]
+QUALIFIER: com.github [ <21:12 21:17>]
+QUALIFIER: com.github [ <22:12 22:17>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [ <19:8 19:10>]
+QUALIFIER: com [ <20:8 20:10>]
+QUALIFIER: com [ <21:8 21:10>]
+QUALIFIER: com [ <22:8 22:10>]
+SYMBOL_PACKAGE: com
+QUALIFIER: com.github.javaparser.ast.body [ <19:34 19:37>]
+SYMBOL_PACKAGE: com.github.javaparser.ast.body
+QUALIFIER: com.github.javaparser.ast [ <19:30 19:32>]
+SYMBOL_PACKAGE: com.github.javaparser.ast
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ <39:21 39:47>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [ <20:59 20:70>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarations
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ <21:49 21:60>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <22:43 22:47>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ <22:49 22:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
+QUALIFIER: java.util [ <24:13 24:16>]
+QUALIFIER: java.util [ <25:13 25:16>]
+SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ <24:8 24:11>]
+QUALIFIER: java [ <25:8 25:11>]
+SYMBOL_PACKAGE: java
+SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator [ <30:1 <30:14 30:38> 42:1>]
+SYMBOL_METHOD: public com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <32:5 <32:5 <32:12 32:36> 32:82> 34:5>]
+SYMBOL_METHOD: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+SYMBOL_METHOD: public java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() [ <36:5 <36:5 <37:35 37:55> 37:57> 41:5>]
+SYMBOL_METHOD: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations()
+SYMBOL_PACKAGE: java.lang
+SYMBOL_METHOD: java.util.LinkedList<E>.LinkedList()
+SYMBOL_METHOD: boolean java.util.List<E>.add(java.util.List<E>.E)
+SYMBOL_METHOD: static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.parameter(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+SYMBOL_FIELD: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode
+SYMBOL_FIELD: com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver
+REFERENCE_IMPORT: ParameterSymbolDeclarator.java -> com.github.javaparser.ast.body.Parameter [ <19:39 19:47>]
+REFERENCE_IMPORT: ParameterSymbolDeclarator.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ <20:72 20:98>]
+REFERENCE_IMPORT: ParameterSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <21:62 21:77>]
+REFERENCE_IMPORT: ParameterSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <22:60 22:69>]
+REFERENCE_IMPORT: ParameterSymbolDeclarator.java -> java.util.LinkedList<E> [ <24:18 24:27>]
+REFERENCE_IMPORT: ParameterSymbolDeclarator.java -> java.util.List<E> [ <25:18 25:21>]
+REFERENCE_TYPE_ARGUMENT: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> -> com.github.javaparser.ast.body.Parameter [ <30:73 30:81>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> [ <30:48 30:71>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator -> com.github.javaparser.ast.body.Parameter [ <30:73 30:81>]
+REFERENCE_OVERRIDE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <32:12 32:36>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.Parameter [ <32:38 32:46>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <32:61 32:70>]
+REFERENCE_CALL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <33:9 33:13>]
+REFERENCE_OVERRIDE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [ <37:35 37:55>]
+REFERENCE_ANNOTATION_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.lang.Override [ <36:6 36:13>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <37:17 37:32>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <38:14 38:29>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [ <37:12 37:15>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [ <38:9 38:12>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <37:17 37:32>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <38:14 38:29>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E>.LinkedList() [ <38:46 38:57>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E> [ <38:46 38:55>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> boolean java.util.List<E>.add(java.util.List<E>.E) [ <39:17 39:19>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.parameter(com.github.javaparser.ast.body.Parameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <39:49 39:57>]
+REFERENCE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode [ <39:59 39:69>]
+REFERENCE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver [ <39:72 39:81>]
+LOCAL_SYMBOL: ParameterSymbolDeclarator.java<30:84> [ <30:84 30:84>]
+LOCAL_SYMBOL: ParameterSymbolDeclarator.java<30:84> [ <42:1 42:1>]
+LOCAL_SYMBOL: ParameterSymbolDeclarator.java<32:84> [ <32:84 32:84>]
+LOCAL_SYMBOL: ParameterSymbolDeclarator.java<32:84> [ <34:5 34:5>]
+LOCAL_SYMBOL: ParameterSymbolDeclarator.java<37:59> [ <37:59 37:59>]
+LOCAL_SYMBOL: ParameterSymbolDeclarator.java<37:59> [ <41:5 41:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<0> [ <32:48 32:58>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<0> [ <33:15 33:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<1> [ <32:72 32:81>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.ParameterSymbolDeclarator<1> [ <33:28 33:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations<0> [ <38:32 38:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations<0> [ <39:9 39:15>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.ParameterSymbolDeclarator.getSymbolDeclarations<0> [ <40:16 40:22>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <27:1 29:3>]

@@ -1,20 +1,20 @@
 FILE: HasAccessLevel.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [HasAccessLevel.java <17:50 17:61>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.model [HasAccessLevel.java <17:44 17:48>]
-QUALIFIER: com.github.javaparser.symbolsolver [HasAccessLevel.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [HasAccessLevel.java <17:20 17:29>]
-QUALIFIER: com.github [HasAccessLevel.java <17:13 17:18>]
-QUALIFIER: com [HasAccessLevel.java <17:9 17:11>]
-SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [HasAccessLevel.java <24:1 <24:18 24:31> 31:1>]
-LOCAL_SYMBOL: HasAccessLevel.java<24:33> [HasAccessLevel.java <24:33 24:33>]
-LOCAL_SYMBOL: HasAccessLevel.java<24:33> [HasAccessLevel.java <31:1 31:1>]
-COMMENT: comment [HasAccessLevel.java <19:1 23:3>]
-SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [HasAccessLevel.java <29:1 <29:1  <29:17 29:27> 29:29> 29:30>]
-COMMENT: comment [HasAccessLevel.java <26:5 28:7>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [HasAccessLevel.java <29:5 29:15>]
-COMMENT: comment [HasAccessLevel.java <1:1 15:3>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations [ <17:50 17:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+SYMBOL_PACKAGE: com
+SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [ <24:1 <24:18 24:31> 31:1>]
+SYMBOL_METHOD: default com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [ <29:1 <29:1 <29:17 29:27> 29:29> 29:30>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ <29:5 29:15>]
+LOCAL_SYMBOL: HasAccessLevel.java<24:33> [ <24:33 24:33>]
+LOCAL_SYMBOL: HasAccessLevel.java<24:33> [ <31:1 31:1>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <19:1 23:3>]
+COMMENT: comment [ <26:5 28:7>]

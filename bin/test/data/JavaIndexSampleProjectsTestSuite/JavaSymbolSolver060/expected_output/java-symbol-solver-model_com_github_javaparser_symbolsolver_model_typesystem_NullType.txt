@@ -1,82 +1,81 @@
 FILE: NullType.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [NullType.java <17:50 17:59>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.model [NullType.java <17:44 17:48>]
-QUALIFIER: com.github.javaparser.symbolsolver [NullType.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [NullType.java <17:20 17:29>]
-QUALIFIER: com.github [NullType.java <17:13 17:18>]
-QUALIFIER: com [NullType.java <17:9 17:11>]
-SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.NullType [NullType.java <24:1 <24:14 24:21> 66:1>]
-LOCAL_SYMBOL: NullType.java<24:39> [NullType.java <24:39 24:39>]
-LOCAL_SYMBOL: NullType.java<24:39> [NullType.java <66:1 66:1>]
-COMMENT: comment [NullType.java <19:1 23:3>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.typesystem.NullType -> com.github.javaparser.symbolsolver.model.typesystem.Type [NullType.java <24:34 24:37>]
-SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE [NullType.java <26:34 26:41>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.NullType [NullType.java <26:25 26:32>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.NullType.NullType()
-REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.NullType.NullType() [NullType.java <26:49 26:56>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.NullType [NullType.java <26:49 26:56>]
-SYMBOL_METHOD private com.github.javaparser.symbolsolver.model.typesystem.NullType.NullType() [NullType.java <28:5 <28:5  <28:13 28:20> 28:22> 30:5>]
-LOCAL_SYMBOL: NullType.java<28:24> [NullType.java <28:24 28:24>]
-LOCAL_SYMBOL: NullType.java<28:24> [NullType.java <30:5 30:5>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() [NullType.java <32:5 <32:5  <33:20 33:26> 33:28> 35:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
-REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [NullType.java <33:20 33:26>]
-SYMBOL_PACKAGE java.lang
-REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() -> java.lang.Override [NullType.java <32:6 32:13>]
-SYMBOL_BUILTIN_TYPE boolean
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() -> boolean [NullType.java <33:12 33:18>]
-LOCAL_SYMBOL: NullType.java<33:30> [NullType.java <33:30 33:30>]
-LOCAL_SYMBOL: NullType.java<33:30> [NullType.java <35:5 35:5>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() [NullType.java <37:5 <37:5  <38:20 38:30> 38:32> 40:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
-REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [NullType.java <38:20 38:30>]
-REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() -> java.lang.Override [NullType.java <37:6 37:13>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() -> boolean [NullType.java <38:12 38:18>]
-LOCAL_SYMBOL: NullType.java<38:34> [NullType.java <38:34 38:34>]
-LOCAL_SYMBOL: NullType.java<38:34> [NullType.java <40:5 40:5>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isNull() [NullType.java <42:5 <42:5  <42:20 42:25> 42:27> 44:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull()
-REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isNull() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull() [NullType.java <42:20 42:25>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isNull() -> boolean [NullType.java <42:12 42:18>]
-LOCAL_SYMBOL: NullType.java<42:29> [NullType.java <42:29 42:29>]
-LOCAL_SYMBOL: NullType.java<42:29> [NullType.java <44:5 44:5>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() [NullType.java <46:5 <46:5  <47:20 47:34> 47:36> 49:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
-REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [NullType.java <47:20 47:34>]
-REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() -> java.lang.Override [NullType.java <46:6 46:13>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() -> boolean [NullType.java <47:12 47:18>]
-LOCAL_SYMBOL: NullType.java<47:38> [NullType.java <47:38 47:38>]
-LOCAL_SYMBOL: NullType.java<47:38> [NullType.java <49:5 49:5>]
-SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() [NullType.java <51:5 <51:5  <52:19 52:26> 52:28> 54:5>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
-REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [NullType.java <52:19 52:26>]
-REFERENCE_ANNOTATION_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() -> java.lang.Override [NullType.java <51:6 51:13>]
-REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() -> java.lang.String [NullType.java <52:12 52:17>]
-LOCAL_SYMBOL: NullType.java<52:30> [NullType.java <52:30 52:30>]
-LOCAL_SYMBOL: NullType.java<52:30> [NullType.java <54:5 54:5>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() [NullType.java <56:5 <56:5  <57:20 57:33> 57:35> 59:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
-REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [NullType.java <57:20 57:33>]
-REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() -> java.lang.Override [NullType.java <56:6 56:13>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() -> boolean [NullType.java <57:12 57:18>]
-LOCAL_SYMBOL: NullType.java<57:37> [NullType.java <57:37 57:37>]
-LOCAL_SYMBOL: NullType.java<57:37> [NullType.java <59:5 59:5>]
-SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [NullType.java <61:5 <61:5  <62:20 62:33> 62:45> 64:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
-REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [NullType.java <62:20 62:33>]
-REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Override [NullType.java <61:6 61:13>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [NullType.java <62:12 62:18>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [NullType.java <62:35 62:38>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy<0> [NullType.java <62:40 62:44>]
-LOCAL_SYMBOL: NullType.java<62:47> [NullType.java <62:47 62:47>]
-LOCAL_SYMBOL: NullType.java<62:47> [NullType.java <64:5 64:5>]
-SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String)
-REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String) [NullType.java <63:19 63:47>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException [NullType.java <63:19 63:47>]
-COMMENT: comment [NullType.java <1:1 15:3>]
-COMMENT: comment [NullType.java <29:9 29:32>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem [ <17:50 17:59>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+SYMBOL_PACKAGE: com
+SYMBOL_CLASS: public com.github.javaparser.symbolsolver.model.typesystem.NullType [ <24:1 <24:14 24:21> 66:1>]
+SYMBOL_FIELD: public static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE [ <26:34 26:41>]
+SYMBOL_METHOD: private com.github.javaparser.symbolsolver.model.typesystem.NullType.NullType() [ <28:5 <28:5 <28:13 28:20> 28:22> 30:5>]
+SYMBOL_METHOD: public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() [ <32:5 <32:5 <33:20 33:26> 33:28> 35:5>]
+SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
+SYMBOL_PACKAGE: java.lang
+SYMBOL_BUILTIN_TYPE: boolean
+SYMBOL_METHOD: public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() [ <37:5 <37:5 <38:20 38:30> 38:32> 40:5>]
+SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
+SYMBOL_METHOD: public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isNull() [ <42:5 <42:5 <42:20 42:25> 42:27> 44:5>]
+SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull()
+SYMBOL_METHOD: public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() [ <46:5 <46:5 <47:20 47:34> 47:36> 49:5>]
+SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
+SYMBOL_METHOD: public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() [ <51:5 <51:5 <52:19 52:26> 52:28> 54:5>]
+SYMBOL_METHOD: java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
+SYMBOL_METHOD: public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() [ <56:5 <56:5 <57:20 57:33> 57:35> 59:5>]
+SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
+SYMBOL_METHOD: public boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ <61:5 <61:5 <62:20 62:33> 62:45> 64:5>]
+SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
+SYMBOL_METHOD: java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String)
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.model.typesystem.NullType -> com.github.javaparser.symbolsolver.model.typesystem.Type [ <24:34 24:37>]
+REFERENCE_TYPE_USAGE: static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.NullType [ <26:25 26:32>]
+REFERENCE_TYPE_USAGE: static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.NullType [ <26:49 26:56>]
+REFERENCE_CALL: static com.github.javaparser.symbolsolver.model.typesystem.NullType com.github.javaparser.symbolsolver.model.typesystem.NullType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.NullType.NullType() [ <26:49 26:56>]
+REFERENCE_OVERRIDE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [ <33:20 33:26>]
+REFERENCE_ANNOTATION_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() -> java.lang.Override [ <32:6 32:13>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isArray() -> boolean [ <33:12 33:18>]
+REFERENCE_OVERRIDE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [ <38:20 38:30>]
+REFERENCE_ANNOTATION_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() -> java.lang.Override [ <37:6 37:13>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isPrimitive() -> boolean [ <38:12 38:18>]
+REFERENCE_OVERRIDE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isNull() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull() [ <42:20 42:25>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isNull() -> boolean [ <42:12 42:18>]
+REFERENCE_OVERRIDE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [ <47:20 47:34>]
+REFERENCE_ANNOTATION_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() -> java.lang.Override [ <46:6 46:13>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isReferenceType() -> boolean [ <47:12 47:18>]
+REFERENCE_OVERRIDE: java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [ <52:19 52:26>]
+REFERENCE_ANNOTATION_USAGE: java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() -> java.lang.Override [ <51:6 51:13>]
+REFERENCE_TYPE_USAGE: java.lang.String com.github.javaparser.symbolsolver.model.typesystem.NullType.describe() -> java.lang.String [ <52:12 52:17>]
+REFERENCE_OVERRIDE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [ <57:20 57:33>]
+REFERENCE_ANNOTATION_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() -> java.lang.Override [ <56:6 56:13>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isTypeVariable() -> boolean [ <57:12 57:18>]
+REFERENCE_OVERRIDE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ <62:20 62:33>]
+REFERENCE_ANNOTATION_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Override [ <61:6 61:13>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [ <62:12 62:18>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ <62:35 62:38>]
+REFERENCE_CALL: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String) [ <63:19 63:47>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException [ <63:19 63:47>]
+LOCAL_SYMBOL: NullType.java<24:39> [ <24:39 24:39>]
+LOCAL_SYMBOL: NullType.java<24:39> [ <66:1 66:1>]
+LOCAL_SYMBOL: NullType.java<28:24> [ <28:24 28:24>]
+LOCAL_SYMBOL: NullType.java<28:24> [ <30:5 30:5>]
+LOCAL_SYMBOL: NullType.java<33:30> [ <33:30 33:30>]
+LOCAL_SYMBOL: NullType.java<33:30> [ <35:5 35:5>]
+LOCAL_SYMBOL: NullType.java<38:34> [ <38:34 38:34>]
+LOCAL_SYMBOL: NullType.java<38:34> [ <40:5 40:5>]
+LOCAL_SYMBOL: NullType.java<42:29> [ <42:29 42:29>]
+LOCAL_SYMBOL: NullType.java<42:29> [ <44:5 44:5>]
+LOCAL_SYMBOL: NullType.java<47:38> [ <47:38 47:38>]
+LOCAL_SYMBOL: NullType.java<47:38> [ <49:5 49:5>]
+LOCAL_SYMBOL: NullType.java<52:30> [ <52:30 52:30>]
+LOCAL_SYMBOL: NullType.java<52:30> [ <54:5 54:5>]
+LOCAL_SYMBOL: NullType.java<57:37> [ <57:37 57:37>]
+LOCAL_SYMBOL: NullType.java<57:37> [ <59:5 59:5>]
+LOCAL_SYMBOL: NullType.java<62:47> [ <62:47 62:47>]
+LOCAL_SYMBOL: NullType.java<62:47> [ <64:5 64:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.NullType.isAssignableBy<0> [ <62:40 62:44>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <19:1 23:3>]
+COMMENT: comment [ <29:9 29:32>]

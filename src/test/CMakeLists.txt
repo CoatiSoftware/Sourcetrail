@@ -1,10 +1,9 @@
 add_files(
 	TEST
 
-	helper/DumpParserClient.h
 	helper/TestFileRegister.cpp
 	helper/TestFileRegister.h
-	helper/TestParserClient.h
+	helper/TestIntermediateStorage.h
 
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h

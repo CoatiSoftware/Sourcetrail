@@ -66,6 +66,16 @@ std::shared_ptr<TextAccess> TextAccess::createFromString(const std::string& text
 	return result;
 }
 
+std::shared_ptr<TextAccess> TextAccess::createFromLines(const std::vector<std::string>& lines, const FilePath& filePath)
+{
+	std::shared_ptr<TextAccess> result(new TextAccess());
+
+	result->m_lines = lines;
+	result->m_filePath = filePath;
+
+	return result;
+}
+
 TextAccess::~TextAccess()
 {
 }

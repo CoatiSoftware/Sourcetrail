@@ -3,11 +3,13 @@
 #include <fstream>
 #include <iostream>
 
-#include "IndexerCommandCxx.h"
-#include "CxxParser.h"
-#include "DumpParserClient.h"
 #include "ApplicationSettings.h"
+#include "CxxParser.h"
 #include "FileRegister.h"
+#include "IndexerCommandCxx.h"
+#include "IndexerStateInfo.h"
+#include "ParserClientImpl.h"
+#include "TestIntermediateStorage.h"
 #include "TextAccess.h"
 #include "utility.h"
 #include "utilityString.h"
@@ -17,6 +19,23 @@ class CxxIndexSampleProjectsTestSuite : public CxxTest::TestSuite
 public:
 	static const bool s_updateExpectedOutput = false;
 	static const bool s_trackTime = true;
+
+	void test_index_tictactoe_project()
+	{
+#ifdef NDEBUG
+		processSourceFiles(
+			L"TicTacToe",
+			{
+				FilePath("artificial_player.cpp"),
+				FilePath("field.cpp"),
+				FilePath("player.cpp"),
+				FilePath("tictactoe.cpp"),
+				FilePath("human_player.cpp"),
+				FilePath("main.cpp"),
+			}
+		);
+#endif // NDEBUG
+	}
 
 	void test_index_box2d_project()
 	{
@@ -164,7 +183,11 @@ private:
 		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(
 			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded()
 		));
-		compilerFlags.emplace_back(L"--target=x86_64-pc-windows-msvc");
+#ifdef _WIN32
+		// compilerFlags.emplace_back(L"--target=x86_64-pc-windows-msvc");
+#else // _WIN32
+		compilerFlags.emplace_back(L"-xc++");
+#endif // _WIN32
 		compilerFlags.emplace_back(L"-std=c++1z");
 		compilerFlags.emplace_back(sourceFilePath.wstr());
 
@@ -174,9 +197,8 @@ private:
 			excludedFilters
 		);
 
-		std::shared_ptr<DumpParserClient> parserClient = std::make_shared<DumpParserClient>();
-
-		CxxParser parser(parserClient, fileRegister, std::make_shared<IndexerStateInfo>());
+		TestIntermediateStorage storage;
+		CxxParser parser(std::make_shared<ParserClientImpl>(&storage), fileRegister, std::make_shared<IndexerStateInfo>());
 
 		std::shared_ptr<IndexerCommandCxx> command = std::make_shared<IndexerCommandCxx>(
 			sourceFilePath,
@@ -191,7 +213,9 @@ private:
 		parser.buildIndex(command);
 		m_duration += TimeStamp::now().deltaMS(startTime);
 
-		return TextAccess::createFromString(utility::encodeToUtf8(parserClient->m_lines));
+		storage.generateStringLists();
+
+		return TextAccess::createFromLines(storage.m_lines);
 	}
 
 	size_t m_duration;

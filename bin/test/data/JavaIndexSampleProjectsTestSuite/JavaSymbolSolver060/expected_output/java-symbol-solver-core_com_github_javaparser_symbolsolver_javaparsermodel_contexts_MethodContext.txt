@@ -1,52 +1,52 @@
 FILE: MethodContext.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [MethodContext.java <17:60 17:67>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [MethodContext.java <17:44 17:58>]
-QUALIFIER: com.github.javaparser.symbolsolver [MethodContext.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [MethodContext.java <17:20 17:29>]
-QUALIFIER: com.github [MethodContext.java <17:13 17:18>]
-QUALIFIER: com [MethodContext.java <17:9 17:11>]
-REFERENCE_IMPORT MethodContext.java -> com.github.javaparser.ast.body.MethodDeclaration [MethodContext.java <20:39 20:55>]
-SYMBOL_PACKAGE com.github.javaparser.ast.body
-QUALIFIER: com.github.javaparser.ast.body [MethodContext.java <20:34 20:37>]
-SYMBOL_PACKAGE com.github.javaparser.ast
-QUALIFIER: com.github.javaparser.ast [MethodContext.java <20:30 20:32>]
-QUALIFIER: com.github.javaparser [MethodContext.java <20:19 20:28>]
-QUALIFIER: com.github [MethodContext.java <20:12 20:17>]
-QUALIFIER: com [MethodContext.java <20:8 20:10>]
-REFERENCE_IMPORT MethodContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MethodContext.java <21:60 21:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [MethodContext.java <21:49 21:58>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-QUALIFIER: com.github.javaparser.symbolsolver.model [MethodContext.java <21:43 21:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [MethodContext.java <21:30 21:41>]
-QUALIFIER: com.github.javaparser [MethodContext.java <21:19 21:28>]
-QUALIFIER: com.github [MethodContext.java <21:12 21:17>]
-QUALIFIER: com [MethodContext.java <21:8 21:10>]
-SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext [MethodContext.java <26:1 <26:14 26:26> 36:1>]
-LOCAL_SYMBOL: MethodContext.java<26:92> [MethodContext.java <26:92 26:92>]
-LOCAL_SYMBOL: MethodContext.java<26:92> [MethodContext.java <36:1 36:1>]
-COMMENT: comment [MethodContext.java <23:1 25:3>]
-REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> -> com.github.javaparser.ast.body.MethodDeclaration [MethodContext.java <26:73 26:89>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> [MethodContext.java <26:36 26:71>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext -> com.github.javaparser.ast.body.MethodDeclaration [MethodContext.java <26:73 26:89>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [MethodContext.java <32:5 <32:5  <32:12 32:24> 32:78> 34:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
-REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [MethodContext.java <32:12 32:24>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.MethodDeclaration [MethodContext.java <32:26 32:42>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<0> [MethodContext.java <32:44 32:54>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MethodContext.java <32:57 32:66>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<1> [MethodContext.java <32:68 32:77>]
-LOCAL_SYMBOL: MethodContext.java<32:80> [MethodContext.java <32:80 32:80>]
-LOCAL_SYMBOL: MethodContext.java<32:80> [MethodContext.java <34:5 34:5>]
-REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [MethodContext.java <33:9 33:13>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<0> [MethodContext.java <33:15 33:25>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<1> [MethodContext.java <33:28 33:37>]
-COMMENT: comment [MethodContext.java <1:1 15:3>]
-COMMENT: comment [MethodContext.java <28:5 28:7>]
-COMMENT: comment [MethodContext.java <29:5 29:20>]
-COMMENT: comment [MethodContext.java <30:5 30:7>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts [ <17:60 17:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ <17:44 17:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <21:30 21:41>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [ <20:19 20:28>]
+QUALIFIER: com.github.javaparser [ <21:19 21:28>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [ <20:12 20:17>]
+QUALIFIER: com.github [ <21:12 21:17>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [ <20:8 20:10>]
+QUALIFIER: com [ <21:8 21:10>]
+SYMBOL_PACKAGE: com
+QUALIFIER: com.github.javaparser.ast.body [ <20:34 20:37>]
+SYMBOL_PACKAGE: com.github.javaparser.ast.body
+QUALIFIER: com.github.javaparser.ast [ <20:30 20:32>]
+SYMBOL_PACKAGE: com.github.javaparser.ast
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ <21:49 21:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <21:43 21:47>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext [ <26:1 <26:14 26:26> 36:1>]
+SYMBOL_METHOD: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <32:5 <32:5 <32:12 32:24> 32:78> 34:5>]
+SYMBOL_METHOD: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_IMPORT: MethodContext.java -> com.github.javaparser.ast.body.MethodDeclaration [ <20:39 20:55>]
+REFERENCE_IMPORT: MethodContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <21:60 21:69>]
+REFERENCE_TYPE_ARGUMENT: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> -> com.github.javaparser.ast.body.MethodDeclaration [ <26:73 26:89>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> [ <26:36 26:71>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext -> com.github.javaparser.ast.body.MethodDeclaration [ <26:73 26:89>]
+REFERENCE_OVERRIDE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <32:12 32:24>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.MethodDeclaration [ <32:26 32:42>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <32:57 32:66>]
+REFERENCE_CALL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext(com.github.javaparser.ast.body.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <33:9 33:13>]
+LOCAL_SYMBOL: MethodContext.java<26:92> [ <26:92 26:92>]
+LOCAL_SYMBOL: MethodContext.java<26:92> [ <36:1 36:1>]
+LOCAL_SYMBOL: MethodContext.java<32:80> [ <32:80 32:80>]
+LOCAL_SYMBOL: MethodContext.java<32:80> [ <34:5 34:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<0> [ <32:44 32:54>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<0> [ <33:15 33:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<1> [ <32:68 32:77>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodContext.MethodContext<1> [ <33:28 33:37>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <23:1 25:3>]
+COMMENT: comment [ <28:5 28:7>]
+COMMENT: comment [ <29:5 29:20>]
+COMMENT: comment [ <30:5 30:7>]

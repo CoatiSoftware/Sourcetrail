@@ -1,114 +1,114 @@
 FILE: FieldSymbolDeclarator.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators [FieldSymbolDeclarator.java <17:60 17:70>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [FieldSymbolDeclarator.java <17:44 17:58>]
-QUALIFIER: com.github.javaparser.symbolsolver [FieldSymbolDeclarator.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [FieldSymbolDeclarator.java <17:20 17:29>]
-QUALIFIER: com.github [FieldSymbolDeclarator.java <17:13 17:18>]
-QUALIFIER: com [FieldSymbolDeclarator.java <17:9 17:11>]
-REFERENCE_IMPORT FieldSymbolDeclarator.java -> com.github.javaparser.ast.body.FieldDeclaration [FieldSymbolDeclarator.java <19:39 19:54>]
-SYMBOL_PACKAGE com.github.javaparser.ast.body
-QUALIFIER: com.github.javaparser.ast.body [FieldSymbolDeclarator.java <19:34 19:37>]
-SYMBOL_PACKAGE com.github.javaparser.ast
-QUALIFIER: com.github.javaparser.ast [FieldSymbolDeclarator.java <19:30 19:32>]
-QUALIFIER: com.github.javaparser [FieldSymbolDeclarator.java <19:19 19:28>]
-QUALIFIER: com.github [FieldSymbolDeclarator.java <19:12 19:17>]
-QUALIFIER: com [FieldSymbolDeclarator.java <19:8 19:10>]
-REFERENCE_IMPORT FieldSymbolDeclarator.java -> com.github.javaparser.ast.body.VariableDeclarator [FieldSymbolDeclarator.java <20:39 20:56>]
-QUALIFIER: com.github.javaparser.ast.body [FieldSymbolDeclarator.java <20:34 20:37>]
-QUALIFIER: com.github.javaparser.ast [FieldSymbolDeclarator.java <20:30 20:32>]
-QUALIFIER: com.github.javaparser [FieldSymbolDeclarator.java <20:19 20:28>]
-QUALIFIER: com.github [FieldSymbolDeclarator.java <20:12 20:17>]
-QUALIFIER: com [FieldSymbolDeclarator.java <20:8 20:10>]
-REFERENCE_IMPORT FieldSymbolDeclarator.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [FieldSymbolDeclarator.java <21:72 21:98>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [FieldSymbolDeclarator.java <21:59 21:70>]
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [FieldSymbolDeclarator.java <21:43 21:57>]
-QUALIFIER: com.github.javaparser.symbolsolver [FieldSymbolDeclarator.java <21:30 21:41>]
-QUALIFIER: com.github.javaparser [FieldSymbolDeclarator.java <21:19 21:28>]
-QUALIFIER: com.github [FieldSymbolDeclarator.java <21:12 21:17>]
-QUALIFIER: com [FieldSymbolDeclarator.java <21:8 21:10>]
-REFERENCE_IMPORT FieldSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [FieldSymbolDeclarator.java <22:62 22:77>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [FieldSymbolDeclarator.java <22:49 22:60>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-QUALIFIER: com.github.javaparser.symbolsolver.model [FieldSymbolDeclarator.java <22:43 22:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [FieldSymbolDeclarator.java <22:30 22:41>]
-QUALIFIER: com.github.javaparser [FieldSymbolDeclarator.java <22:19 22:28>]
-QUALIFIER: com.github [FieldSymbolDeclarator.java <22:12 22:17>]
-QUALIFIER: com [FieldSymbolDeclarator.java <22:8 22:10>]
-REFERENCE_IMPORT FieldSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [FieldSymbolDeclarator.java <23:60 23:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [FieldSymbolDeclarator.java <23:49 23:58>]
-QUALIFIER: com.github.javaparser.symbolsolver.model [FieldSymbolDeclarator.java <23:43 23:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [FieldSymbolDeclarator.java <23:30 23:41>]
-QUALIFIER: com.github.javaparser [FieldSymbolDeclarator.java <23:19 23:28>]
-QUALIFIER: com.github [FieldSymbolDeclarator.java <23:12 23:17>]
-QUALIFIER: com [FieldSymbolDeclarator.java <23:8 23:10>]
-REFERENCE_IMPORT FieldSymbolDeclarator.java -> java.util.LinkedList<E> [FieldSymbolDeclarator.java <25:18 25:27>]
-SYMBOL_PACKAGE java.util
-QUALIFIER: java.util [FieldSymbolDeclarator.java <25:13 25:16>]
-SYMBOL_PACKAGE java
-QUALIFIER: java [FieldSymbolDeclarator.java <25:8 25:11>]
-REFERENCE_IMPORT FieldSymbolDeclarator.java -> java.util.List<E> [FieldSymbolDeclarator.java <26:18 26:21>]
-QUALIFIER: java.util [FieldSymbolDeclarator.java <26:13 26:16>]
-QUALIFIER: java [FieldSymbolDeclarator.java <26:8 26:11>]
-SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator [FieldSymbolDeclarator.java <31:1 <31:14 31:34> 46:1>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<31:87> [FieldSymbolDeclarator.java <31:87 31:87>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<31:87> [FieldSymbolDeclarator.java <46:1 46:1>]
-COMMENT: comment [FieldSymbolDeclarator.java <28:1 30:3>]
-REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> -> com.github.javaparser.ast.body.FieldDeclaration [FieldSymbolDeclarator.java <31:69 31:84>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> [FieldSymbolDeclarator.java <31:44 31:67>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator -> com.github.javaparser.ast.body.FieldDeclaration [FieldSymbolDeclarator.java <31:69 31:84>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [FieldSymbolDeclarator.java <33:5 <33:5  <33:12 33:32> 33:85> 35:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
-REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [FieldSymbolDeclarator.java <33:12 33:32>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.FieldDeclaration [FieldSymbolDeclarator.java <33:34 33:49>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<0> [FieldSymbolDeclarator.java <33:51 33:61>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [FieldSymbolDeclarator.java <33:64 33:73>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<1> [FieldSymbolDeclarator.java <33:75 33:84>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<33:87> [FieldSymbolDeclarator.java <33:87 33:87>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<33:87> [FieldSymbolDeclarator.java <35:5 35:5>]
-REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [FieldSymbolDeclarator.java <34:9 34:13>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<0> [FieldSymbolDeclarator.java <34:15 34:25>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<1> [FieldSymbolDeclarator.java <34:28 34:37>]
-SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() [FieldSymbolDeclarator.java <37:5 <37:5  <38:35 38:55> 38:57> 44:5>]
-SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations()
-REFERENCE_OVERRIDE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [FieldSymbolDeclarator.java <38:35 38:55>]
-SYMBOL_PACKAGE java.lang
-REFERENCE_ANNOTATION_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.lang.Override [FieldSymbolDeclarator.java <37:6 37:13>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [FieldSymbolDeclarator.java <38:17 38:32>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [FieldSymbolDeclarator.java <38:12 38:15>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [FieldSymbolDeclarator.java <38:17 38:32>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<38:59> [FieldSymbolDeclarator.java <38:59 38:59>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<38:59> [FieldSymbolDeclarator.java <44:5 44:5>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [FieldSymbolDeclarator.java <39:14 39:29>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [FieldSymbolDeclarator.java <39:9 39:12>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [FieldSymbolDeclarator.java <39:14 39:29>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<0> [FieldSymbolDeclarator.java <39:32 39:38>]
-SYMBOL_METHOD java.util.LinkedList<E>.LinkedList()
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E>.LinkedList() [FieldSymbolDeclarator.java <39:46 39:57>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E> [FieldSymbolDeclarator.java <39:46 39:55>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.ast.body.VariableDeclarator [FieldSymbolDeclarator.java <40:14 40:31>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<1> [FieldSymbolDeclarator.java <40:33 40:33>]
-SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.body.FieldDeclaration.getVariables()
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.body.FieldDeclaration.getVariables() [FieldSymbolDeclarator.java <40:49 40:60>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode
-REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode [FieldSymbolDeclarator.java <40:37 40:47>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<40:65> [FieldSymbolDeclarator.java <40:65 40:65>]
-LOCAL_SYMBOL: FieldSymbolDeclarator.java<40:65> [FieldSymbolDeclarator.java <42:9 42:9>]
-SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> boolean java.util.List<E>.add(java.util.List<E>.E) [FieldSymbolDeclarator.java <41:21 41:23>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<0> [FieldSymbolDeclarator.java <41:13 41:19>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.field(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.field(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [FieldSymbolDeclarator.java <41:53 41:57>]
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [FieldSymbolDeclarator.java <41:25 41:51>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<1> [FieldSymbolDeclarator.java <41:59 41:59>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver
-REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver [FieldSymbolDeclarator.java <41:62 41:71>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<0> [FieldSymbolDeclarator.java <43:16 43:22>]
-COMMENT: comment [FieldSymbolDeclarator.java <1:1 15:3>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators [ <17:60 17:70>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ <21:43 21:57>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <21:30 21:41>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <22:30 22:41>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <23:30 23:41>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [ <19:19 19:28>]
+QUALIFIER: com.github.javaparser [ <20:19 20:28>]
+QUALIFIER: com.github.javaparser [ <21:19 21:28>]
+QUALIFIER: com.github.javaparser [ <22:19 22:28>]
+QUALIFIER: com.github.javaparser [ <23:19 23:28>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [ <19:12 19:17>]
+QUALIFIER: com.github [ <20:12 20:17>]
+QUALIFIER: com.github [ <21:12 21:17>]
+QUALIFIER: com.github [ <22:12 22:17>]
+QUALIFIER: com.github [ <23:12 23:17>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [ <19:8 19:10>]
+QUALIFIER: com [ <20:8 20:10>]
+QUALIFIER: com [ <21:8 21:10>]
+QUALIFIER: com [ <22:8 22:10>]
+QUALIFIER: com [ <23:8 23:10>]
+SYMBOL_PACKAGE: com
+QUALIFIER: com.github.javaparser.ast.body [ <19:34 19:37>]
+QUALIFIER: com.github.javaparser.ast.body [ <20:34 20:37>]
+SYMBOL_PACKAGE: com.github.javaparser.ast.body
+QUALIFIER: com.github.javaparser.ast [ <19:30 19:32>]
+QUALIFIER: com.github.javaparser.ast [ <20:30 20:32>]
+SYMBOL_PACKAGE: com.github.javaparser.ast
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ <41:25 41:51>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [ <21:59 21:70>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarations
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ <22:49 22:60>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <23:43 23:47>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ <23:49 23:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
+QUALIFIER: java.util [ <25:13 25:16>]
+QUALIFIER: java.util [ <26:13 26:16>]
+SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ <25:8 25:11>]
+QUALIFIER: java [ <26:8 26:11>]
+SYMBOL_PACKAGE: java
+SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator [ <31:1 <31:14 31:34> 46:1>]
+SYMBOL_METHOD: public com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <33:5 <33:5 <33:12 33:32> 33:85> 35:5>]
+SYMBOL_METHOD: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+SYMBOL_METHOD: public java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() [ <37:5 <37:5 <38:35 38:55> 38:57> 44:5>]
+SYMBOL_METHOD: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations()
+SYMBOL_PACKAGE: java.lang
+SYMBOL_METHOD: java.util.LinkedList<E>.LinkedList()
+SYMBOL_METHOD: com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.body.FieldDeclaration.getVariables()
+SYMBOL_FIELD: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode
+SYMBOL_METHOD: boolean java.util.List<E>.add(java.util.List<E>.E)
+SYMBOL_METHOD: static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.field(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+SYMBOL_FIELD: com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver
+REFERENCE_IMPORT: FieldSymbolDeclarator.java -> com.github.javaparser.ast.body.FieldDeclaration [ <19:39 19:54>]
+REFERENCE_IMPORT: FieldSymbolDeclarator.java -> com.github.javaparser.ast.body.VariableDeclarator [ <20:39 20:56>]
+REFERENCE_IMPORT: FieldSymbolDeclarator.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ <21:72 21:98>]
+REFERENCE_IMPORT: FieldSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <22:62 22:77>]
+REFERENCE_IMPORT: FieldSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <23:60 23:69>]
+REFERENCE_IMPORT: FieldSymbolDeclarator.java -> java.util.LinkedList<E> [ <25:18 25:27>]
+REFERENCE_IMPORT: FieldSymbolDeclarator.java -> java.util.List<E> [ <26:18 26:21>]
+REFERENCE_TYPE_ARGUMENT: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> -> com.github.javaparser.ast.body.FieldDeclaration [ <31:69 31:84>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> [ <31:44 31:67>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator -> com.github.javaparser.ast.body.FieldDeclaration [ <31:69 31:84>]
+REFERENCE_OVERRIDE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <33:12 33:32>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.FieldDeclaration [ <33:34 33:49>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <33:64 33:73>]
+REFERENCE_CALL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <34:9 34:13>]
+REFERENCE_OVERRIDE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [ <38:35 38:55>]
+REFERENCE_ANNOTATION_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.lang.Override [ <37:6 37:13>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <38:17 38:32>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <39:14 39:29>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [ <38:12 38:15>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [ <39:9 39:12>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <38:17 38:32>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ <39:14 39:29>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E>.LinkedList() [ <39:46 39:57>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E> [ <39:46 39:55>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.ast.body.VariableDeclarator [ <40:14 40:31>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.body.FieldDeclaration.getVariables() [ <40:49 40:60>]
+REFERENCE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode [ <40:37 40:47>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> boolean java.util.List<E>.add(java.util.List<E>.E) [ <41:21 41:23>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.field(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <41:53 41:57>]
+REFERENCE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver [ <41:62 41:71>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<31:87> [ <31:87 31:87>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<31:87> [ <46:1 46:1>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<33:87> [ <33:87 33:87>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<33:87> [ <35:5 35:5>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<38:59> [ <38:59 38:59>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<38:59> [ <44:5 44:5>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<40:65> [ <40:65 40:65>]
+LOCAL_SYMBOL: FieldSymbolDeclarator.java<40:65> [ <42:9 42:9>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<0> [ <33:51 33:61>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<0> [ <34:15 34:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<1> [ <33:75 33:84>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator<1> [ <34:28 34:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<0> [ <39:32 39:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<0> [ <41:13 41:19>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<0> [ <43:16 43:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<1> [ <40:33 40:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.getSymbolDeclarations<1> [ <41:59 41:59>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <28:1 30:3>]

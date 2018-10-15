@@ -1,0 +1,45 @@
+FILE: player.cpp
+FILE: player.h non-indexed
+FILE: field.h non-indexed
+FILE: game_object.h non-indexed
+SYMBOL_METHOD: public void Player::Player(Field::Token, const char *) [player.cpp <3:1 <3:9 3:14> 6:1>]
+QUALIFIER: Player [player.cpp <3:1 3:6>]
+QUALIFIER: Player [player.cpp <8:1 8:6>]
+QUALIFIER: Player [player.cpp <11:21 11:26>]
+QUALIFIER: Player [player.cpp <16:13 16:18>]
+SYMBOL_CLASS: Player
+QUALIFIER: Field [player.cpp <3:17 3:21>]
+QUALIFIER: Field [player.cpp <11:7 11:11>]
+SYMBOL_CLASS: Field
+SYMBOL_BUILTIN_TYPE: char
+SYMBOL_FUNCTION: void GameObject::GameObject()
+SYMBOL_METHOD: public void Player::~Player() [player.cpp <8:1 <8:9 8:15> 9:1>]
+SYMBOL_FUNCTION: void GameObject::~GameObject()
+SYMBOL_METHOD: public const Field::Token & Player::getToken() const [player.cpp <11:1 <11:29 11:36> 14:1>]
+SYMBOL_METHOD: public const char * Player::getName() const [player.cpp <16:1 <16:21 16:27> 19:1>]
+REFERENCE_INCLUDE: player.cpp -> player.h [player.cpp <1:10 1:19>]
+REFERENCE_INCLUDE: player.h -> field.h [player.h <4:10 4:18>]
+REFERENCE_INCLUDE: field.h -> game_object.h [field.h <4:10 4:24>]
+REFERENCE_INCLUDE: player.h -> game_object.h [player.h <5:10 5:24>]
+REFERENCE_TYPE_USAGE: void Player::Player(Field::Token, const char *) -> Field::Token [player.cpp <3:24 3:28>]
+REFERENCE_TYPE_USAGE: void Player::Player(Field::Token, const char *) -> char [player.cpp <3:43 3:46>]
+REFERENCE_CALL: void Player::Player(Field::Token, const char *) -> void GameObject::GameObject() [player.cpp <3:9 3:14>]
+REFERENCE_USAGE: void Player::Player(Field::Token, const char *) -> const Field::Token Player::token_ [player.cpp <4:4 4:9>]
+REFERENCE_USAGE: void Player::Player(Field::Token, const char *) -> const char * Player::name_ [player.cpp <5:4 5:8>]
+REFERENCE_OVERRIDE: void Player::~Player() -> void GameObject::~GameObject() [player.cpp <8:9 8:9>]
+REFERENCE_TYPE_USAGE: const Field::Token & Player::getToken() const -> Field::Token [player.cpp <11:14 11:18>]
+REFERENCE_USAGE: const Field::Token & Player::getToken() const -> const Field::Token Player::token_ [player.cpp <13:9 13:14>]
+REFERENCE_TYPE_USAGE: const char * Player::getName() const -> char [player.cpp <16:7 16:10>]
+REFERENCE_USAGE: const char * Player::getName() const -> const char * Player::name_ [player.cpp <18:9 18:13>]
+LOCAL_SYMBOL: player.cpp<12:1> [player.cpp <12:1 12:1>]
+LOCAL_SYMBOL: player.cpp<12:1> [player.cpp <14:1 14:1>]
+LOCAL_SYMBOL: player.cpp<17:1> [player.cpp <17:1 17:1>]
+LOCAL_SYMBOL: player.cpp<17:1> [player.cpp <19:1 19:1>]
+LOCAL_SYMBOL: player.cpp<3:30> [player.cpp <3:30 3:34>]
+LOCAL_SYMBOL: player.cpp<3:30> [player.cpp <4:12 4:16>]
+LOCAL_SYMBOL: player.cpp<3:49> [player.cpp <3:49 3:52>]
+LOCAL_SYMBOL: player.cpp<3:49> [player.cpp <5:11 5:14>]
+LOCAL_SYMBOL: player.cpp<5:18> [player.cpp <5:18 5:18>]
+LOCAL_SYMBOL: player.cpp<5:18> [player.cpp <6:1 6:1>]
+LOCAL_SYMBOL: player.cpp<8:19> [player.cpp <8:19 8:19>]
+LOCAL_SYMBOL: player.cpp<8:19> [player.cpp <9:1 9:1>]

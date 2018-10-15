@@ -1,81 +1,80 @@
 FILE: InterfaceDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [InterfaceDeclaration.java <17:50 17:61>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.model [InterfaceDeclaration.java <17:44 17:48>]
-QUALIFIER: com.github.javaparser.symbolsolver [InterfaceDeclaration.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [InterfaceDeclaration.java <17:20 17:29>]
-QUALIFIER: com.github [InterfaceDeclaration.java <17:13 17:18>]
-QUALIFIER: com [InterfaceDeclaration.java <17:9 17:11>]
-REFERENCE_IMPORT InterfaceDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <19:60 19:72>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [InterfaceDeclaration.java <19:49 19:58>]
-QUALIFIER: com.github.javaparser.symbolsolver.model [InterfaceDeclaration.java <19:43 19:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [InterfaceDeclaration.java <19:30 19:41>]
-QUALIFIER: com.github.javaparser [InterfaceDeclaration.java <19:19 19:28>]
-QUALIFIER: com.github [InterfaceDeclaration.java <19:12 19:17>]
-QUALIFIER: com [InterfaceDeclaration.java <19:8 19:10>]
-REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.ArrayList<E> [InterfaceDeclaration.java <21:18 21:26>]
-SYMBOL_PACKAGE java.util
-QUALIFIER: java.util [InterfaceDeclaration.java <21:13 21:16>]
-SYMBOL_PACKAGE java
-QUALIFIER: java [InterfaceDeclaration.java <21:8 21:11>]
-REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.List<E> [InterfaceDeclaration.java <22:18 22:21>]
-QUALIFIER: java.util [InterfaceDeclaration.java <22:13 22:16>]
-QUALIFIER: java [InterfaceDeclaration.java <22:8 22:11>]
-SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration [InterfaceDeclaration.java <29:1 <29:18 29:37> 52:1>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<29:108> [InterfaceDeclaration.java <29:108 29:108>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<29:108> [InterfaceDeclaration.java <52:1 52:1>]
-COMMENT: comment [InterfaceDeclaration.java <24:1 28:3>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [InterfaceDeclaration.java <29:47 29:70>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration -> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [InterfaceDeclaration.java <29:73 29:90>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration -> com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [InterfaceDeclaration.java <29:93 29:106>]
-SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() [InterfaceDeclaration.java <31:5 <31:5  <32:21 32:31> 32:33> 34:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isInterface()
-REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isInterface() [InterfaceDeclaration.java <32:21 32:31>]
-SYMBOL_PACKAGE java.lang
-REFERENCE_ANNOTATION_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() -> java.lang.Override [InterfaceDeclaration.java <31:6 31:13>]
-SYMBOL_BUILTIN_TYPE boolean
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() -> boolean [InterfaceDeclaration.java <32:13 32:19>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<32:35> [InterfaceDeclaration.java <32:35 32:35>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<32:35> [InterfaceDeclaration.java <34:5 34:5>]
-SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() [InterfaceDeclaration.java <39:1 <39:1  <39:25 39:45> 39:47> 39:48>]
-COMMENT: comment [InterfaceDeclaration.java <36:5 38:7>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <39:10 39:22>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() -> java.util.List<E> [InterfaceDeclaration.java <39:5 39:8>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <39:10 39:22>]
-SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() [InterfaceDeclaration.java <44:1 <44:1  <44:33 44:56> 44:58> 51:5>]
-COMMENT: comment [InterfaceDeclaration.java <41:5 43:7>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <44:18 44:30>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<E> [InterfaceDeclaration.java <44:13 44:16>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <44:18 44:30>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<44:60> [InterfaceDeclaration.java <44:60 44:60>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<44:60> [InterfaceDeclaration.java <51:5 51:5>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <45:14 45:26>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<E> [InterfaceDeclaration.java <45:9 45:12>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <45:14 45:26>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [InterfaceDeclaration.java <45:29 45:38>]
-SYMBOL_METHOD java.util.ArrayList<E>.ArrayList()
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.ArrayList<E>.ArrayList() [InterfaceDeclaration.java <45:46 45:56>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.ArrayList<E> [InterfaceDeclaration.java <45:46 45:54>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <46:14 46:26>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<1> [InterfaceDeclaration.java <46:28 46:47>]
-SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended()
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() [InterfaceDeclaration.java <46:51 46:71>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<46:76> [InterfaceDeclaration.java <46:76 46:76>]
-LOCAL_SYMBOL: InterfaceDeclaration.java<46:76> [InterfaceDeclaration.java <49:9 49:9>]
-SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> boolean java.util.List<E>.add(java.util.List<E>.E) [InterfaceDeclaration.java <47:24 47:26>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [InterfaceDeclaration.java <47:13 47:22>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<1> [InterfaceDeclaration.java <47:28 47:47>]
-SYMBOL_METHOD boolean java.util.List<E>.addAll(java.util.Collection<? extends E>)
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> boolean java.util.List<E>.addAll(java.util.Collection<? extends E>) [InterfaceDeclaration.java <48:24 48:29>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [InterfaceDeclaration.java <48:13 48:22>]
-SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllInterfacesAncestors()
-REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllInterfacesAncestors() [InterfaceDeclaration.java <48:52 48:76>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<1> [InterfaceDeclaration.java <48:31 48:50>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [InterfaceDeclaration.java <50:16 50:25>]
-COMMENT: comment [InterfaceDeclaration.java <1:1 15:3>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations [ <17:50 17:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <19:43 19:47>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <19:30 19:41>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [ <19:19 19:28>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [ <19:12 19:17>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [ <19:8 19:10>]
+SYMBOL_PACKAGE: com
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ <19:49 19:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
+QUALIFIER: java.util [ <21:13 21:16>]
+QUALIFIER: java.util [ <22:13 22:16>]
+SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ <21:8 21:11>]
+QUALIFIER: java [ <22:8 22:11>]
+SYMBOL_PACKAGE: java
+SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration [ <29:1 <29:18 29:37> 52:1>]
+SYMBOL_METHOD: default boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() [ <31:5 <31:5 <32:21 32:31> 32:33> 34:5>]
+SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isInterface()
+SYMBOL_PACKAGE: java.lang
+SYMBOL_BUILTIN_TYPE: boolean
+SYMBOL_METHOD: default java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() [ <39:1 <39:1 <39:25 39:45> 39:47> 39:48>]
+SYMBOL_METHOD: default java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() [ <44:1 <44:1 <44:33 44:56> 44:58> 51:5>]
+SYMBOL_METHOD: java.util.ArrayList<E>.ArrayList()
+SYMBOL_METHOD: boolean java.util.List<E>.add(java.util.List<E>.E)
+SYMBOL_METHOD: boolean java.util.List<E>.addAll(java.util.Collection<? extends E>)
+SYMBOL_METHOD: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllInterfacesAncestors()
+REFERENCE_IMPORT: InterfaceDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <19:60 19:72>]
+REFERENCE_IMPORT: InterfaceDeclaration.java -> java.util.ArrayList<E> [ <21:18 21:26>]
+REFERENCE_IMPORT: InterfaceDeclaration.java -> java.util.List<E> [ <22:18 22:21>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ <29:47 29:70>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration -> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [ <29:73 29:90>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration -> com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [ <29:93 29:106>]
+REFERENCE_OVERRIDE: boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isInterface() [ <32:21 32:31>]
+REFERENCE_ANNOTATION_USAGE: boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() -> java.lang.Override [ <31:6 31:13>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() -> boolean [ <32:13 32:19>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <39:10 39:22>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <44:18 44:30>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <45:14 45:26>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() -> java.util.List<E> [ <39:5 39:8>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <39:10 39:22>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<E> [ <44:13 44:16>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<E> [ <45:9 45:12>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <44:18 44:30>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <45:14 45:26>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ <46:14 46:26>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.ArrayList<E>.ArrayList() [ <45:46 45:56>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.ArrayList<E> [ <45:46 45:54>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getInterfacesExtended() [ <46:51 46:71>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> boolean java.util.List<E>.add(java.util.List<E>.E) [ <47:24 47:26>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> boolean java.util.List<E>.addAll(java.util.Collection<? extends E>) [ <48:24 48:29>]
+REFERENCE_CALL: java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllInterfacesAncestors() [ <48:52 48:76>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<29:108> [ <29:108 29:108>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<29:108> [ <52:1 52:1>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<32:35> [ <32:35 32:35>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<32:35> [ <34:5 34:5>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<44:60> [ <44:60 44:60>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<44:60> [ <51:5 51:5>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<46:76> [ <46:76 46:76>]
+LOCAL_SYMBOL: InterfaceDeclaration.java<46:76> [ <49:9 49:9>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [ <45:29 45:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [ <47:13 47:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [ <48:13 48:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<0> [ <50:16 50:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<1> [ <46:28 46:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<1> [ <47:28 47:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.getAllInterfacesExtended<1> [ <48:31 48:50>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <24:1 28:3>]
+COMMENT: comment [ <36:5 38:7>]
+COMMENT: comment [ <41:5 43:7>]

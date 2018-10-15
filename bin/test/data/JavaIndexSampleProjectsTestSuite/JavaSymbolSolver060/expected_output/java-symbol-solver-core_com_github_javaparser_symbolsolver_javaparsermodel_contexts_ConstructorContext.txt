@@ -1,52 +1,52 @@
 FILE: ConstructorContext.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [ConstructorContext.java <17:60 17:67>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ConstructorContext.java <17:44 17:58>]
-QUALIFIER: com.github.javaparser.symbolsolver [ConstructorContext.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [ConstructorContext.java <17:20 17:29>]
-QUALIFIER: com.github [ConstructorContext.java <17:13 17:18>]
-QUALIFIER: com [ConstructorContext.java <17:9 17:11>]
-REFERENCE_IMPORT ConstructorContext.java -> com.github.javaparser.ast.body.ConstructorDeclaration [ConstructorContext.java <19:39 19:60>]
-SYMBOL_PACKAGE com.github.javaparser.ast.body
-QUALIFIER: com.github.javaparser.ast.body [ConstructorContext.java <19:34 19:37>]
-SYMBOL_PACKAGE com.github.javaparser.ast
-QUALIFIER: com.github.javaparser.ast [ConstructorContext.java <19:30 19:32>]
-QUALIFIER: com.github.javaparser [ConstructorContext.java <19:19 19:28>]
-QUALIFIER: com.github [ConstructorContext.java <19:12 19:17>]
-QUALIFIER: com [ConstructorContext.java <19:8 19:10>]
-REFERENCE_IMPORT ConstructorContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ConstructorContext.java <20:60 20:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ConstructorContext.java <20:49 20:58>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-QUALIFIER: com.github.javaparser.symbolsolver.model [ConstructorContext.java <20:43 20:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [ConstructorContext.java <20:30 20:41>]
-QUALIFIER: com.github.javaparser [ConstructorContext.java <20:19 20:28>]
-QUALIFIER: com.github [ConstructorContext.java <20:12 20:17>]
-QUALIFIER: com [ConstructorContext.java <20:8 20:10>]
-SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext [ConstructorContext.java <25:1 <25:14 25:31> 35:1>]
-LOCAL_SYMBOL: ConstructorContext.java<25:102> [ConstructorContext.java <25:102 25:102>]
-LOCAL_SYMBOL: ConstructorContext.java<25:102> [ConstructorContext.java <35:1 35:1>]
-COMMENT: comment [ConstructorContext.java <22:1 24:3>]
-REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> -> com.github.javaparser.ast.body.ConstructorDeclaration [ConstructorContext.java <25:78 25:99>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> [ConstructorContext.java <25:41 25:76>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext -> com.github.javaparser.ast.body.ConstructorDeclaration [ConstructorContext.java <25:78 25:99>]
-SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ConstructorContext.java <31:5 <31:5  <31:12 31:29> 31:88> 33:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
-REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ConstructorContext.java <31:12 31:29>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.ConstructorDeclaration [ConstructorContext.java <31:31 31:52>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<0> [ConstructorContext.java <31:54 31:64>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ConstructorContext.java <31:67 31:76>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<1> [ConstructorContext.java <31:78 31:87>]
-LOCAL_SYMBOL: ConstructorContext.java<31:90> [ConstructorContext.java <31:90 31:90>]
-LOCAL_SYMBOL: ConstructorContext.java<31:90> [ConstructorContext.java <33:5 33:5>]
-REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ConstructorContext.java <32:9 32:13>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<0> [ConstructorContext.java <32:15 32:25>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<1> [ConstructorContext.java <32:28 32:37>]
-COMMENT: comment [ConstructorContext.java <1:1 15:3>]
-COMMENT: comment [ConstructorContext.java <27:5 27:7>]
-COMMENT: comment [ConstructorContext.java <28:5 28:20>]
-COMMENT: comment [ConstructorContext.java <29:5 29:7>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts [ <17:60 17:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ <17:44 17:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javaparsermodel
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <20:30 20:41>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [ <19:19 19:28>]
+QUALIFIER: com.github.javaparser [ <20:19 20:28>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [ <19:12 19:17>]
+QUALIFIER: com.github [ <20:12 20:17>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [ <19:8 19:10>]
+QUALIFIER: com [ <20:8 20:10>]
+SYMBOL_PACKAGE: com
+QUALIFIER: com.github.javaparser.ast.body [ <19:34 19:37>]
+SYMBOL_PACKAGE: com.github.javaparser.ast.body
+QUALIFIER: com.github.javaparser.ast [ <19:30 19:32>]
+SYMBOL_PACKAGE: com.github.javaparser.ast
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ <20:49 20:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <20:43 20:47>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext [ <25:1 <25:14 25:31> 35:1>]
+SYMBOL_METHOD: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <31:5 <31:5 <31:12 31:29> 31:88> 33:5>]
+SYMBOL_METHOD: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_IMPORT: ConstructorContext.java -> com.github.javaparser.ast.body.ConstructorDeclaration [ <19:39 19:60>]
+REFERENCE_IMPORT: ConstructorContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <20:60 20:69>]
+REFERENCE_TYPE_ARGUMENT: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> -> com.github.javaparser.ast.body.ConstructorDeclaration [ <25:78 25:99>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> [ <25:41 25:76>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext -> com.github.javaparser.ast.body.ConstructorDeclaration [ <25:78 25:99>]
+REFERENCE_OVERRIDE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <31:12 31:29>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.ConstructorDeclaration [ <31:31 31:52>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ <31:67 31:76>]
+REFERENCE_CALL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext(com.github.javaparser.ast.body.ConstructorDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.AbstractMethodLikeDeclarationContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ <32:9 32:13>]
+LOCAL_SYMBOL: ConstructorContext.java<25:102> [ <25:102 25:102>]
+LOCAL_SYMBOL: ConstructorContext.java<25:102> [ <35:1 35:1>]
+LOCAL_SYMBOL: ConstructorContext.java<31:90> [ <31:90 31:90>]
+LOCAL_SYMBOL: ConstructorContext.java<31:90> [ <33:5 33:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<0> [ <31:54 31:64>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<0> [ <32:15 32:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<1> [ <31:78 31:87>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ConstructorContext.ConstructorContext<1> [ <32:28 32:37>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <22:1 24:3>]
+COMMENT: comment [ <27:5 27:7>]
+COMMENT: comment [ <28:5 28:20>]
+COMMENT: comment [ <29:5 29:7>]

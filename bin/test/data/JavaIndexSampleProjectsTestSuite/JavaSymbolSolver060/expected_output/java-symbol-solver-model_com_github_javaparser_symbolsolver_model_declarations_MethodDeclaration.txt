@@ -1,39 +1,39 @@
 FILE: MethodDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [MethodDeclaration.java <17:50 17:61>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclaration.java <17:44 17:48>]
-QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclaration.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [MethodDeclaration.java <17:20 17:29>]
-QUALIFIER: com.github [MethodDeclaration.java <17:13 17:18>]
-QUALIFIER: com [MethodDeclaration.java <17:9 17:11>]
-REFERENCE_IMPORT MethodDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [MethodDeclaration.java <19:60 19:63>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [MethodDeclaration.java <19:49 19:58>]
-QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclaration.java <19:43 19:47>]
-QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclaration.java <19:30 19:41>]
-QUALIFIER: com.github.javaparser [MethodDeclaration.java <19:19 19:28>]
-QUALIFIER: com.github [MethodDeclaration.java <19:12 19:17>]
-QUALIFIER: com [MethodDeclaration.java <19:8 19:10>]
-SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [MethodDeclaration.java <26:1 <26:18 26:34> 49:1>]
-LOCAL_SYMBOL: MethodDeclaration.java<26:66> [MethodDeclaration.java <26:66 26:66>]
-LOCAL_SYMBOL: MethodDeclaration.java<26:66> [MethodDeclaration.java <49:1 49:1>]
-COMMENT: comment [MethodDeclaration.java <21:1 25:3>]
-REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration -> com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [MethodDeclaration.java <26:44 26:64>]
-SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType() [MethodDeclaration.java <32:1 <32:1  <32:10 32:22> 32:24> 32:25>]
-COMMENT: comment [MethodDeclaration.java <28:5 31:7>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [MethodDeclaration.java <32:5 32:8>]
-SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract() [MethodDeclaration.java <37:1 <37:1  <37:13 37:22> 37:24> 37:25>]
-COMMENT: comment [MethodDeclaration.java <34:5 36:7>]
-SYMBOL_BUILTIN_TYPE boolean
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract() -> boolean [MethodDeclaration.java <37:5 37:11>]
-SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isDefaultMethod() [MethodDeclaration.java <42:1 <42:1  <42:13 42:27> 42:29> 42:30>]
-COMMENT: comment [MethodDeclaration.java <39:5 41:7>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isDefaultMethod() -> boolean [MethodDeclaration.java <42:5 42:11>]
-SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic() [MethodDeclaration.java <47:5 <47:5  <47:13 47:20> 47:22> 47:23>]
-REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic() -> boolean [MethodDeclaration.java <47:5 47:11>]
-COMMENT: comment [MethodDeclaration.java <1:1 15:3>]
-COMMENT: comment [MethodDeclaration.java <44:5 46:7>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations [ <17:50 17:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <19:43 19:47>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <19:30 19:41>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+QUALIFIER: com.github.javaparser [ <19:19 19:28>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+QUALIFIER: com.github [ <19:12 19:17>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+QUALIFIER: com [ <19:8 19:10>]
+SYMBOL_PACKAGE: com
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ <19:49 19:58>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
+SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ <26:1 <26:18 26:34> 49:1>]
+SYMBOL_METHOD: default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType() [ <32:1 <32:1 <32:10 32:22> 32:24> 32:25>]
+SYMBOL_METHOD: default boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract() [ <37:1 <37:1 <37:13 37:22> 37:24> 37:25>]
+SYMBOL_BUILTIN_TYPE: boolean
+SYMBOL_METHOD: default boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isDefaultMethod() [ <42:1 <42:1 <42:13 42:27> 42:29> 42:30>]
+SYMBOL_METHOD: default boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic() [ <47:5 <47:5 <47:13 47:20> 47:22> 47:23>]
+REFERENCE_IMPORT: MethodDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ <19:60 19:63>]
+REFERENCE_INHERITANCE: com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration -> com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [ <26:44 26:64>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [ <32:5 32:8>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract() -> boolean [ <37:5 37:11>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isDefaultMethod() -> boolean [ <42:5 42:11>]
+REFERENCE_TYPE_USAGE: boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic() -> boolean [ <47:5 47:11>]
+LOCAL_SYMBOL: MethodDeclaration.java<26:66> [ <26:66 26:66>]
+LOCAL_SYMBOL: MethodDeclaration.java<26:66> [ <49:1 49:1>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <21:1 25:3>]
+COMMENT: comment [ <28:5 31:7>]
+COMMENT: comment [ <34:5 36:7>]
+COMMENT: comment [ <39:5 41:7>]
+COMMENT: comment [ <44:5 46:7>]

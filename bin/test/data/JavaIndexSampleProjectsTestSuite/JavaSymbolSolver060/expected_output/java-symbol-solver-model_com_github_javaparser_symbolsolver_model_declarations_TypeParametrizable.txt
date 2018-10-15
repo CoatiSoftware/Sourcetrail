@@ -1,38 +1,38 @@
 FILE: TypeParametrizable.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [TypeParametrizable.java <17:50 17:61>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParametrizable.java <17:44 17:48>]
-QUALIFIER: com.github.javaparser.symbolsolver [TypeParametrizable.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [TypeParametrizable.java <17:20 17:29>]
-QUALIFIER: com.github [TypeParametrizable.java <17:13 17:18>]
-QUALIFIER: com [TypeParametrizable.java <17:9 17:11>]
-REFERENCE_IMPORT TypeParametrizable.java -> java.util.List<E> [TypeParametrizable.java <19:18 19:21>]
-SYMBOL_PACKAGE java.util
-QUALIFIER: java.util [TypeParametrizable.java <19:13 19:16>]
-SYMBOL_PACKAGE java
-QUALIFIER: java [TypeParametrizable.java <19:8 19:11>]
-REFERENCE_IMPORT TypeParametrizable.java -> java.util.Optional<T> [TypeParametrizable.java <20:18 20:25>]
-QUALIFIER: java.util [TypeParametrizable.java <20:13 20:16>]
-QUALIFIER: java [TypeParametrizable.java <20:8 20:11>]
-SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [TypeParametrizable.java <27:1 <27:18 27:35> 40:1>]
-LOCAL_SYMBOL: TypeParametrizable.java<27:37> [TypeParametrizable.java <27:37 27:37>]
-LOCAL_SYMBOL: TypeParametrizable.java<27:37> [TypeParametrizable.java <40:1 40:1>]
-COMMENT: comment [TypeParametrizable.java <22:1 26:3>]
-SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() [TypeParametrizable.java <32:1 <32:1  <32:36 32:52> 32:54> 32:55>]
-COMMENT: comment [TypeParametrizable.java <29:5 31:7>]
-REFERENCE_TYPE_ARGUMENT java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParametrizable.java <32:10 32:33>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() -> java.util.List<E> [TypeParametrizable.java <32:5 32:8>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParametrizable.java <32:10 32:33>]
-SYMBOL_METHOD default java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) [TypeParametrizable.java <38:1 <38:1  <38:40 38:56> 38:69> 38:70>]
-COMMENT: comment [TypeParametrizable.java <34:5 37:7>]
-REFERENCE_TYPE_ARGUMENT java.util.Optional<T> -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParametrizable.java <38:14 38:37>]
-REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> java.util.Optional<T> [TypeParametrizable.java <38:5 38:12>]
-REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParametrizable.java <38:14 38:37>]
-SYMBOL_PACKAGE java.lang
-REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> java.lang.String [TypeParametrizable.java <38:58 38:63>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter<0> [TypeParametrizable.java <38:65 38:68>]
-COMMENT: comment [TypeParametrizable.java <1:1 15:3>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations [ <17:50 17:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+SYMBOL_PACKAGE: com
+QUALIFIER: java.util [ <19:13 19:16>]
+QUALIFIER: java.util [ <20:13 20:16>]
+SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ <19:8 19:11>]
+QUALIFIER: java [ <20:8 20:11>]
+SYMBOL_PACKAGE: java
+SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [ <27:1 <27:18 27:35> 40:1>]
+SYMBOL_METHOD: default java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() [ <32:1 <32:1 <32:36 32:52> 32:54> 32:55>]
+SYMBOL_METHOD: default java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) [ <38:1 <38:1 <38:40 38:56> 38:69> 38:70>]
+SYMBOL_PACKAGE: java.lang
+REFERENCE_IMPORT: TypeParametrizable.java -> java.util.List<E> [ <19:18 19:21>]
+REFERENCE_IMPORT: TypeParametrizable.java -> java.util.Optional<T> [ <20:18 20:25>]
+REFERENCE_TYPE_ARGUMENT: java.util.List<E> -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ <32:10 32:33>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() -> java.util.List<E> [ <32:5 32:8>]
+REFERENCE_TYPE_USAGE: java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ <32:10 32:33>]
+REFERENCE_TYPE_ARGUMENT: java.util.Optional<T> -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ <38:14 38:37>]
+REFERENCE_TYPE_USAGE: java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> java.util.Optional<T> [ <38:5 38:12>]
+REFERENCE_TYPE_USAGE: java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ <38:14 38:37>]
+REFERENCE_TYPE_USAGE: java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) -> java.lang.String [ <38:58 38:63>]
+LOCAL_SYMBOL: TypeParametrizable.java<27:37> [ <27:37 27:37>]
+LOCAL_SYMBOL: TypeParametrizable.java<27:37> [ <40:1 40:1>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter<0> [ <38:65 38:68>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <22:1 26:3>]
+COMMENT: comment [ <29:5 31:7>]
+COMMENT: comment [ <34:5 37:7>]

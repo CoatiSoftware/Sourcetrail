@@ -1,0 +1,879 @@
+FILE: io.cpp
+REFERENCE_INCLUDE io.cpp -> io.h [io.cpp <1:10 1:15>]
+FILE: io.h non-indexed
+REFERENCE_INCLUDE io.cpp -> iostream [io.cpp <3:10 3:19>]
+FILE: iostream non-indexed
+REFERENCE_INCLUDE iostream -> __config [iostream <37:10 37:19>]
+FILE: __config non-indexed
+REFERENCE_INCLUDE iostream -> ios [iostream <38:10 38:14>]
+FILE: ios non-indexed
+REFERENCE_INCLUDE ios -> __config [ios <214:10 214:19>]
+REFERENCE_INCLUDE ios -> iosfwd [ios <215:10 215:17>]
+FILE: iosfwd non-indexed
+REFERENCE_INCLUDE iosfwd -> __config [iosfwd <89:10 89:19>]
+REFERENCE_INCLUDE iosfwd -> wchar.h [iosfwd <90:10 90:18>]
+FILE: wchar.h non-indexed
+REFERENCE_INCLUDE wchar.h -> __config [wchar.h <109:10 109:19>]
+REFERENCE_INCLUDE wchar.h -> wchar.h [wchar.h <119:15 119:23>]
+REFERENCE_INCLUDE wchar.h -> _types.h [wchar.h <70:10 70:19>]
+FILE: _types.h non-indexed
+REFERENCE_INCLUDE _types.h -> _types.h [_types.h <27:10 27:23>]
+REFERENCE_INCLUDE _types.h -> cdefs.h [_types.h <32:10 32:22>]
+FILE: cdefs.h non-indexed
+REFERENCE_INCLUDE cdefs.h -> _symbol_aliasing.h [cdefs.h <587:10 587:33>]
+FILE: _symbol_aliasing.h non-indexed
+REFERENCE_INCLUDE cdefs.h -> _posix_availability.h [cdefs.h <653:10 653:36>]
+FILE: _posix_availability.h non-indexed
+REFERENCE_INCLUDE _types.h -> _types.h [_types.h <33:10 33:27>]
+REFERENCE_INCLUDE _types.h -> _types.h [_types.h <32:10 32:24>]
+REFERENCE_INCLUDE _types.h -> _pthread_types.h [_types.h <80:10 80:40>]
+FILE: _pthread_types.h non-indexed
+REFERENCE_INCLUDE _pthread_types.h -> cdefs.h [_pthread_types.h <32:10 32:22>]
+REFERENCE_INCLUDE _types.h -> _types.h [_types.h <28:10 28:27>]
+REFERENCE_INCLUDE wchar.h -> cdefs.h [wchar.h <71:10 71:22>]
+REFERENCE_INCLUDE wchar.h -> Availability.h [wchar.h <72:10 72:25>]
+FILE: Availability.h non-indexed
+REFERENCE_INCLUDE Availability.h -> AvailabilityInternal.h [Availability.h <206:10 206:33>]
+FILE: AvailabilityInternal.h non-indexed
+REFERENCE_INCLUDE wchar.h -> _null.h [wchar.h <74:10 74:29>]
+FILE: _null.h non-indexed
+REFERENCE_INCLUDE _null.h -> _types.h [_null.h <29:10 29:23>]
+REFERENCE_INCLUDE wchar.h -> _size_t.h [wchar.h <75:10 75:31>]
+FILE: _size_t.h non-indexed
+REFERENCE_INCLUDE _size_t.h -> _types.h [_size_t.h <30:10 30:27>]
+REFERENCE_INCLUDE wchar.h -> _mbstate_t.h [wchar.h <76:10 76:34>]
+FILE: _mbstate_t.h non-indexed
+REFERENCE_INCLUDE _mbstate_t.h -> types.h [_mbstate_t.h <31:10 31:26>]
+FILE: types.h non-indexed
+REFERENCE_INCLUDE types.h -> types.h [types.h <35:10 35:23>]
+REFERENCE_INCLUDE types.h -> _types.h [types.h <70:10 70:24>]
+REFERENCE_INCLUDE types.h -> cdefs.h [types.h <71:10 71:22>]
+REFERENCE_INCLUDE types.h -> _int8_t.h [types.h <76:10 76:31>]
+FILE: _int8_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _int16_t.h [types.h <77:10 77:32>]
+FILE: _int16_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _int32_t.h [types.h <78:10 78:32>]
+FILE: _int32_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _int64_t.h [types.h <79:10 79:32>]
+FILE: _int64_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _u_int8_t.h [types.h <81:10 81:33>]
+FILE: _u_int8_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _u_int16_t.h [types.h <82:10 82:34>]
+FILE: _u_int16_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _u_int32_t.h [types.h <83:10 83:34>]
+FILE: _u_int32_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _u_int64_t.h [types.h <84:10 84:34>]
+FILE: _u_int64_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _intptr_t.h [types.h <92:10 92:33>]
+FILE: _intptr_t.h non-indexed
+REFERENCE_INCLUDE _intptr_t.h -> types.h [_intptr_t.h <30:10 30:26>]
+REFERENCE_INCLUDE types.h -> _uintptr_t.h [types.h <93:10 93:34>]
+FILE: _uintptr_t.h non-indexed
+REFERENCE_INCLUDE wchar.h -> _ct_rune_t.h [wchar.h <77:10 77:34>]
+FILE: _ct_rune_t.h non-indexed
+REFERENCE_INCLUDE _ct_rune_t.h -> _types.h [_ct_rune_t.h <31:10 31:27>]
+REFERENCE_INCLUDE wchar.h -> _rune_t.h [wchar.h <78:10 78:31>]
+FILE: _rune_t.h non-indexed
+REFERENCE_INCLUDE _rune_t.h -> _types.h [_rune_t.h <30:10 30:27>]
+REFERENCE_INCLUDE wchar.h -> _wchar_t.h [wchar.h <79:10 79:32>]
+FILE: _wchar_t.h non-indexed
+REFERENCE_INCLUDE wchar.h -> stdarg.h [wchar.h <89:10 89:19>]
+FILE: stdarg.h non-indexed
+REFERENCE_INCLUDE wchar.h -> stdio.h [wchar.h <90:10 90:18>]
+FILE: stdio.h non-indexed
+REFERENCE_INCLUDE stdio.h -> __config [stdio.h <102:10 102:19>]
+REFERENCE_INCLUDE stdio.h -> stdio.h [stdio.h <108:15 108:23>]
+REFERENCE_INCLUDE stdio.h -> _stdio.h [stdio.h <64:10 64:19>]
+FILE: _stdio.h non-indexed
+REFERENCE_INCLUDE _stdio.h -> cdefs.h [_stdio.h <68:10 68:22>]
+REFERENCE_INCLUDE _stdio.h -> Availability.h [_stdio.h <69:10 69:25>]
+REFERENCE_INCLUDE _stdio.h -> _types.h [_stdio.h <71:10 71:19>]
+REFERENCE_INCLUDE _stdio.h -> _va_list.h [_stdio.h <75:10 75:32>]
+FILE: _va_list.h non-indexed
+REFERENCE_INCLUDE _va_list.h -> types.h [_va_list.h <31:10 31:26>]
+REFERENCE_INCLUDE _stdio.h -> _size_t.h [_stdio.h <76:10 76:31>]
+REFERENCE_INCLUDE _stdio.h -> _null.h [_stdio.h <77:10 77:29>]
+REFERENCE_INCLUDE _stdio.h -> stdio.h [_stdio.h <79:10 79:22>]
+REFERENCE_INCLUDE stdio.h -> cdefs.h [stdio.h <32:10 32:22>]
+REFERENCE_INCLUDE stdio.h -> Availability.h [stdio.h <35:10 35:25>]
+REFERENCE_INCLUDE stdio.h -> _off_t.h [stdio.h <328:10 328:30>]
+FILE: _off_t.h non-indexed
+REFERENCE_INCLUDE _off_t.h -> _types.h [_off_t.h <30:10 30:23>]
+REFERENCE_INCLUDE stdio.h -> _ssize_t.h [stdio.h <353:10 353:32>]
+FILE: _ssize_t.h non-indexed
+REFERENCE_INCLUDE _ssize_t.h -> types.h [_ssize_t.h <30:10 30:26>]
+REFERENCE_INCLUDE wchar.h -> time.h [wchar.h <91:10 91:17>]
+FILE: time.h non-indexed
+REFERENCE_INCLUDE time.h -> _types.h [time.h <66:10 66:19>]
+REFERENCE_INCLUDE time.h -> Availability.h [time.h <67:10 67:25>]
+REFERENCE_INCLUDE time.h -> _clock_t.h [time.h <68:10 68:32>]
+FILE: _clock_t.h non-indexed
+REFERENCE_INCLUDE _clock_t.h -> types.h [_clock_t.h <30:10 30:26>]
+REFERENCE_INCLUDE time.h -> _null.h [time.h <69:10 69:29>]
+REFERENCE_INCLUDE time.h -> _size_t.h [time.h <70:10 70:31>]
+REFERENCE_INCLUDE time.h -> _time_t.h [time.h <71:10 71:31>]
+FILE: _time_t.h non-indexed
+REFERENCE_INCLUDE _time_t.h -> types.h [_time_t.h <30:10 30:26>]
+REFERENCE_INCLUDE time.h -> _timespec.h [time.h <72:10 72:33>]
+FILE: _timespec.h non-indexed
+REFERENCE_INCLUDE _timespec.h -> types.h [_timespec.h <31:10 31:26>]
+REFERENCE_INCLUDE wchar.h -> _wctype.h [wchar.h <92:10 92:20>]
+FILE: _wctype.h non-indexed
+REFERENCE_INCLUDE _wctype.h -> __wctype.h [_wctype.h <42:10 42:21>]
+FILE: __wctype.h non-indexed
+REFERENCE_INCLUDE __wctype.h -> cdefs.h [__wctype.h <57:10 57:22>]
+REFERENCE_INCLUDE __wctype.h -> _types.h [__wctype.h <58:10 58:19>]
+REFERENCE_INCLUDE __wctype.h -> _wint_t.h [__wctype.h <60:10 60:31>]
+FILE: _wint_t.h non-indexed
+REFERENCE_INCLUDE _wint_t.h -> _types.h [_wint_t.h <31:10 31:27>]
+REFERENCE_INCLUDE __wctype.h -> _wint_t.h [__wctype.h <61:10 61:31>]
+REFERENCE_INCLUDE __wctype.h -> _wctype_t.h [__wctype.h <62:10 62:29>]
+FILE: _wctype_t.h non-indexed
+REFERENCE_INCLUDE _wctype_t.h -> _types.h [_wctype_t.h <31:10 31:19>]
+REFERENCE_INCLUDE __wctype.h -> ctype.h [__wctype.h <72:10 72:18>]
+FILE: ctype.h non-indexed
+REFERENCE_INCLUDE ctype.h -> __config [ctype.h <33:10 33:19>]
+REFERENCE_INCLUDE ctype.h -> ctype.h [ctype.h <39:15 39:23>]
+REFERENCE_INCLUDE ctype.h -> _ctype.h [ctype.h <69:10 69:19>]
+FILE: _ctype.h non-indexed
+REFERENCE_INCLUDE _ctype.h -> cdefs.h [_ctype.h <69:10 69:22>]
+REFERENCE_INCLUDE _ctype.h -> runetype.h [_ctype.h <70:10 70:21>]
+FILE: runetype.h non-indexed
+REFERENCE_INCLUDE runetype.h -> _types.h [runetype.h <42:10 42:19>]
+REFERENCE_INCLUDE runetype.h -> _size_t.h [runetype.h <46:10 46:31>]
+REFERENCE_INCLUDE runetype.h -> _ct_rune_t.h [runetype.h <47:10 47:34>]
+REFERENCE_INCLUDE runetype.h -> _rune_t.h [runetype.h <48:10 48:31>]
+REFERENCE_INCLUDE runetype.h -> _wchar_t.h [runetype.h <49:10 49:32>]
+REFERENCE_INCLUDE runetype.h -> _wint_t.h [runetype.h <50:10 50:31>]
+REFERENCE_INCLUDE ios -> __locale [ios <216:10 216:19>]
+FILE: __locale non-indexed
+REFERENCE_INCLUDE __locale -> __config [__locale <14:10 14:19>]
+REFERENCE_INCLUDE __locale -> string [__locale <15:10 15:17>]
+FILE: string non-indexed
+REFERENCE_INCLUDE string -> __config [string <469:10 469:19>]
+REFERENCE_INCLUDE string -> string_view [string <470:10 470:22>]
+FILE: string_view non-indexed
+REFERENCE_INCLUDE string_view -> __config [string_view <168:10 168:19>]
+REFERENCE_INCLUDE string_view -> __string [string_view <169:10 169:19>]
+FILE: __string non-indexed
+REFERENCE_INCLUDE __string -> __config [__string <55:10 55:19>]
+REFERENCE_INCLUDE __string -> algorithm [__string <56:10 56:20>]
+FILE: algorithm non-indexed
+REFERENCE_INCLUDE algorithm -> __config [algorithm <638:10 638:19>]
+REFERENCE_INCLUDE algorithm -> initializer_list [algorithm <639:10 639:27>]
+FILE: initializer_list non-indexed
+REFERENCE_INCLUDE initializer_list -> __config [initializer_list <46:10 46:19>]
+REFERENCE_INCLUDE initializer_list -> cstddef [initializer_list <47:10 47:18>]
+FILE: cstddef non-indexed
+REFERENCE_INCLUDE cstddef -> __config [cstddef <37:10 37:19>]
+REFERENCE_INCLUDE cstddef -> stddef.h [cstddef <44:15 44:24>]
+FILE: stddef.h non-indexed
+REFERENCE_INCLUDE stddef.h -> _types.h [stddef.h <64:10 64:19>]
+REFERENCE_INCLUDE stddef.h -> _types.h [stddef.h <66:10 66:23>]
+REFERENCE_INCLUDE stddef.h -> _null.h [stddef.h <67:10 67:29>]
+REFERENCE_INCLUDE stddef.h -> _offsetof.h [stddef.h <68:10 68:33>]
+FILE: _offsetof.h non-indexed
+REFERENCE_INCLUDE stddef.h -> _ptrdiff_t.h [stddef.h <69:10 69:34>]
+FILE: _ptrdiff_t.h non-indexed
+REFERENCE_INCLUDE _ptrdiff_t.h -> types.h [_ptrdiff_t.h <31:10 31:26>]
+REFERENCE_INCLUDE stddef.h -> _size_t.h [stddef.h <77:10 77:31>]
+REFERENCE_INCLUDE stddef.h -> _wchar_t.h [stddef.h <79:10 79:32>]
+REFERENCE_INCLUDE stddef.h -> _wint_t.h [stddef.h <82:10 82:31>]
+REFERENCE_INCLUDE cstddef -> __nullptr [cstddef <45:10 45:20>]
+FILE: __nullptr non-indexed
+REFERENCE_INCLUDE __nullptr -> __config [__nullptr <14:10 14:19>]
+REFERENCE_INCLUDE cstddef -> type_traits [cstddef <87:10 87:22>]
+FILE: type_traits non-indexed
+REFERENCE_INCLUDE type_traits -> __config [type_traits <389:10 389:19>]
+REFERENCE_INCLUDE type_traits -> cstddef [type_traits <390:10 390:18>]
+REFERENCE_INCLUDE algorithm -> type_traits [algorithm <640:10 640:22>]
+REFERENCE_INCLUDE algorithm -> cstring [algorithm <641:10 641:18>]
+FILE: cstring non-indexed
+REFERENCE_INCLUDE cstring -> __config [cstring <60:10 60:19>]
+REFERENCE_INCLUDE cstring -> string.h [cstring <61:10 61:19>]
+FILE: string.h non-indexed
+REFERENCE_INCLUDE string.h -> __config [string.h <55:10 55:19>]
+REFERENCE_INCLUDE string.h -> string.h [string.h <61:15 61:24>]
+REFERENCE_INCLUDE string.h -> _types.h [string.h <61:10 61:19>]
+REFERENCE_INCLUDE string.h -> cdefs.h [string.h <62:10 62:22>]
+REFERENCE_INCLUDE string.h -> Availability.h [string.h <63:10 63:25>]
+REFERENCE_INCLUDE string.h -> _size_t.h [string.h <64:10 64:31>]
+REFERENCE_INCLUDE string.h -> _null.h [string.h <65:10 65:29>]
+REFERENCE_INCLUDE string.h -> _ssize_t.h [string.h <152:10 152:32>]
+REFERENCE_INCLUDE string.h -> strings.h [string.h <180:10 180:20>]
+FILE: strings.h non-indexed
+REFERENCE_INCLUDE strings.h -> _types.h [strings.h <61:10 61:19>]
+REFERENCE_INCLUDE strings.h -> cdefs.h [strings.h <63:10 63:22>]
+REFERENCE_INCLUDE strings.h -> Availability.h [strings.h <64:10 64:25>]
+REFERENCE_INCLUDE strings.h -> _size_t.h [strings.h <65:10 65:31>]
+REFERENCE_INCLUDE strings.h -> string.h [strings.h <92:10 92:19>]
+REFERENCE_INCLUDE algorithm -> utility [algorithm <642:10 642:18>]
+FILE: utility non-indexed
+REFERENCE_INCLUDE utility -> __config [utility <197:10 197:19>]
+REFERENCE_INCLUDE utility -> __tuple [utility <198:10 198:18>]
+FILE: __tuple non-indexed
+REFERENCE_INCLUDE __tuple -> __config [__tuple <14:10 14:19>]
+REFERENCE_INCLUDE __tuple -> cstddef [__tuple <15:10 15:18>]
+REFERENCE_INCLUDE __tuple -> type_traits [__tuple <16:10 16:22>]
+REFERENCE_INCLUDE utility -> type_traits [utility <199:10 199:22>]
+REFERENCE_INCLUDE utility -> initializer_list [utility <200:10 200:27>]
+REFERENCE_INCLUDE utility -> cstddef [utility <201:10 201:18>]
+REFERENCE_INCLUDE utility -> cstring [utility <202:10 202:18>]
+REFERENCE_INCLUDE utility -> cstdint [utility <203:10 203:18>]
+FILE: cstdint non-indexed
+REFERENCE_INCLUDE cstdint -> __config [cstdint <144:10 144:19>]
+REFERENCE_INCLUDE cstdint -> stdint.h [cstdint <145:10 145:19>]
+FILE: stdint.h non-indexed
+REFERENCE_INCLUDE stdint.h -> __config [stdint.h <102:10 102:19>]
+REFERENCE_INCLUDE stdint.h -> stdint.h [stdint.h <119:15 119:24>]
+REFERENCE_INCLUDE stdint.h -> _int8_t.h [stdint.h <18:10 18:31>]
+REFERENCE_INCLUDE stdint.h -> _int16_t.h [stdint.h <19:10 19:32>]
+REFERENCE_INCLUDE stdint.h -> _int32_t.h [stdint.h <20:10 20:32>]
+REFERENCE_INCLUDE stdint.h -> _int64_t.h [stdint.h <21:10 21:32>]
+REFERENCE_INCLUDE stdint.h -> _uint8_t.h [stdint.h <23:10 23:28>]
+FILE: _uint8_t.h non-indexed
+REFERENCE_INCLUDE stdint.h -> _uint16_t.h [stdint.h <24:10 24:29>]
+FILE: _uint16_t.h non-indexed
+REFERENCE_INCLUDE stdint.h -> _uint32_t.h [stdint.h <25:10 25:29>]
+FILE: _uint32_t.h non-indexed
+REFERENCE_INCLUDE stdint.h -> _uint64_t.h [stdint.h <26:10 26:29>]
+FILE: _uint64_t.h non-indexed
+REFERENCE_INCLUDE stdint.h -> _types.h [stdint.h <52:10 52:23>]
+REFERENCE_INCLUDE stdint.h -> _intptr_t.h [stdint.h <53:10 53:33>]
+REFERENCE_INCLUDE stdint.h -> _uintptr_t.h [stdint.h <54:10 54:34>]
+REFERENCE_INCLUDE stdint.h -> _intmax_t.h [stdint.h <58:10 58:29>]
+FILE: _intmax_t.h non-indexed
+REFERENCE_INCLUDE stdint.h -> _uintmax_t.h [stdint.h <59:10 59:30>]
+FILE: _uintmax_t.h non-indexed
+REFERENCE_INCLUDE utility -> __debug [utility <204:10 204:18>]
+FILE: __debug non-indexed
+REFERENCE_INCLUDE __debug -> __config [__debug <14:10 14:19>]
+REFERENCE_INCLUDE algorithm -> memory [algorithm <643:10 643:17>]
+FILE: memory non-indexed
+REFERENCE_INCLUDE memory -> __config [memory <642:10 642:19>]
+REFERENCE_INCLUDE memory -> type_traits [memory <643:10 643:22>]
+REFERENCE_INCLUDE memory -> typeinfo [memory <644:10 644:19>]
+FILE: typeinfo non-indexed
+REFERENCE_INCLUDE typeinfo -> __config [typeinfo <60:10 60:19>]
+REFERENCE_INCLUDE typeinfo -> exception [typeinfo <61:10 61:20>]
+FILE: exception non-indexed
+REFERENCE_INCLUDE exception -> __config [exception <80:10 80:19>]
+REFERENCE_INCLUDE exception -> cstddef [exception <81:10 81:18>]
+REFERENCE_INCLUDE exception -> cstdlib [exception <82:10 82:18>]
+FILE: cstdlib non-indexed
+REFERENCE_INCLUDE cstdlib -> __config [cstdlib <85:10 85:19>]
+REFERENCE_INCLUDE cstdlib -> stdlib.h [cstdlib <86:10 86:19>]
+FILE: stdlib.h non-indexed
+REFERENCE_INCLUDE stdlib.h -> __config [stdlib.h <88:10 88:19>]
+REFERENCE_INCLUDE stdlib.h -> stdlib.h [stdlib.h <94:15 94:24>]
+REFERENCE_INCLUDE stdlib.h -> Availability.h [stdlib.h <61:10 61:25>]
+REFERENCE_INCLUDE stdlib.h -> _types.h [stdlib.h <63:10 63:19>]
+REFERENCE_INCLUDE stdlib.h -> wait.h [stdlib.h <65:10 65:21>]
+FILE: wait.h non-indexed
+REFERENCE_INCLUDE wait.h -> cdefs.h [wait.h <67:10 67:22>]
+REFERENCE_INCLUDE wait.h -> _types.h [wait.h <68:10 68:23>]
+REFERENCE_INCLUDE wait.h -> _pid_t.h [wait.h <89:10 89:30>]
+FILE: _pid_t.h non-indexed
+REFERENCE_INCLUDE _pid_t.h -> _types.h [_pid_t.h <30:10 30:23>]
+REFERENCE_INCLUDE wait.h -> _id_t.h [wait.h <90:10 90:29>]
+FILE: _id_t.h non-indexed
+REFERENCE_INCLUDE _id_t.h -> _types.h [_id_t.h <30:10 30:23>]
+REFERENCE_INCLUDE wait.h -> signal.h [wait.h <109:10 109:23>]
+FILE: signal.h non-indexed
+REFERENCE_INCLUDE signal.h -> cdefs.h [signal.h <72:10 72:22>]
+REFERENCE_INCLUDE signal.h -> appleapiopts.h [signal.h <73:10 73:29>]
+FILE: appleapiopts.h non-indexed
+REFERENCE_INCLUDE signal.h -> Availability.h [signal.h <74:10 74:25>]
+REFERENCE_INCLUDE signal.h -> signal.h [signal.h <82:10 82:27>]
+REFERENCE_INCLUDE signal.h -> signal.h [signal.h <32:10 32:24>]
+REFERENCE_INCLUDE signal.h -> cdefs.h [signal.h <36:10 36:22>]
+REFERENCE_INCLUDE signal.h -> _types.h [signal.h <144:10 144:23>]
+REFERENCE_INCLUDE signal.h -> _mcontext.h [signal.h <146:10 146:30>]
+FILE: _mcontext.h non-indexed
+REFERENCE_INCLUDE _mcontext.h -> _mcontext.h [_mcontext.h <29:10 29:27>]
+REFERENCE_INCLUDE _mcontext.h -> cdefs.h [_mcontext.h <32:10 32:22>]
+REFERENCE_INCLUDE _mcontext.h -> appleapiopts.h [_mcontext.h <33:10 33:29>]
+REFERENCE_INCLUDE _mcontext.h -> _structs.h [_mcontext.h <34:10 34:34>]
+FILE: _structs.h non-indexed
+REFERENCE_INCLUDE _structs.h -> _structs.h [_structs.h <33:10 33:31>]
+REFERENCE_INCLUDE _structs.h -> cdefs.h [_structs.h <35:10 35:22>]
+REFERENCE_INCLUDE _structs.h -> types.h [_structs.h <36:10 36:26>]
+REFERENCE_INCLUDE signal.h -> _pthread_attr_t.h [signal.h <148:10 148:41>]
+FILE: _pthread_attr_t.h non-indexed
+REFERENCE_INCLUDE _pthread_attr_t.h -> _pthread_types.h [_pthread_attr_t.h <30:10 30:40>]
+REFERENCE_INCLUDE signal.h -> _sigaltstack.h [signal.h <150:10 150:36>]
+FILE: _sigaltstack.h non-indexed
+REFERENCE_INCLUDE _sigaltstack.h -> cdefs.h [_sigaltstack.h <32:10 32:22>]
+REFERENCE_INCLUDE _sigaltstack.h -> types.h [_sigaltstack.h <40:10 40:26>]
+REFERENCE_INCLUDE signal.h -> _ucontext.h [signal.h <151:10 151:33>]
+FILE: _ucontext.h non-indexed
+REFERENCE_INCLUDE _ucontext.h -> cdefs.h [_ucontext.h <30:10 30:22>]
+REFERENCE_INCLUDE _ucontext.h -> types.h [_ucontext.h <38:10 38:26>]
+REFERENCE_INCLUDE _ucontext.h -> _mcontext.h [_ucontext.h <39:10 39:30>]
+REFERENCE_INCLUDE _ucontext.h -> _types.h [_ucontext.h <40:10 40:23>]
+REFERENCE_INCLUDE signal.h -> _pid_t.h [signal.h <153:10 153:30>]
+REFERENCE_INCLUDE signal.h -> _sigset_t.h [signal.h <154:10 154:33>]
+FILE: _sigset_t.h non-indexed
+REFERENCE_INCLUDE _sigset_t.h -> _types.h [_sigset_t.h <30:10 30:23>]
+REFERENCE_INCLUDE signal.h -> _size_t.h [signal.h <155:10 155:31>]
+REFERENCE_INCLUDE signal.h -> _uid_t.h [signal.h <156:10 156:30>]
+FILE: _uid_t.h non-indexed
+REFERENCE_INCLUDE _uid_t.h -> _types.h [_uid_t.h <30:10 30:23>]
+REFERENCE_INCLUDE wait.h -> resource.h [wait.h <110:10 110:25>]
+FILE: resource.h non-indexed
+REFERENCE_INCLUDE resource.h -> appleapiopts.h [resource.h <67:10 67:29>]
+REFERENCE_INCLUDE resource.h -> cdefs.h [resource.h <68:10 68:22>]
+REFERENCE_INCLUDE resource.h -> _types.h [resource.h <69:10 69:23>]
+REFERENCE_INCLUDE resource.h -> stdint.h [resource.h <72:10 72:19>]
+REFERENCE_INCLUDE resource.h -> Availability.h [resource.h <75:10 75:25>]
+REFERENCE_INCLUDE resource.h -> _timeval.h [resource.h <80:10 80:32>]
+FILE: _timeval.h non-indexed
+REFERENCE_INCLUDE _timeval.h -> types.h [_timeval.h <31:10 31:26>]
+REFERENCE_INCLUDE _timeval.h -> _types.h [_timeval.h <32:10 32:23>]
+REFERENCE_INCLUDE resource.h -> _id_t.h [resource.h <83:10 83:29>]
+REFERENCE_INCLUDE wait.h -> endian.h [wait.h <186:10 186:27>]
+FILE: endian.h non-indexed
+REFERENCE_INCLUDE endian.h -> endian.h [endian.h <35:10 35:24>]
+REFERENCE_INCLUDE endian.h -> cdefs.h [endian.h <69:10 69:22>]
+REFERENCE_INCLUDE endian.h -> _endian.h [endian.h <99:10 99:24>]
+FILE: _endian.h non-indexed
+REFERENCE_INCLUDE _endian.h -> cdefs.h [_endian.h <93:10 93:22>]
+REFERENCE_INCLUDE _endian.h -> _OSByteOrder.h [_endian.h <130:10 130:33>]
+FILE: _OSByteOrder.h non-indexed
+REFERENCE_INCLUDE _OSByteOrder.h -> _types.h [_OSByteOrder.h <40:10 40:23>]
+REFERENCE_INCLUDE _OSByteOrder.h -> _OSByteOrder.h [_OSByteOrder.h <66:10 66:38>]
+REFERENCE_INCLUDE stdlib.h -> alloca.h [stdlib.h <67:10 67:19>]
+FILE: alloca.h non-indexed
+REFERENCE_INCLUDE alloca.h -> cdefs.h [alloca.h <27:10 27:22>]
+REFERENCE_INCLUDE alloca.h -> _types.h [alloca.h <28:10 28:19>]
+REFERENCE_INCLUDE alloca.h -> _size_t.h [alloca.h <29:10 29:31>]
+REFERENCE_INCLUDE stdlib.h -> _size_t.h [stdlib.h <73:10 73:31>]
+REFERENCE_INCLUDE stdlib.h -> _ct_rune_t.h [stdlib.h <76:10 76:34>]
+REFERENCE_INCLUDE stdlib.h -> _rune_t.h [stdlib.h <77:10 77:31>]
+REFERENCE_INCLUDE stdlib.h -> _wchar_t.h [stdlib.h <80:10 80:32>]
+REFERENCE_INCLUDE stdlib.h -> _null.h [stdlib.h <99:10 99:29>]
+REFERENCE_INCLUDE stdlib.h -> types.h [stdlib.h <264:10 264:26>]
+REFERENCE_INCLUDE stdlib.h -> _dev_t.h [stdlib.h <266:10 266:30>]
+FILE: _dev_t.h non-indexed
+REFERENCE_INCLUDE _dev_t.h -> _types.h [_dev_t.h <30:10 30:23>]
+REFERENCE_INCLUDE stdlib.h -> _mode_t.h [stdlib.h <267:10 267:31>]
+FILE: _mode_t.h non-indexed
+REFERENCE_INCLUDE _mode_t.h -> _types.h [_mode_t.h <30:10 30:23>]
+REFERENCE_INCLUDE stdlib.h -> _uint32_t.h [stdlib.h <268:10 268:29>]
+REFERENCE_INCLUDE exception -> type_traits [exception <83:10 83:22>]
+REFERENCE_INCLUDE typeinfo -> cstddef [typeinfo <62:10 62:18>]
+REFERENCE_INCLUDE typeinfo -> cstdint [typeinfo <63:10 63:18>]
+REFERENCE_INCLUDE memory -> cstddef [memory <645:10 645:18>]
+REFERENCE_INCLUDE memory -> cstdint [memory <646:10 646:18>]
+REFERENCE_INCLUDE memory -> new [memory <647:10 647:14>]
+FILE: new non-indexed
+REFERENCE_INCLUDE new -> __config [new <88:10 88:19>]
+REFERENCE_INCLUDE new -> exception [new <89:10 89:20>]
+REFERENCE_INCLUDE new -> cstddef [new <90:10 90:18>]
+REFERENCE_INCLUDE memory -> utility [memory <648:10 648:18>]
+REFERENCE_INCLUDE memory -> limits [memory <649:10 649:17>]
+FILE: limits non-indexed
+REFERENCE_INCLUDE limits -> __config [limits <104:10 104:19>]
+REFERENCE_INCLUDE limits -> type_traits [limits <105:10 105:22>]
+REFERENCE_INCLUDE limits -> __undef_macros [limits <120:10 120:25>]
+FILE: __undef_macros non-indexed
+REFERENCE_INCLUDE memory -> iterator [memory <650:10 650:19>]
+FILE: iterator non-indexed
+REFERENCE_INCLUDE iterator -> __config [iterator <425:10 425:19>]
+REFERENCE_INCLUDE iterator -> iosfwd [iterator <426:10 426:17>]
+REFERENCE_INCLUDE iterator -> __functional_base [iterator <427:10 427:28>]
+FILE: __functional_base non-indexed
+REFERENCE_INCLUDE __functional_base -> __config [__functional_base <14:10 14:19>]
+REFERENCE_INCLUDE __functional_base -> type_traits [__functional_base <15:10 15:22>]
+REFERENCE_INCLUDE __functional_base -> typeinfo [__functional_base <16:10 16:19>]
+REFERENCE_INCLUDE __functional_base -> exception [__functional_base <17:10 17:20>]
+REFERENCE_INCLUDE __functional_base -> new [__functional_base <18:10 18:14>]
+REFERENCE_INCLUDE __functional_base -> utility [__functional_base <19:10 19:18>]
+REFERENCE_INCLUDE iterator -> type_traits [iterator <428:10 428:22>]
+REFERENCE_INCLUDE iterator -> cstddef [iterator <429:10 429:18>]
+REFERENCE_INCLUDE iterator -> initializer_list [iterator <430:10 430:27>]
+REFERENCE_INCLUDE iterator -> Availability.h [iterator <432:10 432:25>]
+REFERENCE_INCLUDE iterator -> __debug [iterator <435:10 435:18>]
+REFERENCE_INCLUDE memory -> __functional_base [memory <651:10 651:28>]
+REFERENCE_INCLUDE memory -> iosfwd [memory <652:10 652:17>]
+REFERENCE_INCLUDE memory -> tuple [memory <653:10 653:16>]
+FILE: tuple non-indexed
+REFERENCE_INCLUDE tuple -> __config [tuple <138:10 138:19>]
+REFERENCE_INCLUDE tuple -> __tuple [tuple <139:10 139:18>]
+REFERENCE_INCLUDE tuple -> cstddef [tuple <140:10 140:18>]
+REFERENCE_INCLUDE tuple -> type_traits [tuple <141:10 141:22>]
+REFERENCE_INCLUDE tuple -> __functional_base [tuple <142:10 142:28>]
+REFERENCE_INCLUDE tuple -> utility [tuple <143:10 143:18>]
+REFERENCE_INCLUDE memory -> stdexcept [memory <654:10 654:20>]
+FILE: stdexcept non-indexed
+REFERENCE_INCLUDE stdexcept -> __config [stdexcept <45:10 45:19>]
+REFERENCE_INCLUDE stdexcept -> exception [stdexcept <46:10 46:20>]
+REFERENCE_INCLUDE stdexcept -> iosfwd [stdexcept <47:10 47:17>]
+REFERENCE_INCLUDE memory -> cstring [memory <655:10 655:18>]
+REFERENCE_INCLUDE memory -> cassert [memory <656:10 656:18>]
+FILE: cassert non-indexed
+REFERENCE_INCLUDE cassert -> __config [cassert <20:10 20:19>]
+REFERENCE_INCLUDE cassert -> assert.h [cassert <21:10 21:19>]
+FILE: assert.h non-indexed
+REFERENCE_INCLUDE assert.h -> cdefs.h [assert.h <42:10 42:22>]
+REFERENCE_INCLUDE assert.h -> stdlib.h [assert.h <44:10 44:19>]
+REFERENCE_INCLUDE memory -> atomic [memory <658:12 658:19>]
+FILE: atomic non-indexed
+REFERENCE_INCLUDE atomic -> __config [atomic <543:10 543:19>]
+REFERENCE_INCLUDE atomic -> cstddef [atomic <544:10 544:18>]
+REFERENCE_INCLUDE atomic -> cstdint [atomic <545:10 545:18>]
+REFERENCE_INCLUDE atomic -> type_traits [atomic <546:10 546:22>]
+REFERENCE_INCLUDE memory -> __undef_macros [memory <666:10 666:25>]
+REFERENCE_INCLUDE algorithm -> iterator [algorithm <644:10 644:19>]
+REFERENCE_INCLUDE algorithm -> cstddef [algorithm <645:10 645:18>]
+REFERENCE_INCLUDE algorithm -> __debug [algorithm <654:10 654:18>]
+REFERENCE_INCLUDE algorithm -> __undef_macros [algorithm <661:10 661:25>]
+REFERENCE_INCLUDE __string -> cstdio [__string <57:10 57:17>]
+FILE: cstdio non-indexed
+REFERENCE_INCLUDE cstdio -> __config [cstdio <99:10 99:19>]
+REFERENCE_INCLUDE cstdio -> stdio.h [cstdio <100:10 100:18>]
+REFERENCE_INCLUDE __string -> memory [__string <58:10 58:17>]
+REFERENCE_INCLUDE __string -> __debug [__string <60:10 60:18>]
+REFERENCE_INCLUDE __string -> __undef_macros [__string <67:10 67:25>]
+REFERENCE_INCLUDE string_view -> algorithm [string_view <170:10 170:20>]
+REFERENCE_INCLUDE string_view -> iterator [string_view <171:10 171:19>]
+REFERENCE_INCLUDE string_view -> limits [string_view <172:10 172:17>]
+REFERENCE_INCLUDE string_view -> stdexcept [string_view <173:10 173:20>]
+REFERENCE_INCLUDE string_view -> __debug [string_view <174:10 174:18>]
+REFERENCE_INCLUDE string_view -> __undef_macros [string_view <181:10 181:25>]
+REFERENCE_INCLUDE string -> iosfwd [string <471:10 471:17>]
+REFERENCE_INCLUDE string -> cstring [string <472:10 472:18>]
+REFERENCE_INCLUDE string -> cstdio [string <473:10 473:17>]
+REFERENCE_INCLUDE string -> cwchar [string <474:10 474:17>]
+FILE: cwchar non-indexed
+REFERENCE_INCLUDE cwchar -> __config [cwchar <106:10 106:19>]
+REFERENCE_INCLUDE cwchar -> cwctype [cwchar <107:10 107:18>]
+FILE: cwctype non-indexed
+REFERENCE_INCLUDE cwctype -> __config [cwctype <53:10 53:19>]
+REFERENCE_INCLUDE cwctype -> cctype [cwctype <54:10 54:17>]
+FILE: cctype non-indexed
+REFERENCE_INCLUDE cctype -> __config [cctype <38:10 38:19>]
+REFERENCE_INCLUDE cctype -> ctype.h [cctype <39:10 39:18>]
+REFERENCE_INCLUDE cwctype -> wctype.h [cwctype <55:10 55:19>]
+FILE: wctype.h non-indexed
+REFERENCE_INCLUDE wctype.h -> __config [wctype.h <48:10 48:19>]
+REFERENCE_INCLUDE wctype.h -> wctype.h [wctype.h <54:15 54:24>]
+REFERENCE_INCLUDE wctype.h -> cdefs.h [wctype.h <34:10 34:22>]
+REFERENCE_INCLUDE wctype.h -> _types.h [wctype.h <35:10 35:19>]
+REFERENCE_INCLUDE wctype.h -> _wctrans_t.h [wctype.h <36:10 36:30>]
+FILE: _wctrans_t.h non-indexed
+REFERENCE_INCLUDE _wctrans_t.h -> _types.h [_wctrans_t.h <31:10 31:19>]
+REFERENCE_INCLUDE wctype.h -> _wctype.h [wctype.h <40:10 40:20>]
+REFERENCE_INCLUDE wctype.h -> ctype.h [wctype.h <41:10 41:18>]
+REFERENCE_INCLUDE cwchar -> wchar.h [cwchar <108:10 108:18>]
+REFERENCE_INCLUDE string -> algorithm [string <475:10 475:20>]
+REFERENCE_INCLUDE string -> iterator [string <476:10 476:19>]
+REFERENCE_INCLUDE string -> utility [string <477:10 477:18>]
+REFERENCE_INCLUDE string -> memory [string <478:10 478:17>]
+REFERENCE_INCLUDE string -> stdexcept [string <479:10 479:20>]
+REFERENCE_INCLUDE string -> type_traits [string <480:10 480:22>]
+REFERENCE_INCLUDE string -> initializer_list [string <481:10 481:27>]
+REFERENCE_INCLUDE string -> __functional_base [string <482:10 482:28>]
+REFERENCE_INCLUDE string -> cstdint [string <484:10 484:18>]
+REFERENCE_INCLUDE string -> __debug [string <487:10 487:18>]
+REFERENCE_INCLUDE string -> __undef_macros [string <494:10 494:25>]
+REFERENCE_INCLUDE __locale -> memory [__locale <16:10 16:17>]
+REFERENCE_INCLUDE __locale -> utility [__locale <17:10 17:18>]
+REFERENCE_INCLUDE __locale -> mutex [__locale <18:10 18:16>]
+FILE: mutex non-indexed
+REFERENCE_INCLUDE mutex -> __config [mutex <190:10 190:19>]
+REFERENCE_INCLUDE mutex -> __mutex_base [mutex <191:10 191:23>]
+FILE: __mutex_base non-indexed
+REFERENCE_INCLUDE __mutex_base -> __config [__mutex_base <14:10 14:19>]
+REFERENCE_INCLUDE __mutex_base -> chrono [__mutex_base <15:10 15:17>]
+FILE: chrono non-indexed
+REFERENCE_INCLUDE chrono -> __config [chrono <302:10 302:19>]
+REFERENCE_INCLUDE chrono -> ctime [chrono <303:10 303:16>]
+FILE: ctime non-indexed
+REFERENCE_INCLUDE ctime -> __config [ctime <47:10 47:19>]
+REFERENCE_INCLUDE ctime -> time.h [ctime <48:10 48:17>]
+REFERENCE_INCLUDE chrono -> type_traits [chrono <304:10 304:22>]
+REFERENCE_INCLUDE chrono -> ratio [chrono <305:10 305:16>]
+FILE: ratio non-indexed
+REFERENCE_INCLUDE ratio -> __config [ratio <81:10 81:19>]
+REFERENCE_INCLUDE ratio -> cstdint [ratio <82:10 82:18>]
+REFERENCE_INCLUDE ratio -> climits [ratio <83:10 83:18>]
+FILE: climits non-indexed
+REFERENCE_INCLUDE climits -> __config [climits <41:10 41:19>]
+REFERENCE_INCLUDE climits -> limits.h [climits <42:10 42:19>]
+FILE: limits.h non-indexed
+REFERENCE_INCLUDE limits.h -> __config [limits.h <41:10 41:19>]
+REFERENCE_INCLUDE limits.h -> limits.h [limits.h <58:15 58:24>]
+REFERENCE_INCLUDE limits.h -> cdefs.h [limits.h <63:10 63:22>]
+REFERENCE_INCLUDE limits.h -> limits.h [limits.h <64:10 64:27>]
+REFERENCE_INCLUDE limits.h -> limits.h [limits.h <6:10 6:24>]
+REFERENCE_INCLUDE limits.h -> cdefs.h [limits.h <39:10 39:22>]
+REFERENCE_INCLUDE limits.h -> _limits.h [limits.h <40:10 40:25>]
+FILE: _limits.h non-indexed
+REFERENCE_INCLUDE limits.h -> syslimits.h [limits.h <65:10 65:26>]
+FILE: syslimits.h non-indexed
+REFERENCE_INCLUDE syslimits.h -> cdefs.h [syslimits.h <68:10 68:22>]
+REFERENCE_INCLUDE limits.h -> limits.h [limits.h <62:15 62:24>]
+REFERENCE_INCLUDE ratio -> type_traits [ratio <84:10 84:22>]
+REFERENCE_INCLUDE ratio -> __undef_macros [ratio <91:10 91:25>]
+REFERENCE_INCLUDE chrono -> limits [chrono <306:10 306:17>]
+REFERENCE_INCLUDE chrono -> __undef_macros [chrono <313:10 313:25>]
+REFERENCE_INCLUDE __mutex_base -> system_error [__mutex_base <16:10 16:23>]
+FILE: system_error non-indexed
+REFERENCE_INCLUDE system_error -> __config [system_error <228:10 228:19>]
+REFERENCE_INCLUDE system_error -> cerrno [system_error <229:10 229:17>]
+FILE: cerrno non-indexed
+REFERENCE_INCLUDE cerrno -> __config [cerrno <26:10 26:19>]
+REFERENCE_INCLUDE cerrno -> errno.h [cerrno <27:10 27:18>]
+FILE: errno.h non-indexed
+REFERENCE_INCLUDE errno.h -> __config [errno.h <26:10 26:19>]
+REFERENCE_INCLUDE errno.h -> errno.h [errno.h <32:15 32:23>]
+REFERENCE_INCLUDE errno.h -> errno.h [errno.h <23:10 23:22>]
+REFERENCE_INCLUDE errno.h -> cdefs.h [errno.h <72:10 72:22>]
+REFERENCE_INCLUDE system_error -> type_traits [system_error <230:10 230:22>]
+REFERENCE_INCLUDE system_error -> stdexcept [system_error <231:10 231:20>]
+REFERENCE_INCLUDE system_error -> __functional_base [system_error <232:10 232:28>]
+REFERENCE_INCLUDE __mutex_base -> __threading_support [__mutex_base <17:10 17:30>]
+FILE: __threading_support non-indexed
+REFERENCE_INCLUDE __threading_support -> __config [__threading_support <14:10 14:19>]
+REFERENCE_INCLUDE __threading_support -> chrono [__threading_support <15:10 15:17>]
+REFERENCE_INCLUDE __threading_support -> errno.h [__threading_support <16:10 16:18>]
+REFERENCE_INCLUDE __threading_support -> pthread.h [__threading_support <27:11 27:21>]
+FILE: pthread.h non-indexed
+REFERENCE_INCLUDE pthread.h -> _types.h [pthread.h <55:10 55:19>]
+REFERENCE_INCLUDE pthread.h -> pthread_impl.h [pthread.h <57:10 57:33>]
+FILE: pthread_impl.h non-indexed
+REFERENCE_INCLUDE pthread.h -> sched.h [pthread.h <59:10 59:26>]
+FILE: sched.h non-indexed
+REFERENCE_INCLUDE sched.h -> cdefs.h [sched.h <27:10 27:22>]
+REFERENCE_INCLUDE sched.h -> pthread_impl.h [sched.h <28:10 28:25>]
+REFERENCE_INCLUDE pthread.h -> time.h [pthread.h <60:10 60:17>]
+REFERENCE_INCLUDE pthread.h -> _pthread_types.h [pthread.h <61:10 61:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_attr_t.h [pthread.h <62:10 62:41>]
+REFERENCE_INCLUDE pthread.h -> _pthread_cond_t.h [pthread.h <63:10 63:41>]
+FILE: _pthread_cond_t.h non-indexed
+REFERENCE_INCLUDE _pthread_cond_t.h -> _pthread_types.h [_pthread_cond_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_condattr_t.h [pthread.h <64:10 64:45>]
+FILE: _pthread_condattr_t.h non-indexed
+REFERENCE_INCLUDE _pthread_condattr_t.h -> _pthread_types.h [_pthread_condattr_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_key_t.h [pthread.h <65:10 65:40>]
+FILE: _pthread_key_t.h non-indexed
+REFERENCE_INCLUDE _pthread_key_t.h -> _pthread_types.h [_pthread_key_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_mutex_t.h [pthread.h <66:10 66:42>]
+FILE: _pthread_mutex_t.h non-indexed
+REFERENCE_INCLUDE _pthread_mutex_t.h -> _pthread_types.h [_pthread_mutex_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_mutexattr_t.h [pthread.h <67:10 67:46>]
+FILE: _pthread_mutexattr_t.h non-indexed
+REFERENCE_INCLUDE _pthread_mutexattr_t.h -> _pthread_types.h [_pthread_mutexattr_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_once_t.h [pthread.h <68:10 68:41>]
+FILE: _pthread_once_t.h non-indexed
+REFERENCE_INCLUDE _pthread_once_t.h -> _pthread_types.h [_pthread_once_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_rwlock_t.h [pthread.h <69:10 69:43>]
+FILE: _pthread_rwlock_t.h non-indexed
+REFERENCE_INCLUDE _pthread_rwlock_t.h -> _pthread_types.h [_pthread_rwlock_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_rwlockattr_t.h [pthread.h <70:10 70:47>]
+FILE: _pthread_rwlockattr_t.h non-indexed
+REFERENCE_INCLUDE _pthread_rwlockattr_t.h -> _pthread_types.h [_pthread_rwlockattr_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> _pthread_t.h [pthread.h <71:10 71:36>]
+FILE: _pthread_t.h non-indexed
+REFERENCE_INCLUDE _pthread_t.h -> _pthread_types.h [_pthread_t.h <30:10 30:40>]
+REFERENCE_INCLUDE pthread.h -> qos.h [pthread.h <73:10 73:24>]
+FILE: qos.h non-indexed
+REFERENCE_INCLUDE qos.h -> cdefs.h [qos.h <27:10 27:22>]
+REFERENCE_INCLUDE qos.h -> _pthread_attr_t.h [qos.h <28:10 28:41>]
+REFERENCE_INCLUDE qos.h -> _pthread_t.h [qos.h <29:10 29:36>]
+REFERENCE_INCLUDE qos.h -> Availability.h [qos.h <30:10 30:25>]
+REFERENCE_INCLUDE qos.h -> qos.h [qos.h <34:10 34:20>]
+REFERENCE_INCLUDE qos.h -> Availability.h [qos.h <28:10 28:25>]
+REFERENCE_INCLUDE pthread.h -> _mach_port_t.h [pthread.h <77:10 77:36>]
+FILE: _mach_port_t.h non-indexed
+REFERENCE_INCLUDE _mach_port_t.h -> _types.h [_mach_port_t.h <49:10 49:23>]
+REFERENCE_INCLUDE pthread.h -> _sigset_t.h [pthread.h <78:10 78:33>]
+REFERENCE_INCLUDE pthread.h -> cdefs.h [pthread.h <102:10 102:22>]
+REFERENCE_INCLUDE pthread.h -> Availability.h [pthread.h <103:10 103:25>]
+REFERENCE_INCLUDE __threading_support -> sched.h [__threading_support <28:11 28:19>]
+REFERENCE_INCLUDE __threading_support -> __undef_macros [__threading_support <36:10 36:25>]
+REFERENCE_INCLUDE __mutex_base -> __undef_macros [__mutex_base <25:10 25:25>]
+REFERENCE_INCLUDE mutex -> functional [mutex <192:10 192:21>]
+FILE: functional non-indexed
+REFERENCE_INCLUDE functional -> __config [functional <483:10 483:19>]
+REFERENCE_INCLUDE functional -> type_traits [functional <484:10 484:22>]
+REFERENCE_INCLUDE functional -> typeinfo [functional <485:10 485:19>]
+REFERENCE_INCLUDE functional -> exception [functional <486:10 486:20>]
+REFERENCE_INCLUDE functional -> memory [functional <487:10 487:17>]
+REFERENCE_INCLUDE functional -> tuple [functional <488:10 488:16>]
+REFERENCE_INCLUDE functional -> utility [functional <489:10 489:18>]
+REFERENCE_INCLUDE functional -> __functional_base [functional <491:10 491:28>]
+REFERENCE_INCLUDE mutex -> memory [mutex <193:10 193:17>]
+REFERENCE_INCLUDE mutex -> tuple [mutex <195:10 195:16>]
+REFERENCE_INCLUDE mutex -> __threading_support [mutex <197:10 197:30>]
+REFERENCE_INCLUDE mutex -> __undef_macros [mutex <204:10 204:25>]
+REFERENCE_INCLUDE __locale -> cstdint [__locale <19:10 19:18>]
+REFERENCE_INCLUDE __locale -> cctype [__locale <20:10 20:17>]
+REFERENCE_INCLUDE __locale -> locale.h [__locale <21:10 21:19>]
+FILE: locale.h non-indexed
+REFERENCE_INCLUDE locale.h -> __config [locale.h <37:10 37:19>]
+REFERENCE_INCLUDE locale.h -> locale.h [locale.h <43:15 43:24>]
+REFERENCE_INCLUDE locale.h -> _locale.h [locale.h <40:10 40:20>]
+FILE: _locale.h non-indexed
+REFERENCE_INCLUDE _locale.h -> cdefs.h [_locale.h <40:10 40:22>]
+REFERENCE_INCLUDE _locale.h -> _types.h [_locale.h <41:10 41:19>]
+REFERENCE_INCLUDE _locale.h -> _null.h [_locale.h <70:10 70:29>]
+REFERENCE_INCLUDE __locale -> xlocale.h [__locale <39:11 39:21>]
+FILE: xlocale.h non-indexed
+REFERENCE_INCLUDE xlocale.h -> cdefs.h [xlocale.h <27:10 27:22>]
+REFERENCE_INCLUDE xlocale.h -> _locale.h [xlocale.h <33:10 33:20>]
+REFERENCE_INCLUDE xlocale.h -> _xlocale.h [xlocale.h <34:10 34:21>]
+FILE: _xlocale.h non-indexed
+REFERENCE_INCLUDE _xlocale.h -> cdefs.h [_xlocale.h <27:10 27:22>]
+REFERENCE_INCLUDE xlocale.h -> _ctype.h [xlocale.h <74:10 74:27>]
+REFERENCE_INCLUDE _ctype.h -> _ctype.h [_ctype.h <27:10 27:19>]
+REFERENCE_INCLUDE _ctype.h -> _xlocale.h [_ctype.h <28:10 28:21>]
+REFERENCE_INCLUDE xlocale.h -> __wctype.h [xlocale.h <77:10 77:29>]
+REFERENCE_INCLUDE __wctype.h -> __wctype.h [__wctype.h <27:10 27:21>]
+REFERENCE_INCLUDE __wctype.h -> _ctype.h [__wctype.h <28:10 28:27>]
+REFERENCE_INCLUDE xlocale.h -> _stdio.h [xlocale.h <92:10 92:27>]
+REFERENCE_INCLUDE _stdio.h -> _stdio.h [_stdio.h <27:10 27:19>]
+REFERENCE_INCLUDE _stdio.h -> _xlocale.h [_stdio.h <28:10 28:21>]
+REFERENCE_INCLUDE xlocale.h -> _stdlib.h [xlocale.h <95:10 95:28>]
+FILE: _stdlib.h non-indexed
+REFERENCE_INCLUDE _stdlib.h -> cdefs.h [_stdlib.h <27:10 27:22>]
+REFERENCE_INCLUDE _stdlib.h -> _size_t.h [_stdlib.h <28:10 28:31>]
+REFERENCE_INCLUDE _stdlib.h -> _wchar_t.h [_stdlib.h <29:10 29:32>]
+REFERENCE_INCLUDE _stdlib.h -> _xlocale.h [_stdlib.h <30:10 30:21>]
+REFERENCE_INCLUDE xlocale.h -> _string.h [xlocale.h <98:10 98:28>]
+FILE: _string.h non-indexed
+REFERENCE_INCLUDE _string.h -> cdefs.h [_string.h <27:10 27:22>]
+REFERENCE_INCLUDE _string.h -> _size_t.h [_string.h <28:10 28:31>]
+REFERENCE_INCLUDE _string.h -> _xlocale.h [_string.h <29:10 29:21>]
+REFERENCE_INCLUDE xlocale.h -> _time.h [xlocale.h <101:10 101:26>]
+FILE: _time.h non-indexed
+REFERENCE_INCLUDE _time.h -> cdefs.h [_time.h <27:10 27:22>]
+REFERENCE_INCLUDE _time.h -> _size_t.h [_time.h <28:10 28:31>]
+REFERENCE_INCLUDE _time.h -> _types.h [_time.h <29:10 29:19>]
+REFERENCE_INCLUDE _time.h -> _xlocale.h [_time.h <30:10 30:21>]
+REFERENCE_INCLUDE xlocale.h -> _wchar.h [xlocale.h <104:10 104:27>]
+FILE: _wchar.h non-indexed
+REFERENCE_INCLUDE _wchar.h -> _stdio.h [_wchar.h <27:10 27:19>]
+REFERENCE_INCLUDE _wchar.h -> _xlocale.h [_wchar.h <28:10 28:21>]
+REFERENCE_INCLUDE xlocale.h -> _wctype.h [xlocale.h <107:10 107:28>]
+REFERENCE_INCLUDE _wctype.h -> __wctype.h [_wctype.h <27:10 27:21>]
+REFERENCE_INCLUDE _wctype.h -> _wctrans_t.h [_wctype.h <28:10 28:30>]
+REFERENCE_INCLUDE _wctype.h -> _ctype.h [_wctype.h <29:10 29:27>]
+REFERENCE_INCLUDE ios -> system_error [ios <217:10 217:23>]
+REFERENCE_INCLUDE ios -> atomic [ios <220:10 220:17>]
+REFERENCE_INCLUDE iostream -> streambuf [iostream <39:10 39:20>]
+FILE: streambuf non-indexed
+REFERENCE_INCLUDE streambuf -> __config [streambuf <111:10 111:19>]
+REFERENCE_INCLUDE streambuf -> iosfwd [streambuf <112:10 112:17>]
+REFERENCE_INCLUDE streambuf -> ios [streambuf <113:10 113:14>]
+REFERENCE_INCLUDE streambuf -> __undef_macros [streambuf <120:10 120:25>]
+REFERENCE_INCLUDE iostream -> istream [iostream <40:10 40:18>]
+FILE: istream non-indexed
+REFERENCE_INCLUDE istream -> __config [istream <162:10 162:19>]
+REFERENCE_INCLUDE istream -> ostream [istream <163:10 163:18>]
+FILE: ostream non-indexed
+REFERENCE_INCLUDE ostream -> __config [ostream <137:10 137:19>]
+REFERENCE_INCLUDE ostream -> ios [ostream <138:10 138:14>]
+REFERENCE_INCLUDE ostream -> streambuf [ostream <139:10 139:20>]
+REFERENCE_INCLUDE ostream -> locale [ostream <140:10 140:17>]
+FILE: locale non-indexed
+REFERENCE_INCLUDE locale -> __config [locale <181:10 181:19>]
+REFERENCE_INCLUDE locale -> __locale [locale <182:10 182:19>]
+REFERENCE_INCLUDE locale -> __debug [locale <183:10 183:18>]
+REFERENCE_INCLUDE locale -> algorithm [locale <184:10 184:20>]
+REFERENCE_INCLUDE locale -> memory [locale <185:10 185:17>]
+REFERENCE_INCLUDE locale -> ios [locale <186:10 186:14>]
+REFERENCE_INCLUDE locale -> streambuf [locale <187:10 187:20>]
+REFERENCE_INCLUDE locale -> iterator [locale <188:10 188:19>]
+REFERENCE_INCLUDE locale -> limits [locale <189:10 189:17>]
+REFERENCE_INCLUDE locale -> cstdlib [locale <193:10 193:18>]
+REFERENCE_INCLUDE locale -> ctime [locale <194:10 194:16>]
+REFERENCE_INCLUDE locale -> cstdio [locale <195:10 195:17>]
+REFERENCE_INCLUDE locale -> nl_types.h [locale <197:10 197:21>]
+FILE: nl_types.h non-indexed
+REFERENCE_INCLUDE nl_types.h -> cdefs.h [nl_types.h <44:10 44:22>]
+REFERENCE_INCLUDE nl_types.h -> types.h [nl_types.h <45:10 45:22>]
+REFERENCE_INCLUDE types.h -> appleapiopts.h [types.h <72:10 72:29>]
+REFERENCE_INCLUDE types.h -> cdefs.h [types.h <75:10 75:22>]
+REFERENCE_INCLUDE types.h -> types.h [types.h <78:10 78:26>]
+REFERENCE_INCLUDE types.h -> _types.h [types.h <79:10 79:23>]
+REFERENCE_INCLUDE types.h -> endian.h [types.h <81:10 81:27>]
+REFERENCE_INCLUDE types.h -> _u_char.h [types.h <84:10 84:31>]
+FILE: _u_char.h non-indexed
+REFERENCE_INCLUDE types.h -> _u_short.h [types.h <85:10 85:32>]
+FILE: _u_short.h non-indexed
+REFERENCE_INCLUDE types.h -> _u_int.h [types.h <86:10 86:30>]
+FILE: _u_int.h non-indexed
+REFERENCE_INCLUDE types.h -> _caddr_t.h [types.h <99:10 99:32>]
+FILE: _caddr_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _dev_t.h [types.h <103:10 103:30>]
+REFERENCE_INCLUDE types.h -> _blkcnt_t.h [types.h <107:10 107:33>]
+FILE: _blkcnt_t.h non-indexed
+REFERENCE_INCLUDE _blkcnt_t.h -> _types.h [_blkcnt_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _blksize_t.h [types.h <108:10 108:34>]
+FILE: _blksize_t.h non-indexed
+REFERENCE_INCLUDE _blksize_t.h -> _types.h [_blksize_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _gid_t.h [types.h <109:10 109:30>]
+FILE: _gid_t.h non-indexed
+REFERENCE_INCLUDE _gid_t.h -> _types.h [_gid_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _in_addr_t.h [types.h <110:10 110:34>]
+FILE: _in_addr_t.h non-indexed
+REFERENCE_INCLUDE _in_addr_t.h -> types.h [_in_addr_t.h <30:10 30:26>]
+REFERENCE_INCLUDE types.h -> _in_port_t.h [types.h <111:10 111:34>]
+FILE: _in_port_t.h non-indexed
+REFERENCE_INCLUDE _in_port_t.h -> types.h [_in_port_t.h <30:10 30:26>]
+REFERENCE_INCLUDE types.h -> _ino_t.h [types.h <112:10 112:30>]
+FILE: _ino_t.h non-indexed
+REFERENCE_INCLUDE _ino_t.h -> _types.h [_ino_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _ino64_t.h [types.h <115:10 115:32>]
+FILE: _ino64_t.h non-indexed
+REFERENCE_INCLUDE _ino64_t.h -> _types.h [_ino64_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _key_t.h [types.h <118:10 118:30>]
+FILE: _key_t.h non-indexed
+REFERENCE_INCLUDE _key_t.h -> types.h [_key_t.h <30:10 30:26>]
+REFERENCE_INCLUDE types.h -> _mode_t.h [types.h <119:10 119:31>]
+REFERENCE_INCLUDE types.h -> _nlink_t.h [types.h <120:10 120:32>]
+FILE: _nlink_t.h non-indexed
+REFERENCE_INCLUDE _nlink_t.h -> types.h [_nlink_t.h <30:10 30:26>]
+REFERENCE_INCLUDE types.h -> _id_t.h [types.h <121:10 121:29>]
+REFERENCE_INCLUDE types.h -> _pid_t.h [types.h <122:10 122:30>]
+REFERENCE_INCLUDE types.h -> _off_t.h [types.h <123:10 123:30>]
+REFERENCE_INCLUDE types.h -> _uid_t.h [types.h <128:10 128:30>]
+REFERENCE_INCLUDE types.h -> _clock_t.h [types.h <162:10 162:32>]
+REFERENCE_INCLUDE types.h -> _size_t.h [types.h <163:10 163:31>]
+REFERENCE_INCLUDE types.h -> _ssize_t.h [types.h <164:10 164:32>]
+REFERENCE_INCLUDE types.h -> _time_t.h [types.h <165:10 165:31>]
+REFERENCE_INCLUDE types.h -> _useconds_t.h [types.h <167:10 167:35>]
+FILE: _useconds_t.h non-indexed
+REFERENCE_INCLUDE _useconds_t.h -> _types.h [_useconds_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _suseconds_t.h [types.h <168:10 168:36>]
+FILE: _suseconds_t.h non-indexed
+REFERENCE_INCLUDE _suseconds_t.h -> _types.h [_suseconds_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _rsize_t.h [types.h <171:10 171:32>]
+FILE: _rsize_t.h non-indexed
+REFERENCE_INCLUDE _rsize_t.h -> types.h [_rsize_t.h <30:10 30:26>]
+REFERENCE_INCLUDE types.h -> _errno_t.h [types.h <172:10 172:32>]
+FILE: _errno_t.h non-indexed
+REFERENCE_INCLUDE types.h -> _fd_def.h [types.h <181:10 181:31>]
+FILE: _fd_def.h non-indexed
+REFERENCE_INCLUDE _fd_def.h -> types.h [_fd_def.h <31:10 31:26>]
+REFERENCE_INCLUDE types.h -> _fd_setsize.h [types.h <194:10 194:35>]
+FILE: _fd_setsize.h non-indexed
+REFERENCE_INCLUDE types.h -> _fd_set.h [types.h <195:10 195:31>]
+FILE: _fd_set.h non-indexed
+REFERENCE_INCLUDE types.h -> _fd_clr.h [types.h <196:10 196:31>]
+FILE: _fd_clr.h non-indexed
+REFERENCE_INCLUDE types.h -> _fd_zero.h [types.h <197:10 197:32>]
+FILE: _fd_zero.h non-indexed
+REFERENCE_INCLUDE types.h -> _fd_isset.h [types.h <198:10 198:33>]
+FILE: _fd_isset.h non-indexed
+REFERENCE_INCLUDE types.h -> _fd_copy.h [types.h <201:10 201:32>]
+FILE: _fd_copy.h non-indexed
+REFERENCE_INCLUDE types.h -> _pthread_attr_t.h [types.h <212:10 212:41>]
+REFERENCE_INCLUDE types.h -> _pthread_cond_t.h [types.h <213:10 213:41>]
+REFERENCE_INCLUDE types.h -> _pthread_condattr_t.h [types.h <214:10 214:45>]
+REFERENCE_INCLUDE types.h -> _pthread_mutex_t.h [types.h <215:10 215:42>]
+REFERENCE_INCLUDE types.h -> _pthread_mutexattr_t.h [types.h <216:10 216:46>]
+REFERENCE_INCLUDE types.h -> _pthread_once_t.h [types.h <217:10 217:41>]
+REFERENCE_INCLUDE types.h -> _pthread_rwlock_t.h [types.h <218:10 218:43>]
+REFERENCE_INCLUDE types.h -> _pthread_rwlockattr_t.h [types.h <219:10 219:47>]
+REFERENCE_INCLUDE types.h -> _pthread_t.h [types.h <220:10 220:36>]
+REFERENCE_INCLUDE types.h -> _pthread_key_t.h [types.h <224:10 224:40>]
+REFERENCE_INCLUDE types.h -> _fsblkcnt_t.h [types.h <229:10 229:35>]
+FILE: _fsblkcnt_t.h non-indexed
+REFERENCE_INCLUDE _fsblkcnt_t.h -> _types.h [_fsblkcnt_t.h <30:10 30:23>]
+REFERENCE_INCLUDE types.h -> _fsfilcnt_t.h [types.h <230:10 230:35>]
+FILE: _fsfilcnt_t.h non-indexed
+REFERENCE_INCLUDE _fsfilcnt_t.h -> _types.h [_fsfilcnt_t.h <30:10 30:23>]
+REFERENCE_INCLUDE nl_types.h -> _types.h [nl_types.h <46:10 46:19>]
+REFERENCE_INCLUDE nl_types.h -> _nl_item.h [nl_types.h <94:10 94:28>]
+FILE: _nl_item.h non-indexed
+REFERENCE_INCLUDE _nl_item.h -> _types.h [_nl_item.h <31:10 31:19>]
+REFERENCE_INCLUDE locale -> Availability.h [locale <201:10 201:25>]
+REFERENCE_INCLUDE locale -> __bsd_locale_defaults.h [locale <205:10 205:34>]
+FILE: __bsd_locale_defaults.h non-indexed
+REFERENCE_INCLUDE locale -> __undef_macros [locale <215:10 215:25>]
+REFERENCE_INCLUDE ostream -> iterator [ostream <141:10 141:19>]
+REFERENCE_INCLUDE ostream -> bitset [ostream <142:10 142:17>]
+FILE: bitset non-indexed
+REFERENCE_INCLUDE bitset -> __config [bitset <116:10 116:19>]
+REFERENCE_INCLUDE bitset -> __bit_reference [bitset <117:10 117:26>]
+FILE: __bit_reference non-indexed
+REFERENCE_INCLUDE __bit_reference -> __config [__bit_reference <14:10 14:19>]
+REFERENCE_INCLUDE __bit_reference -> algorithm [__bit_reference <15:10 15:20>]
+REFERENCE_INCLUDE __bit_reference -> __undef_macros [__bit_reference <22:10 22:25>]
+REFERENCE_INCLUDE bitset -> cstddef [bitset <118:10 118:18>]
+REFERENCE_INCLUDE bitset -> climits [bitset <119:10 119:18>]
+REFERENCE_INCLUDE bitset -> string [bitset <120:10 120:17>]
+REFERENCE_INCLUDE bitset -> stdexcept [bitset <121:10 121:20>]
+REFERENCE_INCLUDE bitset -> iosfwd [bitset <122:10 122:17>]
+REFERENCE_INCLUDE bitset -> __functional_base [bitset <123:10 123:28>]
+REFERENCE_INCLUDE bitset -> __undef_macros [bitset <130:10 130:25>]
+REFERENCE_INCLUDE istream -> __undef_macros [istream <170:10 170:25>]
+REFERENCE_INCLUDE iostream -> ostream [iostream <41:10 41:18>]
+REFERENCE_INCLUDE io.cpp -> sstream [io.cpp <4:10 4:18>]
+FILE: sstream non-indexed
+REFERENCE_INCLUDE sstream -> __config [sstream <173:10 173:19>]
+REFERENCE_INCLUDE sstream -> ostream [sstream <174:10 174:18>]
+REFERENCE_INCLUDE sstream -> istream [sstream <175:10 175:18>]
+REFERENCE_INCLUDE sstream -> string [sstream <176:10 176:17>]
+REFERENCE_INCLUDE sstream -> __undef_macros [sstream <183:10 183:25>]
+REFERENCE_INCLUDE io.cpp -> string [io.cpp <5:10 5:17>]
+SYMBOL_FUNCTION int io::numberIn() [io.cpp <7:1 <7:9 7:16> 15:1>]
+SYMBOL_NAMESPACE io
+QUALIFIER: io [io.cpp <7:5 7:6>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int io::numberIn() -> int [io.cpp <7:1 7:3>]
+LOCAL_SYMBOL: io.cpp<7:20> [io.cpp <7:20 7:20>]
+LOCAL_SYMBOL: io.cpp<7:20> [io.cpp <15:1 15:1>]
+LOCAL_SYMBOL: io.cpp<8:14> [io.cpp <8:14 8:18>]
+SYMBOL_NAMESPACE std
+QUALIFIER: std [io.cpp <8:2 8:4>]
+REFERENCE_TYPE_USAGE int io::numberIn() -> std::__1::string [io.cpp <8:7 8:12>]
+SYMBOL_FUNCTION void std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>::basic_string()
+REFERENCE_CALL int io::numberIn() -> void std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>::basic_string() [io.cpp <8:14 8:18>]
+SYMBOL_FUNCTION std::__1::basic_istream<char, std::__1::char_traits<char>> & std::__1::getline<char, std::__1::char_traits<char>, std::__1::allocator<char>>(std::__1::basic_istream<char, std::__1::char_traits<char>> &, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> &)
+REFERENCE_CALL int io::numberIn() -> std::__1::basic_istream<char, std::__1::char_traits<char>> & std::__1::getline<char, std::__1::char_traits<char>, std::__1::allocator<char>>(std::__1::basic_istream<char, std::__1::char_traits<char>> &, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> &) [io.cpp <9:2 9:8>]
+REFERENCE_USAGE int io::numberIn() -> std::__1::istream std::__1::cin [io.cpp <9:16 9:18>]
+QUALIFIER: std [io.cpp <9:11 9:13>]
+LOCAL_SYMBOL: io.cpp<8:14> [io.cpp <9:21 9:25>]
+LOCAL_SYMBOL: io.cpp<10:20> [io.cpp <10:20 10:25>]
+QUALIFIER: std [io.cpp <10:2 10:4>]
+REFERENCE_TYPE_USAGE int io::numberIn() -> std::__1::stringstream [io.cpp <10:7 10:18>]
+SYMBOL_FUNCTION void std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char>>::basic_stringstream(const std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char>>::string_type &, std::__1::ios_base::openmode)
+REFERENCE_CALL int io::numberIn() -> void std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char>>::basic_stringstream(const std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char>>::string_type &, std::__1::ios_base::openmode) [io.cpp <10:20 10:25>]
+LOCAL_SYMBOL: io.cpp<8:14> [io.cpp <10:28 10:32>]
+LOCAL_SYMBOL: io.cpp<12:6> [io.cpp <12:6 12:11>]
+REFERENCE_TYPE_USAGE int io::numberIn() -> int [io.cpp <12:2 12:4>]
+SYMBOL_FUNCTION std::__1::basic_istream<char, std::__1::char_traits<char>> & std::__1::basic_istream<char, std::__1::char_traits<char>>::operator>>(int &)
+REFERENCE_CALL int io::numberIn() -> std::__1::basic_istream<char, std::__1::char_traits<char>> & std::__1::basic_istream<char, std::__1::char_traits<char>>::operator>>(int &) [io.cpp <13:9 13:10>]
+LOCAL_SYMBOL: io.cpp<10:20> [io.cpp <13:2 13:7>]
+LOCAL_SYMBOL: io.cpp<12:6> [io.cpp <13:12 13:17>]
+LOCAL_SYMBOL: io.cpp<12:6> [io.cpp <14:9 14:14>]
+SYMBOL_FUNCTION void io::numberOut(int) [io.cpp <17:1 <17:10 17:18> 19:1>]
+QUALIFIER: io [io.cpp <17:6 17:7>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void io::numberOut(int) -> void [io.cpp <17:1 17:4>]
+LOCAL_SYMBOL: io.cpp<17:24> [io.cpp <17:24 17:26>]
+REFERENCE_TYPE_USAGE void io::numberOut(int) -> int [io.cpp <17:20 17:22>]
+LOCAL_SYMBOL: io.cpp<17:29> [io.cpp <17:29 17:29>]
+LOCAL_SYMBOL: io.cpp<17:29> [io.cpp <19:1 19:1>]
+SYMBOL_FUNCTION std::__1::basic_ostream<char, std::__1::char_traits<char>> & std::__1::basic_ostream<char, std::__1::char_traits<char>>::operator<<(int)
+REFERENCE_CALL void io::numberOut(int) -> std::__1::basic_ostream<char, std::__1::char_traits<char>> & std::__1::basic_ostream<char, std::__1::char_traits<char>>::operator<<(int) [io.cpp <18:12 18:13>]
+REFERENCE_USAGE void io::numberOut(int) -> std::__1::ostream std::__1::cout [io.cpp <18:7 18:10>]
+QUALIFIER: std [io.cpp <18:2 18:4>]
+LOCAL_SYMBOL: io.cpp<17:24> [io.cpp <18:15 18:17>]
+SYMBOL_FUNCTION void io::stringOut(const char *) [io.cpp <21:1 <21:10 21:18> 23:1>]
+QUALIFIER: io [io.cpp <21:6 21:7>]
+REFERENCE_TYPE_USAGE void io::stringOut(const char *) -> void [io.cpp <21:1 21:4>]
+LOCAL_SYMBOL: io.cpp<21:32> [io.cpp <21:32 21:34>]
+SYMBOL_BUILTIN_TYPE char
+REFERENCE_TYPE_USAGE void io::stringOut(const char *) -> char [io.cpp <21:26 21:29>]
+LOCAL_SYMBOL: io.cpp<21:37> [io.cpp <21:37 21:37>]
+LOCAL_SYMBOL: io.cpp<21:37> [io.cpp <23:1 23:1>]
+SYMBOL_FUNCTION std::__1::basic_ostream<char, std::__1::char_traits<char>> & std::__1::operator<<<std::__1::char_traits<char>>(std::__1::basic_ostream<char, std::__1::char_traits<char>> &, const char *)
+REFERENCE_CALL void io::stringOut(const char *) -> std::__1::basic_ostream<char, std::__1::char_traits<char>> & std::__1::operator<<<std::__1::char_traits<char>>(std::__1::basic_ostream<char, std::__1::char_traits<char>> &, const char *) [io.cpp <22:12 22:13>]
+REFERENCE_USAGE void io::stringOut(const char *) -> std::__1::ostream std::__1::cout [io.cpp <22:7 22:10>]
+QUALIFIER: std [io.cpp <22:2 22:4>]
+LOCAL_SYMBOL: io.cpp<21:32> [io.cpp <22:15 22:17>]

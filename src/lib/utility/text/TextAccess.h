@@ -12,6 +12,7 @@ class TextAccess
 public:
 	static std::shared_ptr<TextAccess> createFromFile(const FilePath& filePath);
 	static std::shared_ptr<TextAccess> createFromString(const std::string& text, const FilePath& filePath = FilePath());
+	static std::shared_ptr<TextAccess> createFromLines(const std::vector<std::string>& lines, const FilePath& filePath = FilePath());
 
 	virtual ~TextAccess();
 

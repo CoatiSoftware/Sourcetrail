@@ -1,21 +1,21 @@
 FILE: TypeParametrized.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization [TypeParametrized.java <17:61 17:75>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [TypeParametrized.java <17:50 17:59>]
-QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParametrized.java <17:44 17:48>]
-QUALIFIER: com.github.javaparser.symbolsolver [TypeParametrized.java <17:31 17:42>]
-QUALIFIER: com.github.javaparser [TypeParametrized.java <17:20 17:29>]
-QUALIFIER: com.github [TypeParametrized.java <17:13 17:18>]
-QUALIFIER: com [TypeParametrized.java <17:9 17:11>]
-SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized [TypeParametrized.java <24:1 <24:18 24:33> 26:1>]
-LOCAL_SYMBOL: TypeParametrized.java<24:35> [TypeParametrized.java <24:35 24:35>]
-LOCAL_SYMBOL: TypeParametrized.java<24:35> [TypeParametrized.java <26:1 26:1>]
-COMMENT: comment [TypeParametrized.java <19:1 23:3>]
-SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() [TypeParametrized.java <25:5 <25:5  <25:23 25:39> 25:41> 25:42>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [TypeParametrized.java <25:5 25:21>]
-COMMENT: comment [TypeParametrized.java <1:1 15:3>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem.parametrization [ <17:61 17:75>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ <17:50 17:59>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
+QUALIFIER: com.github.javaparser.symbolsolver.model [ <17:44 17:48>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
+QUALIFIER: com.github.javaparser.symbolsolver [ <17:31 17:42>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <17:20 17:29>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <17:13 17:18>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <17:9 17:11>]
+SYMBOL_PACKAGE: com
+SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized [ <24:1 <24:18 24:33> 26:1>]
+SYMBOL_METHOD: default com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() [ <25:5 <25:5 <25:23 25:39> 25:41> 25:42>]
+REFERENCE_TYPE_USAGE: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized.typeParametersMap() -> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [ <25:5 25:21>]
+LOCAL_SYMBOL: TypeParametrized.java<24:35> [ <24:35 24:35>]
+LOCAL_SYMBOL: TypeParametrized.java<24:35> [ <26:1 26:1>]
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <19:1 23:3>]

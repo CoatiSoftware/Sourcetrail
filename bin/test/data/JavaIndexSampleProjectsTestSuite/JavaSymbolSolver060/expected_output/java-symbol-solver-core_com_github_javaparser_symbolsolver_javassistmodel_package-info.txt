@@ -1,12 +1,12 @@
 FILE: package-info.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [package-info.java <20:44 20:57>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver
-SYMBOL_PACKAGE com.github.javaparser
-SYMBOL_PACKAGE com.github
-SYMBOL_PACKAGE com
-COMMENT: comment [package-info.java <17:1 19:3>]
-QUALIFIER: com.github.javaparser.symbolsolver [package-info.java <20:31 20:42>]
-QUALIFIER: com.github.javaparser [package-info.java <20:20 20:29>]
-QUALIFIER: com.github [package-info.java <20:13 20:18>]
-QUALIFIER: com [package-info.java <20:9 20:11>]
-COMMENT: comment [package-info.java <1:1 15:3>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.javassistmodel [ <20:44 20:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [ <20:31 20:42>]
+SYMBOL_PACKAGE: com.github.javaparser.symbolsolver
+QUALIFIER: com.github.javaparser [ <20:20 20:29>]
+SYMBOL_PACKAGE: com.github.javaparser
+QUALIFIER: com.github [ <20:13 20:18>]
+SYMBOL_PACKAGE: com.github
+QUALIFIER: com [ <20:9 20:11>]
+SYMBOL_PACKAGE: com
+COMMENT: comment [ <1:1 15:3>]
+COMMENT: comment [ <17:1 19:3>]

@@ -1,0 +1,28 @@
+FILE: main.cpp
+FILE: tictactoe.h non-indexed
+FILE: field.h non-indexed
+FILE: game_object.h non-indexed
+FILE: player.h non-indexed
+SYMBOL_FUNCTION: int main() [main.cpp <3:1 <3:1 <3:5 3:8> 3:10> 11:1>]
+SYMBOL_BUILTIN_TYPE: int
+SYMBOL_FUNCTION: void TicTacToe::TicTacToe()
+SYMBOL_FUNCTION: bool TicTacToe::Start()
+SYMBOL_FUNCTION: void TicTacToe::Run()
+REFERENCE_INCLUDE: main.cpp -> tictactoe.h [main.cpp <1:10 1:22>]
+REFERENCE_INCLUDE: tictactoe.h -> field.h [tictactoe.h <4:10 4:18>]
+REFERENCE_INCLUDE: field.h -> game_object.h [field.h <4:10 4:24>]
+REFERENCE_INCLUDE: tictactoe.h -> player.h [tictactoe.h <5:10 5:19>]
+REFERENCE_INCLUDE: player.h -> field.h [player.h <4:10 4:18>]
+REFERENCE_INCLUDE: player.h -> game_object.h [player.h <5:10 5:24>]
+REFERENCE_TYPE_USAGE: int main() -> int [main.cpp <3:1 3:3>]
+REFERENCE_TYPE_USAGE: int main() -> TicTacToe [main.cpp <4:2 4:10>]
+REFERENCE_CALL: int main() -> void TicTacToe::TicTacToe() [main.cpp <4:12 4:20>]
+REFERENCE_CALL: int main() -> bool TicTacToe::Start() [main.cpp <6:20 6:24>]
+REFERENCE_CALL: int main() -> void TicTacToe::Run() [main.cpp <7:13 7:15>]
+LOCAL_SYMBOL: main.cpp<3:12> [main.cpp <3:12 3:12>]
+LOCAL_SYMBOL: main.cpp<3:12> [main.cpp <11:1 11:1>]
+LOCAL_SYMBOL: main.cpp<4:12> [main.cpp <4:12 4:20>]
+LOCAL_SYMBOL: main.cpp<4:12> [main.cpp <6:10 6:18>]
+LOCAL_SYMBOL: main.cpp<4:12> [main.cpp <7:3 7:11>]
+LOCAL_SYMBOL: main.cpp<6:30> [main.cpp <6:30 6:30>]
+LOCAL_SYMBOL: main.cpp<6:30> [main.cpp <8:2 8:2>]

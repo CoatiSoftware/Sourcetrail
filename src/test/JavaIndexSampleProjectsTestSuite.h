@@ -3,12 +3,13 @@
 #include <fstream>
 #include <iostream>
 
+#include "ApplicationSettings.h"
+#include "FileRegister.h"
 #include "IndexerCommandJava.h"
 #include "JavaEnvironmentFactory.h"
 #include "JavaParser.h"
-#include "DumpParserClient.h"
-#include "ApplicationSettings.h"
-#include "FileRegister.h"
+#include "ParserClientImpl.h"
+#include "TestIntermediateStorage.h"
 #include "TextAccess.h"
 #include "utility.h"
 #include "utilityJava.h"
@@ -271,16 +272,17 @@ private:
 
 	std::shared_ptr<TextAccess> parseCode(const FilePath& sourceFilePath, const FilePath& projectDataSrcRoot, const std::vector<FilePath>& classpath)
 	{
-		std::shared_ptr<DumpParserClient> parserClient = std::make_shared<DumpParserClient>();
-
-		JavaParser parser(parserClient, std::make_shared<IndexerStateInfo>());
+		TestIntermediateStorage storage;
+		JavaParser parser(std::make_shared<ParserClientImpl>(&storage), std::make_shared<IndexerStateInfo>());
 		std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(sourceFilePath, L"8", classpath);
 
 		TimeStamp startTime = TimeStamp::now();
 		parser.buildIndex(command);
 		m_duration += TimeStamp::now().deltaMS(startTime);
 
-		return TextAccess::createFromString(utility::encodeToUtf8(parserClient->m_lines));
+		storage.generateStringLists();
+
+		return TextAccess::createFromLines(storage.m_lines);
 	}
 
 	size_t m_duration;
