@@ -469,7 +469,8 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		// add tasks for setting some variables on the blackboard that are used during indexing
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("source_file_count", indexerCommandProvider->size()));
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
-		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexer_count", 0));
+		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_threads_started", false));
+		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_threads_stopped", false));
 		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_command_queue_started", false));
 		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_command_queue_stopped", false));
 
@@ -479,27 +480,21 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
 		taskParserWrapper->setTask(taskParallelIndexing);
 
-		// add task for indexing
-		if (indexerThreadCount > 0)
-		{
-			bool multiProcess = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled() && hasCxxSourceGroup();
-
-			taskParallelIndexing->addChildTasks(
-				std::make_shared<TaskGroupSequence>()->addChildTasks(
-					// block until there are indexer commands to process
-					std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-						std::make_shared<TaskReturnSuccessIf<bool>>("indexer_command_queue_started", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
-					),
-					std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-						std::make_shared<TaskBuildIndex>(indexerThreadCount, storageProvider, dialogView, m_appUUID, multiProcess)
-					)
-				)
-			);
-		}
-
 		// add task for refilling the indexer command queue
 		taskParallelIndexing->addTask(
 			std::make_shared<TaskFillIndexerCommandsQueue>(m_appUUID, std::move(indexerCommandProvider), 20)
+		);
+
+		// add task for indexing
+		bool multiProcess = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled() && hasCxxSourceGroup();
+		taskParallelIndexing->addChildTasks(
+			std::make_shared<TaskGroupSequence>()->addChildTasks(
+				// block until there are indexer commands to process
+				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
+					std::make_shared<TaskReturnSuccessIf<bool>>("indexer_command_queue_started", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
+				),
+				std::make_shared<TaskBuildIndex>(indexerThreadCount, storageProvider, dialogView, m_appUUID, multiProcess)
+			)
 		);
 
 		// add task for merging the intermediate storages
@@ -507,13 +502,13 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
 				// block until there are indexers running
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_EQUALS, 0)
+					std::make_shared<TaskReturnSuccessIf<bool>>("indexer_threads_started", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
 				),
 				// merge until all indexers stopped and nothing left to merge
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 					std::make_shared<TaskGroupSelector>()->addChildTasks(
 						std::make_shared<TaskMergeStorages>(storageProvider),
-						std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_GREATER_THAN, 0)
+						std::make_shared<TaskReturnSuccessIf<bool>>("indexer_threads_stopped", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
 					)
 				)
 			)
@@ -524,17 +519,13 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
 				// block until there are indexers running
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_EQUALS, 0)
+					std::make_shared<TaskReturnSuccessIf<bool>>("indexer_threads_started", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
 				),
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskGroupSequence>()->addChildTasks(
-						// stopping when indexer count is zero, regardless wether there are still storages left to insert.
-						std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_GREATER_THAN, 0),
-						std::make_shared<TaskGroupSelector>()->addChildTasks(
-							std::make_shared<TaskInjectStorage>(storageProvider, tempStorage),
-							// continuing when indexer count is greater than zero, even if there are no storages right now.
-							std::make_shared<TaskReturnSuccessIf<int>>("indexer_count", TaskReturnSuccessIf<int>::CONDITION_GREATER_THAN, 0)
-						)
+					std::make_shared<TaskGroupSelector>()->addChildTasks(
+						std::make_shared<TaskInjectStorage>(storageProvider, tempStorage),
+						// continuing when indexers still running, even if there are no storages right now.
+						std::make_shared<TaskReturnSuccessIf<bool>>("indexer_threads_stopped", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
 					)
 				)
 			)

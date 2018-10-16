@@ -30,7 +30,7 @@ protected:
 
 	void handleMessage(MessageInterruptTasks* message) override;
 
-	void fillCommandQueue();
+	bool fillCommandQueue();
 
 private:
 	std::unique_ptr<IndexerCommandProvider> m_indexerCommandProvider;

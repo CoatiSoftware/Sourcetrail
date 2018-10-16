@@ -41,12 +41,12 @@ TaskBuildIndex::TaskBuildIndex(
 
 void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
+	blackboard->set<bool>("indexer_threads_started", true);
+
 	m_interprocessIndexingStatusManager.setIndexingInterrupted(false);
 
 	m_indexingFileCount = 0;
 	updateIndexingDialog(blackboard, std::vector<FilePath>());
-
-	blackboard->set("indexer_count", (int)m_processCount);
 
 	std::wstring logFilePath;
 	Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
@@ -91,14 +91,14 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 		updateIndexingDialog(blackboard, indexingFiles);
 	}
 
-	if (runningThreadCount == 0)
+	if (m_indexerCommandQueueStopped && runningThreadCount == 0)
 	{
-		return STATE_FAILURE;
+		return STATE_SUCCESS;
 	}
 	else if (m_interrupted)
 	{
 		blackboard->set("interrupted_indexing", true);
-		return STATE_FAILURE;
+		return STATE_SUCCESS;
 	}
 
 	if (fetchIntermediateStorages(blackboard))
@@ -138,7 +138,7 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 		m_storageProvider->insert(is);
 	}
 
-	blackboard->set("indexer_count", 0);
+	blackboard->set<bool>("indexer_threads_stopped", true);
 }
 
 void TaskBuildIndex::doReset(std::shared_ptr<Blackboard> blackboard)
