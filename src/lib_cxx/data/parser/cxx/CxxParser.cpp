@@ -193,7 +193,10 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 	{
 		const ClangInvocationInfo info = getClangInvocationString(compilationDatabase);
 		LOG_INFO("Clang Invocation: " + info.invocation);
-		LOG_INFO("Clang Invocation errors: " + info.errors);
+		if (!info.errors.empty())
+		{
+			LOG_INFO("Clang Invocation errors: " + info.errors);
+		}
 	}
 
 	ASTActionFactory actionFactory(m_client, canonicalFilePathCache, m_indexerStateInfo);
