@@ -11,10 +11,10 @@
 #include "QtCodeFile.h"
 
 QtCodeSnippet* QtCodeSnippet::merged(
-	QtCodeSnippet* a, QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file)
+	const QtCodeSnippet* a, const QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file)
 {
-	QtCodeSnippet* first = a->getStartLineNumber() < b->getStartLineNumber() ? a : b;
-	QtCodeSnippet* second = a->getStartLineNumber() > b->getStartLineNumber() ? a : b;
+	const QtCodeSnippet* first = a->getStartLineNumber() < b->getStartLineNumber() ? a : b;
+	const QtCodeSnippet* second = a->getStartLineNumber() > b->getStartLineNumber() ? a : b;
 
 	SourceLocationFile* aFile = a->m_codeArea->getSourceLocationFile().get();
 	SourceLocationFile* bFile = b->m_codeArea->getSourceLocationFile().get();

@@ -146,7 +146,6 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 		}
 		else if (oldSnippet->getStartLineNumber() < start || oldSnippet->getEndLineNumber() > end) // overlaping
 		{
-			m_navigator->clearSnippetReferences();
 			newSnippet = QtCodeSnippet::merged(newSnippet, oldSnippet, m_navigator, this);
 		}
 		else if (oldSnippet->getStartLineNumber() >= start && oldSnippet->getEndLineNumber() <= end) // enclosing
@@ -156,6 +155,8 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 				newSnippet->getArea()->getSourceLocationFile());
 			newSnippet->getArea()->updateSourceLocations(oldSnippet->getArea()->getSourceLocationFile());
 		}
+
+		m_navigator->clearSnippetReferences();
 
 		oldSnippet->hide();
 		m_snippetLayout->removeWidget(oldSnippet);

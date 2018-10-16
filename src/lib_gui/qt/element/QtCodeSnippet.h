@@ -24,7 +24,7 @@ class QtCodeSnippet
 
 public:
 	static QtCodeSnippet* merged(
-		QtCodeSnippet* a, QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file);
+		const QtCodeSnippet* a, const QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file);
 
 	QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file);
 	virtual ~QtCodeSnippet();
