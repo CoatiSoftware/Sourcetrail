@@ -22,10 +22,17 @@ SharedMemoryGarbageCollector* SharedMemoryGarbageCollector::createInstance()
 		if (!s_instance)
 		{
 			s_instance = std::shared_ptr<SharedMemoryGarbageCollector>(new SharedMemoryGarbageCollector());
+
+			if (!s_instance->m_memory.checkSharedMutex())
+			{
+				LOG_ERROR_STREAM(<< "Shared memory mutex check failed. Shared memory garbage collection disabled.");
+				s_instance.reset();
+			}
 		}
 	}
-	catch (boost::interprocess::interprocess_exception)
+	catch (boost::interprocess::interprocess_exception& e)
 	{
+		LOG_ERROR_STREAM(<< "boost exception thrown at shared memory garbage collector: " << e.what());
 	}
 
 	return s_instance.get();
@@ -40,7 +47,6 @@ SharedMemoryGarbageCollector::SharedMemoryGarbageCollector()
 	: m_memory(getMemoryName(), 65536 /* 64 kB */, SharedMemory::OPEN_OR_CREATE)
 	, m_loopIsRunning(false)
 {
-	m_memory.unlockSharedMutex();
 }
 
 SharedMemoryGarbageCollector::~SharedMemoryGarbageCollector()

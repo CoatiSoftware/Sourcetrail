@@ -168,9 +168,36 @@ SharedMemory::~SharedMemory()
 	}
 }
 
-void SharedMemory::unlockSharedMutex()
+bool SharedMemory::checkSharedMutex()
 {
-	getMutex().unlock();
+	try
+	{
+		boost::interprocess::named_mutex& mutex = getMutex();
+
+		for (size_t i = 0; i < 5; i++)
+		{
+			{
+				// try to get ownership of the mutex a couple times
+				boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::try_to_lock);
+				if (lock.owns()) // mutex successfully locked
+				{
+					return true;
+				}
+			}
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(250));
+		}
+
+		// locking kept failing, try to get ownership
+		boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::accept_ownership);
+		return true;
+	}
+	catch (boost::interprocess::interprocess_exception& e)
+	{
+		LOG_ERROR_STREAM(<< "boost exception thrown at shared mutex check: " << e.what());
+	}
+
+	return false;
 }
 
 std::string SharedMemory::getMemoryName() const

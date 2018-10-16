@@ -134,7 +134,7 @@ Application::~Application()
 		m_mainView->saveLayout();
 	}
 
-	SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::createInstance();
+	SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
 	if (collector)
 	{
 		collector->stop();

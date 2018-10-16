@@ -100,7 +100,7 @@ public:
 		std::string m_memoryName;
 	};
 
-	void unlockSharedMutex();
+	bool checkSharedMutex();
 
 private:
 	static const char* s_memoryNamePrefix;
