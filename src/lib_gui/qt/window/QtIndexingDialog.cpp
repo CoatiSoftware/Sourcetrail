@@ -38,7 +38,7 @@ QtIndexingDialog::DialogType QtIndexingDialog::getType() const
 	return m_type;
 }
 
-void QtIndexingDialog::setupStart(const std::vector<RefreshMode>& enabledModes)
+void QtIndexingDialog::setupStart(const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode)
 {
 	setType(DIALOG_START_INDEXING);
 
@@ -111,6 +111,10 @@ void QtIndexingDialog::setupStart(const std::vector<RefreshMode>& enabledModes)
 		QRadioButton* button = p.second;
 		button->setObjectName("option");
 		button->setEnabled(false);
+		if (p.first == initialMode)
+		{
+			button->setChecked(true);
+		}
 		modeLayout->addWidget(button);
 		connect(button, &QRadioButton::toggled, func);
 	}
@@ -132,6 +136,8 @@ void QtIndexingDialog::setupStart(const std::vector<RefreshMode>& enabledModes)
 	m_sizeHint = QSize(350, 310);
 
 	finishSetup();
+
+	emit setMode(initialMode);
 }
 
 void QtIndexingDialog::updateRefreshInfo(const RefreshInfo& info)

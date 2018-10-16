@@ -3,12 +3,13 @@
 #include <QHBoxLayout>
 #include <QFrame>
 
+#include "MessageIndexingShowDialog.h"
 #include "MessageRefresh.h"
 #include "ResourcePaths.h"
 
 #include "QtSearchBarButton.h"
-#include "utilityQt.h"
 #include "QtViewWidgetWrapper.h"
+#include "utilityQt.h"
 
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 	: RefreshView(viewLayout)
@@ -25,7 +26,13 @@ QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 		new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"refresh_view/images/refresh.png"));
 	refreshButton->setObjectName("refresh_button");
 	refreshButton->setToolTip("refresh");
-	m_widget->connect(refreshButton, &QPushButton::clicked, [](){ MessageRefresh().dispatch(); });
+	m_widget->connect(refreshButton, &QPushButton::clicked,
+		[]()
+		{
+			MessageIndexingShowDialog().dispatch();
+			MessageRefresh().dispatch();
+		}
+	);
 
 	layout->addWidget(refreshButton);
 	m_widget->setLayout(layout);

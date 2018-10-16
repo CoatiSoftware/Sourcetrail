@@ -42,8 +42,8 @@ void DialogView::hideProgressDialog()
 }
 
 void DialogView::startIndexingDialog(
-	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info,
-	std::function<void(const RefreshInfo& info)> onStartIndexing)
+	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode,
+	std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing)
 {
 }
 

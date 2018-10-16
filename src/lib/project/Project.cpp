@@ -36,7 +36,6 @@
 #include "TaskLambda.h"
 #include "TaskReturnSuccessIf.h"
 #include "TaskSetValue.h"
-#include "ScopedFunctor.h"
 #include "TextAccess.h"
 #include "utility.h"
 #include "utilityApp.h"
@@ -52,7 +51,7 @@ Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storag
 	: m_settings(settings)
 	, m_storageCache(storageCache)
 	, m_state(PROJECT_STATE_NOT_LOADED)
-	, m_isIndexing(false)
+	, m_refreshStage(RefreshStageType::NONE)
 	, m_appUUID(appUUID)
 	, m_hasGUI(hasGUI)
 {
@@ -74,7 +73,7 @@ std::string Project::getDescription() const
 
 bool Project::isIndexing() const
 {
-	return m_isIndexing;
+	return m_refreshStage == RefreshStageType::INDEXING;
 }
 
 bool Project::settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const
@@ -92,7 +91,7 @@ void Project::setStateOutdated()
 
 void Project::load(std::shared_ptr<DialogView> dialogView)
 {
-	if (m_isIndexing)
+	if (m_refreshStage != RefreshStageType::NONE)
 	{
 		MessageStatus(L"Cannot load another project while indexing.", true, false).dispatch();
 		return;
@@ -234,11 +233,12 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 
 void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialogView)
 {
-	if (m_isIndexing)
+	if (m_refreshStage != RefreshStageType::NONE)
 	{
-		MessageStatus(L"Cannot refresh the project while indexing.", true, false).dispatch();
 		return;
 	}
+
+	m_refreshStage = RefreshStageType::REFRESHING;
 
 	if (m_state == PROJECT_STATE_NOT_LOADED)
 	{
@@ -312,11 +312,6 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 		}
 	}
 
-	dialogView->showUnknownProgressDialog(L"Preparing Project", L"Processing Files");
-	ScopedFunctor dialogHider([&dialogView](){
-		dialogView->hideUnknownProgressDialog();
-	});
-
 	if (m_state == PROJECT_STATE_NEEDS_MIGRATION)
 	{
 		m_settings->migrate();
@@ -342,8 +337,6 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 		refreshMode = REFRESH_UPDATED_FILES;
 	}
 
-	RefreshInfo info = getRefreshInfo(refreshMode);
-
 	if (m_hasGUI)
 	{
 		std::vector<RefreshMode> enabledModes = { REFRESH_ALL_FILES };
@@ -352,16 +345,20 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 			enabledModes.insert(enabledModes.end(), { REFRESH_UPDATED_FILES, REFRESH_UPDATED_AND_INCOMPLETE_FILES });
 		}
 
-		dialogView->startIndexingDialog(this, enabledModes, info,
+		dialogView->startIndexingDialog(this, enabledModes, refreshMode,
 			[this, dialogView](const RefreshInfo& info)
 			{
 				buildIndex(info, dialogView);
+			},
+			[this]()
+			{
+				m_refreshStage = RefreshStageType::NONE;
 			}
 		);
 	}
 	else
 	{
-		buildIndex(info, dialogView);
+		buildIndex(getRefreshInfo(refreshMode), dialogView);
 	}
 }
 
@@ -385,7 +382,7 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 
 void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> dialogView)
 {
-	if (m_isIndexing)
+	if (m_refreshStage == RefreshStageType::INDEXING)
 	{
 		MessageStatus(L"Cannot refresh project while indexing.", true, false).dispatch();
 		return;
@@ -572,14 +569,14 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	));
 
 	taskSequential->addTask(std::make_shared<TaskLambda>([dialogView, this]() {
-		m_isIndexing = false;
+		m_refreshStage = RefreshStageType::NONE;
 		MessageIndexingFinished().dispatch();
 	}));
 
 	taskSequential->setIsBackgroundTask(true);
 	Task::dispatch(taskSequential);
 
-	m_isIndexing = true;
+	m_refreshStage = RefreshStageType::INDEXING;
 	MessageIndexingStarted().dispatch();
 }
 

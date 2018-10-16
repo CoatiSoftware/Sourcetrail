@@ -37,7 +37,7 @@ public:
 
 	DialogType getType() const;
 
-	void setupStart(const std::vector<RefreshMode>& enabledModes);
+	void setupStart(const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode);
 	void updateRefreshInfo(const RefreshInfo& info);
 
 	void setupIndexing(bool hideable);

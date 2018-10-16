@@ -134,8 +134,8 @@ void QtDialogView::hideProgressDialog()
 }
 
 void QtDialogView::startIndexingDialog(
-	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info,
-	std::function<void(const RefreshInfo& info)> onStartIndexing)
+	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode,
+	std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing)
 {
 	m_refreshInfos.clear();
 
@@ -146,9 +146,6 @@ void QtDialogView::startIndexingDialog(
 			m_windowStack.clearWindows();
 
 			QtIndexingDialog* window = createWindow();
-			window->setupStart(enabledModes);
-
-			m_refreshInfos.emplace(info.mode, info);
 
 			connect(window, &QtIndexingDialog::setMode,
 				[=](RefreshMode refreshMode)
@@ -157,6 +154,7 @@ void QtDialogView::startIndexingDialog(
 					if (it != m_refreshInfos.end())
 					{
 						window->updateRefreshInfo(it->second);
+						window->show();
 						return;
 					}
 
@@ -184,6 +182,7 @@ void QtDialogView::startIndexingDialog(
 
 									timer->stop();
 									hideUnknownProgress();
+									window->show();
 								}
 							);
 						}
@@ -209,11 +208,19 @@ void QtDialogView::startIndexingDialog(
 			connect(window, &QtWindow::canceled,
 				[=]()
 				{
+					Task::dispatch(std::make_shared<TaskLambda>(
+						[=]()
+						{
+							onCancelIndexing();
+						}
+					));
+
 					setUIBlocked(false);
 				}
 			);
 
-			window->updateRefreshInfo(info);
+			window->setupStart(enabledModes, initialMode);
+			window->hide();
 			setUIBlocked(true);
 		}
 	);

@@ -190,7 +190,7 @@ void QtStatusBar::showErrors()
 
 void QtStatusBar::clickedIndexingProgress()
 {
-	MessageIndexingShowDialog(true).dispatch();
+	MessageIndexingShowDialog().dispatch();
 }
 
 QWidget* QtStatusBar::addPermanentVLine()

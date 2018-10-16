@@ -55,6 +55,13 @@ private:
 		PROJECT_STATE_DB_CORRUPTED
 	};
 
+	enum class RefreshStageType
+	{
+		REFRESHING,
+		INDEXING,
+		NONE
+	};
+
 	Project(const Project&);
 
 	void swapToTempStorage(std::shared_ptr<DialogView> dialogView);
@@ -67,7 +74,7 @@ private:
 	StorageCache* const m_storageCache;
 
 	ProjectStateType m_state;
-	bool m_isIndexing = false;
+	RefreshStageType m_refreshStage;
 
 	std::shared_ptr<PersistentStorage> m_storage;
 	std::vector<std::shared_ptr<SourceGroup>> m_sourceGroups;

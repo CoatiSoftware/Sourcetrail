@@ -45,8 +45,8 @@ public:
 	virtual void hideProgressDialog();
 
 	virtual void startIndexingDialog(
-		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info,
-		std::function<void(const RefreshInfo& info)> onStartIndexing);
+		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode,
+		std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing);
 	virtual void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths);
 	virtual DatabasePolicy finishedIndexingDialog(

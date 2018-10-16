@@ -12,13 +12,10 @@ public:
 		return "MessageIndexingShowDialog";
 	}
 
-	MessageIndexingShowDialog(bool showDialog)
-		: showDialog(showDialog)
+	MessageIndexingShowDialog()
 	{
 		setSendAsTask(false);
 	}
-
-	const bool showDialog;
 };
 
 #endif // MESSAGE_INDEXING_SHOW_DIALOG_H

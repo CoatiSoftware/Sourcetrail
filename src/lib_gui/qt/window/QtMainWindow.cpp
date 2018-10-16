@@ -39,6 +39,7 @@
 #include "MessageDisplayBookmarks.h"
 #include "MessageEnteredLicense.h"
 #include "MessageFind.h"
+#include "MessageIndexingShowDialog.h"
 #include "MessageInterruptTasks.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
@@ -660,11 +661,13 @@ void QtMainWindow::closeWindow()
 
 void QtMainWindow::refresh()
 {
+	MessageIndexingShowDialog().dispatch();
 	MessageRefresh().dispatch();
 }
 
 void QtMainWindow::forceRefresh()
 {
+	MessageIndexingShowDialog().dispatch();
 	MessageRefresh().refreshAll().dispatch();
 }
 
