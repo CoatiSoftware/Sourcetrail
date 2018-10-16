@@ -293,14 +293,14 @@ void QtCodeField::mouseReleaseEvent(QMouseEvent* event)
 	activateAnnotations(annotations);
 }
 
-void QtCodeField::focusTokenIds(const std::vector<Id>& tokenIds)
+void QtCodeField::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
-	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>(tokenIds.begin(), tokenIds.end()));
+	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>(focusedTokenIds.begin(), focusedTokenIds.end()));
 }
 
-void QtCodeField::defocusTokenIds(const std::vector<Id>& tokenIds)
+void QtCodeField::defocusTokenIds(const std::vector<Id>& activeTokenIds)
 {
-	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>());
+	annotateText(std::set<Id>(activeTokenIds.begin(), activeTokenIds.end()), std::set<Id>(), std::set<Id>());
 }
 
 bool QtCodeField::annotateText(
@@ -513,13 +513,7 @@ void QtCodeField::setHoveredAnnotations(const std::vector<const Annotation*>& an
 {
 	if (m_hoveredAnnotations.size())
 	{
-		std::vector<Id> tokenIds;
-		for (const Annotation* annotation : m_hoveredAnnotations)
-		{
-			tokenIds.insert(tokenIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
-		}
-
-		defocusTokenIds(tokenIds);
+		defocusTokenIds({});
 	}
 
 	m_hoveredAnnotations = annotations;
