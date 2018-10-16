@@ -14,7 +14,10 @@
 
 namespace
 {
-	void fetchDirectories(std::vector<FilePath>& pathList, std::shared_ptr<TextAccess> xmlAccess, const std::vector<std::string>& tags, const FilePath& toAppend = FilePath())
+	void fetchDirectories(
+		std::vector<FilePath>& pathList, std::shared_ptr<TextAccess> xmlAccess,
+		const std::vector<std::string>& tags,
+		const FilePath& toAppend = FilePath())
 	{
 		{
 			std::string tagString = "";
@@ -103,7 +106,8 @@ namespace utility
 
 		if (outputAccess->isEmpty())
 		{
-			return	L"Sourcetrail was unable to locate Maven on this machine.\nPlease make sure to provide the correct Maven Path in the preferences.";
+			return	L"Sourcetrail was unable to locate Maven on this machine.\n"
+				"Please make sure to provide the correct Maven Path in the preferences.";
 		}
 
 		return getErrorMessageFromMavenOutput(outputAccess);
@@ -130,7 +134,8 @@ namespace utility
 		return !outputAccess->isEmpty();
 	}
 
-	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(const FilePath& mavenPath, const FilePath& projectDirectoryPath, bool addTestDirectories)
+	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
+		const FilePath& mavenPath, const FilePath& projectDirectoryPath, bool addTestDirectories)
 	{
 		setJavaHomeVariableIfNotExists();
 
