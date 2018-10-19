@@ -652,10 +652,10 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		{
 			lastMatch = &match;
 		}
-		else if (lastMatch->score == match.score)
+		else if (lastMatch->score == match.score && match.tokenNames.size())
 		{
 			size_t lastSize = lastMatch->name.size();
-			if (match.name.find(nameDelimiterTypeToString(match.tokenName.getDelimiter()), lastSize) == lastSize)
+			if (match.name.find(nameDelimiterTypeToString(match.tokenNames[0].getDelimiter()), lastSize) == lastSize)
 			{
 				match.score -= 10;
 			}
@@ -721,7 +721,10 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		{
 			if (elementId != 0)
 			{
+				StorageNode* node = &storageNodeMap[elementId];
+
 				match.tokenIds.push_back(elementId);
+				match.tokenNames.push_back(NameHierarchy::deserialize(node->serializedName));
 
 				if (!match.hasChildren && acceptedNodeTypes == NodeTypeSet::all()) // TODO: check if node types of children match
 				{
@@ -730,9 +733,14 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 				if (!firstNode)
 				{
-					firstNode = &storageNodeMap[elementId];
+					firstNode = node;
 				}
 			}
+		}
+
+		if (!firstNode)
+		{
+			continue;
 		}
 
 		match.name = result.text;
@@ -749,7 +757,6 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 			}
 		}
 
-		match.tokenName = name;
 		match.indices = result.indices;
 		match.score = result.score;
 		match.nodeType = NodeType::intToType(firstNode->type);
@@ -788,13 +795,14 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		match.subtext = match.name;
 
 		match.tokenIds = result.elementIds;
-		if (match.tokenIds.size())
+		for (Id tokenId : match.tokenIds)
 		{
-			match.tokenName = NameHierarchy(getFileNodePath(match.tokenIds[0]).wstr(), NAME_DELIMITER_FILE);
+			match.tokenNames.push_back(NameHierarchy(getFileNodePath(tokenId).wstr(), NAME_DELIMITER_FILE));
 		}
-		else
+
+		if (!match.tokenNames.size())
 		{
-			match.tokenName = NameHierarchy(match.name, NAME_DELIMITER_FILE);
+			match.tokenNames.push_back(NameHierarchy(match.name, NAME_DELIMITER_FILE));
 		}
 
 		match.indices = result.indices;
@@ -878,7 +886,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 		match.text = nameHierarchy.getRawName();
 
 		match.tokenIds.push_back(elementId);
-		match.tokenName = nameHierarchy;
+		match.tokenNames.push_back(nameHierarchy);
 		match.nodeType = NodeType::intToType(node.type);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 

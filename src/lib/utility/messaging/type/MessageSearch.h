@@ -31,6 +31,10 @@ public:
 		for (const SearchMatch& match : m_matches)
 		{
 			os << " @" << match.name;
+			for (Id id : match.tokenIds)
+			{
+				os << ' ' << id;
+			}
 		}
 	}
 

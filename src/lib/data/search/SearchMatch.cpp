@@ -103,12 +103,12 @@ SearchMatch::SearchMatch()
 SearchMatch::SearchMatch(const std::wstring& query)
 	: name(query)
 	, text(query)
-	, tokenName(query, NAME_DELIMITER_UNKNOWN)
 	, typeName(L"")
 	, nodeType(NodeType::NODE_SYMBOL)
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {
+	tokenNames.emplace_back(query, NAME_DELIMITER_UNKNOWN);
 }
 
 

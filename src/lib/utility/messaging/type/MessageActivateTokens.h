@@ -35,7 +35,10 @@ public:
 
 		for (const SearchMatch& match : searchMatches)
 		{
-			os << match.tokenName.getQualifiedName() << L" ";
+			for (const NameHierarchy& name : match.tokenNames)
+			{
+				os << name.getQualifiedName() << L" ";
+			}
 		}
 	}
 
@@ -51,16 +54,6 @@ public:
 		}
 
 		return searchMatches;
-	}
-
-	std::vector<NameHierarchy> getTokenNamesOfMatches() const
-	{
-		std::vector<NameHierarchy> tokenNames;
-		for (const SearchMatch& match : searchMatches)
-		{
-			tokenNames.push_back(match.tokenName);
-		}
-		return tokenNames;
 	}
 
 	std::vector<Id> tokenIds;

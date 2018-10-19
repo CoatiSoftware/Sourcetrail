@@ -65,7 +65,7 @@ struct SearchMatch
 	std::wstring subtext;
 
 	std::vector<Id> tokenIds;
-	NameHierarchy tokenName;
+	std::vector<NameHierarchy> tokenNames;
 
 	NameDelimiterType delimiter;
 

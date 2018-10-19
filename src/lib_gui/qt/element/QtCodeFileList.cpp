@@ -74,6 +74,7 @@ void QtCodeFileList::clear()
 {
 	for (QtCodeFile* file : m_files)
 	{
+		file->hide();
 		file->deleteLater();
 	}
 

@@ -98,7 +98,6 @@ add_files(
 	component/NetworkFactory.cpp
 	component/NetworkFactory.h
 
-	data/access/StorageAccess.cpp
 	data/access/StorageAccess.h
 	data/access/StorageAccessProxy.cpp
 	data/access/StorageAccessProxy.h

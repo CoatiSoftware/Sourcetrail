@@ -185,7 +185,12 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	Id declarationId = 0; // 0 means that no token is found.
 	if (!message->isAggregation)
 	{
-		params.activeTokenIds = m_storageAccess->getActiveTokenIdsForId(params.activeTokenIds[0], &declarationId);
+		std::vector<Id> activeTokenIds;
+		for (Id tokenId : params.activeTokenIds)
+		{
+			utility::append(activeTokenIds, m_storageAccess->getActiveTokenIdsForId(tokenId, &declarationId));
+		}
+		params.activeTokenIds = activeTokenIds;
 	}
 
 	if (message->isEdge)
@@ -213,12 +218,11 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	size_t fileCount = m_collection->getSourceLocationFileCount();
 	size_t referenceCount = m_collection->getSourceLocationCount();
 
-	std::wstring status = L"";
-
-	std::vector<NameHierarchy> tokenNames = message->getTokenNamesOfMatches();
-	if (tokenNames.size())
+	std::wstring status;
+	for (const SearchMatch& match : message->getSearchMatches())
 	{
-		status += L"Activate \"" + tokenNames[0].getQualifiedName() + L"\": ";
+		status += L"Activate \"" + match.name + L"\": ";
+		break;
 	}
 
 	status += std::to_wstring(message->tokenIds.size()) + L" ";

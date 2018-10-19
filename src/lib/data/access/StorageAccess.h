@@ -106,9 +106,6 @@ public:
 	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const = 0;
 	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const = 0;
-
-	std::pair<std::vector<Id>, std::vector<SearchMatch>> getNodeIdsAndSearchMatchesForNameHierarchies(
-		const std::vector<NameHierarchy> nameHierarchies) const;
 };
 
 #endif // STORAGE_ACCESS_H

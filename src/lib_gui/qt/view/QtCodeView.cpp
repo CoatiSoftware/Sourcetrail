@@ -131,7 +131,6 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 			if (snippet.isCollapsed)
 			{
 				m_widget->addFile(snippet.locationFile, snippet.refCount, snippet.modificationTime);
-
 				addedFiles = true;
 			}
 			else
@@ -162,6 +161,11 @@ void QtCodeView::updateCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 
 		for (const CodeSnippetParams& snippet : snippets)
 		{
+			if (!snippet.locationFile || snippet.isCollapsed || snippet.reduced)
+			{
+				continue;
+			}
+
 			m_widget->updateCodeSnippet(snippet);
 		}
 	});
