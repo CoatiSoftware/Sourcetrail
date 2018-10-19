@@ -769,7 +769,9 @@ void QtMainWindow::openHistoryAction()
 	QAction* action = qobject_cast<QAction*>(sender());
 	if (action)
 	{
-		m_history[action->data().toInt()]->dispatch();
+		std::shared_ptr<MessageBase> m = m_history[action->data().toInt()];
+		m->setIsReplayed(false);
+		m->dispatch();
 	}
 }
 

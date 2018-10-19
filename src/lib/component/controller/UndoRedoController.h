@@ -124,6 +124,7 @@ private:
 	bool sameMessageTypeAsLast(MessageBase* message) const;
 	MessageBase* lastMessage() const;
 
+	void updateHistoryMenu(std::shared_ptr<MessageBase> message);
 	void updateHistory();
 
 	void dump() const;
@@ -133,6 +134,7 @@ private:
 	std::list<Command> m_list;
 	std::list<Command>::iterator m_iterator;
 
+	std::vector<std::shared_ptr<MessageBase>> m_history;
 	size_t m_historyOffset;
 };
 

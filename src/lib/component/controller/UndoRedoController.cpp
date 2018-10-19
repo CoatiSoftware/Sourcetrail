@@ -30,6 +30,9 @@ void UndoRedoController::clear()
 	m_iterator = m_list.begin();
 
 	m_historyOffset = 0;
+	m_history.clear();
+
+	updateHistoryMenu(nullptr);
 	updateHistory();
 
 	getView()->setUndoButtonEnabled(false);
@@ -534,57 +537,56 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 
 void UndoRedoController::processCommand(Command command)
 {
-	if (command.message->isReplayed())
+	if (!command.message->isReplayed())
 	{
-		return;
-	}
-
-	if (command.order != Command::ORDER_ACTIVATE && m_iterator == m_list.begin())
-	{
-		return;
-	}
-
-	if (command.order == Command::ORDER_ACTIVATE && command.message->keepContent())
-	{
-		command.order = Command::ORDER_ADAPT;
-	}
-
-	if (command.order == Command::ORDER_ACTIVATE)
-	{
-		m_iterator = m_list.erase(m_iterator, m_list.end());
-	}
-	else if (command.order == Command::ORDER_ADAPT)
-	{
-		std::list<Command>::iterator end = m_iterator;
-		while (end != m_list.end())
+		if (command.order != Command::ORDER_ACTIVATE && m_iterator == m_list.begin())
 		{
-			if (end->order == Command::ORDER_ACTIVATE)
+			return;
+		}
+
+		if (command.order == Command::ORDER_ACTIVATE && command.message->keepContent())
+		{
+			command.order = Command::ORDER_ADAPT;
+		}
+
+		if (command.order == Command::ORDER_ACTIVATE)
+		{
+			m_iterator = m_list.erase(m_iterator, m_list.end());
+		}
+		else if (command.order == Command::ORDER_ADAPT)
+		{
+			std::list<Command>::iterator end = m_iterator;
+			while (end != m_list.end())
 			{
-				break;
+				if (end->order == Command::ORDER_ACTIVATE)
+				{
+					break;
+				}
+				std::advance(end, 1);
 			}
-			std::advance(end, 1);
+
+			m_iterator = m_list.erase(m_iterator, end);
 		}
 
-		m_iterator = m_list.erase(m_iterator, end);
-	}
+		m_list.insert(m_iterator, command);
 
-	m_list.insert(m_iterator, command);
-
-	if (command.order != Command::ORDER_VIEW)
-	{
-		if (m_list.begin() != std::prev(m_iterator))
+		if (command.order != Command::ORDER_VIEW)
 		{
-			getView()->setUndoButtonEnabled(true);
-		}
+			if (m_list.begin() != std::prev(m_iterator))
+			{
+				getView()->setUndoButtonEnabled(true);
+			}
 
-		if (m_list.end() == m_iterator)
-		{
-			getView()->setRedoButtonEnabled(false);
+			if (m_list.end() == m_iterator)
+			{
+				getView()->setRedoButtonEnabled(false);
+			}
 		}
 	}
 
 	if (command.order == Command::ORDER_ACTIVATE)
 	{
+		updateHistoryMenu(command.message);
 		updateHistory();
 	}
 }
@@ -609,21 +611,46 @@ MessageBase* UndoRedoController::lastMessage() const
 	return std::prev(m_iterator)->message.get();
 }
 
+void UndoRedoController::updateHistoryMenu(std::shared_ptr<MessageBase> message)
+{
+	const size_t historyMenuSize = 20;
+
+	if (message && dynamic_cast<MessageActivateBase*>(message.get()))
+	{
+		std::vector<SearchMatch> matches = dynamic_cast<MessageActivateBase*>(message.get())->getSearchMatches();
+		if (matches.size() && !matches[0].text.empty())
+		{
+			std::vector<std::shared_ptr<MessageBase>> history = { message };
+			std::set<SearchMatch> uniqueMatches = { matches[0] };
+
+			for (std::shared_ptr<MessageBase> m : m_history)
+			{
+				if (uniqueMatches.insert(dynamic_cast<MessageActivateBase*>(m.get())->getSearchMatches()[0]).second)
+				{
+					history.push_back(m);
+
+					if (history.size() >= historyMenuSize)
+					{
+						break;
+					}
+				}
+			}
+
+			m_history = history;
+		}
+	}
+
+	Application::getInstance()->updateHistoryMenu(m_history);
+}
+
 void UndoRedoController::updateHistory()
 {
 	const size_t historyListSize = 50;
-	const size_t historyMenuSize = 20;
-
 	std::vector<SearchMatch> historyListMatches;
-	std::vector<std::shared_ptr<MessageBase>> historyMenuItems;
-	std::set<SearchMatch> uniqueMatches;
 
 	size_t index = 0;
 	int currentIndex = -1;
 	m_historyOffset = 0;
-
-	bool historyMenuFull = false;
-	bool historyListFull = false;
 
 	for (std::list<Command>::const_reverse_iterator it = m_list.rbegin(); it != m_list.rend(); it++)
 	{
@@ -636,42 +663,22 @@ void UndoRedoController::updateHistory()
 		{
 			index++;
 
-			std::vector<SearchMatch> m = dynamic_cast<MessageActivateBase*>(it->message.get())->getSearchMatches();
-			if (!m.size() || m[0].text.empty())
+			std::vector<SearchMatch> matches = dynamic_cast<MessageActivateBase*>(it->message.get())->getSearchMatches();
+			if (!matches.size() || matches[0].text.empty())
 			{
 				continue;
 			}
 
-			SearchMatch match = m[0];
+			historyListMatches.push_back(matches[0]);
 
-			if (!historyMenuFull && uniqueMatches.insert(match).second)
+			if (historyListMatches.size() > historyListSize)
 			{
-				historyMenuItems.push_back(it->message);
-
-				if (historyMenuItems.size() == historyMenuSize)
-				{
-					historyMenuFull = true;
-				}
+				historyListMatches.erase(historyListMatches.begin());
+				m_historyOffset++;
 			}
 
-			if (!historyListFull)
-			{
-				historyListMatches.push_back(match);
-
-				if (historyListMatches.size() > historyListSize)
-				{
-					historyListMatches.erase(historyListMatches.begin());
-					m_historyOffset++;
-				}
-
-				if (historyListMatches.size() == historyListSize &&
-					currentIndex != -1 && currentIndex - m_historyOffset != historyListSize - 1)
-				{
-					historyListFull = true;
-				}
-			}
-
-			if (historyMenuFull && historyListFull)
+			if (historyListMatches.size() == historyListSize &&
+				currentIndex != -1 && currentIndex - m_historyOffset != historyListSize - 1)
 			{
 				break;
 			}
@@ -679,7 +686,6 @@ void UndoRedoController::updateHistory()
 	}
 
 	getView()->updateHistory(historyListMatches, currentIndex - m_historyOffset);
-	Application::getInstance()->updateHistoryMenu(historyMenuItems);
 }
 
 void UndoRedoController::dump() const
