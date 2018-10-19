@@ -107,11 +107,13 @@ protected:
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount = 0);
 	void updateLineNumberArea(const QRect&, int);
-	void clearSelection();
-	void setNewTextCursor(const QTextCursor& cursor);
 	void setIDECursorPosition();
+	void setCopyAvailable(bool yes);
 
 private:
+	void clearSelection();
+	void setNewTextCursor(const QTextCursor& cursor);
+
 	void activateErrors(const std::vector<const Annotation*>& annotations);
 
 	void annotateText();
@@ -128,6 +130,7 @@ private:
 	QPoint m_oldMousePosition;
 	int m_panningDistance;
 
+	QAction* m_copyAction;
 	QAction* m_setIDECursorPositionAction;
 	QPoint m_eventPosition; // is needed for IDE cursor control via context menu
 							// the position where the context menu is opened needs to be stored]

@@ -101,6 +101,7 @@ QtCodeArea::QtCodeArea(
 
 	connect(this, &QtCodeArea::blockCountChanged, this, &QtCodeArea::updateLineNumberAreaWidth);
 	connect(this, &QtCodeArea::updateRequest, this, &QtCodeArea::updateLineNumberArea);
+	connect(this, &QtCodeArea::copyAvailable, this, &QtCodeArea::setCopyAvailable);
 
 	// MouseWheelOverScrollbarFilter is deleted by parent.
 	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter());
@@ -593,10 +594,10 @@ void QtCodeArea::resizeEvent(QResizeEvent *e)
 
 void QtCodeArea::mousePressEvent(QMouseEvent* event)
 {
-	clearSelection();
-
 	if (event->button() == Qt::LeftButton)
 	{
+		clearSelection();
+
 		m_oldMousePosition = event->pos();
 		m_panningDistance = 0;
 
@@ -735,6 +736,7 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 		menu.addSeparator();
 		menu.addFileActions(getSourceLocationFile()->getFilePath());
 		menu.addSeparator();
+		menu.addAction(m_copyAction);
 		menu.addAction(m_setIDECursorPositionAction);
 		menu.show();
 	}
@@ -784,6 +786,18 @@ void QtCodeArea::updateLineNumberArea(const QRect &rect, int dy)
 	}
 }
 
+void QtCodeArea::setIDECursorPosition()
+{
+	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
+
+	MessageMoveIDECursor(getSourceLocationFile()->getFilePath(), lineColumn.first, lineColumn.second).dispatch();
+}
+
+void QtCodeArea::setCopyAvailable(bool yes)
+{
+	m_copyAction->setEnabled(yes);
+}
+
 void QtCodeArea::clearSelection()
 {
 	QTextCursor cursor = textCursor();
@@ -801,13 +815,6 @@ void QtCodeArea::setNewTextCursor(const QTextCursor& cursor)
 
 	horizontalScrollBar()->setValue(horizontalValue);
 	verticalScrollBar()->setValue(verticalValue);
-}
-
-void QtCodeArea::setIDECursorPosition()
-{
-	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
-
-	MessageMoveIDECursor(getSourceLocationFile()->getFilePath(), lineColumn.first, lineColumn.second).dispatch();
 }
 
 void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotations)
@@ -851,6 +858,12 @@ void QtCodeArea::annotateText()
 
 void QtCodeArea::createActions()
 {
+	m_copyAction = new QAction(tr("Copy Selection"), this);
+	m_copyAction->setStatusTip(tr("Copy selection to clipboard"));
+	m_copyAction->setToolTip(tr("Copy selection to clipboard"));
+	m_copyAction->setEnabled(false);
+	connect(m_copyAction, &QAction::triggered, this, &QPlainTextEdit::copy);
+
 	m_setIDECursorPositionAction = new QAction(tr("Show in IDE (Ctrl + Left Click)"), this);
 #if defined(Q_OS_MAC)
 	m_setIDECursorPositionAction->setText(tr("Show in IDE (Cmd + Left Click)"));
