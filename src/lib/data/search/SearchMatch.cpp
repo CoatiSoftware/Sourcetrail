@@ -39,9 +39,9 @@ std::wstring SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& 
 {
 	std::wstringstream ss;
 
-	for (size_t i = 0; i < matches.size(); i++)
+	for (const SearchMatch& match : matches)
 	{
-		ss << L'@' << matches[i].getFullName();
+		ss << L'@' << match.getFullName() << L':' << NodeType::getReadableTypeWString(match.nodeType.getType()) << L' ';
 	}
 
 	return ss.str();

@@ -481,9 +481,20 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 
 		if (!msg->isEdge && !msg->isAggregation)
 		{
-			for (SearchMatch& match : msg->getSearchMatches())
+			std::vector<SearchMatch> matches = msg->getSearchMatches();
+			msg->searchMatches.clear();
+			msg->tokenIds.clear();
+
+			for (SearchMatch match : matches)
 			{
 				match.tokenIds = m_storageAccess->getNodeIdsForNameHierarchies(match.tokenNames);
+				if (!match.tokenIds.size())
+				{
+					match.nodeType = NodeType::NODE_SYMBOL;
+				}
+
+				utility::append(msg->tokenIds, match.tokenIds);
+				msg->searchMatches.push_back(match);
 			}
 		}
 	}
