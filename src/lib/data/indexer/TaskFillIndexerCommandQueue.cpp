@@ -64,6 +64,8 @@ void TaskFillIndexerCommandsQueue::doEnter(std::shared_ptr<Blackboard> blackboar
 		}
 	}
 
+	fillCommandQueue();
+
 	blackboard->set<bool>("indexer_command_queue_started", true);
 }
 
@@ -73,7 +75,7 @@ Task::TaskState TaskFillIndexerCommandsQueue::doUpdate(std::shared_ptr<Blackboar
 	{
 		std::lock_guard<std::mutex> lock(m_commandsMutex);
 
-		if (m_indexerCommandProvider->size() == 0)
+		if (m_indexerCommandProvider->empty())
 		{
 			return STATE_SUCCESS;
 		}
@@ -110,23 +112,33 @@ void TaskFillIndexerCommandsQueue::handleMessage(MessageInterruptTasks* message)
 
 bool TaskFillIndexerCommandsQueue::fillCommandQueue()
 {
-	bool filled = false;
-	std::lock_guard<std::mutex> lock(m_commandsMutex);
+	size_t refillAmount = m_maximumQueueSize - m_indexerCommandManager.indexerCommandCount();
+	if (!refillAmount)
+	{
+		return false;
+	}
 
-	while (!m_indexerCommandProvider->empty() && m_indexerCommandManager.indexerCommandCount() < m_maximumQueueSize)
+	std::lock_guard<std::mutex> lock(m_commandsMutex);
+	std::vector<std::shared_ptr<IndexerCommand>> commands;
+
+	while (!m_indexerCommandProvider->empty() && commands.size() < refillAmount)
 	{
 		if (!m_filePathQueue.empty())
 		{
-			m_indexerCommandManager.pushIndexerCommands({ m_indexerCommandProvider->consumeCommandForSourceFilePath(m_filePathQueue.front()) });
+			commands.push_back(m_indexerCommandProvider->consumeCommandForSourceFilePath(m_filePathQueue.front()));
 			m_filePathQueue.pop();
 		}
 		else
 		{
-			m_indexerCommandManager.pushIndexerCommands({ m_indexerCommandProvider->consumeCommand() });
+			commands.push_back(m_indexerCommandProvider->consumeCommand());
 		}
-
-		filled = true;
 	}
 
-	return filled;
+	if (commands.size())
+	{
+		m_indexerCommandManager.pushIndexerCommands(commands);
+		return true;
+	}
+
+	return false;
 }
