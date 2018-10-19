@@ -400,6 +400,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		}
 
 		MessageStatus(L"Nothing to refresh, all files are up-to-date.").dispatch();
+		m_refreshStage = RefreshStageType::NONE;
 		return;
 	}
 
