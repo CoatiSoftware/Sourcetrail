@@ -778,7 +778,7 @@ std::vector<std::string> CodeController::getProjectDescription(SourceLocationFil
 
 	for (size_t i = 0; i < lines.size(); i++)
 	{
-		std::string line = "\t" + lines[i];
+		std::string line = "\t" + utility::trim(lines[i]);
 
 		line = utility::replace(line, "\\t", "\t");
 		line = utility::replace(line, "\\r", "\r");
@@ -804,7 +804,7 @@ std::vector<std::string> CodeController::getProjectDescription(SourceLocationFil
 			{
 				line.replace(posA, posB - posA + 1, nameString);
 				locationFile->addSourceLocation(
-					LOCATION_TOKEN, 0, {tokenId},
+					LOCATION_TOKEN, 0, { tokenId },
 					startLineNumber + i, posA + 1,
 					startLineNumber + i, posA + nameString.size()
 				);
