@@ -97,20 +97,22 @@ std::vector<Id> SqliteIndexStorage::addNodes(const std::vector<StorageNode>& nod
 {
 	if (m_tempNodeNameIndex.empty() && m_tempWNodeNameIndex.empty())
 	{
-		for (const StorageNode& node : getAll<StorageNode>())
-		{
-			std::string name = utility::encodeToUtf8(node.serializedName);
-			if (name.size() != node.serializedName.size())
+		forEach<StorageNode>(
+			[this](StorageNode&& node)
 			{
-				m_tempWNodeNameIndex.add(node.serializedName, node.id);
-			}
-			else
-			{
-				m_tempNodeNameIndex.add(name, node.id);
-			}
+				std::string name = utility::encodeToUtf8(node.serializedName);
+				if (name.size() != node.serializedName.size())
+				{
+					m_tempWNodeNameIndex.add(node.serializedName, node.id);
+				}
+				else
+				{
+					m_tempNodeNameIndex.add(name, node.id);
+				}
 
-			m_tempNodeTypes.emplace(node.id, node.type);
-		}
+				m_tempNodeTypes.emplace(node.id, node.type);
+			}
+		);
 	}
 
 	std::vector<Id> nodeIds(nodes.size(), 0);
@@ -234,10 +236,12 @@ std::vector<Id> SqliteIndexStorage::addEdges(const std::vector<StorageEdge>& edg
 {
 	if (m_tempEdgeIndex.empty())
 	{
-		for (const StorageEdge& edge : getAll<StorageEdge>())
-		{
-			m_tempEdgeIndex.emplace(StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId), edge.id);
-		}
+		forEach<StorageEdge>(
+			[this](StorageEdge&& edge)
+			{
+				m_tempEdgeIndex.emplace(StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId), edge.id);
+			}
+		);
 	}
 
 	std::vector<Id> edgeIds(edges.size(), 0);
@@ -278,20 +282,20 @@ Id SqliteIndexStorage::addLocalSymbol(const StorageLocalSymbolData& data)
 
 std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalSymbol>& symbols)
 {
-	std::wstring name;
-	uint32_t line;
-	uint32_t col;
-
 	if (m_tempLocalSymbolIndex.empty())
 	{
-		for (const StorageLocalSymbol& localSymbol : getAll<StorageLocalSymbol>())
-		{
-			std::tie(name, line, col) = splitLocalSymbolName(localSymbol.name);
-			if (name.size())
+		forEach<StorageLocalSymbol>(
+			[this](StorageLocalSymbol&& localSymbol)
 			{
-				m_tempLocalSymbolIndex[name].emplace(std::make_pair(line, col), localSymbol.id);
+				std::wstring name;
+				uint32_t line, col;
+				std::tie(name, line, col) = splitLocalSymbolName(localSymbol.name);
+				if (name.size())
+				{
+					m_tempLocalSymbolIndex[name].emplace(std::make_pair(line, col), localSymbol.id);
+				}
 			}
-		}
+		);
 	}
 
 	std::vector<Id> symbolIds(symbols.size(), 0);
@@ -300,6 +304,8 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 	for (size_t i = 0; i < symbols.size(); i++)
 	{
 		const StorageLocalSymbol& data = *it;
+		std::wstring name;
+		uint32_t line, col;
 		std::tie(name, line, col) = splitLocalSymbolName(data.name);
 		if (name.size())
 		{
@@ -346,13 +352,15 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 {
 	if (m_tempSourceLocationIndices.empty())
 	{
-		for (const StorageSourceLocation& loc : getAll<StorageSourceLocation>())
-		{
-			std::map<TempSourceLocation, uint32_t>& index = m_tempSourceLocationIndices[loc.fileNodeId];
-			index.emplace(
-				TempSourceLocation(loc.startLine, loc.endLine - loc.startLine, loc.startCol, loc.endCol, loc.type),
-				loc.id);
-		}
+		forEach<StorageSourceLocation>(
+			[this](StorageSourceLocation&& loc)
+			{
+				std::map<TempSourceLocation, uint32_t>& index = m_tempSourceLocationIndices[loc.fileNodeId];
+				index.emplace(
+					TempSourceLocation(loc.startLine, loc.endLine - loc.startLine, loc.startCol, loc.endCol, loc.type),
+					loc.id);
+			}
+		);
 	}
 
 	std::vector<Id> locationIds(locations.size(), 0);
@@ -1293,13 +1301,12 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 }
 
 template <>
-std::vector<StorageEdge> SqliteIndexStorage::doGetAll<StorageEdge>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageEdge>(const std::string& query, std::function<void(StorageEdge&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT id, type, source_node_id, target_node_id FROM edge " + query + ";"
 	);
 
-	std::vector<StorageEdge> edges;
 	while (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
@@ -1309,22 +1316,20 @@ std::vector<StorageEdge> SqliteIndexStorage::doGetAll<StorageEdge>(const std::st
 
 		if (id != 0 && type != -1)
 		{
-			edges.emplace_back(id, type, sourceId, targetId);
+			func(StorageEdge(id, type, sourceId, targetId));
 		}
 
 		q.nextRow();
 	}
-	return edges;
 }
 
 template <>
-std::vector<StorageNode> SqliteIndexStorage::doGetAll<StorageNode>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageNode>(const std::string& query, std::function<void(StorageNode&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT id, type, serialized_name FROM node " + query + ";"
 	);
 
-	std::vector<StorageNode> nodes;
 	while (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
@@ -1333,22 +1338,20 @@ std::vector<StorageNode> SqliteIndexStorage::doGetAll<StorageNode>(const std::st
 
 		if (id != 0 && type != -1)
 		{
-			nodes.emplace_back(id, type, utility::decodeFromUtf8(serializedName));
+			func(StorageNode(id, type, utility::decodeFromUtf8(serializedName)));
 		}
 
 		q.nextRow();
 	}
-	return nodes;
 }
 
 template <>
-std::vector<StorageSymbol> SqliteIndexStorage::doGetAll<StorageSymbol>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageSymbol>(const std::string& query, std::function<void(StorageSymbol&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT id, definition_kind FROM symbol " + query + ";"
 	);
 
-	std::vector<StorageSymbol> symbols;
 	while (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
@@ -1356,22 +1359,20 @@ std::vector<StorageSymbol> SqliteIndexStorage::doGetAll<StorageSymbol>(const std
 
 		if (id != 0)
 		{
-			symbols.emplace_back(id, definitionKind);
+			func(StorageSymbol(id, definitionKind));
 		}
 
 		q.nextRow();
 	}
-	return symbols;
 }
 
 template <>
-std::vector<StorageFile> SqliteIndexStorage::doGetAll<StorageFile>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageFile>(const std::string& query, std::function<void(StorageFile&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT id, path, modification_time, indexed, complete FROM file " + query + ";"
 	);
 
-	std::vector<StorageFile> files;
 	while (!q.eof())
 	{
 		const Id id							= q.getIntField(0, 0);
@@ -1382,22 +1383,18 @@ std::vector<StorageFile> SqliteIndexStorage::doGetAll<StorageFile>(const std::st
 
 		if (id != 0)
 		{
-			files.emplace_back(id, utility::decodeFromUtf8(filePath), modificationTime, indexed, complete);
+			func(StorageFile(id, utility::decodeFromUtf8(filePath), modificationTime, indexed, complete));
 		}
 		q.nextRow();
 	}
-
-	return files;
 }
 
 template <>
-std::vector<StorageLocalSymbol> SqliteIndexStorage::doGetAll<StorageLocalSymbol>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageLocalSymbol>(const std::string& query, std::function<void(StorageLocalSymbol&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT id, name FROM local_symbol " + query + ";"
 	);
-
-	std::vector<StorageLocalSymbol> localSymbols;
 
 	while (!q.eof())
 	{
@@ -1406,22 +1403,19 @@ std::vector<StorageLocalSymbol> SqliteIndexStorage::doGetAll<StorageLocalSymbol>
 
 		if (id != 0)
 		{
-			localSymbols.emplace_back(id, utility::decodeFromUtf8(name));
+			func(StorageLocalSymbol(id, utility::decodeFromUtf8(name)));
 		}
 
 		q.nextRow();
 	}
-	return localSymbols;
 }
 
 template <>
-std::vector<StorageSourceLocation> SqliteIndexStorage::doGetAll<StorageSourceLocation>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageSourceLocation>(const std::string& query, std::function<void(StorageSourceLocation&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location " + query + ";"
 	);
-
-	std::vector<StorageSourceLocation> sourceLocations;
 
 	while (!q.eof())
 	{
@@ -1436,22 +1430,19 @@ std::vector<StorageSourceLocation> SqliteIndexStorage::doGetAll<StorageSourceLoc
 		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 &&
 			endColNumber != -1 && type != -1)
 		{
-			sourceLocations.emplace_back(id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type);
+			func(StorageSourceLocation(id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type));
 		}
 
 		q.nextRow();
 	}
-	return sourceLocations;
 }
 
 template <>
-std::vector<StorageOccurrence> SqliteIndexStorage::doGetAll<StorageOccurrence>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageOccurrence>(const std::string& query, std::function<void(StorageOccurrence&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT element_id, source_location_id FROM occurrence " + query + ";"
 	);
-
-	std::vector<StorageOccurrence> occurrences;
 
 	while (!q.eof())
 	{
@@ -1460,22 +1451,19 @@ std::vector<StorageOccurrence> SqliteIndexStorage::doGetAll<StorageOccurrence>(c
 
 		if (elementId != 0 && sourceLocationId != 0)
 		{
-			occurrences.emplace_back(elementId, sourceLocationId);
+			func(StorageOccurrence(elementId, sourceLocationId));
 		}
 
 		q.nextRow();
 	}
-	return occurrences;
 }
 
 template <>
-std::vector<StorageComponentAccess> SqliteIndexStorage::doGetAll<StorageComponentAccess>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageComponentAccess>(const std::string& query, std::function<void(StorageComponentAccess&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT node_id, type FROM component_access " + query + ";"
 	);
-
-	std::vector<StorageComponentAccess> componentAccesses;
 
 	while (!q.eof())
 	{
@@ -1484,22 +1472,20 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::doGetAll<StorageComponen
 
 		if (nodeId != 0 && type != -1)
 		{
-			componentAccesses.emplace_back(nodeId, type);
+			func(StorageComponentAccess(nodeId, type));
 		}
 
 		q.nextRow();
 	}
-	return componentAccesses;
 }
 
 template <>
-std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::string& query) const
+void SqliteIndexStorage::forEach<StorageError>(const std::string& query, std::function<void(StorageError&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT message, fatal, indexed, file_path, line_number, column_number, translation_unit FROM error " + query + ";"
 	);
 
-	std::vector<StorageError> errors;
 	Id id = 1;
 	while (!q.eof())
 	{
@@ -1513,15 +1499,13 @@ std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
-			errors.emplace_back(
+			func(StorageError(
 				id, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath), lineNumber, columnNumber,
 				utility::decodeFromUtf8(translationUnit), fatal, indexed
-			);
+			));
 			id++;
 		}
 
 		q.nextRow();
 	}
-
-	return errors;
 }

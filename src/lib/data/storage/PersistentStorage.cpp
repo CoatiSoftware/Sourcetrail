@@ -344,21 +344,19 @@ std::vector<FileInfo> PersistentStorage::getFileInfoForAllFiles() const
 	TRACE();
 
 	std::vector<FileInfo> fileInfos;
-	for (StorageFile file : m_sqliteIndexStorage.getAll<StorageFile>())
-	{
-		boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
-		if (file.modificationTime != "not-a-date-time")
-		{
-			modificationTime = boost::posix_time::time_from_string(file.modificationTime);
-		}
 
-		fileInfos.push_back(
-			FileInfo(
-				FilePath(file.filePath),
-				modificationTime
-			)
-		);
-	}
+	m_sqliteIndexStorage.forEach<StorageFile>(
+		[&](StorageFile&& file)
+		{
+			boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
+			if (file.modificationTime != "not-a-date-time")
+			{
+				modificationTime = boost::posix_time::time_from_string(file.modificationTime);
+			}
+
+			fileInfos.emplace_back(FilePath(file.filePath), modificationTime);
+		}
+	);
 
 	return fileInfos;
 }
@@ -906,18 +904,21 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	TRACE();
 
 	std::vector<Id> tokenIds;
-	for (const StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
-	{
-		auto it = m_symbolDefinitionKinds.find(node.id);
-		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
-			(
-				NodeType(NodeType::intToType(node.type)).isPackage() ||
-				!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)
-			)
-		){
-			tokenIds.push_back(node.id);
+
+	m_sqliteIndexStorage.forEach<StorageNode>(
+		[&](StorageNode&& node)
+		{
+			auto it = m_symbolDefinitionKinds.find(node.id);
+			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
+				(
+					NodeType(NodeType::intToType(node.type)).isPackage() ||
+					!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)
+				)
+			){
+				tokenIds.push_back(node.id);
+			}
 		}
-	}
+	);
 
 	for (const auto& p : m_fileNodeIndexed)
 	{
@@ -937,20 +938,21 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForNodeTypes(NodeTypeSet nodeT
 {
 	TRACE();
 
-	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
-
 	std::vector<Id> tokenIds;
-	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
-	{
-		if (nodeTypes.contains(NodeType::intToType(node.type)))
+
+	m_sqliteIndexStorage.forEach<StorageNode>(
+		[&](StorageNode&& node)
 		{
-			auto it = m_symbolDefinitionKinds.find(node.id);
-			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT)
+			if (nodeTypes.contains(NodeType::intToType(node.type)))
 			{
-				tokenIds.push_back(node.id);
+				auto it = m_symbolDefinitionKinds.find(node.id);
+				if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT)
+				{
+					tokenIds.push_back(node.id);
+				}
 			}
 		}
-	}
+	);
 
 	if (nodeTypes.containsMatching([](const NodeType& type) { return type.isFile(); }))
 	{
@@ -960,6 +962,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForNodeTypes(NodeTypeSet nodeT
 		}
 	}
 
+	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 	addNodesWithParentsAndEdgesToGraph(tokenIds, std::vector<Id>(), graph.get(), false);
 
 	return graph;
@@ -2267,20 +2270,30 @@ bool PersistentStorage::getFileNodeIndexed(Id fileId) const
 std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToIncludingFileIdMap() const
 {
 	std::unordered_map<Id, std::set<Id>> fileIdToIncludingFileIdMap;
-	for (const StorageEdge& includeEdge : m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INCLUDE)))
-	{
-		fileIdToIncludingFileIdMap[includeEdge.targetNodeId].insert(includeEdge.sourceNodeId);
-	}
+
+	m_sqliteIndexStorage.forEachOfType<StorageEdge>(
+		Edge::typeToInt(Edge::EDGE_INCLUDE),
+		[&fileIdToIncludingFileIdMap](StorageEdge&& edge)
+		{
+			fileIdToIncludingFileIdMap[edge.targetNodeId].insert(edge.sourceNodeId);
+		}
+	);
+
 	return fileIdToIncludingFileIdMap;
 }
 
 std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToIncludedFileIdMap() const
 {
 	std::unordered_map<Id, std::set<Id>> fileIdToIncludingFileIdMap;
-	for (const StorageEdge& includeEdge : m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INCLUDE)))
-	{
-		fileIdToIncludingFileIdMap[includeEdge.sourceNodeId].insert(includeEdge.targetNodeId);
-	}
+
+	m_sqliteIndexStorage.forEachOfType<StorageEdge>(
+		Edge::typeToInt(Edge::EDGE_INCLUDE),
+		[&fileIdToIncludingFileIdMap](StorageEdge&& edge)
+		{
+			fileIdToIncludingFileIdMap[edge.sourceNodeId].insert(edge.targetNodeId);
+		}
+	);
+
 	return fileIdToIncludingFileIdMap;
 }
 
@@ -2291,11 +2304,14 @@ std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToImportingFile
 		std::vector<Id> importedElementIds;
 		std::map<Id, std::set<Id>> elementIdToImportingFileIds;
 
-		for (const StorageEdge& importEdge : m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_IMPORT)))
-		{
-			importedElementIds.push_back(importEdge.targetNodeId);
-			elementIdToImportingFileIds[importEdge.targetNodeId].insert(importEdge.sourceNodeId);
-		}
+		m_sqliteIndexStorage.forEachOfType<StorageEdge>(
+			Edge::typeToInt(Edge::EDGE_IMPORT),
+			[&importedElementIds, &elementIdToImportingFileIds](StorageEdge&& edge)
+			{
+				importedElementIds.push_back(edge.targetNodeId);
+				elementIdToImportingFileIds[edge.targetNodeId].insert(edge.sourceNodeId);
+			}
+		);
 
 		std::unordered_map<Id, Id> importedElementIdToFileNodeId;
 		{
@@ -2828,26 +2844,30 @@ void PersistentStorage::buildFilePathMaps()
 {
 	TRACE();
 
-	for (const StorageFile& file: m_sqliteIndexStorage.getAll<StorageFile>())
-	{
-		const FilePath path(file.filePath);
-
-		m_fileNodeIds.emplace(path, file.id);
-		m_lowerCasefileNodeIds.emplace(path.getLowerCase(), file.id);
-		m_fileNodePaths.emplace(file.id, path);
-		m_fileNodeComplete.emplace(file.id, file.complete);
-		m_fileNodeIndexed.emplace(file.id, file.indexed);
-
-		if (!m_hasJavaFiles && path.extension() == L".java")
+	m_sqliteIndexStorage.forEach<StorageFile>(
+		[&](StorageFile&& file)
 		{
-			m_hasJavaFiles = true;
-		}
-	}
+			const FilePath path(file.filePath);
 
-	for (StorageSymbol& symbol : m_sqliteIndexStorage.getAll<StorageSymbol>())
-	{
-		m_symbolDefinitionKinds.emplace(symbol.id, intToDefinitionKind(symbol.definitionKind));
-	}
+			m_fileNodeIds.emplace(path, file.id);
+			m_lowerCasefileNodeIds.emplace(path.getLowerCase(), file.id);
+			m_fileNodePaths.emplace(file.id, path);
+			m_fileNodeComplete.emplace(file.id, file.complete);
+			m_fileNodeIndexed.emplace(file.id, file.indexed);
+
+			if (!m_hasJavaFiles && path.extension() == L".java")
+			{
+				m_hasJavaFiles = true;
+			}
+		}
+	);
+
+	m_sqliteIndexStorage.forEach<StorageSymbol>(
+		[&](StorageSymbol&& symbol)
+		{
+			m_symbolDefinitionKinds.emplace(symbol.id, intToDefinitionKind(symbol.definitionKind));
+		}
+	);
 }
 
 void PersistentStorage::buildSearchIndex()
@@ -2856,52 +2876,54 @@ void PersistentStorage::buildSearchIndex()
 
 	const FilePath dbPath = getIndexDbFilePath();
 
-	for (const StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
-	{
-		const NodeType type = NodeType::intToType(node.type);
-		if (type.isFile())
+	m_sqliteIndexStorage.forEach<StorageNode>(
+		[&](StorageNode&& node)
 		{
-			bool indexed = getFileNodeIndexed(node.id);
-			if (!indexed)
+			const NodeType type = NodeType::intToType(node.type);
+			if (type.isFile())
 			{
-				continue;
-			}
-
-			auto it = m_fileNodePaths.find(node.id);
-			if (it != m_fileNodePaths.end())
-			{
-				FilePath filePath(it->second);
-
-				if (filePath.exists())
+				bool indexed = getFileNodeIndexed(node.id);
+				if (!indexed)
 				{
-					filePath.makeRelativeTo(dbPath);
+					return;
 				}
 
-				m_fileIndex.addNode(node.id, filePath.wstr(), type);
-			}
-		}
-		else
-		{
-			auto it = m_symbolDefinitionKinds.find(node.id);
-			const DefinitionKind defKind = (it != m_symbolDefinitionKinds.end() ? it->second : DEFINITION_NONE);
-			if (defKind != DEFINITION_IMPLICIT)
-			{
-				const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
-
-				// we don't use the signature here, so elements with the same signature share the same node.
-				std::wstring name = nameHierarchy.getQualifiedName();
-
-				// replace template arguments with .. to avoid clutter in search results and have different
-				// template specializations share the same node.
-				if (defKind == DEFINITION_NONE && nameHierarchy.getDelimiter() == NAME_DELIMITER_CXX)
+				auto it = m_fileNodePaths.find(node.id);
+				if (it != m_fileNodePaths.end())
 				{
-					name = utility::replaceBetween(name, L'<', L'>', L"..");
-				}
+					FilePath filePath(it->second);
 
-				m_symbolIndex.addNode(node.id, std::move(name), type);
+					if (filePath.exists())
+					{
+						filePath.makeRelativeTo(dbPath);
+					}
+
+					m_fileIndex.addNode(node.id, filePath.wstr(), type);
+				}
+			}
+			else
+			{
+				auto it = m_symbolDefinitionKinds.find(node.id);
+				const DefinitionKind defKind = (it != m_symbolDefinitionKinds.end() ? it->second : DEFINITION_NONE);
+				if (defKind != DEFINITION_IMPLICIT)
+				{
+					const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
+
+					// we don't use the signature here, so elements with the same signature share the same node.
+					std::wstring name = nameHierarchy.getQualifiedName();
+
+					// replace template arguments with .. to avoid clutter in search results and have different
+					// template specializations share the same node.
+					if (defKind == DEFINITION_NONE && nameHierarchy.getDelimiter() == NAME_DELIMITER_CXX)
+					{
+						name = utility::replaceBetween(name, L'<', L'>', L"..");
+					}
+
+					m_symbolIndex.addNode(node.id, std::move(name), type);
+				}
 			}
 		}
-	}
+	);
 
 	m_symbolIndex.finishSetup();
 	m_fileIndex.finishSetup();
@@ -2963,11 +2985,14 @@ void PersistentStorage::buildMemberEdgeIdOrderMap()
 	std::vector<Id> childNodeIds;
 	std::unordered_map<Id, Id> childIdToMemberEdgeIdMap;
 
-	for (const StorageEdge& edge : m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_MEMBER)))
-	{
-		childNodeIds.push_back(edge.targetNodeId);
-		childIdToMemberEdgeIdMap.emplace(edge.targetNodeId, edge.id);
-	}
+	m_sqliteIndexStorage.forEachOfType<StorageEdge>(
+		Edge::typeToInt(Edge::EDGE_MEMBER),
+		[&childNodeIds, &childIdToMemberEdgeIdMap](StorageEdge&& edge)
+		{
+			childNodeIds.push_back(edge.targetNodeId);
+			childIdToMemberEdgeIdMap.emplace(edge.targetNodeId, edge.id);
+		}
+	);
 
 	std::vector<Id> locationIds;
 	std::unordered_map<Id, Id> locationIdToElementIdMap;
@@ -3028,29 +3053,37 @@ void PersistentStorage::buildHierarchyCache()
 {
 	TRACE();
 
-	const std::vector<StorageEdge> memberEdges = m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_MEMBER));
-
 	std::vector<Id> sourceNodeIds;
-	for (const StorageEdge& edge : memberEdges)
-	{
-		sourceNodeIds.push_back(edge.sourceNodeId);
-	}
+	std::vector<StorageEdge> memberEdges;
 
-	std::map<Id, NodeType> sourceNodeTypeMap;
-	for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(sourceNodeIds))
-	{
-		sourceNodeTypeMap.emplace(node.id, NodeType::intToType(node.type));
-	}
+	m_sqliteIndexStorage.forEachOfType<StorageEdge>(
+		Edge::typeToInt(Edge::EDGE_MEMBER),
+		[&sourceNodeIds, &memberEdges](StorageEdge&& edge)
+		{
+			sourceNodeIds.push_back(edge.sourceNodeId);
+			memberEdges.emplace_back(edge);
+		}
+	);
+
+	std::set<Id> invisibleParentSourceNodeIds;
+
+	m_sqliteIndexStorage.forEachByIds<StorageNode>(
+		sourceNodeIds,
+		[&invisibleParentSourceNodeIds](StorageNode&& node)
+		{
+			if (!NodeType(NodeType::intToType(node.type)).isVisibleAsParentInGraph())
+			{
+				invisibleParentSourceNodeIds.insert(node.id);
+			}
+		}
+	);
 
 	for (const StorageEdge& edge : memberEdges)
 	{
 		bool sourceIsVisible = true;
+		if (invisibleParentSourceNodeIds.find(edge.sourceNodeId) != invisibleParentSourceNodeIds.end())
 		{
-			std::map<Id, NodeType>::const_iterator it = sourceNodeTypeMap.find(edge.sourceNodeId);
-			if (it != sourceNodeTypeMap.end())
-			{
-				sourceIsVisible = it->second.isVisibleAsParentInGraph();
-			}
+			sourceIsVisible = false;
 		}
 
 		bool sourceIsImplicit = false;
@@ -3071,9 +3104,11 @@ void PersistentStorage::buildHierarchyCache()
 			edge.id, edge.sourceNodeId, edge.targetNodeId, sourceIsVisible, sourceIsImplicit, targetIsImplicit);
 	}
 
-	std::vector<StorageEdge> inheritanceEdges = m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INHERITANCE));
-	for (const StorageEdge& edge : inheritanceEdges)
-	{
-		m_hierarchyCache.createInheritance(edge.id, edge.sourceNodeId, edge.targetNodeId);
-	}
+	m_sqliteIndexStorage.forEachOfType<StorageEdge>(
+		Edge::typeToInt(Edge::EDGE_INHERITANCE),
+		[this](StorageEdge&& edge)
+		{
+			m_hierarchyCache.createInheritance(edge.id, edge.sourceNodeId, edge.targetNodeId);
+		}
+	);
 }
