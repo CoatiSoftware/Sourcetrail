@@ -18,7 +18,7 @@ InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 
 void InterprocessIndexer::work()
 {
-	bool updaterThreadRunning = false;
+	bool updaterThreadRunning = true;
 	std::shared_ptr<std::thread> updaterThread;
 	std::shared_ptr<IndexerBase> indexer;
 
@@ -29,10 +29,10 @@ void InterprocessIndexer::work()
 
 		updaterThread = std::make_shared<std::thread>([&]()
 		{
-			updaterThreadRunning = true;
 			while (updaterThreadRunning)
 			{
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
 				if (m_interprocessIndexingStatusManager.getIndexingInterrupted())
 				{
 					LOG_INFO("received indexer interrupt command.");
