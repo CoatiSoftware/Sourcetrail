@@ -217,12 +217,12 @@ private:
 		return ResultType();
 	}
 
-	LowMemoryStringMap<std::string, Id, 0> m_tempNodeNameIndex;
-	LowMemoryStringMap<std::wstring, Id, 0> m_tempWNodeNameIndex;
-	std::map<Id, int> m_tempNodeTypes;
-	std::map<StorageEdgeData, Id> m_tempEdgeIndex;
-	std::map<std::wstring, std::map<std::pair<uint32_t, uint32_t>, Id>> m_tempLocalSymbolIndex;
-	std::map<Id, std::map<TempSourceLocation, Id>> m_tempSourceLocationIndices;
+	LowMemoryStringMap<std::string, uint32_t, 0> m_tempNodeNameIndex;
+	LowMemoryStringMap<std::wstring, uint32_t, 0> m_tempWNodeNameIndex;
+	std::map<uint32_t, int> m_tempNodeTypes;
+	std::map<StorageEdgeData, uint32_t> m_tempEdgeIndex;
+	std::map<std::wstring, std::map<std::pair<uint32_t, uint32_t>, uint32_t>> m_tempLocalSymbolIndex;
+	std::map<uint32_t, std::map<TempSourceLocation, uint32_t>> m_tempSourceLocationIndices;
 
 	template <typename StorageType>
 	class InsertBatchStatement

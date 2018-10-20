@@ -245,7 +245,7 @@ std::vector<Id> SqliteIndexStorage::addEdges(const std::vector<StorageEdge>& edg
 	for (size_t i = 0; i < edges.size(); i++)
 	{
 		const StorageEdge& data = edges[i];
-		std::map<StorageEdgeData, Id>::const_iterator it = m_tempEdgeIndex.find(data);
+		std::map<StorageEdgeData, uint32_t>::const_iterator it = m_tempEdgeIndex.find(data);
 		if (it != m_tempEdgeIndex.end())
 		{
 			edgeIds[i] = it->second;
@@ -348,7 +348,7 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 	{
 		for (const StorageSourceLocation& loc : getAll<StorageSourceLocation>())
 		{
-			std::map<TempSourceLocation, Id>& index = m_tempSourceLocationIndices[loc.fileNodeId];
+			std::map<TempSourceLocation, uint32_t>& index = m_tempSourceLocationIndices[loc.fileNodeId];
 			index.emplace(
 				TempSourceLocation(loc.startLine, loc.endLine - loc.startLine, loc.startCol, loc.endCol, loc.type),
 				loc.id);
@@ -364,8 +364,8 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 		const StorageSourceLocation& data = locations[i];
 		const TempSourceLocation tempLoc(data.startLine, data.endLine - data.startLine, data.startCol, data.endCol, data.type);
 
-		std::map<TempSourceLocation, Id>& index = m_tempSourceLocationIndices[data.fileNodeId];
-		std::map<TempSourceLocation, Id>::const_iterator it = index.find(tempLoc);
+		std::map<TempSourceLocation, uint32_t>& index = m_tempSourceLocationIndices[data.fileNodeId];
+		std::map<TempSourceLocation, uint32_t>::const_iterator it = index.find(tempLoc);
 		if (it != index.end())
 		{
 			locationIds[i] = it->second;
