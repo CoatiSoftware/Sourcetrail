@@ -18,11 +18,6 @@ public:
 		LICENSE_VALID
 	};
 
-	static void createInstance();
-	static std::shared_ptr<LicenseChecker> getInstance();
-
-	~LicenseChecker() = default;
-
 	static std::string getCurrentLicenseString();
 	static void saveCurrentLicenseString(const std::string& licenseString);
 
@@ -36,13 +31,7 @@ public:
 	static std::string getCurrentLicenseTypeString();
 
 private:
-	LicenseChecker();
-	LicenseChecker(const LicenseChecker&) = delete;
-	void operator=(const LicenseChecker&) = delete;
-
 	static LicenseState checkLicense(License& license);
-
-	static std::shared_ptr<LicenseChecker> s_instance;
 };
 
 #endif // LICENSE_CHECKER_H

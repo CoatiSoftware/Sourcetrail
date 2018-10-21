@@ -124,7 +124,6 @@ Application::Application(bool withGUI)
 	, m_licenseType(MessageEnteredLicense::LICENSE_NONE)
 	, m_lastLicenseCheck(TimeStamp::now())
 {
-	LicenseChecker::createInstance();
 }
 
 Application::~Application()
@@ -355,7 +354,7 @@ void Application::handleMessage(MessageWindowFocus* message)
 	{
 		m_lastLicenseCheck = TimeStamp::now();
 
-		LicenseChecker::LicenseState state = LicenseChecker::getInstance()->checkCurrentLicense();
+		LicenseChecker::LicenseState state = LicenseChecker::checkCurrentLicense();
 		if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_MOVED)
 		{
 			MessageForceEnterLicense(state).dispatch();

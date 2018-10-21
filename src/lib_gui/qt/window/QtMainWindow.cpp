@@ -260,12 +260,12 @@ void QtMainWindow::loadWindow(bool showStartWindow)
 
 	m_loaded = true;
 
-	LicenseChecker::LicenseState state = LicenseChecker::getInstance()->checkCurrentLicense();
+	LicenseChecker::LicenseState state = LicenseChecker::checkCurrentLicense();
 	bool licenseValid = (state == LicenseChecker::LICENSE_VALID);
 
 	if (licenseValid)
 	{
-		MessageEnteredLicense(LicenseChecker::getInstance()->getCurrentLicenseType()).dispatch();
+		MessageEnteredLicense(LicenseChecker::getCurrentLicenseType()).dispatch();
 	}
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
@@ -528,7 +528,7 @@ void QtMainWindow::enteredLicense()
 
 	m_windowStack.clearWindows();
 
-	MessageEnteredLicense(LicenseChecker::getInstance()->getCurrentLicenseType()).dispatch();
+	MessageEnteredLicense(LicenseChecker::getCurrentLicenseType()).dispatch();
 
 	setEnabled(true);
 

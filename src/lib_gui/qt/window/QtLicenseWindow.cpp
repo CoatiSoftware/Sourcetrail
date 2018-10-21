@@ -38,7 +38,7 @@ void QtLicenseWindow::load()
 {
 	clear();
 
-	std::string licenseString = LicenseChecker::getInstance()->getCurrentLicenseString();
+	std::string licenseString = LicenseChecker::getCurrentLicenseString();
 
 	if (licenseString.size() && m_licenseText)
 	{
@@ -153,8 +153,7 @@ void QtLicenseWindow::handleNext()
 	{
 		std::string licenseString = m_licenseText->toPlainText().toStdString();
 
-		LicenseChecker* checker = LicenseChecker::getInstance().get();
-		LicenseChecker::LicenseState state = checker->checkLicenseString(licenseString);
+		LicenseChecker::LicenseState state = LicenseChecker::checkLicenseString(licenseString);
 
 		std::string errorString;
 
@@ -175,7 +174,7 @@ void QtLicenseWindow::handleNext()
 				break;
 			case LicenseChecker::LICENSE_VALID:
 			{
-				if (checker->getLicenseType(licenseString) == MessageEnteredLicense::LICENSE_NON_COMMERCIAL)
+				if (LicenseChecker::getLicenseType(licenseString) == MessageEnteredLicense::LICENSE_NON_COMMERCIAL)
 				{
 					errorString =
 						"The entered license key does not permit commercial use. You no longer need a license "
@@ -183,7 +182,7 @@ void QtLicenseWindow::handleNext()
 					break;
 				}
 
-				checker->saveCurrentLicenseString(licenseString);
+				LicenseChecker::saveCurrentLicenseString(licenseString);
 				m_errorLabel->setText(" ");
 
 				ApplicationSettings::getInstance()->setNonCommercialUse(false);

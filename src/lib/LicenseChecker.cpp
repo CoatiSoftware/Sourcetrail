@@ -1,28 +1,10 @@
 #include "LicenseChecker.h"
 
+#include "ApplicationSettings.h"
 #include "AppPath.h"
+#include "License.h"
 #include "logging.h"
 #include "utilityApp.h"
-#include "MessageForceEnterLicense.h"
-
-#include "License.h"
-#include "PublicKey.h"
-#include "ApplicationSettings.h"
-
-void LicenseChecker::createInstance()
-{
-	if (!s_instance)
-	{
-		s_instance = std::shared_ptr<LicenseChecker>(new LicenseChecker());
-	}
-}
-
-std::shared_ptr<LicenseChecker> LicenseChecker::getInstance()
-{
-	createInstance();
-
-	return s_instance;
-}
 
 std::string LicenseChecker::getCurrentLicenseString()
 {
@@ -191,10 +173,6 @@ std::string LicenseChecker::getCurrentLicenseTypeString()
 	return "private";
 }
 
-LicenseChecker::LicenseChecker()
-{
-}
-
 LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license)
 {
 	if (license.isExpired())
@@ -209,5 +187,3 @@ LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license)
 
 	return LICENSE_INVALID;
 }
-
-std::shared_ptr<LicenseChecker> LicenseChecker::s_instance;
