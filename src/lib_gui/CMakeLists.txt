@@ -45,6 +45,8 @@ add_files(
 	qt/element/QtListBoxItem.h
 	qt/element/QtLocationPicker.cpp
 	qt/element/QtLocationPicker.h
+	qt/element/QtNewsWidget.cpp
+	qt/element/QtNewsWidget.h
 	qt/element/QtPathListBox.cpp
 	qt/element/QtPathListBox.h
 	qt/element/QtPathListBoxItem.cpp
@@ -67,6 +69,8 @@ add_files(
 	qt/element/QtStatusBar.h
 	qt/element/QtTable.cpp
 	qt/element/QtTable.h
+	qt/element/QtTextEdit.cpp
+	qt/element/QtTextEdit.h
 	qt/element/QtTooltip.cpp
 	qt/element/QtTooltip.h
 	qt/element/QtUndoRedo.cpp

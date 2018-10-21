@@ -99,6 +99,8 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 			{
 				setDownloadUrl(result.url);
 			}
+
+			emit updateReceived();
 		}
 	);
 }

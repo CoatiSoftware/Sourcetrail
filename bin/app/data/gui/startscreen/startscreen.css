@@ -29,17 +29,36 @@
 	border-radius: 10px;
 }
 
-#recentLabel {
+#titleLabel {
 	color: black;
 	font-size: 16px;
 	font-weight: bold;
 	margin-left: 6px;
 }
 
-#versionLabel {
+#textLabel {
+	color: black;
+	font-size: 12px;
+}
+
+#boldLabel {
 	color: black;
 	font-size: 12px;
 	font-weight: bold;
+}
+
+#textField {
+	background: white;
+	border: 1px solid lightgray;
+	border-radius: 12px;
+	color: black;
+	font-size: 12px;
+	margin-top: 5px;
+	min-width: 180px;
+}
+
+#textField[important=true] {
+	border: 2px solid #007ac3;
 }
 
 #updateButton, #upgradeButton {
@@ -56,20 +75,4 @@
 #updateButton:disabled, #upgradeButton:disabled {
 	color: black;
 	text-decoration: none;
-}
-
-#licenseHeaderLabel {
-	color: black;
-	font-size: 12px;
-	font-weight: bold;
-}
-
-#licenseLabel {
-	color: black;
-	font-size: 12px;
-}
-
-#welcomeLabel {
-	color: black;
-	font-size: 12px;
 }

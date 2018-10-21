@@ -10,9 +10,14 @@ class QPushButton;
 class QtUpdateCheckerWidget
 	: public QWidget
 {
+	Q_OBJECT
+
 public:
 	QtUpdateCheckerWidget(QWidget* parent = nullptr);
 	virtual ~QtUpdateCheckerWidget();
+
+signals:
+	void updateReceived();
 
 private:
 	void checkUpdate(bool force);

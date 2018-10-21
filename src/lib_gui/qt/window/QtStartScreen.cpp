@@ -7,17 +7,17 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 
+#include "ApplicationSettings.h"
 #include "AppPath.h"
-#include "MessageLoadProject.h"
-#include "ResourcePaths.h"
-#include "Version.h"
-
 #include "License.h"
+#include "MessageLoadProject.h"
+#include "ProjectSettings.h"
 #include "PublicKey.h"
 #include "QtUpdateCheckerWidget.h"
+#include "QtNewsWidget.h"
+#include "ResourcePaths.h"
 #include "utilityQt.h"
-#include "ApplicationSettings.h"
-#include "ProjectSettings.h"
+#include "Version.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent)
 	: QPushButton(parent)
@@ -93,7 +93,7 @@ QtStartScreen::QtStartScreen(QWidget *parent)
 
 QSize QtStartScreen::sizeHint() const
 {
-	return QSize(570, 600);
+	return QSize(570, 630);
 }
 
 void QtStartScreen::updateButtons()
@@ -153,39 +153,39 @@ void QtStartScreen::setupStartScreen()
 	addLogo();
 
 	QHBoxLayout* layout = new QHBoxLayout();
-	layout->setContentsMargins(15, 170, 15, 10);
+	layout->setContentsMargins(15, 170, 15, 0);
 	layout->setSpacing(1);
 	m_content->setLayout(layout);
 
 	{
 		QVBoxLayout* col = new QVBoxLayout();
-		layout->addLayout(col, 2);
+		layout->addLayout(col, 3);
 
 		QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
-		versionLabel->setObjectName("versionLabel");
+		versionLabel->setObjectName("boldLabel");
 		col->addWidget(versionLabel);
 
 		QtUpdateCheckerWidget* checker = new QtUpdateCheckerWidget(this);
 		col->addWidget(checker);
 
-		col->addSpacing(30);
+		col->addSpacing(15);
 
 		if (license.isValid())
 		{
 			std::string licenseString = license.getLicenseInfo();
 
 			QLabel* licenseHeader = new QLabel("Licensed to:");
-			licenseHeader->setObjectName("licenseHeaderLabel");
+			licenseHeader->setObjectName("boldLabel");
 			col->addWidget(licenseHeader);
 			col->addSpacing(2);
 			QLabel* licenseLabel = new QLabel(licenseString.c_str());
-			licenseLabel->setObjectName("licenseLabel");
+			licenseLabel->setObjectName("textLabel");
 			col->addWidget(licenseLabel);
 		}
 		else
 		{
 			QLabel* licenseHeader = new QLabel("Not licensed for<br />commercial use.");
-			licenseHeader->setObjectName("licenseHeaderLabel");
+			licenseHeader->setObjectName("boldLabel");
 			col->addWidget(licenseHeader);
 
 			QPushButton* upgradeButton = new QPushButton("upgrade");
@@ -195,6 +195,20 @@ void QtStartScreen::setupStartScreen()
 			connect(upgradeButton, &QPushButton::clicked, [this](){ emit openEnterLicenseDialog(); });
 		}
 
+		col->addSpacing(15);
+
+		{
+			QLabel* newsHeader = new QLabel("News:");
+			newsHeader->setObjectName("boldLabel");
+			col->addWidget(newsHeader);
+
+			QtNewsWidget* newsWidget = new QtNewsWidget(this);
+			col->addWidget(newsWidget);
+
+			connect(checker, &QtUpdateCheckerWidget::updateReceived, newsWidget, &QtNewsWidget::updateNews);
+		}
+
+		col->addSpacing(15);
 		col->addStretch();
 
 		QPushButton* newProjectButton = new QPushButton("New Project", this);
@@ -212,23 +226,21 @@ void QtStartScreen::setupStartScreen()
 		openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 		connect(openProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleOpenProjectButton);
 		col->addWidget(openProjectButton);
-
-		layout->addStretch(2);
 	}
+
+	layout->addSpacing(50);
 
 	{
 		QVBoxLayout* col = new QVBoxLayout();
 		layout->addLayout(col, 1);
 
 		QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
-		recentProjectsLabel->setObjectName("recentLabel");
+		recentProjectsLabel->setObjectName("titleLabel");
 		col->addWidget(recentProjectsLabel);
 
 		col->addSpacing(20);
 
-		for (int i = 0
-			; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
-			; i++)
+		for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
 		{
 			QtRecentProjectButton* button = new QtRecentProjectButton(this);
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac

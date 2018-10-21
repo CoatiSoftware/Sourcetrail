@@ -167,6 +167,9 @@ public:
 	Version getUpdateVersion() const;
 	void setUpdateVersion(const Version& version);
 
+	std::string getUpdateNews() const;
+	void setUpdateNews(const std::string& news);
+
 	bool getSeenErrorHelpMessage() const;
 	void setSeenErrorHelpMessage(bool seen);
 

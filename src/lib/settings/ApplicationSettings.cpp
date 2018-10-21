@@ -597,6 +597,16 @@ Version ApplicationSettings::getUpdateVersion() const
 	return Version::fromString(getValue<std::string>("user/update_check/update_version", "2017.1.0"));
 }
 
+std::string ApplicationSettings::getUpdateNews() const
+{
+	return getValue<std::string>("user/update_check/news", "");
+}
+
+void ApplicationSettings::setUpdateNews(const std::string& news)
+{
+	setValue<std::string>("user/update_check/news", news);
+}
+
 void ApplicationSettings::setUpdateVersion(const Version& version)
 {
 	if (version.isValid())

@@ -36,27 +36,10 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	appSettings->setUpdateDownloadUrl("");
 	appSettings->save();
 
-	QString urlString = "https://www.sourcetrail.com/api/v1/versions/latest";
+	QString urlString = "https://www.sourcetrail.com/api/v2/versions/latest";
 
 	// OS
-	std::string osString;
-
-	switch (utility::getOsType())
-	{
-		case OS_WINDOWS:
-			osString = "windows";
-			break;
-		case OS_MAC:
-			osString = "macOS";
-			break;
-		case OS_LINUX:
-			osString = "linux";
-			break;
-		default:
-			callback(result);
-			return;
-	}
-
+	std::string osString = utility::getOsTypeString();
 	urlString += ("?os=" + osString).c_str();
 
 	// architecture
@@ -68,21 +51,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	urlString += ("&version=" + Version::getApplicationVersion().toDisplayString()).c_str();
 
 	// license
-	std::string licenseString;
-	switch (LicenseChecker::getInstance()->getCurrentLicenseType())
-	{
-		case MessageEnteredLicense::LICENSE_NONE:
-		case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
-			licenseString = "private";
-			break;
-		case MessageEnteredLicense::LICENSE_TEST:
-			licenseString = "test";
-			break;
-		case MessageEnteredLicense::LICENSE_COMMERCIAL:
-			licenseString = "commercial";
-			break;
-	}
-
+	std::string licenseString = LicenseChecker::getCurrentLicenseTypeString();
 	urlString += ("&license=" + licenseString).c_str();
 
 	// user token
@@ -103,14 +72,26 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 		{
 			Result result;
 
+			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+			bool saveAppSettings = false;
+
 			do
 			{
-				QJsonDocument doc = QJsonDocument::fromJson(bytes);
-				if (!doc.isObject())
+				QJsonParseError error;
+				QJsonDocument doc = QJsonDocument::fromJson(bytes, &error);
+				if (doc.isNull() || !doc.isObject())
 				{
-					LOG_ERROR_STREAM(<< "Update response couldn't be parsed as JSON");
+					LOG_ERROR_STREAM(<< "Update response couldn't be parsed as JSON: " << error.errorString().toStdString());
 					break;
 				}
+
+				QString news = doc.object().find("news")->toString();
+				if (news.toStdString() != appSettings->getUpdateNews())
+				{
+					appSettings->setUpdateNews(news.toStdString());
+					saveAppSettings = true;
+				}
+
 
 				QString version = doc.object().find("version")->toString();
 				QString url = doc.object().find("url")->toString();
@@ -129,10 +110,9 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 					result.version = updateVersion;
 					result.url = url;
 
-					ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 					appSettings->setUpdateVersion(updateVersion);
 					appSettings->setUpdateDownloadUrl(url.toStdString());
-					appSettings->save();
+					saveAppSettings = true;
 
 					if (!force && appSettings->getSkipUpdateForVersion() == updateVersion)
 					{
@@ -153,7 +133,6 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 					if (val == 1)
 					{
 						appSettings->setSkipUpdateForVersion(updateVersion);
-						appSettings->save();
 					}
 					else if (val == 2)
 					{
@@ -162,6 +141,11 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 				}
 			}
 			while (false);
+
+			if (saveAppSettings)
+			{
+				appSettings->save();
+			}
 
 			request->deleteLater();
 

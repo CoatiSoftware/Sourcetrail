@@ -23,22 +23,24 @@ public:
 
 	~LicenseChecker() = default;
 
-	std::string getCurrentLicenseString() const;
-	void saveCurrentLicenseString(const std::string& licenseString) const;
+	static std::string getCurrentLicenseString();
+	static void saveCurrentLicenseString(const std::string& licenseString);
 
-	bool isCurrentLicenseValid();
-	LicenseState checkCurrentLicense() const;
-	LicenseState checkLicenseString(const std::string& licenseString) const;
+	static bool isCurrentLicenseValid();
+	static LicenseState checkCurrentLicense();
+	static LicenseState checkLicenseString(const std::string& licenseString);
 
-	MessageEnteredLicense::LicenseType getCurrentLicenseType() const;
-	MessageEnteredLicense::LicenseType getLicenseType(const std::string& licenseString) const;
+	static MessageEnteredLicense::LicenseType getCurrentLicenseType();
+	static MessageEnteredLicense::LicenseType getLicenseType(const std::string& licenseString);
+
+	static std::string getCurrentLicenseTypeString();
 
 private:
 	LicenseChecker();
 	LicenseChecker(const LicenseChecker&) = delete;
 	void operator=(const LicenseChecker&) = delete;
 
-	LicenseState checkLicense(License& license) const;
+	static LicenseState checkLicense(License& license);
 
 	static std::shared_ptr<LicenseChecker> s_instance;
 };

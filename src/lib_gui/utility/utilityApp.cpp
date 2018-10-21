@@ -137,6 +137,16 @@ void utility::killRunningProcesses()
 	}
 }
 
+int utility::getIdealThreadCount()
+{
+	int threadCount = QThread::idealThreadCount();
+	if (getOsType() == OS_WINDOWS)
+	{
+		threadCount -= 1;
+	}
+	return std::max(1, threadCount);
+}
+
 OsType utility::getOsType()
 {
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
@@ -154,14 +164,21 @@ OsType utility::getOsType()
 	return OS_UNKNOWN;
 }
 
-int utility::getIdealThreadCount()
+std::string utility::getOsTypeString()
 {
-	int threadCount = QThread::idealThreadCount();
-	if (getOsType() == OS_WINDOWS)
+	// WARNING: Don't change these string. The server API relies on them.
+	switch (utility::getOsType())
 	{
-		threadCount -= 1;
+		case OS_WINDOWS:
+			return "windows";
+		case OS_MAC:
+			return "macOS";
+		case OS_LINUX:
+			return "linux";
+		default:
+			break;
 	}
-	return std::max(1, threadCount);
+	return "unknown";
 }
 
 bool utility::saveLicense(const License* license)

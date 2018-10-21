@@ -24,7 +24,7 @@ std::shared_ptr<LicenseChecker> LicenseChecker::getInstance()
 	return s_instance;
 }
 
-std::string LicenseChecker::getCurrentLicenseString() const
+std::string LicenseChecker::getCurrentLicenseString()
 {
 	License license;
 	bool isLoaded = license.loadFromEncodedString(
@@ -38,7 +38,7 @@ std::string LicenseChecker::getCurrentLicenseString() const
 	return "";
 }
 
-void LicenseChecker::saveCurrentLicenseString(const std::string& licenseString) const
+void LicenseChecker::saveCurrentLicenseString(const std::string& licenseString)
 {
 	License license;
 	bool isLoaded = license.loadFromString(licenseString);
@@ -55,7 +55,7 @@ bool LicenseChecker::isCurrentLicenseValid()
 	return checkCurrentLicense() == LICENSE_VALID;
 }
 
-LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
+LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense()
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 	if (appSettings == nullptr)
@@ -96,7 +96,7 @@ LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 	return checkLicense(license);
 }
 
-LicenseChecker::LicenseState LicenseChecker::checkLicenseString(const std::string& licenseString) const
+LicenseChecker::LicenseState LicenseChecker::checkLicenseString(const std::string& licenseString)
 {
 	if (licenseString.size() == 0)
 	{
@@ -115,7 +115,7 @@ LicenseChecker::LicenseState LicenseChecker::checkLicenseString(const std::strin
 	return checkLicense(license);
 }
 
-MessageEnteredLicense::LicenseType LicenseChecker::getCurrentLicenseType() const
+MessageEnteredLicense::LicenseType LicenseChecker::getCurrentLicenseType()
 {
 	License license;
 	bool isLoaded = license.loadFromEncodedString(
@@ -143,7 +143,7 @@ MessageEnteredLicense::LicenseType LicenseChecker::getCurrentLicenseType() const
 	return MessageEnteredLicense::LICENSE_COMMERCIAL;
 }
 
-MessageEnteredLicense::LicenseType LicenseChecker::getLicenseType(const std::string& licenseString) const
+MessageEnteredLicense::LicenseType LicenseChecker::getLicenseType(const std::string& licenseString)
 {
 	if (licenseString.size() == 0)
 	{
@@ -174,11 +174,28 @@ MessageEnteredLicense::LicenseType LicenseChecker::getLicenseType(const std::str
 	return MessageEnteredLicense::LICENSE_COMMERCIAL;
 }
 
+std::string LicenseChecker::getCurrentLicenseTypeString()
+{
+	// WARNING: Don't change these string. The server API relies on them.
+	switch (getCurrentLicenseType())
+	{
+		case MessageEnteredLicense::LICENSE_NONE:
+		case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
+			return "private";
+		case MessageEnteredLicense::LICENSE_TEST:
+			return "test";
+		case MessageEnteredLicense::LICENSE_COMMERCIAL:
+			return "commercial";
+	}
+
+	return "private";
+}
+
 LicenseChecker::LicenseChecker()
 {
 }
 
-LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license) const
+LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license)
 {
 	if (license.isExpired())
 	{
