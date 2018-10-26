@@ -61,7 +61,7 @@ CC=gcc \
 DEVTOOLSET=/opt/rh/devtoolset-4/root/usr/
 
 ## Install llvm
-ARG LLVM_VERSION=6.0.0
+ARG LLVM_VERSION=7.0.0
 RUN alias python=/usr/bin/python2.7 && mkdir -p /llvm && cd /llvm && \
 wget http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
 tar xf llvm-${LLVM_VERSION}.src.tar.xz && \
@@ -93,7 +93,7 @@ rm -rf /botan
 
 ## Boost
 ARG BOOST_MAJOR=1
-ARG BOOST_MINOR=64
+ARG BOOST_MINOR=68
 ARG BOOST_PATCH=0
 ENV BOOST_VERSION=${BOOST_MAJOR}.${BOOST_MINOR}.${BOOST_PATCH} \
 BOOST_VERSION_UNDERSCORE=${BOOST_MAJOR}_${BOOST_MINOR}_${BOOST_PATCH}
