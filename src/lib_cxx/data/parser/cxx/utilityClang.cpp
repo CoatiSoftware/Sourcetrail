@@ -204,7 +204,7 @@ ParseLocation utility::getParseLocation(
 				sourceManager.isMacroBodyExpansion(range.getEnd())
 			)
 		){
-			range = sourceManager.getExpansionRange(sourceRange);
+			range = sourceManager.getExpansionRange(sourceRange).getAsRange();
 			if (range.isValid())
 			{
 				endLoc = preprocessor->getLocForEndOfToken(range.getBegin());

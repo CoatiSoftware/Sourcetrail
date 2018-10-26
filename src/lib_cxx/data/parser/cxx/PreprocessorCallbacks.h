@@ -32,7 +32,7 @@ public:
 	void InclusionDirective(
 		clang::SourceLocation hashLocation, const clang::Token& includeToken, llvm::StringRef fileName, bool isAngled,
 		clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
-		llvm::StringRef relativePath, const clang::Module* imported) override;
+		llvm::StringRef relativePath, const clang::Module* imported, clang::SrcMgr::CharacteristicKind fileType) override;
 
 	void MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective) override;
 	void MacroUndefined(

@@ -50,7 +50,7 @@ void PreprocessorCallbacks::FileChanged(
 void PreprocessorCallbacks::InclusionDirective(
 	clang::SourceLocation hashLocation, const clang::Token& includeToken, llvm::StringRef fileName, bool isAngled,
 	clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
-	llvm::StringRef relativePath, const clang::Module* imported
+	llvm::StringRef relativePath, const clang::Module* imported, clang::SrcMgr::CharacteristicKind fileType
 ){
 	if (m_currentFileSymbolId && fileEntry)
 	{

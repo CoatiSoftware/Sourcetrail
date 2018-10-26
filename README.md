@@ -7,7 +7,7 @@
 * JDK 1.8
 * QT 5.10.1
 * CxxTest 4.3
-* Clang & LLVM 6.0 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
+* Clang & LLVM 7.0 (doesn't quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.68
 * Botan 2.1.0
 * Image Magick 7.0.6
@@ -127,16 +127,13 @@ $ git pull origin master
 $ cd tools/clang
 $ git pull origin master
 
-$ cd tools/extra/
-$ git pull origin master
-
 $ cd ../../../../../build_debug
 $ cmake -G Ninja -DLLVM_ENABLE_RTTI=ON ../llvm
 $ ninja -j4 check-all
 
 $ cd ../build_release
 $ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=ON ../llvm
-$ ninja -j4 check-all
+$ ninja -j4
 
 # Update CMakeLists.txt symlink directory
 # Update cmake/linux_package.cmake clang include path
