@@ -15,7 +15,7 @@
 
 #include "MessageActivateTrail.h"
 #include "MessageDeactivateEdge.h"
-#include "MessageRefresh.h"
+#include "MessageRefreshUI.h"
 #include "MessageScrollGraph.h"
 #include "MessageStatus.h"
 #include "ResourcePaths.h"
@@ -750,7 +750,7 @@ void QtGraphView::groupingUpdated(QPushButton* button)
 		appSettings->save();
 	}
 
-	MessageRefresh().refreshUiOnly().noReloadStyle().dispatch();
+	MessageRefreshUI().noStyleReload().dispatch();
 }
 
 void QtGraphView::performScroll(QScrollBar* scrollBar, int value) const

@@ -7,22 +7,14 @@ class MessageRefresh
 	: public Message<MessageRefresh>
 {
 public:
-	MessageRefresh()
-		: uiOnly(false)
-		, all(false)
-		, loadStyle(true)
-	{
-	}
-
 	static const std::string getStaticType()
 	{
 		return "MessageRefresh";
 	}
 
-	MessageRefresh& refreshUiOnly()
+	MessageRefresh()
+		: all(false)
 	{
-		uiOnly = true;
-		return *this;
 	}
 
 	MessageRefresh& refreshAll()
@@ -31,28 +23,15 @@ public:
 		return *this;
 	}
 
-	MessageRefresh& noReloadStyle()
+	void print(std::wostream& os) const override
 	{
-		loadStyle = false;
-		return *this;
-	}
-
-	virtual void print(std::wostream& os) const
-	{
-		if (uiOnly)
-		{
-			os << "ui ";
-		}
 		if (all)
 		{
 			os << "all";
 		}
 	}
 
-	bool uiOnly;
 	bool all;
-
-	bool loadStyle;
 };
 
 #endif // MESSAGE_REFRESH_H

@@ -5,7 +5,7 @@
 
 #include "FilePath.h"
 #include "MessageListener.h"
-#include "MessageRefresh.h"
+#include "MessageRefreshUI.h"
 
 #include "QtThreadedFunctor.h"
 
@@ -53,7 +53,7 @@ private:
 
 class QtSelfRefreshIconButton
 	: public QPushButton
-	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageRefreshUI>
 {
 public:
 	QtSelfRefreshIconButton(
@@ -63,7 +63,7 @@ public:
 	void setIconPath(const FilePath& iconPath);
 
 protected:
-	void handleMessage(MessageRefresh* message);
+	void handleMessage(MessageRefreshUI* message) override;
 
 	virtual void refresh();
 

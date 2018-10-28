@@ -11,6 +11,7 @@
 #include "MessageEnteredLicense.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
+#include "MessageRefreshUI.h"
 #include "MessageSwitchColorScheme.h"
 #include "MessageWindowFocus.h"
 
@@ -30,6 +31,7 @@ class Application
 	, public MessageListener<MessageIndexingFinished>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageRefreshUI>
 	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageWindowFocus>
 {
@@ -62,15 +64,16 @@ private:
 	static std::shared_ptr<Application> s_instance;
 	static std::string s_uuid;
 
-	Application(bool withGUI=true);
+	Application(bool withGUI = true);
 
-	virtual void handleMessage(MessageActivateWindow* message);
-	virtual void handleMessage(MessageEnteredLicense* message);
-	virtual void handleMessage(MessageIndexingFinished* message);
-	virtual void handleMessage(MessageLoadProject* message);
-	virtual void handleMessage(MessageRefresh* message);
-	virtual void handleMessage(MessageSwitchColorScheme* message);
-	virtual void handleMessage(MessageWindowFocus* message);
+	void handleMessage(MessageActivateWindow* message) override;
+	void handleMessage(MessageEnteredLicense* message) override;
+	void handleMessage(MessageIndexingFinished* message) override;
+	void handleMessage(MessageLoadProject* message) override;
+	void handleMessage(MessageRefresh* message) override;
+	void handleMessage(MessageRefreshUI* message) override;
+	void handleMessage(MessageSwitchColorScheme* message) override;
+	void handleMessage(MessageWindowFocus* message) override;
 
 	FilePath migrateProjectSettings(const FilePath& projectSettingsFilePath) const;
 	void startMessagingAndScheduling();

@@ -220,7 +220,7 @@ void Application::handleMessage(MessageIndexingFinished* message)
 
 	if (m_hasGUI)
 	{
-		MessageRefresh().refreshUiOnly().dispatch();
+		MessageRefreshUI().dispatch();
 	}
 	else
 	{
@@ -313,7 +313,14 @@ void Application::handleMessage(MessageRefresh* message)
 {
 	TRACE("app refresh");
 
-	if (m_hasGUI && message->uiOnly)
+	refreshProject(message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES);
+}
+
+void Application::handleMessage(MessageRefreshUI* message)
+{
+	TRACE("ui refresh");
+
+	if (m_hasGUI)
 	{
 		if (message->loadStyle)
 		{
@@ -323,11 +330,6 @@ void Application::handleMessage(MessageRefresh* message)
 		m_mainView->refreshView();
 		m_componentManager->refreshViews();
 	}
-
-	if (!message->uiOnly)
-	{
-		refreshProject(message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES);
-	}
 }
 
 void Application::handleMessage(MessageSwitchColorScheme* message)
@@ -335,7 +337,7 @@ void Application::handleMessage(MessageSwitchColorScheme* message)
 	MessageStatus(L"Switch color scheme: " + message->colorSchemePath.wstr()).dispatch();
 
 	loadStyle(message->colorSchemePath);
-	MessageRefresh().refreshUiOnly().noReloadStyle().dispatch();
+	MessageRefreshUI().noStyleReload().dispatch();
 }
 
 void Application::handleMessage(MessageWindowFocus* message)

@@ -485,6 +485,7 @@ add_files(
 	utility/messaging/type/MessageProjectNew.h
 	utility/messaging/type/MessageQuitApplication.h
 	utility/messaging/type/MessageRefresh.h
+	utility/messaging/type/MessageRefreshUI.h
 	utility/messaging/type/MessageResetZoom.h
 	utility/messaging/type/MessageScrollCode.h
 	utility/messaging/type/MessageScrollGraph.h

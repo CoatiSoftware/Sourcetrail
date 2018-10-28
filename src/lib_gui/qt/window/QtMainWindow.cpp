@@ -43,6 +43,7 @@
 #include "MessageInterruptTasks.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
+#include "MessageRefreshUI.h"
 #include "MessageResetZoom.h"
 #include "MessageWindowClosed.h"
 #include "MessageZoom.h"
@@ -412,7 +413,7 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_R:
 			if (event->modifiers() & (Qt::ControlModifier | Qt::AltModifier))
 			{
-				MessageRefresh().refreshUiOnly().dispatch();
+				MessageRefreshUI().dispatch();
 			}
 			break;
 

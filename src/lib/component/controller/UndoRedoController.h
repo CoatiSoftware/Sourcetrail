@@ -25,7 +25,7 @@
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
 #include "MessageGraphNodeMove.h"
-#include "MessageRefresh.h"
+#include "MessageRefreshUI.h"
 #include "MessageScrollCode.h"
 #include "MessageScrollGraph.h"
 #include "MessageShowReference.h"
@@ -57,7 +57,7 @@ class UndoRedoController
 	, public MessageListener<MessageHistoryToPosition>
 	, public MessageListener<MessageHistoryUndo>
 	, public MessageListener<MessageIndexingFinished>
-	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageRefreshUI>
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollGraph>
 	, public MessageListener<MessageShowError>
@@ -70,7 +70,7 @@ public:
 
 	UndoRedoView* getView();
 
-	virtual void clear();
+	void clear() override;
 
 private:
 	struct Command
@@ -89,31 +89,31 @@ private:
 		bool replayLastOnly;
 	};
 
-	virtual void handleMessage(MessageActivateAll* message);
-	virtual void handleMessage(MessageActivateErrors* message);
-	virtual void handleMessage(MessageActivateFullTextSearch* message);
-	virtual void handleMessage(MessageActivateLegend* message);
-	virtual void handleMessage(MessageActivateLocalSymbols* message);
-	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageActivateTrail* message);
-	virtual void handleMessage(MessageActivateTrailEdge* message);
-	virtual void handleMessage(MessageChangeFileView* message);
-	virtual void handleMessage(MessageCodeShowDefinition* message);
-	virtual void handleMessage(MessageDeactivateEdge* message);
-	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
-	virtual void handleMessage(MessageGraphNodeExpand* message);
-	virtual void handleMessage(MessageGraphNodeHide* message);
-	virtual void handleMessage(MessageGraphNodeMove* message);
-	virtual void handleMessage(MessageHistoryRedo* message);
-	virtual void handleMessage(MessageHistoryToPosition* message);
-	virtual void handleMessage(MessageHistoryUndo* message);
-	virtual void handleMessage(MessageIndexingFinished* message);
-	virtual void handleMessage(MessageRefresh* message);
-	virtual void handleMessage(MessageScrollCode* message);
-	virtual void handleMessage(MessageScrollGraph* message);
-	virtual void handleMessage(MessageShowError* message);
-	virtual void handleMessage(MessageShowReference* message);
-	virtual void handleMessage(MessageShowScope* message);
+	void handleMessage(MessageActivateAll* message) override;
+	void handleMessage(MessageActivateErrors* message) override;
+	void handleMessage(MessageActivateFullTextSearch* message) override;
+	void handleMessage(MessageActivateLegend* message) override;
+	void handleMessage(MessageActivateLocalSymbols* message) override;
+	void handleMessage(MessageActivateTokens* message) override;
+	void handleMessage(MessageActivateTrail* message) override;
+	void handleMessage(MessageActivateTrailEdge* message) override;
+	void handleMessage(MessageChangeFileView* message) override;
+	void handleMessage(MessageCodeShowDefinition* message) override;
+	void handleMessage(MessageDeactivateEdge* message) override;
+	void handleMessage(MessageGraphNodeBundleSplit* message) override;
+	void handleMessage(MessageGraphNodeExpand* message) override;
+	void handleMessage(MessageGraphNodeHide* message) override;
+	void handleMessage(MessageGraphNodeMove* message) override;
+	void handleMessage(MessageHistoryRedo* message) override;
+	void handleMessage(MessageHistoryToPosition* message) override;
+	void handleMessage(MessageHistoryUndo* message) override;
+	void handleMessage(MessageIndexingFinished* message) override;
+	void handleMessage(MessageRefreshUI* message) override;
+	void handleMessage(MessageScrollCode* message) override;
+	void handleMessage(MessageScrollGraph* message) override;
+	void handleMessage(MessageShowError* message) override;
+	void handleMessage(MessageShowReference* message) override;
+	void handleMessage(MessageShowScope* message) override;
 
 	void replayCommands();
 	void replayCommands(std::list<Command>::iterator it);

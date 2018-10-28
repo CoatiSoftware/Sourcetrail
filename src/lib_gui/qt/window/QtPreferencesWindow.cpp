@@ -2,7 +2,7 @@
 
 #include "MessageLoadProject.h"
 #include "MessagePluginPortChange.h"
-#include "MessageRefresh.h"
+#include "MessageRefreshUI.h"
 #include "MessageScrollSpeedChange.h"
 
 #include "Application.h"
@@ -108,7 +108,7 @@ void QtPreferencesWindow::handleNext()
 	}
 	else
 	{
-		MessageRefresh().refreshUiOnly().dispatch();
+		MessageRefreshUI().dispatch();
 	}
 
 	QtWindow::handleClose();

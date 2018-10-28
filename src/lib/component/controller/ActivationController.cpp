@@ -9,7 +9,7 @@
 #include "MessageActivateTokens.h"
 #include "MessageChangeFileView.h"
 #include "MessageFlushUpdates.h"
-#include "MessageRefresh.h"
+#include "MessageRefreshUI.h"
 #include "MessageStatus.h"
 #include "MessageScrollToLine.h"
 #include "utility.h"
@@ -123,9 +123,8 @@ void ActivationController::handleMessage(MessageResetZoom* message)
 		settings->setFontSize(fontSizeStd);
 		settings->save();
 
-		MessageRefresh().refreshUiOnly().dispatch();
+		MessageRefreshUI().dispatch();
 	}
-
 
 	MessageStatus(L"Font size: " + std::to_wstring(fontSizeStd)).dispatch();
 }
@@ -192,6 +191,5 @@ void ActivationController::handleMessage(MessageZoom* message)
 	settings->save();
 
 	MessageStatus(L"Font size: " + std::to_wstring(settings->getFontSize())).dispatch();
-	MessageRefresh().refreshUiOnly().dispatch();
+	MessageRefreshUI().dispatch();
 }
-

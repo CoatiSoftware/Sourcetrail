@@ -102,15 +102,12 @@ void QtSelfRefreshIconButton::setIconPath(const FilePath& iconPath)
 	}
 }
 
-void QtSelfRefreshIconButton::handleMessage(MessageRefresh* message)
+void QtSelfRefreshIconButton::handleMessage(MessageRefreshUI* message)
 {
-	if (message->uiOnly)
+	m_onQtThread([this]()
 	{
-		m_onQtThread([this]()
-		{
-			refresh();
-		});
-	}
+		refresh();
+	});
 }
 
 void QtSelfRefreshIconButton::refresh()

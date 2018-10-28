@@ -71,11 +71,6 @@ void StatusBarController::handleMessage(MessagePingReceived* message)
 
 void StatusBarController::handleMessage(MessageRefresh* message)
 {
-	if (message->uiOnly)
-	{
-		return;
-	}
-
 	getView()->setErrorCount(m_storageAccess->getErrorCount());
 }
 

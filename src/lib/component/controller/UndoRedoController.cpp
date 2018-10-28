@@ -355,13 +355,8 @@ void UndoRedoController::handleMessage(MessageIndexingFinished* message)
 	m_iterator = m_list.end();
 }
 
-void UndoRedoController::handleMessage(MessageRefresh* message)
+void UndoRedoController::handleMessage(MessageRefreshUI* message)
 {
-	if (!message->uiOnly)
-	{
-		return;
-	}
-
 	if (m_iterator == m_list.begin())
 	{
 		MessageActivateAll().dispatch();

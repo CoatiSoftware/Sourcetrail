@@ -35,17 +35,17 @@ public:
 
 	StatusBarView* getView();
 
-	virtual void clear();
+	void clear() override;
 
 private:
-	virtual void handleMessage(MessageErrorCountClear* message);
-	virtual void handleMessage(MessageErrorCountUpdate* message);
-	virtual void handleMessage(MessageIndexingFinished* message);
-	virtual void handleMessage(MessageIndexingStarted* message);
-	virtual void handleMessage(MessageIndexingStatus* message);
-	virtual void handleMessage(MessagePingReceived* message);
-	virtual void handleMessage(MessageRefresh* message);
-	virtual void handleMessage(MessageStatus* message);
+	void handleMessage(MessageErrorCountClear* message) override;
+	void handleMessage(MessageErrorCountUpdate* message) override;
+	void handleMessage(MessageIndexingFinished* message) override;
+	void handleMessage(MessageIndexingStarted* message) override;
+	void handleMessage(MessageIndexingStatus* message) override;
+	void handleMessage(MessagePingReceived* message) override;
+	void handleMessage(MessageRefresh* message) override;
+	void handleMessage(MessageStatus* message) override;
 
 	void setStatus(const std::wstring& status, bool isError, bool showLoader);
 
