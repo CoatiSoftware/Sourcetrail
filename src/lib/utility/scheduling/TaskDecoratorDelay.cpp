@@ -21,8 +21,7 @@ Task::TaskState TaskDecoratorDelay::doUpdate(std::shared_ptr<Blackboard> blackbo
 		return m_taskRunner->update(blackboard);
 	}
 
-	const int SLEEP_TIME_MS = (m_delayMS / 3) + 1;
-	std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 	m_delayComplete = (TimeStamp::now().deltaMS(m_start) >= m_delayMS);
 
