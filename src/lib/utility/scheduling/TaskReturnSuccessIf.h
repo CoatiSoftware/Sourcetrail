@@ -44,9 +44,6 @@ void TaskReturnSuccessIf<T>::doEnter(std::shared_ptr<Blackboard> blackboard)
 template <typename T>
 Task::TaskState TaskReturnSuccessIf<T>::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	const int SLEEP_TIME_MS = 25;
-	std::this_thread::sleep_for(std::chrono::microseconds(SLEEP_TIME_MS));
-
 	T lhsValue = 0;
 	blackboard->get<T>(m_lhsValueName, lhsValue);
 

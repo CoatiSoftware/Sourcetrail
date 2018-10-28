@@ -1,8 +1,5 @@
 #include "TaskMergeStorages.h"
 
-#include <chrono>
-#include <thread>
-
 #include "StorageProvider.h"
 
 TaskMergeStorages::TaskMergeStorages(
@@ -39,10 +36,6 @@ Task::TaskState TaskMergeStorages::doUpdate(std::shared_ptr<Blackboard> blackboa
 				m_storageProvider->insert(source);
 			}
 		}
-	}
-	else
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 	}
 
 	return STATE_FAILURE;

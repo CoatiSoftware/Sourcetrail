@@ -15,7 +15,7 @@ public:
 		CONDITION_WHILE_SUCCESS
 	};
 
-	TaskDecoratorRepeat(ConditionType condition, TaskState exitState);
+	TaskDecoratorRepeat(ConditionType condition, TaskState exitState, size_t delayMS);
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -25,6 +25,7 @@ private:
 
 	const ConditionType m_condition;
 	const TaskState m_exitState;
+	const size_t m_delayMS;
 };
 
 #endif // TASK_DECORATOR_REPEAT_H

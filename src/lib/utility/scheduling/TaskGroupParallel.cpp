@@ -78,9 +78,13 @@ void TaskGroupParallel::doTerminate()
 	for (size_t i = 0; i < m_tasks.size(); i++)
 	{
 		m_tasks[i]->taskRunner->terminate();
+	}
+
+	for (size_t i = 0; i < m_tasks.size(); i++)
+	{
 		if (m_tasks[i]->thread)
 		{
-			m_tasks[i]->thread->detach();
+			m_tasks[i]->thread->join();
 			m_tasks[i]->thread.reset();
 		}
 	}

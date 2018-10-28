@@ -1,8 +1,5 @@
 #include "TaskInjectStorage.h"
 
-#include <chrono>
-#include <thread>
-
 #include "Storage.h"
 #include "StorageProvider.h"
 
@@ -32,10 +29,6 @@ Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboa
 				return STATE_SUCCESS;
 			}
 		}
-	}
-	else
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 	}
 
 	return STATE_FAILURE;

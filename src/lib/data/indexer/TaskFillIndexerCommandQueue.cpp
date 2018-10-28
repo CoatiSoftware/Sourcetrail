@@ -71,6 +71,11 @@ void TaskFillIndexerCommandsQueue::doEnter(std::shared_ptr<Blackboard> blackboar
 
 Task::TaskState TaskFillIndexerCommandsQueue::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
+	if (m_interrupted)
+	{
+		return STATE_FAILURE;
+	}
+
 	if (!fillCommandQueue())
 	{
 		std::lock_guard<std::mutex> lock(m_commandsMutex);
@@ -93,6 +98,12 @@ void TaskFillIndexerCommandsQueue::doExit(std::shared_ptr<Blackboard> blackboard
 
 void TaskFillIndexerCommandsQueue::doReset(std::shared_ptr<Blackboard> blackboard)
 {
+	m_interrupted = false;
+}
+
+void TaskFillIndexerCommandsQueue::terminate()
+{
+	m_interrupted = true;
 }
 
 void TaskFillIndexerCommandsQueue::handleMessage(MessageInterruptTasks* message)
