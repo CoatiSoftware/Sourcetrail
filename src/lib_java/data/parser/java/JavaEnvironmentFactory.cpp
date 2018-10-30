@@ -29,6 +29,13 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 
 	std::function<jint (JavaVM**, void**, void*)> createInstanceFunction;
 	const FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
+
+	if (javaPath.empty())
+	{
+		errorString = "No Java Path provided in preferences.";
+		return;
+	}
+
 	createInstanceFunction = utility::loadFunctionFromLibrary<jint, JavaVM**, void**, void*>(
 		javaPath,
 		"JNI_CreateJavaVM",
