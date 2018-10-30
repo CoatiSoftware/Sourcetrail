@@ -525,8 +525,12 @@ void CxxAstVisitorComponentIndexer::visitDeclRefExpr(clang::DeclRefExpr* s)
 	{
 		if ((clang::isa<clang::ParmVarDecl>(decl)) ||
 			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != nullptr)
-			) {
-			m_client->recordLocalSymbol(getLocalSymbolName(decl->getLocation()), getParseLocation(s->getLocation()));
+		) {
+			if (!utility::isImplicit(decl))
+			{
+				m_client->recordLocalSymbol(getLocalSymbolName(decl->getLocation()), getParseLocation(s->getLocation()));
+			}
+			// else { don't do anything }
 		}
 		else
 		{

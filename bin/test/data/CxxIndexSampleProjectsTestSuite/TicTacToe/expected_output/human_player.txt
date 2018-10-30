@@ -212,7 +212,6 @@ REFERENCE_CALL: bool HumanPlayer::Check(const Field &, const Field::Move &) cons
 LOCAL_SYMBOL: field.h<14:31> [field.h <14:31 14:35>]
 LOCAL_SYMBOL: field.h<16:14> [field.h <16:14 16:14>]
 LOCAL_SYMBOL: field.h<16:14> [field.h <19:2 19:2>]
-LOCAL_SYMBOL: field.h<16:9> [field.h <16:9 16:12>]
 LOCAL_SYMBOL: field.h<29:23> [field.h <29:23 29:27>]
 LOCAL_SYMBOL: field.h<29:34> [field.h <29:34 29:39>]
 LOCAL_SYMBOL: field.h<31:28> [field.h <31:28 31:31>]
