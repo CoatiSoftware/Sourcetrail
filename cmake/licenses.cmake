@@ -23,7 +23,7 @@ endfunction(AddLicense)
 
 AddLicense("Boost" "1.64" "http://www.boost.org" "${LICENSEFOLDER}/license_boost.txt")
 AddLicense("Botan" "2.1.0" "http://botan.randombit.net/" "${LICENSEFOLDER}/license_botan.txt")
-AddLicense("Clang" "6.0" "http://clang.llvm.org/" "${LICENSEFOLDER}/license_clang.txt")
+AddLicense("Clang" "7.0.0" "http://clang.llvm.org/" "${LICENSEFOLDER}/license_clang.txt")
 AddLicense("CppSQLite" "3.2" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/license_cpp_sqlite.txt")
 AddLicense("Eclipse" "" "https://github.com/eclipse/eclipse.jdt.core" "${LICENSEFOLDER}/license_eclipse.txt")
 AddLicense("Gradle" "4.2" "https://github.com/gradle/gradle" "${LICENSEFOLDER}/license_gradle.txt")
