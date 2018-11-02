@@ -94,12 +94,26 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(const clang
 		(getAstVisitor()->shouldVisitReference(loc.getLocation(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()))
 	){
 		// TODO: maybe move this to VisitTemplateName
+
+		const Id symbolId = getOrCreateSymbolId(loc.getArgument().getAsTemplate().getAsTemplateDecl());
+		const ParseLocation parseLocation = getParseLocation(loc.getLocation());
+
 		m_client->recordReference(
 			getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind(),
-			getOrCreateSymbolId(loc.getArgument().getAsTemplate().getAsTemplateDecl()),
+			symbolId,
 			getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
-			getParseLocation(loc.getLocation())
+			parseLocation
 		);
+
+		if (getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind() == REFERENCE_TEMPLATE_ARGUMENT)
+		{
+			m_client->recordReference(
+				REFERENCE_TYPE_USAGE,
+				symbolId,
+				getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()), // we use the closest named decl here
+				parseLocation
+			);
+		}
 	}
 }
 
@@ -509,12 +523,24 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 			loc = tl.getBeginLoc();
 		}
 
+		const ParseLocation parseLocation = getParseLocation(loc);
+
 		m_client->recordReference(
 			getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind(),
 			symbolId,
 			getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext(1)), // we skip the last element because it refers to this typeloc.
-			getParseLocation(loc)
+			parseLocation
 		);
+
+		if (getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind() == REFERENCE_TEMPLATE_ARGUMENT)
+		{
+			m_client->recordReference(
+				REFERENCE_TYPE_USAGE,
+				symbolId,
+				getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()), // we use the closest named decl here
+				parseLocation
+			);
+		}
 	}
 }
 
