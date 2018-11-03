@@ -4,6 +4,8 @@ MAINTAINER "Andreas Stallinger" <astallinger@coati.io>
 
 WORKDIR /opt
 
+RUN rpm --rebuilddb; yum install -y yum-plugin-ovl ca-certificates;
+
 RUN yum -y install wget && \
 wget https://copr.fedorainfracloud.org/coprs/mlampe/devtoolset-4.1/repo/\
 epel-6/mlampe-devtoolset-4.1-epel-6.repo -O /etc/yum.repos.d/mlampe-devtoolset.repo && \
@@ -36,13 +38,14 @@ tar xzf apache-maven-3.5.0-bin.tar.gz && \
 ln -s apache-maven-3.5.0 maven && \
 rm apache-maven-3.5.0-bin.tar.gz
 
-ENV M2_HOME=/opt/maven 
+ENV M2_HOME=/opt/maven
 ENV PATH=${M2_HOME}/bin:${PATH}
 
 # Install Qt
 ARG QVERSION_SHORT=5.10
 ARG QTVERSION=5.10.1
 
+# Install Qt
 RUN mkdir -p /qt && cd /qt && \
 wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/\
 single/qt-everywhere-src-${QTVERSION}.tar.xz && \
@@ -50,10 +53,34 @@ tar xvf qt-everywhere-src-${QTVERSION}.tar.xz && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/g++ /usr/bin/g++ && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/c++ /usr/bin/c++ && \
 cd /qt/qt-everywhere-src-${QTVERSION} && \
-./configure -v -prefix /opt/qt${QTVERSION} -skip qtgamepad -platform linux-g++ -qt-pcre \
--qt-xcb -qt-xkbcommon -xkb-config-root /usr/share/X11/xkb \
--no-pch -confirm-license -opensource && \
-make -j 8 || make -j 1 install; make -j8 install && rm -Rf /qt
+./configure -v \
+-prefix /opt/qt${QTVERSION} \
+-skip qtgamepad \
+-platform linux-g++ \
+-qt-pcre \
+-qt-xcb \
+-qt-xkbcommon \
+-no-pch \
+-xkb-config-root /usr/share/X11/xkb \
+-no-use-gold-linker \
+-release \
+-no-compile-examples \
+-confirm-license \
+-opensource \
+-nomake examples \
+-nomake tests \
+-skip sensors \
+-skip webchannel \
+-skip webengine \
+-skip 3d \
+-skip doc \
+-skip multimedia \
+-skip tools \
+-skip connectivity \
+-skip androidextras \
+-skip canvas3d && \
+make -j8 && \
+make -j8 install && rm -Rf /qt
 
 ## set env
 ENV CXX=g++ \
@@ -101,7 +128,7 @@ BOOST_VERSION_UNDERSCORE=${BOOST_MAJOR}_${BOOST_MINOR}_${BOOST_PATCH}
 RUN wget http://downloads.sourceforge.net/project/boost/boost/${BOOST_VERSION}/boost_${BOOST_VERSION_UNDERSCORE}.tar.gz && \
 tar -xzf boost_${BOOST_VERSION_UNDERSCORE}.tar.gz && cd boost_${BOOST_VERSION_UNDERSCORE} && \
 ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time --prefix=/opt/boost && \
-./b2 install --link=static --variant=release --threading=multi --runtime-link=static --cxxflags=-fPIC && \
+./b2 install cxxstd=14 --link=static --variant=release --threading=multi --runtime-link=static --cxxflags="-std=c++14 -fPIC" && \
 cd .. && rm boost_${BOOST_VERSION_UNDERSCORE}.tar.gz && rm boost_${BOOST_VERSION_UNDERSCORE} -r
 
 ## Ninja

@@ -78,7 +78,6 @@ cd /botan && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/g++ /usr/bin/g++ && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/c++ /usr/bin/c++ && \
 git checkout 2.1.0 && \
-
 ./configure.py --disable-shared --prefix=/opt/botan && \
 make -j8 && make install && \
 rm -rf /botan
@@ -93,7 +92,7 @@ BOOST_VERSION_UNDERSCORE=${BOOST_MAJOR}_${BOOST_MINOR}_${BOOST_PATCH}
 RUN wget http://downloads.sourceforge.net/project/boost/boost/${BOOST_VERSION}/boost_${BOOST_VERSION_UNDERSCORE}.tar.gz && \
 tar -xzf boost_${BOOST_VERSION_UNDERSCORE}.tar.gz && cd boost_${BOOST_VERSION_UNDERSCORE} && \
 ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time --prefix=/opt/boost && \
-./b2 install --link=static --variant=release --threading=multi --runtime-link=static --cxxflags=-fPIC && \
+./b2 install cxxstd=14 --link=static --variant=release --threading=multi --runtime-link=static --cxxflags="-std=c++14 -fPIC" && \
 cd .. && rm boost_${BOOST_VERSION_UNDERSCORE}.tar.gz && rm boost_${BOOST_VERSION_UNDERSCORE} -r
 
 ## Ninja

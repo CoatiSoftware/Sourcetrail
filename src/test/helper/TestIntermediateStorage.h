@@ -5,6 +5,7 @@
 
 #include "AccessKind.h"
 #include "Edge.h"
+#include "FilePath.h"
 #include "IntermediateStorage.h"
 #include "LocationType.h"
 #include "NameHierarchy.h"
@@ -20,7 +21,7 @@ public:
 		std::map<Id, FilePath> filePathMap;
 		for (const StorageFile& file : getStorageFiles())
 		{
-			filePathMap.emplace(file.id, file.filePath);
+			filePathMap.emplace(file.id, FilePath(file.filePath));
 			files.emplace(file.filePath);
 
 			addLine(L"FILE: " + FilePath(file.filePath).fileName() + (file.indexed ? L"" : L" non-indexed"));

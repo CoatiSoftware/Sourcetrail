@@ -297,6 +297,7 @@ public:
 
 	void test_sourcegroup_java_gradle_generates_expected_output()
 	{
+#ifndef __linux__
 		const std::wstring projectName = L"java_gradle";
 
 		ProjectSettings projectSettings;
@@ -323,6 +324,7 @@ public:
 
 		applicationSettings->setJreSystemLibraryPaths(storedJreSystemLibraryPaths);
 		AppPath::setAppPath(storedAppPath);
+#endif
 	}
 
 	void test_sourcegroup_java_maven_generates_expected_output()

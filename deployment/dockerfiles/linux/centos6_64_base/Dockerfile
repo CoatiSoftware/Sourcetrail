@@ -4,6 +4,8 @@ MAINTAINER "Andreas Stallinger" <astallinger@coati.io>
 
 WORKDIR /opt
 
+RUN rpm --rebuilddb; yum install -y yum-plugin-ovl ca-certificates;
+
 RUN yum -y install centos-release-scl epel-release && \
 yum -y install wget devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-binutils \
 	wget tar bzip2 git libtool which fuse fuse-devel libpng-devel automake \

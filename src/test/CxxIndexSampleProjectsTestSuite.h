@@ -171,7 +171,7 @@ private:
 
 	std::shared_ptr<TextAccess> parseCode(const FilePath& sourceFilePath, const FilePath& projectDataSrcRoot)
 	{
-		const std::set<FilePath> indexedPaths = { projectDataSrcRoot };
+		const std::set<FilePath> indexedPaths = { projectDataSrcRoot.getCanonical() };
 		const std::set<FilePathFilter> excludedFilters = {};
 		const std::set<FilePathFilter> includedFilters = {};
 		const FilePath workingDirectory(L".");
