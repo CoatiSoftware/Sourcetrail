@@ -21,6 +21,8 @@ update-mime-database /usr/share/mime > /dev/null
 update-desktop-database > /dev/null
 
 mkdir -p ~/.config/sourcetrail
+if [ "$SUDO_USER" ]; then CHOWNUSER=$SUDO_USER; else CHOWNUSER=$USER; fi
+chown -R $CHOWNUSER ~/.config/sourcetrail
 
 echo "Installation complete."
 echo "Enter 'sourcetrail' to launch application."
