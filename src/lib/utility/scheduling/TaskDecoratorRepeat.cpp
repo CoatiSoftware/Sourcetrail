@@ -28,7 +28,7 @@ Task::TaskState TaskDecoratorRepeat::doUpdate(std::shared_ptr<Blackboard> blackb
 		}
 		else if (state == Task::STATE_FAILURE)
 		{
-			state = m_exitState;
+			return m_exitState;
 		}
 		break;
 	}
