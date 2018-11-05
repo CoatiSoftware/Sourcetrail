@@ -31,7 +31,7 @@
 // ACTION 4: Hide node 'GameObject'
 // ACTION 5: Move node 'numberOut' far to the right
 // ACTION 6: Scroll all the way to the right
-// ACTION 7: Search for 'main'
+// ACTION 7: Search for 'main' and activate that symbol
 
 // ACTION 8: go back
 // RESULTS 8:
@@ -58,10 +58,10 @@
 // START ----------------------------------------------------------------------
 
 // ACTION 1: Search for 'io::stringOut'
-// ACTION 2: Show callee graph
+// ACTION 2: Show caller graph
 // ACTION 3: Change depth to 1
 // ACTION 3: Hide node 'Field'
-// ACTION 4: Search for 'main'
+// ACTION 4: Search for 'main' and activate that symbol
 
 // ACTION 5: go back
 // RESULT 5: graph depth 1 restored
@@ -82,9 +82,9 @@
 // TEST: graph multiple active
 // START ----------------------------------------------------------------------
 
-// ACTION 1: Search for 'diff<..>'
+// ACTION 1: Search for 'diff<..>' and activate that symbol
 // ACTION 2: Click on 'diff<int>'
-// ACTION 3: Search for 'main'
+// ACTION 3: Search for 'main' and activate that symbol
 
 // ACTION 4: go back
 // RESULT 4: graph to 'diff<int>' restored
@@ -99,7 +99,7 @@
 // TEST: local symbol
 // START ----------------------------------------------------------------------
 
-// ACTION 1: Search for 'Field::Show()'
+// ACTION 1: Search for 'Field::Show()' and activate that symbol
 // ACTION 2: Click local symbol 'row'
 // ACTION 3: Activate other symbol
 
