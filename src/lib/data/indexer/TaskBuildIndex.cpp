@@ -41,8 +41,6 @@ TaskBuildIndex::TaskBuildIndex(
 
 void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	blackboard->set<bool>("indexer_threads_started", true);
-
 	m_interprocessIndexingStatusManager.setIndexingInterrupted(false);
 
 	m_indexingFileCount = 0;
@@ -58,6 +56,11 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 	// start indexer processes
 	for (unsigned int i = 0; i < m_processCount; i++)
 	{
+		{
+			std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
+			m_runningThreadCount++;
+		}
+
 		const int processId = i + 1; // 0 remains reserved for the main process
 
 		m_interprocessIntermediateStorageManagers.push_back(
@@ -73,6 +76,8 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 			m_processThreads.push_back(new std::thread(&TaskBuildIndex::runIndexerThread, this, processId));
 		}
 	}
+
+	blackboard->set<bool>("indexer_threads_started", true);
 }
 
 Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
@@ -163,11 +168,6 @@ void TaskBuildIndex::handleMessage(MessageInterruptTasks* message)
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath)
 {
-	{
-		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
-		m_runningThreadCount++;
-	}
-
 	const FilePath indexerProcessPath = AppPath::getAppPath().concatenate(s_processName);
 	if (!indexerProcessPath.exists())
 	{
@@ -204,11 +204,6 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 
 void TaskBuildIndex::runIndexerThread(int processId)
 {
-	{
-		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
-		m_runningThreadCount++;
-	}
-
 	while (!m_indexerCommandQueueStopped && !m_interrupted)
 	{
 		InterprocessIndexer indexer(m_appUUID, processId);
