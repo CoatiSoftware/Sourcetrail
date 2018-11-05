@@ -46,6 +46,15 @@ void SharedMemory::ScopedAccess::growMemory(size_t size)
 	m_memory = boost::interprocess::managed_shared_memory(boost::interprocess::open_only, m_memoryName.c_str());
 }
 
+void SharedMemory::ScopedAccess::shrinkToFitMemory()
+{
+	m_memory = boost::interprocess::managed_shared_memory();
+
+	boost::interprocess::managed_shared_memory::shrink_to_fit(m_memoryName.c_str());
+
+	m_memory = boost::interprocess::managed_shared_memory(boost::interprocess::open_only, m_memoryName.c_str());
+}
+
 std::string SharedMemory::ScopedAccess::logString() const
 {
 	std::string log = m_memoryName + " -";

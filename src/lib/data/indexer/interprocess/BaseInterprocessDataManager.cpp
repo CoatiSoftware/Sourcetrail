@@ -13,10 +13,6 @@ BaseInterprocessDataManager::BaseInterprocessDataManager(
 {
 }
 
-BaseInterprocessDataManager::~BaseInterprocessDataManager()
-{
-}
-
 Id BaseInterprocessDataManager::getProcessId() const
 {
 	return m_processId;

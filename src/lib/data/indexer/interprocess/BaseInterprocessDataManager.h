@@ -15,7 +15,8 @@ public:
 		const std::string& instanceUuid,
 		Id processId,
 		bool isOwner);
-	virtual ~BaseInterprocessDataManager();
+
+	virtual ~BaseInterprocessDataManager() = default;
 
 	Id getProcessId() const;
 

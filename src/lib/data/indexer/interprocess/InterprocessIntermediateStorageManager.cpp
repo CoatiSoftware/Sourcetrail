@@ -17,34 +17,39 @@ InterprocessIntermediateStorageManager::InterprocessIntermediateStorageManager(
 		instanceUuid,
 		processId,
 		isOwner)
-{
-}
-
-InterprocessIntermediateStorageManager::~InterprocessIntermediateStorageManager()
+	, m_insertsWithoutGrowth(0)
 {
 }
 
 void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	const std::shared_ptr<IntermediateStorage>& intermediateStorage)
 {
+	const size_t requiredInsertsToShrink = 10;
+
     const size_t overestimationMultiplier = 2;
-    size_t size = (intermediateStorage->getByteSize(sizeof(SharedMemory::String)) +
+    const size_t requiredSize = (intermediateStorage->getByteSize(sizeof(SharedMemory::String)) +
 		sizeof(SharedIntermediateStorage)) * overestimationMultiplier + 1048576/* 1 MB */;
 
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
-	size_t freeMemory = access.getFreeMemorySize();
-	if (freeMemory < size)
+	const size_t freeMemory = access.getFreeMemorySize();
+	if (freeMemory < requiredSize)
 	{
-		size_t requiredSize = size - freeMemory;
+		const size_t requiredGrowth = requiredSize - freeMemory;
 
 		LOG_INFO_STREAM(
-			<< "grow memory - est: " << size << " size: " << access.getMemorySize()
-			<< " free: " << access.getFreeMemorySize() << " alloc: " << requiredSize);
+			<< "grow memory - est: " << requiredSize << " size: " << access.getMemorySize()
+			<< " free: " << access.getFreeMemorySize() << " alloc: " << requiredGrowth);
 
-		access.growMemory(requiredSize);
+		access.growMemory(requiredGrowth);
 
 		LOG_INFO("growing memory succeeded");
+
+		m_insertsWithoutGrowth = 0;
+	}
+	else
+	{
+		m_insertsWithoutGrowth++;
 	}
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =
@@ -68,6 +73,15 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	storage.setStorageErrors(intermediateStorage->getErrors());
 
 	storage.setNextId(intermediateStorage->getNextId());
+
+	if (m_insertsWithoutGrowth >= requiredInsertsToShrink)
+	{
+		m_insertsWithoutGrowth = 0;
+
+		LOG_INFO("shrinking shared memory");
+		access.shrinkToFitMemory();
+		LOG_INFO_STREAM(<< "shrunk memory - size: " << access.getMemorySize() << " free: " << access.getFreeMemorySize());
+	}
 
 	LOG_INFO(access.logString());
 }

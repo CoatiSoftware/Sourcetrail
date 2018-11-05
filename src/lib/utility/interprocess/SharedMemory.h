@@ -62,6 +62,7 @@ public:
 		size_t getUsedMemorySize() const;
 
 		void growMemory(size_t size);
+		void shrinkToFitMemory();
 
 		template <typename T>
 		T* accessValue(const std::string& key)
