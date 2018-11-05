@@ -47,3 +47,6 @@ CODE
 PLUGIN COMMUNICATION
 	from
 	to
+	
+HISTORY
+	cmd + Z / Y

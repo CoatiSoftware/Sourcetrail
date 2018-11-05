@@ -116,18 +116,20 @@ void local_reference_edge_navigation()
 {
 	some_called_function();
 
-																							/* RESULT: view scrolls here -> */ some_called_function();
+																							/* RESULT 3: view scrolls here -> */ some_called_function();
 
 
 	some_called_function();
 }
 
 /*
-// RESULT 1: 3 local references are active
-
 // ACTION 2: click on the call edge between the two functions in the graph
 
-// RESULTS 2:
+// RESULT 2: 3 local references are active
+
+// ACTION 3: repeat ACTION 2
+
+// RESULTS 3:
 // - The references are iterated in forward direction
 // - Each reference is separately highlighted and the view scrolled if necessary
 // - The local reference navigation shows "X/3 local references" while navigating

@@ -6,7 +6,7 @@ namespace KEYWORD_TESTS
 // START ----------------------------------------------------------------------
 
 // ACTION: Search for 'overview'
-// ACTION: Search for 'errors'
+// ACTION: Search for 'error'
 // ACTION: Search for 'legend'
 // ACTION: Search for 'file'
 // ACTION: Search for 'field'

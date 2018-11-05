@@ -99,7 +99,7 @@ namespace eight {} // <- ACTION: Activate namespace
 // RESULTS:
 // - dropdown list shrinked to: eight, One
 // - dropdown position at top
-// - history menu shows: eight, SIX, FIVE, Four, ...
+// - history menu shows: eight, One, SIX, FIVE, Four, ...
 
 // END ------------------------------------------------------------------------
 
@@ -113,7 +113,7 @@ namespace eight {} // <- ACTION: Activate namespace
 // RESULTS:
 // - dropdown list: Three, eight, One
 // - dropdown position at top
-// - history menu shows: Three, eight, SIX, FIVE, ...
+// - history menu shows: Three, eight, One, SIX, FIVE, ...
 
 // END ------------------------------------------------------------------------
 

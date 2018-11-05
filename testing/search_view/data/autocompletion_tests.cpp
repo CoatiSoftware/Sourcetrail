@@ -97,7 +97,7 @@ namespace AUTOCOMPLETION_TESTS
 
 
 
-// TEST: No template specializations in autocompletions
+// TEST: No implicit template specializations in autocompletions
 // START ----------------------------------------------------------------------
 
 // ACTION 1: Search symbol 'sum'
