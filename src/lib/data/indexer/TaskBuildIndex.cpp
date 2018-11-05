@@ -204,7 +204,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 
 void TaskBuildIndex::runIndexerThread(int processId)
 {
-	while (!m_indexerCommandQueueStopped && !m_interrupted)
+	do
 	{
 		InterprocessIndexer indexer(m_appUUID, processId);
 		indexer.work(); // this will only return if there are no indexer commands left in the queue
@@ -214,6 +214,7 @@ void TaskBuildIndex::runIndexerThread(int processId)
 			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		}
 	}
+	while (!m_indexerCommandQueueStopped && !m_interrupted);
 
 	{
 		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
