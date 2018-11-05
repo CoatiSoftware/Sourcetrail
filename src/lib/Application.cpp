@@ -22,6 +22,8 @@
 #include "MessageForceEnterLicense.h"
 #include "MessageQuitApplication.h"
 #include "MessageStatus.h"
+#include "TabId.h"
+#include "TaskManager.h"
 #include "TaskScheduler.h"
 #include "tracing.h"
 #include "UserPaths.h"
@@ -45,7 +47,8 @@ void Application::createInstance(
 		collector->run(Application::getUUID());
 	}
 
-	TaskScheduler::getInstance();
+	TaskManager::createScheduler(TabId::app());
+	TaskManager::createScheduler(TabId::background());
 	MessageQueue::getInstance();
 
 	bool hasGui = (viewFactory != nullptr);
@@ -55,15 +58,11 @@ void Application::createInstance(
 
 	if (hasGui)
 	{
-		s_instance->m_componentManager = ComponentManager::create(viewFactory, s_instance->m_storageCache.get());
-
-		s_instance->m_mainView = viewFactory->createMainView();
+		s_instance->m_mainView = viewFactory->createMainView(s_instance->m_storageCache.get());
+		s_instance->m_mainView->setup();
 		s_instance->updateTitle();
 
-		s_instance->m_componentManager->setup(s_instance->m_mainView.get());
-		s_instance->m_mainView->loadLayout();
-
-		s_instance->m_componentManager->refreshViews();
+		GraphViewStyle::setImpl(viewFactory->createGraphStyleImpl());
 	}
 
 	if (networkFactory != nullptr)
@@ -86,7 +85,8 @@ std::shared_ptr<Application> Application::getInstance()
 void Application::destroyInstance()
 {
 	MessageQueue::getInstance()->stopMessageLoop();
-	TaskScheduler::getInstance()->stopSchedulerLoop();
+	TaskManager::destroyScheduler(TabId::background());
+	TaskManager::destroyScheduler(TabId::app());
 
 	s_instance.reset();
 }
@@ -145,6 +145,15 @@ const std::shared_ptr<Project> Application::getCurrentProject()
 	return m_project;
 }
 
+bool Application::isProjectLoaded() const
+{
+	if (m_project)
+	{
+		return m_project->isLoaded();
+	}
+	return false;
+}
+
 bool Application::hasGUI()
 {
 	return m_hasGUI;
@@ -172,17 +181,17 @@ int Application::handleDialog(const std::wstring& message, const std::vector<std
 
 std::shared_ptr<DialogView> Application::getDialogView(DialogView::UseCase useCase)
 {
-	if (m_componentManager)
+	if (m_mainView)
 	{
-		return m_componentManager->getDialogView(useCase);
+		return m_mainView->getDialogView(useCase);
 	}
 
 	return std::make_shared<DialogView>(useCase, nullptr);
 }
 
-void Application::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems)
+void Application::updateHistoryMenu(std::shared_ptr<MessageBase> message)
 {
-	m_mainView->updateHistoryMenu(historyMenuItems);
+	m_mainView->updateHistoryMenu(message);
 }
 
 void Application::updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
@@ -209,8 +218,7 @@ void Application::handleMessage(MessageEnteredLicense* message)
 
 	if (m_hasGUI)
 	{
-		m_mainView->refreshView();
-		m_componentManager->refreshViews();
+		m_mainView->refreshViews();
 	}
 }
 
@@ -264,6 +272,13 @@ void Application::handleMessage(MessageLoadProject* message)
 
 		projectSettingsFilePath = migrateProjectSettings(projectSettingsFilePath);
 
+		m_project.reset();
+
+		if (m_hasGUI)
+		{
+			m_mainView->clear();
+		}
+
 		try
 		{
 			updateRecentProjects(projectSettingsFilePath);
@@ -297,11 +312,6 @@ void Application::handleMessage(MessageLoadProject* message)
 			MessageStatus(L"Failed to load project, unknown exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
 		}
 
-		if (m_hasGUI)
-		{
-			m_componentManager->clearComponents();
-		}
-
 		if (message->refreshMode != REFRESH_NONE)
 		{
 			refreshProject(message->refreshMode);
@@ -327,8 +337,7 @@ void Application::handleMessage(MessageRefreshUI* message)
 			loadStyle(ApplicationSettings::getInstance()->getColorSchemePath());
 		}
 
-		m_mainView->refreshView();
-		m_componentManager->refreshViews();
+		m_mainView->refreshViews();
 	}
 }
 
@@ -396,7 +405,8 @@ FilePath Application::migrateProjectSettings(const FilePath& projectSettingsFile
 
 void Application::startMessagingAndScheduling()
 {
-	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+	TaskManager::getScheduler(TabId::app())->startSchedulerLoopThreaded();
+	TaskManager::getScheduler(TabId::background())->startSchedulerLoopThreaded();
 
 	MessageQueue* queue = MessageQueue::getInstance().get();
 	queue->addMessageFilter(std::make_shared<MessageFilterErrorCountUpdate>());

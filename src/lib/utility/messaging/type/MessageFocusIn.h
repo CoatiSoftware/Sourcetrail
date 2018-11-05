@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Message.h"
+#include "TabId.h"
 #include "types.h"
 
 #include "TooltipOrigin.h"
@@ -17,6 +18,7 @@ public:
 		, origin(origin)
 	{
 		setIsLogged(false);
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

@@ -13,14 +13,15 @@
 #include <QStandardItem>
 #include <QStyledItemDelegate>
 
+#include "ColorScheme.h"
+#include "MessageProjectEdit.h"
 #include "QtHelpButton.h"
 #include "QtIconButton.h"
 #include "QtTable.h"
-#include "utilityQt.h"
 #include "QtViewWidgetWrapper.h"
-#include "ColorScheme.h"
-#include "MessageProjectEdit.h"
 #include "ResourcePaths.h"
+#include "TabId.h"
+#include "utilityQt.h"
 
 QIcon QtErrorView::s_errorIcon;
 
@@ -54,8 +55,7 @@ QWidget* SelectableDelegate::createEditor(
 
 QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout)
-	, m_controllerProxy(this)
-	, m_ignoreRowSelection(false)
+	, m_controllerProxy(this, TabId::app())
 {
 	s_errorIcon = QIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr()));
 }
@@ -78,8 +78,8 @@ void QtErrorView::initView()
 	layout->setSpacing(0);
 	widget->setLayout(layout);
 
-	m_table = new QtTable(this);
-	m_model = new QStandardItemModel(this);
+	m_table = new QtTable(widget);
+	m_model = new QStandardItemModel(widget);
 	m_table->setSortingEnabled(true);
 	m_table->setModel(m_model);
 	m_table->setItemDelegate(new SelectableDelegate(m_table));
@@ -97,10 +97,10 @@ void QtErrorView::initView()
 	headers << "ID" << "Type" << "Message" << "File" << "Line" << "Indexed" << "Translation Unit";
 	m_model->setHorizontalHeaderLabels(headers);
 
-	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
-		[=](const QModelIndex& index, const QModelIndex& previousIndex)
+	connect(m_table, &QTableView::clicked,
+		[=](const QModelIndex& index)
 	{
-		if (index.isValid() && !m_ignoreRowSelection)
+		if (index.isValid())
 		{
 			if (m_model->item(index.row(), Column::FILE) == nullptr)
 			{
@@ -267,9 +267,7 @@ void QtErrorView::setErrorId(Id errorId)
 
 		if (items.size() == 1)
 		{
-			m_ignoreRowSelection = true;
 			m_table->selectRow(items.at(0)->row());
-			m_ignoreRowSelection = false;
 		}
 	});
 }

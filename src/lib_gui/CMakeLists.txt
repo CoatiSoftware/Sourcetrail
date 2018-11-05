@@ -67,6 +67,8 @@ add_files(
 	qt/element/QtStringListBoxItem.h
 	qt/element/QtStatusBar.cpp
 	qt/element/QtStatusBar.h
+	qt/element/QtTabBar.cpp
+	qt/element/QtTabBar.h
 	qt/element/QtTable.cpp
 	qt/element/QtTable.h
 	qt/element/QtTextEdit.cpp
@@ -150,6 +152,8 @@ add_files(
 	qt/view/graphElements/QtGraphNodeText.cpp
 	qt/view/graphElements/QtGraphNodeText.h
 
+	qt/view/QtBookmarkButtonsView.cpp
+	qt/view/QtBookmarkButtonsView.h
 	qt/view/QtBookmarkView.cpp
 	qt/view/QtBookmarkView.h
 	qt/view/QtCodeView.cpp
@@ -180,6 +184,8 @@ add_files(
 	qt/view/QtTabbedView.h
 	qt/view/QtTooltipView.cpp
 	qt/view/QtTooltipView.h
+	qt/view/QtTabsView.cpp
+	qt/view/QtTabsView.h
 	qt/view/QtUndoRedoView.cpp
 	qt/view/QtUndoRedoView.h
 	qt/view/QtViewFactory.cpp

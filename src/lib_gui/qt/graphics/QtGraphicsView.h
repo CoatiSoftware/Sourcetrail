@@ -55,6 +55,8 @@ private slots:
 	void updateTimer();
 	void stopTimer();
 
+	void openInTab();
+
 	void exportGraph();
 	void copyNodeName();
 
@@ -91,6 +93,7 @@ private:
 	bool m_shift;
 
 	std::wstring m_clipboardNodeName;
+	Id m_openInTabNodeId;
 	Id m_hideNodeId;
 	Id m_hideEdgeId;
 	Id m_bookmarkNodeId;
@@ -101,7 +104,8 @@ private:
 	std::shared_ptr<QTimer> m_timerStopper;
 	std::shared_ptr<QTimer> m_zoomLabelTimer;
 
-	QAction* m_exportGraphAction;
+	QAction* m_openInTabAction;
+
 	QAction* m_copyNodeNameAction;
 	QAction* m_collapseAction;
 	QAction* m_expandAction;
@@ -109,6 +113,8 @@ private:
 	QAction* m_hideNodeAction;
 	QAction* m_hideEdgeAction;
 	QAction* m_bookmarkNodeAction;
+
+	QAction* m_exportGraphAction;
 
 	QPushButton* m_zoomState;
 	QtSelfRefreshIconButton* m_zoomInButton;

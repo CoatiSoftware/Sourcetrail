@@ -22,10 +22,11 @@
 #include "utilityQt.h"
 #include "ApplicationSettings.h"
 #include "MessageActivateLegend.h"
+#include "MessageBookmarkCreate.h"
 #include "MessageCodeShowDefinition.h"
-#include "MessageDisplayBookmarkCreator.h"
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
+#include "MessageTabOpenWith.h"
 #include "ResourcePaths.h"
 #include "utilityApp.h"
 
@@ -55,10 +56,10 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_zoomLabelTimer = std::make_shared<QTimer>(this);
 	connect(m_zoomLabelTimer.get(), &QTimer::timeout, this, &QtGraphicsView::hideZoomLabel);
 
-	m_exportGraphAction = new QAction("Save as Image", this);
-	m_exportGraphAction->setStatusTip("Save this graph as image file");
-	m_exportGraphAction->setToolTip("Save this graph as image file");
-	connect(m_exportGraphAction, &QAction::triggered, this, &QtGraphicsView::exportGraph);
+	m_openInTabAction = new QAction("Open in New Tab", this);
+	m_openInTabAction->setStatusTip("Open this node in a new tab");
+	m_openInTabAction->setToolTip("Open this node in a new tab");
+	connect(m_openInTabAction, &QAction::triggered, this, &QtGraphicsView::openInTab);
 
 	m_copyNodeNameAction = new QAction("Copy Name", this);
 	m_copyNodeNameAction->setStatusTip("Copies the name of this node to the clipboard");
@@ -97,6 +98,11 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_bookmarkNodeAction->setStatusTip("Create a bookmark for this node");
 	m_bookmarkNodeAction->setToolTip("Create a bookmark for this node");
 	connect(m_bookmarkNodeAction, &QAction::triggered, this, &QtGraphicsView::bookmarkNode);
+
+	m_exportGraphAction = new QAction("Save as Image", this);
+	m_exportGraphAction->setStatusTip("Save this graph as image file");
+	m_exportGraphAction->setToolTip("Save this graph as image file");
+	connect(m_exportGraphAction, &QAction::triggered, this, &QtGraphicsView::exportGraph);
 
 	m_zoomState = new QPushButton(this);
 	m_zoomState->setObjectName("zoom_state");
@@ -175,7 +181,7 @@ void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int 
 
 	ensureVisible(rect, xmargin, ymargin);
 
-	if (ApplicationSettings::getInstance()->getUseAnimations())
+	if (ApplicationSettings::getInstance()->getUseAnimations() && isVisible())
 	{
 		int xval2 = horizontalScrollBar()->value();
 		int yval2 = verticalScrollBar()->value();
@@ -345,6 +351,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
+	m_openInTabNodeId = 0;
 	m_clipboardNodeName = L"";
 	m_collapseNodeId = 0;
 	m_expandNodeId = 0;
@@ -369,6 +376,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 				if (dataNode)
 				{
 					m_clipboardNodeName = dataNode->getName();
+					m_openInTabNodeId = dataNode->getTokenId();
 					m_bookmarkNodeId = dataNode->getTokenId();
 					clipboardFilePath = dataNode->getFilePath();
 				}
@@ -408,6 +416,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 		}
 	}
 
+	m_openInTabAction->setEnabled(m_openInTabNodeId);
 	m_collapseAction->setEnabled(m_collapseNodeId);
 	m_expandAction->setEnabled(m_expandNodeId);
 	m_showDefinitionAction->setEnabled(m_hideNodeId);
@@ -419,8 +428,8 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
 	QtContextMenu menu(event, this);
 
-	menu.addSeparator();
-	menu.addAction(m_exportGraphAction);
+	menu.addAction(m_openInTabAction);
+	menu.addUndoActions();
 
 	menu.addSeparator();
 
@@ -437,6 +446,9 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	menu.addAction(m_hideNodeAction);
 	menu.addAction(m_hideEdgeAction);
 	menu.addAction(m_bookmarkNodeAction);
+
+	menu.addSeparator();
+	menu.addAction(m_exportGraphAction);
 
 	menu.addSeparator();
 	menu.addAction(m_copyNodeNameAction);
@@ -505,6 +517,11 @@ void QtGraphicsView::updateTimer()
 void QtGraphicsView::stopTimer()
 {
 	m_timer->stop();
+}
+
+void QtGraphicsView::openInTab()
+{
+	MessageTabOpenWith(m_openInTabNodeId).dispatch();
 }
 
 void QtGraphicsView::exportGraph()
@@ -616,7 +633,7 @@ void QtGraphicsView::hideEdge()
 
 void QtGraphicsView::bookmarkNode()
 {
-	MessageDisplayBookmarkCreator(m_bookmarkNodeId).dispatch();
+	MessageBookmarkCreate(m_bookmarkNodeId).dispatch();
 }
 
 void QtGraphicsView::zoomInPressed()

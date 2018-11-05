@@ -3,8 +3,7 @@
 
 #include <memory>
 
-#include "ComponentManager.h"
-#include "Project.h"
+#include "DialogView.h"
 #include "MessageListener.h"
 #include "MessageIndexingFinished.h"
 #include "MessageActivateWindow.h"
@@ -14,9 +13,10 @@
 #include "MessageRefreshUI.h"
 #include "MessageSwitchColorScheme.h"
 #include "MessageWindowFocus.h"
+#include "Project.h"
+#include "TimeStamp.h"
 
 class Bookmark;
-class DialogView;
 class IDECommunicationController;
 class MainView;
 class NetworkFactory;
@@ -48,6 +48,7 @@ public:
 	~Application();
 
 	const std::shared_ptr<Project> getCurrentProject();
+	bool isProjectLoaded() const;
 
 	bool hasGUI();
 
@@ -57,7 +58,7 @@ public:
 	int handleDialog(const std::wstring& message, const std::vector<std::wstring>& options);
 	std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase);
 
-	void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems);
+	void updateHistoryMenu(std::shared_ptr<MessageBase> message);
 	void updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 private:
@@ -92,7 +93,6 @@ private:
 	std::shared_ptr<StorageCache> m_storageCache;
 
 	std::shared_ptr<MainView> m_mainView;
-	std::shared_ptr<ComponentManager> m_componentManager;
 
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
 	std::shared_ptr<UpdateChecker> m_updateChecker;

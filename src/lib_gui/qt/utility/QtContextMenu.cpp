@@ -25,8 +25,6 @@ QtContextMenu::QtContextMenu(QContextMenuEvent* event, QWidget* origin)
 	, m_point(event->globalPos())
 {
 	getInstance();
-
-	addUndoActions();
 }
 
 void QtContextMenu::addAction(QAction* action)

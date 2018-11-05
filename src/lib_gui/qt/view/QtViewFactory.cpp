@@ -1,6 +1,7 @@
 #include "QtViewFactory.h"
 
 #include "GraphViewStyle.h"
+#include "QtBookmarkButtonsView.h"
 #include "QtBookmarkView.h"
 #include "QtCodeView.h"
 #include "QtCompositeView.h"
@@ -15,6 +16,7 @@
 #include "QtStatusBarView.h"
 #include "QtStatusView.h"
 #include "QtTabbedView.h"
+#include "QtTabsView.h"
 #include "QtTooltipView.h"
 #include "QtUndoRedoView.h"
 
@@ -22,9 +24,9 @@ QtViewFactory::QtViewFactory()
 {
 }
 
-std::shared_ptr<MainView> QtViewFactory::createMainView() const
+std::shared_ptr<MainView> QtViewFactory::createMainView(StorageAccess* storageAccess) const
 {
-	return std::make_shared<QtMainView>();
+	return std::make_shared<QtMainView>(this, storageAccess);
 }
 
 std::shared_ptr<CompositeView> QtViewFactory::createCompositeView(
@@ -44,9 +46,14 @@ std::shared_ptr<TabbedView> QtViewFactory::createTabbedView(ViewLayout* viewLayo
 	return ptr;
 }
 
+std::shared_ptr<BookmarkButtonsView> QtViewFactory::createBookmarkButtonsView(ViewLayout* viewLayout) const
+{
+	return View::createInitAndAddToLayout<QtBookmarkButtonsView>(viewLayout);
+}
+
 std::shared_ptr<BookmarkView> QtViewFactory::createBookmarkView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtBookmarkView>(viewLayout);
+	return View::createAndInit<QtBookmarkView>(viewLayout);
 }
 
 std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) const
@@ -66,7 +73,6 @@ std::shared_ptr<StatusView> QtViewFactory::createStatusView(ViewLayout* viewLayo
 
 std::shared_ptr<GraphView> QtViewFactory::createGraphView(ViewLayout* viewLayout) const
 {
-	GraphViewStyle::setImpl(std::make_shared<QtGraphViewStyleImpl>());
 	return View::createInitAndAddToLayout<QtGraphView>(viewLayout);
 }
 
@@ -90,6 +96,11 @@ std::shared_ptr<StatusBarView> QtViewFactory::createStatusBarView(ViewLayout* vi
 	return View::createAndInit<QtStatusBarView>(viewLayout);
 }
 
+std::shared_ptr<TabsView> QtViewFactory::createTabsView(ViewLayout* viewLayout) const
+{
+	return View::createInitAndAddToLayout<QtTabsView>(viewLayout);
+}
+
 std::shared_ptr<TooltipView> QtViewFactory::createTooltipView(ViewLayout* viewLayout) const
 {
 	return View::createAndInit<QtTooltipView>(viewLayout);
@@ -104,4 +115,9 @@ std::shared_ptr<DialogView> QtViewFactory::createDialogView(
 	ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const
 {
 	return std::make_shared<QtDialogView>(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow(), useCase, storageAccess);
+}
+
+std::shared_ptr<GraphViewStyleImpl> QtViewFactory::createGraphStyleImpl() const
+{
+	return std::make_shared<QtGraphViewStyleImpl>();
 }

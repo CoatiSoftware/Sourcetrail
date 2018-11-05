@@ -24,45 +24,52 @@ class QtMainView
 	, public MessageListener<MessageProjectNew>
 {
 public:
-	QtMainView();
+	QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess);
 	virtual ~QtMainView();
 
 	QtMainWindow* getMainWindow() const;
 
 	// ViewLayout implementation
-	virtual void addView(View* view);
-	virtual void removeView(View* view);
+	void addView(View* view) override;
+	void overrideView(View* view) override;
+	void removeView(View* view) override;
 
-	virtual void showView(View* view);
-	virtual void hideView(View* view);
+	void showView(View* view) override;
+	void hideView(View* view) override;
 
-	virtual void setViewEnabled(View* view, bool enabled);
+	void setViewEnabled(View* view, bool enabled) override;
 
-	virtual View* findFloatingView(const std::string& name) const;
+	View* findFloatingView(const std::string& name) const override;
 
-	virtual QStatusBar* getStatusBar();
-	virtual void setStatusBar(QStatusBar* statusBar);
+	void showOriginalViews() override;
+
+	QStatusBar* getStatusBar();
+	void setStatusBar(QStatusBar* statusBar);
 
 	// MainView implementation
-	virtual void loadLayout();
-	virtual void saveLayout();
+	void loadLayout() override;
+	void saveLayout() override;
 
-	virtual void loadWindow(bool showStartWindow);
+	void loadWindow(bool showStartWindow) override;
 
-	virtual void refreshView();
+	void refreshView() override;
 
-	virtual void hideStartScreen();
-	virtual void setTitle(const std::wstring& title);
-	virtual void activateWindow();
+	void hideStartScreen() override;
+	void setTitle(const std::wstring& title) override;
+	void activateWindow() override;
 
-	virtual void updateRecentProjectMenu();
-	virtual void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems);
-	virtual void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
+	void updateRecentProjectMenu() override;
+
+	void updateHistoryMenu(std::shared_ptr<MessageBase> message) override;
+	void clearHistoryMenu() override;
+
+	void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) override;
+	void clearBookmarksMenu() override;
 
 private:
-	void handleMessage(MessageForceEnterLicense* message);
-	void handleMessage(MessageProjectEdit* message);
-	void handleMessage(MessageProjectNew* message);
+	void handleMessage(MessageForceEnterLicense* message) override;
+	void handleMessage(MessageProjectEdit* message) override;
+	void handleMessage(MessageProjectNew* message) override;
 
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;

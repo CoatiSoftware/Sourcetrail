@@ -10,6 +10,7 @@
 #include "TaskGroupParallel.h"
 #include "TaskGroupSequence.h"
 #include "TaskLambda.h"
+#include "TabId.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 {
@@ -252,7 +253,9 @@ void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
 	{
 		MessageListenerBase* listener = m_listeners[m_currentListenerIndex];
 
-		if (listener->getType() == message->getType())
+		if (listener->getType() == message->getType() &&
+			(message->getSchedulerId() == 0 || listener->getSchedulerId() == 0 ||
+			listener->getSchedulerId() == message->getSchedulerId()))
 		{
 			// The listenersMutex gets unlocked so changes to listeners are possible while message handling.
 			m_listenersMutex.unlock();
@@ -280,7 +283,9 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 		{
 			MessageListenerBase* listener = m_listeners[i];
 
-			if (listener->getType() == message->getType())
+			if (listener->getType() == message->getType() &&
+				(message->getSchedulerId() == 0 || listener->getSchedulerId() == 0 ||
+				listener->getSchedulerId() == message->getSchedulerId()))
 			{
 				Id listenerId = listener->getId();
 				taskGroup->addTask(std::make_shared<TaskLambda>(
@@ -297,12 +302,18 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 		}
 	}
 
+	Id schedulerId = message->getSchedulerId();
+	if (!schedulerId)
+	{
+		schedulerId = TabId::app();
+	}
+
 	if (asNextTask)
 	{
-		Task::dispatchNext(taskGroup);
+		Task::dispatchNext(schedulerId, taskGroup);
 	}
 	else
 	{
-		Task::dispatch(taskGroup);
+		Task::dispatch(schedulerId, taskGroup);
 	}
 }

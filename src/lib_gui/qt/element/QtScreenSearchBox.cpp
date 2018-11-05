@@ -141,10 +141,15 @@ void QtScreenSearchBox::setMatchIndex(size_t matchIndex)
 
 void QtScreenSearchBox::addResponder(const std::string& name)
 {
+	if (m_checkBoxes.find(name) != m_checkBoxes.end())
+	{
+		return;
+	}
+
 	QCheckBox* box = new QCheckBox(name.c_str());
 	box->setObjectName("filter_checkbox");
 	box->setChecked(true);
-	m_checkBoxes.push_back(box);
+	m_checkBoxes.emplace(name, box);
 	m_checkboxLayout->addWidget(box);
 
 	connect(box, &QCheckBox::stateChanged, this, &QtScreenSearchBox::findMatches);
@@ -173,11 +178,11 @@ void QtScreenSearchBox::findMatches()
 		[this](ScreenSearchController* controller)
 		{
 			std::set<std::string> responderNames;
-			for (QCheckBox* box : m_checkBoxes)
+			for (auto p : m_checkBoxes)
 			{
-				if (box->isChecked())
+				if (p.second->isChecked())
 				{
-					responderNames.insert(box->text().toStdString());
+					responderNames.insert(p.first);
 				}
 			}
 

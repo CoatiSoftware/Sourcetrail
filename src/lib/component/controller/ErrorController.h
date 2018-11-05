@@ -65,9 +65,10 @@ private:
 
 	StorageAccess* m_storageAccess;
 
-	bool m_showsErrors = false;
 	size_t m_errorCount = 0;
-	FilePath m_activeFilePath;
+
+	std::map<Id, bool> m_tabShowsErrors;
+	std::map<Id, FilePath> m_tabActiveFilePath;
 };
 
 #endif // ERROR_CONTROLLER_H

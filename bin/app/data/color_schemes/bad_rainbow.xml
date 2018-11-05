@@ -534,12 +534,21 @@
 			<background>#808080</background>
 			<border>#BEBEBE</border>
 			<button>
-				<text>white</text>
+				<text>
+					<normal>#CCC</normal>
+					<hover>#CCC</hover>
+					<press>white</press>
+				</text>
+				<border>
+					<normal>#CCC</normal>
+					<press>#EEE</press>
+				</border>
 				<background>
 					<normal>#808080</normal>
 					<hover>#505050</hover>
 					<press>#494949</press>
 				</background>
+				<icon>#CCC</icon>
 			</button>
 		</bar>
 	</tab>

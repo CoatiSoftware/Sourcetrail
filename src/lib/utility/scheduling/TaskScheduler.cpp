@@ -6,14 +6,17 @@
 #include "logging.h"
 #include "ScopedFunctor.h"
 
-std::shared_ptr<TaskScheduler> TaskScheduler::getInstance()
+TaskScheduler::TaskScheduler(Id schedulerId)
+	: m_schedulerId(schedulerId)
+	, m_loopIsRunning(false)
+	, m_threadIsRunning(false)
+	, m_terminateRunningTasks(false)
 {
-	if (!s_instance)
-	{
-		s_instance = std::shared_ptr<TaskScheduler>(new TaskScheduler());
-	}
+}
 
-	return s_instance;
+TaskScheduler::~TaskScheduler()
+{
+	stopSchedulerLoop();
 }
 
 void TaskScheduler::pushTask(std::shared_ptr<Task> task)
@@ -127,15 +130,6 @@ void TaskScheduler::terminateRunningTasks()
 	m_terminateRunningTasks = true;
 }
 
-std::shared_ptr<TaskScheduler> TaskScheduler::s_instance;
-
-TaskScheduler::TaskScheduler()
-	: m_loopIsRunning(false)
-	, m_threadIsRunning(false)
-	, m_terminateRunningTasks(false)
-{
-}
-
 void TaskScheduler::processTasks()
 {
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
@@ -163,7 +157,7 @@ void TaskScheduler::processTasks()
 					}
 				}
 
-				state = runner->update(nullptr);
+				state = runner->update(m_schedulerId);
 				if (state != Task::STATE_RUNNING)
 				{
 					break;

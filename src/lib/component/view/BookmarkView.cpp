@@ -7,10 +7,6 @@ BookmarkView::BookmarkView(ViewLayout* viewLayout)
 {
 }
 
-BookmarkView::~BookmarkView()
-{
-}
-
 std::string BookmarkView::getName() const
 {
 	return "BookmarkView";

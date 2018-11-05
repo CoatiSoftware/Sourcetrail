@@ -6,6 +6,7 @@
 #include "StorageAccess.h"
 
 #include "MessageActivateSourceLocations.h"
+#include "TabId.h"
 #include "TaskDecoratorDelay.h"
 #include "TaskLambda.h"
 
@@ -143,7 +144,7 @@ void TooltipController::requestTooltipShow(const std::vector<Id> tokenIds, Toolt
 		delayMS = 300;
 	}
 
-	Task::dispatch(std::make_shared<TaskDecoratorDelay>(delayMS)->addChildTask(
+	Task::dispatch(TabId::app(), std::make_shared<TaskDecoratorDelay>(delayMS)->addChildTask(
 		std::make_shared<TaskLambda>(
 			[requestId, this]()
 			{
@@ -180,7 +181,7 @@ void TooltipController::requestTooltipHide()
 	}
 	m_hideRequest = true;
 
-	Task::dispatch(std::make_shared<TaskDecoratorDelay>(500)->addChildTask(
+	Task::dispatch(TabId::app(), std::make_shared<TaskDecoratorDelay>(500)->addChildTask(
 		std::make_shared<TaskLambda>(
 			[this]()
 			{

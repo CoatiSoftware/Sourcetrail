@@ -1,8 +1,9 @@
 #include "SearchController.h"
 
+#include "logging.h"
+#include "MessageTabState.h"
 #include "SearchView.h"
 #include "StorageAccess.h"
-#include "logging.h"
 #include "tracing.h"
 
 SearchController::SearchController(StorageAccess* storageAccess)
@@ -10,38 +11,37 @@ SearchController::SearchController(StorageAccess* storageAccess)
 {
 }
 
-SearchController::~SearchController()
+Id SearchController::getSchedulerId() const
 {
+	return Controller::getTabId();
 }
 
 void SearchController::handleMessage(MessageActivateAll* message)
 {
-	getView()->setMatches(message->getSearchMatches());
+	updateMatches(message);
 }
 
 void SearchController::handleMessage(MessageActivateErrors* message)
 {
-	getView()->setMatches(message->getSearchMatches());
+	updateMatches(message);
 }
 
 void SearchController::handleMessage(MessageActivateFullTextSearch* message)
 {
-	getView()->setMatches(message->getSearchMatches());
+	updateMatches(message);
 }
 
 void SearchController::handleMessage(MessageActivateLegend* message)
 {
-	getView()->setMatches(message->getSearchMatches());
+	updateMatches(message);
 }
 
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if (message->keepContent())
+	if (!message->isEdge)
 	{
-		return;
+		updateMatches(message, !message->keepContent());
 	}
-
-	getView()->setMatches(message->getSearchMatches());
 }
 
 void SearchController::handleMessage(MessageFind* message)
@@ -79,5 +79,22 @@ SearchView* SearchController::getView()
 
 void SearchController::clear()
 {
-	getView()->setMatches(std::vector<SearchMatch>());
+	updateMatches(nullptr);
+}
+
+void SearchController::updateMatches(MessageActivateBase* message, bool updateView)
+{
+	std::vector<SearchMatch> matches;
+
+	if (message)
+	{
+		matches = message->getSearchMatches();
+	}
+
+	if (updateView)
+	{
+		getView()->setMatches(matches);
+	}
+
+	MessageTabState(Controller::getTabId(), matches).dispatch();
 }

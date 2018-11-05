@@ -29,6 +29,8 @@ QtViewWidgetWrapper::QtViewWidgetWrapper(QWidget* widget)
 
 QtViewWidgetWrapper::~QtViewWidgetWrapper()
 {
+	m_widget->hide();
+	m_widget->deleteLater();
 }
 
 QWidget* QtViewWidgetWrapper::getWidget()

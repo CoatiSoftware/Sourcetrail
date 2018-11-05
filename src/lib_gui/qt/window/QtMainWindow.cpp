@@ -7,6 +7,7 @@
 #include <QMenuBar>
 #include <QSettings>
 #include <QTimer>
+#include <QToolBar>
 
 #include "Application.h"
 #include "CompositeView.h"
@@ -33,10 +34,10 @@
 #include "MessageHistoryUndo.h"
 #include "MessageActivateAll.h"
 #include "MessageActivateBase.h"
-#include "MessageActivateBookmark.h"
+#include "MessageBookmarkActivate.h"
+#include "MessageBookmarkBrowse.h"
+#include "MessageBookmarkCreate.h"
 #include "MessageCodeReference.h"
-#include "MessageDisplayBookmarkCreator.h"
-#include "MessageDisplayBookmarks.h"
 #include "MessageEnteredLicense.h"
 #include "MessageFind.h"
 #include "MessageIndexingShowDialog.h"
@@ -45,6 +46,9 @@
 #include "MessageRefresh.h"
 #include "MessageRefreshUI.h"
 #include "MessageResetZoom.h"
+#include "MessageTabClose.h"
+#include "MessageTabOpen.h"
+#include "MessageTabSelect.h"
 #include "MessageWindowClosed.h"
 #include "MessageZoom.h"
 #include "ResourcePaths.h"
@@ -150,12 +154,30 @@ QtMainWindow::~QtMainWindow()
 
 void QtMainWindow::addView(View* view)
 {
-	QDockWidget* dock = new QDockWidget(tr(view->getName().c_str()), this);
-	dock->setWidget(QtViewWidgetWrapper::getWidgetOfView(view));
-	dock->setObjectName(QString::fromStdString("Dock" + view->getName()));
+	const QString name = QString::fromStdString(view->getName());
+	if (name == "Tabs")
+	{
+		QToolBar* toolBar = new QToolBar();
+		toolBar->setObjectName("Tool" + name);
+		toolBar->setMovable(false);
+		toolBar->setFloatable(false);
+		toolBar->setStyleSheet("* { margin: 0; }");
+		toolBar->addWidget(QtViewWidgetWrapper::getWidgetOfView(view));
+		addToolBar(toolBar);
+		return;
+	}
+
+	QDockWidget* dock = new QDockWidget(name, this);
+	dock->setObjectName("Dock" + name);
+
+	dock->setWidget(new QWidget());
+	QVBoxLayout* layout = new QVBoxLayout(dock->widget());
+	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setSpacing(0);
+	layout->addWidget(QtViewWidgetWrapper::getWidgetOfView(view));
 
 	// Disable un-intended vertical growth of search widget
-	if (view->getName() == "Search")
+	if (name == "Search")
 	{
 		dock->setSizePolicy(dock->sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 	}
@@ -171,7 +193,7 @@ void QtMainWindow::addView(View* view)
 	QtViewToggle* toggle = new QtViewToggle(view, this);
 	connect(dock, &QDockWidget::visibilityChanged, toggle, &QtViewToggle::toggledByUI);
 
-	QAction* action = new QAction(tr((view->getName() + " Window").c_str()), this);
+	QAction* action = new QAction(name + " Window", this);
 	action->setCheckable(true);
 	connect(action, &QAction::triggered, toggle, &QtViewToggle::toggledByAction);
 	m_viewMenu->insertAction(m_viewSeparator, action);
@@ -183,6 +205,44 @@ void QtMainWindow::addView(View* view)
 	dockWidget.toggle = toggle;
 
 	m_dockWidgets.push_back(dockWidget);
+}
+
+void QtMainWindow::overrideView(View* view)
+{
+	const QString name = QString::fromStdString(view->getName());
+	if (name == "Tabs")
+	{
+		return;
+	}
+
+	QDockWidget* dock = nullptr;
+	for (const DockWidget& dockWidget : m_dockWidgets)
+	{
+		if (dockWidget.widget->windowTitle() == name)
+		{
+			dock = dockWidget.widget;
+			break;
+		}
+	}
+
+	if (!dock)
+	{
+		LOG_ERROR_STREAM(<< "Couldn't find view to override: " << name.toStdString());
+		return;
+	}
+
+	QWidget* oldWidget = dock->widget()->layout()->itemAt(0)->widget();
+	QWidget* newWidget = QtViewWidgetWrapper::getWidgetOfView(view);
+
+	if (oldWidget == newWidget)
+	{
+		return;
+	}
+
+	oldWidget = dock->widget()->layout()->takeAt(0)->widget();
+	oldWidget->hide();
+	dock->widget()->layout()->addWidget(newWidget);
+	newWidget->show();
 }
 
 void QtMainWindow::removeView(View* view)
@@ -347,9 +407,41 @@ void QtMainWindow::forceEnterLicense(LicenseChecker::LicenseState state)
 	connect(window, &QtWindow::canceled, dynamic_cast<QApplication*>(QCoreApplication::instance()), &QApplication::quit);
 }
 
-void QtMainWindow::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems)
+void QtMainWindow::updateHistoryMenu(std::shared_ptr<MessageBase> message)
 {
-	m_history = historyMenuItems;
+	const size_t historyMenuSize = 20;
+
+	if (message && dynamic_cast<MessageActivateBase*>(message.get()))
+	{
+		std::vector<SearchMatch> matches = dynamic_cast<MessageActivateBase*>(message.get())->getSearchMatches();
+		if (matches.size() && !matches[0].text.empty())
+		{
+			std::vector<std::shared_ptr<MessageBase>> history = { message };
+			std::set<SearchMatch> uniqueMatches = { matches[0] };
+
+			for (std::shared_ptr<MessageBase> m : m_history)
+			{
+				if (uniqueMatches.insert(dynamic_cast<MessageActivateBase*>(m.get())->getSearchMatches()[0]).second)
+				{
+					history.push_back(m);
+
+					if (history.size() >= historyMenuSize)
+					{
+						break;
+					}
+				}
+			}
+
+			m_history = history;
+		}
+	}
+
+	setupHistoryMenu();
+}
+
+void QtMainWindow::clearHistoryMenu()
+{
+	m_history.clear();
 	setupHistoryMenu();
 }
 
@@ -426,6 +518,7 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 void QtMainWindow::contextMenuEvent(QContextMenuEvent* event)
 {
 	QtContextMenu menu(event, this);
+	menu.addUndoActions();
 	menu.show();
 }
 
@@ -547,6 +640,26 @@ void QtMainWindow::showDataFolder()
 void QtMainWindow::showLogFolder()
 {
 	QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + UserPaths::getLogPath().makeCanonical().wstr()), QUrl::TolerantMode));
+}
+
+void QtMainWindow::openTab()
+{
+	MessageTabOpen().dispatch();
+}
+
+void QtMainWindow::closeTab()
+{
+	MessageTabClose().dispatch();
+}
+
+void QtMainWindow::nextTab()
+{
+	MessageTabSelect(true).dispatch();
+}
+
+void QtMainWindow::previousTab()
+{
+	MessageTabSelect(false).dispatch();
 }
 
 void QtMainWindow::showStartScreen()
@@ -757,12 +870,12 @@ void QtMainWindow::toggleShowDockWidgetTitleBars()
 
 void QtMainWindow::showBookmarkCreator()
 {
-	MessageDisplayBookmarkCreator().dispatch();
+	MessageBookmarkCreate().dispatch();
 }
 
 void QtMainWindow::showBookmarkBrowser()
 {
-	MessageDisplayBookmarks().dispatch();
+	MessageBookmarkBrowse().dispatch();
 }
 
 void QtMainWindow::openHistoryAction()
@@ -771,6 +884,7 @@ void QtMainWindow::openHistoryAction()
 	if (action)
 	{
 		std::shared_ptr<MessageBase> m = m_history[action->data().toInt()];
+		m->setSchedulerId(TabId::currentTab());
 		m->setIsReplayed(false);
 		m->dispatch();
 	}
@@ -782,7 +896,7 @@ void QtMainWindow::activateBookmarkAction()
 	if (action)
 	{
 		std::shared_ptr<Bookmark> bookmark = m_bookmarks[action->data().toInt()];
-		MessageActivateBookmark(bookmark).dispatch();
+		MessageBookmarkActivate(bookmark).dispatch();
 	}
 }
 
@@ -845,9 +959,9 @@ void QtMainWindow::setupEditMenu()
 		&QtMainWindow::codeReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
 
 	menu->addAction(tr("Next Local Reference"), this,
-		&QtMainWindow::codeLocalReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_T));
+		&QtMainWindow::codeLocalReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_E));
 	menu->addAction(tr("Previous Local Reference"), this,
-		&QtMainWindow::codeLocalReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_T));
+		&QtMainWindow::codeLocalReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_E));
 
 	menu->addSeparator();
 
@@ -862,6 +976,22 @@ void QtMainWindow::setupViewMenu()
 {
 	QMenu *menu = new QMenu(tr("&View"), this);
 	menuBar()->addMenu(menu);
+
+	menu->addAction(tr("New Tab"), this, &QtMainWindow::openTab, QKeySequence::AddTab);
+	menu->addAction(tr("Close Tab"), this, &QtMainWindow::closeTab, QKeySequence::Close);
+
+	if (utility::getOsType() == OS_MAC)
+	{
+		menu->addAction(tr("Select Next Tab"), this, &QtMainWindow::nextTab, QKeySequence(Qt::META + Qt::Key_Tab));
+		menu->addAction(tr("Select Previous Tab"), this, &QtMainWindow::previousTab, QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_Tab));
+	}
+	else
+	{
+		menu->addAction(tr("Select Next Tab"), this, &QtMainWindow::nextTab, QKeySequence(Qt::CTRL + Qt::Key_Tab));
+		menu->addAction(tr("Select Previous Tab"), this, &QtMainWindow::previousTab, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_Tab));
+	}
+
+	menu->addSeparator();
 
 	menu->addAction(tr("Show Start Window"), this, &QtMainWindow::showStartScreen);
 

@@ -3,8 +3,9 @@
 
 #include <QListWidget>
 
+#include "SearchMatch.h"
+
 class QLabel;
-struct SearchMatch;
 
 class QtHistoryItem
 	: public QWidget
@@ -15,6 +16,8 @@ public:
 	QtHistoryItem(const SearchMatch& match, size_t index, bool isCurrent);
 
 	QSize getSizeHint() const;
+
+	const SearchMatch& getMatch() const;
 
 	size_t index;
 
@@ -29,6 +32,19 @@ private:
 	QWidget* m_indicator;
 	std::string m_indicatorColor;
 	std::string m_indicatorHoverColor;
+
+	const SearchMatch m_match;
+};
+
+
+class QtHistoryListWidget
+	: public QListWidget
+{
+public:
+	QtHistoryListWidget(QWidget* parent = nullptr);
+
+protected:
+	void mouseReleaseEvent(QMouseEvent* event);
 };
 
 
@@ -52,7 +68,7 @@ private slots:
 	void onItemClicked(QListWidgetItem *item);
 
 private:
-	QListWidget* m_list;
+	QtHistoryListWidget* m_list;
 	size_t m_currentIndex;
 };
 

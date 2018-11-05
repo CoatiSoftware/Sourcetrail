@@ -2,6 +2,7 @@
 #define MESSAGE_ACTIVATE_NODES_H
 
 #include "Message.h"
+#include "TabId.h"
 #include "types.h"
 
 class MessageActivateNodes
@@ -24,6 +25,8 @@ public:
 		{
 			addNode(tokenId);
 		}
+
+		setSchedulerId(TabId::currentTab());
 	}
 
 	void addNode(Id tokenId)

@@ -53,6 +53,11 @@ public:
 		m_alive = false;
 	}
 
+	virtual Id getSchedulerId() const
+	{
+		return 0;
+	}
+
 private:
 	virtual std::string doGetType() const = 0;
 	virtual void doHandleMessageBase(MessageBase*) = 0;

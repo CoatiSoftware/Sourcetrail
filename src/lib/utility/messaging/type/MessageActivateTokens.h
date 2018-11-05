@@ -24,6 +24,7 @@ public:
 	{
 		setIsParallel(true);
 		setKeepContent(other->keepContent());
+		setSchedulerId(other->getSchedulerId());
 	}
 
 	void print(std::wostream& os) const override

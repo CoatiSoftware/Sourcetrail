@@ -2,6 +2,7 @@
 #define MESSAGE_GRAPH_NODE_HIDE_H
 
 #include "Message.h"
+#include "TabId.h"
 #include "types.h"
 
 class MessageGraphNodeHide
@@ -11,6 +12,7 @@ public:
 	MessageGraphNodeHide(Id tokenId)
 		: tokenId(tokenId)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

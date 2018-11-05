@@ -74,7 +74,7 @@ private:
 	QtSelfRefreshIconButton* m_closeButton;
 
 	QHBoxLayout* m_checkboxLayout;
-	std::vector<QCheckBox*> m_checkBoxes;
+	std::map<std::string, QCheckBox*> m_checkBoxes;
 
 	size_t m_matchCount = 0;
 	size_t m_matchIndex = 0;

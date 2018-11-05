@@ -22,6 +22,7 @@ public:
 	virtual Id getTokenId() const;
 
 	virtual void onClick();
+	virtual void onMiddleClick();
 	virtual void updateStyle();
 
 protected:

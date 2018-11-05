@@ -13,6 +13,8 @@ public:
 
 	virtual void clear() = 0;
 
+	Id getTabId() const;
+
 protected:
 	template <typename ViewType>
 		ViewType* getView() const;

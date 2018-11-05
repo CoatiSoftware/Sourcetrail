@@ -48,7 +48,7 @@ private slots:
 	void errorFilterChanged(int i = 0);
 
 private:
-	enum Column 
+	enum Column
 	{
 		ID = 0,
 		TYPE = 1,
@@ -88,8 +88,6 @@ private:
 
 	QStandardItemModel* m_model;
 	QtTable* m_table;
-
-	bool m_ignoreRowSelection;
 };
 
 #endif // QT_ERROR_VIEW_H

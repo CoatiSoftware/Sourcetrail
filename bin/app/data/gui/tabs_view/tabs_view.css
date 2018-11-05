@@ -1,0 +1,81 @@
+QTabBar {
+	background-color: <color:tab/bar/background>;
+	border-bottom: 1px solid <color:tab/bar/border>;
+	font-size: <setting:font_size>px;
+	padding-left: 4px;
+	min-height: 30px;
+}
+
+QTabBar::tab {
+	background-color: <color:tab/bar/button/background/normal>;
+	border: 1px solid <color:tab/bar/border>;
+	border-top-left-radius: 11px;
+	border-top-right-radius: 11px;
+	color: <color:tab/bar/button/text/normal>;
+	min-height: 25px;
+	margin-left: 3px;
+	margin-top: 4px;
+}
+
+QTabBar::tab:hover {
+	background-color: <color:tab/bar/button/background/hover>;
+	color: <color:tab/bar/button/text/hover>;
+}
+
+QTabBar::tab:selected, QTabBar::tab:pressed {
+	background-color:  <color:tab/bar/button/background/press>;
+	border-bottom: 1px solid <color:tab/bar/button/background/press>;
+	color: <color:tab/bar/button/text/press>;
+}
+
+#side_area {
+	background-color: <color:tab/bar/background>;
+	border-bottom: 1px solid <color:tab/bar/border>;
+}
+
+#type_circle {
+	background-color: <color:tab/bar/button/background/hover>;
+	border: 1px solid <color:tab/bar/button/border/normal>;
+	border-radius: 6px;
+	margin: 0;
+	height: 10px;
+	width: 10px;
+	margin-top: 3px;
+	margin-left: 6px;
+}
+
+#type_circle[selected=true] {
+	border: 1px solid <color:tab/bar/button/border/press>;
+}
+
+#close_button {
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	color: <color:tab/bar/button/text/normal>;
+	font-size: 12px;
+	margin: 0;
+	height: 14px;
+	width: 14px;
+	margin-top: 5px;
+	margin-right: 0px;
+}
+
+#close_button:hover {
+	border: 1px solid <color:tab/bar/border>;
+}
+
+#add_button {
+	background-color: <color:tab/bar/button/background/hover>;
+	border: 1px solid <color:tab/bar/border>;
+	border-radius: 11px;
+	color: <color:tab/bar/button/text/normal>;
+	margin: 5px 0 3px 0;
+	height: 20px;
+	width: 20px;
+}
+
+#add_button:hover {
+	background-color: <color:tab/bar/button/background/press>;
+	color: <color:tab/bar/button/text/press>;
+}

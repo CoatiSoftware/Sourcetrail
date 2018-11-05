@@ -1,10 +1,11 @@
 #include "ErrorController.h"
 
 #include "Application.h"
-#include "DialogView.h"
-#include "StorageAccess.h"
-#include "Project.h"
 #include "ApplicationSettings.h"
+#include "DialogView.h"
+#include "Project.h"
+#include "StorageAccess.h"
+#include "TabId.h"
 
 ErrorController::ErrorController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -17,19 +18,19 @@ ErrorController::~ErrorController()
 
 void ErrorController::errorFilterChanged(const ErrorFilter& filter)
 {
-	if (m_activeFilePath.empty())
+	if (m_tabActiveFilePath[TabId::currentTab()].empty())
 	{
 		MessageActivateErrors(filter).dispatch();
 	}
 	else
 	{
-		MessageActivateErrors(filter, m_activeFilePath).dispatch();
+		MessageActivateErrors(filter, m_tabActiveFilePath[TabId::currentTab()]).dispatch();
 	}
 }
 
 void ErrorController::showError(Id errorId)
 {
-	if (!m_showsErrors)
+	if (!m_tabShowsErrors[TabId::currentTab()])
 	{
 		errorFilterChanged(getView()->getErrorFilter());
 	}
@@ -39,15 +40,15 @@ void ErrorController::showError(Id errorId)
 
 void ErrorController::handleMessage(MessageActivateAll* message)
 {
-	m_showsErrors = false;
+	m_tabShowsErrors[message->getSchedulerId()] = false;
 }
 
 void ErrorController::handleMessage(MessageActivateErrors* message)
 {
 	clear();
 
-	m_showsErrors = true;
-	m_activeFilePath = message->file;
+	m_tabShowsErrors[message->getSchedulerId()] = true;
+	m_tabActiveFilePath[message->getSchedulerId()] = message->file;
 
 	ErrorView* view = getView();
 	view->setErrorFilter(message->filter);
@@ -60,12 +61,12 @@ void ErrorController::handleMessage(MessageActivateErrors* message)
 
 void ErrorController::handleMessage(MessageActivateFullTextSearch* message)
 {
-	m_showsErrors = false;
+	m_tabShowsErrors[message->getSchedulerId()] = false;
 }
 
 void ErrorController::handleMessage(MessageActivateTokens* message)
 {
-	m_showsErrors = false;
+	m_tabShowsErrors[message->getSchedulerId()] = false;
 }
 
 void ErrorController::handleMessage(MessageErrorCountClear* message)
@@ -178,9 +179,9 @@ ErrorView* ErrorController::getView() const
 
 void ErrorController::clear()
 {
-	m_showsErrors = false;
 	m_errorCount = 0;
-	m_activeFilePath = FilePath();
+	m_tabShowsErrors.clear();
+	m_tabActiveFilePath.clear();
 
 	getView()->clear();
 }
@@ -193,13 +194,13 @@ bool ErrorController::showErrors(const ErrorFilter& filter, bool scrollTo)
 	filterUnlimited.limit = 0;
 
 	std::vector<ErrorInfo> errors;
-	if (m_activeFilePath.empty())
+	if (m_tabActiveFilePath[TabId::currentTab()].empty())
 	{
 		errors = m_storageAccess->getErrorsLimited(filterUnlimited);
 	}
 	else
 	{
-		errors = m_storageAccess->getErrorsForFileLimited(filter, m_activeFilePath);
+		errors = m_storageAccess->getErrorsForFileLimited(filter, m_tabActiveFilePath[TabId::currentTab()]);
 	}
 
 	ErrorCountInfo errorCount(errors);

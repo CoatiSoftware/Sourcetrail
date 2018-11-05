@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "types.h"
+
 class View;
 class Controller;
 
@@ -22,9 +24,14 @@ public:
 
 	View* getViewPtr() const;
 
+	void setTabId(Id tabId);
+	Id getTabId() const;
+
 private:
 	const std::shared_ptr<Controller> m_controller;
 	const std::shared_ptr<View> m_view;
+
+	Id m_tabId;
 };
 
 

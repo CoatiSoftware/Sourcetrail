@@ -2,6 +2,7 @@
 #define MESSAGE_CODE_SHOW_DEFINITION_H
 
 #include "Message.h"
+#include "TabId.h"
 #include "types.h"
 
 class MessageCodeShowDefinition
@@ -16,6 +17,7 @@ public:
 	MessageCodeShowDefinition(Id nodeId)
 		: nodeId(nodeId)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	virtual void print(std::wostream& os) const

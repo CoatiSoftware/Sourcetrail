@@ -2,6 +2,7 @@
 #define MESSAGE_HISTORY_TO_POSITION_H
 
 #include "Message.h"
+#include "TabId.h"
 
 class MessageHistoryToPosition
 	: public Message<MessageHistoryToPosition>
@@ -15,6 +16,7 @@ public:
 	MessageHistoryToPosition(size_t index)
 		: index(index)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	const size_t index;

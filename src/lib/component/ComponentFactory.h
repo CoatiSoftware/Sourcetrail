@@ -8,15 +8,14 @@
 class Component;
 class ViewFactory;
 class ViewLayout;
+class ScreenSearchSender;
 
 class ComponentFactory
 {
 public:
-	static std::shared_ptr<ComponentFactory> create(ViewFactory* viewFactory, StorageAccess* storageAccess);
+	ComponentFactory(const ViewFactory* viewFactory, StorageAccess* storageAccess);
 
-	~ComponentFactory();
-
-	ViewFactory* getViewFactory() const;
+	const ViewFactory* getViewFactory() const;
 	StorageAccess* getStorageAccess() const;
 
 	std::shared_ptr<Component> createActivationComponent();
@@ -29,14 +28,12 @@ public:
 	std::shared_ptr<Component> createSearchComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createStatusBarComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createStatusComponent(ViewLayout* viewLayout);
+	std::shared_ptr<Component> createTabsComponent(ViewLayout* viewLayout, ScreenSearchSender* screenSearchSender);
 	std::shared_ptr<Component> createTooltipComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createUndoRedoComponent(ViewLayout* viewLayout);
 
 private:
-	ComponentFactory();
-	ComponentFactory(const ComponentFactory&);
-
-	ViewFactory* m_viewFactory;
+	const ViewFactory* m_viewFactory;
 	StorageAccess* m_storageAccess;
 };
 

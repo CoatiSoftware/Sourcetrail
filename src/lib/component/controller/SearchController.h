@@ -26,20 +26,24 @@ class SearchController
 {
 public:
 	SearchController(StorageAccess* storageAccess);
-	~SearchController();
+	~SearchController() = default;
+
+	Id getSchedulerId() const override;
 
 private:
-	virtual void handleMessage(MessageActivateAll* message);
-	virtual void handleMessage(MessageActivateErrors* message);
-	virtual void handleMessage(MessageActivateFullTextSearch* message);
-	virtual void handleMessage(MessageActivateLegend* message);
-	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageFind* message);
-	virtual void handleMessage(MessageSearchAutocomplete* message);
+	void handleMessage(MessageActivateAll* message) override;
+	void handleMessage(MessageActivateErrors* message) override;
+	void handleMessage(MessageActivateFullTextSearch* message) override;
+	void handleMessage(MessageActivateLegend* message) override;
+	void handleMessage(MessageActivateTokens* message) override;
+	void handleMessage(MessageFind* message) override;
+	void handleMessage(MessageSearchAutocomplete* message) override;
 
 	SearchView* getView();
 
-	virtual void clear();
+	void clear() override;
+
+	void updateMatches(MessageActivateBase* message, bool updateView = true);
 
 	StorageAccess* m_storageAccess;
 };

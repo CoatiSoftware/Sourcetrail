@@ -51,6 +51,8 @@ protected:
 	virtual void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
+	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+
 	virtual void focusTokenIds(const std::vector<Id>& tokenIds);
 	virtual void defocusTokenIds(const std::vector<Id>& tokenIds);
 
@@ -99,11 +101,19 @@ protected:
 	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
 	void setTextColorForAnnotation(const Annotation& annotation, QColor color) const;
 
-	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(int pos) const;
+	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(QPoint position) const;
+	std::vector<Id> getInteractiveTokenIdsForPosition(QPoint position) const;
+
+	void checkOpenInTabActionEnabled(QPoint position);
 
 	std::vector<Annotation> m_annotations;
 	std::vector<const Annotation*> m_hoveredAnnotations;
 	std::vector<int> m_linesToRehighlight;
+
+	QAction* m_openInTabAction;
+
+private slots:
+	void openInTab();
 
 private:
 	static std::vector<AnnotationColor> s_annotationColors;
@@ -123,6 +133,8 @@ private:
 	std::vector<std::vector<std::pair<int, int>>> m_multibyteCharacterLocations;
 
 	int m_endTextEditPosition;
+
+	Id m_openInTabLocationId;
 };
 
 #endif // QT_CODE_FIELD_H

@@ -2,14 +2,6 @@
 
 #include "ScreenSearchView.h"
 
-ScreenSearchController::ScreenSearchController()
-{
-}
-
-ScreenSearchController::~ScreenSearchController()
-{
-}
-
 void ScreenSearchController::clear()
 {
 }
@@ -54,15 +46,21 @@ void ScreenSearchController::addResponder(ScreenSearchResponder* responder)
 	}
 }
 
+void ScreenSearchController::removeResponder(ScreenSearchResponder* responder)
+{
+	if (responder)
+	{
+		auto it = std::find(m_responders.begin(), m_responders.end(), responder);
+		if (it != m_responders.end())
+		{
+			m_responders.erase(it);
+		}
+	}
+}
+
 void ScreenSearchController::search(const std::wstring& query, const std::set<std::string>& responderNames)
 {
-	{
-		std::lock_guard<std::mutex> lock(m_matchMutex);
-		m_matches.clear();
-		m_matchIndex = 0;
-	}
-
-	getView<ScreenSearchView>()->setMatchCount(0);
+	clearMatches();
 
 	for (ScreenSearchResponder* responder : m_responders)
 	{
@@ -74,10 +72,6 @@ void ScreenSearchController::search(const std::wstring& query, const std::set<st
 		if (query.size() && responderNames.find(responder->getName()) != responderNames.end())
 		{
 			responder->findMatches(this, query);
-		}
-		else
-		{
-			responder->clearMatches();
 		}
 	}
 }
@@ -132,6 +126,8 @@ void ScreenSearchController::clearMatches()
 		m_matches.clear();
 		m_matchIndex = 0;
 	}
+
+	getView<ScreenSearchView>()->setMatchCount(0);
 
 	for (ScreenSearchResponder* responder : m_responders)
 	{

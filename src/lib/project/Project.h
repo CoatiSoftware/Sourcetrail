@@ -30,6 +30,7 @@ public:
 	FilePath getProjectSettingsFilePath() const;
 	std::string getDescription() const;
 
+	bool isLoaded() const;
 	bool isIndexing() const;
 
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;

@@ -1,8 +1,11 @@
 #include "QtCodeFileTitleButton.h"
 
+#include <QMouseEvent>
+
 #include "FileSystem.h"
 #include "MessageActivateFile.h"
 #include "MessageProjectEdit.h"
+#include "MessageTabOpenWith.h"
 #include "ResourcePaths.h"
 #include "utilityString.h"
 
@@ -25,6 +28,12 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	setIconSize(QSize(16, 16));
 
 	connect(this, &QtCodeFileTitleButton::clicked, this, &QtCodeFileTitleButton::clickedTitle);
+
+	m_openInTabAction = new QAction("Open in New Tab", this);
+	m_openInTabAction->setStatusTip("Opens the file in a new tab");
+	m_openInTabAction->setToolTip("Opens the file in a new tab");
+	m_openInTabAction->setEnabled(false);
+	connect(m_openInTabAction, &QAction::triggered, this, &QtCodeFileTitleButton::openInTab);
 }
 
 QtCodeFileTitleButton::~QtCodeFileTitleButton()
@@ -147,6 +156,17 @@ void QtCodeFileTitleButton::updateFromOther(const QtCodeFileTitleButton* other)
 	updateTexts();
 }
 
+void QtCodeFileTitleButton::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::MiddleButton)
+	{
+		openInTab();
+		return;
+	}
+
+	QtSelfRefreshIconButton::mouseReleaseEvent(event);
+}
+
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 {
 	FilePath path = m_filePath;
@@ -161,7 +181,11 @@ void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 		path = currentProject->getProjectSettingsFilePath();
 	}
 
+	m_openInTabAction->setEnabled(!m_filePath.empty());
+
 	QtContextMenu menu(event, this);
+	menu.addAction(m_openInTabAction);
+	menu.addUndoActions();
 	menu.addSeparator();
 	menu.addFileActions(path);
 	menu.show();
@@ -183,6 +207,14 @@ void QtCodeFileTitleButton::clickedTitle()
 	else if (text().size())
 	{
 		MessageProjectEdit().dispatch();
+	}
+}
+
+void QtCodeFileTitleButton::openInTab()
+{
+	if (!m_filePath.empty())
+	{
+		MessageTabOpenWith(m_filePath).dispatch();
 	}
 }
 

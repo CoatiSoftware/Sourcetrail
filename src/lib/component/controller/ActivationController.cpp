@@ -19,10 +19,6 @@ ActivationController::ActivationController(StorageAccess* storageAccess)
 {
 }
 
-ActivationController::~ActivationController()
-{
-}
-
 void ActivationController::clear()
 {
 }
@@ -66,12 +62,15 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 			true,
 			true
 		);
+		msg.setSchedulerId(message->getSchedulerId());
 		msg.dispatchImmediately();
 	}
 
 	if (message->line > 0)
 	{
-		MessageScrollToLine(message->filePath, message->line).dispatch();
+		MessageScrollToLine msg(message->filePath, message->line);
+		msg.setSchedulerId(message->getSchedulerId());
+		msg.dispatch();
 	}
 }
 
@@ -105,12 +104,13 @@ void ActivationController::handleMessage(MessageActivateTokenIds* message)
 
 void ActivationController::handleMessage(MessageActivateSourceLocations* message)
 {
-	MessageActivateNodes m;
+	MessageActivateNodes msg;
 	for (Id nodeId : m_storageAccess->getNodeIdsForLocationIds(message->locationIds))
 	{
-		m.addNode(nodeId);
+		msg.addNode(nodeId);
 	}
-	m.dispatchImmediately();
+	msg.setSchedulerId(message->getSchedulerId());
+	msg.dispatchImmediately();
 }
 
 void ActivationController::handleMessage(MessageResetZoom* message)
@@ -140,19 +140,25 @@ void ActivationController::handleMessage(MessageSearch* message)
 			case SearchMatch::COMMAND_ALL:
 			case SearchMatch::COMMAND_NODE_FILTER:
 			{
-				MessageActivateAll(message->acceptedNodeTypes).dispatchImmediately();
+				MessageActivateAll msg(message->acceptedNodeTypes);
+				msg.setSchedulerId(message->getSchedulerId());
+				msg.dispatch();
 				return;
 			}
 
 			case SearchMatch::COMMAND_ERROR:
 			{
-				MessageErrorsAll().dispatch();
+				MessageErrorsAll msg;
+				msg.setSchedulerId(message->getSchedulerId());
+				msg.dispatch();
 				return;
 			}
 
 			case SearchMatch::COMMAND_LEGEND:
 			{
-				MessageActivateLegend().dispatch();
+				MessageActivateLegend msg;
+				msg.setSchedulerId(message->getSchedulerId());
+				msg.dispatch();
 				return;
 			}
 		}

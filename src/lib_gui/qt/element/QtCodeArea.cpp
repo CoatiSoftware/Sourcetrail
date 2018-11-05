@@ -620,6 +620,7 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 {
 	const int panningThreshold = 5;
+
 	if (event->button() == Qt::LeftButton)
 	{
 		m_isSelecting = false;
@@ -636,9 +637,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			}
 			else
 			{
-				QTextCursor cursor = this->cursorForPosition(event->pos());
-				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(cursor.position());
-
+				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());
 				if (annotations.size())
 				{
 					if (m_navigator->hasErrors())
@@ -656,6 +655,10 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				}
 			}
 		}
+	}
+	else
+	{
+		QtCodeField::mouseReleaseEvent(event);
 	}
 }
 
@@ -681,8 +684,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		scrollbar->setValue(scrollbar->value() - utility::roundToInt(deltaPosRatio * scrollbar->pageStep()));
 	}
 
-	QTextCursor cursor = this->cursorForPosition(event->pos());
-	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(cursor.position());
+	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());
 
 	bool same = annotations.size() == m_hoveredAnnotations.size();
 	if (same)
@@ -730,9 +732,12 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 	{
 		m_eventPosition = event->pos();
 
+		checkOpenInTabActionEnabled(event->pos());
 		m_setIDECursorPositionAction->setEnabled(!getSourceLocationFile()->getFilePath().empty());
 
 		QtContextMenu menu(event, this);
+		menu.addAction(m_openInTabAction);
+		menu.addUndoActions();
 		menu.addSeparator();
 		menu.addFileActions(getSourceLocationFile()->getFilePath());
 		menu.addSeparator();

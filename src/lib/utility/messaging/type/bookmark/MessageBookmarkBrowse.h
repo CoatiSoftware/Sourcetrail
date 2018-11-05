@@ -1,14 +1,14 @@
-#ifndef MESSAGE_DISPLAY_BOOKMARKS_H
-#define MESSAGE_DISPLAY_BOOKMARKS_H
+#ifndef MESSAGE_BOOKMARKS_BROWSE_H
+#define MESSAGE_BOOKMARKS_BROWSE_H
 
 #include "Bookmark.h"
 #include "Message.h"
 
-class MessageDisplayBookmarks
-	: public Message<MessageDisplayBookmarks>
+class MessageBookmarkBrowse
+	: public Message<MessageBookmarkBrowse>
 {
 public:
-	MessageDisplayBookmarks(
+	MessageBookmarkBrowse(
 		Bookmark::BookmarkFilter filter = Bookmark::FILTER_UNKNOWN,
 		Bookmark::BookmarkOrder order = Bookmark::ORDER_NONE
 	)
@@ -19,11 +19,11 @@ public:
 
 	static const std::string getStaticType()
 	{
-		return "MessageDisplayBookmarks";
+		return "MessageBookmarkBrowse";
 	}
 
 	const Bookmark::BookmarkFilter filter;
 	const Bookmark::BookmarkOrder order;
 };
 
-#endif // MESSAGE_DISPLAY_BOOKMARKS_H
+#endif // MESSAGE_BOOKMARKS_BROWSE_H

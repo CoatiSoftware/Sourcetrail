@@ -3,6 +3,7 @@
 
 #include "Message.h"
 #include "types.h"
+#include "TabId.h"
 
 class MessageShowScope
 	: public Message<MessageShowScope>
@@ -12,6 +13,7 @@ public:
 		: scopeLocationId(scopeLocationId)
 		, showErrors(showErrors)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

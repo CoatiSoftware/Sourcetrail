@@ -12,6 +12,7 @@ class MessageBase
 public:
 	MessageBase()
 		: m_id(s_nextId++)
+		, m_schedulerId(0)
 		, m_isParallel(false)
 		, m_isReplayed(false)
 		, m_sendAsTask(true)
@@ -21,9 +22,7 @@ public:
 	{
 	}
 
-	virtual ~MessageBase()
-	{
-	}
+	virtual ~MessageBase() = default;
 
 	virtual std::string getType() const = 0;
 	virtual void dispatch() = 0;
@@ -31,6 +30,16 @@ public:
 	Id getId() const
 	{
 		return m_id;
+	}
+
+	Id getSchedulerId() const
+	{
+		return m_schedulerId;
+	}
+
+	void setSchedulerId(Id schedulerId)
+	{
+		m_schedulerId = schedulerId;
 	}
 
 	bool sendAsTask() const
@@ -107,6 +116,7 @@ private:
 	static Id s_nextId;
 
 	Id m_id;
+	Id m_schedulerId;
 
 	bool m_isParallel;
 	bool m_isReplayed;

@@ -2,6 +2,7 @@
 #define MESSAGE_SCROLL_CODE_H
 
 #include "Message.h"
+#include "TabId.h"
 
 class MessageScrollCode
 	: public Message<MessageScrollCode>
@@ -12,6 +13,7 @@ public:
 		, inListMode(inListMode)
 	{
 		setIsLogged(false);
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

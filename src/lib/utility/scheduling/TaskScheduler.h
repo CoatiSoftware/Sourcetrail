@@ -7,11 +7,13 @@
 
 #include "Task.h"
 #include "TaskRunner.h"
+#include "types.h"
 
 class TaskScheduler
 {
 public:
-	static std::shared_ptr<TaskScheduler> getInstance();
+	TaskScheduler(Id schedulerId);
+	~TaskScheduler();
 
 	void pushTask(std::shared_ptr<Task> task);
 	void pushNextTask(std::shared_ptr<Task> task);
@@ -26,14 +28,9 @@ public:
 	void terminateRunningTasks();
 
 private:
-	static std::shared_ptr<TaskScheduler> s_instance;
-
-	TaskScheduler();
-	TaskScheduler(const TaskScheduler&);
-	void operator=(const TaskScheduler&);
-
 	void processTasks();
 
+	const Id m_schedulerId;
 
 	bool m_loopIsRunning;
 	bool m_threadIsRunning;

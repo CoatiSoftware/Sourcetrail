@@ -10,6 +10,7 @@ class TaskRunner
 public:
 	TaskRunner(std::shared_ptr<Task> task);
 
+	Task::TaskState update(Id schedulerId);
 	Task::TaskState update(std::shared_ptr<Blackboard> blackboard);
 	void reset();
 	void terminate(); // caution: this should only be called just before quitting the app.

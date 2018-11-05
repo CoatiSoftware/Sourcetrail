@@ -67,7 +67,7 @@
 					<text>black</text>
 				</normal>
 				<hover>
-					<fill>#5EA071</fill>
+					<fill>#6DB080</fill>
 					<text>black</text>
 				</hover>
 			</command>
@@ -508,12 +508,21 @@
 			<background>#E0E0E0</background>
 			<border>#BEBEBE</border>
 			<button>
-				<text>black</text>
+				<text>
+					<normal>#555</normal>
+					<hover>#555</hover>
+					<press>black</press>
+				</text>
+				<border>
+					<normal>#888</normal>
+					<press>#777</press>
+				</border>
 				<background>
 					<normal>#E0E0E0</normal>
 					<hover>#F0F0F0</hover>
 					<press>#FFFFFF</press>
 				</background>
+				<icon>#555</icon>
 			</button>
 		</bar>
 	</tab>

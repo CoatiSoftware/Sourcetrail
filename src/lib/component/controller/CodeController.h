@@ -58,33 +58,35 @@ class CodeController
 {
 public:
 	CodeController(StorageAccess* storageAccess);
-	~CodeController();
+	virtual ~CodeController() = default;
+
+	Id getSchedulerId() const override;
 
 private:
 	static const uint s_lineRadius;
 
-	virtual void handleMessage(MessageActivateAll* message);
-	virtual void handleMessage(MessageActivateErrors* message);
-	virtual void handleMessage(MessageActivateFullTextSearch* message);
-	virtual void handleMessage(MessageActivateLegend* message);
-	virtual void handleMessage(MessageActivateLocalSymbols* message);
-	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageActivateTrailEdge* message);
-	virtual void handleMessage(MessageChangeFileView* message);
-	virtual void handleMessage(MessageCodeShowDefinition* message);
-	virtual void handleMessage(MessageDeactivateEdge* message);
-	virtual void handleMessage(MessageErrorCountClear* message);
-	virtual void handleMessage(MessageFlushUpdates* message);
-	virtual void handleMessage(MessageFocusIn* message);
-	virtual void handleMessage(MessageFocusOut* message);
-	virtual void handleMessage(MessageScrollCode* message);
-	virtual void handleMessage(MessageScrollToLine* message);
-	virtual void handleMessage(MessageShowError* message);
-	virtual void handleMessage(MessageShowScope* message);
+	void handleMessage(MessageActivateAll* message) override;
+	void handleMessage(MessageActivateErrors* message) override;
+	void handleMessage(MessageActivateFullTextSearch* message) override;
+	void handleMessage(MessageActivateLegend* message) override;
+	void handleMessage(MessageActivateLocalSymbols* message) override;
+	void handleMessage(MessageActivateTokens* message) override;
+	void handleMessage(MessageActivateTrailEdge* message) override;
+	void handleMessage(MessageChangeFileView* message) override;
+	void handleMessage(MessageCodeShowDefinition* message) override;
+	void handleMessage(MessageDeactivateEdge* message) override;
+	void handleMessage(MessageErrorCountClear* message) override;
+	void handleMessage(MessageFlushUpdates* message) override;
+	void handleMessage(MessageFocusIn* message) override;
+	void handleMessage(MessageFocusOut* message) override;
+	void handleMessage(MessageScrollCode* message) override;
+	void handleMessage(MessageScrollToLine* message) override;
+	void handleMessage(MessageShowError* message) override;
+	void handleMessage(MessageShowScope* message) override;
 
 	CodeView* getView() const;
 
-	virtual void clear();
+	void clear() override;
 
 	std::vector<CodeSnippetParams> getSnippetsForFileWithState(const FilePath& filePath, CodeView::FileState state) const;
 	std::vector<CodeSnippetParams> getSnippetsForActiveSourceLocations(

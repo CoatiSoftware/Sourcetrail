@@ -212,6 +212,7 @@ private:
 
 	mutable FullTextSearchIndex m_fullTextSearchIndex;
 	mutable std::string m_fullTextSearchCodec;
+	mutable std::mutex m_fullTextSearchMutex;
 
 	SqliteIndexStorage m_sqliteIndexStorage;
 	SqliteBookmarkStorage m_sqliteBookmarkStorage;

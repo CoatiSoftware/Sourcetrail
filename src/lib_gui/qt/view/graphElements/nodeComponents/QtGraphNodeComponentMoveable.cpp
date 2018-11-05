@@ -16,6 +16,11 @@ QtGraphNodeComponentMoveable::~QtGraphNodeComponentMoveable()
 
 void QtGraphNodeComponentMoveable::nodeMousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+	if (event->button() != Qt::LeftButton)
+	{
+		return;
+	}
+
 	m_oldPos = m_graphNode->getPosition();
 	m_mouseOffset.x = event->scenePos().x() - m_oldPos.x;
 	m_mouseOffset.y = event->scenePos().y() - m_oldPos.y;
@@ -25,12 +30,22 @@ void QtGraphNodeComponentMoveable::nodeMousePressEvent(QGraphicsSceneMouseEvent*
 
 void QtGraphNodeComponentMoveable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
+	if (event->button() != Qt::LeftButton)
+	{
+		return;
+	}
+
 	m_graphNode->setPosition(Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
 	event->accept();
 }
 
 void QtGraphNodeComponentMoveable::nodeMouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
+	if (event->button() != Qt::LeftButton)
+	{
+		return;
+	}
+
 	if (event->isAccepted())
 	{
 		return;

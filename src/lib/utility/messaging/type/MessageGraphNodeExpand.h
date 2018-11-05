@@ -3,6 +3,7 @@
 
 #include "Message.h"
 #include "types.h"
+#include "TabId.h"
 
 class MessageGraphNodeExpand
 	: public Message<MessageGraphNodeExpand>
@@ -13,6 +14,7 @@ public:
 		, expand(expand)
 		, ignoreIfNotReplayed(ignoreIfNotReplayed)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

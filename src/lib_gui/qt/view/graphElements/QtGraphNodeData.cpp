@@ -5,6 +5,7 @@
 #include "MessageDeactivateEdge.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
+#include "MessageTabOpenWith.h"
 #include "MessageTooltipShow.h"
 #include "ResourcePaths.h"
 
@@ -59,6 +60,11 @@ void QtGraphNodeData::onClick()
 	}
 
 	MessageActivateNodes(m_data->getId()).dispatch();
+}
+
+void QtGraphNodeData::onMiddleClick()
+{
+	MessageTabOpenWith(m_data->getId()).dispatch();
 }
 
 void QtGraphNodeData::updateStyle()

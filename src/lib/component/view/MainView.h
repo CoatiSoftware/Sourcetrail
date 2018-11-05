@@ -5,18 +5,27 @@
 #include <string>
 #include <vector>
 
+#include "ComponentManager.h"
+#include "DialogView.h"
 #include "ViewLayout.h"
 
-struct SearchMatch;
 class Bookmark;
 class MessageBase;
+class StorageAccess;
+class ViewFactory;
 
 class MainView
 	: public ViewLayout
 {
 public:
-	MainView();
-	virtual ~MainView();
+	MainView(const ViewFactory* viewFactory, StorageAccess* storageAccess);
+	virtual ~MainView() = default;
+
+	void setup();
+	void clear();
+	void refreshViews();
+
+	std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase);
 
 	virtual void loadLayout() = 0;
 	virtual void saveLayout() = 0;
@@ -30,8 +39,15 @@ public:
 	virtual void activateWindow() = 0;
 
 	virtual void updateRecentProjectMenu() = 0;
-	virtual void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems) = 0;
+
+	virtual void updateHistoryMenu(std::shared_ptr<MessageBase> message) = 0;
+	virtual void clearHistoryMenu() = 0;
+
 	virtual void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) = 0;
+	virtual void clearBookmarksMenu() = 0;
+
+protected:
+	ComponentManager m_componentManager;
 };
 
 #endif // MAIN_VIEW_H

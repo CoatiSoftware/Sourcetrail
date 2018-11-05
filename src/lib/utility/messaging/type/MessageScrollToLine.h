@@ -3,6 +3,7 @@
 
 #include "FilePath.h"
 #include "Message.h"
+#include "TabId.h"
 
 class MessageScrollToLine
 	: public Message<MessageScrollToLine>
@@ -12,6 +13,7 @@ public:
 		: filePath(filePath)
 		, line(line)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

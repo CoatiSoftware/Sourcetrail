@@ -5,6 +5,7 @@
 
 #include "NodeTypeSet.h"
 #include "SearchMatch.h"
+#include "TabId.h"
 
 class MessageSearch
 	: public Message<MessageSearch>
@@ -19,6 +20,7 @@ public:
 		: acceptedNodeTypes(acceptedNodeTypes)
 		, m_matches(matches)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	const std::vector<SearchMatch>& getMatches() const

@@ -1,17 +1,20 @@
 #include "QtCodeField.h"
 
+#include <QAction>
 #include <QPainter>
 #include <QTextBlock>
 #include <QTextCodec>
 
 #include "SourceLocation.h"
 #include "SourceLocationFile.h"
+#include "QtContextMenu.h"
 #include "QtHighlighter.h"
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "MessageActivateLocalSymbols.h"
 #include "MessageActivateSourceLocations.h"
 #include "MessageActivateTokenIds.h"
+#include "MessageTabOpenWith.h"
 #include "MessageTooltipShow.h"
 #include "TextCodec.h"
 #include "tracing.h"
@@ -99,6 +102,12 @@ QtCodeField::QtCodeField(
 	font.setPixelSize(appSettings->getFontSize());
 	setFont(font);
 	setTabStopWidth(appSettings->getCodeTabWidth() * fontMetrics().width('9'));
+
+	m_openInTabAction = new QAction("Open in New Tab", this);
+	m_openInTabAction->setStatusTip("Opens the node in a new tab");
+	m_openInTabAction->setToolTip("Opens the node in a new tab");
+	m_openInTabAction->setEnabled(false);
+	connect(m_openInTabAction, &QAction::triggered, this, &QtCodeField::openInTab);
 }
 
 QtCodeField::~QtCodeField()
@@ -251,8 +260,7 @@ void QtCodeField::leaveEvent(QEvent* event)
 
 void QtCodeField::mouseMoveEvent(QMouseEvent* event)
 {
-	QTextCursor cursor = this->cursorForPosition(event->pos());
-	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(cursor.position());
+	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());
 
 	bool same = annotations.size() == m_hoveredAnnotations.size();
 	if (same)
@@ -275,6 +283,13 @@ void QtCodeField::mouseMoveEvent(QMouseEvent* event)
 
 void QtCodeField::mouseReleaseEvent(QMouseEvent* event)
 {
+	if (event->button() == Qt::MiddleButton)
+	{
+		checkOpenInTabActionEnabled(event->pos());
+		openInTab();
+		return;
+	}
+
 	if (event->button() != Qt::LeftButton)
 	{
 		return;
@@ -282,15 +297,23 @@ void QtCodeField::mouseReleaseEvent(QMouseEvent* event)
 
 	viewport()->setCursor(Qt::ArrowCursor);
 
-	QTextCursor cursor = this->cursorForPosition(event->pos());
-	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(cursor.position());
-
+	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());
 	if (!annotations.size())
 	{
 		return;
 	}
 
 	activateAnnotations(annotations);
+}
+
+void QtCodeField::contextMenuEvent(QContextMenuEvent* event)
+{
+	checkOpenInTabActionEnabled(event->pos());
+
+	QtContextMenu menu(event, nullptr);
+	menu.addAction(m_openInTabAction);
+	menu.addUndoActions();
+	menu.show();
 }
 
 void QtCodeField::focusTokenIds(const std::vector<Id>& focusedTokenIds)
@@ -639,9 +662,12 @@ void QtCodeField::setTextColorForAnnotation(const Annotation& annotation, QColor
 	m_highlighter->applyFormat(annotation.start, annotation.end, format);
 }
 
-std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotationsForPosition(int pos) const
+std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotationsForPosition(QPoint position) const
 {
 	std::vector<const QtCodeField::Annotation*> annotations;
+
+	QTextCursor cursor = this->cursorForPosition(position);
+	int pos = cursor.position();
 
 	for (const Annotation& annotation : m_annotations)
 	{
@@ -654,6 +680,38 @@ std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotatio
 	}
 
 	return annotations;
+}
+
+void QtCodeField::checkOpenInTabActionEnabled(QPoint position)
+{
+	std::vector<Id> locationIds;
+	for (const Annotation* annotation : getInteractiveAnnotationsForPosition(position))
+	{
+		const LocationType& type = annotation->locationType;
+		if (type == LOCATION_TOKEN || type == LOCATION_QUALIFIER)
+		{
+			locationIds.emplace_back(annotation->locationId);
+		}
+	}
+
+	if (locationIds.size())
+	{
+		m_openInTabLocationId = locationIds[0];
+	}
+	else
+	{
+		m_openInTabLocationId = 0;
+	}
+
+	m_openInTabAction->setEnabled(m_openInTabLocationId);
+}
+
+void QtCodeField::openInTab()
+{
+	if (m_openInTabLocationId)
+	{
+		MessageTabOpenWith(0, m_openInTabLocationId).dispatch();
+	}
 }
 
 void QtCodeField::createLineLengthCache()

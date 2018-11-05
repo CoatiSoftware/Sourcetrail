@@ -6,13 +6,17 @@
 #include "EdgeBookmark.h"
 
 #include "MessageListener.h"
-#include "MessageActivateErrors.h"
-#include "MessageIndexingFinished.h"
 #include "MessageActivateAll.h"
-#include "MessageActivateBookmark.h"
+#include "MessageActivateErrors.h"
+#include "MessageActivateFullTextSearch.h"
+#include "MessageActivateLegend.h"
 #include "MessageActivateTokens.h"
-#include "MessageDisplayBookmarkCreator.h"
-#include "MessageDisplayBookmarks.h"
+#include "MessageBookmarkActivate.h"
+#include "MessageBookmarkBrowse.h"
+#include "MessageBookmarkCreate.h"
+#include "MessageBookmarkDelete.h"
+#include "MessageBookmarkEdit.h"
+#include "MessageIndexingFinished.h"
 
 #include "Controller.h"
 
@@ -21,18 +25,22 @@ class StorageAccess;
 class BookmarkController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
-	, public MessageListener<MessageActivateBookmark>
 	, public MessageListener<MessageActivateErrors>
+	, public MessageListener<MessageActivateFullTextSearch>
+	, public MessageListener<MessageActivateLegend>
 	, public MessageListener<MessageActivateTokens>
-	, public MessageListener<MessageDisplayBookmarkCreator>
-	, public MessageListener<MessageDisplayBookmarks>
+	, public MessageListener<MessageBookmarkActivate>
+	, public MessageListener<MessageBookmarkBrowse>
+	, public MessageListener<MessageBookmarkCreate>
+	, public MessageListener<MessageBookmarkDelete>
+	, public MessageListener<MessageBookmarkEdit>
 	, public MessageListener<MessageIndexingFinished>
 {
 public:
 	BookmarkController(StorageAccess* storageAccess);
 	virtual ~BookmarkController();
 
-	virtual void clear();
+	void clear() override;
 
 	void displayBookmarks();
 	void displayBookmarksFor(Bookmark::BookmarkFilter filter, Bookmark::BookmarkOrder order);
@@ -68,20 +76,24 @@ private:
 		bool m_edgeBookmarksValid;
 	};
 
-	virtual void handleMessage(MessageActivateAll* message);
-	virtual void handleMessage(MessageActivateBookmark* message);
-	virtual void handleMessage(MessageActivateErrors* message);
-	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageDisplayBookmarkCreator* message);
-	virtual void handleMessage(MessageDisplayBookmarks* message);
-	virtual void handleMessage(MessageIndexingFinished* message);
+	void handleMessage(MessageActivateAll* message) override;
+	void handleMessage(MessageActivateErrors* message) override;
+	void handleMessage(MessageActivateFullTextSearch* message) override;
+	void handleMessage(MessageActivateLegend* message) override;
+	void handleMessage(MessageActivateTokens* message) override;
+	void handleMessage(MessageBookmarkActivate* message) override;
+	void handleMessage(MessageBookmarkBrowse* message) override;
+	void handleMessage(MessageBookmarkCreate* message) override;
+	void handleMessage(MessageBookmarkDelete* message) override;
+	void handleMessage(MessageBookmarkEdit* message) override;
+	void handleMessage(MessageIndexingFinished* message) override;
 
 	std::vector<std::wstring> getActiveTokenDisplayNames() const;
 	std::vector<std::wstring> getDisplayNamesForNodeId(Id nodeId) const;
 
 	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
 
-	std::shared_ptr<Bookmark> getBookmarkForActiveToken() const;
+	std::shared_ptr<Bookmark> getBookmarkForActiveToken(Id tabId) const;
 	std::shared_ptr<Bookmark> getBookmarkForNodeId(Id nodeId) const;
 
 	bool canCreateBookmark() const;
@@ -118,8 +130,8 @@ private:
 	StorageAccess* m_storageAccess;
 	mutable BookmarkCache m_bookmarkCache;
 
-	std::vector<Id> m_activeNodeIds;
-	std::vector<Id> m_activeEdgeIds;
+	mutable std::map<Id, std::vector<Id>> m_activeNodeIds;
+	mutable std::map<Id, std::vector<Id>> m_activeEdgeIds;
 
 	Bookmark::BookmarkFilter m_filter;
 	Bookmark::BookmarkOrder m_order;

@@ -64,7 +64,7 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	QScrollBar* scrollBar = area->verticalScrollBar();
 	if (scrollBar && value)
 	{
-		if (animated && ApplicationSettings::getInstance()->getUseAnimations())
+		if (animated && ApplicationSettings::getInstance()->getUseAnimations() && area->isVisible())
 		{
 			QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
 			anim->setDuration(300);
@@ -136,7 +136,7 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(double percentA, double pe
 	int diff = value - scrollBar->value();
 	if (diff > 5 || diff < -5)
 	{
-		if (animated && ApplicationSettings::getInstance()->getUseAnimations())
+		if (animated && ApplicationSettings::getInstance()->getUseAnimations() && area->isVisible())
 		{
 			QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
 			anim->setDuration(300);

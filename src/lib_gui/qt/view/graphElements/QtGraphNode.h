@@ -95,6 +95,7 @@ public:
 	virtual void addSubNode(QtGraphNode* node);
 
 	virtual void onClick();
+	virtual void onMiddleClick();
 
 	void onHide();
 	void onCollapseExpand();

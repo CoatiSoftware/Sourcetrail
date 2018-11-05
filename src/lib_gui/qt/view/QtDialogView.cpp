@@ -13,6 +13,7 @@
 #include "QtWindow.h"
 #include "MessageIndexingStatus.h"
 #include "MessageStatus.h"
+#include "TabId.h"
 #include "TaskLambda.h"
 #include "utility.h"
 #include "Project.h"
@@ -168,7 +169,7 @@ void QtDialogView::startIndexingDialog(
 					);
 					timer->start(200);
 
-					Task::dispatch(std::make_shared<TaskLambda>(
+					Task::dispatch(TabId::app(), std::make_shared<TaskLambda>(
 						[=]()
 						{
 							RefreshInfo info = project->getRefreshInfo(refreshMode);
@@ -194,7 +195,7 @@ void QtDialogView::startIndexingDialog(
 				[=](RefreshMode refreshMode)
 				{
 					RefreshInfo info = m_refreshInfos.find(refreshMode)->second;
-					Task::dispatch(std::make_shared<TaskLambda>(
+					Task::dispatch(TabId::app(), std::make_shared<TaskLambda>(
 						[=]()
 						{
 							onStartIndexing(info);
@@ -208,7 +209,7 @@ void QtDialogView::startIndexingDialog(
 			connect(window, &QtWindow::canceled,
 				[=]()
 				{
-					Task::dispatch(std::make_shared<TaskLambda>(
+					Task::dispatch(TabId::app(), std::make_shared<TaskLambda>(
 						[=]()
 						{
 							onCancelIndexing();

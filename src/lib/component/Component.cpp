@@ -6,6 +6,7 @@
 Component::Component(std::shared_ptr<View> view, std::shared_ptr<Controller> controller)
 	: m_controller(controller)
 	, m_view(view)
+	, m_tabId(0)
 {
 	if (m_controller)
 	{
@@ -39,4 +40,14 @@ Controller* Component::getControllerPtr() const
 View* Component::getViewPtr() const
 {
 	return m_view.get();
+}
+
+void Component::setTabId(Id tabId)
+{
+	m_tabId = tabId;
+}
+
+Id Component::getTabId() const
+{
+	return m_tabId;
 }

@@ -7,6 +7,7 @@
 #include "Message.h"
 #include "types.h"
 #include "utilityString.h"
+#include "TabId.h"
 
 class MessageActivateEdge
 	: public Message<MessageActivateEdge>
@@ -22,6 +23,8 @@ public:
 		{
 			setKeepContent(true);
 		}
+
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

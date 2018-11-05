@@ -3,6 +3,7 @@
 
 #include "Message.h"
 #include "types.h"
+#include "TabId.h"
 
 class MessageActivateTrail
 	: public Message<MessageActivateTrail>
@@ -15,6 +16,7 @@ public:
 		, depth(depth)
 		, horizontalLayout(horizontalLayout)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

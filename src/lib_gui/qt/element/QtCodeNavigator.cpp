@@ -10,6 +10,7 @@
 #include "MessageShowError.h"
 #include "MessageScrollCode.h"
 #include "ResourcePaths.h"
+#include "TabId.h"
 #include "utility.h"
 
 #include "SourceLocation.h"
@@ -26,6 +27,7 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)
 	, m_mode(MODE_NONE)
 	, m_oldMode(MODE_NONE)
+	, m_schedulerId(TabId::ignore())
 	, m_activeTokenId(0)
 	, m_value(0)
 	, m_refIndex(0)
@@ -336,6 +338,16 @@ void QtCodeNavigator::setMode(Mode mode)
 	{
 		m_current = m_single;
 	}
+}
+
+Id QtCodeNavigator::getSchedulerId() const
+{
+	return m_schedulerId;
+}
+
+void QtCodeNavigator::setSchedulerId(Id schedulerId)
+{
+	m_schedulerId = schedulerId;
 }
 
 const std::set<Id>& QtCodeNavigator::getCurrentActiveTokenIds() const
@@ -708,6 +720,11 @@ void QtCodeNavigator::deactivateScreenMatch(size_t matchIndex)
 	m_activeScreenMatchId = 0;
 }
 
+bool QtCodeNavigator::hasScreenMatches() const
+{
+	return !m_screenMatches.empty();
+}
+
 void QtCodeNavigator::clearScreenMatches()
 {
 	if (m_activeScreenMatchId)
@@ -847,7 +864,7 @@ void QtCodeNavigator::requestScroll(
 void QtCodeNavigator::handleScrollRequest()
 {
 	const ScrollRequest& req = m_scrollRequest;
-	if (req.filePath.empty())
+	if (req.filePath.empty() || !isVisible())
 	{
 		return;
 	}
@@ -869,6 +886,11 @@ void QtCodeNavigator::handleScrollRequest()
 void QtCodeNavigator::scrolled(int value)
 {
 	MessageScrollCode(value, m_mode == MODE_LIST).dispatch();
+}
+
+void QtCodeNavigator::showEvent(QShowEvent* event)
+{
+	emit scrollRequest();
 }
 
 void QtCodeNavigator::setValue()

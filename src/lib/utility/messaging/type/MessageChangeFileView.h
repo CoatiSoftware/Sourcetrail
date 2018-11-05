@@ -3,6 +3,7 @@
 
 #include "FilePath.h"
 #include "Message.h"
+#include "TabId.h"
 
 class MessageChangeFileView
 	: public Message<MessageChangeFileView>
@@ -37,6 +38,7 @@ public:
 		, showErrors(showErrors)
 		, switchesViewMode(switchesViewMode)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

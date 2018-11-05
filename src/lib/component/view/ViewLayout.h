@@ -8,10 +8,10 @@ class View;
 class ViewLayout
 {
 public:
-	ViewLayout();
-	virtual ~ViewLayout();
+	virtual ~ViewLayout() = default;
 
 	virtual void addView(View* view) = 0;
+	virtual void overrideView(View* view);
 	virtual void removeView(View* view) = 0;
 
 	virtual void showView(View* view) = 0;
@@ -20,6 +20,8 @@ public:
 	virtual void setViewEnabled(View* view, bool enabled) = 0;
 
 	virtual View* findFloatingView(const std::string& name) const;
+
+	virtual void showOriginalViews();
 };
 
 #endif // VIEW_LAYOUT_H

@@ -2,9 +2,11 @@
 
 #include <QBoxLayout>
 #include <QLabel>
+#include <QMouseEvent>
 #include <QScrollBar>
 
 #include "MessageHistoryToPosition.h"
+#include "MessageTabOpenWith.h"
 #include "ResourcePaths.h"
 #include "utilityString.h"
 
@@ -12,11 +14,11 @@
 #include "utilityQt.h"
 
 #include "GraphViewStyle.h"
-#include "SearchMatch.h"
 #include "ColorScheme.h"
 
 QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurrent)
 	: index(index)
+	, m_match(match)
 {
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
@@ -74,6 +76,11 @@ QSize QtHistoryItem::getSizeHint() const
 	return QSize(m_name->fontMetrics().width(m_name->text()) + 40, m_name->fontMetrics().height() + 8);
 }
 
+const SearchMatch& QtHistoryItem::getMatch() const
+{
+	return m_match;
+}
+
 void QtHistoryItem::enterEvent(QEvent *event)
 {
 	QWidget::enterEvent(event);
@@ -111,13 +118,36 @@ void QtHistoryItem::leaveEvent(QEvent *event)
 }
 
 
+
+QtHistoryListWidget::QtHistoryListWidget(QWidget* parent)
+	: QListWidget(parent)
+{
+}
+
+void QtHistoryListWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::MiddleButton)
+	{
+		QtHistoryItem* item = dynamic_cast<QtHistoryItem*>(itemWidget(itemAt(event->pos())));
+		if (item)
+		{
+			MessageTabOpenWith(item->getMatch()).dispatch();
+		}
+		return;
+	}
+
+	QListWidget::mouseReleaseEvent(event);
+}
+
+
+
 QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t currentIndex)
 	: m_currentIndex(currentIndex)
 {
 	setWindowFlags(Qt::Popup);
 	setObjectName("history");
 
-	m_list = new QListWidget(this);
+	m_list = new QtHistoryListWidget(this);
 	m_list->setObjectName("history_list");
 	m_list->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	m_list->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -141,8 +171,8 @@ void QtHistoryList::showPopup(QPoint pos)
 	QSize size(50, 2);
 	for (int i = 0; i < m_list->count(); i++)
 	{
-		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(m_list->item(i)));
-		QSize itemSize = it->getSizeHint();
+		QtHistoryItem* item = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(m_list->item(i)));
+		QSize itemSize = item->getSizeHint();
 		if (itemSize.width() > size.width())
 		{
 			size.setWidth(itemSize.width());

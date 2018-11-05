@@ -66,7 +66,9 @@ class UndoRedoController
 {
 public:
 	UndoRedoController(StorageAccess* storageAccess);
-	virtual ~UndoRedoController();
+	virtual ~UndoRedoController() = default;
+
+	Id getSchedulerId() const override;
 
 	UndoRedoView* getView();
 

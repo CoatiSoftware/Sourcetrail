@@ -7,12 +7,10 @@
 QtStatusBarView::QtStatusBarView(ViewLayout* viewLayout)
 	: StatusBarView(viewLayout)
 {
-	m_widget = std::make_shared<QtStatusBar>();
+	m_widget = new QtStatusBar();
 	m_widget->show();
 
-	QtMainView* mw = static_cast<QtMainView*>(viewLayout);
-	QStatusBar* sb = static_cast<QStatusBar*>(m_widget.get());
-	mw->setStatusBar(sb);
+	dynamic_cast<QtMainView*>(viewLayout)->setStatusBar(m_widget);
 }
 
 void QtStatusBarView::createWidgetWrapper()

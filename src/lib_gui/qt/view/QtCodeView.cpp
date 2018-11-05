@@ -1,5 +1,6 @@
 #include "QtCodeView.h"
 
+#include "CodeController.h"
 #include "ResourcePaths.h"
 #include "tracing.h"
 
@@ -31,6 +32,11 @@ void QtCodeView::initView()
 
 void QtCodeView::refreshView()
 {
+	if (getController())
+	{
+		m_widget->setSchedulerId(getController()->getTabId());
+	}
+
 	m_onQtThread([=]()
 	{
 		TRACE("refresh");
@@ -82,6 +88,11 @@ void QtCodeView::deactivateMatch(size_t matchIndex)
 
 void QtCodeView::clearMatches()
 {
+	if (!m_widget->hasScreenMatches())
+	{
+		return;
+	}
+
 	m_onQtThread(
 		[this]()
 		{

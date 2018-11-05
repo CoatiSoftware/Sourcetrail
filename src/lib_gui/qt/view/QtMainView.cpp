@@ -3,7 +3,8 @@
 #include "QtViewWidgetWrapper.h"
 #include "QtMainWindow.h"
 
-QtMainView::QtMainView()
+QtMainView::QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess)
+	: MainView(viewFactory, storageAccess)
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
@@ -11,6 +12,8 @@ QtMainView::QtMainView()
 
 QtMainView::~QtMainView()
 {
+	// clear components to avoid double deletion of views when destroying m_window
+	m_componentManager.clear();
 }
 
 QtMainWindow* QtMainView::getMainWindow() const
@@ -22,6 +25,11 @@ void QtMainView::addView(View* view)
 {
 	m_views.push_back(view);
 	m_window->addView(view);
+}
+
+void QtMainView::overrideView(View* view)
+{
+	m_window->overrideView(view);
 }
 
 void QtMainView::removeView(View* view)
@@ -70,6 +78,14 @@ void QtMainView::setViewEnabled(View* view, bool enabled)
 View* QtMainView::findFloatingView(const std::string& name) const
 {
 	return m_window->findFloatingView(name);
+}
+
+void QtMainView::showOriginalViews()
+{
+	for (View* view : m_views)
+	{
+		m_window->overrideView(view);
+	}
 }
 
 void QtMainView::loadLayout()
@@ -157,12 +173,22 @@ void QtMainView::updateRecentProjectMenu()
 	);
 }
 
-void QtMainView::updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems)
+void QtMainView::updateHistoryMenu(std::shared_ptr<MessageBase> message)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_window->updateHistoryMenu(historyMenuItems);
+			m_window->updateHistoryMenu(message);
+		}
+	);
+}
+
+void QtMainView::clearHistoryMenu()
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_window->clearHistoryMenu();
 		}
 	);
 }
@@ -175,6 +201,11 @@ void QtMainView::updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>
 			m_window->updateBookmarksMenu(bookmarks);
 		}
 	);
+}
+
+void QtMainView::clearBookmarksMenu()
+{
+	updateBookmarksMenu({});
 }
 
 void QtMainView::handleMessage(MessageForceEnterLicense* message)

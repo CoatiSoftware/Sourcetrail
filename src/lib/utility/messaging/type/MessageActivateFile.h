@@ -3,14 +3,17 @@
 
 #include "Message.h"
 #include "FilePath.h"
+#include "TabId.h"
 
-class MessageActivateFile: public Message<MessageActivateFile>
+class MessageActivateFile
+	: public Message<MessageActivateFile>
 {
 public:
 	MessageActivateFile(const FilePath& filePath, unsigned int line = 0)
 		: filePath(filePath)
 		, line(line)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

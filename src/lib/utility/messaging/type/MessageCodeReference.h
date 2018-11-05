@@ -2,6 +2,7 @@
 #define MESSAGE_CODE_REFERENCE_H
 
 #include "Message.h"
+#include "TabId.h"
 
 class MessageCodeReference
 	: public Message<MessageCodeReference>
@@ -17,6 +18,7 @@ public:
 		: type(type)
 		, localReference(localReference)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

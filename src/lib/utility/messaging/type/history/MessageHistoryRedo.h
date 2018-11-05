@@ -2,6 +2,7 @@
 #define MESSAGE_HISTORY_REDO_H
 
 #include "Message.h"
+#include "TabId.h"
 
 class MessageHistoryRedo
 	: public Message<MessageHistoryRedo>
@@ -14,6 +15,7 @@ public:
 
 	MessageHistoryRedo()
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 };
 

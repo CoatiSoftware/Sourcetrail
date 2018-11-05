@@ -33,7 +33,7 @@ public:
 private:
 	QtThreadedLambdaFunctor m_onQtThread;
 
-	std::shared_ptr<QtStatusBar> m_widget;
+	QtStatusBar* m_widget;
 };
 
 #endif // !QT_STATUS_BAR_VIEW_H

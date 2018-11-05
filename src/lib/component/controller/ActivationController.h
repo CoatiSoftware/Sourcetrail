@@ -30,19 +30,18 @@ class ActivationController
 {
 public:
 	ActivationController(StorageAccess* storageAccess);
-	~ActivationController();
 
-	virtual void clear();
+	void clear() override;
 
 private:
-	virtual void handleMessage(MessageActivateEdge* message);
-	virtual void handleMessage(MessageActivateFile* message);
-	virtual void handleMessage(MessageActivateNodes* message);
-	virtual void handleMessage(MessageActivateTokenIds* message);
-	virtual void handleMessage(MessageActivateSourceLocations* message);
-	virtual void handleMessage(MessageResetZoom* message);
-	virtual void handleMessage(MessageSearch* message);
-	virtual void handleMessage(MessageZoom* message);
+	void handleMessage(MessageActivateEdge* message) override;
+	void handleMessage(MessageActivateFile* message) override;
+	void handleMessage(MessageActivateNodes* message) override;
+	void handleMessage(MessageActivateTokenIds* message) override;
+	void handleMessage(MessageActivateSourceLocations* message) override;
+	void handleMessage(MessageResetZoom* message) override;
+	void handleMessage(MessageSearch* message) override;
+	void handleMessage(MessageZoom* message) override;
 
 	StorageAccess* m_storageAccess;
 };

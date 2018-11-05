@@ -28,6 +28,7 @@
 #include "MessageIndexingStatus.h"
 #include "MessageRefresh.h"
 #include "MessageStatus.h"
+#include "TabId.h"
 #include "TaskDecoratorRepeat.h"
 #include "TaskFindKeyOnBlackboard.h"
 #include "TaskGroupSelector.h"
@@ -69,6 +70,23 @@ FilePath Project::getProjectSettingsFilePath() const
 std::string Project::getDescription() const
 {
 	return m_settings->getDescription();
+}
+
+bool Project::isLoaded() const
+{
+	switch (m_state)
+	{
+		case PROJECT_STATE_EMPTY:
+		case PROJECT_STATE_LOADED:
+		case PROJECT_STATE_OUTDATED:
+		case PROJECT_STATE_NEEDS_MIGRATION:
+			return true;
+
+		default:
+			break;
+	}
+
+	return false;
 }
 
 bool Project::isIndexing() const
@@ -238,8 +256,6 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 		return;
 	}
 
-	m_refreshStage = RefreshStageType::REFRESHING;
-
 	if (m_state == PROJECT_STATE_NOT_LOADED)
 	{
 		return;
@@ -312,6 +328,8 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 		}
 	}
 
+	m_refreshStage = RefreshStageType::REFRESHING;
+
 	if (m_state == PROJECT_STATE_NEEDS_MIGRATION)
 	{
 		m_settings->migrate();
@@ -324,6 +342,7 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 	{
 		if (!sourceGroup->prepareIndexing())
 		{
+			m_refreshStage = RefreshStageType::NONE;
 			return;
 		}
 	}
@@ -554,7 +573,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		std::make_shared<TaskGroupSequence>()->addChildTasks(
 			std::make_shared<TaskFindKeyOnBlackboard>("keep_database"),
 			std::make_shared<TaskLambda>([dialogView, this]() {
-				Task::dispatch(std::make_shared<TaskLambda>([dialogView, this]() {
+				Task::dispatch(TabId::app(), std::make_shared<TaskLambda>([dialogView, this]() {
 					swapToTempStorage(dialogView);
 				}));
 			})
@@ -562,7 +581,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		std::make_shared<TaskGroupSequence>()->addChildTasks(
 			std::make_shared<TaskFindKeyOnBlackboard>("discard_database"),
 			std::make_shared<TaskLambda>([this]() {
-				Task::dispatch(std::make_shared<TaskLambda>([this]() {
+				Task::dispatch(TabId::app(), std::make_shared<TaskLambda>([this]() {
 					discardTempStorage();
 				}));
 			})
@@ -575,7 +594,7 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	}));
 
 	taskSequential->setIsBackgroundTask(true);
-	Task::dispatch(taskSequential);
+	Task::dispatch(TabId::app(), taskSequential);
 
 	m_refreshStage = RefreshStageType::INDEXING;
 	MessageIndexingStarted().dispatch();

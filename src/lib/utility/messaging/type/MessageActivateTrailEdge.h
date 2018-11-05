@@ -5,6 +5,7 @@
 #include "NameHierarchy.h"
 
 #include "Message.h"
+#include "TabId.h"
 #include "types.h"
 #include "utilityString.h"
 
@@ -21,6 +22,7 @@ public:
 		, sourceNameHierarchy(sourceNameHierarchy)
 		, targetNameHierarchy(targetNameHierarchy)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

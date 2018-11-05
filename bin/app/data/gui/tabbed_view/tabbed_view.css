@@ -15,7 +15,7 @@ QTabBar::tab {
 	border: 1px solid <color:tab/bar/border>;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
-	color: <color:tab/bar/button/text>;
+	color: <color:tab/bar/button/text/normal>;
 	font-size: <setting:font_size>px;
 	height: <setting:font_size+8>;
 	margin-left: 3px;
@@ -25,11 +25,13 @@ QTabBar::tab {
 
 QTabBar::tab:hover {
 	background-color: <color:tab/bar/button/background/hover>;
+	color: <color:tab/bar/button/text/hover>;
 }
 
 QTabBar::tab:selected, QTabBar::tab:pressed {
 	background-color:  <color:tab/bar/button/background/press>;
 	border-bottom: 1px solid <color:tab/bar/button/background/press>;
+	color: <color:tab/bar/button/text/press>;
 }
 
 QTabWidget #tab_content {

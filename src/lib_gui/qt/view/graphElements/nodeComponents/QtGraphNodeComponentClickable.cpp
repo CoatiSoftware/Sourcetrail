@@ -17,8 +17,15 @@ QtGraphNodeComponentClickable::~QtGraphNodeComponentClickable()
 
 void QtGraphNodeComponentClickable::nodeMousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+	if (event->button() != Qt::LeftButton && event->button() != Qt::MiddleButton)
+	{
+		return;
+	}
+
 	m_mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
 	m_mouseMoved = false;
+
+	event->accept();
 }
 
 void QtGraphNodeComponentClickable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
@@ -33,23 +40,35 @@ void QtGraphNodeComponentClickable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent*
 
 void QtGraphNodeComponentClickable::nodeMouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
+	if (event->button() != Qt::LeftButton && event->button() != Qt::MiddleButton)
+	{
+		return;
+	}
+
 	if (!m_mouseMoved)
 	{
-		if (event->modifiers() & Qt::AltModifier)
+		if (event->modifiers() & Qt::AltModifier && event->button() == Qt::LeftButton)
 		{
 			m_graphNode->onHide();
 		}
-		else if (event->modifiers() & Qt::ShiftModifier)
+		else if (event->modifiers() & Qt::ShiftModifier && event->button() == Qt::LeftButton)
 		{
 			m_graphNode->onCollapseExpand();
 		}
-		else if (event->modifiers() & Qt::ControlModifier)
+		else if (event->modifiers() & Qt::ControlModifier && event->button() == Qt::LeftButton)
 		{
 			m_graphNode->onShowDefinition();
 		}
 		else
 		{
-			m_graphNode->onClick();
+			if (event->button() == Qt::MiddleButton)
+			{
+				m_graphNode->onMiddleClick();
+			}
+			else
+			{
+				m_graphNode->onClick();
+			}
 		}
 		event->accept();
 	}

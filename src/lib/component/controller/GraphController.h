@@ -52,29 +52,31 @@ class GraphController
 {
 public:
 	GraphController(StorageAccess* storageAccess);
-	~GraphController();
+	~GraphController() = default;
+
+	Id getSchedulerId() const override;
 
 private:
-	virtual void handleMessage(MessageActivateAll* message);
-	virtual void handleMessage(MessageActivateErrors* message);
-	virtual void handleMessage(MessageActivateFullTextSearch* message);
-	virtual void handleMessage(MessageActivateLegend* message);
-	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageActivateTrail* message);
-	virtual void handleMessage(MessageActivateTrailEdge* message);
-	virtual void handleMessage(MessageFlushUpdates* message);
-	virtual void handleMessage(MessageFocusIn* message);
-	virtual void handleMessage(MessageFocusOut* message);
-	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
-	virtual void handleMessage(MessageGraphNodeExpand* message);
-	virtual void handleMessage(MessageGraphNodeHide* message);
-	virtual void handleMessage(MessageGraphNodeMove* message);
-	virtual void handleMessage(MessageScrollGraph* message);
-	virtual void handleMessage(MessageShowReference* message);
+	void handleMessage(MessageActivateAll* message) override;
+	void handleMessage(MessageActivateErrors* message) override;
+	void handleMessage(MessageActivateFullTextSearch* message) override;
+	void handleMessage(MessageActivateLegend* message) override;
+	void handleMessage(MessageActivateTokens* message) override;
+	void handleMessage(MessageActivateTrail* message) override;
+	void handleMessage(MessageActivateTrailEdge* message) override;
+	void handleMessage(MessageFlushUpdates* message) override;
+	void handleMessage(MessageFocusIn* message) override;
+	void handleMessage(MessageFocusOut* message) override;
+	void handleMessage(MessageGraphNodeBundleSplit* message) override;
+	void handleMessage(MessageGraphNodeExpand* message) override;
+	void handleMessage(MessageGraphNodeHide* message) override;
+	void handleMessage(MessageGraphNodeMove* message) override;
+	void handleMessage(MessageScrollGraph* message) override;
+	void handleMessage(MessageShowReference* message) override;
 
 	GraphView* getView() const;
 
-	virtual void clear();
+	void clear() override;
 
 	void createDummyGraph(const std::shared_ptr<Graph> graph);
 	void createDummyGraphAndSetActiveAndVisibility(

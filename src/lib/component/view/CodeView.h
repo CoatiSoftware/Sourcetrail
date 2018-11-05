@@ -96,7 +96,7 @@ public:
 
 	virtual bool hasSingleFileCached(const FilePath& filePath) const = 0;
 
-private:
+protected:
 	CodeController* getController();
 };
 

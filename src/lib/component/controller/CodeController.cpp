@@ -20,8 +20,9 @@ CodeController::CodeController(StorageAccess* storageAccess)
 {
 }
 
-CodeController::~CodeController()
+Id CodeController::getSchedulerId() const
 {
+	return Controller::getTabId();
 }
 
 const uint CodeController::s_lineRadius = 2;

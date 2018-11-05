@@ -3,15 +3,16 @@
 #include <QToolBar>
 
 #include "QtScreenSearchBox.h"
-#include "utilityQt.h"
 #include "QtMainView.h"
 #include "QtViewWidgetWrapper.h"
 #include "QtMainWindow.h"
 #include "ResourcePaths.h"
+#include "TabId.h"
+#include "utilityQt.h"
 
 QtScreenSearchView::QtScreenSearchView(ViewLayout* viewLayout)
 	: ScreenSearchView(viewLayout)
-	, m_controllerProxy(this)
+	, m_controllerProxy(this, TabId::app())
 {
 	m_widget = new QtScreenSearchBox(&m_controllerProxy);
 

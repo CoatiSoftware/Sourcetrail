@@ -14,19 +14,20 @@ class TaskSchedulerTestSuite: public CxxTest::TestSuite
 public:
 	void test_scheduler_loop_starts_and_stops(void)
 	{
-		TS_ASSERT(!TaskScheduler::getInstance()->loopIsRunning());
+		TaskScheduler scheduler(0);
+		TS_ASSERT(!scheduler.loopIsRunning());
 
-		TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+		scheduler.startSchedulerLoopThreaded();
 
-		waitForThread();
+		waitForThread(scheduler);
 
-		TS_ASSERT(TaskScheduler::getInstance()->loopIsRunning());
+		TS_ASSERT(scheduler.loopIsRunning());
 
-		TaskScheduler::getInstance()->stopSchedulerLoop();
+		scheduler.stopSchedulerLoop();
 
-		waitForThread();
+		waitForThread(scheduler);
 
-		TS_ASSERT(!TaskScheduler::getInstance()->loopIsRunning());
+		TS_ASSERT(!scheduler.loopIsRunning());
 	}
 
 	void test_tasks_get_executed_without_scheduling_in_correct_order(void)
@@ -45,16 +46,17 @@ public:
 
 	void test_scheduled_tasks_get_processed_with_callbacks_in_correct_order(void)
 	{
-		TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+		TaskScheduler scheduler(0);
+		scheduler.startSchedulerLoopThreaded();
 
 		int order = 0;
 		std::shared_ptr<TestTask> task = std::make_shared<TestTask>(&order, 1);
 
-		Task::dispatch(task);
+		scheduler.pushTask(task);
 
-		waitForThread();
+		waitForThread(scheduler);
 
-		TaskScheduler::getInstance()->stopSchedulerLoop();
+		scheduler.stopSchedulerLoop();
 
 		TS_ASSERT_EQUALS(3, order);
 
@@ -65,7 +67,8 @@ public:
 
 	void test_sequential_task_group_to_process_tasks_in_correct_order(void)
 	{
-		TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+		TaskScheduler scheduler(0);
+		scheduler.startSchedulerLoopThreaded();
 
 		int order = 0;
 		std::shared_ptr<TestTask> task1 = std::make_shared<TestTask>(&order, 1);
@@ -75,11 +78,11 @@ public:
 		taskGroup->addTask(task1);
 		taskGroup->addTask(task2);
 
-		Task::dispatch(taskGroup);
+		scheduler.pushTask(taskGroup);
 
-		waitForThread();
+		waitForThread(scheduler);
 
-		TaskScheduler::getInstance()->stopSchedulerLoop();
+		scheduler.stopSchedulerLoop();
 
 		TS_ASSERT_EQUALS(6, order);
 
@@ -94,7 +97,8 @@ public:
 
 	void test_sequential_task_group_does_not_evaluate_tasks_after_failure(void)
 	{
-		TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+		TaskScheduler scheduler(0);
+		scheduler.startSchedulerLoopThreaded();
 
 		int order = 0;
 		std::shared_ptr<TestTask> task1 = std::make_shared<TestTask>(&order, 1, Task::STATE_FAILURE);
@@ -104,11 +108,11 @@ public:
 		taskGroup->addTask(task1);
 		taskGroup->addTask(task2);
 
-		Task::dispatch(taskGroup);
+		scheduler.pushTask(taskGroup);
 
-		waitForThread();
+		waitForThread(scheduler);
 
-		TaskScheduler::getInstance()->stopSchedulerLoop();
+		scheduler.stopSchedulerLoop();
 
 		TS_ASSERT_EQUALS(1, task1->enterCallOrder);
 		TS_ASSERT_EQUALS(2, task1->updateCallOrder);
@@ -121,7 +125,8 @@ public:
 
 	void test_sequential_task_group_does_not_evaluate_tasks_after_success(void)
 	{
-		TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+		TaskScheduler scheduler(0);
+		scheduler.startSchedulerLoopThreaded();
 
 		int order = 0;
 		std::shared_ptr<TestTask> task1 = std::make_shared<TestTask>(&order, 1, Task::STATE_FAILURE);
@@ -133,11 +138,11 @@ public:
 		taskGroup->addTask(task2);
 		taskGroup->addTask(task3);
 
-		Task::dispatch(taskGroup);
+		scheduler.pushTask(taskGroup);
 
-		waitForThread();
+		waitForThread(scheduler);
 
-		TaskScheduler::getInstance()->stopSchedulerLoop();
+		scheduler.stopSchedulerLoop();
 
 		TS_ASSERT_EQUALS(1, task1->enterCallOrder);
 		TS_ASSERT_EQUALS(2, task1->updateCallOrder);
@@ -154,16 +159,17 @@ public:
 
 	void test_task_scheduling_within_task_processing()
 	{
-		TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+		TaskScheduler scheduler(0);
+		scheduler.startSchedulerLoopThreaded();
 
 		int order = 0;
-		std::shared_ptr<TestTaskDispatch> task = std::make_shared<TestTaskDispatch>(&order, 1);
+		std::shared_ptr<TestTaskDispatch> task = std::make_shared<TestTaskDispatch>(&order, 1, &scheduler);
 
-		Task::dispatch(task);
+		scheduler.pushTask(task);
 
-		waitForThread();
+		waitForThread(scheduler);
 
-		TaskScheduler::getInstance()->stopSchedulerLoop();
+		scheduler.stopSchedulerLoop();
 
 		TS_ASSERT_EQUALS(6, order);
 
@@ -250,29 +256,31 @@ private:
 	class TestTaskDispatch: public TestTask
 	{
 	public:
-		TestTaskDispatch(int* orderCountPtr, int updateCount)
+		TestTaskDispatch(int* orderCountPtr, int updateCount, TaskScheduler* scheduler)
 			: TestTask(orderCountPtr, updateCount)
+			, scheduler(scheduler)
 		{
 		}
 
 		virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
 		{
 			subTask = std::make_shared<TestTask>(&orderCount, 1);
-			Task::dispatch(subTask);
+			scheduler->pushTask(subTask);
 
 			return TestTask::doUpdate(blakboard);
 		}
 
+		TaskScheduler* scheduler;
 		std::shared_ptr<TestTask> subTask;
 	};
 
-	void waitForThread() const
+	void waitForThread(TaskScheduler& scheduler) const
 	{
 		static const int THREAD_WAIT_TIME_MS = 20;
 		do
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_WAIT_TIME_MS));
 		}
-		while (TaskScheduler::getInstance()->hasTasksQueued());
+		while (scheduler.hasTasksQueued());
 	}
 };

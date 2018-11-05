@@ -28,8 +28,9 @@ GraphController::GraphController(StorageAccess* storageAccess)
 {
 }
 
-GraphController::~GraphController()
+Id GraphController::getSchedulerId() const
 {
+	return Controller::getTabId();
 }
 
 void GraphController::handleMessage(MessageActivateAll* message)

@@ -1,15 +1,16 @@
 #include "Task.h"
 
+#include "TaskManager.h"
 #include "TaskScheduler.h"
 
-void Task::dispatch(std::shared_ptr<Task> task)
+void Task::dispatch(Id schedulerId, std::shared_ptr<Task> task)
 {
-	TaskScheduler::getInstance()->pushTask(task);
+	TaskManager::getScheduler(schedulerId)->pushTask(task);
 }
 
-void Task::dispatchNext(std::shared_ptr<Task> task)
+void Task::dispatchNext(Id schedulerId, std::shared_ptr<Task> task)
 {
-	TaskScheduler::getInstance()->pushNextTask(task);
+	TaskManager::getScheduler(schedulerId)->pushNextTask(task);
 }
 
 void Task::setIsBackgroundTask(bool background)

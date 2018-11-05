@@ -10,6 +10,7 @@
 
 class CompositeView;
 class DialogView;
+class ScreenSearchSender;
 class StorageAccess;
 class TabbedView;
 class View;
@@ -19,11 +20,13 @@ class ViewLayout;
 class ComponentManager
 {
 public:
-	static std::shared_ptr<ComponentManager> create(ViewFactory* viewFactory, StorageAccess* graphAccess);
+	ComponentManager(const ViewFactory* viewFactory, StorageAccess* storageAccess);
 
-	~ComponentManager();
+	void clear();
 
-	void setup(ViewLayout* viewLayout);
+	void setupMain(ViewLayout* viewLayout, Id appId);
+	void setupTab(ViewLayout* viewLayout, Id tabId, ScreenSearchSender* screenSearchSender);
+	void teardownTab(ScreenSearchSender* screenSearchSender);
 
 	void clearComponents();
 	void refreshViews();
@@ -31,13 +34,9 @@ public:
 	std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase) const;
 
 private:
-	ComponentManager();
-	ComponentManager(const ComponentManager&);
+	ComponentFactory m_componentFactory;
 
-	std::shared_ptr<ComponentFactory> m_componentFactory;
-
-	std::vector<std::shared_ptr<CompositeView>> m_compositeViews;
-	std::vector<std::shared_ptr<TabbedView>> m_tabbedViews;
+	std::vector<std::shared_ptr<View>> m_singleViews;
 	std::vector<std::shared_ptr<Component>> m_components;
 
 	std::map<DialogView::UseCase, std::shared_ptr<DialogView>> m_dialogViews;

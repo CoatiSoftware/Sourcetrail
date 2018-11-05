@@ -10,11 +10,12 @@ public:
 	QtViewFactory();
 	virtual ~QtViewFactory() = default;
 
-	virtual std::shared_ptr<MainView> createMainView() const;
+	virtual std::shared_ptr<MainView> createMainView(StorageAccess* storageAccess) const;
 	virtual std::shared_ptr<CompositeView> createCompositeView(
 		ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name) const;
 	virtual std::shared_ptr<TabbedView> createTabbedView(ViewLayout* viewLayout, const std::string& name) const;
 
+	virtual std::shared_ptr<BookmarkButtonsView> createBookmarkButtonsView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<BookmarkView> createBookmarkView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<ErrorView> createErrorView(ViewLayout* viewLayout) const;
@@ -24,11 +25,14 @@ public:
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<StatusBarView> createStatusBarView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<StatusView> createStatusView(ViewLayout* viewLayout) const;
+	virtual std::shared_ptr<TabsView> createTabsView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<TooltipView> createTooltipView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const;
 
 	virtual std::shared_ptr<DialogView> createDialogView(
 		ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const;
+
+	virtual std::shared_ptr<GraphViewStyleImpl> createGraphStyleImpl() const;
 };
 
 #endif // QT_VIEW_FACTORY_H

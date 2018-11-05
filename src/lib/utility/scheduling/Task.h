@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "types.h"
+
 class Blackboard;
 
 class Task
@@ -16,8 +18,8 @@ public:
 		STATE_FAILURE
 	};
 
-	static void dispatch(std::shared_ptr<Task> task);
-	static void dispatchNext(std::shared_ptr<Task> task);
+	static void dispatch(Id schedulerId, std::shared_ptr<Task> task);
+	static void dispatchNext(Id schedulerId, std::shared_ptr<Task> task);
 
 	virtual ~Task() = default;
 

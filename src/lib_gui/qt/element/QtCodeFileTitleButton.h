@@ -31,12 +31,14 @@ public:
 	void updateFromOther(const QtCodeFileTitleButton* other);
 
 protected:
+	void mouseReleaseEvent(QMouseEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
 
 	virtual void refresh();
 
 private slots:
 	void clickedTitle();
+	void openInTab();
 
 private:
 	void updateIcon();
@@ -46,6 +48,8 @@ private:
 	TimeStamp m_modificationTime;
 	bool m_isComplete;
 	bool m_isIndexed;
+
+	QAction* m_openInTabAction;
 };
 
 #endif // QT_CODE_FILE_TITLE_BUTTON_H

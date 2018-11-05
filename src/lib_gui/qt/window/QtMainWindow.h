@@ -60,6 +60,7 @@ public:
 	~QtMainWindow();
 
 	void addView(View* view);
+	void overrideView(View* view);
 	void removeView(View* view);
 
 	void showView(View* view);
@@ -75,7 +76,9 @@ public:
 
 	void forceEnterLicense(LicenseChecker::LicenseState state);
 
-	void updateHistoryMenu(const std::vector<std::shared_ptr<MessageBase>>& historyMenuItems);
+	void updateHistoryMenu(std::shared_ptr<MessageBase> message);
+	void clearHistoryMenu();
+
 	void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 	void setContentEnabled(bool enabled);
@@ -110,6 +113,11 @@ public slots:
 
 	void showDataFolder();
 	void showLogFolder();
+
+	void openTab();
+	void closeTab();
+	void nextTab();
+	void previousTab();
 
 	void showStartScreen();
 	void hideStartScreen();

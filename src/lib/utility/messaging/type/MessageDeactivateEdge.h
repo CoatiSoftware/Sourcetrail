@@ -2,6 +2,7 @@
 #define MESSAGE_DEACTIVATE_EDGE_H
 
 #include "Message.h"
+#include "TabId.h"
 
 class MessageDeactivateEdge
 	: public Message<MessageDeactivateEdge>
@@ -10,6 +11,7 @@ public:
 	MessageDeactivateEdge(bool scrollToDefinition)
 		: scrollToDefinition(scrollToDefinition)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()

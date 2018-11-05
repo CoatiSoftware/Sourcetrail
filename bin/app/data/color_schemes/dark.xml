@@ -511,12 +511,21 @@
 			<background>#555555</background>
 			<border>#BEBEBE</border>
 			<button>
-				<text>white</text>
+				<text>
+					<normal>#AAA</normal>
+					<hover>#AAA</hover>
+					<press>white</press>
+				</text>
+				<border>
+					<normal>#777</normal>
+					<press>#999</press>
+				</border>
 				<background>
 					<normal>#555555</normal>
 					<hover>#2F2F2F</hover>
 					<press>#272728</press>
 				</background>
+				<icon>#AAA</icon>
 			</button>
 		</bar>
 	</tab>

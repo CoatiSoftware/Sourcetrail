@@ -2,6 +2,7 @@
 #define MESSAGE_SHOW_ERROR_H
 
 #include "Message.h"
+#include "TabId.h"
 
 class MessageShowError
 	: public Message<MessageShowError>
@@ -15,6 +16,7 @@ public:
 	MessageShowError(Id errorId)
 		: errorId(errorId)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	const Id errorId;

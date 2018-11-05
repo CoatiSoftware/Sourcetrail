@@ -13,19 +13,19 @@ class ScreenSearchController
 	, public ScreenSearchSender
 {
 public:
-	ScreenSearchController();
-	virtual ~ScreenSearchController();
+	virtual ~ScreenSearchController() = default;
 
 	// Controller implementation
-	virtual void clear();
+	void clear() override;
 
 	// ScreenSearchSender implementation
-	virtual void foundMatches(ScreenSearchResponder* responder, size_t matchCount);
+	void foundMatches(ScreenSearchResponder* responder, size_t matchCount) override;
+	void addResponder(ScreenSearchResponder* responder) override;
+	void removeResponder(ScreenSearchResponder* responder) override;
+	void clearMatches() override;
 
-	void addResponder(ScreenSearchResponder* responder);
 	void search(const std::wstring& query, const std::set<std::string>& responderNames);
 	void activateMatch(bool next);
-	void clearMatches();
 
 private:
 	size_t getResponderId(ScreenSearchResponder* responder) const;

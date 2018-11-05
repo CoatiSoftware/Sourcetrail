@@ -56,6 +56,9 @@ public:
 
 	void setMode(Mode mode);
 
+	Id getSchedulerId() const override;
+	void setSchedulerId(Id schedulerId);
+
 	const std::set<Id>& getCurrentActiveTokenIds() const;
 	void setCurrentActiveTokenIds(const std::vector<Id>& currentActiveTokenIds);
 
@@ -101,6 +104,7 @@ public:
 	size_t findScreenMatches(const std::wstring& query);
 	void activateScreenMatch(size_t matchIndex);
 	void deactivateScreenMatch(size_t matchIndex);
+	bool hasScreenMatches() const;
 	void clearScreenMatches();
 
 	void scrollToValue(int value, bool inListMode);
@@ -117,6 +121,9 @@ signals:
 
 public slots:
 	void scrolled(int value);
+
+protected:
+	void showEvent(QShowEvent* event) override;
 
 private slots:
 	void handleScrollRequest();
@@ -172,11 +179,11 @@ private:
 		QtCodeNavigateable::ScrollTarget target;
 	};
 
-	void handleMessage(MessageCodeReference* message);
-	void handleMessage(MessageIndexingFinished* message);
-	void handleMessage(MessageShowReference* message);
-	void handleMessage(MessageSwitchColorScheme* message);
-	void handleMessage(MessageWindowFocus* message);
+	void handleMessage(MessageCodeReference* message) override;
+	void handleMessage(MessageIndexingFinished* message) override;
+	void handleMessage(MessageShowReference* message) override;
+	void handleMessage(MessageSwitchColorScheme* message) override;
+	void handleMessage(MessageWindowFocus* message) override;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 
@@ -186,6 +193,8 @@ private:
 
 	Mode m_mode;
 	Mode m_oldMode;
+
+	Id m_schedulerId;
 
 	std::set<Id> m_currentActiveTokenIds;
 	std::set<Id> m_currentActiveLocationIds;

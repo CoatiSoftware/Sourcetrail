@@ -40,6 +40,8 @@ add_files(
 	component/controller/StatusBarController.h
 	component/controller/StatusController.cpp
 	component/controller/StatusController.h
+	component/controller/TabsController.cpp
+	component/controller/TabsController.h
 	component/controller/TooltipController.cpp
 	component/controller/TooltipController.h
 	component/controller/UndoRedoController.cpp
@@ -47,6 +49,8 @@ add_files(
 
 	component/view/helper/CodeSnippetParams.cpp
 	component/view/helper/CodeSnippetParams.h
+	component/view/BookmarkButtonsView.cpp
+	component/view/BookmarkButtonsView.h
 	component/view/BookmarkView.cpp
 	component/view/BookmarkView.h
 	component/view/CodeView.cpp
@@ -76,13 +80,14 @@ add_files(
 	component/view/StatusView.h
 	component/view/TabbedView.cpp
 	component/view/TabbedView.h
+	component/view/TabsView.cpp
+	component/view/TabsView.h
 	component/view/TooltipView.cpp
 	component/view/TooltipView.h
 	component/view/UndoRedoView.cpp
 	component/view/UndoRedoView.h
 	component/view/View.cpp
 	component/view/View.h
-	component/view/ViewFactory.cpp
 	component/view/ViewFactory.h
 	component/view/ViewLayout.cpp
 	component/view/ViewLayout.h
@@ -97,6 +102,10 @@ add_files(
 	component/ComponentManager.h
 	component/NetworkFactory.cpp
 	component/NetworkFactory.h
+	component/Tab.cpp
+	component/Tab.h
+	component/TabId.cpp
+	component/TabId.h
 
 	data/access/StorageAccess.h
 	data/access/StorageAccessProxy.cpp
@@ -424,6 +433,13 @@ add_files(
 
 	utility/messaging/type/activation/MessageActivateLegend.h
 
+	utility/messaging/type/bookmark/MessageBookmarkActivate.h
+	utility/messaging/type/bookmark/MessageBookmarkBrowse.h
+	utility/messaging/type/bookmark/MessageBookmarkButtonState.h
+	utility/messaging/type/bookmark/MessageBookmarkCreate.h
+	utility/messaging/type/bookmark/MessageBookmarkDelete.h
+	utility/messaging/type/bookmark/MessageBookmarkEdit.h
+
 	utility/messaging/type/code/MessageCodeShowDefinition.h
 
 	utility/messaging/type/error/MessageActivateErrors.h
@@ -443,9 +459,14 @@ add_files(
 	utility/messaging/type/indexing/MessageIndexingStarted.h
 	utility/messaging/type/indexing/MessageIndexingStatus.h
 
+	utility/messaging/type/tab/MessageTabClose.h
+	utility/messaging/type/tab/MessageTabOpen.h
+	utility/messaging/type/tab/MessageTabOpenWith.h
+	utility/messaging/type/tab/MessageTabSelect.h
+	utility/messaging/type/tab/MessageTabState.h
+
 	utility/messaging/type/MessageActivateAll.h
 	utility/messaging/type/MessageActivateBase.h
-	utility/messaging/type/MessageActivateBookmark.h
 	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
 	utility/messaging/type/MessageActivateFullTextSearch.h
@@ -462,8 +483,6 @@ add_files(
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageDeactivateEdge.h
-	utility/messaging/type/MessageDisplayBookmarkCreator.h
-	utility/messaging/type/MessageDisplayBookmarks.h
 	utility/messaging/type/MessageEnteredLicense.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFlushUpdates.h
@@ -540,6 +559,8 @@ add_files(
 	utility/scheduling/TaskGroupSequence.h
 	utility/scheduling/TaskLambda.cpp
 	utility/scheduling/TaskLambda.h
+	utility/scheduling/TaskManager.cpp
+	utility/scheduling/TaskManager.h
 	utility/scheduling/TaskReturnSuccessIf.h
 	utility/scheduling/TaskRunner.cpp
 	utility/scheduling/TaskRunner.h

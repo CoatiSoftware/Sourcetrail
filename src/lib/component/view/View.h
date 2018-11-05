@@ -22,7 +22,7 @@ public:
 	static std::shared_ptr<T> createAndInit(ViewLayout* viewLayout);
 
 	View(ViewLayout* viewLayout);
-	virtual ~View();
+	virtual ~View() = default;
 
 	virtual std::string getName() const = 0;
 

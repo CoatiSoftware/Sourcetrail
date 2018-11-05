@@ -2,12 +2,11 @@
 
 #include "FileSystem.h"
 #include "logging.h"
-#include "MessageActivateSourceLocations.h"
 #include "MessageActivateWindow.h"
+#include "MessagePingReceived.h"
 #include "MessageProjectNew.h"
 #include "MessageStatus.h"
-#include "MessageActivateFile.h"
-#include "MessagePingReceived.h"
+#include "MessageTabOpenWith.h"
 
 #include "StorageAccess.h"
 #include "SourceLocationFile.h"
@@ -118,7 +117,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 					std::to_wstring(message.row) + L", col: " + std::to_wstring(message.column)
 				).dispatch();
 
-				MessageActivateSourceLocations(selectedLocationIds).dispatch();
+				MessageTabOpenWith(0, selectedLocationIds[0]).showNewTab(true).dispatch();
 				MessageActivateWindow().dispatch();
 				return;
 			}
@@ -126,7 +125,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 
 		if (fileId > 0)
 		{
-			MessageActivateFile(filePath, message.row).dispatchImmediately();
+			MessageTabOpenWith(filePath, message.row).showNewTab(true).dispatch();
 			MessageActivateWindow().dispatch();
 		}
 		else

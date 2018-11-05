@@ -15,8 +15,9 @@ UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
 	m_iterator = m_list.end();
 }
 
-UndoRedoController::~UndoRedoController()
+Id UndoRedoController::getSchedulerId() const
 {
+	return Controller::getTabId();
 }
 
 UndoRedoView* UndoRedoController::getView()
@@ -269,7 +270,10 @@ void UndoRedoController::handleMessage(MessageHistoryToPosition* message)
 				else
 				{
 					replayCommand(m_iterator);
-					MessageFlushUpdates(false).dispatch();
+
+					MessageFlushUpdates msg(false);
+					msg.setSchedulerId(getSchedulerId());
+					msg.dispatch();
 				}
 			}
 
@@ -359,7 +363,9 @@ void UndoRedoController::handleMessage(MessageRefreshUI* message)
 {
 	if (m_iterator == m_list.begin())
 	{
-		MessageActivateAll().dispatch();
+		MessageActivateAll msg;
+		msg.setSchedulerId(getSchedulerId());
+		msg.dispatch();
 	}
 	else
 	{
@@ -466,7 +472,9 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 		std::advance(it, 1);
 	}
 
-	MessageFlushUpdates(keepsContent).dispatch();
+	MessageFlushUpdates msg(keepsContent);
+	msg.setSchedulerId(getSchedulerId());
+	msg.dispatch();
 }
 
 void UndoRedoController::replayCommand(std::list<Command>::iterator it)
@@ -512,6 +520,7 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 			filter.unindexedFatal = false;
 
 			MessageActivateErrors msg(filter);
+			msg.setSchedulerId(getSchedulerId());
 			msg.setIsReplayed(true);
 			msg.setIsLast(it == std::prev(m_iterator));
 			msg.dispatch();
@@ -608,34 +617,7 @@ MessageBase* UndoRedoController::lastMessage() const
 
 void UndoRedoController::updateHistoryMenu(std::shared_ptr<MessageBase> message)
 {
-	const size_t historyMenuSize = 20;
-
-	if (message && dynamic_cast<MessageActivateBase*>(message.get()))
-	{
-		std::vector<SearchMatch> matches = dynamic_cast<MessageActivateBase*>(message.get())->getSearchMatches();
-		if (matches.size() && !matches[0].text.empty())
-		{
-			std::vector<std::shared_ptr<MessageBase>> history = { message };
-			std::set<SearchMatch> uniqueMatches = { matches[0] };
-
-			for (std::shared_ptr<MessageBase> m : m_history)
-			{
-				if (uniqueMatches.insert(dynamic_cast<MessageActivateBase*>(m.get())->getSearchMatches()[0]).second)
-				{
-					history.push_back(m);
-
-					if (history.size() >= historyMenuSize)
-					{
-						break;
-					}
-				}
-			}
-
-			m_history = history;
-		}
-	}
-
-	Application::getInstance()->updateHistoryMenu(m_history);
+	Application::getInstance()->updateHistoryMenu(message);
 }
 
 void UndoRedoController::updateHistory()

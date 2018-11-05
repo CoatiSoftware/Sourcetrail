@@ -513,18 +513,21 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 {
 	TRACE();
 
-	const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
-
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
 	if (searchTerm.empty())
 	{
 		return collection;
 	}
 
-	if (m_fullTextSearchCodec != codec.getName())
+	const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
 	{
-		MessageStatus(L"Building fulltext search index", false, true).dispatch();
-		buildFullTextSearchIndex();
+		std::lock_guard<std::mutex> lock(m_fullTextSearchMutex);
+
+		if (m_fullTextSearchCodec != codec.getName())
+		{
+			MessageStatus(L"Building fulltext search index", false, true).dispatch();
+			buildFullTextSearchIndex();
+		}
 	}
 
 	MessageStatus(

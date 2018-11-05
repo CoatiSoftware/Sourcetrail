@@ -11,6 +11,7 @@
 #include "SearchController.h"
 #include "StatusBarController.h"
 #include "StatusController.h"
+#include "TabsController.h"
 #include "TooltipController.h"
 #include "UndoRedoController.h"
 #include "BookmarkView.h"
@@ -21,25 +22,18 @@
 #include "SearchView.h"
 #include "StatusBarView.h"
 #include "StatusView.h"
+#include "TabsView.h"
 #include "TooltipView.h"
 #include "UndoRedoView.h"
 #include "ViewFactory.h"
 
-std::shared_ptr<ComponentFactory> ComponentFactory::create(ViewFactory* viewFactory, StorageAccess* storageAccess)
-{
-	std::shared_ptr<ComponentFactory> ptr(new ComponentFactory());
-
-	ptr->m_viewFactory = viewFactory;
-	ptr->m_storageAccess = storageAccess;
-
-	return ptr;
-}
-
-ComponentFactory::~ComponentFactory()
+ComponentFactory::ComponentFactory(const ViewFactory* viewFactory, StorageAccess* storageAccess)
+	: m_viewFactory(viewFactory)
+	, m_storageAccess(storageAccess)
 {
 }
 
-ViewFactory* ComponentFactory::getViewFactory() const
+const ViewFactory* ComponentFactory::getViewFactory() const
 {
 	return m_viewFactory;
 }
@@ -128,6 +122,16 @@ std::shared_ptr<Component> ComponentFactory::createStatusComponent(ViewLayout* v
 	return std::make_shared<Component>(view, controller);
 }
 
+std::shared_ptr<Component> ComponentFactory::createTabsComponent(
+	ViewLayout* viewLayout, ScreenSearchSender* screenSearchSender)
+{
+	std::shared_ptr<TabsView> view = m_viewFactory->createTabsView(viewLayout);
+	std::shared_ptr<Controller> controller = std::make_shared<TabsController>(
+		viewLayout, m_viewFactory, m_storageAccess, screenSearchSender);
+
+	return std::make_shared<Component>(view, controller);
+}
+
 std::shared_ptr<Component> ComponentFactory::createTooltipComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<TooltipView> view = m_viewFactory->createTooltipView(viewLayout);
@@ -142,8 +146,4 @@ std::shared_ptr<Component> ComponentFactory::createUndoRedoComponent(ViewLayout*
 	std::shared_ptr<UndoRedoController> controller = std::make_shared<UndoRedoController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
-}
-
-ComponentFactory::ComponentFactory()
-{
 }

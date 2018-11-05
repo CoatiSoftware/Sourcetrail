@@ -287,6 +287,11 @@ void QtGraphView::deactivateMatch(size_t matchIndex)
 
 void QtGraphView::clearMatches()
 {
+	if (m_matchedNodes.empty())
+	{
+		return;
+	}
+
 	m_onQtThread(
 		[this]()
 		{
@@ -384,7 +389,7 @@ void QtGraphView::rebuildGraph(
 		m_scrollToTop = params.scrollToTop;
 		m_isIndexedList = params.isIndexedList;
 
-		if (params.animatedTransition && ApplicationSettings::getInstance()->getUseAnimations())
+		if (params.animatedTransition && ApplicationSettings::getInstance()->getUseAnimations() && view->isVisible())
 		{
 			createTransition();
 		}
@@ -755,7 +760,7 @@ void QtGraphView::groupingUpdated(QPushButton* button)
 
 void QtGraphView::performScroll(QScrollBar* scrollBar, int value) const
 {
-	if (ApplicationSettings::getInstance()->getUseAnimations())
+	if (ApplicationSettings::getInstance()->getUseAnimations() && getView()->isVisible())
 	{
 		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
 		anim->setDuration(300);

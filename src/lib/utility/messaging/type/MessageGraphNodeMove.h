@@ -1,9 +1,10 @@
 #ifndef MESSAGE_GRAPH_NODE_MOVE_H
 #define MESSAGE_GRAPH_NODE_MOVE_H
 
-#include "Vector2.h"
 #include "Message.h"
+#include "TabId.h"
 #include "types.h"
+#include "Vector2.h"
 
 class MessageGraphNodeMove
 	: public Message<MessageGraphNodeMove>
@@ -13,6 +14,7 @@ public:
 		: tokenId(tokenId)
 		, delta(delta)
 	{
+		setSchedulerId(TabId::currentTab());
 	}
 
 	static const std::string getStaticType()
