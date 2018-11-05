@@ -509,6 +509,13 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 			}
 			break;
 
+		case Qt::Key_F4:
+			if (utility::getOsType() == OS_WINDOWS && event->modifiers() & Qt::ControlModifier)
+			{
+				closeTab();
+			}
+			break;
+
 		case Qt::Key_Space:
 			PRINT_TRACES();
 			break;
@@ -978,7 +985,7 @@ void QtMainWindow::setupViewMenu()
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("New Tab"), this, &QtMainWindow::openTab, QKeySequence::AddTab);
-	menu->addAction(tr("Close Tab"), this, &QtMainWindow::closeTab, QKeySequence::Close);
+	menu->addAction(tr("Close Tab"), this, &QtMainWindow::closeTab, QKeySequence(Qt::CTRL + Qt::Key_W));
 
 	if (utility::getOsType() == OS_MAC)
 	{
