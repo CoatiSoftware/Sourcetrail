@@ -111,6 +111,7 @@
 							<File Id='SearchTutorial4Header' Name='search_tutorial_4.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_4.h' KeyPath='no' />
 							<File Id='SearchTutorial5Header' Name='search_tutorial_5.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_5.h' KeyPath='no' />
 							<File Id='StartExploringHeader' Name='start_exploring.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/start_exploring.h' KeyPath='no' />
+							<File Id='String' Name='string.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/string.h' KeyPath='no' />
 							<File Id='TheCentralHubHeader' Name='the_central_hub.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/the_central_hub.h' KeyPath='no' />
 							<File Id='UtilityHeader' Name='utility.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/utility.h' KeyPath='no' />
 						</Component>

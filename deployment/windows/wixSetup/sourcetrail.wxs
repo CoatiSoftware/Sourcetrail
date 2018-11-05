@@ -258,12 +258,24 @@
 				<ComponentRef Id='ClangHeaderalgorithm'/>
 				<ComponentRef Id='ClangHeadercomplex'/>
 				<ComponentRef Id='ClangHeadernew'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_builtin_varsH'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_cmathH'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_complex_builtinsH'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_device_functionsH'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_intrinsicsH'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_libdevice_declaresH'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_math_forward_declaresH'/>
+				<ComponentRef Id='ClangHeader__clang_cuda_runtime_wrapperH'/>
+				<ComponentRef Id='ClangHeader__stddef_max_align_tH'/>
+				<ComponentRef Id='ClangHeader__wmmintrin_aesH'/>
+				<ComponentRef Id='ClangHeader__wmmintrin_pclmulH'/>
 				<ComponentRef Id='ClangHeaderadxintrinH'/>
 				<ComponentRef Id='ClangHeaderaltivecH'/>
 				<ComponentRef Id='ClangHeaderammintrinH'/>
 				<ComponentRef Id='ClangHeaderarm64intrH'/>
 				<ComponentRef Id='ClangHeaderarmintrH'/>
 				<ComponentRef Id='ClangHeaderarm_acleH'/>
+				<ComponentRef Id='ClangHeaderarm_arm_fp16H'/>
 				<ComponentRef Id='ClangHeaderarm_neonH'/>
 				<ComponentRef Id='ClangHeaderavx2intrinH'/>
 				<ComponentRef Id='ClangHeaderavx512bitalgintrinH'/>
@@ -292,6 +304,7 @@
 				<ComponentRef Id='ClangHeaderbmi2intrinH'/>
 				<ComponentRef Id='ClangHeaderbmiintrinH'/>
 				<ComponentRef Id='ClangHeadercetintrinH'/>
+				<ComponentRef Id='ClangHeadercldemoteintrinH'/>
 				<ComponentRef Id='ClangHeaderclflushoptintrinH'/>
 				<ComponentRef Id='ClangHeaderclwbintrinH'/>
 				<ComponentRef Id='ClangHeaderclzerointrinH'/>
@@ -309,6 +322,7 @@
 				<ComponentRef Id='ClangHeaderimmintrinH'/>
 				<ComponentRef Id='ClangHeaderintrinH'/>
 				<ComponentRef Id='ClangHeaderinttypesH'/>
+				<ComponentRef Id='ClangHeaderinvpcidintrinH'/>
 				<ComponentRef Id='ClangHeaderiso646H'/>
 				<ComponentRef Id='ClangHeaderlimitsH'/>
 				<ComponentRef Id='ClangHeaderlwpintrinH'/>
@@ -317,17 +331,21 @@
 				<ComponentRef Id='ClangHeadermmintrinH'/>
 				<ComponentRef Id='ClangHeadermm_mallocH'/>
 				<ComponentRef Id='ClangHeadermoduleModulemap'/>
+				<ComponentRef Id='ClangHeadermovdirintrinH'/>
 				<ComponentRef Id='ClangHeadermsaH'/>
 				<ComponentRef Id='ClangHeadermwaitxintrinH'/>
 				<ComponentRef Id='ClangHeadernmmintrinH'/>
 				<ComponentRef Id='ClangHeaderopenclcH'/>
+				<ComponentRef Id='ClangHeaderpconfigintrinH'/>
 				<ComponentRef Id='ClangHeaderpkuintrinH'/>
 				<ComponentRef Id='ClangHeaderpmmintrinH'/>
 				<ComponentRef Id='ClangHeaderpopcntintrinH'/>
 				<ComponentRef Id='ClangHeaderprfchwintrinH'/>
+				<ComponentRef Id='ClangHeaderptwriteintrinH'/>
 				<ComponentRef Id='ClangHeaderrdseedintrinH'/>
 				<ComponentRef Id='ClangHeaderrtmintrinH'/>
 				<ComponentRef Id='ClangHeaders390intrinH'/>
+				<ComponentRef Id='ClangHeadersgxintrinH'/>
 				<ComponentRef Id='ClangHeadershaintrinH'/>
 				<ComponentRef Id='ClangHeadersmmintrinH'/>
 				<ComponentRef Id='ClangHeaderstdalignH'/>
@@ -346,6 +364,8 @@
 				<ComponentRef Id='ClangHeadervarargsH'/>
 				<ComponentRef Id='ClangHeadervecintrinH'/>
 				<ComponentRef Id='ClangHeadervpclmulqdqintrinH'/>
+				<ComponentRef Id='ClangHeaderwaitpkgintrinH'/>
+				<ComponentRef Id='ClangHeaderwbnoinvdintrinH'/>
 				<ComponentRef Id='ClangHeaderwmmintrinH'/>
 				<ComponentRef Id='ClangHeaderx86intrinH'/>
 				<ComponentRef Id='ClangHeaderxmmintrinH'/>
@@ -355,15 +375,6 @@
 				<ComponentRef Id='ClangHeaderxsaveoptintrinH'/>
 				<ComponentRef Id='ClangHeaderxsavesintrinH'/>
 				<ComponentRef Id='ClangHeaderxtestintrinH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_builtin_varsH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_cmathH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_complex_builtinsH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_intrinsicsH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_math_forward_declaresH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_runtime_wrapperH'/>
-				<ComponentRef Id='ClangHeader__stddef_max_align_tH'/>
-				<ComponentRef Id='ClangHeader__wmmintrin_aesH'/>
-				<ComponentRef Id='ClangHeader__wmmintrin_pclmulH'/>
 				
 				<ComponentRef Id='applicationSettingsXml'/>
 				<ComponentRef Id='window_settingsIni'/>
@@ -496,6 +507,10 @@
 				<ComponentRef Id='TabbedViewCss'/>
 				<ComponentRef Id='TabbedViewArrowDownPng'/>
 				<ComponentRef Id='TabbedViewArrowUpPng'/>
+				
+				<ComponentRef Id='TabsViewCss'/>
+				<ComponentRef Id='DataTabsViewAddPng'/>
+				<ComponentRef Id='DataTabsViewClosePng'/>
 
 				<ComponentRef Id='TooltipViewCss'/>
 				

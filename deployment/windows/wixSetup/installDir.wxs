@@ -352,6 +352,39 @@
 								<File Id='ClangHeadernew' Name='new' DiskId='1' Source='./../../../bin/app/data/cxx/include/cuda_wrappers/new' KeyPath='yes' />
 							</Component>
 						</Directory>
+						<Component Id='ClangHeader__clang_cuda_builtin_varsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_builtin_varsH' Name='__clang_cuda_builtin_vars.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_builtin_vars.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_cmathH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_cmathH' Name='__clang_cuda_cmath.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_cmath.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_complex_builtinsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_complex_builtinsH' Name='__clang_cuda_complex_builtins.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_complex_builtins.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_device_functionsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_device_functionsH' Name='__clang_cuda_device_functions.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_device_functions.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_intrinsicsH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_intrinsicsH' Name='__clang_cuda_intrinsics.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_intrinsics.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_libdevice_declaresH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_libdevice_declaresH' Name='__clang_cuda_libdevice_declares.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_libdevice_declares.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_math_forward_declaresH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_math_forward_declaresH' Name='__clang_cuda_math_forward_declares.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_math_forward_declares.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__clang_cuda_runtime_wrapperH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__clang_cuda_runtime_wrapperH' Name='__clang_cuda_runtime_wrapper.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_runtime_wrapper.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__stddef_max_align_tH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__stddef_max_align_tH' Name='__stddef_max_align_t.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__stddef_max_align_t.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__wmmintrin_aesH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__wmmintrin_aesH' Name='__wmmintrin_aes.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__wmmintrin_aes.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeader__wmmintrin_pclmulH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeader__wmmintrin_pclmulH' Name='__wmmintrin_pclmul.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__wmmintrin_pclmul.h' KeyPath='yes' />
+						</Component>
 						<Component Id='ClangHeaderadxintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderadxintrinH' Name='adxintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/adxintrin.h' KeyPath='yes' />
 						</Component>
@@ -369,6 +402,9 @@
 						</Component>
 						<Component Id='ClangHeaderarm_acleH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderarm_acleH' Name='arm_acle.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/arm_acle.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderarm_arm_fp16H' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderarm_arm_fp16H' Name='arm_fp16.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/arm_fp16.h' KeyPath='yes' />
 						</Component>
 						<Component Id='ClangHeaderarm_neonH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderarm_neonH' Name='arm_neon.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/arm_neon.h' KeyPath='yes' />
@@ -454,6 +490,9 @@
 						<Component Id='ClangHeadercetintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeadercetintrinH' Name='cetintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/cetintrin.h' KeyPath='yes' />
 						</Component>
+						<Component Id='ClangHeadercldemoteintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadercldemoteintrinH' Name='cldemoteintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/cldemoteintrin.h' KeyPath='yes' />
+						</Component>
 						<Component Id='ClangHeaderclflushoptintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderclflushoptintrinH' Name='clflushoptintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/clflushoptintrin.h' KeyPath='yes' />
 						</Component>
@@ -505,6 +544,9 @@
 						<Component Id='ClangHeaderinttypesH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderinttypesH' Name='inttypes.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/inttypes.h' KeyPath='yes' />
 						</Component>
+						<Component Id='ClangHeaderinvpcidintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderinvpcidintrinH' Name='invpcidintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/invpcidintrin.h' KeyPath='yes' />
+						</Component>
 						<Component Id='ClangHeaderiso646H' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderiso646H' Name='iso646.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/iso646.h' KeyPath='yes' />
 						</Component>
@@ -529,6 +571,9 @@
 						<Component Id='ClangHeadermoduleModulemap' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeadermoduleModulemap' Name='module.modulemap' DiskId='1' Source='./../../../bin/app/data/cxx/include/module.modulemap' KeyPath='yes' />
 						</Component>
+						<Component Id='ClangHeadermovdirintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadermovdirintrinH' Name='movdirintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/movdirintrin.h' KeyPath='yes' />
+						</Component>
 						<Component Id='ClangHeadermsaH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeadermsaH' Name='msa.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/msa.h' KeyPath='yes' />
 						</Component>
@@ -540,6 +585,9 @@
 						</Component>
 						<Component Id='ClangHeaderopenclcH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderopenclcH' Name='opencl-c.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/opencl-c.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderpconfigintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderpconfigintrinH' Name='pconfigintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/pconfigintrin.h' KeyPath='yes' />
 						</Component>
 						<Component Id='ClangHeaderpkuintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderpkuintrinH' Name='pkuintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/pkuintrin.h' KeyPath='yes' />
@@ -553,6 +601,9 @@
 						<Component Id='ClangHeaderprfchwintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderprfchwintrinH' Name='prfchwintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/prfchwintrin.h' KeyPath='yes' />
 						</Component>
+						<Component Id='ClangHeaderptwriteintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderptwriteintrinH' Name='ptwriteintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/ptwriteintrin.h' KeyPath='yes' />
+						</Component>
 						<Component Id='ClangHeaderrdseedintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderrdseedintrinH' Name='rdseedintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/rdseedintrin.h' KeyPath='yes' />
 						</Component>
@@ -561,6 +612,9 @@
 						</Component>
 						<Component Id='ClangHeaders390intrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaders390intrinH' Name='s390intrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/s390intrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeadersgxintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeadersgxintrinH' Name='sgxintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/sgxintrin.h' KeyPath='yes' />
 						</Component>
 						<Component Id='ClangHeadershaintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeadershaintrinH' Name='shaintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/shaintrin.h' KeyPath='yes' />
@@ -616,6 +670,12 @@
 						<Component Id='ClangHeadervpclmulqdqintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeadervpclmulqdqintrinH' Name='vpclmulqdqintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/vpclmulqdqintrin.h' KeyPath='yes' />
 						</Component>
+						<Component Id='ClangHeaderwaitpkgintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderwaitpkgintrinH' Name='waitpkgintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/waitpkgintrin.h' KeyPath='yes' />
+						</Component>
+						<Component Id='ClangHeaderwbnoinvdintrinH' Guid='*' Win64="$(var.Win64)">
+							<File Id='ClangHeaderwbnoinvdintrinH' Name='wbnoinvdintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/wbnoinvdintrin.h' KeyPath='yes' />
+						</Component>
 						<Component Id='ClangHeaderwmmintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderwmmintrinH' Name='wmmintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/wmmintrin.h' KeyPath='yes' />
 						</Component>
@@ -642,33 +702,6 @@
 						</Component>
 						<Component Id='ClangHeaderxtestintrinH' Guid='*' Win64="$(var.Win64)">
 							<File Id='ClangHeaderxtestintrinH' Name='xtestintrin.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/xtestintrin.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__clang_cuda_builtin_varsH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__clang_cuda_builtin_varsH' Name='__clang_cuda_builtin_vars.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_builtin_vars.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__clang_cuda_cmathH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__clang_cuda_cmathH' Name='__clang_cuda_cmath.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_cmath.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__clang_cuda_complex_builtinsH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__clang_cuda_complex_builtinsH' Name='__clang_cuda_complex_builtins.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_complex_builtins.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__clang_cuda_intrinsicsH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__clang_cuda_intrinsicsH' Name='__clang_cuda_intrinsics.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_intrinsics.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__clang_cuda_math_forward_declaresH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__clang_cuda_math_forward_declaresH' Name='__clang_cuda_math_forward_declares.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_math_forward_declares.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__clang_cuda_runtime_wrapperH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__clang_cuda_runtime_wrapperH' Name='__clang_cuda_runtime_wrapper.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__clang_cuda_runtime_wrapper.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__stddef_max_align_tH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__stddef_max_align_tH' Name='__stddef_max_align_t.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__stddef_max_align_t.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__wmmintrin_aesH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__wmmintrin_aesH' Name='__wmmintrin_aes.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__wmmintrin_aes.h' KeyPath='yes' />
-						</Component>
-						<Component Id='ClangHeader__wmmintrin_pclmulH' Guid='*' Win64="$(var.Win64)">
-							<File Id='ClangHeader__wmmintrin_pclmulH' Name='__wmmintrin_pclmul.h' DiskId='1' Source='./../../../bin/app/data/cxx/include/__wmmintrin_pclmul.h' KeyPath='yes' />
 						</Component>
 					</Directory>
 				</Directory>
@@ -1098,11 +1131,26 @@
 							<File Id='TabbedView' Name='tabbed_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/tabbed_view.css' KeyPath='yes' />
 						</Component>
 						<Component Id='TabbedViewArrowDownPng' Guid='*' Win64="$(var.Win64)">
-								<File Id='TabbedViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/arrow_down.png' KeyPath='yes' />
-							</Component>
+							<File Id='TabbedViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/arrow_down.png' KeyPath='yes' />
+						</Component>
 						<Component Id='TabbedViewArrowUpPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='TabbedViewArrowUp' Name='arrow_up.png' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/arrow_up.png' KeyPath='yes' />
 						</Component>
+					</Directory>
+
+					<Directory Id='DataTabsView' Name='tabs_view'>
+						<Component Id='TabsViewCss' Guid='*' Win64="$(var.Win64)">
+							<File Id='TabsView' Name='tabs_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tabs_view/tabs_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataTabsViewImages' Name='images'>
+							<Component Id='DataTabsViewAddPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='DataTabsViewAdd' Name='add.png' DiskId='1' Source='./../../../bin/app/data/gui/tabs_view/images/add.png' KeyPath='yes' />
+							</Component>
+							<Component Id='DataTabsViewClosePng' Guid='*' Win64="$(var.Win64)">
+								<File Id='DataTabsViewClose' Name='close.png' DiskId='1' Source='./../../../bin/app/data/gui/tabs_view/images/close.png' KeyPath='yes' />
+							</Component>
+						</Directory>
 					</Directory>
 
 					<Directory Id='DataTooltipView' Name='tooltip_view'>
@@ -1216,46 +1264,46 @@
 							<File Id='JavaJavaIndexer' Name='java-indexer.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/java-indexer.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreCommandsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreCommands' Name='org.eclipse.core.commands-3.9.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.commands-3.9.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreCommands' Name='org.eclipse.core.commands-3.9.200.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.commands-3.9.200.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreContenttypeJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreContenttype' Name='org.eclipse.core.contenttype-3.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.contenttype-3.7.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreContenttype' Name='org.eclipse.core.contenttype-3.7.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.contenttype-3.7.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreExpressionsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreExpressions' Name='org.eclipse.core.expressions-3.6.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.expressions-3.6.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreExpressions' Name='org.eclipse.core.expressions-3.6.200.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.expressions-3.6.200.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreFilesystemJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.7.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.7.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.7.200.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.7.200.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreJobsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.10.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.10.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.10.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.10.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreResourcesJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.13.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.13.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.13.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreRuntimeJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreRuntime' Name='org.eclipse.core.runtime-3.14.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.runtime-3.14.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreRuntime' Name='org.eclipse.core.runtime-3.15.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.runtime-3.15.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinox.app' Name='org.eclipse.equinox.app-1.3.500.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.app-1.3.500.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinox.app' Name='org.eclipse.equinox.app-1.3.600.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.app-1.3.600.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxCommonJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxCommon' Name='org.eclipse.equinox.common-3.10.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.common-3.10.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxCommon' Name='org.eclipse.equinox.common-3.10.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.common-3.10.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxPreferencesJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxPreferences' Name='org.eclipse.equinox.preferences-3.7.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.preferences-3.7.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxPreferences' Name='org.eclipse.equinox.preferences-3.7.200.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.preferences-3.7.200.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxRegistryJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.8.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.registry-3.8.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.8.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.registry-3.8.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseJdtCoreJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.13.102.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.jdt.core-3.13.102.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseOsgiJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.13.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.13.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.13.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseTextJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseText' Name='org.eclipse.text-3.6.300.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.text-3.6.300.jar' KeyPath='yes' />
+							<File Id='OrgEclipseText' Name='org.eclipse.text-3.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.text-3.7.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='Slf4jApiJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='Slf4jApi' Name='slf4j-api-1.7.10.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/slf4j-api-1.7.10.jar' KeyPath='yes' />
