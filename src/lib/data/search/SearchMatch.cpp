@@ -174,7 +174,7 @@ bool SearchMatch::operator<(const SearchMatch& other) const
 		}
 	}
 
-	return false;
+	return getSearchTypeName() < other.getSearchTypeName();
 }
 
 bool SearchMatch::operator==(const SearchMatch& other) const

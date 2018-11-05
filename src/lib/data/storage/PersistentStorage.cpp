@@ -627,8 +627,10 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	utility::append(matches, getAutocompletionCommandMatches(query, acceptedNodeTypes));
 
 	// Rescore search matches to check if better score is achieved with higher indices
-	std::map<std::wstring, SearchMatch> matchesMap;
-	for (SearchMatch& match : matches)
+	std::vector<SearchMatch> rescoredMatches;
+	rescoredMatches.reserve(matches.size());
+
+	for (SearchMatch match : matches)
 	{
 		// rescore match
 		if (!match.subtext.empty() && match.indices.size())
@@ -640,15 +642,15 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 			match.indices = std::move(newResult.indices);
 		}
 
-		matchesMap.emplace(match.name, match);
+		rescoredMatches.emplace_back(match);
 	}
 
 	// Score child symbol matches with same score as parent lower
 	const SearchMatch* lastMatch = nullptr;
 	std::set<SearchMatch> matchesSet;
-	for (auto& p : matchesMap)
+
+	for (SearchMatch match : rescoredMatches)
 	{
-		SearchMatch& match = p.second;
 		if (lastMatch == nullptr || !utility::isPrefix(lastMatch->name, match.name))
 		{
 			lastMatch = &match;
