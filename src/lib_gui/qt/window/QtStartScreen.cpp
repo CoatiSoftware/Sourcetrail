@@ -93,7 +93,7 @@ QtStartScreen::QtStartScreen(QWidget *parent)
 
 QSize QtStartScreen::sizeHint() const
 {
-	return QSize(570, 630);
+	return QSize(600, 650);
 }
 
 void QtStartScreen::updateButtons()
@@ -208,7 +208,7 @@ void QtStartScreen::setupStartScreen()
 			connect(checker, &QtUpdateCheckerWidget::updateReceived, newsWidget, &QtNewsWidget::updateNews);
 		}
 
-		col->addSpacing(15);
+		col->addSpacing(35);
 		col->addStretch();
 
 		QPushButton* newProjectButton = new QPushButton("New Project", this);

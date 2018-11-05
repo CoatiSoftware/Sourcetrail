@@ -32,7 +32,7 @@ QtNewsWidget::QtNewsWidget(QWidget* parent)
 	QString placeholder = "No news available";
 	if (!ApplicationSettings::getInstance()->getAutomaticUpdateCheck())
 	{
-		placeholder += "\n(Enable update check)";
+		placeholder += "\n(Enable update check to fetch)";
 	}
 	m_text->setPlaceholderText(placeholder);
 
