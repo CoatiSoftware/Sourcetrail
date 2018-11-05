@@ -25,7 +25,10 @@ void QtGraphNodeComponentClickable::nodeMousePressEvent(QGraphicsSceneMouseEvent
 	m_mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
 	m_mouseMoved = false;
 
-	event->accept();
+	if (event->button() == Qt::MiddleButton)
+	{
+		event->accept();
+	}
 }
 
 void QtGraphNodeComponentClickable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
