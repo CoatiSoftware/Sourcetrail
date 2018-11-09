@@ -36,6 +36,8 @@
 	<string></string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
+	<key>NSRequiresAquaSystemAppearance</key>
+	<true/>
 	<key>CFBundleIconFile</key>
 	<string>icon</string>
 	<key>LSMinimumSystemVersion</key>
