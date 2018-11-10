@@ -273,12 +273,15 @@ private:
 
 			std::string valueStr = '(' + utility::join(std::vector<std::string>(valueCount, "?"), ',') + ')';
 
-			for (size_t j = 0; j < 4; j++)
+			const size_t MAX_VARIABLE_COUNT = 999;
+			size_t batchSize = MAX_VARIABLE_COUNT / valueCount;
+
+			while (true)
 			{
 				std::stringstream stmt;
 				stmt << header;
 
-				for (size_t i = 0; i < BATCH_SIZES[j]; i++)
+				for (size_t i = 0; i < batchSize; i++)
 				{
 					if (i != 0)
 					{
@@ -288,29 +291,41 @@ private:
 				}
 				stmt << ';';
 
-				m_stmt[j] = database.compileStatement(stmt.str().c_str());
+				m_stmts.emplace_back(std::make_pair(batchSize, database.compileStatement(stmt.str().c_str())));
+
+				if (batchSize == 1)
+				{
+					break;
+				}
+				else
+				{
+					batchSize /= 2;
+				}
 			}
 		}
 
 		bool execute(const std::vector<StorageType>& types, SqliteIndexStorage* storage)
 		{
 			size_t i = 0;
-			for (size_t x = 0; x < 4; x++)
+			for (std::pair<size_t, CppSQLite3Statement>& p : m_stmts)
 			{
-				while (types.size() - i >= BATCH_SIZES[x])
+				const size_t& batchSize = p.first;
+				CppSQLite3Statement& stmt = p.second;
+
+				while (types.size() - i >= batchSize)
 				{
-					for (size_t j = 0; j < BATCH_SIZES[x]; j++)
+					for (size_t j = 0; j < batchSize; j++)
 					{
-						m_bindValuesFunc(m_stmt[x], types[i + j], j);
+						m_bindValuesFunc(stmt, types[i + j], j);
 					}
 
-					const bool success = storage->executeStatement(m_stmt[x]);
+					const bool success = storage->executeStatement(stmt);
 					if (!success)
 					{
 						return false;
 					}
 
-					i += BATCH_SIZES[x];
+					i += batchSize;
 				}
 			}
 
@@ -318,9 +333,7 @@ private:
 		}
 
 	private:
-		static const size_t BATCH_SIZES[4];
-
-		CppSQLite3Statement m_stmt[4];
+		std::vector<std::pair<size_t, CppSQLite3Statement>> m_stmts;
 
 		std::function<void(CppSQLite3Statement& stmt, const StorageType&, size_t)> m_bindValuesFunc;
 	};
@@ -339,9 +352,6 @@ private:
 	CppSQLite3Statement m_checkErrorExistsStmt;
 	CppSQLite3Statement m_insertErrorStmt;
 };
-
-template<typename StorageType>
-const size_t SqliteIndexStorage::InsertBatchStatement<StorageType>::BATCH_SIZES[4] = { 100, 27, 8, 1 };
 
 template <>
 void SqliteIndexStorage::forEach<StorageEdge>(const std::string& query, std::function<void(StorageEdge&&)> func) const;
