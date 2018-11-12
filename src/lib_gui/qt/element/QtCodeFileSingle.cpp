@@ -141,13 +141,15 @@ void QtCodeFileSingle::requestFileContent(const FilePath& filePath)
 
 	m_contentRequested = true;
 
-	MessageChangeFileView(
+	MessageChangeFileView msg(
 		filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
 		MessageChangeFileView::VIEW_SINGLE,
 		true,
 		m_navigator->hasErrors()
-	).dispatch();
+	);
+	msg.setSchedulerId(m_navigator->getSchedulerId());
+	msg.dispatch();
 }
 
 bool QtCodeFileSingle::requestScroll(

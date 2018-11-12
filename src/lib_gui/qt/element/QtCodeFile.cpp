@@ -270,20 +270,24 @@ void QtCodeFile::requestContent()
 
 	bool needsData = (m_snippets.size() == 0);
 
-	MessageChangeFileView(m_filePath, state, MessageChangeFileView::VIEW_LIST, needsData, m_navigator->hasErrors()).dispatch();
+	MessageChangeFileView msg(m_filePath, state, MessageChangeFileView::VIEW_LIST, needsData, m_navigator->hasErrors());
+	msg.setSchedulerId(m_navigator->getSchedulerId());
+	msg.dispatch();
 }
 
 void QtCodeFile::requestWholeFileContent()
 {
 	if (!m_isWholeFile)
 	{
-		MessageChangeFileView(
+		MessageChangeFileView msg(
 			m_filePath,
 			MessageChangeFileView::FILE_MAXIMIZED,
 			MessageChangeFileView::VIEW_LIST,
 			true,
 			m_navigator->hasErrors()
-		).dispatch();
+		);
+		msg.setSchedulerId(m_navigator->getSchedulerId());
+		msg.dispatch();
 	}
 	else
 	{
@@ -413,26 +417,30 @@ std::vector<std::pair<FilePath, Id>> QtCodeFile::getLocationIdsForTokenIds(const
 
 void QtCodeFile::clickedMinimizeButton()
 {
-	MessageChangeFileView(
+	MessageChangeFileView msg(
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
 		MessageChangeFileView::VIEW_LIST,
 		false,
 		m_navigator->hasErrors()
-	).dispatch();
+	);
+	msg.setSchedulerId(m_navigator->getSchedulerId());
+	msg.dispatch();
 }
 
 void QtCodeFile::clickedSnippetButton()
 {
 	m_navigator->requestScroll(m_filePath, 0, 0, false, QtCodeNavigateable::SCROLL_VISIBLE);
 
-	MessageChangeFileView(
+	MessageChangeFileView msg(
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
 		MessageChangeFileView::VIEW_LIST,
 		isCollapsed(),
 		m_navigator->hasErrors()
-	).dispatch();
+	);
+	msg.setSchedulerId(m_navigator->getSchedulerId());
+	msg.dispatch();
 }
 
 void QtCodeFile::clickedMaximizeButton()
@@ -458,14 +466,16 @@ void QtCodeFile::clickedMaximizeButton()
 
 	m_navigator->requestScroll(m_filePath, lineNumber, locationId, false, QtCodeNavigateable::SCROLL_CENTER);
 
-	MessageChangeFileView(
+	MessageChangeFileView msg(
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
 		MessageChangeFileView::VIEW_SINGLE,
 		true, // TODO: check if data is really needed
 		m_navigator->hasErrors(),
 		true
-	).dispatch();
+	);
+	msg.setSchedulerId(m_navigator->getSchedulerId());
+	msg.dispatch();
 }
 
 void QtCodeFile::updateRefCount(int refCount)
