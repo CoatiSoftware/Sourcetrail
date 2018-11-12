@@ -5,14 +5,14 @@ template <typename T>
 class ScopedSwitcher
 {
 public:
-	ScopedSwitcher(T &var) 
+	ScopedSwitcher(T &var)
 		: m_var(&var)
-		, m_origVal(var) 
+		, m_origVal(var)
 	{}
 
-	ScopedSwitcher(T &var, T tempVal) 
+	ScopedSwitcher(T &var, T tempVal)
 		: m_var(&var)
-		, m_origVal(var) 
+		, m_origVal(var)
 	{
 		var = tempVal;
 	}

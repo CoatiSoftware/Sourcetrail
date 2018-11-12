@@ -68,6 +68,8 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 			clang::ASTContext::DynTypedNodeList parents = declaration->getASTContext().getParents(*declaration);
 			for (const clang::ast_type_traits::DynTypedNode* parent = parents.begin(); parent != parents.end(); parent++)
 			{
+				bool foundParent = false;
+
 				const clang::Decl* parentDecl = parent->get<clang::Decl>();
 				while (parentDecl != nullptr)
 				{
@@ -80,6 +82,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 						{
 							declName->setParent(getName(parentTemplateDecl));
 						}
+						foundParent = true;
 						break;
 					}
 					else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(parentDecl))
@@ -90,6 +93,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 						{
 							declName->setParent(getName(parentClassTemplateDecl));
 						}
+						foundParent = true;
 						break;
 					}
 					else if (clang::isa<clang::VarTemplatePartialSpecializationDecl>(parentDecl))
@@ -100,6 +104,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 						{
 							declName->setParent(getName(parentVarTemplateDecl));
 						}
+						foundParent = true;
 						break;
 					}
 
@@ -107,6 +112,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 					{
 						if (ignoresContext(parentDeclContext))
 						{
+							foundParent = true;
 							break;
 						}
 						parentDecl = clang::dyn_cast_or_null<clang::Decl>(parentDeclContext);
@@ -122,6 +128,12 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 					{
 						break;
 					}
+				}
+
+				if (foundParent)
+				{
+					// break for the first parent ast node that can be resolved to a parent name (also if it is ignored).
+					break;
 				}
 			}
 		}
