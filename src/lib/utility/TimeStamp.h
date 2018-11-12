@@ -16,6 +16,8 @@ public:
 
 	std::string toString() const;
 	std::string getDDMMYYYYString() const;
+	std::string dayOfWeek() const;
+	std::string dayOfWeekShort() const;
 
 	inline bool operator==(const TimeStamp& rhs) { return m_time == rhs.m_time; }
 	inline bool operator!=(const TimeStamp& rhs) { return m_time != rhs.m_time; }

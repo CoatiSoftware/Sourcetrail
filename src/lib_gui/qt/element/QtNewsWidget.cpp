@@ -54,6 +54,7 @@ syntax:
 			"os": ["windows", "macOS", "linux"],
 			"min_version": "2017.2.0",
 			"max_version": "2018.4.2",
+			"weekday": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 		}
 
 		// optional
@@ -200,6 +201,20 @@ bool QtNewsWidget::checkConditions(const QJsonObject& conditions) const
 			if (!osStrings.contains(QJsonValue(osString)))
 			{
 				LOG_INFO_STREAM(<< "Failed condition os.");
+				return false;
+			}
+		}
+	}
+
+	// weekday
+	{
+		QJsonArray weekdayStrings = conditions.value("weekday").toArray();
+		if (!weekdayStrings.isEmpty())
+		{
+			QString weekdayString = QString::fromStdString(TimeStamp::now().dayOfWeekShort());
+			if (!weekdayStrings.contains(QJsonValue(weekdayString)))
+			{
+				LOG_INFO_STREAM(<< "Failed condition weekday.");
 				return false;
 			}
 		}
