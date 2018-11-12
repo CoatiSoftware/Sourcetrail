@@ -21,12 +21,14 @@ TabsController::TabsController(
 	, m_viewFactory(viewFactory)
 	, m_storageAccess(storageAccess)
 	, m_screenSearchSender(screenSearchSender)
+	, m_isCreatingTab(false)
 {
 }
 
 void TabsController::clear()
 {
 	getView()->clear();
+	m_isCreatingTab = false;
 
 	while (true)
 	{
@@ -71,6 +73,7 @@ void TabsController::addTab(Id tabId, SearchMatch match)
 	}
 
 	m_scrollToLine = std::make_tuple(0, FilePath(), 0);
+	m_isCreatingTab = false;
 }
 
 void TabsController::showTab(Id tabId)
@@ -129,9 +132,10 @@ void TabsController::destroyTab(Id tabId)
 	// destroy the tab on the qt thread to allow view destruction
 	m_tabs.erase(tabId);
 
-	if (m_tabs.empty() && Application::getInstance()->isProjectLoaded())
+	if (m_tabs.empty() && Application::getInstance()->isProjectLoaded() && !m_isCreatingTab)
 	{
 		MessageTabOpen().dispatch();
+		m_isCreatingTab = true;
 	}
 }
 
@@ -164,6 +168,7 @@ void TabsController::handleMessage(MessageTabOpen* message)
 	if (Application::getInstance()->isProjectLoaded())
 	{
 		getView()->openTab(true, SearchMatch());
+		m_isCreatingTab = true;
 	}
 }
 
@@ -210,6 +215,7 @@ void TabsController::handleMessage(MessageTabOpenWith* message)
 	if (match.isValid())
 	{
 		getView()->openTab(message->showTab, match);
+		m_isCreatingTab = true;
 	}
 }
 
