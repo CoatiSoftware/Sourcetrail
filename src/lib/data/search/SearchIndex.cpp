@@ -271,7 +271,7 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 SearchResult SearchIndex::bestScoredResult(
 	SearchResult result, std::map<std::wstring, SearchResult>* scoresCache, size_t maxBestScoredResultsLength)
 {
-	std::wstring text = result.text;
+	const std::wstring text = result.text;
 
 	if (maxBestScoredResultsLength && result.text.size() > maxBestScoredResultsLength)
 	{
@@ -287,9 +287,10 @@ SearchResult SearchIndex::bestScoredResult(
 	if (it != scoresCache->end())
 	{
 		// std::cout << "cached: " << it->first << " " << it->second.score << std::endl;
-		SearchResult result = it->second;
-		result.text = text;
-		return result;
+		SearchResult cachedResult = it->second;
+		cachedResult.text = text;
+		cachedResult.elementIds = result.elementIds;
+		return cachedResult;
 	}
 
 	const std::vector<size_t> indices = result.indices;
