@@ -8,16 +8,17 @@
 #include <llvm/Option/ArgList.h>
 #include <llvm/Support/TargetSelect.h>
 
-#include "IndexerCommandCxx.h"
+#include "ApplicationSettings.h"
 #include "ASTActionFactory.h"
 #include "CanonicalFilePathCache.h"
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"
 #include "FilePath.h"
 #include "FileRegister.h"
+#include "IndexerCommandCxx.h"
 #include "logging.h"
-#include "TextAccess.h"
 #include "ResourcePaths.h"
+#include "TextAccess.h"
 #include "utilityString.h"
 #include "utility.h"
 
@@ -192,7 +193,10 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 	if (LogManager::getInstance()->getLoggingEnabled())
 	{
 		const ClangInvocationInfo info = getClangInvocationString(compilationDatabase);
-		LOG_INFO("Clang Invocation: " + info.invocation);
+		if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
+		{
+			LOG_INFO("Clang Invocation: " + info.invocation);
+		}
 		if (!info.errors.empty())
 		{
 			LOG_INFO("Clang Invocation errors: " + info.errors);
