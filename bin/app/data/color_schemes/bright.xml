@@ -275,9 +275,9 @@
 			<typedef>
 				<like>type</like>
 			</typedef>
-			<template_parameter_type>
+			<template_parameter>
 				<like>type</like>
-			</template_parameter_type>
+			</template_parameter>
 			<type_parameter>
 				<like>type</like>
 			</type_parameter>

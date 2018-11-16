@@ -2431,7 +2431,7 @@ void GraphController::createLegendGraph()
 		i += 1;
 
 		Node* templateNode = addNode(NodeType::NODE_TYPE, L"TemplateType<typename ParameterType>", Vec2i(x, y + dy * ++i));
-		Node* templateParameterNode = addNode(NodeType::NODE_TEMPLATE_PARAMETER_TYPE, L"ParameterType", Vec2i());
+		Node* templateParameterNode = addNode(NodeType::NODE_TEMPLATE_PARAMETER, L"ParameterType", Vec2i());
 		addMember(templateNode, templateParameterNode, ACCESS_TEMPLATE_PARAMETER);
 		y += 5;
 		i += 2;

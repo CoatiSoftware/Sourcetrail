@@ -62,8 +62,8 @@ NodeType::Type NodeType::intToType(int value)
 		return NodeType::NODE_ENUM_CONSTANT;
 	case NodeType::NODE_TYPEDEF:
 		return NodeType::NODE_TYPEDEF;
-	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
-		return NodeType::NODE_TEMPLATE_PARAMETER_TYPE;
+	case NodeType::NODE_TEMPLATE_PARAMETER:
+		return NodeType::NODE_TEMPLATE_PARAMETER;
 	case NodeType::NODE_TYPE_PARAMETER:
 		return NodeType::NODE_TYPE_PARAMETER;
 	case NodeType::NODE_FILE:
@@ -113,8 +113,8 @@ std::string NodeType::getReadableTypeString(NodeType::Type type)
 		return "enum constant";
 	case NodeType::NODE_TYPEDEF:
 		return "typedef";
-	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
-		return "template parameter type";
+	case NodeType::NODE_TEMPLATE_PARAMETER:
+		return "template parameter";
 	case NodeType::NODE_TYPE_PARAMETER:
 		return "type parameter";
 	case NodeType::NODE_FILE:
@@ -414,7 +414,7 @@ NodeType::StyleType NodeType::getNodeStyle() const
 	case NodeType::NODE_ANNOTATION:
 	case NodeType::NODE_ENUM:
 	case NodeType::NODE_TYPEDEF:
-	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
+	case NodeType::NODE_TEMPLATE_PARAMETER:
 	case NodeType::NODE_TYPE_PARAMETER:
 	case NodeType::NODE_FILE:
 	case NodeType::NODE_MACRO:

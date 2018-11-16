@@ -350,7 +350,7 @@ private:
 			return L"SYMBOL_PACKAGE";
 		case NodeType::NODE_STRUCT:
 			return L"SYMBOL_STRUCT";
-		case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
+		case NodeType::NODE_TEMPLATE_PARAMETER:
 			return L"SYMBOL_TEMPLATE_PARAMETER";
 		case NodeType::NODE_TYPEDEF:
 			return L"SYMBOL_TYPEDEF";
@@ -438,7 +438,7 @@ private:
 			return &structs;
 		case NodeType::NODE_MACRO:
 			return &macros;
-		case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
+		case NodeType::NODE_TEMPLATE_PARAMETER:
 			return &templateParameterTypes;
 		case NodeType::NODE_TYPE_PARAMETER:
 			return &typeParameters;

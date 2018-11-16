@@ -179,7 +179,7 @@
 			<struct></struct>
 			<enum></enum>
 			<typedef></typedef>
-			<template_parameter_type></template_parameter_type>
+			<template_parameter></template_parameter>
 			<type_parameter></type_parameter>
 
 			<function></function>
