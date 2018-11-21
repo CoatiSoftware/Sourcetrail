@@ -63,7 +63,7 @@ void InterprocessIndexer::work()
 			while (true)
 			{
 				const size_t storageCount = m_interprocessIntermediateStorageManager.getIntermediateStorageCount();
-				if (storageCount < 10)
+				if (storageCount < 2)
 				{
 					break;
 				}
