@@ -536,7 +536,13 @@ void QtCodeField::setHoveredAnnotations(const std::vector<const Annotation*>& an
 {
 	if (m_hoveredAnnotations.size())
 	{
-		defocusTokenIds({});
+		std::vector<Id> tokenIds;
+		for (const Annotation* annotation : m_hoveredAnnotations)
+		{
+			tokenIds.insert(tokenIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
+		}
+
+		defocusTokenIds(tokenIds);
 	}
 
 	m_hoveredAnnotations = annotations;
