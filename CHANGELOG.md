@@ -1,5 +1,47 @@
 ### Changelog
 
+#### 2018.4.8
+released 2018-11-05
+
+* Fixed search activates wrong symbol if multiple potential matches share the same "long" symbol name
+* C++: Fixed infinite iteration when solving parent name of C++ template arguments with multiple parent contexts
+* C++: Only log Clang tool invocation info when enabling "verbose indexer logging"
+* Running shrink on shared memory that is used to transfer data between processes during indexing from time to time
+* Added tabs UI to top of main window (issue #215)
+* Linux: Fixed no write permission to ~/.config/sourcetrail after installation (issue #625, #626)
+* C++: Added type usage edges from parent context for types that occur as template arguments
+* C++: Skip recording of implicit local symbols
+* Java: Show explicit error message if no Java path provided in preferences
+* C/C++: Updated to LLVM/Clang 7.0.0
+* Added news box to start screen, showing news returned with daily update check
+* Reduced memory usage during project loading by iterating over database entries instead of retrieving in containers
+* Code: Added copy action to context menu for code view
+* Code: Removed accidental leading spaces in overview project description
+* Fixed history menu to show global activation history chronologically
+* Fixed handling of multiple active symbols broken when going back in history
+* Removed std headers from tutorial
+* Show hidden indexing dialog when clicking refresh while indexing is in progress
+* Code: Fixed unhovering an active error in code view removed the "active-highlight"
+* Fixed shared memory garbage collector mutex unlocking policy when stuck
+* Code: Fixed crash on code view scope expansion
+* Rewrote indexer data recording API to rely on IDs instead of strings for faster indexer performance
+* Removed unnecessary SQLite indexes for smaller database size
+* JAVA: display multi-line maven error messages (issue #622)
+* Improved indexer storing performance by splitting insertion into multiples of pre-compiled SQLite batch insert statements
+* Reduced copies during indexer data recording
+* Improved cache lookups in indexer data recording
+* Windows: fixed line breaking issues with carriage returns
+* C/C++: Reduced waiting time when interrupting indexer processes
+* C/C++: Improved name handling and caching performance
+* Fixed edge cases in determining files to update/clear when re-indexing
+* C/C++: record and display indexer configuration issues (issue #618)
+* Windows: Log success of Visual Studio path detector instead of printing to console
+* Generate and pass index file commands to indexers one by one to reduce memory consumption
+* C/C++: Query files from compilation database one by one to reduce memory consumption
+* Java: changed type_argument edges to originate in the generic type or method
+* Optimized storage in-memory caches to reduce memory use during indexing
+
+
 #### 2018.3.55
 released 2018-08-31
 
