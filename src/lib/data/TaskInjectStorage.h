@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "MessageIndexingInterrupted.h"
+#include "MessageListener.h"
 #include "Task.h"
 
 class Storage;
@@ -10,6 +12,7 @@ class StorageProvider;
 
 class TaskInjectStorage
 	: public Task
+	, public MessageListener<MessageIndexingInterrupted>
 {
 public:
 	TaskInjectStorage(
@@ -22,6 +25,8 @@ private:
 	TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) override;
 	void doExit(std::shared_ptr<Blackboard> blackboard) override;
 	void doReset(std::shared_ptr<Blackboard> blackboard) override;
+
+	void handleMessage(MessageIndexingInterrupted* message) override;
 
 	std::shared_ptr<StorageProvider> m_storageProvider;
 	std::weak_ptr<Storage> m_target;

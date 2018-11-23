@@ -8,6 +8,12 @@ int StorageProvider::getStorageCount() const
 	return m_storages.size();
 }
 
+void StorageProvider::clear()
+{
+	std::lock_guard<std::mutex> lock(m_storagesMutex);
+	return m_storages.clear();
+}
+
 void StorageProvider::insert(std::shared_ptr<IntermediateStorage> storage)
 {
 	const std::size_t storageSize = storage->getSourceLocationCount();

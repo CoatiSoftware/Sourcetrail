@@ -106,7 +106,7 @@ void TaskFillIndexerCommandsQueue::terminate()
 	m_interrupted = true;
 }
 
-void TaskFillIndexerCommandsQueue::handleMessage(MessageInterruptTasks* message)
+void TaskFillIndexerCommandsQueue::handleMessage(MessageIndexingInterrupted* message)
 {
 	std::lock_guard<std::mutex> lock(m_commandsMutex);
 

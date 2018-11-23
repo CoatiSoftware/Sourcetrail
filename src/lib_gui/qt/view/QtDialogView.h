@@ -9,7 +9,6 @@
 #include "MessageListener.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageIndexingShowDialog.h"
-#include "MessageInterruptTasks.h"
 #include "MessageWindowClosed.h"
 
 class QtIndexingDialog;
@@ -21,7 +20,6 @@ class QtDialogView
 	, public DialogView
 	, public MessageListener<MessageErrorCountUpdate>
 	, public MessageListener<MessageIndexingShowDialog>
-	, public MessageListener<MessageInterruptTasks>
 	, public MessageListener<MessageWindowClosed>
 {
 	Q_OBJECT
@@ -63,7 +61,6 @@ private slots:
 private:
 	void handleMessage(MessageErrorCountUpdate* message) override;
 	void handleMessage(MessageIndexingShowDialog* message) override;
-	void handleMessage(MessageInterruptTasks* message) override;
 	void handleMessage(MessageWindowClosed* message) override;
 
 	void updateErrorCount(size_t errorCount, size_t fatalCount);

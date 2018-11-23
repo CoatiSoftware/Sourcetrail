@@ -60,7 +60,7 @@ void InterprocessIndexer::work()
 			LOG_INFO(std::to_wstring(m_processId) + L" fetched indexer command for \"" + indexerCommand->getSourceFilePath().wstr() + L"\"");
 			LOG_INFO(std::to_wstring(m_processId) + L" indexer commands left: " + std::to_wstring(m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
 
-			while (true)
+			while (updaterThreadRunning)
 			{
 				const size_t storageCount = m_interprocessIntermediateStorageManager.getIntermediateStorageCount();
 				if (storageCount < 2)
@@ -71,6 +71,11 @@ void InterprocessIndexer::work()
 				LOG_INFO_STREAM(<< m_processId << " waits, too many intermediate storages: " << storageCount);
 
 				std::this_thread::sleep_for(std::chrono::milliseconds(200));
+			}
+
+			if (!updaterThreadRunning)
+			{
+				break;
 			}
 
 			LOG_INFO_STREAM(<< m_processId << " updating indexer status with currently indexed filepath");

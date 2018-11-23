@@ -9,7 +9,7 @@
 #include "QtHelpButton.h"
 #include "QtProgressBar.h"
 #include "MessageErrorsHelpMessage.h"
-#include "MessageInterruptTasks.h"
+#include "MessageIndexingInterrupted.h"
 #include "ResourcePaths.h"
 #include "utility.h"
 
@@ -404,7 +404,10 @@ void QtIndexingDialog::handleClose()
 {
 	if (m_type == DIALOG_INDEXING)
 	{
-		MessageInterruptTasks().dispatch();
+		if (isVisible())
+		{
+			MessageIndexingInterrupted().dispatch();
+		}
 		return;
 	}
 

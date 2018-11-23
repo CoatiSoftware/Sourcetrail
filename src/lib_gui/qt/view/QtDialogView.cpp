@@ -497,25 +497,6 @@ void QtDialogView::handleMessage(MessageIndexingShowDialog* message)
 	);
 }
 
-void QtDialogView::handleMessage(MessageInterruptTasks* message)
-{
-	if (!m_dialogsVisible)
-	{
-		return;
-	}
-
-	m_onQtThread3(
-		[=]()
-		{
-			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
-			if (window && window->getType() == QtIndexingDialog::DIALOG_INDEXING)
-			{
-				showUnknownProgressDialog(L"Interrupting Indexing", L"Waiting for indexer\nthreads to finish");
-			}
-		}
-	);
-}
-
 void QtDialogView::handleMessage(MessageErrorCountUpdate* message)
 {
 	ErrorCountInfo errorInfo = message->errorCount;

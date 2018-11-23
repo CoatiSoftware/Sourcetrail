@@ -11,6 +11,8 @@ class StorageProvider
 public:
 	int getStorageCount() const;
 
+	void clear();
+
 	void insert(std::shared_ptr<IntermediateStorage> storage);
 
 	// returns empty shared_ptr if no storages available

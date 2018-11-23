@@ -21,7 +21,7 @@
 #include "FileLogger.h"
 #include "logging.h"
 #include "LogManager.h"
-#include "MessageInterruptTasks.h"
+#include "MessageIndexingInterrupted.h"
 #include "MessageLoadProject.h"
 #include "MessageStatus.h"
 #include "ResourcePaths.h"
@@ -37,8 +37,8 @@
 
 void signalHandler(int signum)
 {
-	std::cout << "interrupt running tasks" << std::endl;
-	MessageInterruptTasks().dispatch();
+	std::cout << "interrupt indexing" << std::endl;
+	MessageIndexingInterrupted().dispatch();
 }
 
 void setupLogging()

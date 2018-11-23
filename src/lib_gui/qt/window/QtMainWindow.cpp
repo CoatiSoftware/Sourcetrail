@@ -41,7 +41,6 @@
 #include "MessageEnteredLicense.h"
 #include "MessageFind.h"
 #include "MessageIndexingShowDialog.h"
-#include "MessageInterruptTasks.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
 #include "MessageRefreshUI.h"
@@ -493,7 +492,6 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 			break;
 
 		case Qt::Key_Escape:
-			MessageInterruptTasks().dispatch();
 			emit hideScreenSearch();
 			break;
 

@@ -125,7 +125,10 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 	}
 	m_processThreads.clear();
 
-	while (fetchIntermediateStorages(blackboard));
+	if (!m_interrupted)
+	{
+		while (fetchIntermediateStorages(blackboard));
+	}
 
 	std::vector<FilePath> crashedFiles = m_interprocessIndexingStatusManager.getCrashedSourceFilePaths();
 	if (crashedFiles.size())
@@ -156,14 +159,14 @@ void TaskBuildIndex::terminate()
 	utility::killRunningProcesses();
 }
 
-void TaskBuildIndex::handleMessage(MessageInterruptTasks* message)
+void TaskBuildIndex::handleMessage(MessageIndexingInterrupted* message)
 {
-	if (!m_dialogView->dialogsHidden())
-	{
-		LOG_INFO("sending indexer interrupt command.");
-		m_interprocessIndexingStatusManager.setIndexingInterrupted(true);
-		m_interrupted = true;
-	}
+	LOG_INFO("sending indexer interrupt command.");
+
+	m_interprocessIndexingStatusManager.setIndexingInterrupted(true);
+	m_interrupted = true;
+
+	m_dialogView->showUnknownProgressDialog(L"Interrupting Indexing", L"Waiting for indexer\nthreads to finish");
 }
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath)

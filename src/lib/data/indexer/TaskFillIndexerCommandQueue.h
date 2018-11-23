@@ -4,7 +4,7 @@
 #include <queue>
 
 #include "MessageListener.h"
-#include "MessageInterruptTasks.h"
+#include "MessageIndexingInterrupted.h"
 #include "Task.h"
 
 #include "InterprocessIndexerCommandManager.h"
@@ -13,7 +13,7 @@ class IndexerCommandProvider;
 
 class TaskFillIndexerCommandsQueue
 	: public Task
-	, public MessageListener<MessageInterruptTasks>
+	, public MessageListener<MessageIndexingInterrupted>
 {
 public:
 	TaskFillIndexerCommandsQueue(
@@ -29,7 +29,7 @@ protected:
 	void doReset(std::shared_ptr<Blackboard> blackboard) override;
 	void terminate() override;
 
-	void handleMessage(MessageInterruptTasks* message) override;
+	void handleMessage(MessageIndexingInterrupted* message) override;
 
 	bool fillCommandQueue();
 

@@ -455,6 +455,7 @@ add_files(
 	utility/messaging/type/history/MessageHistoryUndo.h
 
 	utility/messaging/type/indexing/MessageIndexingFinished.h
+	utility/messaging/type/indexing/MessageIndexingInterrupted.h
 	utility/messaging/type/indexing/MessageIndexingShowDialog.h
 	utility/messaging/type/indexing/MessageIndexingStarted.h
 	utility/messaging/type/indexing/MessageIndexingStatus.h
@@ -494,7 +495,6 @@ add_files(
 	utility/messaging/type/MessageGraphNodeHide.h
 	utility/messaging/type/MessageGraphNodeMove.h
 	utility/messaging/type/MessageIDECreateCDB.h
-	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLogFilterChanged.h
 	utility/messaging/type/MessageMoveIDECursor.h
