@@ -197,16 +197,16 @@ LocationType ParserClientImpl::parseLocationTypeToLocationType(ParseLocationType
 	return LOCATION_TOKEN;
 }
 
-Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType)
+Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy)
 {
 	Id childNodeId = 0;
 	Id firstNodeId = 0;
 	for (size_t i = nameHierarchy.size(); i > 0; i--)
 	{
-		const NodeType currentType = (i == nameHierarchy.size() ? nodeType : NodeType::NODE_SYMBOL); // TODO: rename to unknown!
-
 		std::pair<Id, bool> ret = m_storage->addNode(StorageNodeData(
-			NodeType::typeToInt(currentType.getType()), NameHierarchy::serializeRange(nameHierarchy, 0, i)));
+			NodeType::typeToInt(NodeType::NODE_SYMBOL),
+			NameHierarchy::serializeRange(nameHierarchy, 0, i)
+		));
 
 		if (!firstNodeId)
 		{
@@ -238,7 +238,9 @@ Id ParserClientImpl::addFileName(const FilePath& filePath)
 		return it->second;
 	}
 
-	const Id fileId = addNodeHierarchy(NameHierarchy(file, NAME_DELIMITER_FILE), NodeType::NODE_FILE);
+	const Id fileId = addNodeHierarchy(NameHierarchy(file, NAME_DELIMITER_FILE));
+	m_storage->setNodeType(fileId, NodeType::typeToInt(NodeType::NODE_FILE));
+
 	m_fileIdMap.emplace(file, fileId);
 	return fileId;
 }

@@ -37,7 +37,7 @@ private:
 
 	void addAccess(Id nodeId, AccessKind access);
 
-	Id addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType = NodeType::NODE_SYMBOL);
+	Id addNodeHierarchy(const NameHierarchy& nameHierarchy);
 	Id addFileName(const FilePath& filePath);
 	Id addEdge(int type, Id sourceId, Id targetId);
 
