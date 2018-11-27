@@ -99,6 +99,7 @@ public:
 	private:
 		boost::interprocess::managed_shared_memory m_memory;
 		std::string m_memoryName;
+		size_t m_minimumMemorySize;
 	};
 
 	bool checkSharedMutex();
@@ -112,9 +113,13 @@ private:
 
 	boost::interprocess::named_mutex& getMutex();
 
+	size_t getInitialMemorySize() const;
+
 	std::shared_ptr<boost::interprocess::named_mutex> m_mutex;
 	std::string m_name;
 	AccessMode m_mode;
+
+	size_t m_initialMemorySize;
 };
 
 #endif // SHARED_MEMORY_H

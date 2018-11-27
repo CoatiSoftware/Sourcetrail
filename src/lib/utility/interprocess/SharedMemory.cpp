@@ -10,6 +10,7 @@ SharedMemory::ScopedAccess::ScopedAccess(SharedMemory* memory)
 	: boost::interprocess::scoped_lock<boost::interprocess::named_mutex>(memory->getMutex())
 	, m_memory(boost::interprocess::open_only, memory->getMemoryName().c_str())
 	, m_memoryName(memory->getMemoryName())
+	, m_minimumMemorySize(memory->getInitialMemorySize())
 {
 }
 
@@ -48,6 +49,11 @@ void SharedMemory::ScopedAccess::growMemory(size_t size)
 
 void SharedMemory::ScopedAccess::shrinkToFitMemory()
 {
+	if (getUsedMemorySize() < m_minimumMemorySize)
+	{
+		return;
+	}
+
 	m_memory = boost::interprocess::managed_shared_memory();
 
 	boost::interprocess::managed_shared_memory::shrink_to_fit(m_memoryName.c_str());
@@ -97,6 +103,7 @@ void SharedMemory::deleteSharedMemory(const std::string& name)
 SharedMemory::SharedMemory(const std::string& name, size_t initialMemorySize, AccessMode mode)
 	: m_name(checkName(name))
 	, m_mode(mode)
+	, m_initialMemorySize(initialMemorySize)
 {
 	try
 	{
@@ -228,4 +235,9 @@ boost::interprocess::named_mutex& SharedMemory::getMutex()
 	}
 
 	return *m_mutex.get();
+}
+
+size_t SharedMemory::getInitialMemorySize() const
+{
+	return m_initialMemorySize;
 }
