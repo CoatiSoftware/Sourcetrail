@@ -37,8 +37,8 @@ public:
 	std::set<StorageComponentAccess> getStorageComponentAccesses() const;
 	void setStorageComponentAccesses(const std::set<StorageComponentAccess>& storageComponentAccesses);
 
-	std::vector<StorageErrorData> getStorageErrors() const;
-	void setStorageErrors(const std::vector<StorageErrorData>& errors);
+	std::vector<StorageError> getStorageErrors() const;
+	void setStorageErrors(const std::vector<StorageError>& errors);
 
 	Id getNextId() const;
 	void setNextId(const Id nextId);
@@ -52,7 +52,7 @@ private:
 	SharedMemory::Vector<SharedStorageEdge> m_storageEdges;
 	SharedMemory::Vector<SharedStorageLocalSymbol> m_storageLocalSymbols;
 	SharedMemory::Vector<SharedStorageSourceLocation> m_storageSourceLocations;
-	SharedMemory::Vector<SharedStorageErrorData> m_storageErrors;
+	SharedMemory::Vector<SharedStorageError> m_storageErrors;
 
 	SharedMemory::Allocator* m_allocator;
 

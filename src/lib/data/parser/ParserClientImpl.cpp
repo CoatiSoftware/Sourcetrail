@@ -78,20 +78,19 @@ void ParserClientImpl::recordComment(const ParseLocation& location)
 }
 
 void ParserClientImpl::recordError(
-	const FilePath& filePath, uint lineNumber, uint columnNumber, const std::wstring& message, bool fatal, bool indexed,
-	const FilePath& translationUnit)
+	const std::wstring& message, bool fatal, bool indexed,
+	const FilePath& translationUnit, const ParseLocation& location)
 {
-	if (!filePath.empty())
+	if (location.fileId != 0)
 	{
-		m_storage->addError(StorageErrorData(
+		Id errorId = m_storage->addError(StorageErrorData(
 			message,
-			filePath.wstr(),
-			lineNumber,
-			columnNumber,
 			translationUnit.wstr(),
 			fatal,
 			indexed
 		));
+
+		addSourceLocation(errorId, location, LOCATION_ERROR);
 	}
 }
 

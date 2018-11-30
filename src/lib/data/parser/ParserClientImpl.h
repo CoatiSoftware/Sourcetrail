@@ -28,7 +28,7 @@ public:
 	void recordLocation(Id elementId, const ParseLocation& location, ParseLocationType type) override;
 	void recordComment(const ParseLocation& location) override;
 
-	void recordError(const FilePath& filePath, uint lineNumber, uint columnNumber, const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit) override;
+	void recordError(const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit, const ParseLocation& location) override;
 
 private:
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;

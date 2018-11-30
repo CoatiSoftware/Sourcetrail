@@ -20,9 +20,10 @@ void Storage::inject(Storage* injected)
 	{
 		// TRACE("inject errors");
 
-		for (const StorageErrorData& error : injected->getErrors())
+		for (const StorageError& error : injected->getErrors())
 		{
-			addError(error);
+			Id errorId = addError(error);
+			injectedIdToOwnElementId.emplace(error.id, errorId);
 		}
 	}
 

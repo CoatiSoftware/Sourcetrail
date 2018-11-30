@@ -30,8 +30,7 @@ public:
 	virtual void recordLocation(Id elementId, const ParseLocation& location, ParseLocationType type) = 0;
 	virtual void recordComment(const ParseLocation& location) = 0;
 
-	virtual void recordError(const FilePath& filePath, uint lineNumber, uint columnNumber, const std::wstring& message,
-		bool fatal, bool indexed, const FilePath& translationUnit) = 0;
+	virtual void recordError(const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit, const ParseLocation& location) = 0;
 };
 
 #endif // PARSER_CLIENT_H

@@ -4,14 +4,14 @@
 #include <unordered_map>
 
 #include "FileSystem.h"
+#include "LocationType.h"
 #include "logging.h"
 #include "TextAccess.h"
-#include "utilityString.h"
-
 #include "SourceLocationCollection.h"
 #include "SourceLocationFile.h"
+#include "utilityString.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 20;
+const size_t SqliteIndexStorage::s_storageVersion = 21;
 
 namespace
 {
@@ -426,9 +426,6 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 	{
 		m_checkErrorExistsStmt.bind(1, utility::encodeToUtf8(sanitizedMessage).c_str());
 		m_checkErrorExistsStmt.bind(2, int(data.fatal));
-		m_checkErrorExistsStmt.bind(3, utility::encodeToUtf8(data.filePath).c_str());
-		m_checkErrorExistsStmt.bind(4, int(data.lineNumber));
-		m_checkErrorExistsStmt.bind(5, int(data.columnNumber));
 
 		CppSQLite3Query checkQuery = executeQuery(m_checkErrorExistsStmt);
 		if (!checkQuery.eof() && checkQuery.numFields() > 0)
@@ -440,13 +437,14 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 
 	if (id == 0)
 	{
-		m_insertErrorStmt.bind(1, utility::encodeToUtf8(sanitizedMessage).c_str());
-		m_insertErrorStmt.bind(2, data.fatal);
-		m_insertErrorStmt.bind(3, data.indexed);
-		m_insertErrorStmt.bind(4, utility::encodeToUtf8(data.filePath).c_str());
-		m_insertErrorStmt.bind(5, int(data.lineNumber));
-		m_insertErrorStmt.bind(6, int(data.columnNumber));
-		m_insertErrorStmt.bind(7, utility::encodeToUtf8(data.translationUnit).c_str());
+		executeStatement(m_insertElementStmt);
+		id = m_database.lastRowId();
+
+		m_insertErrorStmt.bind(1, int(id));
+		m_insertErrorStmt.bind(2, utility::encodeToUtf8(sanitizedMessage).c_str());
+		m_insertErrorStmt.bind(3, data.fatal);
+		m_insertErrorStmt.bind(4, data.indexed);
+		m_insertErrorStmt.bind(5, utility::encodeToUtf8(data.translationUnit).c_str());
 
 		const bool success = executeStatement(m_insertErrorStmt);
 		if (success)
@@ -621,13 +619,6 @@ void SqliteIndexStorage::removeAllErrors()
 {
 	executeStatement(
 		"DELETE FROM error;"
-	);
-}
-
-void SqliteIndexStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)
-{
-	executeStatement(
-		"DELETE FROM error WHERE file_path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "');"
 	);
 }
 
@@ -816,7 +807,7 @@ void SqliteIndexStorage::setFileIndexed(Id fileId, bool indexed)
 
 void SqliteIndexStorage::setFileCompleteIfNoError(Id fileId, const std::wstring& filePath, bool complete)
 {
-	bool fileHasErrors = doGetFirst<StorageError>("WHERE file_path == '" + utility::encodeToUtf8(filePath) + "'").id;
+	bool fileHasErrors = doGetFirst<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(fileId) + " AND type == " + std::to_string(locationTypeToInt(LOCATION_ERROR))).id;
 	if (fileHasErrors != complete)
 	{
 		executeStatement(
@@ -970,6 +961,58 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::getComponentAccessesByNo
 	return doGetAll<StorageComponentAccess>("WHERE node_id IN (" + utility::join(utility::toStrings(nodeIds), ',') + ")");
 }
 
+std::vector<ErrorInfo> SqliteIndexStorage::getAllErrorInfos() const
+{
+	std::vector<ErrorInfo> errorInfos;
+
+	CppSQLite3Query q = executeQuery(
+		"SELECT error.id, error.message, error.fatal, error.indexed, error.translation_unit, file.path, source_location.start_line, source_location.start_column "
+		"FROM occurrence "
+		"INNER JOIN error ON (error.id = occurrence.element_id) "
+		"INNER JOIN source_location ON (source_location.id = occurrence.source_location_id) "
+		"INNER JOIN file ON (file.id = source_location.file_node_id);"
+	);
+
+	std::map<Id, size_t> errorIdCount;
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string message = q.getStringField(1, "");
+		const bool fatal = q.getIntField(2, 0);
+		const bool indexed = q.getIntField(3, 0);
+		const std::string translationUnit = q.getStringField(4, "");
+		const std::string filePath = q.getStringField(5, "");
+		const int lineNumber = q.getIntField(6, -1);
+		const int columnNumber = q.getIntField(7, -1);
+
+		if (id != 0)
+		{
+			// There can be multiple errors with the same id, so a count is added to the id
+			Id errorId = id * 10000;
+			auto it = errorIdCount.find(id);
+			if (it != errorIdCount.end())
+			{
+				errorId += it->second;
+				it->second = it->second + 1;
+			}
+			else
+			{
+				errorIdCount.emplace(id, 1);
+			}
+
+			errorInfos.push_back(ErrorInfo(
+				errorId, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath),
+				lineNumber, columnNumber, utility::decodeFromUtf8(translationUnit), fatal, indexed
+			));
+		}
+
+		q.nextRow();
+	}
+
+	return errorInfos;
+}
+
 int SqliteIndexStorage::getNodeCount() const
 {
 	return executeStatementScalar("SELECT COUNT(*) FROM node;", 0);
@@ -1002,7 +1045,7 @@ int SqliteIndexStorage::getSourceLocationCount() const
 
 int SqliteIndexStorage::getErrorCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM error;", 0);
+	return executeStatementScalar("SELECT COUNT(*) FROM error INNER JOIN occurrence ON (error.id = occurrence.element_id);", 0);
 }
 
 std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices() const
@@ -1026,7 +1069,7 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 	));
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,
-		SqliteDatabaseIndex("error_all_data_index", "error(message, fatal, file_path, line_number, column_number)")
+		SqliteDatabaseIndex("error_all_data_index", "error(message, fatal)")
 	));
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,
@@ -1170,11 +1213,9 @@ void SqliteIndexStorage::setupTables()
 				"message TEXT, "
 				"fatal INTEGER NOT NULL, "
 				"indexed INTEGER NOT NULL, "
-				"file_path TEXT, "
-				"line_number INTEGER, "
-				"column_number INTEGER, "
 				"translation_unit TEXT, "
-				"PRIMARY KEY(id));"
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
 		);
 	}
 	catch (CppSQLite3Exception& e)
@@ -1279,15 +1320,12 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_checkErrorExistsStmt = m_database.compileStatement(
 			"SELECT id FROM error WHERE "
 			"message = ? AND "
-			"fatal == ? AND "
-			"file_path == ? AND "
-			"line_number == ? AND "
-			"column_number == ? "
+			"fatal == ? "
 			"LIMIT 1;"
 		);
 		m_insertErrorStmt = m_database.compileStatement(
-			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number, translation_unit) "
-			"VALUES(?, ?, ?, ?, ?, ?, ?);"
+			"INSERT INTO error(id, message, fatal, indexed, translation_unit) "
+			"VALUES(?, ?, ?, ?, ?);"
 		);
 	}
 	catch (CppSQLite3Exception& e)
@@ -1483,27 +1521,23 @@ template <>
 void SqliteIndexStorage::forEach<StorageError>(const std::string& query, std::function<void(StorageError&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT message, fatal, indexed, file_path, line_number, column_number, translation_unit FROM error " + query + ";"
+		"SELECT id, message, fatal, indexed, translation_unit FROM error " + query + ";"
 	);
 
-	Id id = 1;
 	while (!q.eof())
 	{
-		const std::string message = q.getStringField(0, "");
-		const bool fatal = q.getIntField(1, 0);
-		const bool indexed = q.getIntField(2, 0);
-		const std::string filePath = q.getStringField(3, "");
-		const int lineNumber = q.getIntField(4, -1);
-		const int columnNumber = q.getIntField(5, -1);
-		const std::string translationUnit = q.getStringField(6, "");
+		const Id id = q.getIntField(0, 0);
+		const std::string message = q.getStringField(1, "");
+		const bool fatal = q.getIntField(2, 0);
+		const bool indexed = q.getIntField(3, 0);
+		const std::string translationUnit = q.getStringField(4, "");
 
-		if (lineNumber != -1 && columnNumber != -1)
+		if (id != 0)
 		{
 			func(StorageError(
-				id, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath), lineNumber, columnNumber,
+				id, utility::decodeFromUtf8(message),
 				utility::decodeFromUtf8(translationUnit), fatal, indexed
 			));
-			id++;
 		}
 
 		q.nextRow();

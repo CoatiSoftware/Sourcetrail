@@ -58,6 +58,7 @@ public:
 
 	std::shared_ptr<SourceLocationFile> getFilteredByLines(size_t firstLineNumber, size_t lastLineNumber) const;
 	std::shared_ptr<SourceLocationFile> getFilteredByType(LocationType type) const;
+	std::shared_ptr<SourceLocationFile> getFilteredByTypes(const std::vector<LocationType>& types) const;
 
 private:
 	const FilePath m_filePath;

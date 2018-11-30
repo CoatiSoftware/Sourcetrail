@@ -5,7 +5,9 @@
 #include <string>
 #include <vector>
 
+#include "ErrorInfo.h"
 #include "LocationType.h"
+#include "LowMemoryStringMap.h"
 #include "SqliteDatabaseIndex.h"
 #include "SqliteStorage.h"
 #include "StorageComponentAccess.h"
@@ -17,7 +19,6 @@
 #include "StorageOccurrence.h"
 #include "StorageSourceLocation.h"
 #include "StorageSymbol.h"
-#include "LowMemoryStringMap.h"
 #include "types.h"
 #include "utility.h"
 #include "utilityString.h"
@@ -69,7 +70,6 @@ public:
 	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback);
 
 	void removeAllErrors();
-	void removeErrorsInFiles(const std::vector<FilePath>& filePaths);
 
 	bool isEdge(Id elementId) const;
 	bool isNode(Id elementId) const;
@@ -118,6 +118,8 @@ public:
 
 	StorageComponentAccess getComponentAccessByNodeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& memberEdgeIds) const;
+
+	std::vector<ErrorInfo> getAllErrorInfos() const;
 
 	template <typename ResultType>
 	std::vector<ResultType> getAll() const

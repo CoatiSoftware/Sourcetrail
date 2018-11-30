@@ -10,27 +10,19 @@ struct StorageErrorData
 {
 	StorageErrorData()
 		: message(L"")
-		, filePath(L"")
-		, lineNumber(-1)
-		, columnNumber(-1)
 		, translationUnit(L"")
 		, fatal(0)
 		, indexed(0)
+
 	{}
 
 	StorageErrorData(
 		std::wstring message,
-		std::wstring filePath,
-		uint lineNumber,
-		uint columnNumber,
 		std::wstring translationUnit,
 		bool fatal,
 		bool indexed
 	)
 		: message(std::move(message))
-		, filePath(std::move(filePath))
-		, lineNumber(lineNumber)
-		, columnNumber(columnNumber)
 		, translationUnit(std::move(translationUnit))
 		, fatal(fatal)
 		, indexed(indexed)
@@ -42,26 +34,21 @@ struct StorageErrorData
 		{
 			return message < other.message;
 		}
-		else if (filePath != other.filePath)
+		else if (translationUnit != other.translationUnit)
 		{
-			return filePath < other.filePath;
+			return translationUnit < other.translationUnit;
 		}
-		else if (lineNumber != other.lineNumber)
+		else if (fatal != other.fatal)
 		{
-			return lineNumber < other.lineNumber;
+			return fatal < other.fatal;
 		}
 		else
 		{
-			return columnNumber < other.columnNumber;
+			return indexed < other.indexed;
 		}
 	}
 
 	std::wstring message;
-
-	std::wstring filePath;
-	uint lineNumber;
-	uint columnNumber;
-
 	std::wstring translationUnit;
 	bool fatal;
 	bool indexed;
@@ -82,18 +69,12 @@ struct StorageError: public StorageErrorData
 	StorageError(
 		Id id,
 		std::wstring message,
-		std::wstring filePath,
-		uint lineNumber,
-		uint columnNumber,
 		std::wstring translationUnit,
 		bool fatal,
 		bool indexed
 	)
 		: StorageErrorData(
 			std::move(message),
-			std::move(filePath),
-			lineNumber,
-			columnNumber,
 			std::move(translationUnit),
 			fatal,
 			indexed

@@ -375,11 +375,6 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 	locationFile->forEachSourceLocation(
 		[&](const SourceLocation* location)
 		{
-			if (location->getType() == LOCATION_SIGNATURE || location->getType() == LOCATION_COMMENT)
-			{
-				return;
-			}
-
 			if (location->getLocationId() && locationIds.find(location->getLocationId()) != locationIds.end())
 			{
 				return;

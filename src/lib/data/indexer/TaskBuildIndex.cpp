@@ -1,17 +1,18 @@
 #include "TaskBuildIndex.h"
 
 #include "AppPath.h"
+#include "Blackboard.h"
+#include "DialogView.h"
 #include "FileLogger.h"
+#include "InterprocessIndexer.h"
 #include "MessageIndexingStatus.h"
 #include "MessageStatus.h"
-#include "Blackboard.h"
+#include "ParserClientImpl.h"
+#include "StorageProvider.h"
 #include "TimeStamp.h"
 #include "UserPaths.h"
 #include "utilityApp.h"
 
-#include "DialogView.h"
-#include "InterprocessIndexer.h"
-#include "StorageProvider.h"
 
 #if _WIN32
 const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer.exe");
@@ -131,19 +132,22 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 	}
 
 	std::vector<FilePath> crashedFiles = m_interprocessIndexingStatusManager.getCrashedSourceFilePaths();
-	if (crashedFiles.size())
+	if (!crashedFiles.empty())
 	{
-		std::shared_ptr<IntermediateStorage> is = std::make_shared<IntermediateStorage>();
+		std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
+		std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>(storage.get());
+
 		for (const FilePath& path : crashedFiles)
 		{
-			is->addError(StorageErrorData(
+			Id fileId = parserClient->recordFile(path.getCanonical(), false);
+			parserClient->recordError(
 				L"The translation unit threw an exception during indexing. Please check if the source file "
 				"conforms to the specified language standard and all necessary options are defined within your project "
-				"setup.", path.wstr(), 1, 1, path.wstr(), true, true
-			));
+				"setup.", true, true, path, ParseLocation(fileId, 1, 1)
+			);
 			LOG_INFO(L"crashed translation unit: " + path.wstr());
 		}
-		m_storageProvider->insert(is);
+		m_storageProvider->insert(storage);
 	}
 
 	blackboard->set<bool>("indexer_threads_stopped", true);

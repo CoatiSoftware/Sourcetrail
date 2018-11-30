@@ -112,58 +112,46 @@ inline StorageLocalSymbol fromShared(const SharedStorageLocalSymbol& symbol)
 }
 
 
-struct SharedStorageErrorData
+struct SharedStorageError
 {
-	SharedStorageErrorData(
+	SharedStorageError(
+		Id id,
 		const std::string& message,
-		const std::string& filePath,
-		uint lineNumber,
-		uint columnNumber,
-		const std::string& sourceFilePath,
+		const std::string& translationUnit,
 		bool fatal,
 		bool indexed,
 		SharedMemory::Allocator* allocator
 	)
-		: message(message.c_str(), allocator)
-		, filePath(filePath.c_str(), allocator)
-		, lineNumber(lineNumber)
-		, columnNumber(columnNumber)
-		, translationUnit(sourceFilePath.c_str(), allocator)
+		: id(id)
+		, message(message.c_str(), allocator)
+		, translationUnit(translationUnit.c_str(), allocator)
 		, fatal(fatal)
 		, indexed(indexed)
 	{}
 
+	Id id;
 	SharedMemory::String message;
-
-	SharedMemory::String filePath;
-	uint lineNumber;
-	uint columnNumber;
-
 	SharedMemory::String translationUnit;
 	bool fatal;
 	bool indexed;
 };
 
-inline SharedStorageErrorData toShared(const StorageErrorData& error, SharedMemory::Allocator* allocator)
+inline SharedStorageError toShared(const StorageError& error, SharedMemory::Allocator* allocator)
 {
-	return SharedStorageErrorData(
+	return SharedStorageError(
+		error.id,
 		utility::encodeToUtf8(error.message),
-		utility::encodeToUtf8(error.filePath),
-		error.lineNumber,
-		error.columnNumber,
 		utility::encodeToUtf8(error.translationUnit),
 		error.fatal,
 		error.indexed, allocator
 	);
 }
 
-inline StorageErrorData fromShared(const SharedStorageErrorData& error)
+inline StorageError fromShared(const SharedStorageError& error)
 {
-	return StorageErrorData(
+	return StorageError(
+		error.id,
 		utility::decodeFromUtf8(error.message.c_str()),
-		utility::decodeFromUtf8(error.filePath.c_str()),
-		error.lineNumber,
-		error.columnNumber,
 		utility::decodeFromUtf8(error.translationUnit.c_str()),
 		error.fatal,
 		error.indexed

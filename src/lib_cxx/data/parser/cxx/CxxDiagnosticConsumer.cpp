@@ -63,6 +63,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			return;
 		}
 
+		Id fileId = 0;
 		FilePath filePath;
 		uint lineNumber = 0;
 		uint columnNumber = 0;
@@ -76,13 +77,14 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 				loc = info.getLocation();
 			}
 
-			clang::FileID fileId = sourceManager.getFileID(loc);
-			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+			clang::FileID clangFileId = sourceManager.getFileID(loc);
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(clangFileId);
 
 			if (fileEntry != nullptr && fileEntry->isValid())
 			{
 				ParseLocation location = utility::getParseLocation(loc, sourceManager, nullptr, m_canonicalFilePathCache);
-				filePath = m_canonicalFilePathCache->getCanonicalFilePath(location.fileId);
+				fileId = location.fileId;
+				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileId);
 				lineNumber = location.startLineNumber;
 				columnNumber = location.startColumnNumber;
 			}
@@ -92,6 +94,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 				if (fileEntry != nullptr && fileEntry->isValid())
 				{
 					filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+					fileId = m_client->recordFile(filePath, false /*keeps the "indexed" state if the file already exists*/);
 					lineNumber = 1;
 					columnNumber = 1;
 				}
@@ -100,20 +103,19 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		else
 		{
 			filePath = m_sourceFilePath;
+			fileId = m_client->recordFile(filePath, false /*keeps the "indexed" state if the file already exists*/);
 			lineNumber = 1;
 			columnNumber = 1;
 		}
 
-		if (!filePath.empty())
+		if (fileId != 0)
 		{
 			m_client->recordError(
-				filePath,
-				lineNumber,
-				columnNumber,
 				utility::decodeFromUtf8(message),
 				level == clang::DiagnosticsEngine::Fatal,
 				m_canonicalFilePathCache->getFileRegister()->hasFilePath(filePath),
-				m_sourceFilePath
+				m_sourceFilePath,
+				ParseLocation(fileId, lineNumber, columnNumber)
 			);
 		}
 	}

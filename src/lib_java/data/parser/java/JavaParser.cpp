@@ -264,13 +264,11 @@ void JavaParser::doRecordError(
 	bool indexed = jIndexed;
 
 	m_client->recordError(
-		m_currentFilePath,
-		beginLine,
-		beginColumn,
 		utility::decodeFromUtf8(m_javaEnvironment->toStdString(jMessage)),
 		fatal,
 		indexed,
-		FilePath()
+		FilePath(),
+		ParseLocation(m_currentFileId, beginLine, beginColumn)
 	);
 }
 

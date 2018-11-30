@@ -38,7 +38,7 @@ public:
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
 	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
 	void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) override;
-	void addError(const StorageErrorData& errorData) override;
+	Id addError(const StorageErrorData& errorData) override;
 
 	const std::vector<StorageNode>& getStorageNodes() const override;
 	const std::vector<StorageFile>& getStorageFiles() const override;
@@ -48,7 +48,7 @@ public:
 	const std::set<StorageSourceLocation>& getStorageSourceLocations() const override;
 	const std::set<StorageOccurrence>& getStorageOccurrences() const override;
 	const std::set<StorageComponentAccess>& getComponentAccesses() const override;
-	const std::vector<StorageErrorData>& getErrors() const override;
+	const std::vector<StorageError>& getErrors() const override;
 
 	void setStorageNodes(std::vector<StorageNode> storageNodes);
 	void setStorageFiles(std::vector<StorageFile> storageFiles);
@@ -58,14 +58,12 @@ public:
 	void setStorageSourceLocations(std::set<StorageSourceLocation> storageSourceLocations);
 	void setStorageOccurrences(std::set<StorageOccurrence> storageOccurrences);
 	void setComponentAccesses(std::set<StorageComponentAccess> componentAccesses);
-	void setErrors(std::vector<StorageErrorData> errors);
+	void setErrors(std::vector<StorageError> errors);
 
 	Id getNextId() const;
 	void setNextId(const Id nextId);
 
 private:
-	std::wstring serialize(const StorageErrorData& errorData) const;
-
 	std::map<StorageNodeData, size_t> m_nodesIndex;
 	std::map<Id, size_t> m_nodeIdIndex;
 	std::vector<StorageNode> m_nodes;
@@ -86,8 +84,8 @@ private:
 
 	std::set<StorageComponentAccess> m_componentAccesses;
 
-	std::set<StorageErrorData> m_errorsIndex; // this is used to prevent duplicates (unique)
-	std::vector<StorageErrorData> m_errors;
+	std::map<StorageErrorData, size_t> m_errorsIndex; // this is used to prevent duplicates (unique)
+	std::vector<StorageError> m_errors;
 
 	Id m_nextId;
 };

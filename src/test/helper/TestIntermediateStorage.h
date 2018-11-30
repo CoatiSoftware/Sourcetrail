@@ -44,6 +44,7 @@ public:
 		std::multimap<Id, StorageSourceLocation> signatureLocationMap;
 		std::multimap<Id, StorageSourceLocation> localSymbolLocationMap;
 		std::multimap<Id, StorageSourceLocation> qualifierLocationMap;
+		std::multimap<Id, StorageSourceLocation> errorLocationMap;
 		std::vector<StorageSourceLocation> commentLocations;
 		for (const StorageSourceLocation& location : getStorageSourceLocations())
 		{
@@ -53,7 +54,7 @@ public:
 				elementIds.emplace_back(it->second);
 			}
 
-			if (!elementIds.size())
+			if (elementIds.empty())
 			{
 				elementIds.emplace_back(0);
 			}
@@ -90,6 +91,12 @@ public:
 					if (elementId)
 					{
 						signatureLocationMap.emplace(elementId, location);
+					}
+					break;
+				case LOCATION_ERROR:
+					if (elementId)
+					{
+						errorLocationMap.emplace(elementId, location);
 					}
 					break;
 				case LOCATION_COMMENT:
@@ -262,18 +269,16 @@ public:
 			addLine(L"COMMENT: comment" + addFileName(locStr, filePathMap[location.fileNodeId]));
 		}
 
-		for (const StorageErrorData& error : getErrors())
+		for (const StorageError& error : getErrors())
 		{
-			std::wstring locStr = addLocationStr(
-				L"",
-				StorageSourceLocation(
-					0, 0, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber,
-					locationTypeToInt(LOCATION_ERROR)
-				)
-			);
-
-			errors.emplace_back(error.message + locStr);
-			addLine(L"ERROR: " + error.message + addFileName(locStr, FilePath(error.filePath)));
+			for (auto errorLocationIt = errorLocationMap.find(error.id);
+				errorLocationIt != errorLocationMap.end() && errorLocationIt->first == error.id;
+				errorLocationIt++)
+			{
+				std::wstring locStr = addLocationStr(L"", errorLocationIt->second);
+				errors.emplace_back(error.message + locStr);
+				addLine(L"ERROR: " + error.message + addFileName(locStr, filePathMap[errorLocationIt->second.fileNodeId]));
+			}
 		}
 	}
 

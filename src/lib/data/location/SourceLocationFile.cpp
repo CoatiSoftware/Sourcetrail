@@ -211,6 +211,28 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByType(Locati
 	return ret;
 }
 
+std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByTypes(const std::vector<LocationType>& types) const
+{
+	size_t typeMask = 0;
+	for (LocationType type : types)
+	{
+		typeMask |= 1 << type;
+	}
+
+	std::shared_ptr<SourceLocationFile> ret =
+		std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete(), isIndexed());
+
+	for (const std::shared_ptr<SourceLocation>& location : m_locations)
+	{
+		if ((1 << location->getType()) & typeMask)
+		{
+			ret->addSourceLocationCopy(location.get());
+		}
+	}
+
+	return ret;
+}
+
 std::wostream& operator<<(std::wostream& ostream, const SourceLocationFile& file)
 {
 	ostream << L"file \"" << file.getFilePath().wstr() << L"\"";

@@ -199,9 +199,9 @@ void SharedIntermediateStorage::setStorageComponentAccesses(const std::set<Stora
 	}
 }
 
-std::vector<StorageErrorData> SharedIntermediateStorage::getStorageErrors() const
+std::vector<StorageError> SharedIntermediateStorage::getStorageErrors() const
 {
-	std::vector<StorageErrorData> result;
+	std::vector<StorageError> result;
 	result.reserve(m_storageErrors.size());
 
 	for (unsigned int i = 0; i < m_storageErrors.size(); i++)
@@ -212,7 +212,7 @@ std::vector<StorageErrorData> SharedIntermediateStorage::getStorageErrors() cons
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageErrors(const std::vector<StorageErrorData>& errors)
+void SharedIntermediateStorage::setStorageErrors(const std::vector<StorageError>& errors)
 {
 	m_storageErrors.clear();
 

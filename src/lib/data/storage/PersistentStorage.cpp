@@ -138,9 +138,9 @@ void PersistentStorage::addComponentAccesses(const std::vector<StorageComponentA
 	m_sqliteIndexStorage.addComponentAccesses(componentAccesses);
 }
 
-void PersistentStorage::addError(const StorageErrorData& data)
+Id PersistentStorage::addError(const StorageErrorData& data)
 {
-	m_sqliteIndexStorage.addError(data);
+	return m_sqliteIndexStorage.addError(data).id;
 }
 
 const std::vector<StorageNode>& PersistentStorage::getStorageNodes() const
@@ -183,9 +183,9 @@ const std::set<StorageComponentAccess>& PersistentStorage::getComponentAccesses(
 	return m_storageData.accesses = utility::toSet(m_sqliteIndexStorage.getAll<StorageComponentAccess>());
 }
 
-const std::vector<StorageErrorData>& PersistentStorage::getErrors() const
+const std::vector<StorageError>& PersistentStorage::getErrors() const
 {
-	std::vector<StorageErrorData> errors;
+	std::vector<StorageError> errors;
 	for (const StorageError& error : m_sqliteIndexStorage.getAll<StorageError>())
 	{
 		errors.emplace_back(error);
@@ -204,7 +204,7 @@ void PersistentStorage::finishInjection()
 {
 	m_sqliteIndexStorage.commitTransaction();
 
-	std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAll<StorageError>();
+	std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAllErrorInfos();
 	if (m_preInjectionErrorCount < errors.size())
 	{
 		ErrorCountInfo errorCount(errors);
@@ -333,7 +333,6 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 		m_sqliteIndexStorage.beginTransaction();
 		m_sqliteIndexStorage.removeElementsWithLocationInFiles(fileNodeIds, updateStatusCallback);
 		m_sqliteIndexStorage.removeElements(fileNodeIds);
-		m_sqliteIndexStorage.removeErrorsInFiles(filePaths);
 		m_sqliteIndexStorage.commitTransaction();
 		updateStatusCallback(100);
 	}
@@ -1344,7 +1343,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		for (const StorageSourceLocation& sourceLocation: m_sqliteIndexStorage.getAllByIds<StorageSourceLocation>(locationIds))
 		{
 			const LocationType type = intToLocationType(sourceLocation.type);
-			if (type == LOCATION_QUALIFIER || type == LOCATION_SIGNATURE)
+			if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_QUALIFIER && type != LOCATION_LOCAL_SYMBOL)
 			{
 				continue;
 			}
@@ -1407,6 +1406,12 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 			elementIds.push_back(occurrence.elementId);
 		}
 
+		const LocationType type = intToLocationType(location.type);
+		if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_QUALIFIER && type != LOCATION_LOCAL_SYMBOL)
+		{
+			continue;
+		}
+
 		collection->addSourceLocation(
 			intToLocationType(location.type),
 			location.id,
@@ -1428,7 +1433,9 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForFile
 {
 	TRACE();
 
-	return m_sqliteIndexStorage.getSourceLocationsForFile(filePath);
+	return m_sqliteIndexStorage.getSourceLocationsForFile(filePath)->getFilteredByTypes({
+		LOCATION_TOKEN, LOCATION_SCOPE, LOCATION_QUALIFIER, LOCATION_LOCAL_SYMBOL
+	});
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLinesInFile(
@@ -1438,7 +1445,9 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLine
 	TRACE();
 
 	return m_sqliteIndexStorage.getSourceLocationsForLinesInFile(
-		filePath, startLine, endLine)->getFilteredByLines(startLine, endLine);
+		filePath, startLine, endLine)->getFilteredByLines(startLine, endLine)->getFilteredByTypes({
+			LOCATION_TOKEN, LOCATION_SCOPE, LOCATION_QUALIFIER, LOCATION_LOCAL_SYMBOL
+		});
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsOfTypeInFile(
@@ -1515,14 +1524,14 @@ StorageStats PersistentStorage::getStorageStats() const
 
 ErrorCountInfo PersistentStorage::getErrorCount() const
 {
-	return ErrorCountInfo(m_sqliteIndexStorage.getAll<StorageError>());
+	return ErrorCountInfo(m_sqliteIndexStorage.getAllErrorInfos());
 }
 
 std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const ErrorFilter& filter) const
 {
 	std::vector<ErrorInfo> errors;
 
-	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
+	for (const ErrorInfo& error : m_sqliteIndexStorage.getAllErrorInfos())
 	{
 		if (filter.filter(error))
 		{
@@ -1562,8 +1571,8 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const ErrorFil
 
 	std::vector<ErrorInfo> res;
 
-	std::vector<StorageError> errors = m_sqliteIndexStorage.getAll<StorageError>();
-	for (const StorageError& error : errors)
+	std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAllErrorInfos();
+	for (const ErrorInfo& error : errors)
 	{
 		if (filter.filter(error) && fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end())
 		{

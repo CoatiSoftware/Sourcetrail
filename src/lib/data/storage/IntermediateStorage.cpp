@@ -1,5 +1,6 @@
 #include "IntermediateStorage.h"
 
+#include "LocationType.h"
 #include "utility.h"
 
 IntermediateStorage::IntermediateStorage()
@@ -46,8 +47,8 @@ size_t IntermediateStorage::getByteSize(size_t stringSize) const
 	for (const StorageErrorData& storageError: getErrors())
 	{
 		byteSize += sizeof(StorageErrorData);
-		byteSize += stringSize + storageError.filePath.size();
 		byteSize += stringSize + storageError.message.size();
+		byteSize += stringSize + storageError.translationUnit.size();
 	}
 
 	for (const StorageNode& storageNode: getStorageNodes())
@@ -99,15 +100,18 @@ void IntermediateStorage::setAllFilesIncomplete()
 
 void IntermediateStorage::setFilesWithErrorsIncomplete()
 {
-	std::set<std::wstring> errorFileNames;
-	for (const StorageErrorData& error : m_errors)
+	std::set<Id> errorFileIds;
+	for (const StorageSourceLocation& location : m_sourceLocations)
 	{
-		errorFileNames.insert(error.filePath);
+		if (location.type == locationTypeToInt(LOCATION_ERROR))
+		{
+			errorFileIds.insert(location.fileNodeId);
+		}
 	}
 
 	for (StorageFile& file : m_files)
 	{
-		if (errorFileNames.find(file.filePath) != errorFileNames.end())
+		if (errorFileIds.find(file.id) != errorFileIds.end())
 		{
 			file.complete = false;
 		}
@@ -281,13 +285,18 @@ void IntermediateStorage::addComponentAccesses(const std::vector<StorageComponen
 	m_componentAccesses.insert(componentAccesses.begin(), componentAccesses.end());
 }
 
-void IntermediateStorage::addError(const StorageErrorData& errorData)
+Id IntermediateStorage::addError(const StorageErrorData& errorData)
 {
-	if (m_errorsIndex.find(errorData) == m_errorsIndex.end())
+	auto it = m_errorsIndex.find(errorData);
+	if (it != m_errorsIndex.end())
 	{
-		m_errors.emplace_back(errorData);
-		m_errorsIndex.emplace(errorData);
+		return m_errors[it->second].id;
 	}
+
+	Id errorId = m_nextId++;
+	m_errors.emplace_back(errorId, errorData);
+	m_errorsIndex.emplace(errorData, m_errors.size() - 1);
+	return errorId;
 }
 
 const std::vector<StorageNode>& IntermediateStorage::getStorageNodes() const
@@ -330,7 +339,7 @@ const std::set<StorageComponentAccess>& IntermediateStorage::getComponentAccesse
 	return m_componentAccesses;
 }
 
-const std::vector<StorageErrorData>& IntermediateStorage::getErrors() const
+const std::vector<StorageError>& IntermediateStorage::getErrors() const
 {
 	return m_errors;
 }
@@ -395,10 +404,15 @@ void IntermediateStorage::setComponentAccesses(std::set<StorageComponentAccess> 
 	m_componentAccesses = std::move(componentAccesses);
 }
 
-void IntermediateStorage::setErrors(std::vector<StorageErrorData> errors)
+void IntermediateStorage::setErrors(std::vector<StorageError> errors)
 {
 	m_errors = std::move(errors);
-	m_errorsIndex = utility::toSet(m_errors);
+
+	m_errorsIndex.clear();
+	for (size_t i = 0; i < m_errors.size(); i++)
+	{
+		m_errorsIndex.emplace(m_errors[i], i);
+	}
 }
 
 Id IntermediateStorage::getNextId() const
