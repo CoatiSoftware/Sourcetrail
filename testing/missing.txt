@@ -11,6 +11,20 @@ WINDOW
 	screen search - graph, code
 	tooltips
 
+TABS
+	New Tab
+	Open in New Tab
+		from graph
+		from code
+		from history
+	Close Tab
+		during processing
+		during indexing
+	Switch Tab
+		during processing
+		during indexing
+	Change color scheme/font size
+
 PROJECT SETUP
 	source groups - add, remove, copy, disable, rename
 	multi language
@@ -47,6 +61,6 @@ CODE
 PLUGIN COMMUNICATION
 	from
 	to
-	
+
 HISTORY
 	cmd + Z / Y
