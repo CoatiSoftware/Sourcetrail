@@ -17,8 +17,6 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	if (!isSingle)
 	{
 		connect(this, &QPushButton::clicked, this, &QtCodeFileTitleBar::clickedTitleBar);
-		connect(this, &QtHoverButton::hoveredIn, this, &QtCodeFileTitleBar::enteredTitleBar);
-		connect(this, &QtHoverButton::hoveredOut, this, &QtCodeFileTitleBar::leftTitleBar);
 	}
 
 	QHBoxLayout* titleLayout = new QHBoxLayout();
@@ -26,6 +24,24 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	titleLayout->setSpacing(0);
 	titleLayout->setAlignment(Qt::AlignLeft);
 	setLayout(titleLayout);
+
+	FilePath imageDir = ResourcePaths::getGuiPath().concatenate(L"code_view/images/");
+
+	m_expandButton = new QtSelfRefreshIconButton("", imageDir.getConcatenated(L"snippet_arrow_right.png"), "code/file/title", this);
+	m_collapseButton = new QtSelfRefreshIconButton("", imageDir.getConcatenated(L"snippet_arrow_down.png"), "code/file/title", this);
+
+	m_expandButton->setToolTip("expand");
+	m_collapseButton->setToolTip("collapse");
+
+	for (QtSelfRefreshIconButton* button : { m_expandButton, m_collapseButton })
+	{
+		button->setIconSize(QSize(9, 9));
+		button->setObjectName("expand_button");
+		titleLayout->addWidget(button);
+	}
+
+	connect(m_expandButton, &QtSelfRefreshIconButton::clicked, this, &QtCodeFileTitleBar::clickedExpandButton);
+	connect(m_collapseButton, &QtSelfRefreshIconButton::clicked, this, &QtCodeFileTitleBar::clickedCollapseButton);
 
 	m_titleButton = new QtCodeFileTitleButton(this);
 	QSizePolicy policy = m_titleButton->sizePolicy();
@@ -56,14 +72,7 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 		}
 	);
 
-	FilePath imageDir = ResourcePaths::getGuiPath().concatenate(L"code_view/images/");
 	QColor inactiveColor(0x5E, 0x5D, 0x5D);
-
-	m_minimizeButton = new QtIconStateButton(this);
-	m_minimizeButton->addState(QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"minimize_active.png"));
-	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, imageDir.getConcatenated(L"minimize_inactive.png"), inactiveColor);
-	m_minimizeButton->addState(QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"minimize_inactive.png"));
-	m_minimizeButton->setToolTip("minimize");
 
 	m_snippetButton = new QtIconStateButton(this);
 	m_snippetButton->addState(QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"snippet_active.png"));
@@ -77,31 +86,29 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	m_maximizeButton->addState(QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"maximize_inactive.png"));
 	m_maximizeButton->setToolTip("maximize");
 
-	for (QtIconStateButton* button : { m_minimizeButton, m_snippetButton, m_maximizeButton })
+	for (QtIconStateButton* button : { m_snippetButton, m_maximizeButton })
 	{
 		button->setIconSize(QSize(16, 16));
 		button->setObjectName("file_button");
 		button->setEnabled(false);
 		titleLayout->addWidget(button);
-
-		if (!isSingle)
-		{
-			connect(button, &QtIconStateButton::hoveredIn, this, &QtCodeFileTitleBar::leftTitleBar);
-			connect(button, &QtIconStateButton::hoveredOut, this, &QtCodeFileTitleBar::enteredTitleBar);
-		}
 	}
 
-	connect(m_minimizeButton, &QtIconStateButton::clicked, this, &QtCodeFileTitleBar::clickedMinimizeButton);
 	connect(m_snippetButton, &QtIconStateButton::clicked, this, &QtCodeFileTitleBar::clickedSnippetButton);
 	connect(m_maximizeButton, &QtIconStateButton::clicked, this, &QtCodeFileTitleBar::clickedMaximizeButton);
 
 	if (isSingle)
 	{
-		m_minimizeButton->hide();
+		m_expandButton->hide();
+		m_collapseButton->hide();
 		m_maximizeButton->hide();
 	}
+	else
+	{
+		m_snippetButton->hide();
+	}
 
-	titleLayout->addSpacing(3);
+	titleLayout->addSpacing(5);
 }
 
 QtCodeFileTitleButton* QtCodeFileTitleBar::getTitleButton() const
@@ -150,33 +157,33 @@ void QtCodeFileTitleBar::updateRefCount(int refCount, bool hasErrors, size_t fat
 
 void QtCodeFileTitleBar::setMinimized()
 {
-	m_minimizeButton->setEnabled(false);
+	m_expandButton->setVisible(true);
+	m_collapseButton->setVisible(false);
 	m_snippetButton->setEnabled(true);
 	m_maximizeButton->setEnabled(true);
 
-	m_minimizeButton->hoverOut();
 	m_snippetButton->hoverOut();
 	m_maximizeButton->hoverOut();
 }
 
 void QtCodeFileTitleBar::setSnippets()
 {
-	m_minimizeButton->setEnabled(true);
+	m_expandButton->setVisible(false);
+	m_collapseButton->setVisible(true);
 	m_snippetButton->setEnabled(false);
 	m_maximizeButton->setEnabled(true);
 
-	m_minimizeButton->hoverOut();
 	m_snippetButton->hoverOut();
 	m_maximizeButton->hoverOut();
 }
 
 void QtCodeFileTitleBar::setMaximized()
 {
-	m_minimizeButton->setEnabled(false);
+	m_expandButton->setVisible(false);
+	m_collapseButton->setVisible(false);
 	m_snippetButton->setEnabled(true);
 	m_maximizeButton->setEnabled(false);
 
-	m_minimizeButton->hoverOut();
 	m_snippetButton->hoverOut();
 	m_maximizeButton->hoverOut();
 }
@@ -197,28 +204,26 @@ void QtCodeFileTitleBar::updateFromOther(const QtCodeFileTitleBar* other)
 		m_referenceCount->hide();
 	}
 
-	m_minimizeButton->setEnabled(other->m_minimizeButton->isEnabled());
+	m_expandButton->setVisible(other->m_expandButton->isVisible());
+	m_collapseButton->setVisible(other->m_collapseButton->isVisible());
 	m_snippetButton->setEnabled(other->m_snippetButton->isEnabled());
 	m_maximizeButton->setEnabled(other->m_maximizeButton->isEnabled());
 
-	m_minimizeButton->hoverOut();
 	m_snippetButton->hoverOut();
 	m_maximizeButton->hoverOut();
 
 	disconnect();
 
 	connect(this, &QPushButton::clicked, this, &QtCodeFileTitleBar::clickedTitleBar);
-	connect(this, &QtHoverButton::hoveredIn, this, &QtCodeFileTitleBar::enteredTitleBar);
-	connect(this, &QtHoverButton::hoveredOut, this, &QtCodeFileTitleBar::leftTitleBar);
 }
 
 void QtCodeFileTitleBar::clickedTitleBar()
 {
-	if (m_minimizeButton->isEnabled())
+	if (m_collapseButton->isVisible())
 	{
 		emit minimize();
 	}
-	else if (m_snippetButton->isEnabled())
+	else if (m_expandButton->isVisible())
 	{
 		emit snippet();
 	}
@@ -228,48 +233,12 @@ void QtCodeFileTitleBar::clickedTitleBar()
 	}
 }
 
-void QtCodeFileTitleBar::enteredTitleBar(QPushButton* button)
+void QtCodeFileTitleBar::clickedExpandButton()
 {
-	if (m_minimizeButton->isEnabled())
-	{
-		m_minimizeButton->hoverIn();
-	}
-	else if (m_snippetButton->isEnabled())
-	{
-		m_snippetButton->hoverIn();
-	}
-	else if (m_maximizeButton->isEnabled())
-	{
-		m_maximizeButton->hoverIn();
-	}
+	emit snippet();
 }
 
-void QtCodeFileTitleBar::leftTitleBar(QPushButton* button)
-{
-	if (m_minimizeButton->isEnabled())
-	{
-		if (m_minimizeButton != button)
-		{
-			m_minimizeButton->hoverOut();
-		}
-	}
-	else if (m_snippetButton->isEnabled())
-	{
-		if (m_snippetButton != button)
-		{
-			m_snippetButton->hoverOut();
-		}
-	}
-	else if (m_maximizeButton->isEnabled())
-	{
-		if (m_maximizeButton != button)
-		{
-			m_maximizeButton->hoverOut();
-		}
-	}
-}
-
-void QtCodeFileTitleBar::clickedMinimizeButton()
+void QtCodeFileTitleBar::clickedCollapseButton()
 {
 	emit minimize();
 }

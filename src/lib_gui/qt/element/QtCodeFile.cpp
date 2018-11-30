@@ -9,7 +9,7 @@
 #include "QtCodeNavigator.h"
 #include "QtCodeSnippet.h"
 
-QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
+QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, bool isFirst)
 	: QFrame()
 	, m_navigator(navigator)
 	, m_filePath(filePath)
@@ -25,7 +25,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	m_titleBar = new QtCodeFileTitleBar();
+	m_titleBar = new QtCodeFileTitleBar(this, isFirst);
 	layout->addWidget(m_titleBar);
 
 	if (!m_filePath.empty())
@@ -331,8 +331,6 @@ void QtCodeFile::setMinimized()
 	}
 
 	m_titleBar->setMinimized();
-
-	setStyleSheet("#code_file { padding-bottom: 0; } #code_file #title_bar { border-radius: 7px; }");
 }
 
 void QtCodeFile::setSnippets()
@@ -343,8 +341,6 @@ void QtCodeFile::setSnippets()
 	}
 
 	m_titleBar->setSnippets();
-
-	setStyleSheet("");
 }
 
 void QtCodeFile::setMaximized()

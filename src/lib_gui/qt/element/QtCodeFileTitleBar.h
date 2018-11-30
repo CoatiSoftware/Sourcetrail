@@ -35,11 +35,8 @@ public:
 
 private slots:
 	void clickedTitleBar();
-
-	void enteredTitleBar(QPushButton* button);
-	void leftTitleBar(QPushButton* button);
-
-	void clickedMinimizeButton();
+	void clickedExpandButton();
+	void clickedCollapseButton();
 	void clickedSnippetButton();
 	void clickedMaximizeButton();
 
@@ -48,7 +45,9 @@ private:
 	QPushButton* m_showErrorsButton;
 	QLabel* m_referenceCount;
 
-	QtIconStateButton* m_minimizeButton;
+	QtSelfRefreshIconButton* m_expandButton;
+	QtSelfRefreshIconButton* m_collapseButton;
+
 	QtIconStateButton* m_snippetButton;
 	QtIconStateButton* m_maximizeButton;
 };

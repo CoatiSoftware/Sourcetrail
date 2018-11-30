@@ -100,17 +100,18 @@
 		<navigation>
 			<background>#494949</background>
 			<text>#CCCCCC</text>
-			<line>#CCCCCC</line>
+			<line>#FFF</line>
 		</navigation>
 
 		<file>
-			<background>#CCCCCC</background>
+			<background>#AAAAAA</background>
+			<hover>#999999</hover>
 
 			<title>
 				<text>black</text>
 				<normal>#CCCCCC</normal>
-				<hover>#BBBBBB</hover>
-				<press>#AAAAAA</press>
+				<hover>#CCCCCC</hover>
+				<press>#CCCCCC</press>
 				<icon>black</icon>
 				<border>#B1B1B1</border>
 				<hatching>grey</hatching>

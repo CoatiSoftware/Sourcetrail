@@ -131,13 +131,12 @@ QSize QtCodeArea::sizeHint() const
 		width = std::max(rect.width(), width);
 	}
 
-	int scrollHeight = 0;
-	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum())
+	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() && utility::getOsType() != OS_MAC)
 	{
-		scrollHeight = horizontalScrollBar()->height();
+		height += horizontalScrollBar()->height();
 	}
 
-	return QSize(width + lineNumberAreaWidth() + 1, height + scrollHeight + 5);
+	return QSize(width + lineNumberAreaWidth() + 1, height + 5);
 }
 
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)

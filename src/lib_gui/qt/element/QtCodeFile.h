@@ -25,7 +25,7 @@ class QtCodeFile
 	Q_OBJECT
 
 public:
-	QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator);
+	QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, bool isFirst);
 	virtual ~QtCodeFile();
 
 	void setModificationTime(const TimeStamp modificationTime);

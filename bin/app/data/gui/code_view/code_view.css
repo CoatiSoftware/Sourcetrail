@@ -116,10 +116,9 @@
 
 #code_file {
 	background-color: <color:code/snippet/background>;
-	border: 2px solid <color:code/file/background>;
-	border-radius: 12px;
+	margin-bottom: 0px;
+	border-bottom: 1px solid <color:code/file/background>; /* last file only */
 	font-size: <setting:font_size>px;
-	padding-bottom: 7px;
 }
 
 #title_bar, #title_bar_single {
@@ -128,9 +127,12 @@
 	border: none;
 }
 
+#title_bar:hover {
+	background-color: <color:code/file/hover>;
+}
+
 #title_bar[hovering=false] {
-	border-top-left-radius: 7px;
-	border-top-right-radius: 7px;
+	border-top: 1px solid <color:code/navigation/line>;
 }
 
 #title_bar_single {
@@ -143,13 +145,13 @@
 }
 
 #title_button {
-	background-color: <color:code/file/title/normal>;
+	background-color: transparent;
 	border: none;
 	border-radius: 3px;
 	color: <color:code/file/title/text>;
 	font-size: <setting:font_size>px;
 	padding: 2px 4px;
-	margin: 1px 8px;
+	margin: 1px 8px 1px 2px;
 }
 
 #title_bar_single #title_button {
@@ -180,7 +182,7 @@
 
 #code_file #code_snippet {
 	background-color: <color:code/snippet/background>;
-	border-top: 2px solid <color:code/file/background>;
+	border-top: 1px solid <color:code/file/background>;
 	font-size: <setting:font_size>px;
 }
 
@@ -190,6 +192,7 @@
 	color: <color:code/snippet/title/text>;
 	font-family: "<setting:font_name>";
 	font-size: <setting:font_size>px;
+	padding-bottom: 2px;
 }
 
 #code_file #code_snippet #scope_name:hover {
@@ -220,6 +223,16 @@
 	color: <color:code/snippet/syntax/normal>;
 	selection-color: <color:code/snippet/selection/text>;
 	selection-background-color: <color:code/snippet/selection/background>;
+}
+
+#title_bar #expand_button, #title_bar_single #expand_button {
+	background: transparent;
+	border: none;
+	margin: 3px;
+	max-height: 16px;
+	max-width: 16px;
+	margin-left: 8px;
+	margin-right: 0px;
 }
 
 #title_bar #file_button, #title_bar_single #file_button {

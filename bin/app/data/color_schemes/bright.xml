@@ -105,6 +105,7 @@
 
 		<file>
 			<background>#D0D0D0</background>
+			<hover>#D9D9D9</hover>
 
 			<title>
 				<text>black</text>

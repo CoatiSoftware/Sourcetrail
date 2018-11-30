@@ -32,8 +32,8 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	m_filesArea->setObjectName("code_file_list");
 
 	QVBoxLayout* innerLayout = new QVBoxLayout();
-	innerLayout->setSpacing(8);
-	innerLayout->setContentsMargins(8, 8, 8, 8);
+	innerLayout->setSpacing(0);
+	innerLayout->setContentsMargins(0, 0, 0, 0);
 	innerLayout->setAlignment(Qt::AlignTop);
 	m_filesArea->setLayout(innerLayout);
 
@@ -105,7 +105,7 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 
 	if (!file)
 	{
-		file = new QtCodeFile(filePath, m_navigator);
+		file = new QtCodeFile(filePath, m_navigator, !m_files.size());
 		m_files.push_back(file);
 
 		m_filesArea->layout()->addWidget(file);
@@ -236,7 +236,17 @@ void QtCodeFileList::updateFiles()
 {
 	for (QtCodeFile* file : m_files)
 	{
+		if (file != m_files.back())
+		{
+			file->setStyleSheet("#code_file { border: none; }");
+		}
+
 		file->updateContent();
+	}
+
+	if (m_files.size())
+	{
+		m_files.back()->setStyleSheet("");
 	}
 
 	// Perform delayed so all widgets are already visible
@@ -399,12 +409,12 @@ void QtCodeFileList::updateSnippetTitleAndScrollBar(int value)
 	{
 		QRect fileRect = getFocusRectForWidget(file, m_filesArea);
 
-		if (!firstFile && visibleRect.top() > fileRect.top() + 2 &&
-			visibleRect.top() < fileRect.bottom() - 10 &&
+		if (!firstFile && visibleRect.top() > fileRect.top() &&
+			visibleRect.top() < fileRect.bottom() + 1 &&
 			file->getVisibleSnippets().size())
 		{
 			firstFile = file;
-			fileTitleBarOffset = std::min(0, fileRect.bottom() - 10 - (visibleRect.top() + m_firstSnippetTitleBar->height()));
+			fileTitleBarOffset = std::min(0, fileRect.bottom() + 1 - (visibleRect.top() + m_firstSnippetTitleBar->height()));
 		}
 
 		if (visibleRect.bottom() > fileRect.top() && fileRect.bottom() > visibleRect.bottom())
