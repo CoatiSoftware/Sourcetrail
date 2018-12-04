@@ -8,6 +8,7 @@ Test Suites:\n\n
 [::\tmSINGLE_FILE_TESTS\ts\tp]\n
 [::\tmFILE_BAR_TESTS\ts\tp]\n
 [::\tmERROR_TESTS\ts\tp]\n
+[::\tmSYNTAX_HIGHLIGHTER_TESTS\ts\tp]\n
 </description>
     <source_groups>
         <source_group_475571d1-b082-4fff-81c5-d099c19f957d>

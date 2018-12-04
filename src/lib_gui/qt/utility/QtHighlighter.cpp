@@ -270,7 +270,7 @@ void QtHighlighter::createRanges(
 std::vector<std::pair<int, int>> QtHighlighter::createMultiLineCommentRanges(
 	QTextDocument* doc, std::vector<std::pair<int, int>>* ranges)
 {
-	QRegExp commentStartExpression = QRegExp("(^([^/]|/[^/])*)/\\*");
+	QRegExp commentStartExpression = QRegExp("/\\*");
 	QRegExp commentEndExpression = QRegExp("\\*/");
 
 	QTextCursor cursorStart(doc);
@@ -280,15 +280,34 @@ std::vector<std::pair<int, int>> QtHighlighter::createMultiLineCommentRanges(
 
 	while (true)
 	{
-		do
+		while (true)
 		{
 			cursorStart = document()->find(commentStartExpression, cursorStart);
-			if (!cursorStart.isNull())
+			if (cursorStart.isNull())
+			{
+				break;
+			}
+
+			// ignore if within single line comment
+			QTextCursor inlineCommentStart = document()->find(s_commentRule.pattern, QTextCursor(cursorStart.block()));
+			if (!inlineCommentStart.isNull() &&
+				inlineCommentStart.blockNumber() == cursorStart.blockNumber() &&
+				inlineCommentStart.selectionStart() < cursorStart.selectionStart())
+			{
+				cursorStart = QTextCursor(inlineCommentStart.block().next());
+				continue;
+			}
+
+			if (!isInRange(cursorStart.selectionEnd(), *ranges))
 			{
 				cursorStart.setPosition(cursorStart.selectionEnd() - 2);
+				break;
+			}
+			else
+			{
+				cursorStart.setPosition(cursorStart.selectionEnd() + 2);
 			}
 		}
-		while (isInRange(cursorStart.selectionEnd(), *ranges));
 
 		if (cursorStart.isNull())
 		{
