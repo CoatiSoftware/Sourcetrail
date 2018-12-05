@@ -99,10 +99,12 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 
 	if (m_indexerCommandQueueStopped && runningThreadCount == 0)
 	{
+		LOG_INFO_STREAM(<< "command queue stopped and no running threads. done.");
 		return STATE_SUCCESS;
 	}
 	else if (m_interrupted)
 	{
+		LOG_INFO_STREAM(<< "interrupted indexing.");
 		blackboard->set("interrupted_indexing", true);
 		return STATE_SUCCESS;
 	}

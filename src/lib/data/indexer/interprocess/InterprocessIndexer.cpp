@@ -24,7 +24,7 @@ void InterprocessIndexer::work()
 
 	try
 	{
-		LOG_INFO(std::to_wstring(m_processId) + L" starting up indexer");
+		LOG_INFO_STREAM(<< m_processId << " starting up indexer");
 		indexer = LanguagePackageManager::getInstance()->instantiateSupportedIndexers();
 
 		updaterThread = std::make_shared<std::thread>([&]()
@@ -35,7 +35,7 @@ void InterprocessIndexer::work()
 
 				if (m_interprocessIndexingStatusManager.getIndexingInterrupted())
 				{
-					LOG_INFO("received indexer interrupt command.");
+					LOG_INFO_STREAM(<< m_processId << " received indexer interrupt command.");
 					if (indexer)
 					{
 						indexer->interrupt();
@@ -57,8 +57,8 @@ void InterprocessIndexer::work()
 
 		while (std::shared_ptr<IndexerCommand> indexerCommand = m_interprocessIndexerCommandManager.popIndexerCommand())
 		{
-			LOG_INFO(std::to_wstring(m_processId) + L" fetched indexer command for \"" + indexerCommand->getSourceFilePath().wstr() + L"\"");
-			LOG_INFO(std::to_wstring(m_processId) + L" indexer commands left: " + std::to_wstring(m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
+			LOG_INFO_STREAM(<< m_processId << " fetched indexer command for \"" << indexerCommand->getSourceFilePath().str() << "\"");
+			LOG_INFO_STREAM(<< m_processId << " indexer commands left: " << m_interprocessIndexerCommandManager.indexerCommandCount());
 
 			while (updaterThreadRunning)
 			{
@@ -98,18 +98,18 @@ void InterprocessIndexer::work()
 	}
 	catch (boost::interprocess::interprocess_exception& e)
 	{
-		LOG_ERROR(e.what());
+		LOG_ERROR_STREAM(<< m_processId << " error: " << e.what());
 		throw e;
 	}
 	catch (std::exception& e)
 	{
-		LOG_ERROR(e.what());
+		LOG_ERROR_STREAM(<< m_processId << " error: " << e.what());
 		throw e;
 	}
 	catch (...)
 	{
-		LOG_ERROR("something went wrong while running the indexer");
+		LOG_ERROR_STREAM(<< m_processId << " something went wrong while running the indexer");
 	}
 
-	LOG_INFO_STREAM(<< "shutting down indexer");
+	LOG_INFO_STREAM(<< m_processId << " shutting down indexer");
 }
