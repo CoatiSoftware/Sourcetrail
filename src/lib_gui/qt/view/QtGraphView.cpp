@@ -1187,6 +1187,11 @@ void QtGraphView::centerNode(QtGraphNode* node)
 		rect.setHeight(view->height() - 200);
 	}
 
+	if (rect.width() > view->width() - 200)
+	{
+		rect.setWidth(view->width() - 200);
+	}
+
 	view->ensureVisibleAnimated(rect, 100, 100);
 }
 
