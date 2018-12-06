@@ -131,6 +131,7 @@ QFrame* QtProjectWizzardContent::addSeparator(QGridLayout* layout, int row) cons
 void QtProjectWizzardContent::filesButtonClicked()
 {
 	m_window->saveContent();
+	m_window->loadContent();
 
 	std::thread([&](){
 		const std::vector<FilePath> filePaths = getFilePaths();
