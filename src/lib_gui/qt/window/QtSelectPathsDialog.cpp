@@ -57,6 +57,7 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 			item->setTextColor(Qt::red);
 			item->setToolTip("Path does not exist");
 			item->setFlags( item->flags() & ~Qt::ItemIsEnabled );
+			item->setCheckState(Qt::Unchecked);
 		}
 		else
 		{
