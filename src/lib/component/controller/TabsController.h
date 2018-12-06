@@ -2,6 +2,7 @@
 #define TABS_CONTROLLER_H
 
 #include "MessageListener.h"
+#include "MessageActivateErrors.h"
 #include "MessageIndexingFinished.h"
 #include "MessageTabClose.h"
 #include "MessageTabOpen.h"
@@ -21,6 +22,7 @@ class ViewLayout;
 
 class TabsController
 	: public Controller
+	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageIndexingFinished>
 	, public MessageListener<MessageTabClose>
 	, public MessageListener<MessageTabOpen>
@@ -46,6 +48,7 @@ public:
 	void onClearTabs();
 
 private:
+	virtual void handleMessage(MessageActivateErrors* message);
 	virtual void handleMessage(MessageIndexingFinished* message);
 	virtual void handleMessage(MessageTabClose* message);
 	virtual void handleMessage(MessageTabOpen* message);

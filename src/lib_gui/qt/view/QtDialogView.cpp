@@ -539,6 +539,11 @@ QtIndexingDialog* QtDialogView::createWindow()
 
 	connect(window, &QtIndexingDialog::visibleChanged, this, &QtDialogView::dialogVisibilityChanged);
 
+	if (m_mainWindow)
+	{
+		connect(m_mainWindow, &QtMainWindow::hideIndexingDialog, window, &QtWindow::handleClosePress);
+	}
+
 	m_windowStack.pushWindow(window);
 
 	if (!m_dialogsVisible)

@@ -219,7 +219,7 @@ bool RefreshInfoGenerator::didFileChange(const FileInfo& info, std::shared_ptr<c
 			return true;
 		}
 
-		std::shared_ptr<TextAccess> storedFileContent = storage->getFileContent(info.path);
+		std::shared_ptr<TextAccess> storedFileContent = storage->getFileContent(info.path, false);
 		std::shared_ptr<TextAccess> diskFileContent = TextAccess::createFromFile(diskFileInfo.path);
 
 		const std::vector<std::string>& diskFileLines = diskFileContent->getAllLines();

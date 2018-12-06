@@ -517,7 +517,17 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFileWithState(
 			params.startLineNumber = 1;
 			params.refCount = -1;
 
-			std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(filePath);
+			bool showsErrors = false;
+			if (m_collection->getSourceLocationFiles().size())
+			{
+				std::shared_ptr<SourceLocationFile> file = m_collection->getSourceLocationFiles().begin()->second;
+				if (file->getSourceLocations().size())
+				{
+					showsErrors = (*file->getSourceLocations().begin())->getType() == LOCATION_ERROR;
+				}
+			}
+
+			std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(filePath, showsErrors);
 			params.code = textAccess->getText();
 
 			params.modificationTime = m_storageAccess->getFileInfoForFilePath(filePath).lastWriteTime;
@@ -619,7 +629,14 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 {
 	TRACE();
 
-	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(activeSourceLocations->getFilePath());
+	bool showsErrors = false;
+	if (activeSourceLocations->getSourceLocations().size())
+	{
+		showsErrors = (*activeSourceLocations->getSourceLocations().begin())->getType() == LOCATION_ERROR;
+	}
+
+	std::shared_ptr<TextAccess> textAccess =
+		m_storageAccess->getFileContent(activeSourceLocations->getFilePath(), showsErrors);
 	size_t lineCount = textAccess->getLineCount();
 
 	SnippetMerger fileScopedMerger(1, lineCount);

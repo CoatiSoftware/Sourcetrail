@@ -150,6 +150,14 @@ TabsView* TabsController::getView() const
 	return Controller::getView<TabsView>();
 }
 
+void TabsController::handleMessage(MessageActivateErrors* message)
+{
+	if (m_tabs.empty() && Application::getInstance()->isProjectLoaded())
+	{
+		MessageTabOpenWith(SearchMatch::createCommand(SearchMatch::COMMAND_ERROR)).dispatch();
+	}
+}
+
 void TabsController::handleMessage(MessageIndexingFinished* message)
 {
 	if (m_tabs.empty() && Application::getInstance()->isProjectLoaded())

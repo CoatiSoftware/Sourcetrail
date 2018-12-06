@@ -160,8 +160,6 @@ void QtStatusBar::showIndexingProgress(size_t progressPercent)
 	m_indexingStatus->show();
 	m_vlineIndexing->show();
 
-	m_errorButton.setEnabled(false);
-
 	m_indexingProgress->setValue(progressPercent);
 }
 
@@ -169,8 +167,6 @@ void QtStatusBar::hideIndexingProgress()
 {
 	m_indexingStatus->hide();
 	m_vlineIndexing->hide();
-
-	m_errorButton.setEnabled(true);
 }
 
 void QtStatusBar::resizeEvent(QResizeEvent* event)

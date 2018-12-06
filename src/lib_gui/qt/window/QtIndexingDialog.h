@@ -61,6 +61,9 @@ protected:
 	virtual void handleNext() override;
 	virtual void handleClose() override;
 
+private slots:
+	void handleCancelPress();
+
 private:
 	void setType(DialogType type);
 

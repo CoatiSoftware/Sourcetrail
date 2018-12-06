@@ -493,6 +493,7 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 
 		case Qt::Key_Escape:
 			emit hideScreenSearch();
+			emit hideIndexingDialog();
 			break;
 
 		case Qt::Key_Slash:

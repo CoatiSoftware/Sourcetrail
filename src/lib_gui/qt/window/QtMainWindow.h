@@ -90,6 +90,7 @@ public:
 signals:
 	void showScreenSearch();
 	void hideScreenSearch();
+	void hideIndexingDialog();
 
 protected:
 	virtual void showEvent(QShowEvent* event) override;

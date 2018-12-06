@@ -54,7 +54,7 @@ public:
 	std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const override;
 
-	std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
+	std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath, bool showsErrors) const override;
 
 	FileInfo getFileInfoForFileId(Id id) const override;
 

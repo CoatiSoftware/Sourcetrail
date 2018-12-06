@@ -197,6 +197,12 @@ void PersistentStorage::startInjection()
 {
 	m_preInjectionErrorCount = m_sqliteIndexStorage.getErrorCount();
 
+	if (!m_preIndexingErrorCountSet)
+	{
+		m_preIndexingErrorCount = m_preInjectionErrorCount;
+		m_preIndexingErrorCountSet = true;
+	}
+
 	m_sqliteIndexStorage.beginTransaction();
 }
 
@@ -208,8 +214,9 @@ void PersistentStorage::finishInjection()
 	if (m_preInjectionErrorCount < errors.size())
 	{
 		ErrorCountInfo errorCount(errors);
-		errors.erase(errors.begin(), errors.begin() + m_preInjectionErrorCount);
+		errors.erase(errors.begin(), errors.begin() + m_preInjectionErrorCount - m_preIndexingErrorCount);
 		MessageErrorCountUpdate(errorCount, errors).dispatch();
+		m_preIndexingErrorCount = 0;
 	}
 }
 
@@ -539,7 +546,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	for (const FullTextSearchResult& fileHits : m_fullTextSearchIndex.searchForTerm(searchTerm))
 	{
 		const FilePath filePath = getFileNodePath(fileHits.fileId);
-		std::shared_ptr<TextAccess> fileContent = getFileContent(filePath);
+		std::shared_ptr<TextAccess> fileContent = getFileContent(filePath, false);
 
 		int charsTotal = 0;
 		int lineNumber = 1;
@@ -1459,7 +1466,7 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsOfTypeI
 	return m_sqliteIndexStorage.getSourceLocationsOfTypeInFile(filePath, type);
 }
 
-std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& filePath) const
+std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& filePath, bool showsErrors) const
 {
 	TRACE();
 
@@ -1529,22 +1536,7 @@ ErrorCountInfo PersistentStorage::getErrorCount() const
 
 std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const ErrorFilter& filter) const
 {
-	std::vector<ErrorInfo> errors;
-
-	for (const ErrorInfo& error : m_sqliteIndexStorage.getAllErrorInfos())
-	{
-		if (filter.filter(error))
-		{
-			errors.push_back(error);
-
-			if (filter.limit > 0 && errors.size() >= filter.limit)
-			{
-				break;
-			}
-		}
-	}
-
-	return errors;
+	return filter.filterErrors(m_sqliteIndexStorage.getAllErrorInfos());
 }
 
 std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const ErrorFilter& filter, const FilePath& filePath) const
@@ -1947,7 +1939,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			};
 
 			std::vector<Annotation> annotations;
-			std::vector<std::string> lines = getFileContent(sigLoc->getFilePath())->getLines(
+			std::vector<std::string> lines = getFileContent(sigLoc->getFilePath(), false)->getLines(
 				sigLoc->getLineNumber(), sigLoc->getEndLocation()->getLineNumber());
 
 			// check if signature location refers to correct locations in the code

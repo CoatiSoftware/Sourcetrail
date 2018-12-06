@@ -30,7 +30,7 @@ void ErrorController::errorFilterChanged(const ErrorFilter& filter)
 
 void ErrorController::showError(Id errorId)
 {
-	if (!m_tabShowsErrors[TabId::currentTab()])
+	if (!m_tabShowsErrors[TabId::currentTab()] || m_newErrorsAdded)
 	{
 		errorFilterChanged(getView()->getErrorFilter());
 	}
@@ -82,6 +82,9 @@ void ErrorController::handleMessage(MessageErrorCountClear* message)
 
 void ErrorController::handleMessage(MessageErrorCountUpdate* message)
 {
+	m_storageAccess->addErrorsToCache(message->newErrors, message->errorCount);
+	m_newErrorsAdded = true;
+
 	ErrorFilter filter = getView()->getErrorFilter();
 
 	int room = filter.limit - m_errorCount;
@@ -116,18 +119,21 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message)
 
 void ErrorController::handleMessage(MessageErrorsAll* message)
 {
-	if (canDisplayErrors())
-	{
-		MessageActivateErrors(getView()->getErrorFilter()).dispatch();
-	}
+	MessageActivateErrors(getView()->getErrorFilter()).dispatch();
 }
 
 void ErrorController::handleMessage(MessageErrorsForFile* message)
 {
-	if (canDisplayErrors())
+	Project* project = Application::getInstance()->getCurrentProject().get();
+	if (project && project->isIndexing())
 	{
-		MessageActivateErrors(ErrorFilter(), message->file).dispatch();
+		Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
+			"Showing errors for a file is not possible while indexing."
+		);
+		return;
 	}
+
+	MessageActivateErrors(ErrorFilter(), message->file).dispatch();
 }
 
 void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
@@ -155,16 +161,16 @@ void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
 
 void ErrorController::handleMessage(MessageIndexingFinished* message)
 {
+	m_storageAccess->setUseErrorCache(false);
+
 	clear();
 
 	showErrors(getView()->getErrorFilter(), false);
-
-	getView()->setEnabled(true);
 }
 
 void ErrorController::handleMessage(MessageIndexingStarted* message)
 {
-	getView()->setEnabled(false);
+	m_storageAccess->setUseErrorCache(true);
 }
 
 void ErrorController::handleMessage(MessageShowError* message)
@@ -182,6 +188,7 @@ void ErrorController::clear()
 	m_errorCount = 0;
 	m_tabShowsErrors.clear();
 	m_tabActiveFilePath.clear();
+	m_newErrorsAdded = false;
 
 	getView()->clear();
 }
@@ -212,18 +219,4 @@ bool ErrorController::showErrors(const ErrorFilter& filter, bool scrollTo)
 	view->addErrors(errors, errorCount, scrollTo);
 
 	return errors.size();
-}
-
-bool ErrorController::canDisplayErrors() const
-{
-	Project* project = Application::getInstance()->getCurrentProject().get();
-	if (project && project->isIndexing())
-	{
-		Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
-			"Errors cannot be activated while indexing."
-		);
-		return false;
-	}
-
-	return true;
 }

@@ -4,6 +4,8 @@
 #include <QLabel>
 #include <QVariant>
 
+#include "Application.h"
+#include "Project.h"
 #include "ResourcePaths.h"
 #include "MessageErrorsForFile.h"
 
@@ -120,6 +122,12 @@ void QtCodeFileTitleBar::setIsComplete(bool isComplete)
 {
 	m_titleButton->setIsComplete(isComplete);
 	m_showErrorsButton->setVisible(!isComplete);
+
+	Project* project = Application::getInstance()->getCurrentProject().get();
+	if (project && project->isIndexing())
+	{
+		m_showErrorsButton->setVisible(false);
+	}
 }
 
 void QtCodeFileTitleBar::setIsIndexed(bool isIndexed)

@@ -402,6 +402,17 @@ void QtIndexingDialog::handleNext()
 
 void QtIndexingDialog::handleClose()
 {
+	if (m_type == DIALOG_INDEXING || m_type == DIALOG_PROGRESS || m_type == DIALOG_UNKNOWN_PROGRESS)
+	{
+		emit visibleChanged(false);
+		return;
+	}
+
+	QtWindow::handleClose();
+}
+
+void QtIndexingDialog::handleCancelPress()
+{
 	if (m_type == DIALOG_INDEXING)
 	{
 		if (isVisible())
@@ -543,7 +554,7 @@ void QtIndexingDialog::addButtons(QBoxLayout* layout)
 
 	m_closeButton = new QPushButton("Cancel");
 	m_closeButton->setObjectName("windowButton");
-	connect(m_closeButton, &QPushButton::clicked, this, &QtIndexingDialog::handleClosePress);
+	connect(m_closeButton, &QPushButton::clicked, this, &QtIndexingDialog::handleCancelPress);
 
 	QHBoxLayout* buttons = new QHBoxLayout();
 	buttons->addWidget(m_closeButton);

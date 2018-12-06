@@ -27,6 +27,26 @@ struct ErrorFilter
 		return true;
 	}
 
+	std::vector<ErrorInfo> filterErrors(const std::vector<ErrorInfo>& errors) const
+	{
+		std::vector<ErrorInfo> filteredErrors;
+
+		for (const ErrorInfo& error : errors)
+		{
+			if (filter(error))
+			{
+				filteredErrors.push_back(error);
+
+				if (limit > 0 && filteredErrors.size() >= limit)
+				{
+					break;
+				}
+			}
+		}
+
+		return filteredErrors;
+	}
+
 	bool operator==(const ErrorFilter& other) const
 	{
 		return error == other.error &&

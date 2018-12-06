@@ -93,7 +93,7 @@ DEF_GETTER_1(getSourceLocationsForLocationIds, const std::vector<Id>&, std::shar
 DEF_GETTER_1(getSourceLocationsForFile, const FilePath&, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
 DEF_GETTER_3(getSourceLocationsForLinesInFile, const FilePath&, size_t, size_t, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
 DEF_GETTER_2(getSourceLocationsOfTypeInFile, const FilePath&, LocationType, std::shared_ptr<SourceLocationFile>, std::make_shared<SourceLocationFile>(FilePath(), false, false, false))
-DEF_GETTER_1(getFileContent, const FilePath&, std::shared_ptr<TextAccess>, nullptr)
+DEF_GETTER_2(getFileContent, const FilePath&, bool, std::shared_ptr<TextAccess>, nullptr)
 DEF_GETTER_1(getFileInfoForFileId, Id, FileInfo, FileInfo())
 DEF_GETTER_1(getFileInfoForFilePath, const FilePath&, FileInfo, FileInfo())
 DEF_GETTER_1(getFileInfosForFilePaths, const std::vector<FilePath>&, std::vector<FileInfo>, {})

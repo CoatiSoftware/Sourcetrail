@@ -120,7 +120,7 @@ public:
 	std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const override;
 
-	std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
+	std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath, bool showsErrors) const override;
 	bool hasContentForFile(const FilePath& filePath) const;
 
 	FileInfo getFileInfoForFileId(Id id) const override;
@@ -204,6 +204,8 @@ private:
 	void buildMemberEdgeIdOrderMap();
 	void buildHierarchyCache();
 
+	bool m_preIndexingErrorCountSet = false;
+	size_t m_preIndexingErrorCount = 0;
 	size_t m_preInjectionErrorCount = 0;
 
 	SearchIndex m_commandIndex;

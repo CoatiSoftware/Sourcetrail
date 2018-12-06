@@ -73,7 +73,7 @@ public:
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const = 0;
 
-	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
+	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath, bool showsErrors) const = 0;
 
 	virtual FileInfo getFileInfoForFileId(Id id) const = 0;
 
@@ -106,6 +106,9 @@ public:
 	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const = 0;
 	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const = 0;
+
+	virtual void setUseErrorCache(bool enabled) {}
+	virtual void addErrorsToCache(const std::vector<ErrorInfo>& newErrors, const ErrorCountInfo& errorCount) {}
 };
 
 #endif // STORAGE_ACCESS_H
