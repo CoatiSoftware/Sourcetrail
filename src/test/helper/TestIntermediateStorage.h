@@ -299,6 +299,7 @@ public:
 	std::vector<std::wstring> globalVariables;
 	std::vector<std::wstring> methods;
 	std::vector<std::wstring> namespaces;
+	std::vector<std::wstring> modules;
 	std::vector<std::wstring> structs;
 	std::vector<std::wstring> macros;
 	std::vector<std::wstring> templateParameterTypes;
@@ -349,6 +350,8 @@ private:
 			return L"SYMBOL_MACRO";
 		case NodeType::NODE_METHOD:
 			return L"SYMBOL_METHOD";
+		case NodeType::NODE_MODULE:
+			return L"SYMBOL_MODULE";
 		case NodeType::NODE_NAMESPACE:
 			return L"SYMBOL_NAMESPACE";
 		case NodeType::NODE_PACKAGE:
@@ -437,6 +440,8 @@ private:
 			return &globalVariables;
 		case NodeType::NODE_METHOD:
 			return &methods;
+		case NodeType::NODE_MODULE:
+			return &modules;
 		case NodeType::NODE_NAMESPACE:
 			return &namespaces;
 		case NodeType::NODE_STRUCT:

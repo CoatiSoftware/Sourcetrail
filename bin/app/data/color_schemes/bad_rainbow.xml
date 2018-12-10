@@ -349,6 +349,9 @@
 					<normal>#B05151</normal>
 				</hatching>
 			</namespace>
+			<module>
+				<like>namespace</like>
+			</module>
 			<package>
 				<like>namespace</like>
 			</package>

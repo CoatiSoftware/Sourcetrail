@@ -122,8 +122,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseLambdaCapture(clang::LambdaExpr
 	if ((!lambdaExpr->isInitCapture(capture)) && (capture->capturesVariable()))
 	{
 		clang::VarDecl* d = capture->getCapturedVar();
-		SymbolKind symbolKind = utility::getSymbolKind(d);
-		if (symbolKind == SYMBOL_LOCAL_VARIABLE || symbolKind == SYMBOL_PARAMETER)
+		if (utility::isLocalVariable(d) || utility::isParameter(d))
 		{
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
 			{
@@ -205,8 +204,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		SymbolKind symbolKind = utility::getSymbolKind(d);
-		if (symbolKind == SYMBOL_LOCAL_VARIABLE || symbolKind == SYMBOL_PARAMETER)
+		if (utility::isLocalVariable(d) || utility::isParameter(d))
 		{
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
 			{
@@ -215,6 +213,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 		}
 		else
 		{
+			const SymbolKind symbolKind = utility::getSymbolKind(d);
 			const ParseLocation location = getParseLocation(d->getLocation());
 
 			Id symbolId = getOrCreateSymbolId(d);

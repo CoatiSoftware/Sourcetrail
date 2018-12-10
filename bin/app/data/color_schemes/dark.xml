@@ -341,6 +341,9 @@
 					<normal>#521B1F</normal>
 				</hatching>
 			</namespace>
+			<module>
+				<like>namespace</like>
+			</module>
 			<package>
 				<like>namespace</like>
 			</package>

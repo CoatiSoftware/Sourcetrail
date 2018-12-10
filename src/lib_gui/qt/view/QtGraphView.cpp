@@ -171,7 +171,7 @@ void QtGraphView::initView()
 		m_groupNamespaceButton->setObjectName("group_left_button");
 
 		m_groupFileButton->setToolTip("group by file");
-		m_groupNamespaceButton->setToolTip("group by package/namespace");
+		m_groupNamespaceButton->setToolTip("group by package/namespace/module");
 
 		m_groupFileButton->setCheckable(true);
 		m_groupNamespaceButton->setCheckable(true);

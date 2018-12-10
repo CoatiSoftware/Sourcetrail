@@ -120,6 +120,8 @@ NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const
 		return NodeType::NODE_MACRO;
 	case SYMBOL_METHOD:
 		return NodeType::NODE_METHOD;
+	case SYMBOL_MODULE:
+		return NodeType::NODE_MODULE;
 	case SYMBOL_NAMESPACE:
 		return NodeType::NODE_NAMESPACE;
 	case SYMBOL_PACKAGE:

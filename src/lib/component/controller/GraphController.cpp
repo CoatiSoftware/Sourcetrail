@@ -2377,6 +2377,8 @@ void GraphController::createLegendGraph()
 		addNode(NodeType::NODE_MACRO, L"Macro", Vec2i(x, y + dy * ++i));
 		addNode(NodeType::NODE_ANNOTATION, L"Annotation", Vec2i(x, y + dy * ++i));
 
+		addNode(NodeType::NODE_MODULE, L"module", Vec2i(x, y + dy * ++i));
+		y -= 15;
 		addNode(NodeType::NODE_NAMESPACE, L"namespace", Vec2i(x, y + dy * ++i));
 		y -= 15;
 		addNode(NodeType::NODE_PACKAGE, L"package", Vec2i(x, y + dy * ++i));

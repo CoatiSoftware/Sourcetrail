@@ -176,6 +176,7 @@ const std::vector<NodeType> NodeTypeSet::s_allNodeTypes = {
 	NodeType(NodeType::NODE_SYMBOL),
 	NodeType(NodeType::NODE_TYPE),
 	NodeType(NodeType::NODE_BUILTIN_TYPE),
+	NodeType(NodeType::NODE_MODULE),
 	NodeType(NodeType::NODE_NAMESPACE),
 	NodeType(NodeType::NODE_PACKAGE),
 	NodeType(NodeType::NODE_STRUCT),

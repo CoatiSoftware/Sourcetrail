@@ -85,15 +85,25 @@ SymbolKind utility::convertTagKind(const clang::TagTypeKind tagKind)
 	}
 }
 
+bool utility::isLocalVariable(const clang::VarDecl* d)
+{
+	if (!llvm::isa<clang::ParmVarDecl>(d) && !(d->getParentFunctionOrMethod() == nullptr))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool utility::isParameter(const clang::VarDecl* d)
+{
+	return llvm::isa<clang::ParmVarDecl>(d);
+}
+
 SymbolKind utility::getSymbolKind(const clang::VarDecl* d)
 {
 	SymbolKind symbolKind = SYMBOL_KIND_MAX;
 
-	if (llvm::isa<clang::ParmVarDecl>(d))
-	{
-		symbolKind = SYMBOL_PARAMETER;
-	}
-	else if (d->getParentFunctionOrMethod() == nullptr)
+	if (d->getParentFunctionOrMethod() == nullptr)
 	{
 		if (d->getAccess() == clang::AS_none)
 		{
@@ -103,10 +113,6 @@ SymbolKind utility::getSymbolKind(const clang::VarDecl* d)
 		{
 			symbolKind = SYMBOL_FIELD;
 		}
-	}
-	else
-	{
-		symbolKind = SYMBOL_LOCAL_VARIABLE;
 	}
 
 	return symbolKind;

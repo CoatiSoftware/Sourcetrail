@@ -9,6 +9,7 @@ std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
 		NodeType(NodeType::NODE_FILE),
 		NodeType(NodeType::NODE_MACRO),
 		NodeType(NodeType::NODE_ANNOTATION),
+		NodeType(NodeType::NODE_MODULE),
 		NodeType(NodeType::NODE_NAMESPACE),
 		NodeType(NodeType::NODE_PACKAGE),
 		NodeType(NodeType::NODE_CLASS),
@@ -36,6 +37,8 @@ NodeType::Type NodeType::intToType(int value)
 		return NodeType::NODE_TYPE;
 	case NodeType::NODE_BUILTIN_TYPE:
 		return NodeType::NODE_BUILTIN_TYPE;
+	case NodeType::NODE_MODULE:
+		return NodeType::NODE_MODULE;
 	case NodeType::NODE_NAMESPACE:
 		return NodeType::NODE_NAMESPACE;
 	case NodeType::NODE_PACKAGE:
@@ -87,6 +90,8 @@ std::string NodeType::getReadableTypeString(NodeType::Type type)
 		return "built-in type";
 	case NodeType::NODE_TYPE:
 		return "type";
+	case NodeType::NODE_MODULE:
+		return "module";
 	case NodeType::NODE_NAMESPACE:
 		return "namespace";
 	case NodeType::NODE_PACKAGE:
@@ -211,6 +216,7 @@ bool NodeType::isInheritable() const
 bool NodeType::isPackage() const
 {
 	const NodeType::TypeMask mask =
+		NodeType::NODE_MODULE |
 		NodeType::NODE_NAMESPACE |
 		NodeType::NODE_PACKAGE;
 	return ((m_type & mask) > 0);
@@ -288,6 +294,7 @@ bool NodeType::hasSearchFilter() const
 {
 	const NodeType::TypeMask mask =
 		NodeType::NODE_BUILTIN_TYPE |
+		NodeType::NODE_MODULE |
 		NodeType::NODE_NAMESPACE |
 		NodeType::NODE_PACKAGE |
 		NodeType::NODE_STRUCT |
@@ -327,6 +334,8 @@ Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 			));
 			return tree;
 		}
+	case NodeType::NODE_MODULE:
+		return Tree<BundleInfo>(BundleInfo(L"Modules"));
 	case NodeType::NODE_PACKAGE:
 		return Tree<BundleInfo>(BundleInfo(L"Packages"));
 	case NodeType::NODE_CLASS:
@@ -401,6 +410,7 @@ NodeType::StyleType NodeType::getNodeStyle() const
 {
 	switch (m_type)
 	{
+	case NodeType::NODE_MODULE:
 	case NodeType::NODE_NAMESPACE:
 	case NodeType::NODE_PACKAGE:
 		return STYLE_PACKAGE;

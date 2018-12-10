@@ -22,18 +22,16 @@ SymbolKind intToSymbolKind(int v)
 		return SYMBOL_GLOBAL_VARIABLE;
 	case SYMBOL_INTERFACE:
 		return SYMBOL_INTERFACE;
-	case SYMBOL_LOCAL_VARIABLE:
-		return SYMBOL_LOCAL_VARIABLE;
 	case SYMBOL_MACRO:
 		return SYMBOL_MACRO;
 	case SYMBOL_METHOD:
 		return SYMBOL_METHOD;
+	case SYMBOL_MODULE:
+		return SYMBOL_MODULE;
 	case SYMBOL_NAMESPACE:
 		return SYMBOL_NAMESPACE;
 	case SYMBOL_PACKAGE:
 		return SYMBOL_PACKAGE;
-	case SYMBOL_PARAMETER:
-		return SYMBOL_PARAMETER;
 	case SYMBOL_STRUCT:
 		return SYMBOL_STRUCT;
 	case SYMBOL_TEMPLATE_PARAMETER:
@@ -52,4 +50,3 @@ int symbolKindToInt(SymbolKind t)
 {
 	return t;
 }
-
