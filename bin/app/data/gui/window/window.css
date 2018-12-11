@@ -134,7 +134,8 @@ QCheckBox:disabled {
 
 #menuButton {
 	background: white;
-	border: none;
+	border: 2px solid #CFD2E0;
+	border-right: none;
 	border-radius: 8px;
 	border-bottom-right-radius: 0px;
 	border-top-right-radius: 0px;

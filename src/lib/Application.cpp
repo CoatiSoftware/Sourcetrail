@@ -378,7 +378,7 @@ FilePath Application::migrateProjectSettings(const FilePath& projectSettingsFile
 	if (projectSettingsFilePath.extension() == L".coatiproject")
 	{
 		MessageStatus(L"Migrating deprecated project file extension \".coatiproject\" to new file extension \".srctrlprj\"").dispatch();
-		const FilePath newSettingsPath = projectSettingsFilePath.replaceExtension(Project::PROJECT_FILE_EXTENSION);
+		const FilePath newSettingsPath = projectSettingsFilePath.replaceExtension(ProjectSettings::PROJECT_FILE_EXTENSION);
 		{
 			FileSystem::rename(projectSettingsFilePath, newSettingsPath);
 			const FilePath oldDbPath = projectSettingsFilePath.replaceExtension(L"coatidb");

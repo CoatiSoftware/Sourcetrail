@@ -27,7 +27,6 @@ public:
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
 private:
-	const ProjectSettings* getProjectSettings() const override;
 	std::vector<std::wstring> getDefaultSourceExtensions() const override;
 };
 

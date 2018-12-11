@@ -266,6 +266,23 @@ void QtDialogView::updateIndexingDialog(
 	);
 }
 
+void QtDialogView::updateCustomIndexingDialog(
+	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths)
+{
+	updateIndexingDialog(startedFileCount, finishedFileCount, totalFileCount, sourcePaths);
+
+	m_onQtThread(
+		[=]()
+		{
+			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
+			if (window && window->getType() == QtIndexingDialog::DIALOG_INDEXING)
+			{
+				window->updateTitle("Executing Commands");
+			}
+		}
+	);
+}
+
 DatabasePolicy QtDialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 	float time, ErrorCountInfo errorInfo, bool interrupted)

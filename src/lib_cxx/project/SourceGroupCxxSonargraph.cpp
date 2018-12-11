@@ -7,7 +7,6 @@
 #include "MessageStatus.h"
 #include "SonargraphProject.h"
 #include "utility.h"
-#include "utilitySourceGroupCxx.h"
 #include "Application.h"
 
 SourceGroupCxxSonargraph::SourceGroupCxxSonargraph(std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings)
@@ -39,7 +38,7 @@ bool SourceGroupCxxSonargraph::prepareIndexing()
 
 std::set<FilePath> SourceGroupCxxSonargraph::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	return utility::filterToContainedFilePaths(
+	return SourceGroup::filterToContainedFilePaths(
 		filePaths,
 		getAllSourceFilePaths(),
 		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute()),

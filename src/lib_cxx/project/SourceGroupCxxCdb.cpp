@@ -8,7 +8,6 @@
 #include "ApplicationSettings.h"
 #include "MessageStatus.h"
 #include "utility.h"
-#include "utilitySourceGroupCxx.h"
 #include "Application.h"
 
 SourceGroupCxxCdb::SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings)
@@ -40,7 +39,7 @@ bool SourceGroupCxxCdb::prepareIndexing()
 
 std::set<FilePath> SourceGroupCxxCdb::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	return utility::filterToContainedFilePaths(
+	return SourceGroup::filterToContainedFilePaths(
 		filePaths,
 		getAllSourceFilePaths(),
 		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute()),

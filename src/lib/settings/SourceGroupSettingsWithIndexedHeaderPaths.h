@@ -5,11 +5,13 @@
 #include <string>
 #include <vector>
 
+#include "SourceGroupSettingsBase.h"
+
 class ConfigManager;
 class FilePath;
-class ProjectSettings;
 
 class SourceGroupSettingsWithIndexedHeaderPaths
+	: virtual public SourceGroupSettingsBase
 {
 public:
 	SourceGroupSettingsWithIndexedHeaderPaths();
@@ -26,8 +28,6 @@ protected:
 	void save(std::shared_ptr<ConfigManager> config, const std::string& key);
 
 private:
-	virtual const ProjectSettings* getProjectSettings() const = 0;
-
 	std::vector<FilePath> m_indexedHeaderPaths;
 };
 

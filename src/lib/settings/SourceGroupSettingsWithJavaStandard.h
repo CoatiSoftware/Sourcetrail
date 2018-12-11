@@ -5,10 +5,12 @@
 #include <string>
 #include <vector>
 
+#include "SourceGroupSettingsBase.h"
+
 class ConfigManager;
-class ProjectSettings;
 
 class SourceGroupSettingsWithJavaStandard
+	: virtual public SourceGroupSettingsBase
 {
 public:
 	static std::wstring getDefaultJavaStandardStatic();
@@ -28,7 +30,6 @@ protected:
 	void save(std::shared_ptr<ConfigManager> config, const std::string& key);
 
 private:
-	virtual const ProjectSettings* getProjectSettings() const = 0;
 	std::wstring getDefaultJavaStandard() const;
 
 	std::wstring m_javaStandard;

@@ -29,8 +29,6 @@ public:
 	void setShouldIndexMavenTests(bool value);
 
 private:
-	const ProjectSettings* getProjectSettings() const override;
-
 	FilePath m_mavenProjectFilePath;
 	FilePath m_mavenDependenciesDirectory;
 	bool m_shouldIndexMavenTests;

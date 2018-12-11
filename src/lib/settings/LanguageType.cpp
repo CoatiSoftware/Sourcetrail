@@ -10,6 +10,8 @@ std::string languageTypeToString(LanguageType t)
 		return "C++";
 	case LANGUAGE_JAVA:
 		return "Java";
+	case LANGUAGE_CUSTOM:
+		return "Custom";
 	case LANGUAGE_UNKNOWN:
 		break;
 	}
@@ -29,6 +31,10 @@ LanguageType stringToLanguageType(std::string s)
 	else if (s == "Java")
 	{
 		return LANGUAGE_JAVA;
+	}
+	else if (s == "Custom")
+	{
+		return LANGUAGE_CUSTOM;
 	}
 	return LANGUAGE_UNKNOWN;
 }
@@ -57,6 +63,8 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 		return LANGUAGE_JAVA;
 	case SOURCE_GROUP_JAVA_SONARGRAPH:
 		return LANGUAGE_JAVA;
+	case SOURCE_GROUP_CUSTOM_COMMAND:
+		return LANGUAGE_CUSTOM;
 	default:
 		break;
 	}

@@ -5,14 +5,15 @@
 #include <vector>
 
 #include "LanguageType.h"
+#include "SourceGroupSettingsBase.h"
 #include "SourceGroupStatusType.h"
 #include "SourceGroupType.h"
 
 class ConfigManager;
 class FilePath;
-class ProjectSettings;
 
 class SourceGroupSettings
+	: virtual public SourceGroupSettingsBase
 {
 public:
 	static const size_t s_version;
@@ -40,7 +41,9 @@ public:
 	SourceGroupStatusType getStatus() const;
 	void setStatus(SourceGroupStatusType status);
 
+	const ProjectSettings* getProjectSettings() const override;
 	FilePath getProjectDirectoryPath() const;
+
 	FilePath makePathExpandedAndAbsolute(const FilePath& path) const;
 	std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
 

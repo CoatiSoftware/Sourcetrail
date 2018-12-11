@@ -65,8 +65,3 @@ void SourceGroupSettingsCxxCdb::setCompilationDatabasePath(const FilePath& compi
 {
 	m_compilationDatabasePath = compilationDatabasePath;
 }
-
-const ProjectSettings* SourceGroupSettingsCxxCdb::getProjectSettings() const
-{
-	return m_projectSettings;
-}

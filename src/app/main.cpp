@@ -9,6 +9,7 @@
 #include "SourceGroupFactory.h"
 #include "SourceGroupFactoryModuleCxx.h"
 #include "SourceGroupFactoryModuleJava.h"
+#include "SourceGroupFactoryModuleCustom.h"
 #include "QtNetworkFactory.h"
 #include "QtApplication.h"
 #include "QtCoreApplication.h"
@@ -184,6 +185,7 @@ void addLanguagePackages()
 {
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCustom>());
 
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());

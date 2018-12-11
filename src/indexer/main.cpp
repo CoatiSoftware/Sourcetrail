@@ -15,10 +15,10 @@ void setupLogging(const FilePath& logFilePath)
 {
 	LogManager* logManager = LogManager::getInstance().get();
 
-	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
-	// consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
-	consoleLogger->setLogLevel(Logger::LOG_ALL);
-	logManager->addLogger(consoleLogger);
+	// std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
+	// // consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
+	// consoleLogger->setLogLevel(Logger::LOG_ALL);
+	// logManager->addLogger(consoleLogger);
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
 	fileLogger->setLogFilePath(logFilePath);

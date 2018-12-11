@@ -7,7 +7,6 @@
 #include "MessageStatus.h"
 #include "CodeblocksProject.h"
 #include "utility.h"
-#include "utilitySourceGroupCxx.h"
 #include "Application.h"
 
 SourceGroupCxxCodeblocks::SourceGroupCxxCodeblocks(std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings)
@@ -39,7 +38,7 @@ bool SourceGroupCxxCodeblocks::prepareIndexing()
 
 std::set<FilePath> SourceGroupCxxCodeblocks::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
-	return utility::filterToContainedFilePaths(
+	return SourceGroup::filterToContainedFilePaths(
 		filePaths,
 		getAllSourceFilePaths(),
 		utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute()),

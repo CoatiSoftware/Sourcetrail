@@ -51,11 +51,6 @@ bool SourceGroupSettingsCEmpty::equals(std::shared_ptr<SourceGroupSettings> othe
 	);
 }
 
-const ProjectSettings* SourceGroupSettingsCEmpty::getProjectSettings() const
-{
-	return m_projectSettings;
-}
-
 std::vector<std::wstring> SourceGroupSettingsCEmpty::getDefaultSourceExtensions() const
 {
 	return { L".c" };

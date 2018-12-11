@@ -203,6 +203,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.h
 	qt/window/project_wizzard/QtProjectWizzardContentCStandard.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentCStandard.h
+	qt/window/project_wizzard/QtProjectWizzardContentCustomCommand.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentCustomCommand.h
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.h
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.cpp

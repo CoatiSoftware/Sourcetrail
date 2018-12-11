@@ -51,14 +51,9 @@ bool SourceGroupSettingsCppEmpty::equals(std::shared_ptr<SourceGroupSettings> ot
 	);
 }
 
-const ProjectSettings* SourceGroupSettingsCppEmpty::getProjectSettings() const
-{
-	return m_projectSettings;
-}
-
 std::vector<std::wstring> SourceGroupSettingsCppEmpty::getDefaultSourceExtensions() const
 {
-	return { 
+	return {
 		L".cpp",
 		L".cxx",
 		L".cc"

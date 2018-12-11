@@ -42,7 +42,7 @@ protected:
 
 private:
 	template <typename SettingsType>
-	void executeSoureGroupSetup(std::shared_ptr<SettingsType> settings);
+	void executeSourceGroupSetup(std::shared_ptr<SettingsType> settings);
 
 	QtProjectWizzardWindow* createWindowWithContent(
 		std::function<QtProjectWizzardContent*(QtProjectWizzardWindow*)> func);

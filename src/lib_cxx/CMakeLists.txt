@@ -76,7 +76,7 @@ add_files(
 	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityClang.cpp
 	data/parser/cxx/utilityClang.h
-	
+
 	project/SourceGroupCxxCdb.cpp
 	project/SourceGroupCxxCdb.h
 	project/SourceGroupCxxCodeblocks.cpp
@@ -106,9 +106,7 @@ add_files(
 	utility/IncludeDirective.h
 	utility/IncludeProcessing.cpp
 	utility/IncludeProcessing.h
-	utility/utilitySourceGroupCxx.cpp
-	utility/utilitySourceGroupCxx.h
-	
+
 	LanguagePackageCxx.cpp
 	LanguagePackageCxx.h
 )

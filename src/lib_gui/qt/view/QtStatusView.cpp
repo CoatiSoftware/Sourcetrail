@@ -124,6 +124,11 @@ void QtStatusView::addStatus(const std::vector<Status>& status)
 			QString statusType = (s.type == StatusType::STATUS_ERROR ? "ERROR" : "INFO");
 			m_model->setItem(rowNumber, STATUSVIEW_COLUMN::TYPE, new QStandardItem(statusType));
 			m_model->setItem(rowNumber, STATUSVIEW_COLUMN::STATUS, new QStandardItem(QString::fromStdWString(s.message)));
+
+			if (s.type == StatusType::STATUS_ERROR)
+			{
+				m_model->item(rowNumber, STATUSVIEW_COLUMN::TYPE)->setForeground(QBrush(Qt::red));
+			}
 		}
 
 		m_table->updateRows();

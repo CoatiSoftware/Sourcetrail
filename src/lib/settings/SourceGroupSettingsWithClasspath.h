@@ -6,11 +6,12 @@
 #include <vector>
 
 #include "FilePath.h"
+#include "SourceGroupSettingsBase.h"
 
 class ConfigManager;
-class ProjectSettings;
 
 class SourceGroupSettingsWithClasspath
+	: virtual public SourceGroupSettingsBase
 {
 public:
 	SourceGroupSettingsWithClasspath();
@@ -30,8 +31,6 @@ protected:
 	void save(std::shared_ptr<ConfigManager> config, const std::string& key);
 
 private:
-	virtual const ProjectSettings* getProjectSettings() const = 0;
-
 	std::vector<FilePath> m_classpath;
 	bool m_useJreSystemLibrary;
 };

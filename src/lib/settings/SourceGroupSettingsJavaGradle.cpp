@@ -90,8 +90,3 @@ void SourceGroupSettingsJavaGradle::setShouldIndexGradleTests(bool value)
 {
 	m_shouldIndexGradleTests = value;
 }
-
-const ProjectSettings* SourceGroupSettingsJavaGradle::getProjectSettings() const
-{
-	return m_projectSettings;
-}

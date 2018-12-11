@@ -31,7 +31,6 @@ public:
 	void setCodeblocksProjectPath(const FilePath& compilationDatabasePath);
 
 private:
-	const ProjectSettings* getProjectSettings() const override;
 	std::vector<std::wstring> getDefaultSourceExtensions() const override;
 
 	FilePath m_codeblocksProjectPath;

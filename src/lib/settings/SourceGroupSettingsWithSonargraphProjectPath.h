@@ -4,12 +4,13 @@
 #include <memory>
 #include <string>
 
+#include "SourceGroupSettingsBase.h"
 #include "FilePath.h"
 
 class ConfigManager;
-class ProjectSettings;
 
 class SourceGroupSettingsWithSonargraphProjectPath
+	: virtual public SourceGroupSettingsBase
 {
 public:
 	SourceGroupSettingsWithSonargraphProjectPath();
@@ -26,8 +27,6 @@ protected:
 	void save(std::shared_ptr<ConfigManager> config, const std::string& key);
 
 private:
-	virtual const ProjectSettings* getProjectSettings() const = 0;
-
 	FilePath m_sonargraphProjectPath;
 };
 

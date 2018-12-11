@@ -29,8 +29,6 @@ public:
 	void setShouldIndexGradleTests(bool value);
 
 private:
-	const ProjectSettings* getProjectSettings() const override;
-
 	FilePath m_gradleProjectFilePath;
 	FilePath m_gradleDependenciesDirectory;
 	bool m_shouldIndexGradleTests;

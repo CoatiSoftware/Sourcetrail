@@ -9,7 +9,6 @@
 #include "SourceGroupSettingsWithCStandard.h"
 #include "FileManager.h"
 #include "utility.h"
-#include "utilitySourceGroupCxx.h"
 
 SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxx> settings)
 	: m_settings(settings)
@@ -33,7 +32,7 @@ std::set<FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::se
 		excludeFilters = settings->getExcludeFiltersExpandedAndAbsolute();
 	}
 
-	return utility::filterToContainedFilePaths(
+	return SourceGroup::filterToContainedFilePaths(
 		filePaths,
 		std::set<FilePath>(),
 		utility::toSet(indexedPaths),

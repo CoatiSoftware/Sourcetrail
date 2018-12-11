@@ -12,6 +12,7 @@
 class IndexerCommand;
 class IndexerCommandProvider;
 class FilePath;
+class FilePathFilter;
 class SourceGroupSettings;
 
 class SourceGroup
@@ -20,6 +21,8 @@ public:
 	virtual ~SourceGroup() = default;
 
 	virtual bool prepareIndexing();
+	virtual bool allowsPartialClearing() const;
+
 	virtual std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const = 0;
 	virtual std::set<FilePath> getAllSourceFilePaths() const = 0;
 	virtual std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const;
@@ -34,6 +37,12 @@ public:
 protected:
 	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() = 0;
 	virtual std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const = 0;
+
+	std::set<FilePath> filterToContainedFilePaths(
+		const std::set<FilePath>& filePaths,
+		const std::set<FilePath>& indexedFilePaths,
+		const std::set<FilePath>& indexedFileOrDirectoryPaths,
+		const std::vector<FilePathFilter>& excludeFilters) const;
 };
 
 #endif // SOURCE_GROUP_H

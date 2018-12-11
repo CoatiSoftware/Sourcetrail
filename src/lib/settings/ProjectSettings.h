@@ -14,6 +14,11 @@ class ProjectSettings
 	: public Settings
 {
 public:
+	static const std::wstring PROJECT_FILE_EXTENSION;
+	static const std::wstring BOOKMARK_DB_FILE_EXTENSION;
+	static const std::wstring INDEX_DB_FILE_EXTENSION;
+	static const std::wstring TEMP_INDEX_DB_FILE_EXTENSION;
+
 	static const size_t VERSION;
 	static LanguageType getLanguageOfProject(const FilePath& filePath);
 
@@ -30,6 +35,10 @@ public:
 
 	FilePath getProjectFilePath() const;
 	void setProjectFilePath(std::wstring projectName, const FilePath& projectFileLocation);
+
+	FilePath getDBFilePath() const;
+	FilePath getTempDBFilePath() const;
+	FilePath getBookmarkDBFilePath() const;
 
 	std::wstring getProjectName() const;
 	FilePath getProjectDirectoryPath() const;

@@ -5,10 +5,12 @@
 #include <string>
 #include <vector>
 
+#include "SourceGroupSettingsBase.h"
+
 class ConfigManager;
-class ProjectSettings;
 
 class SourceGroupSettingsWithCxxCrossCompilationOptions
+	: virtual public SourceGroupSettingsBase
 {
 public:
 	static std::vector<std::wstring> getAvailableArchTypes();
@@ -43,8 +45,6 @@ protected:
 	void save(std::shared_ptr<ConfigManager> config, const std::string& key);
 
 private:
-	virtual const ProjectSettings* getProjectSettings() const = 0;
-
 	bool m_targetOptionsEnabled;
 	std::wstring m_targetArch;
 	std::wstring m_targetVendor;

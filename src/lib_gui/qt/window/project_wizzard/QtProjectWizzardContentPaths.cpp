@@ -8,12 +8,14 @@
 
 #include "DialogView.h"
 #include "IndexerCommandCxx.h"
-#include "SourceGroupCxxEmpty.h"
-#include "SourceGroupJavaEmpty.h"
 #include "QtDialogView.h"
 #include "QtPathListDialog.h"
 #include "QtSelectPathsDialog.h"
+#include "SourceGroupCustomCommand.h"
+#include "SourceGroupCxxEmpty.h"
+#include "SourceGroupJavaEmpty.h"
 #include "ApplicationSettings.h"
+#include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsCxx.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
@@ -251,6 +253,10 @@ std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 	else if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(m_settings))
 	{
 		allSourceFilePaths = SourceGroupJavaEmpty(settings).getAllSourceFilePaths();
+	}
+	else if (std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(m_settings))
+	{
+		allSourceFilePaths = SourceGroupCustomCommand(settings).getAllSourceFilePaths();
 	}
 
 	return utility::getAsRelativeIfShorter(

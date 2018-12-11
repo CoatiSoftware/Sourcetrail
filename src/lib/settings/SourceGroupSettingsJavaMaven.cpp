@@ -90,8 +90,3 @@ void SourceGroupSettingsJavaMaven::setShouldIndexMavenTests(bool value)
 {
 	m_shouldIndexMavenTests = value;
 }
-
-const ProjectSettings* SourceGroupSettingsJavaMaven::getProjectSettings() const
-{
-	return m_projectSettings;
-}

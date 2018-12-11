@@ -1,11 +1,11 @@
 #include "ProjectSettings.h"
 
-#include "Project.h"
 #include "SettingsMigrationDeleteKey.h"
 #include "SettingsMigrationLambda.h"
 #include "SettingsMigrationMoveKey.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
+#include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
 #include "SourceGroupSettingsCxxSonargraph.h"
@@ -16,6 +16,11 @@
 #include "logging.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
+
+const std::wstring ProjectSettings::PROJECT_FILE_EXTENSION = L".srctrlprj";
+const std::wstring ProjectSettings::BOOKMARK_DB_FILE_EXTENSION = L".srctrlbm";
+const std::wstring ProjectSettings::INDEX_DB_FILE_EXTENSION = L".srctrldb";
+const std::wstring ProjectSettings::TEMP_INDEX_DB_FILE_EXTENSION = L".srctrldb_tmp";
 
 const size_t ProjectSettings::VERSION = 7;
 
@@ -115,7 +120,22 @@ FilePath ProjectSettings::getProjectFilePath() const
 
 void ProjectSettings::setProjectFilePath(std::wstring projectName, const FilePath& projectFileLocation)
 {
-	setFilePath(projectFileLocation.getConcatenated(L"/" + projectName + Project::PROJECT_FILE_EXTENSION));
+	setFilePath(projectFileLocation.getConcatenated(L"/" + projectName + PROJECT_FILE_EXTENSION));
+}
+
+FilePath ProjectSettings::getDBFilePath() const
+{
+	return getFilePath().replaceExtension(INDEX_DB_FILE_EXTENSION);
+}
+
+FilePath ProjectSettings::getTempDBFilePath() const
+{
+	return getFilePath().replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+}
+
+FilePath ProjectSettings::getBookmarkDBFilePath() const
+{
+	return getFilePath().replaceExtension(BOOKMARK_DB_FILE_EXTENSION);
 }
 
 std::wstring ProjectSettings::getProjectName() const
@@ -171,6 +191,9 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 			break;
 		case SOURCE_GROUP_JAVA_SONARGRAPH:
 			settings = std::make_shared<SourceGroupSettingsJavaSonargraph>(id, this);
+			break;
+		case SOURCE_GROUP_CUSTOM_COMMAND:
+			settings = std::make_shared<SourceGroupSettingsCustomCommand>(id, this);
 			break;
 		default:
 			continue;
@@ -356,7 +379,7 @@ SettingsMigrator ProjectSettings::getMigrations() const
 		case LANGUAGE_JAVA:
 			languageName = "java";
 			break;
-		case LANGUAGE_UNKNOWN:
+		default:
 			continue;
 		}
 

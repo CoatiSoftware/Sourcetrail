@@ -8,6 +8,8 @@ std::string indexerCommandTypeToString(IndexerCommandType type)
 		return "indexer_command_cxx";
 	case INDEXER_COMMAND_JAVA:
 		return "indexer_command_java";
+	case INDEXER_COMMAND_CUSTOM:
+		return "indexer_command_custom";
 	default:
 		break;
 	}
@@ -18,6 +20,7 @@ IndexerCommandType stringToIndexerCommandType(const std::string& s)
 {
 	if (s == indexerCommandTypeToString(INDEXER_COMMAND_CXX)) return INDEXER_COMMAND_CXX;
 	if (s == indexerCommandTypeToString(INDEXER_COMMAND_JAVA)) return INDEXER_COMMAND_JAVA;
+	if (s == indexerCommandTypeToString(INDEXER_COMMAND_CUSTOM)) return INDEXER_COMMAND_CUSTOM;
 	return INDEXER_COMMAND_UNKNOWN;
 }
 

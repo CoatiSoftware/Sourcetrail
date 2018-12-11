@@ -19,11 +19,6 @@ class StorageCache;
 class Project
 {
 public:
-	static const std::wstring PROJECT_FILE_EXTENSION;
-	static const std::wstring BOOKMARK_DB_FILE_EXTENSION;
-	static const std::wstring INDEX_DB_FILE_EXTENSION;
-	static const std::wstring TEMP_INDEX_DB_FILE_EXTENSION;
-
 	Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, const std::string& appUUID, bool hasGUI);
 	virtual ~Project();
 
@@ -42,7 +37,7 @@ public:
 
 	RefreshInfo getRefreshInfo(RefreshMode mode) const;
 
-	void buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> dialogView);
+	void buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogView);
 
 private:
 	enum ProjectStateType

@@ -2,6 +2,7 @@
 
 #include <fstream>
 
+#include "IndexerCommandCustom.h"
 #include "IndexerCommandCxx.h"
 #include "IndexerCommandJava.h"
 #include "JavaEnvironmentFactory.h"
@@ -9,6 +10,7 @@
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupCxxCodeblocks.h"
 #include "SourceGroupCxxSonargraph.h"
+#include "SourceGroupCustomCommand.h"
 #include "SourceGroupJavaEmpty.h"
 #include "SourceGroupJavaGradle.h"
 #include "SourceGroupJavaMaven.h"
@@ -18,6 +20,7 @@
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
 #include "SourceGroupSettingsCxxSonargraph.h"
+#include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsJavaEmpty.h"
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaMaven.h"
@@ -389,6 +392,22 @@ public:
 		applicationSettings->setJreSystemLibraryPaths(storedJreSystemLibraryPaths);
 	}
 
+	void test_source_group_custom_command_generates_expected_output()
+	{
+		const std::wstring projectName = L"custom_command";
+
+		ProjectSettings projectSettings;
+		projectSettings.setProjectFilePath(L"non_existent_project", getInputDirectoryPath(projectName));
+
+		std::shared_ptr<SourceGroupSettingsCustomCommand> sourceGroupSettings = std::make_shared<SourceGroupSettingsCustomCommand>("fake_id", &projectSettings);
+		sourceGroupSettings->setCustomCommand(L"echo \"Hello World\"");
+		sourceGroupSettings->setSourcePaths({ getInputDirectoryPath(projectName).concatenate(L"/src") });
+		sourceGroupSettings->setSourceExtensions({ L".txt" });
+		sourceGroupSettings->setExcludeFilterStrings({ L"**/excluded/**" });
+
+		generateAndCompareExpectedOutput(projectName, std::make_shared<SourceGroupCustomCommand>(sourceGroupSettings));
+	}
+
 	// Special Tests
 
 	void test_sourcegroup_java_sonargraph_with_cpp_modules_does_not_generate_output()
@@ -546,6 +565,10 @@ private:
 			{
 				return indexerCommandJavaToString(indexerCommandJava, baseDirectory);
 			}
+			if (std::shared_ptr<const IndexerCommandCustom> indexerCommandCustom = std::dynamic_pointer_cast<const IndexerCommandCustom>(indexerCommand))
+			{
+				return indexerCommandCustomToString(indexerCommandCustom, baseDirectory);
+			}
 			return L"Unsupported indexer command type: " + utility::decodeFromUtf8(indexerCommandTypeToString(indexerCommand->getIndexerCommandType()));
 		}
 		return L"No IndexerCommand provided.";
@@ -584,6 +607,14 @@ private:
 		{
 			result += L"\tClassPathItem: \"" + classPathItem.getRelativeTo(baseDirectory).wstr() + L"\"\n";
 		}
+		return result;
+	}
+
+	std::wstring indexerCommandCustomToString(std::shared_ptr<const IndexerCommandCustom> indexerCommand, const FilePath& baseDirectory)
+	{
+		std::wstring result;
+		result += L"SourceFilePath: \"" + indexerCommand->getSourceFilePath().getRelativeTo(baseDirectory).wstr() + L"\"\n";
+		result += L"\tCustom Command: \"" + indexerCommand->getCustomCommand() + L"\"\n";
 		return result;
 	}
 };

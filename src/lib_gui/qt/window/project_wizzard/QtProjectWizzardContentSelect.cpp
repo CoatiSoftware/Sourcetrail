@@ -42,6 +42,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_MAVEN));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_GRADLE));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_SONARGRAPH));
+	sourceGroupInfos[LANGUAGE_CUSTOM].push_back(SourceGroupInfo(SOURCE_GROUP_CUSTOM_COMMAND));
 
 	// define which icons should be used for which kind of source group
 	m_sourceGroupTypeIconName[SOURCE_GROUP_C_EMPTY] = L"empty_icon";
@@ -54,6 +55,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = L"mvn_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = L"gradle_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_SONARGRAPH] = L"sonargraph_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CUSTOM_COMMAND] = L"empty_icon";
 
 	// define descriptions for each kind of Source Group
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail Source Group by defining which C files will be indexed.";
@@ -78,9 +80,12 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_SONARGRAPH] =
 		"Create a new Source Group from an existing <a href=\"https://www.hello2morrow.com/products/sonargraph\">Sonargraph</a> project file.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CUSTOM_COMMAND] = "Create a new Source Group executing a custom command on each source file. "
+		"This Source Group type can be used on <a href=\"https://github.com/CoatiSoftware/SourcetrailDB\">SourcetrailDB</a> binaries that add "
+		"custom language support";
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
-	vlayout->setContentsMargins(0, 30, 0, 0);
+	vlayout->setContentsMargins(0, 10, 0, 0);
 	vlayout->setSpacing(10);
 
 	m_languages = new QButtonGroup();

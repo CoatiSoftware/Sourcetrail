@@ -3,6 +3,7 @@
 #include <set>
 
 #include <boost/date_time.hpp>
+#include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/filesystem.hpp>
 
 #include "utilityString.h"
@@ -196,6 +197,7 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
 	{
 		std::time_t t = boost::filesystem::last_write_time(filePath.getPath());
 		lastWriteTime = boost::posix_time::from_time_t(t);
+		lastWriteTime = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(lastWriteTime);
 	}
 	return TimeStamp(lastWriteTime);
 }

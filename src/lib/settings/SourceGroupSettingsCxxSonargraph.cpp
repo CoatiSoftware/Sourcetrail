@@ -44,8 +44,3 @@ bool SourceGroupSettingsCxxSonargraph::equals(std::shared_ptr<SourceGroupSetting
 		SourceGroupSettingsWithSonargraphProjectPath::equals(otherCxxSonargraph)
 	);
 }
-
-const ProjectSettings* SourceGroupSettingsCxxSonargraph::getProjectSettings() const
-{
-	return m_projectSettings;
-}

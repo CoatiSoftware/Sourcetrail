@@ -96,7 +96,8 @@ int utility::executeProcessAndGetExitCode(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory,
-	const int timeout
+	const int timeout,
+	std::wstring* processOutput
 ){
 	QProcess process;
 
@@ -124,7 +125,14 @@ int utility::executeProcessAndGetExitCode(
 	}
 
 	int exitCode = process.exitCode();
+
+	if (processOutput != nullptr)
+	{
+		*processOutput = utility::trim(QString(process.readAll()).toStdWString());
+	}
+
 	process.close();
+
 	return exitCode;
 }
 

@@ -174,6 +174,8 @@ add_files(
 	data/indexer/IndexerBase.h
 	data/indexer/IndexerCommand.cpp
 	data/indexer/IndexerCommand.h
+	data/indexer/IndexerCommandCustom.cpp
+	data/indexer/IndexerCommandCustom.h
 	data/indexer/IndexerCommandProvider.cpp
 	data/indexer/IndexerCommandProvider.h
 	data/indexer/IndexerCommandType.cpp
@@ -185,6 +187,8 @@ add_files(
 	data/indexer/MemoryIndexerCommandProvider.h
 	data/indexer/TaskBuildIndex.cpp
 	data/indexer/TaskBuildIndex.h
+	data/indexer/TaskExecuteCustomCommands.cpp
+	data/indexer/TaskExecuteCustomCommands.h
 	data/indexer/TaskFillIndexerCommandQueue.cpp
 	data/indexer/TaskFillIndexerCommandQueue.h
 
@@ -298,10 +302,14 @@ add_files(
 	project/RefreshInfoGenerator.cpp
 	project/SourceGroup.cpp
 	project/SourceGroup.h
+	project/SourceGroupCustomCommand.cpp
+	project/SourceGroupCustomCommand.h
 	project/SourceGroupFactory.cpp
 	project/SourceGroupFactory.h
 	project/SourceGroupFactoryModule.cpp
 	project/SourceGroupFactoryModule.h
+	project/SourceGroupFactoryModuleCustom.cpp
+	project/SourceGroupFactoryModuleCustom.h
 
 	settings/migration/SettingsMigration.cpp
 	settings/migration/SettingsMigration.h
@@ -325,12 +333,15 @@ add_files(
 	settings/Settings.h
 	settings/SourceGroupSettings.cpp
 	settings/SourceGroupSettings.h
+	settings/SourceGroupSettingsBase.h
 	settings/SourceGroupSettingsCxx.cpp
 	settings/SourceGroupSettingsCxx.h
 	settings/SourceGroupSettingsCEmpty.cpp
 	settings/SourceGroupSettingsCEmpty.h
 	settings/SourceGroupSettingsCppEmpty.cpp
 	settings/SourceGroupSettingsCppEmpty.h
+	settings/SourceGroupSettingsCustomCommand.cpp
+	settings/SourceGroupSettingsCustomCommand.h
 	settings/SourceGroupSettingsCxxCdb.cpp
 	settings/SourceGroupSettingsCxxCdb.h
 	settings/SourceGroupSettingsCxxCdbVs.cpp

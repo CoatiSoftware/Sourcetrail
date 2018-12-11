@@ -41,8 +41,3 @@ bool SourceGroupSettingsJavaEmpty::equals(std::shared_ptr<SourceGroupSettings> o
 		SourceGroupSettingsWithClasspath::equals(otherJava)
 	);
 }
-
-const ProjectSettings* SourceGroupSettingsJavaEmpty::getProjectSettings() const
-{
-	return m_projectSettings;
-}

@@ -48,6 +48,7 @@ public:
 	void setupUnknownProgress(bool hideable);
 	void setupProgress(bool hideable);
 
+	void updateTitle(const QString& title);
 	void updateMessage(const QString& message);
 	std::wstring getMessage() const;
 	void updateProgress(size_t progress);

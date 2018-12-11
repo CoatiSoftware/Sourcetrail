@@ -88,6 +88,11 @@ void SourceGroupSettings::setStatus(SourceGroupStatusType status)
 	m_status = status;
 }
 
+const ProjectSettings* SourceGroupSettings::getProjectSettings() const
+{
+	return m_projectSettings;
+}
+
 FilePath SourceGroupSettings::getProjectDirectoryPath() const
 {
 	return m_projectSettings->getProjectDirectoryPath();

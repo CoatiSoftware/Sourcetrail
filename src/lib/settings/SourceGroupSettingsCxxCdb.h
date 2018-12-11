@@ -26,8 +26,6 @@ public:
 	void setCompilationDatabasePath(const FilePath& compilationDatabasePath);
 
 private:
-	const ProjectSettings* getProjectSettings() const override;
-
 	FilePath m_compilationDatabasePath;
 };
 

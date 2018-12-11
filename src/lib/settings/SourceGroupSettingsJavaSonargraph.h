@@ -21,9 +21,6 @@ public:
 	void save(std::shared_ptr<ConfigManager> config) override;
 
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
-
-private:
-	const ProjectSettings* getProjectSettings() const override;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_JAVA_SONARGRAPH_H

@@ -24,7 +24,7 @@ void SourceGroupSettingsCxxCodeblocks::load(std::shared_ptr<const ConfigManager>
 	SourceGroupSettingsWithExcludeFilters::load(config, key);
 	SourceGroupSettingsWithIndexedHeaderPaths::load(config, key);
 	SourceGroupSettingsWithSourceExtensions::load(config, key);
-	
+
 	setCodeblocksProjectPath(config->getValueOrDefault(key + "/codeblocks_project_path", FilePath(L"")));
 }
 
@@ -72,11 +72,6 @@ FilePath SourceGroupSettingsCxxCodeblocks::getCodeblocksProjectPathExpandedAndAb
 void SourceGroupSettingsCxxCodeblocks::setCodeblocksProjectPath(const FilePath& compilationDatabasePath)
 {
 	m_codeblocksProjectPath = compilationDatabasePath;
-}
-
-const ProjectSettings* SourceGroupSettingsCxxCodeblocks::getProjectSettings() const
-{
-	return m_projectSettings;
 }
 
 std::vector<std::wstring> SourceGroupSettingsCxxCodeblocks::getDefaultSourceExtensions() const

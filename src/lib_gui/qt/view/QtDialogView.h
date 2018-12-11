@@ -42,6 +42,8 @@ public:
 		std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing) override;
 	void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths) override;
+	void updateCustomIndexingDialog(
+		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths) override;
 	DatabasePolicy finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted) override;

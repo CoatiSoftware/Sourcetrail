@@ -3,7 +3,9 @@
 #include "DialogView.h"
 #include "CombinedIndexerCommandProvider.h"
 #include "IndexerCommand.h"
+#include "IndexerCommandCustom.h"
 #include "TaskBuildIndex.h"
+#include "TaskExecuteCustomCommands.h"
 #include "TaskFillIndexerCommandQueue.h"
 #include "TaskParseWrapper.h"
 #include "PersistentStorage.h"
@@ -42,11 +44,6 @@
 #include "utilityApp.h"
 #include "utilityFile.h"
 #include "utilityString.h"
-
-const std::wstring Project::PROJECT_FILE_EXTENSION = L".srctrlprj";
-const std::wstring Project::BOOKMARK_DB_FILE_EXTENSION = L".srctrlbm";
-const std::wstring Project::INDEX_DB_FILE_EXTENSION = L".srctrldb";
-const std::wstring Project::TEMP_INDEX_DB_FILE_EXTENSION = L".srctrldb_tmp";
 
 Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, const std::string& appUUID, bool hasGUI)
 	: m_settings(settings)
@@ -124,10 +121,11 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 	}
 
 	const FilePath projectSettingsPath = m_settings->getFilePath();
+	const FilePath dbPath = m_settings->getDBFilePath();
+	const FilePath tempDbPath = m_settings->getTempDBFilePath();
+	const FilePath bookmarkDbPath = m_settings->getBookmarkDBFilePath();
 
 	{
-		const FilePath dbPath = projectSettingsPath.replaceExtension(INDEX_DB_FILE_EXTENSION);
-		const FilePath tempDbPath = projectSettingsPath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
 		if (tempDbPath.exists())
 		{
 			if (dbPath.exists())
@@ -160,10 +158,7 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 		}
 	}
 
-	m_storage = std::make_shared<PersistentStorage>(
-		projectSettingsPath.replaceExtension(INDEX_DB_FILE_EXTENSION),
-		projectSettingsPath.replaceExtension(BOOKMARK_DB_FILE_EXTENSION)
-	);
+	m_storage = std::make_shared<PersistentStorage>(dbPath, bookmarkDbPath);
 
 	bool canLoad = false;
 
@@ -399,7 +394,7 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 	}
 }
 
-void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> dialogView)
+void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogView)
 {
 	if (m_refreshStage == RefreshStageType::INDEXING)
 	{
@@ -423,6 +418,45 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		return;
 	}
 
+	if (info.mode != REFRESH_ALL_FILES && (info.filesToClear.size() || info.nonIndexedFilesToClear.size()))
+	{
+		for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
+		{
+			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED && !sourceGroup->allowsPartialClearing())
+			{
+				bool abortIndexing = false;
+				for (const FilePath& sourcePath : utility::concat(info.filesToClear, info.nonIndexedFilesToClear))
+				{
+					if (sourceGroup->containsSourceFilePath(sourcePath))
+					{
+						abortIndexing = true;
+						break;
+					}
+				}
+
+				if (abortIndexing)
+				{
+					if (dialogView->confirm(
+							"<p>This project contains a source group of type \"" + sourceGroupTypeToString(sourceGroup->getType()) + "\" "
+							"that cannot be partially cleared. Do you want to re-index the whole project instead?</p>",
+							{ "Full Re-Index", "Cancel" }
+						) == 1)
+					{
+						MessageStatus(L"Cannot partially clear project. Indexing aborted.").dispatch();
+						m_refreshStage = RefreshStageType::NONE;
+						return;
+					}
+					else
+					{
+						info = getRefreshInfo(REFRESH_ALL_FILES);
+					}
+				}
+
+				break;
+			}
+		}
+	}
+
 	MessageStatus(L"Preparing Indexing", false, true).dispatch();
 	MessageErrorCountClear().dispatch();
 
@@ -432,8 +466,8 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	m_storageCache->clear();
 	m_storageCache->setSubject(m_storage);
 
-	const FilePath indexDbFilePath = m_storage->getIndexDbFilePath();
-	const FilePath tempIndexDbFilePath = indexDbFilePath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+	const FilePath indexDbFilePath = m_settings->getDBFilePath();
+	const FilePath tempIndexDbFilePath = m_settings->getTempDBFilePath();
 
 	if (info.mode != REFRESH_ALL_FILES)
 	{
@@ -460,15 +494,29 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 	tempStorage->updateVersion();
 
 	std::unique_ptr<CombinedIndexerCommandProvider> indexerCommandProvider = std::make_unique<CombinedIndexerCommandProvider>();
+	std::unique_ptr<CombinedIndexerCommandProvider> customIndexerCommandProvider = std::make_unique<CombinedIndexerCommandProvider>();
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 	{
 		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 		{
-			indexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info.filesToIndex));
+			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND)
+			{
+				customIndexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info.filesToIndex));
+			}
+			else
+			{
+				indexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info.filesToIndex));
+			}
 		}
 	}
 
-	if (!info.filesToIndex.empty())
+	taskSequential->addTask(std::make_shared<TaskSetValue<int>>(
+		"source_file_count", indexerCommandProvider->size() + customIndexerCommandProvider->size()));
+	taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
+	taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("interrupted_indexing", false));
+	taskSequential->addTask(std::make_shared<TaskSetValue<float>>("index_time", 0.0f));
+
+	if (indexerCommandProvider->size())
 	{
 		int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
 		if (indexerThreadCount <= 0)
@@ -480,12 +528,10 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 			}
 		}
 
-		indexerThreadCount = std::min<int>(indexerThreadCount, info.filesToIndex.size());
+		indexerThreadCount = std::min<int>(indexerThreadCount, indexerCommandProvider->size());
 
 		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
 		// add tasks for setting some variables on the blackboard that are used during indexing
-		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("source_file_count", indexerCommandProvider->size()));
-		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
 		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_threads_started", false));
 		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_threads_stopped", false));
 		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_command_queue_started", false));
@@ -567,6 +613,14 @@ void Project::buildIndex(const RefreshInfo& info, std::shared_ptr<DialogView> di
 		dialogView->hideUnknownProgressDialog();
 	}
 
+	if (customIndexerCommandProvider->size())
+	{
+		taskSequential->addTask(
+			std::make_shared<TaskExecuteCustomCommands>(
+				std::move(customIndexerCommandProvider), dialogView, getProjectSettingsFilePath().getParentDirectory())
+		);
+	}
+
 	taskSequential->addTask(std::make_shared<TaskFinishParsing>(tempStorage, dialogView));
 
 	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
@@ -604,9 +658,9 @@ void Project::swapToTempStorage(std::shared_ptr<DialogView> dialogView)
 {
 	LOG_INFO("Switching to temporary indexing data");
 
-	const FilePath indexDbFilePath = m_storage->getIndexDbFilePath();
-	const FilePath tempIndexDbFilePath = indexDbFilePath.replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
-	const FilePath bookmarkDbFilePath = m_storage->getBookmarkDbFilePath();
+	const FilePath indexDbFilePath = m_settings->getDBFilePath();
+	const FilePath tempIndexDbFilePath = m_settings->getTempDBFilePath();
+	const FilePath bookmarkDbFilePath = m_settings->getBookmarkDBFilePath();
 
 	m_storage.reset();
 
@@ -652,7 +706,7 @@ bool Project::swapToTempStorageFile(const FilePath& indexDbFilePath, const FileP
 
 void Project::discardTempStorage()
 {
-	const FilePath tempIndexDbPath = m_storage->getIndexDbFilePath().replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
+	const FilePath tempIndexDbPath = m_settings->getTempDBFilePath();
 	if (tempIndexDbPath.exists())
 	{
 		LOG_INFO("Discarding temporary indexing data");

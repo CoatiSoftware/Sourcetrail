@@ -11,6 +11,11 @@ public:
 	{
 		return "MessageIndexingInterrupted";
 	}
+
+	MessageIndexingInterrupted()
+	{
+		setSendAsTask(false);
+	}
 };
 
 #endif // MESSAGE_INDEXING_INTERRUPTED_H

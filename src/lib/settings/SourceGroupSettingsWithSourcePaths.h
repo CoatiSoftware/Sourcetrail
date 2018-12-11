@@ -5,16 +5,18 @@
 #include <string>
 #include <vector>
 
+#include "SourceGroupSettingsBase.h"
+
 class ConfigManager;
 class FilePath;
-class ProjectSettings;
 
 class SourceGroupSettingsWithSourcePaths
+	: virtual public SourceGroupSettingsBase
 {
 public:
 	SourceGroupSettingsWithSourcePaths();
 	virtual ~SourceGroupSettingsWithSourcePaths() = default;
-	
+
 	bool equals(std::shared_ptr<SourceGroupSettingsWithSourcePaths> other) const;
 
 	std::vector<FilePath> getSourcePaths() const;
@@ -26,8 +28,6 @@ protected:
 	void save(std::shared_ptr<ConfigManager> config, const std::string& key);
 
 private:
-	virtual const ProjectSettings* getProjectSettings() const = 0;
-
 	std::vector<FilePath> m_sourcePaths;
 };
 

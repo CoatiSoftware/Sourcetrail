@@ -11,6 +11,7 @@
 #include "QtProjectWizzardContentCppStandard.h"
 #include "QtProjectWizzardContentCrossCompilationOptions.h"
 #include "QtProjectWizzardContentCStandard.h"
+#include "QtProjectWizzardContentCustomCommand.h"
 #include "QtProjectWizzardContentExtensions.h"
 #include "QtProjectWizzardContentFlags.h"
 #include "QtProjectWizzardContentJavaStandard.h"
@@ -25,6 +26,7 @@
 #include "QtSourceGroupWizzardPage.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
+#include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCdbVs.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
@@ -116,7 +118,7 @@ namespace
 		{
 			QtSourceGroupWizzardPage<SourceGroupSettingsCEmpty> page("Framework Search Paths");
 			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsFrameworkSearch>(WIZZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorSimple<QtProjectWizzardContentPathsFrameworkSearchGlobal>(WIZZARD_CONTENT_CONTEXT_ALL); 
+			page.addContentCreatorSimple<QtProjectWizzardContentPathsFrameworkSearchGlobal>(WIZZARD_CONTENT_CONTEXT_ALL);
 			pages.push_back(page);
 		}
 		{
@@ -148,7 +150,7 @@ namespace
 		{
 			QtSourceGroupWizzardPage<SourceGroupSettingsCppEmpty> page("Include Paths");
 			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsHeaderSearch>(WIZZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorSimple<QtProjectWizzardContentPathsHeaderSearchGlobal>(WIZZARD_CONTENT_CONTEXT_ALL); 
+			page.addContentCreatorSimple<QtProjectWizzardContentPathsHeaderSearchGlobal>(WIZZARD_CONTENT_CONTEXT_ALL);
 			pages.push_back(page);
 		}
 		if (utility::getOsType() == OS_MAC)
@@ -402,6 +404,21 @@ namespace
 		return pages;
 	}
 
+	template<>
+	std::vector<QtSourceGroupWizzardPage<SourceGroupSettingsCustomCommand>> getSourceGroupWizzardPages<SourceGroupSettingsCustomCommand>()
+	{
+		std::vector<QtSourceGroupWizzardPage<SourceGroupSettingsCustomCommand>> pages;
+		{
+			QtSourceGroupWizzardPage<SourceGroupSettingsCustomCommand> page("Indexed Paths");
+			page.addContentCreatorWithSettings<QtProjectWizzardContentCustomCommand>(WIZZARD_CONTENT_CONTEXT_ALL);
+			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsSource>(WIZZARD_CONTENT_CONTEXT_ALL);
+			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsExclude>(WIZZARD_CONTENT_CONTEXT_ALL);
+			page.addContentCreatorWithSettings<QtProjectWizzardContentExtensions>(WIZZARD_CONTENT_CONTEXT_ALL);
+			pages.push_back(page);
+		}
+		return pages;
+	}
+
 	template <typename SettingsType>
 	void fillSummary(QtProjectWizzardContentGroup* summary, std::shared_ptr<SettingsType> settings, QtProjectWizzardWindow* window)
 	{
@@ -476,7 +493,7 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath)
 		std::make_shared<SourceGroupSettingsCxxCdbVs>(utility::getUuidString(), m_projectSettings.get());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
 
-	executeSoureGroupSetup<SourceGroupSettingsCxxCdbVs>(sourceGroupSettings);
+	executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(sourceGroupSettings);
 }
 
 void QtProjectWizzard::editProject(const FilePath& settingsPath)
@@ -633,7 +650,7 @@ void QtProjectWizzard::handlePrevious()
 }
 
 template <typename SettingsType>
-void QtProjectWizzard::executeSoureGroupSetup(std::shared_ptr<SettingsType> settings)
+void QtProjectWizzard::executeSourceGroupSetup(std::shared_ptr<SettingsType> settings)
 {
 	std::shared_ptr<QtSourceGroupWizzard<SettingsType>> wizzard = std::make_shared<QtSourceGroupWizzard<SettingsType>>(
 		settings,
@@ -825,6 +842,10 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 	{
 		fillSummary(summary, settings, this);
 	}
+	else if (std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(group))
+	{
+		fillSummary(summary, settings, this);
+	}
 
 	setContent(summary);
 
@@ -1003,46 +1024,46 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 		{
 			std::shared_ptr<SourceGroupSettingsCEmpty> settings = std::make_shared<SourceGroupSettingsCEmpty>(sourceGroupId, m_projectSettings.get());
 			addMsvcCompatibilityFlagsOnDemand(settings);
-			executeSoureGroupSetup<SourceGroupSettingsCEmpty>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsCEmpty>(settings);
 		}
 		break;
 	case SOURCE_GROUP_CPP_EMPTY:
 	{
 		std::shared_ptr<SourceGroupSettingsCppEmpty> settings = std::make_shared<SourceGroupSettingsCppEmpty>(sourceGroupId, m_projectSettings.get());
 		addMsvcCompatibilityFlagsOnDemand(settings);
-		executeSoureGroupSetup<SourceGroupSettingsCppEmpty>(settings);
+		executeSourceGroupSetup<SourceGroupSettingsCppEmpty>(settings);
 	}
 		break;
 	case SOURCE_GROUP_CXX_CDB:
 		{
 			std::shared_ptr<SourceGroupSettingsCxxCdb> settings = std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
-			executeSoureGroupSetup<SourceGroupSettingsCxxCdb>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsCxxCdb>(settings);
 		}
 		break;
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
 		{
 			std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings = std::make_shared<SourceGroupSettingsCxxCodeblocks>(sourceGroupId, m_projectSettings.get());
 			addMsvcCompatibilityFlagsOnDemand(settings);
-			executeSoureGroupSetup<SourceGroupSettingsCxxCodeblocks>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsCxxCodeblocks>(settings);
 		}
 		break;
 	case SOURCE_GROUP_CXX_SONARGRAPH:
 		{
 			std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings = std::make_shared<SourceGroupSettingsCxxSonargraph>(sourceGroupId, m_projectSettings.get());
 			addMsvcCompatibilityFlagsOnDemand(settings);
-			executeSoureGroupSetup<SourceGroupSettingsCxxSonargraph>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsCxxSonargraph>(settings);
 		}
 		break;
 	case SOURCE_GROUP_CXX_VS:
 		{
 			std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings = std::make_shared<SourceGroupSettingsCxxCdbVs>(sourceGroupId, m_projectSettings.get());
-			executeSoureGroupSetup<SourceGroupSettingsCxxCdbVs>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(settings);
 		}
 		break;
 	case SOURCE_GROUP_JAVA_EMPTY:
 		{
 			std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
-			executeSoureGroupSetup<SourceGroupSettingsJavaEmpty>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsJavaEmpty>(settings);
 		}
 		break;
 	case SOURCE_GROUP_JAVA_MAVEN:
@@ -1056,7 +1077,7 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 					L"/maven"
 				)
 			);
-			executeSoureGroupSetup<SourceGroupSettingsJavaMaven>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsJavaMaven>(settings);
 		}
 		break;
 	case SOURCE_GROUP_JAVA_GRADLE:
@@ -1070,13 +1091,19 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 					L"/gradle"
 				)
 			);
-			executeSoureGroupSetup<SourceGroupSettingsJavaGradle>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsJavaGradle>(settings);
 		}
 		break;
-	case SOURCE_GROUP_JAVA_SONARGRAPH: 
+	case SOURCE_GROUP_JAVA_SONARGRAPH:
 		{
 			std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings = std::make_shared<SourceGroupSettingsJavaSonargraph>(sourceGroupId, m_projectSettings.get());
-			executeSoureGroupSetup<SourceGroupSettingsJavaSonargraph>(settings);
+			executeSourceGroupSetup<SourceGroupSettingsJavaSonargraph>(settings);
+		}
+		break;
+	case SOURCE_GROUP_CUSTOM_COMMAND:
+		{
+			std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::make_shared<SourceGroupSettingsCustomCommand>(sourceGroupId, m_projectSettings.get());
+			executeSourceGroupSetup<SourceGroupSettingsCustomCommand>(settings);
 		}
 		break;
 	case SOURCE_GROUP_UNKNOWN:

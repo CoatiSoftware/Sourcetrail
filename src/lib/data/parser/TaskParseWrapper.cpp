@@ -37,7 +37,8 @@ Task::TaskState TaskParseWrapper::doUpdate(std::shared_ptr<Blackboard> blackboar
 
 void TaskParseWrapper::doExit(std::shared_ptr<Blackboard> blackboard)
 {
-	blackboard->set("index_time", utility::duration(m_start));
+	float duration = utility::duration(m_start);
+	blackboard->update<float>("index_time", [duration](float currentDuration) { return currentDuration + duration; });
 }
 
 void TaskParseWrapper::doReset(std::shared_ptr<Blackboard> blackboard)

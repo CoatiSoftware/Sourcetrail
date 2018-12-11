@@ -24,6 +24,8 @@ std::string sourceGroupTypeToString(SourceGroupType v)
 		return "Java Source Group from Gradle";
 	case SOURCE_GROUP_JAVA_SONARGRAPH:
 		return "Java from Sonargraph";
+	case SOURCE_GROUP_CUSTOM_COMMAND:
+		return "Custom Command Source Group";
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}
@@ -54,6 +56,8 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 		return "Java Source Group from Gradle";
 	case SOURCE_GROUP_JAVA_SONARGRAPH:
 		return "Java from Sonargraph";
+	case SOURCE_GROUP_CUSTOM_COMMAND:
+		return "Custom Command Source Group";
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}
@@ -101,6 +105,10 @@ SourceGroupType stringToSourceGroupType(const std::string& v)
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_JAVA_SONARGRAPH))
 	{
 		return SOURCE_GROUP_JAVA_SONARGRAPH;
+	}
+	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CUSTOM_COMMAND))
+	{
+		return SOURCE_GROUP_CUSTOM_COMMAND;
 	}
 
 	return SOURCE_GROUP_UNKNOWN;

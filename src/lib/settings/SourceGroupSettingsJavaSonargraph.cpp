@@ -44,8 +44,3 @@ bool SourceGroupSettingsJavaSonargraph::equals(std::shared_ptr<SourceGroupSettin
 		SourceGroupSettingsWithSonargraphProjectPath::equals(otherJavaSonargraph)
 	);
 }
-
-const ProjectSettings* SourceGroupSettingsJavaSonargraph::getProjectSettings() const
-{
-	return m_projectSettings;
-}

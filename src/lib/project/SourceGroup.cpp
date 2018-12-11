@@ -3,6 +3,7 @@
 #include "MemoryIndexerCommandProvider.h"
 #include "SourceGroupSettings.h"
 #include "FilePath.h"
+#include "FilePathFilter.h"
 
 std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
 {
@@ -29,6 +30,11 @@ bool SourceGroup::prepareIndexing()
 	return true;
 }
 
+bool SourceGroup::allowsPartialClearing() const
+{
+	return true;
+}
+
 std::set<FilePath> SourceGroup::filterToContainedSourceFilePath(const std::set<FilePath>& sourceFilePaths) const
 {
 	std::set<FilePath> filteredSourceFilePaths;
@@ -45,4 +51,51 @@ std::set<FilePath> SourceGroup::filterToContainedSourceFilePath(const std::set<F
 bool SourceGroup::containsSourceFilePath(const FilePath& sourceFilePath) const
 {
 	return !filterToContainedSourceFilePath({ sourceFilePath }).empty();
+}
+
+std::set<FilePath> SourceGroup::filterToContainedFilePaths(
+	const std::set<FilePath>& filePaths,
+	const std::set<FilePath>& indexedFilePaths,
+	const std::set<FilePath>& indexedFileOrDirectoryPaths,
+	const std::vector<FilePathFilter>& excludeFilters) const
+{
+	std::set<FilePath> containedFilePaths;
+
+	for (const FilePath& filePath : filePaths)
+	{
+		bool isInIndexedPaths = false;
+
+		for (const FilePath& indexedFileOrDirectoryPath : indexedFileOrDirectoryPaths)
+		{
+			if (indexedFileOrDirectoryPath == filePath || indexedFileOrDirectoryPath.contains(filePath))
+			{
+				isInIndexedPaths = true;
+				break;
+			}
+		}
+
+		if (!isInIndexedPaths && indexedFilePaths.find(filePath) != indexedFilePaths.end())
+		{
+			isInIndexedPaths = true;
+		}
+
+		if (isInIndexedPaths)
+		{
+			for (const FilePathFilter& excludeFilter : excludeFilters)
+			{
+				if (excludeFilter.isMatching(filePath))
+				{
+					isInIndexedPaths = false;
+					break;
+				}
+			}
+		}
+
+		if (isInIndexedPaths)
+		{
+			containedFilePaths.insert(filePath);
+		}
+	}
+
+	return containedFilePaths;
 }

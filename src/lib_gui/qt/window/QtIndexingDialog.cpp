@@ -294,6 +294,14 @@ void QtIndexingDialog::setupProgress(bool hideable)
 	finishSetup();
 }
 
+void QtIndexingDialog::updateTitle(const QString& title)
+{
+	if (m_title)
+	{
+		m_title->setText(title);
+	}
+}
+
 void QtIndexingDialog::updateMessage(const QString& message)
 {
 	if (m_messageLabel)

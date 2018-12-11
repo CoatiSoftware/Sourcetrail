@@ -52,6 +52,11 @@ void DialogView::updateIndexingDialog(
 {
 }
 
+void DialogView::updateCustomIndexingDialog(
+	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths)
+{
+}
+
 DatabasePolicy DialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 	float time, ErrorCountInfo errorInfo, bool interrupted)

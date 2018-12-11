@@ -32,6 +32,8 @@ class SqliteIndexStorage
 	: public SqliteStorage
 {
 public:
+	static size_t getStorageVersion();
+
 	enum StorageModeType
 	{
 		STORAGE_MODE_READ = 1,
