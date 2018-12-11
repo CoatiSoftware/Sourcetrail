@@ -14,16 +14,20 @@ public:
 	static std::wstring serializeRange(const NameHierarchy& nameHierarchy, size_t first, size_t last);
 	static NameHierarchy deserialize(const std::wstring& serializedName);
 
-	NameHierarchy(const NameDelimiterType delimiter = NAME_DELIMITER_UNKNOWN);
-	NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiter);
-	NameHierarchy(std::wstring name, const NameDelimiterType delimiter);
+	NameHierarchy(std::wstring delimiter);
+	NameHierarchy(std::wstring name, std::wstring delimiter);
+	NameHierarchy(const std::vector<std::wstring>& names, std::wstring delimiter);
+
+	NameHierarchy(const NameDelimiterType delimiterType = NAME_DELIMITER_UNKNOWN);
+	NameHierarchy(std::wstring name, const NameDelimiterType delimiterType);
+	NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiterType);
 
 	NameHierarchy(const NameHierarchy& other);
 	NameHierarchy(NameHierarchy&& other);
 	~NameHierarchy();
 
-	NameDelimiterType getDelimiter() const;
-	void setDelimiter(const NameDelimiterType delimiter);
+	const std::wstring& getDelimiter() const;
+	void setDelimiter(std::wstring delimiter);
 
 	void push(NameElement element);
 	void push(std::wstring name);
@@ -52,7 +56,7 @@ public:
 
 private:
 	std::vector<NameElement> m_elements;
-	NameDelimiterType m_delimiter;
+	std::wstring m_delimiter;
 };
 
 #endif // NAME_ELEMENT_H

@@ -1,5 +1,7 @@
 #include "QtSmartSearchBox.h"
 
+#include <deque>
+#include <regex>
 #include <stdlib.h>
 
 #include <QApplication>
@@ -193,7 +195,7 @@ bool QtSmartSearchBox::event(QEvent *event)
 				else if (m_highlightedMatch.hasChildren && m_highlightedMatch.tokenNames.size())
 				{
 					setEditText(QString::fromStdWString(
-						m_highlightedMatch.getFullName() + nameDelimiterTypeToString(m_highlightedMatch.tokenNames[0].getDelimiter())));
+						m_highlightedMatch.getFullName() + m_highlightedMatch.tokenNames[0].getDelimiter()));
 					requestAutoCompletions();
 				}
 				else
@@ -301,21 +303,43 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 		}
 		else
 		{
-			const NameDelimiterType delimiter = detectDelimiterType(text().toStdWString());
-			std::vector<std::string> names = utility::splitToVector(text().toStdString(), delimiter);
-			if (names.back() == "")
+			std::string str = text().toStdString();
+			std::smatch match;
+			std::regex regExp(".\\b");
+
+			std::deque<std::string> parts;
+			while (std::regex_search(str, match, regExp))
 			{
-				names.pop_back();
+				parts.push_back(str.substr(0, match.position(0) + match.length(0)));
+				str = match.suffix();
 			}
 
-			if (names.size() < 2)
+			if (str.size())
 			{
-				setEditText("");
+				parts.push_back(str);
 			}
-			else
+
+			str.clear();
+			while (parts.size() && int(str.size() + parts.front().size()) < cursorPosition())
 			{
-				names.back() = "";
-				setEditText(utility::join(names, delimiter).c_str());
+				str += parts.front();
+				parts.pop_front();
+			}
+
+			size_t size = 0;
+			if (parts.size())
+			{
+				size = str.size();
+				str += parts.front().substr(cursorPosition() - str.size());
+				parts.pop_front();
+			}
+
+			str += utility::join(parts, "");
+
+			setEditText(QString::fromStdString(str));
+			if (size)
+			{
+				setCursorPosition(size);
 			}
 
 			requestAutoCompletions();

@@ -664,7 +664,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		else if (lastMatch->score == match.score && match.tokenNames.size())
 		{
 			size_t lastSize = lastMatch->name.size();
-			if (match.name.find(nameDelimiterTypeToString(match.tokenNames[0].getDelimiter()), lastSize) == lastSize)
+			if (match.name.find(match.tokenNames[0].getDelimiter(), lastSize) == lastSize)
 			{
 				match.score -= 10;
 			}
@@ -1910,7 +1910,8 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 	TooltipSnippet snippet;
 	snippet.code = nameHierarchy.getQualifiedNameWithSignature();
 	snippet.locationFile = std::make_shared<SourceLocationFile>(
-		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true, true);
+		FilePath(nameHierarchy.getDelimiter() == nameDelimiterTypeToString(NAME_DELIMITER_JAVA) ? L"main.java" : L"main.cpp"),
+		true, true, true);
 
 	if (nameHierarchy.hasSignature())
 	{
@@ -1994,7 +1995,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 
 			// store texts of annotations
 			std::vector<std::pair<Id, std::wstring>> annotatedTexts;
-			std::wstring delimiter = nameDelimiterTypeToString(nameHierarchy.getDelimiter());
+			std::wstring delimiter = nameHierarchy.getDelimiter();
 			size_t offset = 0;
 			for (const Annotation& annotation : annotations)
 			{
@@ -2156,7 +2157,8 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 			snippet.code = nameHierarchy.getQualifiedName();
 			snippet.locationFile = std::make_shared<SourceLocationFile>(
-				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true, true);
+				FilePath(nameHierarchy.getDelimiter() == nameDelimiterTypeToString(NAME_DELIMITER_JAVA) ? L"main.java" : L"main.cpp"),
+				true, true, true);
 
 			snippet.locationFile->addSourceLocation(
 				LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
@@ -2920,7 +2922,7 @@ void PersistentStorage::buildSearchIndex()
 
 					// replace template arguments with .. to avoid clutter in search results and have different
 					// template specializations share the same node.
-					if (defKind == DEFINITION_NONE && nameHierarchy.getDelimiter() == NAME_DELIMITER_CXX)
+					if (defKind == DEFINITION_NONE && nameHierarchy.getDelimiter() == nameDelimiterTypeToString(NAME_DELIMITER_CXX))
 					{
 						name = utility::replaceBetween(name, L'<', L'>', L"..");
 					}

@@ -21,7 +21,7 @@ std::wstring NameHierarchy::serialize(const NameHierarchy& nameHierarchy)
 std::wstring NameHierarchy::serializeRange(const NameHierarchy& nameHierarchy, size_t first, size_t last)
 {
 	std::wstringstream ss;
-	ss << nameDelimiterTypeToString(nameHierarchy.getDelimiter());
+	ss << nameHierarchy.getDelimiter();
 	ss << META_DELIMITER;
 	for (size_t i = first; i < last && i < nameHierarchy.size(); i++)
 	{
@@ -47,7 +47,7 @@ NameHierarchy NameHierarchy::deserialize(const std::wstring& serializedName)
 		return NameHierarchy(NAME_DELIMITER_UNKNOWN);
 	}
 
-	NameHierarchy nameHierarchy(stringToNameDelimiterType(serializedName.substr(0, mpos)));
+	NameHierarchy nameHierarchy(serializedName.substr(0, mpos));
 
 	size_t npos = mpos + META_DELIMITER.size();
 	while (npos != std::wstring::npos && npos < serializedName.size())
@@ -92,23 +92,23 @@ NameHierarchy NameHierarchy::deserialize(const std::wstring& serializedName)
 	return nameHierarchy;
 }
 
-NameDelimiterType NameHierarchy::getDelimiter() const
+const std::wstring& NameHierarchy::getDelimiter() const
 {
 	return m_delimiter;
 }
 
-void NameHierarchy::setDelimiter(const NameDelimiterType delimiter)
+void NameHierarchy::setDelimiter(std::wstring delimiter)
 {
-	m_delimiter = delimiter;
+	m_delimiter = std::move(delimiter);
 }
 
-NameHierarchy::NameHierarchy(const NameDelimiterType delimiter)
-	: m_delimiter(delimiter)
+NameHierarchy::NameHierarchy(std::wstring delimiter)
+	: m_delimiter(std::move(delimiter))
 {
 }
 
-NameHierarchy::NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiter)
-	: m_delimiter(delimiter)
+NameHierarchy::NameHierarchy(const std::vector<std::wstring>& names, std::wstring delimiter)
+	: m_delimiter(std::move(delimiter))
 {
 	for (const std::wstring& name : names)
 	{
@@ -116,10 +116,25 @@ NameHierarchy::NameHierarchy(const std::vector<std::wstring>& names, const NameD
 	}
 }
 
-NameHierarchy::NameHierarchy(std::wstring name, const NameDelimiterType delimiter)
-	: m_delimiter(delimiter)
+NameHierarchy::NameHierarchy(std::wstring name, std::wstring delimiter)
+	: m_delimiter(std::move(delimiter))
 {
 	push(std::move(name));
+}
+
+NameHierarchy::NameHierarchy(const NameDelimiterType delimiterType)
+	: NameHierarchy(nameDelimiterTypeToString(delimiterType))
+{
+}
+
+NameHierarchy::NameHierarchy(std::wstring name, const NameDelimiterType delimiterType)
+	: NameHierarchy(name, nameDelimiterTypeToString(delimiterType))
+{
+}
+
+NameHierarchy::NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiterType)
+	: NameHierarchy(names, nameDelimiterTypeToString(delimiterType))
+{
 }
 
 NameHierarchy::NameHierarchy(const NameHierarchy& other)
@@ -130,7 +145,7 @@ NameHierarchy::NameHierarchy(const NameHierarchy& other)
 
 NameHierarchy::NameHierarchy(NameHierarchy&& other)
 	: m_elements(std::move(other.m_elements))
-	, m_delimiter(other.m_delimiter)
+	, m_delimiter(std::move(other.m_delimiter))
 {
 }
 
@@ -183,7 +198,7 @@ NameHierarchy& NameHierarchy::operator=(const NameHierarchy& other)
 NameHierarchy& NameHierarchy::operator=(NameHierarchy&& other)
 {
 	m_elements = std::move(other.m_elements);
-	m_delimiter = other.m_delimiter;
+	m_delimiter = std::move(other.m_delimiter);
 	return *this;
 }
 
@@ -211,7 +226,7 @@ std::wstring NameHierarchy::getQualifiedName() const
 	{
 		if (i > 0)
 		{
-			ss << nameDelimiterTypeToString(m_delimiter);
+			ss << m_delimiter;
 		}
 		ss << m_elements[i].getName();
 	}
