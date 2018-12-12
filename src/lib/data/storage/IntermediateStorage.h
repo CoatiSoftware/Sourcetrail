@@ -28,6 +28,7 @@ public:
 	void addSymbol(const StorageSymbol& symbol) override;
 	void addSymbols(const std::vector<StorageSymbol>& symbols) override;
 	void addFile(const StorageFile& file) override;
+	void setFileLanguage(Id fileId, const std::wstring& languageIdentifier);
 	Id addEdge(const StorageEdgeData& edgeData) override;
 	std::vector<Id> addEdges(const std::vector<StorageEdge>& edges) override;
 	Id addLocalSymbol(const StorageLocalSymbolData& localSymbolData) override;
@@ -69,8 +70,9 @@ private:
 	std::vector<StorageNode> m_nodes;
 
 	std::map<StorageFile, size_t> m_filesIndex; // this is used to prevent duplicates (unique)
+	std::map<Id, size_t> m_filesIdIndex;
 	std::vector<StorageFile> m_files;
-
+	
 	std::vector<StorageSymbol> m_symbols;
 
 	std::map<StorageEdgeData, size_t> m_edgesIndex;

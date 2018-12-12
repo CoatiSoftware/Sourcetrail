@@ -65,28 +65,30 @@ inline StorageNode fromShared(const SharedStorageNode& node)
 struct SharedStorageFile
 {
 	SharedStorageFile(
-		Id id, const std::string& filePath, bool indexed, bool complete, SharedMemory::Allocator* allocator
+		Id id, const std::string& filePath, const std::string& languageIdentifier, bool indexed, bool complete, SharedMemory::Allocator* allocator
 	)
 		: id(id)
 		, filePath(filePath.c_str(), allocator)
+		, languageIdentifier(languageIdentifier.c_str(), allocator)
 		, indexed(indexed)
 		, complete(complete)
 	{}
 
 	Id id;
 	SharedMemory::String filePath;
+	SharedMemory::String languageIdentifier;
 	bool indexed;
 	bool complete;
 };
 
 inline SharedStorageFile toShared(const StorageFile& file, SharedMemory::Allocator* allocator)
 {
-	return SharedStorageFile(file.id, utility::encodeToUtf8(file.filePath), file.indexed, file.complete, allocator);
+	return SharedStorageFile(file.id, utility::encodeToUtf8(file.filePath), utility::encodeToUtf8(file.languageIdentifier), file.indexed, file.complete, allocator);
 }
 
 inline StorageFile fromShared(const SharedStorageFile& file)
 {
-	return StorageFile(file.id, utility::decodeFromUtf8(file.filePath.c_str()), file.indexed, file.complete);
+	return StorageFile(file.id, utility::decodeFromUtf8(file.filePath.c_str()), utility::decodeFromUtf8(file.languageIdentifier.c_str()), "", file.indexed, file.complete);
 }
 
 

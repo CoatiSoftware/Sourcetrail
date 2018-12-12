@@ -12,8 +12,13 @@ ParserClientImpl::ParserClientImpl(IntermediateStorage* const storage)
 Id ParserClientImpl::recordFile(const FilePath& filePath, bool indexed)
 {
 	Id fileId = addFileName(filePath);
-	m_storage->addFile(StorageFile(fileId, filePath.wstr(), indexed, true));
+	m_storage->addFile(StorageFile(fileId, filePath.wstr(), L"", "", indexed, true));
 	return fileId;
+}
+
+void ParserClientImpl::recordFileLanguage(Id fileId, const std::wstring& languageIdentifier)
+{
+	m_storage->setFileLanguage(fileId, languageIdentifier);
 }
 
 Id ParserClientImpl::recordSymbol(const NameHierarchy& symbolName)

@@ -54,6 +54,7 @@ void Storage::inject(Storage* injected)
 				addFile(StorageFile(
 					it->second,
 					file.filePath,
+					file.languageIdentifier,
 					file.modificationTime,
 					file.indexed,
 					file.complete

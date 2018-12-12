@@ -17,6 +17,7 @@ public:
 	virtual ~ParserClient() = default;
 
 	virtual Id recordFile(const FilePath& filePath, bool indexed) = 0;
+	virtual void recordFileLanguage(Id fileId, const std::wstring& languageIdentifier) = 0;
 
 	virtual Id recordSymbol(const NameHierarchy& symbolName) = 0;
 	virtual void recordSymbolKind(Id symbolId, SymbolKind symbolKind) = 0;

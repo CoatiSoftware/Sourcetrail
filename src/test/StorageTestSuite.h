@@ -22,7 +22,7 @@ public:
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 		Id id = intermetiateStorage->addNode(StorageNodeData(NodeType::typeToInt(NodeType::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE)))).first;
-		intermetiateStorage->addFile(StorageFile(id, filePath, "someTime", true, true));
+		intermetiateStorage->addFile(StorageFile(id, filePath, L"someLanguage", "someTime", true, true));
 
 		storage.inject(intermetiateStorage.get());
 

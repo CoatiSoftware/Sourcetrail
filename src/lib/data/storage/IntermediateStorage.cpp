@@ -15,6 +15,7 @@ void IntermediateStorage::clear()
 	m_nodes.clear();
 
 	m_filesIndex.clear();
+	m_filesIdIndex.clear();
 	m_files.clear();
 
 	m_symbols.clear();
@@ -171,12 +172,7 @@ void IntermediateStorage::addSymbols(const std::vector<StorageSymbol>& symbols)
 void IntermediateStorage::addFile(const StorageFile& file)
 {
 	auto it = m_filesIndex.find(file);
-	if (it == m_filesIndex.end())
-	{
-		m_filesIndex.emplace(file, m_files.size());
-		m_files.emplace_back(file);
-	}
-	else
+	if (it != m_filesIndex.end())
 	{
 		StorageFile& storedFile = m_files[it->second];
 
@@ -189,6 +185,27 @@ void IntermediateStorage::addFile(const StorageFile& file)
 		{
 			storedFile.complete = true;
 		}
+
+		if (!file.languageIdentifier.empty())
+		{
+			storedFile.languageIdentifier = file.languageIdentifier;
+		}
+	}
+	else
+	{
+		m_filesIndex.emplace(file, m_files.size());
+		m_filesIdIndex.emplace(file.id, m_files.size());
+		m_files.emplace_back(file);
+	}
+	
+}
+
+void IntermediateStorage::setFileLanguage(Id fileId, const std::wstring& languageIdentifier)
+{
+	auto it = m_filesIdIndex.find(fileId);
+	if (it != m_filesIdIndex.end())
+	{
+		m_files[it->second].languageIdentifier = languageIdentifier;
 	}
 }
 
@@ -362,9 +379,11 @@ void IntermediateStorage::setStorageFiles(std::vector<StorageFile> storageFiles)
 	m_files = std::move(storageFiles);
 
 	m_filesIndex.clear();
+	m_filesIdIndex.clear();
 	for (size_t i = 0; i < m_files.size(); i++)
 	{
 		m_filesIndex.emplace(m_files[i], i);
+		m_filesIdIndex.emplace(m_files[i].id, i);
 	}
 }
 

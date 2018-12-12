@@ -16,6 +16,7 @@ public:
 	ParserClientImpl(IntermediateStorage* const storage);
 
 	Id recordFile(const FilePath& filePath, bool indexed) override;
+	void recordFileLanguage(Id fileId, const std::wstring& languageIdentifier) override;
 
 	Id recordSymbol(const NameHierarchy& symbolName) override;
 	void recordSymbolKind(Id symbolId, SymbolKind symbolKind) override;

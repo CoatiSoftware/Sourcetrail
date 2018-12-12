@@ -10,22 +10,16 @@ struct StorageFile
 	StorageFile()
 		: id(0)
 		, filePath(L"")
+		, languageIdentifier(L"")
 		, modificationTime("")
 		, indexed(true)
 		, complete(true)
 	{}
 
-	StorageFile(Id id, std::wstring filePath, bool indexed, bool complete)
+	StorageFile(Id id, std::wstring filePath, std::wstring languageIdentifier, std::string modificationTime, bool indexed, bool complete)
 		: id(id)
 		, filePath(std::move(filePath))
-		, modificationTime("")
-		, indexed(indexed)
-		, complete(complete)
-	{}
-
-	StorageFile(Id id, std::wstring filePath, std::string modificationTime, bool indexed, bool complete)
-		: id(id)
-		, filePath(std::move(filePath))
+		, languageIdentifier(std::move(languageIdentifier))
 		, modificationTime(std::move(modificationTime))
 		, indexed(indexed)
 		, complete(complete)
@@ -38,6 +32,7 @@ struct StorageFile
 
 	Id id;
 	std::wstring filePath;
+	std::wstring languageIdentifier;
 	std::string modificationTime;
 	bool indexed;
 	bool complete;

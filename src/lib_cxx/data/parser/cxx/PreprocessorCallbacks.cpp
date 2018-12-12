@@ -36,6 +36,7 @@ void PreprocessorCallbacks::FileChanged(
 		if (m_fileWasRecorded.find(fileId) == m_fileWasRecorded.end())
 		{
 			m_currentFileSymbolId = m_client->recordFile(currentPath, m_currentPathIsProjectFile); // todo: fix for tests
+			m_client->recordFileLanguage(m_currentFileSymbolId, L"cpp");
 
 			m_canonicalFilePathCache->addFileSymbolId(fileId, currentPath, m_currentFileSymbolId);
 			m_fileWasRecorded.insert(fileId);

@@ -11,7 +11,7 @@
 #include "SourceLocationFile.h"
 #include "utilityString.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 22;
+const size_t SqliteIndexStorage::s_storageVersion = 23;
 
 namespace
 {
@@ -214,10 +214,11 @@ bool SqliteIndexStorage::addFile(const StorageFile& data)
 	{
 		m_insertFileStmt.bind(1, int(data.id));
 		m_insertFileStmt.bind(2, utility::encodeToUtf8(data.filePath).c_str());
-		m_insertFileStmt.bind(3, modificationTime.c_str());
-		m_insertFileStmt.bind(4, data.indexed);
-		m_insertFileStmt.bind(5, data.complete);
-		m_insertFileStmt.bind(6, lineCount);
+		m_insertFileStmt.bind(3, utility::encodeToUtf8(data.languageIdentifier).c_str());
+		m_insertFileStmt.bind(4, modificationTime.c_str());
+		m_insertFileStmt.bind(5, data.indexed);
+		m_insertFileStmt.bind(6, data.complete);
+		m_insertFileStmt.bind(7, lineCount);
 		success = executeStatement(m_insertFileStmt);
 	}
 
@@ -1157,6 +1158,7 @@ void SqliteIndexStorage::setupTables()
 			"CREATE TABLE IF NOT EXISTS file("
 				"id INTEGER NOT NULL, "
 				"path TEXT, "
+				"language TEXT, "
 				"modification_time TEXT, "
 				"indexed INTEGER, "
 				"complete INTEGER, "
@@ -1317,7 +1319,7 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"INSERT INTO element(id) VALUES(NULL);"
 		);
 		m_insertFileStmt = m_database.compileStatement(
-			"INSERT INTO file(id, path, modification_time, indexed, complete, line_count) VALUES(?, ?, ?, ?, ?, ?);"
+			"INSERT INTO file(id, path, language, modification_time, indexed, complete, line_count) VALUES(?, ?, ?, ?, ?, ?, ?);"
 		);
 		m_insertFileContentStmt = m_database.compileStatement(
 			"INSERT INTO filecontent(id, content) VALUES(?, ?);"
@@ -1413,20 +1415,21 @@ template <>
 void SqliteIndexStorage::forEach<StorageFile>(const std::string& query, std::function<void(StorageFile&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT id, path, modification_time, indexed, complete FROM file " + query + ";"
+		"SELECT id, path, language, modification_time, indexed, complete FROM file " + query + ";"
 	);
 
 	while (!q.eof())
 	{
-		const Id id							= q.getIntField(0, 0);
-		const std::string filePath			= q.getStringField(1, "");
-		const std::string modificationTime	= q.getStringField(2, "");
-		const bool indexed					= q.getIntField(3, 0);
-		const bool complete					= q.getIntField(4, 0);
+		const Id id								= q.getIntField(0, 0);
+		const std::string filePath				= q.getStringField(1, "");
+		const std::string languageIdentifier	= q.getStringField(2, "");
+		const std::string modificationTime		= q.getStringField(3, "");
+		const bool indexed						= q.getIntField(4, 0);
+		const bool complete						= q.getIntField(5, 0);
 
 		if (id != 0)
 		{
-			func(StorageFile(id, utility::decodeFromUtf8(filePath), modificationTime, indexed, complete));
+			func(StorageFile(id, utility::decodeFromUtf8(filePath), utility::decodeFromUtf8(languageIdentifier), modificationTime, indexed, complete));
 		}
 		q.nextRow();
 	}
