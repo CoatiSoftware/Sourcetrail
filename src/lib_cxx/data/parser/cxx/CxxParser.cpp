@@ -193,10 +193,9 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 	if (LogManager::getInstance()->getLoggingEnabled())
 	{
 		const ClangInvocationInfo info = getClangInvocationString(compilationDatabase);
-		if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
-		{
-			LOG_INFO("Clang Invocation: " + info.invocation);
-		}
+
+		LOG_INFO("Clang Invocation: " + info.invocation.substr(0, ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() ? std::string::npos : 20000));
+
 		if (!info.errors.empty())
 		{
 			LOG_INFO("Clang Invocation errors: " + info.errors);
