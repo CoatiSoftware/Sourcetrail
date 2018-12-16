@@ -102,6 +102,11 @@ void QtNewsWidget::updateNews()
 	size_t itemNum = 0;
 	for (QJsonValueRef value : doc.array())
 	{
+		if (!value.isObject())
+		{
+			continue;
+		}
+
 		itemNum++;
 		QJsonObject newsItem = value.toObject();
 

@@ -289,6 +289,7 @@ void PersistentStorage::clearCaches()
 	m_fileNodePaths.clear();
 	m_fileNodeComplete.clear();
 	m_fileNodeIndexed.clear();
+	m_fileNodeLanguage.clear();
 	m_symbolDefinitionKinds.clear();
 
 	m_hierarchyCache.clear();
@@ -1303,7 +1304,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 {
 	TRACE();
 
-	std::vector<FilePath> filePaths;
+	std::map<Id, FilePath> filePaths;
 	std::vector<Id> nonFileIds;
 
 	for (const Id tokenId : tokenIds)
@@ -1326,14 +1327,15 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		}
 		else
 		{
-			filePaths.push_back(path);
+			filePaths.emplace(tokenId, path);
 		}
 	}
 
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
-	for (const FilePath& path : filePaths)
+	for (const std::pair<Id, FilePath>& p : filePaths)
 	{
-		collection->addSourceLocationFile(std::make_shared<SourceLocationFile>(path, true, false, false));
+		collection->addSourceLocationFile(
+			std::make_shared<SourceLocationFile>(p.second, getFileNodeLanguage(p.first), true, false, false));
 	}
 
 	if (nonFileIds.size())
@@ -1909,9 +1911,16 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 	const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 	TooltipSnippet snippet;
 	snippet.code = nameHierarchy.getQualifiedNameWithSignature();
-	snippet.locationFile = std::make_shared<SourceLocationFile>(
-		FilePath(nameHierarchy.getDelimiter() == nameDelimiterTypeToString(NAME_DELIMITER_JAVA) ? L"main.java" : L"main.cpp"),
-		true, true, true);
+	snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.txt"), L"", true, true, true);
+
+	// set file language
+	std::vector<StorageOccurrence> occurrences = m_sqliteIndexStorage.getOccurrencesForElementIds({ node.id });
+	if (occurrences.size())
+	{
+		const Id locationId = occurrences.front().sourceLocationId;
+		const Id fileId = m_sqliteIndexStorage.getFirstById<StorageSourceLocation>(locationId).fileNodeId;
+		snippet.locationFile->setLanguage(getFileNodeLanguage(fileId));
+	}
 
 	if (nameHierarchy.hasSignature())
 	{
@@ -2148,6 +2157,9 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 
 	if (!locationIds.empty())
 	{
+		std::wstring fileLanguage = getFileNodeLanguage(
+			m_sqliteIndexStorage.getFirstById<StorageSourceLocation>(locationIds.front()).fileNodeId);
+
 		const std::vector<Id> nodeIds = getNodeIdsForLocationIds(locationIds);
 
 		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIds))
@@ -2156,9 +2168,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 			snippet.code = nameHierarchy.getQualifiedName();
-			snippet.locationFile = std::make_shared<SourceLocationFile>(
-				FilePath(nameHierarchy.getDelimiter() == nameDelimiterTypeToString(NAME_DELIMITER_JAVA) ? L"main.java" : L"main.cpp"),
-				true, true, true);
+			snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.txt"), fileLanguage, true, true, true);
 
 			snippet.locationFile->addSourceLocation(
 				LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
@@ -2177,7 +2187,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 		TooltipSnippet snippet;
 
 		snippet.code = L"local symbol";
-		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.cpp"), true, true, true);
+		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.txt"), L"", true, true, true);
 		snippet.locationFile->addSourceLocation(
 			LOCATION_LOCAL_SYMBOL, 0, std::vector<Id>(1, id), 1, 1, 1, snippet.code.size());
 
@@ -2273,6 +2283,17 @@ bool PersistentStorage::getFileNodeIndexed(Id fileId) const
 	}
 
 	return false;
+}
+
+std::wstring PersistentStorage::getFileNodeLanguage(Id fileId) const
+{
+	auto it = m_fileNodeLanguage.find(fileId);
+	if (it != m_fileNodeLanguage.end())
+	{
+		return it->second;
+	}
+
+	return L"";
 }
 
 std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToIncludingFileIdMap() const
@@ -2778,6 +2799,7 @@ void PersistentStorage::addCompleteFlagsToSourceLocationCollection(SourceLocatio
 			Id fileId = getFileNodeId(file->getFilePath());
 			file->setIsComplete(getFileNodeComplete(fileId));
 			file->setIsIndexed(getFileNodeIndexed(fileId));
+			file->setLanguage(getFileNodeLanguage(fileId));
 		}
 	);
 }
@@ -2862,6 +2884,7 @@ void PersistentStorage::buildFilePathMaps()
 			m_fileNodePaths.emplace(file.id, path);
 			m_fileNodeComplete.emplace(file.id, file.complete);
 			m_fileNodeIndexed.emplace(file.id, file.indexed);
+			m_fileNodeLanguage.emplace(file.id, file.languageIdentifier);
 
 			if (!m_hasJavaFiles && path.extension() == L".java")
 			{

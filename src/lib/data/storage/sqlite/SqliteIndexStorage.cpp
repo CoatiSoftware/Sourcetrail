@@ -832,7 +832,7 @@ void SqliteIndexStorage::setNodeType(int type, Id nodeId)
 std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFile(
 	const FilePath& filePath, const std::string& query) const
 {
-	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true, false, false);
+	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, L"", true, false, false);
 
 	const StorageFile file = getFileByPath(filePath.wstr());
 	if (file.id == 0) // early out
@@ -840,6 +840,7 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 		return ret;
 	}
 
+	ret->setLanguage(file.languageIdentifier);
 	ret->setIsComplete(file.complete);
 	ret->setIsIndexed(file.indexed);
 

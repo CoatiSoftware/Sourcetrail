@@ -71,6 +71,7 @@ cp $INDEXER_NAME $INDEXER_PATH
 mkdir -p $RES_DIR/data
 
 cp -R ../../../bin/app/data/color_schemes $RES_DIR/data/color_schemes
+cp -R ../../../bin/app/data/syntax_highlighting_rules $RES_DIR/data/syntax_highlighting_rules
 cp -R ../../../bin/app/data/fonts $RES_DIR/data/fonts
 cp -R ../../../bin/app/data/gui $RES_DIR/data/gui
 cp -R ../../../bin/app/data/java $RES_DIR/data/java

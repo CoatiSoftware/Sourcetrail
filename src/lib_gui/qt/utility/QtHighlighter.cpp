@@ -1,112 +1,141 @@
 #include "QtHighlighter.h"
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
 
 #include "ColorScheme.h"
+#include "FileSystem.h"
+#include "ResourcePaths.h"
+#include "TextAccess.h"
 #include "tracing.h"
 #include "utility.h"
 
-QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
-QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesCpp;
-QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesJava;
-QtHighlighter::HighlightingRule QtHighlighter::s_stringQuotationRule;
-QtHighlighter::HighlightingRule QtHighlighter::s_charQuotationRule;
-QtHighlighter::HighlightingRule QtHighlighter::s_commentRule;
+std::map<std::wstring, std::vector<QtHighlighter::HighlightingRule>> QtHighlighter::s_highlightingRules;
 QTextCharFormat QtHighlighter::s_textFormat;
 
-void QtHighlighter::createHighlightingRules()
+std::string QtHighlighter::highlightTypeToString(QtHighlighter::HighlightType type)
 {
-	QStringList keywordPatternsCpp;
-	keywordPatternsCpp
-		<< "alignas" << "alignof" << "and" << "and_eq" << "asm" << "assert" << "auto" << "bitand" << "bitor"
-		<< "break" << "case" << "catch" << "compl" << "complex" << "const" << "constexpr" << "const_cast"
-		<< "continue" << "decltype" << "default" << "delete" << "do" << "dynamic_cast" << "else" << "explicit"
-		<< "export" << "extern" << "false" << "final" << "for" << "friend" << "goto" << "if" << "imaginary"
-		<< "inline" << "mutable" << "new" << "noexcept" << "not" << "not_eq" << "noreturn" << "NULL" << "nullptr"
-		<< "operator" << "or" << "or_eq" << "override" << "private" << "protected" << "public" << "register"
-		<< "reinterpret_cast" << "requires" << "return" << "signals" << "sizeof" << "slots" << "static"
-		<< "static_assert" << "static_cast" << "switch" << "template" << "this" << "thread_local" << "throw"
-		<< "throws" << "true" << "try" << "typedef" << "typeid" << "typename" << "using" << "virtual" << "volatile"
-		<< "while" << "xor" << "xor_eq";
+	switch (type)
+	{
+		case HighlightType::COMMENT: return "comment";
+		case HighlightType::DIRECTIVE: return "directive";
+		case HighlightType::FUNCTION: return "function";
+		case HighlightType::KEYWORD: return "keyword";
+		case HighlightType::NUMBER: return "number";
+		case HighlightType::QUOTATION: return "quotation";
+		case HighlightType::TEXT: return "text";
+		case HighlightType::TYPE: return "type";
+	}
+	return "text";
+}
 
-	QStringList keywordPatternsJava;
-	keywordPatternsJava
-		<< "abstract" << "assert" << "break" << "case" << "catch" << "const" << "continue" << "default"
-		<< "do" << "else" << "extends" << "false" << "final" << "finally" << "for"
-		<< "friend" << "goto" << "if" << "implements" << "import" << "instanceof" << "interface" << "native"
-		<< "new" << "package" << "private" << "protected" << "public" << "return" << "static" << "strictfp"
-		<< "super" << "switch" << "synchronized" << "this" << "true" << "throw" << "throws" << "transient"
-		<< "try" << "volatile" << "while";
+QtHighlighter::HighlightType QtHighlighter::highlightTypeFromString(const std::string typeStr)
+{
+	const std::array<HighlightType, 8> types = {
+		HighlightType::COMMENT,
+		HighlightType::DIRECTIVE,
+		HighlightType::FUNCTION,
+		HighlightType::KEYWORD,
+		HighlightType::NUMBER,
+		HighlightType::QUOTATION,
+		HighlightType::TEXT,
+		HighlightType::TYPE
+	};
 
-	QStringList typePatternsCpp;
-	typePatternsCpp
-		<< "bool" << "char" << "char16_t" << "char32_t" << "class" << "double" << "enum" << "float" << "int"
-		<< "long" << "namespace" << "short" << "signed" << "size_t" << "struct" << "union" << "unsigned" << "void"
-		<< "wchar_t";
+	for (HighlightType type : types)
+	{
+		if (typeStr == highlightTypeToString(type))
+		{
+			return type;
+		}
+	}
 
-	QStringList typePatternsJava;
-	typePatternsJava
-		<< "boolean" << "byte" << "char" << "class" << "double" << "enum" << "float" << "int" << "long" << "package"
-		<< "short" << "void";
+	return HighlightType::TEXT;
+}
 
-	QRegExp directiveRegExp = QRegExp("#[a-z]+\\b");
-	QRegExp annotationRegExp = QRegExp("@[A-Za-z0-9_]+");
-	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
-	QRegExp functionRegExp = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
-	QRegExp stringQuotationRegExp = QRegExp("\"([^\"]|\\\\.)*\"");
-	QRegExp charQuotationRegExp = QRegExp("\'[^\']\'");
-	QRegExp tagQuotationRegExp = QRegExp(" <[^<>\\s]*>$");
-	QRegExp commentRegExp = QRegExp("//[^\n]*");
-
+void QtHighlighter::loadHighlightingRules()
+{
 	ColorScheme* scheme = ColorScheme::getInstance().get();
 
-	s_textFormat.setForeground(QColor(scheme->getSyntaxColor("normal").c_str()));
+	std::map<HighlightType, QColor> ruleTypeColors;
+	const std::array<HighlightType, 8> types = {
+		HighlightType::COMMENT,
+		HighlightType::DIRECTIVE,
+		HighlightType::FUNCTION,
+		HighlightType::KEYWORD,
+		HighlightType::NUMBER,
+		HighlightType::QUOTATION,
+		HighlightType::TEXT,
+		HighlightType::TYPE
+	};
 
-	QColor directiveColor(scheme->getSyntaxColor("directive").c_str());
-	QColor annotationColor = directiveColor;
-	QColor keywordColor(scheme->getSyntaxColor("keyword").c_str());
-	QColor typeColor(scheme->getSyntaxColor("type").c_str());
-	QColor numberColor(scheme->getSyntaxColor("number").c_str());
-	QColor functionColor(scheme->getSyntaxColor("function").c_str());
-	QColor quotationColor(scheme->getSyntaxColor("quotation").c_str());
-	QColor commentColor(scheme->getSyntaxColor("comment").c_str());
-
-	s_highlightingRules.clear();
-	s_highlightingRules.append(HighlightingRule(directiveColor, directiveRegExp));
-	s_highlightingRules.append(HighlightingRule(numberColor, numberRegExp));
-	s_highlightingRules.append(HighlightingRule(functionColor, functionRegExp));
-	s_highlightingRules.append(HighlightingRule(annotationColor, annotationRegExp));
-	s_highlightingRules.append(HighlightingRule(quotationColor, tagQuotationRegExp));
-
-	s_highlightingRulesCpp.clear();
-
-	foreach (const QString &pattern, keywordPatternsCpp)
+	for (HighlightType type : types)
 	{
-		s_highlightingRulesCpp.append(HighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b")));
+		ruleTypeColors.emplace(type, QColor(scheme->getSyntaxColor(highlightTypeToString(type)).c_str()));
 	}
 
-	foreach (const QString &pattern, typePatternsCpp)
+	s_textFormat.setForeground(ruleTypeColors[HighlightType::TEXT]);
+
+	for (const FilePath path :
+			FileSystem::getFilePathsFromDirectory(ResourcePaths::getSyntaxHighlightingRulesPath(), { L".rules" }))
 	{
-		s_highlightingRulesCpp.append(HighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b")));
+		std::wstring language = path.withoutExtension().fileName();
+
+		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(path);
+
+		QJsonParseError error;
+		QJsonDocument doc = QJsonDocument::fromJson(QString::fromStdString(textAccess->getText()).toUtf8(), &error);
+		if (doc.isNull() || !doc.isArray())
+		{
+			LOG_ERROR_STREAM(<< "Highlinghting rules in \"" << path.str() << "\" couldn't be parsed as JSON: "
+				"offset " << error.offset << " - " << error.errorString().toStdString());
+			continue;
+		}
+
+		std::vector<HighlightingRule> rules;
+
+		for (QJsonValueRef value : doc.array())
+		{
+			if (!value.isObject())
+			{
+				continue;
+			}
+
+			QJsonObject ruleObj = value.toObject();
+
+			HighlightType type = highlightTypeFromString(ruleObj.value("type").toString().toStdString());
+
+			auto colorIt = ruleTypeColors.find(type);
+			if (colorIt == ruleTypeColors.end())
+			{
+				continue;
+			}
+
+			bool priority = ruleObj.value("priority").toBool();
+
+			QJsonArray patterns = ruleObj.value("patterns").toArray();
+			for (QJsonValueRef pattern : patterns)
+			{
+				if (pattern.isString())
+				{
+					rules.push_back(HighlightingRule(type, colorIt->second, QRegExp(pattern.toString()), priority));
+				}
+			}
+
+			QJsonObject range = ruleObj.value("range").toObject();
+			if (!range.empty())
+			{
+				rules.push_back(HighlightingRule(type, colorIt->second, QRegExp(range.value("start").toString()), priority, true));
+				rules.push_back(HighlightingRule(type, colorIt->second, QRegExp(range.value("end").toString()), priority, true));
+			}
+		}
+
+		s_highlightingRules.emplace(language, rules);
 	}
-
-	s_highlightingRulesJava.clear();
-
-	foreach (const QString &pattern, keywordPatternsJava)
-	{
-		s_highlightingRulesJava.append(HighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b")));
-	}
-
-	foreach (const QString &pattern, typePatternsJava)
-	{
-		s_highlightingRulesJava.append(HighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b")));
-	}
-
-	s_stringQuotationRule = HighlightingRule(quotationColor, stringQuotationRegExp);
-	s_charQuotationRule = HighlightingRule(quotationColor, charQuotationRegExp);
-	s_commentRule = HighlightingRule(commentColor, commentRegExp);
 }
 
 void QtHighlighter::clearHighlightingRules()
@@ -114,30 +143,19 @@ void QtHighlighter::clearHighlightingRules()
 	s_highlightingRules.clear();
 }
 
-QtHighlighter::QtHighlighter(QTextDocument *document, LanguageType language)
+QtHighlighter::QtHighlighter(QTextDocument *document, const std::wstring& language)
 	: m_document(document)
-	, m_language(language)
 {
 	if (!s_highlightingRules.size())
 	{
-		createHighlightingRules();
+		loadHighlightingRules();
 	}
 
-	if (m_language == LANGUAGE_UNKNOWN)
+	const auto it = s_highlightingRules.find(language);
+	if (it != s_highlightingRules.end())
 	{
-		return;
+		m_highlightingRules = it->second;
 	}
-
-	if (m_language == LANGUAGE_JAVA)
-	{
-		m_highlightingRules = s_highlightingRulesJava;
-	}
-	else
-	{
-		m_highlightingRules = s_highlightingRulesCpp;
-	}
-
-	m_highlightingRules.append(s_highlightingRules);
 }
 
 void QtHighlighter::highlightDocument()
@@ -163,12 +181,20 @@ void QtHighlighter::highlightDocument()
 	m_highlightedLines.clear();
 	m_highlightedLines.resize(document()->blockCount(), false);
 
-	if (m_language == LANGUAGE_UNKNOWN)
+	if (m_highlightingRules.empty())
 	{
 		return;
 	}
 
-	createRanges(doc, s_stringQuotationRule, s_charQuotationRule);
+	std::vector<HighlightingRule> quotationRules;
+	for (const HighlightingRule& rule : m_highlightingRules)
+	{
+		if (rule.priority && rule.type == HighlightType::QUOTATION)
+		{
+			quotationRules.emplace_back(rule);
+		}
+	}
+	createRanges(doc, quotationRules);
 }
 
 void QtHighlighter::highlightRange(int startLine, int endLine)
@@ -197,6 +223,21 @@ void QtHighlighter::highlightRange(int startLine, int endLine)
 	QTextBlock start = doc->findBlockByLineNumber(startLine);
 	QTextBlock end = doc->findBlockByLineNumber(endLine + 1);
 
+	const HighlightingRule* singleLineCommentRule = nullptr;
+	const HighlightingRule* quotationRule = nullptr;
+
+	for (const HighlightingRule& rule : m_highlightingRules)
+	{
+		if (rule.type == HighlightType::COMMENT && !rule.multiLine)
+		{
+			singleLineCommentRule = &rule;
+		}
+		else if (rule.type == HighlightType::QUOTATION)
+		{
+			quotationRule = &rule;
+		}
+	}
+
 	int index = startLine;
 	for (QTextBlock it = start; it != end; it = it.next())
 	{
@@ -204,17 +245,23 @@ void QtHighlighter::highlightRange(int startLine, int endLine)
 		{
 			applyFormat(it.position(), it.position() + it.length() - 1, s_textFormat);
 
-			if (m_language != LANGUAGE_UNKNOWN)
+			for (const HighlightingRule &rule : m_highlightingRules)
 			{
-				foreach (const HighlightingRule &rule, m_highlightingRules)
+				if (!rule.priority && rule.type != HighlightType::COMMENT)
 				{
 					formatBlockForRule(it, rule);
 				}
+			}
 
-				formatBlockIfInRange(it, s_stringQuotationRule.format, &m_quotationRanges);
-				formatBlockIfInRange(it, s_charQuotationRule.format, &m_quotationRanges);
-				formatBlockForRule(it, s_commentRule, &m_quotationRanges);
-				formatBlockIfInRange(it, s_commentRule.format, &m_multiLineCommentRanges);
+			if (quotationRule)
+			{
+				formatBlockIfInRange(it, quotationRule->format, &m_quotationRanges);
+			}
+
+			if (singleLineCommentRule)
+			{
+				formatBlockForRule(it, *singleLineCommentRule, &m_quotationRanges);
+				formatBlockIfInRange(it, singleLineCommentRule->format, &m_multiLineCommentRanges);
 			}
 		}
 		index++;
@@ -253,15 +300,17 @@ QTextCharFormat QtHighlighter::getFormat(int startPosition, int endPosition) con
 }
 
 void QtHighlighter::createRanges(
-	QTextDocument* doc, const HighlightingRule& stringRule, const HighlightingRule& charRule)
+	QTextDocument* doc, const std::vector<HighlightingRule>& quotationRules)
 {
 	m_quotationRanges.clear();
 	m_multiLineCommentRanges.clear();
 
 	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
 	{
-		utility::append(m_quotationRanges, getRangesForRule(it, stringRule));
-		utility::append(m_quotationRanges, getRangesForRule(it, charRule));
+		for (const HighlightingRule& rule : quotationRules)
+		{
+			utility::append(m_quotationRanges, getRangesForRule(it, rule));
+		}
 	}
 
 	m_multiLineCommentRanges = createMultiLineCommentRanges(doc, &m_quotationRanges);
@@ -270,32 +319,62 @@ void QtHighlighter::createRanges(
 std::vector<std::pair<int, int>> QtHighlighter::createMultiLineCommentRanges(
 	QTextDocument* doc, std::vector<std::pair<int, int>>* ranges)
 {
-	QRegExp commentStartExpression = QRegExp("/\\*");
-	QRegExp commentEndExpression = QRegExp("\\*/");
+	const HighlightingRule* multiLineCommentStartRule = nullptr;
+	const HighlightingRule* multiLineCommentEndRule = nullptr;
+	const HighlightingRule* singleLineCommentRule = nullptr;
+
+	for (const HighlightingRule& rule : m_highlightingRules)
+	{
+		if (rule.type == HighlightType::COMMENT)
+		{
+			if (rule.priority && rule.multiLine)
+			{
+				if (!multiLineCommentStartRule)
+				{
+					multiLineCommentStartRule = &rule;
+				}
+				else if (!multiLineCommentEndRule)
+				{
+					multiLineCommentEndRule = &rule;
+				}
+			}
+			else if (!rule.multiLine)
+			{
+				singleLineCommentRule = &rule;
+			}
+		}
+	}
+
+	std::vector<std::pair<int, int>> multiLineCommentRanges;
+	if (!multiLineCommentStartRule || !multiLineCommentEndRule)
+	{
+		return multiLineCommentRanges;
+	}
 
 	QTextCursor cursorStart(doc);
 	QTextCursor cursorEnd(doc);
-
-	std::vector<std::pair<int, int>> multiLineCommentRanges;
 
 	while (true)
 	{
 		while (true)
 		{
-			cursorStart = document()->find(commentStartExpression, cursorStart);
+			cursorStart = document()->find(multiLineCommentStartRule->pattern, cursorStart);
 			if (cursorStart.isNull())
 			{
 				break;
 			}
 
 			// ignore if within single line comment
-			QTextCursor inlineCommentStart = document()->find(s_commentRule.pattern, QTextCursor(cursorStart.block()));
-			if (!inlineCommentStart.isNull() &&
-				inlineCommentStart.blockNumber() == cursorStart.blockNumber() &&
-				inlineCommentStart.selectionStart() < cursorStart.selectionStart())
+			if (singleLineCommentRule)
 			{
-				cursorStart = QTextCursor(inlineCommentStart.block().next());
-				continue;
+				QTextCursor inlineCommentStart = document()->find(singleLineCommentRule->pattern, QTextCursor(cursorStart.block()));
+				if (!inlineCommentStart.isNull() &&
+					inlineCommentStart.blockNumber() == cursorStart.blockNumber() &&
+					inlineCommentStart.selectionStart() < cursorStart.selectionStart())
+				{
+					cursorStart = QTextCursor(inlineCommentStart.block().next());
+					continue;
+				}
 			}
 
 			if (!isInRange(cursorStart.selectionEnd(), *ranges))
@@ -314,7 +393,7 @@ std::vector<std::pair<int, int>> QtHighlighter::createMultiLineCommentRanges(
 			break;
 		}
 
-		cursorEnd = document()->find(commentEndExpression, cursorStart);
+		cursorEnd = document()->find(multiLineCommentEndRule->pattern, cursorStart);
 		if (cursorEnd.isNull())
 		{
 			break;
@@ -331,10 +410,15 @@ QtHighlighter::HighlightingRule::HighlightingRule()
 {
 }
 
-QtHighlighter::HighlightingRule::HighlightingRule(const QColor& color, const QRegExp& regExp)
+QtHighlighter::HighlightingRule::HighlightingRule(
+	HighlightType type, const QColor& color, const QRegExp& regExp, bool priority, bool multiLine
+)
+	: type(type)
+	, pattern(regExp)
+	, priority(priority)
+	, multiLine(multiLine)
 {
 	format.setForeground(color);
-	pattern = regExp;
 }
 
 bool QtHighlighter::isInRange(int pos, const std::vector<std::pair<int, int>>& ranges) const

@@ -7,6 +7,11 @@ FilePath ResourcePaths::getColorSchemesPath()
 	return AppPath::getAppPath().concatenate(L"data/color_schemes/");
 }
 
+FilePath ResourcePaths::getSyntaxHighlightingRulesPath()
+{
+	return AppPath::getAppPath().concatenate(L"data/syntax_highlighting_rules/");
+}
+
 FilePath ResourcePaths::getFallbackPath()
 {
 	return AppPath::getAppPath().concatenate(L"data/fallback/");

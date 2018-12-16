@@ -173,6 +173,7 @@ private:
 	FilePath getFileNodePath(Id fileId) const;
 	bool getFileNodeComplete(Id fileId) const;
 	bool getFileNodeIndexed(Id fileId) const;
+	std::wstring getFileNodeLanguage(Id fileId) const;
 
 	std::unordered_map<Id, std::set<Id>> getFileIdToIncludingFileIdMap() const;
 	std::unordered_map<Id, std::set<Id>> getFileIdToIncludedFileIdMap() const;
@@ -224,6 +225,7 @@ private:
 	std::map<Id, FilePath> m_fileNodePaths;
 	std::map<Id, bool> m_fileNodeComplete;
 	std::map<Id, bool> m_fileNodeIndexed;
+	std::map<Id, std::wstring> m_fileNodeLanguage;
 
 	std::map<Id, DefinitionKind> m_symbolDefinitionKinds;
 	std::map<Id, Id> m_memberEdgeIdOrderMap;

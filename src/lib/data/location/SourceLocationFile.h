@@ -23,10 +23,13 @@ public:
 		}
 	};
 
-	SourceLocationFile(const FilePath& filePath, bool isWhole, bool isComplete, bool isIndexed);
+	SourceLocationFile(const FilePath& filePath, const std::wstring& language, bool isWhole, bool isComplete, bool isIndexed);
 	virtual ~SourceLocationFile();
 
 	const FilePath& getFilePath() const;
+
+	void setLanguage(const std::wstring& language);
+	const std::wstring& getLanguage() const;
 
 	void setIsWhole(bool isWhole);
 	bool isWhole() const;
@@ -62,6 +65,7 @@ public:
 
 private:
 	const FilePath m_filePath;
+	std::wstring m_language;
 	bool m_isWhole;
 	bool m_isComplete;
 	bool m_isIndexed;

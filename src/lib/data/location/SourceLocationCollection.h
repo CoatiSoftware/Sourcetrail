@@ -43,7 +43,7 @@ public:
 
 private:
 	SourceLocationFile* createSourceLocationFile(
-		const FilePath& filePath, bool isWhole = false, bool isComplete = false, bool isIndexed = false);
+		const FilePath& filePath, const std::wstring& language = L"", bool isWhole = false, bool isComplete = false, bool isIndexed = false);
 
 	std::map<FilePath, std::shared_ptr<SourceLocationFile>> m_files;
 };

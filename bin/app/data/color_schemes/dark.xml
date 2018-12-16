@@ -143,7 +143,7 @@
 			</line_number>
 
 			<syntax>
-				<normal>#F7F7F7</normal>
+				<text>#F7F7F7</text>
 				<directive>#1F9C62</directive>
 				<keyword>#1F9C62</keyword>
 				<type>#D95233</type>

@@ -87,14 +87,7 @@ QtCodeField::QtCodeField(
 
 	createAnnotations(locationFile);
 
-	FilePath path = locationFile->getFilePath();
-	LanguageType language = LANGUAGE_UNKNOWN;
-	if (!path.empty())
-	{
-		language = (path.extension() == L".java" ? LANGUAGE_JAVA : LANGUAGE_CPP);
-	}
-
-	m_highlighter = std::make_shared<QtHighlighter>(document(), language);
+	m_highlighter = std::make_shared<QtHighlighter>(document(), locationFile->getLanguage());
 	m_highlighter->highlightDocument();
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();

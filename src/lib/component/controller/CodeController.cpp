@@ -48,7 +48,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	statsSnippet.reduced = true;
 
-	statsSnippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(), true, true, true);
+	statsSnippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(), L"", true, true, true);
 
 	std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 

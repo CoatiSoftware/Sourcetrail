@@ -1,7 +1,10 @@
 #include "SourceLocationFile.h"
 
-SourceLocationFile::SourceLocationFile(const FilePath& filePath, bool isWhole, bool isComplete, bool isIndexed)
+SourceLocationFile::SourceLocationFile(
+	const FilePath& filePath, const std::wstring& language, bool isWhole, bool isComplete, bool isIndexed
+)
 	: m_filePath(filePath)
+	, m_language(language)
 	, m_isWhole(isWhole)
 	, m_isComplete(isComplete)
 	, m_isIndexed(isIndexed)
@@ -15,6 +18,16 @@ SourceLocationFile::~SourceLocationFile()
 const FilePath& SourceLocationFile::getFilePath() const
 {
 	return m_filePath;
+}
+
+void SourceLocationFile::setLanguage(const std::wstring& language)
+{
+	m_language = language;
+}
+
+const std::wstring& SourceLocationFile::getLanguage() const
+{
+	return m_language;
 }
 
 void SourceLocationFile::setIsWhole(bool isWhole)
@@ -182,7 +195,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(
 	size_t firstLineNumber, size_t lastLineNumber) const
 {
 	std::shared_ptr<SourceLocationFile> ret =
-		std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete(), isIndexed());
+		std::make_shared<SourceLocationFile>(getFilePath(), getLanguage(), false, isComplete(), isIndexed());
 
 	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
@@ -198,7 +211,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(
 std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByType(LocationType type) const
 {
 	std::shared_ptr<SourceLocationFile> ret =
-		std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete(), isIndexed());
+		std::make_shared<SourceLocationFile>(getFilePath(), getLanguage(), false, isComplete(), isIndexed());
 
 	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
@@ -220,7 +233,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByTypes(const
 	}
 
 	std::shared_ptr<SourceLocationFile> ret =
-		std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete(), isIndexed());
+		std::make_shared<SourceLocationFile>(getFilePath(), getLanguage(), false, isComplete(), isIndexed());
 
 	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{

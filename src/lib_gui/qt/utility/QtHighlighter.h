@@ -3,18 +3,31 @@
 
 #include <QTextCharFormat>
 
-#include "LanguageType.h"
-
 class QTextBlock;
 class QTextDocument;
 
 class QtHighlighter
 {
 public:
-	static void createHighlightingRules();
+	enum class HighlightType
+	{
+		COMMENT,
+		DIRECTIVE,
+		FUNCTION,
+		KEYWORD,
+		NUMBER,
+		QUOTATION,
+		TEXT,
+		TYPE
+	};
+
+	static std::string highlightTypeToString(HighlightType type);
+	static HighlightType highlightTypeFromString(const std::string typeStr);
+
+	static void loadHighlightingRules();
 	static void clearHighlightingRules();
 
-	QtHighlighter(QTextDocument *parent, LanguageType language);
+	QtHighlighter(QTextDocument *parent, const std::wstring& language);
 	~QtHighlighter() = default;
 
 	void highlightDocument();
@@ -30,13 +43,16 @@ private:
 	struct HighlightingRule
 	{
 		HighlightingRule();
-		HighlightingRule(const QColor& color, const QRegExp& regExp);
+		HighlightingRule(HighlightType type, const QColor& color, const QRegExp& regExp, bool priority, bool multiLine = false);
 
+		HighlightType type = HighlightType::TEXT;
 		QRegExp pattern;
 		QTextCharFormat format;
+		bool priority = false;
+		bool multiLine = false;
 	};
 
-	void createRanges(QTextDocument* doc, const HighlightingRule& stringRule, const HighlightingRule& charRule);
+	void createRanges(QTextDocument* doc, const std::vector<HighlightingRule>& quotationRules);
 	std::vector<std::pair<int, int>> createMultiLineCommentRanges(
 		QTextDocument* doc, std::vector<std::pair<int, int>>* ranges);
 
@@ -50,19 +66,12 @@ private:
 
 	QTextDocument* document() const;
 
-	static QVector<HighlightingRule> s_highlightingRules;
-	static QVector<HighlightingRule> s_highlightingRulesCpp;
-	static QVector<HighlightingRule> s_highlightingRulesJava;
-	static HighlightingRule s_stringQuotationRule;
-	static HighlightingRule s_charQuotationRule;
-	static HighlightingRule s_commentRule;
+	static std::map<std::wstring, std::vector<HighlightingRule>> s_highlightingRules;
 	static QTextCharFormat s_textFormat;
 
 	QTextDocument* m_document;
 
-	LanguageType m_language;
-
-	QVector<HighlightingRule> m_highlightingRules;
+	std::vector<HighlightingRule> m_highlightingRules;
 	std::vector<std::pair<int, int>> m_quotationRanges;
 	std::vector<std::pair<int, int>> m_multiLineCommentRanges;
 	std::vector<bool> m_highlightedLines;

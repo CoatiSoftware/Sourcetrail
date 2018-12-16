@@ -81,8 +81,8 @@ SourceLocation* SourceLocationCollection::addSourceLocation(
 SourceLocation* SourceLocationCollection::addSourceLocationCopy(const SourceLocation* location)
 {
 	SourceLocationFile* other = location->getSourceLocationFile();
-	SourceLocationFile* file =
-		createSourceLocationFile(location->getFilePath(), other->isWhole(), other->isComplete(), other->isIndexed());
+	SourceLocationFile* file = createSourceLocationFile(
+		location->getFilePath(), other->getLanguage(), other->isWhole(), other->isComplete(), other->isIndexed());
 	return file->addSourceLocationCopy(location);
 }
 
@@ -92,7 +92,8 @@ void SourceLocationCollection::addSourceLocationCopies(const SourceLocationColle
 		[this](std::shared_ptr<SourceLocationFile> otherFile)
 		{
 			SourceLocationFile* file = createSourceLocationFile(
-				otherFile->getFilePath(), otherFile->isWhole(), otherFile->isComplete(), otherFile->isIndexed());
+				otherFile->getFilePath(), otherFile->getLanguage(), otherFile->isWhole(), otherFile->isComplete(),
+				otherFile->isIndexed());
 
 			otherFile->forEachSourceLocation(
 				[file](SourceLocation* otherLocation)
@@ -127,7 +128,7 @@ void SourceLocationCollection::forEachSourceLocation(std::function<void(SourceLo
 }
 
 SourceLocationFile* SourceLocationCollection::createSourceLocationFile(
-	const FilePath& filePath, bool isWhole, bool isComplete, bool isIndexed)
+	const FilePath& filePath, const std::wstring& language, bool isWhole, bool isComplete, bool isIndexed)
 {
 	SourceLocationFile* file = getSourceLocationFileByPath(filePath).get();
 	if (file)
@@ -136,7 +137,7 @@ SourceLocationFile* SourceLocationCollection::createSourceLocationFile(
 	}
 
 	std::shared_ptr<SourceLocationFile> filePtr =
-		std::make_shared<SourceLocationFile>(filePath, isWhole, isComplete, isIndexed);
+		std::make_shared<SourceLocationFile>(filePath, language, isWhole, isComplete, isIndexed);
 	m_files.emplace(filePath, filePtr);
 	return filePtr.get();
 }

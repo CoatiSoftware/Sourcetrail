@@ -9,6 +9,7 @@ class ResourcePaths
 {
 public:
 	static FilePath getColorSchemesPath();
+	static FilePath getSyntaxHighlightingRulesPath();
 	static FilePath getFallbackPath();
 	static FilePath getFontsPath();
 	static FilePath getGuiPath();

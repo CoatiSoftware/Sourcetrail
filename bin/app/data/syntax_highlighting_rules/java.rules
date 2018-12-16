@@ -1,0 +1,95 @@
+[
+	{
+		"type" : "quotation",
+		"patterns" : [ "\"([^\"]|\\\\.)*\"", "\'[^\']\'" ],
+		"priority" : true
+	},
+	{
+		"type" : "comment",
+		"range" : {
+			"start" : "/\\*",
+			"end" : "\\*/"
+		},
+		"priority" : true
+	},
+	{
+		"type" : "keyword",
+		"patterns" : [
+			"\\babstract\\b",
+			"\\bassert\\b",
+			"\\bbreak\\b",
+			"\\bcase\\b",
+			"\\bcatch\\b",
+			"\\bconst\\b",
+			"\\bcontinue\\b",
+			"\\bdefault\\b",
+			"\\bdo\\b",
+			"\\belse\\b",
+			"\\bextends\\b",
+			"\\bfalse\\b",
+			"\\bfinal\\b",
+			"\\bfinally\\b",
+			"\\bfor\\b",
+			"\\bfriend\\b",
+			"\\bgoto\\b",
+			"\\bif\\b",
+			"\\bimplements\\b",
+			"\\bimport\\b",
+			"\\binstanceof\\b",
+			"\\binterface\\b",
+			"\\bnative\\b",
+			"\\bnew\\b",
+			"\\bpackage\\b",
+			"\\bprivate\\b",
+			"\\bprotected\\b",
+			"\\bpublic\\b",
+			"\\breturn\\b",
+			"\\bstatic\\b",
+			"\\bstrictfp\\b",
+			"\\bsuper\\b",
+			"\\bswitch\\b",
+			"\\bsynchronized\\b",
+			"\\bthis\\b",
+			"\\bthrow\\b",
+			"\\bthrows\\b",
+			"\\btransient\\b",
+			"\\btrue\\b",
+			"\\btry\\b",
+			"\\bvolatile\\b",
+			"\\bwhile\\b"
+		]
+	},
+	{
+		"type" : "type",
+		"patterns" : [
+			"\\bboolean\\b",
+			"\\bbyte\\b",
+			"\\bchar\\b",
+			"\\bclass\\b",
+			"\\bdouble\\b",
+			"\\benum\\b",
+			"\\bfloat\\b",
+			"\\bint\\b",
+			"\\blong\\b",
+			"\\bpackage\\b",
+			"\\bshort\\b",
+			"\\bvoid\\b"
+		]
+	},
+	{
+		"type" : "directive",
+		"patterns" : [ "@[A-Za-z0-9_]+" ]
+	},
+	{
+		"type" : "number",
+		"patterns" : [ "\\b[0-9]+\\b" ]
+	},
+	{
+		"type" : "function",
+		"patterns" : [ "\\b[A-Za-z0-9_]+(?=\\()" ]
+	},
+	{
+		"type" : "comment",
+		"patterns" : [ "//[^\n]*" ]
+	}
+]
