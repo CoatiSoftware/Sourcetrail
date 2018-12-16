@@ -38,7 +38,7 @@ void QtProjectWizzardContentCustomCommand::populate(QGridLayout* layout, int& ro
 				QString::fromStdWString(m_settings->getProjectSettings()->getProjectFilePath().wstr()) + "\"</li>"
 			"<li><b>$DB_PATH</b> - Path to database file: \"" +
 				QString::fromStdWString(m_settings->getProjectSettings()->getTempDBFilePath().wstr()) + "\"</li>"
-			"<li><b>$STORAGE_VERSION</b> - Storage version used by this Sourcetrail version: \"" +
+			"<li><b>$DB_VERSION</b> - Database version used by this Sourcetrail version: \"" +
 				QString::number(SqliteIndexStorage::getStorageVersion()) + "\"</li>"
 		"</ul>",
 		layout, row

@@ -44,7 +44,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexe
 
 	customCommand = utility::replace(customCommand, L"$PROJECT_PATH", L'\"' + m_settings->getProjectSettings()->getProjectFilePath().wstr() + L'\"');
 	customCommand = utility::replace(customCommand, L"$DB_PATH", L'\"' + m_settings->getProjectSettings()->getTempDBFilePath().wstr() + L'\"');
-	customCommand = utility::replace(customCommand, L"$STORAGE_VERSION", L'\"' + std::to_wstring(SqliteIndexStorage::getStorageVersion()) + L'\"');
+	customCommand = utility::replace(customCommand, L"$DB_VERSION", L'\"' + std::to_wstring(SqliteIndexStorage::getStorageVersion()) + L'\"');
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
