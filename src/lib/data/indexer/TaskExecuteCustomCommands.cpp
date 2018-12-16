@@ -7,14 +7,19 @@
 #include "MessageIndexingStatus.h"
 #include "MessageShowStatus.h"
 #include "MessageStatus.h"
+#include "PersistentStorage.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityString.h"
 
 TaskExecuteCustomCommands::TaskExecuteCustomCommands(
-	std::unique_ptr<IndexerCommandProvider> indexerCommandProvider, std::shared_ptr<DialogView> dialogView, const FilePath& projectDirectory
+	std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
+	std::shared_ptr<PersistentStorage> storage,
+	std::shared_ptr<DialogView> dialogView,
+	const FilePath& projectDirectory
 )
 	: m_indexerCommandProvider(std::move(indexerCommandProvider))
+	, m_storage(storage)
 	, m_dialogView(dialogView)
 	, m_projectDirectory(projectDirectory)
 {
@@ -48,8 +53,12 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 			MessageIndexingStatus(true, indexedSourceFileCount * 100 / sourceFileCount).dispatch();
 			LOG_INFO_STREAM(<< "Execute command \"" << utility::encodeToUtf8(indexerCommand->getCustomCommand()) << "\"");
 
+			m_storage->beforeErrorRecording();
+
 			std::wstring processOutput;
 			int result = utility::executeProcessAndGetExitCode(indexerCommand->getCustomCommand(), {}, m_projectDirectory, -1, &processOutput);
+
+			m_storage->afterErrorRecording();
 
 			if (processOutput.size() > 3 || result != 0)
 			{

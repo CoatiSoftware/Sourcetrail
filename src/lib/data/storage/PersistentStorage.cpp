@@ -195,13 +195,7 @@ const std::vector<StorageError>& PersistentStorage::getErrors() const
 
 void PersistentStorage::startInjection()
 {
-	m_preInjectionErrorCount = m_sqliteIndexStorage.getErrorCount();
-
-	if (!m_preIndexingErrorCountSet)
-	{
-		m_preIndexingErrorCount = m_preInjectionErrorCount;
-		m_preIndexingErrorCountSet = true;
-	}
+	beforeErrorRecording();
 
 	m_sqliteIndexStorage.beginTransaction();
 }
@@ -210,6 +204,22 @@ void PersistentStorage::finishInjection()
 {
 	m_sqliteIndexStorage.commitTransaction();
 
+	afterErrorRecording();
+}
+
+void PersistentStorage::beforeErrorRecording()
+{
+	m_preInjectionErrorCount = m_sqliteIndexStorage.getErrorCount();
+
+	if (!m_preIndexingErrorCountSet)
+	{
+		m_preIndexingErrorCount = m_preInjectionErrorCount;
+		m_preIndexingErrorCountSet = true;
+	}
+}
+
+void PersistentStorage::afterErrorRecording()
+{
 	std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAllErrorInfos();
 	if (m_preInjectionErrorCount < errors.size())
 	{

@@ -617,7 +617,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 	{
 		taskSequential->addTask(
 			std::make_shared<TaskExecuteCustomCommands>(
-				std::move(customIndexerCommandProvider), dialogView, getProjectSettingsFilePath().getParentDirectory())
+				std::move(customIndexerCommandProvider), tempStorage, dialogView, getProjectSettingsFilePath().getParentDirectory())
 		);
 	}
 

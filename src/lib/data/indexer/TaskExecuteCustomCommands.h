@@ -11,6 +11,7 @@
 
 class DialogView;
 class IndexerCommandProvider;
+class PersistentStorage;
 
 class TaskExecuteCustomCommands
 	: public Task
@@ -19,6 +20,7 @@ class TaskExecuteCustomCommands
 public:
 	TaskExecuteCustomCommands(
 		std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
+		std::shared_ptr<PersistentStorage> storage,
 		std::shared_ptr<DialogView> dialogView,
 		const FilePath& projectDirectory);
 
@@ -31,6 +33,7 @@ private:
 	void handleMessage(MessageIndexingInterrupted* message) override;
 
 	std::unique_ptr<IndexerCommandProvider> m_indexerCommandProvider;
+	std::shared_ptr<PersistentStorage> m_storage;
 	std::shared_ptr<DialogView> m_dialogView;
 	const FilePath m_projectDirectory;
 

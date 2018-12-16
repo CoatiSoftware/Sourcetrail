@@ -49,6 +49,9 @@ public:
 	void startInjection() override;
 	void finishInjection() override;
 
+	void beforeErrorRecording();
+	void afterErrorRecording();
+
 	void setMode(const SqliteIndexStorage::StorageModeType mode);
 
 	FilePath getIndexDbFilePath() const;
