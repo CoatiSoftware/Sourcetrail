@@ -41,8 +41,8 @@ void QtGraphNodeBundle::onClick()
 {
 	MessageGraphNodeBundleSplit(
 		m_tokenId,
-		!m_type.isUnknownSymbol() && getName() != L"Anonymous Namespaces", // TODO: move to language package
-		!m_type.isUnknownSymbol()
+		(!m_type.isUnknownSymbol() || getName() == L"Symbols") && getName() != L"Anonymous Namespaces", // TODO: move to language package
+		!m_type.isUnknownSymbol() || getName() == L"Symbols"
 	).dispatch();
 }
 

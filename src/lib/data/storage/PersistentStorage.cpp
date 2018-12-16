@@ -920,13 +920,16 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	m_sqliteIndexStorage.forEach<StorageNode>(
 		[&](StorageNode&& node)
 		{
-			auto it = m_symbolDefinitionKinds.find(node.id);
-			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
-				(
-					NodeType(NodeType::intToType(node.type)).isPackage() ||
-					!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)
-				)
-			){
+			bool showNode = true;
+			if (m_symbolDefinitionKinds.size())
+			{
+				auto it = m_symbolDefinitionKinds.find(node.id);
+				showNode = (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT);
+			}
+
+			if (showNode && (NodeType(NodeType::intToType(node.type)).isPackage() ||
+					!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)))
+			{
 				tokenIds.push_back(node.id);
 			}
 		}

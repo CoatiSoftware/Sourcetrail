@@ -1379,6 +1379,8 @@ void GraphController::bundleNodesByType()
 	std::vector<std::shared_ptr<DummyNode>> oldNodes = std::move(m_dummyNodes);
 	m_dummyNodes.clear();
 
+	bool hasNonFileBundle = false;
+
 	for (const NodeType& nodeType : NodeType::getOverviewBundleNodeTypesOrdered())
 	{
 		Tree<NodeType::BundleInfo> bundleInfoTree = nodeType.getOverviewBundleTree();
@@ -1388,7 +1390,22 @@ void GraphController::bundleNodesByType()
 			if (bundleNode)
 			{
 				m_dummyNodes.push_back(bundleNode);
+
+				if (bundleNode->bundledNodeType.getType() != NodeType::NODE_FILE)
+				{
+					hasNonFileBundle = true;
+				}
 			}
+		}
+	}
+
+	if (nodes.size() && !hasNonFileBundle)
+	{
+		Tree<NodeType::BundleInfo> bundleInfoTree(NodeType::BundleInfo(L"Symbols"));
+		std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, NodeType::NODE_SYMBOL, bundleInfoTree, false);
+		if (bundleNode)
+		{
+			m_dummyNodes.push_back(bundleNode);
 		}
 	}
 
