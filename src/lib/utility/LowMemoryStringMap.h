@@ -1,10 +1,11 @@
 #ifndef LOW_MEMORY_STRING_MAP_H
 #define LOW_MEMORY_STRING_MAP_H
 
+#include <cstring>
 #include <iostream>
-#include <string>
 #include <map>
 #include <memory>
+#include <string>
 
 /*
  * StringTraits
