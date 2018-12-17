@@ -32,6 +32,8 @@ public:
 	virtual void recordComment(const ParseLocation& location) = 0;
 
 	virtual void recordError(const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit, const ParseLocation& location) = 0;
+
+	virtual bool hasContent() const = 0;
 };
 
 #endif // PARSER_CLIENT_H

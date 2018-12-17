@@ -99,6 +99,11 @@ void ParserClientImpl::recordError(
 	}
 }
 
+bool ParserClientImpl::hasContent() const
+{
+	return m_storage->getByteSize(1) > 0;
+}
+
 NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const
 {
 	switch (symbolKind)

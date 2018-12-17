@@ -17,6 +17,7 @@
 #include "FileRegister.h"
 #include "IndexerCommandCxx.h"
 #include "logging.h"
+#include "ParserClient.h"
 #include "ResourcePaths.h"
 #include "TextAccess.h"
 #include "utilityString.h"
@@ -190,10 +191,10 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 
 	tool.setDiagnosticConsumer(diagnostics.get());
 
+	ClangInvocationInfo info;
 	if (LogManager::getInstance()->getLoggingEnabled())
 	{
-		const ClangInvocationInfo info = getClangInvocationString(compilationDatabase);
-
+		info = getClangInvocationString(compilationDatabase);
 		LOG_INFO("Clang Invocation: " + info.invocation.substr(0, ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() ? std::string::npos : 20000));
 
 		if (!info.errors.empty())
@@ -204,6 +205,26 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 
 	ASTActionFactory actionFactory(m_client, canonicalFilePathCache, m_indexerStateInfo);
 	tool.run(&actionFactory);
+
+	if (!m_client->hasContent())
+	{
+		if (info.invocation.empty())
+		{
+			info = getClangInvocationString(compilationDatabase);
+		}
+
+		if (!info.errors.empty())
+		{
+			Id fileId = m_client->recordFile(sourceFilePath, true);
+			m_client->recordError(
+				L"Clang Invocation errors: " + utility::decodeFromUtf8(info.errors),
+				true,
+				true,
+				sourceFilePath,
+				ParseLocation(fileId, 1, 1)
+			);
+		}
+	}
 }
 
 std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const std::vector<std::wstring>& compilerFlags) const

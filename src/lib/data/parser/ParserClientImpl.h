@@ -31,6 +31,8 @@ public:
 
 	void recordError(const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit, const ParseLocation& location) override;
 
+	bool hasContent() const override;
+
 private:
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
