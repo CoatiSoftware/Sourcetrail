@@ -5,10 +5,11 @@
 #include <QLabel>
 #include <QPushButton>
 
+#include "LanguageType.h"
 #include "QtProjectWizzardWindow.h"
 #include "QtFlowLayout.h"
-#include "LanguageType.h"
 #include "ResourcePaths.h"
+#include "SqliteIndexStorage.h"
 #include "utilityString.h"
 
 QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(
@@ -82,7 +83,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		"Create a new Source Group from an existing <a href=\"https://www.hello2morrow.com/products/sonargraph\">Sonargraph</a> project file.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CUSTOM_COMMAND] = "Create a new Source Group executing a custom command on each source file. "
 		"This Source Group type can be used on <a href=\"https://github.com/CoatiSoftware/SourcetrailDB\">SourcetrailDB</a> binaries that add "
-		"custom language support";
+		"custom language support to Sourcetrail.<br /><br />Current Database Version: " + std::to_string(SqliteIndexStorage::getStorageVersion());
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 10, 0, 0);

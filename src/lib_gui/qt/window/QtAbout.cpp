@@ -6,9 +6,10 @@
 #include <QVBoxLayout>
 
 #include "QtDeviceScaledPixmap.h"
-#include "utilityQt.h"
 #include "ResourcePaths.h"
+#include "SqliteIndexStorage.h"
 #include "utility.h"
+#include "utilityQt.h"
 #include "Version.h"
 
 QtAbout::QtAbout(QWidget *parent)
@@ -50,6 +51,12 @@ void QtAbout::setupAbout()
 			this
 		);
 		windowLayout->addWidget(versionLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
+	}
+
+	{
+		QLabel* dbVersionLabel = new QLabel(
+			"Database Version " + QString::number(SqliteIndexStorage::getStorageVersion()), this);
+		windowLayout->addWidget(dbVersionLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
 	}
 
 	windowLayout->addStretch();
