@@ -761,7 +761,7 @@ void QtCodeArea::defocusTokenIds(const std::vector<Id>& tokenIds)
 {
 	if (m_navigator->hasErrors() && tokenIds.size() == 1)
 	{
-		QtCodeField::defocusTokenIds(utility::toVector(m_navigator->getActiveLocalTokenIds()));
+		annotateText();
 		return;
 	}
 

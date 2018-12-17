@@ -316,7 +316,7 @@ void QtCodeField::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 
 void QtCodeField::defocusTokenIds(const std::vector<Id>& activeTokenIds)
 {
-	annotateText(std::set<Id>(activeTokenIds.begin(), activeTokenIds.end()), std::set<Id>(), std::set<Id>());
+	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>());
 }
 
 bool QtCodeField::annotateText(
