@@ -51,7 +51,8 @@ bool SourceGroupSettingsCustomCommand::equals(std::shared_ptr<SourceGroupSetting
 		SourceGroupSettings::equals(other) &&
 		SourceGroupSettingsWithSourceExtensions::equals(otherCustom) &&
 		SourceGroupSettingsWithSourcePaths::equals(otherCustom) &&
-		SourceGroupSettingsWithExcludeFilters::equals(otherCustom)
+		SourceGroupSettingsWithExcludeFilters::equals(otherCustom) &&
+		m_customCommand == otherCustom->m_customCommand
 	);
 }
 
