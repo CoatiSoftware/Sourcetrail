@@ -25,7 +25,7 @@ namespace AUTOCOMPLETION_TESTS
 
 
 
-// TEST: Find Symbol with button
+// TEST: Find Symbol with button - BROKEN
 // START ----------------------------------------------------------------------
 
 // ACTION: Search symbol 'main' and click find button

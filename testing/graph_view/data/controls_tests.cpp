@@ -74,7 +74,7 @@ namespace image_export
 // TEST: zoom - mouse wheel
 // START ----------------------------------------------------------------------
 
-// ACTION: Hold Ctrl/Cmd and scroll in the graph
+// ACTION: Hold Shift and scroll in the graph
 // RESULT: Zoom Level changes, percentage in lower left corner
 
 // END ------------------------------------------------------------------------

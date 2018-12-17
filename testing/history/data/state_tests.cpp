@@ -58,7 +58,7 @@
 // START ----------------------------------------------------------------------
 
 // ACTION 1: Search for 'io::stringOut'
-// ACTION 2: Show caller graph
+// ACTION 2: Show caller graph '>'
 // ACTION 3: Change depth to 1
 // ACTION 3: Hide node 'Field'
 // ACTION 4: Search for 'main' and activate that symbol

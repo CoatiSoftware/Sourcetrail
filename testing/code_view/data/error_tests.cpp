@@ -8,7 +8,7 @@ namespace ERROR_TESTS
 // ACTION: click 'show errors' in the title bar
 
 // RESULTS:
-// - title bar shows 3 references
+// - title bar shows 3 errors
 // - code shows 3 red locations
 // - error table is shown at bottom of view with 3 errors
 // - search view shows 'error error_tests.cpp'

@@ -121,6 +121,18 @@ class Level_4_Class_2
 class Level_3_Class_5 : public Level_2_Class_2 {};
 class Level_3_Class_6 : public Level_2_Class_2 {};
 
+// ACTION 2: Show derived graph '^'
+// RESULTS 2:
+// - vertical layout using bezier curve edges
+// - nodes from level 1 to 4 displayed
+// - layout contains template specialization
+// - there are 2 framed groups in the graph
+
+// ACTION 3: click on one framed group
+// ACTION 4: click on an edge connected to a framed group
+// RESULT 3 & 4: The groups are split
+
+
 class Level_4_Class_1 // <- ACTION 5: activate
 	: public Level_3_Class_5
 	, public Level_3_Class_6
@@ -132,17 +144,6 @@ void level_5_func()
 	Level_3_Class_1<char> b;
 	Level_3_Class_1<bool> c;
 }
-
-// ACTION 2: Show derived graph '^'
-// RESULTS 2:
-// - vertical layout using bezier curve edges
-// - nodes from level 1 to 4 displayed
-// - layout contains template specialization
-// - there are 2 framed groups in the graph
-
-// ACTION 3: click on one framed group
-// ACTION 4: click on an edge connected to a framed group
-// RESULT 3 & 4: The groups are split
 
 // ACTION 6: Show base graph 'v'
 // RESULTS 6: like before with other direction

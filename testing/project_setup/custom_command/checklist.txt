@@ -7,7 +7,7 @@
 * Select "Custom" -> "Custom Command Source Group"
 * Click "Next"
 * Click "Next"
-* Add "python add.py $PROJECT_PATH $DB_PATH $STORAGE_VERSION $SOURCE_PATH" to "Custom Command"
+* Add "python add.py $PROJECT_PATH $DB_PATH $DB_VERSION $SOURCE_PATH" to "Custom Command"
 * Add "./src" to "Files & Directories to Index"
 * Add "**excl.txt" to "Excluded Files & Directories"
 * Add ".txt" to "Source File Extensions"

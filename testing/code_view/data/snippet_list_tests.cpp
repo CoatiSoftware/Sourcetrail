@@ -96,17 +96,11 @@ private:
 int a = sum(1, 2); // <- ACTION 1: activate sum
 
 /*
-// ACTION 2: click '-' button in snippet bar
+// ACTION 2: click into the file bar area
 // RESULT 2: snippet gets minimized
 
-// ACTION 3: click '=' button in snippet bar
+// ACTION 3: click into the file bar area again
 // RESULT 3: snippet expands again
-
-// ACTION 4: click into the file bar area
-// RESULT 4: snippet gets minimized
-
-// ACTION 5: click into the file bar area again
-// RESULT 5: snippet gets expanded again
 */
 
 // END ------------------------------------------------------------------------

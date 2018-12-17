@@ -65,7 +65,7 @@ void reference_test()
 
 // RESULTS:
 // - function is activated
-// - definition location and refernence location is active
+// - definition location and reference location is active
 // - reference navigation at top shows "2 references"
 
 // END ------------------------------------------------------------------------
@@ -158,7 +158,7 @@ int a = POW(42, 2); // <- ACTION 1: click on POW
 
 
 
-// TEST: function tooltip
+// TEST: function tooltip - BROKEN
 // START ----------------------------------------------------------------------
 
 std::vector<std::string> very_long_function_name_with_three_parameters( // <- ACTION 1: hover function
@@ -188,7 +188,7 @@ std::vector<std::string> very_long_function_name_with_three_parameters( // <- AC
 
 
 
-// TEST: auto tooltip
+// TEST: auto tooltip - BROKEN
 // START ----------------------------------------------------------------------
 
 void auto_function(const std::vector<std::string>& strings)
@@ -202,7 +202,7 @@ void auto_function(const std::vector<std::string>& strings)
 
 
 
-// TEST: typedef tooltip
+// TEST: typedef tooltip - BROKEN
 // START ----------------------------------------------------------------------
 
 typedef unsigned int uint;
