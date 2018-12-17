@@ -1,5 +1,6 @@
 #include "QtCodeNavigator.h"
 
+#include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QScrollBar>
@@ -151,6 +152,9 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		connect(m_listButton, &QPushButton::clicked, this, &QtCodeNavigator::setModeList);
 		connect(m_fileButton, &QPushButton::clicked, this, &QtCodeNavigator::setModeSingle);
 
+		QButtonGroup* buttonGroup = new QButtonGroup(navigation);
+		buttonGroup->addButton(m_listButton);
+		buttonGroup->addButton(m_fileButton);
 
 		navigation->setLayout(navLayout);
 		layout->addWidget(navigation);
