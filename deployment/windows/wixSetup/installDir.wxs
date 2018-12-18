@@ -833,12 +833,6 @@
 							<Component Id='CodeViewMaximizeInactivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewMaximizeInactive' Name='maximize_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/maximize_inactive.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewMinimizeActivePng' Guid='*' Win64="$(var.Win64)">
-								<File Id='CodeViewMinimizeActive' Name='minimize_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/minimize_active.png' KeyPath='yes' />
-							</Component>
-							<Component Id='CodeViewMinimizeInactivePng' Guid='*' Win64="$(var.Win64)">
-								<File Id='CodeViewMinimizeInactive' Name='minimize_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/minimize_inactive.png' KeyPath='yes' />
-							</Component>
 							<Component Id='CodeViewPatternBrightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewPatternBright' Name='pattern_bright.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/pattern_bright.png' KeyPath='yes' />
 							</Component>
@@ -850,6 +844,12 @@
 							</Component>
 							<Component Id='CodeViewSnippetActivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewSnippetActive' Name='snippet_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_active.png' KeyPath='yes' />
+							</Component>
+							<Component Id='CodeViewSnippetArrowDownPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewSnippetArrowDown' Name='snippet_arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_arrow_down.png' KeyPath='yes' />
+							</Component>
+							<Component Id='CodeViewSnippetArrowRightPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewSnippetArrowRight' Name='snippet_arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_arrow_right.png' KeyPath='yes' />
 							</Component>
 							<Component Id='CodeViewSnippetInactivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewSnippetInactive' Name='snippet_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_inactive.png' KeyPath='yes' />
@@ -1313,7 +1313,15 @@
 						</Component>
 					</Directory>
 				</Directory>
-
+				
+				<Directory Id='DataSyntaxHighlightingRules' Name='syntax_highlighting_rules'>
+					<Component Id='SyntaxHighlightingRulesCppRules' Guid='*' Win64="$(var.Win64)">
+						<File Id='SyntaxHighlightingRulesCpp' Name='cpp.rules' DiskId='1' Source='./../../../bin/app/data/syntax_highlighting_rules/cpp.rules' KeyPath='yes' />
+					</Component>
+					<Component Id='SyntaxHighlightingRulesJavaRules' Guid='*' Win64="$(var.Win64)">
+						<File Id='SyntaxHighlightingRulesJava' Name='java.rules' DiskId='1' Source='./../../../bin/app/data/syntax_highlighting_rules/java.rules' KeyPath='yes' />
+					</Component>
+				</Directory>
 			</Directory>
 
 <?if $(sys.BUILDARCH) = x64 ?>

@@ -415,12 +415,12 @@
 				<ComponentRef Id='CodeViewListPng'/>
 				<ComponentRef Id='CodeViewMaximizeActivePng'/>
 				<ComponentRef Id='CodeViewMaximizeInactivePng'/>
-				<ComponentRef Id='CodeViewMinimizeActivePng'/>
-				<ComponentRef Id='CodeViewMinimizeInactivePng'/>
 				<ComponentRef Id='CodeViewPatternBrightPng'/>
 				<ComponentRef Id='CodeViewPatternDarkPng'/>
 				<ComponentRef Id='CodeViewPatternGreyPng'/>
 				<ComponentRef Id='CodeViewSnippetActivePng'/>
+				<ComponentRef Id='CodeViewSnippetArrowDownPng'/>
+				<ComponentRef Id='CodeViewSnippetArrowRightPng'/>
 				<ComponentRef Id='CodeViewSnippetInactivePng'/>
 
 				<ComponentRef Id='GraphViewCss'/>
@@ -561,6 +561,9 @@
 				<ComponentRef Id='JavaOrgEclipseTextJar'/>
 				<ComponentRef Id='Slf4jApiJar'/>
 				<ComponentRef Id='Slf4jSimpleJar'/>
+				
+				<ComponentRef Id='SyntaxHighlightingRulesCppRules'/>
+				<ComponentRef Id='SyntaxHighlightingRulesJavaRules'/>
 				
 				<ComponentRef Id='UninstallBat'/>
 
