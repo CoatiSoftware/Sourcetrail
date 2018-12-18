@@ -31,15 +31,15 @@ void QtProjectWizzardContentCustomCommand::populate(QGridLayout* layout, int& ro
 	addHelpButton(
 		"Custom Command",
 		"<p>Specify the commandline call that will be executed for each source file in this Source Group. "
-		"You can use the following variables, $SOURCE_PATH is mandatory.</p>"
+		"You can use the following variables, %{SOURCE_FILE_PATH} is mandatory.</p>"
 		"<ul>"
-			"<li><b>$SOURCE_PATH</b> - Path to each source file (mandatory)</li>"
-			"<li><b>$PROJECT_PATH</b> - Path to project file: \"" +
-				QString::fromStdWString(m_settings->getProjectSettings()->getProjectFilePath().wstr()) + "\"</li>"
-			"<li><b>$DB_PATH</b> - Path to database file: \"" +
+			"<li><b>%{SOURCE_FILE_PATH}</b> - Path to each source file (mandatory)</li>"
+			"<li><b>%{DATABASE_FILE_PATH}</b> - Path to database file: \"" +
 				QString::fromStdWString(m_settings->getProjectSettings()->getTempDBFilePath().wstr()) + "\"</li>"
-			"<li><b>$DB_VERSION</b> - Database version used by this Sourcetrail version: \"" +
+			"<li><b>%{DATABASE_VERSION}</b> - Database version used by this Sourcetrail version: \"" +
 				QString::number(SqliteIndexStorage::getStorageVersion()) + "\"</li>"
+			"<li><b>%{PROJECT_FILE_PATH}</b> - Path to project file: \"" +
+				QString::fromStdWString(m_settings->getProjectSettings()->getProjectFilePath().wstr()) + "\"</li>"
 		"</ul>",
 		layout, row
 	);
@@ -80,10 +80,10 @@ bool QtProjectWizzardContentCustomCommand::check()
 		return false;
 	}
 
-	if (m_customCommand->text().toStdWString().find(L"$SOURCE_PATH") == std::wstring::npos)
+	if (m_customCommand->text().toStdWString().find(L"%{SOURCE_FILE_PATH}") == std::wstring::npos)
 	{
 		QMessageBox msgBox;
-		msgBox.setText("The variable $SOURCE_PATH is missing in the custom command.");
+		msgBox.setText("The variable %{SOURCE_FILE_PATH} is missing in the custom command.");
 		msgBox.exec();
 		return false;
 	}

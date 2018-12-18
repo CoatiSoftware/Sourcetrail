@@ -42,16 +42,16 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexe
 {
 	std::wstring customCommand = m_settings->getCustomCommand();
 
-	customCommand = utility::replace(customCommand, L"$PROJECT_PATH", L'\"' + m_settings->getProjectSettings()->getProjectFilePath().wstr() + L'\"');
-	customCommand = utility::replace(customCommand, L"$DB_PATH", L'\"' + m_settings->getProjectSettings()->getTempDBFilePath().wstr() + L'\"');
-	customCommand = utility::replace(customCommand, L"$DB_VERSION", L'\"' + std::to_wstring(SqliteIndexStorage::getStorageVersion()) + L'\"');
+	customCommand = utility::replace(customCommand, L"%{PROJECT_FILE_PATH}", L'\"' + m_settings->getProjectSettings()->getProjectFilePath().wstr() + L'\"');
+	customCommand = utility::replace(customCommand, L"%{DATABASE_FILE_PATH}", L'\"' + m_settings->getProjectSettings()->getTempDBFilePath().wstr() + L'\"');
+	customCommand = utility::replace(customCommand, L"%{DATABASE_VERSION}", L'\"' + std::to_wstring(SqliteIndexStorage::getStorageVersion()) + L'\"');
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
 		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{
-			std::wstring command = utility::replace(customCommand, L"$SOURCE_PATH", L'\"' + sourcePath.wstr() + L'\"');
+			std::wstring command = utility::replace(customCommand, L"%{SOURCE_FILE_PATH}", L'\"' + sourcePath.wstr() + L'\"');
 
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(sourcePath, command));
 		}

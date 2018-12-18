@@ -85,6 +85,7 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 
 void TaskExecuteCustomCommands::doExit(std::shared_ptr<Blackboard> blackboard)
 {
+	m_storage.reset();
 	float duration = utility::duration(m_start);
 	blackboard->update<float>("index_time", [duration](float currentDuration) { return currentDuration + duration; });
 }
