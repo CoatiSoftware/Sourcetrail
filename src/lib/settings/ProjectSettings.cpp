@@ -94,6 +94,10 @@ bool ProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) 
 
 bool ProjectSettings::needMigration() const
 {
+	if (getVersion() == 0)
+	{
+		return false;
+	}
 	return getMigrations().willMigrate(this, ProjectSettings::VERSION);
 }
 
