@@ -138,22 +138,36 @@ std::vector<std::string> TextAccess::readFile(const FilePath& filePath)
 {
 	std::vector<std::string> result;
 
-	std::ifstream srcFile;
-	srcFile.open(filePath.str());
-
-	if (srcFile.fail())
+	try
 	{
-		LOG_ERROR(L"Could not open file " + filePath.wstr());
-		return result;
-	}
+		std::ifstream srcFile;
+		srcFile.open(filePath.str());
 
-	while (!srcFile.eof())
-	{
-		std::string line;
-		safeGetline(srcFile, line);
-		result.push_back(line + '\n');
+		if (srcFile.fail())
+		{
+			LOG_ERROR(L"Could not open file " + filePath.wstr());
+			return result;
+		}
+
+		while (!srcFile.eof())
+		{
+			std::string line;
+			safeGetline(srcFile, line);
+			result.push_back(line + '\n');
+		}
+
+		srcFile.close();
 	}
-	srcFile.close();
+	catch (std::exception& e)
+	{
+		LOG_ERROR_STREAM(<< "Exception thrown while reading file \"" << filePath.str() << "\": " << e.what());
+		result.clear();
+	}
+	catch (...)
+	{
+		LOG_ERROR_STREAM(<< "Unknown exception thrown while reading file \"" << filePath.str() << "\"");
+		result.clear();
+	}
 
 	if (!result.empty())
 	{
