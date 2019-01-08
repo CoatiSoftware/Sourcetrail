@@ -1,5 +1,29 @@
 ### Changelog
 
+#### 2018.4.45
+released 2018-12-18
+
+* Code: Fixed active code view mode button can be unchecked and lose it's visual highlight
+* C/C++: record Clang invocation errors as errors when nothing else is recorded
+* Show Database Version in About and Custom Command Source Group description
+* Graph: Show overview bundles for non-indexed or symbol types if no others available
+* Code: Extract syntax highlighting rules to .rules files, to allow adding highlighting rules for new languages
+* C/C++: Still log the first 20.000 characters of the Clang invocation if verbose indexer logging is disabled
+* Added Source Group Custom Command to use with SourcetrailDB binaries
+* Fixed indexed source files not updated when clicking "show files" after other changes in project setup
+* Linux: Fixed issue in sourcetrail.sh script (issue #638)
+* Inspect errors during indexing (issue #235)
+* C/C++: Fixed header path selection in Source Group setup also preselects non exsiting paths (issue #640)
+* Graph: Fixed graph node centering shows right end when node has greater width than view
+* Code: Fixed multiple multiline comments within one line not correctly highlighted
+* Code: Changed snippet style, removing per file frame and minimize/snippet buttons
+* C/C++: Fixed shrinking shared memory below initial size (issue #636)
+* Fixed indexers still waiting until less storages are queued, although indexing was already interrupted (issue #634)
+* Fixed interrupting indexing while dialog hidden
+* Graph: Fixed nodes and edges stay highlighted after hovering in code
+* C/C++: Reduced shared memory consumption during indexing when indexers are faster than db insertion
+
+
 #### 2018.4.8
 released 2018-11-05
 
