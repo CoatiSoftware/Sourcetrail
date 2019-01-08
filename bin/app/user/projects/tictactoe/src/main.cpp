@@ -1,6 +1,6 @@
 #include "tictactoe.h"
 
-int main() {
+int maintictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoetictactoe() {
 	TicTacToe tictactoe;
 
 	while ( tictactoe.Start() ) {

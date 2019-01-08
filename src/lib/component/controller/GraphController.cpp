@@ -1891,11 +1891,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 	if (node->isGraphNode())
 	{
-		if (!node->active)
-		{
-			node->name = utility::elide(node->name, utility::ELIDE_RIGHT, 50);
-		}
-
+		node->name = utility::elide(node->name, utility::ELIDE_RIGHT, node->active ? 100 : 50);
 		width = margins.charWidth * node->name.size();
 
 		if (node->data->getType().isCollapsible() && node->data->getChildCount() > 0)
