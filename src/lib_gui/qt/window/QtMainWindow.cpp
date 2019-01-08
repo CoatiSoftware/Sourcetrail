@@ -567,6 +567,11 @@ void QtMainWindow::showErrorHelpMessage()
 	MessageErrorsHelpMessage(true).dispatch();
 }
 
+void QtMainWindow::showChangelog()
+{
+	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/SourcetrailBugTracker/#changelog"));
+}
+
 void QtMainWindow::showBugtracker()
 {
 	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/SourcetrailBugTracker/issues"));
@@ -1104,6 +1109,7 @@ void QtMainWindow::setupHelpMenu()
 	menu->addAction(tr("Keyboard Shortcuts"), this, &QtMainWindow::showKeyboardShortcuts);
 	menu->addAction(tr("Fixing Errors"), this, &QtMainWindow::showErrorHelpMessage);
 	menu->addAction(tr("Documentation"), this, &QtMainWindow::showDocumentation);
+	menu->addAction(tr("Changelog"), this, &QtMainWindow::showChangelog);
 	menu->addAction(tr("Bug Tracker"), this, &QtMainWindow::showBugtracker);
 
 	menu->addSeparator();

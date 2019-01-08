@@ -102,6 +102,7 @@ protected:
 public slots:
 	void about();
 	void openSettings();
+	void showChangelog();
 	void showBugtracker();
 	void showDocumentation();
 	void showKeyboardShortcuts();
