@@ -15,10 +15,19 @@ void QtRequest::sendRequest(QString url)
 {
 	LOG_INFO_STREAM(<< "send HTTP request: " << url.toStdString());
 
-	QNetworkRequest request;
-	request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
-	request.setUrl(QUrl(url));
-	m_networkManager->get(request);
+	try
+	{
+		QNetworkRequest request;
+		request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+		request.setUrl(QUrl(url));
+		m_networkManager->get(request);
+	}
+	catch (...)
+	{
+		LOG_ERROR("Exception thrown while processing HTTP request.");
+		QByteArray bytes;
+		emit receivedData(bytes);
+	}
 }
 
 void QtRequest::finished(QNetworkReply *reply)
