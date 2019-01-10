@@ -8,7 +8,7 @@
 * Click "Next"
 * Pick "Test.cbp" at "Code::Blocks Project"
 * Click "show source files" button
-* Validate "Source Files" list contains "src/main.cpp"
+* Validate "Source Files" list contains 2 files: "src/main.cpp", "src/test.cpp"
 * Click "OK"
 * Validate "Header Files & Directories to Index" contains "src" entry
 * Add "**/Foo.h" to "Excluded Files & Directories"
@@ -24,7 +24,7 @@
 * Click "Cancel"
 * Run "2_update.sh"
 * Press "Refresh" button
-* Validate "Files to clear" shows "3"
+* Validate "Files to clear" shows "4"
 * Validate "source files to index" shows "1"
 * Click "Start"
 * Validate Project indexed without error

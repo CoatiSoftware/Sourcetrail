@@ -73,6 +73,10 @@
 		<Unit filename="<source_path>/main.cpp">
 			<Option target="Test"/>
 		</Unit>
+		<Unit filename="src/test.cpp">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="src/no_target.cpp" />
 		<Unit filename="<source_path>/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "FilePath.h"
+
 class ApplicationSettings;
 class FilePath;
 class IndexerCommandCxx;
@@ -24,12 +26,7 @@ namespace Codeblocks
 		static std::shared_ptr<Project> load(const FilePath& projectFilePath);
 		static std::shared_ptr<Project> load(std::shared_ptr<TextAccess> xmlAccess);
 
-		std::set<FilePath> getAllSourceFilePathsCanonical(
-			const std::vector<std::wstring>& sourceExtensions
-		) const;
-		std::set<FilePath> getAllSourceFilePaths(
-			const std::vector<std::wstring>& sourceExtensions
-		) const;
+		std::set<FilePath> getAllSourceFilePathsCanonical(const std::vector<std::wstring>& sourceExtensions) const;
 		std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
 
 		std::vector<std::shared_ptr<IndexerCommandCxx>> getIndexerCommands(
@@ -37,10 +34,12 @@ namespace Codeblocks
 			std::shared_ptr<const ApplicationSettings> appSettings) const;
 
 	private:
-		Project() = default;
+		Project(const FilePath& projectFilePath);
 
-		int m_versionMajor;
-		int m_versionMinor;
+		FilePath m_projectFilePath;
+
+		int m_versionMajor = 0;
+		int m_versionMinor = 0;
 
 		std::wstring m_title;
 

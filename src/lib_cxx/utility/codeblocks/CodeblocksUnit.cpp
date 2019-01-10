@@ -2,6 +2,7 @@
 
 #include "tinyxml.h"
 
+#include "FilePath.h"
 #include "utilityString.h"
 
 namespace Codeblocks
@@ -60,9 +61,16 @@ namespace Codeblocks
 		return unit;
 	}
 
-	std::wstring Unit::getFilename() const
+	FilePath Unit::getCanonicalFilePath(const FilePath& projectFileDirectory) const
 	{
-		return m_filename;
+		FilePath path(m_filename);
+
+		if (!path.exists() || !path.isAbsolute())
+		{
+			path = projectFileDirectory.getConcatenated(path);
+		}
+
+		return path.makeCanonical();
 	}
 
 	CompilerVarType Unit::getCompilerVar() const

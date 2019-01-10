@@ -28,7 +28,7 @@ namespace Codeblocks
 			return std::shared_ptr<Project>();
 		}
 
-		std::shared_ptr<Project> project(new Project());
+		std::shared_ptr<Project> project(new Project(xmlAccess->getFilePath()));
 
 		TiXmlDocument doc;
 		doc.Parse(xmlAccess->getText().c_str(), 0, TIXML_ENCODING_UTF8);
@@ -38,7 +38,7 @@ namespace Codeblocks
 				"Unable to parse Code::Blocks project because of an error in row " + std::to_string(doc.ErrorRow()) + ", col " +
 				std::to_string(doc.ErrorCol()) + ": " + std::string(doc.ErrorDesc())
 			);
-			return std::shared_ptr<Project>();
+			return project;
 		}
 
 		TiXmlElement* codeBlocksProjectFileElement;
@@ -52,7 +52,7 @@ namespace Codeblocks
 			if (codeBlocksProjectFileElement == nullptr)
 			{
 				LOG_ERROR("Unable to find root node in Code::Blocks project.");
-				return std::shared_ptr<Project>();
+				return project;
 			}
 		}
 
@@ -62,13 +62,13 @@ namespace Codeblocks
 			if (versionElement->QueryIntAttribute("major", &project->m_versionMajor) != TIXML_SUCCESS)
 			{
 				LOG_ERROR("Unable to find \"Project\" node in Code::Blocks project.");
-				return std::shared_ptr<Project>();
+				return project;
 			}
 
 			if (versionElement->QueryIntAttribute("minor", &project->m_versionMinor) != TIXML_SUCCESS)
 			{
 				LOG_ERROR("Unable to find \"Project\" node in Code::Blocks project.");
-				return std::shared_ptr<Project>();
+				return project;
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace Codeblocks
 		if (codeBlocksProjectFileElement == nullptr)
 		{
 			LOG_ERROR("Unable to find \"Project\" node in Code::Blocks project.");
-			return std::shared_ptr<Project>();
+			return project;
 		}
 
 		{
@@ -129,30 +129,37 @@ namespace Codeblocks
 		const std::vector<std::wstring>& sourceExtensions
 	) const
 	{
-		return utility::convert<FilePath, FilePath>(getAllSourceFilePaths(sourceExtensions), [](const FilePath& path) { return path.getCanonical(); });
-	}
-
-	std::set<FilePath> Project::getAllSourceFilePaths(
-		const std::vector<std::wstring>& sourceExtensions
-	) const
-	{
 		const std::set<std::wstring> lowerSourceExtensions = utility::toSet(utility::convert<std::wstring, std::wstring>(
 			sourceExtensions,
 			[](const std::wstring& e) { return utility::toLowerCase(e); }
 		));
 
 		std::set<FilePath> filePaths;
+		std::set<FilePath> nonTargetFilePaths;
 		for (std::shared_ptr<const Unit> unit : m_units)
 		{
 			if (unit && unit->getCompile())
 			{
-				FilePath filePath(unit->getFilename());
+				FilePath filePath(unit->getCanonicalFilePath(m_projectFilePath.getParentDirectory()));
 				if (lowerSourceExtensions.find(filePath.getLowerCase().extension()) != lowerSourceExtensions.end())
 				{
-					filePaths.insert(filePath);
+					if (unit->getTargetNames().size())
+					{
+						filePaths.insert(filePath);
+					}
+					else
+					{
+						nonTargetFilePaths.insert(filePath);
+					}
 				}
 			}
 		}
+
+		if (!filePaths.size())
+		{
+			return nonTargetFilePaths;
+		}
+
 		return filePaths;
 	}
 
@@ -202,9 +209,11 @@ namespace Codeblocks
 			[](const std::wstring& e) { return utility::toLowerCase(e); }
 		));
 
-		const std::set<FilePath> indexedHeaderPaths = utility::toSet(sourceGroupSettings->getIndexedHeaderPathsExpandedAndAbsolute());
+		const std::set<FilePath> indexedHeaderPaths =
+			utility::toSet(sourceGroupSettings->getIndexedHeaderPathsExpandedAndAbsolute());
 
-		const std::set<FilePathFilter> excludeFilters = utility::toSet(sourceGroupSettings->getExcludeFiltersExpandedAndAbsolute());
+		const std::set<FilePathFilter> excludeFilters =
+			utility::toSet(sourceGroupSettings->getExcludeFiltersExpandedAndAbsolute());
 
 		const std::vector<FilePath> systemHeaderSearchPaths = utility::concat(
 			sourceGroupSettings->getHeaderSearchPathsExpandedAndAbsolute(),
@@ -239,6 +248,7 @@ namespace Codeblocks
 		});
 
 		std::vector<std::shared_ptr<IndexerCommandCxx>> indexerCommands;
+		std::vector<std::shared_ptr<IndexerCommandCxx>> nonTargetIndexerCommands;
 		for (std::shared_ptr<Unit> unit : m_units)
 		{
 			if (!unit || !unit->getCompile())
@@ -246,7 +256,7 @@ namespace Codeblocks
 				continue;
 			}
 
-			const FilePath filePath = FilePath(unit->getFilename()).makeCanonical();
+			const FilePath filePath = unit->getCanonicalFilePath(m_projectFilePath.getParentDirectory());
 			if (lowerSourceExtensions.find(filePath.getLowerCase().extension()) == lowerSourceExtensions.end())
 			{
 				continue;
@@ -265,6 +275,25 @@ namespace Codeblocks
 				continue;
 			}
 
+			if (!unit->getTargetNames().size())
+			{
+				nonTargetIndexerCommands.push_back(std::make_shared<IndexerCommandCxx>(
+					filePath,
+					utility::concat(indexedHeaderPaths, { filePath }),
+					excludeFilters,
+					std::set<FilePathFilter>(),
+					sourceGroupSettings->getCodeblocksProjectPathExpandedAndAbsolute().getParentDirectory(),
+					utility::concat(
+						optionsCache.getValue(L""),
+						std::vector<std::wstring>({
+							IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard),
+							filePath.wstr()
+						})
+					)
+				));
+				continue;
+			}
+
 			for (const std::wstring& targetName : unit->getTargetNames())
 			{
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxx>(
@@ -275,12 +304,25 @@ namespace Codeblocks
 					sourceGroupSettings->getCodeblocksProjectPathExpandedAndAbsolute().getParentDirectory(),
 					utility::concat(
 						optionsCache.getValue(targetName),
-						std::vector<std::wstring>({ IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard), filePath.wstr() })
+						std::vector<std::wstring>({
+							IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard),
+							filePath.wstr()
+						})
 					)
 				));
 			}
 		}
 
+		if (!indexerCommands.size())
+		{
+			return nonTargetIndexerCommands;
+		}
+
 		return indexerCommands;
+	}
+
+	Project::Project(const FilePath& projectFilePath)
+		: m_projectFilePath(projectFilePath)
+	{
 	}
 }
