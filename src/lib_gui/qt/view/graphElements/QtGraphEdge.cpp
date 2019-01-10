@@ -492,3 +492,8 @@ void QtGraphEdge::setUseBezier(bool useBezier)
 	m_useBezier = useBezier;
 	m_isHorizontal = true;
 }
+
+void QtGraphEdge::clearPath()
+{
+	m_path.clear();
+}

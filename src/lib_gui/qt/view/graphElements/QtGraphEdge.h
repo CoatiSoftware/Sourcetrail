@@ -58,6 +58,7 @@ public:
 	void setIsTrailEdge(std::vector<Vec4i> path, bool horizontal);
 
 	void setUseBezier(bool useBezier);
+	void clearPath();
 
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);

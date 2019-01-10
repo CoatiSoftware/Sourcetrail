@@ -506,6 +506,7 @@ void QtGraphNode::notifyEdgesAfterMove()
 	forEachEdge(
 		[](QtGraphEdge* edge)
 		{
+			edge->clearPath();
 			edge->updateLine();
 		}
 	);

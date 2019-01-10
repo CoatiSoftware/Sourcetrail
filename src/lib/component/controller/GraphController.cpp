@@ -516,6 +516,27 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 	{
 		node->position += message->delta;
 
+		if (m_graph->getTrailMode() != Graph::TRAIL_NONE)
+		{
+			std::set<Id> childNodeIds;
+			for (const std::pair<Id, Id>& p : m_topLevelAncestorIds)
+			{
+				if (p.second == message->tokenId)
+				{
+					childNodeIds.insert(p.first);
+				}
+			}
+
+			for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
+			{
+				if (childNodeIds.find(edge->ownerId) != childNodeIds.end() ||
+					childNodeIds.find(edge->targetId) != childNodeIds.end())
+				{
+					edge->path.clear();
+				}
+			}
+		}
+
 		if (message->isReplayed())
 		{
 			buildGraph(message, GraphView::GraphParams());

@@ -151,6 +151,38 @@ void level_5_func()
 // END ------------------------------------------------------------------------
 
 
+// TEST: virtual nodes removed when moving nodes
+// START ----------------------------------------------------------------------
+
+namespace virtual_nodes
+{
+void func1(); // <- ACTION 1: activate
+void func2();
+void func3();
+void func4();
+
+struct Parent
+{
+	static void func5();
+};
+
+void func1() { func2(); Parent::func5(); }
+void func2() { func3(); }
+void func3() { func4(); Parent::func5(); }
+void func4() { Parent::func5(); }
+void func5() { }
+}
+
+// ACTION 2: show callee graph
+// ACTION 3: move func5 above node func2
+// RESULT 3: virtual nodes are removed from the graph routes
+
+// ACTION 4: activate func4
+// ACTION 5: undo
+// RESULT 5: the depth graph is restored with the virtual nodes removed
+
+// END ------------------------------------------------------------------------
+
 
 // TEST: pentagram graph
 // START ----------------------------------------------------------------------
@@ -170,7 +202,7 @@ void func4() { func1(); func2(); func3(); func4(); func5(); }
 void func5() { func1(); func2(); func3(); func4(); func5(); }
 }
 
-// ACTION 2: show caller and calle graph
+// ACTION 2: show caller and callee graph
 // RESULT 2: layout works without crash
 
 // END ------------------------------------------------------------------------
