@@ -518,7 +518,7 @@ void QtGraphView::scrollToValues(int xValue, int yValue)
 	m_scrollValues = Vec2i(xValue, yValue);
 }
 
-void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
+void QtGraphView::activateEdge(Id edgeId)
 {
 	m_onQtThread(
 		[=]()
@@ -541,12 +541,6 @@ void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
 				if (edge->getData() && edge->getData()->getId() == edgeId)
 				{
 					edge->setIsActive(true);
-
-					if (centerOrigin)
-					{
-						centerNode(edge->getOwner());
-					}
-
 					break;
 				}
 			}

@@ -65,7 +65,7 @@ public:
 
 	virtual void scrollToValues(int xValue, int yValue);
 
-	virtual void activateEdge(Id edgeId, bool centerOrigin);
+	virtual void activateEdge(Id edgeId);
 
 private slots:
 	void updateScrollBars();

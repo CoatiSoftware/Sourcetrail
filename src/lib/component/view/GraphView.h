@@ -53,7 +53,7 @@ public:
 
 	virtual void scrollToValues(int xValue, int yValue) = 0;
 
-	virtual void activateEdge(Id edgeId, bool centerOrigin) = 0;
+	virtual void activateEdge(Id edgeId) = 0;
 };
 
 #endif // GRAPH_VIEW_H
