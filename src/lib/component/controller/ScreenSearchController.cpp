@@ -147,3 +147,73 @@ size_t ScreenSearchController::getResponderId(ScreenSearchResponder* responder) 
 
 	return 0;
 }
+
+void ScreenSearchController::handleMessage(MessageActivateAll* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageActivateErrors* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageActivateFullTextSearch* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageActivateLegend* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageActivateLocalSymbols* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageActivateTokens* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageActivateTrail* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageActivateTrailEdge* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageChangeFileView* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageCodeShowDefinition* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageDeactivateEdge* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageGraphNodeBundleSplit* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageGraphNodeExpand* message)
+{
+	clearMatches();
+}
+
+void ScreenSearchController::handleMessage(MessageGraphNodeHide* message)
+{
+	clearMatches();
+}
