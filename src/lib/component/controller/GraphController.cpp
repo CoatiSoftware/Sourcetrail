@@ -1118,7 +1118,7 @@ void GraphController::bundleNodes()
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
-			return data->getType().isFile();
+			return data->getType().isFile() && data->findEdgeOfType(Edge::EDGE_IMPORT);
 		},
 		1,
 		false,
