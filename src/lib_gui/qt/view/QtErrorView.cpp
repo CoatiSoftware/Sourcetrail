@@ -25,34 +25,6 @@
 
 QIcon QtErrorView::s_errorIcon;
 
-class SelectableDelegate
-	: public QStyledItemDelegate
-{
-public:
-	SelectableDelegate(QObject* parent = Q_NULLPTR);
-	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-};
-
-SelectableDelegate::SelectableDelegate(QObject* parent)
-	: QStyledItemDelegate(parent)
-{
-}
-
-
-QWidget* SelectableDelegate::createEditor(
-	QWidget* parent,
-	const QStyleOptionViewItem &option,
-	const QModelIndex &index) const
-{
-	QWidget* editor = QStyledItemDelegate::createEditor(parent, option, index);
-	QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(editor);
-	if (lineEdit != nullptr)
-	{
-		lineEdit->setReadOnly(true);
-	}
-	return editor;
-}
-
 QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout)
 	, m_controllerProxy(this, TabId::app())
@@ -82,7 +54,6 @@ void QtErrorView::initView()
 	m_model = new QStandardItemModel(widget);
 	m_table->setSortingEnabled(true);
 	m_table->setModel(m_model);
-	m_table->setItemDelegate(new SelectableDelegate(m_table));
 
 	// Setup Table Headers
 	m_model->setColumnCount(COLUMN_MAX + 1);
@@ -92,6 +63,8 @@ void QtErrorView::initView()
 	m_table->setColumnWidth(Column::FILE, 300);
 	m_table->setColumnWidth(Column::LINE, 50);
 	m_table->setColumnWidth(Column::TRANSLATION_UNIT, 300);
+
+	m_table->setColumnHidden(Column::ID, true);
 
 	QStringList headers;
 	headers << "ID" << "Type" << "Message" << "File" << "Line" << "Indexed" << "Translation Unit";

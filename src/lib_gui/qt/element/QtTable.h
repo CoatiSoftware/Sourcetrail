@@ -20,6 +20,9 @@ public:
 
 	bool hasSelection() const;
 
+protected slots:
+	void columnResized(int column, int oldWidth, int newWidth);
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
 	virtual void mousePressEvent(QMouseEvent* event);

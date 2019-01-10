@@ -55,6 +55,8 @@ QtTable::QtTable(QWidget* parent)
 
 	setSelectionBehavior(QAbstractItemView::SelectRows);
 	setSelectionMode(QAbstractItemView::SingleSelection);
+
+	connect(horizontalHeader(), &QHeaderView::sectionResized, this, &QtTable::columnResized);
 }
 
 QtTable::~QtTable()
@@ -91,6 +93,8 @@ void QtTable::updateRows()
 	{
 		clearSelection();
 	}
+
+	resizeRowsToContents();
 }
 
 int QtTable::getFilledRowCount()
@@ -124,6 +128,11 @@ bool QtTable::hasSelection() const
 	return this->selectionModel()->hasSelection();
 }
 
+void QtTable::columnResized(int column, int oldWidth, int newWidth)
+{
+	resizeRowsToContents();
+}
+
 void QtTable::resizeEvent(QResizeEvent* event)
 {
 	QTableView::resizeEvent(event);
@@ -134,13 +143,28 @@ void QtTable::resizeEvent(QResizeEvent* event)
 		this->model()->insertRow(0);
 	}
 
-	m_rowsToFill = (float)tableHeight / this->rowHeight(0);
+	m_rowsToFill = 0;
+	for (int row = 0; row < this->model()->rowCount(); row++)
+	{
+		tableHeight -= this->rowHeight(row);
+		m_rowsToFill++;
+
+		if (tableHeight <= 0)
+		{
+			break;
+		}
+	}
+
+	m_rowsToFill += (float)tableHeight / this->rowHeight(this->model()->rowCount() - 1);
 
 	updateRows();
 }
 
 void QtTable::mousePressEvent(QMouseEvent* event)
 {
+	m_colIndex = -1;
+	m_lastPos = -1;
+
 	if (event->button() == Qt::LeftButton)
 	{
 		for (auto i = 1; i < this->model()->columnCount(); i++)
@@ -149,11 +173,15 @@ void QtTable::mousePressEvent(QMouseEvent* event)
 			{
 				m_colIndex = i - 1;
 				m_lastPos = event->pos().x();
+				break;
 			}
 		}
 	}
 
-	QTableView::mousePressEvent(event);
+	if (m_colIndex == -1)
+	{
+		QTableView::mousePressEvent(event);
+	}
 }
 
 void QtTable::mouseMoveEvent(QMouseEvent* event)
@@ -185,15 +213,18 @@ void QtTable::mouseMoveEvent(QMouseEvent* event)
 		{
 			unsetCursor();
 		}
-	}
 
-	QTableView::mouseMoveEvent(event);
+		QTableView::mouseMoveEvent(event);
+	}
 }
 
 void QtTable::mouseReleaseEvent(QMouseEvent* event)
 {
+	if (m_colIndex == -1)
+	{
+		QTableView::mouseReleaseEvent(event);
+	}
+
 	m_colIndex = -1;
 	m_lastPos = -1;
-
-	QTableView::mouseReleaseEvent(event);
 }
