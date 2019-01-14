@@ -231,17 +231,13 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 	QPen p = painter.pen();
 
-	int scrollBarHeight = 0;
-	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() && utility::getOsType() != OS_MAC)
-	{
-		scrollBarHeight = horizontalScrollBar()->height();
-	}
-
-	const int drawAreaTop = event->rect().top();
+	int drawAreaTop = event->rect().top();
 	int drawAreaBottom = event->rect().bottom() + 1;
-	if (drawAreaBottom > height() - scrollBarHeight)
+
+	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() && utility::getOsType() != OS_MAC &&
+		drawAreaBottom > height() - horizontalScrollBar()->height())
 	{
-		drawAreaBottom = height() - scrollBarHeight;
+		drawAreaBottom = height() - horizontalScrollBar()->height();
 	}
 
 	while (block.isValid() && top <= drawAreaBottom)
