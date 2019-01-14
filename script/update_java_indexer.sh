@@ -30,7 +30,7 @@ cd $ROOT_DIR/
 cd java_indexer
 
 echo "cleaning and building java_indexer.jar"
-mvn clean package dependency:copy-dependencies
+mvn clean package
 
 cd ../
 
@@ -38,4 +38,4 @@ echo -e $INFO "copy jars"
 mkdir -p bin/app/data/java/lib/
 rm -rf bin/app/data/java/lib/*
 cp -r java_indexer/target/java-indexer-1.0.jar bin/app/data/java/lib/java-indexer.jar
-cp -r java_indexer/target/dependency/*.jar bin/app/data/java/lib
+cp -r java_indexer/lib/*.jar bin/app/data/java/lib

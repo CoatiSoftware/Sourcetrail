@@ -39,22 +39,123 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>org.eclipse.jdt</groupId>
-			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.13.102</version>
-		</dependency>
-		
-		<dependency>
 			<groupId>org.gradle</groupId>
 			<artifactId>gradle-tooling-api</artifactId>
 			<version>4.2</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/gradle-tooling-api-4.2.jar</systemPath>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.commands</artifactId>
+			<version>3.9.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.core.commands-3.9.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.contenttype</artifactId>
+			<version>3.7.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.core.contenttype-3.7.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.expressions</artifactId>
+			<version>3.6.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.core.expressions-3.6.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.filesystem</artifactId>
+			<version>1.7.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.core.filesystem-1.7.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.jobs</artifactId>
+			<version>3.10.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.core.jobs-3.10.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.resources</artifactId>
+			<version>3.13.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.core.resources-3.13.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.runtime</artifactId>
+			<version>3.15.100</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.core.runtime-3.15.100.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.equinox.app</artifactId>
+			<version>1.4.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.equinox.app-1.4.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.equinox.common</artifactId>
+			<version>3.10.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.equinox.common-3.10.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.equinox.preferences</artifactId>
+			<version>3.7.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.equinox.preferences-3.7.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.equinox.registry</artifactId>
+			<version>3.8.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.equinox.registry-3.8.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>org.eclipse.jdt.core</artifactId>
+			<version>3.13.102</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.jdt.core-3.13.102.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.13.200</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.osgi-3.13.200.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>org.eclipse.text</artifactId>
+			<version>3.8.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.eclipse.text-3.8.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.10</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/slf4j-api-1.7.10.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.7.10</version>
-			<scope>test</scope>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/slf4j-simple-1.7.10.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
