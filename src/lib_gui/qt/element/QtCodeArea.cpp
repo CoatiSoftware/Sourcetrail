@@ -238,7 +238,11 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	}
 
 	const int drawAreaTop = event->rect().top();
-	const int drawAreaBottom = event->rect().bottom() - scrollBarHeight;
+	int drawAreaBottom = event->rect().bottom() + 1;
+	if (drawAreaBottom > height() - scrollBarHeight)
+	{
+		drawAreaBottom = height() - scrollBarHeight;
+	}
 
 	while (block.isValid() && top <= drawAreaBottom)
 	{
