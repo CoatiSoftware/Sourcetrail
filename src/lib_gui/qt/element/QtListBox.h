@@ -2,17 +2,36 @@
 #define QT_LIST_BOX_H
 
 #include <QFrame>
+#include <QListWidget>
 
 #include "FilePath.h"
 
 class QEvent;
 class QHBoxLayout;
-class QListWidget;
 class QListWidgetItem;
 class QPushButton;
 
 class QtTextEditDialog;
 class QtListBoxItem;
+
+class QtListWidget
+	: public QListWidget
+{
+	Q_OBJECT
+
+public:
+	QtListWidget(QWidget* parent = nullptr)
+		: QListWidget(parent)
+	{
+	}
+
+protected:
+	void mouseDoubleClickEvent(QMouseEvent* event) override
+	{
+		QModelIndex index;
+		emit doubleClicked(index);
+	}
+};
 
 class QtListBox
 	: public QFrame
@@ -33,7 +52,7 @@ protected:
 	void addWidgetToBar(QWidget* widget);
 	bool event(QEvent* event) override;
 
-	QListWidget* m_list;
+	QtListWidget* m_list;
 
 protected slots:
 	QtListBoxItem* addListBoxItem();
@@ -42,6 +61,9 @@ protected slots:
 	void showEditDialog();
 	void canceledEditDialog();
 	void savedEditDialog();
+
+private slots:
+	void doubleClicked(const QModelIndex& index);
 
 private:
 	virtual QtListBoxItem* createListBoxItem(QListWidgetItem* item) = 0;

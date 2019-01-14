@@ -1,16 +1,14 @@
 #include "QtListBox.h"
 
 #include <QBoxLayout>
-#include <QListWidget>
 #include <QLabel>
-#include <QListWidget>
 #include <QScrollBar>
 
 #include "QtIconButton.h"
 #include "QtStringListBoxItem.h"
-#include "utilityQt.h"
 #include "QtTextEditDialog.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 #include "utilityString.h"
 
 QtListBox::QtListBox(QWidget *parent, const QString& listName)
@@ -22,9 +20,10 @@ QtListBox::QtListBox(QWidget *parent, const QString& listName)
 	layout->setContentsMargins(0, 6, 0, 0);
 	layout->setAlignment(Qt::AlignTop);
 
-	m_list = new QListWidget(this);
+	m_list = new QtListWidget(this);
 	m_list->setObjectName("list");
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
+	connect(m_list, &QListWidget::doubleClicked, this, &QtListBox::doubleClicked);
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/listbox.css")).c_str());
 	layout->addWidget(m_list, 5);
@@ -243,4 +242,12 @@ void QtListBox::savedEditDialog()
 	}
 
 	canceledEditDialog();
+}
+
+void QtListBox::doubleClicked(const QModelIndex& index)
+{
+	if (!index.isValid())
+	{
+		addListBoxItem();
+	}
 }
