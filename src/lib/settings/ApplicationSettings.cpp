@@ -82,7 +82,7 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 		[](const SettingsMigration* migration, Settings* settings)
 		{
 			std::vector<FilePath> cxxHeaderSearchPaths = migration->getValuesFromSettings(
-				settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>());
+				settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>()); 
 
 			cxxHeaderSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(cxxHeaderSearchPaths);
 

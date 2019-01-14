@@ -62,7 +62,7 @@ void setupLogging()
 void prefillJavaRuntimePath()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (!settings->getHasPrefilledJavaPath() && settings->getJavaPath().empty())
+	if (!settings->getHasPrefilledJavaPath())
 	{
 		LOG_INFO("Prefilling Java path");
 		std::shared_ptr<CombinedPathDetector> javaPathDetector = utility::getJavaRuntimePathDetector();
@@ -85,7 +85,7 @@ void prefillJavaRuntimePath()
 void prefillJreSystemLibraryPaths()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (!settings->getHasPrefilledJreSystemLibraryPaths() && settings->getJreSystemLibraryPaths().empty())
+	if (!settings->getHasPrefilledJreSystemLibraryPaths())
 	{
 		LOG_INFO("Prefilling JRE system library path");
 		std::shared_ptr<CombinedPathDetector> jreSystemLibraryPathsDetector = utility::getJreSystemLibraryPathsDetector();
@@ -108,7 +108,7 @@ void prefillJreSystemLibraryPaths()
 void prefillMavenExecutablePath()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (!settings->getHasPrefilledMavenPath() && settings->getMavenPath().empty())
+	if (!settings->getHasPrefilledMavenPath())
 	{
 		LOG_INFO("Prefilling Maven path");
 		std::shared_ptr<CombinedPathDetector> mavenPathDetector = utility::getMavenExecutablePathDetector();
@@ -131,7 +131,7 @@ void prefillMavenExecutablePath()
 void prefillCxxHeaderPaths()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (!settings->getHasPrefilledHeaderSearchPaths() && settings->getHeaderSearchPaths().empty())
+	if (!settings->getHasPrefilledHeaderSearchPaths())
 	{
 		LOG_INFO("Prefilling header search paths");
 		std::shared_ptr<CombinedPathDetector> cxxHeaderDetector = utility::getCxxHeaderPathDetector();
@@ -152,7 +152,7 @@ void prefillCxxHeaderPaths()
 void prefillCxxFrameworkPaths()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	if (!settings->getHasPrefilledFrameworkSearchPaths() && settings->getFrameworkSearchPaths().empty())
+	if (!settings->getHasPrefilledFrameworkSearchPaths())
 	{
 		LOG_INFO("Prefilling framework search paths");
 		std::shared_ptr<CombinedPathDetector> cxxFrameworkDetector = utility::getCxxFrameworkPathDetector();
