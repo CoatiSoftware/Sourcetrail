@@ -26,6 +26,9 @@ public:
 	void preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVerticalSplit);
 	void layout(int x, int y, int width, int height);
 
+	const std::vector<int> getColWidths() const;
+	int getMiddleGapX() const;
+
 	int i;
 	int j;
 
@@ -34,6 +37,8 @@ private:
 	int m_height;
 
 	DummyNode::BundledNodesSet m_nodes;
+
+	std::vector<int> m_colWidths;
 };
 
 

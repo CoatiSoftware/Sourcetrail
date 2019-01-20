@@ -122,6 +122,8 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 		}
 	}
 
+	m_colWidths = std::move(colWidths);
+
 	addVerticalSplit &= nodesInCol.size() > 1 || forceVerticalSplit;
 	if (!addVerticalSplit)
 	{
@@ -219,6 +221,30 @@ void Bucket::layout(int x, int y, int width, int height)
 	}
 }
 
+const std::vector<int> Bucket::getColWidths() const
+{
+	return m_colWidths;
+}
+
+int Bucket::getMiddleGapX() const
+{
+	int middleGapX = 0;
+	int dist = getWidth() / 2;
+
+	for (int colWidth : m_colWidths)
+	{
+		int gapX = middleGapX + GraphViewStyle::toGridOffset(colWidth + 45);
+		int d = std::abs(getWidth() / 2 - gapX);
+		if (d < dist)
+		{
+			dist = d;
+			middleGapX = gapX;
+		}
+	}
+
+	return middleGapX;
+}
+
 
 BucketLayouter::BucketLayouter(Vec2i viewSize)
 	: m_viewSize(viewSize)
@@ -299,6 +325,9 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 	std::map<int, int> widths;
 	std::map<int, int> heights;
 
+	int maxMidWidth = 0;
+	int maxMidWidthJ = m_j1;
+
 	for (int j = m_j1; j <= m_j2; j++)
 	{
 		for (int i = m_i1; i <= m_i2; i++)
@@ -318,6 +347,12 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 			{
 				heights[j] = bucket->getHeight();
 			}
+
+			if (i == 0 && bucket->getWidth() > maxMidWidth)
+			{
+				maxMidWidth = bucket->getWidth();
+				maxMidWidthJ = j;
+			}
 		}
 	}
 
@@ -328,6 +363,37 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 		verticalOffset = (rect.y + rect.w - m_activeParentNode->size.y) / 2;
 	}
 
+	// Calculate x offsets in the middle column to align all columns in each bucket at the column gap closest to the
+	// middle to avoid weird edge routing.
+	std::map<int, int> xOffs;
+	Bucket* maxWidthBucket = &m_buckets[maxMidWidthJ][0];
+	int maxWidthMiddleGapX = maxWidthBucket->getMiddleGapX();
+
+	for (int j = m_j1; j <= m_j2; j++)
+	{
+		Bucket* bucket = &m_buckets[j][0];
+
+		// only align if max width bucket has multiple columns
+		if (j != maxMidWidthJ && maxWidthBucket->getColWidths().size() > 1)
+		{
+			int xOff = maxWidthMiddleGapX - bucket->getMiddleGapX() - (widths[0] - bucket->getWidth()) / 2;
+
+			// move to front if moving to column gap would be further away
+			if (std::abs((widths[0] - bucket->getWidth()) / 2) < std::abs(xOff))
+			{
+				xOffs[j] = (bucket->getWidth() - widths[0]) / 2;
+			}
+			else
+			{
+				xOffs[j] = xOff;
+			}
+		}
+		else
+		{
+			xOffs[j] = 0;
+		}
+	}
+
 	int y = 0;
 	for (int j = m_j1; j <= m_j2; j++)
 	{
@@ -336,7 +402,9 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 		{
 			Bucket* bucket = &m_buckets[j][i];
 
+			int xOff = 0;
 			int yOff = 0;
+
 			// move buckets over or below the middle one closer
 			if (i == 0 && (j == -1 || j == 1))
 			{
@@ -349,7 +417,12 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 				yOff = verticalOffset;
 			}
 
-			bucket->layout(x, y + yOff, widths[i], heights[j]);
+			if (i == 0)
+			{
+				xOff = xOffs[j];
+			}
+
+			bucket->layout(x + xOff, y + yOff, widths[i], heights[j]);
 			x += widths[i] + GraphViewStyle::toGridGap(110);
 		}
 
