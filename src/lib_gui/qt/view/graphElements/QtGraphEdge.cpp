@@ -412,7 +412,7 @@ void QtGraphEdge::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-	if (!m_mouseMoved && m_isInteractive)
+	if (!m_mouseMoved && m_isInteractive && event->button() == Qt::LeftButton)
 	{
 		if (event->modifiers() & Qt::AltModifier)
 		{
