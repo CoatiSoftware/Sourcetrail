@@ -3,6 +3,7 @@
 
 #include "QtProjectWizzardContent.h"
 
+class QCheckBox;
 class QLineEdit;
 class SourceGroupSettingsCustomCommand;
 
@@ -27,6 +28,7 @@ private:
 	std::shared_ptr<SourceGroupSettingsCustomCommand> m_settings;
 
 	QLineEdit* m_customCommand;
+	QCheckBox* m_runInParallel;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_CUSTOM_COMMAND_H

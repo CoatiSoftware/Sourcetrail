@@ -7,6 +7,7 @@ SourceGroupSettingsCustomCommand::SourceGroupSettingsCustomCommand(
 	const std::string& id, const ProjectSettings* projectSettings
 )
 	: SourceGroupSettings(id, SOURCE_GROUP_CUSTOM_COMMAND, projectSettings)
+	, m_runInParallel(false)
 {
 }
 
@@ -26,6 +27,7 @@ void SourceGroupSettingsCustomCommand::load(std::shared_ptr<const ConfigManager>
 	SourceGroupSettingsWithExcludeFilters::load(config, key);
 
 	setCustomCommand(config->getValueOrDefault(key + "/custom_command", std::wstring()));
+	setRunInParallel(config->getValueOrDefault(key + "/run_in_parallel", false));
 }
 
 void SourceGroupSettingsCustomCommand::save(std::shared_ptr<ConfigManager> config)
@@ -39,6 +41,7 @@ void SourceGroupSettingsCustomCommand::save(std::shared_ptr<ConfigManager> confi
 	SourceGroupSettingsWithExcludeFilters::save(config, key);
 
 	config->setValue(key + "/custom_command", getCustomCommand());
+	config->setValue(key + "/run_in_parallel", getRunInParallel());
 }
 
 bool SourceGroupSettingsCustomCommand::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -64,6 +67,16 @@ const std::wstring& SourceGroupSettingsCustomCommand::getCustomCommand() const
 void SourceGroupSettingsCustomCommand::setCustomCommand(const std::wstring& customCommand)
 {
 	m_customCommand = customCommand;
+}
+
+bool SourceGroupSettingsCustomCommand::getRunInParallel() const
+{
+	return m_runInParallel;
+}
+
+void SourceGroupSettingsCustomCommand::setRunInParallel(bool runInParallel)
+{
+	m_runInParallel = runInParallel;
 }
 
 std::vector<std::wstring> SourceGroupSettingsCustomCommand::getDefaultSourceExtensions() const

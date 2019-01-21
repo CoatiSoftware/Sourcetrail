@@ -1,5 +1,6 @@
 #include "QtProjectWizzardContentCustomCommand.h"
 
+#include <QCheckBox>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <boost/filesystem/path.hpp>
@@ -47,10 +48,15 @@ void QtProjectWizzardContentCustomCommand::populate(QGridLayout* layout, int& ro
 	m_customCommand = new QLineEdit();
 	m_customCommand->setObjectName("name");
 	m_customCommand->setAttribute(Qt::WA_MacShowFocusRect, 0);
+	m_runInParallel = new QCheckBox("Run in Parallel");
+
+	layout->setRowMinimumHeight(row, 30);
 
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_customCommand, row, QtProjectWizzardWindow::BACK_COL);
-	layout->setRowMinimumHeight(row, 30);
+	row++;
+
+	layout->addWidget(m_runInParallel, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
 	if (!isInForm())
@@ -63,11 +69,13 @@ void QtProjectWizzardContentCustomCommand::populate(QGridLayout* layout, int& ro
 void QtProjectWizzardContentCustomCommand::load()
 {
 	m_customCommand->setText(QString::fromStdWString(m_settings->getCustomCommand()));
+	m_runInParallel->setChecked(m_settings->getRunInParallel());
 }
 
 void QtProjectWizzardContentCustomCommand::save()
 {
 	m_settings->setCustomCommand(m_customCommand->text().toStdWString());
+	m_settings->setRunInParallel(m_runInParallel->isChecked());
 }
 
 bool QtProjectWizzardContentCustomCommand::check()

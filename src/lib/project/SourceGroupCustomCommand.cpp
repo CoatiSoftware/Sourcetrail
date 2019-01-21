@@ -40,20 +40,22 @@ std::set<FilePath> SourceGroupCustomCommand::getAllSourceFilePaths() const
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
-	std::wstring customCommand = m_settings->getCustomCommand();
-
-	customCommand = utility::replace(customCommand, L"%{PROJECT_FILE_PATH}", L'\"' + m_settings->getProjectSettings()->getProjectFilePath().wstr() + L'\"');
-	customCommand = utility::replace(customCommand, L"%{DATABASE_FILE_PATH}", L'\"' + m_settings->getProjectSettings()->getTempDBFilePath().wstr() + L'\"');
-	customCommand = utility::replace(customCommand, L"%{DATABASE_VERSION}", L'\"' + std::to_wstring(SqliteIndexStorage::getStorageVersion()) + L'\"');
+	const std::wstring customCommand = m_settings->getCustomCommand();
+	const bool runInParallel = m_settings->getRunInParallel();
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
 		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{
-			std::wstring command = utility::replace(customCommand, L"%{SOURCE_FILE_PATH}", L'\"' + sourcePath.wstr() + L'\"');
-
-			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(sourcePath, command));
+			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
+				customCommand, 
+				m_settings->getProjectSettings()->getProjectFilePath(),
+				m_settings->getProjectSettings()->getTempDBFilePath(),
+				std::to_wstring(SqliteIndexStorage::getStorageVersion()),
+				sourcePath,
+				runInParallel
+			));
 		}
 	}
 

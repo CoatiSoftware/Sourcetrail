@@ -25,10 +25,14 @@ public:
 	const std::wstring& getCustomCommand() const;
 	void setCustomCommand(const std::wstring& customCommand);
 
+	bool getRunInParallel() const;
+	void setRunInParallel(bool runInParallel);
+
 private:
 	std::vector<std::wstring> getDefaultSourceExtensions() const override;
 
 	std::wstring m_customCommand;
+	bool m_runInParallel;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_CUSTOM_COMMAND_H

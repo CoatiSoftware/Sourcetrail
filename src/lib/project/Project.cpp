@@ -516,19 +516,19 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 	taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("interrupted_indexing", false));
 	taskSequential->addTask(std::make_shared<TaskSetValue<float>>("index_time", 0.0f));
 
-	if (indexerCommandProvider->size())
+	int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+	if (indexerThreadCount <= 0)
 	{
-		int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+		indexerThreadCount = utility::getIdealThreadCount();
 		if (indexerThreadCount <= 0)
 		{
-			indexerThreadCount = utility::getIdealThreadCount();
-			if (indexerThreadCount <= 0)
-			{
-				indexerThreadCount = 4; // setting to some fallback value
-			}
+			indexerThreadCount = 4; // setting to some fallback value
 		}
+	}
 
-		indexerThreadCount = std::min<int>(indexerThreadCount, indexerCommandProvider->size());
+	if (!indexerCommandProvider->empty())
+	{
+		const int adjustedIndexerThreadCount = std::min<int>(indexerThreadCount, indexerCommandProvider->size());
 
 		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
 		// add tasks for setting some variables on the blackboard that are used during indexing
@@ -556,7 +556,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS, 25)->addChildTask(
 					std::make_shared<TaskReturnSuccessIf<bool>>("indexer_command_queue_started", TaskReturnSuccessIf<bool>::CONDITION_EQUALS, false)
 				),
-				std::make_shared<TaskBuildIndex>(indexerThreadCount, storageProvider, dialogView, m_appUUID, multiProcess)
+				std::make_shared<TaskBuildIndex>(adjustedIndexerThreadCount, storageProvider, dialogView, m_appUUID, multiProcess)
 			)
 		);
 
@@ -613,11 +613,17 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 		dialogView->hideUnknownProgressDialog();
 	}
 
-	if (customIndexerCommandProvider->size())
+	if (!customIndexerCommandProvider->empty())
 	{
+		const int adjustedIndexerThreadCount = std::min<int>(indexerThreadCount, customIndexerCommandProvider->size());
+
 		taskSequential->addTask(
 			std::make_shared<TaskExecuteCustomCommands>(
-				std::move(customIndexerCommandProvider), tempStorage, dialogView, getProjectSettingsFilePath().getParentDirectory())
+				std::move(customIndexerCommandProvider), 
+				tempStorage, 
+				dialogView,
+				adjustedIndexerThreadCount,
+				getProjectSettingsFilePath().getParentDirectory())
 		);
 	}
 
