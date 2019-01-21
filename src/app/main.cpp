@@ -137,6 +137,8 @@ void prefillCxxHeaderPaths()
 		std::shared_ptr<CombinedPathDetector> cxxHeaderDetector = utility::getCxxHeaderPathDetector();
 		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
 
+		paths = utility::replaceOrAddCxxCompilerHeaderPath(paths);
+
 		if (!paths.empty())
 		{
 			MessageStatus(L"Ran C/C++ header path detection, found " + std::to_wstring(paths.size()) + L" path" +

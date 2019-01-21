@@ -60,19 +60,33 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSear
 {
 	std::vector<std::wstring> compilerFlags;
 	compilerFlags.reserve(systemHeaderSearchPaths.size() * 2);
+
+	bool hasCxxCompilerHeaderPath = false;
 	for (const FilePath& path : systemHeaderSearchPaths)
+	{
+		if (path == ResourcePaths::getCxxCompilerHeaderPath())
+		{
+			hasCxxCompilerHeaderPath = true;
+		}
+		else
+		{
+			compilerFlags.push_back(L"-isystem");
+			compilerFlags.push_back(path.wstr());
+		}
+	}
+
+	if (hasCxxCompilerHeaderPath)
 	{
 #ifdef _WIN32
 		// prepend clang system includes on windows
-		if (path == ResourcePaths::getCxxCompilerHeaderPath())
-		{
-			compilerFlags = utility::concat({ L"-isystem" , path.wstr() }, compilerFlags);
-			continue;
-		}
-#endif
+		compilerFlags = utility::concat({ L"-isystem", ResourcePaths::getCxxCompilerHeaderPath().wstr() }, compilerFlags);
+#else
+		// append otherwise
 		compilerFlags.push_back(L"-isystem");
-		compilerFlags.push_back(path.wstr());
+		compilerFlags.push_back(ResourcePaths::getCxxCompilerHeaderPath().wstr());
+#endif
 	}
+
 	return compilerFlags;
 }
 

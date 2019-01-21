@@ -59,7 +59,11 @@ std::vector<FilePath> QtPathListBox::getPathsAsAbsolute() const
 void QtPathListBox::setPaths(const std::vector<FilePath>& list, bool readOnly)
 {
 	clear();
+	addPaths(list, readOnly);
+}
 
+void QtPathListBox::addPaths(const std::vector<FilePath>& list, bool readOnly)
+{
 	for (FilePath path : list)
 	{
 		QtListBoxItem* item = addListBoxItemWithText(QString::fromStdWString(path.wstr()));

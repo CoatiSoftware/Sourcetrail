@@ -15,6 +15,7 @@
 #include "SourceGroupCxxEmpty.h"
 #include "SourceGroupJavaEmpty.h"
 #include "ApplicationSettings.h"
+#include "ResourcePaths.h"
 #include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsCxx.h"
 #include "SourceGroupSettingsCxxCdb.h"
@@ -34,6 +35,7 @@
 #include "IncludeProcessing.h"
 #include "ScopedFunctor.h"
 #include "utility.h"
+#include "utilityApp.h"
 #include "utilityCxx.h"
 #include "utilityFile.h"
 #include "utilityPathDetection.h"
@@ -204,6 +206,11 @@ void QtProjectWizzardContentPaths::detectionClicked()
 
 	paths = utility::unique(utility::concat(oldPaths, paths));
 
+	detectedPaths(paths);
+}
+
+void QtProjectWizzardContentPaths::detectedPaths(const std::vector<FilePath>& paths)
+{
 	m_list->setPaths(paths);
 }
 
@@ -1011,13 +1018,104 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::load()
 {
-	m_list->setPaths(ApplicationSettings::getInstance()->getHeaderSearchPaths());
+	setPaths(ApplicationSettings::getInstance()->getHeaderSearchPaths());
 }
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 {
 	ApplicationSettings::getInstance()->setHeaderSearchPaths(m_list->getPathsAsDisplayed());
 	ApplicationSettings::getInstance()->save();
+}
+
+bool QtProjectWizzardContentPathsHeaderSearchGlobal::check()
+{
+	bool hasCompilerHeaderPath = false;
+	bool hasOtherCompilerConfig = false;
+	for (const FilePath& headerPath : m_list->getPathsAsDisplayed())
+	{
+		if (headerPath == ResourcePaths::getCxxCompilerHeaderPath())
+		{
+			hasCompilerHeaderPath = true;
+		}
+		else if (headerPath.getCanonical().getConcatenated(L"/stdarg.h").exists())
+		{
+			hasOtherCompilerConfig = true;
+		}
+	}
+
+	if (!hasCompilerHeaderPath)
+	{
+		QMessageBox msgBox;
+		msgBox.setText("Compiler Header Path missing");
+		msgBox.setInformativeText("Your Global Include Paths do not contain the path to the compiler headers of "
+			"Sourcetrail's C/C++ indexer. This can cause a lot of errors during indexing. Do you want to add the "
+			"path to the list?");
+		msgBox.addButton("Add", QMessageBox::ButtonRole::YesRole);
+		msgBox.addButton("Skip", QMessageBox::ButtonRole::NoRole);
+		msgBox.setIcon(QMessageBox::Icon::Question);
+		int ret = msgBox.exec();
+
+		if (ret == 0) // QMessageBox::Yes
+		{
+			m_list->addPaths({ ResourcePaths::getCxxCompilerHeaderPath() }, true);
+			hasCompilerHeaderPath = true;
+		}
+	}
+
+	if (utility::getOsType() != OS_WINDOWS && hasOtherCompilerConfig && hasCompilerHeaderPath)
+	{
+		QMessageBox msgBox;
+		msgBox.setText("Multiple Compiler Headers");
+		msgBox.setInformativeText("Your Global Include Paths contain another path that holds C/C++ compiler headers, "
+			"probably those of your local C/C++ compiler. They are possibly in conflict with the compiler headers of "
+			"Sourcetrail's C/C++ indexer. This can lead to compatiblity errors during indexing. Do you want to remove "
+			"these paths?");
+		msgBox.addButton("Remove", QMessageBox::ButtonRole::YesRole);
+		msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
+		msgBox.setIcon(QMessageBox::Icon::Question);
+		int ret = msgBox.exec();
+
+		if (ret == 0) // QMessageBox::Yes
+		{
+			std::vector<FilePath> paths;
+			for (const FilePath& headerPath : m_list->getPathsAsDisplayed())
+			{
+				if (headerPath == ResourcePaths::getCxxCompilerHeaderPath() ||
+					!headerPath.getCanonical().getConcatenated(L"/stdarg.h").exists())
+				{
+					paths.push_back(headerPath);
+				}
+			}
+			setPaths(paths);
+		}
+	}
+
+	return QtProjectWizzardContentPaths::check();
+}
+
+void QtProjectWizzardContentPathsHeaderSearchGlobal::detectedPaths(const std::vector<FilePath>& paths)
+{
+	setPaths(paths);
+}
+
+void QtProjectWizzardContentPathsHeaderSearchGlobal::setPaths(const std::vector<FilePath>& paths)
+{
+	m_list->setPaths({});
+
+	std::vector<FilePath> nonCxxCompilerHeaderPaths;
+	for (const FilePath& headerPath : paths)
+	{
+		if (headerPath == ResourcePaths::getCxxCompilerHeaderPath())
+		{
+			m_list->addPaths({ headerPath }, true);
+		}
+		else
+		{
+			nonCxxCompilerHeaderPaths.push_back(headerPath);
+		}
+	}
+
+	m_list->addPaths(nonCxxCompilerHeaderPaths);
 }
 
 

@@ -23,7 +23,9 @@ public:
 
 	std::vector<FilePath> getPathsAsDisplayed() const;
 	std::vector<FilePath> getPathsAsAbsolute() const;
+
 	void setPaths(const std::vector<FilePath>& list, bool readOnly = false);
+	void addPaths(const std::vector<FilePath>& list, bool readOnly = false);
 
 	void makeAbsolute(FilePath& path) const;
 	void makeRelativeIfShorter(FilePath& path) const;

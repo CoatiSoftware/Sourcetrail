@@ -34,5 +34,5 @@ FilePath ResourcePaths::getJavaPath()
 
 FilePath ResourcePaths::getCxxCompilerHeaderPath()
 {
-	return AppPath::getAppPath().concatenate(L"data/cxx/include/");
+	return AppPath::getAppPath().concatenate(L"data/cxx/include/").getCanonical();
 }

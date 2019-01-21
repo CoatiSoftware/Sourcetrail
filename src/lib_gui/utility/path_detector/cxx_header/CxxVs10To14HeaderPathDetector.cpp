@@ -39,7 +39,6 @@ std::vector<FilePath> CxxVs10To14HeaderPathDetector::getPaths() const
 	if (!headerSearchPaths.empty())
 	{
 		utility::append(headerSearchPaths, utility::getWindowsSdkHeaderSearchPaths(m_architecture));
-		headerSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(headerSearchPaths);
 	}
 
 	return headerSearchPaths;

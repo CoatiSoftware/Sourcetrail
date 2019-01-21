@@ -13,7 +13,7 @@
 #include "UserPaths.h"
 #include "Version.h"
 
-const size_t ApplicationSettings::VERSION = 5;
+const size_t ApplicationSettings::VERSION = 6;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -78,11 +78,11 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 			}
 		}
 	));
-	migrator.addMigration(5, std::make_shared<SettingsMigrationLambda>(
+	migrator.addMigration(6, std::make_shared<SettingsMigrationLambda>(
 		[](const SettingsMigration* migration, Settings* settings)
 		{
 			std::vector<FilePath> cxxHeaderSearchPaths = migration->getValuesFromSettings(
-				settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>()); 
+				settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>());
 
 			cxxHeaderSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(cxxHeaderSearchPaths);
 

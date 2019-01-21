@@ -27,8 +27,8 @@ signals:
 
 public:
 	QtProjectWizzardContentPaths(
-		std::shared_ptr<SourceGroupSettings> settings, 
-		QtProjectWizzardWindow* window, 
+		std::shared_ptr<SourceGroupSettings> settings,
+		QtProjectWizzardWindow* window,
 		QtPathListBox::SelectionPolicyType selectionPolicy,
 		bool checkMissingPaths = true);
 
@@ -42,6 +42,8 @@ protected:
 	void setHelpString(const QString& help);
 
 	void addDetection(QGridLayout* layout, int row);
+
+	virtual void detectedPaths(const std::vector<FilePath>& paths);
 
 	std::shared_ptr<SourceGroupSettings> m_settings;
 
@@ -166,6 +168,14 @@ public:
 	// QtProjectWizzardContent implementation
 	virtual void load() override;
 	virtual void save() override;
+
+	virtual bool check() override;
+
+protected:
+	virtual void detectedPaths(const std::vector<FilePath>& paths) override;
+
+private:
+	void setPaths(const std::vector<FilePath>& paths);
 };
 
 
