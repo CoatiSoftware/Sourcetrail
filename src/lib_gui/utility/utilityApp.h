@@ -19,7 +19,8 @@ namespace utility
 		const std::vector<std::wstring>& commandArguments,
 		const FilePath& workingDirectory = FilePath(),
 		const int timeout = 30000,
-		std::wstring* processOutput = nullptr
+		std::wstring* processOutput = nullptr,
+		std::wstring* errorMessage = nullptr
 	);
 
 	void killRunningProcesses();

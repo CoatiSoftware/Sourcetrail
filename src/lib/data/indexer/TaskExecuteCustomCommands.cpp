@@ -200,13 +200,14 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 		m_storage->beforeErrorRecording();
 
 		std::wstring processOutput;
-		const int result = utility::executeProcessAndGetExitCode(command, {}, m_projectDirectory, -1, &processOutput);
+		std::wstring errorMessage;
+		const int result = utility::executeProcessAndGetExitCode(command, {}, m_projectDirectory, -1, &processOutput, &errorMessage);
 
 		m_storage->afterErrorRecording();
 
-		if (processOutput.size() > 3 || result != 0)
+		if (errorMessage.size() > 0 || processOutput.size() > 3 || result != 0)
 		{
-			if (result == 0)
+			if (result == 0 && errorMessage.empty())
 			{
 				std::wstring message = L"Process returned successfully";
 				if (processOutput.empty())
@@ -224,8 +225,10 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 			{
 				LOG_ERROR_STREAM(<< "process returned \"" << result << "\" with message:\n" << utility::encodeToUtf8(processOutput));
 				MessageShowStatus().dispatch();
-				MessageStatus(L"command <" + indexerCommand->getCustomCommand() + L"> returned " +
-					std::to_wstring(result) + L": " + processOutput, true, false, true).dispatch();
+				MessageStatus(
+					L"command \"" + indexerCommand->getCustomCommand() + L"\" returned code \"" + std::to_wstring(result) + L"\"" +
+					L" with message \"" + errorMessage + L"\"" + 
+					L" and output \"" + processOutput + L"\".", true, false, true).dispatch();
 			}
 		}
 

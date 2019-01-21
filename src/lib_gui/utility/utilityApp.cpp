@@ -97,9 +97,38 @@ int utility::executeProcessAndGetExitCode(
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory,
 	const int timeout,
-	std::wstring* processOutput
+	std::wstring* processOutput,
+	std::wstring* errorMessage
 ){
 	QProcess process;
+
+	if (errorMessage != nullptr)
+	{
+		QObject::connect(&process, &QProcess::errorOccurred, [errorMessage, commandPath](QProcess::ProcessError error)
+		{
+			switch (error)
+			{
+			case QProcess::FailedToStart:
+				*errorMessage = L"File not found or resource error occurred.";
+				break;
+			case QProcess::Crashed:
+				*errorMessage = L"Process crashed.";
+				break;
+			case QProcess::Timedout:
+				*errorMessage = L"Process timed out.";
+				break;
+			case QProcess::ReadError:
+				*errorMessage = L"A read error occurred while executing process.";
+				break;
+			case QProcess::WriteError:
+				*errorMessage = L"A write error occurred while executing process.";
+				break;
+			case QProcess::UnknownError:
+				*errorMessage = L"An unknown error occurred while executing process.";
+				break;
+			};
+		});
+	}
 
 	if (!workingDirectory.empty())
 	{
