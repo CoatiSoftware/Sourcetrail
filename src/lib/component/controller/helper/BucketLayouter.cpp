@@ -366,6 +366,9 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 	// Calculate x offsets in the middle column to align all columns in each bucket at the column gap closest to the
 	// middle to avoid weird edge routing.
 	std::map<int, int> xOffs;
+	std::map<int, int> xOffsFront;
+	bool useFront = false;
+
 	Bucket* maxWidthBucket = &m_buckets[maxMidWidthJ][0];
 	int maxWidthMiddleGapX = maxWidthBucket->getMiddleGapX();
 
@@ -378,20 +381,25 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 		{
 			int xOff = maxWidthMiddleGapX - bucket->getMiddleGapX() - (widths[0] - bucket->getWidth()) / 2;
 
+			xOffs[j] = xOff;
+			xOffsFront[j] = (bucket->getWidth() - widths[0]) / 2;
+
 			// move to front if moving to column gap would be further away
 			if (std::abs((widths[0] - bucket->getWidth()) / 2) < std::abs(xOff))
 			{
-				xOffs[j] = (bucket->getWidth() - widths[0]) / 2;
-			}
-			else
-			{
-				xOffs[j] = xOff;
+				useFront = true;
 			}
 		}
 		else
 		{
 			xOffs[j] = 0;
+			xOffsFront[j] = 0;
 		}
+	}
+
+	if (useFront)
+	{
+		xOffs = xOffsFront;
 	}
 
 	int y = 0;
