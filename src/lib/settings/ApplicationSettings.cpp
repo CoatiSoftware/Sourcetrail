@@ -87,6 +87,11 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 			cxxHeaderSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(cxxHeaderSearchPaths);
 
 			migration->setValuesInSettings(settings, "indexing/cxx/header_search_paths/header_search_path", cxxHeaderSearchPaths);
+
+			if (cxxHeaderSearchPaths.size() == 1)
+			{
+				migration->setValueInSettings(settings, "indexing/cxx/has_prefilled_header_search_paths", false);
+			}
 		}
 	));
 

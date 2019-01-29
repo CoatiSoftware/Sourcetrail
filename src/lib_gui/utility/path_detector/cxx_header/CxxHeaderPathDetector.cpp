@@ -19,6 +19,7 @@ std::vector<FilePath> CxxHeaderPathDetector::getPaths() const
 	for (const std::string& path : paths)
 	{
 		if (!utility::isPostfix<std::string>(" (framework directory)", path) &&
+			FilePath(path).getCanonical().exists() &&
 			!FilePath(path).getCanonical().getConcatenated(L"/stdarg.h").exists())
 		{
 			headerSearchPaths.push_back(FilePath(path).makeCanonical());
