@@ -66,9 +66,6 @@ void ComponentManager::setupMain(ViewLayout* viewLayout, Id appId)
 	std::shared_ptr<Component> tabsComponent = m_componentFactory.createTabsComponent(viewLayout, screenSearchController);
 	m_components.push_back(tabsComponent);
 
-	std::shared_ptr<Component> statusBarComponent = m_componentFactory.createStatusBarComponent(viewLayout);
-	m_components.push_back(statusBarComponent);
-
 	std::shared_ptr<Component> tooltipComponent = m_componentFactory.createTooltipComponent(viewLayout);
 	m_components.push_back(tooltipComponent);
 
@@ -98,6 +95,9 @@ void ComponentManager::setupMain(ViewLayout* viewLayout, Id appId)
 
 	std::shared_ptr<Component> activationComponent = m_componentFactory.createActivationComponent();
 	m_components.push_back(activationComponent);
+
+	std::shared_ptr<Component> statusBarComponent = m_componentFactory.createStatusBarComponent(viewLayout);
+	m_components.push_back(statusBarComponent);
 }
 
 void ComponentManager::setupTab(ViewLayout* viewLayout, Id tabId, ScreenSearchSender* screenSearchSender)
