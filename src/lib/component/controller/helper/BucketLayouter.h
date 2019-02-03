@@ -57,9 +57,6 @@ private:
 	std::shared_ptr<DummyNode> findTopMostDummyNodeRecursive(
 		std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top);
 
-	void addNode(std::shared_ptr<DummyNode> node);
-	bool addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<DummyNode> target, bool horizontal);
-
 	Bucket* getBucket(int i, int j);
 	Bucket* getBucket(std::shared_ptr<DummyNode> node);
 

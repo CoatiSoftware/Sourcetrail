@@ -269,7 +269,8 @@ void BucketLayouter::createBuckets(
 	{
 		if (node->hasActiveSubNode() || !edges.size())
 		{
-			addNode(node);
+			getBucket(0, 0)->addNode(node);
+
 			node->bundleInfo.layoutVertical = false;
 			activeNodeAdded = true;
 			m_activeParentNode = node.get();
@@ -283,11 +284,23 @@ void BucketLayouter::createBuckets(
 
 	if (!activeNodeAdded)
 	{
-		addNode(nodes[0]);
+		getBucket(0, 0)->addNode(nodes[0]);
 	}
 
-	for (std::shared_ptr<DummyEdge> edge : edges)
+	std::deque<std::shared_ptr<DummyEdge>> remainingEdges(edges.begin(), edges.end());
+	size_t skipCount = 0;
+	bool force = false;
+
+	while (remainingEdges.size())
 	{
+		if (skipCount == remainingEdges.size())
+		{
+			force = true;
+		}
+
+		std::shared_ptr<DummyEdge> edge = remainingEdges.front();
+		remainingEdges.pop_front();
+
 		std::shared_ptr<DummyNode> owner = findTopMostDummyNodeRecursive(nodes, edge->ownerId, nullptr);
 		std::shared_ptr<DummyNode> target = findTopMostDummyNodeRecursive(nodes, edge->targetId, nullptr);
 
@@ -313,7 +326,44 @@ void BucketLayouter::createBuckets(
 				std::swap(owner, target);
 			}
 
-			horizontal = addNode(owner, target, horizontal);
+			Bucket* ownerBucket = getBucket(owner);
+			Bucket* targetBucket = getBucket(target);
+
+			if (!ownerBucket && !targetBucket)
+			{
+				if (force)
+				{
+					ownerBucket = getBucket(0, 0);
+					ownerBucket->addNode(owner);
+				}
+				else
+				{
+					remainingEdges.push_back(edge);
+					skipCount++;
+					continue;
+				}
+			}
+
+			if (ownerBucket && targetBucket)
+			{
+				horizontal = (ownerBucket->j == targetBucket->j);
+			}
+			else if (ownerBucket)
+			{
+				int i = horizontal ? ownerBucket->i + 1 : ownerBucket->i;
+				int j = horizontal ? ownerBucket->j : ownerBucket->j - 1;
+
+				getBucket(i, j)->addNode(target);
+			}
+			else
+			{
+				int i = horizontal ? targetBucket->i - 1 : targetBucket->i;
+				int j = horizontal ? targetBucket->j : targetBucket->j + 1;
+
+				getBucket(i, j)->addNode(owner);
+			}
+
+			skipCount = 0;
 		}
 
 		edge->layoutHorizontal = horizontal;
@@ -474,47 +524,6 @@ std::shared_ptr<DummyNode> BucketLayouter::findTopMostDummyNodeRecursive(
 	}
 
 	return nullptr;
-}
-
-void BucketLayouter::addNode(std::shared_ptr<DummyNode> node)
-{
-	Bucket* bucket = getBucket(0, 0);
-	bucket->addNode(node);
-}
-
-bool BucketLayouter::addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<DummyNode> target, bool horizontal)
-{
-	Bucket* ownerBucket = getBucket(owner);
-	Bucket* targetBucket = getBucket(target);
-
-	if (!ownerBucket && !targetBucket)
-	{
-		ownerBucket = getBucket(0, 0);
-		ownerBucket->addNode(owner);
-	}
-	else if (ownerBucket && targetBucket)
-	{
-		return ownerBucket->j == targetBucket->j;
-	}
-
-	if (ownerBucket)
-	{
-		int i = horizontal ? ownerBucket->i + 1 : ownerBucket->i;
-		int j = horizontal ? ownerBucket->j : ownerBucket->j - 1;
-
-		Bucket* bucket = getBucket(i, j);
-		bucket->addNode(target);
-	}
-	else
-	{
-		int i = horizontal ? targetBucket->i - 1 : targetBucket->i;
-		int j = horizontal ? targetBucket->j : targetBucket->j + 1;
-
-		Bucket* bucket = getBucket(i, j);
-		bucket->addNode(owner);
-	}
-
-	return horizontal;
 }
 
 Bucket* BucketLayouter::getBucket(int i, int j)
