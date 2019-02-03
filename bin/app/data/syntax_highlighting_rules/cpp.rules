@@ -6,6 +6,11 @@
 	},
 	{
 		"type" : "comment",
+		"patterns" : [ "//[^\n]*" ],
+		"priority" : true
+	},
+	{
+		"type" : "comment",
 		"range" : {
 			"start" : "/\\*",
 			"end" : "\\*/"
@@ -161,9 +166,5 @@
 	{
 		"type" : "quotation",
 		"patterns" : [ " <[^<>\\s]*>$" ]
-	},
-	{
-		"type" : "comment",
-		"patterns" : [ "//[^\n]*" ]
 	}
 ]

@@ -23,6 +23,9 @@ namespace SYNTAX_HIGHLIGHTER_TESTS
 
 /* comment /* inside comment */
 
+/* comment "string inside comment" */
+// comment "string inside comment"
+
 /* comment
  * comment
  * comment
@@ -52,8 +55,11 @@ int no_comment5;
 //*
 
 const char no_commentStr1[] = " /* string */ "/* comment */;
-const char no_commentStr2[] = " /* "; /* comment */
-const char no_commentStr3[] = /* const char[] a = " no string */" this is a string "; // <- highlight broken
+const char no_commentStr2[] = " // string "; /*
+	comment
+*/
+const char no_commentStr3[] = " /* "; /* comment */
+const char no_commentStr4[] = /* const char[] a = " no string */" this is a string "; // <- highlight broken
 
 // RESULT: All no_comment variable are not highlighted as comment
 

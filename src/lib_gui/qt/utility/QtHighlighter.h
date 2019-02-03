@@ -43,37 +43,41 @@ private:
 	struct HighlightingRule
 	{
 		HighlightingRule();
-		HighlightingRule(HighlightType type, const QColor& color, const QRegExp& regExp, bool priority, bool multiLine = false);
+		HighlightingRule(HighlightType type, const QRegExp& regExp, bool priority, bool multiLine = false);
 
 		HighlightType type = HighlightType::TEXT;
 		QRegExp pattern;
-		QTextCharFormat format;
 		bool priority = false;
 		bool multiLine = false;
 	};
 
 	void createRanges(QTextDocument* doc, const std::vector<HighlightingRule>& quotationRules);
-	std::vector<std::pair<int, int>> createMultiLineCommentRanges(
-		QTextDocument* doc, std::vector<std::pair<int, int>>* ranges);
+	std::vector<std::tuple<HighlightType, int, int>> createMultiLineRanges(
+		QTextDocument* doc, std::vector<std::tuple<HighlightType, int, int>>* ranges);
+	std::vector<std::tuple<QtHighlighter::HighlightType, int, int>> createMultiLineRangesForRules(
+		QTextDocument* doc, std::vector<std::tuple<HighlightType, int, int>>* ranges,
+		const HighlightingRule* startRule, const HighlightingRule* endRule);
 
-	bool isInRange(int index, const std::vector<std::pair<int, int>>& ranges) const;
-	std::vector<std::pair<int, int>> getRangesForRule(const QTextBlock& block, const HighlightingRule& rule) const;
+	bool isInRange(int index, const std::vector<std::tuple<HighlightType, int, int>>& ranges) const;
+	std::vector<std::tuple<HighlightType, int, int>> getRangesForRule(const QTextBlock& block, const HighlightingRule& rule) const;
 
 	void formatBlockForRule(
-		const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges = nullptr);
+		const QTextBlock& block, const HighlightingRule& rule, std::vector<std::tuple<HighlightType, int, int>>* ranges);
 	void formatBlockIfInRange(
-		const QTextBlock& block, const QTextCharFormat& format, std::vector<std::pair<int, int>>* ranges);
+		const QTextBlock& block, HighlightType type, std::vector<std::tuple<HighlightType, int, int>>* ranges);
+	void formatBlockIfInRange(
+		const QTextBlock& block, std::vector<std::tuple<HighlightType, int, int>>* ranges);
 
 	QTextDocument* document() const;
 
 	static std::map<std::wstring, std::vector<HighlightingRule>> s_highlightingRules;
-	static QTextCharFormat s_textFormat;
+	static std::map<HighlightType, QTextCharFormat> s_charFormats;
 
 	QTextDocument* m_document;
 
 	std::vector<HighlightingRule> m_highlightingRules;
-	std::vector<std::pair<int, int>> m_quotationRanges;
-	std::vector<std::pair<int, int>> m_multiLineCommentRanges;
+	std::vector<std::tuple<HighlightType, int, int>> m_singleLineRanges;
+	std::vector<std::tuple<HighlightType, int, int>> m_multiLineRanges;
 	std::vector<bool> m_highlightedLines;
 };
 

@@ -1,0 +1,74 @@
+[
+	{
+		"type" : "quotation",
+		"range" : {
+			"start" : "\'\'\'",
+			"end" : "\'\'\'"
+		},
+		"priority" : true
+	},
+	{
+		"type" : "quotation",
+		"range" : {
+			"start" : "\"\"\"",
+			"end" : "\"\"\""
+		},
+		"priority" : true
+	},
+	{
+		"type" : "quotation",
+		"patterns" : [ "\"([^\"]|\\\\.)+\"", "\"\"[^\"]", "[^\"]\"\"$", "\'([^\']|\\\\.)+\'", "\'\'[^\']", "[^\']\'\'$" ],
+		"priority" : true
+	},
+	{
+		"type" : "comment",
+		"patterns" : [ "#[^\n]*" ],
+		"priority" : true
+	},
+	{
+		"type" : "keyword",
+		"patterns" : [
+			"\\bFalse\\b",
+			"\\bclass\\b",
+			"\\bfinally\\b",
+			"\\bis\\b",
+			"\\breturn\\b",
+			"\\bNone\\b",
+			"\\bcontinue\\b",
+			"\\bfor\\b",
+			"\\blambda\\b",
+			"\\btry\\b",
+			"\\bTrue\\b",
+			"\\bdef\\b",
+			"\\bfrom\\b",
+			"\\bnonlocal\\b",
+			"\\bwhile\\b",
+			"\\band\\b",
+			"\\bdel\\b",
+			"\\bglobal\\b",
+			"\\bnot\\b",
+			"\\bwith\\b",
+			"\\bas\\b",
+			"\\belif\\b",
+			"\\bif\\b",
+			"\\bor\\b",
+			"\\byield\\b",
+			"\\bassert\\b",
+			"\\belse\\b",
+			"\\bimport\\b",
+			"\\bpass\\b",
+			"\\bbreak\\b",
+			"\\bexcept\\b",
+			"\\bin\\b",
+			"\\braise\\b"
+		]
+	},
+	{
+		"type" : "number",
+		"patterns" : [ "\\b[0-9]+\\b" ]
+	},
+	{
+		"type" : "function",
+		"patterns" : [ "\\b[A-Za-z0-9_]+(?=\\()" ]
+	}
+]
