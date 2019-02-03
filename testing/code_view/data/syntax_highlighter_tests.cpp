@@ -32,6 +32,10 @@ namespace SYNTAX_HIGHLIGHTER_TESTS
    comment
 // end */
 
+/*/
+	comment
+/*/
+
 /* comment */ int no_comment; /* comment */
 
 int no_comment2; /*

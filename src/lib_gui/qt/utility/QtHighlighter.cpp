@@ -379,12 +379,11 @@ std::vector<std::pair<int, int>> QtHighlighter::createMultiLineCommentRanges(
 
 			if (!isInRange(cursorStart.selectionEnd(), *ranges))
 			{
-				cursorStart.setPosition(cursorStart.selectionEnd() - 2);
 				break;
 			}
 			else
 			{
-				cursorStart.setPosition(cursorStart.selectionEnd() + 2);
+				cursorStart.setPosition(cursorStart.selectionEnd() + 1);
 			}
 		}
 
@@ -399,7 +398,7 @@ std::vector<std::pair<int, int>> QtHighlighter::createMultiLineCommentRanges(
 			break;
 		}
 
-		multiLineCommentRanges.push_back(std::pair<int, int>(cursorStart.position(), cursorEnd.position()));
+		multiLineCommentRanges.push_back(std::pair<int, int>(cursorStart.selectionStart(), cursorEnd.position()));
 		cursorStart = cursorEnd;
 	}
 
