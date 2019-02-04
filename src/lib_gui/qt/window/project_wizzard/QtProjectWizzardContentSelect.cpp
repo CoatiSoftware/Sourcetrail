@@ -67,7 +67,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Sourcetrail Source Group by defining which C++ files will be indexed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CDB] =
 		"Create a Source Group from an existing Compilation Database file (compile_commands.json). "
-		"It can be exported from CMake<br />(-DCMAKE_EXPORT_COMPILE_COMMANDS=1) and Make projects. Have a look at the "
+		"It can be exported from CMake<br />(-DCMAKE_EXPORT_COMPILE_COMMANDS=1) and Make projects or from the Qt Creator since version 4.8. Have a look at the "
 		"<a href=\"https://sourcetrail.com/documentation/#CreateAProjectFromCompilationDatabase\">"
 		"documentation</a>.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_VS] =
