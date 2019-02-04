@@ -446,18 +446,26 @@ bool QtHighlighter::isInRange(int pos, const std::vector<std::tuple<HighlightTyp
 std::vector<std::tuple<QtHighlighter::HighlightType, int, int>> QtHighlighter::getRangesForRule(
 	const QTextBlock& block, const HighlightingRule& rule) const
 {
+	const int pos = block.position();
+	const QString text = block.text();
 	QRegExp expression(rule.pattern);
-	int pos = block.position();
-	int index = expression.indexIn(block.text());
+	int index = expression.indexIn(text);
 
 	std::vector<std::tuple<HighlightType, int, int>> ranges;
 
 	while (index >= 0)
 	{
-		int length = expression.matchedLength();
-
-		ranges.push_back(std::make_tuple(rule.type, pos + index, pos + index + length));
-
+		const int length = expression.matchedLength();
+		if (expression.capturedTexts().size() > 1)
+		{
+			const QString cap = expression.capturedTexts()[1];
+			const int start = text.indexOf(cap, index);
+			ranges.push_back(std::make_tuple(rule.type, pos + start, pos + start + cap.length()));
+		}
+		else
+		{
+			ranges.push_back(std::make_tuple(rule.type, pos + index, pos + index + length));
+		}
 		index = expression.indexIn(block.text(), index + length);
 	}
 
