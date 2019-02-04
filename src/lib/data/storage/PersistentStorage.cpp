@@ -1365,7 +1365,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		for (const StorageSourceLocation& sourceLocation: m_sqliteIndexStorage.getAllByIds<StorageSourceLocation>(locationIds))
 		{
 			const LocationType type = intToLocationType(sourceLocation.type);
-			if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_QUALIFIER && type != LOCATION_LOCAL_SYMBOL)
+			if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_LOCAL_SYMBOL)
 			{
 				continue;
 			}
@@ -1429,7 +1429,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		}
 
 		const LocationType type = intToLocationType(location.type);
-		if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_QUALIFIER && type != LOCATION_LOCAL_SYMBOL)
+		if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_LOCAL_SYMBOL)
 		{
 			continue;
 		}

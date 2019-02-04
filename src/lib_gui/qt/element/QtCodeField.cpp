@@ -337,7 +337,22 @@ bool QtCodeField::annotateText(
 
 		if (annotation.locationType == LOCATION_QUALIFIER)
 		{
+			// never show qualifier locations active
 			annotation.isActive = false;
+
+			// only show qualifiers focused when mouse over
+			if (annotation.isFocused)
+			{
+				bool isHovered = false;
+				for (const Annotation* a : m_hoveredAnnotations)
+				{
+					if (&annotation == a)
+					{
+						isHovered = true;
+					}
+				}
+				annotation.isFocused = isHovered;
+			}
 		}
 
 		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
