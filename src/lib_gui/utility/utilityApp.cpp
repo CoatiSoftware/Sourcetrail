@@ -157,7 +157,14 @@ int utility::executeProcessAndGetExitCode(
 
 	if (processOutput != nullptr)
 	{
-		*processOutput = utility::trim(QString(process.readAll()).toStdWString());
+		if (exitCode != 0)
+		{
+			*processOutput = utility::trim(QString(process.readAllStandardError()).toStdWString());
+		}
+		else
+		{
+			*processOutput = utility::trim(QString(process.readAll()).toStdWString());
+		}
 	}
 
 	process.close();
