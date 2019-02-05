@@ -1321,6 +1321,9 @@
 					<Component Id='SyntaxHighlightingRulesJavaRules' Guid='*' Win64="$(var.Win64)">
 						<File Id='SyntaxHighlightingRulesJava' Name='java.rules' DiskId='1' Source='./../../../bin/app/data/syntax_highlighting_rules/java.rules' KeyPath='yes' />
 					</Component>
+					<Component Id='SyntaxHighlightingRulesPythonRules' Guid='*' Win64="$(var.Win64)">
+						<File Id='SyntaxHighlightingRulesPython' Name='python.rules' DiskId='1' Source='./../../../bin/app/data/syntax_highlighting_rules/python.rules' KeyPath='yes' />
+					</Component>
 				</Directory>
 			</Directory>
 

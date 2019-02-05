@@ -564,6 +564,7 @@
 				
 				<ComponentRef Id='SyntaxHighlightingRulesCppRules'/>
 				<ComponentRef Id='SyntaxHighlightingRulesJavaRules'/>
+				<ComponentRef Id='SyntaxHighlightingRulesPythonRules'/>
 				
 				<ComponentRef Id='UninstallBat'/>
 
