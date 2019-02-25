@@ -205,6 +205,8 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		cp -u -r bin/app/data/install/* $PORTABLE_PACKAGE_APP_DIR/data/install/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/java/
 		cp -u -r bin/app/data/java/* $PORTABLE_PACKAGE_APP_DIR/data/java/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/syntax_highlighting_rules/
+		cp -u -r bin/app/data/syntax_highlighting_rules/* $PORTABLE_PACKAGE_APP_DIR/data/syntax_highlighting_rules/
 		
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
 		cp -u -r bin/app/user/projects/javaparser/* $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
