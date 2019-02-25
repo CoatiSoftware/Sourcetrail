@@ -1,6 +1,7 @@
 #include "QtProjectWizzardContentProjectData.h"
 
 #include <QMessageBox>
+#include <QRegularExpression>
 #include <boost/filesystem/path.hpp>
 
 #include "ProjectSettings.h"
@@ -32,6 +33,7 @@ void QtProjectWizzardContentProjectData::populate(QGridLayout* layout, int& row)
 	m_projectName->setObjectName("name");
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_projectName->setEnabled(!m_disableNameEditing);
+	connect(m_projectName, &QLineEdit::textEdited, this, &QtProjectWizzardContentProjectData::onProjectNameEdited);
 
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectName, row, QtProjectWizzardWindow::BACK_COL);
@@ -124,4 +126,15 @@ bool QtProjectWizzardContentProjectData::check()
 	}
 
 	return true;
+}
+
+void QtProjectWizzardContentProjectData::onProjectNameEdited(QString text)
+{
+	const int cursorPosition = m_projectName->cursorPosition();
+
+	QRegularExpression regex("[^A-Za-z0-9_.-]");
+	text.replace(regex, "_");
+
+	m_projectName->setText(text);
+	m_projectName->setCursorPosition(cursorPosition);
 }

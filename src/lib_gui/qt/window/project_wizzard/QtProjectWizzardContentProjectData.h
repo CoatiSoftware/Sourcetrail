@@ -24,6 +24,9 @@ public:
 	virtual void save() override;
 	virtual bool check() override;
 
+public slots:
+	void onProjectNameEdited(QString text);
+
 private:
 	std::shared_ptr<ProjectSettings> m_projectSettings;
 
