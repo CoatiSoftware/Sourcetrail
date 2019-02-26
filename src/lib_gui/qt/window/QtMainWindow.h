@@ -23,6 +23,7 @@ class QtViewToggle
 
 public:
 	QtViewToggle(View* view, QWidget *parent = nullptr);
+	void clear();
 
 public slots:
 	void toggledByAction();

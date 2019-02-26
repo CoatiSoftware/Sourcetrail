@@ -63,14 +63,25 @@ QtViewToggle::QtViewToggle(View* view, QWidget *parent)
 {
 }
 
+void QtViewToggle::clear()
+{
+	m_view = nullptr;
+}
+
 void QtViewToggle::toggledByAction()
 {
-	dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, true);
+	if (m_view)
+	{
+		dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, true);
+	}
 }
 
 void QtViewToggle::toggledByUI()
 {
-	dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, false);
+	if (m_view)
+	{
+		dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, false);
+	}
 }
 
 
@@ -148,6 +159,11 @@ QtMainWindow::~QtMainWindow()
 	if (m_recentProjectAction)
 	{
 		delete [] m_recentProjectAction;
+	}
+
+	for (DockWidget& dockWidget : m_dockWidgets)
+	{
+		dockWidget.toggle->clear();
 	}
 }
 
