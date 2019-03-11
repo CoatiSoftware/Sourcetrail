@@ -2,18 +2,16 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 
 <?define ProductName = "Sourcetrail" ?>
-<?define ProductAuthor = "Coati Software OG" ?>
+<?define ProductAuthor = "Coati Software KG" ?>
 <?define ProductAppFolder = "InstallLocation" ?>
 	 
 <?if $(sys.BUILDARCH) = x64 ?>
 	<?define ProductDisplayName = "$(var.ProductName) 64-bit" ?>
 	<?define ProductUpgradeCode = "693A35C7-8D56-4930-8653-1DC880D78678" ?>
-	<?define Win64 = "yes" ?>
 	<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?else ?>
 	<?define ProductDisplayName = "$(var.ProductName)" ?>
 	<?define ProductUpgradeCode = "6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF" ?>
-	<?define Win64 = "no" ?>
 	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 <?endif ?>
 
@@ -163,6 +161,7 @@
 				<!-- <MergeRef Id='VCRedist'/> --> <!-- see comment at declaration -->
 
 				<!-- Application Folder Stuff -->
+				
 				<ComponentRef Id='MainExecutable'/>
 				
 				<ComponentRef Id='ApplicationShortcut'/>
@@ -251,320 +250,14 @@
 				<ComponentRef Id='LicenseQtTxt'/>
 				<ComponentRef Id='LicenseTinyxmlTxt'/>
 				
-				<ComponentRef Id='badRainbowXml'/>
-				<ComponentRef Id='brightXml'/>
-				<ComponentRef Id='darkXml'/>
-
-				<ComponentRef Id='ClangHeaderalgorithm'/>
-				<ComponentRef Id='ClangHeadercomplex'/>
-				<ComponentRef Id='ClangHeadernew'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_builtin_varsH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_cmathH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_complex_builtinsH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_device_functionsH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_intrinsicsH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_libdevice_declaresH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_math_forward_declaresH'/>
-				<ComponentRef Id='ClangHeader__clang_cuda_runtime_wrapperH'/>
-				<ComponentRef Id='ClangHeader__stddef_max_align_tH'/>
-				<ComponentRef Id='ClangHeader__wmmintrin_aesH'/>
-				<ComponentRef Id='ClangHeader__wmmintrin_pclmulH'/>
-				<ComponentRef Id='ClangHeaderadxintrinH'/>
-				<ComponentRef Id='ClangHeaderaltivecH'/>
-				<ComponentRef Id='ClangHeaderammintrinH'/>
-				<ComponentRef Id='ClangHeaderarm64intrH'/>
-				<ComponentRef Id='ClangHeaderarmintrH'/>
-				<ComponentRef Id='ClangHeaderarm_acleH'/>
-				<ComponentRef Id='ClangHeaderarm_arm_fp16H'/>
-				<ComponentRef Id='ClangHeaderarm_neonH'/>
-				<ComponentRef Id='ClangHeaderavx2intrinH'/>
-				<ComponentRef Id='ClangHeaderavx512bitalgintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512bwintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512cdintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512dqintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512erintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512fintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512ifmaintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512ifmavlintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512pfintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vbmi2intrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vbmiintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vbmivlintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vlbitalgintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vlbwintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vlcdintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vldqintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vlintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vlvbmi2intrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vlvnniintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vnniintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vpopcntdqintrinH'/>
-				<ComponentRef Id='ClangHeaderavx512vpopcntdqvlintrinH'/>
-				<ComponentRef Id='ClangHeaderavxintrinH'/>
-				<ComponentRef Id='ClangHeaderbmi2intrinH'/>
-				<ComponentRef Id='ClangHeaderbmiintrinH'/>
-				<ComponentRef Id='ClangHeadercetintrinH'/>
-				<ComponentRef Id='ClangHeadercldemoteintrinH'/>
-				<ComponentRef Id='ClangHeaderclflushoptintrinH'/>
-				<ComponentRef Id='ClangHeaderclwbintrinH'/>
-				<ComponentRef Id='ClangHeaderclzerointrinH'/>
-				<ComponentRef Id='ClangHeadercpuidH'/>
-				<ComponentRef Id='ClangHeaderemmintrinH'/>
-				<ComponentRef Id='ClangHeaderf16cintrinH'/>
-				<ComponentRef Id='ClangHeaderfloatH'/>
-				<ComponentRef Id='ClangHeaderfma4intrinH'/>
-				<ComponentRef Id='ClangHeaderfmaintrinH'/>
-				<ComponentRef Id='ClangHeaderfxsrintrinH'/>
-				<ComponentRef Id='ClangHeadergfniintrinH'/>
-				<ComponentRef Id='ClangHeaderhtmintrinH'/>
-				<ComponentRef Id='ClangHeaderhtmxlintrinH'/>
-				<ComponentRef Id='ClangHeaderia32intrinH'/>
-				<ComponentRef Id='ClangHeaderimmintrinH'/>
-				<ComponentRef Id='ClangHeaderintrinH'/>
-				<ComponentRef Id='ClangHeaderinttypesH'/>
-				<ComponentRef Id='ClangHeaderinvpcidintrinH'/>
-				<ComponentRef Id='ClangHeaderiso646H'/>
-				<ComponentRef Id='ClangHeaderlimitsH'/>
-				<ComponentRef Id='ClangHeaderlwpintrinH'/>
-				<ComponentRef Id='ClangHeaderlzcntintrinH'/>
-				<ComponentRef Id='ClangHeadermm3dnowH'/>
-				<ComponentRef Id='ClangHeadermmintrinH'/>
-				<ComponentRef Id='ClangHeadermm_mallocH'/>
-				<ComponentRef Id='ClangHeadermoduleModulemap'/>
-				<ComponentRef Id='ClangHeadermovdirintrinH'/>
-				<ComponentRef Id='ClangHeadermsaH'/>
-				<ComponentRef Id='ClangHeadermwaitxintrinH'/>
-				<ComponentRef Id='ClangHeadernmmintrinH'/>
-				<ComponentRef Id='ClangHeaderopenclcH'/>
-				<ComponentRef Id='ClangHeaderpconfigintrinH'/>
-				<ComponentRef Id='ClangHeaderpkuintrinH'/>
-				<ComponentRef Id='ClangHeaderpmmintrinH'/>
-				<ComponentRef Id='ClangHeaderpopcntintrinH'/>
-				<ComponentRef Id='ClangHeaderprfchwintrinH'/>
-				<ComponentRef Id='ClangHeaderptwriteintrinH'/>
-				<ComponentRef Id='ClangHeaderrdseedintrinH'/>
-				<ComponentRef Id='ClangHeaderrtmintrinH'/>
-				<ComponentRef Id='ClangHeaders390intrinH'/>
-				<ComponentRef Id='ClangHeadersgxintrinH'/>
-				<ComponentRef Id='ClangHeadershaintrinH'/>
-				<ComponentRef Id='ClangHeadersmmintrinH'/>
-				<ComponentRef Id='ClangHeaderstdalignH'/>
-				<ComponentRef Id='ClangHeaderstdargH'/>
-				<ComponentRef Id='ClangHeaderstdatomicH'/>
-				<ComponentRef Id='ClangHeaderstdboolH'/>
-				<ComponentRef Id='ClangHeaderstddefH'/>
-				<ComponentRef Id='ClangHeaderstdintH'/>
-				<ComponentRef Id='ClangHeaderstdnoreturnH'/>
-				<ComponentRef Id='ClangHeadertbmintrinH'/>
-				<ComponentRef Id='ClangHeadertgmathH'/>
-				<ComponentRef Id='ClangHeadertmmintrinH'/>
-				<ComponentRef Id='ClangHeaderunwindH'/>
-				<ComponentRef Id='ClangHeadervadefsH'/>
-				<ComponentRef Id='ClangHeadervaesintrinH'/>
-				<ComponentRef Id='ClangHeadervarargsH'/>
-				<ComponentRef Id='ClangHeadervecintrinH'/>
-				<ComponentRef Id='ClangHeadervpclmulqdqintrinH'/>
-				<ComponentRef Id='ClangHeaderwaitpkgintrinH'/>
-				<ComponentRef Id='ClangHeaderwbnoinvdintrinH'/>
-				<ComponentRef Id='ClangHeaderwmmintrinH'/>
-				<ComponentRef Id='ClangHeaderx86intrinH'/>
-				<ComponentRef Id='ClangHeaderxmmintrinH'/>
-				<ComponentRef Id='ClangHeaderxopintrinH'/>
-				<ComponentRef Id='ClangHeaderxsavecintrinH'/>
-				<ComponentRef Id='ClangHeaderxsaveintrinH'/>
-				<ComponentRef Id='ClangHeaderxsaveoptintrinH'/>
-				<ComponentRef Id='ClangHeaderxsavesintrinH'/>
-				<ComponentRef Id='ClangHeaderxtestintrinH'/>
+				<ComponentGroupRef Id='DataColorSchemesComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='DataCxxComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='DataFallbackComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='DataFontsComponentGroup' Primary="yes"/>
 				
-				<ComponentRef Id='applicationSettingsXml'/>
-				<ComponentRef Id='window_settingsIni'/>
-				
-				<ComponentRef Id='FiraSansLicensetxt'/>
-				<ComponentRef Id='FiraSansRegularotf'/>
-				<ComponentRef Id='FiraSansSemiBoldotf'/>
-				<ComponentRef Id='RobotoLicensetxt'/>
-				<ComponentRef Id='RobotoBoldttf'/>
-				<ComponentRef Id='RobotoRegularttf'/>
-				<ComponentRef Id='SourceCodeProLicensetxt'/>
-				<ComponentRef Id='SourceCodeProBoldotf'/>
-				<ComponentRef Id='SourceCodeProMediumotf'/>
-				<ComponentRef Id='SourceCodeProRegularotf'/>
-
-				<ComponentRef Id='AboutCss'/>
-				<ComponentRef Id='LogoSourcetrailPng'/>
-				
-				<ComponentRef Id='BookmarkViewCss'/>
-				<ComponentRef Id='BookmarkViewArrowDownPng'/>
-				<ComponentRef Id='BookmarkViewArrowLineDownPng'/>
-				<ComponentRef Id='BookmarkViewArrowLineUpPng'/>
-				<ComponentRef Id='BookmarkViewArrowRightPng'/>
-				<ComponentRef Id='BookmarkViewBookmarkActivePng'/>
-				<ComponentRef Id='BookmarkViewBookmarkDeleteIconPng'/>
-				<ComponentRef Id='BookmarkViewBookmarkEditIconPng'/>
-				<ComponentRef Id='BookmarkViewBookmarkListIconPng'/>
-				<ComponentRef Id='BookmarkViewEditBookmarkIconPng'/>
-				
-				<ComponentRef Id='CodeViewCss'/>
-				<ComponentRef Id='CodeViewArrowDownPng'/>
-				<ComponentRef Id='CodeViewArrowLeftPng'/>
-				<ComponentRef Id='CodeViewArrowRightPng'/>
-				<ComponentRef Id='CodeViewArrowUpPng'/>
-				<ComponentRef Id='CodeViewButtonBackgroundPng'/>
-				<ComponentRef Id='CodeViewEditPng'/>
-				<ComponentRef Id='CodeViewFilePng'/>
-				<ComponentRef Id='CodeViewListPng'/>
-				<ComponentRef Id='CodeViewMaximizeActivePng'/>
-				<ComponentRef Id='CodeViewMaximizeInactivePng'/>
-				<ComponentRef Id='CodeViewPatternBrightPng'/>
-				<ComponentRef Id='CodeViewPatternDarkPng'/>
-				<ComponentRef Id='CodeViewPatternGreyPng'/>
-				<ComponentRef Id='CodeViewSnippetActivePng'/>
-				<ComponentRef Id='CodeViewSnippetArrowDownPng'/>
-				<ComponentRef Id='CodeViewSnippetArrowRightPng'/>
-				<ComponentRef Id='CodeViewSnippetInactivePng'/>
-
-				<ComponentRef Id='GraphViewCss'/>
-				<ComponentRef Id='AnnotationPng'/>
-				<ComponentRef Id='ArrowGraphPng'/>
-				<ComponentRef Id='BundlePng'/>
-				<ComponentRef Id='DefaultPng'/>
-				<ComponentRef Id='EnumPng'/>
-				<ComponentRef Id='FilePng'/>
-				<ComponentRef Id='FileIncompletePng'/>
-				<ComponentRef Id='GraphPng'/>
-				<ComponentRef Id='GraphArrowPng'/>
-				<ComponentRef Id='GraphDownPng'/>
-				<ComponentRef Id='GraphLeftPng'/>
-				<ComponentRef Id='GraphRightPng'/>
-				<ComponentRef Id='GraphUpPng'/>
-				<ComponentRef Id='GroupNamespacePng'/>
-				<ComponentRef Id='LegendPng'/>
-				<ComponentRef Id='MacroPng'/>
-				<ComponentRef Id='NamespacePng'/>
-				<ComponentRef Id='GraphPatternPng'/>
-				<ComponentRef Id='PrivatePng'/>
-				<ComponentRef Id='ProtectedPng'/>
-				<ComponentRef Id='PublicPng'/>
-				<ComponentRef Id='TemplatePng'/>
-				<ComponentRef Id='TypedefPng'/>
-				<ComponentRef Id='ZoomInPng'/>
-				<ComponentRef Id='ZoomOutPng'/>
-				
-				<ComponentRef Id='HistoryListCss'/>
-				<ComponentRef Id='HistoryListArrowPng'/>
-
-				<ComponentRef Id='C_icon_Png'/>
-				<ComponentRef Id='Cbp_icon_Png'/>
-				<ComponentRef Id='Cdb_icon_Png'/>
-				<ComponentRef Id='SourcetrailIco'/>
-				<ComponentRef Id='Cpp_icon_Png'/>
-				<ComponentRef Id='Empty_icon_Png'/>
-				<ComponentRef Id='Gradle_icon_Png'/>
-				<ComponentRef Id='Java_icon_Png'/>
-				<ComponentRef Id='Logo_1024_1024_Png'/>
-				<ComponentRef Id='Mvn_icon_Png'/>
-				<ComponentRef Id='ProjectIco'/>
-				<ComponentRef Id='Project_256_256_Png'/>
-				<ComponentRef Id='Sonargraph_Icon_Png'/>
-				<ComponentRef Id='Vs_icon_Png'/>
-
-				<ComponentRef Id='ErrorPng'/>
-				<ComponentRef Id='FlagPng'/>
-				<ComponentRef Id='IndexingDialogCss'/>
-				<ComponentRef Id='ProgressBarElementPng'/>
-
-				<ComponentRef Id='LicenseCss'/>
-				
-				<ComponentRef Id='MainCss'/>
-				<ComponentRef Id='ScrollbarCss'/>
-				<ComponentRef Id='CloseBlackPng'/>
-				<ComponentRef Id='CloseGreyPng'/>
-				<ComponentRef Id='CloseWhitePng'/>
-				<ComponentRef Id='FloatBlackPng'/>
-				<ComponentRef Id='FloatGreyPng'/>
-				<ComponentRef Id='FloatWhitePng'/>
-				
-				<ComponentRef Id='EulaTxt'/>
-				
-				<ComponentRef Id='KeyboardShortcutsCss'/>
-
-				<ComponentRef Id='RefreshViewCss'/>
-				<ComponentRef Id='RefreshPng'/>
-				
-				<ComponentRef Id='ScreenSearchViewCss'/>
-				<ComponentRef Id='ScreenSearchViewClosePng'/>
-
-				<ComponentRef Id='SearchViewCss'/>
-				<ComponentRef Id='ArrowSearchPng'/>
-				<ComponentRef Id='HomePng'/>
-				<ComponentRef Id='SearchPng'/>
-
-				<ComponentRef Id='StartscreenCss'/>
-
-				<ComponentRef Id='DotPng'/>
-				<ComponentRef Id='LoaderGif'/>
-				
-				<ComponentRef Id='TabbedViewCss'/>
-				<ComponentRef Id='TabbedViewArrowDownPng'/>
-				<ComponentRef Id='TabbedViewArrowUpPng'/>
-				
-				<ComponentRef Id='TabsViewCss'/>
-				<ComponentRef Id='DataTabsViewAddPng'/>
-				<ComponentRef Id='DataTabsViewClosePng'/>
-
-				<ComponentRef Id='TooltipViewCss'/>
-				
-				<ComponentRef Id='UndoRedoViewCss'/>
-				<ComponentRef Id='ArrowLeftPng'/>
-				<ComponentRef Id='ArrowRightPng'/>
-				<ComponentRef Id='HistoryPng'/>
-
-				<ComponentRef Id='WindowDotsPng'/>
-				<ComponentRef Id='WindowDotsHoverPng'/>
-				<ComponentRef Id='HelpPng'/>
-				<ComponentRef Id='HelpHoverPng'/>
-				<ComponentRef Id='ListboxCss'/>
-				<ComponentRef Id='LogoPng'/>
-				<ComponentRef Id='MinusPng'/>
-				<ComponentRef Id='MinusHoverPng'/>
-				<ComponentRef Id='PlusPng'/>
-				<ComponentRef Id='PlusHoverPng'/>
-				<ComponentRef Id='WindowRefreshPng'/>
-				<ComponentRef Id='RefreshHoverPng'/>
-				<ComponentRef Id='SizeGripBlackPng'/>
-				<ComponentRef Id='SizeGripWhitePng'/>
-				<ComponentRef Id='SourceGroupAddPng'/>
-				<ComponentRef Id='SourceGroupAddHoverPng'/>
-				<ComponentRef Id='SourceGroupCopyPng'/>
-				<ComponentRef Id='SourceGroupCopyHoverPng'/>
-				<ComponentRef Id='SourceGroupDeletePng'/>
-				<ComponentRef Id='SourceGroupDeleteHoverPng'/>
-				<ComponentRef Id='WindowCss'/>
-				
-				<ComponentRef Id='JavaGradleInitGradle'/>
-				
-				<ComponentRef Id='GradleToolingApiJar'/>
-				<ComponentRef Id='JavaJavaIndexerJar'/>
-				<ComponentRef Id='JavaOrgEclipseCoreCommandsJar'/>
-				<ComponentRef Id='JavaOrgEclipseCoreContenttypeJar'/>
-				<ComponentRef Id='JavaOrgEclipseCoreExpressionsJar'/>
-				<ComponentRef Id='JavaOrgEclipseCoreFilesystemJar'/>
-				<ComponentRef Id='JavaOrgEclipseCoreJobsJar'/>
-				<ComponentRef Id='JavaOrgEclipseCoreResourcesJar'/>
-				<ComponentRef Id='JavaOrgEclipseCoreRuntimeJar'/>
-				<ComponentRef Id='JavaOrgEclipseEquinoxJar'/>
-				<ComponentRef Id='JavaOrgEclipseEquinoxCommonJar'/>
-				<ComponentRef Id='JavaOrgEclipseEquinoxPreferencesJar'/>
-				<ComponentRef Id='JavaOrgEclipseEquinoxRegistryJar'/>
-				<ComponentRef Id='JavaOrgEclipseJdtCoreJar'/>
-				<ComponentRef Id='JavaOrgEclipseOsgiJar'/>
-				<ComponentRef Id='JavaOrgEclipseTextJar'/>
-				<ComponentRef Id='Slf4jApiJar'/>
-				<ComponentRef Id='Slf4jSimpleJar'/>
-				
-				<ComponentRef Id='SyntaxHighlightingRulesCppRules'/>
-				<ComponentRef Id='SyntaxHighlightingRulesJavaRules'/>
-				<ComponentRef Id='SyntaxHighlightingRulesPythonRules'/>
+				<ComponentGroupRef Id='DataGuiComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='DataJavaComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='DataSyntaxHighlightingRulesComponentGroup' Primary="yes"/>
 				
 				<ComponentRef Id='UninstallBat'/>
 
@@ -577,36 +270,9 @@
 			<!-- Sample Projects for AddData Folder -->
 			<!-- <Feature Id='SampleCode' Title='Samples' Description='Tutorial and Sample Project' Level='1000'> -->
 				<ComponentRef Id='SampleProjects'/>
-
-				<ComponentRef Id='TictactoeSourcetrailproject'/>
-				<ComponentRef Id='TictactoeCode'/>
-				
-				<ComponentRef Id='TutorialSourcetrailproject'/>
-				<ComponentRef Id='TutorialCode'/>
-
-				<ComponentRef Id='JavaparserSourcetrailproject'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode'/>
-				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaccCode'/>
-				<ComponentRef Id='SampleProjectJavaparserTargetFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder'/>
-				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesCode'/>
+				<ComponentGroupRef Id='SampleJavaparserComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='SampleTictactoeComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='SampleTutorialComponentGroup' Primary="yes"/>
 			</Feature>
 		</Feature>
 
