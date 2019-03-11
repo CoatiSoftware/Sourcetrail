@@ -8,6 +8,7 @@
 #include <QSettings>
 #include <QTimer>
 #include <QToolBar>
+#include <QToolTip>
 
 #include "Application.h"
 #include "CompositeView.h"
@@ -482,6 +483,10 @@ void QtMainWindow::setContentEnabled(bool enabled)
 void QtMainWindow::refreshStyle()
 {
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/main.css")).c_str());
+
+	QFont tooltipFont = QToolTip::font();
+	tooltipFont.setPixelSize(ApplicationSettings::getInstance()->getFontSize());
+	QToolTip::setFont(tooltipFont);
 }
 
 void QtMainWindow::setWindowsTaskbarProgress(float progress)
