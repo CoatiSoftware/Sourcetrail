@@ -552,58 +552,75 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 		false, true
 	).dispatch();
 
-	const int termLength = searchTerm.length();
-
-	for (const FullTextSearchResult& fileHits : m_fullTextSearchIndex.searchForTerm(searchTerm))
 	{
-		const FilePath filePath = getFileNodePath(fileHits.fileId);
-		std::shared_ptr<TextAccess> fileContent = getFileContent(filePath, false);
-
-		int charsTotal = 0;
-		int lineNumber = 1;
-		std::wstring line = codec.decode(fileContent->getLine(lineNumber));
-
-		for (int pos : fileHits.positions)
+		std::vector<std::shared_ptr<std::thread>> threads;
+		std::mutex collectionMutex;
+		for (std::vector<FullTextSearchResult> fileResults : utility::splitToEqualySizedParts(m_fullTextSearchIndex.searchForTerm(searchTerm), utility::getIdealThreadCount()))
 		{
-			while (charsTotal + (int)line.length() <= pos)
-			{
-				charsTotal += line.length();
-				lineNumber++;
-				line = codec.decode(fileContent->getLine(lineNumber));
-			}
+			std::shared_ptr<std::thread> thread = std::make_shared<std::thread>(
+				[this, &searchTerm, &caseSensitive, &codec, /*no ref here!*/fileResults, &collection, &collectionMutex]()
+				{
+					const int termLength = searchTerm.length();
+					for (const FullTextSearchResult& fileResult : fileResults)
+					{
+						const FilePath filePath = getFileNodePath(fileResult.fileId);
+						std::shared_ptr<TextAccess> fileContent = getFileContent(filePath, false);
 
-			ParseLocation location;
-			location.startLineNumber = lineNumber;
-			location.startColumnNumber = pos - charsTotal + 1;
+						int charsTotal = 0;
+						int lineNumber = 1;
+						std::wstring line = codec.decode(fileContent->getLine(lineNumber));
 
-			if (caseSensitive && line.substr(location.startColumnNumber - 1, termLength) != searchTerm)
-			{
-				continue;
-			}
+						for (int pos : fileResult.positions)
+						{
+							while (charsTotal + (int)line.length() <= pos)
+							{
+								charsTotal += line.length();
+								lineNumber++;
+								line = codec.decode(fileContent->getLine(lineNumber));
+							}
 
-			while ((charsTotal + (int)line.length()) < pos + termLength)
-			{
-				charsTotal += line.length();
-				lineNumber++;
-				line = codec.decode(fileContent->getLine(lineNumber));
-			}
+							ParseLocation location;
+							location.startLineNumber = lineNumber;
+							location.startColumnNumber = pos - charsTotal + 1;
 
-			location.endLineNumber = lineNumber;
-			location.endColumnNumber = pos + termLength - charsTotal;
+							if (caseSensitive && line.substr(location.startColumnNumber - 1, termLength) != searchTerm)
+							{
+								continue;
+							}
+							while ((charsTotal + (int)line.length()) < pos + termLength)
+							{
+								charsTotal += line.length();
+								lineNumber++;
+								line = codec.decode(fileContent->getLine(lineNumber));
+							}
+							location.endLineNumber = lineNumber;
+							location.endColumnNumber = pos + termLength - charsTotal;
 
-			// Set first bit to 1 to avoid collisions
-			const Id locationId = ~(~Id(0) >> 1) + collection->getSourceLocationCount() + 1;
-
-			collection->addSourceLocation(
-				LOCATION_FULLTEXT_SEARCH,
-				locationId,
-				std::vector<Id>(),
-				filePath,
-				location.startLineNumber,
-				location.startColumnNumber,
-				location.endLineNumber,
-				location.endColumnNumber
+							{
+								std::lock_guard<std::mutex> lock(collectionMutex);
+								// Set first bit to 1 to avoid collisions
+								const Id locationId = ~(~Id(0) >> 1) + collection->getSourceLocationCount() + 1;
+								collection->addSourceLocation(
+									LOCATION_FULLTEXT_SEARCH,
+									locationId,
+									std::vector<Id>(),
+									filePath,
+									location.startLineNumber,
+									location.startColumnNumber,
+									location.endLineNumber,
+									location.endColumnNumber
+								);
+							}
+						}
+					}
+				}
 			);
+			threads.push_back(thread);
+		}
+
+		for (std::shared_ptr<std::thread> thread : threads)
+		{
+			thread->join();
 		}
 	}
 

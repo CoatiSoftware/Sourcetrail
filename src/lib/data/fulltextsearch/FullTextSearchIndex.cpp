@@ -29,16 +29,21 @@ std::vector<FullTextSearchResult> FullTextSearchIndex::searchForTerm(const std::
 	TRACE();
 
 	std::vector<FullTextSearchResult> ret;
-	FullTextSearchResult hit;
 	{
 		std::lock_guard<std::mutex> lock(m_filesMutex);
 		for (auto& f : m_files)
 		{
+			FullTextSearchResult hit;
 			hit.fileId = f.fileId;
 			hit.positions = f.array.searchForTerm(term);
-			ret.push_back(hit);
+			std::sort(hit.positions.begin(), hit.positions.end());
+			if (!hit.positions.empty())
+			{
+				ret.push_back(hit);
+			}
 		}
 	}
+
 	return ret;
 }
 
