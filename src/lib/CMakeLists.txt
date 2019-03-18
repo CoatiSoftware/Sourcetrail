@@ -495,12 +495,10 @@ add_files(
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageDeactivateEdge.h
-	utility/messaging/type/MessageEnteredLicense.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFlushUpdates.h
 	utility/messaging/type/MessageFocusIn.h
 	utility/messaging/type/MessageFocusOut.h
-	utility/messaging/type/MessageForceEnterLicense.h
 	utility/messaging/type/MessageGraphNodeBundleSplit.h
 	utility/messaging/type/MessageGraphNodeExpand.h
 	utility/messaging/type/MessageGraphNodeHide.h
@@ -655,7 +653,5 @@ add_files(
 	LanguagePackage.h
 	LanguagePackageManager.cpp
 	LanguagePackageManager.h
-	LicenseChecker.cpp
-	LicenseChecker.h
 	UpdateChecker.h
 )

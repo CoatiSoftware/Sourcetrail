@@ -53,20 +53,6 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 		"network/coati_port",
 		"network/sourcetrail_port"
 	));
-	migrator.addMigration(3, std::make_shared<SettingsMigrationLambda>(
-		[](const SettingsMigration* migration, Settings* settings)
-		{
-			License license;
-			bool isLoaded = license.loadFromEncodedString(
-				migration->getValueFromSettings<std::string>(settings, "user/license/license", ""), AppPath::getAppPath().str());
-			if (isLoaded && license.isValid() && license.isNonCommercialLicenseType())
-			{
-				migration->removeValuesInSettings(settings, "user/license/license");
-				migration->removeValuesInSettings(settings, "user/license/check");
-				migration->setValueInSettings(settings, "user/license/non_commercial_use", true);
-			}
-		}
-	));
 	migrator.addMigration(4, std::make_shared<SettingsMigrationLambda>(
 		[](const SettingsMigration* migration, Settings* settings)
 		{
@@ -678,16 +664,6 @@ std::string ApplicationSettings::getLicenseString() const
 void ApplicationSettings::setLicenseString(const std::string& licenseString)
 {
 	setValue<std::string>("user/license/license", licenseString);
-}
-
-std::string ApplicationSettings::getLicenseCheck() const
-{
-	return getValue<std::string>("user/license/check", "");
-}
-
-void ApplicationSettings::setLicenseCheck(const std::string& hash)
-{
-	setValue<std::string>("user/license/check", hash);
 }
 
 bool ApplicationSettings::getNonCommercialUse() const

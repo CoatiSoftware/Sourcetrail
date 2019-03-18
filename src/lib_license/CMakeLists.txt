@@ -6,4 +6,7 @@ add_files(
 
 	License.cpp
 	License.h
+	LicenseChecker.cpp
+	LicenseChecker.h
+	LicenseType.h
 )

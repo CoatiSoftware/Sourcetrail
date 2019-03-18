@@ -28,8 +28,6 @@ namespace utility
 
 	OsType getOsType();
 	std::string getOsTypeString();
-
-	bool saveLicense(const License* license);
 }
 
 #endif // UTILITY_APP_H

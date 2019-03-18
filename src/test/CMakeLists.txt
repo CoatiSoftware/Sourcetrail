@@ -18,8 +18,9 @@ add_files(
 	FilePathFilterTestSuite.h
 	FilePathTestSuite.h
 	FileSystemTestSuite.h
-	GeneratorTestSuite.h
 	GraphTestSuite.h
+	LicenseCheckerTestSuite.h
+	LicenseGeneratorTestSuite.h
 	LogManagerTestSuite.h
 	LowMemoryStringMapTestSuite.h
 	MatrixBaseTestSuite.h

@@ -32,11 +32,12 @@ public:
 
 	virtual void refreshView() = 0;
 
-	virtual void loadWindow(bool showStartWindow) = 0;
+	virtual void loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, std::string licenseError) = 0;
 
 	virtual void hideStartScreen() = 0;
 	virtual void setTitle(const std::wstring& title) = 0;
 	virtual void activateWindow() = 0;
+	virtual void forceEnterLicense(std::string licenseError) = 0;
 
 	virtual void updateRecentProjectMenu() = 0;
 

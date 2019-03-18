@@ -1,8 +1,8 @@
 add_files(
 	LICENSE_GENERATOR
 
-	Generator.cpp
-	Generator.h
+	LicenseGenerator.cpp
+	LicenseGenerator.h
 )
 
 # split for tests

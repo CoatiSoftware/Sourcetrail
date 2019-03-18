@@ -8,11 +8,9 @@
 #include <QMessageBox>
 
 #include "ApplicationSettings.h"
-#include "AppPath.h"
-#include "License.h"
+#include "LicenseChecker.h"
 #include "MessageLoadProject.h"
 #include "ProjectSettings.h"
-#include "PublicKey.h"
 #include "QtUpdateCheckerWidget.h"
 #include "QtNewsWidget.h"
 #include "ResourcePaths.h"
@@ -146,9 +144,6 @@ void QtStartScreen::updateButtons()
 
 void QtStartScreen::setupStartScreen()
 {
-	License license;
-	license.loadFromEncodedString(ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath().str());
-
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"startscreen/startscreen.css")).c_str());
 	addLogo();
 
@@ -170,15 +165,15 @@ void QtStartScreen::setupStartScreen()
 
 		col->addSpacing(15);
 
-		if (license.isValid())
+		if (LicenseChecker::checkCurrentLicense() == LicenseChecker::LicenseState::VALID)
 		{
-			std::string licenseString = license.getLicenseInfo();
+			std::string licenseInfo = LicenseChecker::getCurrentLicense()->getLicenseInfo();
 
 			QLabel* licenseHeader = new QLabel("Licensed to:");
 			licenseHeader->setObjectName("boldLabel");
 			col->addWidget(licenseHeader);
 			col->addSpacing(2);
-			QLabel* licenseLabel = new QLabel(licenseString.c_str());
+			QLabel* licenseLabel = new QLabel(licenseInfo.c_str());
 			licenseLabel->setObjectName("textLabel");
 			col->addWidget(licenseLabel);
 		}

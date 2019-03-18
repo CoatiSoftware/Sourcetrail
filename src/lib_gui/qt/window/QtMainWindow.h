@@ -8,11 +8,11 @@
 #include <QMainWindow>
 
 #include "SearchMatch.h"
-#include "LicenseChecker.h"
 #include "QtWindowsTaskbarButton.h"
 #include "QtWindowStack.h"
 
 class Bookmark;
+class MessageBase;
 class QDockWidget;
 class View;
 
@@ -73,9 +73,9 @@ public:
 	void saveLayout();
 
 	void loadDockWidgetLayout();
-	void loadWindow(bool showStartWindow);
+	void loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, const std::string& licenseError);
 
-	void forceEnterLicense(LicenseChecker::LicenseState state);
+	void forceEnterLicense(const std::string& licenseError);
 
 	void updateHistoryMenu(std::shared_ptr<MessageBase> message);
 	void clearHistoryMenu();
@@ -189,8 +189,6 @@ private:
 		T* createWindow();
 
 	std::vector<DockWidget> m_dockWidgets;
-
-	bool m_loaded;
 
 	QMenu* m_viewMenu;
 	QAction* m_viewSeparator;

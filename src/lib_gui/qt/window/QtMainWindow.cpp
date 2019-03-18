@@ -29,6 +29,7 @@
 #include "QtStartScreen.h"
 #include "ApplicationSettings.h"
 #include "FileSystem.h"
+#include "LicenseChecker.h"
 #include "logging.h"
 #include "MessageErrorsHelpMessage.h"
 #include "MessageHistoryRedo.h"
@@ -39,7 +40,6 @@
 #include "MessageBookmarkBrowse.h"
 #include "MessageBookmarkCreate.h"
 #include "MessageCodeReference.h"
-#include "MessageEnteredLicense.h"
 #include "MessageFind.h"
 #include "MessageIndexingShowDialog.h"
 #include "MessageLoadProject.h"
@@ -116,8 +116,7 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 
 
 QtMainWindow::QtMainWindow()
-	: m_loaded(false)
-	, m_historyMenu(nullptr)
+	: m_historyMenu(nullptr)
 	, m_bookmarksMenu(nullptr)
 	, m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
@@ -324,46 +323,20 @@ void QtMainWindow::loadDockWidgetLayout()
 	}
 }
 
-void QtMainWindow::loadWindow(bool showStartWindow)
+void QtMainWindow::loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, const std::string& licenseError)
 {
-	if (m_loaded)
-	{
-		if (!showStartWindow)
-		{
-			hideStartScreen();
-		}
-		return;
-	}
-
-	m_loaded = true;
-
-	LicenseChecker::LicenseState state = LicenseChecker::checkCurrentLicense();
-	bool licenseValid = (state == LicenseChecker::LICENSE_VALID);
-
-	if (licenseValid)
-	{
-		MessageEnteredLicense(LicenseChecker::getCurrentLicenseType()).dispatch();
-	}
-
-	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-
-	if (state == LicenseChecker::LICENSE_MOVED)
-	{
-		appSettings->setLicenseString("");
-	}
-
 	if (showStartWindow)
 	{
 		showStartScreen();
 	}
 
-	if (state != LicenseChecker::LICENSE_VALID && !appSettings->getNonCommercialUse())
+	if (enterLicense)
 	{
-		forceEnterLicense(state);
+		forceEnterLicense(licenseError);
 	}
 
 #ifndef Q_OS_WIN
-	if (appSettings->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
+	if (showEULA)
 	{
 		showEula(true);
 	}
@@ -387,7 +360,7 @@ void QtMainWindow::saveLayout()
 	settings.setValue("DOCK_LOCATIONS", this->saveState());
 }
 
-void QtMainWindow::forceEnterLicense(LicenseChecker::LicenseState state)
+void QtMainWindow::forceEnterLicense(const std::string& licenseError)
 {
 	QtLicenseWindow* window = dynamic_cast<QtLicenseWindow*>(m_windowStack.getTopWindow());
 	if (window)
@@ -404,14 +377,9 @@ void QtMainWindow::forceEnterLicense(LicenseChecker::LicenseState state)
 		return;
 	}
 
-	if (state == LicenseChecker::LICENSE_EXPIRED)
+	if (licenseError.size())
 	{
-		window->setErrorMessage("The license key is expired.");
-	}
-	else if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_EMPTY)
-	{
-		window->clear();
-		window->setErrorMessage("Please re-enter your license key.");
+		window->setErrorMessage(QString::fromStdString(licenseError));
 	}
 
 	window->updateCloseButton("Quit");
@@ -620,7 +588,7 @@ void QtMainWindow::showEula(bool forceAccept)
 
 void QtMainWindow::acceptedEula()
 {
-	ApplicationSettings::getInstance()->setAcceptedEulaVersion(QtEulaWindow::EULA_VERSION);
+	ApplicationSettings::getInstance()->setAcceptedEulaVersion(Application::EULA_VERSION);
 	ApplicationSettings::getInstance()->save();
 
 	setEnabled(true);
@@ -654,7 +622,7 @@ void QtMainWindow::enteredLicense()
 
 	m_windowStack.clearWindows();
 
-	MessageEnteredLicense(LicenseChecker::getCurrentLicenseType()).dispatch();
+	MessageRefreshUI().dispatch();
 
 	setEnabled(true);
 

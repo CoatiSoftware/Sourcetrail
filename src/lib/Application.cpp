@@ -1,36 +1,36 @@
 #include "Application.h"
 
-#include "IDECommunicationController.h"
-#include "NetworkFactory.h"
-#include "DialogView.h"
-#include "GraphViewStyle.h"
-#include "MainView.h"
-#include "ViewFactory.h"
-#include "StorageCache.h"
-#include "LicenseChecker.h"
 #include "ApplicationSettings.h"
-#include "ProjectSettings.h"
+#include "AppPath.h"
 #include "ColorScheme.h"
+#include "DialogView.h"
 #include "FileSystem.h"
-#include "SharedMemoryGarbageCollector.h"
+#include "GraphViewStyle.h"
+#include "IDECommunicationController.h"
+#include "LicenseChecker.h"
 #include "logging.h"
 #include "LogManager.h"
+#include "MainView.h"
 #include "MessageFilterErrorCountUpdate.h"
 #include "MessageFilterFocusInOut.h"
 #include "MessageFilterSearchAutocomplete.h"
 #include "MessageQueue.h"
-#include "MessageForceEnterLicense.h"
 #include "MessageQuitApplication.h"
 #include "MessageStatus.h"
+#include "NetworkFactory.h"
+#include "ProjectSettings.h"
+#include "SharedMemoryGarbageCollector.h"
+#include "StorageCache.h"
 #include "TabId.h"
 #include "TaskManager.h"
 #include "TaskScheduler.h"
 #include "tracing.h"
+#include "UpdateChecker.h"
 #include "UserPaths.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
 #include "Version.h"
-#include "UpdateChecker.h"
+#include "ViewFactory.h"
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
@@ -38,7 +38,17 @@ std::string Application::s_uuid;
 void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){
+	bool hasGui = (viewFactory != nullptr);
+
 	Version::setApplicationVersion(version);
+	LicenseChecker::loadPublicKey();
+	LicenseChecker::setEncodeKey(AppPath::getAppPath().str());
+
+	if (hasGui)
+	{
+		GraphViewStyle::setImpl(viewFactory->createGraphStyleImpl());
+	}
+
 	loadSettings();
 
 	SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::createInstance();
@@ -51,7 +61,6 @@ void Application::createInstance(
 	TaskManager::createScheduler(TabId::background());
 	MessageQueue::getInstance();
 
-	bool hasGui = (viewFactory != nullptr);
 	s_instance = std::shared_ptr<Application>(new Application(hasGui));
 
 	s_instance->m_storageCache = std::make_shared<StorageCache>();
@@ -60,9 +69,6 @@ void Application::createInstance(
 	{
 		s_instance->m_mainView = viewFactory->createMainView(s_instance->m_storageCache.get());
 		s_instance->m_mainView->setup();
-		s_instance->updateTitle();
-
-		GraphViewStyle::setImpl(viewFactory->createGraphStyleImpl());
 	}
 
 	if (networkFactory != nullptr)
@@ -121,7 +127,6 @@ void Application::loadStyle(const FilePath& colorSchemePath)
 
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
-	, m_licenseType(MessageEnteredLicense::LICENSE_NONE)
 	, m_lastLicenseCheck(TimeStamp::now())
 {
 }
@@ -207,21 +212,6 @@ void Application::handleMessage(MessageActivateWindow* message)
 	}
 }
 
-void Application::handleMessage(MessageEnteredLicense* message)
-{
-	MessageStatus(L"Found valid license key, unlocked application.").dispatch();
-
-	m_licenseType = message->type;
-
-	updateTitle();
-	loadSettings();
-
-	if (m_hasGUI)
-	{
-		m_mainView->refreshViews();
-	}
-}
-
 void Application::handleMessage(MessageIndexingFinished* message)
 {
 	logStorageStats();
@@ -241,11 +231,7 @@ void Application::handleMessage(MessageLoadProject* message)
 	TRACE("app load project");
 
 	FilePath projectSettingsFilePath(message->projectSettingsFilePath);
-	if (m_hasGUI)
-	{
-		bool showStartWindow = projectSettingsFilePath.empty();
-		m_mainView->loadWindow(showStartWindow);
-	}
+	loadWindow(projectSettingsFilePath.empty());
 
 	if (projectSettingsFilePath.empty())
 	{
@@ -332,6 +318,8 @@ void Application::handleMessage(MessageRefreshUI* message)
 
 	if (m_hasGUI)
 	{
+		updateTitle();
+
 		if (message->loadStyle)
 		{
 			loadStyle(ApplicationSettings::getInstance()->getColorSchemePath());
@@ -366,9 +354,9 @@ void Application::handleMessage(MessageWindowFocus* message)
 		m_lastLicenseCheck = TimeStamp::now();
 
 		LicenseChecker::LicenseState state = LicenseChecker::checkCurrentLicense();
-		if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_MOVED)
+		if (state != LicenseChecker::LicenseState::VALID)
 		{
-			MessageForceEnterLicense(state).dispatch();
+			m_mainView->forceEnterLicense(LicenseChecker::getLicenseErrorForState(state));
 		}
 	}
 }
@@ -415,6 +403,54 @@ void Application::startMessagingAndScheduling()
 
 	queue->setSendMessagesAsTasks(true);
 	queue->startMessageLoopThreaded();
+}
+
+void Application::loadWindow(bool showStartWindow)
+{
+	if (!m_hasGUI)
+	{
+		return;
+	}
+
+	if (!m_loadedWindow)
+	{
+		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+		LicenseChecker::LicenseState state = LicenseChecker::LicenseState::VALID;
+		std::string licenseError;
+
+		if (!appSettings->getNonCommercialUse())
+		{
+			state = LicenseChecker::setCurrentLicenseStringEncoded(appSettings->getLicenseString());
+			licenseError = LicenseChecker::getLicenseErrorForState(state);
+
+			if (state == LicenseChecker::LicenseState::VALID)
+			{
+				MessageStatus(L"Found valid license key, unlocked application.").dispatch();
+			}
+			else if (state == LicenseChecker::LicenseState::EMPTY)
+			{
+				licenseError = "";
+			}
+			else if (state == LicenseChecker::LicenseState::MALFORMED)
+			{
+				licenseError = "Plese re-enter your license key.";
+				appSettings->setLicenseString("");
+				appSettings->save();
+			}
+		}
+
+		updateTitle();
+
+		bool showEula = (appSettings->getAcceptedEulaVersion() < EULA_VERSION);
+		bool enterLicense = (state != LicenseChecker::LicenseState::VALID);
+
+		m_mainView->loadWindow(showStartWindow, showEula, enterLicense, licenseError);
+		m_loadedWindow = true;
+	}
+	else if (!showStartWindow)
+	{
+		m_mainView->hideStartScreen();
+	}
 }
 
 void Application::refreshProject(RefreshMode refreshMode)
@@ -487,16 +523,15 @@ void Application::updateTitle()
 	{
 		std::wstring title = L"Sourcetrail";
 
-		switch (m_licenseType)
+		switch (LicenseChecker::getCurrentLicenseType())
 		{
-			case MessageEnteredLicense::LICENSE_TEST:
+			case LicenseType::TEST:
 				title += L" [test]";
 				break;
-			case MessageEnteredLicense::LICENSE_NONE:
-			case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
+			case LicenseType::NON_COMMERCIAL:
 				title += L" [non-commercial]";
 				break;
-			case MessageEnteredLicense::LICENSE_COMMERCIAL:
+			case LicenseType::COMMERCIAL:
 				break;
 		}
 
@@ -519,7 +554,8 @@ bool Application::checkSharedMemory()
 	std::wstring error = utility::decodeFromUtf8(SharedMemory::checkSharedMemory(getUUID()));
 	if (error.size())
 	{
-		MessageStatus(L"Error on accessing shared memory. Indexing not possible. Please restart computer or run as admin: " + error, true).dispatch();
+		MessageStatus(L"Error on accessing shared memory. Indexing not possible. "
+			"Please restart computer or run as admin: " + error, true).dispatch();
 		handleDialog(
 			L"There was an error accessing shared memory on your computer: " + error + L"\n\n"
 			"Project indexing is not possible. Please restart your computer or try running Sourcetrail as admin. If the "

@@ -85,9 +85,11 @@ void QtLicenseWindow::populateWindow(QWidget* widget)
 	m_licenseText->setPlaceholderText(
 		"-----BEGIN LICENSE-----\n"
 		"Product: Sourcetrail\n"
-		"Licensed to:\n"
+		"License holder:\n"
 		"License type:\n"
-		"Valid up to version:\n"
+		"Licensed number of users:\n"
+		"Licensed product version:\n"
+		"Licensed usage period:\n"
 		"-\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
@@ -152,45 +154,22 @@ void QtLicenseWindow::handleNext()
 	if (m_commercialUse->isChecked())
 	{
 		std::string licenseString = m_licenseText->toPlainText().toStdString();
-
 		LicenseChecker::LicenseState state = LicenseChecker::checkLicenseString(licenseString);
 
-		std::string errorString;
+		std::string errorString = LicenseChecker::getLicenseErrorForState(state);
 
-		switch (state)
+		if (state == LicenseChecker::LicenseState::VALID)
 		{
-			case LicenseChecker::LICENSE_EMPTY:
-				errorString = "No license key was entered.";
-				break;
-			case LicenseChecker::LICENSE_MOVED:
-			case LicenseChecker::LICENSE_MALFORMED:
-				errorString = "The entered license key is malformed.";
-				break;
-			case LicenseChecker::LICENSE_INVALID:
-				errorString = "The entered license key is invalid.";
-				break;
-			case LicenseChecker::LICENSE_EXPIRED:
-				errorString = "The entered license key is expired.";
-				break;
-			case LicenseChecker::LICENSE_VALID:
-			{
-				if (LicenseChecker::getLicenseType(licenseString) == MessageEnteredLicense::LICENSE_NON_COMMERCIAL)
-				{
-					errorString =
-						"The entered license key does not permit commercial use. You no longer need a license "
-						"key for non-commercial use. Please choose the non-commercial option below.";
-					break;
-				}
+			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
-				LicenseChecker::saveCurrentLicenseString(licenseString);
-				m_errorLabel->setText(" ");
+			LicenseChecker::setCurrentLicenseString(licenseString);
 
-				ApplicationSettings::getInstance()->setNonCommercialUse(false);
-				ApplicationSettings::getInstance()->save();
+			appSettings->setLicenseString(LicenseChecker::getCurrentLicenseStringEncoded());
+			appSettings->setNonCommercialUse(false);
+			appSettings->save();
 
-				emit finished();
-				return;
-			}
+			emit finished();
+			return;
 		}
 
 		m_errorLabel->setText(errorString.c_str());

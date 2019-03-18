@@ -10,7 +10,6 @@
 #include "QtThreadedFunctor.h"
 
 #include "MessageListener.h"
-#include "MessageForceEnterLicense.h"
 #include "MessageProjectEdit.h"
 #include "MessageProjectNew.h"
 
@@ -19,7 +18,6 @@ class View;
 
 class QtMainView
 	: public MainView
-	, public MessageListener<MessageForceEnterLicense>
 	, public MessageListener<MessageProjectEdit>
 	, public MessageListener<MessageProjectNew>
 {
@@ -50,13 +48,14 @@ public:
 	void loadLayout() override;
 	void saveLayout() override;
 
-	void loadWindow(bool showStartWindow) override;
+	void loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, std::string licenseError) override;
 
 	void refreshView() override;
 
 	void hideStartScreen() override;
 	void setTitle(const std::wstring& title) override;
 	void activateWindow() override;
+	void forceEnterLicense(std::string licenseError) override;
 
 	void updateRecentProjectMenu() override;
 
@@ -67,7 +66,6 @@ public:
 	void clearBookmarksMenu() override;
 
 private:
-	void handleMessage(MessageForceEnterLicense* message) override;
 	void handleMessage(MessageProjectEdit* message) override;
 	void handleMessage(MessageProjectNew* message) override;
 

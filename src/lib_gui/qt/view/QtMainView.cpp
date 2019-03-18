@@ -98,12 +98,12 @@ void QtMainView::saveLayout()
 	m_window->saveLayout();
 }
 
-void QtMainView::loadWindow(bool showStartWindow)
+void QtMainView::loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, std::string licenseError)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_window->loadWindow(showStartWindow);
+			m_window->loadWindow(showStartWindow, showEULA, enterLicense, licenseError);
 		}
 	);
 }
@@ -163,6 +163,16 @@ void QtMainView::activateWindow()
 	);
 }
 
+void QtMainView::forceEnterLicense(std::string licenseError)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_window->forceEnterLicense(licenseError);
+		}
+	);
+}
+
 void QtMainView::updateRecentProjectMenu()
 {
 	m_onQtThread(
@@ -206,18 +216,6 @@ void QtMainView::updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>
 void QtMainView::clearBookmarksMenu()
 {
 	updateBookmarksMenu({});
-}
-
-void QtMainView::handleMessage(MessageForceEnterLicense* message)
-{
-	LicenseChecker::LicenseState state = message->state;
-
-	m_onQtThread(
-		[=]()
-		{
-			m_window->forceEnterLicense(state);
-		}
-	);
 }
 
 void QtMainView::handleMessage(MessageProjectEdit* message)

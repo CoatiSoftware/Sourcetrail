@@ -82,7 +82,6 @@
 		</recent_projects>
 
 		<license>
-			<check><!-- STRING: hashed path of the working directory used when entering the license key --></check>
 			<license><!-- STRING: the license key --></license>
 			<non_commercial_use><!-- BOOL: if used non-commercially --></non_commercial_use>
 		</license>

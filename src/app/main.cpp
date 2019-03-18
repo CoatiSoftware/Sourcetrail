@@ -15,7 +15,6 @@
 #include "QtCoreApplication.h"
 #include "utilityQt.h"
 #include "QtViewFactory.h"
-#include "QtEulaWindow.h"
 #include "ApplicationSettings.h"
 #include "CommandLineParser.h"
 #include "ConsoleLogger.h"
@@ -258,7 +257,7 @@ int main(int argc, char *argv[])
 
 		// check if already agreed to EULA
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		if (appSettings->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
+		if (appSettings->getAcceptedEulaVersion() < Application::EULA_VERSION)
 		{
 			if (!commandLineParser.acceptedEULA())
 			{
@@ -282,7 +281,7 @@ int main(int argc, char *argv[])
 			}
 
 			std::cout << "\nSourcetrail End User License Agreement accepted.\n" << std::endl;
-			appSettings->setAcceptedEulaVersion(QtEulaWindow::EULA_VERSION);
+			appSettings->setAcceptedEulaVersion(Application::EULA_VERSION);
 			appSettings->save();
 		}
 

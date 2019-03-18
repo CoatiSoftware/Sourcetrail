@@ -7,7 +7,6 @@
 #include "MessageListener.h"
 #include "MessageIndexingFinished.h"
 #include "MessageActivateWindow.h"
-#include "MessageEnteredLicense.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
 #include "MessageRefreshUI.h"
@@ -27,7 +26,6 @@ class ViewFactory;
 
 class Application
 	: public MessageListener<MessageActivateWindow>
-	, public MessageListener<MessageEnteredLicense>
 	, public MessageListener<MessageIndexingFinished>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
@@ -36,6 +34,8 @@ class Application
 	, public MessageListener<MessageWindowFocus>
 {
 public:
+	static const int EULA_VERSION = 5;
+
 	static void createInstance(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
 	static std::shared_ptr<Application> getInstance();
 	static void destroyInstance();
@@ -68,7 +68,6 @@ private:
 	Application(bool withGUI = true);
 
 	void handleMessage(MessageActivateWindow* message) override;
-	void handleMessage(MessageEnteredLicense* message) override;
 	void handleMessage(MessageIndexingFinished* message) override;
 	void handleMessage(MessageLoadProject* message) override;
 	void handleMessage(MessageRefresh* message) override;
@@ -78,6 +77,8 @@ private:
 
 	FilePath migrateProjectSettings(const FilePath& projectSettingsFilePath) const;
 	void startMessagingAndScheduling();
+
+	void loadWindow(bool showStartWindow);
 
 	void refreshProject(RefreshMode refreshMode);
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);
@@ -89,6 +90,8 @@ private:
 	bool checkSharedMemory();
 
 	const bool m_hasGUI;
+	bool m_loadedWindow = false;
+
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<StorageCache> m_storageCache;
 
@@ -97,7 +100,6 @@ private:
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
 	std::shared_ptr<UpdateChecker> m_updateChecker;
 
-	MessageEnteredLicense::LicenseType m_licenseType;
 	TimeStamp m_lastLicenseCheck;
 };
 

@@ -4,130 +4,101 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <array>
 
 namespace Botan
 {
-	class RSA_PublicKey;
-	class RSA_PrivateKey;
 	class AutoSeeded_RNG;
 }
 
-namespace LicenseConstants {
-	const char BEGIN_LICENSE_STRING[] = "-----BEGIN LICENSE-----";
-	const char END_LICENSE_STRING[] = "-----END LICENSE-----";
-	const char TEST_LICENSE_STRING[] = "Test License";
-	const char PRODUCT_STRING[] = "Product: Sourcetrail";
-	const char LICENSED_TO_STRING[] = "Licensed to: ";
-	const char LICENSE_TYPE_STRING[] = "License type: ";
-	const char VALID_UNTIL_STRING[] = "Valid until: ";
-	const char VALID_UP_TO_STRING[] = "Valid up to version: ";
-	const char SEPARATOR_STRING[] = "-";
-	const int MINOR_VERSIONS_PER_YEAR = 4;
+namespace LicenseConstants
+{
+	const char BEGIN_LICENSE[] = "-----BEGIN LICENSE-----";
+	const char END_LICENSE[] = "-----END LICENSE-----";
+
+	const char TEST_LICENSE[] = "Test License";
+
+	const char PRODUCT[] = "Product: Sourcetrail";
+
+	const char LICENSE_HOLDER[] = "License holder: ";
+	const char LICENSE_TYPE[] = "License type: ";
+	const char LICENSED_USERS[] = "Licensed number of users: ";
+	const char LICENSED_VERSION[] = "Licensed product version: ";
+	const char LICENSED_PERIOD[] = "Licensed usage period: ";
+
+	const char VALID_UNTIL[] = "until ";
+	const char VALID_UP_TO[] = "up to ";
+	const char VALID_UNLIMITED[] = "unlimited";
+
+	const char LICENSED_TO_OLD[] = "Licensed to: ";
+	const char VALID_UNTIL_OLD[] = "Valid for: ";
+	const char VALID_UP_TO_OLD[] = "Valid up to version: ";
+
+	const char SEPARATOR[] = "-";
 }
 
 class License
 {
 public:
-	enum LICENSE_LINE
-	{
-		BEGIN_LICENSE_LINE = 0,
-		SOURCETRAIL_LINE = 1,
-		USER_LINE = 2,
-		TYPE_LINE = 3,
-		EXPIRE_LINE = 4,
-		SEPARATOR_LINE=5,
-		HASH_LINE = 6,
-		FIRST_SIGNATURE_LINE = 7,
-		LAST_SIGNATURE_LINE = 13,
-		END_LICENSE_LINE = 14,
-		LICENSE_LINES = 15
-	};
-
 	License();
 	~License();
 
-	std::string getMessage(bool withNewlines = false) const;
-	std::string getSignature() const;
-	std::string getVersionLineWithoutPrefix() const;
-	std::string getLine(std::istream& stream);
-	std::string getLineWithoutDescription(LICENSE_LINE line) const;
-
-	void setLine(const LICENSE_LINE line, const std::string& value);
-	void setHashLine(const std::string& hash);
-	void setTypeAndNumberOfUsers(const std::string& line);
-
-	std::string getLicenseInfo() const;
-	std::string getPublicKeyFilename() const;
-	std::string getVersion() const;
 	std::string getType() const;
 	std::string getUser() const;
 	size_t getNumberOfUsers() const;
+	std::string getLicenseInfo() const;
 
-	void createHeader(
+	std::string getMessage(bool withNewlines) const;
+	void setMessage(
 		const std::string& user,
 		const std::string& type,
-		const std::string& expiration,
-		bool expiresAtDate,
-		size_t numberOfUsers = 0
+		size_t numberOfUsers,
+		const std::string& expirationVersion,
+		const std::string& expirationDate
 	);
-	std::string getExpireLine() const;
-	std::string getExpireLineUI() const;
 
-	/// if Test License return >=0 or -1 if expired
-	/// for non Test License -2
-	int getTimeLeft() const;
+	const std::string& getSignature() const;
+	void setSignature(const std::string& signature);
 
 	std::string getLicenseString() const;
-	std::string getLicenseEncodedString(const std::string& applicationLocation) const;
-	std::string getHashedLicense() const;
 
 	void writeToFile(const std::string& filename);
-	bool load(std::istream& stream);
+
 	bool loadFromString(const std::string& licenseText);
 	bool loadFromFile(const std::string& filename);
-	bool loadFromEncodedString(const std::string& encodedLicense, const std::string& applicationLocation);
 
-	bool loadPublicKey();
-
-	bool loadPublicKeyFromFile(const std::string&);
-	bool loadPublicKeyFromString(const std::string&);
-
-	void setSignature(const std::string&);
-
-	bool isValid() const;
+	bool isEmpty() const;
+	bool isComplete() const;
 	bool isExpired() const;
 	bool isTestLicense() const;
-	bool isNonCommercialLicenseType() const;
+
+	// if Test License return >=0 or -1 if expired
+	// for non Test License -2
+	int getTimeLeft() const;
 
 	void print();
 
-	std::string hashLocation(const std::string&) const;
-	static bool checkLocation(const std::string&, const std::string&);
+	std::string generateHash(const std::string& str) const;
+	static bool checkHash(const std::string& str, const std::string& hash);
 
 private:
-	std::string getEncodeKey(const std::string applicationLocation) const;
-	bool extractData(const std::string& data, LICENSE_LINE line);
-	std::string removeCaption(const std::string& line, const std::string& caption) const;
+	bool load(std::istream& stream);
+	bool loadFromLines(const std::vector<std::string>& lines);
+	bool loadFromLinesOld(const std::vector<std::string>& lines);
 
-	std::string m_publicKeyFilename;
-	std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;
+	std::unique_ptr<Botan::AutoSeeded_RNG> m_rng;
 
-	std::shared_ptr<Botan::AutoSeeded_RNG> m_rng;
-	// message
 	std::string m_user;
 	std::string m_type;
-	size_t m_numberOfUsers;
-	bool m_createdWithSeats;
-	std::string m_expire;
-	bool m_expiresAtDate;
-	std::string m_hashLine;
+	size_t m_numberOfUsers = 0;
+	bool m_createdWithSeats = false;
 
+	std::string m_expirationVersion;
+	std::string m_expirationDate;
+
+	std::string m_hashLine;
 	std::string m_signature;
 
-	const std::string KEY_FILEENDING = ".pem";
-
-	const std::vector<std::string> NON_COMMERCIAL_LICENSE_TYPES = { { "Private/Academic Single User License" } };
+	bool m_isOldFormat = false;
 };
 
 #endif // SOURCETRAIL_LICENSE_H

@@ -5,7 +5,8 @@
 
 #include <boost/program_options.hpp>
 
-#include "Generator.h"
+#include "LicenseChecker.h"
+#include "LicenseGenerator.h"
 #include "PrivateKey.h"
 #include "PublicKey.h"
 
@@ -17,9 +18,9 @@ bool process_command_line(int argc, char** argv)
 	{
 		std::string user;
 		std::string version;
-		std::string privateKeyFile;
-		std::string publicKeyFile;
-		std::string licenseFile = "";
+		std::string privateKeyFile = "private-sourcetrail.pem";
+		std::string publicKeyFile = "public-sourcetrail.pem";
+		std::string licenseFile = "license.txt";
 		std::string type = "";
 		int quarters = 4;
 		int days = 0;
@@ -31,32 +32,28 @@ bool process_command_line(int argc, char** argv)
 			("generate,g", po::value<std::string>(&user), "Generate a License, USERNAME as value")
 			("check,c", "Validate a License");
 
-		po::options_description keygen_description("Options Keygeneration");
+		po::options_description keygen_description("Options License Generation");
 		keygen_description.add_options()
 			("version,v", po::value<std::string>(&version), "Versionnumber (in format 20xx.x) until Sourcetrail valid")
 			("quarters,q", po::value<int>(&quarters), "Number of quarters Sourcetrail is valid from now")
 			("users,u", po::value<int>(&numberOfUsers), "Number of users")
 			("licenseType,t", po::value<std::string>(&type), "License Type of ")
-			("expiration,e", po::value<int>(&days), "Valid for <value> days");
+			("expiration,e", po::value<int>(&days), "Valid for <value> days")
+			("lifelong,l", "Valid perpetually");
 
-		po::options_description hidden_description("Hidden Options");
-		hidden_description.add_options()
+		po::options_description advanced_description("Advanced Options");
+		advanced_description.add_options()
 			("public-file", po::value<std::string>(&publicKeyFile), "Custom public key file")
 			("private-file", po::value<std::string>(&privateKeyFile), "Custom private key file")
-			("license-file", po::value<std::string>(&licenseFile), "Custom license")
-			("hidden", "Print this help message");
+			("license-file", po::value<std::string>(&licenseFile), "Custom license (default: license.txt)");
+
 
 		po::options_description desc("Sourcetrail Generator");
 		desc.add_options()
 			("help,h", "Print this help message");
-		desc.add(modes_description).add(keygen_description);
-
-		po::options_description allDescriptions("Sourcetrail Generator");
-		allDescriptions.add_options();
-		allDescriptions.add(modes_description).add(keygen_description).add(hidden_description);
+		desc.add(modes_description).add(keygen_description).add(advanced_description);
 
 		po::variables_map vm;
-
 		po::store(po::parse_command_line(argc,argv,desc), vm);
 		po::notify(vm);
 
@@ -64,7 +61,7 @@ bool process_command_line(int argc, char** argv)
 		if (vm.count("help"))
 		{
 			std::cout << desc << std::endl;
-			return 1;
+			return true;
 		}
 
 		// no mode chosen -> display help
@@ -73,42 +70,21 @@ bool process_command_line(int argc, char** argv)
 			std::cout << "*****************************\nNo mode chosen, display help: "
 					  << "\n*****************************\n\n" << desc << std::endl;
 
-			return 1;
+			return false;
 		}
 
-
-		if (vm.count("hidden"))
-		{
-			std::cout << allDescriptions << std::endl;
-			return 1;
-		}
-
-		Generator keygen;
-
-		// make sure there are no negative amount of users
-		if (vm.count("users"))
-		{
-			if (numberOfUsers < 0)
-			{
-				std::cout << "Invalid amount of users. (Must be > 0)" << std::endl;
-				return false;
-			}
-		}
+		LicenseGenerator keygen;
 
 		if (vm.count("key"))
 		{
-			keygen.generateKeys();
-			keygen.writeKeysToFiles();
-		}
-
-		if (vm.count("public-file"))
-		{
-			keygen.setCustomPublicKeyFile(publicKeyFile);
+			keygen.generatePrivateKey();
+			keygen.writeKeysToFiles(publicKeyFile, privateKeyFile);
+			return true;
 		}
 
 		if (vm.count("private-file"))
 		{
-			keygen.setCustomPrivateKeyFile(privateKeyFile);
+			keygen.loadPrivateKeyFromFile(privateKeyFile);
 		}
 		else
 		{
@@ -117,30 +93,71 @@ bool process_command_line(int argc, char** argv)
 
 		if (vm.count("generate"))
 		{
-			if (days > 0)
+			// make sure there is no negative amount of users
+			if (vm.count("users"))
 			{
-				keygen.encodeLicenseByDays(user, type, numberOfUsers, days);
+				if (numberOfUsers < 0)
+				{
+					std::cout << "Invalid amount of users. (Must be > 0)" << std::endl;
+					return false;
+				}
+			}
+
+			std::unique_ptr<License> license;
+
+			if (vm.count("lifelong"))
+			{
+				license = keygen.createLicenseLifelong(user, type, numberOfUsers);
+			}
+			else if (vm.count("expiration"))
+			{
+				license = keygen.createLicenseByDays(user, type, numberOfUsers, days);
 			}
 			else if (!version.empty())
 			{
-				keygen.encodeLicenseByVersion(user, type, numberOfUsers, version);
+				license = keygen.createLicenseByVersion(user, type, numberOfUsers, version);
 			}
 			else
 			{
-				keygen.encodeLicenseByQuarters(user, type, numberOfUsers, quarters);
+				license = keygen.createLicenseByQuarters(user, type, numberOfUsers, quarters);
 			}
-			keygen.printLicenseAndWriteItToFile();
+
+			if (license)
+			{
+				license->print();
+				license->writeToFile(licenseFile);
+			}
 		}
 
 		if (vm.count("check"))
 		{
-			if (keygen.verifyLicense())
+			if (vm.count("public-file"))
+			{
+				LicenseChecker::loadPublicKeyFromFile(publicKeyFile);
+			}
+			else
+			{
+				LicenseChecker::loadPublicKey();
+			}
+
+			License license;
+			LicenseChecker::LicenseState state = LicenseChecker::LicenseState::EMPTY;
+			if (license.loadFromFile(licenseFile))
+			{
+				state = LicenseChecker::checkLicense(license);
+			}
+			else
+			{
+				state = LicenseChecker::LicenseState::MALFORMED;
+			}
+
+			if (state == LicenseChecker::LicenseState::VALID)
 			{
 				std::cout << "License valid" << std::endl;
 			}
 			else
 			{
-				std::cout << "License not valid" << std::endl;
+				std::cout << LicenseChecker::getLicenseErrorForState(state) << std::endl;
 			}
 		}
 	}
@@ -153,7 +170,8 @@ bool process_command_line(int argc, char** argv)
 	return true;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	process_command_line(argc, argv);
 
 	return 0;

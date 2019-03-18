@@ -1,28 +1,18 @@
 #include "License.h"
 
 #include <algorithm>
-#include <array>
 #include <cctype>
 #include <fstream>
 #include <iostream>
 #include <istream>
-#include <sstream>
 
-//#include <botan_all.h>
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
-#include <boost/filesystem.hpp>
-#include <botan/rsa.h>
-#include <botan/cryptobox.h>
-#include <botan/passhash9.h>
-#include <botan/base64.h>
-#include <botan/pubkey.h>
-#include <botan/pk_keys.h>
+// #include <botan_all.h>
 #include <botan/auto_rng.h>
-#include <botan/pbkdf.h>
+#include <botan/passhash9.h>
 
 #include "Version.h"
-#include "PublicKey.h"
 
 namespace
 {
@@ -41,96 +31,7 @@ std::string toLowerCase(const std::string& in)
 	return out;
 }
 
-}
-
-License::License()
-	: m_rng(std::make_shared<Botan::AutoSeeded_RNG>())
-	, m_user("")
-	, m_type("Private License")
-	, m_numberOfUsers(0)
-	, m_createdWithSeats(false)
-	, m_expire("")
-{
-	loadPublicKey();
-}
-
-License::~License()
-{
-}
-
-void License::createHeader(
-	const std::string& user,
-	const std::string& type,
-	const std::string& expiration,
-	bool expiresAtDate,
-	size_t numberOfUsers
-)
-{
-	if (user.empty() || type.empty() || expiration.empty())
-	{
-		return;
-	}
-	m_user = user;
-	m_expire = expiration;
-	m_expiresAtDate = expiresAtDate;
-	m_type = type;
-	m_numberOfUsers = numberOfUsers;
-}
-
-std::string License::getMessage(bool withNewlines) const
-{
-	const std::string separator = (withNewlines ? "\n" : "");
-	std::string message = "";
-
-	if ( m_user.empty() || m_type.empty() || m_expire.empty() || m_hashLine.empty())
-	{
-		return "";
-	}
-
-	message += LicenseConstants::PRODUCT_STRING + separator;
-	message += LicenseConstants::LICENSED_TO_STRING + m_user + separator;
-	message += LicenseConstants::LICENSE_TYPE_STRING + m_type;
-
-	if (m_numberOfUsers == 0)
-	{
-		message += (m_createdWithSeats ? " (unlimited seats)" : " (unlimited users)");
-	}
-	else if (m_numberOfUsers == 1)
-	{
-		message += (m_createdWithSeats ? " (1 Seat)" : " (1 user)");
-	}
-	else if (m_numberOfUsers > 1)
-	{
-		message += " (" + std::to_string(m_numberOfUsers) + (m_createdWithSeats ? " Seats)" : " users)");
-	}
-
-	message += separator;
-	message += getExpireLine() + separator;
-	message += LicenseConstants::SEPARATOR_STRING + separator;
-	message += m_hashLine;
-
-	return message;
-}
-
-std::string License::getLine(std::istream& stream)
-{
-	std::string line;
-	if(getline(stream, line, '\n'))
-	{
-		return trim(line);
-	}
-	return "";
-}
-
-void License::setHashLine(const std::string &hash)
-{
-	if (!hash.empty())
-	{
-		m_hashLine = hash;
-	}
-}
-
-std::string License::removeCaption(const std::string& line, const std::string& caption) const
+std::string removeCaption(const std::string& line, const std::string& caption)
 {
 	if (line.substr(0, caption.length()) == caption)
 	{
@@ -139,50 +40,20 @@ std::string License::removeCaption(const std::string& line, const std::string& c
 	return "";
 }
 
-bool License::extractData(const std::string& data, LICENSE_LINE line)
-{
-	switch ( line )
-	{
-		case USER_LINE:
-			m_user = removeCaption(data, LicenseConstants::LICENSED_TO_STRING);
-			return !m_user.empty();
-		case EXPIRE_LINE:
-			m_expire = removeCaption(data, LicenseConstants::VALID_UP_TO_STRING);
-			m_expiresAtDate = false;
-			if (m_expire.empty())
-			{
-				m_expire = removeCaption(data, LicenseConstants::VALID_UNTIL_STRING);
-				m_expiresAtDate = true;
-			}
-			return !m_expire.empty();
-		case TYPE_LINE:
-			setTypeAndNumberOfUsers(removeCaption(data, LicenseConstants::LICENSE_TYPE_STRING));
-			return !m_type.empty();
-		default:
-			return false;
-	}
 }
 
-bool License::isTestLicense() const
+License::License()
+	: m_rng(std::make_unique<Botan::AutoSeeded_RNG>())
 {
-	return m_type == LicenseConstants::TEST_LICENSE_STRING;
 }
 
-bool License::isNonCommercialLicenseType() const
+License::~License()
 {
-	for ( const std::string& nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
-	{
-		if (m_type == nonCommercialLicenseType)
-		{
-			return true;
-		}
-	}
-	return false;
 }
 
-size_t License::getNumberOfUsers() const
+std::string License::getUser() const
 {
-	return m_numberOfUsers;
+	return m_user;
 }
 
 std::string License::getType() const
@@ -190,18 +61,9 @@ std::string License::getType() const
 	return m_type;
 }
 
-std::string License::getExpireLine() const
+size_t License::getNumberOfUsers() const
 {
-	return (m_expiresAtDate ?
-		LicenseConstants::VALID_UNTIL_STRING :
-		LicenseConstants::VALID_UP_TO_STRING) + m_expire;
-}
-
-std::string License::getExpireLineUI() const
-{
-	return toLowerCase(m_expiresAtDate ?
-		LicenseConstants::VALID_UNTIL_STRING :
-		LicenseConstants::VALID_UP_TO_STRING) + m_expire;
+	return m_numberOfUsers;
 }
 
 std::string License::getLicenseInfo() const
@@ -211,11 +73,7 @@ std::string License::getLicenseInfo() const
 	info += m_type + "\n";
 
 	// get info depending on license type
-	if (isNonCommercialLicenseType())
-	{
-		info += "not registered for commercial development\n";
-	}
-	else if (m_numberOfUsers == 0)
+	if (m_numberOfUsers == 0)
 	{
 		info += "unlimited users\n";
 	}
@@ -228,21 +86,135 @@ std::string License::getLicenseInfo() const
 		info += "1 user\n";
 	}
 
-	info += getExpireLineUI();
+	if (m_expirationVersion != LicenseConstants::VALID_UNLIMITED)
+	{
+		info += "valid up to version " + m_expirationVersion;
+	}
+	else if (m_expirationDate != LicenseConstants::VALID_UNLIMITED)
+	{
+		info += "valid until " + m_expirationDate;
+	}
+	else
+	{
+		info += "valid perpetually";
+	}
 
 	return info;
 }
 
-std::string License::getUser() const
+std::string License::getMessage(bool withNewlines) const
 {
-	return m_user;
+	if (m_user.empty() || m_type.empty() || m_expirationVersion.empty() || m_expirationDate.empty() || m_hashLine.empty())
+	{
+		return "";
+	}
+
+	const std::string separator = (withNewlines ? "\n" : "");
+	std::string message = LicenseConstants::PRODUCT + separator;
+
+	if (m_isOldFormat)
+	{
+		message += LicenseConstants::LICENSED_TO_OLD + m_user + separator;
+		message += LicenseConstants::LICENSE_TYPE + m_type;
+
+		if (m_numberOfUsers == 0)
+		{
+			message += (m_createdWithSeats ? " (unlimited seats)" : " (unlimited users)");
+		}
+		else if (m_numberOfUsers == 1)
+		{
+			message += (m_createdWithSeats ? " (1 Seat)" : " (1 user)");
+		}
+		else if (m_numberOfUsers > 1)
+		{
+			message += " (" + std::to_string(m_numberOfUsers) + (m_createdWithSeats ? " Seats)" : " users)");
+		}
+		message += separator;
+
+		if (m_expirationVersion != LicenseConstants::VALID_UNLIMITED)
+		{
+			message += LicenseConstants::VALID_UP_TO_OLD + m_expirationVersion + separator;
+		}
+		else if (m_expirationDate != LicenseConstants::VALID_UNLIMITED)
+		{
+			message += LicenseConstants::VALID_UNTIL_OLD + m_expirationDate + separator;
+		}
+	}
+	else
+	{
+		std::string s;
+		message += LicenseConstants::LICENSE_HOLDER + m_user + separator;
+		message += LicenseConstants::LICENSE_TYPE + m_type + separator;
+
+		if (m_numberOfUsers > 0)
+		{
+			message += LicenseConstants::LICENSED_USERS + std::to_string(m_numberOfUsers) + separator;
+		}
+		else
+		{
+			message += s + LicenseConstants::LICENSED_USERS + LicenseConstants::VALID_UNLIMITED + separator;
+		}
+
+		if (m_expirationVersion != LicenseConstants::VALID_UNLIMITED)
+		{
+			message += s + LicenseConstants::LICENSED_VERSION + LicenseConstants::VALID_UP_TO + m_expirationVersion + separator;
+		}
+		else
+		{
+			message += s + LicenseConstants::LICENSED_VERSION + LicenseConstants::VALID_UNLIMITED + separator;
+		}
+
+		if (m_expirationDate != LicenseConstants::VALID_UNLIMITED)
+		{
+			message += s + LicenseConstants::LICENSED_PERIOD + LicenseConstants::VALID_UNTIL + m_expirationDate + separator;
+		}
+		else
+		{
+			message += s + LicenseConstants::LICENSED_PERIOD + LicenseConstants::VALID_UNLIMITED + separator;
+		}
+	}
+
+	message += LicenseConstants::SEPARATOR + separator;
+	message += m_hashLine;
+
+	return message;
+}
+
+void License::setMessage(
+	const std::string& user,
+	const std::string& type,
+	size_t numberOfUsers,
+	const std::string& expirationVersion,
+	const std::string& expirationDate
+){
+	if (user.empty() || type.empty() || (numberOfUsers == 0 && expirationVersion.empty() && expirationDate.empty()))
+	{
+		return;
+	}
+
+	m_user = user;
+	m_type = type;
+	m_numberOfUsers = numberOfUsers;
+	m_expirationVersion = expirationVersion.size() ? expirationVersion : LicenseConstants::VALID_UNLIMITED;
+	m_expirationDate = expirationDate.size() ? expirationDate : LicenseConstants::VALID_UNLIMITED;
+	m_hashLine = generateHash(user + type);
+}
+
+const std::string& License::getSignature() const
+{
+	return m_signature;
+}
+
+void License::setSignature(const std::string& signature)
+{
+	m_signature = signature;
 }
 
 int License::getTimeLeft() const
 {
 	const std::string dateText = "YYYY-MMM-DD";
 
-	std::string dateString = m_expire;
+	std::string dateString = m_expirationDate;
 	if (dateString.length() != dateText.length())
 	{
 		return -2;
@@ -269,100 +241,6 @@ bool License::loadFromString(const std::string& licenseText)
 	return load(license);
 }
 
-bool License::load(std::istream& stream)
-{
-	std::string line;
-	std::array<std::string, LICENSE_LINES> lines;
-
-	line = getLine(stream);
-	if (line == LicenseConstants::BEGIN_LICENSE_STRING)
-	{
-		line = getLine(stream);
-	}
-
-	// sourcetrail line
-	if (line != LicenseConstants::PRODUCT_STRING)
-	{
-		return false;
-	}
-
-	// user line
-	if (!extractData(getLine(stream), USER_LINE))
-	{
-		return false;
-	}
-
-	if (!extractData(getLine(stream), TYPE_LINE))
-	{
-		return false;
-	}
-
-	// expire line
-	if (!extractData(getLine(stream), EXPIRE_LINE))
-	{
-		return false;
-	}
-
-	// separator line
-	getline(stream, line, '\n');
-	if (trim(line) != LicenseConstants::SEPARATOR_STRING)
-	{
-		return false;
-	}
-
-	// hash line
-	m_hashLine = getLine(stream);
-
-	// signature
-	m_signature = "";
-	while (getline(stream, line, '\n'))
-	{
-		std::string l = trim(line);
-		if (l == LicenseConstants::END_LICENSE_STRING)
-		{
-			break;
-		}
-		if (l.size())
-		{
-			m_signature += l;
-		}
-	}
-	if (m_signature.length() != 344)
-	{
-		return false;
-	}
-
-	return true;
-}
-
-void License::setTypeAndNumberOfUsers(const std::string& line)
-{
-	size_t pos = line.find("(");
-
-	if (pos != line.npos)
-	{
-		m_type = line.substr(0, pos - 1);
-		try
-		{
-			m_numberOfUsers = std::stoi(line.substr(pos+1));
-		}
-		catch (std::invalid_argument e)
-		{
-			m_numberOfUsers = 0;
-		}
-
-		if (toLowerCase(line).find("seat") != line.npos)
-		{
-			m_createdWithSeats = true;
-		}
-	}
-	else
-	{
-		m_type = line;
-		m_numberOfUsers = 0;
-	}
-}
-
 bool License::loadFromFile(const std::string& filename)
 {
 	std::ifstream sigfile(filename);
@@ -374,293 +252,324 @@ void License::print()
 	std::cout << getLicenseString();
 }
 
-bool License::isValid() const
+bool License::isEmpty() const
 {
-	if (!m_publicKey)
+	if (m_user.empty() && m_type.empty() &&
+		m_expirationVersion.empty() && m_expirationDate.empty() &&
+		m_hashLine.empty() && m_signature.empty())
 	{
-		std::cout << "No public key loaded" << std::endl;
-		return false;
-	}
-	try
-	{
-		if (m_signature.empty())
-		{
-			std::cout << "Could not read signature" << std::endl;
-			return false;
-		}
-
-		Botan::secure_vector<Botan::byte> signature = Botan::base64_decode(m_signature);
-
-		if (m_publicKey == NULL)
-		{
-			std::cout << "Public key is NULL" << std::endl;
-			return false;
-		}
-
-		if (isExpired())
-		{
-			return false;
-		}
-
-		Botan::PK_Verifier verifier(*m_publicKey.get(), "EMSA4(SHA-256)");
-
-		Botan::DataSource_Memory in(getMessage());
-		Botan::byte buffer[4096] = {0};
-		while(size_t got = in.read(buffer, sizeof(buffer)))
-		{
-			verifier.update(buffer, got); // what does 'got' stand for?
-		}
-
-		const bool ok = verifier.check_signature(signature);
-		if (!ok)
-		{
-			std::cout << "License check failed" << std::endl;
-			return false;
-		}
-		return ok;
-	}
-	catch(...) // invalid character, or something else... why not check what the exception is?
-	{
-		std::cout << "Invalid character in Licensekey" << std::endl;
-	}
-	return false;
-}
-
-bool License::isExpired() const
-{
-	if (m_expiresAtDate)
-	{
-		return (getTimeLeft() == -1);
-	}
-	else
-	{
-		Version version = Version::fromString(m_expire);
-		return Version::getApplicationVersion().toShortVersion() > version;
-	}
-}
-
-std::string License::getPublicKeyFilename() const
-{
-	if (m_publicKeyFilename.empty())
-	{
-		return "public-sourcetrail" + KEY_FILEENDING;
-	}
-	return m_publicKeyFilename;
-}
-
-bool License::loadPublicKeyFromFile(const std::string& filename)
-{
-	if (!filename.empty())
-	{
-		m_publicKeyFilename = filename;
-	}
-
-	if (boost::filesystem::exists(getPublicKeyFilename()))
-	{
-		Botan::RSA_PublicKey* rsaPublicKey =
-			dynamic_cast<Botan::RSA_PublicKey*>(Botan::X509::load_key(getPublicKeyFilename()));
-
-		if (!rsaPublicKey)
-		{
-			std::cout << "The loaded key is not a RSA key" << std::endl;
-			return false;
-		}
-
-		m_publicKey = std::shared_ptr<Botan::RSA_PublicKey>(rsaPublicKey);
 		return true;
 	}
 
 	return false;
 }
 
-bool License::loadPublicKey()
+bool License::isComplete() const
 {
-	Botan::DataSource_Memory in(PUBLIC_KEY);
-	Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(in));
-
-	if (!rsaPublicKey)
+	if (m_user.empty() || m_type.empty() ||
+		m_expirationVersion.empty() || m_expirationDate.empty() ||
+		m_hashLine.empty() || m_signature.empty())
 	{
-		std::cout << "The loaded key is not a RSA key" << std::endl;
 		return false;
 	}
 
-	m_publicKey = std::shared_ptr<Botan::RSA_PublicKey>(rsaPublicKey);
 	return true;
 }
 
-bool License::loadPublicKeyFromString(const std::string& publicKey)
+bool License::isExpired() const
 {
-	if (publicKey.empty())
+	if (m_expirationVersion != LicenseConstants::VALID_UNLIMITED)
 	{
-		std::cout << "Public key is empty" << std::endl;
+		Version version = Version::fromString(m_expirationVersion);
+		return Version::getApplicationVersion().toShortVersion() > version;
+	}
+	else if (m_expirationDate != LicenseConstants::VALID_UNLIMITED)
+	{
+		return (getTimeLeft() == -1);
+	}
+	else if (m_expirationVersion == LicenseConstants::VALID_UNLIMITED &&
+		m_expirationDate == LicenseConstants::VALID_UNLIMITED)
+	{
 		return false;
 	}
 
-	Botan::DataSource_Memory in(publicKey);
-	Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(in));
-
-	if (!rsaPublicKey)
-	{
-		std::cout << "The loaded key is not a RSA key" << std::endl;
-		return false;
-	}
-
-	m_publicKey = std::shared_ptr<Botan::RSA_PublicKey>(rsaPublicKey);
 	return true;
+}
+
+bool License::isTestLicense() const
+{
+	return m_type == LicenseConstants::TEST_LICENSE;
 }
 
 std::string License::getLicenseString() const
 {
+	if (m_user.empty() || m_type.empty() || m_expirationVersion.empty() || m_expirationDate.empty())
+	{
+		return "";
+	}
+
+	std::string signatureLines;
+	std::stringstream ss;
+	const int lineLength = 55;
+	for (size_t i = 0; i < m_signature.size(); i++)
+	{
+		if (i % lineLength == 0 && i != 0)
+		{
+			signatureLines += ss.str() + "\n";
+			ss.str("");
+		}
+		ss << m_signature[i];
+	}
+	signatureLines += ss.str();
+
 	std::string license = "";
-	license += LicenseConstants::BEGIN_LICENSE_STRING;
+	license += LicenseConstants::BEGIN_LICENSE;
 	license += "\n";
 	license += getMessage(true) + "\n";
-	license += getSignature() + "\n";
-	license += LicenseConstants::END_LICENSE_STRING;
+	license += signatureLines + "\n";
+	license += LicenseConstants::END_LICENSE;
 	license += "\n";
 
 	return license;
 }
 
-std::string License::hashLocation(const std::string& location) const
+std::string License::generateHash(const std::string& str) const
 {
-	if (m_rng == NULL || location.size() <= 0)
+	if (m_rng == NULL || str.size() <= 0)
 	{
 		return "";
 	}
 
-	return Botan::generate_passhash9(location, *(m_rng.get()));
+	return Botan::generate_passhash9(str, *(m_rng.get()));
 }
 
-bool License::checkLocation(const std::string& location, const std::string& hash)
+bool License::checkHash(const std::string& str, const std::string& hash)
 {
-	if (location.empty() || hash.empty())
+	if (str.empty() || hash.empty())
 	{
 		return true;
 	}
 
-	return Botan::check_passhash9(location, hash);
+	return Botan::check_passhash9(str, hash);
 }
 
-std::string License::getLicenseEncodedString(const std::string& applicationLocation) const
+bool License::load(std::istream& stream)
 {
-	if (applicationLocation.empty())
+	std::string line;
+	std::vector<std::string> lines;
+
+	while (getline(stream, line, '\n'))
 	{
-		std::cout << "No application location was given" << std::endl;
-		return "";
+		line = trim(line);
+
+		if ((!lines.size() && line == LicenseConstants::BEGIN_LICENSE) || line == LicenseConstants::END_LICENSE)
+		{
+			continue;
+		}
+
+		if (line.size())
+		{
+			lines.push_back(line);
+		}
 	}
 
-	Botan::AutoSeeded_RNG rng;
-	std::vector<Botan::byte> fileContents;
-	std::stringstream input(getLicenseString());
-
-	//prepare the license string to work with the botan cryptobox
-	while(input.good())
+	if (lines.size() == 15)
 	{
-		Botan::byte filebuffer[4096] = { 0 };
-		input.read((char*)filebuffer, sizeof(filebuffer));
-		size_t got = input.gcount(); // what does got stand for?
-
-		fileContents.insert(fileContents.end(), filebuffer, filebuffer + got);
+		m_isOldFormat = false;
+		return loadFromLines(lines);
 	}
-
-	if(fileContents.size() <= 0)
+	else if (lines.size() == 13)
 	{
-		std::cout << "Failed to read license string" << std::endl;
-		return "";
-	}
-
-	std::string result =
-		Botan::CryptoBox::encrypt(&fileContents[0], fileContents.size(), getEncodeKey(applicationLocation), rng);
-
-	//remove Botan Cryptobox begin and end
-	//should not be in the application settings
-	const int leMagicNumberA = 40;
-	const int leMagicNumberB = 78;
-
-	if (result.length() < leMagicNumberA + leMagicNumberB)
-	{
-		std::cout << "Invalid result" << std::endl;
-		return "";
-	}
-
-	result = result.substr(leMagicNumberA, result.length() - leMagicNumberB);
-
-	return result;
-}
-
-bool License::loadFromEncodedString(const std::string& encodedLicense, const std::string& applicationLocation)
-{
-	if (encodedLicense.empty())
-	{
-		std::cout << "No license string given" << std::endl;
-		return false;
-	}
-
-	if (applicationLocation.empty())
-	{
-		std::cout << "No application location given" << std::endl;
-		return false;
-	}
-
-	try
-	{
-		//add cryptobox begin and end to loaded string
-		std::string crypbobxInput = "-----BEGIN BOTAN CRYPTOBOX MESSAGE-----\n";
-		crypbobxInput += encodedLicense;
-		crypbobxInput += "-----END BOTAN CRYPTOBOX MESSAGE-----";
-
-		//decrypt license
-		return loadFromString(Botan::CryptoBox::decrypt(crypbobxInput, getEncodeKey(applicationLocation)));
-	}
-	catch(...)
-	{
-		//loaded string from application settings is invalid
-		return false;
+		m_isOldFormat = true;
+		return loadFromLinesOld(lines);
 	}
 
 	return false;
 }
 
-std::string License::getHashedLicense() const
+bool License::loadFromLines(const std::vector<std::string>& lines)
 {
-	return getEncodeKey("fakeKey");
-}
-
-std::string License::getEncodeKey(const std::string applicationLocation) const
-{
-	if (applicationLocation.empty())
+	if (lines.size() != 15)
 	{
-		std::cout << "No application location given" << std::endl;
-		return "";
+		return false;
 	}
 
-	Botan::PBKDF *pbkdf = Botan::get_pbkdf("PBKDF2(SHA-256)");
-	Botan::secure_vector<Botan::byte> salt = Botan::base64_decode("34zA54n60v4CxjY5n20k3J40c976n690", 32);
-	Botan::AutoSeeded_RNG rng;
-	return pbkdf->derive_key(32, applicationLocation, &salt[0], salt.size(), 10000).as_string();
-}
-
-std::string License::getSignature() const
-{
-	std::string sig;
-	std::stringstream ss;
-	const int lineLength = 55;
-	for (size_t i = 0; i < m_signature.size(); i++)
+	// sourcetrail line
+	if (lines[0] != LicenseConstants::PRODUCT)
 	{
-		if(i % lineLength == 0 && i != 0)
+		return false;
+	}
+
+	// user line
+	m_user = removeCaption(lines[1], LicenseConstants::LICENSE_HOLDER);
+	if (m_user.empty())
+	{
+		return false;
+	}
+
+	// type line
+	m_type = removeCaption(lines[2], LicenseConstants::LICENSE_TYPE);
+	if (m_type.empty())
+	{
+		return false;
+	}
+
+	// number of users
+	std::string users = removeCaption(lines[3], LicenseConstants::LICENSED_USERS);
+	if (users != LicenseConstants::VALID_UNLIMITED)
+	{
+		try
 		{
-			sig += ss.str() + "\n";
-			ss.str("");
+			m_numberOfUsers = std::stoi(users);
 		}
-		ss << m_signature[i];
+		catch (std::invalid_argument e)
+		{
+			m_numberOfUsers = 0;
+			return false;
+		}
+	}
+	else
+	{
+		m_numberOfUsers = 0;
 	}
 
-	sig += ss.str();
-	return sig;
+	// expiration version
+	m_expirationVersion = removeCaption(lines[4], LicenseConstants::LICENSED_VERSION);
+	if (m_expirationVersion != LicenseConstants::VALID_UNLIMITED)
+	{
+		m_expirationVersion = removeCaption(m_expirationVersion, LicenseConstants::VALID_UP_TO);
+		if (!Version::fromString(m_expirationVersion).isValid())
+		{
+			return false;
+		}
+	}
+
+	// expiration date
+	m_expirationDate = removeCaption(lines[5], LicenseConstants::LICENSED_PERIOD);
+	if (m_expirationDate != LicenseConstants::VALID_UNLIMITED)
+	{
+		m_expirationDate = removeCaption(m_expirationDate, LicenseConstants::VALID_UNTIL);
+
+		if (m_expirationDate.size() != 11 || m_expirationDate[4] != '-' || m_expirationDate[8] != '-')
+		{
+			return false;
+		}
+	}
+
+	// separator line
+	if (lines[6] != LicenseConstants::SEPARATOR)
+	{
+		return false;
+	}
+
+	// hash line
+	m_hashLine = lines[7];
+	if (m_hashLine.length() != 55)
+	{
+		return false;
+	}
+
+	// signature
+	m_signature = lines[8] + lines[9] + lines[10] + lines[11] + lines[12] + lines[13] + lines[14];
+	if (m_signature.length() != 344)
+	{
+		return false;
+	}
+
+	return true;
 }
 
-void License::setSignature(const std::string& signature)
+bool License::loadFromLinesOld(const std::vector<std::string>& lines)
 {
-	m_signature = signature;
+	if (lines.size() != 13)
+	{
+		return false;
+	}
+
+	// sourcetrail line
+	if (lines[0] != LicenseConstants::PRODUCT)
+	{
+		return false;
+	}
+
+	// user line
+	m_user = removeCaption(lines[1], LicenseConstants::LICENSED_TO_OLD);
+	if (m_user.empty())
+	{
+		return false;
+	}
+
+	// type line
+	{
+		std::string line = removeCaption(lines[2], LicenseConstants::LICENSE_TYPE);
+		size_t pos = line.find("(");
+
+		if (pos != line.npos)
+		{
+			m_type = line.substr(0, pos - 1);
+			try
+			{
+				m_numberOfUsers = std::stoi(line.substr(pos+1));
+			}
+			catch (std::invalid_argument e)
+			{
+				m_numberOfUsers = 0;
+			}
+
+			if (toLowerCase(line).find("seat") != line.npos)
+			{
+				m_createdWithSeats = true;
+			}
+		}
+		else
+		{
+			m_type = line;
+			m_numberOfUsers = 0;
+		}
+
+		if (m_type.empty())
+		{
+			return false;
+		}
+	}
+
+	// expire line
+	m_expirationVersion = removeCaption(lines[3], LicenseConstants::VALID_UP_TO_OLD);
+	m_expirationDate = removeCaption(lines[3], LicenseConstants::VALID_UNTIL_OLD);
+	if (m_expirationVersion.empty() && m_expirationDate.empty())
+	{
+		return false;
+	}
+
+	if (m_expirationVersion.empty())
+	{
+		m_expirationVersion = LicenseConstants::VALID_UNLIMITED;
+	}
+
+	if (m_expirationDate.empty())
+	{
+		m_expirationDate = LicenseConstants::VALID_UNLIMITED;
+	}
+
+	// separator line
+	if (lines[4] != LicenseConstants::SEPARATOR)
+	{
+		return false;
+	}
+
+	// hash line
+	m_hashLine = lines[5];
+	if (m_hashLine.length() != 55)
+	{
+		return false;
+	}
+
+	// signature
+	m_signature = lines[6] + lines[7] + lines[8] + lines[9] + lines[10] + lines[11] + lines[12];
+	if (m_signature.length() != 344)
+	{
+		return false;
+	}
+
+	return true;
 }

@@ -224,32 +224,3 @@ std::string utility::getOsTypeString()
 	}
 	return "unknown";
 }
-
-bool utility::saveLicense(const License* license)
-{
-	if (license == nullptr)
-	{
-		return false;
-	}
-
-	if (license->isValid())
-	{
-		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		if (appSettings == nullptr)
-		{
-			LOG_ERROR_STREAM(<< "Unable to retrieve app settings");
-			return false;
-		}
-
-		const FilePath appLocation = AppPath::getAppPath();
-		appSettings->setLicenseString(license->getLicenseEncodedString(appLocation.str()));
-		appSettings->setLicenseCheck(license->hashLocation(appLocation.getAbsolute().str()));
-		appSettings->save();
-		return true;
-	}
-	else
-	{
-		LOG_ERROR( "The entered license key is invalid.");
-		return false;
-	}
-}
