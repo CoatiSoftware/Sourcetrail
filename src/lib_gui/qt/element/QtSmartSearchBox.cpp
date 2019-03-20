@@ -283,8 +283,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 		}
 		else if (!hasSelectedText() && cursorPosition() == 0 && m_cursorIndex > 0)
 		{
-			m_elements[m_cursorIndex - 1]->setChecked(true);
-			deleteSelectedElements();
+			editElement(m_elements[m_cursorIndex - 1]);
 			return;
 		}
 	}
@@ -593,15 +592,6 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 			match = SearchMatch();
 			matchesChanged = true;
 		}
-	}
-
-	if (!match.name.empty() && lastMatchIsNoFilter())
-	{
-		if (!m_matches.empty())
-		{
-			matchesChanged = true;
-		}
-		clearMatches();
 	}
 
 	if (matchesChanged)

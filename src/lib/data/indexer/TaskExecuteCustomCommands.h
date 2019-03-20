@@ -24,7 +24,7 @@ public:
 		std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
 		std::shared_ptr<PersistentStorage> storage,
 		std::shared_ptr<DialogView> dialogView,
-		int indexerThreadCount,
+		size_t indexerThreadCount,
 		const FilePath& projectDirectory);
 
 private:
@@ -41,12 +41,12 @@ private:
 	std::unique_ptr<IndexerCommandProvider> m_indexerCommandProvider;
 	std::shared_ptr<PersistentStorage> m_storage;
 	std::shared_ptr<DialogView> m_dialogView;
-	const int m_indexerThreadCount;
+	const size_t m_indexerThreadCount;
 	const FilePath m_projectDirectory;
 
 	TimeStamp m_start;
 	bool m_interrupted = false;
-	int m_indexerCommandCount;
+	size_t m_indexerCommandCount;
 	std::vector<std::shared_ptr<IndexerCommandCustom>> m_serialCommands;
 	std::vector<std::shared_ptr<IndexerCommandCustom>> m_parallelCommands;
 	std::mutex m_parallelCommandsMutex;

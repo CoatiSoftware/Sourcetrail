@@ -17,7 +17,7 @@ TaskExecuteCustomCommands::TaskExecuteCustomCommands(
 	std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
 	std::shared_ptr<PersistentStorage> storage,
 	std::shared_ptr<DialogView> dialogView,
-	int indexerThreadCount,
+	size_t indexerThreadCount,
 	const FilePath& projectDirectory
 )
 	: m_indexerCommandProvider(std::move(indexerCommandProvider))
@@ -227,7 +227,7 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 				MessageShowStatus().dispatch();
 				MessageStatus(
 					L"command \"" + indexerCommand->getCustomCommand() + L"\" returned code \"" + std::to_wstring(result) + L"\"" +
-					L" with message \"" + errorMessage + L"\"" + 
+					L" with message \"" + errorMessage + L"\"" +
 					L" and output \"" + processOutput + L"\".", true, false, true).dispatch();
 			}
 		}
