@@ -1,13 +1,13 @@
 #include "SourceGroupCxxEmpty.h"
 
-#include "CxxIndexerCommandProvider.h"
-#include "IndexerCommandCxx.h"
 #include "ApplicationSettings.h"
+#include "CxxIndexerCommandProvider.h"
+#include "FileManager.h"
+#include "IndexerCommandCxx.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
 #include "SourceGroupSettingsWithCppStandard.h"
 #include "SourceGroupSettingsWithCStandard.h"
-#include "FileManager.h"
 #include "utility.h"
 
 SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxx> settings)

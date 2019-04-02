@@ -360,6 +360,8 @@ add_files(
 	settings/SourceGroupSettingsJavaMaven.h
 	settings/SourceGroupSettingsJavaSonargraph.cpp
 	settings/SourceGroupSettingsJavaSonargraph.h
+	settings/SourceGroupSettingsPythonEmpty.cpp
+	settings/SourceGroupSettingsPythonEmpty.h
 	settings/SourceGroupSettingsWithClasspath.cpp
 	settings/SourceGroupSettingsWithClasspath.h
 	settings/SourceGroupSettingsWithCppStandard.cpp

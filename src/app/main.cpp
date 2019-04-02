@@ -9,6 +9,7 @@
 #include "SourceGroupFactory.h"
 #include "SourceGroupFactoryModuleCxx.h"
 #include "SourceGroupFactoryModuleJava.h"
+#include "SourceGroupFactoryModulePython.h"
 #include "SourceGroupFactoryModuleCustom.h"
 #include "QtNetworkFactory.h"
 #include "QtApplication.h"
@@ -46,7 +47,6 @@ void setupLogging()
 	LogManager* logManager = LogManager::getInstance().get();
 
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
-	// consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
 	consoleLogger->setLogLevel(Logger::LOG_ALL);
 	logManager->addLogger(consoleLogger);
 
@@ -186,10 +186,11 @@ void addLanguagePackages()
 {
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModulePython>());
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCustom>());
 
-	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
+	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
 }
 
 QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)

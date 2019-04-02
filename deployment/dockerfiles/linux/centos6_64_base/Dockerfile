@@ -15,7 +15,7 @@ yum -y install wget devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-binutils 
 	gperftools.x86_64 gperf.x86_64 libicu-devel.x86_64 boost-devel.x86_64 \
 	libxslt-devel.x86_64 python27.x86_64 \
 	xz mesa-libEGL-devel mesa-libGL-devel glib-devel git19 \
-	java-1.8.0-openjdk-devel re2c ccache ImageMagick vim lftp && \
+	java-1.8.0-openjdk-devel re2c ccache ImageMagick vim lftp unzip && \
 yum clean all
 
 # CMake

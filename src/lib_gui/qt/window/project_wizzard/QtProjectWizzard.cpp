@@ -35,6 +35,7 @@
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaMaven.h"
 #include "SourceGroupSettingsJavaSonargraph.h"
+#include "SourceGroupSettingsPythonEmpty.h"
 #include "MessageLoadProject.h"
 #include "MessageStatus.h"
 #include "ResourcePaths.h"
@@ -404,6 +405,22 @@ namespace
 		return pages;
 	}
 
+
+	template<>
+	std::vector<QtSourceGroupWizzardPage<SourceGroupSettingsPythonEmpty>> getSourceGroupWizzardPages<SourceGroupSettingsPythonEmpty>()
+	{
+		std::vector<QtSourceGroupWizzardPage<SourceGroupSettingsPythonEmpty>> pages;
+		{
+			QtSourceGroupWizzardPage<SourceGroupSettingsPythonEmpty> page("Indexed Paths", 750, 600);
+			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsSource>(WIZZARD_CONTENT_CONTEXT_ALL);
+			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsExclude>(WIZZARD_CONTENT_CONTEXT_ALL);
+			page.addContentCreatorWithSettings<QtProjectWizzardContentExtensions>(WIZZARD_CONTENT_CONTEXT_ALL);
+			pages.push_back(page);
+		}
+
+		return pages;
+	}
+
 	template<>
 	std::vector<QtSourceGroupWizzardPage<SourceGroupSettingsCustomCommand>> getSourceGroupWizzardPages<SourceGroupSettingsCustomCommand>()
 	{
@@ -656,7 +673,7 @@ void QtProjectWizzard::executeSourceGroupSetup(std::shared_ptr<SettingsType> set
 		settings,
 		std::bind(&QtProjectWizzard::cancelSourceGroup, this),
 		std::bind(&QtProjectWizzard::createSourceGroup, this, std::placeholders::_1)
-		);
+	);
 
 	for (const QtSourceGroupWizzardPage<SettingsType>& page : getSourceGroupWizzardPages<SettingsType>())
 	{
@@ -839,6 +856,10 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 		fillSummary(summary, settings, this);
 	}
 	else if (std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaSonargraph>(group))
+	{
+		fillSummary(summary, settings, this);
+	}
+	else if (std::shared_ptr<SourceGroupSettingsPythonEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsPythonEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
@@ -1100,6 +1121,12 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 			executeSourceGroupSetup<SourceGroupSettingsJavaSonargraph>(settings);
 		}
 		break;
+	case SOURCE_GROUP_PYTHON_EMPTY:
+	{
+		std::shared_ptr<SourceGroupSettingsPythonEmpty> settings = std::make_shared<SourceGroupSettingsPythonEmpty>(sourceGroupId, m_projectSettings.get());
+		executeSourceGroupSetup<SourceGroupSettingsPythonEmpty>(settings);
+	}
+	break;
 	case SOURCE_GROUP_CUSTOM_COMMAND:
 		{
 			std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::make_shared<SourceGroupSettingsCustomCommand>(sourceGroupId, m_projectSettings.get());

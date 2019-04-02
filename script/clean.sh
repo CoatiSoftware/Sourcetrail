@@ -24,7 +24,7 @@ fi
 
 ROOT_DIR=$ROOT_DIR/..
 
-# Enter masterproject directory
+# Enter sourcetrail root directory
 cd $ROOT_DIR/
 
 if [ $PLATFORM == "Windows" ]; then
@@ -41,6 +41,7 @@ if [ $PLATFORM == "Windows" ]; then
 fi
 
 # Remove folders and contents
+rm -rf bin/app/data/python
 rm -rf java_indexer/bin
 rm -rf build
 

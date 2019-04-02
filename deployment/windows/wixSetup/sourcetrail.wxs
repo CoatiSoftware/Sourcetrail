@@ -254,9 +254,9 @@
 				<ComponentGroupRef Id='DataCxxComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataFallbackComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataFontsComponentGroup' Primary="yes"/>
-				
 				<ComponentGroupRef Id='DataGuiComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataJavaComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='DataPythonComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataSyntaxHighlightingRulesComponentGroup' Primary="yes"/>
 				
 				<ComponentRef Id='UninstallBat'/>

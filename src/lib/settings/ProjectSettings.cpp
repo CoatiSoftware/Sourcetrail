@@ -13,6 +13,7 @@
 #include "SourceGroupSettingsJavaMaven.h"
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaSonargraph.h"
+#include "SourceGroupSettingsPythonEmpty.h"
 #include "logging.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
@@ -195,6 +196,9 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 			break;
 		case SOURCE_GROUP_JAVA_SONARGRAPH:
 			settings = std::make_shared<SourceGroupSettingsJavaSonargraph>(id, this);
+			break;
+		case SOURCE_GROUP_PYTHON_EMPTY:
+			settings = std::make_shared<SourceGroupSettingsPythonEmpty>(id, this);
 			break;
 		case SOURCE_GROUP_CUSTOM_COMMAND:
 			settings = std::make_shared<SourceGroupSettingsCustomCommand>(id, this);

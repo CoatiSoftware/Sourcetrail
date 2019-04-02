@@ -75,6 +75,7 @@ cp -R ../../../bin/app/data/syntax_highlighting_rules $RES_DIR/data/syntax_highl
 cp -R ../../../bin/app/data/fonts $RES_DIR/data/fonts
 cp -R ../../../bin/app/data/gui $RES_DIR/data/gui
 cp -R ../../../bin/app/data/java $RES_DIR/data/java
+cp -R ../../../bin/app/data/python $RES_DIR/data/python
 cp -R ../../../bin/app/data/fallback $RES_DIR/data/fallback
 cp -R ../../../bin/app/user/projects $RES_DIR/data/fallback/projects
 

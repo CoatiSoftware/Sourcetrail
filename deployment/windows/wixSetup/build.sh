@@ -54,21 +54,20 @@ DATA_COLOR_SCHEMES_DIR=$ROOT_DIR/bin/app/data/color_schemes
 DATA_CXX_DIR=$ROOT_DIR/bin/app/data/cxx
 DATA_FALLBACK_DIR=$ROOT_DIR/bin/app/data/fallback
 DATA_FONTS_DIR=$ROOT_DIR/bin/app/data/fonts
-
 DATA_GUI_DIR=$ROOT_DIR/bin/app/data/gui
 DATA_JAVA_DIR=$ROOT_DIR/bin/app/data/java
+DATA_PYTHON_DIR=$ROOT_DIR/bin/app/data/python
 DATA_SYNTAX_HIGHLIGHTING_RULES_DIR=$ROOT_DIR/bin/app/data/syntax_highlighting_rules
+
 
 heat.exe dir $DATA_COLOR_SCHEMES_DIR -cg DataColorSchemesComponentGroup -var var.DataColorSchemesSourceDir -out build/dataColorSchemes.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
 heat.exe dir $DATA_CXX_DIR -cg DataCxxComponentGroup -var var.DataCxxSourceDir -out build/dataCxx.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
 heat.exe dir $DATA_FALLBACK_DIR -cg DataFallbackComponentGroup -var var.DataFallbackSourceDir -out build/dataFallback.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
 heat.exe dir $DATA_FONTS_DIR -cg DataFontsComponentGroup -var var.DataFontsSourceDir -out build/dataFonts.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
-
-
 heat.exe dir $DATA_GUI_DIR -cg DataGuiComponentGroup -var var.DataGuiSourceDir -out build/dataGui.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
 heat.exe dir $DATA_JAVA_DIR -cg DataJavaComponentGroup -var var.DataJavaSourceDir -out build/dataJava.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
+heat.exe dir $DATA_PYTHON_DIR -cg DataPythonComponentGroup -var var.DataPythonSourceDir -out build/dataPython.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
 heat.exe dir $DATA_SYNTAX_HIGHLIGHTING_RULES_DIR -cg DataSyntaxHighlightingRulesComponentGroup -var var.DataSyntaxHighlightingRulesSourceDir -out build/dataSyntaxHighlightingRules.wxs -gg -sfrag -g1 -dr LieutenantCommanderData -t $SCRIPT_DIR/HeatTransform.xslt
-
 
 
 candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -dWin64="$WIN_64" -arch $X_ARCH -out build/ \
@@ -81,6 +80,7 @@ candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -dWi
 	-dDataFontsSourceDir="$DATA_FONTS_DIR" build/dataFonts.wxs \
 	-dDataGuiSourceDir="$DATA_GUI_DIR" build/dataGui.wxs \
 	-dDataJavaSourceDir="$DATA_JAVA_DIR" build/dataJava.wxs \
+	-dDataPythonSourceDir="$DATA_PYTHON_DIR" build/dataPython.wxs \
 	-dDataSyntaxHighlightingRulesSourceDir="$DATA_SYNTAX_HIGHLIGHTING_RULES_DIR" build/dataSyntaxHighlightingRules.wxs \
 	sourcetrail.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs \
 	> build/compileLog.txt
@@ -96,6 +96,7 @@ light.exe -ext WixUIExtension \
 	build/dataFonts.wixobj \
 	build/dataGui.wixobj \
 	build/dataJava.wixobj \
+	build/dataPython.wixobj \
 	build/dataSyntaxHighlightingRules.wixobj \
 	build/sourcetrail.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/sourcetrail.msi \
 	> build/linkLog.txt

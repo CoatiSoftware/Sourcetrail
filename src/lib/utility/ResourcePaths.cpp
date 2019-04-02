@@ -32,6 +32,11 @@ FilePath ResourcePaths::getJavaPath()
 	return AppPath::getAppPath().concatenate(L"data/java/");
 }
 
+FilePath ResourcePaths::getPythonPath()
+{
+	return AppPath::getAppPath().concatenate(L"data/python/");
+}
+
 FilePath ResourcePaths::getCxxCompilerHeaderPath()
 {
 	return AppPath::getAppPath().concatenate(L"data/cxx/include/").getCanonical();

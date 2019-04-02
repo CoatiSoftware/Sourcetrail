@@ -47,6 +47,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_GRADLE));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_SONARGRAPH));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_EMPTY));
+	sourceGroupInfos[LANGUAGE_PYTHON].push_back(SourceGroupInfo(SOURCE_GROUP_PYTHON_EMPTY));
 	sourceGroupInfos[LANGUAGE_CUSTOM].push_back(SourceGroupInfo(SOURCE_GROUP_CUSTOM_COMMAND));
 
 	// define which icons should be used for which kind of source group
@@ -60,6 +61,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = L"mvn_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = L"gradle_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_SONARGRAPH] = L"sonargraph_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_PYTHON_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CUSTOM_COMMAND] = L"empty_icon";
 
 	// define descriptions for each kind of Source Group
@@ -85,6 +87,8 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_SONARGRAPH] =
 		"Create a new Source Group from an existing <a href=\"https://www.hello2morrow.com/products/sonargraph\">Sonargraph</a> project file.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_PYTHON_EMPTY] = "Create a new Sourcetrail Source Group by defining which Python files will be indexed. Note "
+		"that this Source Group type uses the <a href=\"https://github.com/CoatiSoftware/SourcetrailPythonIndexer\">SourcetrailPythonIndexer</a> in the background.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CUSTOM_COMMAND] = "Create a new Source Group executing a custom command on each source file. "
 		"This Source Group type can be used on <a href=\"https://github.com/CoatiSoftware/SourcetrailDB\">SourcetrailDB</a> binaries that add "
 		"custom language support to Sourcetrail.<br /><br />Current Database Version: " + std::to_string(SqliteIndexStorage::getStorageVersion());

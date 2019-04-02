@@ -23,7 +23,7 @@ yum -y install devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-binutils \
 	gperftools gperf libicu-devel boost-devel \
 	libxslt-devel docbook-style-xsl.noarch python27 \
 	xz mesa-libEGL-devel mesa-libGL-devel glib-devel \
-	java-1.8.0-openjdk-devel ccache re2c ImageMagick vim lftp && \
+	java-1.8.0-openjdk-devel ccache re2c ImageMagick vim lftp unzip && \
 yum clean all
 
 # CMake and Maven

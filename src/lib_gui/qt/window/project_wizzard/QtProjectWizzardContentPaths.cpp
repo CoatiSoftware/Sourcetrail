@@ -14,6 +14,7 @@
 #include "SourceGroupCustomCommand.h"
 #include "SourceGroupCxxEmpty.h"
 #include "SourceGroupJavaEmpty.h"
+#include "SourceGroupPythonEmpty.h"
 #include "ApplicationSettings.h"
 #include "ResourcePaths.h"
 #include "SourceGroupSettingsCustomCommand.h"
@@ -22,6 +23,7 @@
 #include "SourceGroupSettingsCxxCodeblocks.h"
 #include "SourceGroupSettingsCxxSonargraph.h"
 #include "SourceGroupSettingsJavaEmpty.h"
+#include "SourceGroupSettingsPythonEmpty.h"
 #include "SourceGroupSettingsWithClasspath.h"
 #include "SourceGroupSettingsWithIndexedHeaderPaths.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
@@ -260,6 +262,10 @@ std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 	else if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(m_settings))
 	{
 		allSourceFilePaths = SourceGroupJavaEmpty(settings).getAllSourceFilePaths();
+	}
+	else if (std::shared_ptr<SourceGroupSettingsPythonEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsPythonEmpty>(m_settings))
+	{
+		allSourceFilePaths = SourceGroupPythonEmpty(settings).getAllSourceFilePaths();
 	}
 	else if (std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(m_settings))
 	{

@@ -34,10 +34,9 @@ echo -e $INFO "install git settings"
 
 git config commit.template setup/git/git_commit_template.txt
 git config color.ui true
-if [ -d ".git/hooks" ]
-then
-cp setup/git/git_pre_commit_hook.sh .git/hooks/pre-commit
-cp setup/git/git_pre_push_hook.sh .git/hooks/pre-push
+if [ -d ".git/hooks" ]; then
+	cp setup/git/git_pre_commit_hook.sh .git/hooks/pre-commit
+	cp setup/git/git_pre_push_hook.sh .git/hooks/pre-push
 fi
 
 # Create Debug and Release folders
@@ -102,6 +101,12 @@ else
 	mkdir -p build/Release/test
 fi
 
+if [ $PLATFORM == "Windows" ]; then
+	sh script/download_python_indexer.sh
+else
+	MY_PATH=`dirname "$0"`
+	$MY_PATH/download_python_indexer.sh
+fi
 
 if [ $PLATFORM == "Windows" ]; then
 	echo -e $INFO "creating program icon"

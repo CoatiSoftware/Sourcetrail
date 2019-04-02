@@ -499,7 +499,8 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 	{
 		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 		{
-			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND)
+			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND || 
+				sourceGroup->getType() == SOURCE_GROUP_PYTHON_EMPTY)
 			{
 				customIndexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info.filesToIndex));
 			}

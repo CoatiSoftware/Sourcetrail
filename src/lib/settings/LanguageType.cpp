@@ -10,6 +10,8 @@ std::string languageTypeToString(LanguageType t)
 		return "C++";
 	case LANGUAGE_JAVA:
 		return "Java";
+	case LANGUAGE_PYTHON:
+		return "Python";
 	case LANGUAGE_CUSTOM:
 		return "Custom";
 	case LANGUAGE_UNKNOWN:
@@ -20,19 +22,23 @@ std::string languageTypeToString(LanguageType t)
 
 LanguageType stringToLanguageType(std::string s)
 {
-	if (s == "C")
+	if (s == languageTypeToString(LANGUAGE_C))
 	{
 		return LANGUAGE_C;
 	}
-	else if (s == "C++")
+	else if (s == languageTypeToString(LANGUAGE_CPP))
 	{
 		return LANGUAGE_CPP;
 	}
-	else if (s == "Java")
+	else if (s == languageTypeToString(LANGUAGE_JAVA))
 	{
 		return LANGUAGE_JAVA;
 	}
-	else if (s == "Custom")
+	else if (s == languageTypeToString(LANGUAGE_PYTHON))
+	{
+		return LANGUAGE_PYTHON;
+	}
+	else if (s == languageTypeToString(LANGUAGE_CUSTOM))
 	{
 		return LANGUAGE_CUSTOM;
 	}
@@ -63,6 +69,8 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 		return LANGUAGE_JAVA;
 	case SOURCE_GROUP_JAVA_SONARGRAPH:
 		return LANGUAGE_JAVA;
+	case SOURCE_GROUP_PYTHON_EMPTY:
+		return LANGUAGE_PYTHON;
 	case SOURCE_GROUP_CUSTOM_COMMAND:
 		return LANGUAGE_CUSTOM;
 	default:

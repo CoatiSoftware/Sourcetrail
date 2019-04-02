@@ -38,6 +38,7 @@ set(LIB_UTILITY_PROJECT_NAME "${PROJECT_NAME}_lib_utility")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
 set(LIB_CXX_PROJECT_NAME "${PROJECT_NAME}_lib_cxx")
 set(LIB_JAVA_PROJECT_NAME "${PROJECT_NAME}_lib_java")
+set(LIB_PYTHON_PROJECT_NAME "${PROJECT_NAME}_lib_python")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(LICENSE_GENERATOR_PROJECT_NAME "${PROJECT_NAME}_license_generator")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
@@ -241,6 +242,7 @@ add_subdirectory(src/lib)
 add_subdirectory(src/lib_cxx)
 add_subdirectory(src/lib_gui)
 add_subdirectory(src/lib_java)
+add_subdirectory(src/lib_python)
 add_subdirectory(src/lib_license)
 add_subdirectory(src/lib_utility)
 add_subdirectory(src/license_generator)
@@ -406,6 +408,30 @@ add_custom_command(
 )
 
 
+# Lib Python ---------------------------------------------------------------------
+
+add_library(${LIB_PYTHON_PROJECT_NAME} ${LIB_PYTHON_FILES})
+
+create_source_groups(${LIB_PYTHON_FILES})
+
+set_property(
+	TARGET ${LIB_PYTHON_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${LIB_PYTHON_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_INCLUDE_PATHS}"
+#		"${LIB_GUI_INCLUDE_PATHS}"
+)
+
+#target_include_directories(${LIB_PYTHON_PROJECT_NAME} SYSTEM
+#	PUBLIC ${Boost_INCLUDE_DIRS}
+#)
+
+#link_directories(${Boost_LIBRARY_DIRS})
+
+target_link_libraries(${LIB_PYTHON_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
+
+
 # Lib Gui ----------------------------------------------------------------------
 
 # Find includes in corresponding build directories
@@ -449,6 +475,7 @@ set_property(
 		"${LIB_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
+		"${LIB_PYTHON_INCLUDE_PATHS}" # required for QtProjectWizzardContentPathsSource::getFilePaths()
 		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
@@ -510,7 +537,14 @@ endif ()
 
 create_source_groups(${INDEXER_FILES})
 
-target_link_libraries(${APP_INDEXER_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME})
+target_link_libraries(
+	${APP_INDEXER_NAME} 
+	${LIB_PROJECT_NAME} 
+	${LIB_GUI_PROJECT_NAME} 
+	${LIB_CXX_PROJECT_NAME}
+	${LIB_JAVA_PROJECT_NAME}
+	${LIB_PYTHON_PROJECT_NAME}
+)
 
 if (APPLE)
 	find_library(CORE_FOUNDATION CoreFoundation)
@@ -527,6 +561,7 @@ set_property(
 		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
+		"${LIB_PYTHON_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
@@ -571,7 +606,15 @@ endif ()
 
 create_source_groups(${APP_FILES})
 
-target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+target_link_libraries(
+	${APP_PROJECT_NAME}
+	${LIB_PROJECT_NAME}
+	${LIB_GUI_PROJECT_NAME}
+	${LIB_LICENSE_PROJECT_NAME}
+	${LIB_CXX_PROJECT_NAME}
+	${LIB_JAVA_PROJECT_NAME}
+	${LIB_PYTHON_PROJECT_NAME}
+)
 
 set_property(
 	TARGET ${APP_PROJECT_NAME}
@@ -583,6 +626,7 @@ set_property(
 		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
+		"${LIB_PYTHON_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
