@@ -304,7 +304,7 @@
 		<Icon Id="Sourcetrail.ico" SourceFile="./../../../bin/app/data/gui/icon/sourcetrail.ico" />
 		<Icon Id="Project.ico" SourceFile="./../../../bin/app/data/gui/icon/project.ico" />
 
-		<WixVariable Id="WixUILicenseRtf" Value="./../../../bin/app/data/gui/installer/EULA.rtf" />
+		<WixVariable Id="WixUILicenseRtf" Value="./../../../bin/app/data/license/EULA.rtf" />
 
 		<WixVariable Id="WixUIBannerBmp" Value="Images/banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="Images/w_installer.bmp" />

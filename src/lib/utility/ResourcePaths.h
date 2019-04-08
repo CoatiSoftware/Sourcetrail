@@ -13,6 +13,7 @@ public:
 	static FilePath getFallbackPath();
 	static FilePath getFontsPath();
 	static FilePath getGuiPath();
+	static FilePath getLicensePath();
 	static FilePath getJavaPath();
 	static FilePath getPythonPath();
 	static FilePath getCxxCompilerHeaderPath();

@@ -58,7 +58,7 @@ function(AddSharedToComponent)
 	)
 
 	INSTALL(FILES
-		${CMAKE_SOURCE_DIR}/bin/app/data/gui/installer/EULA.txt
+		${CMAKE_SOURCE_DIR}/bin/app/data/license/EULA.txt
 		DESTINATION Sourcetrail
 	)
 

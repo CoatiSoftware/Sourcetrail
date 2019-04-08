@@ -35,7 +35,7 @@ void QtEulaWindow::populateWindow(QWidget* widget)
 	}
 
 	std::shared_ptr<TextAccess> text =
-		TextAccess::createFromFile(ResourcePaths::getGuiPath().concatenate(L"installer/EULA.txt"));
+		TextAccess::createFromFile(ResourcePaths::getLicensePath().concatenate(L"EULA.txt"));
 
 	QTextEdit* licenseText = new QTextEdit();
 	licenseText->setObjectName("textField");

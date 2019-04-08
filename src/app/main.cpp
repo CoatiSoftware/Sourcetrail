@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
 				std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
 				std::shared_ptr<TextAccess> text =
-					TextAccess::createFromFile(ResourcePaths::getGuiPath().concatenate(L"installer/EULA.txt"));
+					TextAccess::createFromFile(ResourcePaths::getLicensePath().concatenate(L"EULA.txt"));
 
 				std::cout << std::endl << text->getText() << std::endl;
 				std::cout << "Do you accept the Sourcetrail End User License Agreement? (y/n)" << std::endl;

@@ -78,8 +78,7 @@ cp -R ../../../bin/app/data/java $RES_DIR/data/java
 cp -R ../../../bin/app/data/python $RES_DIR/data/python
 cp -R ../../../bin/app/data/fallback $RES_DIR/data/fallback
 cp -R ../../../bin/app/user/projects $RES_DIR/data/fallback/projects
-
-cp -R ../../../bin/app/data/3rd_party_licenses $RES_DIR/3rd_party_licenses
+cp -R ../../../bin/app/data/license $RES_DIR/license
 
 mkdir -p $RES_DIR/data/cxx/include
 cp -R ../../../bin/app/data/cxx/include/* $RES_DIR/data/cxx/include
@@ -194,7 +193,7 @@ cp -R ../../../ide_plugins/eclipse $PACKAGE_DIR/plugins/eclipse/
 cp -R ../../../ide_plugins/idea $PACKAGE_DIR/plugins/idea/
 cp -R ../../../ide_plugins/qt_creator $PACKAGE_DIR/plugins/qt_creator/
 
-cp ../../../bin/app/data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
+cp ../../../bin/app/data/license/EULA.rtf $PACKAGE_DIR/EULA.rtf
 
 ln -s /Applications $PACKAGE_DIR/Applications
 

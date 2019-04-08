@@ -4,7 +4,7 @@
 
 set(LICENSES "")
 set(LICENSE_ARRAY "")
-set(LICENSEFOLDER "${CMAKE_SOURCE_DIR}/bin/app/data/3rd_party_licenses")
+set(LICENSEFOLDER "${CMAKE_SOURCE_DIR}/bin/app/data/license/3rd_party_licenses")
 
 function(ReadLicense licenseFile licenseVariable)
     file(READ ${licenseFile} tempVariable)

@@ -27,6 +27,11 @@ FilePath ResourcePaths::getGuiPath()
 	return AppPath::getAppPath().concatenate(L"data/gui/");
 }
 
+FilePath ResourcePaths::getLicensePath()
+{
+	return AppPath::getAppPath().concatenate(L"data/license/");
+}
+
 FilePath ResourcePaths::getJavaPath()
 {
 	return AppPath::getAppPath().concatenate(L"data/java/");

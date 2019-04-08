@@ -148,7 +148,7 @@ if [ $CREATE_INSTALLER_ZIP = true ]; then
 		cp -u -r ide_plugins/vscode/* $INSTALLER_PACKAGE_PLUGINS_DIR/vscode/
 		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/visual_studio/
 		cp -u -r ide_plugins/visual_studio/* $INSTALLER_PACKAGE_PLUGINS_DIR/visual_studio/
-		
+
 		cd ./release/
 
 		# PACKAGING SOURCETRAIL
@@ -166,7 +166,7 @@ if [ $CREATE_INSTALLER_ZIP = true ]; then
 		echo -e "$INFO Cleaning installer package folders for win$1"
 		rm -rf $INSTALLER_PACKAGE_DIR
 	}
-	
+
 	create_installer_zip "32"
 	create_installer_zip "64"
 fi
@@ -185,12 +185,12 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 
 		rm -rf $PORTABLE_PACKAGE_DIR
 		mkdir -p $PORTABLE_PACKAGE_DIR
-		
-		
+
+
 		# COPYING APPLICATION DATA
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/license/3rd_party_licenses/
-		cp -u -r bin/app/data/3rd_party_licenses/* $PORTABLE_PACKAGE_APP_DIR/license/3rd_party_licenses/
-		cp -u -r bin/app/data/gui/installer/EULA.rtf $PORTABLE_PACKAGE_APP_DIR/license/
+		cp -u -r bin/app/data/license/3rd_party_licenses/* $PORTABLE_PACKAGE_APP_DIR/license/3rd_party_licenses/
+		cp -u -r bin/app/data/license/EULA.rtf $PORTABLE_PACKAGE_APP_DIR/license/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
 		cp -u -r bin/app/data/color_schemes/* $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/cxx/
@@ -207,24 +207,24 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		cp -u -r bin/app/data/java/* $PORTABLE_PACKAGE_APP_DIR/data/java/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/syntax_highlighting_rules/
 		cp -u -r bin/app/data/syntax_highlighting_rules/* $PORTABLE_PACKAGE_APP_DIR/data/syntax_highlighting_rules/
-		
+
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
 		cp -u -r bin/app/user/projects/javaparser/* $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe/
 		cp -u -r bin/app/user/projects/tictactoe/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tutorial/
 		cp -u -r bin/app/user/projects/tutorial/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tutorial/
-		
+
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/imageformats/
 		cp -u -r build/win$1/Release/app/imageformats/*.dll $PORTABLE_PACKAGE_APP_DIR/imageformats/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/platforms/
 		cp -u -r build/win$1/Release/app/platforms/*.dll $PORTABLE_PACKAGE_APP_DIR/platforms/
-		
+
 		cp -u -r build/win$1/Release/app/*.dll $PORTABLE_PACKAGE_APP_DIR/
 		cp -u -r build/win$1/Release/app/qt.conf $PORTABLE_PACKAGE_APP_DIR/
 		cp -u -r build/win$1/Release/app/Sourcetrail.exe $PORTABLE_PACKAGE_APP_DIR/
 		cp -u -r build/win$1/Release/app/sourcetrail_indexer.exe $PORTABLE_PACKAGE_APP_DIR/
-		
+
 
 		# COPYING PLUGINS DATA
 		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/atom/
@@ -245,7 +245,7 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		cp -u -r ide_plugins/vscode/* $PORTABLE_PACKAGE_PLUGINS_DIR/vscode/
 		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/visual_studio/
 		cp -u -r ide_plugins/visual_studio/* $PORTABLE_PACKAGE_PLUGINS_DIR/visual_studio/
-		
+
 		cd ./release/
 
 		# PACKAGING SOURCETRAIL
@@ -258,7 +258,7 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		echo -e "$INFO Cleaning portable package folders for win$1"
 		rm -rf $PORTABLE_PACKAGE_DIR
 	}
-	
+
 	create_portable_zip "32"
 	create_portable_zip "64"
 fi
