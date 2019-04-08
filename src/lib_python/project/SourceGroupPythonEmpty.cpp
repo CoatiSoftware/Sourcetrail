@@ -36,13 +36,23 @@ std::set<FilePath> SourceGroupPythonEmpty::getAllSourceFilePaths() const
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
+	std::wstring args = L"";
+
+	args += L" --source-file-path=%{SOURCE_FILE_PATH}";
+	args += L" --database-file-path=%{DATABASE_FILE_PATH}";
+
+	if (!m_settings->getEnvironmentDirectoryPath().empty())
+	{
+		args += L" --environment-directory-path=" + m_settings->getEnvironmentDirectoryPathExpandedAndAbsolute().wstr();
+	}
+
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourceFilePath : getAllSourceFilePaths())
 	{
 		if (filesToIndex.find(sourceFilePath) != filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
-				L"\"" + ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer\" --source-file-path=%{SOURCE_FILE_PATH} --database-file-path=%{DATABASE_FILE_PATH}",
+				L"\"" + ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer\"" + args,
 				m_settings->getProjectSettings()->getProjectFilePath(),
 				m_settings->getProjectSettings()->getTempDBFilePath(),
 				std::to_wstring(SqliteIndexStorage::getStorageVersion()),

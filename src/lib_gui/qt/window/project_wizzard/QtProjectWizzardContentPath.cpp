@@ -17,12 +17,13 @@
 #include "QtProjectWizzardContentPaths.h"
 #include "ApplicationSettings.h"
 #include "SourceGroupSettingsCxxCdb.h"
+#include "SourceGroupSettingsCxxCodeblocks.h"
 #include "SourceGroupSettingsCxxSonargraph.h"
 #include "SourceGroupSettingsJavaMaven.h"
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaSonargraph.h"
+#include "SourceGroupSettingsPythonEmpty.h"
 #include "SourceGroupSettingsWithSonargraphProjectPath.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
 #include "FileManager.h"
 #include "MessageStatus.h"
 #include "SonargraphProject.h"
@@ -36,6 +37,7 @@
 QtProjectWizzardContentPath::QtProjectWizzardContentPath(QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(window)
 	, m_makePathRelativeToProjectFileLocation(true)
+	, m_allowEmpty(false)
 {
 }
 
@@ -51,6 +53,7 @@ void QtProjectWizzardContentPath::populate(QGridLayout* layout, int& row)
 
 	m_picker = new QtLocationPicker(this);
 	m_picker->setPickDirectory(true);
+	m_picker->setPlaceholderText(m_placeholderString);
 
 	if (m_makePathRelativeToProjectFileLocation)
 	{
@@ -69,8 +72,15 @@ bool QtProjectWizzardContentPath::check()
 	{
 		if (m_picker->getText().isEmpty())
 		{
-			error = "Please define a path at \"" + m_titleString + "\".";
-			break;
+			if (m_allowEmpty)
+			{
+				break;
+			}
+			else
+			{
+				error = "Please define a path at \"" + m_titleString + "\".";
+				break;
+			}
 		}
 
 		FilePath path = getSourceGroupSettings()->makePathExpandedAndAbsolute(FilePath(m_picker->getText().toStdWString()));
@@ -95,7 +105,7 @@ bool QtProjectWizzardContentPath::check()
 		break;
 	}
 
-	if (error.size())
+	if (!error.isEmpty())
 	{
 		QMessageBox msgBox;
 		msgBox.setText(error);
@@ -116,11 +126,20 @@ void QtProjectWizzardContentPath::setHelpString(const QString& help)
 	m_helpString = help;
 }
 
+void QtProjectWizzardContentPath::setPlaceholderString(const QString& placeholder)
+{
+	m_placeholderString = placeholder;
+}
+
 void QtProjectWizzardContentPath::setFileEndings(const std::set<std::wstring>& fileEndings)
 {
 	m_fileEndings = fileEndings;
 }
 
+void QtProjectWizzardContentPath::setAllowEmpty(bool allowEmpty)
+{
+	m_allowEmpty = allowEmpty;
+}
 
 QtProjectWizzardContentPathCDB::QtProjectWizzardContentPathCDB(
 	std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizzardWindow* window
@@ -703,6 +722,39 @@ void QtProjectWizzardContentPathDependenciesGradle::save()
 }
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathDependenciesGradle::getSourceGroupSettings()
+{
+	return m_settings;
+}
+
+
+QtProjectWizzardContentPathPythonEnvironment::QtProjectWizzardContentPathPythonEnvironment(
+	std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPath(window)
+	, m_settings(settings)
+{
+	setTitleString("Python Environment Directory");
+	setHelpString(
+		"Here you can specify the path to the directory that contains the Python environment that should be used to resolve "
+		"dependencies within the indexed source code. Leave blank to use the default Python environment.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
+	);
+	setPlaceholderString("Use Default");
+	setAllowEmpty(true);
+}
+
+void QtProjectWizzardContentPathPythonEnvironment::load()
+{
+	m_picker->setText(QString::fromStdWString(m_settings->getEnvironmentDirectoryPath().wstr()));
+}
+
+void QtProjectWizzardContentPathPythonEnvironment::save()
+{
+	m_settings->setEnvironmentDirectoryPath(FilePath(m_picker->getText().toStdWString()));
+}
+
+std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathPythonEnvironment::getSourceGroupSettings()
 {
 	return m_settings;
 }

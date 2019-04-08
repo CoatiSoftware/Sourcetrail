@@ -412,6 +412,7 @@ namespace
 		std::vector<QtSourceGroupWizzardPage<SourceGroupSettingsPythonEmpty>> pages;
 		{
 			QtSourceGroupWizzardPage<SourceGroupSettingsPythonEmpty> page("Indexed Paths", 750, 600);
+			page.addContentCreatorWithSettings<QtProjectWizzardContentPathPythonEnvironment>(WIZZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsSource>(WIZZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizzardContentPathsExclude>(WIZZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizzardContentExtensions>(WIZZARD_CONTENT_CONTEXT_ALL);

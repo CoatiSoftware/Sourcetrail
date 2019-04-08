@@ -16,6 +16,7 @@ class SourceGroupSettingsCxxCdb;
 class SourceGroupSettingsCxxCodeblocks;
 class SourceGroupSettingsCxxSonargraph;
 class SourceGroupSettingsJavaGradle;
+class SourceGroupSettingsPythonEmpty;
 class SourceGroupSettingsJavaMaven;
 class SourceGroupSettingsWithSonargraphProjectPath;
 
@@ -35,8 +36,10 @@ public:
 protected:
 	void setTitleString(const QString& title);
 	void setHelpString(const QString& help);
+	void setPlaceholderString(const QString& placeholder);
 
 	void setFileEndings(const std::set<std::wstring>& fileEndings);
+	void setAllowEmpty(bool allowEmpty);
 
 	QtLocationPicker* m_picker;
 
@@ -47,7 +50,9 @@ private:
 
 	QString m_titleString;
 	QString m_helpString;
+	QString m_placeholderString;
 	std::set<std::wstring> m_fileEndings;
+	bool m_allowEmpty;
 };
 
 
@@ -229,6 +234,24 @@ private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 
 	std::shared_ptr<SourceGroupSettingsJavaGradle> m_settings;
+};
+
+
+class QtProjectWizzardContentPathPythonEnvironment
+	: public QtProjectWizzardContentPath
+{
+	Q_OBJECT
+public:
+	QtProjectWizzardContentPathPythonEnvironment(std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContent implementation
+	void load() override;
+	void save() override;
+
+private:
+	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+
+	std::shared_ptr<SourceGroupSettingsPythonEmpty> m_settings;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PATH_H
