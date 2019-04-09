@@ -28,6 +28,7 @@
 	{
 		"type" : "keyword",
 		"patterns" : [
+			"\\bself\\b",
 			"\\bFalse\\b",
 			"\\bclass\\b",
 			"\\bfinally\\b",
