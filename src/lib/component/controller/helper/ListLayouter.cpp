@@ -128,6 +128,85 @@ void ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_ptr
 	}
 }
 
+void ListLayouter::layoutSquare(std::vector<std::shared_ptr<DummyNode>>* nodes, int maxWidth)
+{
+	int gapX = GraphViewStyle::s_gridCellSize + 2 * GraphViewStyle::s_gridCellPadding;
+	int gapY = GraphViewStyle::s_gridCellPadding;
+
+	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
+	for (auto node : *nodes)
+	{
+		if (node->getsLayouted())
+		{
+			visibleNodes.push_back(node);
+		}
+	}
+
+	int totalHeight = 0;
+	for (size_t i = 0; i < visibleNodes.size(); i++)
+	{
+		totalHeight += visibleNodes[i]->size.y() + gapY;
+	}
+
+	int diff = -1;
+	size_t cols = 1;
+
+	for (size_t i = cols; i < 100; i++)
+	{
+		if (layoutSquareInternal(visibleNodes, Vec2i(maxWidth, totalHeight * i / 100), Vec2i(gapX, gapY)))
+		{
+			Vec4i rect = boundingRect(visibleNodes);
+
+			int newDiff = rect.z() * rect.w() + (rect.z() - rect.w()) * (rect.z() - rect.w()) / 4;
+			if (maxWidth >= 0)
+			{
+				newDiff = rect.w();
+			}
+
+			if (diff < 0 || newDiff <= diff)
+			{
+				diff = newDiff;
+				cols = i;
+			}
+		}
+	}
+
+	layoutSquareInternal(visibleNodes, Vec2i(maxWidth, totalHeight * cols / 100), Vec2i(gapX, gapY));
+}
+
+bool ListLayouter::layoutSquareInternal(
+	std::vector<std::shared_ptr<DummyNode>>& visibleNodes, const Vec2i& maxSize, const Vec2i& gap)
+{
+	int x = 0;
+	int y = 0;
+
+	int width = 0;
+
+	for (std::shared_ptr<DummyNode> node : visibleNodes)
+	{
+		node->position.x() = x;
+		node->position.y() = y;
+
+		y += node->size.y() + gap.y();
+		width = std::max(width, node->size.x());
+
+		if (maxSize.x > 0 && x + width > maxSize.x)
+		{
+			return false;
+		}
+
+		if (y >= maxSize.y)
+		{
+			y = 0;
+			x += width + gap.x();
+
+			width = 0;
+		}
+	}
+
+	return true;
+}
+
 void ListLayouter::layoutSkewed(std::vector<std::shared_ptr<DummyNode>>* nodes, int gapX, int gapY, int maxWidth)
 {
 	std::vector<std::shared_ptr<DummyNode>> visibleNodes;

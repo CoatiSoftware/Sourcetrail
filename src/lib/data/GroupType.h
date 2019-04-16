@@ -20,7 +20,8 @@ enum class GroupLayout
 {
 	LIST,
 	SKEWED,
-	BUCKET
+	BUCKET,
+	SQUARE
 };
 
 #endif // GROUP_TYPE_H

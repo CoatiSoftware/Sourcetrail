@@ -845,18 +845,12 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 
 		bool isInheritance = edge->data->isType(Edge::EDGE_INHERITANCE);
 		if (from && to && !edge->hidden &&
-			(showAllEdges || noActive || from->active || to->active || edge->active || isInheritance))
+			(showAllEdges || noActive || from->active || to->active || edge->active || isInheritance) &&
+			!(to->active && edge->data->isType(Edge::EDGE_TYPE_USAGE) && to->data->isParentOf(from->data))) // Don't show type use edges to active parent
 		{
 			edge->visible = true;
 			from->connected = true;
 			to->connected = true;
-
-			// Don't show children of active node with a type use edge to the parent
-			if (to->active && edge->data->isType(Edge::EDGE_TYPE_USAGE) && to->data->isParentOf(from->data))
-			{
-				from->connected = false;
-				to->connected = false;
-			}
 		}
 		else
 		{
@@ -1729,7 +1723,7 @@ void GraphController::groupTrailNodes(GroupType groupType)
 		std::shared_ptr<DummyNode> groupNode = std::make_shared<DummyNode>(DummyNode::DUMMY_GROUP);
 		groupNode->visible = true;
 		groupNode->groupType = groupType;
-		groupNode->groupLayout = GroupLayout::SKEWED;
+		groupNode->groupLayout = GroupLayout::SQUARE;
 
 		// Use token Id of first node and make first 2 bits 1
 		groupNode->tokenId = ~(~Id(0) >> 2) + node.nodeId;
@@ -1825,7 +1819,7 @@ void GraphController::layoutNesting()
 
 	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
-		layoutNestingRecursive(node.get());
+		layoutNestingRecursive(node.get(), -1);
 	}
 
 	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
@@ -1868,11 +1862,11 @@ void GraphController::extendEqualFunctionNames(const std::vector<std::shared_ptr
 	}
 }
 
-void GraphController::layoutNestingRecursive(DummyNode* node) const
+Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int maxWidth) const
 {
 	if (!node->visible)
 	{
-		return;
+		return Vec4i(0, 0, 0, 0);
 	}
 
 	GraphViewStyle::NodeMargins margins;
@@ -1904,7 +1898,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	}
 	else if (node->isQualifierNode())
 	{
-		return;
+		return Vec4i(0, 0, 0, 0);
 	}
 	else if (node->isTextNode())
 	{
@@ -1940,6 +1934,8 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	width += margins.iconWidth;
 	width = std::max(width, margins.minWidth);
 
+	int maxAccessWidth = 0;
+
 	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
 		if (!subNode->visible)
@@ -1953,47 +1949,75 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 			continue;
 		}
 
-		layoutNestingRecursive(subNode.get());
+		Vec4i rect = layoutNestingRecursive(subNode.get(), maxWidth);
 
 		if (subNode->isExpandToggleNode())
 		{
 			width += margins.spacingX + subNode->size.x;
 		}
-	}
-
-	if (node->isGroupNode())
-	{
-		Vec2i viewSize = getView()->getViewSize();
-
-		switch (node->groupLayout)
+		else if (subNode->isAccessNode())
 		{
-		case GroupLayout::LIST:
-			viewSize.x = viewSize.x - 150; // prevent horizontal scroll
-			ListLayouter::layoutMultiColumn(viewSize, &node->subNodes);
-			break;
-
-		case GroupLayout::SKEWED:
-			ListLayouter::layoutSkewed(&node->subNodes, margins.spacingX, margins.spacingY, viewSize.x() * 1.5);
-			break;
-
-		case GroupLayout::BUCKET:
-			if (node->hasActiveSubNode() || !m_activeNodeIds.size() /* aggregations */)
-			{
-				BucketLayouter grid(viewSize);
-				grid.createBuckets(node->subNodes, m_dummyEdges);
-				grid.layoutBuckets(m_activeNodeIds.size());
-				node->subNodes = grid.getSortedNodes();
-			}
-			else
-			{
-				ListLayouter::layoutColumn(&node->subNodes, margins.spacingY);
-			}
-			break;
+			maxAccessWidth = std::max(maxAccessWidth, rect.z());
 		}
 	}
-	else
+
+	if (maxAccessWidth > 0)
 	{
-		ListLayouter::layoutColumn(&node->subNodes, margins.spacingY);
+		for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+		{
+			if (!subNode->visible || !subNode->isAccessNode())
+			{
+				continue;
+			}
+
+			layoutNestingRecursive(subNode.get(), maxAccessWidth);
+		}
+	}
+
+	if (node->subNodes.size())
+	{
+		if (node->isGroupNode())
+		{
+			Vec2i viewSize = getView()->getViewSize();
+
+			switch (node->groupLayout)
+			{
+			case GroupLayout::LIST:
+				viewSize.x = viewSize.x - 150; // prevent horizontal scroll
+				ListLayouter::layoutMultiColumn(viewSize, &node->subNodes);
+				break;
+
+			case GroupLayout::SKEWED:
+				ListLayouter::layoutSkewed(&node->subNodes, margins.spacingX, margins.spacingY, viewSize.x() * 1.5);
+				break;
+
+			case GroupLayout::BUCKET:
+				if (node->hasActiveSubNode() || !m_activeNodeIds.size() /* aggregations */)
+				{
+					BucketLayouter grid(viewSize);
+					grid.createBuckets(node->subNodes, m_dummyEdges);
+					grid.layoutBuckets(m_activeNodeIds.size());
+					node->subNodes = grid.getSortedNodes();
+				}
+				else
+				{
+					ListLayouter::layoutColumn(&node->subNodes, margins.spacingY);
+				}
+				break;
+
+			case GroupLayout::SQUARE:
+				ListLayouter::layoutSquare(&node->subNodes, -1);
+				break;
+			}
+		}
+		else if (node->isAccessNode() && !node->hasConnectedSubNode())
+		{
+			ListLayouter::layoutSquare(&node->subNodes, maxWidth);
+		}
+		else
+		{
+			ListLayouter::layoutColumn(&node->subNodes, margins.spacingY);
+		}
 	}
 
 	Vec2i size = ListLayouter::offsetNodes(
@@ -2022,6 +2046,8 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 			subNode->position.y = 6;
 		}
 	}
+
+	return ListLayouter::boundingRect(node->subNodes);
 }
 
 void GraphController::addExpandToggleNode(DummyNode* node) const
