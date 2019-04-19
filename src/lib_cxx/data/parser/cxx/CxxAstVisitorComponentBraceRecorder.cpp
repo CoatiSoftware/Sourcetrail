@@ -41,9 +41,9 @@ void CxxAstVisitorComponentBraceRecorder::visitNamespaceDecl(clang::NamespaceDec
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
 		recordBraces(
-			getFilePath(d->getLocStart()),
-			getParseLocation(getFirstLBraceLocation(d->getLocStart())),
-			getParseLocation(getLastRBraceLocation(d->getLocStart(), d->getLocEnd()))
+			getFilePath(d->getBeginLoc()),
+			getParseLocation(getFirstLBraceLocation(d->getBeginLoc())),
+			getParseLocation(getLastRBraceLocation(d->getBeginLoc(), d->getEndLoc()))
 		);
 	}
 }
@@ -97,7 +97,7 @@ void CxxAstVisitorComponentBraceRecorder::visitMSAsmStmt(clang::MSAsmStmt* s)
 				recordBraces(
 					getFilePath(s->getLBraceLoc()),
 					getParseLocation(s->getLBraceLoc()),
-					getParseLocation(getLastRBraceLocation(s->getLocStart(), s->getLocEnd()))
+					getParseLocation(getLastRBraceLocation(s->getBeginLoc(), s->getEndLoc()))
 				);
 			}
 		}

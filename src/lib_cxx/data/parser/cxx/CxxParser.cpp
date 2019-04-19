@@ -5,6 +5,7 @@
 #include <clang/Driver/Options.h>
 #include <clang/Frontend/CompilerInvocation.h>
 #include <clang/Tooling/Tooling.h>
+#include <llvm/Support/VirtualFileSystem.h>
 #include <llvm/Option/ArgList.h>
 #include <llvm/Support/TargetSelect.h>
 
@@ -34,7 +35,7 @@ namespace
 	// copied from clang codebase
 	clang::driver::Driver *newDriver(
 		clang::DiagnosticsEngine *Diagnostics, const char *BinaryName,
-		clang::IntrusiveRefCntPtr<clang::vfs::FileSystem> VFS) {
+		clang::IntrusiveRefCntPtr<llvm::vfs::FileSystem> VFS) {
 		clang::driver::Driver *CompilerDriver =
 			new clang::driver::Driver(BinaryName, llvm::sys::getDefaultTargetTriple(),
 				*Diagnostics, std::move(VFS));
@@ -115,16 +116,19 @@ namespace
 	{
 		llvm::SmallString<16> FileNameStorage;
 		llvm::StringRef FileNameRef = FileName.toNullTerminatedStringRef(FileNameStorage);
-		llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
-		clang::tooling::ToolInvocation Invocation(prependSyntaxOnlyToolArgs(appendFilePath(Args, FileNameRef)), ToolAction, Files.get());
+
+		llvm::IntrusiveRefCntPtr<llvm::vfs::OverlayFileSystem> OverlayFileSystem(new llvm::vfs::OverlayFileSystem(llvm::vfs::getRealFileSystem()));
+		llvm::IntrusiveRefCntPtr<llvm::vfs::InMemoryFileSystem> InMemoryFileSystem(new llvm::vfs::InMemoryFileSystem);
+		OverlayFileSystem->pushOverlay(InMemoryFileSystem);
+		llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions(), OverlayFileSystem));
+
+		clang::tooling::ToolInvocation Invocation(prependSyntaxOnlyToolArgs(appendFilePath(Args, FileNameRef)),	ToolAction, Files.get());
 
 		llvm::SmallString<1024> CodeStorage;
-		Invocation.mapVirtualFile(FileNameRef, Code.toNullTerminatedStringRef(CodeStorage));
+		llvm::StringRef CodeRef = Code.toNullTerminatedStringRef(CodeStorage);
 
-		for (auto &FilenameWithContent : VirtualMappedFiles)
-		{
-			Invocation.mapVirtualFile(FilenameWithContent.first, FilenameWithContent.second);
-		}
+		InMemoryFileSystem->addFile(FileNameRef, 0,
+			llvm::MemoryBuffer::getMemBufferCopy(CodeRef));
 
 		Invocation.setDiagnosticConsumer(DiagConsumer);
 
@@ -150,12 +154,12 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxx> indexerCommand)
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
 	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
-	compileCommand.CommandLine = getCommandlineArgumentsEssential(indexerCommand->getCompilerFlags());
-
-	if (!utility::isPrefix<std::string>("-", compileCommand.CommandLine.front()))
+	std::vector<std::wstring> args = indexerCommand->getCompilerFlags();
+	if (!args.empty() && !utility::isPrefix<std::wstring>(L"-", args.front()))
 	{
-		compileCommand.CommandLine.erase(compileCommand.CommandLine.begin());
+		args.erase(args.begin());
 	}
+	compileCommand.CommandLine = getCommandlineArgumentsEssential(args);
 	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(compileCommand.CommandLine);
 
 	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);

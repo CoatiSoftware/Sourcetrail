@@ -252,7 +252,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			{
 				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 				const clang::PresumedLoc& presumedBegin =
-					sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getLocStart());
+					sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getBeginLoc());
 				functionName = L"lambda at " + std::to_wstring(presumedBegin.getLine()) + L":" + std::to_wstring(presumedBegin.getColumn());
 			}
 			else if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
@@ -453,20 +453,20 @@ std::wstring CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::De
 std::wstring CxxDeclNameResolver::getDeclarationFileName(const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-	const clang::FileID fileId = sourceManager.getFileID(declaration->getLocStart());
+	const clang::FileID fileId = sourceManager.getFileID(declaration->getBeginLoc());
 	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 	if (fileEntry != nullptr && fileEntry->isValid())
 	{
 		return getCanonicalFilePathCache()->getCanonicalFilePath(fileId, sourceManager).fileName();
 	}
 	return getCanonicalFilePathCache()->getCanonicalFilePath(
-		utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename())).fileName();
+		utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getBeginLoc()).getFilename())).fileName();
 }
 
 std::wstring CxxDeclNameResolver::getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getBeginLoc());
 
 	if (presumedBegin.isValid())
 	{

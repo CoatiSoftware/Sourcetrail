@@ -684,7 +684,7 @@ void CxxAstVisitorComponentIndexer::visitLambdaExpr(clang::LambdaExpr* s)
 	{
 		Id symbolId = getOrCreateSymbolId(methodDecl);
 		m_client->recordSymbolKind(symbolId, SYMBOL_FUNCTION);
-		m_client->recordLocation(symbolId, getParseLocation(s->getLocStart()), ParseLocationType::TOKEN);
+		m_client->recordLocation(symbolId, getParseLocation(s->getBeginLoc()), ParseLocationType::TOKEN);
 		m_client->recordLocation(symbolId, getParseLocationOfFunctionBody(methodDecl), ParseLocationType::SCOPE);
 		m_client->recordDefinitionKind(symbolId, utility::isImplicit(methodDecl) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT);
 	}
@@ -741,7 +741,7 @@ ParseLocation CxxAstVisitorComponentIndexer::getSignatureLocation(clang::Functio
 
 		if (d->getNumParams() > 0)
 		{
-			endLoc = d->getParamDecl(d->getNumParams() - 1)->getLocEnd();
+			endLoc = d->getParamDecl(d->getNumParams() - 1)->getEndLoc();
 		}
 
 		while (sm.isBeforeInTranslationUnit(endLoc, signatureRange.getEnd()))

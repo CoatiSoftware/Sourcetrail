@@ -541,11 +541,11 @@ bool CxxAstVisitor::shouldVisitStmt(const clang::Stmt* s) const
 {
 	if (s)
 	{
-		clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(s->getLocStart());
+		clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(s->getBeginLoc());
 
 		if (loc.isInvalid())
 		{
-			loc = s->getLocStart();
+			loc = s->getBeginLoc();
 		}
 
 		if (isLocatedInProjectFile(loc))
