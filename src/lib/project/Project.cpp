@@ -436,7 +436,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 
 				if (abortIndexing)
 				{
-					if (dialogView->confirm(
+					if (m_hasGUI && dialogView->confirm(
 							"<p>This project contains a source group of type \"" + sourceGroupTypeToString(sourceGroup->getType()) + "\" "
 							"that cannot be partially cleared. Do you want to re-index the whole project instead?</p>",
 							{ "Full Re-Index", "Cancel" }
@@ -444,6 +444,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 					{
 						MessageStatus(L"Cannot partially clear project. Indexing aborted.").dispatch();
 						m_refreshStage = RefreshStageType::NONE;
+						dialogView->clearDialogs();
 						return;
 					}
 					else
@@ -499,7 +500,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 	{
 		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 		{
-			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND || 
+			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND ||
 				sourceGroup->getType() == SOURCE_GROUP_PYTHON_EMPTY)
 			{
 				customIndexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info.filesToIndex));
@@ -620,8 +621,8 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 
 		taskSequential->addTask(
 			std::make_shared<TaskExecuteCustomCommands>(
-				std::move(customIndexerCommandProvider), 
-				tempStorage, 
+				std::move(customIndexerCommandProvider),
+				tempStorage,
 				dialogView,
 				adjustedIndexerThreadCount,
 				getProjectSettingsFilePath().getParentDirectory())
