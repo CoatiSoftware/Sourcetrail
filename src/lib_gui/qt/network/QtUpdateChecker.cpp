@@ -6,13 +6,14 @@
 #include <QJsonObject>
 #include <QUrl>
 
-#include "LicenseChecker.h"
-#include "QtRequest.h"
 #include "ApplicationSettings.h"
-#include "Version.h"
+#include "LicenseChecker.h"
+#include "MessageStatus.h"
+#include "QtRequest.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityUuid.h"
+#include "Version.h"
 
 bool QtUpdateChecker::needsAutomaticCheck()
 {
@@ -107,6 +108,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 
 				if (updateVersion > Version::getApplicationVersion())
 				{
+					MessageStatus(L"Newest available version: " + updateVersion.toDisplayWString()).dispatch();
+
 					result.version = updateVersion;
 					result.url = url;
 
@@ -139,12 +142,21 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 						QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
 					}
 				}
+				else
+				{
+					MessageStatus(L"Sourcetrail is up-to-date").dispatch();
+				}
 			}
 			while (false);
 
 			if (saveAppSettings)
 			{
 				appSettings->save();
+			}
+
+			if (!result.success)
+			{
+				MessageStatus(L"Update check failed", true).dispatch();
 			}
 
 			request->deleteLater();
@@ -154,6 +166,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	);
 
 	request->sendRequest(urlString);
+	MessageStatus(L"Checking for new version", false, true).dispatch();
 }
 
 void QtUpdateChecker::checkUpdate()

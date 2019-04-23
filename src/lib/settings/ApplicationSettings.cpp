@@ -546,13 +546,7 @@ void ApplicationSettings::setAutomaticUpdateCheck(bool automaticUpdates)
 
 TimeStamp ApplicationSettings::getLastUpdateCheck() const
 {
-	std::string val = getValue<std::string>("user/update_check/time_stamp", "");
-	if (!val.size())
-	{
-		val = getValue<std::string>("user/update_check/last", ""); // deprecated key
-	}
-
-	return TimeStamp(val);
+	return TimeStamp(getValue<std::string>("user/update_check/time_stamp", ""));
 }
 
 void ApplicationSettings::setLastUpdateCheck(const TimeStamp& time)

@@ -415,6 +415,14 @@ void Application::loadWindow(bool showStartWindow)
 	if (!m_loadedWindow)
 	{
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+
+		// delay first update check by 24 hours at first launch
+		if (!appSettings->getLastUpdateCheck().isValid())
+		{
+			appSettings->setLastUpdateCheck(TimeStamp::now());
+			appSettings->save();
+		}
+
 		LicenseChecker::LicenseState state = LicenseChecker::LicenseState::VALID;
 		std::string licenseError;
 
