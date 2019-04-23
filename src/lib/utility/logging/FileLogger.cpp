@@ -8,18 +8,24 @@
 #include "FileSystem.h"
 #include "utilityString.h"
 
-std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix, const std::wstring& suffix)
+std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix, const std::wstring& suffix, int offsetDays)
 {
 	time_t time;
 	std::time(&time);
 	tm t = *std::localtime(&time);
 
+	if (offsetDays != 0)
+	{
+		time = mktime(&t) + offsetDays * 24 * 60 * 60;
+		t = *std::localtime(&time);
+	}
+
 	std::wstringstream filename;
 	if (!prefix.empty())
 	{
-		filename << prefix;
-		filename << L"_";
+		filename << prefix << L"_";
 	}
+
 	filename << t.tm_year + 1900 << L"-";
 	filename << (t.tm_mon < 9 ? L"0" : L"") << t.tm_mon + 1 << L"-";
 	filename << (t.tm_mday < 10 ? L"0" : L"") << t.tm_mday << L"_";
@@ -29,8 +35,7 @@ std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix, const
 
 	if (!suffix.empty())
 	{
-		filename << L"_";
-		filename << suffix;
+		filename << L"_" << suffix;
 	}
 
 	return filename.str();
@@ -99,6 +104,17 @@ void FileLogger::setMaxLogLineCount(unsigned int lineCount)
 void FileLogger::setMaxLogFileCount(unsigned int fileCount)
 {
 	m_maxLogFileCount = fileCount;
+}
+
+void FileLogger::deleteLogFiles(const std::wstring& cutoffDate)
+{
+	for (const FilePath& file : FileSystem::getFilePathsFromDirectory(m_logDirectory, { L".txt" }))
+	{
+		if (file.fileName() < cutoffDate)
+		{
+			FileSystem::remove(file);
+		}
+	}
 }
 
 void FileLogger::updateLogFileName()

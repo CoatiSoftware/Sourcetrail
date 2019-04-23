@@ -204,7 +204,8 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
 
 bool FileSystem::remove(const FilePath& path)
 {
-	const bool ret = boost::filesystem::remove(path.getPath());
+	boost::system::error_code ec;
+	const bool ret = boost::filesystem::remove(path.getPath(), ec);
 	path.recheckExists();
 	return ret;
 }

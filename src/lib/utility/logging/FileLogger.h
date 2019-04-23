@@ -10,7 +10,7 @@
 class FileLogger: public Logger
 {
 public:
-	static std::wstring generateDatedFileName(const std::wstring& prefix = L"", const std::wstring& suffix = L"");
+	static std::wstring generateDatedFileName(const std::wstring& prefix = L"", const std::wstring& suffix = L"", int offsetDays = 0);
 
 	FileLogger();
 
@@ -23,6 +23,8 @@ public:
 
 	// setting the max log file count to 0 will disable ringlogging
 	void setMaxLogFileCount(unsigned int amount);
+
+	void deleteLogFiles(const std::wstring& cutoffDate);
 
 private:
 	void logInfo(const LogMessage& message) override;
