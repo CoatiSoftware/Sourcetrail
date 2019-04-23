@@ -76,9 +76,17 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_expandAction->setToolTip("Show unconnected members of the node");
 	connect(m_expandAction, &QAction::triggered, this, &QtGraphicsView::expandNode);
 
-	m_showDefinitionAction = new QAction("Show Definition (Ctrl + Left Click)", this);
+	m_showInIDEAction = new QAction("Show Definition in IDE (Ctrl + Left Click)", this);
 #if defined(Q_OS_MAC)
-	m_showDefinitionAction->setText("Show Definition (Cmd + Left Click)");
+	m_showInIDEAction->setText("Show Definition in IDE (Cmd + Left Click)");
+#endif
+	m_showInIDEAction->setStatusTip("Show definition of this symbol in the IDE (via plug-in)");
+	m_showInIDEAction->setToolTip("Show definition of this symbol in the IDE (via plug-in)");
+	connect(m_showInIDEAction, &QAction::triggered, this, &QtGraphicsView::showInIDE);
+
+	m_showDefinitionAction = new QAction("Show Definition (Ctrl + Alt + Left Click)", this);
+#if defined(Q_OS_MAC)
+	m_showDefinitionAction->setText("Show Definition (Cmd + Alt + Left Click)");
 #endif
 	m_showDefinitionAction->setStatusTip("Show definition of this symbol in the code");
 	m_showDefinitionAction->setToolTip("Show definition of this symbol in the code");
@@ -419,6 +427,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	m_openInTabAction->setEnabled(m_openInTabNodeId);
 	m_collapseAction->setEnabled(m_collapseNodeId);
 	m_expandAction->setEnabled(m_expandNodeId);
+	m_showInIDEAction->setEnabled(m_hideNodeId);
 	m_showDefinitionAction->setEnabled(m_hideNodeId);
 	m_hideNodeAction->setEnabled(m_hideNodeId);
 	m_hideEdgeAction->setEnabled(m_hideEdgeId);
@@ -433,6 +442,9 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
 	menu.addSeparator();
 
+	menu.addAction(m_showDefinitionAction);
+	menu.addAction(m_showInIDEAction);
+
 	if (m_collapseNodeId)
 	{
 		menu.addAction(m_collapseAction);
@@ -442,7 +454,6 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 		menu.addAction(m_expandAction);
 	}
 
-	menu.addAction(m_showDefinitionAction);
 	menu.addAction(m_hideNodeAction);
 	menu.addAction(m_hideEdgeAction);
 	menu.addAction(m_bookmarkNodeAction);
@@ -614,6 +625,11 @@ void QtGraphicsView::collapseNode()
 void QtGraphicsView::expandNode()
 {
 	MessageGraphNodeExpand(m_expandNodeId, true).dispatch();
+}
+
+void QtGraphicsView::showInIDE()
+{
+	MessageCodeShowDefinition(m_hideNodeId, true).dispatch();
 }
 
 void QtGraphicsView::showDefinition()

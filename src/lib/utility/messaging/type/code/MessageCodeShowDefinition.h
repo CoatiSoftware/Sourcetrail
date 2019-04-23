@@ -14,8 +14,9 @@ public:
 		return "MessageCodeShowDefinition";
 	}
 
-	MessageCodeShowDefinition(Id nodeId)
+	MessageCodeShowDefinition(Id nodeId, bool inIDE = false)
 		: nodeId(nodeId)
+		, inIDE(inIDE)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -26,6 +27,7 @@ public:
 	}
 
 	const Id nodeId;
+	const bool inIDE;
 };
 
 #endif // MESSAGE_CODE_SHOW_DEFINITION_H

@@ -9,6 +9,7 @@
 #include "ApplicationSettings.h"
 #include "FileInfo.h"
 #include "logging.h"
+#include "MessageMoveIDECursor.h"
 #include "MessageStatus.h"
 #include "TextAccess.h"
 #include "tracing.h"
@@ -311,6 +312,7 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message)
 	}
 
 	size_t lineNumber = 1;
+	size_t columnNumber = 1;
 	FilePath filePath;
 
 	// use first scope location for nodeId, otherwise first location
@@ -334,6 +336,7 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message)
 
 					filePath = location->getFilePath();
 					lineNumber = location->getLineNumber();
+					columnNumber = location->getColumnNumber();
 					addedLocation = true;
 					return;
 				}
@@ -348,6 +351,7 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message)
 
 			filePath = location->getFilePath();
 			lineNumber = location->getStartLocation()->getLineNumber();
+			columnNumber = location->getStartLocation()->getColumnNumber();
 		}
 
 		collection = filteredCollection;
@@ -355,6 +359,12 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message)
 	else // otherwise first file
 	{
 		filePath = collection->getSourceLocationFiles().begin()->second->getFilePath();
+	}
+
+	if (message->inIDE)
+	{
+		MessageMoveIDECursor(filePath, lineNumber, columnNumber).dispatch();
+		return;
 	}
 
 	std::vector<CodeSnippetParams> snippets = getSnippetsForFile(collection->getSourceLocationFiles().begin()->second);

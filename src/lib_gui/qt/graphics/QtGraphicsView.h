@@ -63,6 +63,7 @@ private slots:
 	void collapseNode();
 	void expandNode();
 
+	void showInIDE();
 	void showDefinition();
 	void hideNode();
 	void hideEdge();
@@ -109,6 +110,7 @@ private:
 	QAction* m_copyNodeNameAction;
 	QAction* m_collapseAction;
 	QAction* m_expandAction;
+	QAction* m_showInIDEAction;
 	QAction* m_showDefinitionAction;
 	QAction* m_hideNodeAction;
 	QAction* m_hideEdgeAction;

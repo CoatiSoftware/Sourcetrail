@@ -50,17 +50,21 @@ void QtGraphNodeComponentClickable::nodeMouseReleaseEvent(QGraphicsSceneMouseEve
 
 	if (!m_mouseMoved)
 	{
-		if (event->modifiers() & Qt::AltModifier && event->button() == Qt::LeftButton)
-		{
-			m_graphNode->onHide();
-		}
-		else if (event->modifiers() & Qt::ShiftModifier && event->button() == Qt::LeftButton)
+		if (event->modifiers() & Qt::ShiftModifier && event->button() == Qt::LeftButton)
 		{
 			m_graphNode->onCollapseExpand();
 		}
+		else if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::AltModifier && event->button() == Qt::LeftButton)
+		{
+			m_graphNode->onShowDefinition(false);
+		}
 		else if (event->modifiers() & Qt::ControlModifier && event->button() == Qt::LeftButton)
 		{
-			m_graphNode->onShowDefinition();
+			m_graphNode->onShowDefinition(true);
+		}
+		else if (event->modifiers() & Qt::AltModifier && event->button() == Qt::LeftButton)
+		{
+			m_graphNode->onHide();
 		}
 		else
 		{

@@ -99,7 +99,7 @@ public:
 
 	void onHide();
 	void onCollapseExpand();
-	void onShowDefinition();
+	void onShowDefinition(bool inIDE);
 
 	virtual void moved(const Vec2i& oldPosition);
 

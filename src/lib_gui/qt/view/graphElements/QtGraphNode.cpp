@@ -417,17 +417,17 @@ void QtGraphNode::onCollapseExpand()
 	}
 }
 
-void QtGraphNode::onShowDefinition()
+void QtGraphNode::onShowDefinition(bool inIDE)
 {
 	Id tokenId = getTokenId();
 
 	if (tokenId)
 	{
-		MessageCodeShowDefinition(tokenId).dispatch();
+		MessageCodeShowDefinition(tokenId, inIDE).dispatch();
 	}
 	else if (getParent())
 	{
-		getParent()->onShowDefinition();
+		getParent()->onShowDefinition(inIDE);
 	}
 }
 
