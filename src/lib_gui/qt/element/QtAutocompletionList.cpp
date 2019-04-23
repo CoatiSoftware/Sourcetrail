@@ -274,7 +274,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		int y = option.rect.top() + top2;
 
 		painter->fillRect(QRect(x - m_charWidth2, y, width + m_charWidth2 * 3, m_charHeight2 + 2), backgroundColor);
-		painter->drawText(QRect(x, y, width, m_charHeight2), Qt::AlignRight, type);
+		painter->drawText(QRect(x, y, width + m_charWidth2, m_charHeight2), Qt::AlignRight, type);
 	}
 
 	// draw bottom line
