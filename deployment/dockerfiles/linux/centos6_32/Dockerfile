@@ -7,23 +7,18 @@ WORKDIR /opt
 RUN rpm --rebuilddb; yum install -y yum-plugin-ovl ca-certificates;
 
 RUN yum -y install wget && \
-wget https://copr.fedorainfracloud.org/coprs/mlampe/devtoolset-4.1/repo/\
-epel-6/mlampe-devtoolset-4.1-epel-6.repo -O /etc/yum.repos.d/mlampe-devtoolset.repo && \
-wget https://copr.fedorainfracloud.org/coprs/tmz/git/repo/epel-6/tmz-git-epel-6.repo \
- -O /etc/yum.repos.d/git.repo && \
-yum -y install epel-release && \
-wget https://centos6.iuscommunity.org/ius-release.rpm && \
-rpm -Uvh ius-release*.rpm && \
+wget https://copr.fedorainfracloud.org/coprs/mlampe/devtoolset-6/repo/\
+epel-6/mlampe-devtoolset-6-epel-6.repo -O /etc/yum.repos.d/mlampe-devtoolset.repo && \
 yum -y update && \
-yum -y install devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-binutils \
-	wget tar bzip2 git libtool which fuse fuse-devel libpng-devel automake \
-	glibc-headers libstdc++-devel gcc-c++ freetype-devel fontconfig-devel \
-	ibxml2-devel libstdc++-devel libXrender-devel patch xcb-util-keysyms-devel \
-	libXi-devel libudev-devel openssl-devel sqlite-devel \
-	gperftools gperf libicu-devel boost-devel \
-	libxslt-devel docbook-style-xsl.noarch python27 \
-	xz mesa-libEGL-devel mesa-libGL-devel glib-devel \
-	java-1.8.0-openjdk-devel ccache re2c ImageMagick vim lftp unzip && \
+yum -y install devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-binutils \
+       wget tar bzip2 git libtool which fuse fuse-devel libpng-devel automake \
+       glibc-headers libstdc++-devel gcc-c++ freetype-devel fontconfig-devel \
+       ibxml2-devel libstdc++-devel libXrender-devel patch xcb-util-keysyms-devel \
+       libXi-devel libudev-devel openssl-devel sqlite-devel \
+       gperftools gperf libicu-devel boost-devel \
+       libxslt-devel docbook-style-xsl.noarch python27 \
+       xz mesa-libEGL-devel mesa-libGL-devel glib-devel \
+       java-1.8.0-openjdk-devel ccache re2c ImageMagick vim lftp unzip && \
 yum clean all
 
 # CMake and Maven
@@ -50,8 +45,8 @@ RUN mkdir -p /qt && cd /qt && \
 wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/\
 single/qt-everywhere-src-${QTVERSION}.tar.xz && \
 tar xvf qt-everywhere-src-${QTVERSION}.tar.xz && \
-ln -sf /opt/rh/devtoolset-4/root/usr/bin/g++ /usr/bin/g++ && \
-ln -sf /opt/rh/devtoolset-4/root/usr/bin/c++ /usr/bin/c++ && \
+ln -sf /opt/rh/devtoolset-6/root/usr/bin/g++ /usr/bin/g++ && \
+ln -sf /opt/rh/devtoolset-6/root/usr/bin/c++ /usr/bin/c++ && \
 cd /qt/qt-everywhere-src-${QTVERSION} && \
 ./configure -v \
 -prefix /opt/qt${QTVERSION} \
@@ -85,11 +80,17 @@ make -j8 install && rm -Rf /qt
 ## set env
 ENV CXX=g++ \
 CC=gcc \
-DEVTOOLSET=/opt/rh/devtoolset-4/root/usr/
+DEVTOOLSET=/opt/rh/devtoolset-6/root/usr/
+
+RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz && \
+tar xzf Python-2.7.13.tgz && \
+cd Python-2.7.13 && \
+./configure && \
+make altinstall
 
 ## Install llvm
-ARG LLVM_VERSION=7.0.0
-RUN alias python=/usr/bin/python2.7 && mkdir -p /llvm && cd /llvm && \
+ARG LLVM_VERSION=8.0.0
+RUN alias python=/usr/local/bin/python2.7 && mkdir -p /llvm && cd /llvm && \
 wget http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
 tar xf llvm-${LLVM_VERSION}.src.tar.xz && \
 cd llvm-${LLVM_VERSION}.src && pwd && \
@@ -99,9 +100,7 @@ tar xf cfe-${LLVM_VERSION}.src.tar.xz && \
 cd /llvm/llvm-${LLVM_VERSION}.src/projects && \
 wget http://llvm.org/releases/${LLVM_VERSION}/compiler-rt-${LLVM_VERSION}.src.tar.xz && \
 tar xf compiler-rt-${LLVM_VERSION}.src.tar.xz && \
-#. /opt/rh/python27/enable && \
-. /opt/rh/devtoolset-4/enable && \
-python --version && \
+. /opt/rh/devtoolset-6/enable && \
 cd /llvm/llvm-${LLVM_VERSION}.src && mkdir -p build && cd build && \
 cmake .. -DCMAKE_INSTALL_PREFIX=/opt/llvm/ \
 -DCMAKE_BUILD_TYPE=Release \
@@ -148,17 +147,17 @@ git checkout 4.4
 RUN useradd builder
 
 # Make sure the above SCLs are already enabled
-#ENTRYPOINT ["/bin/bash", "-c", "source", "/opt/rh/devtoolset-4/enable"]
-#CMD ["/bin/bash", "-c", "source", "/opt/rh/devtoolset-4/enable"]
+#ENTRYPOINT ["/bin/bash", "-c", "source", "/opt/rh/devtoolset-6/enable"]
+#CMD ["/bin/bash", "-c", "source", "/opt/rh/devtoolset-6/enable"]
 
 RUN GCC_VERSION=$(g++ -dumpversion) && \
-ln -s /opt/rh/devtoolset-4/root/usr/include/c++/${GCC_VERSION} /usr/include/c++/${GCC_VERSION} && \
-ln -s /opt/rh/devtoolset-4/root/usr/lib/gcc/i686-redhat-linux/${GCC_VERSION} \
+ln -s /opt/rh/devtoolset-6/root/usr/include/c++/${GCC_VERSION} /usr/include/c++/${GCC_VERSION} && \
+ln -s /opt/rh/devtoolset-6/root/usr/lib/gcc/i686-redhat-linux/${GCC_VERSION} \
 /usr/lib/gcc/i686-redhat-linux/${GCC_VERSION} && \
-echo "source /opt/rh/devtoolset-4/enable" >> /etc/bashrc
-## set env
-ENV CXX=/opt/rh/devtoolset-4/root/usr/bin/g++ \
-CC=/opt/rh/devtoolset-4/root/usr/bin/gcc \
+echo "source /opt/rh/devtoolset-6/enable" >> /etc/bashrc
+
+ENV CXX=/opt/rh/devtoolset-6/root/usr/bin/g++ \
+CC=/opt/rh/devtoolset-6/root/usr/bin/gcc \
 BOTAN_DIR=/opt/botan \
 CXX_TEST_DIR=/opt/cxxtest \
 JAVA_HOME=/usr/lib/jvm/java-openjdk \

@@ -11,7 +11,7 @@ docker build -t <account>/<reponame>:<tag> <Dockerfile>
 Upload docker images
 --------------------
 
-docker login 
+docker login
 docker push <account>/<reponame>:<tag>
 
 
@@ -23,6 +23,10 @@ Update Guide
 $ docker image ls
 $ docker rmi coatisoftware/centos6_64_qt_llvm:<tag>
 $ docker rmi coatisoftware/centos6_32_qt_llvm:<tag>
+
+# docker clean up
+
+$ docker system prune
 
 # change library version numbers in docker files
 

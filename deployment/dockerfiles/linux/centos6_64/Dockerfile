@@ -1,4 +1,4 @@
-FROM coatisoftware/centos6_64_gcc
+FROM coatisoftware/centos6_64_base
 
 MAINTAINER "Andreas Stallinger" <astallinger@coati.io>
 
@@ -20,8 +20,8 @@ RUN mkdir -p /qt && cd /qt && \
 wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/\
 single/qt-everywhere-src-${QTVERSION}.tar.xz && \
 tar xvf qt-everywhere-src-${QTVERSION}.tar.xz && \
-ln -sf /opt/rh/devtoolset-4/root/usr/bin/g++ /usr/bin/g++ && \
-ln -sf /opt/rh/devtoolset-4/root/usr/bin/c++ /usr/bin/c++ && \
+ln -sf /opt/rh/devtoolset-6/root/usr/bin/g++ /usr/bin/g++ && \
+ln -sf /opt/rh/devtoolset-6/root/usr/bin/c++ /usr/bin/c++ && \
 cd /qt/qt-everywhere-src-${QTVERSION} && \
 ./configure -v \
 -prefix /opt/qt${QTVERSION} \
@@ -54,7 +54,7 @@ make -j8 && \
 make -j8 install && rm -Rf /qt
 
 ## Install llvm
-ARG LLVM_VERSION=7.0.0
+ARG LLVM_VERSION=8.0.0
 RUN mkdir -p /llvm && cd /llvm && \
 wget http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
 tar xvf llvm-${LLVM_VERSION}.src.tar.xz && \
@@ -63,7 +63,7 @@ cd tools && \
 wget http://llvm.org/releases/${LLVM_VERSION}/cfe-${LLVM_VERSION}.src.tar.xz && \
 tar xvf cfe-${LLVM_VERSION}.src.tar.xz && \
 . /opt/rh/python27/enable && \
-. /opt/rh/devtoolset-4/enable && \
+. /opt/rh/devtoolset-6/enable && \
 python --version && \
 cd /llvm/llvm-${LLVM_VERSION}.src && mkdir -p build && cd build && \
 cmake .. -DCMAKE_INSTALL_PREFIX=/opt/llvm/ \
@@ -75,8 +75,8 @@ WORKDIR /opt
 ## Botan
 RUN git clone https://github.com/randombit/botan.git /botan && \
 cd /botan && \
-ln -sf /opt/rh/devtoolset-4/root/usr/bin/g++ /usr/bin/g++ && \
-ln -sf /opt/rh/devtoolset-4/root/usr/bin/c++ /usr/bin/c++ && \
+ln -sf /opt/rh/devtoolset-6/root/usr/bin/g++ /usr/bin/g++ && \
+ln -sf /opt/rh/devtoolset-6/root/usr/bin/c++ /usr/bin/c++ && \
 git checkout 2.1.0 && \
 ./configure.py --disable-shared --prefix=/opt/botan && \
 make -j8 && make install && \
@@ -112,13 +112,8 @@ git checkout 4.4
 RUN useradd -u 1000 builder
 
 # Make sure the above SCLs are already enabled
-ENTRYPOINT ["/usr/bin/scl", "enable", "python27", "devtoolset-4", "git19", "--"]
-CMD ["/usr/bin/scl", "enable", "python27", "devtoolset-4", "git19", "--", "/bin/bash"]
-
-RUN GCC_VERSION=$(g++ -dumpversion) && \
-ln -s /opt/rh/devtoolset-4/root/usr/include/c++/${GCC_VERSION} /usr/include/c++/${GCC_VERSION} && \
-ln -s /opt/rh/devtoolset-4/root/usr/lib/gcc/x86_64-redhat-linux/${GCC_VERSION} \
-/usr/lib/gcc/x86_64-redhat-linux/${GCC_VERSION}
+ENTRYPOINT ["/usr/bin/scl", "enable", "python27", "devtoolset-6", "--"]
+CMD ["/usr/bin/scl", "enable", "python27", "devtoolset-6", "--", "/bin/bash"]
 
 WORKDIR /home/builder
 USER builder

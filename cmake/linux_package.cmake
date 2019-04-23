@@ -49,12 +49,15 @@ function(AddSharedToComponent)
 	INSTALL(DIRECTORY
 		${CMAKE_SOURCE_DIR}/bin/app/data
 		DESTINATION Sourcetrail
-		PATTERN "log/*" EXCLUDE
-		PATTERN "data/src" EXCLUDE
-		PATTERN "projects" EXCLUDE
-		PATTERN "data/install" EXCLUDE
+		PATTERN "install" EXCLUDE
 		PATTERN "ProjectSettings_template.xml" EXCLUDE
 		PATTERN "color_scheme_template.xml" EXCLUDE
+		PATTERN "python/SourcetrailPythonIndexer" EXCLUDE
+	)
+
+	INSTALL(PROGRAMS
+		${CMAKE_SOURCE_DIR}/bin/app/data/python/SourcetrailPythonIndexer
+		DESTINATION Sourcetrail/data/python
 	)
 
 	INSTALL(FILES
@@ -105,6 +108,7 @@ function(AddSharedToComponent)
 
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION Sourcetrail
+		PATTERN "log/*" EXCLUDE
 		PATTERN "ApplicationSettings.xml" EXCLUDE
 		PATTERN "ApplicationSettings_template.xml" EXCLUDE
 	)
