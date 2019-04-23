@@ -27,27 +27,27 @@
 		<background>white</background>
 
 		<button>
-			<normal>#D0D0D0</normal>
-			<hover>#A2A2A2</hover>
-			<press>#727272</press>
-			<disabled>#F2F2F2</disabled>
+			<normal>#B0B0B0</normal>
+			<hover>#828282</hover>
+			<press>#626262</press>
+			<disabled>#E2E2E2</disabled>
 			<icon>white</icon>
-			<icon_disabled>#CECECE</icon_disabled>
+			<icon_disabled>#9E9E9E</icon_disabled>
 		</button>
 
 		<field>
 			<text>black</text>
-			<background>#D0D0D0</background>
-			<border>#D0D0D0</border>
-			<highlight>#A2A2A2</highlight>
+			<background>white</background>
+			<border>#B0B0B0</border>
+			<highlight>#929292</highlight>
 		</field>
 
 		<popup>
 			<text>black</text>
 			<by_text>#525252</by_text>
 			<background>white</background>
-			<highlight>#D0D0D0</highlight>
-			<line>#D0D0D0</line>
+			<highlight>#C0C0C0</highlight>
+			<line>#C0C0C0</line>
 		</popup>
 
 		<query>
@@ -104,14 +104,14 @@
 		</navigation>
 
 		<file>
-			<background>#D0D0D0</background>
-			<hover>#D9D9D9</hover>
+			<background>#D8D8D8</background>
+			<hover>#E0E0E0</hover>
 
 			<title>
 				<text>black</text>
 				<normal>#D0D0D0</normal>
-				<hover>#B2B2B2</hover>
-				<press>#A2A2A2</press>
+				<hover>#C0C0C0</hover>
+				<press>#B5B5B5</press>
 				<icon>black</icon>
 				<border>white</border>
 				<hatching>bright</hatching>
@@ -127,17 +127,17 @@
 			<background>white</background>
 
 			<title>
-				<text>#A0A0A0</text>
+				<text>#909090</text>
 				<background>transparent</background>
 				<hover>#F5F5F5</hover>
 			</title>
 
 			<line_number>
 				<text>black</text>
-				<inactive_text>#A0A0A0</inactive_text>
+				<inactive_text>#909090</inactive_text>
 				<background>white</background>
 				<marker>
-					<active>#D0D0D0</active>
+					<active>#C0C0C0</active>
 					<focus>#727272</focus>
 				</marker>
 			</line_number>
@@ -147,7 +147,7 @@
 				<directive>#1B8856</directive>
 				<keyword>#1B8856</keyword>
 				<type>#C1492D</type>
-				<comment>#6B9AB2</comment>
+				<comment>#3D84A8</comment>
 				<number>#C1315E</number>
 				<quotation>#865F9E</quotation>
 				<function>#B0812C</function>
@@ -233,7 +233,7 @@
 		<node>
 			<default>
 				<fill>
-					<normal>#E6E6E6</normal>
+					<normal>#D6D6D6</normal>
 				</fill>
 				<border>
 					<normal>#3C3C3C</normal>
@@ -245,7 +245,7 @@
 					<normal>black</normal>
 				</icon>
 				<hatching>
-					<normal>#F5F5F5</normal>
+					<normal>#F0F0F0</normal>
 				</hatching>
 			</default>
 
@@ -500,8 +500,8 @@
 			</annotation_use>
 
 			<aggregation>
-				<normal>#DDD</normal>
-				<focus>#CCC</focus>
+				<normal>#CCC</normal>
+				<focus>#BBB</focus>
 			</aggregation>
 		</edge>
 	</graph>
@@ -510,7 +510,7 @@
 		<background>white</background>
 		<bar>
 			<background>#E0E0E0</background>
-			<border>#BEBEBE</border>
+			<border>#A2A2A2</border>
 			<button>
 				<text>
 					<normal>#555</normal>
