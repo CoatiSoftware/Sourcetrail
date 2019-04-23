@@ -13,6 +13,11 @@ SourceGroupPythonEmpty::SourceGroupPythonEmpty(std::shared_ptr<SourceGroupSettin
 {
 }
 
+bool SourceGroupPythonEmpty::allowsPartialClearing() const
+{
+	return false;
+}
+
 std::set<FilePath> SourceGroupPythonEmpty::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
 	return SourceGroup::filterToContainedFilePaths(
