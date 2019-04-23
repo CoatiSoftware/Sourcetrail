@@ -79,7 +79,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	ss << "\t" + std::to_string(stats.fileLOCCount) + " lines of code\n";
 	ss << "\n";
 	ss << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
-	ss << "\t" + std::to_string(stats.edgeCount) + " relations\n";
+	ss << "\t" + std::to_string(stats.edgeCount) + " references\n";
 	ss << "\n";
 	ss << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) + " fatal)\n";
 	ss << "\n";
