@@ -375,6 +375,15 @@ void QtGraphEdge::focusIn()
 			}
 			info.offset = Vec2i(10, 20);
 
+			if (type == Edge::EDGE_INHERITANCE && getData())
+			{
+				TokenComponentInheritanceChain* componentInheritance = getData()->getComponent<TokenComponentInheritanceChain>();
+				if (componentInheritance && componentInheritance->inheritanceEdgeIds.size() > 1)
+				{
+					info.title = L"multi-level " + info.title;
+				}
+			}
+
 			MessageTooltipShow(info, TOOLTIP_ORIGIN_GRAPH).dispatch();
 		}
 	}

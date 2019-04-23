@@ -18,6 +18,7 @@
 #include "StorageAccess.h"
 #include "TokenComponentAccess.h"
 #include "TokenComponentFilePath.h"
+#include "TokenComponentInheritanceChain.h"
 #include "Graph.h"
 #include "AccessKind.h"
 #include "ApplicationSettings.h"
@@ -2600,10 +2601,15 @@ void GraphController::createLegendGraph()
 
 		{
 			addText(L"class inheritance", 0, Vec2i(x, y + dy * ++i));
-			Node* base = addNode(NodeType::NODE_CLASS, L"Base Class", Vec2i(x, y + dy * ++i));
-			i += 2;
-			Node* derived = addNode(NodeType::NODE_CLASS, L"Derived Class", Vec2i(x, y + dy * i));
+			Node* base = addNode(NodeType::NODE_CLASS, L"Base Class", Vec2i(x, y + dy * (i + 1)));
+			Node* derived = addNode(NodeType::NODE_CLASS, L"Derived Class", Vec2i(x, y + dy * (i + 3)));
 			addEdge(Edge::EDGE_INHERITANCE, derived, base);
+
+			Node* base2 = addNode(NodeType::NODE_CLASS, L"Base Class", Vec2i(x + 180, y + dy * (i + 1)));
+			Node* derived2 = addNode(NodeType::NODE_CLASS, L"Derived Derived Class", Vec2i(x + 180, y + dy * (i + 3)));
+			Edge* edge = addEdge(Edge::EDGE_INHERITANCE, derived2, base2);
+			edge->addComponent(std::make_shared<TokenComponentInheritanceChain>(std::vector<Id>({ 1, 2 })));
+			i += 3;
 		}
 
 		{
