@@ -1,5 +1,7 @@
 #include "CanonicalFilePathCache.h"
 
+#include <clang/AST/ASTContext.h>
+
 #include "utilityString.h"
 #include "utilityClang.h"
 
@@ -116,6 +118,19 @@ Id CanonicalFilePathCache::getFileSymbolId(const std::wstring& path)
 	}
 
 	return 0;
+}
+
+std::wstring CanonicalFilePathCache::getDeclarationFileName(const clang::Decl* declaration)
+{
+	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+	const clang::FileID fileId = sourceManager.getFileID(declaration->getBeginLoc());
+	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+	if (fileEntry != nullptr && fileEntry->isValid())
+	{
+		return getCanonicalFilePath(fileId, sourceManager).fileName();
+	}
+	return getCanonicalFilePath(
+		utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getBeginLoc()).getFilename())).fileName();
 }
 
 bool CanonicalFilePathCache::isProjectFile(const clang::FileID& fileId, const clang::SourceManager& sourceManager)

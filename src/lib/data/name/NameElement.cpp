@@ -38,7 +38,7 @@ std::wstring NameElement::Signature::qualifyName(const std::wstring& name) const
 
 bool NameElement::Signature::isValid() const
 {
-	return ((m_prefix + m_postfix).size() > 0);
+	return !m_prefix.empty() || !m_postfix.empty();
 }
 
 const std::wstring& NameElement::Signature::getPrefix() const
@@ -53,7 +53,7 @@ const std::wstring& NameElement::Signature::getPostfix() const
 
 std::wstring NameElement::Signature::getParameterString() const
 {
-	if (m_postfix.size())
+	if (!m_postfix.empty())
 	{
 		return utility::substrBeforeLast(m_postfix, L')') + L')';
 	}

@@ -21,7 +21,6 @@ private:
 	std::unique_ptr<CxxName> getContextName(const clang::DeclContext* declaration);
 	std::unique_ptr<CxxDeclName> getDeclName(const clang::NamedDecl* declaration);
 	std::wstring getTranslationUnitMainFileName(const clang::Decl* declaration);
-	std::wstring getDeclarationFileName(const clang::Decl* declaration);
 	std::wstring getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration);
 	std::vector<std::wstring> getTemplateParameterStrings(const clang::TemplateDecl* templateDecl);
 	template <typename T>

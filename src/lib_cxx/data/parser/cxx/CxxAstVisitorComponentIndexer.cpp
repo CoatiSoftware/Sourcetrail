@@ -11,6 +11,7 @@
 #include "CxxAstVisitorComponentDeclRefKind.h"
 #include "CxxAstVisitorComponentTypeRefKind.h"
 #include "CxxDeclNameResolver.h"
+#include "CxxFunctionDeclName.h"
 #include "CxxTypeNameResolver.h"
 #include "utilityClang.h"
 #include "ParserClient.h"
@@ -835,6 +836,18 @@ Id CxxAstVisitorComponentIndexer::getOrCreateSymbolId(const clang::NamedDecl* de
 		if (declName)
 		{
 			symbolName = declName->toNameHierarchy();
+
+			// TODO: replace duplicate main definition fix with better solution
+			if (dynamic_cast<CxxFunctionDeclName*>(declName.get()) && symbolName.size() == 1 && symbolName.back().getName() == L"main")
+			{
+				NameElement::Signature sig = symbolName.back().getSignature();
+				symbolName.pop();
+				symbolName.push(NameElement(
+					L".:main:." + getAstVisitor()->getCanonicalFilePathCache()->getDeclarationFileName(decl),
+					sig.getPrefix(),
+					sig.getPostfix()
+				));
+			}
 		}
 	}
 

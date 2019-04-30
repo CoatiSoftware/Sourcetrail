@@ -89,6 +89,15 @@ NameHierarchy NameHierarchy::deserialize(const std::wstring& serializedName)
 		nameHierarchy.push(NameElement(std::move(name), std::move(prefix), std::move(postfix)));
 	}
 
+	// TODO: replace duplicate main definition fix with better solution
+	if (nameHierarchy.size() == 1 && nameHierarchy.back().hasSignature() && !nameHierarchy.back().getName().empty() &&
+		nameHierarchy.back().getName()[0] == '.' && utility::isPrefix<std::wstring>(L".:main:.", nameHierarchy.back().getName()))
+	{
+		NameElement::Signature sig = nameHierarchy.back().getSignature();
+		nameHierarchy.pop();
+		nameHierarchy.push(NameElement(L"main", sig.getPrefix(), sig.getPostfix()));
+	}
+
 	return nameHierarchy;
 }
 

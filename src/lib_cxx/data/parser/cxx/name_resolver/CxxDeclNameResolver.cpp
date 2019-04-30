@@ -382,7 +382,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					std::wstring scopeFileName;
 					if (varDecl->getType().isConstQualified())
 					{
-						scopeFileName = getDeclarationFileName(declaration);
+						scopeFileName = getCanonicalFilePathCache()->getDeclarationFileName(declaration);
 					}
 					else
 					{
@@ -450,19 +450,6 @@ std::wstring CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::De
 	return getCanonicalFilePathCache()->getCanonicalFilePath(sourceManager.getMainFileID(), sourceManager).fileName();
 }
 
-std::wstring CxxDeclNameResolver::getDeclarationFileName(const clang::Decl* declaration)
-{
-	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-	const clang::FileID fileId = sourceManager.getFileID(declaration->getBeginLoc());
-	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-	if (fileEntry != nullptr && fileEntry->isValid())
-	{
-		return getCanonicalFilePathCache()->getCanonicalFilePath(fileId, sourceManager).fileName();
-	}
-	return getCanonicalFilePathCache()->getCanonicalFilePath(
-		utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getBeginLoc()).getFilename())).fileName();
-}
-
 std::wstring CxxDeclNameResolver::getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
@@ -471,7 +458,7 @@ std::wstring CxxDeclNameResolver::getNameForAnonymousSymbol(const std::wstring& 
 	if (presumedBegin.isValid())
 	{
 		return L"anonymous " + symbolKindName +
-			L" (" + getDeclarationFileName(declaration) + L'<' + std::to_wstring(presumedBegin.getLine()) + L':' +
+			L" (" + getCanonicalFilePathCache()->getDeclarationFileName(declaration) + L'<' + std::to_wstring(presumedBegin.getLine()) + L':' +
 			std::to_wstring(presumedBegin.getColumn()) + L">)";
 	}
 	return L"anonymous " + symbolKindName;

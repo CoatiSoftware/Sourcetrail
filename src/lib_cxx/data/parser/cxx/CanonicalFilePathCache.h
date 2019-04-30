@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 
+#include <clang/AST/Decl.h>
 #include <clang/Basic/SourceManager.h>
 
 #include "FilePath.h"
@@ -27,6 +28,8 @@ public:
 	Id getFileSymbolId(const clang::FileID& fileId);
 	Id getFileSymbolId(const clang::FileEntry* entry);
 	Id getFileSymbolId(const std::wstring& path);
+
+	std::wstring getDeclarationFileName(const clang::Decl* declaration);
 
 	bool isProjectFile(const clang::FileID& fileId, const clang::SourceManager& sourceManager);
 
