@@ -592,6 +592,76 @@ yBAHSwjidKqg==
 		Version::setApplicationVersion(version);
 	}
 
+	void test_check_old_format_test_license()
+	{
+		License license;
+		bool ok = license.loadFromString(
+R"(-----BEGIN LICENSE-----
+Product: Sourcetrail
+Licensed to: Jane Doe
+License type: Test License (unlimited users)
+Valid until: 2022-Jan-30
+-
+$9$AQAK6jsDjs5kS109CigXYuu89ixUkcRA6BAVOy4PN89wfuFDBY5v
+fVaBI7FcM967hoAIM6RHO928Ba8Ct21eZtTwRmvuYpXC4xmKxw9zxEH
+eAcxbDrTY+qZJLM9b3cClCHQK+PN+zjOtcEUxm/Yi05hbRv6F5Hq6P+
+jv18gIfk2Jz+RnS5ev7ajENop7INhnTex6QW7B3G9W5GD89mzlNhSmQ
+aKaqGeUyBEFDwBVdHDo7NlxBCbW5b/o0+xiOHsaMESINkFz7B7tPwtv
+JDWHHJYC6gPoQ3E7EtsjoTsUSiNvVuxy2yTozFkCiNfrul9gHUD0Kt8
+p/L7p61+0LrU2qRJmJ3j5DHfYK/nc7uIBVrT1juAxYkAtpSSd17NUZW
+Yqov3eYdCVEw==
+-----END LICENSE-----)"
+		);
+
+		TS_ASSERT(ok);
+		TS_ASSERT_EQUALS(license.getUser(), "Jane Doe");
+		TS_ASSERT_EQUALS(license.getType(), "Test License");
+		TS_ASSERT_EQUALS(license.getNumberOfUsers(), 0);
+		TS_ASSERT(license.getTimeLeft() >= 0);
+		TS_ASSERT(license.isComplete());
+		TS_ASSERT(!license.isEmpty());
+		TS_ASSERT(!license.isExpired());
+		TS_ASSERT(license.isTestLicense());
+
+		LicenseChecker::loadPublicKey();
+		TS_ASSERT_EQUALS(LicenseChecker::checkLicense(license), LicenseChecker::LicenseState::VALID);
+	}
+
+	void test_check_old_format_test_license_expired()
+	{
+		License license;
+		bool ok = license.loadFromString(
+R"(-----BEGIN LICENSE-----
+Product: Sourcetrail
+Licensed to: Jane Doe
+License type: Test License (unlimited users)
+Valid until: 2019-May-04
+-
+$9$AQAKTC9+XnNMcOoQSd3f+hMUd6zIKvtPVoMMYEC54gAWRSP3UE6r
+k9wzoOr91V6HrisqtEprRyaWplxina6feelNv2XeNlFGoTpEa/3b94K
+vIJFxViTRP80KPsC463Ef0a9eW6ZQiWJ+eDDUUokKtxikimb+lw3Dkd
+e5Q+i6eGmarrrTi6OxEnMuNTSYS8ZpvzjhdEkvksKY+AAjQa44uwoFE
+5Bda1BpZOZS7tFq9Sr+dkerAL+SDaHgx8grNuWMxb1YhZvROk7YguNL
+jexviF8On4aw2R5LAjXmRDw/E1pzA/JRYfw7rLRz72/8gL034yCRUwu
+HjIOkNTpWRBlXCbBZrDfXpjZrfYHLsYOZMmjwTo7I/OHrzUR0cxV6Qh
+tgkMf1OQTpsw==
+-----END LICENSE-----)"
+		);
+
+		TS_ASSERT(ok);
+		TS_ASSERT_EQUALS(license.getUser(), "Jane Doe");
+		TS_ASSERT_EQUALS(license.getType(), "Test License");
+		TS_ASSERT_EQUALS(license.getNumberOfUsers(), 0);
+		TS_ASSERT_EQUALS(license.getTimeLeft(), -1);
+		TS_ASSERT(license.isComplete());
+		TS_ASSERT(!license.isEmpty());
+		TS_ASSERT(license.isExpired());
+		TS_ASSERT(license.isTestLicense());
+
+		LicenseChecker::loadPublicKey();
+		TS_ASSERT_EQUALS(LicenseChecker::checkLicense(license), LicenseChecker::LicenseState::EXPIRED);
+	}
+
 	void test_check_one_hundred_year_testimonial_license()
 	{
 		License license;

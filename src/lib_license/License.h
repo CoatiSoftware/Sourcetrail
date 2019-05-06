@@ -30,7 +30,7 @@ namespace LicenseConstants
 	const char VALID_UNLIMITED[] = "unlimited";
 
 	const char LICENSED_TO_OLD[] = "Licensed to: ";
-	const char VALID_UNTIL_OLD[] = "Valid for: ";
+	const char VALID_UNTIL_OLD[] = "Valid until: ";
 	const char VALID_UP_TO_OLD[] = "Valid up to version: ";
 
 	const char SEPARATOR[] = "-";
