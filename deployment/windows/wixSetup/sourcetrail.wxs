@@ -271,7 +271,8 @@
 			<!-- <Feature Id='SampleCode' Title='Samples' Description='Tutorial and Sample Project' Level='1000'> -->
 				<ComponentRef Id='SampleProjects'/>
 				<ComponentGroupRef Id='SampleJavaparserComponentGroup' Primary="yes"/>
-				<ComponentGroupRef Id='SampleTictactoeComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='SampleTictactoeCppComponentGroup' Primary="yes"/>
+				<ComponentGroupRef Id='SampleTictactoePyComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='SampleTutorialComponentGroup' Primary="yes"/>
 			</Feature>
 		</Feature>
