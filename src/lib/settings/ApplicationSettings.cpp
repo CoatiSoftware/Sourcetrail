@@ -88,7 +88,6 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 			utility::append(recentProjects, migration->getValuesFromSettings(
 				settings, "user/recent_projects/recent_project", std::vector<std::string>())
 			);
-			recentProjects.pop_back();
 
 			for (size_t i = 0; i < recentProjects.size(); i++)
 			{

@@ -485,7 +485,7 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 		}
 
 		recentProjects.insert(recentProjects.begin(), projectSettingsFilePath);
-		while (recentProjects.size() > 7)
+		while (recentProjects.size() > appSettings->getMaxRecentProjectsCount())
 		{
 			recentProjects.pop_back();
 		}
