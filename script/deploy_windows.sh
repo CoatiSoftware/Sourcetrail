@@ -74,8 +74,9 @@ echo -e "$INFO building the app (64 bit)"
 if [ $UPDATE_DATABASES = true ]; then
 	echo -e "$INFO creating databases"
 
-	rm bin/app/user/projects/tictactoe/tictactoe.srctrldb
 	rm bin/app/user/projects/tutorial/tutorial.srctrldb
+	rm bin/app/user/projects/tictactoe_cpp/tictactoe_cpp.srctrldb
+	rm bin/app/user/projects/tictactoe_py/tictactoe_py.srctrldb
 	rm bin/app/user/projects/javaparser/javaparser.srctrldb
 	rm -rf temp
 
@@ -87,11 +88,14 @@ if [ $UPDATE_DATABASES = true ]; then
 	../build/win32/Release/app/Sourcetrail.exe config -t 8
 	../build/win32/Release/app/Sourcetrail.exe config -M 1024
 
-	echo -e "$INFO creating database for tictactoe"
-	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe/tictactoe.srctrlprj
-
 	echo -e "$INFO creating database for tutorial"
 	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tutorial/tutorial.srctrlprj
+
+	echo -e "$INFO creating database for tictactoe_cpp"
+	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_cpp/tictactoe_cpp.srctrlprj
+	
+	echo -e "$INFO creating database for tictactoe_py"
+	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_py/tictactoe_py.srctrlprj
 
 	echo -e "$INFO creating database for javaparser"
 	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/javaparser/javaparser.srctrlprj
@@ -210,8 +214,10 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
 		cp -u -r bin/app/user/projects/javaparser/* $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
-		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe/
-		cp -u -r bin/app/user/projects/tictactoe/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe_cpp/
+		cp -u -r bin/app/user/projects/tictactoe_cpp/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe_cpp/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe_py/
+		cp -u -r bin/app/user/projects/tictactoe_py/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe_py/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tutorial/
 		cp -u -r bin/app/user/projects/tutorial/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tutorial/
 

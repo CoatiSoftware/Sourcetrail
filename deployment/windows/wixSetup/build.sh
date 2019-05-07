@@ -41,11 +41,13 @@ mkdir -p $OUTPUT_DIR
 
 # user
 SAMPLE_JAVAPARSER_DIR=$ROOT_DIR/bin/app/user/projects/javaparser
-SAMPLE_TICTACTOE_DIR=$ROOT_DIR/bin/app/user/projects/tictactoe
+SAMPLE_TICTACTOE_CPP_DIR=$ROOT_DIR/bin/app/user/projects/tictactoe_cpp
+SAMPLE_TICTACTOE_PY_DIR=$ROOT_DIR/bin/app/user/projects/tictactoe_py
 SAMPLE_TUTORIAL_DIR=$ROOT_DIR/bin/app/user/projects/tutorial
 
 heat.exe dir $SAMPLE_JAVAPARSER_DIR -cg SampleJavaparserComponentGroup -var var.SampleJavaparserSourceDir -out build/sampleJavaparser.wxs -gg -sfrag -g1 -dr SampleProjects -t $SCRIPT_DIR/HeatTransform.xslt
-heat.exe dir $SAMPLE_TICTACTOE_DIR -cg SampleTictactoeComponentGroup -var var.SampleTictactoeSourceDir -out build/sampleTictactoe.wxs -gg -sfrag -g1 -dr SampleProjects -t $SCRIPT_DIR/HeatTransform.xslt
+heat.exe dir $SAMPLE_TICTACTOE_CPP_DIR -cg SampleTictactoeCppComponentGroup -var var.SampleTictactoeCppSourceDir -out build/sampleTictactoeCpp.wxs -gg -sfrag -g1 -dr SampleProjects -t $SCRIPT_DIR/HeatTransform.xslt
+heat.exe dir $SAMPLE_TICTACTOE_PY_DIR -cg SampleTictactoePyComponentGroup -var var.SampleTictactoePySourceDir -out build/sampleTictactoePy.wxs -gg -sfrag -g1 -dr SampleProjects -t $SCRIPT_DIR/HeatTransform.xslt
 heat.exe dir $SAMPLE_TUTORIAL_DIR -cg SampleTutorialComponentGroup -var var.SampleTutorialSourceDir -out build/sampleTutorial.wxs -gg -sfrag -g1 -dr SampleProjects -t $SCRIPT_DIR/HeatTransform.xslt
 
 
@@ -72,7 +74,8 @@ heat.exe dir $DATA_SYNTAX_HIGHLIGHTING_RULES_DIR -cg DataSyntaxHighlightingRules
 
 candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -dWin64="$WIN_64" -arch $X_ARCH -out build/ \
 	-dSampleJavaparserSourceDir="$SAMPLE_JAVAPARSER_DIR" build/sampleJavaparser.wxs \
-	-dSampleTictactoeSourceDir="$SAMPLE_TICTACTOE_DIR" build/sampleTictactoe.wxs \
+	-dSampleTictactoeCppSourceDir="$SAMPLE_TICTACTOE_CPP_DIR" build/sampleTictactoeCpp.wxs \
+	-dSampleTictactoePySourceDir="$SAMPLE_TICTACTOE_PY_DIR" build/sampleTictactoePy.wxs \
 	-dSampleTutorialSourceDir="$SAMPLE_TUTORIAL_DIR" build/sampleTutorial.wxs \
 	-dDataColorSchemesSourceDir="$DATA_COLOR_SCHEMES_DIR" build/dataColorSchemes.wxs \
 	-dDataCxxSourceDir="$DATA_CXX_DIR" build/dataCxx.wxs \
@@ -88,7 +91,8 @@ candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -dWi
 	
 light.exe -ext WixUIExtension \
 	build/sampleJavaparser.wixobj \
-	build/sampleTictactoe.wixobj \
+	build/sampleTictactoeCpp.wixobj \
+	build/sampleTictactoePy.wixobj \
 	build/sampleTutorial.wixobj \
 	build/dataColorSchemes.wixobj \
 	build/dataCxx.wixobj \

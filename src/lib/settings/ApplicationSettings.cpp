@@ -13,7 +13,7 @@
 #include "UserPaths.h"
 #include "Version.h"
 
-const size_t ApplicationSettings::VERSION = 6;
+const size_t ApplicationSettings::VERSION = 7;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -80,7 +80,26 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 			}
 		}
 	));
+	migrator.addMigration(7, std::make_shared<SettingsMigrationLambda>(
+		[](const SettingsMigration* migration, Settings* settings)
+		{
+			std::vector<std::string> recentProjects;
+			recentProjects.push_back("./projects/tictactoe_py/tictactoe_py.srctrlprj");
+			utility::append(recentProjects, migration->getValuesFromSettings(
+				settings, "user/recent_projects/recent_project", std::vector<std::string>())
+			);
+			recentProjects.pop_back();
 
+			for (size_t i = 0; i < recentProjects.size(); i++)
+			{
+				if (recentProjects[i] == "./projects/tictactoe/tictactoe.srctrlprj")
+				{
+					recentProjects[i] = "./projects/tictactoe_cpp/tictactoe_cpp.srctrlprj";
+				}
+			}
+			migration->setValuesInSettings(settings, "user/recent_projects/recent_project", recentProjects);
+		}
+	));
 	bool migrated = migrator.migrate(this, ApplicationSettings::VERSION);
 	if (migrated)
 	{

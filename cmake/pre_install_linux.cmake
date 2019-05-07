@@ -19,7 +19,11 @@ execute_process(
 )
 
 execute_process(
-	COMMAND ${binPath} index --full ${projPath}/tictactoe/tictactoe.srctrlprj
+	COMMAND ${binPath} index --full ${projPath}/tictactoe_cpp/tictactoe_cpp.srctrlprj
+)
+
+execute_process(
+	COMMAND ${binPath} index --full ${projPath}/tictactoe_py/tictactoe_py.srctrlprj
 )
 
 execute_process(

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-  <application>
+	<application>
 		<window_base_width>500</window_base_width>
 		<window_base_height>500</window_base_height>
 	</application>
-  <indexing>
-    <indexer_thread_count>0</indexer_thread_count>
-  </indexing>
+	<indexing>
+		<indexer_thread_count>0</indexer_thread_count>
+	</indexing>
 	<user>
 		<recent_projects>
 			<recent_project>./projects/tutorial/tutorial.srctrlprj</recent_project>
-			<recent_project>./projects/tictactoe/tictactoe.srctrlprj</recent_project>
+			<recent_project>./projects/tictactoe_cpp/tictactoe_cpp.srctrlprj</recent_project>
+			<recent_project>./projects/tictactoe_py/tictactoe_py.srctrlprj</recent_project>
 			<recent_project>./projects/javaparser/javaparser.srctrlprj</recent_project>
 		</recent_projects>
 	</user>
-    <version>6</version>
+    <version>7</version>
 </config>

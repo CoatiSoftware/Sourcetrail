@@ -81,14 +81,16 @@ int Field::SameInRow( Token token, int amount ) const {
 	for ( int i = 0; i < 3; i++ ) {
 		if ( grid_[i][0] + grid_[i][1] + grid_[i][2] == sum ) {
 			count++;
-		} else if ( grid_[0][i] + grid_[1][i] + grid_[2][i] == sum ) {
+		} 
+		if ( grid_[0][i] + grid_[1][i] + grid_[2][i] == sum ) {
 			count++;
 		}
 	}
 
 	if ( grid_[0][0] + grid_[1][1] + grid_[2][2] == sum ) {
 		count++;
-	} else if ( grid_[2][0] + grid_[1][1] + grid_[0][2] == sum ) {
+	} 
+	if ( grid_[2][0] + grid_[1][1] + grid_[0][2] == sum ) {
 		count++;
 	}
 
@@ -117,7 +119,7 @@ void Field::MakeMove( const Move& move, Token token ) {
 }
 
 void Field::ClearMove( const Move& move ) {
-	if ( !InRange( move ) || !IsEmpty( move ) || left_ == 9 ) {
+	if ( !InRange( move ) || IsEmpty( move ) || left_ == 9 ) {
 		return;
 	}
 
