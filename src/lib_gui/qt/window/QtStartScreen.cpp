@@ -84,6 +84,7 @@ QtStartScreen::QtStartScreen(QWidget *parent)
 	: QtWindow(true, parent)
 	, m_cppIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/cpp_icon.png").wstr()))
 	, m_cIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/c_icon.png").wstr()))
+	, m_pythonIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/python_icon.png").wstr()))
 	, m_javaIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/java_icon.png").wstr()))
 	, m_projectIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/empty_icon.png").wstr()))
 {
@@ -112,6 +113,9 @@ void QtStartScreen::updateButtons()
 					break;
 				case LANGUAGE_CPP:
 					button->setIcon(m_cppIcon);
+					break;
+				case LANGUAGE_PYTHON:
+					button->setIcon(m_pythonIcon);
 					break;
 				case LANGUAGE_JAVA:
 					button->setIcon(m_javaIcon);
