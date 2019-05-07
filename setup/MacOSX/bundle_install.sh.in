@@ -78,7 +78,7 @@ cp -R ../../../bin/app/data/java $RES_DIR/data/java
 cp -R ../../../bin/app/data/python $RES_DIR/data/python
 cp -R ../../../bin/app/data/fallback $RES_DIR/data/fallback
 cp -R ../../../bin/app/user/projects $RES_DIR/data/fallback/projects
-cp -R ../../../bin/app/data/license $RES_DIR/license
+cp -R ../../../bin/app/data/license $RES_DIR/data/license
 
 mkdir -p $RES_DIR/data/cxx/include
 cp -R ../../../bin/app/data/cxx/include/* $RES_DIR/data/cxx/include
