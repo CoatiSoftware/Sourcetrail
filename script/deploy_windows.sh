@@ -192,9 +192,9 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 
 
 		# COPYING APPLICATION DATA
-		mkdir -p $PORTABLE_PACKAGE_APP_DIR/license/3rd_party_licenses/
-		cp -u -r bin/app/data/license/3rd_party_licenses/* $PORTABLE_PACKAGE_APP_DIR/license/3rd_party_licenses/
-		cp -u -r bin/app/data/license/EULA.rtf $PORTABLE_PACKAGE_APP_DIR/license/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/license/3rd_party_licenses/
+		cp -u -r bin/app/data/license/3rd_party_licenses/* $PORTABLE_PACKAGE_APP_DIR/data/license/3rd_party_licenses/
+		cp -u -r bin/app/data/license/EULA.txt $PORTABLE_PACKAGE_APP_DIR/data/license/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
 		cp -u -r bin/app/data/color_schemes/* $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/cxx/

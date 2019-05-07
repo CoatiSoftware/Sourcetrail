@@ -287,42 +287,41 @@
 				</Component>
 			</Directory>
 
-			<Directory Id='License' Name='license'>
-				<Component Id='EulaRtf' Guid='*' Win64="$(var.Win64)">
-					<File Id='EulaRtfId' Name='EULA.rtf' DiskId='1' Source='./../../../bin/app/data/license/EULA.rtf' KeyPath='yes' />
-				</Component>
-				<Directory Id='ThirdPartyLicenses' Name='3rd_party_licenses'>
-					<Component Id='LicenseBoostTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseBoost' Name='license_boost.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_boost.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseBotanTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseBotan' Name='license_botan.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_botan.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseClangTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseClang' Name='license_clang.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_clang.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseCppSqliteTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseCppSqlite' Name='license_cpp_sqlite.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_cpp_sqlite.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseEclipseTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseEclipse' Name='license_eclipse.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_eclipse.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseGradleTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseGradle' Name='license_gradle.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_gradle.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseOpensslTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseOpenssl' Name='license_openssl.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_openssl.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseQtTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseQt' Name='license_qt.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_qt.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseTinyxmlTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseTinyxml' Name='license_tinyxml.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_tinyxml.txt' KeyPath='yes' />
-					</Component>
-				</Directory>
-			</Directory>
-
 			<Directory Id='LieutenantCommanderData' Name='data'>
+				<Directory Id='License' Name='license'>
+					<Component Id='EulaTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='EulaTxtId' Name='EULA.txt' DiskId='1' Source='./../../../bin/app/data/license/EULA.txt' KeyPath='yes' />
+					</Component>
+					<Directory Id='ThirdPartyLicenses' Name='3rd_party_licenses'>
+						<Component Id='LicenseBoostTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseBoost' Name='license_boost.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_boost.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseBotanTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseBotan' Name='license_botan.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_botan.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseClangTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseClang' Name='license_clang.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_clang.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseCppSqliteTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseCppSqlite' Name='license_cpp_sqlite.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_cpp_sqlite.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseEclipseTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseEclipse' Name='license_eclipse.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_eclipse.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseGradleTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseGradle' Name='license_gradle.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_gradle.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseOpensslTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseOpenssl' Name='license_openssl.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_openssl.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseQtTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseQt' Name='license_qt.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_qt.txt' KeyPath='yes' />
+						</Component>
+						<Component Id='LicenseTinyxmlTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='LicenseTinyxml' Name='license_tinyxml.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_tinyxml.txt' KeyPath='yes' />
+						</Component>
+					</Directory>
+				</Directory>
 			</Directory>
 
 <?if $(sys.BUILDARCH) = x64 ?>

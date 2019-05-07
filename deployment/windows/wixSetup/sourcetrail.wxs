@@ -239,7 +239,7 @@
 				<ComponentRef Id='QWBmpDll'/>
 				<ComponentRef Id='QWebpDll'/>
 				
-				<ComponentRef Id='EulaRtf'/>
+				<ComponentRef Id='EulaTxt'/>
 				<ComponentRef Id='LicenseBoostTxt'/>
 				<ComponentRef Id='LicenseBotanTxt'/>
 				<ComponentRef Id='LicenseClangTxt'/>
