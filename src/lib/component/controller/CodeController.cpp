@@ -287,6 +287,7 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 
 	if (message->needsData && !message->filePath.empty())
 	{
+		view->scrollTo(CodeView::ScrollParams());
 		showCodeSnippets(getSnippetsForFileWithState(message->filePath, state), CodeView::CodeParams(), !message->showErrors);
 	}
 
