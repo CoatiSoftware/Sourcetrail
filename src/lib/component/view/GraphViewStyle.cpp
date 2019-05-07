@@ -609,7 +609,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfGroupNode(GroupType type, bo
 }
 
 GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
-	Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge)
+	Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge, bool isAmbiguous)
 {
 	EdgeStyle style;
 
@@ -704,6 +704,11 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.targetOffset.y = 0;
 	default:
 		break;
+	}
+
+	if (isAmbiguous)
+	{
+		style.dashed = true;
 	}
 
 	return style;

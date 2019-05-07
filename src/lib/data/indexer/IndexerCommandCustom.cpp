@@ -19,6 +19,26 @@ IndexerCommandCustom::IndexerCommandCustom(
 	bool runInParallel
 )
 	: IndexerCommand(sourceFilePath)
+	, m_type(getStaticIndexerCommandType())
+	, m_customCommand(customCommand)
+	, m_projectFilePath(projectFilePath)
+	, m_databaseFilePath(databaseFilePath)
+	, m_databaseVersion(databaseVersion)
+	, m_runInParallel(runInParallel)
+{
+}
+
+IndexerCommandCustom::IndexerCommandCustom(
+	IndexerCommandType type,
+	const std::wstring& customCommand,
+	const FilePath& projectFilePath,
+	const FilePath& databaseFilePath,
+	const std::wstring& databaseVersion,
+	const FilePath& sourceFilePath,
+	bool runInParallel
+)
+	: IndexerCommand(sourceFilePath)
+	, m_type(type)
 	, m_customCommand(customCommand)
 	, m_projectFilePath(projectFilePath)
 	, m_databaseFilePath(databaseFilePath)
@@ -29,7 +49,7 @@ IndexerCommandCustom::IndexerCommandCustom(
 
 IndexerCommandType IndexerCommandCustom::getIndexerCommandType() const
 {
-	return getStaticIndexerCommandType();
+	return m_type;
 }
 
 size_t IndexerCommandCustom::getByteSize(size_t stringSize) const

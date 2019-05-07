@@ -60,6 +60,8 @@ public:
 	void setUseBezier(bool useBezier);
 	void clearPath();
 
+	bool isAmbiguous() const;
+
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);

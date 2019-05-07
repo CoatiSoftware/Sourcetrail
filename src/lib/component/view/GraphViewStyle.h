@@ -130,7 +130,8 @@ public:
 	static NodeStyle getStyleOfTextNode(int fontSizeDiff);
 	static NodeStyle getStyleOfGroupNode(GroupType type, bool isFocused);
 
-	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge);
+	static EdgeStyle getStyleForEdgeType(
+		Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge, bool isAmbiguous);
 
 	static int toGridOffset(int x);
 	static int toGridSize(int x);

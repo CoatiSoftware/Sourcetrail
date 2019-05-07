@@ -1,7 +1,9 @@
 #include "TaskExecuteCustomCommands.h"
 
+#include "ApplicationSettings.h"
 #include "Blackboard.h"
 #include "DialogView.h"
+#include "ElementComponentKind.h"
 #include "FileSystem.h"
 #include "IndexerCommandCustom.h"
 #include "IndexerCommandProvider.h"
@@ -9,6 +11,9 @@
 #include "MessageShowStatus.h"
 #include "MessageStatus.h"
 #include "PersistentStorage.h"
+#include "SourceLocationCollection.h"
+#include "SourceLocationFile.h"
+#include "TextAccess.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityString.h"
@@ -26,6 +31,7 @@ TaskExecuteCustomCommands::TaskExecuteCustomCommands(
 	, m_indexerThreadCount(indexerThreadCount)
 	, m_projectDirectory(projectDirectory)
 	, m_indexerCommandCount(m_indexerCommandProvider->size())
+	, m_hasPythonCommands(false)
 {
 }
 
@@ -44,6 +50,11 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 				if (m_targetDatabaseFilePath.empty())
 				{
 					m_targetDatabaseFilePath = indexerCommand->getDatabaseFilePath();
+				}
+
+				if (indexerCommand->getIndexerCommandType() == INDEXER_COMMAND_PYTHON)
+				{
+					m_hasPythonCommands = true;
 				}
 
 				if (indexerCommand->getRunInParallel())
@@ -66,7 +77,7 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 		return STATE_SUCCESS;
 	}
 
-	m_dialogView->updateCustomIndexingDialog(0, 0, m_indexerCommandProvider->size(), { });
+	m_dialogView->updateCustomIndexingDialog(0, 0, m_indexerCommandProvider->size(), {});
 
 
 	std::vector<std::shared_ptr<std::thread>> indexerThreads;
@@ -104,6 +115,11 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 				targetStorage.inject(&sourceStorage);
 			}
 			FileSystem::remove(sourceDatabaseFilePath);
+		}
+
+		if (m_hasPythonCommands && ApplicationSettings::getInstance()->getPythonPostProcessingEnabled())
+		{
+			runPythonPostProcessing(targetStorage);
 		}
 	}
 
@@ -143,7 +159,6 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(int threadId, std
 			}
 			indexerCommand = m_parallelCommands.back();
 			m_parallelCommands.pop_back();
-
 		}
 
 		if (threadId != 0)
@@ -235,4 +250,115 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 		indexedSourceFileCount++;
 		blackboard->update<int>("indexed_source_file_count", [=](int count) { return count + 1; });
 	}
+}
+
+void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& storage)
+{
+	LOG_INFO("Starting Python post processing.");
+
+	std::vector<Id> unsolvedLocationIds;
+	for (const StorageSourceLocation location : storage.getStorageSourceLocations())
+	{
+		if (intToLocationType(location.type) == LOCATION_UNSOLVED)
+		{
+			unsolvedLocationIds.push_back(location.id);
+		}
+	}
+
+	std::shared_ptr<SourceLocationCollection> locationCollection = storage.getSourceLocationsForLocationIds(unsolvedLocationIds);
+
+	std::map<std::wstring, std::vector<StorageNode>> nodeNameToStorageNodes;
+	if (locationCollection->getSourceLocationCount() > 0)
+	{
+		for (const StorageNode& node : storage.getStorageNodes())
+		{
+			nodeNameToStorageNodes[NameHierarchy::deserialize(node.serializedName).back().getName()].push_back(node);
+		}
+	}
+
+	struct DataToInsert
+	{
+		StorageEdgeData edgeData;
+		Id sourceLocationId;
+	};
+
+	storage.setMode(SqliteIndexStorage::STORAGE_MODE_READ);
+
+	std::vector<DataToInsert> dataToInsert;
+	std::set<Id> elementsToDelete;
+	locationCollection->forEachSourceLocationFile([&nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](std::shared_ptr<SourceLocationFile> locationFile)
+		{
+			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(locationFile->getFilePath());
+
+			if (textAccess)
+			{
+				locationFile->forEachStartSourceLocation([textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](const SourceLocation* startLoc)
+					{
+						if (!startLoc)
+						{
+							return;
+						}
+						const SourceLocation* endLoc = startLoc->getOtherLocation();
+						if (!endLoc)
+						{
+							return;
+						}
+
+						const std::wstring token = utility::decodeFromUtf8(textAccess->getLine(startLoc->getLineNumber()).substr(startLoc->getColumnNumber() - 1, endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
+				
+						for (const Id tokenId : startLoc->getTokenIds())
+						{
+							const StorageEdge edge = storage.getEdgeById(tokenId);
+							if (edge.id != 0)
+							{
+								for (const StorageNode& targetNode : nodeNameToStorageNodes[token])
+								{
+									if (Edge::intToType(edge.type) == Edge::EDGE_CALL && 
+										(
+											NodeType::intToType(targetNode.type) != NodeType::NODE_FUNCTION ||
+											NodeType::intToType(targetNode.type) != NodeType::NODE_METHOD
+										)
+									){
+										continue;
+									}
+									dataToInsert.push_back({ StorageEdgeData(edge.type, edge.sourceNodeId, targetNode.id) , startLoc->getLocationId() });
+									elementsToDelete.insert(edge.id);
+								}
+							}
+						}
+					}
+				);
+			}
+		}
+	);
+
+	storage.setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
+
+	storage.startInjection();
+
+	std::vector<StorageEdge> edgesToInsert;
+	for (const DataToInsert& data : dataToInsert)
+	{
+		edgesToInsert.push_back(StorageEdge(0, data.edgeData));
+	}
+	const std::vector<Id> ambiguousEdgeIds = storage.addEdges(edgesToInsert);
+
+	if (ambiguousEdgeIds.size() == dataToInsert.size())
+	{
+		for (size_t i = 0; i < ambiguousEdgeIds.size(); i++)
+		{
+			storage.addElementComponent(StorageElementComponentData(ambiguousEdgeIds[i], elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS), L""));
+			storage.addOccurrence(StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
+		}
+
+		storage.removeElements(utility::toVector(elementsToDelete));
+		storage.finishInjection();
+	}
+	else
+	{
+		LOG_ERROR("Error occurred while running Python post processing. Rolling back all changes.");
+		storage.rollbackInjection();
+	}
+
+	LOG_INFO("Finished Python post processing.");
 }

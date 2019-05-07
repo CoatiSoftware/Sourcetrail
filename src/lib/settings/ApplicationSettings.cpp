@@ -400,6 +400,16 @@ void ApplicationSettings::setHasPrefilledMavenPath(bool v)
 	setValue<bool>("indexing/java/has_prefilled_maven_path", v);
 }
 
+bool ApplicationSettings::getPythonPostProcessingEnabled() const
+{
+	return getValue<bool>("indexing/python/post_processing", true);
+}
+
+void ApplicationSettings::setPythonPostProcessingEnabled(bool enabled)
+{
+	setValue<bool>("indexing/python/post_processing", enabled);
+}
+
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
 {
 	return getPathValues("indexing/cxx/header_search_paths/header_search_path");

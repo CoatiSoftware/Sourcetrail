@@ -57,6 +57,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 		if (filesToIndex.find(sourceFilePath) != filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
+				INDEXER_COMMAND_PYTHON,
 				L"\"" + ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer\"" + args,
 				m_settings->getProjectSettings()->getProjectFilePath(),
 				m_settings->getProjectSettings()->getTempDBFilePath(),

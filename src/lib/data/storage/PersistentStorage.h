@@ -34,7 +34,11 @@ public:
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
 	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
 	void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) override;
+	void addElementComponent(const StorageElementComponentData& data) /*override*/;
 	Id addError(const StorageErrorData& data) override;
+
+	void removeElement(const Id id);
+	void removeElements(const std::vector<Id>& ids);
 
 	const std::vector<StorageNode>& getStorageNodes() const override;
 	const std::vector<StorageFile>& getStorageFiles() const override;
@@ -48,6 +52,7 @@ public:
 
 	void startInjection() override;
 	void finishInjection() override;
+	void rollbackInjection();
 
 	void beforeErrorRecording();
 	void afterErrorRecording();
@@ -198,6 +203,7 @@ private:
 	void addAggregationEdgesToGraph(Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
 	void addFileContentsToGraph(Id fileId, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;
+	void addComponentIsAmbiguousToGraph(Graph* graph) const;
 
 	void addCompleteFlagsToSourceLocationCollection(SourceLocationCollection* collection) const;
 	void addInheritanceChainsToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;

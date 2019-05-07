@@ -38,6 +38,8 @@ public:
 	const std::vector<Id> localSymbolIds;
 
 	const TooltipOrigin origin;
+
+	bool force = false;
 };
 
 #endif // MESSAGE_TOOLTIP_SHOW_H

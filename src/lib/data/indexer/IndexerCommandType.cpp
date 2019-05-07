@@ -22,7 +22,6 @@ IndexerCommandType stringToIndexerCommandType(const std::string& s)
 {
 	if (s == indexerCommandTypeToString(INDEXER_COMMAND_CXX)) return INDEXER_COMMAND_CXX;
 	if (s == indexerCommandTypeToString(INDEXER_COMMAND_JAVA)) return INDEXER_COMMAND_JAVA;
-	if (s == indexerCommandTypeToString(INDEXER_COMMAND_PYTHON)) return INDEXER_COMMAND_PYTHON;
 	if (s == indexerCommandTypeToString(INDEXER_COMMAND_CUSTOM)) return INDEXER_COMMAND_CUSTOM;
 	return INDEXER_COMMAND_UNKNOWN;
 }

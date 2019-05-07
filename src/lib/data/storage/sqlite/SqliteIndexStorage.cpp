@@ -11,7 +11,7 @@
 #include "SourceLocationFile.h"
 #include "utilityString.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 23;
+const size_t SqliteIndexStorage::s_storageVersion = 24;
 
 namespace
 {
@@ -422,6 +422,17 @@ bool SqliteIndexStorage::addComponentAccess(const StorageComponentAccess& compon
 bool SqliteIndexStorage::addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses)
 {
 	return m_insertComponentAccessBatchStatement.execute(componentAccesses, this);
+}
+
+int SqliteIndexStorage::addElementComponent(const StorageElementComponentData& storageElementComponentData)
+{
+	m_insertElementComponentStmt.bind(1, int(storageElementComponentData.elementId));
+	m_insertElementComponentStmt.bind(2, storageElementComponentData.type);
+	m_insertElementComponentStmt.bind(3, utility::encodeToUtf8(storageElementComponentData.data).c_str());
+	executeStatement(m_insertElementComponentStmt);
+	int id = m_database.lastRowId();
+	m_insertElementComponentStmt.reset();
+	return id;
 }
 
 StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
@@ -968,6 +979,11 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::getComponentAccessesByNo
 	return doGetAll<StorageComponentAccess>("WHERE node_id IN (" + utility::join(utility::toStrings(nodeIds), ',') + ")");
 }
 
+std::vector<StorageElementComponent> SqliteIndexStorage::getElementComponentsByElementIds(const std::vector<Id>& elementIds) const
+{
+	return doGetAll<StorageElementComponent>("WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ")");
+}
+
 std::vector<ErrorInfo> SqliteIndexStorage::getAllErrorInfos() const
 {
 	std::vector<ErrorInfo> errorInfos;
@@ -1107,6 +1123,7 @@ void SqliteIndexStorage::clearTables()
 		m_database.execDML("DROP TABLE IF EXISTS main.symbol;");
 		m_database.execDML("DROP TABLE IF EXISTS main.node;");
 		m_database.execDML("DROP TABLE IF EXISTS main.edge;");
+		m_database.execDML("DROP TABLE IF EXISTS main.element_component;");
 		m_database.execDML("DROP TABLE IF EXISTS main.element;");
 		m_database.execDML("DROP TABLE IF EXISTS main.meta;");
 	}
@@ -1124,6 +1141,17 @@ void SqliteIndexStorage::setupTables()
 			"CREATE TABLE IF NOT EXISTS element("
 				"id INTEGER, "
 				"PRIMARY KEY(id));"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS element_component("
+			"	id INTEGER, "
+			"	element_id INTEGER, "
+			"	type INTEGER, "
+			"	data TEXT, "
+			"	PRIMARY KEY(id), "
+			"	FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE"
+			");"
 		);
 
 		m_database.execDML(
@@ -1318,6 +1346,9 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 
 		m_insertElementStmt = m_database.compileStatement(
 			"INSERT INTO element(id) VALUES(NULL);"
+		);
+		m_insertElementComponentStmt = m_database.compileStatement(
+			"INSERT INTO element_component(id, element_id, type, data) VALUES(NULL, ?, ?, ?);"
 		);
 		m_insertFileStmt = m_database.compileStatement(
 			"INSERT INTO file(id, path, language, modification_time, indexed, complete, line_count) VALUES(?, ?, ?, ?, ?, ?, ?);"
@@ -1520,6 +1551,31 @@ void SqliteIndexStorage::forEach<StorageComponentAccess>(const std::string& quer
 		if (nodeId != 0 && type != -1)
 		{
 			func(StorageComponentAccess(nodeId, type));
+		}
+
+		q.nextRow();
+	}
+}
+
+template <>
+void SqliteIndexStorage::forEach<StorageElementComponent>(const std::string& query, std::function<void(StorageElementComponent&&)> func) const
+{
+	CppSQLite3Query q = executeQuery(
+		"SELECT id, element_id, type, data FROM element_component " + query + ";"
+	);
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const Id elementId = q.getIntField(1, 0);
+		const int type = q.getIntField(2, -1);
+		const std::string data = q.getStringField(3, "");
+
+		if (id != 0 && elementId != 0 && type != -1)
+		{
+			func(StorageElementComponent(
+				id, elementId, type, utility::decodeFromUtf8(data)
+			));
 		}
 
 		q.nextRow();

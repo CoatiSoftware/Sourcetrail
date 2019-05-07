@@ -27,6 +27,8 @@ LocationType intToLocationType(int value)
 		return LOCATION_FULLTEXT_SEARCH;
 	case LOCATION_SCREEN_SEARCH:
 		return LOCATION_SCREEN_SEARCH;
+	case LOCATION_UNSOLVED:
+		return LOCATION_UNSOLVED;
 	}
 	return LOCATION_TOKEN;
 }

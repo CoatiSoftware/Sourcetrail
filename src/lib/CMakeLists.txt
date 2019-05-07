@@ -138,11 +138,14 @@ add_files(
 	data/graph/token_component/TokenComponentFilePath.cpp
 	data/graph/token_component/TokenComponentFilePath.h
 	data/graph/token_component/TokenComponentInheritanceChain.h
+	data/graph/token_component/TokenComponentIsAmbiguous.h
 	data/graph/token_component/TokenComponentStatic.cpp
 	data/graph/token_component/TokenComponentStatic.h
 
 	data/graph/Edge.cpp
 	data/graph/Edge.h
+	data/graph/ElementComponentKind.cpp
+	data/graph/ElementComponentKind.h
 	data/graph/Graph.cpp
 	data/graph/Graph.h
 	data/graph/Node.cpp
@@ -250,6 +253,7 @@ add_files(
 	data/storage/type/StorageBookmarkedNode.h
 	data/storage/type/StorageComponentAccess.h
 	data/storage/type/StorageEdge.h
+	data/storage/type/StorageElementComponent.h
 	data/storage/type/StorageError.h
 	data/storage/type/StorageFile.h
 	data/storage/type/StorageLocalSymbol.h

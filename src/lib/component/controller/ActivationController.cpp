@@ -12,6 +12,7 @@
 #include "MessageRefreshUI.h"
 #include "MessageStatus.h"
 #include "MessageScrollToLine.h"
+#include "MessageTooltipShow.h"
 #include "utility.h"
 
 ActivationController::ActivationController(StorageAccess* storageAccess)
@@ -109,6 +110,16 @@ void ActivationController::handleMessage(MessageActivateSourceLocations* message
 	{
 		msg.addNode(nodeId);
 	}
+
+	if (message->containsUnsolvedLocations && msg.nodes.size() == 1 &&
+		m_storageAccess->getNameHierarchyForNodeId(msg.nodes[0].nodeId).getQualifiedName() == L"unsolved symbol")
+	{
+		MessageTooltipShow m(message->locationIds, {}, TOOLTIP_ORIGIN_CODE);
+		m.force = true;
+		m.dispatch();
+		return;
+	}
+
 	msg.setSchedulerId(message->getSchedulerId());
 	msg.dispatchImmediately();
 }

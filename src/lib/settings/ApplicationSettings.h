@@ -115,6 +115,9 @@ public:
 	bool getHasPrefilledMavenPath() const;
 	void setHasPrefilledMavenPath(bool v);
 
+	bool getPythonPostProcessingEnabled() const;
+	void setPythonPostProcessingEnabled(bool enabled);
+
 	std::vector<FilePath> getHeaderSearchPaths() const;
 	std::vector<FilePath> getHeaderSearchPathsExpanded() const;
 	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);

@@ -91,9 +91,9 @@ void TooltipController::handleMessage(MessageTooltipShow* message)
 
 		// If a tooltip list would only display one token, then just activate it instead.
 		// This can happen when edges pointing to the token use the same source location e.g. override edges
-		if (info.snippets.size() == 1)
+		if (!message->force && info.snippets.size() == 1)
 		{
-			MessageActivateSourceLocations(message->sourceLocationIds).dispatch();
+			MessageActivateSourceLocations(message->sourceLocationIds, false).dispatch();
 		}
 		else if (info.snippets.size())
 		{

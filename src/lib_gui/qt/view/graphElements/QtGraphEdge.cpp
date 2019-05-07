@@ -7,6 +7,7 @@
 #include "Edge.h"
 #include "TokenComponentAggregation.h"
 #include "TokenComponentInheritanceChain.h"
+#include "TokenComponentIsAmbiguous.h"
 #include "QtLineItemAngled.h"
 #include "QtLineItemBezier.h"
 #include "QtLineItemStraight.h"
@@ -95,7 +96,8 @@ void QtGraphEdge::updateLine()
 	const QtGraphNode* target = m_target;
 
 	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
-	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge);
+	GraphViewStyle::EdgeStyle style =
+		GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge, isAmbiguous());
 
 	Vec4i ownerRect = owner->getBoundingRect();
 	Vec4i targetRect = target->getBoundingRect();
@@ -363,6 +365,11 @@ void QtGraphEdge::focusIn()
 			TooltipInfo info;
 			info.title = Edge::getReadableTypeString(type);
 
+			if (isAmbiguous())
+			{
+				info.title = L"ambiguous " + info.title;
+			}
+
 			if (type == Edge::EDGE_AGGREGATION && m_direction == TokenComponentAggregation::DIRECTION_NONE)
 			{
 				info.title = L"bidirectional " + info.title;
@@ -505,4 +512,9 @@ void QtGraphEdge::setUseBezier(bool useBezier)
 void QtGraphEdge::clearPath()
 {
 	m_path.clear();
+}
+
+bool QtGraphEdge::isAmbiguous() const
+{
+	return m_data && m_data->getComponent<TokenComponentIsAmbiguous>();
 }

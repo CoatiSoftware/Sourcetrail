@@ -13,7 +13,16 @@ public:
 	static IndexerCommandType getStaticIndexerCommandType();
 
 	IndexerCommandCustom(
-		const std::wstring& customCommand, 
+		const std::wstring& customCommand,
+		const FilePath& projectFilePath,
+		const FilePath& databaseFilePath,
+		const std::wstring& databaseVersion,
+		const FilePath& sourceFilePath,
+		bool runInParallel);
+
+	IndexerCommandCustom(
+		IndexerCommandType type,
+		const std::wstring& customCommand,
 		const FilePath& projectFilePath,
 		const FilePath& databaseFilePath,
 		const std::wstring& databaseVersion,
@@ -33,6 +42,7 @@ protected:
 	QJsonObject doSerialize() const override;
 
 private:
+	IndexerCommandType m_type;
 	std::wstring m_customCommand;
 	FilePath m_projectFilePath;
 	FilePath m_databaseFilePath;

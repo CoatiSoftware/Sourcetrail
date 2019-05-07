@@ -125,6 +125,8 @@ private:
 	QtPathListBox* m_jreSystemLibraryPaths;
 	QLineEdit* m_jvmMaximumMemory;
 	QtLocationPicker* m_mavenPath;
+
+	QCheckBox* m_pythonPostProcessing;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H

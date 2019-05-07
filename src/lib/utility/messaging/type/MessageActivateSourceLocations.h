@@ -9,8 +9,9 @@ class MessageActivateSourceLocations
 	: public Message<MessageActivateSourceLocations>
 {
 public:
-	MessageActivateSourceLocations(const std::vector<Id>& locationIds)
+	MessageActivateSourceLocations(const std::vector<Id>& locationIds, bool containsUnsolvedLocations)
 		: locationIds(locationIds)
+		, containsUnsolvedLocations(containsUnsolvedLocations)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -29,6 +30,7 @@ public:
 	}
 
 	const std::vector<Id> locationIds;
+	const bool containsUnsolvedLocations;
 };
 
 #endif // MESSAGE_ACTIVATE_SOURCE_LOCATIONS_H

@@ -7,10 +7,12 @@
 #include "TokenComponentAggregation.h"
 #include "TokenComponentFilePath.h"
 #include "TokenComponentInheritanceChain.h"
+#include "TokenComponentIsAmbiguous.h"
 #include "Graph.h"
 #include "SourceLocationCollection.h"
 #include "SourceLocationFile.h"
 #include "AccessKind.h"
+#include "ElementComponentKind.h"
 #include "ParseLocation.h"
 #include "NodeTypeSet.h"
 #include "ApplicationSettings.h"
@@ -138,9 +140,24 @@ void PersistentStorage::addComponentAccesses(const std::vector<StorageComponentA
 	m_sqliteIndexStorage.addComponentAccesses(componentAccesses);
 }
 
+void PersistentStorage::addElementComponent(const StorageElementComponentData& data)
+{
+	m_sqliteIndexStorage.addElementComponent(data);
+}
+
 Id PersistentStorage::addError(const StorageErrorData& data)
 {
 	return m_sqliteIndexStorage.addError(data).id;
+}
+
+void PersistentStorage::removeElement(const Id id)
+{
+	m_sqliteIndexStorage.removeElement(id);
+}
+
+void PersistentStorage::removeElements(const std::vector<Id>& ids)
+{
+	m_sqliteIndexStorage.removeElements(ids);
 }
 
 const std::vector<StorageNode>& PersistentStorage::getStorageNodes() const
@@ -203,6 +220,13 @@ void PersistentStorage::startInjection()
 void PersistentStorage::finishInjection()
 {
 	m_sqliteIndexStorage.commitTransaction();
+
+	afterErrorRecording();
+}
+
+void PersistentStorage::rollbackInjection()
+{
+	m_sqliteIndexStorage.rollbackTransaction();
 
 	afterErrorRecording();
 }
@@ -1170,6 +1194,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	}
 
 	addComponentAccessToGraph(graph);
+	addComponentIsAmbiguousToGraph(graph);
 
 	if (isActiveNamespace)
 	{
@@ -1258,6 +1283,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 
 	addNodesWithParentsAndEdgesToGraph(utility::toVector(nodeIds), utility::toVector(edgeIds), graph.get(), false);
 	addComponentAccessToGraph(graph.get());
+	addComponentIsAmbiguousToGraph(graph.get());
 
 	return graph;
 }
@@ -1382,7 +1408,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		for (const StorageSourceLocation& sourceLocation: m_sqliteIndexStorage.getAllByIds<StorageSourceLocation>(locationIds))
 		{
 			const LocationType type = intToLocationType(sourceLocation.type);
-			if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_LOCAL_SYMBOL)
+			if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_LOCAL_SYMBOL && type != LOCATION_UNSOLVED)
 			{
 				continue;
 			}
@@ -1446,7 +1472,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		}
 
 		const LocationType type = intToLocationType(location.type);
-		if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_LOCAL_SYMBOL)
+		if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_LOCAL_SYMBOL && type != LOCATION_UNSOLVED)
 		{
 			continue;
 		}
@@ -1473,7 +1499,7 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForFile
 	TRACE();
 
 	return m_sqliteIndexStorage.getSourceLocationsForFile(filePath)->getFilteredByTypes({
-		LOCATION_TOKEN, LOCATION_SCOPE, LOCATION_QUALIFIER, LOCATION_LOCAL_SYMBOL
+		LOCATION_TOKEN, LOCATION_SCOPE, LOCATION_QUALIFIER, LOCATION_LOCAL_SYMBOL, LOCATION_UNSOLVED
 	});
 }
 
@@ -1485,7 +1511,7 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLine
 
 	return m_sqliteIndexStorage.getSourceLocationsForLinesInFile(
 		filePath, startLine, endLine)->getFilteredByLines(startLine, endLine)->getFilteredByTypes({
-			LOCATION_TOKEN, LOCATION_SCOPE, LOCATION_QUALIFIER, LOCATION_LOCAL_SYMBOL
+			LOCATION_TOKEN, LOCATION_SCOPE, LOCATION_QUALIFIER, LOCATION_LOCAL_SYMBOL, LOCATION_UNSOLVED
 		});
 }
 
@@ -2815,6 +2841,28 @@ void PersistentStorage::addComponentAccessToGraph(Graph* graph) const
 		{
 			graph->getNodeById(access.nodeId)->addComponent(
 				std::make_shared<TokenComponentAccess>(intToAccessKind(access.type)));
+		}
+	}
+}
+
+void PersistentStorage::addComponentIsAmbiguousToGraph(Graph* graph) const
+{
+	TRACE();
+
+	std::vector<Id> edgeIds;
+	graph->forEachEdge(
+		[&edgeIds](Edge* edge)
+		{
+			edgeIds.push_back(edge->getId());
+		}
+	);
+
+	int componentKind = elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS);
+	for (const StorageElementComponent& component : m_sqliteIndexStorage.getElementComponentsByElementIds(edgeIds))
+	{
+		if (component.type == componentKind)
+		{
+			graph->getEdgeById(component.elementId)->addComponent(std::make_shared<TokenComponentIsAmbiguous>());
 		}
 	}
 }

@@ -37,7 +37,9 @@ private:
 
 	void executeParallelIndexerCommands(int threadId, std::shared_ptr<Blackboard> blackboard);
 	void runIndexerCommand(std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard);
-
+public:
+	static void runPythonPostProcessing(PersistentStorage& storage);
+private:
 	std::unique_ptr<IndexerCommandProvider> m_indexerCommandProvider;
 	std::shared_ptr<PersistentStorage> m_storage;
 	std::shared_ptr<DialogView> m_dialogView;
@@ -51,6 +53,7 @@ private:
 	std::vector<std::shared_ptr<IndexerCommandCustom>> m_parallelCommands;
 	std::mutex m_parallelCommandsMutex;
 	FilePath m_targetDatabaseFilePath;
+	bool m_hasPythonCommands;
 	std::set<FilePath> m_sourceDatabaseFilePaths;
 	std::mutex m_sourceDatabaseFilePathsMutex;
 };

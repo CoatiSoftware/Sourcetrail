@@ -13,6 +13,7 @@
 #include "StorageComponentAccess.h"
 #include "StorageEdge.h"
 #include "StorageError.h"
+#include "StorageElementComponent.h"
 #include "StorageFile.h"
 #include "StorageLocalSymbol.h"
 #include "StorageNode.h"
@@ -65,6 +66,7 @@ public:
 	bool addOccurrences(const std::vector<StorageOccurrence>& occurrences);
 	bool addComponentAccess(const StorageComponentAccess& componentAccess);
 	bool addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses);
+	int addElementComponent(const StorageElementComponentData& storageElementComponentData);
 	StorageError addError(const StorageErrorData& data);
 
 	void removeElement(Id id);
@@ -118,8 +120,10 @@ public:
 	std::vector<StorageOccurrence> getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const;
 	std::vector<StorageOccurrence> getOccurrencesForElementIds(const std::vector<Id>& elementIds) const;
 
-	StorageComponentAccess getComponentAccessByNodeId(Id memberEdgeId) const;
-	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& memberEdgeIds) const;
+	StorageComponentAccess getComponentAccessByNodeId(Id nodeId) const;
+	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& nodeIds) const;
+
+	std::vector<StorageElementComponent> getElementComponentsByElementIds(const std::vector<Id>& elementIds) const;
 
 	std::vector<ErrorInfo> getAllErrorInfos() const;
 
@@ -351,6 +355,7 @@ private:
 	InsertBatchStatement<StorageComponentAccess> m_insertComponentAccessBatchStatement;
 
 	CppSQLite3Statement m_insertElementStmt;
+	CppSQLite3Statement m_insertElementComponentStmt;
 	CppSQLite3Statement m_insertFileStmt;
 	CppSQLite3Statement m_insertFileContentStmt;
 	CppSQLite3Statement m_checkErrorExistsStmt;
@@ -373,6 +378,8 @@ template <>
 void SqliteIndexStorage::forEach<StorageOccurrence>(const std::string& query, std::function<void(StorageOccurrence&&)> func) const;
 template <>
 void SqliteIndexStorage::forEach<StorageComponentAccess>(const std::string& query, std::function<void(StorageComponentAccess&&)> func) const;
+template <>
+void SqliteIndexStorage::forEach<StorageElementComponent>(const std::string& query, std::function<void(StorageElementComponent&&)> func) const;
 template <>
 void SqliteIndexStorage::forEach<StorageError>(const std::string& query, std::function<void(StorageError&&)> func) const;
 

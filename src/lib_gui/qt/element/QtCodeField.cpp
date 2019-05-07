@@ -217,7 +217,12 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 			continue;
 		}
 
-		painter.setPen(QPen(color.border.c_str()));
+		QPen pen(color.border.c_str());
+		if (annotation.locationType == LOCATION_UNSOLVED)
+		{
+			pen.setStyle(Qt::DashLine);
+		}
+		painter.setPen(pen);
 		painter.setBrush(QBrush(color.fill.c_str()));
 
 		if (annotation.locationType == LOCATION_SCOPE)
@@ -451,9 +456,12 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 	std::set<Id> tokenIds;
 	std::set<Id> localSymbolIds;
 
+	bool containsUnsolved = false;
+
 	for (const Annotation* annotation : annotations)
 	{
-		if (annotation->locationType == LOCATION_TOKEN || annotation->locationType == LOCATION_QUALIFIER)
+		if (annotation->locationType == LOCATION_TOKEN || annotation->locationType == LOCATION_QUALIFIER ||
+			annotation->locationType == LOCATION_UNSOLVED)
 		{
 			if (annotation->locationId > 0)
 			{
@@ -463,6 +471,11 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 			if (annotation->tokenIds.size())
 			{
 				tokenIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
+			}
+
+			if (annotation->locationType == LOCATION_UNSOLVED)
+			{
+				containsUnsolved = true;
 			}
 		}
 		else if (annotation->locationType == LOCATION_LOCAL_SYMBOL)
@@ -480,7 +493,7 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 	}
 	else if (locationIds.size())
 	{
-		MessageActivateSourceLocations(locationIds).dispatch();
+		MessageActivateSourceLocations(locationIds, containsUnsolved).dispatch();
 	}
 	else if (tokenIds.size()) // fallback for links in project description
 	{
@@ -681,7 +694,8 @@ std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotatio
 	for (const Annotation& annotation : m_annotations)
 	{
 		const LocationType& type = annotation.locationType;
-		if ((type == LOCATION_TOKEN || type == LOCATION_QUALIFIER || type == LOCATION_LOCAL_SYMBOL || type == LOCATION_ERROR)
+		if ((type == LOCATION_TOKEN || type == LOCATION_QUALIFIER || type == LOCATION_LOCAL_SYMBOL
+			|| type == LOCATION_UNSOLVED || type == LOCATION_ERROR)
 			&& pos >= annotation.start && pos <= annotation.end)
 		{
 			annotations.push_back(&annotation);
@@ -697,7 +711,7 @@ void QtCodeField::checkOpenInTabActionEnabled(QPoint position)
 	for (const Annotation* annotation : getInteractiveAnnotationsForPosition(position))
 	{
 		const LocationType& type = annotation->locationType;
-		if (type == LOCATION_TOKEN || type == LOCATION_QUALIFIER)
+		if (type == LOCATION_TOKEN || type == LOCATION_QUALIFIER || type == LOCATION_UNSOLVED)
 		{
 			locationIds.emplace_back(annotation->locationId);
 		}
