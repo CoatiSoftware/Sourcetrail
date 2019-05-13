@@ -335,12 +335,10 @@ void QtMainWindow::loadWindow(bool showStartWindow, bool showEULA, bool enterLic
 		forceEnterLicense(licenseError);
 	}
 
-#ifndef Q_OS_WIN
 	if (showEULA)
 	{
 		showEula(true);
 	}
-#endif
 }
 
 void QtMainWindow::saveLayout()

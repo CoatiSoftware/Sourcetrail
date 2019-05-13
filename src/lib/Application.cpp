@@ -34,6 +34,7 @@
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
+bool Application::EULA_ACCEPT_REQUIRED = true;
 
 void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
@@ -449,7 +450,7 @@ void Application::loadWindow(bool showStartWindow)
 
 		updateTitle();
 
-		bool showEula = (appSettings->getAcceptedEulaVersion() < EULA_VERSION);
+		bool showEula = (EULA_ACCEPT_REQUIRED && appSettings->getAcceptedEulaVersion() < EULA_VERSION);
 		bool enterLicense = (state != LicenseChecker::LicenseState::VALID);
 
 		m_mainView->loadWindow(showStartWindow, showEula, enterLicense, licenseError);
