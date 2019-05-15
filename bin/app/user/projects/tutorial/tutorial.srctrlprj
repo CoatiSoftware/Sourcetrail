@@ -11,10 +11,10 @@
 		\tcontains a few hundred lines of code as you can see by the numbers below.\n
 		\n
 		LET'S GET STARTED!\n
-		\tTo keep things simple just click the "main" symbol below to start the tour.\n
+		\tTo keep things simple just click the "start_tour" symbol below to start the tour.\n
 		\n
         \n
-		[::\tmmain\tsint\tp()](); // &lt;- start here\n
+		[::\tmstart_tour\tsint\tp()](); // &lt;- start here\n
         \n
 	</description>
     <source_groups>

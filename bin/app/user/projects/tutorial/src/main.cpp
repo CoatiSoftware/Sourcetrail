@@ -20,18 +20,16 @@
 
 //------------------------------------------------------------------------------
 //
-// WHAT IS THIS? 
-//  Now the Code View finally shows some real code of the tutorial project.  
-//  And who could think of a better place to start a tutorial that involves 
-//  code than a main function?
+// WHAT IS THIS?
+//  Now the Code View finally shows some real code of the tutorial project.
 //
 // WHAT CAN I DO NOW?
-//  Left-click the "my_first_step()" function call inside the main function. 
-//  Lets see what happens.
+//  Left-click the "my_first_step()" function call inside the start_tour
+//  function. Let's see what happens.
 //
 //------------------------------------------------------------------------------
 
-int main()
+int start_tour()
 {
 	my_first_step();
 	return 0;
