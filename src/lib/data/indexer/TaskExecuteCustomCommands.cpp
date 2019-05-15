@@ -231,7 +231,7 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 				}
 				else
 				{
-					message += L"with message \"" + processOutput + L"\".";
+					message += L" with message \"" + processOutput + L"\".";
 				}
 				message += L"\n";
 				LOG_INFO(message);
@@ -305,7 +305,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 						}
 
 						const std::wstring token = utility::decodeFromUtf8(textAccess->getLine(startLoc->getLineNumber()).substr(startLoc->getColumnNumber() - 1, endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
-				
+
 						for (const Id tokenId : startLoc->getTokenIds())
 						{
 							const StorageEdge edge = storage.getEdgeById(tokenId);
@@ -313,7 +313,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 							{
 								for (const StorageNode& targetNode : nodeNameToStorageNodes[token])
 								{
-									if (Edge::intToType(edge.type) == Edge::EDGE_CALL && 
+									if (Edge::intToType(edge.type) == Edge::EDGE_CALL &&
 										(
 											NodeType::intToType(targetNode.type) != NodeType::NODE_FUNCTION ||
 											NodeType::intToType(targetNode.type) != NodeType::NODE_METHOD

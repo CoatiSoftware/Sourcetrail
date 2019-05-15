@@ -4,6 +4,7 @@
 #include <QSysInfo>
 #include <QThread>
 #include <qprocessordetection.h>
+#include <QRegularExpression>
 
 #include "License.h"
 #include "ApplicationSettings.h"
@@ -27,6 +28,11 @@ std::string utility::executeProcess(const std::string& command, const FilePath& 
 	{
 		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
 	}
+
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	QStringList envlist = env.toStringList();
+	envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1");
+	process.setEnvironment(envlist);
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
@@ -58,6 +64,11 @@ std::string utility::executeProcessUntilNoOutput(const std::string& command, con
 	{
 		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
 	}
+
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	QStringList envlist = env.toStringList();
+	envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1");
+	process.setEnvironment(envlist);
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
@@ -140,6 +151,11 @@ int utility::executeProcessAndGetExitCode(
 	{
 		command += " " + QString::fromStdWString(commandArgument);
 	}
+
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	QStringList envlist = env.toStringList();
+	envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1");
+	process.setEnvironment(envlist);
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);

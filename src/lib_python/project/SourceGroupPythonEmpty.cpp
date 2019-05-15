@@ -1,5 +1,6 @@
 #include "SourceGroupPythonEmpty.h"
 
+#include "ApplicationSettings.h"
 #include "FileManager.h"
 #include "IndexerCommandCustom.h"
 #include "ProjectSettings.h"
@@ -49,6 +50,11 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 	if (!m_settings->getEnvironmentDirectoryPath().empty())
 	{
 		args += L" --environment-directory-path=" + m_settings->getEnvironmentDirectoryPathExpandedAndAbsolute().wstr();
+	}
+
+	if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
+	{
+		args += L" --verbose";
 	}
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
