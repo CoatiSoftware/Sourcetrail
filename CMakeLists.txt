@@ -82,7 +82,7 @@ set(CMAKE_C_STANDARD 99)
 
 # Settings ---------------------------------------------------------------------
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics")
 endif()
 
@@ -538,9 +538,9 @@ endif ()
 create_source_groups(${INDEXER_FILES})
 
 target_link_libraries(
-	${APP_INDEXER_NAME} 
-	${LIB_PROJECT_NAME} 
-	${LIB_GUI_PROJECT_NAME} 
+	${APP_INDEXER_NAME}
+	${LIB_PROJECT_NAME}
+	${LIB_GUI_PROJECT_NAME}
 	${LIB_CXX_PROJECT_NAME}
 	${LIB_JAVA_PROJECT_NAME}
 	${LIB_PYTHON_PROJECT_NAME}
