@@ -162,6 +162,11 @@ void QtSmartSearchBox::setMatches(const std::vector<SearchMatch>& matches)
 
 void QtSmartSearchBox::setFocus()
 {
+	if (hasFocus())
+	{
+		clearFocus();
+	}
+
 	QLineEdit::setFocus(Qt::ShortcutFocusReason);
 }
 
@@ -657,11 +662,6 @@ void QtSmartSearchBox::onElementSelected(QtSearchElement* element)
 	{
 		setFocus();
 		return;
-	}
-
-	if (!hasFocus())
-	{
-		setFocus();
 	}
 
 	if (!hasSelectedElements() && !m_shiftKeyDown)
