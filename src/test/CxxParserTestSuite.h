@@ -4304,6 +4304,46 @@ public:
 		TS_ASSERT_EQUALS(client->localSymbols.size(), 8);
 	}
 
+	void test_cxx_parser_finds_braces_with_closing_bracket_in_macro()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+R"(
+namespace constants
+{
+
+#define CONSTANT(name, x)\
+	int name = x;\
+	} namespace constants {
+
+CONSTANT(half, 5)
+CONSTANT(third, 3)
+}
+)"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<3:1> <3:1 3:1>"));
+		TS_ASSERT(utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<3:1> <7:2 7:2>"));
+		// TS_ASSERT(utility::containsElement<std::wstring>(client->localSymbols, L"<0:0> <11:1 11:1>")); // unwanted sideeffect
+
+		client = parseCode(
+R"(
+#define CONSTANT(name, x)\
+	int name = x;\
+	} namespace constants {
+
+namespace constants
+{
+CONSTANT(half, 5)
+CONSTANT(third, 3)
+}
+)"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<7:1> <7:1 7:1>"));
+		// TS_ASSERT(utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<7:1> <10:1 10:1>")); // missing
+		// TS_ASSERT(utility::containsElement<std::wstring>(client->localSymbols, L"<0:0> <10:1 10:1>")); // unwanted sideeffect
+	}
+
 	void test_cxx_parser_finds_correct_signature_location_of_constructor_with_initializer_list()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(

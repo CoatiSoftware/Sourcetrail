@@ -42,7 +42,7 @@ void CxxAstVisitorComponentBraceRecorder::visitNamespaceDecl(clang::NamespaceDec
 	{
 		recordBraces(
 			getFilePath(d->getBeginLoc()),
-			getParseLocation(getFirstLBraceLocation(d->getBeginLoc())),
+			getParseLocation(getFirstLBraceLocation(d->getBeginLoc(), d->getEndLoc())),
 			getParseLocation(getLastRBraceLocation(d->getBeginLoc(), d->getEndLoc()))
 		);
 	}
@@ -142,10 +142,13 @@ void CxxAstVisitorComponentBraceRecorder::recordBraces(
 }
 
 clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getFirstLBraceLocation(
-	clang::SourceLocation searchStartLoc) const
+	clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const
 {
 	const clang::SourceManager& sm = m_astContext->getSourceManager();
 	const clang::LangOptions& opts = m_astContext->getLangOpts();
+
+	searchStartLoc = sm.getExpansionLoc(searchStartLoc);
+	searchEndLoc = sm.getExpansionLoc(searchEndLoc);
 
 	{
 		clang::Token token;
@@ -173,38 +176,41 @@ clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getFirstLBraceLocatio
 		{
 			break;
 		}
+
+		if (searchEndLoc < searchStartLoc)
+		{
+			break;
+		}
 	}
 	return clang::SourceLocation();
 }
 
 clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getLastRBraceLocation(
-	const clang::SourceLocation& searchStartLoc, clang::SourceLocation searchEndLoc) const
+	clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const
 {
 	const clang::SourceManager& sm = m_astContext->getSourceManager();
 	const clang::LangOptions& opts = m_astContext->getLangOpts();
 
+	searchStartLoc = sm.getExpansionLoc(searchStartLoc);
+	searchEndLoc = sm.getExpansionLoc(searchEndLoc);
+
 	{
 		searchEndLoc = searchEndLoc.getLocWithOffset(-1);
 		llvm::Optional<clang::Token> token = clang::Lexer::findNextToken(searchEndLoc, sm, opts);
-		if (token.hasValue())
+		if (token.hasValue() && token.getValue().getKind() == clang::tok::r_brace)
 		{
-			if (token.getValue().getKind() == clang::tok::r_brace)
-			{
-				return token.getValue().getLocation();
-			}
+			return token.getValue().getLocation();
 		}
 	}
 
 	while (true)
 	{
 		clang::Token token;
-		if (clang::Lexer::getRawToken(searchEndLoc, token, sm, opts))
+		if (clang::Lexer::getRawToken(searchEndLoc, token, sm, opts) && token.getKind() == clang::tok::r_brace)
 		{
-			if (token.getKind() == clang::tok::r_brace)
-			{
-				return token.getLocation();
-			}
+			return token.getLocation();
 		}
+
 		if (searchEndLoc < searchStartLoc)
 		{
 			break;

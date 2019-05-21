@@ -263,6 +263,11 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
+		if (clang::isa<clang::ObjCIvarDecl>(d))
+		{
+			return;
+		}
+
 		const ParseLocation location = getParseLocation(d->getLocation());
 
 		Id fieldId = getOrCreateSymbolId(d);

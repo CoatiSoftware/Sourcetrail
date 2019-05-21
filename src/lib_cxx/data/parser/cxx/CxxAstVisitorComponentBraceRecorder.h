@@ -25,9 +25,10 @@ private:
 	FilePath getFilePath(const clang::SourceLocation& loc);
 
 	void recordBraces(const FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
-	clang::SourceLocation getFirstLBraceLocation(clang::SourceLocation searchStartLoc) const;
+	clang::SourceLocation getFirstLBraceLocation(
+		clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const;
 	clang::SourceLocation getLastRBraceLocation(
-		const clang::SourceLocation& searchStartLoc, clang::SourceLocation searchEndLoc) const;
+		clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const;
 
 	clang::ASTContext* m_astContext;
 	std::shared_ptr<ParserClient> m_client;
