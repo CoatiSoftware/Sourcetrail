@@ -8,6 +8,8 @@ class FilePath;
 
 namespace utility
 {
+	std::vector<FilePath> partitionFilePathsBySize(std::vector<FilePath> filePaths, int partitionCount = 0);
+
 	std::vector<FilePath> getTopLevelPaths(const std::vector<FilePath>& paths);
 	std::vector<FilePath> getTopLevelPaths(const std::set<FilePath>& paths);
 

@@ -1,9 +1,10 @@
 #include "TaskFillIndexerCommandQueue.h"
 
-#include "IndexerCommandProvider.h"
-#include "FileSystem.h"
-#include "logging.h"
 #include "Blackboard.h"
+#include "FileSystem.h"
+#include "IndexerCommandProvider.h"
+#include "logging.h"
+#include "utilityFile.h"
 
 TaskFillIndexerCommandsQueue::TaskFillIndexerCommandsQueue(
 	const std::string& appUUID,
@@ -18,48 +19,11 @@ TaskFillIndexerCommandsQueue::TaskFillIndexerCommandsQueue(
 
 void TaskFillIndexerCommandsQueue::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	typedef std::pair<unsigned long long int, FilePath> PairType;
-	std::vector<PairType> sourceFileSizesToCommands;
-	{
-		std::vector<FilePath> allSourceFilePaths;
-		{
-			std::lock_guard<std::mutex> lock(m_commandsMutex);
-			allSourceFilePaths = m_indexerCommandProvider->getAllSourceFilePaths();
-		}
-
-		for (const FilePath& path : allSourceFilePaths)
-		{
-			if (path.exists())
-			{
-				sourceFileSizesToCommands.push_back(std::make_pair(FileSystem::getFileByteSize(path), path));
-			}
-			else
-			{
-				sourceFileSizesToCommands.push_back(std::make_pair(1, path));
-			}
-		}
-		std::sort(sourceFileSizesToCommands.begin(), sourceFileSizesToCommands.end(), [](const PairType& p, const PairType& q) { return p.first > q.first; });
-
-		if (sourceFileSizesToCommands.size() > 2)
-		{
-			std::sort(
-				sourceFileSizesToCommands.begin(),
-				sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() / 2,
-				[](const PairType& p, const PairType& q) { return p.second.wstr() < q.second.wstr(); }
-			);
-			std::sort(
-				sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() / 2,
-				sourceFileSizesToCommands.end(),
-				[](const PairType& p, const PairType& q) { return p.second.wstr() < q.second.wstr(); }
-			);
-		}
-	}
-
 	{
 		std::lock_guard<std::mutex> lock(m_commandsMutex);
-		for (const PairType &pair : sourceFileSizesToCommands)
+		for (const FilePath& filePath : utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2))
 		{
-			m_filePathQueue.emplace(pair.second);
+			m_filePathQueue.emplace(filePath);
 		}
 	}
 

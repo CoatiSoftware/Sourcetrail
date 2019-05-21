@@ -16,6 +16,7 @@
 #include "TextAccess.h"
 #include "utility.h"
 #include "utilityApp.h"
+#include "utilityFile.h"
 #include "utilityString.h"
 
 TaskExecuteCustomCommands::TaskExecuteCustomCommands(
@@ -42,7 +43,7 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	if (m_indexerCommandProvider)
 	{
-		for (const FilePath& sourceFilePath : m_indexerCommandProvider->getAllSourceFilePaths())
+		for (const FilePath& sourceFilePath : utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2))
 		{
 			if (std::shared_ptr<IndexerCommandCustom> indexerCommand =
 				std::dynamic_pointer_cast<IndexerCommandCustom>(m_indexerCommandProvider->consumeCommandForSourceFilePath(sourceFilePath)))
@@ -67,6 +68,9 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 				}
 			}
 		}
+		// reverse because we pull elements from the back of these vectors
+		std::reverse(m_parallelCommands.begin(), m_parallelCommands.end()); 
+		std::reverse(m_serialCommands.begin(), m_serialCommands.end());
 	}
 }
 
