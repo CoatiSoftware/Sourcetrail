@@ -27,7 +27,6 @@ void TaskFillIndexerCommandsQueue::doEnter(std::shared_ptr<Blackboard> blackboar
 			allSourceFilePaths = m_indexerCommandProvider->getAllSourceFilePaths();
 		}
 
-
 		for (const FilePath& path : allSourceFilePaths)
 		{
 			if (path.exists())

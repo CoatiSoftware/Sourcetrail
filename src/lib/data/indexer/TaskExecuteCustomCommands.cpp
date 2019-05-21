@@ -42,10 +42,10 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	if (m_indexerCommandProvider)
 	{
-		while (!m_indexerCommandProvider->empty())
+		for (const FilePath& sourceFilePath : m_indexerCommandProvider->getAllSourceFilePaths())
 		{
 			if (std::shared_ptr<IndexerCommandCustom> indexerCommand =
-				std::dynamic_pointer_cast<IndexerCommandCustom>(m_indexerCommandProvider->consumeCommand()))
+				std::dynamic_pointer_cast<IndexerCommandCustom>(m_indexerCommandProvider->consumeCommandForSourceFilePath(sourceFilePath)))
 			{
 				if (m_targetDatabaseFilePath.empty())
 				{
@@ -78,7 +78,6 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 	}
 
 	m_dialogView->updateCustomIndexingDialog(0, 0, m_indexerCommandProvider->size(), {});
-
 
 	std::vector<std::shared_ptr<std::thread>> indexerThreads;
 	for (size_t i = 1 /*this method is counting as the first thread*/; i < m_indexerThreadCount; i++)
@@ -119,6 +118,8 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 
 		if (m_hasPythonCommands && ApplicationSettings::getInstance()->getPythonPostProcessingEnabled())
 		{
+			targetStorage.clearCaches();
+			targetStorage.buildCaches();
 			runPythonPostProcessing(targetStorage);
 		}
 	}
@@ -286,13 +287,25 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 
 	std::vector<DataToInsert> dataToInsert;
 	std::set<Id> elementsToDelete;
-	locationCollection->forEachSourceLocationFile([&nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](std::shared_ptr<SourceLocationFile> locationFile)
+	locationCollection->forEachSourceLocationFile(
+		[&nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](std::shared_ptr<SourceLocationFile> locationFile)
 		{
-			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(locationFile->getFilePath());
+			const FilePath filePath = locationFile->getFilePath();
+			if (filePath.empty())
+			{
+				return;
+			}
+			if (!filePath.exists())
+			{
+				LOG_WARNING(L"Skipping post processing for non-existing file: " + filePath.wstr());
+				return;
+			}
 
+			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 			if (textAccess)
 			{
-				locationFile->forEachStartSourceLocation([textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](const SourceLocation* startLoc)
+				locationFile->forEachStartSourceLocation(
+					[textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](const SourceLocation* startLoc)
 					{
 						if (!startLoc)
 						{
@@ -353,12 +366,11 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 
 		storage.removeElements(utility::toVector(elementsToDelete));
 		storage.finishInjection();
+		LOG_INFO("Finished Python post processing.");
 	}
 	else
 	{
 		LOG_ERROR("Error occurred while running Python post processing. Rolling back all changes.");
 		storage.rollbackInjection();
 	}
-
-	LOG_INFO("Finished Python post processing.");
 }

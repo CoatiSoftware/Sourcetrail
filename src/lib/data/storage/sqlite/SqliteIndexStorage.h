@@ -264,7 +264,7 @@ private:
 	LowMemoryStringMap<std::wstring, uint32_t, 0> m_tempWNodeNameIndex;
 	std::map<uint32_t, int> m_tempNodeTypes;
 	std::map<StorageEdgeData, uint32_t> m_tempEdgeIndex;
-	std::map<std::wstring, std::map<std::pair<uint32_t, uint32_t>, uint32_t>> m_tempLocalSymbolIndex;
+	std::map<std::wstring, std::map<std::wstring, uint32_t>> m_tempLocalSymbolIndex;
 	std::map<uint32_t, std::map<TempSourceLocation, uint32_t>> m_tempSourceLocationIndices;
 
 	template <typename StorageType>

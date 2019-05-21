@@ -15,31 +15,17 @@ const size_t SqliteIndexStorage::s_storageVersion = 24;
 
 namespace
 {
-	std::tuple<std::wstring, uint32_t, uint32_t> splitLocalSymbolName(const std::wstring& name)
+	std::pair<std::wstring, std::wstring> splitLocalSymbolName(const std::wstring& name)
 	{
-		const std::tuple<std::wstring, uint32_t, uint32_t> res = std::make_tuple(L"", 0, 0);
-
 		size_t pos = name.find_last_of(L'<');
-		if (pos == std::wstring::npos)
+		if (pos == std::wstring::npos || name.back() != L'>')
 		{
-			return res;
+			return std::make_pair(L"", L"");
 		}
 
-		size_t pos2 = name.find(L':', pos + 1);
-		if (pos2 == std::wstring::npos)
-		{
-			return res;
-		}
-
-		if (name.back() != L'>')
-		{
-			return res;
-		}
-
-		return std::tuple<std::wstring, uint32_t, uint32_t>(
+		return std::make_pair(
 			name.substr(0, pos),
-			std::stoi(name.substr(pos + 1, pos2 - pos - 1)),
-			std::stoi(name.substr(pos2 + 1, name.size() - pos2 - 2))
+			name.substr(pos + 1, name.size() - pos - 2)
 		);
 	}
 }
@@ -293,12 +279,10 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 		forEach<StorageLocalSymbol>(
 			[this](StorageLocalSymbol&& localSymbol)
 			{
-				std::wstring name;
-				uint32_t line, col;
-				std::tie(name, line, col) = splitLocalSymbolName(localSymbol.name);
-				if (name.size())
+				std::pair<std::wstring, std::wstring> name = splitLocalSymbolName(localSymbol.name);
+				if (name.second.size())
 				{
-					m_tempLocalSymbolIndex[name].emplace(std::make_pair(line, col), localSymbol.id);
+					m_tempLocalSymbolIndex[name.first].emplace(name.second, localSymbol.id);
 				}
 			}
 		);
@@ -310,15 +294,13 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 	for (size_t i = 0; i < symbols.size(); i++)
 	{
 		const StorageLocalSymbol& data = *it;
-		std::wstring name;
-		uint32_t line, col;
-		std::tie(name, line, col) = splitLocalSymbolName(data.name);
-		if (name.size())
+		std::pair<std::wstring, std::wstring> name = splitLocalSymbolName(data.name);
+		if (name.second.size())
 		{
-			auto it = m_tempLocalSymbolIndex.find(name);
+			auto it = m_tempLocalSymbolIndex.find(name.first);
 			if (it != m_tempLocalSymbolIndex.end())
 			{
-				auto it2 = it->second.find(std::make_pair(line, col));
+				auto it2 = it->second.find(name.second);
 				if (it2 != it->second.end())
 				{
 					symbolIds[i] = it2->second;
@@ -329,12 +311,14 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 		if (!symbolIds[i])
 		{
 			executeStatement(m_insertElementStmt);
-			Id id = m_database.lastRowId();
+			const Id id = m_database.lastRowId();
 
 			symbolIds[i] = id;
 			symbolsToInsert.emplace_back(id, data);
-
-			m_tempLocalSymbolIndex[name].emplace(std::make_pair(line, col), id);
+			if (name.second.size())
+			{
+				m_tempLocalSymbolIndex[name.first].emplace(name.second, id);
+			}
 		}
 
 		it++;

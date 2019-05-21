@@ -219,13 +219,17 @@ void Storage::inject(Storage* injected)
 				sourceLocationId = it->second;
 			}
 
-			if (elementId && sourceLocationId)
+			if (!elementId)
 			{
-				occurrences.emplace_back(elementId, sourceLocationId);
+				LOG_WARNING("New occurrence element id could not be found.");
+			}
+			else if (!sourceLocationId)
+			{
+				LOG_WARNING("New occurrence location id could not be found.");
 			}
 			else
 			{
-				LOG_WARNING("New occurrence element or location id could not be found.");
+				occurrences.emplace_back(elementId, sourceLocationId);
 			}
 		}
 
