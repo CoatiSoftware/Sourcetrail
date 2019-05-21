@@ -364,7 +364,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 	{
 		for (size_t i = 0; i < ambiguousEdgeIds.size(); i++)
 		{
-			storage.addElementComponent(StorageElementComponentData(ambiguousEdgeIds[i], elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS), L""));
+			storage.addElementComponent(StorageElementComponent(ambiguousEdgeIds[i], elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS), L""));
 			storage.addOccurrence(StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
 		}
 

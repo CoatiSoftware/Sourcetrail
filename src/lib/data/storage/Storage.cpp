@@ -237,6 +237,25 @@ void Storage::inject(Storage* injected)
 	}
 
 	{
+		// TRACE("inject element components");
+
+		const std::set<StorageElementComponent>& oldComponents = injected->getElementComponents();
+		std::vector<StorageElementComponent> components;
+		components.reserve(oldComponents.size());
+
+		for (const StorageElementComponent& component : oldComponents)
+		{
+			auto it = injectedIdToOwnElementId.find(component.elementId);
+			if (it != injectedIdToOwnElementId.end())
+			{
+				components.emplace_back(it->second, component.type, component.data);
+			}
+		}
+
+		addElementComponents(components);
+	}
+
+	{
 		// TRACE("inject accesses");
 
 		const std::set<StorageComponentAccess>& oldAccesses = injected->getComponentAccesses();

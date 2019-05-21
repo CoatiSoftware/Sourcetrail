@@ -66,7 +66,8 @@ public:
 	bool addOccurrences(const std::vector<StorageOccurrence>& occurrences);
 	bool addComponentAccess(const StorageComponentAccess& componentAccess);
 	bool addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses);
-	int addElementComponent(const StorageElementComponentData& storageElementComponentData);
+	void addElementComponent(const StorageElementComponent& component);
+	void addElementComponents(const std::vector<StorageElementComponent>& components);
 	StorageError addError(const StorageErrorData& data);
 
 	void removeElement(Id id);

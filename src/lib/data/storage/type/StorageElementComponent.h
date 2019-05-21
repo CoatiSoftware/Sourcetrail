@@ -5,43 +5,39 @@
 
 #include "types.h"
 
-struct StorageElementComponentData
+struct StorageElementComponent
 {
-	StorageElementComponentData()
+	StorageElementComponent()
 		: elementId(0)
 		, type(0)
 		, data(L"")
 	{}
 
-	StorageElementComponentData(Id elementId, int type, std::wstring data)
+	StorageElementComponent(Id elementId, int type, std::wstring data)
 		: elementId(elementId)
 		, type(type)
 		, data(std::move(data))
 	{}
 
+	bool operator<(const StorageElementComponent& other) const
+	{
+		if (elementId != other.elementId)
+		{
+			return elementId < other.elementId;
+		}
+		else if (type != other.type)
+		{
+			return type < other.type;
+		}
+		else
+		{
+			return data < other.data;
+		}
+	}
+
 	Id elementId;
 	int type;
 	std::wstring data;
-};
-
-struct StorageElementComponent : public StorageElementComponentData
-{
-	StorageElementComponent()
-		: StorageElementComponentData()
-		, id(0)
-	{}
-
-	StorageElementComponent(Id id, const StorageElementComponentData& data)
-		: StorageElementComponentData(data)
-		, id(id)
-	{}
-
-	StorageElementComponent(Id id, Id elementId, int type, std::wstring data)
-		: StorageElementComponentData(elementId, type, data)
-		, id(id)
-	{}
-
-	Id id;
 };
 
 #endif // STORAGE_ELEMENT_COMPONENT_H

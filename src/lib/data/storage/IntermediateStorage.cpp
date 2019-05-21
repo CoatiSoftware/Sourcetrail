@@ -197,7 +197,7 @@ void IntermediateStorage::addFile(const StorageFile& file)
 		m_filesIdIndex.emplace(file.id, m_files.size());
 		m_files.emplace_back(file);
 	}
-	
+
 }
 
 void IntermediateStorage::setFileLanguage(Id fileId, const std::wstring& languageIdentifier)
@@ -302,6 +302,16 @@ void IntermediateStorage::addComponentAccesses(const std::vector<StorageComponen
 	m_componentAccesses.insert(componentAccesses.begin(), componentAccesses.end());
 }
 
+void IntermediateStorage::addElementComponent(const StorageElementComponent& component)
+{
+	m_elementComponents.emplace(component);
+}
+
+void IntermediateStorage::addElementComponents(const std::vector<StorageElementComponent>& components)
+{
+	m_elementComponents.insert(components.begin(), components.end());
+}
+
 Id IntermediateStorage::addError(const StorageErrorData& errorData)
 {
 	auto it = m_errorsIndex.find(errorData);
@@ -354,6 +364,11 @@ const std::set<StorageOccurrence>& IntermediateStorage::getStorageOccurrences() 
 const std::set<StorageComponentAccess>& IntermediateStorage::getComponentAccesses() const
 {
 	return m_componentAccesses;
+}
+
+const std::set<StorageElementComponent>& IntermediateStorage::getElementComponents() const
+{
+	return m_elementComponents;
 }
 
 const std::vector<StorageError>& IntermediateStorage::getErrors() const
@@ -421,6 +436,11 @@ void IntermediateStorage::setStorageOccurrences(std::set<StorageOccurrence> stor
 void IntermediateStorage::setComponentAccesses(std::set<StorageComponentAccess> componentAccesses)
 {
 	m_componentAccesses = std::move(componentAccesses);
+}
+
+void IntermediateStorage::setElementComponents(std::set<StorageElementComponent> components)
+{
+	m_elementComponents = std::move(components);
 }
 
 void IntermediateStorage::setErrors(std::vector<StorageError> errors)

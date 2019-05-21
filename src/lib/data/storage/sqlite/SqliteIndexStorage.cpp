@@ -408,15 +408,21 @@ bool SqliteIndexStorage::addComponentAccesses(const std::vector<StorageComponent
 	return m_insertComponentAccessBatchStatement.execute(componentAccesses, this);
 }
 
-int SqliteIndexStorage::addElementComponent(const StorageElementComponentData& storageElementComponentData)
+void SqliteIndexStorage::addElementComponent(const StorageElementComponent& component)
 {
-	m_insertElementComponentStmt.bind(1, int(storageElementComponentData.elementId));
-	m_insertElementComponentStmt.bind(2, storageElementComponentData.type);
-	m_insertElementComponentStmt.bind(3, utility::encodeToUtf8(storageElementComponentData.data).c_str());
+	m_insertElementComponentStmt.bind(1, int(component.elementId));
+	m_insertElementComponentStmt.bind(2, component.type);
+	m_insertElementComponentStmt.bind(3, utility::encodeToUtf8(component.data).c_str());
 	executeStatement(m_insertElementComponentStmt);
-	int id = m_database.lastRowId();
 	m_insertElementComponentStmt.reset();
-	return id;
+}
+
+void SqliteIndexStorage::addElementComponents(const std::vector<StorageElementComponent>& components)
+{
+	for (const StorageElementComponent& component : components)
+	{
+		addElementComponent(component);
+	}
 }
 
 StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
@@ -1545,20 +1551,19 @@ template <>
 void SqliteIndexStorage::forEach<StorageElementComponent>(const std::string& query, std::function<void(StorageElementComponent&&)> func) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT id, element_id, type, data FROM element_component " + query + ";"
+		"SELECT element_id, type, data FROM element_component " + query + ";"
 	);
 
 	while (!q.eof())
 	{
-		const Id id = q.getIntField(0, 0);
-		const Id elementId = q.getIntField(1, 0);
-		const int type = q.getIntField(2, -1);
-		const std::string data = q.getStringField(3, "");
+		const Id elementId = q.getIntField(0, 0);
+		const int type = q.getIntField(1, -1);
+		const std::string data = q.getStringField(2, "");
 
-		if (id != 0 && elementId != 0 && type != -1)
+		if (elementId != 0 && type != -1)
 		{
 			func(StorageElementComponent(
-				id, elementId, type, utility::decodeFromUtf8(data)
+				elementId, type, utility::decodeFromUtf8(data)
 			));
 		}
 

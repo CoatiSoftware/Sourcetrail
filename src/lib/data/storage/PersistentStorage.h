@@ -34,7 +34,8 @@ public:
 	void addOccurrences(const std::vector<StorageOccurrence>& occurrences) override;
 	void addComponentAccess(const StorageComponentAccess& componentAccess) override;
 	void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) override;
-	void addElementComponent(const StorageElementComponentData& data) /*override*/;
+	void addElementComponent(const StorageElementComponent& component) override;
+	void addElementComponents(const std::vector<StorageElementComponent>& components) override;
 	Id addError(const StorageErrorData& data) override;
 
 	void removeElement(const Id id);
@@ -48,6 +49,7 @@ public:
 	const std::set<StorageSourceLocation>& getStorageSourceLocations() const override;
 	const std::set<StorageOccurrence>& getStorageOccurrences() const override;
 	const std::set<StorageComponentAccess>& getComponentAccesses() const override;
+	const std::set<StorageElementComponent>& getElementComponents() const override;
 	const std::vector<StorageError>& getErrors() const override;
 
 	void startInjection() override;
@@ -172,6 +174,7 @@ private:
 		std::set<StorageSourceLocation> locations;
 		std::set<StorageOccurrence> occurrences;
 		std::set<StorageComponentAccess> accesses;
+		std::set<StorageElementComponent> components;
 		std::vector<StorageError> errors;
 	} m_storageData;
 
