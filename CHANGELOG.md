@@ -1,5 +1,41 @@
 ### Changelog
 
+#### 2019.2.25
+released 2019-05-22
+
+* Enable console and file logging by default
+* Python: Sort indexer commands by file size
+* Linux: Add path to OpenSSL config in Sourcetrail.sh script (issue #659)
+* Search: Refocus already focused search box on 'find symbol' shortcut to select content
+* Renamed 'main' function in tutorial to 'start_tour', due to multiple main fix
+* Python: Fixed macOS app bundle not using correct Python default environment
+* Python: Pass verbose indexer logging flag and add output to log
+* Fixed EULA not displayed in Windows and macOS builds
+* Python: Added start screen project icon
+* Python: Added sample project "tictactoe_py"
+* Code: Fixed symbol definition shown instead of most recent reference when using back action
+* Python: Added post processing to add ambiguous edges for unsolved symbols with matching name
+* Fixed old test license format not loaded (issue #691)
+* C/C++: Added intermediate fix to handle multiple definitions of main() in C/C++ (issue #233)
+* Graph: Added "Show Definition in IDE" action to context menu (issue #687)
+* Increased contrasts in color scheme 'bright'
+* Automatically delete log files older than a month (issue #676)
+* Code: renamed 'relations' to 'references' in overview stats
+* Fixed bug that caused the UI to be blocked after aborting indexing on "partial clearing not possible" warning
+* Start automatic update checks on second day of use
+* Graph: Show multi-level inheritance edge in graph legend (issue #688)
+* C/C++: Updated to LLVM/Clang 8.0.1
+* Graph: Use multicolumn layout for nodes with many children if none of the children has edges
+* Python: Added Python 2 & 3 support based on SourcetrailPythonIndexer (https://github.com/CoatiSoftware/SourcetrailPythonIndexer) (issue #51)
+* Python: Added source group type "Empty Python" to project setup
+* Search: Edit last search element on backspace instead of deleting (issue #681)
+* EULA: added support for lifelong licenses
+* Improved text search performance (issue #680)
+* Windows: Fixed bug that caused texts within tooltips sometimes to be cut off
+* Fixed crash when closing license window at first start
+* Automatically replace invalid characters in project name during project setup with "_" (issue #671)
+* Windows: Added syntax highlighting rules to portable package (issue #672)
+
 #### 2019.1.11
 released 2019-02-05
 
