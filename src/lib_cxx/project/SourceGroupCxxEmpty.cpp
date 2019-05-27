@@ -133,13 +133,12 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 			}
 		}
 
-		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(indexedDirectoryPaths));
-		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(m_settings->getHeaderSearchPathsExpandedAndAbsolute()));
-		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(appSettings->getHeaderSearchPathsExpanded()));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
+			utility::concat(indexedDirectoryPaths, utility::concat(m_settings->getHeaderSearchPathsExpandedAndAbsolute(), appSettings->getHeaderSearchPathsExpanded()))));
 	}
 	{
-		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(m_settings->getFrameworkSearchPathsExpandedAndAbsolute()));
-		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(appSettings->getFrameworkSearchPathsExpanded()));
+		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(
+			utility::concat(m_settings->getFrameworkSearchPathsExpandedAndAbsolute(), appSettings->getFrameworkSearchPathsExpanded())));
 	}
 
 	utility::append(compilerFlags, m_settings->getCompilerFlags());

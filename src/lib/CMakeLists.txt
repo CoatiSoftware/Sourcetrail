@@ -640,8 +640,6 @@ add_files(
 	utility/UserPaths.h
 	utility/utility.cpp
 	utility/utility.h
-	utility/utilityCxx.cpp
-	utility/utilityCxx.h
 	utility/utilityFile.cpp
 	utility/utilityFile.h
 	utility/utilityLibrary.h

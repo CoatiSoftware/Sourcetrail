@@ -3,7 +3,6 @@
 #include "FilePath.h"
 #include "utilityCxxHeaderDetection.h"
 #include "utilityString.h"
-#include "utilityCxx.h"
 
 CxxHeaderPathDetector::CxxHeaderPathDetector(const std::string& compilerName)
 	: PathDetector(compilerName)

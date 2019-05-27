@@ -9,11 +9,10 @@
 #include "Status.h"
 #include "TimeStamp.h"
 #include "utility.h"
-#include "utilityCxx.h"
 #include "UserPaths.h"
 #include "Version.h"
 
-const size_t ApplicationSettings::VERSION = 7;
+const size_t ApplicationSettings::VERSION = 8;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -64,22 +63,6 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 			}
 		}
 	));
-	migrator.addMigration(6, std::make_shared<SettingsMigrationLambda>(
-		[](const SettingsMigration* migration, Settings* settings)
-		{
-			std::vector<FilePath> cxxHeaderSearchPaths = migration->getValuesFromSettings(
-				settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>());
-
-			cxxHeaderSearchPaths = utility::replaceOrAddCxxCompilerHeaderPath(cxxHeaderSearchPaths);
-
-			migration->setValuesInSettings(settings, "indexing/cxx/header_search_paths/header_search_path", cxxHeaderSearchPaths);
-
-			if (cxxHeaderSearchPaths.size() == 1)
-			{
-				migration->setValueInSettings(settings, "indexing/cxx/has_prefilled_header_search_paths", false);
-			}
-		}
-	));
 	migrator.addMigration(7, std::make_shared<SettingsMigrationLambda>(
 		[](const SettingsMigration* migration, Settings* settings)
 		{
@@ -97,6 +80,33 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 				}
 			}
 			migration->setValuesInSettings(settings, "user/recent_projects/recent_project", recentProjects);
+		}
+	));
+	migrator.addMigration(8, std::make_shared<SettingsMigrationLambda>(
+		[](const SettingsMigration* migration, Settings* settings)
+		{
+			std::vector<FilePath> cxxHeaderSearchPaths = migration->getValuesFromSettings(
+				settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>());
+
+			std::vector<FilePath> newCxxHeaderSearchPaths;
+			for (const FilePath& path : cxxHeaderSearchPaths)
+			{
+				if (path.getCanonical().getConcatenated(L"/stdarg.h").exists() &&
+					path.str().find("data/cxx/include") != std::string::npos)
+				{
+					continue;
+				}
+
+				newCxxHeaderSearchPaths.push_back(path);
+			}
+
+			migration->setValuesInSettings(
+				settings, "indexing/cxx/header_search_paths/header_search_path", newCxxHeaderSearchPaths);
+
+			if (newCxxHeaderSearchPaths.size() == 0)
+			{
+				migration->setValueInSettings(settings, "indexing/cxx/has_prefilled_header_search_paths", false);
+			}
 		}
 	));
 	bool migrated = migrator.migrate(this, ApplicationSettings::VERSION);

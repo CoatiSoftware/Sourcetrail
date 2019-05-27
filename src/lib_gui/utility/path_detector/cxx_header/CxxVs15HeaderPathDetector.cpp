@@ -7,7 +7,6 @@
 #include "utilityCxxHeaderDetection.h"
 #include "utility.h"
 #include "utilityApp.h"
-#include "utilityCxx.h"
 
 CxxVs15HeaderPathDetector::CxxVs15HeaderPathDetector()
 	: PathDetector("Visual Studio 2017")

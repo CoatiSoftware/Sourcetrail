@@ -8,7 +8,6 @@
 #include "FilePath.h"
 #include "utilityCxxHeaderDetection.h"
 #include "utility.h"
-#include "utilityCxx.h"
 
 CxxVs10To14HeaderPathDetector::CxxVs10To14HeaderPathDetector(VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture)
 	: PathDetector(visualStudioTypeToString(type) + (isExpress ? " Express" : "") + (architecture == APPLICATION_ARCHITECTURE_X86_64 ? " 64 Bit" : ""))
