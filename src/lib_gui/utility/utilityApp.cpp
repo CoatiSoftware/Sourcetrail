@@ -13,6 +13,39 @@
 #include "UserPaths.h"
 #include "utilityString.h"
 
+namespace
+{
+	void logProcessStreams(QProcess& process, std::wstring& outputBuffer, std::wstring& errorBuffer)
+	{
+		{
+			outputBuffer += QString(process.readAllStandardOutput()).toStdWString();
+			std::vector<std::wstring> outputLines = utility::split<std::vector<std::wstring>>(outputBuffer, L"\n");
+			for (size_t i = 0; i < outputLines.size() - 1; i++)
+			{
+				if (outputLines[i].back() == L'\r')
+				{
+					outputLines[i].pop_back();
+				}
+				LOG_INFO_BARE(L"Process output: " + outputLines[i]);
+			}
+			outputBuffer = outputLines.back();
+		}
+		{
+			errorBuffer += QString(process.readAllStandardError()).toStdWString();
+			std::vector<std::wstring> errorLines = utility::split<std::vector<std::wstring>>(errorBuffer, L"\n");
+			for (size_t i = 0; i < errorLines.size() - 1; i++)
+			{
+				if (errorLines[i].back() == L'\r')
+				{
+					errorLines[i].pop_back();
+				}
+				LOG_ERROR_BARE(L"Process error: " + errorLines[i]);
+			}
+			errorBuffer = errorLines.back();
+		}
+	}
+}
+
 namespace utility
 {
 	std::mutex s_runningProcessesMutex;
@@ -108,7 +141,7 @@ int utility::executeProcessAndGetExitCode(
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory,
 	const int timeout,
-	std::wstring* processOutput,
+	bool logProcessOutput,
 	std::wstring* errorMessage
 ){
 	QProcess process;
@@ -163,28 +196,36 @@ int utility::executeProcessAndGetExitCode(
 		s_runningProcesses.insert(&process);
 	}
 
-	process.waitForFinished(timeout);
+	{
+		std::wstring outputBuffer;
+		std::wstring errorBuffer;
+		if (timeout == -1)
+		{
+			while (!process.waitForFinished(1000))
+			{
+				if (logProcessOutput)
+				{
+					logProcessStreams(process, outputBuffer, errorBuffer);
+				}
+			}
+		}
+		else
+		{
+			process.waitForFinished(timeout);
+		}
+
+		if (logProcessOutput)
+		{
+			logProcessStreams(process, outputBuffer, errorBuffer);
+		}
+	}
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
 		s_runningProcesses.erase(&process);
 	}
 
-	int exitCode = process.exitCode();
-
-	if (processOutput != nullptr)
-	{
-		if (exitCode != 0)
-		{
-			*processOutput = utility::trim(QString(process.readAllStandardError()).toStdWString());
-		}
-		else
-		{
-			*processOutput = utility::trim(QString(process.readAll()).toStdWString());
-		}
-	}
-
+	const int exitCode = process.exitCode();
 	process.close();
-
 	return exitCode;
 }
 
