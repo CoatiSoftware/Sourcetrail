@@ -43,7 +43,6 @@ std::string removeCaption(const std::string& line, const std::string& caption)
 }
 
 License::License()
-	: m_rng(std::make_unique<Botan::AutoSeeded_RNG>())
 {
 }
 
@@ -335,12 +334,14 @@ std::string License::getLicenseString() const
 
 std::string License::generateHash(const std::string& str) const
 {
-	if (m_rng == NULL || str.size() <= 0)
+	if (str.size() <= 0)
 	{
 		return "";
 	}
 
-	return Botan::generate_passhash9(str, *(m_rng.get()));
+	Botan::AutoSeeded_RNG rng;
+
+	return Botan::generate_passhash9(str, rng);
 }
 
 bool License::checkHash(const std::string& str, const std::string& hash)

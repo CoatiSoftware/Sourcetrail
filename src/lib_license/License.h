@@ -5,11 +5,6 @@
 #include <string>
 #include <vector>
 
-namespace Botan
-{
-	class AutoSeeded_RNG;
-}
-
 namespace LicenseConstants
 {
 	const char BEGIN_LICENSE[] = "-----BEGIN LICENSE-----";
@@ -84,8 +79,6 @@ private:
 	bool load(std::istream& stream);
 	bool loadFromLines(const std::vector<std::string>& lines);
 	bool loadFromLinesOld(const std::vector<std::string>& lines);
-
-	std::unique_ptr<Botan::AutoSeeded_RNG> m_rng;
 
 	std::string m_user;
 	std::string m_type;
