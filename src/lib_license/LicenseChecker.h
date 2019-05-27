@@ -10,7 +10,6 @@
 namespace Botan
 {
 	class RSA_PublicKey;
-	class AutoSeeded_RNG;
 }
 
 class LicenseChecker
@@ -53,7 +52,7 @@ private:
 	static bool createPublicKey(Botan::RSA_PublicKey *rsaPublicKey);
 
 	static std::string s_encodeKey;
-	static std::unique_ptr<Botan::RSA_PublicKey> s_publicKey;
+	static Botan::RSA_PublicKey* s_publicKey; // Intentional memory leak, because destruction can cause crash
 	static std::unique_ptr<License> s_currentLicense;
 };
 

@@ -17,7 +17,7 @@
 #include "PublicKey.h"
 
 std::string LicenseChecker::s_encodeKey;
-std::unique_ptr<Botan::RSA_PublicKey> LicenseChecker::s_publicKey;
+Botan::RSA_PublicKey* LicenseChecker::s_publicKey = nullptr;
 std::unique_ptr<License> LicenseChecker::s_currentLicense;
 
 void LicenseChecker::setEncodeKey(const std::string& key)
@@ -212,7 +212,7 @@ LicenseChecker::LicenseState LicenseChecker::checkLicense(const License& license
 
 	try
 	{
-		Botan::PK_Verifier verifier(*s_publicKey.get(), "EMSA4(SHA-256)");
+		Botan::PK_Verifier verifier(*s_publicKey, "EMSA4(SHA-256)");
 		Botan::DataSource_Memory in(message);
 		Botan::byte buffer[4096] = { 0 };
 
@@ -331,6 +331,6 @@ bool LicenseChecker::createPublicKey(Botan::RSA_PublicKey *rsaPublicKey)
 		return false;
 	}
 
-	s_publicKey = std::unique_ptr<Botan::RSA_PublicKey>(rsaPublicKey);
+	s_publicKey = rsaPublicKey;
 	return true;
 }
