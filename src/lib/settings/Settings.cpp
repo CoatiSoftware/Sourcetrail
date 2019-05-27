@@ -44,6 +44,15 @@ bool Settings::load(const FilePath& filePath, bool readOnly)
 	}
 }
 
+bool Settings::loadFromString(const std::string& text, bool readOnly)
+{
+	m_readOnly = readOnly;
+
+	m_config = ConfigManager::createAndLoad(TextAccess::createFromString(text));
+	m_filePath = FilePath();
+	return true;
+}
+
 void Settings::save()
 {
 	if (m_readOnly)

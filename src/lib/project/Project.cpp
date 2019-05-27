@@ -179,16 +179,19 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 	{
 		m_state = PROJECT_STATE_OUTVERSIONED;
 	}
-	else if (utility::replace(TextAccess::createFromFile(projectSettingsPath)->getText(), "\r", "") !=
-		utility::replace(TextAccess::createFromString(m_storage->getProjectSettingsText())->getText(), "\r", ""))
-	{
-		m_state = PROJECT_STATE_OUTDATED;
-		canLoad = true;
-	}
 	else
 	{
-		m_state = PROJECT_STATE_LOADED;
-		canLoad = true;
+		ProjectSettings storedSettings;
+		if (storedSettings.loadFromString(m_storage->getProjectSettingsText()) && m_settings->equalsExceptNameAndLocation(storedSettings))
+		{
+			m_state = PROJECT_STATE_LOADED;
+			canLoad = true;
+		}
+		else
+		{
+			m_state = PROJECT_STATE_OUTDATED;
+			canLoad = true;
+		}
 	}
 
 	try

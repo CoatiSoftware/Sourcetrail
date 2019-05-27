@@ -18,6 +18,7 @@ public:
 	virtual ~Settings();
 
 	bool load(const FilePath& filePath, bool readOnly = false);
+	bool loadFromString(const std::string& text, bool readOnly = false);
 	void save();
 	void save(const FilePath& filePath);
 

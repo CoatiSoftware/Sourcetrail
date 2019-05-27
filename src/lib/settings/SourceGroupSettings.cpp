@@ -42,7 +42,7 @@ bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) con
 {
 	return (
 		m_id == other->m_id &&
-		m_name == other->m_name &&
+		// m_name == other->m_name && // Ignore name, since not significant regarding index state
 		m_type == other->m_type &&
 		m_status == other->m_status
 	);
