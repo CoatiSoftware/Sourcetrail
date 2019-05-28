@@ -1071,7 +1071,7 @@ QtGraphEdge* QtGraphView::createEdge(
 	if (owner != nullptr && target != nullptr)
 	{
 		QtGraphEdge* qtEdge = new QtGraphEdge(
-			owner, target, edge->data, edge->getWeight(), edge->active && !useBezier, interactive, edge->layoutHorizontal,
+			owner, target, edge->data, edge->getWeight(), edge->active, interactive, edge->layoutHorizontal,
 			edge->getDirection());
 
 		if (trailMode != Graph::TRAIL_NONE)

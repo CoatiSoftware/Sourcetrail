@@ -98,6 +98,11 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	if (message->isEdge || message->keepContent())
 	{
 		m_activeEdgeIds = message->tokenIds;
+		if (message->isAggregation) // only on redo
+		{
+			m_activeEdgeIds.clear();
+		}
+
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 
 		if (message->isReplayed())
@@ -181,6 +186,11 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 			}
 
 			m_useBezierEdges = !isInheritanceChain;
+
+			for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+			{
+				edge->active = false;
+			}
 		}
 
 		groupNodesByParents(getView()->getGrouping());
@@ -817,16 +827,20 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 {
 	TRACE();
 
-	bool noActive = activeTokenIds.size() == 0;
+	bool noActive = !activeTokenIds.size();
 	if (activeTokenIds.size() > 0)
 	{
 		noActive = true;
 		for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 		{
-			setNodeActiveRecursive(node.get(), activeTokenIds, &noActive);
+			if (setNodeActiveRecursive(node.get(), activeTokenIds))
+			{
+				noActive = false;
+			}
 		}
 	}
 
+	bool noActiveFinal = noActive;
 	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
 	{
 		if (!edge->data)
@@ -838,7 +852,7 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge->data->getId()) != activeTokenIds.end())
 		{
 			edge->active = true;
-			noActive = false;
+			noActiveFinal = false;
 		}
 
 		DummyNode* from = getDummyGraphNodeById(edge->ownerId).get();
@@ -859,7 +873,7 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 		}
 	}
 
-	return noActive;
+	return noActiveFinal;
 }
 
 void GraphController::setVisibility(bool noActive)
@@ -879,8 +893,9 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 	setVisibility(setActive(activeTokenIds, false));
 }
 
-void GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const
+bool GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds) const
 {
+	bool hasActive = false;
 	node->active = false;
 
 	if (node->isGraphNode())
@@ -889,14 +904,19 @@ void GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<
 
 		if (node->active)
 		{
-			*noActive = false;
+			hasActive = true;
 		}
 	}
 
 	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
-		setNodeActiveRecursive(subNode.get(), activeTokenIds, noActive);
+		if (setNodeActiveRecursive(subNode.get(), activeTokenIds))
+		{
+			hasActive = true;
+		}
 	}
+
+	return hasActive;
 }
 
 bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool noActive) const
