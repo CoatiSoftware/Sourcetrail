@@ -6,16 +6,22 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
+#include "Application.h"
+#include "ApplicationSettings.h"
+#include "FileManager.h"
+#include "MessageStatus.h"
+#include "QtLocationPicker.h"
+#include "QtDialogView.h"
+#include "QtProjectWizzardContentPaths.h"
+#include "ResourcePaths.h"
+#include "ScopedFunctor.h"
+#include "SonargraphProject.h"
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupCxxCodeblocks.h"
 #include "SourceGroupCxxSonargraph.h"
 #include "SourceGroupJavaSonargraph.h"
 #include "SourceGroupJavaGradle.h"
 #include "SourceGroupJavaMaven.h"
-#include "QtLocationPicker.h"
-#include "QtDialogView.h"
-#include "QtProjectWizzardContentPaths.h"
-#include "ApplicationSettings.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
 #include "SourceGroupSettingsCxxSonargraph.h"
@@ -24,15 +30,11 @@
 #include "SourceGroupSettingsJavaSonargraph.h"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "SourceGroupSettingsWithSonargraphProjectPath.h"
-#include "FileManager.h"
-#include "MessageStatus.h"
-#include "SonargraphProject.h"
-#include "ScopedFunctor.h"
 #include "utility.h"
+#include "utilityApp.h"
 #include "utilityFile.h"
 #include "utilityGradle.h"
 #include "utilityMaven.h"
-#include "Application.h"
 
 QtProjectWizzardContentPath::QtProjectWizzardContentPath(QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(window)
@@ -744,6 +746,20 @@ QtProjectWizzardContentPathPythonEnvironment::QtProjectWizzardContentPathPythonE
 	setAllowEmpty(true);
 }
 
+void QtProjectWizzardContentPathPythonEnvironment::populate(QGridLayout* layout, int& row)
+{
+	QtProjectWizzardContentPath::populate(layout, row);
+	connect(
+		m_picker, &QtLocationPicker::textChanged,
+		this, &QtProjectWizzardContentPathPythonEnvironment::onTextChanged
+	);
+
+	m_resultLabel = new QLabel();
+	m_resultLabel->setWordWrap(true);
+	layout->addWidget(m_resultLabel, row, QtProjectWizzardWindow::BACK_COL);
+	row++;
+}
+
 void QtProjectWizzardContentPathPythonEnvironment::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settings->getEnvironmentDirectoryPath().wstr()));
@@ -752,6 +768,39 @@ void QtProjectWizzardContentPathPythonEnvironment::load()
 void QtProjectWizzardContentPathPythonEnvironment::save()
 {
 	m_settings->setEnvironmentDirectoryPath(FilePath(m_picker->getText().toStdWString()));
+}
+
+void QtProjectWizzardContentPathPythonEnvironment::onTextChanged(const QString& text)
+{
+	if (text.isEmpty())
+	{
+		m_resultLabel->clear();
+	}
+	else
+	{
+		m_resultLabel->setText("Checking validity of Python environment...");
+		std::thread([=]() {
+			std::pair<int, std::string> out = utility::executeProcess(
+				"\"" + ResourcePaths::getPythonPath().str() + "SourcetrailPythonIndexer\" check-environment " +
+				"--environment-path \"" + m_settings->makePathExpandedAndAbsolute(FilePath(text.toStdWString())).str() + "\"",
+				FilePath(),
+				5000
+			);
+			m_onQtThread(
+				[=]()
+				{
+					if (out.first == 0)
+					{
+						m_resultLabel->setText(QString::fromStdString(out.second));
+					}
+					else
+					{
+						m_resultLabel->setText("An error occurred while checking environment path. Unable to check validity.");
+					}
+				}
+			);
+		}).detach();
+	}
 }
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizzardContentPathPythonEnvironment::getSourceGroupSettings()

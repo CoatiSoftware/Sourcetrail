@@ -12,7 +12,7 @@ class License;
 
 namespace utility
 {
-	std::string executeProcess(const std::string& command, const  FilePath& workingDirectory = FilePath(), const int timeout = 30000);
+	std::pair<int, std::string> executeProcess(const std::string& command, const  FilePath& workingDirectory = FilePath(), const int timeout = 30000);
 	std::string executeProcessUntilNoOutput(const std::string& command, const FilePath& workingDirectory, int waitTime = 10000);
 	int executeProcessAndGetExitCode(
 		const std::wstring& commandPath,

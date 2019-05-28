@@ -52,7 +52,7 @@ namespace utility
 	std::set<QProcess*> s_runningProcesses;
 }
 
-std::string utility::executeProcess(const std::string& command, const FilePath& workingDirectory, const int timeout)
+std::pair<int, std::string> utility::executeProcess(const std::string& command, const FilePath& workingDirectory, const int timeout)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
@@ -81,11 +81,11 @@ std::string utility::executeProcess(const std::string& command, const FilePath& 
 
 	// QProcess::ProcessError error = process.error();
 
-	std::string processoutput = process.readAll().toStdString();
+	const std::string processoutput = process.readAll().toStdString();
+	const int exitCode = process.exitCode();
 	process.close();
-	processoutput = utility::trim(processoutput);
 
-	return processoutput;
+	return std::make_pair(exitCode, utility::trim(processoutput));
 }
 
 std::string utility::executeProcessUntilNoOutput(const std::string& command, const FilePath& workingDirectory, const int waitTime)

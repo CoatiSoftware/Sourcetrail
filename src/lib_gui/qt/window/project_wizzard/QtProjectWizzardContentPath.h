@@ -4,6 +4,7 @@
 #include <set>
 
 #include "QtProjectWizzardContent.h"
+#include "QtThreadedFunctor.h"
 #include "SingleValueCache.h"
 
 class QCheckBox;
@@ -245,13 +246,17 @@ public:
 	QtProjectWizzardContentPathPythonEnvironment(std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
+	void populate(QGridLayout* layout, int& row) override;
 	void load() override;
 	void save() override;
 
 private:
+	void onTextChanged(const QString& text);
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 
 	std::shared_ptr<SourceGroupSettingsPythonEmpty> m_settings;
+	QtThreadedLambdaFunctor m_onQtThread;
+	QLabel* m_resultLabel;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PATH_H

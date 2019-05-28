@@ -25,6 +25,7 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	m_data = new QtLineEdit(this);
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_data->setObjectName("locationField");
+	connect(m_data, &QtLineEdit::textChanged, this, &QtLocationPicker::onDataTextChanged);
 	layout->addWidget(m_data);
 
 	m_button = new QtIconButton(
@@ -34,7 +35,7 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName("dotsButton");
 	m_button->setToolTip("pick file");
-	connect(m_button, &QPushButton::clicked, this, &QtLocationPicker::handleButtonPress);
+	connect(m_button, &QPushButton::clicked, this, &QtLocationPicker::onHandleButtonPressed);
 	layout->addWidget(m_button);
 
 	setLayout(layout);
@@ -98,7 +99,7 @@ void QtLocationPicker::changeEvent(QEvent *event)
 	}
 }
 
-void QtLocationPicker::handleButtonPress()
+void QtLocationPicker::onHandleButtonPressed()
 {
 	FilePath path(m_data->text().toStdWString());
 	if (!path.empty() && !path.isAbsolute() && !m_relativeRootDirectory.empty())
@@ -123,4 +124,9 @@ void QtLocationPicker::handleButtonPress()
 		).wstr()));
 		emit locationPicked();
 	}
+}
+
+void QtLocationPicker::onDataTextChanged(const QString& text)
+{
+	emit textChanged(text);
 }

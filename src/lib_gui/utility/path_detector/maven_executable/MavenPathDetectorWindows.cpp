@@ -11,7 +11,7 @@ MavenPathDetectorWindows::MavenPathDetectorWindows()
 std::vector<FilePath> MavenPathDetectorWindows::getPaths() const
 {
 	std::string command = "cmd /c where mvn.cmd && exit";
-	FilePath mavenPath(utility::executeProcess(command.c_str()));
+	FilePath mavenPath(utility::executeProcess(command.c_str()).second);
 
 	std::vector<FilePath> paths;
 	if (mavenPath.exists())

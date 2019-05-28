@@ -49,7 +49,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 
 	if (!m_settings->getEnvironmentDirectoryPath().empty())
 	{
-		args += L" --environment-directory-path=" + m_settings->getEnvironmentDirectoryPathExpandedAndAbsolute().wstr();
+		args += L" --environment-path=" + m_settings->getEnvironmentDirectoryPathExpandedAndAbsolute().wstr();
 	}
 
 	if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
@@ -64,7 +64,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
 				INDEXER_COMMAND_PYTHON,
-				L"\"" + ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer\"" + args,
+				L"\"" + ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer\" index" + args,
 				m_settings->getProjectSettings()->getProjectFilePath(),
 				m_settings->getProjectSettings()->getTempDBFilePath(),
 				std::to_wstring(SqliteIndexStorage::getStorageVersion()),

@@ -30,14 +30,15 @@ public:
 
 signals:
 	void locationPicked();
+	void textChanged(const QString& text);
 
 protected:
 	void changeEvent(QEvent *event) override;
 
-private slots:
-	void handleButtonPress();
-
 private:
+	void onHandleButtonPressed();
+	void onDataTextChanged(const QString& text);
+
 	QPushButton* m_button;
 	QtLineEdit* m_data;
 
