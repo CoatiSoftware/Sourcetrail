@@ -216,6 +216,9 @@ void QtCodeFileSingle::showContents()
 	{
 		m_area->show();
 		updateRefCount(m_area->getActiveLocationCount());
+
+		// Resizes the area to fix a bug where the area could be scrolled below the last line.
+		m_area->updateGeometry();
 	}
 }
 
