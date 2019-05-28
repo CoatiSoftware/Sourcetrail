@@ -37,7 +37,7 @@ private:
 
 	void executeParallelIndexerCommands(int threadId, std::shared_ptr<Blackboard> blackboard);
 	void runIndexerCommand(std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard);
-	static void runPythonPostProcessing(PersistentStorage& storage);
+	void runPythonPostProcessing(PersistentStorage& storage);
 
 private:
 	std::unique_ptr<IndexerCommandProvider> m_indexerCommandProvider;

@@ -1473,14 +1473,14 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
 
+	std::map<Id, std::vector<Id>> m_locationIdToElementIds;
+	for (const StorageOccurrence& occurrence: m_sqliteIndexStorage.getOccurrencesForLocationIds(locationIds))
+	{
+		m_locationIdToElementIds[occurrence.sourceLocationId].push_back(occurrence.elementId);
+	}
+
 	for (StorageSourceLocation location: m_sqliteIndexStorage.getAllByIds<StorageSourceLocation>(locationIds))
 	{
-		std::vector<Id> elementIds;
-		for (const StorageOccurrence& occurrence: m_sqliteIndexStorage.getOccurrencesForLocationId(location.id))
-		{
-			elementIds.push_back(occurrence.elementId);
-		}
-
 		const LocationType type = intToLocationType(location.type);
 		if (type != LOCATION_TOKEN && type != LOCATION_SCOPE && type != LOCATION_LOCAL_SYMBOL && type != LOCATION_UNSOLVED)
 		{
@@ -1490,7 +1490,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		collection->addSourceLocation(
 			intToLocationType(location.type),
 			location.id,
-			elementIds,
+			m_locationIdToElementIds[location.id],
 			getFileNodePath(location.fileNodeId),
 			location.startLine,
 			location.startCol,

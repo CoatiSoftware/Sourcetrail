@@ -69,7 +69,7 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 			}
 		}
 		// reverse because we pull elements from the back of these vectors
-		std::reverse(m_parallelCommands.begin(), m_parallelCommands.end()); 
+		std::reverse(m_parallelCommands.begin(), m_parallelCommands.end());
 		std::reverse(m_serialCommands.begin(), m_serialCommands.end());
 	}
 }
@@ -255,6 +255,7 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& storage)
 {
 	LOG_INFO("Starting Python post processing.");
+	m_dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Run Python Post Processing");
 
 	std::vector<Id> unsolvedLocationIds;
 	for (const StorageSourceLocation location : storage.getStorageSourceLocations())
