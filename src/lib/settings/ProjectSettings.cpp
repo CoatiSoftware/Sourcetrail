@@ -23,7 +23,7 @@ const std::wstring ProjectSettings::BOOKMARK_DB_FILE_EXTENSION = L".srctrlbm";
 const std::wstring ProjectSettings::INDEX_DB_FILE_EXTENSION = L".srctrldb";
 const std::wstring ProjectSettings::TEMP_INDEX_DB_FILE_EXTENSION = L".srctrldb_tmp";
 
-const size_t ProjectSettings::VERSION = 7;
+const size_t ProjectSettings::VERSION = 8;
 
 LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
 {
@@ -393,6 +393,12 @@ SettingsMigrator ProjectSettings::getMigrations() const
 
 		std::string key = SourceGroupSettings::s_keyPrefix + sourceGroupSettings->getId();
 		migrator.addMigration(7, std::make_shared<SettingsMigrationMoveKey>(key + "/standard", key + "/" + languageName + "_standard"));
+	}
+
+	for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings : getAllSourceGroupSettings())
+	{
+		const std::string key = SourceGroupSettings::s_keyPrefix + sourceGroupSettings->getId();
+		migrator.addMigration(8, std::make_shared<SettingsMigrationMoveKey>(key + "/python_environment_directory_path", key + "/python_environment_path"));
 	}
 
 	return migrator;

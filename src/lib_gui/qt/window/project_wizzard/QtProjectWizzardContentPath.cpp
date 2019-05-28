@@ -735,12 +735,18 @@ QtProjectWizzardContentPathPythonEnvironment::QtProjectWizzardContentPathPythonE
 	: QtProjectWizzardContentPath(window)
 	, m_settings(settings)
 {
-	setTitleString("Python Environment Directory");
+	setTitleString("Python Environment");
 	setHelpString(
-		"Here you can specify the path to the directory that contains the Python environment that should be used to resolve "
-		"dependencies within the indexed source code. Leave blank to use the default Python environment.<br />"
+		"Here you can specify the path to the directory or to the executable of the (virtual) Python environment that should be used to resolve "
+		"dependencies within the indexed source code. <br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
+		"If you would run:<br />"
+		"<br />"
+		"$ cd C:\\dev\\python\\envs<br />"
+		"$ virtualenv py37<br />"
+		"<br />"
+		"you would set it to \"C:\\dev\\python\\envs\\py37\" or \"C:\\dev\\python\\envs\\py37\\Scripts\\python.exe\". <br />"
+		"Leave blank to use the default Python environment. You can make use of environment variables with ${ENV_VAR}."
 	);
 	setPlaceholderString("Use Default");
 	setAllowEmpty(true);
@@ -762,12 +768,12 @@ void QtProjectWizzardContentPathPythonEnvironment::populate(QGridLayout* layout,
 
 void QtProjectWizzardContentPathPythonEnvironment::load()
 {
-	m_picker->setText(QString::fromStdWString(m_settings->getEnvironmentDirectoryPath().wstr()));
+	m_picker->setText(QString::fromStdWString(m_settings->getEnvironmentPath().wstr()));
 }
 
 void QtProjectWizzardContentPathPythonEnvironment::save()
 {
-	m_settings->setEnvironmentDirectoryPath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setEnvironmentPath(FilePath(m_picker->getText().toStdWString()));
 }
 
 void QtProjectWizzardContentPathPythonEnvironment::onTextChanged(const QString& text)

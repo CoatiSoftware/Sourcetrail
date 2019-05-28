@@ -23,14 +23,14 @@ public:
 
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
-	FilePath getEnvironmentDirectoryPath() const;
-	FilePath getEnvironmentDirectoryPathExpandedAndAbsolute() const;
-	void setEnvironmentDirectoryPath(const FilePath& environmentDirectoryPath);
+	FilePath getEnvironmentPath() const;
+	FilePath getEnvironmentPathExpandedAndAbsolute() const;
+	void setEnvironmentPath(const FilePath& environmentPath);
 
 private:
 	std::vector<std::wstring> getDefaultSourceExtensions() const override;
 
-	FilePath m_environmentDirectoryPath;
+	FilePath m_environmentPath;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_PYTHON_EMPTY_H

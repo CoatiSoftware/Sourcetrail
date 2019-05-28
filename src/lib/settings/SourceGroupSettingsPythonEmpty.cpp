@@ -23,7 +23,7 @@ void SourceGroupSettingsPythonEmpty::load(std::shared_ptr<const ConfigManager> c
 	SourceGroupSettingsWithSourcePaths::load(config, key);
 	SourceGroupSettingsWithSourceExtensions::load(config, key);
 
-	setEnvironmentDirectoryPath(config->getValueOrDefault(key + "/python_environment_directory_path", FilePath(L"")));
+	setEnvironmentPath(config->getValueOrDefault(key + "/python_environment_path", FilePath(L"")));
 }
 
 void SourceGroupSettingsPythonEmpty::save(std::shared_ptr<ConfigManager> config)
@@ -36,7 +36,7 @@ void SourceGroupSettingsPythonEmpty::save(std::shared_ptr<ConfigManager> config)
 	SourceGroupSettingsWithSourcePaths::save(config, key);
 	SourceGroupSettingsWithSourceExtensions::save(config, key);
 
-	config->setValue(key + "/python_environment_directory_path", getEnvironmentDirectoryPath().wstr());
+	config->setValue(key + "/python_environment_path", getEnvironmentPath().wstr());
 }
 
 bool SourceGroupSettingsPythonEmpty::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -49,23 +49,23 @@ bool SourceGroupSettingsPythonEmpty::equals(std::shared_ptr<SourceGroupSettings>
 		SourceGroupSettingsWithExcludeFilters::equals(otherPython) &&
 		SourceGroupSettingsWithSourcePaths::equals(otherPython) &&
 		SourceGroupSettingsWithSourceExtensions::equals(otherPython) &&
-		m_environmentDirectoryPath == otherPython->m_environmentDirectoryPath
+		m_environmentPath == otherPython->m_environmentPath
 	);
 }
 
-FilePath SourceGroupSettingsPythonEmpty::getEnvironmentDirectoryPath() const
+FilePath SourceGroupSettingsPythonEmpty::getEnvironmentPath() const
 {
-	return m_environmentDirectoryPath;
+	return m_environmentPath;
 }
 
-FilePath SourceGroupSettingsPythonEmpty::getEnvironmentDirectoryPathExpandedAndAbsolute() const
+FilePath SourceGroupSettingsPythonEmpty::getEnvironmentPathExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathExpandedAndAbsolute(getEnvironmentDirectoryPath());
+	return m_projectSettings->makePathExpandedAndAbsolute(getEnvironmentPath());
 }
 
-void SourceGroupSettingsPythonEmpty::setEnvironmentDirectoryPath(const FilePath& environmentDirectoryPath)
+void SourceGroupSettingsPythonEmpty::setEnvironmentPath(const FilePath& environmentPath)
 {
-	m_environmentDirectoryPath = environmentDirectoryPath;
+	m_environmentPath = environmentPath;
 }
 
 std::vector<std::wstring> SourceGroupSettingsPythonEmpty::getDefaultSourceExtensions() const
