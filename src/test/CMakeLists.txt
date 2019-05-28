@@ -31,7 +31,6 @@ add_files(
 	SettingsMigratorTestSuite.h
 	SettingsTestSuite.h
 	SharedMemoryTestSuite.h
-	SourceGroupTestSuite.h
 	SourceLocationCollectionTestSuite.h
 	SqliteBookmarkStorageTestSuite.h
 	SqliteIndexStorageTestSuite.h
@@ -46,4 +45,5 @@ add_files(
 # Java tests need to be executed last because of some linux related issues.
 	JavaParserTestSuite.h
 	JavaIndexSampleProjectsTestSuite.h
+	SourceGroupTestSuite.h
 )
