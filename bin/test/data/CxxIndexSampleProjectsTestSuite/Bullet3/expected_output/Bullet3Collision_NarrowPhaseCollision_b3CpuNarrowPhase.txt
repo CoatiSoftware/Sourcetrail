@@ -36,20 +36,23 @@ FILE: corecrt_stdio_config.h non-indexed
 FILE: b3AlignedObjectArray.h
 FILE: new non-indexed
 FILE: exception non-indexed
+FILE: yvals.h non-indexed
+FILE: yvals_core.h non-indexed
+FILE: xkeycheck.h non-indexed
+FILE: crtdefs.h non-indexed
+FILE: crtdbg.h non-indexed
+FILE: vcruntime_new_debug.h non-indexed
+FILE: vcruntime_new.h non-indexed
+FILE: use_ansi.h non-indexed
 FILE: type_traits non-indexed
 FILE: xstddef non-indexed
 FILE: cstddef non-indexed
-FILE: yvals.h non-indexed
-FILE: xkeycheck.h non-indexed
-FILE: crtdefs.h non-indexed
-FILE: use_ansi.h non-indexed
+FILE: xtr1common non-indexed
 FILE: cstdlib non-indexed
 FILE: initializer_list non-indexed
-FILE: xtr1common non-indexed
 FILE: vcruntime_exception.h non-indexed
 FILE: eh.h non-indexed
 FILE: corecrt_terminate.h non-indexed
-FILE: vcruntime_new.h non-indexed
 FILE: b3Aabb.h
 FILE: b3Mat3x3.h
 FILE: b3Int4.h
@@ -1923,9 +1926,9 @@ REFERENCE_MACRO_USAGE: b3Scalar.h -> B3_MANAGED_CODE [b3Scalar.h <20:8 20:22>]
 REFERENCE_INCLUDE: b3Scalar.h -> math.h [b3Scalar.h <27:10 27:17>]
 REFERENCE_INCLUDE: math.h -> corecrt.h [math.h <11:10 11:20>]
 REFERENCE_INCLUDE: corecrt.h -> vcruntime.h [corecrt.h <10:10 10:22>]
-REFERENCE_INCLUDE: vcruntime.h -> sal.h [vcruntime.h <45:10 45:16>]
+REFERENCE_INCLUDE: vcruntime.h -> sal.h [vcruntime.h <47:10 47:16>]
 REFERENCE_INCLUDE: sal.h -> concurrencysal.h [sal.h <2990:10 2990:27>]
-REFERENCE_INCLUDE: vcruntime.h -> vadefs.h [vcruntime.h <46:10 46:19>]
+REFERENCE_INCLUDE: vcruntime.h -> vadefs.h [vcruntime.h <48:10 48:19>]
 REFERENCE_INCLUDE: b3Scalar.h -> stdlib.h [b3Scalar.h <28:10 28:19>]
 REFERENCE_INCLUDE: stdlib.h -> corecrt.h [stdlib.h <11:10 11:20>]
 REFERENCE_INCLUDE: stdlib.h -> corecrt_malloc.h [stdlib.h <12:10 12:27>]
@@ -2601,30 +2604,37 @@ REFERENCE_MACRO_USAGE: b3AlignedObjectArray.h -> B3_USE_PLACEMENT_NEW [b3Aligned
 REFERENCE_MACRO_USAGE: b3AlignedObjectArray.h -> B3_USE_PLACEMENT_NEW [b3AlignedObjectArray.h <284:8 284:27>]
 REFERENCE_INCLUDE: b3AlignedObjectArray.h -> new [b3AlignedObjectArray.h <39:10 39:14>]
 REFERENCE_INCLUDE: new -> exception [new <6:10 6:20>]
-REFERENCE_INCLUDE: exception -> type_traits [exception <7:10 7:22>]
-REFERENCE_INCLUDE: type_traits -> xstddef [type_traits <6:10 6:18>]
-REFERENCE_INCLUDE: xstddef -> cstddef [xstddef <6:10 6:18>]
-REFERENCE_INCLUDE: cstddef -> yvals.h [cstddef <5:10 5:18>]
-REFERENCE_INCLUDE: yvals.h -> xkeycheck.h [yvals.h <7:10 7:22>]
-REFERENCE_INCLUDE: yvals.h -> crtdefs.h [yvals.h <8:10 8:20>]
+REFERENCE_INCLUDE: exception -> yvals.h [exception <7:10 7:18>]
+REFERENCE_INCLUDE: yvals.h -> yvals_core.h [yvals.h <7:10 7:23>]
+REFERENCE_INCLUDE: yvals_core.h -> xkeycheck.h [yvals_core.h <220:10 220:22>]
+REFERENCE_INCLUDE: yvals_core.h -> crtdefs.h [yvals_core.h <221:10 221:20>]
 REFERENCE_INCLUDE: crtdefs.h -> vcruntime.h [crtdefs.h <9:10 9:22>]
 REFERENCE_INCLUDE: crtdefs.h -> corecrt.h [crtdefs.h <10:10 10:20>]
-REFERENCE_INCLUDE: yvals.h -> use_ansi.h [yvals.h <412:10 412:21>]
-REFERENCE_INCLUDE: cstddef -> stddef.h [cstddef <13:11 13:20>]
+REFERENCE_INCLUDE: yvals.h -> crtdbg.h [yvals.h <8:10 8:19>]
+REFERENCE_INCLUDE: crtdbg.h -> corecrt.h [crtdbg.h <11:10 11:20>]
+REFERENCE_INCLUDE: crtdbg.h -> vcruntime_new_debug.h [crtdbg.h <12:10 12:32>]
+REFERENCE_INCLUDE: vcruntime_new_debug.h -> vcruntime_new.h [vcruntime_new_debug.h <10:10 10:26>]
+REFERENCE_INCLUDE: vcruntime_new.h -> vcruntime.h [vcruntime_new.h <10:10 10:22>]
+REFERENCE_INCLUDE: yvals.h -> use_ansi.h [yvals.h <201:10 201:21>]
+REFERENCE_INCLUDE: exception -> type_traits [exception <8:10 8:22>]
+REFERENCE_INCLUDE: type_traits -> xstddef [type_traits <6:10 6:18>]
+REFERENCE_INCLUDE: xstddef -> cstddef [xstddef <6:10 6:18>]
+REFERENCE_INCLUDE: cstddef -> stddef.h [cstddef <7:10 7:19>]
+REFERENCE_INCLUDE: cstddef -> xtr1common [cstddef <8:10 8:21>]
+REFERENCE_INCLUDE: xtr1common -> yvals_core.h [xtr1common <6:10 6:23>]
 REFERENCE_INCLUDE: xstddef -> cstdlib [xstddef <7:10 7:18>]
-REFERENCE_INCLUDE: cstdlib -> yvals.h [cstdlib <5:10 5:18>]
-REFERENCE_INCLUDE: cstdlib -> stdlib.h [cstdlib <13:11 13:20>]
-REFERENCE_INCLUDE: xstddef -> initializer_list [xstddef <9:10 9:27>]
+REFERENCE_INCLUDE: cstdlib -> yvals_core.h [cstdlib <7:10 7:23>]
+REFERENCE_INCLUDE: cstdlib -> stdlib.h [cstdlib <8:10 8:19>]
+REFERENCE_INCLUDE: cstdlib -> math.h [cstdlib <9:10 9:17>]
+REFERENCE_INCLUDE: xstddef -> initializer_list [xstddef <8:10 8:27>]
 REFERENCE_INCLUDE: initializer_list -> cstddef [initializer_list <6:10 6:18>]
-REFERENCE_INCLUDE: xstddef -> xtr1common [xstddef <11:10 11:21>]
-REFERENCE_INCLUDE: xtr1common -> cstdlib [xtr1common <6:10 6:18>]
-REFERENCE_INCLUDE: exception -> malloc.h [exception <40:10 40:19>]
-REFERENCE_INCLUDE: exception -> vcruntime_exception.h [exception <41:10 41:32>]
+REFERENCE_INCLUDE: xstddef -> xtr1common [xstddef <9:10 9:21>]
+REFERENCE_INCLUDE: exception -> malloc.h [exception <26:10 26:19>]
+REFERENCE_INCLUDE: exception -> vcruntime_exception.h [exception <27:10 27:32>]
 REFERENCE_INCLUDE: vcruntime_exception.h -> eh.h [vcruntime_exception.h <10:10 10:15>]
 REFERENCE_INCLUDE: eh.h -> corecrt_terminate.h [eh.h <11:10 11:30>]
 REFERENCE_INCLUDE: corecrt_terminate.h -> corecrt.h [corecrt_terminate.h <10:10 10:20>]
 REFERENCE_INCLUDE: new -> vcruntime_new.h [new <7:10 7:26>]
-REFERENCE_INCLUDE: vcruntime_new.h -> vcruntime.h [vcruntime_new.h <10:10 10:22>]
 REFERENCE_MACRO_USAGE: b3AlignedObjectArray.h -> B3_ALLOW_ARRAY_COPY_OPERATOR [b3AlignedObjectArray.h <57:8 57:35>]
 REFERENCE_MACRO_USAGE: b3AlignedObjectArray.h -> B3_FORCE_INLINE [b3AlignedObjectArray.h <59:2 59:16>]
 REFERENCE_MACRO_USAGE: b3AlignedObjectArray.h -> B3_FORCE_INLINE [b3AlignedObjectArray.h <70:3 70:17>]

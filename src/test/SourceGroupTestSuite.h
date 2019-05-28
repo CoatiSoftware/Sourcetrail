@@ -504,8 +504,12 @@ private:
 		std::shared_ptr<const SourceGroup> sourceGroup)
 	{
 		const std::shared_ptr<const TextAccess> output = generateExpectedOutput(projectName, sourceGroup);
-
-		const FilePath expectedOutputFilePath = getOutputDirectoryPath(projectName).concatenate(L"output.txt");
+#ifdef WIN32
+		const std::wstring expectedOutputFileName = L"output_windows.txt";
+#else
+		const std::wstring expectedOutputFileName = L"output_unix.txt";
+#endif
+		const FilePath expectedOutputFilePath = getOutputDirectoryPath(projectName).concatenate(expectedOutputFileName);
 		if (s_updateExpectedOutput || !expectedOutputFilePath.exists())
 		{
 			std::ofstream expectedOutputFile;

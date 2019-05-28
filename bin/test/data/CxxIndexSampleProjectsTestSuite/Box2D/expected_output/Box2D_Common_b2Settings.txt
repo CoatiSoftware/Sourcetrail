@@ -77,16 +77,16 @@ SYMBOL_GLOBAL_VARIABLE: b2Version b2_version [b2Settings.cpp <24:11 24:20>]
 SYMBOL_GLOBAL_VARIABLE: b2Version b2_version [b2Settings.h <153:18 153:27>]
 SYMBOL_FUNCTION: void * malloc(size_t)
 SYMBOL_FUNCTION: void free(void *)
-SYMBOL_FUNCTION: void __vcrt_va_start_verify_argument_type<const char *>()
+SYMBOL_FUNCTION: void __vcrt_assert_va_start_is_not_reference<const char *>::__vcrt_assert_va_start_is_not_reference()
 SYMBOL_FUNCTION: int vprintf(const char * const, va_list)
 REFERENCE_INCLUDE: b2Settings.cpp -> b2Settings.h [b2Settings.cpp <19:10 19:36>]
 REFERENCE_MACRO_USAGE: b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]
 REFERENCE_INCLUDE: b2Settings.h -> stddef.h [b2Settings.h <22:10 22:19>]
 REFERENCE_INCLUDE: stddef.h -> corecrt.h [stddef.h <11:10 11:20>]
 REFERENCE_INCLUDE: corecrt.h -> vcruntime.h [corecrt.h <10:10 10:22>]
-REFERENCE_INCLUDE: vcruntime.h -> sal.h [vcruntime.h <45:10 45:16>]
+REFERENCE_INCLUDE: vcruntime.h -> sal.h [vcruntime.h <47:10 47:16>]
 REFERENCE_INCLUDE: sal.h -> concurrencysal.h [sal.h <2990:10 2990:27>]
-REFERENCE_INCLUDE: vcruntime.h -> vadefs.h [vcruntime.h <46:10 46:19>]
+REFERENCE_INCLUDE: vcruntime.h -> vadefs.h [vcruntime.h <48:10 48:19>]
 REFERENCE_INCLUDE: b2Settings.h -> assert.h [b2Settings.h <23:10 23:19>]
 REFERENCE_INCLUDE: assert.h -> corecrt.h [assert.h <12:10 12:20>]
 REFERENCE_INCLUDE: b2Settings.h -> float.h [b2Settings.h <24:10 24:18>]
@@ -146,7 +146,8 @@ REFERENCE_CALL: void b2Free(void *) -> void free(void *) [b2Settings.cpp <34:2 3
 REFERENCE_TYPE_USAGE: void b2Log(const char *) -> va_list [b2Settings.cpp <40:2 40:8>]
 REFERENCE_TYPE_USAGE: void b2Log(const char *) -> va_list [b2Settings.cpp <41:2 41:9>]
 REFERENCE_TYPE_USAGE: void b2Log(const char *) -> va_list [b2Settings.cpp <43:2 43:7>]
-REFERENCE_CALL: void b2Log(const char *) -> void __vcrt_va_start_verify_argument_type<const char *>() [b2Settings.cpp <41:2 41:9>]
+REFERENCE_CALL: void b2Log(const char *) -> void __vcrt_assert_va_start_is_not_reference<const char *>::__vcrt_assert_va_start_is_not_reference() [b2Settings.cpp <41:2 41:9>]
+REFERENCE_TYPE_USAGE: void b2Log(const char *) -> __vcrt_assert_va_start_is_not_reference<const char *> [b2Settings.cpp <41:2 41:9>]
 REFERENCE_TYPE_USAGE: void b2Log(const char *) -> int [b2Settings.cpp <41:2 41:9>]
 REFERENCE_CALL: void b2Log(const char *) -> int vprintf(const char * const, va_list) [b2Settings.cpp <42:2 42:8>]
 LOCAL_SYMBOL: b2Settings.cpp<24:24> [b2Settings.cpp <24:24 24:24>]

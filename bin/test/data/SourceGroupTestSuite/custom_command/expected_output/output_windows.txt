@@ -1,0 +1,6 @@
+SourceFilePath: "src/a.txt"
+	Custom Command: "echo "Hello World""
+SourceFilePath: "src/b.txt"
+	Custom Command: "echo "Hello World""
+SourceFilePath: "src/included/a.txt"
+	Custom Command: "echo "Hello World""
