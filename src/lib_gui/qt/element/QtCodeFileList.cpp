@@ -236,17 +236,8 @@ void QtCodeFileList::updateFiles()
 {
 	for (QtCodeFile* file : m_files)
 	{
-		if (file != m_files.back())
-		{
-			file->setStyleSheet("#code_file { border: none; }");
-		}
-
+		file->setProperty("last", file == m_files.back());
 		file->updateContent();
-	}
-
-	if (m_files.size())
-	{
-		m_files.back()->setStyleSheet("");
 	}
 
 	// Perform delayed so all widgets are already visible

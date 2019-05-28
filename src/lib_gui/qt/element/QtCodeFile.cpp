@@ -1,6 +1,7 @@
 #include "QtCodeFile.h"
 
 #include <QVBoxLayout>
+#include <QStyle>
 
 #include "MessageChangeFileView.h"
 
@@ -363,22 +364,14 @@ void QtCodeFile::updateSnippets()
 	int maxDigits = 1;
 	for (QtCodeSnippet* snippet : m_snippets)
 	{
-		if (snippet != m_snippets.front() && snippet->styleSheet().size())
-		{
-			snippet->setStyleSheet("");
-		}
-
 		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
 	}
 
 	for (QtCodeSnippet* snippet : m_snippets)
 	{
+		snippet->setProperty("first", snippet == m_snippets.front());
+		snippet->style()->polish(snippet); // recomputes style to make property take effect
 		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
-	}
-
-	if (!m_snippets.front()->styleSheet().size())
-	{
-		m_snippets.front()->setStyleSheet("#code_snippet { border: none; }");
 	}
 }
 

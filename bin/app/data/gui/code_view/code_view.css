@@ -117,8 +117,12 @@
 #code_file {
 	background-color: <color:code/snippet/background>;
 	margin-bottom: 0px;
-	border-bottom: 1px solid <color:code/file/background>; /* last file only */
+	border: none;
 	font-size: <setting:font_size>px;
+}
+
+#code_file[last=true] {
+	border-bottom: 1px solid <color:code/file/background>;
 }
 
 #title_bar, #title_bar_single {
@@ -184,6 +188,10 @@
 	background-color: <color:code/snippet/background>;
 	border-top: 1px solid <color:code/file/background>;
 	font-size: <setting:font_size>px;
+}
+
+#code_file #code_snippet[first=true] {
+	border: none;
 }
 
 #code_file #code_snippet #scope_name, #code_file #code_snippet #dots {
