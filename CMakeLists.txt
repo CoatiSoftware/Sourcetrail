@@ -475,7 +475,7 @@ set_property(
 		"${LIB_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
-		"${LIB_PYTHON_INCLUDE_PATHS}" # required for QtProjectWizzardContentPathsSource::getFilePaths()
+		"${LIB_PYTHON_INCLUDE_PATHS}" # required for QtProjectWizardContentPathsSource::getFilePaths()
 		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"

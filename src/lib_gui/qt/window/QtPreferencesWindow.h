@@ -1,12 +1,12 @@
 #ifndef QT_PREFERENCES_WINDOW_H
 #define QT_PREFERENCES_WINDOW_H
 
-#include "QtProjectWizzardWindow.h"
+#include "QtProjectWizardWindow.h"
 
 #include "ApplicationSettings.h"
 
 class QtPreferencesWindow
-	: public QtProjectWizzardWindow
+	: public QtProjectWizardWindow
 {
 	Q_OBJECT
 

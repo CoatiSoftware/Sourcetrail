@@ -7,13 +7,14 @@
 
 #include "Application.h"
 #include "DialogView.h"
-#include "QtProjectWizzardContentPaths.h"
-#include "QtProjectWizzardContentPreferences.h"
-#include "QtProjectWizzardContentGroup.h"
+#include "QtProjectWizardContentPathsFrameworkSearchGlobal.h"
+#include "QtProjectWizardContentPathsHeaderSearchGlobal.h"
+#include "QtProjectWizardContentPreferences.h"
+#include "QtProjectWizardContentGroup.h"
 #include "utilityApp.h"
 
 QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
-	: QtProjectWizzardWindow(parent)
+	: QtProjectWizardWindow(parent)
 {
 	// save old application settings so they can be compared later
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
@@ -27,14 +28,14 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	m_appSettings.setScreenScaleFactor(appSettings->getScreenScaleFactor());
 
 
-	QtProjectWizzardContentGroup* summary = new QtProjectWizzardContentGroup(this);
+	QtProjectWizardContentGroup* summary = new QtProjectWizardContentGroup(this);
 	summary->setIsForm(true);
-	summary->addContent(new QtProjectWizzardContentPreferences(this));
+	summary->addContent(new QtProjectWizardContentPreferences(this));
 
-	summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(this));
+	summary->addContent(new QtProjectWizardContentPathsHeaderSearchGlobal(this));
 	if (utility::getOsType() == OS_MAC)
 	{
-		summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(this));
+		summary->addContent(new QtProjectWizardContentPathsFrameworkSearchGlobal(this));
 	}
 
 	setPreferredSize(QSize(750, 500));
@@ -48,7 +49,7 @@ QtPreferencesWindow::~QtPreferencesWindow()
 
 void QtPreferencesWindow::windowReady()
 {
-	QtProjectWizzardWindow::windowReady();
+	QtProjectWizardWindow::windowReady();
 
 	updateTitle("PREFERENCES");
 	updateNextButton("Save");

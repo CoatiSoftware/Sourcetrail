@@ -19,7 +19,7 @@
 #include "QtFileDialog.h"
 #include "utilityQt.h"
 #include "QtViewWidgetWrapper.h"
-#include "QtProjectWizzard.h"
+#include "QtProjectWizard.h"
 #include "QtAbout.h"
 #include "QtAboutLicense.h"
 #include "QtEulaWindow.h"
@@ -682,19 +682,19 @@ void QtMainWindow::hideStartScreen()
 
 void QtMainWindow::newProject()
 {
-	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->newProject();
+	QtProjectWizard* wizard = createWindow<QtProjectWizard>();
+	wizard->newProject();
 }
 
 void QtMainWindow::newProjectFromCDB(const FilePath& filePath)
 {
-	QtProjectWizzard* wizzard = dynamic_cast<QtProjectWizzard*>(m_windowStack.getTopWindow());
-	if (!wizzard)
+	QtProjectWizard* wizard = dynamic_cast<QtProjectWizard*>(m_windowStack.getTopWindow());
+	if (!wizard)
 	{
-		wizzard = createWindow<QtProjectWizzard>();
+		wizard = createWindow<QtProjectWizard>();
 	}
 
-	wizzard->newProjectFromCDB(filePath);
+	wizard->newProjectFromCDB(filePath);
 }
 
 void QtMainWindow::openProject()
@@ -714,9 +714,9 @@ void QtMainWindow::editProject()
 	Project* currentProject = Application::getInstance()->getCurrentProject().get();
 	if (currentProject)
 	{
-		QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+		QtProjectWizard* wizard = createWindow<QtProjectWizard>();
 
-		wizzard->editProject(currentProject->getProjectSettingsFilePath());
+		wizard->editProject(currentProject->getProjectSettingsFilePath());
 	}
 }
 

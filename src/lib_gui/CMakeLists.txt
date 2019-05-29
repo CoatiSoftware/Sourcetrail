@@ -106,6 +106,82 @@ add_files(
 	qt/network/QtUpdateChecker.cpp
 	qt/network/QtUpdateChecker.h
 
+	qt/project_wizard/content/path/QtProjectWizardContentPath.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPath.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathCDB.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathCDB.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesGradle.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesGradle.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesMaven.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesMaven.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathSonargraphProject.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathSonargraphProject.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.h
+
+	qt/project_wizard/content/paths/QtProjectWizardContentPaths.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPaths.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsExclude.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsExclude.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearch.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearch.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearchGlobal.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearchGlobal.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearch.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearch.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearchGlobal.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearchGlobal.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsIndexedHeaders.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsIndexedHeaders.h
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsSource.cpp
+	qt/project_wizard/content/paths/QtProjectWizardContentPathsSource.h
+
+	qt/project_wizard/content/QtProjectWizardContent.cpp
+	qt/project_wizard/content/QtProjectWizardContent.h
+	qt/project_wizard/content/QtProjectWizardContentCppStandard.cpp
+	qt/project_wizard/content/QtProjectWizardContentCppStandard.h
+	qt/project_wizard/content/QtProjectWizardContentCrossCompilationOptions.cpp
+	qt/project_wizard/content/QtProjectWizardContentCrossCompilationOptions.h
+	qt/project_wizard/content/QtProjectWizardContentCStandard.cpp
+	qt/project_wizard/content/QtProjectWizardContentCStandard.h
+	qt/project_wizard/content/QtProjectWizardContentCustomCommand.cpp
+	qt/project_wizard/content/QtProjectWizardContentCustomCommand.h
+	qt/project_wizard/content/QtProjectWizardContentExtensions.cpp
+	qt/project_wizard/content/QtProjectWizardContentExtensions.h
+	qt/project_wizard/content/QtProjectWizardContentFlags.cpp
+	qt/project_wizard/content/QtProjectWizardContentFlags.h
+	qt/project_wizard/content/QtProjectWizardContentGroup.cpp
+	qt/project_wizard/content/QtProjectWizardContentGroup.h
+	qt/project_wizard/content/QtProjectWizardContentJavaStandard.cpp
+	qt/project_wizard/content/QtProjectWizardContentJavaStandard.h
+	qt/project_wizard/content/QtProjectWizardContentPreferences.cpp
+	qt/project_wizard/content/QtProjectWizardContentPreferences.h
+	qt/project_wizard/content/QtProjectWizardContentProjectData.cpp
+	qt/project_wizard/content/QtProjectWizardContentProjectData.h
+	qt/project_wizard/content/QtProjectWizardContentSelect.cpp
+	qt/project_wizard/content/QtProjectWizardContentSelect.h
+	qt/project_wizard/content/QtProjectWizardContentSourceGroupData.cpp
+	qt/project_wizard/content/QtProjectWizardContentSourceGroupData.h
+	qt/project_wizard/content/QtProjectWizardContentSourceGroupInfoText.cpp
+	qt/project_wizard/content/QtProjectWizardContentSourceGroupInfoText.h
+	qt/project_wizard/content/QtProjectWizardContentVS.cpp
+	qt/project_wizard/content/QtProjectWizardContentVS.h
+
+	qt/project_wizard/QtProjectWizard.cpp
+	qt/project_wizard/QtProjectWizard.h
+	qt/project_wizard/QtProjectWizardWindow.cpp
+	qt/project_wizard/QtProjectWizardWindow.h
+	qt/project_wizard/QtSourceGroupWizard.h
+	qt/project_wizard/QtSourceGroupWizardPage.h
+
 	qt/utility/QtContextMenu.cpp
 	qt/utility/QtContextMenu.h
 	qt/utility/QtDeviceScaledPixmap.cpp
@@ -192,47 +268,6 @@ add_files(
 	qt/view/QtViewFactory.h
 	qt/view/QtViewWidgetWrapper.cpp
 	qt/view/QtViewWidgetWrapper.h
-
-	qt/window/project_wizzard/QtProjectWizzard.cpp
-	qt/window/project_wizzard/QtProjectWizzard.h
-	qt/window/project_wizzard/QtProjectWizzardContent.cpp
-	qt/window/project_wizzard/QtProjectWizzardContent.h
-	qt/window/project_wizzard/QtProjectWizzardContentCppStandard.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentCppStandard.h
-	qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.h
-	qt/window/project_wizzard/QtProjectWizzardContentCStandard.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentCStandard.h
-	qt/window/project_wizzard/QtProjectWizzardContentCustomCommand.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentCustomCommand.h
-	qt/window/project_wizzard/QtProjectWizzardContentExtensions.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentExtensions.h
-	qt/window/project_wizzard/QtProjectWizzardContentFlags.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentFlags.h
-	qt/window/project_wizzard/QtProjectWizzardContentGroup.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentGroup.h
-	qt/window/project_wizzard/QtProjectWizzardContentJavaStandard.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentJavaStandard.h
-	qt/window/project_wizzard/QtProjectWizzardContentPath.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentPath.h
-	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentPaths.h
-	qt/window/project_wizzard/QtProjectWizzardContentPreferences.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentPreferences.h
-	qt/window/project_wizzard/QtProjectWizzardContentProjectData.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentProjectData.h
-	qt/window/project_wizzard/QtProjectWizzardContentSelect.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
-	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.h
-	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupInfoText.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupInfoText.h
-	qt/window/project_wizzard/QtProjectWizzardContentVS.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentVS.h
-	qt/window/project_wizzard/QtProjectWizzardWindow.cpp
-	qt/window/project_wizzard/QtProjectWizzardWindow.h
-	qt/window/project_wizzard/QtSourceGroupWizzard.h
-	qt/window/project_wizzard/QtSourceGroupWizzardPage.h
 
 	qt/window/QtAbout.cpp
 	qt/window/QtAbout.h
