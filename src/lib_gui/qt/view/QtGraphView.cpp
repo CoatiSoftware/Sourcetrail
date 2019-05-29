@@ -13,31 +13,30 @@
 #include <QSlider>
 #include <QStackedLayout>
 
+#include "ApplicationSettings.h"
+#include "DummyEdge.h"
+#include "DummyNode.h"
+#include "GraphViewStyle.h"
 #include "MessageActivateTrail.h"
 #include "MessageDeactivateEdge.h"
 #include "MessageRefreshUI.h"
 #include "MessageScrollGraph.h"
 #include "MessageStatus.h"
-#include "ResourcePaths.h"
-
-#include "DummyEdge.h"
-#include "DummyNode.h"
-#include "GraphViewStyle.h"
-#include "QtIconButton.h"
-#include "QtGraphicsView.h"
-#include "utilityQt.h"
-#include "QtViewWidgetWrapper.h"
-#include "QtGraphNodeComponentClickable.h"
-#include "QtGraphNodeComponentMoveable.h"
 #include "QtGraphEdge.h"
+#include "QtGraphicsView.h"
 #include "QtGraphNodeAccess.h"
 #include "QtGraphNodeBundle.h"
+#include "QtGraphNodeComponentMoveable.h"
+#include "QtGraphNodeComponentClickable.h"
 #include "QtGraphNodeData.h"
 #include "QtGraphNodeExpandToggle.h"
 #include "QtGraphNodeGroup.h"
 #include "QtGraphNodeQualifier.h"
 #include "QtGraphNodeText.h"
-#include "ApplicationSettings.h"
+#include "QtSelfRefreshIconButton.h"
+#include "QtViewWidgetWrapper.h"
+#include "ResourcePaths.h"
+#include "utilityQt.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)

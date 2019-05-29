@@ -2,11 +2,12 @@
 #define QT_CODE_FILE_TITLE_BAR_H
 
 #include "QtCodeFileTitleButton.h"
-#include "QtIconButton.h"
+#include "QtHoverButton.h"
 
 class QLabel;
 class QtCodeFileTitleButton;
 class QtIconStateButton;
+class QtSelfRefreshIconButton;
 
 class QtCodeFileTitleBar
 	: public QtHoverButton

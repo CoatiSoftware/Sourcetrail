@@ -8,9 +8,9 @@
 #include <QPushButton>
 #include <QTimer>
 
-#include "QtIconButton.h"
-#include "utilityQt.h"
+#include "QtSelfRefreshIconButton.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
 
 QtFocusInFilter::QtFocusInFilter(QObject* parent)

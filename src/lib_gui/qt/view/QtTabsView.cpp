@@ -8,7 +8,7 @@
 #include "Application.h"
 #include "ColorScheme.h"
 #include "GraphViewStyle.h"
-#include "QtIconButton.h"
+#include "QtSelfRefreshIconButton.h"
 #include "QtTabBar.h"
 #include "QtViewWidgetWrapper.h"
 #include "ResourcePaths.h"

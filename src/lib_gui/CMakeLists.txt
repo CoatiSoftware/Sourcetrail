@@ -5,95 +5,133 @@ add_files(
 	platform_includes/includesMac.h
 	platform_includes/includesWindows.h
 
-	qt/element/QtAutocompletionList.cpp
-	qt/element/QtAutocompletionList.h
-	qt/element/QtBookmark.cpp
-	qt/element/QtBookmark.h
-	qt/element/QtBookmarkCategory.cpp
-	qt/element/QtBookmarkCategory.h
-	qt/element/QtCodeArea.cpp
-	qt/element/QtCodeArea.h
-	qt/element/QtCodeField.cpp
-	qt/element/QtCodeField.h
-	qt/element/QtCodeFile.cpp
-	qt/element/QtCodeFile.h
-	qt/element/QtCodeFileList.cpp
-	qt/element/QtCodeFileList.h
-	qt/element/QtCodeFileSingle.cpp
-	qt/element/QtCodeFileSingle.h
-	qt/element/QtCodeFileTitleBar.cpp
-	qt/element/QtCodeFileTitleBar.h
-	qt/element/QtCodeFileTitleButton.cpp
-	qt/element/QtCodeFileTitleButton.h
-	qt/element/QtCodeNavigateable.cpp
-	qt/element/QtCodeNavigateable.h
-	qt/element/QtCodeNavigator.cpp
-	qt/element/QtCodeNavigator.h
-	qt/element/QtCodeSnippet.cpp
-	qt/element/QtCodeSnippet.h
-	qt/element/QtHelpButton.cpp
-	qt/element/QtHelpButton.h
-	qt/element/QtHistoryList.cpp
-	qt/element/QtHistoryList.h
-	qt/element/QtIconButton.cpp
-	qt/element/QtIconButton.h
-	qt/element/QtLineEdit.cpp
-	qt/element/QtLineEdit.h
-	qt/element/QtListBox.cpp
-	qt/element/QtListBox.h
-	qt/element/QtListBoxItem.cpp
-	qt/element/QtListBoxItem.h
-	qt/element/QtLocationPicker.cpp
-	qt/element/QtLocationPicker.h
-	qt/element/QtNewsWidget.cpp
-	qt/element/QtNewsWidget.h
-	qt/element/QtPathListBox.cpp
-	qt/element/QtPathListBox.h
-	qt/element/QtPathListBoxItem.cpp
-	qt/element/QtPathListBoxItem.h
-	qt/element/QtProgressBar.cpp
-	qt/element/QtProgressBar.h
-	qt/element/QtScreenSearchBox.cpp
-	qt/element/QtScreenSearchBox.h
-	qt/element/QtSearchBar.cpp
-	qt/element/QtSearchBar.h
-	qt/element/QtSearchBarButton.cpp
-	qt/element/QtSearchBarButton.h
-	qt/element/QtSmartSearchBox.cpp
-	qt/element/QtSmartSearchBox.h
-	qt/element/QtStringListBox.cpp
-	qt/element/QtStringListBox.h
-	qt/element/QtStringListBoxItem.cpp
-	qt/element/QtStringListBoxItem.h
+	qt/element/bookmark/QtBookmark.cpp
+	qt/element/bookmark/QtBookmark.h
+	qt/element/bookmark/QtBookmarkCategory.cpp
+	qt/element/bookmark/QtBookmarkCategory.h
+
+	qt/element/button/QtHelpButton.cpp
+	qt/element/button/QtHelpButton.h
+	qt/element/button/QtHoverButton.cpp
+	qt/element/button/QtHoverButton.h
+	qt/element/button/QtIconButton.cpp
+	qt/element/button/QtIconButton.h
+	qt/element/button/QtIconStateButton.cpp
+	qt/element/button/QtIconStateButton.h
+	qt/element/button/QtSelfRefreshIconButton.cpp
+	qt/element/button/QtSelfRefreshIconButton.h
+
+	qt/element/code/QtCodeArea.cpp
+	qt/element/code/QtCodeArea.h
+	qt/element/code/QtCodeField.cpp
+	qt/element/code/QtCodeField.h
+	qt/element/code/QtCodeFile.cpp
+	qt/element/code/QtCodeFile.h
+	qt/element/code/QtCodeFileList.cpp
+	qt/element/code/QtCodeFileList.h
+	qt/element/code/QtCodeFileSingle.cpp
+	qt/element/code/QtCodeFileSingle.h
+	qt/element/code/QtCodeFileTitleBar.cpp
+	qt/element/code/QtCodeFileTitleBar.h
+	qt/element/code/QtCodeFileTitleButton.cpp
+	qt/element/code/QtCodeFileTitleButton.h
+	qt/element/code/QtCodeNavigateable.cpp
+	qt/element/code/QtCodeNavigateable.h
+	qt/element/code/QtCodeNavigator.cpp
+	qt/element/code/QtCodeNavigator.h
+	qt/element/code/QtCodeSnippet.cpp
+	qt/element/code/QtCodeSnippet.h
+
+	qt/element/history/QtHistoryList.cpp
+	qt/element/history/QtHistoryList.h
+	qt/element/history/QtUndoRedo.cpp
+	qt/element/history/QtUndoRedo.h
+
+	qt/element/search/QtAutocompletionList.cpp
+	qt/element/search/QtAutocompletionList.h
+	qt/element/search/QtScreenSearchBox.cpp
+	qt/element/search/QtScreenSearchBox.h
+	qt/element/search/QtSearchBar.cpp
+	qt/element/search/QtSearchBar.h
+	qt/element/search/QtSearchBarButton.cpp
+	qt/element/search/QtSearchBarButton.h
+	qt/element/search/QtSmartSearchBox.cpp
+	qt/element/search/QtSmartSearchBox.h
+
+	qt/element/dialog/QtLineEdit.cpp
+	qt/element/dialog/QtLineEdit.h
+	qt/element/dialog/QtListBox.cpp
+	qt/element/dialog/QtListBox.h
+	qt/element/dialog/QtListBoxItem.cpp
+	qt/element/dialog/QtListBoxItem.h
+	qt/element/dialog/QtLocationPicker.cpp
+	qt/element/dialog/QtLocationPicker.h
+	qt/element/dialog/QtNewsWidget.cpp
+	qt/element/dialog/QtNewsWidget.h
+	qt/element/dialog/QtPathListBox.cpp
+	qt/element/dialog/QtPathListBox.h
+	qt/element/dialog/QtPathListBoxItem.cpp
+	qt/element/dialog/QtPathListBoxItem.h
+	qt/element/dialog/QtProgressBar.cpp
+	qt/element/dialog/QtProgressBar.h
+	qt/element/dialog/QtStringListBox.cpp
+	qt/element/dialog/QtStringListBox.h
+	qt/element/dialog/QtStringListBoxItem.cpp
+	qt/element/dialog/QtStringListBoxItem.h
+	qt/element/dialog/QtTextEdit.cpp
+	qt/element/dialog/QtTextEdit.h
+	qt/element/dialog/QtUpdateCheckerWidget.cpp
+	qt/element/dialog/QtUpdateCheckerWidget.h
+
+	qt/element/QtTooltip.cpp
+	qt/element/QtTooltip.h
 	qt/element/QtStatusBar.cpp
 	qt/element/QtStatusBar.h
 	qt/element/QtTabBar.cpp
 	qt/element/QtTabBar.h
 	qt/element/QtTable.cpp
 	qt/element/QtTable.h
-	qt/element/QtTextEdit.cpp
-	qt/element/QtTextEdit.h
-	qt/element/QtTooltip.cpp
-	qt/element/QtTooltip.h
-	qt/element/QtUndoRedo.cpp
-	qt/element/QtUndoRedo.h
-	qt/element/QtUpdateCheckerWidget.cpp
-	qt/element/QtUpdateCheckerWidget.h
 
-	qt/graphics/QtCountCircleItem.cpp
-	qt/graphics/QtCountCircleItem.h
-	qt/graphics/QtGraphicsView.cpp
-	qt/graphics/QtGraphicsView.h
-	qt/graphics/QtLineItemAngled.cpp
-	qt/graphics/QtLineItemAngled.h
-	qt/graphics/QtLineItemBase.cpp
-	qt/graphics/QtLineItemBase.h
-	qt/graphics/QtLineItemBezier.cpp
-	qt/graphics/QtLineItemBezier.h
-	qt/graphics/QtLineItemStraight.cpp
-	qt/graphics/QtLineItemStraight.h
-	qt/graphics/QtRoundedRectItem.cpp
-	qt/graphics/QtRoundedRectItem.h
+	qt/graphics/base/QtCountCircleItem.cpp
+	qt/graphics/base/QtCountCircleItem.h
+	qt/graphics/base/QtGraphicsView.cpp
+	qt/graphics/base/QtGraphicsView.h
+	qt/graphics/base/QtLineItemAngled.cpp
+	qt/graphics/base/QtLineItemAngled.h
+	qt/graphics/base/QtLineItemBase.cpp
+	qt/graphics/base/QtLineItemBase.h
+	qt/graphics/base/QtLineItemBezier.cpp
+	qt/graphics/base/QtLineItemBezier.h
+	qt/graphics/base/QtLineItemStraight.cpp
+	qt/graphics/base/QtLineItemStraight.h
+	qt/graphics/base/QtRoundedRectItem.cpp
+	qt/graphics/base/QtRoundedRectItem.h
+
+	qt/graphics/component/QtGraphNodeComponent.cpp
+	qt/graphics/component/QtGraphNodeComponent.h
+	qt/graphics/component/QtGraphNodeComponentClickable.cpp
+	qt/graphics/component/QtGraphNodeComponentClickable.h
+	qt/graphics/component/QtGraphNodeComponentMoveable.cpp
+	qt/graphics/component/QtGraphNodeComponentMoveable.h
+
+	qt/graphics/graph/QtGraphEdge.cpp
+	qt/graphics/graph/QtGraphEdge.h
+	qt/graphics/graph/QtGraphNode.cpp
+	qt/graphics/graph/QtGraphNode.h
+	qt/graphics/graph/QtGraphNodeAccess.cpp
+	qt/graphics/graph/QtGraphNodeAccess.h
+	qt/graphics/graph/QtGraphNodeBundle.cpp
+	qt/graphics/graph/QtGraphNodeBundle.h
+	qt/graphics/graph/QtGraphNodeData.cpp
+	qt/graphics/graph/QtGraphNodeData.h
+	qt/graphics/graph/QtGraphNodeExpandToggle.cpp
+	qt/graphics/graph/QtGraphNodeExpandToggle.h
+	qt/graphics/graph/QtGraphNodeGroup.cpp
+	qt/graphics/graph/QtGraphNodeGroup.h
+	qt/graphics/graph/QtGraphNodeQualifier.cpp
+	qt/graphics/graph/QtGraphNodeQualifier.h
+	qt/graphics/graph/QtGraphNodeText.cpp
+	qt/graphics/graph/QtGraphNodeText.h
 
 	qt/network/QtIDECommunicationController.cpp
 	qt/network/QtIDECommunicationController.h
@@ -201,32 +239,6 @@ add_files(
 	qt/utility/QtWindowsTaskbarButton.h
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h
-
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.cpp
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.cpp
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.cpp
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h
-
-	qt/view/graphElements/QtGraphEdge.cpp
-	qt/view/graphElements/QtGraphEdge.h
-	qt/view/graphElements/QtGraphNode.cpp
-	qt/view/graphElements/QtGraphNode.h
-	qt/view/graphElements/QtGraphNodeAccess.cpp
-	qt/view/graphElements/QtGraphNodeAccess.h
-	qt/view/graphElements/QtGraphNodeBundle.cpp
-	qt/view/graphElements/QtGraphNodeBundle.h
-	qt/view/graphElements/QtGraphNodeData.cpp
-	qt/view/graphElements/QtGraphNodeData.h
-	qt/view/graphElements/QtGraphNodeExpandToggle.cpp
-	qt/view/graphElements/QtGraphNodeExpandToggle.h
-	qt/view/graphElements/QtGraphNodeGroup.cpp
-	qt/view/graphElements/QtGraphNodeGroup.h
-	qt/view/graphElements/QtGraphNodeQualifier.cpp
-	qt/view/graphElements/QtGraphNodeQualifier.h
-	qt/view/graphElements/QtGraphNodeText.cpp
-	qt/view/graphElements/QtGraphNodeText.h
 
 	qt/view/QtBookmarkButtonsView.cpp
 	qt/view/QtBookmarkButtonsView.h

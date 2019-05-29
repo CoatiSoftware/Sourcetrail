@@ -11,15 +11,6 @@
 #include <QParallelAnimationGroup>
 #include <QSvgGenerator>
 
-#include "QtIconButton.h"
-#include "QtGraphEdge.h"
-#include "QtGraphNode.h"
-#include "QtGraphNodeBundle.h"
-#include "QtGraphNodeData.h"
-#include "QtGraphNodeExpandToggle.h"
-#include "QtContextMenu.h"
-#include "QtFileDialog.h"
-#include "utilityQt.h"
 #include "ApplicationSettings.h"
 #include "MessageActivateLegend.h"
 #include "MessageBookmarkCreate.h"
@@ -27,8 +18,17 @@
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
 #include "MessageTabOpenWith.h"
+#include "QtContextMenu.h"
+#include "QtFileDialog.h"
+#include "QtGraphEdge.h"
+#include "QtGraphNode.h"
+#include "QtGraphNodeBundle.h"
+#include "QtGraphNodeData.h"
+#include "QtGraphNodeExpandToggle.h"
+#include "QtSelfRefreshIconButton.h"
 #include "ResourcePaths.h"
 #include "utilityApp.h"
+#include "utilityQt.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)
