@@ -2,31 +2,15 @@
 
 #include <set>
 
+#include "Application.h"
+#include "ApplicationSettings.h"
 #include "JavaEnvironment.h"
 #include "JavaEnvironmentFactory.h"
-#include "ApplicationSettings.h"
 #include "logging.h"
 #include "MessageStatus.h"
 #include "ResourcePaths.h"
 #include "utilityJava.h"
 #include "utilityString.h"
-#include "Application.h"
-
-namespace
-{
-	void setJavaHomeVariableIfNotExists()
-	{
-		if (getenv("JAVA_HOME") == nullptr)
-		{
-			const FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
-			const FilePath javaHomePath = javaPath.getParentDirectory().getParentDirectory().getParentDirectory();
-
-			LOG_WARNING("Environment variable \"JAVA_HOME\" not found on system. Setting value to \"" + javaHomePath.str() + "\" for this process.");
-
-			putenv(const_cast<char*>(("JAVA_HOME=" + javaHomePath.str()).c_str()));
-		}
-	}
-}
 
 namespace utility
 {
@@ -34,7 +18,7 @@ namespace utility
 	{
 		const FilePath gradleInitScriptPath = ResourcePaths::getJavaPath().concatenate(L"gradle/init.gradle");
 
-		setJavaHomeVariableIfNotExists();
+		utility::setJavaHomeVariableIfNotExists();
 		utility::prepareJavaEnvironment();
 
 		std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
@@ -64,7 +48,7 @@ namespace utility
 	{
 		const FilePath gradleInitScriptPath = ResourcePaths::getJavaPath().concatenate(L"gradle/init.gradle");
 
-		setJavaHomeVariableIfNotExists();
+		utility::setJavaHomeVariableIfNotExists();
 		utility::prepareJavaEnvironment();
 
 		std::set<std::wstring> uncheckedDirectories;

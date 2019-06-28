@@ -18,6 +18,7 @@ namespace utility
 		const std::vector<FilePath>& classpathItems,
 		bool useJreSystemLibrary,
 		const std::set<FilePath>& sourceFilePaths);
+	void setJavaHomeVariableIfNotExists();
 }
 
 #endif // UTILITY_JAVA_H

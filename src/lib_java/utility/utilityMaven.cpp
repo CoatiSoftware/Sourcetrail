@@ -2,15 +2,16 @@
 
 #include <cstdlib>
 
+#include "Application.h"
 #include "ApplicationSettings.h"
 #include "FilePath.h"
 #include "MessageStatus.h"
 #include "TextAccess.h"
+#include "utility.h"
 #include "utilityApp.h"
+#include "utilityJava.h"
 #include "utilityString.h"
 #include "utilityXml.h"
-#include "utility.h"
-#include "Application.h"
 
 namespace
 {
@@ -49,19 +50,6 @@ namespace
 		}
 	}
 
-	void setJavaHomeVariableIfNotExists()
-	{
-		if (getenv("JAVA_HOME") == nullptr)
-		{
-			const FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
-			const FilePath javaHomePath = javaPath.getParentDirectory().getParentDirectory().getParentDirectory();
-
-			LOG_WARNING("Environment variable \"JAVA_HOME\" not found on system. Setting value to \"" + javaHomePath.str() + "\" for this process.");
-
-			putenv(const_cast<char*>(("JAVA_HOME=" + javaHomePath.str()).c_str()));
-		}
-	}
-
 	std::wstring getErrorMessageFromMavenOutput(std::shared_ptr<const TextAccess> mavenOutput)
 	{
 		const std::string errorPrefix = "[ERROR]";
@@ -96,7 +84,7 @@ namespace utility
 {
 	std::wstring mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath)
 	{
-		setJavaHomeVariableIfNotExists();
+		utility::setJavaHomeVariableIfNotExists();
 
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" generate-sources",
@@ -115,7 +103,7 @@ namespace utility
 
 	bool mavenCopyDependencies(const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath)
 	{
-		setJavaHomeVariableIfNotExists();
+		utility::setJavaHomeVariableIfNotExists();
 
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
@@ -137,7 +125,7 @@ namespace utility
 	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 		const FilePath& mavenPath, const FilePath& projectDirectoryPath, bool addTestDirectories)
 	{
-		setJavaHomeVariableIfNotExists();
+		utility::setJavaHomeVariableIfNotExists();
 
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" help:effective-pom",

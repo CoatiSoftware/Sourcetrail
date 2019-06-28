@@ -301,11 +301,11 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 		}
 		else if (!hasSelectedText() && cursorPosition() == text().size() && m_cursorIndex < m_elements.size())
 		{
-			m_elements[m_cursorIndex]->setChecked(true);
-			deleteSelectedElements();
+			editElement(m_elements[m_cursorIndex]);
+			setCursorPosition(0);
 			return;
 		}
-		else
+		else if (event->matches(QKeySequence::DeleteStartOfWord))
 		{
 			std::string str = text().toStdString();
 			std::smatch match;

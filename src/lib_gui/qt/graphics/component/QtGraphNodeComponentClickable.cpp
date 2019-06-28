@@ -35,7 +35,7 @@ void QtGraphNodeComponentClickable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent*
 {
 	Vec2i mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
 
-	if ((mousePos - m_mousePos).getLength() > 1.0f)
+	if ((mousePos - m_mousePos).getLength() > 3.0f)
 	{
 		m_mouseMoved = true;
 	}

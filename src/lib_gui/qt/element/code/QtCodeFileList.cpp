@@ -295,7 +295,13 @@ void QtCodeFileList::setFileMinimized(const FilePath path)
 	}
 	else
 	{
-		getFile(path)->setMinimized();
+		QtCodeFile* file = getFile(path);
+		file->setMinimized();
+
+		if (m_firstSnippetTitleBar->isVisible())
+		{
+			ensureWidgetVisibleAnimated(m_filesArea, file->getTitleBar(), QRect(), false, SCROLL_TOP);
+		}
 	}
 }
 
