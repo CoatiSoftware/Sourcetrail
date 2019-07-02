@@ -15,11 +15,11 @@ class ControllerProxy;
 class View
 {
 public:
-	template<typename T>
-	static std::shared_ptr<T> createInitAndAddToLayout(ViewLayout* viewLayout);
+	template<typename T, typename... Args>
+	static std::shared_ptr<T> create(ViewLayout* viewLayout, const Args... args);
 
-	template<typename T>
-	static std::shared_ptr<T> createAndInit(ViewLayout* viewLayout);
+	template<typename T, typename... Args>
+	static std::shared_ptr<T> createAndAddToLayout(ViewLayout* viewLayout, const Args... args);
 
 	View(ViewLayout* viewLayout);
 	virtual ~View() = default;
@@ -27,10 +27,8 @@ public:
 	virtual std::string getName() const = 0;
 
 	virtual void createWidgetWrapper() = 0;
-	virtual void initView() = 0;
 	virtual void refreshView() = 0;
 
-	void init();
 	void addToLayout();
 	void showDockWidget();
 
@@ -56,22 +54,22 @@ private:
 	std::shared_ptr<ViewWidgetWrapper> m_widgetWrapper;
 };
 
-template<typename T>
-std::shared_ptr<T> View::createInitAndAddToLayout(ViewLayout* viewLayout)
+template<typename T, typename... Args>
+std::shared_ptr<T> View::create(ViewLayout* viewLayout, const Args... args)
 {
-	std::shared_ptr<T> ptr = View::createAndInit<T>(viewLayout);
+	std::shared_ptr<T> ptr = std::make_shared<T>(viewLayout, args...);
 
-	ptr->addToLayout();
+	ptr->createWidgetWrapper();
 
 	return ptr;
 }
 
-template<typename T>
-std::shared_ptr<T> View::createAndInit(ViewLayout* viewLayout)
+template<typename T, typename... Args>
+std::shared_ptr<T> View::createAndAddToLayout(ViewLayout* viewLayout, const Args... args)
 {
-	std::shared_ptr<T> ptr = std::make_shared<T>(viewLayout);
+	std::shared_ptr<T> ptr = View::create<T, Args...>(viewLayout, args...);
 
-	ptr->init();
+	ptr->addToLayout();
 
 	return ptr;
 }

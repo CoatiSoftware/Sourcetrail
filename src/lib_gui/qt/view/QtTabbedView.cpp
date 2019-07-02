@@ -15,19 +15,7 @@
 QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name)
 	: TabbedView(viewLayout, name)
 {
-}
-
-QtTabbedView::~QtTabbedView()
-{
-}
-
-void QtTabbedView::createWidgetWrapper()
-{
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
-}
-
-void QtTabbedView::initView()
-{
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
 	QVBoxLayout* layout = new QVBoxLayout();
@@ -46,6 +34,10 @@ void QtTabbedView::initView()
 	widget->connect(m_closeButton, &QPushButton::clicked, [this](){ hideView(this); });
 	m_widget->tabBar()->installEventFilter(this);
 	widget->installEventFilter(this);
+}
+
+void QtTabbedView::createWidgetWrapper()
+{
 }
 
 void QtTabbedView::refreshView()

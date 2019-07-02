@@ -7,13 +7,14 @@
 
 class View;
 
-class QtViewWidgetWrapper: public ViewWidgetWrapper
+class QtViewWidgetWrapper
+	: public ViewWidgetWrapper
 {
 public:
 	static QWidget* getWidgetOfView(const View* view);
 
 	QtViewWidgetWrapper(QWidget* widget);
-	virtual ~QtViewWidgetWrapper();
+	~QtViewWidgetWrapper();
 
 	QWidget* getWidget();
 

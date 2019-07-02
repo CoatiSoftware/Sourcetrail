@@ -19,15 +19,6 @@ QtBookmarkButtonsView::QtBookmarkButtonsView(ViewLayout* viewLayout)
 	, m_createButtonState(MessageBookmarkButtonState::CANNOT_CREATE)
 {
 	m_widget = new QFrame();
-}
-
-void QtBookmarkButtonsView::createWidgetWrapper()
-{
-	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
-}
-
-void QtBookmarkButtonsView::initView()
-{
 	m_widget->setObjectName("bookmark_bar");
 
 	QBoxLayout* layout = new QHBoxLayout();
@@ -52,6 +43,11 @@ void QtBookmarkButtonsView::initView()
 	layout->addWidget(m_showBookmarksButton);
 
 	connect(m_showBookmarksButton, &QPushButton::clicked, this, &QtBookmarkButtonsView::showBookmarksClicked);
+}
+
+void QtBookmarkButtonsView::createWidgetWrapper()
+{
+	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
 }
 
 void QtBookmarkButtonsView::refreshView()

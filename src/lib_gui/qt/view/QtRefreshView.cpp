@@ -43,10 +43,6 @@ void QtRefreshView::createWidgetWrapper()
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
 }
 
-void QtRefreshView::initView()
-{
-}
-
 void QtRefreshView::refreshView()
 {
 	m_onQtThread([this]()

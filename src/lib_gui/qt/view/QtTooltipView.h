@@ -12,17 +12,17 @@ class QtTooltipView
 {
 public:
 	QtTooltipView(ViewLayout* viewLayout);
-	~QtTooltipView();
+	~QtTooltipView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
-	virtual void showTooltip(TooltipInfo info, const View* parent);
-	virtual void hideTooltip(bool force);
+	// TooltipView implementation
+	void showTooltip(TooltipInfo info, const View* parent) override;
+	void hideTooltip(bool force) override;
 
-	virtual bool tooltipVisible() const;
+	bool tooltipVisible() const override;
 
 private:
 	QtThreadedLambdaFunctor m_onQtThread;

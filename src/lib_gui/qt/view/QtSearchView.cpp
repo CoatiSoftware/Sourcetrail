@@ -12,17 +12,9 @@ QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	m_widget = new QtSearchBar();
 }
 
-QtSearchView::~QtSearchView()
-{
-}
-
 void QtSearchView::createWidgetWrapper()
 {
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
-}
-
-void QtSearchView::initView()
-{
 }
 
 void QtSearchView::refreshView()

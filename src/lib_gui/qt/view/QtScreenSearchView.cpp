@@ -28,17 +28,9 @@ QtScreenSearchView::QtScreenSearchView(ViewLayout* viewLayout)
 	QObject::connect(mainWindow, &QtMainWindow::hideScreenSearch, this, &QtScreenSearchView::hide);
 }
 
-QtScreenSearchView::~QtScreenSearchView()
-{
-}
-
 void QtScreenSearchView::createWidgetWrapper()
 {
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
-}
-
-void QtScreenSearchView::initView()
-{
 }
 
 void QtScreenSearchView::refreshView()

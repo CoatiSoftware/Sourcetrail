@@ -30,19 +30,9 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	, m_controllerProxy(this, TabId::app())
 {
 	s_errorIcon = QIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr()));
-}
 
-QtErrorView::~QtErrorView()
-{
-}
-
-void QtErrorView::createWidgetWrapper()
-{
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
-}
 
-void QtErrorView::initView()
-{
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
 	QBoxLayout* layout = new QVBoxLayout();
@@ -171,6 +161,10 @@ void QtErrorView::initView()
 	checkboxes->addSpacing(10);
 
 	layout->addLayout(checkboxes);
+}
+
+void QtErrorView::createWidgetWrapper()
+{
 }
 
 void QtErrorView::refreshView()

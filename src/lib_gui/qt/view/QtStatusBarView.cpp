@@ -17,10 +17,6 @@ void QtStatusBarView::createWidgetWrapper()
 {
 }
 
-void QtStatusBarView::initView()
-{
-}
-
 void QtStatusBarView::refreshView()
 {
 }

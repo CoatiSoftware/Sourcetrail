@@ -15,7 +15,6 @@ public:
 
 	// View implementation
 	void createWidgetWrapper() override;
-	void initView() override;
 	void refreshView() override;
 
 private:

@@ -19,16 +19,15 @@ class QtStatusView
 
 public:
 	QtStatusView(ViewLayout* viewLayout);
-	virtual ~QtStatusView();
+	~QtStatusView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// Status View Implementation
-	virtual void clear();
-	virtual void addStatus(const std::vector<Status>& status);
+	void clear() override;
+	void addStatus(const std::vector<Status>& status) override;
 
 private:
 	enum STATUSVIEW_COLUMN

@@ -13,19 +13,18 @@ class QtSearchView
 {
 public:
 	QtSearchView(ViewLayout* viewLayout);
-	~QtSearchView();
+	~QtSearchView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// SearchView implementation
-	virtual std::wstring getQuery() const;
-	virtual void setMatches(const std::vector<SearchMatch>& matches);
-	virtual void setFocus();
-	virtual void findFulltext();
-	virtual void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
+	std::wstring getQuery() const override;
+	void setMatches(const std::vector<SearchMatch>& matches) override;
+	void setFocus() override;
+	void findFulltext() override;
+	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList) override;
 
 private:
 	void setStyleSheet();

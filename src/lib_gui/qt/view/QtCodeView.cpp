@@ -17,17 +17,9 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	m_widget = new QtCodeNavigator();
 }
 
-QtCodeView::~QtCodeView()
-{
-}
-
 void QtCodeView::createWidgetWrapper()
 {
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
-}
-
-void QtCodeView::initView()
-{
 }
 
 void QtCodeView::refreshView()

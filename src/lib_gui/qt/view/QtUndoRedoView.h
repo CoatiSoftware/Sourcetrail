@@ -8,22 +8,22 @@
 #include "QtUndoRedo.h"
 #include "QtThreadedFunctor.h"
 
-class QtUndoRedoView : public UndoRedoView
+class QtUndoRedoView
+	: public UndoRedoView
 {
 public:
 	QtUndoRedoView(ViewLayout* viewLayout);
-	~QtUndoRedoView();
+	~QtUndoRedoView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// UndoRedo view implementation
-	virtual void setRedoButtonEnabled(bool enabled);
-	virtual void setUndoButtonEnabled(bool enabled);
+	void setRedoButtonEnabled(bool enabled) override;
+	void setUndoButtonEnabled(bool enabled) override;
 
-	virtual void updateHistory(const std::vector<SearchMatch>& searchMatches, size_t currentIndex);
+	void updateHistory(const std::vector<SearchMatch>& searchMatches, size_t currentIndex) override;
 
 private:
 	QtThreadedLambdaFunctor m_onQtThread;

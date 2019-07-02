@@ -17,18 +17,17 @@ class QtScreenSearchView
 
 public:
 	QtScreenSearchView(ViewLayout* viewLayout);
-	~QtScreenSearchView();
+	~QtScreenSearchView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper() override;
-	virtual void initView() override;
-	virtual void refreshView() override;
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// ScreenSearchView implementation
-	virtual void setMatchCount(size_t matchCount) override;
-	virtual void setMatchIndex(size_t matchIndex) override;
+	void setMatchCount(size_t matchCount) override;
+	void setMatchIndex(size_t matchIndex) override;
 
-	virtual void addResponder(const std::string& name) override;
+	void addResponder(const std::string& name) override;
 
 public slots:
 	void show();

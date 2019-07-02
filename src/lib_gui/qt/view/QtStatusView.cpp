@@ -17,19 +17,8 @@
 QtStatusView::QtStatusView(ViewLayout* viewLayout)
 	: StatusView(viewLayout)
 {
-}
-
-QtStatusView::~QtStatusView()
-{
-}
-
-void QtStatusView::createWidgetWrapper()
-{
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
-}
 
-void QtStatusView::initView()
-{
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
 	QBoxLayout* layout = new QVBoxLayout();
@@ -75,6 +64,10 @@ void QtStatusView::initView()
 	filters->addSpacing(10);
 
 	layout->addLayout(filters);
+}
+
+void QtStatusView::createWidgetWrapper()
+{
 }
 
 void QtStatusView::refreshView()

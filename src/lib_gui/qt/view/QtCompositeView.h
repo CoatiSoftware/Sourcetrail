@@ -11,15 +11,14 @@ class QtCompositeView
 {
 public:
 	QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name);
-	~QtCompositeView();
+	~QtCompositeView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// CompositeView implementation
-	virtual void addViewWidget(View* view);
+	void addViewWidget(View* view) override;
 
 private:
 	QtThreadedLambdaFunctor m_onQtThread;

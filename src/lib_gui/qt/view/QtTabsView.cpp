@@ -21,16 +21,8 @@ QtTabsView::QtTabsView(ViewLayout* viewLayout)
 	, m_widget(nullptr)
 	, m_insertedTabCount(0)
 {
-}
-
-void QtTabsView::createWidgetWrapper()
-{
 	m_widget = new QWidget();
-	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
-}
 
-void QtTabsView::initView()
-{
 	QHBoxLayout* layout = new QHBoxLayout(m_widget);
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
@@ -64,6 +56,11 @@ void QtTabsView::initView()
 	layout->addWidget(back);
 
 	connect(addButton, &QPushButton::clicked, this, &QtTabsView::addTab);
+}
+
+void QtTabsView::createWidgetWrapper()
+{
+	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
 }
 
 void QtTabsView::refreshView()

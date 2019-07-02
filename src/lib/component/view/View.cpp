@@ -9,13 +9,6 @@ View::View(ViewLayout* viewLayout)
 {
 }
 
-void View::init()
-{
-	createWidgetWrapper();
-
-	initView();
-}
-
 void View::addToLayout()
 {
 	m_viewLayout->addView(this);

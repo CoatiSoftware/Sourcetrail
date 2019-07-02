@@ -9,7 +9,7 @@ class QtGraphViewStyleImpl
 	: public GraphViewStyleImpl
 {
 public:
-	virtual ~QtGraphViewStyleImpl() = default;
+	~QtGraphViewStyleImpl() = default;
 
 	float getCharWidth(const std::string& fontName, size_t fontSize) override;
 	float getCharHeight(const std::string& fontName, size_t fontSize) override;

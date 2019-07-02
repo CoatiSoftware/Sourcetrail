@@ -16,11 +16,10 @@ class QtBookmarkButtonsView
 
 public:
 	QtBookmarkButtonsView(ViewLayout* viewLayout);
-	virtual ~QtBookmarkButtonsView() = default;
+	~QtBookmarkButtonsView() = default;
 
 	// View implementation
 	void createWidgetWrapper() override;
-	void initView() override;
 	void refreshView() override;
 
 	// BookmarkView implementation

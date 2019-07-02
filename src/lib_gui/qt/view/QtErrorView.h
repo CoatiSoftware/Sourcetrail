@@ -26,23 +26,22 @@ class QtErrorView
 
 public:
 	QtErrorView(ViewLayout* viewLayout);
-	virtual ~QtErrorView();
+	~QtErrorView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// ErrorView implementation
-	virtual void clear();
+	void clear() override;
 
-	virtual void addErrors(const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo);
-	virtual void setErrorId(Id errorId);
+	void addErrors(const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo) override;
+	void setErrorId(Id errorId) override;
 
-	virtual void showErrorHelpMessage();
+	void showErrorHelpMessage() override;
 
-	virtual ErrorFilter getErrorFilter() const;
-	virtual void setErrorFilter(const ErrorFilter& filter);
+	ErrorFilter getErrorFilter() const override;
+	void setErrorFilter(const ErrorFilter& filter) override;
 
 private slots:
 	void errorFilterChanged(int i = 0);

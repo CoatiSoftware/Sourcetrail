@@ -14,21 +14,20 @@ class QtBookmarkView
 {
 public:
 	QtBookmarkView(ViewLayout* viewLayout);
-	virtual ~QtBookmarkView() = default;
+	~QtBookmarkView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// BookmarkView implementation
-	virtual void displayBookmarkCreator(
-		const std::vector<std::wstring>& names, const std::vector<BookmarkCategory>& categories, Id nodeId);
-	virtual void displayBookmarkEditor(
-		std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories);
+	void displayBookmarkCreator(
+		const std::vector<std::wstring>& names, const std::vector<BookmarkCategory>& categories, Id nodeId) override;
+	void displayBookmarkEditor(
+		std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories) override;
 
-	virtual void displayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
-	virtual bool bookmarkBrowserIsVisible() const;
+	void displayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) override;
+	bool bookmarkBrowserIsVisible() const override;
 
 private:
 	ControllerProxy<BookmarkController> m_controllerProxy;

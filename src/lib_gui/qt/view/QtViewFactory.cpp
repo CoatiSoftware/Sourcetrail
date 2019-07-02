@@ -20,10 +20,6 @@
 #include "QtTooltipView.h"
 #include "QtUndoRedoView.h"
 
-QtViewFactory::QtViewFactory()
-{
-}
-
 std::shared_ptr<MainView> QtViewFactory::createMainView(StorageAccess* storageAccess) const
 {
 	return std::make_shared<QtMainView>(this, storageAccess);
@@ -32,83 +28,77 @@ std::shared_ptr<MainView> QtViewFactory::createMainView(StorageAccess* storageAc
 std::shared_ptr<CompositeView> QtViewFactory::createCompositeView(
 	ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name
 ) const {
-	std::shared_ptr<CompositeView> ptr = std::make_shared<QtCompositeView>(viewLayout, direction, name);
-	ptr->init();
-	ptr->addToLayout();
-	return ptr;
+	return View::createAndAddToLayout<QtCompositeView>(viewLayout, direction, name);
 }
 
 std::shared_ptr<TabbedView> QtViewFactory::createTabbedView(ViewLayout* viewLayout, const std::string& name) const
 {
-	std::shared_ptr<TabbedView> ptr = std::make_shared<QtTabbedView>(viewLayout, name);
-	ptr->init();
-	ptr->addToLayout();
-	return ptr;
+	return View::createAndAddToLayout<QtTabbedView>(viewLayout, name);
 }
 
 std::shared_ptr<BookmarkButtonsView> QtViewFactory::createBookmarkButtonsView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtBookmarkButtonsView>(viewLayout);
+	return View::createAndAddToLayout<QtBookmarkButtonsView>(viewLayout);
 }
 
 std::shared_ptr<BookmarkView> QtViewFactory::createBookmarkView(ViewLayout* viewLayout) const
 {
-	return View::createAndInit<QtBookmarkView>(viewLayout);
+	return View::create<QtBookmarkView>(viewLayout);
 }
 
 std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtCodeView>(viewLayout);
+	return View::createAndAddToLayout<QtCodeView>(viewLayout);
 }
 
 std::shared_ptr<ErrorView> QtViewFactory::createErrorView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtErrorView>(viewLayout);
+	return View::createAndAddToLayout<QtErrorView>(viewLayout);
 }
 
 std::shared_ptr<StatusView> QtViewFactory::createStatusView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtStatusView>(viewLayout);
+	return View::createAndAddToLayout<QtStatusView>(viewLayout);
 }
 
 std::shared_ptr<GraphView> QtViewFactory::createGraphView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtGraphView>(viewLayout);
+	return View::createAndAddToLayout<QtGraphView>(viewLayout);
 }
 
 std::shared_ptr<RefreshView> QtViewFactory::createRefreshView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtRefreshView>(viewLayout);
+	return View::createAndAddToLayout<QtRefreshView>(viewLayout);
 }
 
 std::shared_ptr<ScreenSearchView> QtViewFactory::createScreenSearchView(ViewLayout* viewLayout) const
 {
-	return View::createAndInit<QtScreenSearchView>(viewLayout);
+	return View::create<QtScreenSearchView>(viewLayout);
 }
 
 std::shared_ptr<SearchView> QtViewFactory::createSearchView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtSearchView>(viewLayout);
+	return View::createAndAddToLayout<QtSearchView>(viewLayout);
 }
 
 std::shared_ptr<StatusBarView> QtViewFactory::createStatusBarView(ViewLayout* viewLayout) const
 {
-	return View::createAndInit<QtStatusBarView>(viewLayout);
+	return View::create<QtStatusBarView>(viewLayout);
 }
 
 std::shared_ptr<TabsView> QtViewFactory::createTabsView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtTabsView>(viewLayout);
+	return View::createAndAddToLayout<QtTabsView>(viewLayout);
 }
 
 std::shared_ptr<TooltipView> QtViewFactory::createTooltipView(ViewLayout* viewLayout) const
 {
-	return View::createAndInit<QtTooltipView>(viewLayout);
+	return View::create<QtTooltipView>(viewLayout);
 }
 
 std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* viewLayout) const
 {
-	return View::createInitAndAddToLayout<QtUndoRedoView>(viewLayout);
+	return View::createAndAddToLayout<QtUndoRedoView>(viewLayout);
 }
 
 std::shared_ptr<DialogView> QtViewFactory::createDialogView(

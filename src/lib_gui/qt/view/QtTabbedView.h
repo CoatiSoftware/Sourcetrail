@@ -15,20 +15,19 @@ class QtTabbedView
 {
 public:
 	QtTabbedView(ViewLayout* viewLayout, const std::string& name);
-	~QtTabbedView();
+	~QtTabbedView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// TabbedView implementation
-	virtual void addViewWidget(View* view);
-	virtual void showView(View* view);
+	void addViewWidget(View* view) override;
+	void showView(View* view) override;
 
 private:
 	void setStyleSheet();
-	bool eventFilter(QObject* obj, QEvent* event);
+	bool eventFilter(QObject* obj, QEvent* event) override;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 	QTabWidget* m_widget;

@@ -11,45 +11,44 @@ class QtCodeView
 {
 public:
 	QtCodeView(ViewLayout* viewLayout);
-	~QtCodeView();
+	~QtCodeView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// ScreenSearchResponder implementation
-	virtual bool isVisible() const;
-	virtual void findMatches(ScreenSearchSender* sender, const std::wstring& query);
-	virtual void activateMatch(size_t matchIndex);
-	virtual void deactivateMatch(size_t matchIndex);
-	virtual void clearMatches();
+	bool isVisible() const override;
+	void findMatches(ScreenSearchSender* sender, const std::wstring& query) override;
+	void activateMatch(size_t matchIndex) override;
+	void deactivateMatch(size_t matchIndex) override;
+	void clearMatches() override;
 
 	// CodeView implementation
-	virtual void clear();
+	void clear() override;
 
-	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const CodeParams params);
-	virtual void updateCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
-	virtual void scrollTo(const ScrollParams params);
+	void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const CodeParams params) override;
+	void updateCodeSnippets(const std::vector<CodeSnippetParams>& snippets) override;
+	void scrollTo(const ScrollParams params) override;
 
-	virtual bool showsErrors() const;
+	bool showsErrors() const override;
 
-	virtual void setFileState(const FilePath filePath, FileState state);
+	void setFileState(const FilePath filePath, FileState state) override;
 
-	virtual void showActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo);
-	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds);
-	virtual void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds);
+	void showActiveSnippet(
+		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo) override;
+	void showActiveTokenIds(const std::vector<Id>& activeTokenIds) override;
+	void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds) override;
 
-	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
-	virtual void defocusTokenIds();
+	void focusTokenIds(const std::vector<Id>& focusedTokenIds) override;
+	void defocusTokenIds() override;
 
-	virtual void showContents();
+	void showContents() override;
 
-	virtual bool isInListMode() const;
-	virtual void setMode(bool listMode);
+	bool isInListMode() const override;
+	void setMode(bool listMode) override;
 
-	virtual bool hasSingleFileCached(const FilePath& filePath) const;
+	bool hasSingleFileCached(const FilePath& filePath) const override;
 
 private:
 	void performScroll();

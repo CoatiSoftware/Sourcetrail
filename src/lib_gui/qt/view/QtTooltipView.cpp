@@ -13,17 +13,9 @@ QtTooltipView::QtTooltipView(ViewLayout* viewLayout)
 	m_widget = new QtTooltip(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow());
 }
 
-QtTooltipView::~QtTooltipView()
-{
-}
-
 void QtTooltipView::createWidgetWrapper()
 {
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
-}
-
-void QtTooltipView::initView()
-{
 }
 
 void QtTooltipView::refreshView()

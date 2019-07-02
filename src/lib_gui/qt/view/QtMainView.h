@@ -23,7 +23,7 @@ class QtMainView
 {
 public:
 	QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess);
-	virtual ~QtMainView();
+	~QtMainView();
 
 	QtMainWindow* getMainWindow() const;
 

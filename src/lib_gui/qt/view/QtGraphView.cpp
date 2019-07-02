@@ -45,19 +45,8 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_restoreScroll(false)
 	, m_isIndexedList(false)
 {
-}
-
-QtGraphView::~QtGraphView()
-{
-}
-
-void QtGraphView::createWidgetWrapper()
-{
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
-}
 
-void QtGraphView::initView()
-{
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
 	QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
@@ -204,6 +193,10 @@ void QtGraphView::initView()
 
 		m_groupWidget->setLayout(layout);
 	}
+}
+
+void QtGraphView::createWidgetWrapper()
+{
 }
 
 void QtGraphView::refreshView()

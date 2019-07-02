@@ -11,17 +11,9 @@ QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)
 	m_widget = new QtUndoRedo();
 }
 
-QtUndoRedoView::~QtUndoRedoView()
-{
-}
-
 void QtUndoRedoView::createWidgetWrapper()
 {
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
-}
-
-void QtUndoRedoView::initView()
-{
 }
 
 void QtUndoRedoView::refreshView()

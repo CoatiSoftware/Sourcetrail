@@ -14,21 +14,20 @@ class QtStatusBarView
 {
 public:
 	QtStatusBarView(ViewLayout* viewLayout);
-	virtual ~QtStatusBarView() = default;
+	~QtStatusBarView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// StatusBar view implementation
-	virtual void showMessage(const std::wstring& message, bool isError, bool showLoader);
-	virtual void setErrorCount(ErrorCountInfo errorCount);
+	void showMessage(const std::wstring& message, bool isError, bool showLoader) override;
+	void setErrorCount(ErrorCountInfo errorCount) override;
 
-	virtual void showIdeStatus(const std::wstring& message);
+	void showIdeStatus(const std::wstring& message) override;
 
-	virtual void showIndexingProgress(size_t progressPercent);
-	virtual void hideIndexingProgress();
+	void showIndexingProgress(size_t progressPercent) override;
+	void hideIndexingProgress() override;
 
 private:
 	QtThreadedLambdaFunctor m_onQtThread;

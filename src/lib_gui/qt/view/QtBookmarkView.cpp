@@ -17,10 +17,6 @@ void QtBookmarkView::createWidgetWrapper()
 {
 }
 
-void QtBookmarkView::initView()
-{
-}
-
 void QtBookmarkView::refreshView()
 {
 }

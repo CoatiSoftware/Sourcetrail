@@ -33,39 +33,38 @@ class QtGraphView
 
 public:
 	QtGraphView(ViewLayout* viewLayout);
-	virtual ~QtGraphView();
+	~QtGraphView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
+	void createWidgetWrapper() override;
+	void refreshView() override;
 
 	// ScreenSearchResponder implementation
-	virtual bool isVisible() const;
-	virtual void findMatches(ScreenSearchSender* sender, const std::wstring& query);
-	virtual void activateMatch(size_t matchIndex);
-	virtual void deactivateMatch(size_t matchIndex);
-	virtual void clearMatches();
+	bool isVisible() const override;
+	void findMatches(ScreenSearchSender* sender, const std::wstring& query) override;
+	void activateMatch(size_t matchIndex) override;
+	void deactivateMatch(size_t matchIndex) override;
+	void clearMatches() override;
 
 	// GraphView implementation
-	virtual void rebuildGraph(
+	void rebuildGraph(
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
 		const std::vector<std::shared_ptr<DummyEdge>>& edges,
-		const GraphParams params);
-	virtual void clear();
+		const GraphParams params) override;
+	void clear() override;
 
-	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
-	virtual void defocusTokenIds(const std::vector<Id>& defocusedTokenIds);
+	void focusTokenIds(const std::vector<Id>& focusedTokenIds) override;
+	void defocusTokenIds(const std::vector<Id>& defocusedTokenIds) override;
 
-	virtual void resizeView();
+	void resizeView() override;
 
-	virtual Vec2i getViewSize() const;
-	virtual GroupType getGrouping() const;
+	Vec2i getViewSize() const override;
+	GroupType getGrouping() const override;
 
-	virtual void scrollToValues(int xValue, int yValue);
+	void scrollToValues(int xValue, int yValue) override;
 
-	virtual void activateEdge(Id edgeId);
+	void activateEdge(Id edgeId) override;
 
 private slots:
 	void updateScrollBars();
