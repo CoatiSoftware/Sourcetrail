@@ -380,6 +380,8 @@ add_files(
 	settings/SourceGroupSettingsWithIndexedHeaderPaths.h
 	settings/SourceGroupSettingsWithJavaStandard.cpp
 	settings/SourceGroupSettingsWithJavaStandard.h
+	settings/SourceGroupSettingsWithCxxPchOptions.cpp
+	settings/SourceGroupSettingsWithCxxPchOptions.h
 	settings/SourceGroupSettingsWithSonargraphProjectPath.cpp
 	settings/SourceGroupSettingsWithSonargraphProjectPath.h
 	settings/SourceGroupSettingsWithSourceExtensions.cpp

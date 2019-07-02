@@ -37,9 +37,8 @@ add_files(
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.h
 
+	data/parser/cxx/ASTAction.cpp
 	data/parser/cxx/ASTAction.h
-	data/parser/cxx/ASTActionFactory.cpp
-	data/parser/cxx/ASTActionFactory.h
 	data/parser/cxx/ASTConsumer.cpp
 	data/parser/cxx/ASTConsumer.h
 	data/parser/cxx/CanonicalFilePathCache.cpp
@@ -72,8 +71,12 @@ add_files(
 	data/parser/cxx/CxxParser.h
 	data/parser/cxx/CxxVerboseAstVisitor.cpp
 	data/parser/cxx/CxxVerboseAstVisitor.h
+	data/parser/cxx/GeneratePCHAction.cpp
+	data/parser/cxx/GeneratePCHAction.h
 	data/parser/cxx/PreprocessorCallbacks.cpp
 	data/parser/cxx/PreprocessorCallbacks.h
+	data/parser/cxx/SingleFrontendActionFactory.cpp
+	data/parser/cxx/SingleFrontendActionFactory.h
 	data/parser/cxx/utilityClang.cpp
 	data/parser/cxx/utilityClang.h
 

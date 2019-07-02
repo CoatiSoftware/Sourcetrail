@@ -2,6 +2,7 @@
 
 #include "FilePath.h"
 #include "ProjectSettings.h"
+#include "utilityFile.h"
 
 SourceGroupSettingsPythonEmpty::SourceGroupSettingsPythonEmpty(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, SOURCE_GROUP_PYTHON_EMPTY, projectSettings)
@@ -60,7 +61,7 @@ FilePath SourceGroupSettingsPythonEmpty::getEnvironmentPath() const
 
 FilePath SourceGroupSettingsPythonEmpty::getEnvironmentPathExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathExpandedAndAbsolute(getEnvironmentPath());
+	return utility::getExpandedAndAbsolutePath(getEnvironmentPath(), m_projectSettings->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsPythonEmpty::setEnvironmentPath(const FilePath& environmentPath)

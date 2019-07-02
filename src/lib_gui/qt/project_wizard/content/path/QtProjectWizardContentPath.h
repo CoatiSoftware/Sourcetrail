@@ -31,8 +31,6 @@ protected:
 
 	QtLocationPicker* m_picker;
 
-	bool m_makePathRelativeToProjectFileLocation;
-
 private:
 	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() = 0;
 

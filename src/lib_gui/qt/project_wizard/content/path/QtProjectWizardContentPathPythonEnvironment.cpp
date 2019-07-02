@@ -3,6 +3,7 @@
 #include "ResourcePaths.h"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "utilityApp.h"
+#include "utilityFile.h"
 
 QtProjectWizardContentPathPythonEnvironment::QtProjectWizardContentPathPythonEnvironment(
 	std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizardWindow* window
@@ -63,7 +64,7 @@ void QtProjectWizardContentPathPythonEnvironment::onTextChanged(const QString& t
 		std::thread([=]() {
 			std::pair<int, std::string> out = utility::executeProcess(
 				"\"" + ResourcePaths::getPythonPath().str() + "SourcetrailPythonIndexer\" check-environment " +
-				"--environment-path \"" + m_settings->makePathExpandedAndAbsolute(FilePath(text.toStdWString())).str() + "\"",
+				"--environment-path \"" + utility::getExpandedAndAbsolutePath(FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath()).str() + "\"",
 				FilePath(),
 				5000
 			);

@@ -53,10 +53,10 @@ std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
 {
 	std::vector<FilePath> classPath = utility::getClassPath({}, true, getAllSourceFilePaths());
 
-	if (m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute().exists())
+	if (m_settings->getGradleDependenciesDirectoryPath().exists())
 	{
 		std::vector<FilePath> gradleJarPaths = FileSystem::getFilePathsFromDirectory(
-			m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute(),
+			m_settings->getGradleDependenciesDirectoryPath(),
 			{ L".jar" }
 		);
 
@@ -97,7 +97,7 @@ bool SourceGroupJavaGradle::prepareGradleData()
 
 		bool success = utility::gradleCopyDependencies(
 			projectRootPath,
-			m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute(),
+			m_settings->getGradleDependenciesDirectoryPath(),
 			m_settings->getShouldIndexGradleTests()
 		);
 

@@ -17,20 +17,17 @@ public:
 
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
+	FilePath getMavenDependenciesDirectoryPath() const;
+
 	FilePath getMavenProjectFilePath() const;
 	FilePath getMavenProjectFilePathExpandedAndAbsolute() const;
 	void setMavenProjectFilePath(const FilePath& path);
-
-	FilePath getMavenDependenciesDirectory() const;
-	FilePath getMavenDependenciesDirectoryExpandedAndAbsolute() const;
-	void setMavenDependenciesDirectory(const FilePath& path);
 
 	bool getShouldIndexMavenTests() const;
 	void setShouldIndexMavenTests(bool value);
 
 private:
 	FilePath m_mavenProjectFilePath;
-	FilePath m_mavenDependenciesDirectory;
 	bool m_shouldIndexMavenTests;
 };
 

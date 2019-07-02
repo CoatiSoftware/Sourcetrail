@@ -3,10 +3,10 @@
 #include <QMessageBox>
 
 #include "SourceGroupSettings.h"
+#include "utilityFile.h"
 
 QtProjectWizardContentPath::QtProjectWizardContentPath(QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window)
-	, m_makePathRelativeToProjectFileLocation(true)
 	, m_allowEmpty(false)
 {
 }
@@ -25,10 +25,7 @@ void QtProjectWizardContentPath::populate(QGridLayout* layout, int& row)
 	m_picker->setPickDirectory(true);
 	m_picker->setPlaceholderText(m_placeholderString);
 
-	if (m_makePathRelativeToProjectFileLocation)
-	{
-		m_picker->setRelativeRootDirectory(getSourceGroupSettings()->getProjectDirectoryPath());
-	}
+	m_picker->setRelativeRootDirectory(getSourceGroupSettings()->getProjectDirectoryPath());
 
 	layout->addWidget(m_picker, row, QtProjectWizardWindow::BACK_COL);
 	row++;
@@ -53,7 +50,7 @@ bool QtProjectWizardContentPath::check()
 			}
 		}
 
-		FilePath path = getSourceGroupSettings()->makePathExpandedAndAbsolute(FilePath(m_picker->getText().toStdWString()));
+		FilePath path = utility::getExpandedAndAbsolutePath(FilePath(m_picker->getText().toStdWString()), getSourceGroupSettings()->getProjectDirectoryPath());
 
 		if (m_picker->pickDirectory())
 		{
@@ -66,7 +63,7 @@ bool QtProjectWizardContentPath::check()
 			break;
 		}
 
-		if (m_fileEndings.find(path.extension()) == m_fileEndings.end())
+		if (!m_fileEndings.empty() && m_fileEndings.find(path.extension()) == m_fileEndings.end())
 		{
 			error = "The entered path does have a correct file ending at \"" + m_titleString + "\".";
 			break;

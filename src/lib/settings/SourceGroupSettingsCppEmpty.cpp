@@ -19,6 +19,7 @@ void SourceGroupSettingsCppEmpty::load(std::shared_ptr<const ConfigManager> conf
 	SourceGroupSettingsWithCppStandard::load(config, key);
 	SourceGroupSettingsWithCxxCrossCompilationOptions::load(config, key);
 	SourceGroupSettingsWithSourceExtensions::load(config, key);
+	SourceGroupSettingsWithCxxPchOptions::load(config, key);
 	SourceGroupSettingsWithSourcePaths::load(config, key);
 	SourceGroupSettingsWithExcludeFilters::load(config, key);
 }
@@ -32,6 +33,7 @@ void SourceGroupSettingsCppEmpty::save(std::shared_ptr<ConfigManager> config)
 	SourceGroupSettingsWithCppStandard::save(config, key);
 	SourceGroupSettingsWithCxxCrossCompilationOptions::save(config, key);
 	SourceGroupSettingsWithSourceExtensions::save(config, key);
+	SourceGroupSettingsWithCxxPchOptions::save(config, key);
 	SourceGroupSettingsWithSourcePaths::save(config, key);
 	SourceGroupSettingsWithExcludeFilters::save(config, key);
 }
@@ -46,6 +48,7 @@ bool SourceGroupSettingsCppEmpty::equals(std::shared_ptr<SourceGroupSettings> ot
 		SourceGroupSettingsWithCppStandard::equals(otherCxxEmpty) &&
 		SourceGroupSettingsWithCxxCrossCompilationOptions::equals(otherCxxEmpty) &&
 		SourceGroupSettingsWithSourceExtensions::equals(otherCxxEmpty) &&
+		SourceGroupSettingsWithCxxPchOptions::equals(otherCxxEmpty) &&
 		SourceGroupSettingsWithSourcePaths::equals(otherCxxEmpty) &&
 		SourceGroupSettingsWithExcludeFilters::equals(otherCxxEmpty)
 	);

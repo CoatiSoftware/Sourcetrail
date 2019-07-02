@@ -365,7 +365,24 @@ target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
-llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver passes x86asmparser x86codegen)
+llvm_map_components_to_libnames(REQ_LLVM_LIBS 
+	support core libdriver passes 
+	x86asmparser x86codegen 
+	aarch64asmparser aarch64codegen
+	amdgpuasmparser amdgpucodegen
+	armasmparser armcodegen
+	bpfasmparser bpfcodegen
+	hexagonasmparser hexagoncodegen
+	lanaiasmparser lanaicodegen
+	mipsasmparser mipscodegen
+	msp430asmparser msp430codegen
+	nvptxcodegen
+	powerpcasmparser powerpccodegen
+	sparcasmparser sparccodegen
+	systemzasmparser systemzcodegen
+	webassemblyasmparser webassemblycodegen
+	xcorecodegen
+)
 
 target_link_libraries(${LIB_CXX_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
 

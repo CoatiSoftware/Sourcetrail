@@ -9,11 +9,13 @@
 #include "SourceGroupStatusType.h"
 #include "SourceGroupType.h"
 
-class IndexerCommand;
-class IndexerCommandProvider;
+class DialogView;
 class FilePath;
 class FilePathFilter;
+class IndexerCommand;
+class IndexerCommandProvider;
 class SourceGroupSettings;
+class Task;
 
 class SourceGroup
 {
@@ -27,6 +29,7 @@ public:
 	virtual std::set<FilePath> getAllSourceFilePaths() const = 0;
 	virtual std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const;
 	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const = 0;
+	virtual std::shared_ptr<Task> getPreIndexTask(std::shared_ptr<DialogView> dialogView) const;
 
 	SourceGroupType getType() const;
 	LanguageType getLanguage() const;

@@ -10,7 +10,7 @@
 #include <llvm/Support/TargetSelect.h>
 
 #include "ApplicationSettings.h"
-#include "ASTActionFactory.h"
+#include "ASTAction.h"
 #include "CanonicalFilePathCache.h"
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"
@@ -20,6 +20,7 @@
 #include "logging.h"
 #include "ParserClient.h"
 #include "ResourcePaths.h"
+#include "SingleFrontendActionFactory.h"
 #include "TextAccess.h"
 #include "utilityString.h"
 #include "utility.h"
@@ -114,6 +115,8 @@ namespace
 		const clang::tooling::FileContentMappings &VirtualMappedFiles = clang::tooling::FileContentMappings()
 	)
 	{
+		CxxParser::initializeLLVM();
+
 		llvm::SmallString<16> FileNameStorage;
 		llvm::StringRef FileNameRef = FileName.toNullTerminatedStringRef(FileNameStorage);
 
@@ -133,6 +136,47 @@ namespace
 		Invocation.setDiagnosticConsumer(DiagConsumer);
 
 		return Invocation.run();
+	}
+}
+
+std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const std::vector<std::wstring>& compilerFlags)
+{
+	std::vector<std::string> args;
+
+	// The option -fno-delayed-template-parsing signals that templates that there should
+	// be AST elements for unused template functions as well.
+	args.push_back("-fno-delayed-template-parsing");
+
+	// The option -fexceptions signals that clang should watch out for exception-related code during indexing.
+	args.push_back("-fexceptions");
+
+	// The option -c signals that no executable is built.
+	args.push_back("-c");
+
+	// The option -w disables all warnings.
+	args.push_back("-w");
+
+	// This option tells clang just to continue parsing no matter how manny errors have been thrown.
+	args.push_back("-ferror-limit=0");
+
+	for (const std::wstring& compilerFlag : compilerFlags)
+	{
+		args.push_back(utility::encodeToUtf8(compilerFlag));
+	}
+
+	return args;
+}
+
+void CxxParser::initializeLLVM()
+{
+	static bool intialized = false;
+	if (!intialized)
+	{
+		llvm::InitializeAllTargets();
+		llvm::InitializeAllTargetMCs();
+		llvm::InitializeAllAsmPrinters();
+		llvm::InitializeAllAsmParsers();
+		intialized = true;
 	}
 }
 
@@ -172,13 +216,13 @@ void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAcc
 		std::make_shared<CanonicalFilePathCache>(m_fileRegister);
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(FilePath(), canonicalFilePathCache, false);
-	ASTActionFactory actionFactory(m_client, canonicalFilePathCache, m_indexerStateInfo);
+	clang::ASTFrontendAction* action = new ASTAction(m_client, canonicalFilePathCache, m_indexerStateInfo);
 
 	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags);
 
 	runToolOnCodeWithArgs(
 		diagnostics.get(),
-		actionFactory.create(),
+		action,
 		fileContent->getText(),
 		args,
 		utility::encodeToUtf8(fileName)
@@ -187,6 +231,8 @@ void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAcc
 
 void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath)
 {
+	initializeLLVM();
+
 	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, utility::encodeToUtf8(sourceFilePath.wstr())));
 
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>(m_fileRegister);
@@ -207,8 +253,8 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 		}
 	}
 
-	ASTActionFactory actionFactory(m_client, canonicalFilePathCache, m_indexerStateInfo);
-	tool.run(&actionFactory);
+	clang::ASTFrontendAction* action = new ASTAction(m_client, canonicalFilePathCache, m_indexerStateInfo);
+	tool.run(new SingleFrontendActionFactory(action));
 
 	if (!m_client->hasContent())
 	{
@@ -229,34 +275,6 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 			);
 		}
 	}
-}
-
-std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const std::vector<std::wstring>& compilerFlags) const
-{
-	std::vector<std::string> args;
-
-	// The option -fno-delayed-template-parsing signals that templates that there should
-	// be AST elements for unused template functions as well.
-	args.push_back("-fno-delayed-template-parsing");
-
-	// The option -fexceptions signals that clang should watch out for exception-related code during indexing.
-	args.push_back("-fexceptions");
-
-	// The option -c signals that no executable is built.
-	args.push_back("-c");
-
-	// The option -w disables all warnings.
-	args.push_back("-w");
-
-	// This option tells clang just to continue parsing no matter how manny errors have been thrown.
-	args.push_back("-ferror-limit=0");
-
-	for (const std::wstring& compilerFlag: compilerFlags)
-	{
-		args.push_back(utility::encodeToUtf8(compilerFlag));
-	}
-
-	return args;
 }
 
 std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const FilePath& sourceFilePath, std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const

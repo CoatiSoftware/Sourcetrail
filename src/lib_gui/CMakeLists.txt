@@ -150,10 +150,8 @@ add_files(
 	qt/project_wizard/content/path/QtProjectWizardContentPathCDB.h
 	qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.cpp
 	qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesGradle.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesGradle.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesMaven.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathDependenciesMaven.h
+	qt/project_wizard/content/path/QtProjectWizardContentPathCxxPch.cpp
+	qt/project_wizard/content/path/QtProjectWizardContentPathCxxPch.h
 	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.cpp
 	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.h
 	qt/project_wizard/content/path/QtProjectWizardContentPathSonargraphProject.cpp

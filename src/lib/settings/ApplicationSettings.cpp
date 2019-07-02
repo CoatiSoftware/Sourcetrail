@@ -8,8 +8,9 @@
 #include "ResourcePaths.h"
 #include "Status.h"
 #include "TimeStamp.h"
-#include "utility.h"
 #include "UserPaths.h"
+#include "utility.h"
+#include "utilityFile.h"
 #include "Version.h"
 
 const size_t ApplicationSettings::VERSION = 8;
@@ -390,7 +391,7 @@ std::vector<FilePath> ApplicationSettings::getJreSystemLibraryPaths() const
 
 std::vector<FilePath> ApplicationSettings::getJreSystemLibraryPathsExpanded() const
 {
-	return expandPaths(getJreSystemLibraryPaths());
+	return utility::getExpandedPaths(getJreSystemLibraryPaths());
 }
 
 bool ApplicationSettings::setJreSystemLibraryPaths(const std::vector<FilePath>& jreSystemLibraryPaths)
@@ -445,7 +446,7 @@ std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
 
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPathsExpanded() const
 {
-	return expandPaths(getHeaderSearchPaths());
+	return utility::getExpandedPaths(getHeaderSearchPaths());
 }
 
 bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
@@ -470,7 +471,7 @@ std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
 
 std::vector<FilePath> ApplicationSettings::getFrameworkSearchPathsExpanded() const
 {
-	return expandPaths(getFrameworkSearchPaths());
+	return utility::getExpandedPaths(getFrameworkSearchPaths());
 }
 
 bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)

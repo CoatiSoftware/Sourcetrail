@@ -29,9 +29,6 @@ public:
 	size_t getVersion() const;
 	void setVersion(size_t version);
 
-	static FilePath expandPath(const FilePath& path);
-	static std::vector<FilePath> expandPaths(const std::vector<FilePath>& paths);
-
 protected:
 	Settings();
 

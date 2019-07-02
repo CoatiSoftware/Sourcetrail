@@ -52,10 +52,10 @@ std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
 {
 	std::vector<FilePath> classPath = utility::getClassPath({}, true, getAllSourceFilePaths());
 
-	if (m_settings && m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute().exists())
+	if (m_settings && m_settings->getMavenDependenciesDirectoryPath().exists())
 	{
 		std::vector<FilePath> mavenJarPaths = FileSystem::getFilePathsFromDirectory(
-			m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute(),
+			m_settings->getMavenDependenciesDirectoryPath(),
 			{ L".jar" }
 		);
 
@@ -105,7 +105,7 @@ bool SourceGroupJavaMaven::prepareMavenData()
 		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nExporting Dependencies");
 
 		bool success = utility::mavenCopyDependencies(
-			mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute()
+			mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryPath()
 		);
 
 		return success;

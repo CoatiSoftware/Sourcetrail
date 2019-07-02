@@ -15,6 +15,7 @@
 #include "SourceGroupSettingsJavaSonargraph.h"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "logging.h"
+#include "utilityFile.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
 
@@ -126,6 +127,11 @@ FilePath ProjectSettings::getProjectFilePath() const
 void ProjectSettings::setProjectFilePath(std::wstring projectName, const FilePath& projectFileLocation)
 {
 	setFilePath(projectFileLocation.getConcatenated(L"/" + projectName + PROJECT_FILE_EXTENSION));
+}
+
+FilePath ProjectSettings::getDependenciesDirectoryPath() const
+{
+	return getProjectDirectoryPath().concatenate(L"sourcetrail_dependencies");
 }
 
 FilePath ProjectSettings::getDBFilePath() const
@@ -240,7 +246,7 @@ void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_pt
 
 std::vector<FilePath> ProjectSettings::makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const
 {
-	std::vector<FilePath> p = expandPaths(paths);
+	std::vector<FilePath> p = utility::getExpandedPaths(paths);
 
 	std::vector<FilePath> absPaths;
 	const FilePath basePath = getProjectDirectoryPath();
@@ -261,14 +267,7 @@ std::vector<FilePath> ProjectSettings::makePathsExpandedAndAbsolute(const std::v
 
 FilePath ProjectSettings::makePathExpandedAndAbsolute(const FilePath& path) const
 {
-	FilePath p = expandPath(path);
-
-	if (p.empty() || p.isAbsolute())
-	{
-		return p;
-	}
-
-	return getProjectDirectoryPath().concatenate(p).makeCanonical();
+	return utility::getExpandedAndAbsolutePath(path, getProjectDirectoryPath());
 }
 
 SettingsMigrator ProjectSettings::getMigrations() const

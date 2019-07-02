@@ -42,9 +42,9 @@ public:
 	void setStatus(SourceGroupStatusType status);
 
 	const ProjectSettings* getProjectSettings() const override;
+	FilePath getSourceGroupDependenciesDirectoryPath() const override;
 	FilePath getProjectDirectoryPath() const;
 
-	FilePath makePathExpandedAndAbsolute(const FilePath& path) const;
 	std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
 
 protected:

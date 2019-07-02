@@ -4,6 +4,7 @@
 #include "FilePathFilter.h"
 #include "FileSystem.h"
 #include "utility.h"
+#include "utilityFile.h"
 
 SourceGroupSettingsWithExcludeFilters::SourceGroupSettingsWithExcludeFilters()
 	: m_excludeFilters(std::vector<std::wstring>())
@@ -45,6 +46,8 @@ void SourceGroupSettingsWithExcludeFilters::setExcludeFilterStrings(const std::v
 
 std::vector<FilePathFilter> SourceGroupSettingsWithExcludeFilters::getFiltersExpandedAndAbsolute(const std::vector<std::wstring>& filterStrings) const
 {
+	const FilePath projectDirectoryPath = getProjectSettings()->getProjectDirectoryPath();
+
 	std::vector<FilePathFilter> result;
 
 	for (const std::wstring& filterString : filterStrings)
@@ -58,7 +61,7 @@ std::vector<FilePathFilter> SourceGroupSettingsWithExcludeFilters::getFiltersExp
 				if (std::regex_search(filterString, match, std::wregex(L"[\\\\/]")) && !match.empty() &&
 					match.position(0) < int(wildcardPos))
 				{
-					const FilePath p = getProjectSettings()->makePathExpandedAndAbsolute(FilePath(match.prefix().str()));
+					const FilePath p = utility::getExpandedAndAbsolutePath(FilePath(match.prefix().str()), projectDirectoryPath);
 					std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
 					symLinkPaths.insert(p);
 
@@ -79,7 +82,7 @@ std::vector<FilePathFilter> SourceGroupSettingsWithExcludeFilters::getFiltersExp
 			}
 			else
 			{
-				const FilePath p = getProjectSettings()->makePathExpandedAndAbsolute(FilePath(filterString));
+				const FilePath p = utility::getExpandedAndAbsolutePath(FilePath(filterString), projectDirectoryPath);
 				const bool isFile = p.exists() && !p.isDirectory();
 
 				std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);

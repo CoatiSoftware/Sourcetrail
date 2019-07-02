@@ -313,7 +313,6 @@ public:
 		sourceGroupSettings->setJavaStandard({ L"10" });
 		sourceGroupSettings->setGradleProjectFilePath({ getInputDirectoryPath(projectName).concatenate(L"build.gradle") });
 		sourceGroupSettings->setShouldIndexGradleTests(true);
-		sourceGroupSettings->setGradleDependenciesDirectory(getInputDirectoryPath(projectName).concatenate(L"gradle_dependencies"));
 
 		std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
@@ -353,7 +352,6 @@ public:
 		sourceGroupSettings->setJavaStandard({ L"10" });
 		sourceGroupSettings->setMavenProjectFilePath({ getInputDirectoryPath(projectName).concatenate(L"my-app/pom.xml") });
 		sourceGroupSettings->setShouldIndexMavenTests(true);
-		sourceGroupSettings->setMavenDependenciesDirectory(getInputDirectoryPath(projectName).concatenate(L"maven_dependencies"));
 
 		std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 

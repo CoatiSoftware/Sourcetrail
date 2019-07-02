@@ -1,7 +1,8 @@
 #include "SourceGroupSettingsCxxCdb.h"
 
-#include "ProjectSettings.h"
 #include "ConfigManager.h"
+#include "ProjectSettings.h"
+#include "utilityFile.h"
 
 SourceGroupSettingsCxxCdb::SourceGroupSettingsCxxCdb(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_CXX_CDB, projectSettings)
@@ -58,7 +59,7 @@ FilePath SourceGroupSettingsCxxCdb::getCompilationDatabasePath() const
 
 FilePath SourceGroupSettingsCxxCdb::getCompilationDatabasePathExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathExpandedAndAbsolute(getCompilationDatabasePath());
+	return utility::getExpandedAndAbsolutePath(getCompilationDatabasePath(), m_projectSettings->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsCxxCdb::setCompilationDatabasePath(const FilePath& compilationDatabasePath)

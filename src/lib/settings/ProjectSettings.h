@@ -35,6 +35,7 @@ public:
 
 	FilePath getProjectFilePath() const;
 	void setProjectFilePath(std::wstring projectName, const FilePath& projectFileLocation);
+	FilePath getDependenciesDirectoryPath() const;
 
 	FilePath getDBFilePath() const;
 	FilePath getTempDBFilePath() const;

@@ -5,6 +5,7 @@
 #include "SourceGroupSettingsWithCppStandard.h"
 #include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
+#include "SourceGroupSettingsWithCxxPchOptions.h"
 #include "SourceGroupSettingsWithSourceExtensions.h"
 #include "SourceGroupSettingsWithSourcePaths.h"
 
@@ -13,6 +14,7 @@ class SourceGroupSettingsCppEmpty
 	, public SourceGroupSettingsWithCppStandard
 	, public SourceGroupSettingsWithCxxCrossCompilationOptions
 	, public SourceGroupSettingsWithExcludeFilters
+	, public SourceGroupSettingsWithCxxPchOptions
 	, public SourceGroupSettingsWithSourceExtensions
 	, public SourceGroupSettingsWithSourcePaths
 {

@@ -1,13 +1,20 @@
 #include "SourceGroup.h"
 
-#include "MemoryIndexerCommandProvider.h"
-#include "SourceGroupSettings.h"
 #include "FilePath.h"
 #include "FilePathFilter.h"
+#include "MemoryIndexerCommandProvider.h"
+#include "ProjectSettings.h"
+#include "SourceGroupSettings.h"
+#include "TaskLambda.h"
 
 std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
 {
 	return std::make_shared<MemoryIndexerCommandProvider>(getIndexerCommands(filesToIndex));
+}
+
+std::shared_ptr<Task> SourceGroup::getPreIndexTask(std::shared_ptr<DialogView> dialogView) const
+{
+	return std::make_shared<TaskLambda>([]() {});
 }
 
 SourceGroupType SourceGroup::getType() const

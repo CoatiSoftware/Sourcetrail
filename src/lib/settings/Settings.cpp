@@ -98,33 +98,6 @@ void Settings::setVersion(size_t version)
 	setValue<int>("version", version);
 }
 
-FilePath Settings::expandPath(const FilePath& path)
-{
-	std::vector<FilePath> paths = path.expandEnvironmentVariables();
-	if (!paths.empty())
-	{
-		if (paths.size() > 1)
-		{
-			LOG_WARNING(
-				L"Environment variable in path \"" + path.wstr() + L"\" has been expanded to " + std::to_wstring(paths.size()) +
-				L"paths, but only \"" + paths.front().wstr() + L"\" will be used."
-			);
-		}
-		return paths.front();
-	}
-	return FilePath();
-}
-
-std::vector<FilePath> Settings::expandPaths(const std::vector<FilePath>& paths)
-{
-	std::vector<FilePath> expanedPaths;
-	for (const FilePath& path : paths)
-	{
-		utility::append(expanedPaths, path.expandEnvironmentVariables());
-	}
-	return expanedPaths;
-}
-
 Settings::Settings()
 {
 	clear();

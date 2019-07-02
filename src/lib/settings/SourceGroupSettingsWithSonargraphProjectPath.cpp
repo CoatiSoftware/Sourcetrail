@@ -1,6 +1,7 @@
 #include "SourceGroupSettingsWithSonargraphProjectPath.h"
 
 #include "ProjectSettings.h"
+#include "utilityFile.h"
 
 SourceGroupSettingsWithSonargraphProjectPath::SourceGroupSettingsWithSonargraphProjectPath()
 {
@@ -31,7 +32,7 @@ FilePath SourceGroupSettingsWithSonargraphProjectPath::getSonargraphProjectPath(
 
 FilePath SourceGroupSettingsWithSonargraphProjectPath::getSonargraphProjectPathExpandedAndAbsolute() const
 {
-	return getProjectSettings()->makePathExpandedAndAbsolute(getSonargraphProjectPath());
+	return utility::getExpandedAndAbsolutePath(getSonargraphProjectPath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsWithSonargraphProjectPath::setSonargraphProjectPath(const FilePath& sonargraphProjectPath)

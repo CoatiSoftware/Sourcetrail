@@ -5,6 +5,7 @@
 #include "SourceGroupSettingsWithCStandard.h"
 #include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
+#include "SourceGroupSettingsWithCxxPchOptions.h"
 #include "SourceGroupSettingsWithSourceExtensions.h"
 #include "SourceGroupSettingsWithSourcePaths.h"
 
@@ -13,6 +14,7 @@ class SourceGroupSettingsCEmpty
 	, public SourceGroupSettingsWithCStandard
 	, public SourceGroupSettingsWithCxxCrossCompilationOptions
 	, public SourceGroupSettingsWithExcludeFilters
+	, public SourceGroupSettingsWithCxxPchOptions
 	, public SourceGroupSettingsWithSourceExtensions
 	, public SourceGroupSettingsWithSourcePaths
 {

@@ -2,6 +2,7 @@
 
 #include "ConfigManager.h"
 #include "ProjectSettings.h"
+#include "utilityFile.h"
 
 SourceGroupSettingsCxxCodeblocks::SourceGroupSettingsCxxCodeblocks(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, SOURCE_GROUP_CXX_CODEBLOCKS, projectSettings)
@@ -66,7 +67,7 @@ FilePath SourceGroupSettingsCxxCodeblocks::getCodeblocksProjectPath() const
 
 FilePath SourceGroupSettingsCxxCodeblocks::getCodeblocksProjectPathExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathExpandedAndAbsolute(getCodeblocksProjectPath());
+	return utility::getExpandedAndAbsolutePath(getCodeblocksProjectPath(), m_projectSettings->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsCxxCodeblocks::setCodeblocksProjectPath(const FilePath& compilationDatabasePath)

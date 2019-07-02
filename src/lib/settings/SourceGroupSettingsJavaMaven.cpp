@@ -1,12 +1,12 @@
 #include "SourceGroupSettingsJavaMaven.h"
 
-#include "ProjectSettings.h"
 #include "ConfigManager.h"
+#include "ProjectSettings.h"
+#include "utilityFile.h"
 
 SourceGroupSettingsJavaMaven::SourceGroupSettingsJavaMaven(const std::string& id, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsJava(id, SOURCE_GROUP_JAVA_MAVEN, projectSettings)
 	, m_mavenProjectFilePath(FilePath())
-	, m_mavenDependenciesDirectory(FilePath())
 	, m_shouldIndexMavenTests(false)
 {
 }
@@ -23,7 +23,6 @@ void SourceGroupSettingsJavaMaven::load(std::shared_ptr<const ConfigManager> con
 	const std::string key = s_keyPrefix + getId();
 
 	setMavenProjectFilePath(config->getValueOrDefault(key + "/maven/project_file_path", FilePath(L"")));
-	setMavenDependenciesDirectory(config->getValueOrDefault(key + "/maven/dependencies_directory", FilePath(L"")));
 	setShouldIndexMavenTests(config->getValueOrDefault(key + "/maven/should_index_tests", false));
 }
 
@@ -34,7 +33,6 @@ void SourceGroupSettingsJavaMaven::save(std::shared_ptr<ConfigManager> config)
 	const std::string key = s_keyPrefix + getId();
 
 	config->setValue(key + "/maven/project_file_path", getMavenProjectFilePath().wstr());
-	config->setValue(key + "/maven/dependencies_directory", getMavenDependenciesDirectory().wstr());
 	config->setValue(key + "/maven/should_index_tests", getShouldIndexMavenTests());
 }
 
@@ -46,9 +44,13 @@ bool SourceGroupSettingsJavaMaven::equals(std::shared_ptr<SourceGroupSettings> o
 		otherJavaMaven &&
 		SourceGroupSettingsJava::equals(other) &&
 		m_mavenProjectFilePath == otherJavaMaven->m_mavenProjectFilePath &&
-		m_mavenDependenciesDirectory == otherJavaMaven->m_mavenDependenciesDirectory &&
 		m_shouldIndexMavenTests == otherJavaMaven->m_shouldIndexMavenTests
 	);
+}
+
+FilePath SourceGroupSettingsJavaMaven::getMavenDependenciesDirectoryPath() const
+{
+	return getSourceGroupDependenciesDirectoryPath().concatenate(L"maven");
 }
 
 FilePath SourceGroupSettingsJavaMaven::getMavenProjectFilePath() const
@@ -58,27 +60,12 @@ FilePath SourceGroupSettingsJavaMaven::getMavenProjectFilePath() const
 
 FilePath SourceGroupSettingsJavaMaven::getMavenProjectFilePathExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathExpandedAndAbsolute(getMavenProjectFilePath());
+	return utility::getExpandedAndAbsolutePath(getMavenProjectFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsJavaMaven::setMavenProjectFilePath(const FilePath& path)
 {
 	m_mavenProjectFilePath = path;
-}
-
-FilePath SourceGroupSettingsJavaMaven::getMavenDependenciesDirectory() const
-{
-	return m_mavenDependenciesDirectory;
-}
-
-FilePath SourceGroupSettingsJavaMaven::getMavenDependenciesDirectoryExpandedAndAbsolute() const
-{
-	return m_projectSettings->makePathExpandedAndAbsolute(getMavenDependenciesDirectory());
-}
-
-void SourceGroupSettingsJavaMaven::setMavenDependenciesDirectory(const FilePath& path)
-{
-	m_mavenDependenciesDirectory = path;
 }
 
 bool SourceGroupSettingsJavaMaven::getShouldIndexMavenTests() const

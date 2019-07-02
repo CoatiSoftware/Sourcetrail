@@ -542,6 +542,16 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_command_queue_started", false));
 		taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("indexer_command_queue_stopped", false));
 
+		std::shared_ptr<TaskGroupSequence> preIndexTasks = std::make_shared<TaskGroupSequence>();
+		taskSequential->addTask(preIndexTasks);
+		for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
+		{
+			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
+			{
+				preIndexTasks->addTask(sourceGroup->getPreIndexTask(dialogView));
+			}
+		}
+
 		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(tempStorage, dialogView);
 		taskSequential->addTask(taskParserWrapper);
 

@@ -19,8 +19,7 @@
 #include "QtProjectWizardContentPath.h"
 #include "QtProjectWizardContentPathCDB.h"
 #include "QtProjectWizardContentPathCodeblocksProject.h"
-#include "QtProjectWizardContentPathDependenciesGradle.h"
-#include "QtProjectWizardContentPathDependenciesMaven.h"
+#include "QtProjectWizardContentPathCxxPch.h"
 #include "QtProjectWizardContentPathPythonEnvironment.h"
 #include "QtProjectWizardContentPathSonargraphProject.h"
 #include "QtProjectWizardContentPathSourceGradle.h"
@@ -141,6 +140,13 @@ namespace
 		{
 			QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Advanced (optional)");
 			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_ALL);
+			page.addContentCreator(
+				WIZARD_CONTENT_CONTEXT_ALL,
+				[](std::shared_ptr<SourceGroupSettingsCEmpty> settings, QtProjectWizardWindow* window)
+				{
+					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
+				}
+			);
 			pages.push_back(page);
 		}
 
@@ -180,6 +186,13 @@ namespace
 		{
 			QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Advanced (optional)");
 			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_ALL);
+			page.addContentCreator(
+				WIZARD_CONTENT_CONTEXT_ALL,
+				[](std::shared_ptr<SourceGroupSettingsCppEmpty> settings, QtProjectWizardWindow* window)
+				{
+					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
+				}
+			);
 			pages.push_back(page);
 		}
 
@@ -362,7 +375,6 @@ namespace
 			QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven> page("Indexed Paths");
 			page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(WIZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizardContentPathSourceMaven>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathDependenciesMaven>(WIZARD_CONTENT_CONTEXT_ALL);
 			pages.push_back(page);
 		}
 		{
@@ -383,7 +395,6 @@ namespace
 			QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle> page("Indexed Paths");
 			page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(WIZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizardContentPathSourceGradle>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathDependenciesGradle>(WIZARD_CONTENT_CONTEXT_ALL);
 			pages.push_back(page);
 		}
 		{
@@ -1107,28 +1118,12 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 	case SOURCE_GROUP_JAVA_MAVEN:
 		{
 			std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::make_shared<SourceGroupSettingsJavaMaven>(sourceGroupId, m_projectSettings.get());
-			settings->setMavenDependenciesDirectory(
-				FilePath(
-					L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") +
-					L"/" +
-					utility::decodeFromUtf8(settings->getId()) +
-					L"/maven"
-				)
-			);
 			executeSourceGroupSetup<SourceGroupSettingsJavaMaven>(settings);
 		}
 		break;
 	case SOURCE_GROUP_JAVA_GRADLE:
 		{
 			std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
-			settings->setGradleDependenciesDirectory(
-				FilePath(
-					L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") +
-					L"/" +
-					utility::decodeFromUtf8(settings->getId()) +
-					L"/gradle"
-				)
-			);
 			executeSourceGroupSetup<SourceGroupSettingsJavaGradle>(settings);
 		}
 		break;

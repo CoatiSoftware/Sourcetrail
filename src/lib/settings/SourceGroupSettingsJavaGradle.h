@@ -16,21 +16,18 @@ public:
 	void save(std::shared_ptr<ConfigManager> config) override;
 
 	bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
-
+	
+	FilePath getGradleDependenciesDirectoryPath() const;
+	
 	FilePath getGradleProjectFilePath() const;
 	FilePath getGradleProjectFilePathExpandedAndAbsolute() const;
 	void setGradleProjectFilePath(const FilePath& path);
-
-	FilePath getGradleDependenciesDirectory() const;
-	FilePath getGradleDependenciesDirectoryExpandedAndAbsolute() const;
-	void setGradleDependenciesDirectory(const FilePath& path);
 
 	bool getShouldIndexGradleTests() const;
 	void setShouldIndexGradleTests(bool value);
 
 private:
 	FilePath m_gradleProjectFilePath;
-	FilePath m_gradleDependenciesDirectory;
 	bool m_shouldIndexGradleTests;
 };
 
