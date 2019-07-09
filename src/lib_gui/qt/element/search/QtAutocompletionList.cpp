@@ -21,7 +21,9 @@ QtAutocompletionModel::~QtAutocompletionModel()
 
 void QtAutocompletionModel::setMatchList(const std::vector<SearchMatch>& matchList)
 {
+	size_t rowCount = std::max(m_matchList.size(), matchList.size());
 	m_matchList = matchList;
+	emit dataChanged(index(0, 0), index(rowCount - 1, 5));
 }
 
 int QtAutocompletionModel::rowCount(const QModelIndex &parent) const

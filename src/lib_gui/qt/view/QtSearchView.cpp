@@ -62,7 +62,6 @@ void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocom
 	m_onQtThread([=]()
 	{
 		m_widget->setAutocompletionList(autocompletionList);
-		setStyleSheet();
 	});
 }
 
