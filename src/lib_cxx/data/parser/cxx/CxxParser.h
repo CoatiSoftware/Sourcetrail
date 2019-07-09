@@ -27,7 +27,7 @@ class CxxParser: public Parser
 {
 public:
 	static std::vector<std::string> getCommandlineArgumentsEssential(const std::vector<std::wstring>& compilerFlags);
-	static void CxxParser::initializeLLVM();
+	static void initializeLLVM();
 
 	CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister, std::shared_ptr<IndexerStateInfo> indexerStateInfo);
 
