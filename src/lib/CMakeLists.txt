@@ -325,8 +325,68 @@ add_files(
 	settings/migration/SettingsMigrationMoveKey.h
 	settings/migration/SettingsMigrator.h
 
+	settings/source_group/SourceGroupSettings.cpp
+	settings/source_group/SourceGroupSettings.h
+	settings/source_group/SourceGroupSettingsBase.h
+	settings/source_group/SourceGroupSettingsCxx.cpp
+	settings/source_group/SourceGroupSettingsCxx.h
+	settings/source_group/SourceGroupSettingsCEmpty.cpp
+	settings/source_group/SourceGroupSettingsCEmpty.h
+	settings/source_group/SourceGroupSettingsCppEmpty.cpp
+	settings/source_group/SourceGroupSettingsCppEmpty.h
+	settings/source_group/SourceGroupSettingsCustomCommand.cpp
+	settings/source_group/SourceGroupSettingsCustomCommand.h
+	settings/source_group/SourceGroupSettingsCxxCdb.cpp
+	settings/source_group/SourceGroupSettingsCxxCdb.h
+	settings/source_group/SourceGroupSettingsCxxCdbVs.cpp
+	settings/source_group/SourceGroupSettingsCxxCdbVs.h
+	settings/source_group/SourceGroupSettingsCxxCodeblocks.cpp
+	settings/source_group/SourceGroupSettingsCxxCodeblocks.h
+	settings/source_group/SourceGroupSettingsCxxSonargraph.cpp
+	settings/source_group/SourceGroupSettingsCxxSonargraph.h
+	settings/source_group/SourceGroupSettingsJava.cpp
+	settings/source_group/SourceGroupSettingsJava.h
+	settings/source_group/SourceGroupSettingsJavaEmpty.cpp
+	settings/source_group/SourceGroupSettingsJavaEmpty.h
+	settings/source_group/SourceGroupSettingsJavaGradle.cpp
+	settings/source_group/SourceGroupSettingsJavaGradle.h
+	settings/source_group/SourceGroupSettingsJavaMaven.cpp
+	settings/source_group/SourceGroupSettingsJavaMaven.h
+	settings/source_group/SourceGroupSettingsJavaSonargraph.cpp
+	settings/source_group/SourceGroupSettingsJavaSonargraph.h
+	settings/source_group/SourceGroupSettingsPythonEmpty.cpp
+	settings/source_group/SourceGroupSettingsPythonEmpty.h
+	settings/source_group/SourceGroupSettingsWithClasspath.cpp
+	settings/source_group/SourceGroupSettingsWithClasspath.h
+	settings/source_group/SourceGroupSettingsWithCppStandard.cpp
+	settings/source_group/SourceGroupSettingsWithCppStandard.h
+	settings/source_group/SourceGroupSettingsWithCStandard.cpp
+	settings/source_group/SourceGroupSettingsWithCStandard.h
+	settings/source_group/SourceGroupSettingsWithCxxCrossCompilationOptions.cpp
+	settings/source_group/SourceGroupSettingsWithCxxCrossCompilationOptions.h
+	settings/source_group/SourceGroupSettingsWithExcludeFilters.cpp
+	settings/source_group/SourceGroupSettingsWithExcludeFilters.h
+	settings/source_group/SourceGroupSettingsWithIndexedHeaderPaths.cpp
+	settings/source_group/SourceGroupSettingsWithIndexedHeaderPaths.h
+	settings/source_group/SourceGroupSettingsWithJavaStandard.cpp
+	settings/source_group/SourceGroupSettingsWithJavaStandard.h
+	settings/source_group/SourceGroupSettingsWithCxxPchOptions.cpp
+	settings/source_group/SourceGroupSettingsWithCxxPchOptions.h
+	settings/source_group/SourceGroupSettingsWithSonargraphProjectPath.cpp
+	settings/source_group/SourceGroupSettingsWithSonargraphProjectPath.h
+	settings/source_group/SourceGroupSettingsWithSourceExtensions.cpp
+	settings/source_group/SourceGroupSettingsWithSourceExtensions.h
+	settings/source_group/SourceGroupSettingsWithSourcePaths.cpp
+	settings/source_group/SourceGroupSettingsWithSourcePaths.h
+	settings/source_group/SourceGroupStatusType.cpp
+	settings/source_group/SourceGroupStatusType.h
+	settings/source_group/SourceGroupType.cpp
+	settings/source_group/SourceGroupType.h
+
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
+	settings/ApplicationSettingsPrefiller.cpp
+	settings/ApplicationSettingsPrefiller.h
 	settings/ColorScheme.cpp
 	settings/ColorScheme.h
 	settings/LanguageType.cpp
@@ -335,63 +395,6 @@ add_files(
 	settings/ProjectSettings.h
 	settings/Settings.cpp
 	settings/Settings.h
-	settings/SourceGroupSettings.cpp
-	settings/SourceGroupSettings.h
-	settings/SourceGroupSettingsBase.h
-	settings/SourceGroupSettingsCxx.cpp
-	settings/SourceGroupSettingsCxx.h
-	settings/SourceGroupSettingsCEmpty.cpp
-	settings/SourceGroupSettingsCEmpty.h
-	settings/SourceGroupSettingsCppEmpty.cpp
-	settings/SourceGroupSettingsCppEmpty.h
-	settings/SourceGroupSettingsCustomCommand.cpp
-	settings/SourceGroupSettingsCustomCommand.h
-	settings/SourceGroupSettingsCxxCdb.cpp
-	settings/SourceGroupSettingsCxxCdb.h
-	settings/SourceGroupSettingsCxxCdbVs.cpp
-	settings/SourceGroupSettingsCxxCdbVs.h
-	settings/SourceGroupSettingsCxxCodeblocks.cpp
-	settings/SourceGroupSettingsCxxCodeblocks.h
-	settings/SourceGroupSettingsCxxSonargraph.cpp
-	settings/SourceGroupSettingsCxxSonargraph.h
-	settings/SourceGroupSettingsJava.cpp
-	settings/SourceGroupSettingsJava.h
-	settings/SourceGroupSettingsJavaEmpty.cpp
-	settings/SourceGroupSettingsJavaEmpty.h
-	settings/SourceGroupSettingsJavaGradle.cpp
-	settings/SourceGroupSettingsJavaGradle.h
-	settings/SourceGroupSettingsJavaMaven.cpp
-	settings/SourceGroupSettingsJavaMaven.h
-	settings/SourceGroupSettingsJavaSonargraph.cpp
-	settings/SourceGroupSettingsJavaSonargraph.h
-	settings/SourceGroupSettingsPythonEmpty.cpp
-	settings/SourceGroupSettingsPythonEmpty.h
-	settings/SourceGroupSettingsWithClasspath.cpp
-	settings/SourceGroupSettingsWithClasspath.h
-	settings/SourceGroupSettingsWithCppStandard.cpp
-	settings/SourceGroupSettingsWithCppStandard.h
-	settings/SourceGroupSettingsWithCStandard.cpp
-	settings/SourceGroupSettingsWithCStandard.h
-	settings/SourceGroupSettingsWithCxxCrossCompilationOptions.cpp
-	settings/SourceGroupSettingsWithCxxCrossCompilationOptions.h
-	settings/SourceGroupSettingsWithExcludeFilters.cpp
-	settings/SourceGroupSettingsWithExcludeFilters.h
-	settings/SourceGroupSettingsWithIndexedHeaderPaths.cpp
-	settings/SourceGroupSettingsWithIndexedHeaderPaths.h
-	settings/SourceGroupSettingsWithJavaStandard.cpp
-	settings/SourceGroupSettingsWithJavaStandard.h
-	settings/SourceGroupSettingsWithCxxPchOptions.cpp
-	settings/SourceGroupSettingsWithCxxPchOptions.h
-	settings/SourceGroupSettingsWithSonargraphProjectPath.cpp
-	settings/SourceGroupSettingsWithSonargraphProjectPath.h
-	settings/SourceGroupSettingsWithSourceExtensions.cpp
-	settings/SourceGroupSettingsWithSourceExtensions.h
-	settings/SourceGroupSettingsWithSourcePaths.cpp
-	settings/SourceGroupSettingsWithSourcePaths.h
-	settings/SourceGroupStatusType.cpp
-	settings/SourceGroupStatusType.h
-	settings/SourceGroupType.cpp
-	settings/SourceGroupType.h
 
 	utility/commandline/CommandlineHelper.cpp
 	utility/commandline/CommandlineHelper.h
