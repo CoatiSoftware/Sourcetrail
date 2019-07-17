@@ -2,14 +2,15 @@
 
 #include "tinyxml.h"
 
-#include "IndexerCommandCxx.h"
 #include "ApplicationSettings.h"
-#include "SourceGroupSettingsCxxSonargraph.h"
+#include "IndexerCommandCxx.h"
 #include "FileSystem.h"
+#include "logging.h"
 #include "SonargraphSoftwareSystem.h"
-#include "utilitySonargraph.h"
+#include "SourceGroupSettingsCxxSonargraph.h"
 #include "utility.h"
 #include "utilityFile.h"
+#include "utilitySonargraph.h"
 #include "utilityXml.h"
 
 namespace Sonargraph

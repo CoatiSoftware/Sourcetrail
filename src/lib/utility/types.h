@@ -5,6 +5,4 @@
 
 typedef size_t Id;
 
-typedef unsigned int uint;
-
 #endif // TYPES_H

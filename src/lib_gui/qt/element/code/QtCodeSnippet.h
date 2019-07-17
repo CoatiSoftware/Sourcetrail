@@ -32,8 +32,8 @@ public:
 	QtCodeFile* getFile() const;
 	QtCodeArea* getArea() const;
 
-	uint getStartLineNumber() const;
-	uint getEndLineNumber() const;
+	size_t getStartLineNumber() const;
+	size_t getEndLineNumber() const;
 
 	int lineNumberDigits() const;
 
@@ -44,11 +44,11 @@ public:
 
 	void setIsActiveFile(bool isActiveFile);
 
-	uint getLineNumberForLocationId(Id locationId) const;
-	std::pair<uint, uint> getLineNumbersForLocationId(Id locationId) const;
+	size_t getLineNumberForLocationId(Id locationId) const;
+	std::pair<size_t, size_t> getLineNumbersForLocationId(Id locationId) const;
 
 	Id getFirstActiveLocationId(Id tokenId) const;
-	QRectF getLineRectForLineNumber(uint lineNumber) const;
+	QRectF getLineRectForLineNumber(size_t lineNumber) const;
 
 	std::string getCode() const;
 

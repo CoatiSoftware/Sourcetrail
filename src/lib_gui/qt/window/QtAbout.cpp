@@ -8,7 +8,7 @@
 #include "QtDeviceScaledPixmap.h"
 #include "ResourcePaths.h"
 #include "SqliteIndexStorage.h"
-#include "utility.h"
+#include "utilityApp.h"
 #include "utilityQt.h"
 #include "Version.h"
 

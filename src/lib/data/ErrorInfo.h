@@ -21,8 +21,8 @@ struct ErrorInfo
 		Id id,
 		std::wstring message,
 		std::wstring filePath,
-		uint lineNumber,
-		uint columnNumber,
+		size_t lineNumber,
+		size_t columnNumber,
 		std::wstring translationUnit,
 		bool fatal,
 		bool indexed
@@ -42,8 +42,8 @@ struct ErrorInfo
 	std::wstring message;
 
 	std::wstring filePath;
-	uint lineNumber;
-	uint columnNumber;
+	size_t lineNumber;
+	size_t columnNumber;
 
 	std::wstring translationUnit;
 	bool fatal;

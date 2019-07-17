@@ -5,29 +5,16 @@
 #include <cstdarg>
 #include <deque>
 #include <functional>
+#include <map>
 #include <set>
-#include <time.h>
 #include <vector>
 #include <unordered_set>
 
-#include <boost/date_time/posix_time/posix_time.hpp>
-
-#include "ApplicationArchitectureType.h"
 #include "FilePath.h"
-#include "Vector2.h"
-#include "TimeStamp.h"
 #include "utilityString.h"
 
 namespace utility
 {
-	TimeStamp durationStart();
-	float duration(const TimeStamp& start);
-	float duration(std::function<void()> func);
-
-	std::string timeToString(const time_t time);
-	std::string timeToString(const boost::posix_time::ptime time);
-	std::string timeToString(float seconds);
-
 	template<typename T>
 	std::vector<std::vector<T>> splitToEqualySizedParts(const std::vector<T>& values, const size_t desiredPartCount);
 
@@ -74,13 +61,15 @@ namespace utility
 	std::vector<T> createVectorFromElements(const Args&... args);
 
 	template<typename SourceType, typename TargetType>
-	std::vector<TargetType> convert(const std::vector<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion);
+	std::vector<TargetType> convert(
+		const std::vector<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion);
 
 	template<typename SourceType, typename TargetType>
 	std::vector<TargetType> convert(const std::vector<SourceType>& sourceContainer);
 
 	template<typename SourceType, typename TargetType>
-	std::set<TargetType> convert(const std::set<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion);
+	std::set<TargetType> convert(
+		const std::set<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion);
 
 	template<typename SourceType, typename TargetType>
 	std::set<TargetType> convert(const std::set<SourceType>& sourceContainer);
@@ -134,13 +123,7 @@ namespace utility
 		return false;
 	}
 
-    ApplicationArchitectureType getApplicationArchitectureType();
-
-	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
-
 	size_t digits(size_t n);
-
-	int roundToInt(float n);
 }
 
 template<typename T>
@@ -286,7 +269,8 @@ std::vector<T> utility::createVectorFromElements(const Args&... args)
 }
 
 template<typename SourceType, typename TargetType>
-std::vector<TargetType> utility::convert(const std::vector<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion)
+std::vector<TargetType> utility::convert(
+	const std::vector<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion)
 {
 	std::vector<TargetType> targetContainer;
 	targetContainer.reserve(sourceContainer.size());
@@ -310,7 +294,8 @@ std::vector<TargetType> utility::convert(const std::vector<SourceType>& sourceCo
 }
 
 template<typename SourceType, typename TargetType>
-std::set<TargetType> utility::convert(const std::set<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion)
+std::set<TargetType> utility::convert(
+	const std::set<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion)
 {
 	std::set<TargetType> targetContainer;
 	for (const SourceType& sourceElement : sourceContainer)

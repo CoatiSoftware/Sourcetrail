@@ -48,7 +48,6 @@ public:
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted) override;
 
-	int confirm(const std::string& message, const std::vector<std::string>& options) override;
 	int confirm(const std::wstring& message, const std::vector<std::wstring>& options) override;
 
 	void setParentWindow(QtWindow* window);

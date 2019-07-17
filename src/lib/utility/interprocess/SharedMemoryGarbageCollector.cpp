@@ -4,7 +4,7 @@
 
 #include "logging.h"
 #include "TimeStamp.h"
-#include "utility.h"
+#include "utilityApp.h"
 
 std::string SharedMemoryGarbageCollector::s_memoryNamePrefix = "grbg_cllctr_";
 std::string SharedMemoryGarbageCollector::s_instancesKeyName = "running_instances";

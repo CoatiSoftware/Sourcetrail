@@ -14,7 +14,7 @@ struct StorageSourceLocationData
 		, type(0)
 	{}
 
-	StorageSourceLocationData(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
+	StorageSourceLocationData(Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
 		: fileNodeId(fileNodeId)
 		, startLine(startLine)
 		, startCol(startCol)
@@ -52,10 +52,10 @@ struct StorageSourceLocationData
 	}
 
 	Id fileNodeId;
-	uint startLine;
-	uint startCol;
-	uint endLine;
-	uint endCol;
+	size_t startLine;
+	size_t startCol;
+	size_t endLine;
+	size_t endCol;
 	int type;
 };
 
@@ -71,7 +71,7 @@ struct StorageSourceLocation: public StorageSourceLocationData
 		, id(id)
 	{}
 
-	StorageSourceLocation(Id id, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
+	StorageSourceLocation(Id id, Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
 		: StorageSourceLocationData(fileNodeId, startLine, startCol, endLine, endCol, type)
 		, id(id)
 	{}

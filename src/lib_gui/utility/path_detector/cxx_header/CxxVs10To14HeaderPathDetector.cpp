@@ -6,8 +6,9 @@
 #include <QSysInfo>
 
 #include "FilePath.h"
-#include "utilityCxxHeaderDetection.h"
+#include "logging.h"
 #include "utility.h"
+#include "utilityCxxHeaderDetection.h"
 
 CxxVs10To14HeaderPathDetector::CxxVs10To14HeaderPathDetector(VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture)
 	: PathDetector(visualStudioTypeToString(type) + (isExpress ? " Express" : "") + (architecture == APPLICATION_ARCHITECTURE_X86_64 ? " 64 Bit" : ""))

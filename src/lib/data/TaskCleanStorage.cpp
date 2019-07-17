@@ -4,7 +4,6 @@
 #include "PersistentStorage.h"
 #include "FilePath.h"
 #include "Blackboard.h"
-#include "utility.h"
 #include "Application.h"
 
 TaskCleanStorage::TaskCleanStorage(
@@ -22,7 +21,7 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 	m_dialogView->showUnknownProgressDialog(L"Clearing Files", std::to_wstring(m_filePaths.size()) + L" Files");
 
-	m_start = utility::durationStart();
+	m_start = TimeStamp::now();
 
 	if (!m_filePaths.empty() || m_clearAllErrors)
 	{
@@ -56,7 +55,7 @@ Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboar
 
 void TaskCleanStorage::doExit(std::shared_ptr<Blackboard> blackboard)
 {
-	blackboard->set("clear_time", utility::duration(m_start));
+	blackboard->set("clear_time", TimeStamp::durationSeconds(m_start));
 
 	m_dialogView->hideProgressDialog();
 }

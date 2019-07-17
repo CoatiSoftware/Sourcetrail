@@ -10,9 +10,10 @@
 #include <stack>
 #include <thread>
 
+#include "FilePath.h"
 #include "TimeStamp.h"
 #include "types.h"
-#include "utility.h"
+#include "utilityString.h"
 
 struct TraceEvent
 {
@@ -21,7 +22,7 @@ public:
 		: eventName("")
 		, id(0)
 		, depth(0)
-		, time(0.0f)
+		, time(0.0)
 	{
 	}
 
@@ -29,7 +30,7 @@ public:
 		: eventName(eventName)
 		, id(id)
 		, depth(depth)
-		, time(0.0f)
+		, time(0.0)
 	{
 	}
 
@@ -40,7 +41,7 @@ public:
 	std::string functionName;
 	std::string locationName;
 
-	float time;
+	double time;
 };
 
 
@@ -84,7 +85,7 @@ private:
 	{
 		TraceEvent event;
 		size_t count;
-		float time;
+		double time;
 	};
 
 	static std::shared_ptr<AccumulatingTracer> s_instance;
@@ -121,13 +122,13 @@ ScopedTrace<TracerType>::ScopedTrace(
 	m_event->functionName = functionName;
 	m_event->locationName = utility::encodeToUtf8(FilePath(fileName).fileName()) + ":" + std::to_string(lineNumber);
 
-	m_timeStamp = utility::durationStart();
+	m_timeStamp = TimeStamp::now();
 }
 
 template <typename TracerType>
 ScopedTrace<TracerType>::~ScopedTrace()
 {
-	m_event->time = utility::duration(m_timeStamp);
+	m_event->time = TimeStamp::durationSeconds(m_timeStamp);
 	TracerType::getInstance()->finishEvent(m_event);
 }
 

@@ -838,7 +838,7 @@ void QtCodeNavigator::scrollToSnippetIfRequested()
 }
 
 void QtCodeNavigator::requestScroll(
-	const FilePath& filePath, uint lineNumber, Id locationId, bool animated, QtCodeNavigateable::ScrollTarget target)
+	const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, QtCodeNavigateable::ScrollTarget target)
 {
 	ScrollRequest req;
 	req.filePath = filePath;

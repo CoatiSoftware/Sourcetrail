@@ -1,5 +1,7 @@
 #include "CommandlineCommandIndex.h"
 
+#include <iostream>
+
 #include "CommandlineHelper.h"
 #include "CommandLineParser.h"
 

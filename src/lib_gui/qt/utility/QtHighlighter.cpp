@@ -9,6 +9,7 @@
 
 #include "ColorScheme.h"
 #include "FileSystem.h"
+#include "logging.h"
 #include "ResourcePaths.h"
 #include "TextAccess.h"
 #include "tracing.h"

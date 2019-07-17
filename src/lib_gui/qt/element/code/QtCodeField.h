@@ -22,7 +22,7 @@ public:
 	static void clearAnnotationColors();
 
 	QtCodeField(
-		uint startLineNumber,
+		size_t startLineNumber,
 		const std::string& code,
 		std::shared_ptr<SourceLocationFile> locationFile,
 		bool convertLocationsOnDemand = true,
@@ -32,8 +32,8 @@ public:
 
 	virtual QSize sizeHint() const Q_DECL_OVERRIDE;
 
-	uint getStartLineNumber() const;
-	uint getEndLineNumber() const;
+	size_t getStartLineNumber() const;
+	size_t getEndLineNumber() const;
 
 	int totalLineHeight() const;
 
@@ -122,7 +122,7 @@ private:
 	void createMultibyteCharacterLocationCache(const QString& code);
 	int getColumnCorrectedForMultibyteCharacters(int line, int column) const;
 
-	const uint m_startLineNumber;
+	const size_t m_startLineNumber;
 	const std::string m_code;
 
 	std::shared_ptr<SourceLocationFile> m_locationFile;

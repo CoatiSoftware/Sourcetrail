@@ -2,16 +2,17 @@
 
 #include "tinyxml.h"
 
+#include "FileSystem.h"
 #include "IndexerCommandJava.h"
 #include "LanguageType.h"
-#include "SourceGroupSettingsJavaSonargraph.h"
-#include "FileSystem.h"
-#include "SonargraphSoftwareSystem.h"
+#include "logging.h"
 #include "SonargraphSourceRootPath.h"
+#include "SonargraphSoftwareSystem.h"
 #include "SonargraphXsdRootPath.h"
-#include "utilitySonargraph.h"
+#include "SourceGroupSettingsJavaSonargraph.h"
 #include "utility.h"
 #include "utilityFile.h"
+#include "utilitySonargraph.h"
 #include "utilityXml.h"
 
 namespace Sonargraph

@@ -1,5 +1,8 @@
 #include "utilityApp.h"
 
+#include <mutex>
+#include <set>
+
 #include <QProcess>
 #include <QSysInfo>
 #include <QThread>
@@ -280,4 +283,14 @@ std::string utility::getOsTypeString()
 			break;
 	}
 	return "unknown";
+}
+
+ApplicationArchitectureType utility::getApplicationArchitectureType()
+{
+#if defined(__x86_64) || defined(__x86_64__) || defined(__amd64) || defined(_M_X64) || defined(WIN64)
+    return APPLICATION_ARCHITECTURE_X86_64;
+#else
+    return APPLICATION_ARCHITECTURE_X86_32;
+#endif
+    return APPLICATION_ARCHITECTURE_UNKNOWN;
 }

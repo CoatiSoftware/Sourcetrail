@@ -32,7 +32,7 @@ public:
 	virtual void updateCodeSnippet(const CodeSnippetParams& params) = 0;
 
 	virtual void requestFileContent(const FilePath& filePath) = 0;
-	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target) = 0;
+	virtual bool requestScroll(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, ScrollTarget target) = 0;
 
 	virtual void updateFiles() = 0;
 	virtual void showContents() = 0;

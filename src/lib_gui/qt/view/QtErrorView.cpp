@@ -341,7 +341,7 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	m_model->item(rowNumber, Column::FILE)->setToolTip(QString::fromStdWString(error.filePath));
 
 	item = new QStandardItem();
-	item->setData(QVariant(error.lineNumber), Qt::DisplayRole);
+	item->setData(QVariant(qlonglong(error.lineNumber)), Qt::DisplayRole);
 	m_model->setItem(rowNumber, Column::LINE, item);
 
 	m_model->setItem(rowNumber, Column::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));

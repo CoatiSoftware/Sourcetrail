@@ -8,14 +8,15 @@
 #include <QTextCodec>
 #include <QTimer>
 
-#include "utilityQt.h"
 #include "ApplicationSettings.h"
+#include "logging.h"
 #include "FileSystem.h"
 #include "MessageSwitchColorScheme.h"
 #include "ResourcePaths.h"
-#include "utilityPathDetection.h"
-#include "utilityApp.h"
 #include "utility.h"
+#include "utilityApp.h"
+#include "utilityPathDetection.h"
+#include "utilityQt.h"
 
 QtProjectWizardContentPreferences::QtProjectWizardContentPreferences(
 	QtProjectWizardWindow* window

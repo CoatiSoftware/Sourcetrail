@@ -53,7 +53,7 @@ class QtCodeArea
 public:
 
 	QtCodeArea(
-		uint startLineNumber,
+		size_t startLineNumber,
 		const std::string& code,
 		std::shared_ptr<SourceLocationFile> locationFile,
 		QtCodeNavigator* navigator,
@@ -74,8 +74,8 @@ public:
 
 	void setIsActiveFile(bool isActiveFile);
 
-	uint getLineNumberForLocationId(Id locationId) const;
-	std::pair<uint, uint> getLineNumbersForLocationId(Id locationId) const;
+	size_t getLineNumberForLocationId(Id locationId) const;
+	std::pair<size_t, size_t> getLineNumbersForLocationId(Id locationId) const;
 
 	Id getLocationIdOfFirstActiveLocation(Id tokenId) const;
 	Id getLocationIdOfFirstActiveScopeLocation(Id tokenId) const;
@@ -85,7 +85,7 @@ public:
 
 	size_t getActiveLocationCount() const;
 
-	QRectF getLineRectForLineNumber(uint lineNumber) const;
+	QRectF getLineRectForLineNumber(size_t lineNumber) const;
 
 	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 	void clearScreenMatches();

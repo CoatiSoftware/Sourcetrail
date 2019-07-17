@@ -1,4 +1,4 @@
-#include  "component/controller/Controller.h"
+#include  "Controller.h"
 
 Controller::Controller()
 	: m_component(nullptr)

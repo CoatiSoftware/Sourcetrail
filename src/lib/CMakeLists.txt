@@ -2,6 +2,20 @@
 add_files(
 	LIB
 
+	app/paths/AppPath.cpp
+	app/paths/AppPath.h
+	app/paths/ResourcePaths.cpp
+	app/paths/ResourcePaths.h
+	app/paths/UserPaths.cpp
+	app/paths/UserPaths.h
+
+	app/Application.cpp
+	app/Application.h
+	app/LanguagePackage.h
+	app/LanguagePackageManager.cpp
+	app/LanguagePackageManager.h
+	app/UpdateChecker.h
+
 	component/controller/helper/BucketLayouter.cpp
 	component/controller/helper/BucketLayouter.h
 	component/controller/helper/DummyEdge.h
@@ -106,10 +120,6 @@ add_files(
 	component/Tab.h
 	component/TabId.cpp
 	component/TabId.h
-
-	data/access/StorageAccess.h
-	data/access/StorageAccessProxy.cpp
-	data/access/StorageAccessProxy.h
 
 	data/bookmark/Bookmark.cpp
 	data/bookmark/Bookmark.h
@@ -268,6 +278,9 @@ add_files(
 	data/storage/PersistentStorage.h
 	data/storage/Storage.cpp
 	data/storage/Storage.h
+	data/storage/StorageAccess.h
+	data/storage/StorageAccessProxy.cpp
+	data/storage/StorageAccessProxy.h
 	data/storage/StorageCache.cpp
 	data/storage/StorageCache.h
 	data/storage/StorageProvider.cpp
@@ -423,6 +436,8 @@ add_files(
 	utility/file/FileSystem.h
 	utility/file/FileTree.cpp
 	utility/file/FileTree.h
+	utility/file/utilityFile.cpp
+	utility/file/utilityFile.h
 
 	utility/interprocess/SharedMemory.cpp
 	utility/interprocess/SharedMemory.h
@@ -619,8 +634,6 @@ add_files(
 	utility/text/TextAccess.h
 
 	utility/ApplicationArchitectureType.h
-	utility/AppPath.cpp
-	utility/AppPath.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/LowMemoryStringMap.h
@@ -628,8 +641,6 @@ add_files(
 	utility/OrderedCache.h
 	utility/OsType.h
 	utility/Property.h
-	utility/ResourcePaths.cpp
-	utility/ResourcePaths.h
 	utility/ScopedFunctor.cpp
 	utility/ScopedFunctor.h
 	utility/ScopedSwitcher.h
@@ -641,26 +652,13 @@ add_files(
 	utility/Tree.h
 	utility/types.h
 	utility/UnorderedCache.h
-	utility/UserPaths.cpp
-	utility/UserPaths.h
 	utility/utility.cpp
 	utility/utility.h
-	utility/utilityFile.cpp
-	utility/utilityFile.h
 	utility/utilityLibrary.h
-	utility/utilityMath.cpp
-	utility/utilityMath.h
 	utility/utilityUuid.cpp
 	utility/utilityUuid.h
 	utility/utilityWindows.cpp
 	utility/utilityWindows.h
 	utility/utilityXml.cpp
 	utility/utilityXml.h
-
-	Application.cpp
-	Application.h
-	LanguagePackage.h
-	LanguagePackageManager.cpp
-	LanguagePackageManager.h
-	UpdateChecker.h
 )

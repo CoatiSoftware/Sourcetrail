@@ -75,7 +75,7 @@ void QtLineNumberArea::paintEvent(QPaintEvent *event)
 
 
 QtCodeArea::QtCodeArea(
-	uint startLineNumber,
+	size_t startLineNumber,
 	const std::string& code,
 	std::shared_ptr<SourceLocationFile> locationFile,
 	QtCodeNavigator* navigator,
@@ -319,7 +319,7 @@ void QtCodeArea::setIsActiveFile(bool isActiveFile)
 	m_isActiveFile = isActiveFile;
 }
 
-uint QtCodeArea::getLineNumberForLocationId(Id locationId) const
+size_t QtCodeArea::getLineNumberForLocationId(Id locationId) const
 {
 	for (const Annotation& annotation : m_annotations)
 	{
@@ -332,17 +332,17 @@ uint QtCodeArea::getLineNumberForLocationId(Id locationId) const
 	return 0;
 }
 
-std::pair<uint, uint> QtCodeArea::getLineNumbersForLocationId(Id locationId) const
+std::pair<size_t, size_t> QtCodeArea::getLineNumbersForLocationId(Id locationId) const
 {
 	for (const Annotation& annotation : m_annotations)
 	{
 		if (annotation.locationId == locationId)
 		{
-			return std::pair<uint, uint>(annotation.startLine, annotation.endLine);
+			return std::pair<size_t, size_t>(annotation.startLine, annotation.endLine);
 		}
 	}
 
-	return std::pair<uint, uint>(0, 0);
+	return std::pair<size_t, size_t>(0, 0);
 }
 
 Id QtCodeArea::getLocationIdOfFirstActiveLocation(Id tokenId) const
@@ -403,7 +403,7 @@ std::vector<Id> QtCodeArea::getLocationIdsForTokenIds(const std::set<Id>& tokenI
 
 size_t QtCodeArea::getActiveLocationCount() const
 {
-	uint count = 0;
+	size_t count = 0;
 
 	for (const Annotation& annotation : m_annotations)
 	{
@@ -428,7 +428,7 @@ size_t QtCodeArea::getActiveLocationCount() const
 	return count;
 }
 
-QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
+QRectF QtCodeArea::getLineRectForLineNumber(size_t lineNumber) const
 {
 	if (lineNumber < getStartLineNumber())
 	{
@@ -680,7 +680,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		QScrollBar* scrollbar = horizontalScrollBar();
 		int visibleContentWidth = width() - lineNumberAreaWidth();
 		float deltaPosRatio = float(deltaX) / (visibleContentWidth);
-		scrollbar->setValue(scrollbar->value() - utility::roundToInt(deltaPosRatio * scrollbar->pageStep()));
+		scrollbar->setValue(scrollbar->value() - std::round(deltaPosRatio * scrollbar->pageStep()));
 	}
 
 	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());

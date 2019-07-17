@@ -40,7 +40,7 @@ QtCodeSnippet* QtCodeSnippet::merged(
 
 	std::string secondCode = second->getCode();
 	int secondCodeStartIndex = 0;
-	for (uint i = second->getStartLineNumber(); i <= first->getEndLineNumber(); i++)
+	for (size_t i = second->getStartLineNumber(); i <= first->getEndLineNumber(); i++)
 	{
 		secondCodeStartIndex = secondCode.find("\n", secondCodeStartIndex) + 1;
 	}
@@ -124,12 +124,12 @@ QtCodeArea* QtCodeSnippet::getArea() const
 	return m_codeArea;
 }
 
-uint QtCodeSnippet::getStartLineNumber() const
+size_t QtCodeSnippet::getStartLineNumber() const
 {
 	return m_codeArea->getStartLineNumber();
 }
 
-uint QtCodeSnippet::getEndLineNumber() const
+size_t QtCodeSnippet::getEndLineNumber() const
 {
 	return m_codeArea->getEndLineNumber();
 }
@@ -163,12 +163,12 @@ void QtCodeSnippet::setIsActiveFile(bool isActiveFile)
 	m_codeArea->setIsActiveFile(isActiveFile);
 }
 
-uint QtCodeSnippet::getLineNumberForLocationId(Id locationId) const
+size_t QtCodeSnippet::getLineNumberForLocationId(Id locationId) const
 {
 	return m_codeArea->getLineNumberForLocationId(locationId);
 }
 
-std::pair<uint, uint> QtCodeSnippet::getLineNumbersForLocationId(Id locationId) const
+std::pair<size_t, size_t> QtCodeSnippet::getLineNumbersForLocationId(Id locationId) const
 {
 	return m_codeArea->getLineNumbersForLocationId(locationId);
 }
@@ -184,7 +184,7 @@ Id QtCodeSnippet::getFirstActiveLocationId(Id tokenId) const
 	return m_codeArea->getLocationIdOfFirstActiveLocation(tokenId);
 }
 
-QRectF QtCodeSnippet::getLineRectForLineNumber(uint lineNumber) const
+QRectF QtCodeSnippet::getLineRectForLineNumber(size_t lineNumber) const
 {
 	return m_codeArea->getLineRectForLineNumber(lineNumber);
 }

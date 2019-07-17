@@ -65,8 +65,8 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 
 		Id fileId = 0;
 		FilePath filePath;
-		uint lineNumber = 0;
-		uint columnNumber = 0;
+		size_t lineNumber = 0;
+		size_t columnNumber = 0;
 		if (info.getLocation().isValid() && info.hasSourceManager())
 		{
 			const clang::SourceManager& sourceManager = info.getSourceManager();

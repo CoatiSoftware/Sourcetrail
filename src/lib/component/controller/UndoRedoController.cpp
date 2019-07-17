@@ -515,9 +515,7 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 		Project* project = Application::getInstance()->getCurrentProject().get();
 		if (project && project->isIndexing())
 		{
-			Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
-				"Errors cannot be activated while indexing."
-			);
+			Application::getInstance()->handleDialog(L"Errors cannot be activated while indexing.");
 
 			ErrorFilter filter;
 			filter.error = false;

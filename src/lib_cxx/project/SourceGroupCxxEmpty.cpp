@@ -9,6 +9,7 @@
 #include "FileSystem.h"
 #include "GeneratePCHAction.h"
 #include "IndexerCommandCxx.h"
+#include "logging.h"
 #include "SingleFrontendActionFactory.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"

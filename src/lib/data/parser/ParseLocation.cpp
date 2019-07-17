@@ -11,8 +11,8 @@ ParseLocation::ParseLocation()
 
 ParseLocation::ParseLocation(
 	Id fileId,
-	uint lineNumber,
-	uint columnNumber
+	size_t lineNumber,
+	size_t columnNumber
 )
 	: fileId(fileId)
 	, startLineNumber(lineNumber)
@@ -24,8 +24,8 @@ ParseLocation::ParseLocation(
 
 ParseLocation::ParseLocation(
 	Id fileId,
-	uint startLineNumber, uint startColumnNumber,
-	uint endLineNumber, uint endColumnNumber
+	size_t startLineNumber, size_t startColumnNumber,
+	size_t endLineNumber, size_t endColumnNumber
 )
 	: fileId(fileId)
 	, startLineNumber(startLineNumber)

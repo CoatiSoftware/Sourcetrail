@@ -38,7 +38,7 @@ public:
 	void updateCodeSnippet(const CodeSnippetParams& params) override;
 
 	void requestFileContent(const FilePath& filePath) override;
-	bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target) override;
+	bool requestScroll(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, ScrollTarget target) override;
 
 	void updateFiles() override;
 	void showContents() override;

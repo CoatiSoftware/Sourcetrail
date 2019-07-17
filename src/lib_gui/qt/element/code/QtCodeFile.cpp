@@ -126,8 +126,8 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 	size_t i = 0;
 	while (i < m_snippets.size())
 	{
-		uint start = newSnippet->getStartLineNumber();
-		uint end = newSnippet->getEndLineNumber();
+		size_t start = newSnippet->getStartLineNumber();
+		size_t end = newSnippet->getEndLineNumber();
 
 		QtCodeSnippet* oldSnippet = m_snippets[i];
 
@@ -434,7 +434,7 @@ void QtCodeFile::clickedSnippetButton()
 
 void QtCodeFile::clickedMaximizeButton()
 {
-	uint lineNumber = 0;
+	size_t lineNumber = 0;
 	Id locationId = 0;
 
 	std::pair<QtCodeSnippet*, Id> snippet = getFirstSnippetWithActiveLocationId(0);

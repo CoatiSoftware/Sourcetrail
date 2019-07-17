@@ -2,19 +2,20 @@
 
 #include <memory>
 
-#include "StorageAccess.h"
-#include "SourceLocation.h"
-#include "SourceLocationCollection.h"
-#include "SourceLocationFile.h"
+#include "Application.h"
 #include "ApplicationSettings.h"
 #include "FileInfo.h"
 #include "logging.h"
 #include "MessageMoveIDECursor.h"
 #include "MessageStatus.h"
+#include "StorageAccess.h"
+#include "SourceLocation.h"
+#include "SourceLocationCollection.h"
+#include "SourceLocationFile.h"
 #include "TextAccess.h"
 #include "tracing.h"
+#include "utility.h"
 #include "utilityString.h"
-#include "Application.h"
 
 CodeController::CodeController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -25,8 +26,6 @@ Id CodeController::getSchedulerId() const
 {
 	return Controller::getTabId();
 }
-
-const uint CodeController::s_lineRadius = 2;
 
 void CodeController::handleMessage(MessageActivateAll* message)
 {

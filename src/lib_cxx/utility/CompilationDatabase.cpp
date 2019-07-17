@@ -4,9 +4,11 @@
 
 #include <clang/Tooling/JSONCompilationDatabase.h>
 #include <clang/Tooling/CompilationDatabase.h>
+
 #include "FilePath.h"
-#include "utilityString.h"
+#include "logging.h"
 #include "utility.h"
+#include "utilityString.h"
 
 utility::CompilationDatabase::CompilationDatabase(const FilePath& filePath)
 	: m_filePath(filePath)

@@ -39,7 +39,7 @@ TaskExecuteCustomCommands::TaskExecuteCustomCommands(
 void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 	m_dialogView->hideUnknownProgressDialog();
-	m_start = utility::durationStart();
+	m_start = TimeStamp::now();
 
 	if (m_indexerCommandProvider)
 	{
@@ -134,7 +134,7 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 void TaskExecuteCustomCommands::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 	m_storage.reset();
-	const float duration = utility::duration(m_start);
+	const float duration = TimeStamp::durationSeconds(m_start);
 	blackboard->update<float>("index_time", [duration](float currentDuration) { return currentDuration + duration; });
 }
 

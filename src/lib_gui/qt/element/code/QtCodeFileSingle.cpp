@@ -153,7 +153,7 @@ void QtCodeFileSingle::requestFileContent(const FilePath& filePath)
 }
 
 bool QtCodeFileSingle::requestScroll(
-	const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target)
+	const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, ScrollTarget target)
 {
 	FileData file = getFileData(filePath);
 	if (file.area)
@@ -171,12 +171,12 @@ bool QtCodeFileSingle::requestScroll(
 		animated = false;
 	}
 
-	uint endLineNumber = 0;
+	size_t endLineNumber = 0;
 	if (!lineNumber)
 	{
 		if (locationId)
 		{
-			std::pair<uint, uint> lineNumbers = m_area->getLineNumbersForLocationId(locationId);
+			std::pair<size_t, size_t> lineNumbers = m_area->getLineNumbersForLocationId(locationId);
 
 			lineNumber = lineNumbers.first;
 

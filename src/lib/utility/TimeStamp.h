@@ -8,6 +8,9 @@ class TimeStamp
 public:
 	static TimeStamp now();
 
+	static double durationSeconds(const TimeStamp& start);
+	static std::string secondsToString(double seconds);
+
 	TimeStamp();
 	TimeStamp(boost::posix_time::ptime t);
 	TimeStamp(std::string s);

@@ -329,45 +329,6 @@ DatabasePolicy QtDialogView::finishedIndexingDialog(
 	return policy;
 }
 
-int QtDialogView::confirm(const std::string& message, const std::vector<std::string>& options)
-{
-	int result = -1;
-	m_resultReady = false;
-
-	m_onQtThread2(
-		[=, &result]()
-		{
-			QMessageBox msgBox;
-			msgBox.setText(QString::fromStdString(message));
-
-			for (const std::string& option : options)
-			{
-				msgBox.addButton(QString::fromStdString(option), QMessageBox::AcceptRole);
-			}
-
-			msgBox.exec();
-
-			for (int i = 0; i < msgBox.buttons().size(); i++)
-			{
-				if (msgBox.clickedButton() == msgBox.buttons().at(i))
-				{
-					result = i;
-					break;
-				}
-			}
-
-			m_resultReady = true;
-		}
-	);
-
-	while (!m_resultReady)
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(25));
-	}
-
-	return result;
-}
-
 int QtDialogView::confirm(const std::wstring& message, const std::vector<std::wstring>& options)
 {
 	int result = -1;

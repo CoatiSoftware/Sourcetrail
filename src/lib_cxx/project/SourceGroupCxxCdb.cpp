@@ -2,13 +2,15 @@
 
 #include <clang/Tooling/Tooling.h>
 #include <clang/Tooling/JSONCompilationDatabase.h>
+
+#include "Application.h"
+#include "ApplicationSettings.h"
 #include "CxxIndexerCommandProvider.h"
 #include "IndexerCommandCxx.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "ApplicationSettings.h"
+#include "logging.h"
 #include "MessageStatus.h"
+#include "SourceGroupSettingsCxxCdb.h"
 #include "utility.h"
-#include "Application.h"
 
 SourceGroupCxxCdb::SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings)
 	: m_settings(settings)

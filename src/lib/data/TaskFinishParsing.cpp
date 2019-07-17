@@ -1,15 +1,13 @@
 #include "TaskFinishParsing.h"
 
+#include "Blackboard.h"
 #include "DialogView.h"
-#include "PersistentStorage.h"
 #include "MessageIndexingFinished.h"
 #include "MessageIndexingStatus.h"
-#include "MessageQuitApplication.h"
 #include "MessageStatus.h"
-#include "Blackboard.h"
-#include "utility.h"
+#include "PersistentStorage.h"
+#include "TimeStamp.h"
 #include "utilityString.h"
-#include "Application.h"
 
 TaskFinishParsing::TaskFinishParsing(std::shared_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)
 	: m_storage(storage)
@@ -32,13 +30,13 @@ void TaskFinishParsing::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	TimeStamp start = utility::durationStart();
+	TimeStamp start = TimeStamp::now();
 
 	m_dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Optimizing database");
 	m_storage->optimizeMemory();
 	m_dialogView->hideUnknownProgressDialog();
 
-	float time = utility::duration(start);
+	float time = TimeStamp::durationSeconds(start);
 
 	if (blackboard->exists("clear_time"))
 	{
@@ -68,7 +66,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	std::wstring status;
 	status += L"Finished indexing: ";
 	status += std::to_wstring(indexedSourceFileCount) + L"/" + std::to_wstring(sourceFileCount) + L" source files indexed; ";
-	status += utility::decodeFromUtf8(utility::timeToString(time));
+	status += utility::decodeFromUtf8(TimeStamp::secondsToString(time));
 	status += L"; " + std::to_wstring(errorInfo.total) + L" error" + (errorInfo.total != 1 ? L"s" : L"");
 	if (errorInfo.fatal > 0)
 	{

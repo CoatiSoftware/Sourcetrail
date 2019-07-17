@@ -165,16 +165,6 @@ bool Application::hasGUI()
 	return m_hasGUI;
 }
 
-int Application::handleDialog(const std::string& message)
-{
-	return getDialogView(DialogView::UseCase::GENERAL)->confirm(message);
-}
-
-int Application::handleDialog(const std::string& message, const std::vector<std::string>& options)
-{
-	return getDialogView(DialogView::UseCase::GENERAL)->confirm(message, options);
-}
-
 int Application::handleDialog(const std::wstring& message)
 {
 	return getDialogView(DialogView::UseCase::GENERAL)->confirm(message);

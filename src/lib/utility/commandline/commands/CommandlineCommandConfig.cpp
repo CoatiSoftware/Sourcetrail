@@ -1,13 +1,14 @@
 #include "CommandlineCommandConfig.h"
 
 #include <functional>
+#include <iostream>
 #include <utility>
 
+#include "ApplicationSettings.h"
 #include "CommandlineHelper.h"
 #include "CommandLineParser.h"
 #include "FilePath.h"
-
-#include "ApplicationSettings.h"
+#include "logging.h"
 
 namespace commandline {
 

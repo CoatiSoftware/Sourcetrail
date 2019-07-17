@@ -4,7 +4,7 @@
 #include <QSysInfo>
 
 #include "FilePath.h"
-#include "utility.h"
+#include "utilityApp.h"
 
 JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion)
 	: JavaPathDetector("Java " + javaVersion + " for Windows", javaVersion)

@@ -5,14 +5,17 @@
 
 #include "IndexerCommandProvider.h"
 
-class CombinedIndexerCommandProvider : public IndexerCommandProvider
+class CombinedIndexerCommandProvider
+	: public IndexerCommandProvider
 {
 public:
 	void addProvider(std::shared_ptr<IndexerCommandProvider> provider);
+
 	std::vector<FilePath> getAllSourceFilePaths() const override;
 	std::shared_ptr<IndexerCommand> consumeCommand() override;
 	std::shared_ptr<IndexerCommand> consumeCommandForSourceFilePath(const FilePath& filePath) override;
 	std::vector<std::shared_ptr<IndexerCommand>> consumeAllCommands() override;
+
 	void clear() override;
 	size_t size() const override;
 

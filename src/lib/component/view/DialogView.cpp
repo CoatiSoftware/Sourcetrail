@@ -64,16 +64,6 @@ DatabasePolicy DialogView::finishedIndexingDialog(
 	return DATABASE_POLICY_KEEP; // used in non-gui mode
 }
 
-int DialogView::confirm(const std::string& message)
-{
-	return confirm(message, std::vector<std::string>());
-}
-
-int DialogView::confirm(const std::string& message, const std::vector<std::string>& options)
-{
-	return -1;
-}
-
 int DialogView::confirm(const std::wstring& message)
 {
 	return confirm(message, std::vector<std::wstring>());

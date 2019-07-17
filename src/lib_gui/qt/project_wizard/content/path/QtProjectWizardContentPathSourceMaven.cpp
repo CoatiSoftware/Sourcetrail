@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "ApplicationSettings.h"
+#include "logging.h"
 #include "MessageStatus.h"
 #include "QtDialogView.h"
 #include "ScopedFunctor.h"

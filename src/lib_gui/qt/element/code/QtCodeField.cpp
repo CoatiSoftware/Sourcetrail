@@ -28,7 +28,7 @@ void QtCodeField::clearAnnotationColors()
 }
 
 QtCodeField::QtCodeField(
-	uint startLineNumber,
+	size_t startLineNumber,
 	const std::string& code,
 	std::shared_ptr<SourceLocationFile> locationFile,
 	bool convertLocationsOnDemand,
@@ -128,12 +128,12 @@ QSize QtCodeField::sizeHint() const
 	return QSize(width + 1, height + 5);
 }
 
-uint QtCodeField::getStartLineNumber() const
+size_t QtCodeField::getStartLineNumber() const
 {
 	return m_startLineNumber;
 }
 
-uint QtCodeField::getEndLineNumber() const
+size_t QtCodeField::getEndLineNumber() const
 {
 	return m_startLineNumber + blockCount() - 1;
 }
@@ -382,7 +382,7 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 	m_locationFile = locationFile;
 	m_annotations.clear();
 
-	uint endLineNumber = getEndLineNumber();
+	size_t endLineNumber = getEndLineNumber();
 	std::set<Id> locationIds;
 
 	locationFile->forEachSourceLocation(

@@ -11,6 +11,7 @@
 #include "ParserClientImpl.h"
 #include "TestIntermediateStorage.h"
 #include "TextAccess.h"
+#include "TimeStamp.h"
 #include "utility.h"
 #include "utilityString.h"
 

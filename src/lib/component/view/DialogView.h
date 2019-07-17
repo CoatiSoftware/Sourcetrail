@@ -55,8 +55,6 @@ public:
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted);
 
-	int confirm(const std::string& message);
-	virtual int confirm(const std::string& message, const std::vector<std::string>& options);
 	int confirm(const std::wstring& message);
 	virtual int confirm(const std::wstring& message, const std::vector<std::wstring>& options);
 

@@ -16,8 +16,8 @@ struct CodeSnippetParams
 	static bool sort(const CodeSnippetParams& a, const CodeSnippetParams& b);
 	static bool sortById(const CodeSnippetParams& a, const CodeSnippetParams& b);
 
-	uint startLineNumber;
-	uint endLineNumber;
+	size_t startLineNumber;
+	size_t endLineNumber;
 
 	std::wstring title;
 	std::wstring footer;

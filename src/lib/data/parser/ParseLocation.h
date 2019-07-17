@@ -20,22 +20,22 @@ struct ParseLocation
 	ParseLocation();
 	ParseLocation(
 		Id fileId,
-		uint lineNumber,
-		uint columnNumber
+		size_t lineNumber,
+		size_t columnNumber
 	);
 	ParseLocation(
 		Id fileId,
-		uint startLineNumber, uint startColumnNumber,
-		uint endLineNumber, uint endColumnNumber
+		size_t startLineNumber, size_t startColumnNumber,
+		size_t endLineNumber, size_t endColumnNumber
 	);
 
 	bool isValid() const;
 
 	Id fileId;
-	uint startLineNumber;
-	uint startColumnNumber;
-	uint endLineNumber;
-	uint endColumnNumber;
+	size_t startLineNumber;
+	size_t startColumnNumber;
+	size_t endLineNumber;
+	size_t endColumnNumber;
 };
 
 #endif // PARSE_LOCATION_H

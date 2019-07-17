@@ -63,8 +63,6 @@ public:
 	Id getSchedulerId() const override;
 
 private:
-	static const uint s_lineRadius;
-
 	void handleMessage(MessageActivateAll* message) override;
 	void handleMessage(MessageActivateErrors* message) override;
 	void handleMessage(MessageActivateFullTextSearch* message) override;

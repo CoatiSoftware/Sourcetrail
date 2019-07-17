@@ -158,7 +158,7 @@ void QtCodeFileList::requestFileContent(const FilePath& filePath)
 	getFile(filePath)->requestContent();
 }
 
-bool QtCodeFileList::requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target)
+bool QtCodeFileList::requestScroll(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, ScrollTarget target)
 {
 	QtCodeFile* file = getFile(filePath);
 	if (!file)
@@ -199,12 +199,12 @@ bool QtCodeFileList::requestScroll(const FilePath& filePath, uint lineNumber, Id
 		return true;
 	}
 
-	uint endLineNumber = 0;
+	size_t endLineNumber = 0;
 	if (!lineNumber)
 	{
 		if (locationId)
 		{
-			std::pair<uint, uint> lineNumbers = snippet->getLineNumbersForLocationId(locationId);
+			std::pair<size_t, size_t> lineNumbers = snippet->getLineNumbersForLocationId(locationId);
 
 			lineNumber = lineNumbers.first;
 

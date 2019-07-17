@@ -5,6 +5,45 @@ TimeStamp TimeStamp::now()
 	return TimeStamp(boost::posix_time::microsec_clock::local_time());
 }
 
+double TimeStamp::durationSeconds(const TimeStamp& start)
+{
+	return double(TimeStamp::now().deltaMS(start)) / 1000.0;
+}
+
+std::string TimeStamp::secondsToString(double secs)
+{
+	std::stringstream ss;
+
+	int hours = int(secs / 3600);
+	secs -= hours * 3600;
+
+	int minutes = int(secs / 60);
+	secs -= minutes * 60;
+
+	int seconds = int(secs);
+	secs -= seconds;
+
+	int milliSeconds = secs * 1000;
+
+	if (hours > 9)
+	{
+		ss << hours;
+	}
+	else
+	{
+		ss << std::setw(2) << std::setfill('0') << hours;
+	}
+	ss << ":" << std::setw(2) << std::setfill('0') << minutes;
+	ss << ":" << std::setw(2) << std::setfill('0') << seconds;
+
+	if (!hours && !minutes)
+	{
+		ss << ":" << std::setw(3) << std::setfill('0') << milliSeconds;
+	}
+
+	return ss.str();
+}
+
 TimeStamp::TimeStamp()
 	: m_time(boost::posix_time::not_a_date_time)
 {

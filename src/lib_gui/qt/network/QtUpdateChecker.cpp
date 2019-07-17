@@ -8,9 +8,10 @@
 
 #include "ApplicationSettings.h"
 #include "LicenseChecker.h"
+#include "logging.h"
 #include "MessageStatus.h"
 #include "QtRequest.h"
-#include "utility.h"
+#include "TimeStamp.h"
 #include "utilityApp.h"
 #include "utilityUuid.h"
 #include "Version.h"

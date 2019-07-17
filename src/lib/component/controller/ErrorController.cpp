@@ -127,8 +127,8 @@ void ErrorController::handleMessage(MessageErrorsForFile* message)
 	Project* project = Application::getInstance()->getCurrentProject().get();
 	if (project && project->isIndexing())
 	{
-		Application::getInstance()->getDialogView(DialogView::UseCase::GENERAL)->confirm(
-			"Showing errors for a file is not possible while indexing."
+		Application::getInstance()->handleDialog(
+			L"Showing errors for a file is not possible while indexing."
 		);
 		return;
 	}

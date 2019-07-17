@@ -244,11 +244,11 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	if (graph->getNodeCount() > 1000)
 	{
 		int r = Application::getInstance()->handleDialog(
-			"Warning!\n\nThe resulting depth graph will contain " + std::to_string(graph->getNodeCount()) + " nodes. "
-			"Layouting and drawing might take a while and the resulting graph diagram could be unclear. Please "
-			"consider reducing graph depth with the slider on the left.\n\n"
-			"Do you want to proceed?",
-			{"Yes", "No"}
+			L"Warning!\n\nThe resulting depth graph will contain " + std::to_wstring(graph->getNodeCount()) + " nodes. "
+			L"Layouting and drawing might take a while and the resulting graph diagram could be unclear. Please "
+			L"consider reducing graph depth with the slider on the left.\n\n"
+			L"Do you want to proceed?",
+			{ L"Yes", L"No" }
 		);
 
 		if (r == 1)

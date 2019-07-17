@@ -2,7 +2,6 @@
 
 #include "NodeType.h"
 #include "utility.h"
-#include "utilityMath.h"
 
 NodeTypeSet NodeTypeSet::all()
 {

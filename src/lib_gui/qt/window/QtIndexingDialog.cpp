@@ -5,13 +5,13 @@
 #include <QRadioButton>
 #include <QPushButton>
 
-#include "utilityQt.h"
-#include "QtHelpButton.h"
-#include "QtProgressBar.h"
 #include "MessageErrorsHelpMessage.h"
 #include "MessageIndexingInterrupted.h"
+#include "QtHelpButton.h"
+#include "QtProgressBar.h"
 #include "ResourcePaths.h"
-#include "utility.h"
+#include "TimeStamp.h"
+#include "utilityQt.h"
 
 QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	: QtWindow(true, parent)
@@ -206,7 +206,7 @@ void QtIndexingDialog::setupReport(
 	);
 
 	layout->addSpacing(12);
-	createMessageLabel(layout)->setText("Time:   " + QString::fromStdString(utility::timeToString(time)));
+	createMessageLabel(layout)->setText("Time:   " + QString::fromStdString(TimeStamp::secondsToString(time)));
 
 	layout->addSpacing(12);
 	addErrorWidget(layout);
