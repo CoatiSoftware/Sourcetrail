@@ -190,6 +190,11 @@ bool CxxAstVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
 		return true;
 	}
 
+	if (d->isLambda())
+	{
+		return TraverseFunctionDecl(d->getLambdaCallOperator());
+	}
+
 	WalkUpFromCXXRecordDecl(d);
 
 	TraverseNestedNameSpecifierLoc(d->getQualifierLoc());
