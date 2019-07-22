@@ -2,6 +2,8 @@
 
 #include <QMouseEvent>
 
+#include "Application.h"
+#include "ApplicationSettings.h"
 #include "FileSystem.h"
 #include "MessageActivateFile.h"
 #include "MessageProjectEdit.h"
@@ -34,10 +36,6 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	m_openInTabAction->setToolTip("Opens the file in a new tab");
 	m_openInTabAction->setEnabled(false);
 	connect(m_openInTabAction, &QAction::triggered, this, &QtCodeFileTitleButton::openInTab);
-}
-
-QtCodeFileTitleButton::~QtCodeFileTitleButton()
-{
 }
 
 const FilePath& QtCodeFileTitleButton::getFilePath() const
@@ -135,6 +133,28 @@ void QtCodeFileTitleButton::updateTexts()
 		toolTip = L"out-of-date " + toolTip;
 	}
 
+	if (ApplicationSettings::getInstance()->getShowDirectoryInCodeFileTitle())
+	{
+		setAutoElide(true);
+
+		FilePath directoryPath = m_filePath.getParentDirectory();
+		std::wstring directory = directoryPath.wstr();
+
+		FilePath projectPath = Application::getInstance()->getCurrentProjectPath();
+		std::wstring directoryRelative = directoryPath.getRelativeTo(projectPath).wstr();
+
+		if (directoryRelative.size() < directory.size())
+		{
+			directory = directoryRelative;
+		}
+
+		title = directory + L" - " + title;
+	}
+	else
+	{
+		setAutoElide(false);
+	}
+
 	setText(QString::fromStdWString(title));
 	setToolTip(QString::fromStdWString(toolTip));
 }
@@ -172,13 +192,11 @@ void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 	FilePath path = m_filePath;
 	if (path.empty())
 	{
-		Project* currentProject = Application::getInstance()->getCurrentProject().get();
-		if (!currentProject)
+		path = Application::getInstance()->getCurrentProjectPath();
+		if (path.empty())
 		{
 			return;
 		}
-
-		path = currentProject->getProjectSettingsFilePath();
 	}
 
 	m_openInTabAction->setEnabled(!m_filePath.empty());

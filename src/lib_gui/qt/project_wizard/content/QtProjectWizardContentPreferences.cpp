@@ -103,6 +103,10 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_showBuiltinTypes = addCheckBox("Built-in Types", "Show built-in types in graph when referenced",
 		"<p>Enable display of referenced built-in types in the graph view.</p>", layout, row);
 
+	// directory in code
+	m_showDirectoryInCode = addCheckBox("Directory in File Title", "Show directory of file in code title",
+		"<p>Enable display of the parent directory of a code file relative to the project file.</p>", layout, row);
+
 	addGap(layout, row);
 
 
@@ -419,6 +423,7 @@ void QtProjectWizardContentPreferences::load()
 
 	m_useAnimations->setChecked(appSettings->getUseAnimations());
 	m_showBuiltinTypes->setChecked(appSettings->getShowBuiltinTypesInGraph());
+	m_showDirectoryInCode->setChecked(appSettings->getShowDirectoryInCodeFileTitle());
 
 	if (m_screenAutoScaling)
 	{
@@ -481,6 +486,7 @@ void QtProjectWizardContentPreferences::save()
 
 	appSettings->setUseAnimations(m_useAnimations->isChecked());
 	appSettings->setShowBuiltinTypesInGraph(m_showBuiltinTypes->isChecked());
+	appSettings->setShowDirectoryInCodeFileTitle(m_showDirectoryInCode->isChecked());
 
 	if (m_screenAutoScaling)
 	{

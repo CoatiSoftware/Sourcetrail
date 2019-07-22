@@ -146,9 +146,19 @@ Application::~Application()
 	}
 }
 
-const std::shared_ptr<Project> Application::getCurrentProject()
+const std::shared_ptr<Project> Application::getCurrentProject() const
 {
 	return m_project;
+}
+
+FilePath Application::getCurrentProjectPath() const
+{
+	if (m_project)
+	{
+		return m_project->getProjectSettingsFilePath();
+	}
+
+	return FilePath();
 }
 
 bool Application::isProjectLoaded() const

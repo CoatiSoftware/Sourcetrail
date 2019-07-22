@@ -54,6 +54,9 @@ public:
 	bool getShowBuiltinTypesInGraph() const;
 	void setShowBuiltinTypesInGraph(bool showBuiltinTypes);
 
+	bool getShowDirectoryInCodeFileTitle() const;
+	void setShowDirectoryInCodeFileTitle(bool showDirectory);
+
 	int getWindowBaseWidth() const;
 	int getWindowBaseHeight() const;
 

@@ -12,7 +12,7 @@ class QtCodeFileTitleButton
 
 public:
 	QtCodeFileTitleButton(QWidget* parent = nullptr);
-	virtual ~QtCodeFileTitleButton();
+	virtual ~QtCodeFileTitleButton() = default;
 
 	const FilePath& getFilePath() const;
 	void setFilePath(const FilePath& filePath);

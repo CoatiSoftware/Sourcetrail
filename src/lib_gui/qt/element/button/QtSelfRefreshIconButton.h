@@ -2,6 +2,7 @@
 #define QT_SELF_REFRESH_ICON_BUTTON_H
 
 #include <QPushButton>
+#include <QTimer>
 
 #include "FilePath.h"
 #include "MessageListener.h"
@@ -17,18 +18,29 @@ public:
 		const QString& text, const FilePath& iconPath, const std::string& buttonKey, QWidget* parent = nullptr);
 	~QtSelfRefreshIconButton() = default;
 
+	void setText(const QString& text);
 	void setIconPath(const FilePath& iconPath);
+
+	void setAutoElide(bool autoElide);
 
 protected:
 	void handleMessage(MessageRefreshUI* message) override;
 
 	virtual void refresh();
 
+	void resizeEvent(QResizeEvent *event) override;
+
 private:
+	void updateText(int width);
+
 	QtThreadedLambdaFunctor m_onQtThread;
 
+	QString m_text;
 	FilePath m_iconPath;
 	const std::string m_buttonKey;
+
+	bool m_autoElide = false;
+	QTimer m_timer;
 };
 
 #endif // QT_SELF_REFRESH_ICON_BUTTON_H

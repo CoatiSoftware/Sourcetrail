@@ -48,7 +48,8 @@ public:
 
 	~Application();
 
-	const std::shared_ptr<Project> getCurrentProject();
+	const std::shared_ptr<Project> getCurrentProject() const;
+	FilePath getCurrentProjectPath() const;
 	bool isProjectLoaded() const;
 
 	bool hasGUI();

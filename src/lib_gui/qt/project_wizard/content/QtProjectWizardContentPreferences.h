@@ -91,6 +91,7 @@ private:
 
 	QCheckBox* m_useAnimations;
 	QCheckBox* m_showBuiltinTypes;
+	QCheckBox* m_showDirectoryInCode;
 
 	QComboBox* m_screenAutoScaling;
 	QLabel* m_screenAutoScalingInfoLabel;

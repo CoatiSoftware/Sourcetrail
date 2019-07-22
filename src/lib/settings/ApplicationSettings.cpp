@@ -182,6 +182,16 @@ void ApplicationSettings::setShowBuiltinTypesInGraph(bool showBuiltinTypes)
 	setValue<bool>("application/builtin_types_in_graph", showBuiltinTypes);
 }
 
+bool ApplicationSettings::getShowDirectoryInCodeFileTitle() const
+{
+	return getValue<bool>("application/directory_in_code_title", false);
+}
+
+void ApplicationSettings::setShowDirectoryInCodeFileTitle(bool showDirectory)
+{
+	setValue<bool>("application/directory_in_code_title", showDirectory);
+}
+
 std::wstring ApplicationSettings::getColorSchemeName() const
 {
 	return getValue<std::wstring>("application/color_scheme", L"bright");
