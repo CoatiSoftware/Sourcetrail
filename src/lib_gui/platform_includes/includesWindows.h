@@ -10,9 +10,11 @@
 #include "FileSystem.h"
 #include "AppPath.h"
 #include "Application.h"
+#include "logging.h"
 #include "ResourcePaths.h"
 #include "UserPaths.h"
 #include "utility.h"
+#include "utilityApp.h"
 
 void setupPlatform(int argc, char *argv[])
 {

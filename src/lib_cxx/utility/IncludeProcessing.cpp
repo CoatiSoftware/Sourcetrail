@@ -2,6 +2,7 @@
 
 #include <set>
 #include <unordered_set>
+#include <iterator>
 
 #include "ApplicationSettings.h"
 #include "IncludeDirective.h"
