@@ -52,25 +52,30 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 		return QtProjectWizardContentPaths::check();
 	}
 
-	bool hasOtherCompilerConfig = false;
+	std::vector<FilePath> paths;
+	QString compilerHeaderPaths;
 	for (const FilePath& headerPath : m_list->getPathsAsDisplayed())
 	{
 		if (headerPath != ResourcePaths::getCxxCompilerHeaderPath() &&
 			headerPath.getCanonical().getConcatenated(L"/stdarg.h").exists())
 		{
-			hasOtherCompilerConfig = true;
-			break;
+			compilerHeaderPaths += QString::fromStdWString(headerPath.wstr()) + "\n";
+		}
+		else
+		{
+			paths.push_back(headerPath);
 		}
 	}
 
-	if (hasOtherCompilerConfig)
+	if (compilerHeaderPaths.size())
 	{
 		QMessageBox msgBox;
 		msgBox.setText("Multiple Compiler Headers");
-		msgBox.setInformativeText("Your Global Include Paths contain another path that holds C/C++ compiler headers, "
+		msgBox.setInformativeText("Your Global Include Paths contain other paths that hold C/C++ compiler headers, "
 			"probably those of your local C/C++ compiler. They are possibly in conflict with the compiler headers of "
 			"Sourcetrail's C/C++ indexer. This can lead to compatiblity errors during indexing. Do you want to remove "
 			"these paths?");
+		msgBox.setDetailedText(compilerHeaderPaths);
 		msgBox.addButton("Remove", QMessageBox::ButtonRole::YesRole);
 		msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
 		msgBox.setIcon(QMessageBox::Icon::Question);
@@ -78,17 +83,8 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 
 		if (ret == 0) // QMessageBox::Yes
 		{
-			std::vector<FilePath> paths;
-			for (const FilePath& headerPath : m_list->getPathsAsDisplayed())
-			{
-				if (headerPath != ResourcePaths::getCxxCompilerHeaderPath() &&
-					headerPath.getCanonical().getConcatenated(L"/stdarg.h").exists())
-				{
-					continue;
-				}
-				paths.push_back(headerPath);
-			}
 			setPaths(paths);
+			save();
 		}
 	}
 
