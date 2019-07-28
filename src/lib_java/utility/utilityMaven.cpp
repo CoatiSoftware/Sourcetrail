@@ -129,7 +129,7 @@ namespace utility
 		utility::setJavaHomeVariableIfNotExists();
 
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
-			"\"" + mavenPath.str() + "\" help:effective-pom",
+			"\"" + mavenPath.str() + "\" help:effective-pom -B",
 			projectDirectoryPath,
 			60000
 		));
