@@ -33,15 +33,20 @@ class QtSmartSearchBox
 {
 	Q_OBJECT
 
+signals:
+	void autocomplete(const std::wstring& query, NodeTypeSet acceptedNodeTypes);
+	void search(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes);
+	void fullTextSearch(const std::wstring& query, bool caseSensitive);
+
 public slots:
-	void search();
-	void fullTextSearch();
+	void startSearch();
 
 public:
-	QtSmartSearchBox(QWidget* parent);
+	QtSmartSearchBox(const QString& placeholder, bool supportsFullTextSearch, QWidget* parent = nullptr);
 	virtual ~QtSmartSearchBox();
 
 	QCompleter* getCompleter() const;
+	std::vector<SearchMatch> getMatches() const;
 
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 	void setMatches(const std::vector<SearchMatch>& matches);
@@ -99,10 +104,15 @@ private:
 	void requestAutoCompletions();
 	void hideAutoCompletions();
 
+	void startFullTextSearch();
+
 	std::deque<SearchMatch> getMatchesForInput(const std::wstring& text) const;
 
 	NodeTypeSet getMatchAcceptedNodeTypes() const;
 	bool lastMatchIsNoFilter() const;
+
+	const QString m_placeholder;
+	const bool m_supportsFullTextSearch;
 
 	bool m_allowTextChange;
 	QString m_oldText;

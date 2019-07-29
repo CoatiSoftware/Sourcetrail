@@ -168,6 +168,20 @@ std::wstring Edge::getReadableTypeString(EdgeType type)
 	return L"";
 }
 
+Edge::EdgeType Edge::getTypeForReadableTypeString(const std::wstring& str)
+{
+	for (TypeMask mask = 1; mask <= EDGE_MAX_VALUE; mask *= 2)
+	{
+		EdgeType type = intToType(mask);
+		if (getReadableTypeString(type) == str)
+		{
+			return type;
+		}
+	}
+
+	return EDGE_UNDEFINED;
+}
+
 std::wstring Edge::getReadableTypeString() const
 {
 	return getReadableTypeString(m_type);

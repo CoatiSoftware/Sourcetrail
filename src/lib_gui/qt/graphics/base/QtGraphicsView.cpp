@@ -120,20 +120,20 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_in.png"), "search/button", this);
 	m_zoomInButton->setObjectName("zoom_in_button");
 	m_zoomInButton->setAutoRepeat(true);
-	m_zoomInButton->setToolTip("Zoom in (" + modifierName + " + Mousewheel forward)");
+	m_zoomInButton->setToolTip("zoom in (" + modifierName + " + Mousewheel forward)");
 	connect(m_zoomInButton, &QPushButton::pressed, this, &QtGraphicsView::zoomInPressed);
 
 	m_zoomOutButton = new QtSelfRefreshIconButton(
 		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_out.png"), "search/button", this);
 	m_zoomOutButton->setObjectName("zoom_out_button");
 	m_zoomOutButton->setAutoRepeat(true);
-	m_zoomOutButton->setToolTip("Zoom out (" + modifierName + " + Mousewheel back)");
+	m_zoomOutButton->setToolTip("zoom out (" + modifierName + " + Mousewheel back)");
 	connect(m_zoomOutButton, &QPushButton::pressed, this, &QtGraphicsView::zoomOutPressed);
 
 	m_legendButton = new QtSelfRefreshIconButton(
 		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/legend.png"), "search/button", this);
 	m_legendButton->setObjectName("legend_button");
-	m_legendButton->setToolTip("Show graph legend");
+	m_legendButton->setToolTip("show legend");
 	connect(m_legendButton, &QPushButton::clicked, this, &QtGraphicsView::legendClicked);
 }
 

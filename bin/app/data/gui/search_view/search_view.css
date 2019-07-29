@@ -11,7 +11,7 @@
 	background-color: transparent;
 }
 
-QWidget#search_box_container {
+#search_box_container {
 	background: <color:search/field/background>;
 	border: 2px solid <color:search/field/border>;
 	border-bottom-left-radius: 12px;
@@ -20,19 +20,19 @@ QWidget#search_box_container {
 	margin-right: 2px;
 }
 
-QLineEdit#search_box {
+#search_box {
 	background-color: transparent;
 	border: none;
 	color: <color:search/field/text>;
 	selection-background-color: <color:search/field/highlight>;
 }
 
-QWidget#search_box_highlight {
+#search_box_highlight {
 	background-color: <color:search/field/highlight>;
 	border: none;
 }
 
-QAbstractItemView#search_box_popup {
+#search_box_popup {
 	background-color: <color:search/popup/background>;
 	border: 1px solid <color:search/popup/line>;
 	color: <color:search/popup/text>;

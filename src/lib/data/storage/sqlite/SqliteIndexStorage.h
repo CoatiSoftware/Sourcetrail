@@ -98,6 +98,9 @@ public:
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::wstring& serializedName) const;
 
+	std::vector<int> getAvailableNodeTypes() const;
+	std::vector<int> getAvailableEdgeTypes() const;
+
 	StorageFile getFileByPath(const std::wstring& filePath) const;
 
 	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;

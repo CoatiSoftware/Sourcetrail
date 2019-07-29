@@ -593,4 +593,25 @@
 			<icon_disabled>#666666</icon_disabled>
 		</button>
 	</screen_search>
+
+	<custom_trail>
+		<background>#494949</background>
+		<alt_background>#808080</alt_background>
+		<separator>#CCCCCC</separator>
+		<text>#FFFFFF</text>
+		<text_disabled>darkgrey</text_disabled>
+		<background_disabled>#696969</background_disabled>
+		<button>
+			<default>
+				<text>#FFFFFF</text>
+				<background>#494949</background>
+				<border>#FFFFFF</border>
+			</default>
+			<hover>
+				<text>#494949</text>
+				<background>#FFFFFF</background>
+				<border>#FFFFFF</border>
+			</hover>
+		</button>
+	</custom_trail>
 </config>

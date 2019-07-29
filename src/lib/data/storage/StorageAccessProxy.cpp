@@ -66,6 +66,35 @@ void StorageAccessProxy::setSubject(std::weak_ptr<StorageAccess> subject)
 		return _DEFAULT_VALUE_;																													\
 	}
 
+#define DEF_GETTER_5(_METHOD_NAME_, _PARAM_1_TYPE_, _PARAM_2_TYPE_, _PARAM_3_TYPE_, _PARAM_4_TYPE_, _PARAM_5_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)					\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PARAM_1_TYPE_ p1, _PARAM_2_TYPE_ p2, _PARAM_3_TYPE_ p3, _PARAM_4_TYPE_ p4, _PARAM_5_TYPE_ p5) const	\
+	{																																								\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())																								\
+		{																																							\
+			return subject->_METHOD_NAME_(p1, p2, p3, p4, p5);																										\
+		}																																							\
+		return _DEFAULT_VALUE_;																																		\
+	}
+
+#define DEF_GETTER_6(_METHOD_NAME_, _PARAM_1_TYPE_, _PARAM_2_TYPE_, _PARAM_3_TYPE_, _PARAM_4_TYPE_, _PARAM_5_TYPE_, _PARAM_6_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)					\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PARAM_1_TYPE_ p1, _PARAM_2_TYPE_ p2, _PARAM_3_TYPE_ p3, _PARAM_4_TYPE_ p4, _PARAM_5_TYPE_ p5, _PARAM_6_TYPE_ p6) const	\
+	{																																												\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())																												\
+		{																																											\
+			return subject->_METHOD_NAME_(p1, p2, p3, p4, p5, p6);																													\
+		}																																											\
+		return _DEFAULT_VALUE_;																																						\
+	}
+
+#define DEF_GETTER_7(_METHOD_NAME_, _PARAM_1_TYPE_, _PARAM_2_TYPE_, _PARAM_3_TYPE_, _PARAM_4_TYPE_, _PARAM_5_TYPE_, _PARAM_6_TYPE_, _PARAM_7_TYPE_, _RETURN_TYPE_, _DEFAULT_VALUE_)						\
+	UNWRAP(_RETURN_TYPE_) StorageAccessProxy::_METHOD_NAME_(_PARAM_1_TYPE_ p1, _PARAM_2_TYPE_ p2, _PARAM_3_TYPE_ p3, _PARAM_4_TYPE_ p4, _PARAM_5_TYPE_ p5, _PARAM_6_TYPE_ p6, _PARAM_7_TYPE_ p7) const	\
+	{																																																	\
+		if (std::shared_ptr<StorageAccess> subject = m_subject.lock())																																	\
+		{																																																\
+			return subject->_METHOD_NAME_(p1, p2, p3, p4, p5, p6, p7);																																	\
+		}																																																\
+		return _DEFAULT_VALUE_;																																											\
+	}
 
 DEF_GETTER_1(getNodeIdForFileNode, const FilePath&, Id, 0)
 DEF_GETTER_1(getNodeIdForNameHierarchy, const NameHierarchy&, Id, 0)
@@ -79,13 +108,15 @@ DEF_GETTER_1(getNodeIdToParentFileMap, const std::vector<Id>&, NodeIdToParentFil
 DEF_GETTER_1(getNodeTypeForNodeWithId, Id, NodeType, NodeType(NodeType::NODE_SYMBOL))
 DEF_GETTER_1(getEdgeById, Id, StorageEdge, StorageEdge())
 DEF_GETTER_2(getFullTextSearchLocations, const std::wstring &, bool, std::shared_ptr<SourceLocationCollection>, std::make_shared<SourceLocationCollection>())
-DEF_GETTER_2(getAutocompletionMatches, const std::wstring &, NodeTypeSet, std::vector<SearchMatch>, std::vector<SearchMatch>())
+DEF_GETTER_3(getAutocompletionMatches, const std::wstring &, NodeTypeSet, bool, std::vector<SearchMatch>, std::vector<SearchMatch>())
 DEF_GETTER_1(getSearchMatchesForTokenIds, const std::vector<Id>&, std::vector<SearchMatch>, std::vector<SearchMatch>())
 DEF_GETTER_0(getGraphForAll, std::shared_ptr<Graph>, std::make_shared<Graph>())
 DEF_GETTER_1(getGraphForNodeTypes, NodeTypeSet, std::shared_ptr<Graph>, std::make_shared<Graph>())
 DEF_GETTER_3(getGraphForActiveTokenIds, const std::vector<Id>&, const std::vector<Id>&, bool*, std::shared_ptr<Graph>, std::make_shared<Graph>())
 DEF_GETTER_1(getGraphForChildrenOfNodeId, Id, std::shared_ptr<Graph>, std::make_shared<Graph>())
-DEF_GETTER_4(getGraphForTrail, Id, Id, Edge::TypeMask, size_t, std::shared_ptr<Graph>, std::make_shared<Graph>())
+DEF_GETTER_7(getGraphForTrail, Id, Id, NodeType::TypeMask, Edge::TypeMask, bool, size_t, bool, std::shared_ptr<Graph>, std::make_shared<Graph>())
+DEF_GETTER_0(getAvailableNodeTypes, NodeType::TypeMask, 0);
+DEF_GETTER_0(getAvailableEdgeTypes, Edge::TypeMask, 0);
 DEF_GETTER_2(getActiveTokenIdsForId, Id, Id*, std::vector<Id>, {})
 DEF_GETTER_1(getNodeIdsForLocationIds, const std::vector<Id>&, std::vector<Id>, {})
 DEF_GETTER_1(getSourceLocationsForTokenIds, const std::vector<Id>&, std::shared_ptr<SourceLocationCollection>, std::make_shared<SourceLocationCollection>())

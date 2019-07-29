@@ -104,7 +104,7 @@ public:
 	std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 		const std::wstring& searchTerm, bool caseSensitive) const override;
 
-	std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const override;
+	std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes, bool acceptCommands) const override;
 	std::vector<SearchMatch> getAutocompletionSymbolMatches(
 		const std::wstring& query, const NodeTypeSet& acceptedNodeTypes, size_t maxResultsCount, size_t maxBestScoredResultsLength) const;
 	std::vector<SearchMatch> getAutocompletionFileMatches(const std::wstring& query, size_t maxResultsCount) const;
@@ -116,7 +116,11 @@ public:
 	std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const override;
 	std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const override;
-	std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const override;
+	std::shared_ptr<Graph> getGraphForTrail(
+		Id originId, Id targetId, NodeType::TypeMask nodeTypes, Edge::TypeMask trailType, bool nodeNonIndexed, size_t depth, bool directed) const override;
+
+	NodeType::TypeMask getAvailableNodeTypes() const override;
+	Edge::TypeMask getAvailableEdgeTypes() const override;
 
 	std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const override;
 	std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const override;

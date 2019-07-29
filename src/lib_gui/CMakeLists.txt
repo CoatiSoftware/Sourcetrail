@@ -246,6 +246,8 @@ add_files(
 	qt/view/QtCodeView.h
 	qt/view/QtCompositeView.cpp
 	qt/view/QtCompositeView.h
+	qt/view/QtCustomTrailView.cpp
+	qt/view/QtCustomTrailView.h
 	qt/view/QtDialogView.cpp
 	qt/view/QtDialogView.h
 	qt/view/QtErrorView.cpp

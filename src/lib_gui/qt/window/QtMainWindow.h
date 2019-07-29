@@ -137,6 +137,7 @@ public slots:
 	void codeReferenceNext();
 	void codeLocalReferencePrevious();
 	void codeLocalReferenceNext();
+	void customTrail();
 	void overview();
 
 	void closeWindow();

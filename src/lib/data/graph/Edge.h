@@ -31,7 +31,9 @@ public:
 		EDGE_IMPORT								= 1 << 12,
 		EDGE_AGGREGATION						= 1 << 13,
 		EDGE_MACRO_USAGE						= 1 << 14,
-		EDGE_ANNOTATION_USAGE					= 1 << 15
+		EDGE_ANNOTATION_USAGE					= 1 << 15,
+
+		EDGE_MAX_VALUE = EDGE_ANNOTATION_USAGE
 	};
 
 	static int typeToInt(EdgeType type);
@@ -58,6 +60,8 @@ public:
 
 	static std::wstring getUnderscoredTypeString(EdgeType type);
 	static std::wstring getReadableTypeString(EdgeType type);
+	static EdgeType getTypeForReadableTypeString(const std::wstring& str);
+
 	// Logging.
 	virtual std::wstring getReadableTypeString() const override;
 	std::wstring getAsString() const;

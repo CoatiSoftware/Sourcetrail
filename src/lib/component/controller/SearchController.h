@@ -8,6 +8,7 @@
 #include "MessageActivateAll.h"
 #include "MessageActivateFullTextSearch.h"
 #include "MessageActivateTokens.h"
+#include "MessageActivateTrail.h"
 #include "MessageFind.h"
 #include "MessageSearchAutocomplete.h"
 
@@ -21,6 +22,7 @@ class SearchController
 	, public MessageListener<MessageActivateFullTextSearch>
 	, public MessageListener<MessageActivateLegend>
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageSearchAutocomplete>
 {
@@ -36,6 +38,7 @@ private:
 	void handleMessage(MessageActivateFullTextSearch* message) override;
 	void handleMessage(MessageActivateLegend* message) override;
 	void handleMessage(MessageActivateTokens* message) override;
+	void handleMessage(MessageActivateTrail* message) override;
 	void handleMessage(MessageFind* message) override;
 	void handleMessage(MessageSearchAutocomplete* message) override;
 

@@ -15,6 +15,7 @@
 #include "MessageActivateFullTextSearch.h"
 #include "MessageActivateLocalSymbols.h"
 #include "MessageActivateTokens.h"
+#include "MessageActivateTrail.h"
 #include "MessageActivateTrailEdge.h"
 #include "MessageChangeFileView.h"
 #include "MessageDeactivateEdge.h"
@@ -43,6 +44,7 @@ class CodeController
 	, public MessageListener<MessageActivateLegend>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageCodeShowDefinition>
@@ -69,6 +71,7 @@ private:
 	void handleMessage(MessageActivateLegend* message) override;
 	void handleMessage(MessageActivateLocalSymbols* message) override;
 	void handleMessage(MessageActivateTokens* message) override;
+	void handleMessage(MessageActivateTrail* message) override;
 	void handleMessage(MessageActivateTrailEdge* message) override;
 	void handleMessage(MessageChangeFileView* message) override;
 	void handleMessage(MessageCodeShowDefinition* message) override;

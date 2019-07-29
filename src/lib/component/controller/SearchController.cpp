@@ -44,6 +44,14 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 	}
 }
 
+void SearchController::handleMessage(MessageActivateTrail* message)
+{
+	if (message->custom)
+	{
+		updateMatches(message);
+	}
+}
+
 void SearchController::handleMessage(MessageFind* message)
 {
 	if (message->findFulltext)
@@ -69,7 +77,7 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 	}
 
 	LOG_INFO(L"autocomplete string: \"" + message->query + L"\"");
-	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->acceptedNodeTypes));
+	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->acceptedNodeTypes, true));
 }
 
 SearchView* SearchController::getView()

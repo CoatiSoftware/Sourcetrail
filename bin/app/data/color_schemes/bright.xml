@@ -463,7 +463,7 @@
 
 			<call>
 				<normal>#F4BC3D</normal>
-				<trail_focus>#878787</trail_focus>
+				<trail_focus>#F56B3D</trail_focus>
 			</call>
 
 			<use>
@@ -567,4 +567,25 @@
 			<icon_disabled>#CECECE</icon_disabled>
 		</button>
 	</screen_search>
+
+	<custom_trail>
+		<background>white</background>
+		<alt_background>#F5F5F5</alt_background>
+		<separator>#C0C0C0</separator>
+		<text>black</text>
+		<text_disabled>#A0A0A0</text_disabled>
+		<background_disabled>#F2F2F2</background_disabled>
+		<button>
+			<default>
+				<text>black</text>
+				<background>white</background>
+				<border>lightgray</border>
+			</default>
+			<hover>
+				<text>white</text>
+				<background>#2D3C86</background>
+				<border>lightgray</border>
+			</hover>
+		</button>
+	</custom_trail>
 </config>

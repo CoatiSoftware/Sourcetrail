@@ -5,6 +5,7 @@
 #include "QtBookmarkView.h"
 #include "QtCodeView.h"
 #include "QtCompositeView.h"
+#include "QtCustomTrailView.h"
 #include "QtDialogView.h"
 #include "QtErrorView.h"
 #include "QtGraphView.h"
@@ -49,6 +50,11 @@ std::shared_ptr<BookmarkView> QtViewFactory::createBookmarkView(ViewLayout* view
 std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) const
 {
 	return View::createAndAddToLayout<QtCodeView>(viewLayout);
+}
+
+std::shared_ptr<CustomTrailView> QtViewFactory::createCustomTrailView() const
+{
+	return View::create<QtCustomTrailView>(nullptr);
 }
 
 std::shared_ptr<ErrorView> QtViewFactory::createErrorView(ViewLayout* viewLayout) const

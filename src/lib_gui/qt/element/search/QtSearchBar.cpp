@@ -3,10 +3,12 @@
 #include <QHBoxLayout>
 
 #include "MessageActivateAll.h"
-#include "ResourcePaths.h"
-
+#include "MessageActivateFullTextSearch.h"
+#include "MessageSearch.h"
+#include "MessageSearchAutocomplete.h"
 #include "QtSearchBarButton.h"
 #include "QtSmartSearchBox.h"
+#include "ResourcePaths.h"
 
 QtSearchBar::QtSearchBar()
 {
@@ -33,19 +35,21 @@ QtSearchBar::QtSearchBar()
 	innerLayout->setContentsMargins(12, 3, 5, 2);
 	m_searchBoxContainer->setLayout(innerLayout);
 
-	m_searchBox = new QtSmartSearchBox(m_searchBoxContainer);
-	m_searchBox->setObjectName("search_box");
-	m_searchBox->setAttribute(Qt::WA_MacShowFocusRect, 0); // remove blue focus box on Mac
+	m_searchBox = new QtSmartSearchBox("Search", true, m_searchBoxContainer);
 	m_searchBox->setMinimumWidth(100);
 	m_searchBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	innerLayout->addWidget(m_searchBox);
+
+	connect(m_searchBox, &QtSmartSearchBox::autocomplete, this, &QtSearchBar::requestAutocomplete);
+	connect(m_searchBox, &QtSmartSearchBox::search, this, &QtSearchBar::requestSearch);
+	connect(m_searchBox, &QtSmartSearchBox::fullTextSearch, this, &QtSearchBar::requestFullTextSearch);
 
 	m_searchButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"));
 	m_searchButton->setObjectName("search_button");
 	m_searchButton->setToolTip("search");
 	layout->addWidget(m_searchButton);
 
-	connect(m_searchButton, &QPushButton::clicked, m_searchBox, &QtSmartSearchBox::search);
+	connect(m_searchButton, &QPushButton::clicked, m_searchBox, &QtSmartSearchBox::startSearch);
 
 	refreshStyle();
 }
@@ -97,4 +101,19 @@ void QtSearchBar::refreshStyle()
 void QtSearchBar::homeButtonClicked()
 {
 	MessageActivateAll().dispatch();
+}
+
+void QtSearchBar::requestAutocomplete(const std::wstring& query, NodeTypeSet acceptedNodeTypes)
+{
+	MessageSearchAutocomplete(query, acceptedNodeTypes).dispatch();
+}
+
+void QtSearchBar::requestSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes)
+{
+	MessageSearch(matches, acceptedNodeTypes).dispatch();
+}
+
+void QtSearchBar::requestFullTextSearch(const std::wstring& query, bool caseSensitive)
+{
+	MessageActivateFullTextSearch(query, caseSensitive).dispatch();
 }

@@ -670,7 +670,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	return collection;
 }
 
-std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes, bool acceptCommands) const
 {
 	TRACE();
 
@@ -692,7 +692,10 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
 	}
 
-	utility::append(matches, getAutocompletionCommandMatches(query, acceptedNodeTypes));
+	if (acceptCommands)
+	{
+		utility::append(matches, getAutocompletionCommandMatches(query, acceptedNodeTypes));
+	}
 
 	// Rescore search matches to check if better score is achieved with higher indices
 	std::vector<SearchMatch> rescoredMatches;
@@ -1233,19 +1236,37 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForChildrenOfNodeId(Id nodeId)
 }
 
 std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
-	Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const
+	Id originId, Id targetId, NodeType::TypeMask nodeTypes, Edge::TypeMask edgeTypes, bool nodeNonIndexed,
+	size_t depth, bool directed) const
 {
 	TRACE();
 
 	std::set<Id> nodeIds;
 	std::set<Id> edgeIds;
 
-	std::vector<Id> nodeIdsToProcess;
-	nodeIdsToProcess.push_back(originId ? originId : targetId);
+	nodeIds.insert(originId ? originId : targetId);
 	bool forward = originId;
 	size_t currentDepth = 0;
 
-	nodeIds.insert(nodeIdsToProcess.back());
+	std::vector<Id> nodeIdsToProcess = { *nodeIds.begin() };
+
+	struct TrailNode
+	{
+		Id id = 0;
+		std::set<TrailNode*> parents;
+		std::set<Id> edgeIds;
+	};
+
+	bool isTerminatedTrail = originId && targetId;
+	std::map<Id, TrailNode> trailNodes;
+
+	if (isTerminatedTrail)
+	{
+		TrailNode root;
+		root.id = originId;
+		trailNodes.emplace(originId, root);
+	}
+
 	while (nodeIdsToProcess.size() && (!depth || currentDepth < depth))
 	{
 		std::vector<StorageEdge> edges =
@@ -1253,7 +1274,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 			m_sqliteIndexStorage.getEdgesBySourceIds(nodeIdsToProcess) :
 			m_sqliteIndexStorage.getEdgesByTargetIds(nodeIdsToProcess);
 
-		if (trailType & Edge::LAYOUT_VERTICAL)
+		if (!directed || edgeTypes & Edge::LAYOUT_VERTICAL)
 		{
 			utility::append(edges,
 				forward ?
@@ -1262,31 +1283,163 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 			);
 		}
 
-		nodeIdsToProcess.clear();
+		std::vector<Id> nodeIdsToCheck;
+		std::map<Id, std::vector<StorageEdge>> edgesToInsert;
 
 		for (const StorageEdge& edge : edges)
 		{
-			if (Edge::intToType(edge.type) & trailType)
+			if (Edge::intToType(edge.type) & edgeTypes &&
+				edgeIds.find(edge.id) == edgeIds.end())
 			{
 				bool isForward = forward == !(Edge::intToType(edge.type) & Edge::LAYOUT_VERTICAL);
 
-				const Id nodeId = isForward ? edge.targetNodeId : edge.sourceNodeId;
-				const Id otherNodeId = isForward ? edge.sourceNodeId : edge.targetNodeId;
+				const Id targetNodeId = isForward ? edge.targetNodeId : edge.sourceNodeId;
+				const Id sourceNodeId = isForward ? edge.sourceNodeId : edge.targetNodeId;
 
-				if (nodeIds.find(nodeId) == nodeIds.end())
+				if (nodeIds.find(targetNodeId) == nodeIds.end())
 				{
-					nodeIdsToProcess.push_back(nodeId);
-					nodeIds.insert(nodeId);
-					edgeIds.insert(edge.id);
+					nodeIdsToCheck.push_back(targetNodeId);
+					edgesToInsert[targetNodeId].push_back(edge);
 				}
-				else if (nodeIds.find(otherNodeId) != nodeIds.end())
+				else if (nodeIds.find(sourceNodeId) == nodeIds.end())
+				{
+					if (!directed)
+					{
+						nodeIdsToCheck.push_back(sourceNodeId);
+						edgesToInsert[sourceNodeId].push_back(edge);
+					}
+				}
+				else
+				{
+					edgeIds.insert(edge.id);
+
+					if (isTerminatedTrail)
+					{
+						TrailNode& target = trailNodes[targetNodeId];
+						TrailNode& origin = trailNodes[sourceNodeId];
+						target.id = targetNodeId;
+						origin.id = sourceNodeId;
+						target.parents.insert(&origin);
+						target.edgeIds.insert(edge.id);
+					}
+				}
+			}
+		}
+
+		nodeIdsToProcess.clear();
+
+		if (nodeTypes != 0)
+		{
+			for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIdsToCheck))
+			{
+				NodeType::Type type = NodeType::intToType(node.type);
+				if (type & nodeTypes || (type == NodeType::NODE_SYMBOL && nodeNonIndexed))
+				{
+					if (!nodeNonIndexed)
+					{
+						if (type == NodeType::NODE_FILE)
+						{
+							auto it = m_fileNodeIndexed.find(node.id);
+							if (it == m_fileNodeIndexed.end() || !it->second)
+							{
+								continue;
+							}
+						}
+						else
+						{
+							auto it = m_symbolDefinitionKinds.find(node.id);
+							if (it == m_symbolDefinitionKinds.end() || it->second == DEFINITION_NONE)
+							{
+								continue;
+							}
+						}
+					}
+
+					// FIXME: don't add namespace nodes to the graph, because it destroys trail layouting
+					// Remove when namespaces are proper nodes with children
+					if ((type & (NodeType::NODE_MODULE | NodeType::NODE_NAMESPACE | NodeType::NODE_PACKAGE)) == 0)
+					{
+						nodeIds.insert(node.id);
+						for (const StorageEdge& edge : edgesToInsert[node.id])
+						{
+							if ((Edge::intToType(edge.type) & Edge::EDGE_MEMBER) == 0)
+							{
+								edgeIds.insert(edge.id);
+							}
+						}
+					}
+					nodeIdsToProcess.push_back(node.id);
+
+					if (isTerminatedTrail)
+					{
+						TrailNode& targetNode = trailNodes[node.id];
+						targetNode.id = node.id;
+
+						for (const StorageEdge& edge : edgesToInsert[node.id])
+						{
+							targetNode.edgeIds.insert(edge.id);
+
+							Id sourceNodeId = (edge.targetNodeId == node.id ? edge.sourceNodeId : edge.targetNodeId);
+							TrailNode& oldNode = trailNodes[sourceNodeId];
+							targetNode.parents.insert(&oldNode);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			for (const Id nodeId : nodeIdsToCheck)
+			{
+				nodeIds.insert(nodeId);
+				nodeIdsToProcess.push_back(nodeId);
+
+				for (const StorageEdge& edge : edgesToInsert[nodeId])
 				{
 					edgeIds.insert(edge.id);
 				}
 			}
 		}
 
+		edgesToInsert.clear();
+
 		currentDepth++;
+	}
+
+	if (isTerminatedTrail)
+	{
+		nodeIds.clear();
+		edgeIds.clear();
+
+		if (trailNodes.find(targetId) != trailNodes.end())
+		{
+			std::queue<TrailNode*> nodesToProcess;
+			nodesToProcess.push(&trailNodes[targetId]);
+
+			while (nodesToProcess.size())
+			{
+				TrailNode* currentNode = nodesToProcess.front();
+				nodesToProcess.pop();
+
+				if (nodeIds.find(currentNode->id) != nodeIds.end())
+				{
+					continue;
+				}
+
+				nodeIds.insert(currentNode->id);
+				edgeIds.insert(currentNode->edgeIds.begin(), currentNode->edgeIds.end());
+
+				for (TrailNode* parent : currentNode->parents)
+				{
+					nodesToProcess.push(parent);
+				}
+			}
+		}
+		else
+		{
+			nodeIds.insert(originId);
+			nodeIds.insert(targetId);
+		}
 	}
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
@@ -1296,6 +1449,30 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 	addComponentIsAmbiguousToGraph(graph.get());
 
 	return graph;
+}
+
+NodeType::TypeMask PersistentStorage::getAvailableNodeTypes() const
+{
+	TRACE();
+
+	NodeType::TypeMask mask = 0;
+	for (int type : m_sqliteIndexStorage.getAvailableNodeTypes())
+	{
+		mask |= NodeType::intToType(type);
+	}
+	return mask;
+}
+
+Edge::TypeMask PersistentStorage::getAvailableEdgeTypes() const
+{
+	TRACE();
+
+	Edge::TypeMask mask = 0;
+	for (int type : m_sqliteIndexStorage.getAvailableEdgeTypes())
+	{
+		mask |= Edge::intToType(type);
+	}
+	return mask;
 }
 
 // TODO: rename: getActiveElementIdsForId; TODO: make separate function for declarationId

@@ -240,6 +240,17 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	MessageStatus(status).dispatch();
 }
 
+void CodeController::handleMessage(MessageActivateTrail* message)
+{
+	if (message->custom)
+	{
+		getView()->clear();
+		Id nodeId = { message->originId ? message->originId : message->targetId };
+		MessageCodeShowDefinition msg(nodeId);
+		handleMessage(&msg);
+	}
+}
+
 void CodeController::handleMessage(MessageActivateTrailEdge* message)
 {
 	TRACE("trail edge activate");
@@ -375,6 +386,11 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message)
 	}
 
 	snippets[0].insertSnippet = true;
+
+	if (!m_collection)
+	{
+		m_collection = std::make_shared<SourceLocationCollection>();
+	}
 	m_collection->addSourceLocationCopies(collection.get());
 
 	saveOrRestoreViewMode(message);

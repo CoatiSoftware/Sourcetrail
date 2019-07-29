@@ -84,7 +84,7 @@ public:
 
 	static std::string getReadableTypeString(NodeType::Type type);
 	static std::wstring getReadableTypeWString(NodeType::Type type);
-	static NodeType::Type getTypeForReadableTypeString(const std::wstring str);
+	static NodeType::Type getTypeForReadableTypeString(const std::wstring& str);
 
 	NodeType(Type type);
 

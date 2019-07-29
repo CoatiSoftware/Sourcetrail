@@ -38,6 +38,8 @@ add_files(
 	component/controller/CodeController.h
 	component/controller/Controller.cpp
 	component/controller/Controller.h
+	component/controller/CustomTrailController.cpp
+	component/controller/CustomTrailController.h
 	component/controller/ErrorController.cpp
 	component/controller/ErrorController.h
 	component/controller/GraphController.cpp
@@ -71,6 +73,7 @@ add_files(
 	component/view/CodeView.h
 	component/view/CompositeView.cpp
 	component/view/CompositeView.h
+	component/view/CustomTrailView.h
 	component/view/DialogView.cpp
 	component/view/DialogView.h
 	component/view/ErrorView.cpp
@@ -469,6 +472,7 @@ add_files(
 	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
 
 	utility/messaging/type/activation/MessageActivateLegend.h
+	utility/messaging/type/activation/MessageActivateFullTextSearch.h
 
 	utility/messaging/type/bookmark/MessageBookmarkActivate.h
 	utility/messaging/type/bookmark/MessageBookmarkBrowse.h
@@ -478,6 +482,8 @@ add_files(
 	utility/messaging/type/bookmark/MessageBookmarkEdit.h
 
 	utility/messaging/type/code/MessageCodeShowDefinition.h
+
+	utility/messaging/type/custom_trail/MessageCustomTrailShow.h
 
 	utility/messaging/type/error/MessageActivateErrors.h
 	utility/messaging/type/error/MessageErrorCountClear.h
@@ -497,6 +503,9 @@ add_files(
 	utility/messaging/type/indexing/MessageIndexingStarted.h
 	utility/messaging/type/indexing/MessageIndexingStatus.h
 
+	utility/messaging/type/search/MessageSearch.h
+	utility/messaging/type/search/MessageSearchAutocomplete.h
+
 	utility/messaging/type/tab/MessageTabClose.h
 	utility/messaging/type/tab/MessageTabOpen.h
 	utility/messaging/type/tab/MessageTabOpenWith.h
@@ -507,7 +516,6 @@ add_files(
 	utility/messaging/type/MessageActivateBase.h
 	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
-	utility/messaging/type/MessageActivateFullTextSearch.h
 	utility/messaging/type/MessageActivateLocalSymbols.h
 	utility/messaging/type/MessageActivateNodes.h
 	utility/messaging/type/MessageActivateSourceLocations.h
@@ -544,8 +552,6 @@ add_files(
 	utility/messaging/type/MessageScrollCode.h
 	utility/messaging/type/MessageScrollGraph.h
 	utility/messaging/type/MessageScrollToLine.h
-	utility/messaging/type/MessageSearch.h
-	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowReference.h
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStatus.h

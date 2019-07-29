@@ -49,7 +49,7 @@ public:
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 			const std::wstring& searchTerm, bool caseSensitive) const = 0;
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const = 0;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes, bool acceptCommands) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const = 0;
@@ -57,7 +57,10 @@ public:
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const = 0;
 	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const = 0;
-	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const = 0;
+	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, NodeType::TypeMask nodeTypes, Edge::TypeMask edgeTypes, bool nodeNonIndexed, size_t depth, bool directed) const = 0;
+
+	virtual NodeType::TypeMask getAvailableNodeTypes() const = 0;
+	virtual Edge::TypeMask getAvailableEdgeTypes() const = 0;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const = 0;
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const = 0;

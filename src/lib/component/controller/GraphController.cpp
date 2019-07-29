@@ -215,10 +215,11 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	m_activeEdgeIds.clear();
 
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForTrail(
-		message->originId, message->targetId, message->trailType, message->depth);
+		message->originId, message->targetId, message->nodeTypes, message->edgeTypes, message->nodeNonIndexed, message->depth,
+		true /* !message->custom || (message->originId && message->targetId) */);
 
 	// remove non-indexed files from include graph if indexed file is origin
-	if (message->trailType & Edge::EDGE_INCLUDE)
+	if (!message->custom && message->edgeTypes & Edge::EDGE_INCLUDE)
 	{
 		Node* fileNode = graph->getNodeById(message->originId ? message->originId : message->targetId);
 		if (fileNode && fileNode->isDefined())
@@ -262,17 +263,28 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	m_graph->setTrailMode(message->horizontalLayout ? Graph::TRAIL_HORIZONTAL : Graph::TRAIL_VERTICAL);
 	m_graph->setHasTrailOrigin(message->originId);
 
-	setVisibility(setActive(m_activeNodeIds, true));
+	m_activeNodeIds = { message->originId ? message->originId : message->targetId };
+	setActive(m_activeNodeIds, true);
+	setVisibility(true);
 
 	MessageStatus(L"Layouting depth graph", false, true).dispatch();
 
-	if (message->trailType & Edge::EDGE_INHERITANCE)
+	if (!message->custom && message->edgeTypes & Edge::EDGE_INHERITANCE)
 	{
 		groupTrailNodes(GroupType::INHERITANCE);
 	}
 
 	layoutNesting();
 	layoutTrail(message->horizontalLayout, message->originId);
+
+	if (message->originId && message->targetId)
+	{
+		DummyNode* targetNode = getDummyGraphNodeById(message->targetId).get();
+		if (targetNode)
+		{
+			targetNode->active = true;
+		}
+	}
 
 	MessageStatus(L"Displaying depth graph", false, true).dispatch();
 

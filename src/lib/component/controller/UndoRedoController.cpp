@@ -132,7 +132,10 @@ void UndoRedoController::handleMessage(MessageActivateTrail* message)
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateTrail>(*message), Command::ORDER_ADAPT, true);
+	Command command(
+		std::make_shared<MessageActivateTrail>(*message),
+		message->custom ? Command::ORDER_ACTIVATE : Command::ORDER_ADAPT
+	);
 	processCommand(command);
 }
 

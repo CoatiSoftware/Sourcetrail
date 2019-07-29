@@ -11,9 +11,6 @@
 #include "GraphViewStyle.h"
 #include "NodeTypeSet.h"
 #include "ColorScheme.h"
-#include "MessageActivateFullTextSearch.h"
-#include "MessageSearch.h"
-#include "MessageSearchAutocomplete.h"
 #include "utility.h"
 #include "utilityString.h"
 
@@ -30,7 +27,7 @@ void QtSearchElement::onChecked(bool)
 	emit wasChecked(this);
 }
 
-void QtSmartSearchBox::search()
+void QtSmartSearchBox::startSearch()
 {
 	editTextToElement();
 
@@ -53,7 +50,7 @@ void QtSmartSearchBox::search()
 			else
 			{
 				QString text = QString::fromStdWString(match.name);
-				if (!text.startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
+				if (m_supportsFullTextSearch && !text.startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 				{
 					text = QChar(SearchMatch::FULLTEXT_SEARCH_CHARACTER) + text;
 				}
@@ -62,46 +59,28 @@ void QtSmartSearchBox::search()
 				updateElements();
 
 				setEditText(text);
-				fullTextSearch();
+				startFullTextSearch();
 				return;
 			}
 		}
 	}
 
-	MessageSearch(utility::toVector(m_matches), getMatchAcceptedNodeTypes()).dispatch();
+	emit search(utility::toVector(m_matches), getMatchAcceptedNodeTypes());
 }
 
-void QtSmartSearchBox::fullTextSearch()
-{
-	std::wstring term = text().toStdWString().substr(1);
-	if (term.empty())
-	{
-		return;
-	}
-
-	bool caseSensitive = false;
-	if (term.at(0) == SearchMatch::FULLTEXT_SEARCH_CHARACTER)
-	{
-		term = term.substr(1);
-		if (term.empty())
-		{
-			return;
-		}
-
-		caseSensitive = true;
-	}
-
-	MessageActivateFullTextSearch(term, caseSensitive).dispatch();
-}
-
-QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
+QtSmartSearchBox::QtSmartSearchBox(const QString& placeholder, bool supportsFullTextSearch, QWidget* parent)
 	: QLineEdit(parent)
+	, m_placeholder(placeholder)
+	, m_supportsFullTextSearch(supportsFullTextSearch)
 	, m_allowTextChange(false)
 	, m_cursorIndex(0)
 	, m_shiftKeyDown(false)
 	, m_mousePressed(false)
 	, m_ignoreNextMousePress(false)
 {
+	setObjectName("search_box");
+	setAttribute(Qt::WA_MacShowFocusRect, 0); // remove blue focus box on Mac
+
 	m_highlightRect = new QWidget(this);
 	m_highlightRect->setGeometry(0, 0, 0, 0);
 	m_highlightRect->setObjectName("search_box_highlight");
@@ -122,6 +101,11 @@ QtSmartSearchBox::~QtSmartSearchBox()
 QCompleter* QtSmartSearchBox::getCompleter() const
 {
 	return m_completer;
+}
+
+std::vector<SearchMatch> QtSmartSearchBox::getMatches() const
+{
+	return utility::toVector(m_matches);
 }
 
 void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
@@ -208,8 +192,8 @@ bool QtSmartSearchBox::event(QEvent *event)
 					setEditText(QString::fromStdWString(m_highlightedMatch.getFullName()));
 					requestAutoCompletions();
 				}
+				return true;
 			}
-			return true;
 		}
 		else if (keyEvent->key() == Qt::Key_Escape)
 		{
@@ -271,12 +255,12 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 	{
 		if (text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 		{
-			fullTextSearch();
+			startFullTextSearch();
 			return;
 		}
 		else if (!m_completer->popup()->isVisible())
 		{
-			search();
+			startSearch();
 		}
 	}
 	else if (event->key() == Qt::Key_Backspace)
@@ -646,7 +630,7 @@ void QtSmartSearchBox::onAutocompletionActivated(const SearchMatch& match)
 
 	if (!match.name.empty())
 	{
-		search();
+		startSearch();
 	}
 }
 
@@ -1034,7 +1018,7 @@ void QtSmartSearchBox::updatePlaceholder()
 {
 	if (text().isEmpty() && m_elements.empty())
 	{
-		setPlaceholderText("Search");
+		setPlaceholderText(m_placeholder);
 	}
 	else
 	{
@@ -1052,7 +1036,7 @@ void QtSmartSearchBox::requestAutoCompletions()
 {
 	if (!text().isEmpty() && !text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 	{
-		MessageSearchAutocomplete(text().toStdWString(), getMatchAcceptedNodeTypes()).dispatch();
+		emit autocomplete(text().toStdWString(), getMatchAcceptedNodeTypes());
 	}
 	else
 	{
@@ -1063,6 +1047,34 @@ void QtSmartSearchBox::requestAutoCompletions()
 void QtSmartSearchBox::hideAutoCompletions()
 {
 	m_completer->popup()->hide();
+}
+
+void QtSmartSearchBox::startFullTextSearch()
+{
+	if (!m_supportsFullTextSearch)
+	{
+		return;
+	}
+
+	std::wstring term = text().toStdWString().substr(1);
+	if (term.empty())
+	{
+		return;
+	}
+
+	bool caseSensitive = false;
+	if (term.at(0) == SearchMatch::FULLTEXT_SEARCH_CHARACTER)
+	{
+		term = term.substr(1);
+		if (term.empty())
+		{
+			return;
+		}
+
+		caseSensitive = true;
+	}
+
+	emit fullTextSearch(term, caseSensitive);
 }
 
 std::deque<SearchMatch> QtSmartSearchBox::getMatchesForInput(const std::wstring& text) const

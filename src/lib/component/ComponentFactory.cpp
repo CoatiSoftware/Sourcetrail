@@ -3,27 +3,30 @@
 #include "Component.h"
 #include "ActivationController.h"
 #include "BookmarkController.h"
-#include "CodeController.h"
-#include "ErrorController.h"
-#include "GraphController.h"
-#include "RefreshController.h"
-#include "ScreenSearchController.h"
-#include "SearchController.h"
-#include "StatusBarController.h"
-#include "StatusController.h"
-#include "TabsController.h"
-#include "TooltipController.h"
-#include "UndoRedoController.h"
 #include "BookmarkView.h"
+#include "CodeController.h"
 #include "CodeView.h"
+#include "CustomTrailController.h"
+#include "CustomTrailView.h"
+#include "ErrorController.h"
 #include "ErrorView.h"
+#include "GraphController.h"
+#include "GraphView.h"
+#include "RefreshController.h"
 #include "RefreshView.h"
+#include "ScreenSearchController.h"
 #include "ScreenSearchView.h"
+#include "SearchController.h"
 #include "SearchView.h"
+#include "StatusBarController.h"
 #include "StatusBarView.h"
+#include "StatusController.h"
 #include "StatusView.h"
+#include "TabsController.h"
 #include "TabsView.h"
+#include "TooltipController.h"
 #include "TooltipView.h"
+#include "UndoRedoController.h"
 #include "UndoRedoView.h"
 #include "ViewFactory.h"
 
@@ -62,6 +65,14 @@ std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* vie
 {
 	std::shared_ptr<CodeView> view = m_viewFactory->createCodeView(viewLayout);
 	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_storageAccess);
+
+	return std::make_shared<Component>(view, controller);
+}
+
+std::shared_ptr<Component> ComponentFactory::createCustomTrailComponent()
+{
+	std::shared_ptr<CustomTrailView> view = m_viewFactory->createCustomTrailView();
+	std::shared_ptr<CustomTrailController> controller = std::make_shared<CustomTrailController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
 }

@@ -40,6 +40,7 @@
 #include "MessageBookmarkBrowse.h"
 #include "MessageBookmarkCreate.h"
 #include "MessageCodeReference.h"
+#include "MessageCustomTrailShow.h"
 #include "MessageFind.h"
 #include "MessageIndexingShowDialog.h"
 #include "MessageLoadProject.h"
@@ -755,6 +756,11 @@ void QtMainWindow::codeLocalReferenceNext()
 	MessageCodeReference(MessageCodeReference::REFERENCE_NEXT, true).dispatch();
 }
 
+void QtMainWindow::customTrail()
+{
+	MessageCustomTrailShow().dispatch();
+}
+
 void QtMainWindow::overview()
 {
 	MessageActivateAll().dispatch();
@@ -960,6 +966,10 @@ void QtMainWindow::setupEditMenu()
 		&QtMainWindow::codeLocalReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_E));
 	menu->addAction(tr("Previous Local Reference"), this,
 		&QtMainWindow::codeLocalReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_E));
+
+	menu->addSeparator();
+
+	menu->addAction(tr("Custom Trail..."), this, &QtMainWindow::customTrail, QKeySequence(Qt::CTRL + Qt::Key_L));
 
 	menu->addSeparator();
 

@@ -1,0 +1,64 @@
+* {
+	color: <color:custom_trail/text>;
+}
+
+#panelA {
+	background: <color:custom_trail/background>;
+}
+
+#panelB, #panelB2 {
+	background: <color:custom_trail/alt_background>;
+	border-top: 1px solid <color:custom_trail/separator>;
+	border-bottom: 1px solid <color:custom_trail/separator>;
+}
+
+#panelB2 {
+	border-bottom: none
+}
+
+#search_box_container {
+	border-color: <color:custom_trail/separator>;
+	border-radius: 8px;
+	border-width: 1px;
+}
+
+#search_box_container:disabled {
+	background: <color:custom_trail/background_disabled>;
+	border-color: <color:custom_trail/background_disabled>;
+}
+
+#search_box:disabled {
+	color: <color:custom_trail/text_disabled>;
+}
+
+#button, #button_small {
+	background: <color:custom_trail/button/default/background>;
+	border: 1px solid <color:custom_trail/button/default/border>;
+	border-radius: 8px;
+	color: <color:custom_trail/button/default/text>;
+	padding: 3px 8px 2px;
+	font-size: <setting:font_size+1>px;
+	min-width: 5em;
+}
+
+#button_small {
+	border-radius: 6px;
+	font-size: <setting:font_size-1>px;
+	min-width: 4em;
+}
+
+#button:hover, #button_small:hover {
+	background: <color:custom_trail/button/hover/background>;
+	border-color: <color:custom_trail/button/hover/border>;
+	color: <color:custom_trail/button/hover/text>;
+}
+
+#button:disabled, #button_small:disabled {
+	background: <color:custom_trail/button/disabled/background>;
+	border-color: <color:custom_trail/button/disabled/border>;
+	color: <color:custom_trail/button/disabled/text>;
+}
+
+#error {
+	color: red;
+}

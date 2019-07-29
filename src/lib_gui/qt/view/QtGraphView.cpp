@@ -18,6 +18,7 @@
 #include "DummyNode.h"
 #include "GraphViewStyle.h"
 #include "MessageActivateTrail.h"
+#include "MessageCustomTrailShow.h"
 #include "MessageDeactivateEdge.h"
 #include "MessageRefreshUI.h"
 #include "MessageScrollGraph.h"
@@ -81,7 +82,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 			m_expandButton = new QtSelfRefreshIconButton(
 				"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph.png"), "search/button");
 			m_expandButton->setObjectName("expand_button");
-			m_expandButton->setToolTip("show depth graph controls");
+			m_expandButton->setToolTip("show trail controls");
 			m_expandButton->setIconSize(QSize(16, 16));
 			m_expandButton->setGeometry(0, 0, 26, 26);
 			connect(m_expandButton, &QPushButton::clicked, this, &QtGraphView::clickedExpand);
@@ -96,9 +97,16 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 			m_collapseButton = new QtSelfRefreshIconButton(
 				"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph_arrow.png"), "search/button", ui);
 			m_collapseButton->setObjectName("collapse_button");
-			m_collapseButton->setToolTip("hide depth graph controls");
+			m_collapseButton->setToolTip("hide trail controls");
 			m_collapseButton->setIconSize(QSize(16, 16));
 			connect(m_collapseButton, &QPushButton::clicked, this, &QtGraphView::clickedCollapse);
+
+			m_customTrailButton = new QtSelfRefreshIconButton("", FilePath(), "search/button", ui);
+			m_customTrailButton->setObjectName("trail_button");
+			m_customTrailButton->setIconSize(QSize(16, 16));
+			m_customTrailButton->setToolTip("custom trail");
+			m_customTrailButton->setIconPath(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph_custom.png"));
+			connect(m_customTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedCustomTrail);
 
 			m_forwardTrailButton = new QtSelfRefreshIconButton("", FilePath(), "search/button", ui);
 			m_forwardTrailButton->setObjectName("trail_button");
@@ -112,12 +120,12 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 
 			m_trailDepthLabel = new QLabel(ui);
 			m_trailDepthLabel->setObjectName("depth_label");
-			m_trailDepthLabel->setToolTip("adjust graph depth");
+			m_trailDepthLabel->setToolTip("adjust trail depth");
 			m_trailDepthLabel->setAlignment(Qt::AlignCenter);
 
 			m_trailDepthSlider = new QSlider(Qt::Vertical, ui);
 			m_trailDepthSlider->setObjectName("depth_slider");
-			m_trailDepthSlider->setToolTip("adjust graph depth");
+			m_trailDepthSlider->setToolTip("adjust trail depth");
 			m_trailDepthSlider->setMinimum(1);
 			m_trailDepthSlider->setMaximum(26);
 			m_trailDepthSlider->setValue(5);
@@ -125,14 +133,15 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 			connect(m_trailDepthSlider, &QSlider::sliderReleased, this, &QtGraphView::trailDepthUpdated);
 
 			m_collapseButton->setGeometry(0, 0, 26, 20);
-			m_backwardTrailButton->setGeometry(0, 22, 26, 26);
-			m_forwardTrailButton->setGeometry(0, 50, 26, 26);
-			m_trailDepthLabel->setGeometry(0, 78, 26, 26);
-			m_trailDepthSlider->setGeometry(0, 104, 26, 100);
+			m_customTrailButton->setGeometry(0, 22, 26, 26);
+			m_backwardTrailButton->setGeometry(0, 50, 26, 26);
+			m_forwardTrailButton->setGeometry(0, 78, 26, 26);
+			m_trailDepthLabel->setGeometry(0, 106, 26, 26);
+			m_trailDepthSlider->setGeometry(0, 132, 26, 100);
 		}
 
 		m_trailWidget = new QWidget(widget);
-		m_trailWidget->setGeometry(8, 8, 26, 210);
+		m_trailWidget->setGeometry(8, 8, 26, 238);
 		m_trailWidget->setLayout(stack);
 
 		if (ApplicationSettings::getInstance()->getGraphControlsVisible())
@@ -720,6 +729,11 @@ void QtGraphView::clickedExpand()
 	ApplicationSettings::getInstance()->save();
 }
 
+void QtGraphView::clickedCustomTrail()
+{
+	MessageCustomTrailShow().dispatch();
+}
+
 void QtGraphView::clickedBackwardTrail()
 {
 	activateTrail(false);
@@ -768,22 +782,22 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 	QtGraphNodeData* node = dynamic_cast<QtGraphNodeData*>(m_oldActiveNode);
 	if (node)
 	{
-		Edge::TypeMask trailType;
+		Edge::TypeMask edgeTypes;
 		bool horizontalLayout = true;
 
 		if (node->getData()->getType().isInheritable())
 		{
-			trailType = Edge::EDGE_INHERITANCE | Edge::EDGE_TEMPLATE_SPECIALIZATION;
+			edgeTypes = Edge::EDGE_INHERITANCE | Edge::EDGE_TEMPLATE_SPECIALIZATION;
 			horizontalLayout = false;
 		}
 		else if (node->getData()->getType().isCallable())
 		{
-			trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE;
+			edgeTypes = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE;
 			horizontalLayout = true;
 		}
 		else if (node->getData()->getType().isFile())
 		{
-			trailType = Edge::EDGE_INCLUDE;
+			edgeTypes = Edge::EDGE_INCLUDE;
 			horizontalLayout = true;
 		}
 		else
@@ -801,7 +815,7 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 			depth = 0;
 		}
 
-		return MessageActivateTrail(originId, targetId, trailType, depth, horizontalLayout);
+		return MessageActivateTrail(originId, targetId, edgeTypes, depth, horizontalLayout);
 	}
 
 	return message;
@@ -810,7 +824,7 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 void QtGraphView::activateTrail(bool forward)
 {
 	MessageActivateTrail message = getMessageActivateTrail(forward);
-	if (message.trailType)
+	if (message.edgeTypes)
 	{
 		message.dispatch();
 	}
@@ -820,20 +834,20 @@ void QtGraphView::updateTrailButtons()
 {
 	MessageActivateTrail message = getMessageActivateTrail(false);
 
-	m_backwardTrailButton->setEnabled(message.trailType);
-	m_forwardTrailButton->setEnabled(message.trailType);
-	m_trailDepthLabel->setEnabled(message.trailType);
-	m_trailDepthSlider->setEnabled(message.trailType);
+	m_backwardTrailButton->setEnabled(message.edgeTypes);
+	m_forwardTrailButton->setEnabled(message.edgeTypes);
+	m_trailDepthLabel->setEnabled(message.edgeTypes);
+	m_trailDepthSlider->setEnabled(message.edgeTypes);
 
 	std::wstring backwardImagePath = L"graph_left.png";
 	std::wstring forwardImagePath = L"graph_right.png";
 
-	if (message.trailType & Edge::EDGE_CALL)
+	if (message.edgeTypes & Edge::EDGE_CALL)
 	{
 		m_backwardTrailButton->setToolTip("show caller graph");
 		m_forwardTrailButton->setToolTip("show callee graph");
 	}
-	else if (message.trailType & Edge::EDGE_INHERITANCE)
+	else if (message.edgeTypes & Edge::EDGE_INHERITANCE)
 	{
 		m_backwardTrailButton->setToolTip("show base hierarchy");
 		m_forwardTrailButton->setToolTip("show derived hierarchy");
@@ -841,15 +855,15 @@ void QtGraphView::updateTrailButtons()
 		backwardImagePath = L"graph_up.png";
 		forwardImagePath = L"graph_down.png";
 	}
-	else if (message.trailType & Edge::EDGE_INCLUDE)
+	else if (message.edgeTypes & Edge::EDGE_INCLUDE)
 	{
 		m_backwardTrailButton->setToolTip("show including files hierarchy");
 		m_forwardTrailButton->setToolTip("show included files hierarchy");
 	}
 	else
 	{
-		m_backwardTrailButton->setToolTip("no depth graph available for active symbol");
-		m_forwardTrailButton->setToolTip("no depth graph available for active symbol");
+		m_backwardTrailButton->setToolTip("no trail for active symbol");
+		m_forwardTrailButton->setToolTip("no trail for active symbol");
 	}
 
 	m_forwardTrailButton->setIconPath(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + forwardImagePath));

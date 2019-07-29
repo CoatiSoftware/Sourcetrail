@@ -139,7 +139,7 @@ std::wstring NodeType::getReadableTypeWString(NodeType::Type type)
 	return std::wstring(str.begin(), str.end());
 }
 
-NodeType::Type NodeType::getTypeForReadableTypeString(const std::wstring str)
+NodeType::Type NodeType::getTypeForReadableTypeString(const std::wstring& str)
 {
 	for (NodeType::TypeMask mask = 1; mask <= NodeType::NODE_MAX_VALUE; mask *= 2)
 	{

@@ -758,6 +758,46 @@ StorageNode SqliteIndexStorage::getNodeBySerializedName(const std::wstring& seri
 	return StorageNode();
 }
 
+std::vector<int> SqliteIndexStorage::getAvailableNodeTypes() const
+{
+	CppSQLite3Query q = executeQuery("SELECT DISTINCT type FROM node;");
+
+	std::vector<int> types;
+
+	while (!q.eof())
+	{
+		const int type = q.getIntField(0, -1);
+		if (type != -1)
+		{
+			types.push_back(type);
+		}
+
+		q.nextRow();
+	}
+
+	return types;
+}
+
+std::vector<int> SqliteIndexStorage::getAvailableEdgeTypes() const
+{
+	CppSQLite3Query q = executeQuery("SELECT DISTINCT type FROM edge;");
+
+	std::vector<int> types;
+
+	while (!q.eof())
+	{
+		const int type = q.getIntField(0, -1);
+		if (type != -1)
+		{
+			types.push_back(type);
+		}
+
+		q.nextRow();
+	}
+
+	return types;
+}
+
 StorageFile SqliteIndexStorage::getFileByPath(const std::wstring& filePath) const
 {
 	return doGetFirst<StorageFile>("WHERE file.path == '" + utility::encodeToUtf8(filePath) + "'");

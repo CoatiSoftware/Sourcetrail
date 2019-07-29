@@ -98,6 +98,9 @@ void ComponentManager::setupMain(ViewLayout* viewLayout, Id appId)
 
 	std::shared_ptr<Component> statusBarComponent = m_componentFactory.createStatusBarComponent(viewLayout);
 	m_components.push_back(statusBarComponent);
+
+	std::shared_ptr<Component> customTrailComponent = m_componentFactory.createCustomTrailComponent();
+	m_components.push_back(customTrailComponent);
 }
 
 void ComponentManager::setupTab(ViewLayout* viewLayout, Id tabId, ScreenSearchSender* screenSearchSender)

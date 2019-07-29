@@ -81,6 +81,7 @@ private slots:
 	void clickedCollapse();
 	void clickedExpand();
 
+	void clickedCustomTrail();
 	void clickedBackwardTrail();
 	void clickedForwardTrail();
 
@@ -152,6 +153,7 @@ private:
 	QWidget* m_trailWidget;
 	QtSelfRefreshIconButton* m_expandButton;
 	QtSelfRefreshIconButton* m_collapseButton;
+	QtSelfRefreshIconButton* m_customTrailButton;
 	QtSelfRefreshIconButton* m_forwardTrailButton;
 	QtSelfRefreshIconButton* m_backwardTrailButton;
 	QSlider* m_trailDepthSlider;
