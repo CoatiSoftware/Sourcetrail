@@ -21,6 +21,7 @@ void SourceGroupSettingsCxxCdb::load(std::shared_ptr<const ConfigManager> config
 
 	const std::string key = s_keyPrefix + getId();
 
+	SourceGroupSettingsWithCxxPchOptions::load(config, key);
 	SourceGroupSettingsWithExcludeFilters::load(config, key);
 	SourceGroupSettingsWithIndexedHeaderPaths::load(config, key);
 
@@ -33,6 +34,7 @@ void SourceGroupSettingsCxxCdb::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
+	SourceGroupSettingsWithCxxPchOptions::save(config, key);
 	SourceGroupSettingsWithExcludeFilters::save(config, key);
 	SourceGroupSettingsWithIndexedHeaderPaths::save(config, key);
 
@@ -46,6 +48,7 @@ bool SourceGroupSettingsCxxCdb::equals(std::shared_ptr<SourceGroupSettings> othe
 	return (
 		otherCxxCdb &&
 		SourceGroupSettingsCxx::equals(other) &&
+		SourceGroupSettingsWithCxxPchOptions::equals(otherCxxCdb) &&
 		SourceGroupSettingsWithExcludeFilters::equals(otherCxxCdb) &&
 		SourceGroupSettingsWithIndexedHeaderPaths::equals(otherCxxCdb) &&
 		m_compilationDatabasePath == otherCxxCdb->m_compilationDatabasePath

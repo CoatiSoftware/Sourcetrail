@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/Users/ebsi/Documents/Coati/testing/project_setup/cxx_cdb_pch/working_copy",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19 -isystem \"/Users/ebsi/Documents/Coati/testing/project_setup/cxx_cdb_pch/working_copy/src/include\"  -DCDB_FLAG -D _DEBUG  -D _MT  -D _DLL  -D WIN32  -D _WINDOWS  -D BUILD_TYPE=\"\"  -D QT_WIDGETS_LIB  -D QT_GUI_LIB  -D QT_CORE_LIB  -D QT_NETWORK_LIB  -D QT_WINEXTRAS_LIB  -D QT_SVG_LIB  -D CMAKE_INTDIR=\"Debug\"  -D _MBCS -std=c++14 \"/Users/ebsi/Documents/Coati/testing/project_setup/cxx_cdb_pch/working_copy/src/main.cpp\"",
+    "file": "/Users/ebsi/Documents/Coati/testing/project_setup/cxx_cdb_pch/working_copy/src/main.cpp"
+  }
+]

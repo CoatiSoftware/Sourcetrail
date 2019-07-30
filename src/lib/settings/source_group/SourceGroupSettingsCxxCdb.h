@@ -2,12 +2,14 @@
 #define SOURCE_GROUP_SETTINGS_CXX_CDB_H
 
 #include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettingsWithCxxPchOptions.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
 #include "SourceGroupSettingsWithIndexedHeaderPaths.h"
 #include "FilePath.h"
 
 class SourceGroupSettingsCxxCdb
 	: public SourceGroupSettingsCxx
+	, public SourceGroupSettingsWithCxxPchOptions
 	, public SourceGroupSettingsWithExcludeFilters
 	, public SourceGroupSettingsWithIndexedHeaderPaths
 {

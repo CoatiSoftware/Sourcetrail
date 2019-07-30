@@ -15,12 +15,12 @@ QtProjectWizardContentPathCxxPch::QtProjectWizardContentPathCxxPch(
 {
 	setTitleString("Precompiled Header File");
 	setHelpString(
-		"Specify the path to the input header file that should be used to generate a precompiled header during indexing.<br />"
+		"Specify the path to the input header file that should be used to generate a precompiled header before indexing.<br />"
 		"If the indexed source code is usually built using precompiled headers, using this option will speed up your indexing performance.<br />"
 		"Leave blank to disable the use of precompiled headers. You can make use of environment variables with ${ENV_VAR}."
 	);
 	setAllowEmpty(true);
-	setPlaceholderString("Not Using Precompiled Headers");
+	setPlaceholderString("Not Using Precompiled Header");
 }
 
 void QtProjectWizardContentPathCxxPch::populate(QGridLayout* layout, int& row)

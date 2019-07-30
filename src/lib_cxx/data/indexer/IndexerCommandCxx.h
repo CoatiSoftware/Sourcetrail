@@ -7,12 +7,21 @@
 #include "IndexerCommand.h"
 
 class FilePath;
+namespace clang {
+	namespace tooling {
+		class JSONCompilationDatabase;
+	}
+}
 
 class IndexerCommandCxx
 	: public IndexerCommand
 {
 public:
-	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& compilationDatabasePath);
+	static std::shared_ptr<clang::tooling::JSONCompilationDatabase> loadCDB(const FilePath& cdbPath);
+	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& cdbPath);
+	static std::vector<FilePath> getSourceFilesFromCDB(
+		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb, const FilePath& cdbPath);
+
 	static std::wstring getCompilerFlagLanguageStandard(const std::wstring &languageStandard);
 	static std::vector<std::wstring> getCompilerFlagsForSystemHeaderSearchPaths(const std::vector<FilePath>& systemHeaderSearchPaths);
 	static std::vector<std::wstring> getCompilerFlagsForFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);

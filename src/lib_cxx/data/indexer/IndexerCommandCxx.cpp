@@ -12,11 +12,21 @@
 #include "utility.h"
 #include "utilityString.h"
 
-std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
+std::shared_ptr<clang::tooling::JSONCompilationDatabase> IndexerCommandCxx::loadCDB(const FilePath& cdbPath)
 {
+	if (cdbPath.empty() || !cdbPath.exists())
+	{
+		return nullptr;
+	}
+
 	std::string error;
-	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
-		(clang::tooling::JSONCompilationDatabase::loadFromFile(utility::encodeToUtf8(compilationDatabasePath.wstr()), error, clang::tooling::JSONCommandLineSyntax::AutoDetect));
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
+		clang::tooling::JSONCompilationDatabase::loadFromFile(
+			utility::encodeToUtf8(cdbPath.wstr()),
+			error,
+			clang::tooling::JSONCommandLineSyntax::AutoDetect
+		)
+	);
 
 	if (!error.empty())
 	{
@@ -25,6 +35,17 @@ std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& c
 		MessageStatus(message, true).dispatch();
 	}
 
+	return cdb;
+}
+
+std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& cdbPath)
+{
+	return getSourceFilesFromCDB(loadCDB(cdbPath), cdbPath);
+}
+
+std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb, const FilePath& cdbPath)
+{
 	std::vector<FilePath> filePaths;
 	if (cdb)
 	{
@@ -43,7 +64,7 @@ std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& c
 			}
 			if (!path.isAbsolute())
 			{
-				path = compilationDatabasePath.getParentDirectory().getConcatenated(path).makeCanonical();
+				path = cdbPath.getParentDirectory().getConcatenated(path).makeCanonical();
 			}
 			filePaths.push_back(canonicalDirectoryPathCache.getValue(path.getParentDirectory()).concatenate(path.fileName()));
 		}
@@ -56,7 +77,8 @@ std::wstring IndexerCommandCxx::getCompilerFlagLanguageStandard(const std::wstri
 	return L"-std=" + languageStandard;
 }
 
-std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(const std::vector<FilePath>& systemHeaderSearchPaths)
+std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
+	const std::vector<FilePath>& systemHeaderSearchPaths)
 {
 	std::vector<std::wstring> compilerFlags;
 	compilerFlags.reserve(systemHeaderSearchPaths.size() * 2);

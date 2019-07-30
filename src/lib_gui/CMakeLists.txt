@@ -190,6 +190,8 @@ add_files(
 	qt/project_wizard/content/QtProjectWizardContentCStandard.h
 	qt/project_wizard/content/QtProjectWizardContentCustomCommand.cpp
 	qt/project_wizard/content/QtProjectWizardContentCustomCommand.h
+	qt/project_wizard/content/QtProjectWizardContentCxxPchFlags.cpp
+	qt/project_wizard/content/QtProjectWizardContentCxxPchFlags.h
 	qt/project_wizard/content/QtProjectWizardContentExtensions.cpp
 	qt/project_wizard/content/QtProjectWizardContentExtensions.h
 	qt/project_wizard/content/QtProjectWizardContentFlags.cpp

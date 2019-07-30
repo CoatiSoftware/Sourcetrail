@@ -45,6 +45,8 @@ add_files(
 	data/parser/cxx/CanonicalFilePathCache.h
 	data/parser/cxx/CommentHandler.cpp
 	data/parser/cxx/CommentHandler.h
+	data/parser/cxx/ClangInvocationInfo.cpp
+	data/parser/cxx/ClangInvocationInfo.h
 	data/parser/cxx/CxxAstVisitor.cpp
 	data/parser/cxx/CxxAstVisitor.h
 	data/parser/cxx/CxxAstVisitorComponent.cpp
@@ -90,6 +92,8 @@ add_files(
 	project/SourceGroupCxxSonargraph.h
 	project/SourceGroupFactoryModuleCxx.cpp
 	project/SourceGroupFactoryModuleCxx.h
+	project/utilitySourceGroupCxx.cpp
+	project/utilitySourceGroupCxx.h
 
 	utility/codeblocks/CodeblocksCompiler.cpp
 	utility/codeblocks/CodeblocksCompiler.h

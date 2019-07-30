@@ -1,22 +1,16 @@
 #include "SourceGroupCxxEmpty.h"
 
 #include "ApplicationSettings.h"
-#include "CxxCompilationDatabaseSingle.h"
 #include "CxxIndexerCommandProvider.h"
-#include "CxxParser.h"
-#include "DialogView.h"
 #include "FileManager.h"
-#include "FileSystem.h"
-#include "GeneratePCHAction.h"
 #include "IndexerCommandCxx.h"
 #include "logging.h"
-#include "SingleFrontendActionFactory.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
 #include "SourceGroupSettingsWithCppStandard.h"
-#include "SourceGroupSettingsWithCStandard.h"
 #include "TaskLambda.h"
 #include "utility.h"
+#include "utilitySourceGroupCxx.h"
 
 SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxx> settings)
 	: m_settings(settings)
@@ -77,34 +71,22 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 {
 	std::set<FilePath> indexedPaths;
 	std::set<FilePathFilter> excludeFilters;
-	FilePath pchInputFilePath;
-	FilePath pchDependenciesDirectoryPath;
 	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
 		std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
 	{
 		indexedPaths = utility::toSet(settings->getSourcePathsExpandedAndAbsolute());
 		excludeFilters = utility::toSet(settings->getExcludeFiltersExpandedAndAbsolute());
-		pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
-		pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
 	}
 	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
 		std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
 	{
 		indexedPaths = utility::toSet(settings->getSourcePathsExpandedAndAbsolute());
 		excludeFilters = utility::toSet(settings->getExcludeFiltersExpandedAndAbsolute());
-		pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
-		pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
 	}
 
-	std::vector<std::wstring> compilerFlags = getCompilerFlags();
-
-	if (!pchInputFilePath.empty() && !pchDependenciesDirectoryPath.empty())
-	{
-		const FilePath pchOutputFilePath = pchDependenciesDirectoryPath.getConcatenated(pchInputFilePath.fileName()).replaceExtension(L"pch");
-		compilerFlags.push_back(L"-fallow-pch-with-compiler-errors");
-		compilerFlags.push_back(L"-include-pch");
-		compilerFlags.push_back(pchOutputFilePath.wstr());
-	}
+	std::vector<std::wstring> compilerFlags = getBaseCompilerFlags();
+	utility::append(compilerFlags, m_settings->getCompilerFlags());
+	utility::append(compilerFlags, utility::getIncludePchFlags(m_settings.get()));
 
 	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
@@ -132,69 +114,27 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 
 std::shared_ptr<Task> SourceGroupCxxEmpty::getPreIndexTask(std::shared_ptr<DialogView> dialogView) const
 {
-	FilePath pchInputFilePath;
-	FilePath pchDependenciesDirectoryPath;
-	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
+	const SourceGroupSettingsWithCxxPchOptions* pchSettings =
+		dynamic_cast<const SourceGroupSettingsWithCxxPchOptions*>(m_settings.get());
+	if (!pchSettings || pchSettings->getPchInputFilePath().empty())
 	{
-		pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
-		pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
-	}
-	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
-	{
-		pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
-		pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
+		return std::make_shared<TaskLambda>([](){});
 	}
 
-	if (pchInputFilePath.empty() || pchDependenciesDirectoryPath.empty())
+	std::vector<std::wstring> compilerFlags = getBaseCompilerFlags();
+
+	if (std::shared_ptr<SourceGroupSettingsWithCxxPchOptions> pchSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPchOptions>(m_settings))
 	{
-		return std::make_shared<TaskLambda>([]() {});
-	}
-
-	if (!pchInputFilePath.exists())
-	{
-		LOG_ERROR(L"Precompiled header input file \"" + pchInputFilePath.wstr() + L"\" does not exist.");
-		return std::make_shared<TaskLambda>([]() {});
-	}
-
-	const FilePath pchOutputFilePath = pchDependenciesDirectoryPath.getConcatenated(pchInputFilePath.fileName()).replaceExtension(L"pch");
-
-	std::vector<std::wstring> compilerFlags = getCompilerFlags();
-	compilerFlags.push_back(pchInputFilePath.wstr());
-	compilerFlags.push_back(L"-emit-pch");
-	compilerFlags.push_back(L"-o");
-	compilerFlags.push_back(pchOutputFilePath.wstr());
-
-	return std::make_shared<TaskLambda>(
-		[dialogView, pchInputFilePath, pchOutputFilePath, compilerFlags]()
+		if (pchSettings->getUseCompilerFlags())
 		{
-			dialogView->showUnknownProgressDialog(L"Preparing Indexing", L"Processing Precompiled Headers");
-			LOG_INFO(
-				L"Generating precompiled header output for input file \"" + pchInputFilePath.wstr() +
-				L"\" at location \"" + pchOutputFilePath.wstr() + L"\""
-			);
-
-			CxxParser::initializeLLVM();
-
-			if (!pchOutputFilePath.getParentDirectory().exists())
-			{
-				FileSystem::createDirectory(pchOutputFilePath.getParentDirectory());
-			}
-
-			clang::tooling::CompileCommand pchCommand;
-			pchCommand.Filename = utility::encodeToUtf8(pchInputFilePath.fileName());
-			pchCommand.Directory = pchOutputFilePath.getParentDirectory().str();
-			// DON'T use "-fsyntax-only" here because it will cause the output file to be erased
-			pchCommand.CommandLine = utility::concat({ "clang-tool" },  CxxParser::getCommandlineArgumentsEssential(compilerFlags));
-
-			CxxCompilationDatabaseSingle compilationDatabase(pchCommand);
-			clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>(1, utility::encodeToUtf8(pchInputFilePath.wstr())));
-			GeneratePCHAction* action = new GeneratePCHAction();
-			tool.clearArgumentsAdjusters();
-			tool.run(new SingleFrontendActionFactory(action));
+			utility::append(compilerFlags, m_settings->getCompilerFlags());
 		}
-	);
+
+		utility::append(compilerFlags, pchSettings->getPchFlags());
+	}
+
+	return utility::createBuildPchTask(m_settings.get(), compilerFlags, dialogView);
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxEmpty::getSourceGroupSettings()
@@ -207,7 +147,7 @@ std::shared_ptr<const SourceGroupSettings> SourceGroupCxxEmpty::getSourceGroupSe
 	return m_settings;
 }
 
-std::vector<std::wstring> SourceGroupCxxEmpty::getCompilerFlags() const
+std::vector<std::wstring> SourceGroupCxxEmpty::getBaseCompilerFlags() const
 {
 	std::vector<std::wstring> compilerFlags;
 
@@ -266,8 +206,6 @@ std::vector<std::wstring> SourceGroupCxxEmpty::getCompilerFlags() const
 		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(
 			utility::concat(m_settings->getFrameworkSearchPathsExpandedAndAbsolute(), appSettings->getFrameworkSearchPathsExpanded())));
 	}
-
-	utility::append(compilerFlags, m_settings->getCompilerFlags());
 
 	return compilerFlags;
 }

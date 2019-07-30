@@ -12,6 +12,7 @@
 #include "ApplicationSettings.h"
 #include "ASTAction.h"
 #include "CanonicalFilePathCache.h"
+#include "ClangInvocationInfo.h"
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"
 #include "FilePath.h"
@@ -27,74 +28,6 @@
 
 namespace
 {
-	struct ClangInvocationInfo
-	{
-		std::string invocation;
-		std::string errors;
-	};
-
-	// copied from clang codebase
-	clang::driver::Driver *newDriver(
-		clang::DiagnosticsEngine *Diagnostics, const char *BinaryName,
-		clang::IntrusiveRefCntPtr<llvm::vfs::FileSystem> VFS) {
-		clang::driver::Driver *CompilerDriver =
-			new clang::driver::Driver(BinaryName, llvm::sys::getDefaultTargetTriple(),
-				*Diagnostics, std::move(VFS));
-		CompilerDriver->setTitle("clang_based_tool");
-		return CompilerDriver;
-	}
-
-	// copied and stitched together from clang codebase
-	ClangInvocationInfo getClangInvocationString(const clang::tooling::CompilationDatabase* compilationDatabase)
-	{
-		ClangInvocationInfo invocationInfo;
-
-		if (!compilationDatabase->getAllCompileCommands().empty())
-		{
-			std::vector<std::string> CommandLine = compilationDatabase->getAllCompileCommands().front().CommandLine;
-
-			std::vector<const char*> Argv;
-			for (const std::string &Str : CommandLine)
-				Argv.push_back(Str.c_str());
-			const char *const BinaryName = Argv[0];
-			clang::IntrusiveRefCntPtr<clang::DiagnosticOptions> DiagOpts = new clang::DiagnosticOptions();
-			unsigned MissingArgIndex, MissingArgCount;
-			std::unique_ptr<llvm::opt::OptTable> Opts = clang::driver::createDriverOptTable();
-			llvm::opt::InputArgList ParsedArgs = Opts->ParseArgs(
-				clang::ArrayRef<const char *>(Argv).slice(1), MissingArgIndex, MissingArgCount);
-			clang::ParseDiagnosticArgs(*DiagOpts, ParsedArgs);
-
-			llvm::raw_string_ostream diagnosticsStream(invocationInfo.errors);
-			clang::TextDiagnosticPrinter DiagnosticPrinter(
-				diagnosticsStream, &*DiagOpts);
-			clang::DiagnosticsEngine Diagnostics(
-				clang::IntrusiveRefCntPtr<clang::DiagnosticIDs>(new clang::DiagnosticIDs()), &*DiagOpts,
-				&DiagnosticPrinter, false);
-
-			llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
-
-			const std::unique_ptr<clang::driver::Driver> Driver(
-				newDriver(&Diagnostics, BinaryName, Files->getVirtualFileSystem()));
-			// Since the input might only be virtual, don't check whether it exists.
-			Driver->setCheckInputsExist(false);
-			const std::unique_ptr<clang::driver::Compilation> Compilation(
-				Driver->BuildCompilation(llvm::makeArrayRef(Argv)));
-
-			if (Compilation)
-			{
-				llvm::raw_string_ostream ss(invocationInfo.invocation);
-				Compilation->getJobs().Print(ss, "", true);
-				ss.flush();
-			}
-
-			diagnosticsStream.flush();
-
-			invocationInfo.invocation = utility::trim(invocationInfo.invocation);
-			invocationInfo.errors = utility::trim(invocationInfo.errors);
-		}
-		return invocationInfo;
-	}
-
 	std::vector<std::string> prependSyntaxOnlyToolArgs(const std::vector<std::string>& args)
 	{
 		return utility::concat(std::vector<std::string>({ "clang-tool", "-fsyntax-only" }), args);
@@ -244,7 +177,7 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 	ClangInvocationInfo info;
 	if (LogManager::getInstance()->getLoggingEnabled())
 	{
-		info = getClangInvocationString(compilationDatabase);
+		info = ClangInvocationInfo::getClangInvocationString(compilationDatabase);
 		LOG_INFO("Clang Invocation: " + info.invocation.substr(0, ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() ? std::string::npos : 20000));
 
 		if (!info.errors.empty())
@@ -260,7 +193,7 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 	{
 		if (info.invocation.empty())
 		{
-			info = getClangInvocationString(compilationDatabase);
+			info = ClangInvocationInfo::getClangInvocationString(compilationDatabase);
 		}
 
 		if (!info.errors.empty())

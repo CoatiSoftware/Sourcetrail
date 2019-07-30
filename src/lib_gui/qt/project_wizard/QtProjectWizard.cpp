@@ -12,6 +12,7 @@
 #include "QtProjectWizardContentCrossCompilationOptions.h"
 #include "QtProjectWizardContentCStandard.h"
 #include "QtProjectWizardContentCustomCommand.h"
+#include "QtProjectWizardContentCxxPchFlags.h"
 #include "QtProjectWizardContentExtensions.h"
 #include "QtProjectWizardContentFlags.h"
 #include "QtProjectWizardContentGroup.h"
@@ -147,6 +148,7 @@ namespace
 					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
 				}
 			);
+			page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(WIZARD_CONTENT_CONTEXT_ALL, false);
 			pages.push_back(page);
 		}
 
@@ -193,6 +195,7 @@ namespace
 					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
 				}
 			);
+			page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(WIZARD_CONTENT_CONTEXT_ALL, false);
 			pages.push_back(page);
 		}
 
@@ -226,6 +229,14 @@ namespace
 		{
 			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Advanced (optional)");
 			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+			page.addContentCreator(
+				WIZARD_CONTENT_CONTEXT_ALL,
+				[](std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizardWindow* window)
+				{
+					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
+				}
+			);
+			page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(WIZARD_CONTENT_CONTEXT_ALL, true);
 			pages.push_back(page);
 		}
 
