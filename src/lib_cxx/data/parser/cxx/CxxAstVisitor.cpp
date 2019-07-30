@@ -66,6 +66,24 @@ CanonicalFilePathCache* CxxAstVisitor::getCanonicalFilePathCache() const
 void CxxAstVisitor::indexDecl(clang::Decl* d)
 {
 	LOG_INFO("starting AST traversal");
+
+	clang::SourceManager& sourceManager = m_astContext->getSourceManager();
+	for (auto it = sourceManager.fileinfo_begin(); it != sourceManager.fileinfo_end(); it++)
+	{
+		const clang::FileEntry* fileEntry = it->first;
+		if (m_canonicalFilePathCache->getFileSymbolId(fileEntry) == 0)
+		{
+			const clang::FileID fileId = sourceManager.translateFile(fileEntry);
+			if (fileId.isValid())
+			{
+				const FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+				const bool pathIsProjectFile = m_canonicalFilePathCache->isProjectFile(fileId, sourceManager);
+				const Id symbolId = m_client->recordFile(filePath, pathIsProjectFile);
+				m_canonicalFilePathCache->addFileSymbolId(fileId, filePath, symbolId);
+			}
+		}
+	}
+
 	this->TraverseDecl(d);
 }
 
