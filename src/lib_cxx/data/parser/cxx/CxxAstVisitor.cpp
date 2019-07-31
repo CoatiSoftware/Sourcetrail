@@ -67,6 +67,7 @@ void CxxAstVisitor::indexDecl(clang::Decl* d)
 {
 	LOG_INFO("starting AST traversal");
 
+	// record files not handled in preprocessor callbacks, e.g. files within precompiled header
 	clang::SourceManager& sourceManager = m_astContext->getSourceManager();
 	for (auto it = sourceManager.fileinfo_begin(); it != sourceManager.fileinfo_end(); it++)
 	{
@@ -79,6 +80,7 @@ void CxxAstVisitor::indexDecl(clang::Decl* d)
 				const FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 				const bool pathIsProjectFile = m_canonicalFilePathCache->isProjectFile(fileId, sourceManager);
 				const Id symbolId = m_client->recordFile(filePath, pathIsProjectFile);
+				m_client->recordFileLanguage(symbolId, L"cpp");
 				m_canonicalFilePathCache->addFileSymbolId(fileId, filePath, symbolId);
 			}
 		}
