@@ -549,7 +549,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 		{
 			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 			{
-				preIndexTasks->addTask(sourceGroup->getPreIndexTask(dialogView));
+				preIndexTasks->addTask(sourceGroup->getPreIndexTask(storageProvider, dialogView));
 			}
 		}
 

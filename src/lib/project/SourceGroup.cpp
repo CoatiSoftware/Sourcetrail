@@ -12,7 +12,8 @@ std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(c
 	return std::make_shared<MemoryIndexerCommandProvider>(getIndexerCommands(filesToIndex));
 }
 
-std::shared_ptr<Task> SourceGroup::getPreIndexTask(std::shared_ptr<DialogView> dialogView) const
+std::shared_ptr<Task> SourceGroup::getPreIndexTask(
+	std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView) const
 {
 	return std::make_shared<TaskLambda>([]() {});
 }

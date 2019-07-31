@@ -7,12 +7,14 @@
 
 class DialogView;
 class SourceGroupSettingsCxx;
+class StorageProvider;
 class Task;
 
 namespace utility
 {
 	std::shared_ptr<Task> createBuildPchTask(
-		const SourceGroupSettingsCxx* settings, std::vector<std::wstring> compilerFlags, std::shared_ptr<DialogView> dialogView);
+		const SourceGroupSettingsCxx* settings, std::vector<std::wstring> compilerFlags,
+		std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView);
 	std::vector<std::wstring> getIncludePchFlags(const SourceGroupSettingsCxx* settings);
 }
 

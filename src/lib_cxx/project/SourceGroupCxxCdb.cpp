@@ -151,7 +151,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
 }
 
-std::shared_ptr<Task> SourceGroupCxxCdb::getPreIndexTask(std::shared_ptr<DialogView> dialogView) const
+std::shared_ptr<Task> SourceGroupCxxCdb::getPreIndexTask(
+	std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView) const
 {
 	if (m_settings->getPchInputFilePath().empty())
 	{
@@ -213,7 +214,7 @@ std::shared_ptr<Task> SourceGroupCxxCdb::getPreIndexTask(std::shared_ptr<DialogV
 
 	utility::append(compilerFlags, m_settings->getPchFlags());
 
-	return utility::createBuildPchTask(m_settings.get(), compilerFlags, dialogView);
+	return utility::createBuildPchTask(m_settings.get(), compilerFlags, storageProvider, dialogView);
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxCdb::getSourceGroupSettings()

@@ -27,7 +27,8 @@ public:
 	std::set<FilePath> getAllSourceFilePaths(std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb) const;
 	std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const override;
 	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
-	std::shared_ptr<Task> getPreIndexTask(std::shared_ptr<DialogView> dialogView) const override;
+	std::shared_ptr<Task> getPreIndexTask(
+		std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView) const override;
 
 private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;

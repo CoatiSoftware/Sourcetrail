@@ -112,7 +112,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
 }
 
-std::shared_ptr<Task> SourceGroupCxxEmpty::getPreIndexTask(std::shared_ptr<DialogView> dialogView) const
+std::shared_ptr<Task> SourceGroupCxxEmpty::getPreIndexTask(
+	std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView) const
 {
 	const SourceGroupSettingsWithCxxPchOptions* pchSettings =
 		dynamic_cast<const SourceGroupSettingsWithCxxPchOptions*>(m_settings.get());
@@ -134,7 +135,7 @@ std::shared_ptr<Task> SourceGroupCxxEmpty::getPreIndexTask(std::shared_ptr<Dialo
 		utility::append(compilerFlags, pchSettings->getPchFlags());
 	}
 
-	return utility::createBuildPchTask(m_settings.get(), compilerFlags, dialogView);
+	return utility::createBuildPchTask(m_settings.get(), compilerFlags, storageProvider, dialogView);
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxEmpty::getSourceGroupSettings()

@@ -1,8 +1,18 @@
 #include "GeneratePCHAction.h"
 
-#include "clang/Frontend/CompilerInstance.h"
-#include "clang/Serialization/ASTWriter.h"
-#include "clang/Frontend/MultiplexConsumer.h"
+#include <clang/Frontend/CompilerInstance.h>
+#include <clang/Serialization/ASTWriter.h>
+#include <clang/Frontend/MultiplexConsumer.h>
+
+#include "PreprocessorCallbacks.h"
+
+GeneratePCHAction::GeneratePCHAction(
+	std::shared_ptr<ParserClient> client,
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
+)
+	: m_client(client)
+	, m_canonicalFilePathCache(canonicalFilePathCache)
+{}
 
 bool GeneratePCHAction::shouldEraseOutputFiles()
 {
@@ -36,4 +46,13 @@ std::unique_ptr<clang::ASTConsumer> GeneratePCHAction::CreateASTConsumer(clang::
 		CI, InFile, OutputFile, std::move(OS), Buffer));
 
 	return llvm::make_unique<clang::MultiplexConsumer>(std::move(Consumers));
+}
+
+bool GeneratePCHAction::BeginSourceFileAction(clang::CompilerInstance& compiler)
+{
+	clang::Preprocessor& preprocessor = compiler.getPreprocessor();
+	preprocessor.addPPCallbacks(llvm::make_unique<PreprocessorCallbacks>(
+		compiler.getSourceManager(), m_client, m_canonicalFilePathCache
+	));
+	return true;
 }
