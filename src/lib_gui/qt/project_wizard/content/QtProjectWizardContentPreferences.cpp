@@ -315,6 +315,8 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		m_javaPathDetector = utility::getJavaRuntimePathDetector();
 		addJavaPathDetection(layout, row);
 	}
+
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_WINDOWS10)
 	{
 		// jvm max memory
 		m_jvmMaximumMemory = addLineEdit(
@@ -327,6 +329,11 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		);
 		layout->setRowMinimumHeight(row - 1, 30);
 	}
+	else
+	{
+		m_jvmMaximumMemory = nullptr;
+	}
+
 	{
 		// JRE System Library
 		const QString title = "JRE System Library";
@@ -458,7 +465,10 @@ void QtProjectWizardContentPreferences::load()
 		m_javaPath->setText(QString::fromStdWString(appSettings->getJavaPath().wstr()));
 	}
 
-	m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
+	if (m_jvmMaximumMemory)
+	{
+		m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
+	}
 
 	m_jreSystemLibraryPaths->setPaths(appSettings->getJreSystemLibraryPaths());
 
@@ -524,8 +534,14 @@ void QtProjectWizardContentPreferences::save()
 
 	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getPathsAsAbsolute());
 
-	int jvmMaximumMemory = m_jvmMaximumMemory->text().toInt();
-	if (jvmMaximumMemory) appSettings->setJavaMaximumMemory(jvmMaximumMemory);
+	if (m_jvmMaximumMemory)
+	{
+		const int jvmMaximumMemory = m_jvmMaximumMemory->text().toInt();
+		if (jvmMaximumMemory)
+		{
+			appSettings->setJavaMaximumMemory(jvmMaximumMemory);
+		}
+	}
 
 	if (m_mavenPath)
 	{
