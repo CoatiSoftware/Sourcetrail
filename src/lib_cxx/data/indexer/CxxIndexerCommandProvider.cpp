@@ -102,7 +102,7 @@ void CxxIndexerCommandProvider::addCommand(const std::shared_ptr<IndexerCommandC
 		}
 	}
 
-	m_commands[command->getSourceFilePath()] = representation;
+	m_commands.emplace(command->getSourceFilePath(), representation);
 }
 
 std::vector<FilePath> CxxIndexerCommandProvider::getAllSourceFilePaths() const

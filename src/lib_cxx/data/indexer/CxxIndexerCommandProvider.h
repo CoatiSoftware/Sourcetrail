@@ -39,7 +39,7 @@ private:
 
 	Id m_nextId;
 
-	std::map<FilePath, std::shared_ptr<CommandRepresentation>> m_commands;
+	std::multimap<FilePath, std::shared_ptr<CommandRepresentation>> m_commands;
 
 	std::map<Id, FilePath> m_idsToIndexedPaths;
 	std::map<FilePath, Id> m_indexedPathsToIds;
