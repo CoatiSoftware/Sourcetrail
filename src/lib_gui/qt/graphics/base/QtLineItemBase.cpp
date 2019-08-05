@@ -1,6 +1,7 @@
 #include "QtLineItemBase.h"
 
 #include <QBrush>
+#include <QCursor>
 #include <QPen>
 
 QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
@@ -12,6 +13,7 @@ QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
 	, m_route(ROUTE_ANY)
 {
 	this->setAcceptHoverEvents(true);
+	this->setCursor(Qt::PointingHandCursor);
 }
 
 QtLineItemBase::~QtLineItemBase()

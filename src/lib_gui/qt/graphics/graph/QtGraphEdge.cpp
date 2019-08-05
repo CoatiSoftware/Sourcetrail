@@ -1,5 +1,6 @@
 #include "QtGraphEdge.h"
 
+#include <QCursor>
 #include <QGraphicsSceneEvent>
 #include <QGraphicsItemGroup>
 
@@ -50,6 +51,8 @@ QtGraphEdge::QtGraphEdge(
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
 {
+	this->setCursor(Qt::PointingHandCursor);
+
 	if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
 	{
 		QtGraphNode* temp = m_owner;

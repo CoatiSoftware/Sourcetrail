@@ -1,6 +1,7 @@
 #include "QtGraphNode.h"
 
 #include <QBrush>
+#include <QCursor>
 #include <QFont>
 #include <QFontMetrics>
 #include <QGraphicsSceneEvent>
@@ -42,6 +43,7 @@ void QtGraphNode::hideNode()
 QtGraphNode::QtGraphNode()
 {
 	this->setPen(QPen(Qt::transparent));
+	this->setCursor(Qt::PointingHandCursor);
 
 	m_text = new QGraphicsSimpleTextItem(this);
 	m_rect = new QtRoundedRectItem(this);

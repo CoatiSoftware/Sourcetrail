@@ -563,6 +563,8 @@ void QtCodeField::setHoveredAnnotations(const std::vector<const Annotation*>& an
 
 	m_hoveredAnnotations = annotations;
 
+	viewport()->setCursor(annotations.size() ? Qt::PointingHandCursor : Qt::ArrowCursor);
+
 	if (annotations.size())
 	{
 		std::vector<Id> tokenIds;

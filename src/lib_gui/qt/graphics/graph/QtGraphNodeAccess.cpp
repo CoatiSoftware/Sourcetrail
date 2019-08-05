@@ -1,6 +1,7 @@
 #include "QtGraphNodeAccess.h"
 
 #include <QBrush>
+#include <QCursor>
 #include <QFontMetrics>
 #include <QPen>
 
@@ -19,6 +20,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 {
 	std::wstring accessString = TokenComponentAccess::getAccessString(m_accessKind);
 	this->setName(accessString);
+	this->setCursor(Qt::ArrowCursor);
 	m_text->hide();
 
 	std::wstring iconFileName;
