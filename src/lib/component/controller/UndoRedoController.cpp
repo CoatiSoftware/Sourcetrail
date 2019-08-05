@@ -364,7 +364,16 @@ void UndoRedoController::handleMessage(MessageIndexingFinished* message)
 
 void UndoRedoController::handleMessage(MessageRefreshUI* message)
 {
-	if (m_iterator == m_list.begin())
+	std::list<Command>::iterator startIterator = m_iterator;
+	do
+	{
+		std::advance(startIterator, -1);
+	}
+	while (startIterator != m_list.begin() && startIterator->order != Command::ORDER_ACTIVATE);
+
+	if (startIterator == m_list.begin() ||
+		(message->isAfterIndexing && dynamic_cast<MessageActivateErrors*>(startIterator->message.get()) &&
+			m_storageAccess->getErrorCount().total == 0))
 	{
 		MessageActivateAll msg;
 		msg.setSchedulerId(getSchedulerId());

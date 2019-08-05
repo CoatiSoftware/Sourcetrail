@@ -219,7 +219,7 @@ void Application::handleMessage(MessageIndexingFinished* message)
 
 	if (m_hasGUI)
 	{
-		MessageRefreshUI().dispatch();
+		MessageRefreshUI().afterIndexing().dispatch();
 	}
 	else
 	{
