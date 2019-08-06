@@ -46,6 +46,7 @@ if [ $PLATFORM == "Windows" ]; then
 	copy_dynamic_libraries() # Parameters: bit {32, 64}, mode {Debug, Release}, target {app, test}
 	{
 		mkdir -p build/win$1/$2/$3/platforms
+		mkdir -p build/win$1/$2/$3/styles
 		mkdir -p build/win$1/$2/$3/imageformats
 		
 		local QT_DIR=${QT_WIN32_DIR}
@@ -75,6 +76,7 @@ if [ $PLATFORM == "Windows" ]; then
 		cp -u -r ${QT_DIR}/bin/Qt5Widgets$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/bin/Qt5WinExtras$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/plugins/platforms/qwindows$SUFFIX.dll build/win$1/$2/$3/platforms
+		cp -u -r ${QT_DIR}/plugins/styles/qwindowsvistastyle$SUFFIX.dll build/win$1/$2/$3/styles
 		cp -u -r ${QT_DIR}/plugins/imageformats/qgif$SUFFIX.dll build/win$1/$2/$3/imageformats
 		cp -u -r ${QT_DIR}/plugins/imageformats/qicns$SUFFIX.dll build/win$1/$2/$3/imageformats
 		cp -u -r ${QT_DIR}/plugins/imageformats/qico$SUFFIX.dll build/win$1/$2/$3/imageformats

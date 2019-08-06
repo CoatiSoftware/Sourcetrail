@@ -228,7 +228,8 @@
 				<ComponentRef Id='ucrtbaseDll'/>
 				<ComponentRef Id='vcruntime140_dll'/>
 
-				<ComponentRef Id='QWindowsDll'/>
+				<ComponentRef Id='qwindows_dll'/>
+				<ComponentRef Id='qwindowsvistastyle_dll'/>
 				<ComponentRef Id='QGifDll'/>
 				<ComponentRef Id='QIcnsDll'/>
 				<ComponentRef Id='QIcoDll'/>

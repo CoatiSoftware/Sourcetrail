@@ -252,8 +252,14 @@
 			</Component>
 
 			<Directory Id='Platforms' Name='platforms'>
-				<Component Id='QWindowsDll' Guid='*' Win64="$(var.Win64)">
-					<File Id='qwindowsDLL' Name='qwindows.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/platforms/qwindows.dll' KeyPath='yes' />
+				<Component Id='qwindows_dll' Guid='*' Win64="$(var.Win64)">
+					<File Id='qwindows' Name='qwindows.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/platforms/qwindows.dll' KeyPath='yes' />
+				</Component>
+			</Directory>
+
+			<Directory Id='Styles' Name='styles'>
+				<Component Id='qwindowsvistastyle_dll' Guid='*' Win64="$(var.Win64)">
+					<File Id='qwindowsvistastyle' Name='qwindowsvistastyle.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/styles/qwindowsvistastyle.dll' KeyPath='yes' />
 				</Component>
 			</Directory>
 

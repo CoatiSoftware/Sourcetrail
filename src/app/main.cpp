@@ -82,6 +82,8 @@ QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)
 
 int main(int argc, char *argv[])
 {
+	QCoreApplication::addLibraryPath(".");
+
 	if (utility::getOsType() == OS_LINUX && std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
 	{
 		std::cout << "ERROR: Please run Sourcetrail via the Sourcetrail.sh script!" << std::endl;
