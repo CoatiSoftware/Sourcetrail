@@ -1,5 +1,5 @@
-#ifndef FOO_H
-#define FOO_H
+#ifndef BAR_H
+#define BAR_H
 
 #include "FooBar.h"
 
@@ -7,4 +7,4 @@ class Bar : public FooBar
 {
 };
 
-#endif // FOO_H
+#endif // BAR_H

@@ -147,11 +147,14 @@ int utility::executeProcessAndGetExitCode(
 	bool logProcessOutput,
 	std::wstring* errorMessage
 ){
+	bool finished = false;
+
 	QProcess process;
 
-	if (errorMessage != nullptr)
+	QObject::connect(&process, &QProcess::errorOccurred, [&finished, errorMessage, commandPath](QProcess::ProcessError error)
 	{
-		QObject::connect(&process, &QProcess::errorOccurred, [errorMessage, commandPath](QProcess::ProcessError error)
+		finished = true;
+		if (errorMessage != nullptr)
 		{
 			switch (error)
 			{
@@ -173,9 +176,15 @@ int utility::executeProcessAndGetExitCode(
 			case QProcess::UnknownError:
 				*errorMessage = L"An unknown error occurred while executing process.";
 				break;
-			};
-		});
-	}
+			}
+		};
+	});
+
+	QObject::connect(&process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [&finished](int exitCode, QProcess::ExitStatus exitStatus)
+	{
+		finished = true;
+	});
+
 
 	if (!workingDirectory.empty())
 	{
@@ -204,7 +213,7 @@ int utility::executeProcessAndGetExitCode(
 		std::wstring errorBuffer;
 		if (timeout == -1)
 		{
-			while (!process.waitForFinished(1000))
+			while (!finished && process.waitForFinished(1000))
 			{
 				if (logProcessOutput)
 				{
@@ -214,7 +223,10 @@ int utility::executeProcessAndGetExitCode(
 		}
 		else
 		{
-			process.waitForFinished(timeout);
+			if (!finished)
+			{
+				process.waitForFinished(timeout);
+			}
 		}
 
 		if (logProcessOutput)

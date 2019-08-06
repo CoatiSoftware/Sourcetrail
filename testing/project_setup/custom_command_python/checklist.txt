@@ -10,7 +10,7 @@
 * Click "Add Source Group"
 * Select "Custom" -> "Custom Command Source Group"
 * Click "Next"
-* Add "python <path/to/working_copy>/SourcetrailPythonIndexer/run.py --source-file-path=%{SOURCE_FILE_PATH} --database-file-path=%{DATABASE_FILE_PATH}" to "Custom Command"
+* Add "python <path/to/working_copy>/SourcetrailPythonIndexer/run.py index --source-file-path=%{SOURCE_FILE_PATH} --database-file-path=%{DATABASE_FILE_PATH}" to "Custom Command"
 * Add "./src" to "Files & Directories to Index"
 * Add "**main*" to "Excluded Files & Directories"
 * Add ".py" to "Source File Extensions"
@@ -34,7 +34,7 @@
 * Click "Save"
 * Validate a project-file-was-changed-notification appears
 * Click "Reindex"
-* Validate "Updated files" is selected
+* Validate "All files" is selected
 * Validate "source files to index" shows "3"
 * Click "Updated files"
 * Validate "source files to index" shows "1"
@@ -43,7 +43,9 @@
 * Click "OK"
 * Validate content of code and graph view changed and display calls from "main"
 * Run "2_update.sh"
+* Click "Refresh" button
 * Validate "Updated files" is selected
+* Validate "files to clear" shows "1"
 * Validate "source files to index" shows "1"
 * Click Start
 * Validate a dialog appears that states that the project cannot be partially cleared
@@ -57,7 +59,8 @@
 * Validate "Warning appears that %{SOURCE_FILE_PATH} is not defined in command"
 * In "Custom Command" replace "foo" with "%{SOURCE_FILE_PATH}"
 * Click "Save"
-* Click "Refresh" button
+* Validate a project-file-was-changed-notification appears
+* Click "Reindex"
 * Click "Start"
 * Validate "Log View appears showing errors that command execution failed".
 * Close Sourcetrail
