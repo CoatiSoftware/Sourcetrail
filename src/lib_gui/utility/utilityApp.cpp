@@ -213,7 +213,7 @@ int utility::executeProcessAndGetExitCode(
 		std::wstring errorBuffer;
 		if (timeout == -1)
 		{
-			while (!finished && process.waitForFinished(1000))
+			while (!finished && !process.waitForFinished(1000))
 			{
 				if (logProcessOutput)
 				{
