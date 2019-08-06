@@ -254,6 +254,12 @@ void QtGraphicsView::mousePressEvent(QMouseEvent *event)
 	QGraphicsView::mousePressEvent(event);
 }
 
+void QtGraphicsView::mouseMoveEvent(QMouseEvent *event)
+{
+	QtGraphEdge::unfocusBezierEdge();
+	QGraphicsView::mouseMoveEvent(event);
+}
+
 void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton && !itemAt(event->pos()) && event->pos() == m_last)

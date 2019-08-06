@@ -26,6 +26,14 @@
 QtGraphEdge* QtGraphEdge::s_focusedEdge = nullptr;
 QtGraphEdge* QtGraphEdge::s_focusedBezierEdge = nullptr;
 
+void QtGraphEdge::unfocusBezierEdge()
+{
+	if (s_focusedBezierEdge)
+	{
+		s_focusedBezierEdge->focusOut();
+	}
+}
+
 QtGraphEdge::QtGraphEdge(
 	QtGraphNode* owner,
 	QtGraphNode* target,

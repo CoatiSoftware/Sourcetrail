@@ -21,6 +21,8 @@ class QtGraphEdge
 	Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
+	static void unfocusBezierEdge();
+
 	QtGraphEdge(
 		QtGraphNode* owner,
 		QtGraphNode* target,
