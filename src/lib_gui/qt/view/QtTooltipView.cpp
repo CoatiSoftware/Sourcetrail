@@ -6,11 +6,12 @@
 #include "QtViewWidgetWrapper.h"
 #include "QtMainWindow.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
 QtTooltipView::QtTooltipView(ViewLayout* viewLayout)
 	: TooltipView(viewLayout)
 {
-	m_widget = new QtTooltip(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow());
+	m_widget = new QtTooltip(utility::getMainWindowforMainView(viewLayout));
 }
 
 void QtTooltipView::createWidgetWrapper()

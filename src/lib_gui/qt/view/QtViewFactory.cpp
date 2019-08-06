@@ -20,6 +20,7 @@
 #include "QtTabsView.h"
 #include "QtTooltipView.h"
 #include "QtUndoRedoView.h"
+#include "utilityQt.h"
 
 std::shared_ptr<MainView> QtViewFactory::createMainView(StorageAccess* storageAccess) const
 {
@@ -52,9 +53,9 @@ std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) 
 	return View::createAndAddToLayout<QtCodeView>(viewLayout);
 }
 
-std::shared_ptr<CustomTrailView> QtViewFactory::createCustomTrailView() const
+std::shared_ptr<CustomTrailView> QtViewFactory::createCustomTrailView(ViewLayout* viewLayout) const
 {
-	return View::create<QtCustomTrailView>(nullptr);
+	return View::create<QtCustomTrailView>(viewLayout);
 }
 
 std::shared_ptr<ErrorView> QtViewFactory::createErrorView(ViewLayout* viewLayout) const
@@ -110,7 +111,7 @@ std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* view
 std::shared_ptr<DialogView> QtViewFactory::createDialogView(
 	ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const
 {
-	return std::make_shared<QtDialogView>(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow(), useCase, storageAccess);
+	return std::make_shared<QtDialogView>(utility::getMainWindowforMainView(viewLayout), useCase, storageAccess);
 }
 
 std::shared_ptr<GraphViewStyleImpl> QtViewFactory::createGraphStyleImpl() const

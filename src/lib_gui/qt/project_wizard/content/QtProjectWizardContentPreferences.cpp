@@ -106,6 +106,7 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	// directory in code
 	m_showDirectoryInCode = addCheckBox("Directory in File Title", "Show directory of file in code title",
 		"<p>Enable display of the parent directory of a code file relative to the project file.</p>", layout, row);
+	layout->setRowMinimumHeight(row - 1, 30);
 
 	addGap(layout, row);
 

@@ -14,16 +14,18 @@
 #include "MessageActivateTrail.h"
 #include "NodeTypeSet.h"
 #include "QtSmartSearchBox.h"
+#include "QtMainWindow.h"
 #include "ResourcePaths.h"
 #include "TabId.h"
 #include "utilityQt.h"
 
-QtCustomTrailView::QtCustomTrailView(ViewLayout*)
-	: QWidget(nullptr)
+QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
+	: QWidget(utility::getMainWindowforMainView(viewLayout))
 	, CustomTrailView(nullptr)
 	, m_controllerProxy(this, TabId::app())
 {
 	setWindowTitle("Custom Trail");
+	setWindowFlags(Qt::Window);
 
 	QGridLayout* mainLayout = new QGridLayout();
 	mainLayout->setContentsMargins(0, 0, 0, 0);

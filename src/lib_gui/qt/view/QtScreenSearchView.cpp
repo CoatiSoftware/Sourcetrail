@@ -21,11 +21,13 @@ QtScreenSearchView::QtScreenSearchView(ViewLayout* viewLayout)
 	m_bar->setMovable(false);
 	m_bar->addWidget(m_widget);
 
-	QtMainWindow* mainWindow = dynamic_cast<QtMainView*>(getViewLayout())->getMainWindow();
-
 	QObject::connect(m_widget, &QtScreenSearchBox::closePressed, this, &QtScreenSearchView::hide);
-	QObject::connect(mainWindow, &QtMainWindow::showScreenSearch, this, &QtScreenSearchView::show);
-	QObject::connect(mainWindow, &QtMainWindow::hideScreenSearch, this, &QtScreenSearchView::hide);
+
+	if (QtMainWindow* mainWindow = utility::getMainWindowforMainView(getViewLayout()))
+	{
+		QObject::connect(mainWindow, &QtMainWindow::showScreenSearch, this, &QtScreenSearchView::show);
+		QObject::connect(mainWindow, &QtMainWindow::hideScreenSearch, this, &QtScreenSearchView::hide);
+	}
 }
 
 void QtScreenSearchView::createWidgetWrapper()
@@ -70,8 +72,10 @@ void QtScreenSearchView::addResponder(const std::string& name)
 
 void QtScreenSearchView::show()
 {
-	QtMainWindow* mainWindow = dynamic_cast<QtMainView*>(getViewLayout())->getMainWindow();
-	mainWindow->addToolBar(Qt::BottomToolBarArea, m_bar);
+	if (QtMainWindow* mainWindow = utility::getMainWindowforMainView(getViewLayout()))
+	{
+		mainWindow->addToolBar(Qt::BottomToolBarArea, m_bar);
+	}
 
 	m_bar->show();
 	m_widget->setFocus();

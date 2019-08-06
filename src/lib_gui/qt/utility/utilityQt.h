@@ -9,6 +9,8 @@ class QIcon;
 class QPixmap;
 class QString;
 class QWidget;
+class QtMainWindow;
+class ViewLayout;
 
 namespace utility
 {
@@ -21,6 +23,8 @@ namespace utility
 
 	QPixmap colorizePixmap(const QPixmap& pixmap, QColor color);
 	QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId);
+
+	QtMainWindow* getMainWindowforMainView(ViewLayout* viewLayout);
 
 	void copyNewFilesFromDirectory(QString src, QString dst);
 }

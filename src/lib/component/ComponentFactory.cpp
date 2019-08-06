@@ -69,9 +69,9 @@ std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* vie
 	return std::make_shared<Component>(view, controller);
 }
 
-std::shared_ptr<Component> ComponentFactory::createCustomTrailComponent()
+std::shared_ptr<Component> ComponentFactory::createCustomTrailComponent(ViewLayout* viewLayout)
 {
-	std::shared_ptr<CustomTrailView> view = m_viewFactory->createCustomTrailView();
+	std::shared_ptr<CustomTrailView> view = m_viewFactory->createCustomTrailView(viewLayout);
 	std::shared_ptr<CustomTrailController> controller = std::make_shared<CustomTrailController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);

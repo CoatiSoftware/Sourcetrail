@@ -12,6 +12,7 @@
 #include "FilePath.h"
 #include "FileSystem.h"
 #include "logging.h"
+#include "QtMainView.h"
 #include "ResourcePaths.h"
 #include "TextAccess.h"
 #include "utilityApp.h"
@@ -228,6 +229,15 @@ namespace utility
 		}
 
 		return icon;
+	}
+
+	QtMainWindow* getMainWindowforMainView(ViewLayout* viewLayout)
+	{
+		if (QtMainView* mainView = dynamic_cast<QtMainView*>(viewLayout))
+		{
+			return mainView->getMainWindow();
+		}
+		return nullptr;
 	}
 
 	void copyNewFilesFromDirectory(QString src, QString dst)
