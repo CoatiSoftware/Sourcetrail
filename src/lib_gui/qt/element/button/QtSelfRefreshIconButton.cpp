@@ -15,8 +15,10 @@ QtSelfRefreshIconButton::QtSelfRefreshIconButton(
 	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	refresh();
 
-	m_timer.setSingleShot(true);
-	connect(&m_timer, &QTimer::timeout, [this](){ updateText(width()); });
+	m_updateTimer.setSingleShot(true);
+	m_blockTimer.setSingleShot(true);
+	connect(&m_updateTimer, &QTimer::timeout, [this](){ updateText(width()); });
+	connect(&m_blockTimer, &QTimer::timeout, [this](){ m_blockUpdate = false; });
 }
 
 void QtSelfRefreshIconButton::setText(const QString& text)
@@ -26,7 +28,7 @@ void QtSelfRefreshIconButton::setText(const QString& text)
 
 	if (m_autoElide)
 	{
-		m_timer.start(25);
+		m_updateTimer.start(25);
 	}
 }
 
@@ -64,7 +66,7 @@ void QtSelfRefreshIconButton::resizeEvent(QResizeEvent *event)
 {
 	if (m_autoElide)
 	{
-		m_timer.stop();
+		m_updateTimer.stop();
 		updateText(event->size().width());
 	}
 
@@ -73,6 +75,11 @@ void QtSelfRefreshIconButton::resizeEvent(QResizeEvent *event)
 
 void QtSelfRefreshIconButton::updateText(int width)
 {
-	QPushButton::setText(
-		fontMetrics().elidedText(m_text, Qt::ElideLeft, width - iconSize().width() - 22));
+	if (!m_blockUpdate)
+	{
+		m_blockUpdate = true;
+		QPushButton::setText(
+			fontMetrics().elidedText(m_text, Qt::ElideLeft, width - iconSize().width() - 22));
+		m_blockTimer.start(50);
+	}
 }

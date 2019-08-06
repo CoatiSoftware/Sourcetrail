@@ -40,7 +40,9 @@ private:
 	const std::string m_buttonKey;
 
 	bool m_autoElide = false;
-	QTimer m_timer;
+	bool m_blockUpdate = false;
+	QTimer m_updateTimer;
+	QTimer m_blockTimer;
 };
 
 #endif // QT_SELF_REFRESH_ICON_BUTTON_H
