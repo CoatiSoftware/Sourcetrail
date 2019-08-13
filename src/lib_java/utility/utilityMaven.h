@@ -12,7 +12,7 @@ namespace utility
 	bool mavenCopyDependencies(
 		const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath);
 	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
-		const FilePath& mavenPath, const FilePath& projectDirectoryPath, bool addTestDirectories);
+		const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath, bool addTestDirectories);
 }
 
 #endif // UTILITY_MAVEN_H

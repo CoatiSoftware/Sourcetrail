@@ -124,12 +124,14 @@ namespace utility
 	}
 
 	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
-		const FilePath& mavenPath, const FilePath& projectDirectoryPath, bool addTestDirectories)
+		const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath, bool addTestDirectories)
 	{
 		utility::setJavaHomeVariableIfNotExists();
 
+		FilePath outputPath = outputDirectoryPath.getConcatenated(FilePath("/effective-pom.xml"));
+
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
-			"\"" + mavenPath.str() + "\" help:effective-pom -B",
+			"\"" + mavenPath.str() + "\" help:effective-pom -Doutput=\"" + outputPath.str(),
 			projectDirectoryPath,
 			60000
 		));
@@ -139,43 +141,15 @@ namespace utility
 		{
 			MessageStatus(errorMessage, true, false).dispatch();
 			Application::getInstance()->handleDialog(errorMessage);
-			return std::vector<FilePath>();
+			return {};
+		}
+		else if (!outputPath.exists())
+		{
+			LOG_ERROR("Maven effective-pom didn't generate an output file: " + outputPath.str());
+			return {};
 		}
 
-		size_t startLine = 0;
-		for (size_t i = 1; i <= outputAccess->getLineCount(); i++)
-		{
-			if (utility::isPrefix<std::string>("<", utility::trim(outputAccess->getLine(i))))
-			{
-				startLine = i;
-				break;
-			}
-		}
-
-		size_t endLine = outputAccess->getLineCount();
-		for (size_t i = outputAccess->getLineCount(); i > 0 ; i--)
-		{
-			if (utility::isPrefix<std::string>("<", utility::trim(outputAccess->getLine(i))))
-			{
-				endLine = i;
-				break;
-			}
-		}
-		for (size_t i = endLine + 1; i <= outputAccess->getLineCount(); i++)
-		{
-			if (utility::isPrefix<std::string>("[", utility::trim(outputAccess->getLine(i))))
-			{
-				break;
-			}
-			endLine = i;
-		}
-
-		std::string xmlContent = "";
-		for (const std::string& line: outputAccess->getLines(startLine, endLine))
-		{
-			xmlContent.append(line);
-		}
-		std::shared_ptr<TextAccess> xmlAccess = TextAccess::createFromString(xmlContent);
+		std::shared_ptr<TextAccess> xmlAccess = TextAccess::createFromFile(outputPath);
 
 		std::vector<FilePath> uncheckedDirectories;
 		fetchDirectories(uncheckedDirectories, xmlAccess,

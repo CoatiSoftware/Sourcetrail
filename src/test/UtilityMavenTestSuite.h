@@ -21,7 +21,7 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"), false
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"), FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(), false
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(
@@ -42,7 +42,7 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"), true
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"), FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(), true
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(
@@ -63,7 +63,7 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"), false
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"), FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(), false
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(
@@ -92,7 +92,7 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"), true
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"), FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(), true
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(

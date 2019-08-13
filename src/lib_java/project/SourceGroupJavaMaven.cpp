@@ -42,7 +42,13 @@ std::vector<FilePath> SourceGroupJavaMaven::getAllSourcePaths() const
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
 		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
-		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_settings->getShouldIndexMavenTests());
+
+		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(
+			mavenPath,
+			projectRootPath,
+			m_settings->getMavenDependenciesDirectoryPath(),
+			m_settings->getShouldIndexMavenTests()
+		);
 
 		dialogView->hideUnknownProgressDialog();
 	}
