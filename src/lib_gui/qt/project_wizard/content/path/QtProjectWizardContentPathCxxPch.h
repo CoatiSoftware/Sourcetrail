@@ -22,6 +22,7 @@ public:
 
 	void load() override;
 	void save() override;
+	bool check() override;
 
 private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;

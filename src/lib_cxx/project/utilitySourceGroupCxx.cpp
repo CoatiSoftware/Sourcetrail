@@ -1,5 +1,7 @@
 #include "utilitySourceGroupCxx.h"
 
+#include <clang/Tooling/JSONCompilationDatabase.h>
+
 #include "CanonicalFilePathCache.h"
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"
@@ -48,6 +50,7 @@ namespace utility
 		const FilePath pchOutputFilePath =
 			pchDependenciesDirectoryPath.getConcatenated(pchInputFilePath.fileName()).replaceExtension(L"pch");
 
+		utility::removeIncludePchFlag(compilerFlags);
 		compilerFlags.push_back(pchInputFilePath.wstr());
 		compilerFlags.push_back(L"-emit-pch");
 		compilerFlags.push_back(L"-o");
@@ -100,6 +103,48 @@ namespace utility
 				storageProvider->insert(storage);
 			}
 		);
+	}
+
+	bool containsIncludePchFlags(std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb)
+	{
+		for (const clang::tooling::CompileCommand& command : cdb->getAllCompileCommands())
+		{
+			if (command.CommandLine.size() != getWithRemoveIncludePchFlag(utility::convert<std::string, std::wstring>(
+				command.CommandLine,
+				[](const std::string& s) {return utility::decodeFromUtf8(s); }
+				)).size())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	std::vector<std::wstring> getWithRemoveIncludePchFlag(const std::vector<std::wstring>& args)
+	{
+		std::vector<std::wstring> ret = args;
+		removeIncludePchFlag(ret);
+		return ret;
+	}
+
+	void removeIncludePchFlag(std::vector<std::wstring>& args)
+	{
+		const std::wstring includePchPrefix = L"-include-pch";
+		for (size_t i = 0; i < args.size(); i++)
+		{
+			const std::wstring arg = utility::trim(args[i]);
+			if (utility::isPrefix<std::wstring>(includePchPrefix, arg))
+			{
+				if (i + 1 < args.size() &&
+					!utility::isPrefix<std::wstring>(L"-", utility::trim(args[i + 1])) &&
+					arg == includePchPrefix)
+				{
+					args.erase(args.begin() + i + 1);
+				}
+				args.erase(args.begin() + i);
+				i--;
+			}
+		}
 	}
 
 	std::vector<std::wstring> getIncludePchFlags(const SourceGroupSettingsCxx* settings)

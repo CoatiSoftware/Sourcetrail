@@ -101,7 +101,8 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 
 	std::vector<std::wstring> compilerFlags = getBaseCompilerFlags();
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
-	utility::append(compilerFlags, utility::getIncludePchFlags(m_settings.get()));
+
+	const std::vector<std::wstring> includePchFlags = utility::getIncludePchFlags(m_settings.get());
 
 	const std::set<FilePath> indexedHeaderPaths = utility::toSet(m_settings->getIndexedHeaderPathsExpandedAndAbsolute());
 	const std::set<FilePathFilter> excludeFilters = utility::toSet(m_settings->getExcludeFiltersExpandedAndAbsolute());
@@ -122,13 +123,17 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 		if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
 			sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
 		{
-			std::vector<std::wstring> mergedCompilerFlags;
-			mergedCompilerFlags.reserve(compilerFlags.size() + command.CommandLine.size());
-			for (const std::string& arg : command.CommandLine)
+			std::vector<std::wstring> cdbFlags = utility::convert<std::string, std::wstring>(
+				command.CommandLine,
+				[](const std::string& s) { return utility::decodeFromUtf8(s); }
+			);
+
+			utility::removeIncludePchFlag(cdbFlags);
+
+			if (command.CommandLine.size() != cdbFlags.size())
 			{
-				mergedCompilerFlags.emplace_back(utility::decodeFromUtf8(arg));
+				utility::append(cdbFlags, includePchFlags);
 			}
-			mergedCompilerFlags.insert(mergedCompilerFlags.end(), compilerFlags.begin(), compilerFlags.end());
 
 			provider->addCommand(std::make_shared<IndexerCommandCxx>(
 				sourcePath,
@@ -136,7 +141,7 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 				excludeFilters,
 				std::set<FilePathFilter>(),
 				FilePath(utility::decodeFromUtf8(command.Directory)),
-				mergedCompilerFlags
+				utility::concat(cdbFlags, compilerFlags)
 			));
 		}
 	}

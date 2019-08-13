@@ -14,8 +14,11 @@
 * Add "**/Foo.h" to "Excluded Files & Directories"
 * Click "Next"
 * Click "Next"
-* Add "-DCOMPILER_FLAG" to "Additional Compiler Flags"
+* Validate dialog appears that asks to specify PCH input file
+* Click "OK"
 * Add "./src/pch.h" to "Precompiled Header File"
+* Click "Next"
+* Add "-DCOMPILER_FLAG" to "Additional Compiler Flags"
 * Add "-DPCH_FLAG" to "Precompiled Header Flags"
 * Click "Create"
 * Validate "All files" is the only option selectable

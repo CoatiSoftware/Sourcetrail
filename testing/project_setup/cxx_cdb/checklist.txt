@@ -13,6 +13,12 @@
 * Validate "Header Files & Directories to Index" contains "src" entry
 * Add "**/Foo.h" to "Excluded Files & Directories"
 * Click "Next"
+* Pick any file at "Precompiled Header File"
+* Click "Next"
+* Validate dialog appears that asks NOT to specify PCH input file
+* Click "OK"
+* Clear "Precompiled Header File"
+* Click "Next"
 * Click "Create"
 * Validate "All files" is the only option selectable
 * Click "Start"
