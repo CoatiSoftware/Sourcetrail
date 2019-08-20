@@ -67,25 +67,6 @@ void CxxAstVisitor::indexDecl(clang::Decl* d)
 {
 	LOG_INFO("starting AST traversal");
 
-	// record files not handled in preprocessor callbacks, e.g. files within precompiled header
-	clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-	for (auto it = sourceManager.fileinfo_begin(); it != sourceManager.fileinfo_end(); it++)
-	{
-		const clang::FileEntry* fileEntry = it->first;
-		if (m_canonicalFilePathCache->getFileSymbolId(fileEntry) == 0)
-		{
-			const clang::FileID fileId = sourceManager.translateFile(fileEntry);
-			if (fileId.isValid())
-			{
-				const FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-				const bool pathIsProjectFile = m_canonicalFilePathCache->isProjectFile(fileId, sourceManager);
-				const Id symbolId = m_client->recordFile(filePath, pathIsProjectFile);
-				m_client->recordFileLanguage(symbolId, L"cpp");
-				m_canonicalFilePathCache->addFileSymbolId(fileId, filePath, symbolId);
-			}
-		}
-	}
-
 	this->TraverseDecl(d);
 }
 
@@ -161,7 +142,8 @@ bool CxxAstVisitor::TraverseDecl(clang::Decl* decl)
 	bool traverse = true;
 	if (decl)
 	{
-		clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(decl->getLocation());
+		const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
+		clang::SourceLocation loc = sourceManager.getExpansionLoc(decl->getLocation());
 
 		if (loc.isInvalid())
 		{
@@ -170,6 +152,17 @@ bool CxxAstVisitor::TraverseDecl(clang::Decl* decl)
 
 		if (loc.isValid())
 		{
+			// record files not handled in preprocessor callbacks, e.g. files within precompiled header
+			const clang::FileID fileId = sourceManager.getFileID(loc);
+			if (fileId.isValid() && m_canonicalFilePathCache->getFileSymbolId(fileId) == 0)
+			{
+				const FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileId, sourceManager);
+				const bool pathIsProjectFile = m_canonicalFilePathCache->isProjectFile(fileId, sourceManager);
+				const Id symbolId = m_client->recordFile(filePath, pathIsProjectFile);
+				m_client->recordFileLanguage(symbolId, L"cpp");
+				m_canonicalFilePathCache->addFileSymbolId(fileId, filePath, symbolId);
+			}
+
 			traverse = isLocatedInProjectFile(loc);
 		}
 	}
