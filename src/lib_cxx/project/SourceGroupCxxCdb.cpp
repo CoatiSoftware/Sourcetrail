@@ -164,7 +164,7 @@ std::shared_ptr<Task> SourceGroupCxxCdb::getPreIndexTask(
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = IndexerCommandCxx::loadCDB(cdbPath);
 		if (cdb)
 		{
-			const std::set<FilePath>& sourceFilePaths = getAllSourceFilePaths(cdb);
+			const std::set<FilePath> sourceFilePaths = getAllSourceFilePaths(cdb);
 			for (const clang::tooling::CompileCommand& command: cdb->getAllCompileCommands())
 			{
 				FilePath sourcePath = FilePath(utility::decodeFromUtf8(command.Filename)).makeCanonical();
@@ -177,11 +177,11 @@ std::shared_ptr<Task> SourceGroupCxxCdb::getPreIndexTask(
 					}
 				}
 
-				if (sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
+				if (sourceFilePaths.find(sourcePath) != sourceFilePaths.end() && utility::containsIncludePchFlag(command.CommandLine))
 				{
 					for (const std::string& arg : command.CommandLine)
 					{
-						if ((compilerFlags.size() || utility::isPrefix<std::string>("-", arg)) &&
+						if ((!compilerFlags.empty() || utility::isPrefix<std::string>("-", arg)) &&
 							FilePath(arg).fileName() != sourcePath.fileName())
 						{
 							compilerFlags.emplace_back(utility::decodeFromUtf8(arg));

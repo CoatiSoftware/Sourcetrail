@@ -22,6 +22,9 @@ QtProjectWizardContentPathCxxPch::QtProjectWizardContentPathCxxPch(
 	setHelpString(
 		"Specify the path to the input header file that should be used to generate a precompiled header before indexing.<br />"
 		"If the indexed source code is usually built using precompiled headers, using this option will speed up your indexing performance.<br />"
+		"<br />"
+		"If your source files use precompiled headers via \"#include &lt;pch.h&gt;\", specify \"path/to/pch.h\".<br />"
+		"<br />"
 		"Leave blank to disable the use of precompiled headers. You can make use of environment variables with ${ENV_VAR}."
 	);
 	setAllowEmpty(true);
@@ -64,9 +67,18 @@ bool QtProjectWizardContentPathCxxPch::check()
 			if (m_settingsCxxPch->getPchInputFilePath().empty())
 			{
 				QMessageBox msgBox;
-				msgBox.setText("The provided compilation database file uses precompiled headers. Please specify a Precompiled Header input file.");
+				msgBox.setText(
+					"The provided compilation database file uses precompiled headers. If you want to make use of "
+					"precompiled headers to speed up your indexer, please specify an input at Precompiled Header File."
+				);
+				QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::RejectRole);
+				QPushButton* continueButton = msgBox.addButton("Continue", QMessageBox::ButtonRole::AcceptRole);
 				msgBox.exec();
-				return false;
+				if (msgBox.clickedButton() == cancelButton)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 		else
@@ -74,9 +86,12 @@ bool QtProjectWizardContentPathCxxPch::check()
 			if (!m_settingsCxxPch->getPchInputFilePath().empty())
 			{
 				QMessageBox msgBox;
-				msgBox.setText("The provided compilation database file does not use precompiled headers. Please do not specify a Precompiled Header input file.");
+				msgBox.setText(
+					"The provided compilation database file does not use precompiled headers. The specified input file at "
+					"Precompiled Header File will not be used."
+				);
 				msgBox.exec();
-				return false;
+				return true;
 			}
 		}
 	}

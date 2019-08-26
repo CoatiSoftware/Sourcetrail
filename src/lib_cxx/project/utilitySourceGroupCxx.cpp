@@ -109,10 +109,21 @@ namespace utility
 	{
 		for (const clang::tooling::CompileCommand& command : cdb->getAllCompileCommands())
 		{
-			if (command.CommandLine.size() != getWithRemoveIncludePchFlag(utility::convert<std::string, std::wstring>(
-				command.CommandLine,
-				[](const std::string& s) {return utility::decodeFromUtf8(s); }
-				)).size())
+			if (containsIncludePchFlag(command.CommandLine))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool containsIncludePchFlag(const std::vector<std::string>& args)
+	{
+		const std::string includePchPrefix = "-include-pch";
+		for (size_t i = 0; i < args.size(); i++)
+		{
+			const std::string arg = utility::trim(args[i]);
+			if (utility::isPrefix(includePchPrefix, arg))
 			{
 				return true;
 			}
