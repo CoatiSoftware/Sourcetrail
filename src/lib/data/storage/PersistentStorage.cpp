@@ -1438,7 +1438,6 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 		else
 		{
 			nodeIds.insert(originId);
-			nodeIds.insert(targetId);
 		}
 	}
 

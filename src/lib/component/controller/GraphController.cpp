@@ -210,7 +210,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 {
 	TRACE("trail activate");
 
-	MessageStatus(L"Retrieving depth graph data", false, true).dispatch();
+	MessageStatus(L"Retrieving graph data", false, true).dispatch();
 
 	m_activeEdgeIds.clear();
 
@@ -242,11 +242,20 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 		}
 	}
 
-	if (graph->getNodeCount() > 1000)
+	if (message->originId && message->targetId && !graph->getNodeById(message->targetId))
+	{
+		MessageStatus(L"No trail graph found.", true).dispatch();
+
+		Application::getInstance()->handleDialog(
+			L"No custom trail was found between the specified symbols with the specified parameters.",
+			{ L"Ok" }
+		);
+	}
+	else if (graph->getNodeCount() > 1000)
 	{
 		int r = Application::getInstance()->handleDialog(
-			L"Warning!\n\nThe resulting depth graph will contain " + std::to_wstring(graph->getNodeCount()) + " nodes. "
-			L"Layouting and drawing might take a while and the resulting graph diagram could be unclear. Please "
+			L"Warning!\n\nThe graph will contain " + std::to_wstring(graph->getNodeCount()) + " nodes. "
+			L"Layouting and drawing might take a while and the resulting graph could look confusing. Please "
 			L"consider reducing graph depth with the slider on the left.\n\n"
 			L"Do you want to proceed?",
 			{ L"Yes", L"No" }
@@ -254,7 +263,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 		if (r == 1)
 		{
-			MessageStatus(L"Depth graph aborted.").dispatch();
+			MessageStatus(L"Aborted graph display").dispatch();
 			return;
 		}
 	}
@@ -267,7 +276,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	setActive(m_activeNodeIds, true);
 	setVisibility(true);
 
-	MessageStatus(L"Layouting depth graph", false, true).dispatch();
+	MessageStatus(L"Layouting graph", false, true).dispatch();
 
 	if (!message->custom && message->edgeTypes & Edge::EDGE_INHERITANCE)
 	{
@@ -286,7 +295,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 		}
 	}
 
-	MessageStatus(L"Displaying depth graph", false, true).dispatch();
+	MessageStatus(L"Displaying graph", false, true).dispatch();
 
 	GraphView::GraphParams params;
 	params.centerActiveNode = message->isLast();
