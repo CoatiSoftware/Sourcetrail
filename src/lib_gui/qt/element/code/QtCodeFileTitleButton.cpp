@@ -148,6 +148,11 @@ void QtCodeFileTitleButton::updateTexts()
 			directory = directoryRelative;
 		}
 
+		if (directory.size() && directory.back() == L'/')
+		{
+			directory.pop_back();
+		}
+
 		title = directory + L" - " + title;
 	}
 	else
