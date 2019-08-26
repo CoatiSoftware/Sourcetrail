@@ -516,8 +516,9 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 		}
 	}
 
-	taskSequential->addTask(std::make_shared<TaskSetValue<int>>(
-		"source_file_count", indexerCommandProvider->size() + customIndexerCommandProvider->size()));
+	size_t sourceFileCount = indexerCommandProvider->size() + customIndexerCommandProvider->size();
+
+	taskSequential->addTask(std::make_shared<TaskSetValue<int>>("source_file_count", sourceFileCount));
 	taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
 	taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("interrupted_indexing", false));
 	taskSequential->addTask(std::make_shared<TaskSetValue<float>>("index_time", 0.0f));
@@ -673,6 +674,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 	Task::dispatch(TabId::app(), taskSequential);
 
 	m_refreshStage = RefreshStageType::INDEXING;
+	MessageStatus(L"Starting Indexing: " + std::to_wstring(sourceFileCount) + L" source files", false, true).dispatch();
 	MessageIndexingStarted().dispatch();
 }
 

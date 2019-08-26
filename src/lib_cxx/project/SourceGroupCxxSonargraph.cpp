@@ -19,19 +19,10 @@ bool SourceGroupCxxSonargraph::prepareIndexing()
 	FilePath sonargraphProjectPath = m_settings->getSonargraphProjectPathExpandedAndAbsolute();
 	if (!sonargraphProjectPath.empty() && !sonargraphProjectPath.exists())
 	{
-		MessageStatus(L"Can't refresh project").dispatch();
-
-		if (std::shared_ptr<Application> application = Application::getInstance())
-		{
-			if (application->hasGUI())
-			{
-				application->handleDialog(
-					L"Can't refresh. The referenced Sonargraph project does not exist anymore: " + sonargraphProjectPath.wstr(),
-					{ L"Ok" }
-				);
-			}
-		}
-		return false;
+		std::wstring error = L"Can't refresh project. The referenced Sonargraph project does not exist anymore: "
+			+ sonargraphProjectPath.wstr();
+		MessageStatus(error, true).dispatch();
+		Application::getInstance()->handleDialog(error, { L"Ok" });
 	}
 	return true;
 }

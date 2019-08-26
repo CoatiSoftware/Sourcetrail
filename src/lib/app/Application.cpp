@@ -467,6 +467,11 @@ void Application::refreshProject(RefreshMode refreshMode)
 	if (m_project && checkSharedMemory())
 	{
 		m_project->refresh(refreshMode, getDialogView(DialogView::UseCase::INDEXING));
+
+		if (!m_hasGUI && !m_project->isIndexing())
+		{
+			MessageQuitApplication().dispatch();
+		}
 	}
 }
 

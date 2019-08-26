@@ -7,18 +7,27 @@ QtCoreApplication::QtCoreApplication(int argc, char **argv )
 {
 }
 
-QtCoreApplication::~QtCoreApplication()
-{
-}
-
 void QtCoreApplication::handleMessage(MessageQuitApplication* message)
 {
-	std::cout << "quit" << std::endl;
+	std::cout << "Quitting" << std::endl;
 	emit quit();
+}
+
+void QtCoreApplication::handleMessage(MessageIndexingStatus* message)
+{
+	if (message->showProgress)
+	{
+		std::cout << message->progressPercent << "% " << '\r' << std::flush;
+	}
 }
 
 void QtCoreApplication::handleMessage(MessageStatus* message)
 {
+	if (message->isError)
+	{
+		std::wcout << L"ERROR: ";
+	}
+
 	for (const std::wstring& status : message->stati())
 	{
 		std::wcout << status << std::endl;

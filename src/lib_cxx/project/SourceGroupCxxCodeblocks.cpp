@@ -19,18 +19,10 @@ bool SourceGroupCxxCodeblocks::prepareIndexing()
 	FilePath codeblocksProjectPath = m_settings->getCodeblocksProjectPathExpandedAndAbsolute();
 	if (!codeblocksProjectPath.empty() && !codeblocksProjectPath.exists())
 	{
-		MessageStatus(L"Can't refresh project").dispatch();
-
-		if (std::shared_ptr<Application> application = Application::getInstance())
-		{
-			if (application->hasGUI())
-			{
-				application->handleDialog(
-					L"Can't refresh. The referenced Code::Blocks project does not exist anymore: " + codeblocksProjectPath.wstr(),
-					{ L"Ok" }
-				);
-			}
-		}
+		std::wstring error = L"Can't refresh project. The referenced Code::Blocks project does not exist anymore: " +
+			codeblocksProjectPath.wstr();
+		MessageStatus(error, true).dispatch();
+		Application::getInstance()->handleDialog(error, { L"Ok" });
 		return false;
 	}
 	return true;
