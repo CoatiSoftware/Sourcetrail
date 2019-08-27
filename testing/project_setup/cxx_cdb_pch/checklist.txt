@@ -15,7 +15,7 @@
 * Click "Next"
 * Click "Next"
 * Validate dialog appears that asks to specify PCH input file
-* Click "OK"
+* Click "Cancel"
 * Add "./src/pch.h" to "Precompiled Header File"
 * Click "Next"
 * Add "-DCOMPILER_FLAG" to "Additional Compiler Flags"
