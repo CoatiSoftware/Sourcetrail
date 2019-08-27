@@ -1,6 +1,7 @@
 # FLAGS
 CLEAN_AND_SETUP=true
 REBUILD=true
+RUN_CODE_SIGNING=true
 UPDATE_DATABASES=true
 CREATE_INSTALLER_ZIP=true
 CREATE_PORTABLE_ZIP=true
@@ -28,6 +29,11 @@ if [ $REBUILD = false ]; then
 	read -p "Press [Enter] key to continue"
 fi
 
+if [ $RUN_CODE_SIGNING = false ]; then
+	echo -e "$INFO RUN_CODE_SIGNING flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
+
 if [ $UPDATE_DATABASES = false ]; then
 	echo -e "$INFO UPDATE_DATABASES flag is set to false. Do you want to proceed?"
 	read -p "Press [Enter] key to continue"
@@ -47,27 +53,56 @@ fi
 ### TODO: add HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\12.0_Config\MSBuild\EnableOutOfProcBuild
 
 
+VERSION_STRING=$(git describe --long)
+VERSION_STRING="${VERSION_STRING//-/_}"
+VERSION_STRING="${VERSION_STRING//./_}"
+VERSION_STRING="${VERSION_STRING%_*}"
+DOTTED_VERSION_STRING="${VERSION_STRING//_/.}"
+
+
+if [ $RUN_CODE_SIGNING = true ]; then
+	echo -e "$INFO Code signing is enabled. Please enter your password >"
+	read CODE_SIGNING_PASSWORD
+fi
+
+
 if [ $CLEAN_AND_SETUP = true ]; then
-	echo -e "$INFO cleaning the project"
+	echo -e "$INFO Cleaning the project"
 	script/clean.sh
-	echo -e "$INFO setting the project up"
+	echo -e "$INFO Setting up the project"
 	script/setup.sh
+	
+	if [ $RUN_CODE_SIGNING = true ]; then
+		echo -e "$INFO Signing the Python indexer"
+		signtool.exe sign //f "deployment/windows/certificate/coati_software_kg.pfx" //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Python Indexer" //du "https://github.com/CoatiSoftware/SourcetrailPythonIndexer" //v bin/app/data/python/SourcetrailPythonIndexer.exe
+	fi
 fi
 
 
 # CLEANING THE SOLUTIONS
 if [ $REBUILD = true ]; then
-	echo -e "$INFO cleaning the solution"
+	echo -e "$INFO Cleaning the solution"
 	"devenv.com" build/win32/Sourcetrail.sln //clean Release
 	"devenv.com" build/win64/Sourcetrail.sln //clean Release
 fi
 
 
 # BUILDING THE EXECUTABLES
-echo -e "$INFO building the app (32 bit)"
-"devenv.com" build/win32/Sourcetrail.sln //build Release //project build/win32/Sourcetrail.vcxproj
-echo -e "$INFO building the app (64 bit)"
-"devenv.com" build/win64/Sourcetrail.sln //build Release //project build/win64/Sourcetrail.vcxproj
+build_executable() # Parameters: bit {32, 64}
+{
+	echo -e "$INFO Building the app (${1} bit)"
+	"devenv.com" build/win${1}/Sourcetrail.sln //build Release //project build/win${1}/Sourcetrail.vcxproj
+	
+	if [ $RUN_CODE_SIGNING = true ]; then
+		echo -e "$INFO Signing the app (${1} bit)"
+		signtool.exe sign //f "deployment/windows/certificate/coati_software_kg.pfx" //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/win${1}/Release/app/Sourcetrail.exe
+		
+		echo -e "$INFO Signing the indexer (${1} bit)"
+		signtool.exe sign //f "deployment/windows/certificate/coati_software_kg.pfx" //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Indexer ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/win${1}/Release/app/sourcetrail_indexer.exe
+	fi
+}
+build_executable "32"
+build_executable "64"
 
 
 # CREATING DATABASES
@@ -112,10 +147,13 @@ sh build_win64.sh
 cd ../../..
 
 
-VERSION_STRING=$(git describe --long)
-VERSION_STRING="${VERSION_STRING//-/_}"
-VERSION_STRING="${VERSION_STRING//./_}"
-VERSION_STRING="${VERSION_STRING%_*}"
+if [ $RUN_CODE_SIGNING = true ]; then
+	echo -e "$INFO Signing the 32 bit windows installer"
+	signtool.exe sign //f "deployment/windows/certificate/coati_software_kg.pfx" //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/win32/sourcetrail.msi
+	
+	echo -e "$INFO Signing the 64 bit windows installer"
+	signtool.exe sign //f "deployment/windows/certificate/coati_software_kg.pfx" //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/win64/sourcetrail.msi
+fi
 
 
 # CREATING THE INSTALLER ZIP FILES
