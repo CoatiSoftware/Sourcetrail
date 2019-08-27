@@ -385,16 +385,6 @@ void ApplicationSettings::setHasPrefilledJavaPath(bool v)
 	setValue<bool>("indexing/java/has_prefilled_java_path", v);
 }
 
-int ApplicationSettings::getJavaMaximumMemory() const
-{
-	return getValue<int>("indexing/java/java_maximum_memory", -1);
-}
-
-void ApplicationSettings::setJavaMaximumMemory(int size)
-{
-	setValue<int>("indexing/java/java_maximum_memory", size);
-}
-
 std::vector<FilePath> ApplicationSettings::getJreSystemLibraryPaths() const
 {
 	return getPathValues("indexing/java/jre_system_library_paths/jre_system_library_path");

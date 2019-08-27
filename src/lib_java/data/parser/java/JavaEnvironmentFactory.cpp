@@ -49,24 +49,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 
 	s_classPath = classPath;
 
-	int jvmMaximumMemory = ApplicationSettings::getInstance()->getJavaMaximumMemory();
-
-#ifdef WIN32
-	if (jvmMaximumMemory > 0)
-	{
-		const float underestimationFactor = 0.8f;
-		const int maximumMB = utility::getLargestByteSizeOfAllocatableMemory() / 1024 / 1024 * underestimationFactor;
-		if (jvmMaximumMemory > maximumMB)
-		{
-			LOG_WARNING("Selected amount of maximum JVM memory of " + std::to_string(jvmMaximumMemory) + " MB exceeds maximum allocatable "
-				"memory on system. Correcting selected value to " + std::to_string(maximumMB) + " MB.");
-			jvmMaximumMemory = maximumMB;
-		}
-	}
-#endif // WIN32
-
-	const int optionCount = (jvmMaximumMemory < 0 ? 2 : 3);
-	const std::string maximumMemoryOprionString = "-Xmx" + std::to_string(jvmMaximumMemory) + "m";
+	const int optionCount = 2;
 
 	JavaVM* jvm = nullptr;				// Pointer to the JVM (Java Virtual Machine)
 	JNIEnv* env = nullptr;				// Pointer to native interface
@@ -84,10 +67,6 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 	//options[5].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.authenticate=false");
 	//options[6].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.ssl=false");
 
-	if (optionCount == 3)
-	{
-		options[2].optionString = const_cast<char*>(maximumMemoryOprionString.c_str());
-	}
 	vm_args.version = JNI_VERSION_1_8;
 	vm_args.nOptions = optionCount;
 	vm_args.options = options;

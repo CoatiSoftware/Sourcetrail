@@ -317,24 +317,6 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		addJavaPathDetection(layout, row);
 	}
 
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_WINDOWS10)
-	{
-		// jvm max memory
-		m_jvmMaximumMemory = addLineEdit(
-			"JVM Maximum Memory",
-			"<p>Specify the maximum amount of memory that will be allocated by the indexer's JVM (values are in MB). Set "
-			"this value to -1 to use the JVM's default setting.</p>"
-			"<p><b>Warning</b>: You may experience a sudden slowdown during the course of indexing when setting this value "
-			"too low. This may also happen when using the JVM's default setting.</p>",
-			layout, row
-		);
-		layout->setRowMinimumHeight(row - 1, 30);
-	}
-	else
-	{
-		m_jvmMaximumMemory = nullptr;
-	}
-
 	{
 		// JRE System Library
 		const QString title = "JRE System Library";
@@ -466,11 +448,6 @@ void QtProjectWizardContentPreferences::load()
 		m_javaPath->setText(QString::fromStdWString(appSettings->getJavaPath().wstr()));
 	}
 
-	if (m_jvmMaximumMemory)
-	{
-		m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
-	}
-
 	m_jreSystemLibraryPaths->setPaths(appSettings->getJreSystemLibraryPaths());
 
 	if (m_mavenPath)
@@ -534,15 +511,6 @@ void QtProjectWizardContentPreferences::save()
 	}
 
 	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getPathsAsAbsolute());
-
-	if (m_jvmMaximumMemory)
-	{
-		const int jvmMaximumMemory = m_jvmMaximumMemory->text().toInt();
-		if (jvmMaximumMemory)
-		{
-			appSettings->setJavaMaximumMemory(jvmMaximumMemory);
-		}
-	}
 
 	if (m_mavenPath)
 	{

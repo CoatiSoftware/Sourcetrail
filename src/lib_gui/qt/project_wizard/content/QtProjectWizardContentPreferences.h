@@ -124,7 +124,6 @@ private:
 	QComboBox* m_mavenPathDetectorBox;
 	QtLocationPicker* m_javaPath;
 	QtPathListBox* m_jreSystemLibraryPaths;
-	QLineEdit* m_jvmMaximumMemory;
 	QtLocationPicker* m_mavenPath;
 
 	QCheckBox* m_pythonPostProcessing;

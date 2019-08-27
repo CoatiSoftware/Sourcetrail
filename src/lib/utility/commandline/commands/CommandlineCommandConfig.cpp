@@ -107,8 +107,6 @@ void CommandlineCommandConfig::setup()
 			"Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG Slows down "
 			"indexing speed")
 		("jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")
-		("jvm-max-memory,M", po::value<int>(),
-			"Set the maximum amount of memory for the JVM indexer(-1 for using the JVM default settings)")
 		("maven-path,m", po::value<std::string>(), "Path to the maven binary")
 		("jre-system-library-paths,J", po::value<std::vector<std::string>>(),
 			"paths to the jars of the JRE system library. "
@@ -167,7 +165,6 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 			<< "\n  logging-enabled: " << settings->getLoggingEnabled()
 			<< "\n  verbose-indexer-logging-enabled: " << settings->getVerboseIndexerLoggingEnabled()
 			<< "\n  jvm-path: " << settings->getJavaPath().str()
-			<< "\n  jvm-max-memory: " << settings->getJavaMaximumMemory()
 			<< "\n  maven-path: " << settings->getMavenPath().str();
 		printVector("global-header-search-paths", settings->getHeaderSearchPaths());
 		printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
@@ -185,7 +182,6 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 	);
 
 	parseAndSetValue(&ApplicationSettings::setIndexerThreadCount, "indexer-threads", settings, vm);
-	parseAndSetValue(&ApplicationSettings::setJavaMaximumMemory, "jvm-max-memory", settings, vm);
 
 	parseAndSetValue(&ApplicationSettings::setMavenPath, "maven-path", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setJavaPath, "jvm-path", settings, vm);
