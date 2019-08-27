@@ -33,7 +33,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	saveOrRestoreViewMode(message);
 
-	Project* currentProject = Application::getInstance()->getCurrentProject().get();
+	std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
 	if (!currentProject || message->acceptedNodeTypes != NodeTypeSet::all())
 	{
 		clear();
@@ -804,7 +804,7 @@ const SourceLocation* CodeController::getSourceLocationOfParentScope(
 
 std::vector<std::string> CodeController::getProjectDescription(SourceLocationFile* locationFile) const
 {
-	Project* currentProject = Application::getInstance()->getCurrentProject().get();
+	std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
 	if (!currentProject)
 	{
 		return std::vector<std::string>();

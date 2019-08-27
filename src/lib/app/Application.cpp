@@ -146,7 +146,7 @@ Application::~Application()
 	}
 }
 
-const std::shared_ptr<Project> Application::getCurrentProject() const
+std::shared_ptr<const Project> Application::getCurrentProject() const
 {
 	return m_project;
 }
@@ -211,6 +211,19 @@ void Application::handleMessage(MessageActivateWindow* message)
 	{
 		m_mainView->activateWindow();
 	}
+}
+
+void Application::handleMessage(MessageCloseProject* message)
+{
+	if (m_project && m_project->isIndexing())
+	{
+		MessageStatus(L"Cannot close the project while indexing.", true, false).dispatch();
+		return;
+	}
+
+	m_project.reset();
+	updateTitle();
+	m_mainView->clear();
 }
 
 void Application::handleMessage(MessageIndexingFinished* message)

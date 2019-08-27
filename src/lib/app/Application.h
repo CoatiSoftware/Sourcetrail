@@ -7,6 +7,7 @@
 #include "MessageListener.h"
 #include "MessageIndexingFinished.h"
 #include "MessageActivateWindow.h"
+#include "MessageCloseProject.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
 #include "MessageRefreshUI.h"
@@ -26,6 +27,7 @@ class ViewFactory;
 
 class Application
 	: public MessageListener<MessageActivateWindow>
+	, public MessageListener<MessageCloseProject>
 	, public MessageListener<MessageIndexingFinished>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
@@ -48,7 +50,7 @@ public:
 
 	~Application();
 
-	const std::shared_ptr<Project> getCurrentProject() const;
+	std::shared_ptr<const Project> getCurrentProject() const;
 	FilePath getCurrentProjectPath() const;
 	bool isProjectLoaded() const;
 
@@ -68,6 +70,7 @@ private:
 	Application(bool withGUI = true);
 
 	void handleMessage(MessageActivateWindow* message) override;
+	void handleMessage(MessageCloseProject* message) override;
 	void handleMessage(MessageIndexingFinished* message) override;
 	void handleMessage(MessageLoadProject* message) override;
 	void handleMessage(MessageRefresh* message) override;

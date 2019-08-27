@@ -124,7 +124,7 @@ void ErrorController::handleMessage(MessageErrorsAll* message)
 
 void ErrorController::handleMessage(MessageErrorsForFile* message)
 {
-	Project* project = Application::getInstance()->getCurrentProject().get();
+	std::shared_ptr<const Project> project = Application::getInstance()->getCurrentProject();
 	if (project && project->isIndexing())
 	{
 		Application::getInstance()->handleDialog(

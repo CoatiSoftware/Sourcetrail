@@ -27,7 +27,7 @@ void SqliteBookmarkStorage::migrateIfNecessary()
 		std::string separator = "::";
 		if (Application::getInstance())
 		{
-			if (std::shared_ptr<Project> currentProject = Application::getInstance()->getCurrentProject())
+			std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
 			{
 				LanguageType currentLanguage = ProjectSettings::getLanguageOfProject(currentProject->getProjectSettingsFilePath());
 				if (currentLanguage == LANGUAGE_JAVA)

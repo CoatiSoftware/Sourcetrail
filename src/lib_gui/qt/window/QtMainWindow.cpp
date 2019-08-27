@@ -39,6 +39,7 @@
 #include "MessageBookmarkActivate.h"
 #include "MessageBookmarkBrowse.h"
 #include "MessageBookmarkCreate.h"
+#include "MessageCloseProject.h"
 #include "MessageCodeReference.h"
 #include "MessageCustomTrailShow.h"
 #include "MessageFind.h"
@@ -712,12 +713,21 @@ void QtMainWindow::openProject()
 
 void QtMainWindow::editProject()
 {
-	Project* currentProject = Application::getInstance()->getCurrentProject().get();
+	std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
 	if (currentProject)
 	{
 		QtProjectWizard* wizard = createWindow<QtProjectWizard>();
 
 		wizard->editProject(currentProject->getProjectSettingsFilePath());
+	}
+}
+
+void QtMainWindow::closeProject()
+{
+	if (Application::getInstance()->getCurrentProject())
+	{
+		MessageCloseProject().dispatch();
+		showStartScreen();
 	}
 }
 
@@ -932,6 +942,7 @@ void QtMainWindow::setupProjectMenu()
 	menu->addAction(tr("&Edit Project..."), this, &QtMainWindow::editProject);
 	menu->addSeparator();
 
+	menu->addAction(tr("Close Project"), this, &QtMainWindow::closeProject);
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), &QCoreApplication::quit, QKeySequence::Quit);
 }
 

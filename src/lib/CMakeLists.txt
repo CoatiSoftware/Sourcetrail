@@ -527,6 +527,7 @@ add_files(
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearLogView.h
 	utility/messaging/type/MessageClearStatusView.h
+	utility/messaging/type/MessageCloseProject.h
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageDeactivateEdge.h
 	utility/messaging/type/MessageFind.h

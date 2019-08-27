@@ -129,6 +129,7 @@ public slots:
 	void newProjectFromCDB(const FilePath& filePath);
 	void openProject();
 	void editProject();
+	void closeProject();
 
 	void find();
 	void findFulltext();

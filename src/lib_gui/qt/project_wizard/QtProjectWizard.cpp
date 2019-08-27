@@ -1186,10 +1186,10 @@ void QtProjectWizard::createProject()
 	bool settingsChanged = false;
 	if (m_editing)
 	{
-		Application* application = Application::getInstance().get();
-		if (application->getCurrentProject() != nullptr)
+		std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+		if (currentProject)
 		{
-			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_projectSettings.get())));
+			settingsChanged = !(currentProject->settingsEqualExceptNameAndLocation(*(m_projectSettings.get())));
 		}
 
 		settingsChanged |= !(m_appSettings == *ApplicationSettings::getInstance().get());
