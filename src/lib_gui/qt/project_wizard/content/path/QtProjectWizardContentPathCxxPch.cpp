@@ -90,7 +90,13 @@ bool QtProjectWizardContentPathCxxPch::check()
 					"The provided compilation database file does not use precompiled headers. The specified input file at "
 					"Precompiled Header File will not be used."
 				);
+				QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::RejectRole);
+				QPushButton* continueButton = msgBox.addButton("Continue", QMessageBox::ButtonRole::AcceptRole);
 				msgBox.exec();
+				if (msgBox.clickedButton() == cancelButton)
+				{
+					return false;
+				}
 				return true;
 			}
 		}
