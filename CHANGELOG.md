@@ -1,5 +1,28 @@
 ### Changelog
 
+#### 2019.3.42
+released 2019-08-27
+
+* Windows: sign installer and executables with Authenticode certificate (issue #704)
+* Show proper error messages and progress when indexing with CLI (issue #718)
+* C/C++: only use precompiled headers for compilation database commands that specify the "-include-pch" flag (issue #719)
+* Python: Updated to SourcetrailPythonIndexer v1.db24.p2
+* Graph: Fixed bezier edges stayed highlighted after getting unhovered
+* Windows: Use modern Windows style for default ui elements on Windows 10
+* Change mouse cursor to pointer on graph and code view contents (issue #715)
+* Java: Remove JVM maximum memory setting because it causes issues (issue #694)
+* Show overview instead of empty error screen after all indexing errors are gone
+* C/C++: Allow indexing multiple indexer commands with different options for one source file in Compilation Database source group (issue #717)
+* Graph: Added custom trail dialog to show trail graph with specific origin and/or target, using node/edge filters (issue #249)
+* C/C++: Fixed removing duplicate compiler header directory not working (issue #710)
+* Java: Fixed maven source groups broken when default console output contains colors (issue #705)
+* Code: Added option to preferences to show relative file directory in code view title (issue #556)
+* C++: Fixed lambdas created additional type nodes
+* C/C++: Initialize all clang targets to reduce errors for cross-target compilation
+* C/C++: Added Precompiled Header Support to Empty and Compilation Database Source Groups (issue #311)
+* Search: Turn search element editable when pressing DELETE with cursor in front
+* Graph: increased the tolerated movement distance during click to still count as click action
+
 #### 2019.2.39
 released 2019-05-28
 
