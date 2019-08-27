@@ -70,7 +70,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 				return;
 			}
 
-			Id errorId = m_model->item(index.row(), Column::ID)->text().toUInt();
+			const Id errorId = m_model->item(index.row(), Column::ID)->text().toLongLong();
 
 			m_controllerProxy.executeAsTaskWithArgs(&ErrorController::showError, errorId);
 		}
