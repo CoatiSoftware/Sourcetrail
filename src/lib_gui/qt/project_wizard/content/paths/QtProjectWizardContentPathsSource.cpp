@@ -4,10 +4,10 @@
 #include "SourceGroupCxxEmpty.h"
 #include "SourceGroupJavaEmpty.h"
 #include "SourceGroupPythonEmpty.h"
-#include "SourceGroupSettingsCxx.h"
 #include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsJavaEmpty.h"
 #include "SourceGroupSettingsPythonEmpty.h"
+#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "SourceGroupSettingsWithSourcePaths.h"
 #include "utility.h"
 #include "utilityFile.h"
@@ -50,9 +50,9 @@ void QtProjectWizardContentPathsSource::save()
 std::vector<FilePath> QtProjectWizardContentPathsSource::getFilePaths() const
 {
 	std::set<FilePath> allSourceFilePaths;
-	if (std::shared_ptr<SourceGroupSettingsCxx> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+	if (std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings))
 	{
-		allSourceFilePaths = SourceGroupCxxEmpty(settings).getAllSourceFilePaths();
+		allSourceFilePaths = SourceGroupCxxEmpty(m_settings).getAllSourceFilePaths();
 	}
 	else if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(m_settings))
 	{

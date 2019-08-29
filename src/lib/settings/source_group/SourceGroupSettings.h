@@ -19,15 +19,18 @@ public:
 	static const size_t s_version;
 	static const std::string s_keyPrefix;
 
-	SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
+	SourceGroupSettings(SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings);
 	virtual ~SourceGroupSettings() = default;
 
 	virtual std::shared_ptr<SourceGroupSettings> createCopy() const = 0;
 
-	virtual void load(std::shared_ptr<const ConfigManager> config);
-	virtual void save(std::shared_ptr<ConfigManager> config);
+	virtual void loadSettings(const ConfigManager* config) = 0;
+	virtual void saveSettings(ConfigManager* config) = 0;
+	virtual bool equalsSettings(const SourceGroupSettingsBase* other) = 0;
 
-	virtual bool equals(std::shared_ptr<SourceGroupSettings> other) const;
+	bool equals(const SourceGroupSettingsBase* other) const;
+	void load(const ConfigManager* config, const std::string& key);
+	void save(ConfigManager* config, const std::string& key);
 
 	std::string getId() const;
 	void setId(const std::string& id);
@@ -51,9 +54,9 @@ protected:
 	const ProjectSettings* m_projectSettings;
 
 private:
+	const SourceGroupType m_type;
 	std::string m_id;
 	std::string m_name;
-	const SourceGroupType m_type;
 	SourceGroupStatusType m_status;
 };
 

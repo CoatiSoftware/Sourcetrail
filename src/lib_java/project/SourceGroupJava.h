@@ -7,9 +7,8 @@
 
 #include "SourceGroup.h"
 
-class SourceGroupSettingsJava;
-
-class SourceGroupJava: public SourceGroup
+class SourceGroupJava
+	: public SourceGroup
 {
 public:
 	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
@@ -19,10 +18,6 @@ public:
 private:
 	virtual std::vector<FilePath> getAllSourcePaths() const = 0;
 	virtual std::vector<FilePath> doGetClassPath() const = 0;
-	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() = 0;
-	virtual std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const = 0;
-	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
-	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 
 	std::vector<FilePath> getClassPath() const;
 };

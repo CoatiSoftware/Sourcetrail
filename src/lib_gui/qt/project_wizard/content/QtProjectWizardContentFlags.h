@@ -4,7 +4,7 @@
 #include "QtProjectWizardContent.h"
 
 class QtStringListBox;
-class SourceGroupSettingsCxx;
+class SourceGroupSettingsWithCxxPathsAndFlags;
 
 class QtProjectWizardContentFlags
 	: public QtProjectWizardContent
@@ -12,7 +12,11 @@ class QtProjectWizardContentFlags
 	Q_OBJECT
 
 public:
-	QtProjectWizardContentFlags(std::shared_ptr<SourceGroupSettingsCxx> settings, QtProjectWizardWindow* window, bool indicateAsAdditional = false);
+	QtProjectWizardContentFlags(
+		std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings,
+		QtProjectWizardWindow* window,
+		bool indicateAsAdditional = false
+	);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -22,7 +26,7 @@ public:
 	virtual bool check() override;
 
 private:
-	std::shared_ptr<SourceGroupSettingsCxx> m_settings;
+	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> m_settings;
 	const bool m_indicateAsAdditional;
 
 	QtStringListBox* m_list;

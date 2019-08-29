@@ -8,11 +8,13 @@
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
 #include "SourceGroupSettingsWithCppStandard.h"
+#include "SourceGroupSettingsWithCStandard.h"
+#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "TaskLambda.h"
 #include "utility.h"
 #include "utilitySourceGroupCxx.h"
 
-SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxx> settings)
+SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettings> settings)
 	: m_settings(settings)
 {
 }
@@ -85,8 +87,8 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 	}
 
 	std::vector<std::wstring> compilerFlags = getBaseCompilerFlags();
-	utility::append(compilerFlags, m_settings->getCompilerFlags());
-	utility::append(compilerFlags, utility::getIncludePchFlags(m_settings.get()));
+	utility::append(compilerFlags, dynamic_cast<const SourceGroupSettingsWithCxxPathsAndFlags*>(m_settings.get())->getCompilerFlags());
+	utility::append(compilerFlags, utility::getIncludePchFlags(dynamic_cast<const SourceGroupSettingsWithCxxPchOptions*>(m_settings.get())));
 
 	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
@@ -129,13 +131,15 @@ std::shared_ptr<Task> SourceGroupCxxEmpty::getPreIndexTask(
 	{
 		if (pchSettings->getUseCompilerFlags())
 		{
-			utility::append(compilerFlags, m_settings->getCompilerFlags());
+			utility::append(compilerFlags,
+				dynamic_cast<const SourceGroupSettingsWithCxxPathsAndFlags*>(m_settings.get())->getCompilerFlags());
 		}
 
 		utility::append(compilerFlags, pchSettings->getPchFlags());
 	}
 
-	return utility::createBuildPchTask(m_settings.get(), compilerFlags, storageProvider, dialogView);
+	return utility::createBuildPchTask(dynamic_cast<const SourceGroupSettingsWithCxxPchOptions*>(
+		m_settings.get()), compilerFlags, storageProvider, dialogView);
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxEmpty::getSourceGroupSettings()
@@ -189,6 +193,15 @@ std::vector<std::wstring> SourceGroupCxxEmpty::getBaseCompilerFlags() const
 		compilerFlags.push_back(L"c++");
 	}
 
+	const SourceGroupSettingsWithCxxPathsAndFlags* settingsCxx =
+		dynamic_cast<const SourceGroupSettingsWithCxxPathsAndFlags*>(m_settings.get());
+
+	if (!settingsCxx)
+	{
+		LOG_ERROR(L"Source group doesn't specify cxx headers and flags.");
+		return compilerFlags;
+	}
+
 	{
 		// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
 		std::vector<FilePath> indexedDirectoryPaths;
@@ -201,11 +214,19 @@ std::vector<std::wstring> SourceGroupCxxEmpty::getBaseCompilerFlags() const
 		}
 
 		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
-			utility::concat(indexedDirectoryPaths, utility::concat(m_settings->getHeaderSearchPathsExpandedAndAbsolute(), appSettings->getHeaderSearchPathsExpanded()))));
+			utility::concat(indexedDirectoryPaths, utility::concat(
+				settingsCxx->getHeaderSearchPathsExpandedAndAbsolute(),
+				appSettings->getHeaderSearchPathsExpanded()
+			)))
+		);
 	}
 	{
 		utility::append(compilerFlags, IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(
-			utility::concat(m_settings->getFrameworkSearchPathsExpandedAndAbsolute(), appSettings->getFrameworkSearchPathsExpanded())));
+			utility::concat(
+				settingsCxx->getFrameworkSearchPathsExpandedAndAbsolute(),
+				appSettings->getFrameworkSearchPathsExpanded()
+			)
+		));
 	}
 
 	return compilerFlags;

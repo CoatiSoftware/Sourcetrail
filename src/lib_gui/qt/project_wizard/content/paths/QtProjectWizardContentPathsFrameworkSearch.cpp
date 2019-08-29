@@ -1,6 +1,7 @@
 #include "QtProjectWizardContentPathsFrameworkSearch.h"
 
-#include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettings.h"
+#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 
 QtProjectWizardContentPathsFrameworkSearch::QtProjectWizardContentPathsFrameworkSearch(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window, bool indicateAsAdditional
@@ -18,7 +19,8 @@ QtProjectWizardContentPathsFrameworkSearch::QtProjectWizardContentPathsFramework
 
 void QtProjectWizardContentPathsFrameworkSearch::load()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
+	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> cxxSettings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings);
 	if (cxxSettings)
 	{
 		m_list->setPaths(cxxSettings->getFrameworkSearchPaths());
@@ -27,7 +29,8 @@ void QtProjectWizardContentPathsFrameworkSearch::load()
 
 void QtProjectWizardContentPathsFrameworkSearch::save()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
+	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> cxxSettings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings);
 	if (cxxSettings)
 	{
 		cxxSettings->setFrameworkSearchPaths(m_list->getPathsAsDisplayed());

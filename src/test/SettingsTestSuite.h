@@ -2,7 +2,7 @@
 
 #include "ProjectSettings.h"
 #include "Settings.h"
-#include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "SourceGroupSettingsWithSourcePaths.h"
 
 class SettingsTestSuite : public CxxTest::TestSuite
@@ -128,7 +128,7 @@ public:
 	{
 		ProjectSettings projectSettings;
 		projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
-		std::shared_ptr<SourceGroupSettingsWithSourcePaths> sourceGroupSettings = 
+		std::shared_ptr<SourceGroupSettingsWithSourcePaths> sourceGroupSettings =
 			std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(projectSettings.getAllSourceGroupSettings().front());
 		std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
 
@@ -140,8 +140,8 @@ public:
 	{
 		ProjectSettings projectSettings;
 		projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
-		std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = 
-			std::dynamic_pointer_cast<SourceGroupSettingsCxx>(projectSettings.getAllSourceGroupSettings().front());
+		std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> sourceGroupSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(projectSettings.getAllSourceGroupSettings().front());
 		std::vector<FilePath> paths = sourceGroupSettings->getHeaderSearchPaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 2);

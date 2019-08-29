@@ -810,13 +810,26 @@ private:
 	{
 	public:
 		SourceGroupSettingsTest(const ProjectSettings* projectSettings)
-			: SourceGroupSettings("TEST_ID", SOURCE_GROUP_UNKNOWN, projectSettings)
+			: SourceGroupSettings(SOURCE_GROUP_UNKNOWN, "TEST_ID", projectSettings)
 		{
 		}
 
 		std::shared_ptr<SourceGroupSettings> createCopy() const override
 		{
-			return std::shared_ptr<SourceGroupSettings>();
+			return nullptr;
+		}
+
+		void loadSettings(const ConfigManager* config) override
+		{
+		}
+
+		void saveSettings(ConfigManager* config) override
+		{
+		}
+
+		bool equalsSettings(const SourceGroupSettingsBase* other) override
+		{
+			return true;
 		}
 	};
 

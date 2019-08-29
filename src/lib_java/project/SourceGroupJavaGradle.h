@@ -8,7 +8,8 @@
 
 class SourceGroupSettingsJavaGradle;
 
-class SourceGroupJavaGradle : public SourceGroupJava
+class SourceGroupJavaGradle
+	: public SourceGroupJava
 {
 public:
 	SourceGroupJavaGradle(std::shared_ptr<SourceGroupSettingsJavaGradle> settings);
@@ -17,8 +18,8 @@ public:
 private:
 	std::vector<FilePath> getAllSourcePaths() const override;
 	std::vector<FilePath> doGetClassPath() const override;
-	std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
-	std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
+	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 	bool prepareGradleData();
 
 	std::shared_ptr<SourceGroupSettingsJavaGradle> m_settings;

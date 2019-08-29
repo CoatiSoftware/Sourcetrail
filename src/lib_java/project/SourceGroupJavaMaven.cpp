@@ -77,12 +77,12 @@ std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
 	return classPath;
 }
 
-std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaMaven::getSourceGroupSettingsJava()
+std::shared_ptr<SourceGroupSettings> SourceGroupJavaMaven::getSourceGroupSettings()
 {
 	return m_settings;
 }
 
-std::shared_ptr<const SourceGroupSettingsJava> SourceGroupJavaMaven::getSourceGroupSettingsJava() const
+std::shared_ptr<const SourceGroupSettings> SourceGroupJavaMaven::getSourceGroupSettings() const
 {
 	return m_settings;
 }

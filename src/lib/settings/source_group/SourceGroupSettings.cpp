@@ -8,45 +8,44 @@ const size_t SourceGroupSettings::s_version = 1;
 const std::string SourceGroupSettings::s_keyPrefix = "source_groups/source_group_";
 
 SourceGroupSettings::SourceGroupSettings(
-	const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings
+	SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings
 )
 	: m_projectSettings(projectSettings)
+	, m_type(type)
 	, m_id(id)
 	, m_name(sourceGroupTypeToString(type))
-	, m_type(type)
 	, m_status(SOURCE_GROUP_STATUS_ENABLED)
 {
 }
 
-void SourceGroupSettings::load(std::shared_ptr<const ConfigManager> config)
+bool SourceGroupSettings::equals(const SourceGroupSettingsBase* other) const
 {
-	const std::string key = s_keyPrefix + getId();
+	const SourceGroupSettings* otherPtr = dynamic_cast<const SourceGroupSettings*>(other);
 
+	return (
+		m_id == otherPtr->m_id &&
+		// m_name == otherPtr->m_name && // Ignore name, since not significant regarding index state
+		m_type == otherPtr->m_type &&
+		m_status == otherPtr->m_status
+	);
+}
+
+void SourceGroupSettings::load(const ConfigManager* config, const std::string& key)
+{
 	const std::string name = config->getValueOrDefault<std::string>(key + "/name", "");
 	if (!name.empty())
 	{
 		setName(name);
 	}
 
-	setStatus(stringToSourceGroupStatusType(config->getValueOrDefault(key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED))));
+	setStatus(stringToSourceGroupStatusType(
+		config->getValueOrDefault(key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED))));
 }
 
-void SourceGroupSettings::save(std::shared_ptr<ConfigManager> config)
+void SourceGroupSettings::save(ConfigManager* config, const std::string& key)
 {
-	const std::string key = s_keyPrefix + getId();
-
 	config->setValue(key + "/status", sourceGroupStatusTypeToString(getStatus()));
 	config->setValue(key + "/name", getName());
-}
-
-bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) const
-{
-	return (
-		m_id == other->m_id &&
-		// m_name == other->m_name && // Ignore name, since not significant regarding index state
-		m_type == other->m_type &&
-		m_status == other->m_status
-	);
 }
 
 std::string SourceGroupSettings::getId() const

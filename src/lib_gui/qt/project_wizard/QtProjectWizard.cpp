@@ -93,7 +93,7 @@ namespace
 		return false;
 	}
 
-	void addMsvcCompatibilityFlagsOnDemand(std::shared_ptr<SourceGroupSettingsCxx> settings)
+	void addMsvcCompatibilityFlagsOnDemand(std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings)
 	{
 		if (applicationSettingsContainVisualStudioHeaderSearchPaths())
 		{

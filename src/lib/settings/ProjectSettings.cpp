@@ -78,7 +78,7 @@ bool ProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) 
 		bool matched = false;
 		for (const std::shared_ptr<SourceGroupSettings>& otherSourceGroup : allOtherSettings)
 		{
-			if (mySourceGroup->equals(otherSourceGroup))
+			if (mySourceGroup->equalsSettings(otherSourceGroup.get()))
 			{
 				matched = true;
 				break;
@@ -215,7 +215,7 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 
 		if (settings)
 		{
-			settings->load(m_config);
+			settings->loadSettings(m_config.get());
 			allSettings.push_back(settings);
 		}
 		else
@@ -240,7 +240,7 @@ void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_pt
 		const SourceGroupType type = settings->getType();
 		setValue(key + "/type", sourceGroupTypeToString(type));
 
-		settings->save(m_config);
+		settings->saveSettings(m_config.get());
 	}
 }
 

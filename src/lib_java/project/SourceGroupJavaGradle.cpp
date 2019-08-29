@@ -72,12 +72,12 @@ std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
 	return classPath;
 }
 
-std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaGradle::getSourceGroupSettingsJava()
+std::shared_ptr<SourceGroupSettings> SourceGroupJavaGradle::getSourceGroupSettings()
 {
 	return m_settings;
 }
 
-std::shared_ptr<const SourceGroupSettingsJava> SourceGroupJavaGradle::getSourceGroupSettingsJava() const
+std::shared_ptr<const SourceGroupSettings> SourceGroupJavaGradle::getSourceGroupSettings() const
 {
 	return m_settings;
 }

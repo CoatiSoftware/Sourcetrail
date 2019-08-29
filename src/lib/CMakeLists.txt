@@ -341,59 +341,68 @@ add_files(
 	settings/migration/SettingsMigrationMoveKey.h
 	settings/migration/SettingsMigrator.h
 
+	settings/source_group/component/java/SourceGroupSettingsWithClasspath.cpp
+	settings/source_group/component/java/SourceGroupSettingsWithClasspath.h
+	settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.cpp
+	settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.h
+	settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.cpp
+	settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.h
+	settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.cpp
+	settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.h
+	settings/source_group/component/java/SourceGroupSettingsWithSourceExtensionsJava.h
+
+	settings/source_group/component/cxx/SourceGroupSettingsWithCppStandard.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithCppStandard.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithCStandard.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithCStandard.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCdbPath.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCdbPath.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCodeblocksPath.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCodeblocksPath.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithIndexedHeaderPaths.cpp
+	settings/source_group/component/cxx/SourceGroupSettingsWithIndexedHeaderPaths.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithSourceExtensionsC.h
+	settings/source_group/component/cxx/SourceGroupSettingsWithSourceExtensionsCpp.h
+
+	settings/source_group/component/python/SourceGroupSettingsWithPythonEnvironmentPath.cpp
+	settings/source_group/component/python/SourceGroupSettingsWithPythonEnvironmentPath.h
+	settings/source_group/component/python/SourceGroupSettingsWithSourceExtensionsPython.h
+
+	settings/source_group/component/SourceGroupSettingsWithCustomCommand.cpp
+	settings/source_group/component/SourceGroupSettingsWithCustomCommand.h
+	settings/source_group/component/SourceGroupSettingsWithExcludeFilters.cpp
+	settings/source_group/component/SourceGroupSettingsWithExcludeFilters.h
+	settings/source_group/component/SourceGroupSettingsWithSonargraphProjectPath.cpp
+	settings/source_group/component/SourceGroupSettingsWithSonargraphProjectPath.h
+	settings/source_group/component/SourceGroupSettingsWithSourceExtensions.cpp
+	settings/source_group/component/SourceGroupSettingsWithSourceExtensions.h
+	settings/source_group/component/SourceGroupSettingsWithSourceExtensionsEmpty.h
+	settings/source_group/component/SourceGroupSettingsWithSourcePaths.cpp
+	settings/source_group/component/SourceGroupSettingsWithSourcePaths.h
+
+	settings/source_group/type/SourceGroupSettingsCEmpty.h
+	settings/source_group/type/SourceGroupSettingsCppEmpty.h
+	settings/source_group/type/SourceGroupSettingsCustomCommand.h
+	settings/source_group/type/SourceGroupSettingsCxxCdb.h
+	settings/source_group/type/SourceGroupSettingsCxxCdbVs.h
+	settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h
+	settings/source_group/type/SourceGroupSettingsCxxSonargraph.h
+	settings/source_group/type/SourceGroupSettingsJavaEmpty.h
+	settings/source_group/type/SourceGroupSettingsJavaGradle.h
+	settings/source_group/type/SourceGroupSettingsJavaMaven.h
+	settings/source_group/type/SourceGroupSettingsJavaSonargraph.h
+	settings/source_group/type/SourceGroupSettingsPythonEmpty.h
+
 	settings/source_group/SourceGroupSettings.cpp
 	settings/source_group/SourceGroupSettings.h
 	settings/source_group/SourceGroupSettingsBase.h
-	settings/source_group/SourceGroupSettingsCxx.cpp
-	settings/source_group/SourceGroupSettingsCxx.h
-	settings/source_group/SourceGroupSettingsCEmpty.cpp
-	settings/source_group/SourceGroupSettingsCEmpty.h
-	settings/source_group/SourceGroupSettingsCppEmpty.cpp
-	settings/source_group/SourceGroupSettingsCppEmpty.h
-	settings/source_group/SourceGroupSettingsCustomCommand.cpp
-	settings/source_group/SourceGroupSettingsCustomCommand.h
-	settings/source_group/SourceGroupSettingsCxxCdb.cpp
-	settings/source_group/SourceGroupSettingsCxxCdb.h
-	settings/source_group/SourceGroupSettingsCxxCdbVs.cpp
-	settings/source_group/SourceGroupSettingsCxxCdbVs.h
-	settings/source_group/SourceGroupSettingsCxxCodeblocks.cpp
-	settings/source_group/SourceGroupSettingsCxxCodeblocks.h
-	settings/source_group/SourceGroupSettingsCxxSonargraph.cpp
-	settings/source_group/SourceGroupSettingsCxxSonargraph.h
-	settings/source_group/SourceGroupSettingsJava.cpp
-	settings/source_group/SourceGroupSettingsJava.h
-	settings/source_group/SourceGroupSettingsJavaEmpty.cpp
-	settings/source_group/SourceGroupSettingsJavaEmpty.h
-	settings/source_group/SourceGroupSettingsJavaGradle.cpp
-	settings/source_group/SourceGroupSettingsJavaGradle.h
-	settings/source_group/SourceGroupSettingsJavaMaven.cpp
-	settings/source_group/SourceGroupSettingsJavaMaven.h
-	settings/source_group/SourceGroupSettingsJavaSonargraph.cpp
-	settings/source_group/SourceGroupSettingsJavaSonargraph.h
-	settings/source_group/SourceGroupSettingsPythonEmpty.cpp
-	settings/source_group/SourceGroupSettingsPythonEmpty.h
-	settings/source_group/SourceGroupSettingsWithClasspath.cpp
-	settings/source_group/SourceGroupSettingsWithClasspath.h
-	settings/source_group/SourceGroupSettingsWithCppStandard.cpp
-	settings/source_group/SourceGroupSettingsWithCppStandard.h
-	settings/source_group/SourceGroupSettingsWithCStandard.cpp
-	settings/source_group/SourceGroupSettingsWithCStandard.h
-	settings/source_group/SourceGroupSettingsWithCxxCrossCompilationOptions.cpp
-	settings/source_group/SourceGroupSettingsWithCxxCrossCompilationOptions.h
-	settings/source_group/SourceGroupSettingsWithExcludeFilters.cpp
-	settings/source_group/SourceGroupSettingsWithExcludeFilters.h
-	settings/source_group/SourceGroupSettingsWithIndexedHeaderPaths.cpp
-	settings/source_group/SourceGroupSettingsWithIndexedHeaderPaths.h
-	settings/source_group/SourceGroupSettingsWithJavaStandard.cpp
-	settings/source_group/SourceGroupSettingsWithJavaStandard.h
-	settings/source_group/SourceGroupSettingsWithCxxPchOptions.cpp
-	settings/source_group/SourceGroupSettingsWithCxxPchOptions.h
-	settings/source_group/SourceGroupSettingsWithSonargraphProjectPath.cpp
-	settings/source_group/SourceGroupSettingsWithSonargraphProjectPath.h
-	settings/source_group/SourceGroupSettingsWithSourceExtensions.cpp
-	settings/source_group/SourceGroupSettingsWithSourceExtensions.h
-	settings/source_group/SourceGroupSettingsWithSourcePaths.cpp
-	settings/source_group/SourceGroupSettingsWithSourcePaths.h
+	settings/source_group/SourceGroupSettingsWithComponents.h
 	settings/source_group/SourceGroupStatusType.cpp
 	settings/source_group/SourceGroupStatusType.h
 	settings/source_group/SourceGroupType.cpp

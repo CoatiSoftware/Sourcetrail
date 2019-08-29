@@ -4,9 +4,13 @@
 #include <QMessageBox>
 
 #include "QtStringListBox.h"
-#include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 
-QtProjectWizardContentFlags::QtProjectWizardContentFlags(std::shared_ptr<SourceGroupSettingsCxx> settings, QtProjectWizardWindow* window, bool indicateAsAdditional)
+QtProjectWizardContentFlags::QtProjectWizardContentFlags(
+	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings,
+	QtProjectWizardWindow* window,
+	bool indicateAsAdditional
+)
 	: QtProjectWizardContent(window)
 	, m_settings(settings)
 	, m_indicateAsAdditional(indicateAsAdditional)

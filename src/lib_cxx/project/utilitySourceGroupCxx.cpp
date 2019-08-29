@@ -14,7 +14,6 @@
 #include "logging.h"
 #include "ParserClientImpl.h"
 #include "SingleFrontendActionFactory.h"
-#include "SourceGroupSettingsCxx.h"
 #include "SourceGroupSettingsWithCxxPchOptions.h"
 #include "StorageProvider.h"
 #include "TaskLambda.h"
@@ -23,18 +22,13 @@
 namespace utility
 {
 	std::shared_ptr<Task> createBuildPchTask(
-		const SourceGroupSettingsCxx* settings, std::vector<std::wstring> compilerFlags,
-		std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView)
+		const SourceGroupSettingsWithCxxPchOptions* settings,
+		std::vector<std::wstring> compilerFlags,
+		std::shared_ptr<StorageProvider> storageProvider,
+		std::shared_ptr<DialogView> dialogView)
 	{
-		const SourceGroupSettingsWithCxxPchOptions* pchSettings =
-			dynamic_cast<const SourceGroupSettingsWithCxxPchOptions*>(settings);
-		if (!pchSettings)
-		{
-			return std::make_shared<TaskLambda>([](){});
-		}
-
-		FilePath pchInputFilePath = pchSettings->getPchInputFilePathExpandedAndAbsolute();
-		FilePath pchDependenciesDirectoryPath = pchSettings->getPchDependenciesDirectoryPath();
+		FilePath pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
+		FilePath pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
 
 		if (pchInputFilePath.empty() || pchDependenciesDirectoryPath.empty())
 		{
@@ -158,26 +152,23 @@ namespace utility
 		}
 	}
 
-	std::vector<std::wstring> getIncludePchFlags(const SourceGroupSettingsCxx* settings)
+	std::vector<std::wstring> getIncludePchFlags(const SourceGroupSettingsWithCxxPchOptions* settings)
 	{
-		const SourceGroupSettingsWithCxxPchOptions* pchSettings =
-			dynamic_cast<const SourceGroupSettingsWithCxxPchOptions*>(settings);
-		if (pchSettings)
-		{
-			const FilePath pchInputFilePath = pchSettings->getPchInputFilePathExpandedAndAbsolute();
-			const FilePath pchDependenciesDirectoryPath = pchSettings->getPchDependenciesDirectoryPath();
+		const FilePath pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
+		const FilePath pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
 
-			if (!pchInputFilePath.empty() && !pchDependenciesDirectoryPath.empty())
-			{
-				const FilePath pchOutputFilePath =
-					pchDependenciesDirectoryPath.getConcatenated(pchInputFilePath.fileName()).replaceExtension(L"pch");
-				return {
-					L"-fallow-pch-with-compiler-errors",
-					L"-include-pch",
-					pchOutputFilePath.wstr()
-				};
-			}
+		if (!pchInputFilePath.empty() && !pchDependenciesDirectoryPath.empty())
+		{
+			const FilePath pchOutputFilePath =
+				pchDependenciesDirectoryPath.getConcatenated(pchInputFilePath.fileName()).replaceExtension(L"pch");
+
+			return {
+				L"-fallow-pch-with-compiler-errors",
+				L"-include-pch",
+				pchOutputFilePath.wstr()
+			};
 		}
+
 		return {};
 	}
 }

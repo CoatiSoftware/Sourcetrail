@@ -11,7 +11,8 @@
 #include "QtPathListDialog.h"
 #include "QtTextEditDialog.h"
 #include "ScopedFunctor.h"
-#include "SourceGroupSettingsCxx.h"
+#include "SourceGroupSettings.h"
+#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
 #include "SourceGroupSettingsWithSourceExtensions.h"
 #include "SourceGroupSettingsWithSourcePaths.h"
@@ -73,7 +74,8 @@ void QtProjectWizardContentPathsHeaderSearch::populate(QGridLayout* layout, int&
 
 void QtProjectWizardContentPathsHeaderSearch::load()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
+	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> cxxSettings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings);
 	if (cxxSettings)
 	{
 		m_list->setPaths(cxxSettings->getHeaderSearchPaths());
@@ -82,7 +84,8 @@ void QtProjectWizardContentPathsHeaderSearch::load()
 
 void QtProjectWizardContentPathsHeaderSearch::save()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
+	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> cxxSettings =
+		std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings);
 	if (cxxSettings)
 	{
 		cxxSettings->setHeaderSearchPaths(m_list->getPathsAsDisplayed());
@@ -162,8 +165,8 @@ void QtProjectWizardContentPathsHeaderSearch::validateIncludesButtonClicked()
 					indexedFilePaths = pathSettings->getSourcePathsExpandedAndAbsolute();
 
 					headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-					if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
-							std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+					if (std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> cxxSettings =
+							std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings))
 					{
 						utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
 					}
@@ -232,8 +235,8 @@ void QtProjectWizardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPa
 					sourceFilePaths = fileManager.getAllSourceFilePaths();
 
 					headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-					if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
-						std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+					if (std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> cxxSettings =
+						std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings))
 					{
 						utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
 					}
