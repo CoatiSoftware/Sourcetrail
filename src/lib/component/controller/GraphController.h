@@ -5,10 +5,10 @@
 #include <vector>
 
 #include "MessageListener.h"
-#include "MessageActivateLegend.h"
 #include "MessageActivateErrors.h"
-#include "MessageActivateAll.h"
 #include "MessageActivateFullTextSearch.h"
+#include "MessageActivateLegend.h"
+#include "MessageActivateOverview.h"
 #include "MessageActivateTokens.h"
 #include "MessageActivateTrail.h"
 #include "MessageActivateTrailEdge.h"
@@ -33,10 +33,10 @@ class StorageAccess;
 
 class GraphController
 	: public Controller
-	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateErrors>
 	, public MessageListener<MessageActivateFullTextSearch>
 	, public MessageListener<MessageActivateLegend>
+	, public MessageListener<MessageActivateOverview>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
@@ -57,10 +57,10 @@ public:
 	Id getSchedulerId() const override;
 
 private:
-	void handleMessage(MessageActivateAll* message) override;
 	void handleMessage(MessageActivateErrors* message) override;
 	void handleMessage(MessageActivateFullTextSearch* message) override;
 	void handleMessage(MessageActivateLegend* message) override;
+	void handleMessage(MessageActivateOverview* message) override;
 	void handleMessage(MessageActivateTokens* message) override;
 	void handleMessage(MessageActivateTrail* message) override;
 	void handleMessage(MessageActivateTrailEdge* message) override;

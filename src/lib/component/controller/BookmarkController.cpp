@@ -296,22 +296,7 @@ std::vector<EdgeBookmark> BookmarkController::BookmarkCache::getAllEdgeBookmarks
 	return m_edgeBookmarks;
 }
 
-void BookmarkController::handleMessage(MessageActivateAll* message)
-{
-	clear();
-}
-
-void BookmarkController::handleMessage(MessageActivateErrors* message)
-{
-	clear();
-}
-
-void BookmarkController::handleMessage(MessageActivateFullTextSearch* message)
-{
-	clear();
-}
-
-void BookmarkController::handleMessage(MessageActivateLegend* message)
+void BookmarkController::handleActivation(const MessageActivateBase* message)
 {
 	clear();
 }

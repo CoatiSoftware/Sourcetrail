@@ -1,14 +1,9 @@
 #ifndef SEARCH_CONTROLLER_H
 #define SEARCH_CONTROLLER_H
 
+#include "ActivationListener.h"
 #include "Controller.h"
 #include "MessageListener.h"
-#include "MessageActivateLegend.h"
-#include "MessageActivateErrors.h"
-#include "MessageActivateAll.h"
-#include "MessageActivateFullTextSearch.h"
-#include "MessageActivateTokens.h"
-#include "MessageActivateTrail.h"
 #include "MessageFind.h"
 #include "MessageSearchAutocomplete.h"
 
@@ -17,12 +12,7 @@ class SearchView;
 
 class SearchController
 	: public Controller
-	, public MessageListener<MessageActivateAll>
-	, public MessageListener<MessageActivateErrors>
-	, public MessageListener<MessageActivateFullTextSearch>
-	, public MessageListener<MessageActivateLegend>
-	, public MessageListener<MessageActivateTokens>
-	, public MessageListener<MessageActivateTrail>
+	, public ActivationListener
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageSearchAutocomplete>
 {
@@ -33,12 +23,8 @@ public:
 	Id getSchedulerId() const override;
 
 private:
-	void handleMessage(MessageActivateAll* message) override;
-	void handleMessage(MessageActivateErrors* message) override;
-	void handleMessage(MessageActivateFullTextSearch* message) override;
-	void handleMessage(MessageActivateLegend* message) override;
-	void handleMessage(MessageActivateTokens* message) override;
-	void handleMessage(MessageActivateTrail* message) override;
+	void handleActivation(const MessageActivateBase* message) override;
+
 	void handleMessage(MessageFind* message) override;
 	void handleMessage(MessageSearchAutocomplete* message) override;
 
@@ -46,7 +32,7 @@ private:
 
 	void clear() override;
 
-	void updateMatches(MessageActivateBase* message, bool updateView = true);
+	void updateMatches(const MessageActivateBase* message, bool updateView = true);
 
 	StorageAccess* m_storageAccess;
 };

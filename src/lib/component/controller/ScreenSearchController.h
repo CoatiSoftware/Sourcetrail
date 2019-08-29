@@ -4,14 +4,9 @@
 #include <mutex>
 #include <set>
 
+#include "ActivationListener.h"
 #include "Controller.h"
-#include "MessageActivateAll.h"
-#include "MessageActivateErrors.h"
-#include "MessageActivateFullTextSearch.h"
-#include "MessageActivateLegend.h"
 #include "MessageActivateLocalSymbols.h"
-#include "MessageActivateTokens.h"
-#include "MessageActivateTrail.h"
 #include "MessageActivateTrailEdge.h"
 #include "MessageChangeFileView.h"
 #include "MessageCodeShowDefinition.h"
@@ -25,13 +20,8 @@
 class ScreenSearchController
 	: public Controller
 	, public ScreenSearchSender
-	, public MessageListener<MessageActivateAll>
-	, public MessageListener<MessageActivateErrors>
-	, public MessageListener<MessageActivateFullTextSearch>
-	, public MessageListener<MessageActivateLegend>
+	, public ActivationListener
 	, public MessageListener<MessageActivateLocalSymbols>
-	, public MessageListener<MessageActivateTokens>
-	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageCodeShowDefinition>
@@ -58,13 +48,9 @@ public:
 private:
 	size_t getResponderId(ScreenSearchResponder* responder) const;
 
-	void handleMessage(MessageActivateAll* message) override;
-	void handleMessage(MessageActivateErrors* message) override;
-	void handleMessage(MessageActivateFullTextSearch* message) override;
-	void handleMessage(MessageActivateLegend* message) override;
+	void handleActivation(const MessageActivateBase* message) override;
+
 	void handleMessage(MessageActivateLocalSymbols* message) override;
-	void handleMessage(MessageActivateTokens* message) override;
-	void handleMessage(MessageActivateTrail* message) override;
 	void handleMessage(MessageActivateTrailEdge* message) override;
 	void handleMessage(MessageChangeFileView* message) override;
 	void handleMessage(MessageCodeShowDefinition* message) override;

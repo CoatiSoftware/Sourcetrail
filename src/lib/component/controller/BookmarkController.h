@@ -1,34 +1,24 @@
 #ifndef BOOKMARK_CONTROLLER_H
 #define BOOKMARK_CONTROLLER_H
 
+#include "ActivationListener.h"
 #include "Bookmark.h"
-#include "NodeBookmark.h"
+#include "Controller.h"
 #include "EdgeBookmark.h"
-
 #include "MessageListener.h"
-#include "MessageActivateAll.h"
-#include "MessageActivateErrors.h"
-#include "MessageActivateFullTextSearch.h"
-#include "MessageActivateLegend.h"
-#include "MessageActivateTokens.h"
 #include "MessageBookmarkActivate.h"
 #include "MessageBookmarkBrowse.h"
 #include "MessageBookmarkCreate.h"
 #include "MessageBookmarkDelete.h"
 #include "MessageBookmarkEdit.h"
 #include "MessageIndexingFinished.h"
-
-#include "Controller.h"
+#include "NodeBookmark.h"
 
 class StorageAccess;
 
 class BookmarkController
 	: public Controller
-	, public MessageListener<MessageActivateAll>
-	, public MessageListener<MessageActivateErrors>
-	, public MessageListener<MessageActivateFullTextSearch>
-	, public MessageListener<MessageActivateLegend>
-	, public MessageListener<MessageActivateTokens>
+	, public ActivationListener
 	, public MessageListener<MessageBookmarkActivate>
 	, public MessageListener<MessageBookmarkBrowse>
 	, public MessageListener<MessageBookmarkCreate>
@@ -76,10 +66,8 @@ private:
 		bool m_edgeBookmarksValid;
 	};
 
-	void handleMessage(MessageActivateAll* message) override;
-	void handleMessage(MessageActivateErrors* message) override;
-	void handleMessage(MessageActivateFullTextSearch* message) override;
-	void handleMessage(MessageActivateLegend* message) override;
+	void handleActivation(const MessageActivateBase* message) override;
+
 	void handleMessage(MessageActivateTokens* message) override;
 	void handleMessage(MessageBookmarkActivate* message) override;
 	void handleMessage(MessageBookmarkBrowse* message) override;

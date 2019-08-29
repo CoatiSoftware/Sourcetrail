@@ -34,8 +34,8 @@
 #include "MessageErrorsHelpMessage.h"
 #include "MessageHistoryRedo.h"
 #include "MessageHistoryUndo.h"
-#include "MessageActivateAll.h"
 #include "MessageActivateBase.h"
+#include "MessageActivateOverview.h"
 #include "MessageBookmarkActivate.h"
 #include "MessageBookmarkBrowse.h"
 #include "MessageBookmarkCreate.h"
@@ -773,7 +773,7 @@ void QtMainWindow::customTrail()
 
 void QtMainWindow::overview()
 {
-	MessageActivateAll().dispatch();
+	MessageActivateOverview().dispatch();
 }
 
 void QtMainWindow::closeWindow()

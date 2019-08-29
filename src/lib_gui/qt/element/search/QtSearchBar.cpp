@@ -2,8 +2,8 @@
 
 #include <QHBoxLayout>
 
-#include "MessageActivateAll.h"
 #include "MessageActivateFullTextSearch.h"
+#include "MessageActivateOverview.h"
 #include "MessageSearch.h"
 #include "MessageSearchAutocomplete.h"
 #include "QtSearchBarButton.h"
@@ -100,7 +100,7 @@ void QtSearchBar::refreshStyle()
 
 void QtSearchBar::homeButtonClicked()
 {
-	MessageActivateAll().dispatch();
+	MessageActivateOverview().dispatch();
 }
 
 void QtSearchBar::requestAutocomplete(const std::wstring& query, NodeTypeSet acceptedNodeTypes)

@@ -27,7 +27,72 @@ Id CodeController::getSchedulerId() const
 	return Controller::getTabId();
 }
 
-void CodeController::handleMessage(MessageActivateAll* message)
+void CodeController::handleMessage(MessageActivateErrors* message)
+{
+	TRACE("code errors");
+
+	saveOrRestoreViewMode(message);
+
+	CodeView* view = getView();
+
+	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
+	view->scrollTo(scrollParams);
+
+	std::vector<ErrorInfo> errors;
+	if (message->file.empty())
+	{
+		errors = m_storageAccess->getErrorsLimited(message->filter);
+	}
+	else
+	{
+		errors = m_storageAccess->getErrorsForFileLimited(message->filter, message->file);
+	}
+
+	m_collection = m_storageAccess->getErrorSourceLocations(errors);
+	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
+
+	std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
+
+	CodeView::CodeParams params;
+	params.clearSnippets = true;
+	params.errorInfos = errors;
+	params.showContents = !message->isReplayed();
+	params.useSingleFileCache = false;
+
+	showCodeSnippets(snippets, params, false);
+}
+
+void CodeController::handleMessage(MessageActivateFullTextSearch* message)
+{
+	TRACE("code fulltext");
+
+	saveOrRestoreViewMode(message);
+
+	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
+
+	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
+	getView()->scrollTo(scrollParams);
+
+	CodeView::CodeParams params;
+	params.clearSnippets = true;
+	params.showContents = !message->isReplayed();
+	params.useSingleFileCache = false;
+
+	showCodeSnippets(getSnippetsForCollection(m_collection), params);
+}
+
+void CodeController::handleMessage(MessageActivateLegend* message)
+{
+	clear();
+}
+
+void CodeController::handleMessage(MessageActivateLocalSymbols* message)
+{
+	CodeView* view = getView();
+	view->showActiveLocalSymbolIds(message->symbolIds);
+}
+
+void CodeController::handleMessage(MessageActivateOverview* message)
 {
 	TRACE("code all");
 
@@ -97,71 +162,6 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	params.clearSnippets = true;
 	params.showContents = !message->isReplayed();
 	showCodeSnippets({ statsSnippet }, params);
-}
-
-void CodeController::handleMessage(MessageActivateErrors* message)
-{
-	TRACE("code errors");
-
-	saveOrRestoreViewMode(message);
-
-	CodeView* view = getView();
-
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-	view->scrollTo(scrollParams);
-
-	std::vector<ErrorInfo> errors;
-	if (message->file.empty())
-	{
-		errors = m_storageAccess->getErrorsLimited(message->filter);
-	}
-	else
-	{
-		errors = m_storageAccess->getErrorsForFileLimited(message->filter, message->file);
-	}
-
-	m_collection = m_storageAccess->getErrorSourceLocations(errors);
-	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
-
-	std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
-
-	CodeView::CodeParams params;
-	params.clearSnippets = true;
-	params.errorInfos = errors;
-	params.showContents = !message->isReplayed();
-	params.useSingleFileCache = false;
-
-	showCodeSnippets(snippets, params, false);
-}
-
-void CodeController::handleMessage(MessageActivateFullTextSearch* message)
-{
-	TRACE("code fulltext");
-
-	saveOrRestoreViewMode(message);
-
-	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
-
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-	getView()->scrollTo(scrollParams);
-
-	CodeView::CodeParams params;
-	params.clearSnippets = true;
-	params.showContents = !message->isReplayed();
-	params.useSingleFileCache = false;
-
-	showCodeSnippets(getSnippetsForCollection(m_collection), params);
-}
-
-void CodeController::handleMessage(MessageActivateLegend* message)
-{
-	clear();
-}
-
-void CodeController::handleMessage(MessageActivateLocalSymbols* message)
-{
-	CodeView* view = getView();
-	view->showActiveLocalSymbolIds(message->symbolIds);
 }
 
 void CodeController::handleMessage(MessageActivateTokens* message)

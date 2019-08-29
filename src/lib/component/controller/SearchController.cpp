@@ -16,37 +16,23 @@ Id SearchController::getSchedulerId() const
 	return Controller::getTabId();
 }
 
-void SearchController::handleMessage(MessageActivateAll* message)
+void SearchController::handleActivation(const MessageActivateBase* message)
 {
-	updateMatches(message);
-}
-
-void SearchController::handleMessage(MessageActivateErrors* message)
-{
-	updateMatches(message);
-}
-
-void SearchController::handleMessage(MessageActivateFullTextSearch* message)
-{
-	updateMatches(message);
-}
-
-void SearchController::handleMessage(MessageActivateLegend* message)
-{
-	updateMatches(message);
-}
-
-void SearchController::handleMessage(MessageActivateTokens* message)
-{
-	if (!message->isEdge)
+	if (const MessageActivateTokens* m = dynamic_cast<const MessageActivateTokens*>(message))
 	{
-		updateMatches(message, !message->keepContent());
+		if (!m->isEdge)
+		{
+			updateMatches(message, !m->keepContent());
+		}
 	}
-}
-
-void SearchController::handleMessage(MessageActivateTrail* message)
-{
-	if (message->custom)
+	else if (const MessageActivateTrail* m = dynamic_cast<const MessageActivateTrail*>(message))
+	{
+		if (m->custom)
+		{
+			updateMatches(message);
+		}
+	}
+	else
 	{
 		updateMatches(message);
 	}
@@ -90,7 +76,7 @@ void SearchController::clear()
 	updateMatches(nullptr);
 }
 
-void SearchController::updateMatches(MessageActivateBase* message, bool updateView)
+void SearchController::updateMatches(const MessageActivateBase* message, bool updateView)
 {
 	std::vector<SearchMatch> matches;
 

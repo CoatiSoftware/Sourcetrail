@@ -16,6 +16,8 @@ add_files(
 	app/LanguagePackageManager.h
 	app/UpdateChecker.h
 
+	component/controller/helper/ActivationListener.cpp
+	component/controller/helper/ActivationListener.h
 	component/controller/helper/BucketLayouter.cpp
 	component/controller/helper/BucketLayouter.h
 	component/controller/helper/DummyEdge.h
@@ -480,8 +482,13 @@ add_files(
 	utility/messaging/filter_types/MessageFilterFocusInOut.h
 	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
 
-	utility/messaging/type/activation/MessageActivateLegend.h
+	utility/messaging/type/activation/MessageActivateBase.h
+	utility/messaging/type/activation/MessageActivateErrors.h
 	utility/messaging/type/activation/MessageActivateFullTextSearch.h
+	utility/messaging/type/activation/MessageActivateLegend.h
+	utility/messaging/type/activation/MessageActivateOverview.h
+	utility/messaging/type/activation/MessageActivateTokens.h
+	utility/messaging/type/activation/MessageActivateTrail.h
 
 	utility/messaging/type/bookmark/MessageBookmarkActivate.h
 	utility/messaging/type/bookmark/MessageBookmarkBrowse.h
@@ -490,17 +497,36 @@ add_files(
 	utility/messaging/type/bookmark/MessageBookmarkDelete.h
 	utility/messaging/type/bookmark/MessageBookmarkEdit.h
 
+	utility/messaging/type/code/MessageActivateFile.h
+	utility/messaging/type/code/MessageActivateLocalSymbols.h
+	utility/messaging/type/code/MessageActivateSourceLocations.h
+	utility/messaging/type/code/MessageActivateTokenIds.h
+	utility/messaging/type/code/MessageChangeFileView.h
+	utility/messaging/type/code/MessageCodeReference.h
 	utility/messaging/type/code/MessageCodeShowDefinition.h
+	utility/messaging/type/code/MessageScrollCode.h
+	utility/messaging/type/code/MessageScrollToLine.h
+	utility/messaging/type/code/MessageShowReference.h
+	utility/messaging/type/code/MessageShowScope.h
 
 	utility/messaging/type/custom_trail/MessageCustomTrailShow.h
 
-	utility/messaging/type/error/MessageActivateErrors.h
 	utility/messaging/type/error/MessageErrorCountClear.h
 	utility/messaging/type/error/MessageErrorCountUpdate.h
 	utility/messaging/type/error/MessageErrorsAll.h
 	utility/messaging/type/error/MessageErrorsForFile.h
 	utility/messaging/type/error/MessageErrorsHelpMessage.h
 	utility/messaging/type/error/MessageShowError.h
+
+	utility/messaging/type/graph/MessageActivateEdge.h
+	utility/messaging/type/graph/MessageActivateNodes.h
+	utility/messaging/type/graph/MessageActivateTrailEdge.h
+	utility/messaging/type/graph/MessageDeactivateEdge.h
+	utility/messaging/type/graph/MessageGraphNodeBundleSplit.h
+	utility/messaging/type/graph/MessageGraphNodeExpand.h
+	utility/messaging/type/graph/MessageGraphNodeHide.h
+	utility/messaging/type/graph/MessageGraphNodeMove.h
+	utility/messaging/type/graph/MessageScrollGraph.h
 
 	utility/messaging/type/history/MessageHistoryToPosition.h
 	utility/messaging/type/history/MessageHistoryRedo.h
@@ -512,6 +538,12 @@ add_files(
 	utility/messaging/type/indexing/MessageIndexingStarted.h
 	utility/messaging/type/indexing/MessageIndexingStatus.h
 
+	utility/messaging/type/plugin/MessageIDECreateCDB.h
+	utility/messaging/type/plugin/MessageMoveIDECursor.h
+	utility/messaging/type/plugin/MessagePingReceived.h
+	utility/messaging/type/plugin/MessagePluginPortChange.h
+
+	utility/messaging/type/search/MessageFind.h
 	utility/messaging/type/search/MessageSearch.h
 	utility/messaging/type/search/MessageSearchAutocomplete.h
 
@@ -521,49 +553,20 @@ add_files(
 	utility/messaging/type/tab/MessageTabSelect.h
 	utility/messaging/type/tab/MessageTabState.h
 
-	utility/messaging/type/MessageActivateAll.h
-	utility/messaging/type/MessageActivateBase.h
-	utility/messaging/type/MessageActivateEdge.h
-	utility/messaging/type/MessageActivateFile.h
-	utility/messaging/type/MessageActivateLocalSymbols.h
-	utility/messaging/type/MessageActivateNodes.h
-	utility/messaging/type/MessageActivateSourceLocations.h
-	utility/messaging/type/MessageActivateTokenIds.h
-	utility/messaging/type/MessageActivateTokens.h
-	utility/messaging/type/MessageActivateTrail.h
-	utility/messaging/type/MessageActivateTrailEdge.h
 	utility/messaging/type/MessageActivateWindow.h
-	utility/messaging/type/MessageChangeFileView.h
-	utility/messaging/type/MessageClearLogView.h
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCloseProject.h
-	utility/messaging/type/MessageCodeReference.h
-	utility/messaging/type/MessageDeactivateEdge.h
-	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFlushUpdates.h
 	utility/messaging/type/MessageFocusIn.h
 	utility/messaging/type/MessageFocusOut.h
-	utility/messaging/type/MessageGraphNodeBundleSplit.h
-	utility/messaging/type/MessageGraphNodeExpand.h
-	utility/messaging/type/MessageGraphNodeHide.h
-	utility/messaging/type/MessageGraphNodeMove.h
-	utility/messaging/type/MessageIDECreateCDB.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLogFilterChanged.h
-	utility/messaging/type/MessageMoveIDECursor.h
-	utility/messaging/type/MessagePingReceived.h
-	utility/messaging/type/MessagePluginPortChange.h
 	utility/messaging/type/MessageProjectEdit.h
 	utility/messaging/type/MessageProjectNew.h
 	utility/messaging/type/MessageQuitApplication.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageRefreshUI.h
 	utility/messaging/type/MessageResetZoom.h
-	utility/messaging/type/MessageScrollCode.h
-	utility/messaging/type/MessageScrollGraph.h
-	utility/messaging/type/MessageScrollToLine.h
-	utility/messaging/type/MessageShowReference.h
-	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStatus.h
 	utility/messaging/type/MessageStatus.cpp
 	utility/messaging/type/MessageStatus.h

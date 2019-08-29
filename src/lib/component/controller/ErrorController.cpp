@@ -38,9 +38,9 @@ void ErrorController::showError(Id errorId)
 	MessageShowError(errorId).dispatch();
 }
 
-void ErrorController::handleMessage(MessageActivateAll* message)
+void ErrorController::handleActivation(const MessageActivateBase* message)
 {
-	m_tabShowsErrors[message->getSchedulerId()] = false;
+	m_tabShowsErrors[dynamic_cast<const MessageBase*>(message)->getSchedulerId()] = false;
 }
 
 void ErrorController::handleMessage(MessageActivateErrors* message)
@@ -57,16 +57,6 @@ void ErrorController::handleMessage(MessageActivateErrors* message)
 	{
 		view->showDockWidget();
 	}
-}
-
-void ErrorController::handleMessage(MessageActivateFullTextSearch* message)
-{
-	m_tabShowsErrors[message->getSchedulerId()] = false;
-}
-
-void ErrorController::handleMessage(MessageActivateTokens* message)
-{
-	m_tabShowsErrors[message->getSchedulerId()] = false;
 }
 
 void ErrorController::handleMessage(MessageErrorCountClear* message)

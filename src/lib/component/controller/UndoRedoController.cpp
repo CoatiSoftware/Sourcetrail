@@ -47,18 +47,6 @@ UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order
 {
 }
 
-void UndoRedoController::handleMessage(MessageActivateAll* message)
-{
-	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageActivateAll*>(lastMessage())->acceptedNodeTypes == message->acceptedNodeTypes)
-	{
-		return;
-	}
-
-	Command command(std::make_shared<MessageActivateAll>(*message), Command::ORDER_ACTIVATE);
-	processCommand(command);
-}
-
 void UndoRedoController::handleMessage(MessageActivateErrors* message)
 {
 	if (sameMessageTypeAsLast(message) &&
@@ -105,6 +93,18 @@ void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message)
 	}
 
 	Command command(std::make_shared<MessageActivateLocalSymbols>(*message), Command::ORDER_VIEW, true);
+	processCommand(command);
+}
+
+void UndoRedoController::handleMessage(MessageActivateOverview* message)
+{
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageActivateOverview*>(lastMessage())->acceptedNodeTypes == message->acceptedNodeTypes)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageActivateOverview>(*message), Command::ORDER_ACTIVATE);
 	processCommand(command);
 }
 
@@ -375,7 +375,7 @@ void UndoRedoController::handleMessage(MessageRefreshUI* message)
 		(message->isAfterIndexing && dynamic_cast<MessageActivateErrors*>(startIterator->message.get()) &&
 			m_storageAccess->getErrorCount().total == 0))
 	{
-		MessageActivateAll msg;
+		MessageActivateOverview msg;
 		msg.setSchedulerId(getSchedulerId());
 		msg.dispatch();
 	}

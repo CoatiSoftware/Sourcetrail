@@ -1,8 +1,8 @@
 #ifndef ERROR_CONTROLLER_H
 #define ERROR_CONTROLLER_H
 
+#include "ActivationListener.h"
 #include "MessageListener.h"
-#include "MessageActivateErrors.h"
 #include "MessageErrorCountClear.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageErrorsAll.h"
@@ -11,9 +11,6 @@
 #include "MessageShowError.h"
 #include "MessageIndexingFinished.h"
 #include "MessageIndexingStarted.h"
-#include "MessageActivateAll.h"
-#include "MessageActivateFullTextSearch.h"
-#include "MessageActivateTokens.h"
 
 #include "Controller.h"
 #include "ErrorView.h"
@@ -22,10 +19,7 @@ class StorageAccess;
 
 class ErrorController
 	: public Controller
-	, public MessageListener<MessageActivateAll>
-	, public MessageListener<MessageActivateErrors>
-	, public MessageListener<MessageActivateFullTextSearch>
-	, public MessageListener<MessageActivateTokens>
+	, public ActivationListener
 	, public MessageListener<MessageErrorCountClear>
 	, public MessageListener<MessageErrorCountUpdate>
 	, public MessageListener<MessageErrorsAll>
@@ -43,22 +37,21 @@ public:
 	void showError(Id errorId);
 
 private:
-	virtual void handleMessage(MessageActivateAll* message);
-	virtual void handleMessage(MessageActivateErrors* message);
-	virtual void handleMessage(MessageActivateFullTextSearch* message);
-	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageErrorCountClear* message);
-	virtual void handleMessage(MessageErrorCountUpdate* message);
-	virtual void handleMessage(MessageErrorsAll* message);
-	virtual void handleMessage(MessageErrorsForFile* message);
-	virtual void handleMessage(MessageErrorsHelpMessage* message);
-	virtual void handleMessage(MessageIndexingFinished* message);
-	virtual void handleMessage(MessageIndexingStarted* message);
-	virtual void handleMessage(MessageShowError* message);
+	void handleActivation(const MessageActivateBase* message) override;
+
+	void handleMessage(MessageActivateErrors* message) override;
+	void handleMessage(MessageErrorCountClear* message) override;
+	void handleMessage(MessageErrorCountUpdate* message) override;
+	void handleMessage(MessageErrorsAll* message) override;
+	void handleMessage(MessageErrorsForFile* message) override;
+	void handleMessage(MessageErrorsHelpMessage* message) override;
+	void handleMessage(MessageIndexingFinished* message) override;
+	void handleMessage(MessageIndexingStarted* message) override;
+	void handleMessage(MessageShowError* message) override;
 
 	ErrorView* getView() const;
 
-	virtual void clear();
+	void clear() override;
 
 	bool showErrors(const ErrorFilter& filter, bool scrollTo);
 

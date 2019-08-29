@@ -2,26 +2,25 @@
 
 #include <set>
 
+#include "AccessKind.h"
+#include "Application.h"
+#include "ApplicationSettings.h"
+#include "BucketLayouter.h"
+#include "Graph.h"
+#include "GraphView.h"
+#include "GraphViewStyle.h"
+#include "ListLayouter.h"
 #include "logging.h"
 #include "MessageActivateNodes.h"
 #include "MessageStatus.h"
-#include "tracing.h"
-#include "utility.h"
-#include "utilityString.h"
-
-#include "Application.h"
-#include "BucketLayouter.h"
-#include "ListLayouter.h"
-#include "TrailLayouter.h"
-#include "GraphView.h"
-#include "GraphViewStyle.h"
 #include "StorageAccess.h"
 #include "TokenComponentAccess.h"
 #include "TokenComponentFilePath.h"
 #include "TokenComponentInheritanceChain.h"
-#include "Graph.h"
-#include "AccessKind.h"
-#include "ApplicationSettings.h"
+#include "tracing.h"
+#include "TrailLayouter.h"
+#include "utility.h"
+#include "utilityString.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -34,7 +33,32 @@ Id GraphController::getSchedulerId() const
 	return Controller::getTabId();
 }
 
-void GraphController::handleMessage(MessageActivateAll* message)
+void GraphController::handleMessage(MessageActivateErrors* message)
+{
+	clear();
+}
+
+void GraphController::handleMessage(MessageActivateFullTextSearch* message)
+{
+	clear();
+}
+
+void GraphController::handleMessage(MessageActivateLegend* message)
+{
+	clear();
+
+	createLegendGraph();
+
+	layoutNesting();
+
+	m_showsLegend = true;
+
+	GraphView::GraphParams params;
+	params.scrollToTop = true;
+	buildGraph(message, params);
+}
+
+void GraphController::handleMessage(MessageActivateOverview* message)
 {
 	TRACE("graph all");
 
@@ -63,31 +87,6 @@ void GraphController::handleMessage(MessageActivateAll* message)
 
 	GraphView::GraphParams params;
 	params.scrollToTop = message->acceptedNodeTypes != NodeTypeSet::all();
-	buildGraph(message, params);
-}
-
-void GraphController::handleMessage(MessageActivateErrors* message)
-{
-	clear();
-}
-
-void GraphController::handleMessage(MessageActivateFullTextSearch* message)
-{
-	clear();
-}
-
-void GraphController::handleMessage(MessageActivateLegend* message)
-{
-	clear();
-
-	createLegendGraph();
-
-	layoutNesting();
-
-	m_showsLegend = true;
-
-	GraphView::GraphParams params;
-	params.scrollToTop = true;
 	buildGraph(message, params);
 }
 

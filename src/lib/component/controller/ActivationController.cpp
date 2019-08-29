@@ -5,7 +5,7 @@
 
 #include "MessageActivateLegend.h"
 #include "MessageErrorsAll.h"
-#include "MessageActivateAll.h"
+#include "MessageActivateOverview.h"
 #include "MessageActivateTokens.h"
 #include "MessageChangeFileView.h"
 #include "MessageFlushUpdates.h"
@@ -151,7 +151,7 @@ void ActivationController::handleMessage(MessageSearch* message)
 			case SearchMatch::COMMAND_ALL:
 			case SearchMatch::COMMAND_NODE_FILTER:
 			{
-				MessageActivateAll msg(message->acceptedNodeTypes);
+				MessageActivateOverview msg(message->acceptedNodeTypes);
 				msg.setSchedulerId(message->getSchedulerId());
 				msg.dispatch();
 				return;

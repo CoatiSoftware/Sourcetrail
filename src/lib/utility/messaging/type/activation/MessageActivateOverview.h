@@ -7,17 +7,17 @@
 #include "NodeTypeSet.h"
 #include "TabId.h"
 
-class MessageActivateAll
-	: public Message<MessageActivateAll>
+class MessageActivateOverview
+	: public Message<MessageActivateOverview>
 	, public MessageActivateBase
 {
 public:
 	static const std::string getStaticType()
 	{
-		return "MessageActivateAll";
+		return "MessageActivateOverview";
 	}
 
-	MessageActivateAll(NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
+	MessageActivateOverview(NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
 		: acceptedNodeTypes(acceptedNodeTypes)
 	{
 		setIsParallel(true);
