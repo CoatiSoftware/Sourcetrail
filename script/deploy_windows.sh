@@ -265,6 +265,8 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		cp -u -r build/win$1/Release/app/imageformats/*.dll $PORTABLE_PACKAGE_APP_DIR/imageformats/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/platforms/
 		cp -u -r build/win$1/Release/app/platforms/*.dll $PORTABLE_PACKAGE_APP_DIR/platforms/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/styles/
+		cp -u -r build/win$1/Release/app/styles/*.dll $PORTABLE_PACKAGE_APP_DIR/styles/
 
 		cp -u -r build/win$1/Release/app/*.dll $PORTABLE_PACKAGE_APP_DIR/
 		cp -u -r build/win$1/Release/app/qt.conf $PORTABLE_PACKAGE_APP_DIR/
