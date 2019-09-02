@@ -23,7 +23,7 @@ public:
 		SourceGroupSettings::load(config, key);
 
 		using expand_type = int[];
-		expand_type a{ 0, ((ComponentTypes::load(config, key)), void(), 0)... };
+		expand_type a{ 0, loadHelper<ComponentTypes>(config, key)... };
 	}
 
 	void saveSettings(ConfigManager* config) override
@@ -33,7 +33,7 @@ public:
 		SourceGroupSettings::save(config, key);
 
 		using expand_type = int[];
-		expand_type a{ 0, ((ComponentTypes::save(config, key)), void(), 0)... };
+		expand_type a{ 0, saveHelper<ComponentTypes>(config, key)... };
 	}
 
 	bool equalsSettings(const SourceGroupSettingsBase* other) override
@@ -51,7 +51,7 @@ public:
 		}
 
 		using expand_type = int[];
-		expand_type a{ false, ComponentTypes::equals(other)... };
+		expand_type a{ false, equalsHelper<ComponentTypes>(other)... };
 
 		bool r = true;
 		for (size_t i = 1; i <= getComponentCount(); ++i)
@@ -66,6 +66,26 @@ private:
 	size_t getComponentCount() const
 	{
 		return sizeof...(ComponentTypes);
+	}
+
+	template <typename T>
+	bool loadHelper(const ConfigManager* config, const std::string& key)
+	{
+		T::load(config, key);
+		return true;
+	}
+
+	template <typename T>
+	bool saveHelper(ConfigManager* config, const std::string& key)
+	{
+		T::save(config, key);
+		return true;
+	}
+
+	template <typename T>
+	bool equalsHelper(const SourceGroupSettingsBase* other)
+	{
+		return T::equals(other);
 	}
 };
 
