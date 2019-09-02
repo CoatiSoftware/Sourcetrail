@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "SingleValueCache.h"
 #include "SourceGroupJava.h"
 
 class SourceGroupSettingsJavaGradle;
@@ -21,8 +22,10 @@ private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 	bool prepareGradleData();
+	std::vector<FilePath> doGetAllSourcePaths() const;
 
 	std::shared_ptr<SourceGroupSettingsJavaGradle> m_settings;
+	mutable SingleValueCache<std::vector<FilePath>> m_allSourcePathsCache;
 };
 
 #endif // SOURCE_GROUP_JAVA_GRADLE_H

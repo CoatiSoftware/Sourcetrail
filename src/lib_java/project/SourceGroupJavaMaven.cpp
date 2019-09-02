@@ -14,6 +14,7 @@
 
 SourceGroupJavaMaven::SourceGroupJavaMaven(std::shared_ptr<SourceGroupSettingsJavaMaven> settings)
 	: m_settings(settings)
+	, m_allSourcePathsCache(std::bind(&SourceGroupJavaMaven::doGetAllSourcePaths, this))
 {
 }
 
@@ -34,25 +35,7 @@ bool SourceGroupJavaMaven::prepareIndexing()
 
 std::vector<FilePath> SourceGroupJavaMaven::getAllSourcePaths() const
 {
-	std::vector<FilePath> sourcePaths;
-	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
-	{
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP);
-		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nFetching Source Directories");
-
-		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
-		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
-
-		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(
-			mavenPath,
-			projectRootPath,
-			m_settings->getMavenDependenciesDirectoryPath(),
-			m_settings->getShouldIndexMavenTests()
-		);
-
-		dialogView->hideUnknownProgressDialog();
-	}
-	return sourcePaths;
+	return m_allSourcePathsCache.getValue();
 }
 
 std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
@@ -119,4 +102,27 @@ bool SourceGroupJavaMaven::prepareMavenData()
 	}
 
 	return true;
+}
+
+std::vector<FilePath> SourceGroupJavaMaven::doGetAllSourcePaths() const
+{
+	std::vector<FilePath> sourcePaths;
+	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
+	{
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP);
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nFetching Source Directories");
+
+		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
+		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
+
+		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(
+			mavenPath,
+			projectRootPath,
+			m_settings->getMavenDependenciesDirectoryPath(),
+			m_settings->getShouldIndexMavenTests()
+		);
+
+		dialogView->hideUnknownProgressDialog();
+	}
+	return sourcePaths;
 }

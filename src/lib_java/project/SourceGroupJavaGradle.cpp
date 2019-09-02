@@ -12,6 +12,7 @@
 
 SourceGroupJavaGradle::SourceGroupJavaGradle(std::shared_ptr<SourceGroupSettingsJavaGradle> settings)
 	: m_settings(settings)
+	, m_allSourcePathsCache(std::bind(&SourceGroupJavaGradle::doGetAllSourcePaths, this))
 {
 }
 
@@ -32,22 +33,7 @@ bool SourceGroupJavaGradle::prepareIndexing()
 
 std::vector<FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
 {
-	std::vector<FilePath> sourcePaths;
-	if (m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
-	{
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP);
-		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nFetching Source Directories");
-
-		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
-		sourcePaths = utility::gradleGetAllSourceDirectories(projectRootPath, m_settings->getShouldIndexGradleTests());
-
-		dialogView->hideUnknownProgressDialog();
-	}
-	else
-	{
-		LOG_INFO("Could not find any source paths because Gradle project path does not exist.");
-	}
-	return sourcePaths;
+	return m_allSourcePathsCache.getValue();
 }
 
 std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
@@ -106,4 +92,24 @@ bool SourceGroupJavaGradle::prepareGradleData()
 	}
 
 	return true;
+}
+
+std::vector<FilePath> SourceGroupJavaGradle::doGetAllSourcePaths() const
+{
+	std::vector<FilePath> sourcePaths;
+	if (m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
+	{
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP);
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nFetching Source Directories");
+
+		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
+		sourcePaths = utility::gradleGetAllSourceDirectories(projectRootPath, m_settings->getShouldIndexGradleTests());
+
+		dialogView->hideUnknownProgressDialog();
+	}
+	else
+	{
+		LOG_INFO("Could not find any source paths because Gradle project path does not exist.");
+	}
+	return sourcePaths;
 }
