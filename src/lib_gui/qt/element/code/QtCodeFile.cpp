@@ -189,6 +189,8 @@ void QtCodeFile::updateContent()
 	{
 		snippet->updateContent();
 	}
+
+	m_titleBar->setIsFocused(m_navigator->getFocus().file == this);
 }
 
 void QtCodeFile::setWholeFile(bool isWholeFile, int refCount)
@@ -206,6 +208,23 @@ void QtCodeFile::setIsComplete(bool isComplete)
 void QtCodeFile::setIsIndexed(bool isIndexed)
 {
 	m_titleBar->setIsIndexed(isIndexed);
+}
+
+bool QtCodeFile::isCollapsed() const
+{
+	return m_titleBar->isCollapsed();
+}
+
+void QtCodeFile::toggleCollapsed()
+{
+	if (isCollapsed())
+	{
+		clickedSnippetButton();
+	}
+	else
+	{
+		clickedMinimizeButton();
+	}
 }
 
 void QtCodeFile::setMinimized()
@@ -285,6 +304,99 @@ void QtCodeFile::findScreenMatches(
 		{
 			snippet->findScreenMatches(query, screenMatches);
 		}
+	}
+}
+
+bool QtCodeFile::hasFocus(const CodeFocusHandler::Focus& focus) const
+{
+	if (focus.file == this)
+	{
+		return true;
+	}
+
+	for (QtCodeSnippet* snippet: m_snippets)
+	{
+		if (snippet->hasFocus(focus))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool QtCodeFile::setFocus(Id locationId)
+{
+	for (QtCodeSnippet* snippet: m_snippets)
+	{
+		if (snippet->setFocus(locationId))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool QtCodeFile::moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction)
+{
+	if (direction == CodeFocusHandler::Direction::DOWN && focus.file == this && !isCollapsed() &&
+		m_snippets.size())
+	{
+		m_snippets[0]->focusTop();
+		return true;
+	}
+
+	for (size_t i = 0; i < m_snippets.size(); i++)
+	{
+		QtCodeSnippet* snippet = m_snippets[i];
+
+		if (snippet->moveFocus(focus, direction))
+		{
+			return true;
+		}
+		else if (snippet->hasFocus(focus))
+		{
+			if (direction == CodeFocusHandler::Direction::UP)
+			{
+				if (i > 0)
+				{
+					m_snippets[i - 1]->focusBottom();
+				}
+				else
+				{
+					m_navigator->setFocusedFile(this);
+				}
+				return true;
+			}
+			else if (
+				direction == CodeFocusHandler::Direction::DOWN && !isCollapsed() &&
+				i < m_snippets.size() - 1)
+			{
+				m_snippets[i + 1]->focusTop();
+				return true;
+			}
+			break;
+		}
+	}
+
+	return false;
+}
+
+void QtCodeFile::focusTop()
+{
+	m_navigator->setFocusedFile(this);
+}
+
+void QtCodeFile::focusBottom()
+{
+	if (!isCollapsed() && m_snippets.size())
+	{
+		m_snippets.back()->focusBottom();
+	}
+	else
+	{
+		m_navigator->setFocusedFile(this);
 	}
 }
 

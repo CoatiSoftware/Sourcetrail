@@ -7,8 +7,8 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
+#include "GraphFocusHandler.h"
 #include "MessageCodeShowDefinition.h"
-#include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
 #include "MessageGraphNodeMove.h"
 #include "QtDeviceScaledPixmap.h"
@@ -40,7 +40,26 @@ void QtGraphNode::hideNode()
 	this->hide();
 }
 
-QtGraphNode::QtGraphNode()
+QtGraphNode* QtGraphNode::findNodeRecursive(const std::list<QtGraphNode*>& nodes, Id tokenId)
+{
+	for (QtGraphNode* node: nodes)
+	{
+		if (node->getTokenId() == tokenId)
+		{
+			return node;
+		}
+
+		QtGraphNode* result = findNodeRecursive(node->getSubNodes(), tokenId);
+		if (result != nullptr)
+		{
+			return result;
+		}
+	}
+
+	return nullptr;
+}
+
+QtGraphNode::QtGraphNode(GraphFocusHandler* focusHandler): m_focusHandler(focusHandler)
 {
 	this->setPen(QPen(Qt::transparent));
 	this->setCursor(Qt::PointingHandCursor);
@@ -208,6 +227,11 @@ bool QtGraphNode::hasActiveChild() const
 	return false;
 }
 
+bool QtGraphNode::isFocusable() const
+{
+	return m_isInteractive && (isDataNode() || isGroupNode() || isBundleNode());
+}
+
 std::wstring QtGraphNode::getName() const
 {
 	return m_text->text().toStdWString();
@@ -234,28 +258,84 @@ void QtGraphNode::hoverEnter()
 	}
 }
 
+bool QtGraphNode::getIsFocused() const
+{
+	return m_isFocused;
+}
+
+void QtGraphNode::setIsFocused(bool focused)
+{
+	if (m_isFocused != focused)
+	{
+		m_isFocused = focused;
+
+		if (focused)
+		{
+			coFocusIn();
+		}
+		else
+		{
+			coFocusOut();
+		}
+	}
+}
+
 void QtGraphNode::focusIn()
 {
-	m_isHovering = true;
+	if (m_isInteractive && m_focusHandler)
+	{
+		m_focusHandler->focusNode(this);
+	}
+	else
+	{
+		coFocusIn();
+	}
+}
+
+void QtGraphNode::focusOut()
+{
+	if (m_isInteractive && m_focusHandler)
+	{
+		m_focusHandler->defocusNode(this);
+	}
+	else
+	{
+		coFocusOut();
+	}
+}
+
+void QtGraphNode::coFocusIn()
+{
+	if (m_isCoFocused)
+	{
+		return;
+	}
+
+	m_isCoFocused = true;
 
 	forEachEdge([](QtGraphEdge* edge) {
 		if (edge->isTrailEdge())
 		{
-			edge->focusIn();
+			edge->coFocusIn();
 		}
 	});
 
 	updateStyle();
 }
 
-void QtGraphNode::focusOut()
+void QtGraphNode::coFocusOut()
 {
-	m_isHovering = false;
+	if (!m_isCoFocused)
+	{
+		return;
+	}
+
+	m_isCoFocused = false;
 
 	forEachEdge([](QtGraphEdge* edge) {
 		if (edge->isTrailEdge())
 		{
-			edge->focusOut();
+			edge->coFocusOut();
 		}
 	});
 
@@ -390,23 +470,23 @@ void QtGraphNode::onHide()
 	}
 }
 
-void QtGraphNode::onCollapseExpand()
+Id QtGraphNode::onCollapseExpand()
 {
 	for (auto subNode: getSubNodes())
 	{
 		if (subNode->isExpandToggleNode())
 		{
-			MessageGraphNodeExpand(
-				getTokenId(), !dynamic_cast<QtGraphNodeExpandToggle*>(subNode)->isExpanded())
-				.dispatch();
-			return;
+			subNode->onClick();
+			return getTokenId();
 		}
 	}
 
 	if (getParent())
 	{
-		getParent()->onCollapseExpand();
+		return getParent()->onCollapseExpand();
 	}
+
+	return 0;
 }
 
 void QtGraphNode::onShowDefinition(bool inIDE)

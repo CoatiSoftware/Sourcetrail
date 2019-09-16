@@ -17,13 +17,28 @@
 #include "SourceLocationFile.h"
 #include "utilityQt.h"
 
+void QtCodeFileListScrollArea::keyPressEvent(QKeyEvent* event)
+{
+	switch (event->key())
+	{
+	case Qt::Key_Up:
+	case Qt::Key_Down:
+	case Qt::Key_Left:
+	case Qt::Key_Right:
+		QWidget::keyPressEvent(event);
+		return;
+	}
+
+	QScrollArea::keyPressEvent(event);
+}
+
 QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	: QFrame()
 	, m_navigator(navigator)
 	, m_mirroredTitleBar(nullptr)
 	, m_mirroredSnippetScrollBar(nullptr)
 {
-	m_scrollArea = new QScrollArea();
+	m_scrollArea = new QtCodeFileListScrollArea();
 
 	m_scrollArea->setObjectName(QStringLiteral("code_container"));
 	m_scrollArea->setWidgetResizable(true);
@@ -284,6 +299,42 @@ void QtCodeFileList::findScreenMatches(
 	for (QtCodeFile* file: m_files)
 	{
 		file->findScreenMatches(query, screenMatches);
+	}
+}
+
+void QtCodeFileList::setFocus(Id locationId)
+{
+	for (QtCodeFile* file: m_files)
+	{
+		if (file->setFocus(locationId))
+		{
+			return;
+		}
+	}
+}
+
+void QtCodeFileList::moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction)
+{
+	for (size_t i = 0; i < m_files.size(); i++)
+	{
+		QtCodeFile* file = m_files[i];
+
+		if (file->moveFocus(focus, direction))
+		{
+			return;
+		}
+		else if (file->hasFocus(focus))
+		{
+			if (direction == CodeFocusHandler::Direction::UP && i > 0)
+			{
+				m_files[i - 1]->focusBottom();
+			}
+			else if (direction == CodeFocusHandler::Direction::DOWN && i < m_files.size() - 1)
+			{
+				m_files[i + 1]->focusTop();
+			}
+			return;
+		}
 	}
 }
 

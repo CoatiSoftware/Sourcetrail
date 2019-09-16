@@ -209,6 +209,29 @@ void ComponentManager::refreshViews()
 	}
 }
 
+View* ComponentManager::getView(const std::string& name) const
+{
+	for (const std::shared_ptr<Component>& component: m_components)
+	{
+		View* view = component->getViewPtr();
+
+		if (view && view->getName() == name)
+		{
+			return view;
+		}
+	}
+
+	for (const std::shared_ptr<View>& view: m_singleViews)
+	{
+		if (view->getName() == name)
+		{
+			return view.get();
+		}
+	}
+
+	return nullptr;
+}
+
 std::shared_ptr<DialogView> ComponentManager::getDialogView(DialogView::UseCase useCase) const
 {
 	auto it = m_dialogViews.find(useCase);

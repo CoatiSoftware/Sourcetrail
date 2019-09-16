@@ -139,6 +139,10 @@
 	border-top: 1px solid <color:code/navigation/line>;
 }
 
+#title_bar[focused=true] {
+	background: "red";
+}
+
 #title_bar_single {
 	background-color: <color:code/file/background>;
 	padding-right: 5px;
@@ -216,6 +220,10 @@
 #code_file #code_snippet #scope_name {
 	padding-left: 4px;
 	text-align: left;
+}
+
+#code_file #code_snippet #scope_name[focused=true] {
+	background: "red";
 }
 
 #line_number_area {

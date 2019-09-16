@@ -68,13 +68,17 @@ public:
 
 	virtual bool showsErrors() const = 0;
 
-	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
-	virtual void defocusTokenIds() = 0;
+	virtual void coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds) = 0;
+	virtual void deCoFocusTokenIds() = 0;
 
 	virtual bool isInListMode() const = 0;
 	virtual void setMode(bool listMode) = 0;
 
 	virtual bool hasSingleFileCached(const FilePath& filePath) const = 0;
+
+	virtual void focus() = 0;
+	virtual void defocus() = 0;
+	virtual bool hasFocus() = 0;
 
 protected:
 	CodeController* getController();

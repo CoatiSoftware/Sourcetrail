@@ -1,6 +1,7 @@
 #include "QtGraphNodeData.h"
 
 #include "FilePath.h"
+#include "GraphFocusHandler.h"
 #include "MessageActivateNodes.h"
 #include "MessageDeactivateEdge.h"
 #include "MessageFocusIn.h"
@@ -12,12 +13,18 @@
 #include "TokenComponentFilePath.h"
 
 QtGraphNodeData::QtGraphNodeData(
-	const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier, bool isInteractive)
-	: m_data(data)
+	GraphFocusHandler* focusHandler,
+	const Node* data,
+	const std::wstring& name,
+	bool childVisible,
+	bool hasQualifier,
+	bool isInteractive)
+	: QtGraphNode(focusHandler)
+	, m_data(data)
 	, m_childVisible(childVisible)
 	, m_hasQualifier(hasQualifier)
-	, m_isInteractive(isInteractive)
 {
+	m_isInteractive = isInteractive;
 	this->setAcceptHoverEvents(true);
 	this->setName(name);
 }
@@ -69,7 +76,13 @@ void QtGraphNodeData::onMiddleClick()
 void QtGraphNodeData::updateStyle()
 {
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleForNodeType(
-		m_data->getType(), m_data->isExplicit(), m_isActive, m_isHovering, m_childVisible, m_hasQualifier);
+		m_data->getType(),
+		m_data->isExplicit(),
+		m_isActive,
+		m_isFocused,
+		m_isCoFocused,
+		m_childVisible,
+		m_hasQualifier);
 
 	TokenComponentFilePath* component = m_data->getComponent<TokenComponentFilePath>();
 	if (component && !component->isComplete())
@@ -83,8 +96,14 @@ void QtGraphNodeData::updateStyle()
 
 void QtGraphNodeData::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-	MessageFocusIn(std::vector<Id>(1, m_data->getId()), TOOLTIP_ORIGIN_GRAPH).dispatch();
+	focusIn();
 
+	if (m_isInteractive)
+	{
+		MessageFocusIn({m_data->getId()}, TOOLTIP_ORIGIN_GRAPH).dispatch();
+	}
+
+	// case for legend
 	if (!m_isInteractive)
 	{
 		TooltipInfo info;
@@ -108,5 +127,10 @@ void QtGraphNodeData::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 
 void QtGraphNodeData::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-	MessageFocusOut(std::vector<Id>(1, m_data->getId())).dispatch();
+	focusOut();
+
+	if (m_isInteractive)
+	{
+		MessageFocusOut({m_data->getId()}).dispatch();
+	}
 }

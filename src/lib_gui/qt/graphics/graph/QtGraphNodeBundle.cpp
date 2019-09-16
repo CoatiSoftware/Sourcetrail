@@ -3,14 +3,21 @@
 #include <QBrush>
 #include <QPen>
 
-#include "MessageGraphNodeBundleSplit.h"
-
 #include "GraphViewStyle.h"
+#include "MessageGraphNodeBundleSplit.h"
 #include "QtCountCircleItem.h"
 
-QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, const std::wstring& name)
-	: QtGraphNode(), m_tokenId(tokenId), m_type(type)
+QtGraphNodeBundle::QtGraphNodeBundle(
+	GraphFocusHandler* focusHandler,
+	Id tokenId,
+	size_t nodeCount,
+	NodeType type,
+	const std::wstring& name,
+	bool interactive)
+	: QtGraphNode(focusHandler), m_tokenId(tokenId), m_type(type)
 {
+	m_isInteractive = interactive;
+
 	this->setName(name);
 
 	m_circle = new QtCountCircleItem(this);
@@ -48,11 +55,12 @@ void QtGraphNodeBundle::updateStyle()
 	GraphViewStyle::NodeStyle style;
 	if (!m_type.isUnknownSymbol())
 	{
-		style = GraphViewStyle::getStyleForNodeType(m_type, true, false, m_isHovering, false, false);
+		style = GraphViewStyle::getStyleForNodeType(
+			m_type, true, false, m_isFocused, m_isCoFocused, false, false);
 	}
 	else
 	{
-		style = GraphViewStyle::getStyleOfBundleNode(m_isHovering);
+		style = GraphViewStyle::getStyleOfBundleNode(m_isFocused);
 	}
 	setStyle(style);
 

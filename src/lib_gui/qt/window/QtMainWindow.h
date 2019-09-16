@@ -95,6 +95,8 @@ protected:
 	virtual void closeEvent(QCloseEvent* event) override;
 	virtual void resizeEvent(QResizeEvent* event) override;
 
+	virtual bool focusNextPrevChild(bool next) override;
+
 public slots:
 	void about();
 	void openSettings();

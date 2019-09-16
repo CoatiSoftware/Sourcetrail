@@ -159,7 +159,7 @@ std::shared_ptr<SourceLocationFile> QtCodeField::getSourceLocationFile() const
 
 void QtCodeField::annotateText()
 {
-	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>());
+	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>(), 0);
 }
 
 void QtCodeField::paintEvent(QPaintEvent* event)
@@ -217,12 +217,12 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 			setTextColorForAnnotation(annotation, QColor(color.text.c_str()));
 		}
 
-		if (color.border == "transparent" && color.fill == "transparent")
+		if (!annotation.isFocused && color.border == "transparent" && color.fill == "transparent")
 		{
 			continue;
 		}
 
-		QPen pen(color.border.c_str());
+		QPen pen(annotation.isFocused ? "red" : color.border.c_str());
 		if (annotation.locationType == LOCATION_UNSOLVED)
 		{
 			pen.setStyle(Qt::DashLine);
@@ -309,6 +309,21 @@ void QtCodeField::mouseReleaseEvent(QMouseEvent* event)
 	activateAnnotations(annotations);
 }
 
+void QtCodeField::keyPressEvent(QKeyEvent* event)
+{
+	switch (event->key())
+	{
+	case Qt::Key_Up:
+	case Qt::Key_Down:
+	case Qt::Key_Left:
+	case Qt::Key_Right:
+		QWidget::keyPressEvent(event);
+		return;
+	}
+
+	QPlainTextEdit::keyPressEvent(event);
+}
+
 void QtCodeField::contextMenuEvent(QContextMenuEvent* event)
 {
 	checkOpenInTabActionEnabled(event->pos());
@@ -322,38 +337,42 @@ void QtCodeField::contextMenuEvent(QContextMenuEvent* event)
 void QtCodeField::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
 	annotateText(
-		std::set<Id>(), std::set<Id>(), std::set<Id>(focusedTokenIds.begin(), focusedTokenIds.end()));
+		std::set<Id>(), std::set<Id>(), std::set<Id>(focusedTokenIds.begin(), focusedTokenIds.end()), 0);
 }
 
 void QtCodeField::defocusTokenIds(const std::vector<Id>& activeTokenIds)
 {
-	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>());
+	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>(), 0);
 }
 
 bool QtCodeField::annotateText(
 	const std::set<Id>& activeSymbolIds,
 	const std::set<Id>& activeLocationIds,
-	const std::set<Id>& focusedSymbolIds)
+	const std::set<Id>& coFocusedSymbolIds,
+	Id focusedLocationId)
 {
 	for (size_t i = 0; i < m_annotations.size(); i++)
 	{
 		Annotation& annotation = m_annotations[i];
 		bool wasActive = annotation.isActive;
 		bool wasFocused = annotation.isFocused;
+		bool wasCoFocused = annotation.isCoFocused;
 
 		annotation.isActive =
 			(utility::shareElement(activeSymbolIds, annotation.tokenIds) ||
 			 activeLocationIds.find(annotation.locationId) != activeLocationIds.end());
 
-		annotation.isFocused = utility::shareElement(focusedSymbolIds, annotation.tokenIds);
+		annotation.isFocused = annotation.locationId == focusedLocationId;
+
+		annotation.isCoFocused = utility::shareElement(coFocusedSymbolIds, annotation.tokenIds);
 
 		if (annotation.locationType == LOCATION_QUALIFIER)
 		{
 			// never show qualifier locations active
 			annotation.isActive = false;
 
-			// only show qualifiers focused when mouse over
-			if (annotation.isFocused)
+			// only show qualifiers cofocused when mouse over
+			if (annotation.isCoFocused)
 			{
 				bool isHovered = false;
 				for (const Annotation* a: m_hoveredAnnotations)
@@ -363,11 +382,12 @@ bool QtCodeField::annotateText(
 						isHovered = true;
 					}
 				}
-				annotation.isFocused = isHovered;
+				annotation.isCoFocused = isHovered;
 			}
 		}
 
-		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
+		if (wasActive != annotation.isActive || wasFocused != annotation.isFocused ||
+			wasCoFocused != annotation.isCoFocused)
 		{
 			m_linesToRehighlight.push_back(static_cast<int>(annotation.startLine - m_startLineNumber));
 		}
@@ -449,9 +469,6 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 		annotation.tokenIds.insert(location->getTokenIds().begin(), location->getTokenIds().end());
 		annotation.locationId = location->getLocationId();
 		annotation.locationType = location->getType();
-
-		annotation.isActive = false;
-		annotation.isFocused = false;
 
 		m_annotations.push_back(annotation);
 	});
@@ -683,7 +700,7 @@ const QtCodeField::AnnotationColor& QtCodeField::getAnnotationColorForAnnotation
 	{
 		i += 2;
 	}
-	else if (annotation.isFocused)
+	else if (annotation.isCoFocused)
 	{
 		i += 1;
 	}
@@ -696,6 +713,38 @@ void QtCodeField::setTextColorForAnnotation(const Annotation& annotation, QColor
 	QTextCharFormat format;
 	format.setForeground(color);
 	m_highlighter->applyFormat(annotation.start, annotation.end, format);
+}
+
+const QtCodeField::Annotation* QtCodeField::getAnnotationForLocationId(Id locationId) const
+{
+	for (const Annotation& annotation: m_annotations)
+	{
+		if (annotation.locationId == locationId)
+		{
+			return &annotation;
+		}
+	}
+
+	return nullptr;
+}
+
+std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotationsForLineNumber(
+	size_t lineNumber) const
+{
+	std::vector<const QtCodeField::Annotation*> annotations;
+
+	for (const Annotation& annotation: m_annotations)
+	{
+		const LocationType& type = annotation.locationType;
+		if ((type == LOCATION_TOKEN || type == LOCATION_QUALIFIER ||
+			 type == LOCATION_LOCAL_SYMBOL || type == LOCATION_UNSOLVED || type == LOCATION_ERROR) &&
+			lineNumber >= annotation.startLine && lineNumber <= annotation.endLine)
+		{
+			annotations.push_back(&annotation);
+		}
+	}
+
+	return annotations;
 }
 
 std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotationsForPosition(

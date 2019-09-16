@@ -8,9 +8,9 @@
 #include <QVBoxLayout>
 
 #include "ApplicationSettings.h"
+#include "CodeFocusHandler.h"
 #include "MessageCodeReference.h"
 #include "MessageScrollCode.h"
-#include "MessageShowError.h"
 #include "QtCodeArea.h"
 #include "QtCodeFile.h"
 #include "QtCodeSnippet.h"
@@ -237,7 +237,7 @@ void QtCodeNavigator::clear()
 	m_currentActiveTokenIds.clear();
 	m_activeTokenIds.clear();
 	m_activeLocalTokenIds.clear();
-	m_focusedTokenIds.clear();
+	m_coFocusedTokenIds.clear();
 	m_errorInfos.clear();
 
 	updateReferenceCount(0, 0, 0, 0);
@@ -352,14 +352,14 @@ void QtCodeNavigator::setActiveLocalTokenIds(
 	m_activeLocalTokenIds = std::set<Id>(activeLocalTokenIds.begin(), activeLocalTokenIds.end());
 }
 
-const std::set<Id>& QtCodeNavigator::getFocusedTokenIds() const
+const std::set<Id>& QtCodeNavigator::getCoFocusedTokenIds() const
 {
-	return m_focusedTokenIds;
+	return m_coFocusedTokenIds;
 }
 
-void QtCodeNavigator::setFocusedTokenIds(const std::vector<Id>& focusedTokenIds)
+void QtCodeNavigator::setCoFocusedTokenIds(const std::vector<Id>& coFocusedTokenIds)
 {
-	m_focusedTokenIds = std::set<Id>(focusedTokenIds.begin(), focusedTokenIds.end());
+	m_coFocusedTokenIds = std::set<Id>(coFocusedTokenIds.begin(), coFocusedTokenIds.end());
 }
 
 std::wstring QtCodeNavigator::getErrorMessageForId(Id errorId) const
@@ -413,15 +413,15 @@ bool QtCodeNavigator::hasSingleFileCached(const FilePath& filePath) const
 	return m_single->hasFileCached(filePath);
 }
 
-void QtCodeNavigator::focusTokenIds(const std::vector<Id>& focusedTokenIds)
+void QtCodeNavigator::coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds)
 {
-	setFocusedTokenIds(focusedTokenIds);
+	setCoFocusedTokenIds(coFocusedTokenIds);
 	updateFiles();
 }
 
-void QtCodeNavigator::defocusTokenIds()
+void QtCodeNavigator::deCoFocusTokenIds()
 {
-	setFocusedTokenIds({});
+	setCoFocusedTokenIds({});
 	updateFiles();
 }
 
@@ -584,6 +584,68 @@ void QtCodeNavigator::scrolled(int value)
 void QtCodeNavigator::showEvent(QShowEvent* event)
 {
 	scrollTo(m_scrollParams, false);
+}
+
+#include <iostream>
+void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
+{
+	bool shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
+
+	switch (event->key())
+	{
+	case Qt::Key_Up:
+	case Qt::Key_K:
+	case Qt::Key_W:
+		std::cout << "up" << std::endl;
+		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::UP);
+		updateFiles();
+		break;
+
+	case Qt::Key_Down:
+	case Qt::Key_J:
+	case Qt::Key_S:
+		std::cout << "down" << std::endl;
+		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::DOWN);
+		updateFiles();
+		break;
+
+	case Qt::Key_Left:
+	case Qt::Key_H:
+	case Qt::Key_A:
+		std::cout << "left" << std::endl;
+		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::LEFT);
+		updateFiles();
+		break;
+
+	case Qt::Key_Right:
+	case Qt::Key_L:
+	case Qt::Key_D:
+		std::cout << "right" << std::endl;
+		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::RIGHT);
+		updateFiles();
+		break;
+
+	case Qt::Key_E:
+	case Qt::Key_Return:
+		std::cout << "activate" << std::endl;
+		if (m_focus.area && m_focus.locationId)
+		{
+			m_focus.area->activateLocationId(m_focus.locationId);
+		}
+		else if (m_focus.scopeLine)
+		{
+			m_focus.scopeLine->clicked();
+		}
+		else if (m_focus.file)
+		{
+			m_focus.file->toggleCollapsed();
+		}
+		break;
+
+	default:
+		QWidget::keyPressEvent(event);
+		return;
+	}
 }
 
 void QtCodeNavigator::previousReference()

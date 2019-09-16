@@ -12,6 +12,7 @@
 #include <QSvgGenerator>
 
 #include "ApplicationSettings.h"
+#include "GraphFocusHandler.h"
 #include "MessageActivateLegend.h"
 #include "MessageBookmarkCreate.h"
 #include "MessageCodeShowDefinition.h"
@@ -30,8 +31,9 @@
 #include "utilityApp.h"
 #include "utilityQt.h"
 
-QtGraphicsView::QtGraphicsView(QWidget* parent)
+QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	: QGraphicsView(parent)
+	, m_focusHandler(focusHandler)
 	, m_zoomFactor(1.0f)
 	, m_appZoomFactor(1.0f)
 	, m_up(false)
@@ -205,6 +207,8 @@ void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int 
 	int xval = horizontalScrollBar()->value();
 	int yval = verticalScrollBar()->value();
 
+	setInteractive(false);
+
 	ensureVisible(rect, xmargin, ymargin);
 
 	if (ApplicationSettings::getInstance()->getUseAnimations() && isVisible())
@@ -231,7 +235,13 @@ void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int 
 		yanim->setEasingCurve(QEasingCurve::InOutQuad);
 		move->addAnimation(yanim);
 
+		connect(move, &QPropertyAnimation::finished, [this]() { setInteractive(true); });
+
 		move->start();
+	}
+	else
+	{
+		setInteractive(true);
 	}
 }
 
@@ -292,28 +302,65 @@ void QtGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 
 void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 {
-	if (event->key() >= Qt::Key_A && event->key() <= Qt::Key_Z && event->text().size())
-	{
-		QChar c = event->text().at(0).toUpper();
-		emit characterKeyPressed(c);
-	}
+	// if (event->key() >= Qt::Key_A && event->key() <= Qt::Key_Z && event->text().size())
+	// {
+	// 	QChar c = event->text().at(0).toUpper();
+	// 	emit characterKeyPressed(c);
+	// }
 
 	bool moved = moves();
 
 	switch (event->key())
 	{
+	case Qt::Key_Up:
+	case Qt::Key_K:
 	case Qt::Key_W:
-		m_up = true;
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::UP, m_shift);
 		break;
-	case Qt::Key_A:
-		m_left = true;
-		break;
+
+	case Qt::Key_Down:
+	case Qt::Key_J:
 	case Qt::Key_S:
-		m_down = true;
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::DOWN, m_shift);
 		break;
+
+	case Qt::Key_Left:
+	case Qt::Key_H:
+	case Qt::Key_A:
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::LEFT, m_shift);
+		break;
+
+	case Qt::Key_Right:
+	case Qt::Key_L:
 	case Qt::Key_D:
-		m_right = true;
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::RIGHT, m_shift);
 		break;
+
+	case Qt::Key_E:
+	case Qt::Key_Return:
+		if (m_shift)
+		{
+			m_focusHandler->expandFocus();
+		}
+		else
+		{
+			m_focusHandler->activateFocus();
+		}
+		break;
+
+		// case Qt::Key_W:
+		// 	m_up = true;
+		// 	break;
+		// case Qt::Key_A:
+		// 	m_left = true;
+		// 	break;
+		// case Qt::Key_S:
+		// 	m_down = true;
+		// 	break;
+		// case Qt::Key_D:
+		// 	m_right = true;
+		// 	break;
+
 	case Qt::Key_0:
 		setZoomFactor(1.0f);
 		updateTransform();
@@ -338,18 +385,18 @@ void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
 {
 	switch (event->key())
 	{
-	case Qt::Key_W:
-		m_up = false;
-		break;
-	case Qt::Key_A:
-		m_left = false;
-		break;
-	case Qt::Key_S:
-		m_down = false;
-		break;
-	case Qt::Key_D:
-		m_right = false;
-		break;
+	// case Qt::Key_W:
+	// 	m_up = false;
+	// 	break;
+	// case Qt::Key_A:
+	// 	m_left = false;
+	// 	break;
+	// case Qt::Key_S:
+	// 	m_down = false;
+	// 	break;
+	// case Qt::Key_D:
+	// 	m_right = false;
+	// 	break;
 	case Qt::Key_Shift:
 		m_shift = false;
 		break;

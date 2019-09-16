@@ -25,6 +25,7 @@
 #include "MessageCustomTrailShow.h"
 #include "MessageErrorsHelpMessage.h"
 #include "MessageFind.h"
+#include "MessageFocusView.h"
 #include "MessageHistoryRedo.h"
 #include "MessageHistoryUndo.h"
 #include "MessageIndexingShowDialog.h"
@@ -469,6 +470,10 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Space:
 		PRINT_TRACES();
 		break;
+
+	case Qt::Key_Tab:
+		MessageFocusView(MessageFocusView::ViewType::TOGGLE).dispatch();
+		break;
 	}
 }
 
@@ -488,6 +493,12 @@ void QtMainWindow::resizeEvent(QResizeEvent* event)
 {
 	m_windowStack.centerSubWindows();
 	QMainWindow::resizeEvent(event);
+}
+
+bool QtMainWindow::focusNextPrevChild(bool next)
+{
+	// makes tab key available in key press event
+	return false;
 }
 
 void QtMainWindow::about()

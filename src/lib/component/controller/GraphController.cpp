@@ -344,12 +344,12 @@ void GraphController::handleMessage(MessageScrollGraph* message)
 
 void GraphController::handleMessage(MessageFocusIn* message)
 {
-	getView()->focusTokenIds(message->tokenIds);
+	getView()->coFocusTokenIds(message->tokenIds);
 }
 
 void GraphController::handleMessage(MessageFocusOut* message)
 {
-	getView()->defocusTokenIds(message->tokenIds);
+	getView()->deCoFocusTokenIds(message->tokenIds);
 }
 
 void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)

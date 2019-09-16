@@ -43,8 +43,8 @@ public:
 		const GraphParams params) = 0;
 	virtual void clear() = 0;
 
-	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
-	virtual void defocusTokenIds(const std::vector<Id>& defocusedTokenIds) = 0;
+	virtual void coFocusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
+	virtual void deCoFocusTokenIds(const std::vector<Id>& defocusedTokenIds) = 0;
 
 	virtual void resizeView() = 0;
 
@@ -54,6 +54,10 @@ public:
 	virtual void scrollToValues(int xValue, int yValue) = 0;
 
 	virtual void activateEdge(Id edgeId) = 0;
+
+	virtual void focus() = 0;
+	virtual void defocus() = 0;
+	virtual bool hasFocus() = 0;
 };
 
 #endif	  // GRAPH_VIEW_H

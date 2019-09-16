@@ -215,8 +215,7 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		for (NodeKind t: nodeKinds)
 		{
 			nodeFilters.push_back(QString::fromStdString(getReadableNodeKindString(t)));
-			nodeColors.push_back(
-				QColor(scheme->getNodeTypeColor(NodeType(t), "fill", ColorScheme::FOCUS).c_str()));
+			nodeColors.push_back(QColor(scheme->getNodeTypeColor(NodeType(t), "fill", true).c_str()));
 		}
 
 		QVBoxLayout* filterLayout = addFilters(
@@ -253,7 +252,7 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		for (Edge::EdgeType t: edgeTypes)
 		{
 			edgeFilters.push_back(QString::fromStdWString(Edge::getReadableTypeString(t)));
-			edgeColors.push_back(QColor(scheme->getEdgeTypeColor(t, ColorScheme::FOCUS).c_str()));
+			edgeColors.push_back(QColor(scheme->getEdgeTypeColor(t).c_str()));
 		}
 
 		QVBoxLayout* filterLayout = addFilters(

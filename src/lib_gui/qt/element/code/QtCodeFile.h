@@ -10,6 +10,7 @@
 
 #include "FilePath.h"
 
+#include "CodeFocusHandler.h"
 #include "CodeSnippetParams.h"
 
 class QtCodeArea;
@@ -50,6 +51,9 @@ public:
 	void setIsComplete(bool isComplete);
 	void setIsIndexed(bool isIndexed);
 
+	bool isCollapsed() const;
+	void toggleCollapsed();
+
 	void setMinimized();
 	void setSnippets();
 
@@ -60,6 +64,12 @@ public:
 
 	void findScreenMatches(
 		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+
+	bool hasFocus(const CodeFocusHandler::Focus& focus) const;
+	bool setFocus(Id locationId);
+	bool moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction);
+	void focusTop();
+	void focusBottom();
 
 public slots:
 	void clickedMinimizeButton();

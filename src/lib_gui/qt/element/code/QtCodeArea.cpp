@@ -160,7 +160,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 		switch (annotation.locationType)
 		{
 		case LOCATION_LOCAL_SYMBOL:
-			if (annotation.isActive || annotation.isFocused)
+			if (annotation.isActive || annotation.isFocused || annotation.isCoFocused)
 			{
 				focus = true;
 			}
@@ -169,7 +169,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 		case LOCATION_ERROR:
 		case LOCATION_FULLTEXT_SEARCH:
 		case LOCATION_SCREEN_SEARCH:
-			if (annotation.isFocused || annotation.isActive)
+			if (annotation.isActive || annotation.isFocused || annotation.isCoFocused)
 			{
 				focus = true;
 			}
@@ -186,7 +186,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 				focus = true;
 				break;
 			}
-			else if (annotation.isFocused && utility::shareElement(activeSymbolIds, annotation.tokenIds))
+			else if (annotation.isCoFocused && utility::shareElement(activeSymbolIds, annotation.tokenIds))
 			{
 				active = true;
 				break;
@@ -197,7 +197,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 			{
 				active = true;
 			}
-			else if (annotation.isFocused)
+			else if (annotation.isFocused || annotation.isCoFocused)
 			{
 				focus = true;
 			}
@@ -238,6 +238,12 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 		drawAreaBottom = height() - horizontalScrollBar()->height();
 	}
 
+	size_t focusedLineNumber = 0;
+	if (m_navigator->getFocus().area == this)
+	{
+		focusedLineNumber = m_navigator->getFocus().lineNumber;
+	}
+
 	while (block.isValid() && top <= drawAreaBottom)
 	{
 		if (block.isVisible() && bottom >= drawAreaTop)
@@ -247,7 +253,11 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 
 			p.setColor(textColor);
 
-			if (focusedLineNumbers.find(number) != focusedLineNumbers.end())
+			if (focusedLineNumber == number)
+			{
+				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, height, "red");
+			}
+			else if (focusedLineNumbers.find(number) != focusedLineNumbers.end())
 			{
 				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, height, focusedMarkerColor);
 			}
@@ -394,7 +404,7 @@ size_t QtCodeArea::getActiveLocationCount() const
 	for (const Annotation& annotation: m_annotations)
 	{
 		if (annotation.locationType == LocationType::LOCATION_TOKEN &&
-			(annotation.isActive || annotation.isFocused))
+			(annotation.isActive || annotation.isCoFocused))
 		{
 			count++;
 		}
@@ -462,9 +472,6 @@ void QtCodeArea::findScreenMatches(
 		// Set first 2 bits to 1 to avoid collisions
 		matchAnnotation.locationId = ~(~Id(0) >> 2) + screenMatches->size() + 1;
 		matchAnnotation.locationType = LOCATION_SCREEN_SEARCH;
-
-		matchAnnotation.isActive = false;
-		matchAnnotation.isFocused = false;
 
 		m_annotations.push_back(matchAnnotation);
 		screenMatches->push_back(std::make_pair(this, matchAnnotation.locationId));
@@ -572,6 +579,138 @@ void QtCodeArea::ensureLocationIdVisible(Id locationId, int parentWidth, bool an
 	else
 	{
 		scrollBar->setValue(newValue);
+	}
+}
+
+bool QtCodeArea::setFocus(Id locationId)
+{
+	for (const Annotation& annotation: m_annotations)
+	{
+		const LocationType& type = annotation.locationType;
+		if (annotation.locationId == locationId &&
+			(type == LOCATION_TOKEN || type == LOCATION_QUALIFIER ||
+			 type == LOCATION_LOCAL_SYMBOL || type == LOCATION_UNSOLVED || type == LOCATION_ERROR))
+		{
+			m_linesToRehighlight.push_back(annotation.startLine);
+			m_navigator->setFocusedLocationId(
+				this, annotation.startLine, annotation.startCol, locationId);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool QtCodeArea::moveFocus(CodeFocusHandler::Direction direction, size_t lineNumber, Id locationId)
+{
+	switch (direction)
+	{
+	case CodeFocusHandler::Direction::UP:
+		return moveFocusToLine(lineNumber, m_navigator->getTargetColumn(), true);
+	case CodeFocusHandler::Direction::DOWN:
+		return moveFocusToLine(lineNumber, m_navigator->getTargetColumn(), false);
+	case CodeFocusHandler::Direction::LEFT:
+		return moveFocusInLine(lineNumber, locationId, false);
+	case CodeFocusHandler::Direction::RIGHT:
+		return moveFocusInLine(lineNumber, locationId, true);
+	};
+
+	return false;
+}
+
+bool QtCodeArea::moveFocusToLine(size_t lineNumber, int targetColumn, bool up)
+{
+	while (true)
+	{
+		if (up)
+		{
+			lineNumber--;
+		}
+		else
+		{
+			lineNumber++;
+		}
+
+		if (lineNumber < getStartLineNumber() || lineNumber > getEndLineNumber())
+		{
+			break;
+		}
+
+		std::vector<const Annotation*> annotations = getInteractiveAnnotationsForLineNumber(
+			lineNumber);
+		if (!annotations.size())
+		{
+			continue;
+		}
+
+		Id locationId = 0;
+
+		int dist = -1;
+		for (const Annotation* a: annotations)
+		{
+			if (dist < 0 || std::abs(a->startCol - targetColumn) < dist)
+			{
+				dist = std::abs(a->startCol - targetColumn);
+				locationId = a->locationId;
+			}
+		}
+
+		m_linesToRehighlight.push_back(lineNumber);
+		m_navigator->setFocusedLocationId(this, lineNumber, 0, locationId);
+
+		return true;
+	}
+
+	return false;
+}
+
+bool QtCodeArea::moveFocusInLine(size_t lineNumber, Id locationId, bool forward)
+{
+	const Annotation* target = nullptr;
+
+	for (const Annotation* annotation: getInteractiveAnnotationsForLineNumber(lineNumber))
+	{
+		if (annotation->locationId == locationId)
+		{
+			if (forward)
+			{
+				target = annotation;
+			}
+			else
+			{
+				break;
+			}
+		}
+		else if (forward)
+		{
+			if (target)
+			{
+				target = annotation;
+				break;
+			}
+		}
+		else
+		{
+			target = annotation;
+		}
+	}
+
+	if (target && target->locationId != locationId)
+	{
+		m_linesToRehighlight.push_back(lineNumber);
+		m_navigator->setFocusedLocationId(this, lineNumber, target->startCol, target->locationId);
+		return true;
+	}
+
+	return false;
+}
+
+void QtCodeArea::activateLocationId(Id locationId)
+{
+	const Annotation* annotation = getAnnotationForLocationId(locationId);
+	if (annotation)
+	{
+		activateAnnotationsOrErrors({annotation});
 	}
 }
 
@@ -736,6 +875,13 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		QToolTip::hideText();
 
 		setHoveredAnnotations(annotations);
+
+		if (annotations.size())
+		{
+			const Annotation* focus = annotations.front();
+			m_navigator->setFocusedLocationId(
+				this, focus->startLine, focus->startCol, focus->locationId);
+		}
 	}
 }
 
@@ -890,17 +1036,17 @@ void QtCodeArea::annotateText()
 	const std::set<Id>& activeLocationIds = utility::concat(
 		m_navigator->getCurrentActiveLocationIds(), m_navigator->getCurrentActiveLocalLocationIds());
 
-	std::set<Id> focusedSymbolIds = m_navigator->getActiveTokenIds();
-	utility::append(focusedSymbolIds, m_navigator->getActiveLocalTokenIds());
+	std::set<Id> coFocusedSymbolIds = m_navigator->getActiveTokenIds();
+	utility::append(coFocusedSymbolIds, m_navigator->getActiveLocalTokenIds());
 
 	for (Id currentActiveId: activeSymbolIds)
 	{
-		focusedSymbolIds.erase(currentActiveId);
+		coFocusedSymbolIds.erase(currentActiveId);
 	}
-	utility::append(focusedSymbolIds, m_navigator->getFocusedTokenIds());
+	utility::append(coFocusedSymbolIds, m_navigator->getCoFocusedTokenIds());
 
 	bool needsUpdate = QtCodeField::annotateText(
-		activeSymbolIds, activeLocationIds, focusedSymbolIds);
+		activeSymbolIds, activeLocationIds, coFocusedSymbolIds, m_navigator->getFocus().locationId);
 	if (needsUpdate)
 	{
 		m_lineNumberArea->update();

@@ -42,13 +42,18 @@ public:
 
 	bool showsErrors() const override;
 
-	void focusTokenIds(const std::vector<Id>& focusedTokenIds) override;
-	void defocusTokenIds() override;
+	void coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds) override;
+	void deCoFocusTokenIds() override;
 
 	bool isInListMode() const override;
 	void setMode(bool listMode) override;
 
 	bool hasSingleFileCached(const FilePath& filePath) const override;
+
+	void focus() override;
+	void defocus() override;
+	bool hasFocus() override;
+	bool m_hasFocus = false;
 
 private:
 	void setNavigationState(const CodeParams& params);

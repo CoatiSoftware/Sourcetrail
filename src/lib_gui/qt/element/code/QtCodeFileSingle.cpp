@@ -225,6 +225,23 @@ void QtCodeFileSingle::findScreenMatches(
 	}
 }
 
+void QtCodeFileSingle::setFocus(Id locationId)
+{
+	if (m_area)
+	{
+		m_area->setFocus(locationId);
+	}
+}
+
+void QtCodeFileSingle::moveFocus(
+	const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction)
+{
+	if (m_area == focus.area)
+	{
+		focus.area->moveFocus(direction, focus.lineNumber, focus.locationId);
+	}
+}
+
 const FilePath& QtCodeFileSingle::getCurrentFilePath() const
 {
 	return m_currentFilePath;

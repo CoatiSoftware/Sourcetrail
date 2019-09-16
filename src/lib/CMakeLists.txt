@@ -474,6 +474,10 @@ add_files(
 	utility/messaging/type/error/MessageErrorsHelpMessage.h
 	utility/messaging/type/error/MessageShowError.h
 
+	utility/messaging/type/focus/MessageFocusIn.h
+	utility/messaging/type/focus/MessageFocusOut.h
+	utility/messaging/type/focus/MessageFocusView.h
+
 	utility/messaging/type/graph/MessageActivateEdge.h
 	utility/messaging/type/graph/MessageActivateNodes.h
 	utility/messaging/type/graph/MessageActivateTrailEdge.h
@@ -513,8 +517,6 @@ add_files(
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCloseProject.h
 	utility/messaging/type/MessageFlushUpdates.h
-	utility/messaging/type/MessageFocusIn.h
-	utility/messaging/type/MessageFocusOut.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLogFilterChanged.h
 	utility/messaging/type/MessageProjectEdit.h

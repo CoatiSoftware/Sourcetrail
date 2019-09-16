@@ -173,14 +173,14 @@ void QtCodeView::scrollTo(const CodeScrollParams& params, bool animated)
 	m_onQtThread([=]() { m_widget->scrollTo(params, animated); });
 }
 
-void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
+void QtCodeView::coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds)
 {
-	m_onQtThread([=]() { m_widget->focusTokenIds(focusedTokenIds); });
+	m_onQtThread([=]() { m_widget->coFocusTokenIds(coFocusedTokenIds); });
 }
 
-void QtCodeView::defocusTokenIds()
+void QtCodeView::deCoFocusTokenIds()
 {
-	m_onQtThread([=]() { m_widget->defocusTokenIds(); });
+	m_onQtThread([=]() { m_widget->deCoFocusTokenIds(); });
 }
 
 bool QtCodeView::isInListMode() const
@@ -196,6 +196,28 @@ void QtCodeView::setMode(bool listMode)
 bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const
 {
 	return m_widget->hasSingleFileCached(filePath);
+}
+
+#include <iostream>
+void QtCodeView::focus()
+{
+	std::cout << "focus code" << std::endl;
+	m_hasFocus = true;
+
+	m_onQtThread([this]() { m_widget->setFocus(); });
+}
+
+void QtCodeView::defocus()
+{
+	std::cout << "defocus code" << std::endl;
+	m_hasFocus = false;
+
+	m_onQtThread([this]() { m_widget->clearFocus(); });
+}
+
+bool QtCodeView::hasFocus()
+{
+	return m_hasFocus;
 }
 
 void QtCodeView::setNavigationState(const CodeParams& params)

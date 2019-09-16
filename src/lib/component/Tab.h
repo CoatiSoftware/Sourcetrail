@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "ComponentManager.h"
+#include "MessageFocusView.h"
 #include "MessageListener.h"
 #include "MessageRefreshUI.h"
 #include "View.h"
@@ -11,6 +12,7 @@
 
 class Tab
 	: public ViewLayout
+	, public MessageListener<MessageFocusView>
 	, public MessageListener<MessageRefreshUI>
 {
 public:
@@ -32,6 +34,7 @@ public:
 	void setViewEnabled(View* view, bool enabled) override;
 
 private:
+	void handleMessage(MessageFocusView* message) override;
 	void handleMessage(MessageRefreshUI* message) override;
 
 	const Id m_tabId;

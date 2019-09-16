@@ -21,6 +21,8 @@ add_files(
 	qt/element/button/QtSelfRefreshIconButton.cpp
 	qt/element/button/QtSelfRefreshIconButton.h
 
+	qt/element/code/CodeFocusHandler.cpp
+	qt/element/code/CodeFocusHandler.h
 	qt/element/code/QtCodeArea.cpp
 	qt/element/code/QtCodeArea.h
 	qt/element/code/QtCodeField.cpp
@@ -94,8 +96,6 @@ add_files(
 
 	qt/graphics/base/QtCountCircleItem.cpp
 	qt/graphics/base/QtCountCircleItem.h
-	qt/graphics/base/QtGraphicsView.cpp
-	qt/graphics/base/QtGraphicsView.h
 	qt/graphics/base/QtLineItemAngled.cpp
 	qt/graphics/base/QtLineItemAngled.h
 	qt/graphics/base/QtLineItemBase.cpp
@@ -132,6 +132,11 @@ add_files(
 	qt/graphics/graph/QtGraphNodeQualifier.h
 	qt/graphics/graph/QtGraphNodeText.cpp
 	qt/graphics/graph/QtGraphNodeText.h
+
+	qt/graphics/GraphFocusHandler.cpp
+	qt/graphics/GraphFocusHandler.h
+	qt/graphics/QtGraphicsView.cpp
+	qt/graphics/QtGraphicsView.h
 
 	qt/network/QtIDECommunicationController.cpp
 	qt/network/QtIDECommunicationController.h

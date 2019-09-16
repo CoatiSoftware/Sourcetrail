@@ -434,12 +434,12 @@ void CodeController::handleMessage(MessageFlushUpdates* message)
 
 void CodeController::handleMessage(MessageFocusIn* message)
 {
-	getView()->focusTokenIds(message->tokenIds);
+	getView()->coFocusTokenIds(message->tokenIds);
 }
 
 void CodeController::handleMessage(MessageFocusOut* message)
 {
-	getView()->defocusTokenIds();
+	getView()->deCoFocusTokenIds();
 }
 
 void CodeController::handleMessage(MessageScrollToLine* message)

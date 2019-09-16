@@ -5,9 +5,8 @@
 
 #include "Message.h"
 #include "TabId.h"
-#include "types.h"
-
 #include "TooltipOrigin.h"
+#include "types.h"
 
 class MessageFocusIn: public Message<MessageFocusIn>
 {

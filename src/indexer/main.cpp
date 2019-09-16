@@ -2,22 +2,22 @@
 
 #include "language_packages.h"
 
-#include "LanguagePackageManager.h"
-#include "InterprocessIndexer.h"
-#include "ApplicationSettings.h"
 #include "AppPath.h"
+#include "ApplicationSettings.h"
 #include "ConsoleLogger.h"
 #include "FileLogger.h"
-#include "logging.h"
+#include "InterprocessIndexer.h"
+#include "LanguagePackageManager.h"
 #include "LogManager.h"
+#include "logging.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
-#include "LanguagePackageCxx.h"
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#	include "LanguagePackageCxx.h"
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
-#include "LanguagePackageJava.h"
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#	include "LanguagePackageJava.h"
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 void setupLogging(const FilePath& logFilePath)
 {
@@ -38,10 +38,10 @@ void suppressCrashMessage()
 {
 #ifdef _WIN32
 	SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
-#endif // _WIN32
+#endif	  // _WIN32
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	int processId = -1;
 	std::string instanceUuid;
@@ -94,11 +94,11 @@ int main(int argc, char *argv[])
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 	InterprocessIndexer indexer(instanceUuid, processId);
 	indexer.work();

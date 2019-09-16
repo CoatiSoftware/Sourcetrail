@@ -27,6 +27,10 @@ public:
 	void setIsIndexed(bool isIndexed);
 	void updateRefCount(int refCount, bool hasErrors, size_t fatalErrorCount);
 
+	bool isCollapsed() const;
+
+	void setIsFocused(bool focused);
+
 	void setMinimized();
 	void setSnippets();
 	void setMaximized();

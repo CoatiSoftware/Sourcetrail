@@ -7,6 +7,7 @@
 #include <QPointF>
 
 #include "Graph.h"
+#include "GraphFocusHandler.h"
 #include "GraphView.h"
 #include "QtScrollSpeedChangeListener.h"
 #include "QtThreadedFunctor.h"
@@ -28,6 +29,7 @@ class QtSelfRefreshIconButton;
 class QtGraphView
 	: public QObject
 	, public GraphView
+	, public GraphFocusClient
 {
 	Q_OBJECT
 
@@ -54,8 +56,8 @@ public:
 		const GraphParams params) override;
 	void clear() override;
 
-	void focusTokenIds(const std::vector<Id>& focusedTokenIds) override;
-	void defocusTokenIds(const std::vector<Id>& defocusedTokenIds) override;
+	void coFocusTokenIds(const std::vector<Id>& focusedTokenIds) override;
+	void deCoFocusTokenIds(const std::vector<Id>& defocusedTokenIds) override;
 
 	void resizeView() override;
 
@@ -65,6 +67,20 @@ public:
 	void scrollToValues(int xValue, int yValue) override;
 
 	void activateEdge(Id edgeId) override;
+
+	void focus() override;
+	void defocus() override;
+	bool hasFocus() override;
+
+	// GraphFocusClient implementation
+	void focusView() override;
+
+	const std::list<QtGraphNode*>& getGraphNodes() const override;
+	const std::list<QtGraphEdge*>& getGraphEdges() const override;
+
+	QtGraphNode* getActiveNode() const override;
+
+	void ensureNodeVisible(QtGraphNode* node) override;
 
 private slots:
 	void updateScrollBars();
@@ -100,8 +116,6 @@ private:
 
 	void doResize();
 
-	QtGraphNode* findNodeRecursive(const std::list<QtGraphNode*>& nodes, Id tokenId);
-
 	QtGraphNode* createNodeRecursive(
 		QGraphicsView* view,
 		QtGraphNode* parentNode,
@@ -132,6 +146,8 @@ private:
 		std::vector<std::pair<QtGraphNode*, QtGraphNode*>>* remainingNodes);
 
 	void createTransition();
+
+	GraphFocusHandler m_focusHandler;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 
