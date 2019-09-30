@@ -15,6 +15,24 @@
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
+
+	//void test_foofooofooofow()
+	//{
+	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	//		"template <typename T1, typename T2>\n"
+	//		"class vector { };\n"
+	//		"template<class T>\n"
+	//		"struct Alloc { };\n"
+	//		"template<class T>\n"
+	//		"using Vec = vector<T, Alloc<T>>;\n"
+	//		"Vec<int> v;\n"
+	//	);
+
+	//	TS_ASSERT(utility::containsElement<std::wstring>(
+	//		client->typeUses, L"B<A, template<typename> typename U> -> A<typename T> <8:9 8:9>"
+	//		));
+	//}
+
 	void test_cxx_parser_finds_usage_of_field_in_function_call_arguments()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
@@ -2657,10 +2675,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"Foo<T> & Foo<typename T>::operator=(const Foo<T> &) -> Foo<T> <4:2 4:4>"
+			client->typeUses, L"Foo<typename T> & Foo<typename T>::operator=(const Foo<typename T> &) -> Foo<typename T> <4:2 4:4>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"Foo<T> & Foo<typename T>::operator=(const Foo<T> &) -> Foo<T> <4:23 4:25>"
+			client->typeUses, L"Foo<typename T> & Foo<typename T>::operator=(const Foo<typename T> &) -> Foo<typename T> <4:23 4:25>"
 		));
 	}
 
@@ -2953,7 +2971,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"B<typename U>::type -> A<B<typename U>::U>::type <11:25 11:28>"
+			client->typeUses, L"B<typename U>::type -> A<typename T>::type <11:25 11:28>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"B<int>::type -> A<int>::type <11:25 11:28>"
@@ -2978,10 +2996,14 @@ public:
 			"public:\n"
 			"	typedef typename A<U>::template type<float> type;\n"
 			"};\n"
+			"B<bool>::type f = 0.0f;\n"
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"B<typename U>::type -> A<B<typename U>::U>::type<float> <12:10 12:17>"
+			client->typeUses, L"B<typename U>::type -> A<typename T>::type<float> <12:10 12:17>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"B<bool>::type f -> B<bool>::type <14:10 14:13>"
 		));
 	}
 

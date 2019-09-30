@@ -158,6 +158,14 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 						resolver.ignoreContextDecl(templateSpecializationType->getTemplateName().getAsTemplateDecl()->getTemplatedDecl());
 						for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
 						{
+							if (templateSpecializationType->getArg(i).isDependent())
+							{
+								return std::make_unique<CxxTypeName>(
+									declName->getName(),
+									declName->getTemplateParameterNames(),
+									declName->getParent()
+								);
+							}
 							templateArguments.push_back(resolver.getTemplateArgumentName(templateSpecializationType->getArg(i)));
 						}
 
