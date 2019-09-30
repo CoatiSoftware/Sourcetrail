@@ -753,10 +753,9 @@ public:
 			"};\n"
 		);
 
-		// TODO: fix
-		// TS_ASSERT(utility::containsElement<std::wstring>(
-		// 	client->macros, L"PI <1:9 <1:9 1:10> 1:8>"
-		// ));
+		 TS_ASSERT(utility::containsElement<std::wstring>(
+		 	client->macros, L"PI <1:9 1:10>"
+		 ));
 	}
 
 	void test_cxx_parser_finds_macro_undefine()
@@ -1898,23 +1897,41 @@ public:
 		));
 	}
 
-	//void test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration()
-	//{
-	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-	//		"template <typename T>\n"
-	//		"class A\n"
-	//		"{\n"
-	//		"	class B\n"
-	//		"	{\n"
-	//		"		T foo;\n"
-	//		"	};\n"
-	//		"};\n" // TODO: test if field of instantiation has correct type
-	//	);
+	void test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	class B\n"
+			"	{\n"
+			"		T foo;\n"
+			"	};\n"
+			"};\n"
+			"A<int> a;\n"
+			"A<int>::B b;\n"
+		);
 
-	//	TS_ASSERT(utility::containsElement<std::wstring>(
-	//		client->typeUses, L"A<typename T>::T A<typename T>::B::foo -> A<typename T>::T <6:3 6:3>"
-	//	));
-	//}
+   		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<1:20> <7:3 7:3>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int A<int>::B::foo -> int <7:3 7:3>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<int> a -> A<int> <10:1 10:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<int> -> int <10:3 10:5>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<int> a -> int <10:3 10:5>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<int>::B b -> A<int>::B <11:9 11:9>"
+		));
+	}
 
 	void test_cxx_parser_finds_type_usage_of_global_variable()
 	{
@@ -2706,8 +2723,11 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::wstring>( // TODO: does not find usage of "N"
+		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<1:16> <5:13 5:13>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<1:32> <5:22 5:22>"
 		));
 	}
 
@@ -2904,7 +2924,7 @@ public:
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<1:20> <1:20 1:20>"
 		));
-		TS_ASSERT(utility::containsElement<std::wstring>( // TODO: fix FAIL because usage in name qualifier is not recorded
+		TS_ASSERT(utility::containsElement<std::wstring>( // FIXME: fix FAIL because usage in name qualifier is not recorded
 			client->localSymbols, L"input.cc<5:20> <5:20 5:20>"
 		));
 	}
@@ -3018,13 +3038,17 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<int>::type -> int <5:10 5:10>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"B<typename U>::type -> A<typename T>::type <11:25 11:28>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"B<int>::type -> A<int>::type <11:25 11:28>"
 		));
-
-		//TS_ASSERT_EQUALS(client->typeUses[3], L"A<int>::type -> int <13:9 13:12>"); TODO: make this work!
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"B<int>::type f -> B<int>::type <13:9 13:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_use_of_dependent_template_specialization_type()
@@ -3321,7 +3345,7 @@ public:
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> A<typename T> <9:4 9:4>"
-		)); // TODO: this is caused by beginTraverseTemplateArgumentLoc which is great!
+		));
 	}
 
 	void test_cxx_parser_finds_template_template_argument_for_parameter_pack_of_explicit_template_instantiation()
@@ -3349,10 +3373,10 @@ public:
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> A<typename T> <11:4 11:4>"
-		));  // TODO: this is caused by beginTraverseTemplateArgumentLoc which is great!
+		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> A<typename T> <11:7 11:7>"
-		));  // TODO: this is caused by beginTraverseTemplateArgumentLoc which is great!
+		));
 	}
 
 	void test_cxx_parser_finds_template_argument_for_implicit_specialization_of_global_template_variable()
@@ -3660,7 +3684,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"A<&g_p, q> -> P g_p <8:10 8:12>" //TODO this is completely wrong? should be a normal usage
+			client->typeUses, L"A<&g_p, q> -> P g_p <8:10 8:12>" //FIXME this is completely wrong? should be a normal usage
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<7:14> <8:15 8:15>"
