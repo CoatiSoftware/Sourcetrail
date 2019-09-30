@@ -29,7 +29,7 @@ void CxxAstVisitorComponentTypeRefKind::endTraverseCXXBaseSpecifier()
 
 void CxxAstVisitorComponentTypeRefKind::beginTraverseTemplateDefaultArgumentLoc()
 {
-	m_refKindStack.push_back(REFERENCE_TEMPLATE_DEFAULT_ARGUMENT);
+	m_refKindStack.push_back(REFERENCE_TYPE_USAGE);
 }
 
 void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateDefaultArgumentLoc()
@@ -39,14 +39,7 @@ void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateDefaultArgumentLoc()
 
 void CxxAstVisitorComponentTypeRefKind::beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
 {
-	if (getReferenceKind() != REFERENCE_TEMPLATE_DEFAULT_ARGUMENT)
-	{
-		m_refKindStack.push_back(REFERENCE_TEMPLATE_ARGUMENT);
-	}
-	else
-	{
-		m_refKindStack.push_back(REFERENCE_UNDEFINED);
-	}
+	m_refKindStack.push_back(REFERENCE_TEMPLATE_ARGUMENT);
 }
 
 void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)

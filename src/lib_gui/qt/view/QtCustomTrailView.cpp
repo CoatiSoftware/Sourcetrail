@@ -623,7 +623,7 @@ Edge::TypeMask QtCustomTrailView::getCheckedEdgeTypes() const
 
 			if (type == Edge::EDGE_TYPE_USAGE)
 			{
-				edgeTypes |= Edge::EDGE_TEMPLATE_ARGUMENT | Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT;
+				edgeTypes |= Edge::EDGE_TEMPLATE_ARGUMENT;
 			}
 			else if (type == Edge::EDGE_TEMPLATE_SPECIALIZATION)
 			{

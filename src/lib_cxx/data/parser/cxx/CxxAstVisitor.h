@@ -147,7 +147,7 @@ public:
 
 	bool shouldVisitStmt(const clang::Stmt* s) const;
 	bool shouldVisitDecl(const clang::Decl* decl) const;
-	bool shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl) const;
+	bool shouldVisitReference(const clang::SourceLocation& referenceLocation) const;
 
 	bool isLocatedInProjectFile(clang::SourceLocation loc) const;
 

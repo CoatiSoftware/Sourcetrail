@@ -317,7 +317,6 @@ public:
 	std::vector<std::wstring> annotationUses;
 	std::vector<std::wstring> templateArgumentTypes;
 	std::vector<std::wstring> typeArguments;
-	std::vector<std::wstring> templateDefaultArgumentTypes;
 	std::vector<std::wstring> templateSpecializations;
 	std::vector<std::wstring> templateMemberSpecializations;
 	std::vector<std::wstring> includes;
@@ -390,8 +389,6 @@ private:
 			return L"REFERENCE_TEMPLATE_ARGUMENT";
 		case Edge::EDGE_TYPE_ARGUMENT:
 			return L"REFERENCE_TYPE_ARGUMENT";
-		case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT:
-			return L"REFERENCE_TEMPLATE_DEFAULT_ARGUMENT";
 		case Edge::EDGE_TEMPLATE_SPECIALIZATION:
 			return L"REFERENCE_TEMPLATE_SPECIALIZATION";
 		case Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION:
@@ -476,8 +473,6 @@ private:
 			return &templateArgumentTypes;
 		case Edge::EDGE_TYPE_ARGUMENT:
 			return &typeArguments;
-		case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT:
-			return &templateDefaultArgumentTypes;
 		case Edge::EDGE_TEMPLATE_SPECIALIZATION:
 			return &templateSpecializations;
 		case Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION:

@@ -593,7 +593,7 @@ bool CxxAstVisitor::shouldVisitDecl(const clang::Decl* decl) const
 	return false;
 }
 
-bool CxxAstVisitor::shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl) const
+bool CxxAstVisitor::shouldVisitReference(const clang::SourceLocation& referenceLocation) const
 {
 	clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(referenceLocation);
 	if (loc.isInvalid())
