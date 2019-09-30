@@ -50,7 +50,10 @@ void ParserClientImpl::recordDefinitionKind(Id symbolId, DefinitionKind definiti
 Id ParserClientImpl::recordReference(ReferenceKind referenceKind, Id referencedSymbolId, Id contextSymbolId, const ParseLocation& location)
 {
 	Id edgeId = addEdge(referenceKindToEdgeType(referenceKind), contextSymbolId, referencedSymbolId);
-	addSourceLocation(edgeId, location, LOCATION_TOKEN);
+	if (edgeId)
+	{
+		addSourceLocation(edgeId, location, LOCATION_TOKEN);
+	}
 	return edgeId;
 }
 

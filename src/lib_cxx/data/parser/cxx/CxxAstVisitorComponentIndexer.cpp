@@ -96,26 +96,35 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(const clang
 		{
 			// TODO: maybe move this to VisitTemplateName
 
-			const Id symbolId = getOrCreateSymbolId(loc.getArgument().getAsTemplate().getAsTemplateDecl());
+			const clang::TemplateName templateTemplateArgumentName = loc.getArgument().getAsTemplate();
+
 			const ParseLocation parseLocation = getParseLocation(loc.getLocation());
-
-			m_client->recordReference(
-				REFERENCE_TYPE_USAGE,
-				symbolId,
-				getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
-				parseLocation
-			);
-
+			if (templateTemplateArgumentName.isDependent())
 			{
-				const clang::NamedDecl* namedContextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(1);
-				if (namedContextDecl)
+				m_client->recordLocalSymbol(getLocalSymbolName(templateTemplateArgumentName.getAsTemplateDecl()->getLocation()), parseLocation);
+			}
+			else
+			{
+				const Id symbolId = getOrCreateSymbolId(templateTemplateArgumentName.getAsTemplateDecl());
+
+				m_client->recordReference(
+					REFERENCE_TYPE_USAGE,
+					symbolId,
+					getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
+					parseLocation
+				);
+
 				{
-					m_client->recordReference(
-						REFERENCE_TYPE_USAGE,
-						symbolId,
-						getOrCreateSymbolId(namedContextDecl), // we use the closest named decl here (e.g. function decl)
-						parseLocation
-					);
+					const clang::NamedDecl* namedContextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(1);
+					if (namedContextDecl)
+					{
+						m_client->recordReference(
+							REFERENCE_TYPE_USAGE,
+							symbolId,
+							getOrCreateSymbolId(namedContextDecl), // we use the closest named decl here (e.g. function decl)
+							parseLocation
+						);
+					}
 				}
 			}
 		}

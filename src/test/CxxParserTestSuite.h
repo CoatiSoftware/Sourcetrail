@@ -3641,7 +3641,7 @@ public:
 			client->typeUses, L"B<A, template<typename> typename U> -> A<typename T> <8:9 8:9>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"B<A, template<typename> typename U> -> B<A, template<typename> typename U>::U<typename> <8:12 8:12>"
+			client->localSymbols, L"input.cc<7:36> <8:12 8:12>"
 		));
 	}
 
