@@ -1067,18 +1067,18 @@ public:
 		));
 	}
 
-	//void test_cxx_parser_finds_template_argument_of_dependent_non_type_template_parameter() // TODO: this should be a type usage
-	//{
-	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-	//		"template <template<typename> class T1, T1<int>& T2>\n"
-	//		"class A\n"
-	//		"{};\n"
-	//	);
+	void test_cxx_parser_finds_template_argument_of_dependent_non_type_template_parameter()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <template<typename> class T1, T1<int>& T2>\n"
+			"class A\n"
+			"{};\n"
+		);
 
-	//	TS_ASSERT(utility::containsElement<std::wstring>(
-	//		client->templateArgumentTypes, L"A<template<typename> typename T1, T1<int> & T2>::T1<int> -> int <1:43 1:45>"
-	//	));
-	//}
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<template<typename> typename T1, T1<int> & T2> -> int <1:43 1:45>"
+		));
+	}
 
 	void test_cxx_parser_finds_template_template_parameter_of_template_class()
 	{
@@ -1283,8 +1283,12 @@ public:
 			"{\n"
 			"	T foo;\n"
 			"};\n"
-			"A<int> a; \n" // TODO: find usage A<int>::foo -> int
+			"A<int> a; \n"
 		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int A<int>::foo -> int <4:2 4:2>"
+		));
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"A<int> a -> A<int> <6:1 6:1>"
@@ -3600,7 +3604,7 @@ public:
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<5:20> <6:9 6:9>"
 		));
-		TS_ASSERT(utility::containsElement<std::wstring>( // TODO: change to type usage
+		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"A<typename T, int> -> int <6:12 6:14>"
 		));
 	}
@@ -3728,23 +3732,26 @@ public:
 		));
 	}
 
-	//void _test_cxx_parser_finds_non_type_template_argument_that_depends_on_template_template_parameter_of_explicit_partial_class_template_specialization() // TODO: wtf?
-	//{
-	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-	//		"template <int T1, template<typename> class T2, T2<int> T3>\n"
-	//		"class A\n"
-	//		"{\n"
-	//		"};\n"
-	//		"template <template<typename> class T2, T2<int> T3>\n"
-	//		"class A<3, T2, T3>\n"
-	//		"{\n"
-	//		"};\n"
-	//	);
+	void test_cxx_parser_finds_non_type_template_argument_that_depends_on_template_template_parameter_of_explicit_partial_class_template_specialization()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <int T1, template<typename> class T2, T2<int> T3>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <template<typename> class T2, T2<int> T3>\n"
+			"class A<3, T2, T3>\n"
+			"{\n"
+			"};\n"
+		);
 
-	//	TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-	//	TS_ASSERT_EQUALS(client->templateArgumentTypes[0], L"A<3, template<typename> typename T2, T2<int> T3> -> A<3, template<typename> typename T2, T2<int> T3>::T2<typename> <6:12 6:13>");
-	//	TS_ASSERT_EQUALS(client->templateArgumentTypes[1], L"A<3, template<typename> typename T2, T2<int> T3> -> A<3, template<typename> typename T2, T2<int> T3>::T3 <6:16 6:17>");
-	//}
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<5:36> <6:12 6:13>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<5:48> <6:16 6:17>"
+		));
+	}
 
 	void test_cxx_parser_finds_implicit_template_class_specialization()
 	{
@@ -3797,9 +3804,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::wstring>( // TODO: test what happens here- we have a dependend type...
+ 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<7:20> <8:19 8:19>"
 		));
+		TS_ASSERT(client->inheritances.size() == 1);
+		TS_ASSERT(client->classes.size() == 2);
+		TS_ASSERT(client->fields.size() == 1);
 	}
 
 	void test_cxx_parser_finds_template_class_constructor_usage_of_field()
@@ -3996,7 +4006,7 @@ public:
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
 			"template <typename T>\n"
-			"void test(T data){}\n"		// 2x use of "void"
+			"void test(T data){}\n"		// 2x use of "void" + 1x use of "int"
 			"\n"
 			"int main()\n"				// use of "int"
 			"{\n"
@@ -4005,7 +4015,7 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
 	}
 
 	void test_cxx_parser_finds_explicit_type_template_argument_of_function_call_in_var_decl()
@@ -4029,7 +4039,7 @@ public:
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
 			"template <typename T>\n"
-			"T test(T i){ return i; }\n"	// TODO: record usage of int here
+			"T test(T i){ return i; }\n"	// 2x use of "int"
 			"\n"
 			"class A\n"
 			"{\n"
@@ -4037,7 +4047,7 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
 	}
 
 	void test_cxx_parser_finds_type_template_default_argument_type_of_template_function()

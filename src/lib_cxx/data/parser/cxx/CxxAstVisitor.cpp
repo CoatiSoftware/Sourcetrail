@@ -89,6 +89,7 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
 		(!tl.getAs<clang::InjectedClassNameTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::DependentNameTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::DependentTemplateSpecializationTypeLoc>().isNull()) ||
+		(!tl.getAs<clang::SubstTemplateTypeParmTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::BuiltinTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::AutoTypeLoc>().isNull()))
 	{
