@@ -156,13 +156,25 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 						)
 					);
 				}
-				else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
+				else if (const clang::ClassTemplateSpecializationDecl* templateSpecialitarionDecl = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(declaration))
 				{
 					std::vector<std::wstring> templateArguments;
-					const clang::TemplateArgumentList& templateArgumentList =
-						clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
+					const clang::TemplateArgumentList& templateArgumentList = templateSpecialitarionDecl->getTemplateArgs();
 					for (size_t i = 0; i < templateArgumentList.size(); i++)
 					{
+						if (templateArgumentList.get(i).isDependent())
+						{
+							llvm::PointerUnion<clang::ClassTemplateDecl*, clang::ClassTemplatePartialSpecializationDecl*> pu = templateSpecialitarionDecl->getSpecializedTemplateOrPartial();
+							if (pu.is<clang::ClassTemplateDecl*>())
+							{
+								return getDeclName(pu.get<clang::ClassTemplateDecl*>());
+							}
+							else if (pu.is<clang::ClassTemplatePartialSpecializationDecl*>())
+							{
+								return getDeclName(pu.get<clang::ClassTemplatePartialSpecializationDecl*>());
+							}
+						}
+
 						templateArguments.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
 					}
 					return std::make_unique<CxxDeclName>(std::move(declNameString), std::move(templateArguments));
@@ -194,6 +206,13 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				for (size_t i = 0; i < templateArgumentList->size(); i++)
 				{
 					const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
+					if (templateArgument.isDependent())
+					{
+						if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getPrimaryTemplate())
+						{
+							return getDeclName(templateFunctionDeclaration);
+						}
+					}
 					templateArguments.push_back(getTemplateArgumentName(templateArgument));
 				}
 			}
@@ -337,12 +356,24 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				}
 				else if (clang::isa<clang::VarTemplateSpecializationDecl>(declaration))
 				{
-					const clang::VarTemplateSpecializationDecl* templateSpecializationDeclaration =
-						clang::dyn_cast_or_null<clang::VarTemplateSpecializationDecl>(varDecl);
+					const clang::VarTemplateSpecializationDecl* templateSpecializationDeclaration = clang::dyn_cast_or_null<clang::VarTemplateSpecializationDecl>(varDecl);
 					const clang::TemplateArgumentList& templateArgumentList = templateSpecializationDeclaration->getTemplateArgs();
 					for (size_t i = 0; i < templateArgumentList.size(); i++)
 					{
-						templateParameterNames.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
+						const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
+						if (templateArgument.isDependent())
+						{
+							llvm::PointerUnion<clang::VarTemplateDecl*, clang::VarTemplatePartialSpecializationDecl*> pu = templateSpecializationDeclaration->getSpecializedTemplateOrPartial();
+							if (pu.is<clang::VarTemplateDecl*>())
+							{
+								return getDeclName(pu.get<clang::VarTemplateDecl*>());
+							}
+							else if (pu.is<clang::VarTemplatePartialSpecializationDecl*>())
+							{
+								return getDeclName(pu.get<clang::VarTemplatePartialSpecializationDecl*>());
+							}
+						}
+						templateParameterNames.push_back(getTemplateArgumentName(templateArgument));
 					}
 				}
 

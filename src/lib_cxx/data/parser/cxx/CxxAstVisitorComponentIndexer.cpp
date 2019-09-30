@@ -115,8 +115,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(const clang
 				);
 
 				{
-					const clang::NamedDecl* namedContextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(1);
-					if (namedContextDecl)
+					if (const clang::NamedDecl* namedContextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(1))
 					{
 						m_client->recordReference(
 							REFERENCE_TYPE_USAGE,
@@ -524,11 +523,13 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 			{
 				const clang::TemplateSpecializationTypeLoc& tstl = tl.castAs<clang::TemplateSpecializationTypeLoc>();
 				const clang::TemplateSpecializationType* tst = tstl.getTypePtr();
-				if (tst->getTemplateName().isDependent())
+				const clang::TemplateName tln = tst->getTemplateName();
+				clang::TemplateName::NameKind nknk = tln.getKind();
+				if (tln.isDependent()) // e.g. T<int> where the template name T depends on a template parameter
 				{
 					clang::TemplateDecl* d = tst->getTemplateName().getAsTemplateDecl();
 					m_client->recordLocalSymbol(getLocalSymbolName(d->getLocation()), getParseLocation(tl.getBeginLoc()));
-					return; // TODO: skip recording template arg in parent scope
+					return;
 				}
 			}
 
@@ -562,12 +563,15 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 
 			if (getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->isTraversingTemplateArgument())
 			{
-				m_client->recordReference(
-					REFERENCE_TYPE_USAGE,
-					symbolId,
-					getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(2)), // we use the closest named decl here
-					parseLocation
-				);
+				if (const clang::NamedDecl* namedContextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(2))
+				{
+					m_client->recordReference(
+						REFERENCE_TYPE_USAGE,
+						symbolId,
+						getOrCreateSymbolId(namedContextDecl), // we use the closest named decl here
+						parseLocation
+					);
+				}
 			}
 		}
 	}
