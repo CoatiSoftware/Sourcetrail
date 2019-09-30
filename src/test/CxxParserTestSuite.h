@@ -3508,8 +3508,7 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2); // TODO: this should be 1, so fix the bug where explicit specialization records a typeuse on self
-		// TODO: FIXME: type uses: L"A<1> -> A<1> <6:7 6:7>"
+		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_bool_template_parameter_of_explicit_template_specialization()
@@ -3525,7 +3524,7 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2); // TODO: this should be 1, so fix the bug where explicit specialization records a typeuse on self
+		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 	}
 
 	void test_cxx_parser_finds_non_type_custom_pointer_template_argument_of_explicit_template_specialization()

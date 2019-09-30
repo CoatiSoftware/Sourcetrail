@@ -350,7 +350,67 @@ bool CxxAstVisitor::TraverseCXXConstructExpr(clang::CXXConstructExpr* s)
 DEF_TRAVERSE_TYPE_PTR(CXXTemporaryObjectExpr, {}, {})
 DEF_TRAVERSE_TYPE_PTR(LambdaExpr, {}, {})
 DEF_TRAVERSE_TYPE_PTR(FunctionDecl, {}, {})
-DEF_TRAVERSE_TYPE_PTR(ClassTemplateSpecializationDecl, {}, {})
+
+// same as base::TraverseClassTemplateSpecializationDecl but without traversing the typeloc of the template specialitation itself
+bool CxxAstVisitor::TraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *D)
+{
+	FOREACH_COMPONENT(beginTraverseClassTemplateSpecializationDecl(D));
+
+    bool ShouldVisitChildren = true;
+    bool ReturnValue = true;
+	if (ReturnValue && !shouldTraversePostOrder())
+	{
+		if (!WalkUpFromClassTemplateSpecializationDecl(D))
+		{
+			ReturnValue = false;
+		}
+	}
+
+	if (ReturnValue)
+	{
+		if (clang::TypeSourceInfo *TSI = D->getTypeAsWritten())
+		{
+			clang::TypeLoc::TypeLocClass ccccc = TSI->getTypeLoc().getTypeLocClass();
+			const clang::TemplateSpecializationTypeLoc tstl = TSI->getTypeLoc().getAs<clang::TemplateSpecializationTypeLoc>();
+			if (!tstl.isNull())
+			{
+				for (unsigned I = 0, E = tstl.getNumArgs(); I != E; ++I)
+				{
+					if (!TraverseTemplateArgumentLoc(tstl.getArgLoc(I)))
+					{
+						ReturnValue = false;
+					}
+				}
+			}
+		}
+	}
+
+	if (ReturnValue)
+	{
+		if (!TraverseNestedNameSpecifierLoc(D->getQualifierLoc()))
+		{
+			ReturnValue = false;
+		}
+	}
+
+	if (ReturnValue && ShouldVisitChildren)
+	{
+		traverseDeclContextHelper(clang::dyn_cast<clang::DeclContext>(D));
+	}
+
+    if (ReturnValue && shouldTraversePostOrder())
+	{
+		if (!WalkUpFromClassTemplateSpecializationDecl(D))
+		{
+			return false;
+		}
+	}
+
+	FOREACH_COMPONENT(endTraverseClassTemplateSpecializationDecl(D));
+
+	return ReturnValue;
+  }
+
 DEF_TRAVERSE_TYPE_PTR(ClassTemplatePartialSpecializationDecl, {}, {})
 DEF_TRAVERSE_TYPE_PTR(DeclRefExpr, {}, {})
 DEF_TRAVERSE_TYPE_PTR(CXXForRangeStmt, {}, {})
