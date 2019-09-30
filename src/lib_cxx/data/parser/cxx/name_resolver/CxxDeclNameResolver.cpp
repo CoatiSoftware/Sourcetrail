@@ -61,83 +61,10 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 			declName->setParent(CxxSpecifierNameResolver(this).getName(usingDecl->getQualifier()));
 		}
 		else if (
-			clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
-			clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
-			clang::isa<clang::TemplateTemplateParmDecl>(declaration)
-		) {
-			clang::ASTContext::DynTypedNodeList parents = declaration->getASTContext().getParents(*declaration);
-			for (const clang::ast_type_traits::DynTypedNode* parent = parents.begin(); parent != parents.end(); parent++)
-			{
-				bool foundParent = false;
-
-				const clang::Decl* parentDecl = parent->get<clang::Decl>();
-				while (parentDecl != nullptr)
-				{
-					parentDecl = utility::getFirstDecl(parentDecl);
-
-					if (clang::isa<clang::TemplateDecl>(parentDecl))
-					{
-						const clang::TemplateDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::TemplateDecl>(parentDecl);
-						if (!ignoresContext(parentTemplateDecl) && !ignoresContext(parentTemplateDecl->getTemplatedDecl()))
-						{
-							declName->setParent(getName(parentTemplateDecl));
-						}
-						foundParent = true;
-						break;
-					}
-					else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(parentDecl))
-					{
-						const clang::ClassTemplatePartialSpecializationDecl* parentClassTemplateDecl =
-							clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(parentDecl);
-						if (!ignoresContext(parentDecl))
-						{
-							declName->setParent(getName(parentClassTemplateDecl));
-						}
-						foundParent = true;
-						break;
-					}
-					else if (clang::isa<clang::VarTemplatePartialSpecializationDecl>(parentDecl))
-					{
-						const clang::VarTemplatePartialSpecializationDecl* parentVarTemplateDecl =
-							clang::dyn_cast_or_null<clang::VarTemplatePartialSpecializationDecl>(parentDecl);
-						if (!ignoresContext(parentDecl))
-						{
-							declName->setParent(getName(parentVarTemplateDecl));
-						}
-						foundParent = true;
-						break;
-					}
-
-					if (const clang::DeclContext* parentDeclContext = parentDecl->getDeclContext())
-					{
-						if (ignoresContext(parentDeclContext))
-						{
-							foundParent = true;
-							break;
-						}
-						parentDecl = clang::dyn_cast_or_null<clang::Decl>(parentDeclContext);
-						if (parentDecl)
-						{
-							if (clang::TemplateDecl* describedTemplate = parentDecl->getDescribedTemplate())
-							{
-								parentDecl = describedTemplate;
-							}
-						}
-					}
-					else
-					{
-						break;
-					}
-				}
-
-				if (foundParent)
-				{
-					// break for the first parent ast node that can be resolved to a parent name (also if it is ignored).
-					break;
-				}
-			}
-		}
-		else
+			!clang::isa<clang::TemplateTypeParmDecl>(declaration) &&
+			!clang::isa<clang::NonTypeTemplateParmDecl>(declaration) &&
+			!clang::isa<clang::TemplateTemplateParmDecl>(declaration)
+		)
 		{
 			declName->setParent(getContextName(declaration->getDeclContext()));
 		}

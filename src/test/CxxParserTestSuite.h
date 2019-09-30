@@ -2617,7 +2617,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->usages, L"void A<typename T>::foo() -> A<typename T>::T A<typename T>::m_t <8:3 8:5>"
+			client->usages, L"void A<typename T>::foo() -> T A<typename T>::m_t <8:3 8:5>"
 		));
 	}
 
@@ -3343,7 +3343,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"int A<int>::foo() -> A<typename T>::T A<typename T>::foo() <5:4 5:6>"
+			client->templateMemberSpecializations, L"int A<int>::foo() -> T A<typename T>::foo() <5:4 5:6>"
 		));
 	}
 
@@ -3363,7 +3363,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"static int A<int>::foo -> static A<typename T>::T A<typename T>::foo <5:11 5:13>"
+			client->templateMemberSpecializations, L"static int A<int>::foo -> static T A<typename T>::foo <5:11 5:13>"
 		));
 	}
 
@@ -3383,7 +3383,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"int A<int>::foo -> A<typename T>::T A<typename T>::foo <5:4 5:6>"
+			client->templateMemberSpecializations, L"int A<int>::foo -> T A<typename T>::foo <5:4 5:6>"
 		));
 	}
 
@@ -3406,7 +3406,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"int A<int>::B::foo -> A<typename T>::T A<typename T>::B::foo <7:5 7:7>"
+			client->templateMemberSpecializations, L"int A<int>::B::foo -> T A<typename T>::B::foo <7:5 7:7>"
 		));
 	}
 
@@ -3771,7 +3771,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->usages, L"void A<typename T>::A<T>() -> A<typename T>::T A<typename T>::foo <4:7 4:9>"
+			client->usages, L"void A<typename T>::A<T>() -> T A<typename T>::foo <4:7 4:9>"
 		));
 	}
 
@@ -3790,7 +3790,7 @@ public:
 		));
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->methods, L"private A<typename T>::T A<typename T>::foo() <4:2 <4:4 4:6> 4:8>" // TODO: should return type just be "T"?
+			client->methods, L"private T A<typename T>::foo() <4:2 <4:4 4:6> 4:8>"
 		));
 	}
 
