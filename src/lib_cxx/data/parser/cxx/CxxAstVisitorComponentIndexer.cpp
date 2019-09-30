@@ -299,7 +299,7 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 						Id templateFieldId = getOrCreateSymbolId(templateFieldDecl);
 						m_client->recordSymbolKind(templateFieldId, SYMBOL_FIELD);
 						m_client->recordReference(
-							REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
+							REFERENCE_TEMPLATE_SPECIALIZATION,
 							templateFieldId,
 							fieldId,
 							location
@@ -755,7 +755,7 @@ void CxxAstVisitorComponentIndexer::recordTemplateMemberSpecialization(
 		Id symbolId = getOrCreateSymbolId(memberSpecializationInfo->getInstantiatedFrom());
 		m_client->recordSymbolKind(symbolId, symbolKind);
 		m_client->recordReference(
-			REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
+			REFERENCE_TEMPLATE_SPECIALIZATION,
 			symbolId,
 			contextId,
 			location

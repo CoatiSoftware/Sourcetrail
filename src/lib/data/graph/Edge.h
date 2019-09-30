@@ -24,7 +24,6 @@ public:
 		EDGE_OVERRIDE							= 1 << 5,
 		EDGE_TYPE_ARGUMENT						= 1 << 7,
 		EDGE_TEMPLATE_SPECIALIZATION			= 1 << 9,
-		EDGE_TEMPLATE_MEMBER_SPECIALIZATION		= 1 << 10,
 		EDGE_INCLUDE							= 1 << 11,
 		EDGE_IMPORT								= 1 << 12,
 		EDGE_AGGREGATION						= 1 << 13,
@@ -37,8 +36,7 @@ public:
 	static int typeToInt(EdgeType type);
 	static EdgeType intToType(int value);
 
-	static const TypeMask LAYOUT_VERTICAL = EDGE_INHERITANCE | EDGE_OVERRIDE | EDGE_TEMPLATE_SPECIALIZATION |
-		EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
+	static const TypeMask LAYOUT_VERTICAL = EDGE_INHERITANCE | EDGE_OVERRIDE | EDGE_TEMPLATE_SPECIALIZATION;
 
 	Edge(Id id, EdgeType type, Node* from, Node* to);
 	Edge(const Edge& other, Node* from, Node* to);

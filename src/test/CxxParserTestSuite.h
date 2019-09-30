@@ -3434,7 +3434,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"int A<int>::foo() -> T A<typename T>::foo() <5:4 5:6>"
+			client->templateSpecializations, L"int A<int>::foo() -> T A<typename T>::foo() <5:4 5:6>"
 		));
 	}
 
@@ -3454,7 +3454,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"static int A<int>::foo -> static T A<typename T>::foo <5:11 5:13>"
+			client->templateSpecializations, L"static int A<int>::foo -> static T A<typename T>::foo <5:11 5:13>"
 		));
 	}
 
@@ -3474,7 +3474,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"int A<int>::foo -> T A<typename T>::foo <5:4 5:6>"
+			client->templateSpecializations, L"int A<int>::foo -> T A<typename T>::foo <5:4 5:6>"
 		));
 	}
 
@@ -3497,7 +3497,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"int A<int>::B::foo -> T A<typename T>::B::foo <7:5 7:7>"
+			client->templateSpecializations, L"int A<int>::B::foo -> T A<typename T>::B::foo <7:5 7:7>"
 		));
 	}
 
@@ -3517,7 +3517,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateMemberSpecializations, L"A<int>::B -> A<typename T>::B <5:8 5:8>"
+			client->templateSpecializations, L"A<int>::B -> A<typename T>::B <5:8 5:8>"
 		));
 	}
 

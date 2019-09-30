@@ -617,13 +617,7 @@ Edge::TypeMask QtCustomTrailView::getCheckedEdgeTypes() const
 		if (filter->isEnabled() && filter->isChecked() && filter != m_edgeMember)
 		{
 			Edge::EdgeType type = Edge::getTypeForReadableTypeString(filter->text().toStdWString());
-
 			edgeTypes |= type;
-
-			if (type == Edge::EDGE_TEMPLATE_SPECIALIZATION)
-			{
-				edgeTypes |= Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
-			}
 		}
 	}
 

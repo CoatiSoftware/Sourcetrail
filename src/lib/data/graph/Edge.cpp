@@ -32,8 +32,6 @@ Edge::EdgeType Edge::intToType(int value)
 		return EDGE_TYPE_ARGUMENT;
 	case EDGE_TEMPLATE_SPECIALIZATION:
 		return EDGE_TEMPLATE_SPECIALIZATION;
-	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION:
-		return EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
 	case EDGE_INCLUDE:
 		return EDGE_INCLUDE;
 	case EDGE_IMPORT:
@@ -143,8 +141,6 @@ std::wstring Edge::getReadableTypeString(EdgeType type)
 		return L"type argument";
 	case EDGE_TEMPLATE_SPECIALIZATION:
 		return L"template specialization";
-	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION:
-		return L"template member specialization";
 	case EDGE_INCLUDE:
 		return L"include";
 	case EDGE_IMPORT:
