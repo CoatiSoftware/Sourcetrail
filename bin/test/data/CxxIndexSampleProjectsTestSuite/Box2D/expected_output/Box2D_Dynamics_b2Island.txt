@@ -1090,7 +1090,7 @@ SYMBOL_METHOD: public void b2GrowableStack<typename T, int32 N>::~b2GrowableStac
 SYMBOL_METHOD: public void b2GrowableStack<typename T, int32 N>::Push(const T &) [b2GrowableStack.h <47:2 <47:2 <47:7 47:10> 47:28> 63:2>]
 SYMBOL_METHOD: public T b2GrowableStack<typename T, int32 N>::Pop() [b2GrowableStack.h <65:2 <65:2 <65:4 65:6> 65:8> 70:2>]
 SYMBOL_METHOD: public int32 b2GrowableStack<typename T, int32 N>::GetCount() [b2GrowableStack.h <72:2 <72:2 <72:8 72:15> 72:17> 75:2>]
-SYMBOL_CLASS: b2GrowableStack<int, 256> [b2GrowableStack.h <27:1 <28:7 28:21> 82:1>]
+SYMBOL_CLASS: public b2GrowableStack<int, 256> [b2GrowableStack.h <27:1 <28:7 28:21> 82:1>]
 SYMBOL_METHOD: public void b2GrowableStack<int, 256>::b2GrowableStack() [b2GrowableStack.h <31:2 <31:2 31:16> 36:2>]
 SYMBOL_METHOD: public void b2GrowableStack<int, 256>::~b2GrowableStack() [b2GrowableStack.h <38:2 <38:2 38:17> 45:2>]
 SYMBOL_METHOD: public void b2GrowableStack<int, 256>::Push(const int &) [b2GrowableStack.h <47:2 <47:7 47:10> 63:2>]

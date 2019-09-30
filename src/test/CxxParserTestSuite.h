@@ -15,6 +15,25 @@
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
+	void test_record_base_class_of_implicit_template_class_specialization()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template<class T, unsigned int N>\n"
+			"class VectorBase {}; \n"
+			"\n"
+			"template<class T>\n"
+			"class Vector2 : public VectorBase<T, 2> { void foo(); }; \n"
+			"\n"
+			"typedef Vector2<float> Vec2f; \n"
+			"\n"
+			"Vec2f v; \n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->inheritances, L"Vector2<float> -> VectorBase<float, 2> <5:24 5:33>"
+		));
+	}
+
 	void test_cxx_parser_skips_implicit_template_method_definition_of_implicit_template_class_instantiation()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(

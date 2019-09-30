@@ -199,7 +199,10 @@ DEF_TRAVERSE_TYPE_PTR(Stmt, {}, {})
 // additionally: skip implicit CXXRecordDecls (this does not skip template specializations).
 bool CxxAstVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
 {
-	if (utility::isImplicit(d) && d->getMemberSpecializationInfo() == nullptr)
+	if (utility::isImplicit(d) &&
+		d->getMemberSpecializationInfo() == nullptr &&
+		!clang::isa<clang::ClassTemplateSpecializationDecl>(utility::getFirstDecl(d))
+	)
 	{
 		return true;
 	}
@@ -213,7 +216,7 @@ bool CxxAstVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
 
 	TraverseNestedNameSpecifierLoc(d->getQualifierLoc());
 
-	if (d->isCompleteDefinition())
+	if (d->hasDefinition())
 	{
 		for (const auto& base : d->bases())
 		{
@@ -480,7 +483,8 @@ void CxxAstVisitor::traverseDeclContextHelper(clang::DeclContext* d)
 		return;
 	}
 
-	for (auto* child : d->decls()) {
+	for (auto* child : d->decls())
+	{
 		// BlockDecls and CapturedDecls are traversed through BlockExprs and
 		// CapturedStmts respectively.
 		if (!llvm::isa<clang::BlockDecl>(child) && !llvm::isa<clang::CapturedDecl>(child))
