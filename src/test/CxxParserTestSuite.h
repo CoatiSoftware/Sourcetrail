@@ -15,171 +15,6 @@
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
-	void test_cxx_parser_creates_single_node_for_all_possible_parameter_pack_expansions_of_template_function()
-	{
-		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template<typename T>\n"
-			"T adder(T v) { return v; }\n"
-			"\n"
-			"template<typename T, typename... Args>\n"
-			"T adder(T first, Args... args) { return first + adder(args...); }\n"
-			"\n"
-			"void foo() { long sum = adder(1, 2, 3, 8, 7); }\n"
-		);
-
-		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->functions, L"int adder<int, <...>>(int, ...) <5:1 <5:1 <5:3 5:7> 5:30> 5:65>"
-		));
-		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->calls, L"int adder<int, <...>>(int, ...) -> int adder<int, <...>>(int, ...) <5:49 5:53>"
-		));
-	}
-
-	void test_record_base_class_of_implicit_template_class_specialization()
-	{
-		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template<class T, unsigned int N>\n"
-			"class VectorBase {}; \n"
-			"\n"
-			"template<class T>\n"
-			"class Vector2 : public VectorBase<T, 2> { void foo(); }; \n"
-			"\n"
-			"typedef Vector2<float> Vec2f; \n"
-			"\n"
-			"Vec2f v; \n"
-		);
-
-		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->inheritances, L"Vector2<float> -> VectorBase<float, 2> <5:24 5:33>"
-		));
-	}
-
-	void test_cxx_parser_skips_implicit_template_method_definition_of_implicit_template_class_instantiation()
-	{
-		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template <typename T>\n"
-			"class A\n"
-			"{\n"
-			"public:\n"
-			"	template <typename U>\n"
-			"	void foo() {}\n"
-			"};\n"
-			"\n"
-			"int main()\n"
-			"{\n"
-			"	A<int>().foo<float>();\n"
-			"	return 0;\n"
-			"}\n"
-		);
-
-		TS_ASSERT( /*NOT!*/ !utility::containsElement<std::wstring>(
-			client->methods, L"public void A<int>::foo<typename U>() <6:2 <6:7 6:9> 6:14>"
-		));
-		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateSpecializations, L"void A<int>::foo<float>() -> void A<typename T>::foo<typename U>() <6:7 6:9>"
-		));
-	}
-
-
-
-	void test_foofooofooofow1()
-	{
-		{
-			std::shared_ptr<TestIntermediateStorage> client = parseCode(
-				"template <typename T>\n"
-				"class A {};\n"
-				"template <typename T1, typename T2>\n"
-				"class vector { };\n"
-				"template<class Foo1>\n"
-				"class vector<Foo1, A<Foo1>> { };\n"
-			);
-
-			TS_ASSERT(utility::containsElement<std::wstring>(
-				client->classes, L"vector<class Foo1, A<typename T>> <5:1 <6:7 6:12> 6:31>"
-			));
-		}
-		{
-			std::shared_ptr<TestIntermediateStorage> client = parseCode(
-				"template <typename T1, typename T2, typename T3>\n"
-				"class vector { };\n"
-				"template<class Foo1, class Foo2>\n"
-				"class vector<Foo2, Foo1, int> { };\n"
-			);
-
-			TS_ASSERT(utility::containsElement<std::wstring>(
-				client->classes, L"vector<class Foo2, class Foo1, int> <3:1 <4:7 4:12> 4:33>"
-			));
-		}
-		{
-			std::shared_ptr<TestIntermediateStorage> client = parseCode(
-				"template <typename T0>\n"
-				"class foo {\n"
-				"	template <typename T1, typename T2>\n"
-				"	class vector { };\n"
-				"	template<class T1>\n"
-				"	class vector<T0, T1> { };\n"
-				"};\n"
-			);
-
-			TS_ASSERT(utility::containsElement<std::wstring>(
-				client->classes, L"foo<typename T0>::vector<arg0_0, class T1> <5:2 <6:8 6:13> 6:25>"
-			));
-		}
-		{
-			//std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			//	"template <typename T1, typename T2>\n"
-			//	"class vector { };\n"
-			//	"template<class T>\n"
-			//	"struct Alloc { };\n"
-			//	"template<class T>\n"
-			//	"using Vec = vector<T, Alloc<T>>;\n" // record not Vector<vec<T>::T.........
-			//	"Vec<int> v;\n"
-			//);
-
-			//TS_ASSERT(utility::containsElement<std::wstring>(
-			//	client->typeUses, L"B<A, template<typename> typename U> -> A<typename T> <8:9 8:9>"
-			//	));
-		}
-	}
-
-	void test_cxx_parser_finds_usage_of_field_in_function_call_arguments()
-	{
-		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"class A\n"
-			"{\n"
-			"public:\n"
-			"	void foo(int i)\n"
-			"	{\n"
-			"		foo(bar);\n"
-			"	}\n"
-			"	int bar;\n"
-			"};\n"
-		);
-
-		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->usages, L"void A::foo(int) -> int A::bar <6:7 6:9>"
-		));
-	}
-
-	void test_cxx_parser_usage_of_field_in_function_call_context()
-	{
-		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"class A\n"
-			"{\n"
-			"public:\n"
-			"	void foo(int i)\n"
-			"	{\n"
-			"		a->foo(6);\n"
-			"	}\n"
-			"	A* a;\n"
-			"};\n"
-		);
-
-		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->usages, L"void A::foo(int) -> A * A::a <6:3 6:3>"
-		));
-	}
-
 ///////////////////////////////////////////////////////////////////////////////
 // test finding symbol definitions and declarations
 
@@ -929,16 +764,17 @@ public:
 		));
 	}
 
-	//void __test_cxx_parser_finds_type_template_parameter_definition_of_template_type_alias()
-	//{
-	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-	//		"template<class T>\n"
-	//		"using MyType = int;\n"
-	//	);
+	void test_cxx_parser_finds_type_template_parameter_definition_of_template_type_alias()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template<class T>\n"
+			"using MyType = int;\n"
+		);
 
-	//	TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-	//	TS_ASSERT_EQUALS(client->templateParameterTypes[0], L"MyType<class T>::T <1:17 1:17>");
-	//}
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<1:16> <1:16 1:16>"
+		));
+	}
 
 	void test_cxx_parser_finds_type_template_parameter_definition_of_class_template()
 	{
@@ -1517,6 +1353,32 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->functions, L"int test<int>(int) <2:1 <2:1 <2:3 2:6> 2:11> 5:1>"
+		));
+	}
+
+	void test_cxx_parser_skips_implicit_template_method_definition_of_implicit_template_class_instantiation()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	template <typename U>\n"
+			"	void foo() {}\n"
+			"};\n"
+			"\n"
+			"int main()\n"
+			"{\n"
+			"	A<int>().foo<float>();\n"
+			"	return 0;\n"
+			"}\n"
+		);
+
+		TS_ASSERT( /*NOT!*/ !utility::containsElement<std::wstring>(
+			client->methods, L"public void A<int>::foo<typename U>() <6:2 <6:7 6:9> 6:14>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->templateSpecializations, L"void A<int>::foo<float>() -> void A<typename T>::foo<typename U>() <6:7 6:9>"
 		));
 	}
 
@@ -2684,6 +2546,44 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_usage_of_field_in_function_call_arguments()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	void foo(int i)\n"
+			"	{\n"
+			"		foo(bar);\n"
+			"	}\n"
+			"	int bar;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"void A::foo(int) -> int A::bar <6:7 6:9>"
+		));
+	}
+
+	void test_cxx_parser_finds_usage_of_field_in_function_call_context()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	void foo(int i)\n"
+			"	{\n"
+			"		a->foo(6);\n"
+			"	}\n"
+			"	A* a;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"void A::foo(int) -> A * A::a <6:3 6:3>"
+		));
+	}
+
 	void test_cxx_parser_finds_usage_of_field_in_initialization_list()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
@@ -3161,6 +3061,26 @@ public:
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"B<bool>::type f -> B<bool>::type <14:10 14:13>"
+		));
+	}
+
+	void test_cxx_parser_creates_single_node_for_all_possible_parameter_pack_expansions_of_template_function()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template<typename T>\n"
+			"T adder(T v) { return v; }\n"
+			"\n"
+			"template<typename T, typename... Args>\n"
+			"T adder(T first, Args... args) { return first + adder(args...); }\n"
+			"\n"
+			"void foo() { long sum = adder(1, 2, 3, 8, 7); }\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->functions, L"int adder<int, <...>>(int, ...) <5:1 <5:1 <5:3 5:7> 5:30> 5:65>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->calls, L"int adder<int, <...>>(int, ...) -> int adder<int, <...>>(int, ...) <5:49 5:53>"
 		));
 	}
 
@@ -3898,6 +3818,25 @@ public:
 		));
 	}
 
+	void test_record_base_class_of_implicit_template_class_specialization()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template<class T, unsigned int N>\n"
+			"class VectorBase {}; \n"
+			"\n"
+			"template<class T>\n"
+			"class Vector2 : public VectorBase<T, 2> { void foo(); }; \n"
+			"\n"
+			"typedef Vector2<float> Vec2f; \n"
+			"\n"
+			"Vec2f v; \n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->inheritances, L"Vector2<float> -> VectorBase<float, 2> <5:24 5:33>"
+		));
+	}
+
 	void test_cxx_parser_finds_template_class_specialization_with_template_argument()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
@@ -3919,6 +3858,53 @@ public:
 		TS_ASSERT(client->inheritances.size() == 1);
 		TS_ASSERT(client->classes.size() == 2);
 		TS_ASSERT(client->fields.size() == 1);
+	}
+
+	void test_cxx_parser_finds_correct_order_of_template_arguments_for_explicit_class_template_specialization()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <typename T1, typename T2, typename T3>\n"
+			"class vector { };\n"
+			"template<class Foo1, class Foo2>\n"
+			"class vector<Foo2, Foo1, int> { };\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"vector<class Foo2, class Foo1, int> <3:1 <4:7 4:12> 4:33>"
+		));
+	}
+
+	void test_cxx_parser_replaces_dependent_template_arguments_of_explicit_template_specialization_with_name_of_base_template()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <typename T>\n"
+			"class A {};\n"
+			"template <typename T1, typename T2>\n"
+			"class vector { };\n"
+			"template<class Foo1>\n"
+			"class vector<Foo1, A<Foo1>> { };\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"vector<class Foo1, A<typename T>> <5:1 <6:7 6:12> 6:31>"
+		));
+	}
+
+	void test_cxx_parser_replaces_unknown_template_arguments_of_explicit_template_specialization_with_depth_and_position_index()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <typename T0>\n"
+			"class foo {\n"
+			"	template <typename T1, typename T2>\n"
+			"	class vector { };\n"
+			"	template<class T1>\n"
+			"	class vector<T0, T1> { };\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"foo<typename T0>::vector<arg0_0, class T1> <5:2 <6:8 6:13> 6:25>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_class_constructor_usage_of_field()
@@ -4152,7 +4138,7 @@ public:
 			"\n"
 			"class A\n"
 			"{\n"
-			"	int foo = test(1);\n"	// usage of "int"
+			"	int foo = test(1);\n"		// usage of "int"
 			"};\n"
 		);
 
@@ -4371,35 +4357,37 @@ public:
 	}
 
 
-	//void __test_cxx_parser_finds_type_template_argument_of_static_cast_expression()
-	//{
-	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-	//		"int main()\n"
-	//		"{\n"
-	//		"	return static_cast<int>(4.0f);"
-	//		"}\n"
-	//	);
+	void test_cxx_parser_finds_type_template_argument_of_static_cast_expression()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"int main()\n"
+			"{\n"
+			"	return static_cast<int>(4.0f);"
+			"}\n"
+		);
 
-	//	TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-	//	TS_ASSERT_EQUALS(client->templateArgumentTypes[0], L"A<1> -> int <0:0 0:0>");
-	//}
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int main() -> int <3:21 3:23>"
+		));
+	}
 
-	//void _test_cxx_parser_finds_implicit_constructor_call_in_initialization()
-	//{
-	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-	//		"class A\n"
-	//		"{\n"
-	//		"};\n"
-	//		"class B\n"
-	//		"{\n"
-	//		"	B(){}\n"
-	//		"	A m_a;\n"
-	//		"};\n"
-	//	);
+	void test_cxx_parser_finds_implicit_constructor_call_in_initialization()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"class A\n"
+			"{\n"
+			"};\n"
+			"class B\n"
+			"{\n"
+			"	B(){}\n"
+			"	A m_a;\n"
+			"};\n"
+		);
 
-	//	TS_ASSERT_EQUALS(client->calls.size(), 1);
-	//	TS_ASSERT_EQUALS(client->calls[0], L"void B::B() -> A::A() <6:2 6:2>");
-	//}
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->calls, L"void B::B() -> void A::A() <6:2 6:2>"
+		));
+	}
 
 	void test_cxx_parser_parses_multiple_files()
 	{
