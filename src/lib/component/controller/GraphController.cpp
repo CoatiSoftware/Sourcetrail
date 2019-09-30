@@ -2541,13 +2541,7 @@ void GraphController::createLegendGraph()
 		y += 10;
 		i += 1;
 
-		Node* templateNode = addNode(NodeType::NODE_TYPE, L"TemplateType<typename ParameterType>", Vec2i(x, y + dy * ++i));
-		Node* templateParameterNode = addNode(NodeType::NODE_TEMPLATE_PARAMETER, L"ParameterType", Vec2i());
-		addMember(templateNode, templateParameterNode, ACCESS_TEMPLATE_PARAMETER);
-		y += 5;
-		i += 2;
-
-		Node* genericNode = addNode(NodeType::NODE_TYPE, L"GenericType<ParameterType>", Vec2i(x, y + dy * ++i));
+		Node* genericNode = addNode(NodeType::NODE_TYPE, L"JavaGenericType<ParameterType>", Vec2i(x, y + dy * ++i));
 		Node* genericParameterNode = addNode(NodeType::NODE_TYPE_PARAMETER, L"ParameterType", Vec2i());
 		addMember(genericNode, genericParameterNode, ACCESS_TYPE_PARAMETER);
 		i += 2;

@@ -302,7 +302,6 @@ public:
 	std::vector<std::wstring> modules;
 	std::vector<std::wstring> structs;
 	std::vector<std::wstring> macros;
-	std::vector<std::wstring> templateParameterTypes;
 	std::vector<std::wstring> typeParameters;
 	std::vector<std::wstring> localSymbols;
 	std::set<std::wstring> files;
@@ -356,8 +355,6 @@ private:
 			return L"SYMBOL_PACKAGE";
 		case NodeType::NODE_STRUCT:
 			return L"SYMBOL_STRUCT";
-		case NodeType::NODE_TEMPLATE_PARAMETER:
-			return L"SYMBOL_TEMPLATE_PARAMETER";
 		case NodeType::NODE_TYPEDEF:
 			return L"SYMBOL_TYPEDEF";
 		case NodeType::NODE_TYPE_PARAMETER:
@@ -442,8 +439,6 @@ private:
 			return &structs;
 		case NodeType::NODE_MACRO:
 			return &macros;
-		case NodeType::NODE_TEMPLATE_PARAMETER:
-			return &templateParameterTypes;
 		case NodeType::NODE_TYPE_PARAMETER:
 			return &typeParameters;
 		default:

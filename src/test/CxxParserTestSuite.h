@@ -1079,6 +1079,26 @@ public:
 		));
 	}
 
+	//void _test_foofoo()
+	//{
+	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	//		"template <typename T1, typename T2>\n"
+	//		"class vector { };\n"
+	//		"\n"
+	//		"template<class T>\n"
+	//		"struct Alloc { };\n"
+	//		"\n"
+	//		"template<class T>\n"
+	//		"using Vec = vector<T, Alloc<T>>;\n"
+	//		"\n"
+	//		"Vec<int> v;\n"
+	//	);
+
+	//	TS_ASSERT(utility::containsElement<std::wstring>(
+	//		client->typeUses, // TODO: record edge between vector<int, Alloc<int>> and Alloc<int> (this is an issue because we dont have any typeloc for this edge -.-
+	//	));
+	//}
+
 	void test_cxx_parser_finds_template_template_parameter_of_template_class()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
@@ -1163,11 +1183,11 @@ public:
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
 			"template <typename>\n"
 			"class A\n"
-			"{\n"
-			"};\n"
+			"{\n"		// local symbol for brace
+			"};\n"		// local symbol for brace
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 0);
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->classes, L"A<typename> <1:1 <2:7 2:7> 4:1>"
 		));
@@ -2924,7 +2944,7 @@ public:
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<1:20> <1:20 1:20>"
 		));
-		TS_ASSERT(utility::containsElement<std::wstring>( // FIXME: fix FAIL because usage in name qualifier is not recorded
+		TS_ASSERT(utility::containsElement<std::wstring>( // TODO: fix FAIL because usage in name qualifier is not recorded
 			client->localSymbols, L"input.cc<5:20> <5:20 5:20>"
 		));
 	}
@@ -3684,7 +3704,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"A<&g_p, q> -> P g_p <8:10 8:12>" //FIXME this is completely wrong? should be a normal usage
+			client->typeUses, L"A<&g_p, q> -> P g_p <8:10 8:12>" // TODO: this is completely wrong? should be a normal usage
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<7:14> <8:15 8:15>"

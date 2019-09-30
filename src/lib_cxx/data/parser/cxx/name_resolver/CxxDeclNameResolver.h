@@ -42,9 +42,10 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPart
 	for (int i = 0; i < templateArgumentList.size(); i++)
 	{
 		const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
+		const clang::TemplateArgument::ArgKind argKind = templateArgument.getKind();
 		if (templateArgument.isDependent())
 		{
-			if (templateArgument.getKind() == clang::TemplateArgument::Type && !templateArgument.getAsType().isNull())
+			if (argKind == clang::TemplateArgument::Type && !templateArgument.getAsType().isNull())
 			{
 				const clang::Type* argumentType = templateArgument.getAsType().getTypePtr();
 				if (const clang::TemplateTypeParmType* ttpt = clang::dyn_cast<clang::TemplateTypeParmType>(argumentType))
@@ -64,7 +65,7 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPart
 					templateParameterNames.push_back(std::move(CxxTypeName::makeUnsolvedIfNull(CxxTypeNameResolver(this).getName(argumentType))->toString()));
 				}
 			}
-			else if (templateArgument.getKind() == clang::TemplateArgument::Template && !templateArgument.getAsTemplate().isNull())
+			else if (argKind == clang::TemplateArgument::Template && !templateArgument.getAsTemplate().isNull())
 			{
 				const clang::TemplateTemplateParmDecl* decl = clang::dyn_cast<clang::TemplateTemplateParmDecl>(templateArgument.getAsTemplate().getAsTemplateDecl());
 				if (decl)

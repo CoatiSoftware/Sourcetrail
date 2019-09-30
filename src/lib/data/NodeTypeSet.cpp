@@ -188,7 +188,6 @@ const std::vector<NodeType> NodeTypeSet::s_allNodeTypes = {
 	NodeType(NodeType::NODE_ENUM),
 	NodeType(NodeType::NODE_ENUM_CONSTANT),
 	NodeType(NodeType::NODE_TYPEDEF),
-	NodeType(NodeType::NODE_TEMPLATE_PARAMETER),
 	NodeType(NodeType::NODE_TYPE_PARAMETER),
 	NodeType(NodeType::NODE_FILE),
 	NodeType(NodeType::NODE_MACRO),

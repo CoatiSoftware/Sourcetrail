@@ -141,8 +141,6 @@ NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const
 		return NodeType::NODE_PACKAGE;
 	case SYMBOL_STRUCT:
 		return NodeType::NODE_STRUCT;
-	case SYMBOL_TEMPLATE_PARAMETER:
-		return NodeType::NODE_TEMPLATE_PARAMETER;
 	case SYMBOL_TYPEDEF:
 		return NodeType::NODE_TYPEDEF;
 	case SYMBOL_TYPE_PARAMETER:

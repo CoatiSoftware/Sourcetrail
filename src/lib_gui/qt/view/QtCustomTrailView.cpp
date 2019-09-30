@@ -202,7 +202,6 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 			NodeType::NODE_UNION,
 			NodeType::NODE_INTERFACE,
 			NodeType::NODE_TYPEDEF,
-			NodeType::NODE_TEMPLATE_PARAMETER,
 			NodeType::NODE_TYPE_PARAMETER,
 			NodeType::NODE_ENUM,
 			NodeType::NODE_ENUM_CONSTANT,
