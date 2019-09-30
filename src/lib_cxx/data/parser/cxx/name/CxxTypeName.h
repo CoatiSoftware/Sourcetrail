@@ -13,6 +13,7 @@ class CxxTypeName
 	: public CxxName
 {
 public:
+	static std::unique_ptr<CxxTypeName> getUnsolved();
 	static std::unique_ptr<CxxTypeName> makeUnsolvedIfNull(std::unique_ptr<CxxTypeName> name);
 
 	struct Modifier

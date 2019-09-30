@@ -16,22 +16,65 @@ class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
 
-	//void test_foofooofooofow()
-	//{
-	//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-	//		"template <typename T1, typename T2>\n"
-	//		"class vector { };\n"
-	//		"template<class T>\n"
-	//		"struct Alloc { };\n"
-	//		"template<class T>\n"
-	//		"using Vec = vector<T, Alloc<T>>;\n"
-	//		"Vec<int> v;\n"
-	//	);
+	void test_foofooofooofow()
+	{
+		{
+			std::shared_ptr<TestIntermediateStorage> client = parseCode(
+				"template <typename T>\n"
+				"class A {};\n"
+				"template <typename T1, typename T2>\n"
+				"class vector { };\n"
+				"template<class Foo1>\n"
+				"class vector<Foo1, A<Foo1>> { };\n"
+			);
 
-	//	TS_ASSERT(utility::containsElement<std::wstring>(
-	//		client->typeUses, L"B<A, template<typename> typename U> -> A<typename T> <8:9 8:9>"
-	//		));
-	//}
+			TS_ASSERT(utility::containsElement<std::wstring>(
+				client->classes, L"vector<class Foo1, A<typename T>> <5:1 <6:7 6:12> 6:31>"
+			));
+		}
+		{
+			std::shared_ptr<TestIntermediateStorage> client = parseCode(
+				"template <typename T1, typename T2, typename T3>\n"
+				"class vector { };\n"
+				"template<class Foo1, class Foo2>\n"
+				"class vector<Foo2, Foo1, int> { };\n"
+			);
+
+			TS_ASSERT(utility::containsElement<std::wstring>(
+				client->classes, L"vector<class Foo2, class Foo1, int> <3:1 <4:7 4:12> 4:33>"
+			));
+		}
+		{
+			std::shared_ptr<TestIntermediateStorage> client = parseCode(
+				"template <typename T0>\n"
+				"class foo {\n"
+				"	template <typename T1, typename T2>\n"
+				"	class vector { };\n"
+				"	template<class T1>\n"
+				"	class vector<T0, T1> { };\n"
+				"};\n"
+			);
+
+			TS_ASSERT(utility::containsElement<std::wstring>(
+				client->classes, L"foo<typename T0>::vector<arg0_0, class T1> <5:2 <6:8 6:13> 6:25>"
+			));
+		}
+		{
+			//std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			//	"template <typename T1, typename T2>\n"
+			//	"class vector { };\n"
+			//	"template<class T>\n"
+			//	"struct Alloc { };\n"
+			//	"template<class T>\n"
+			//	"using Vec = vector<T, Alloc<T>>;\n" // record not Vector<vec<T>::T.........
+			//	"Vec<int> v;\n"
+			//);
+
+			//TS_ASSERT(utility::containsElement<std::wstring>(
+			//	client->typeUses, L"B<A, template<typename> typename U> -> A<typename T> <8:9 8:9>"
+			//	));
+		}
+	}
 
 	void test_cxx_parser_finds_usage_of_field_in_function_call_arguments()
 	{
@@ -3614,7 +3657,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"A<&g_p, P * q> -> P g_p <8:10 8:12>" //TODO this is completely wrong? should be a normal usage
+			client->typeUses, L"A<&g_p, q> -> P g_p <8:10 8:12>" //TODO this is completely wrong? should be a normal usage
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<7:14> <8:15 8:15>"
@@ -3637,7 +3680,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"A<&g_p, P & q> -> P g_p <8:9 8:11>"
+			client->typeUses, L"A<&g_p, q> -> P g_p <8:9 8:11>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<7:14> <8:14 8:14>"

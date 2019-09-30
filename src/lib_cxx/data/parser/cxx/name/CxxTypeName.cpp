@@ -2,6 +2,11 @@
 
 #include <sstream>
 
+std::unique_ptr<CxxTypeName> CxxTypeName::getUnsolved()
+{
+	return std::make_unique<CxxTypeName>(L"unsolved-type");
+}
+
 std::unique_ptr<CxxTypeName> CxxTypeName::makeUnsolvedIfNull(std::unique_ptr<CxxTypeName> name)
 {
 	if (name)
@@ -9,7 +14,7 @@ std::unique_ptr<CxxTypeName> CxxTypeName::makeUnsolvedIfNull(std::unique_ptr<Cxx
 		return name;
 	}
 
-	return std::make_unique<CxxTypeName>(L"unsolved-type");
+	return getUnsolved();
 }
 
 CxxTypeName::Modifier::Modifier(std::wstring symbol)

@@ -37,26 +37,57 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPart
 {
 	std::vector<std::wstring> templateParameterNames;
 	clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
-	unsigned int currentParameterIndex = 0;
 
 	const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
-	const int templateArgumentCount = templateArgumentList.size();
-	for (int i = 0; i < templateArgumentCount; i++)
+	for (int i = 0; i < templateArgumentList.size(); i++)
 	{
 		const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-		if (templateArgument.isDependent()) //  IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
+		if (templateArgument.isDependent())
 		{
-			if (currentParameterIndex < parameterList->size())
+			if (templateArgument.getKind() == clang::TemplateArgument::Type && !templateArgument.getAsType().isNull())
 			{
-				templateParameterNames.push_back(getTemplateParameterString(parameterList->getParam(currentParameterIndex)));
+				const clang::Type* argumentType = templateArgument.getAsType().getTypePtr();
+				if (const clang::TemplateTypeParmType* ttpt = clang::dyn_cast<clang::TemplateTypeParmType>(argumentType))
+				{
+					if (ttpt->getDepth() == parameterList->getDepth())
+					{
+						templateParameterNames.push_back(getTemplateParameterString(parameterList->getParam(ttpt->getIndex())));
+					}
+					else
+					{
+						// TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
+						templateParameterNames.push_back(L"arg" + std::to_wstring(ttpt->getDepth()) + L"_" + std::to_wstring(ttpt->getIndex()));
+					}
+				}
+				else
+				{
+					templateParameterNames.push_back(std::move(CxxTypeName::makeUnsolvedIfNull(CxxTypeNameResolver(this).getName(argumentType))->toString()));
+				}
+			}
+			else if (templateArgument.getKind() == clang::TemplateArgument::Template && !templateArgument.getAsTemplate().isNull())
+			{
+				const clang::TemplateTemplateParmDecl* decl = clang::dyn_cast<clang::TemplateTemplateParmDecl>(templateArgument.getAsTemplate().getAsTemplateDecl());
+				if (decl)
+				{
+					if (decl->getDepth() == parameterList->getDepth())
+					{
+						templateParameterNames.push_back(getTemplateParameterString(parameterList->getParam(decl->getIndex())));
+					}
+					else
+					{
+						// TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
+						templateParameterNames.push_back(L"arg" + std::to_wstring(decl->getDepth()) + L"_" + std::to_wstring(decl->getIndex()));
+					}
+				}
+				else
+				{
+					templateParameterNames.push_back(getTemplateArgumentName(templateArgument));
+				}
 			}
 			else
 			{
-				//this if fixes the crash, but not the problem TODO
-				// const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-				// LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
+				templateParameterNames.push_back(getTemplateArgumentName(templateArgument));
 			}
-			currentParameterIndex++;
 		}
 		else
 		{
