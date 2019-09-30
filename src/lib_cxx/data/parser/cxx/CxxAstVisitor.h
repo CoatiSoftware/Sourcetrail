@@ -67,6 +67,7 @@ public:
 
 	virtual bool TraverseCXXRecordDecl(clang::CXXRecordDecl* d);
 	bool traverseCXXBaseSpecifier(const clang::CXXBaseSpecifier& d);
+	virtual bool TraverseCXXMethodDecl(clang::CXXMethodDecl* d);
 	virtual bool TraverseTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d);
 	virtual bool TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d);
 	virtual bool TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc loc);

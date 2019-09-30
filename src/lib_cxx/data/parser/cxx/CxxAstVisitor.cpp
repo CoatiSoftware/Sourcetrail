@@ -66,7 +66,7 @@ CanonicalFilePathCache* CxxAstVisitor::getCanonicalFilePathCache() const
 void CxxAstVisitor::indexDecl(clang::Decl* d)
 {
 	LOG_INFO("starting AST traversal");
-
+	//d->dump();
 	this->TraverseDecl(d);
 }
 
@@ -234,6 +234,23 @@ bool CxxAstVisitor::traverseCXXBaseSpecifier(const clang::CXXBaseSpecifier& d)
 	bool ret = TraverseTypeLoc(d.getTypeSourceInfo()->getTypeLoc());
 	FOREACH_COMPONENT(endTraverseCXXBaseSpecifier());
 	return ret;
+}
+
+bool CxxAstVisitor::TraverseCXXMethodDecl(clang::CXXMethodDecl* d)
+{
+	if (d->getTemplatedKind() == clang::CXXMethodDecl::TK_FunctionTemplate)
+	{
+		if (clang::CXXRecordDecl* recordDecl = d->getParent())
+		{
+			if (!clang::isa<clang::ClassTemplatePartialSpecializationDecl>(recordDecl) &&
+				clang::isa<clang::ClassTemplateSpecializationDecl>(recordDecl) &&
+				!clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(recordDecl)->isExplicitSpecialization())
+			{
+				return true; // we skip visiting an implicit definition of a template method and its contents
+			}
+		}
+	}
+	return Base::TraverseCXXMethodDecl(d);
 }
 
 // same as Base::TraverseTemplateTypeParmDecl(..) but we need to integrate the setter for the context info.

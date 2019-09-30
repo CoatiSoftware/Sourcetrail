@@ -191,13 +191,12 @@ void CxxAstVisitorComponentIndexer::visitClassTemplateSpecializationDecl(clang::
 {
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
-		clang::NamedDecl* specializedFromDecl = nullptr;
+		clang::CXXRecordDecl* specializedFromDecl = nullptr;
 
-		// todo: use context and childcontext!!
 		llvm::PointerUnion<clang::ClassTemplateDecl*, clang::ClassTemplatePartialSpecializationDecl*> pu = d->getSpecializedTemplateOrPartial();
 		if (pu.is<clang::ClassTemplateDecl*>())
 		{
-			specializedFromDecl = pu.get<clang::ClassTemplateDecl*>();
+			specializedFromDecl = pu.get<clang::ClassTemplateDecl*>()->getTemplatedDecl();
 		}
 		else if (pu.is<clang::ClassTemplatePartialSpecializationDecl*>())
 		{
@@ -330,14 +329,49 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 
 		if (d->isFunctionTemplateSpecialization())
 		{
-			Id templateId = getOrCreateSymbolId(d->getPrimaryTemplate()->getTemplatedDecl());
-			m_client->recordSymbolKind(templateId, SYMBOL_FUNCTION);
-			m_client->recordReference(
-				REFERENCE_TEMPLATE_SPECIALIZATION,
-				templateId,
-				symbolId,
-				getParseLocation(d->getLocation())
-			);
+			if (clang::isa<clang::ClassTemplateSpecializationDecl>(d->getParent()) &&
+				!clang::isa<clang::ClassTemplatePartialSpecializationDecl>(d->getParent()) &&
+				!clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(d->getParent())->isExplicitSpecialization())
+			{
+				// record edge from Foo<int>::bar<float>() to Foo<T>::bar<U>() instead of recording an edge from Foo<int>::bar<float>() to Foo<int>::bar<U>()
+				// because there is not "written" code for Foo<int>::bar<U>() if Foo<int> is an implicit template specialization.
+				if (clang::CXXRecordDecl* declaringRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(d->getParent()))
+				{
+					if (clang::CXXRecordDecl* declaringRecordTemplateDecl = declaringRecordDecl->getTemplateInstantiationPattern())
+					{
+						for (clang::Decl* templateMethodDecl : declaringRecordTemplateDecl->decls())
+						{
+							if (clang::FunctionTemplateDecl* functionTemplateDecl = clang::dyn_cast_or_null<clang::FunctionTemplateDecl>(templateMethodDecl))
+							{
+								if (d->getName() == functionTemplateDecl->getName())
+								{
+									Id templateMethodId = getOrCreateSymbolId(functionTemplateDecl);
+									m_client->recordSymbolKind(templateMethodId, SYMBOL_METHOD);
+									m_client->recordReference(
+										REFERENCE_TEMPLATE_SPECIALIZATION,
+										templateMethodId,
+										symbolId,
+										getParseLocation(d->getLocation())
+									);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				// record edge from foo<int>() to foo<T>()
+				Id templateId = getOrCreateSymbolId(d->getPrimaryTemplate()->getTemplatedDecl());
+				m_client->recordSymbolKind(templateId, SYMBOL_FUNCTION);
+				m_client->recordReference(
+					REFERENCE_TEMPLATE_SPECIALIZATION,
+					templateId,
+					symbolId,
+					getParseLocation(d->getLocation())
+				);
+			}
 		}
 	}
 }
@@ -363,6 +397,7 @@ void CxxAstVisitorComponentIndexer::visitCXXMethodDecl(clang::CXXMethodDecl* d)
 			);
 		}
 
+		// record edge from Foo::bar<int>() to Foo::bar<T>()
 		recordTemplateMemberSpecialization(
 			d->getMemberSpecializationInfo(),
 			symbolId,

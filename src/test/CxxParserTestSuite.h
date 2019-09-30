@@ -15,8 +15,35 @@
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
+	void test_cxx_parser_skips_implicit_template_method_definition_of_implicit_template_class_instantiation()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	template <typename U>\n"
+			"	void foo() {}\n"
+			"};\n"
+			"\n"
+			"int main()\n"
+			"{\n"
+			"	A<int>().foo<float>();\n"
+			"	return 0;\n"
+			"}\n"
+		);
 
-	void test_foofooofooofow()
+		TS_ASSERT( /*NOT!*/ !utility::containsElement<std::wstring>(
+			client->methods, L"public void A<int>::foo<typename U>() <6:2 <6:7 6:9> 6:14>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->templateSpecializations, L"void A<int>::foo<float>() -> void A<typename T>::foo<typename U>() <6:7 6:9>"
+		));
+	}
+
+
+
+	void test_foofooofooofow1()
 	{
 		{
 			std::shared_ptr<TestIntermediateStorage> client = parseCode(
