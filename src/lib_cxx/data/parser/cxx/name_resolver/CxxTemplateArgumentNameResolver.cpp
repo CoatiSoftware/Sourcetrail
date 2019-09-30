@@ -50,20 +50,7 @@ std::wstring CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clan
 		}
 	case clang::TemplateArgument::Pack:
 		{
-			std::wstringstream ss;
-			ss << L'<';
-			llvm::ArrayRef<clang::TemplateArgument> pack = argument.getPackAsArray();
-			for (size_t i = 0; i < pack.size(); i++)
-			{
-				if (i > 0)
-				{
-					ss << L", ";
-				}
-				ss << getTemplateArgumentName(pack[i]);
-			}
-			ss << L'>';
-
-			return ss.str();
+			return L"<...>";
 		}
 	}
 

@@ -66,7 +66,6 @@ CanonicalFilePathCache* CxxAstVisitor::getCanonicalFilePathCache() const
 void CxxAstVisitor::indexDecl(clang::Decl* d)
 {
 	LOG_INFO("starting AST traversal");
-	//d->dump();
 	this->TraverseDecl(d);
 }
 

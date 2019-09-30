@@ -239,6 +239,17 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			std::vector<std::unique_ptr<CxxTypeName>> parameterTypeNames;
 			for (unsigned int i = 0; i < functionDecl->param_size(); i++)
 			{
+				if (const clang::SubstTemplateTypeParmType* substType = clang::dyn_cast_or_null<clang::SubstTemplateTypeParmType>(functionDecl->parameters()[i]->getType().getTypePtr()))
+				{
+					if (const clang::TemplateTypeParmType* templateParamType = substType->getReplacedParameter())
+					{
+						if (templateParamType->isParameterPack())
+						{
+							parameterTypeNames.push_back(std::make_unique<CxxTypeName>(L"..."));
+							break;
+						}
+					}
+				}
 				parameterTypeNames.push_back(
 					CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->parameters()[i]->getType())));
 			}

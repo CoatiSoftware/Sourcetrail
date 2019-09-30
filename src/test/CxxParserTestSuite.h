@@ -15,6 +15,26 @@
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
+	void test_cxx_parser_creates_single_node_for_all_possible_parameter_pack_expansions_of_template_function()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template<typename T>\n"
+			"T adder(T v) { return v; }\n"
+			"\n"
+			"template<typename T, typename... Args>\n"
+			"T adder(T first, Args... args) { return first + adder(args...); }\n"
+			"\n"
+			"void foo() { long sum = adder(1, 2, 3, 8, 7); }\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->functions, L"int adder<int, <...>>(int, ...) <5:1 <5:1 <5:3 5:7> 5:30> 5:65>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->calls, L"int adder<int, <...>>(int, ...) -> int adder<int, <...>>(int, ...) <5:49 5:53>"
+		));
+	}
+
 	void test_record_base_class_of_implicit_template_class_specialization()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
@@ -3204,10 +3224,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"A<<int, float>> -> int <7:6 7:8>"
+			client->typeUses, L"A<<...>> -> int <7:6 7:8>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"A<<int, float>> -> float <7:11 7:15>"
+			client->typeUses, L"A<<...>> -> float <7:11 7:15>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> int <7:6 7:8>"
@@ -3432,10 +3452,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"B<<A, A>> -> A<typename T> <11:4 11:4>"
+			client->typeUses, L"B<<...>> -> A<typename T> <11:4 11:4>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->typeUses, L"B<<A, A>> -> A<typename T> <11:7 11:7>"
+			client->typeUses, L"B<<...>> -> A<typename T> <11:7 11:7>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> A<typename T> <11:4 11:4>"
