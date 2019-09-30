@@ -7,12 +7,19 @@ CxxAstVisitorComponentContext::CxxAstVisitorComponentContext(CxxAstVisitor* astV
 {
 }
 
-const clang::NamedDecl* CxxAstVisitorComponentContext::getTopmostContextDecl() const
+const clang::NamedDecl* CxxAstVisitorComponentContext::getTopmostContextDecl(const size_t skip) const
 {
+	size_t skipped = 0;
+
 	for (auto it = m_contextStack.rbegin(); it != m_contextStack.rend(); it++)
 	{
 		if (*it)
 		{
+			if (skipped < skip)
+			{
+				skipped++;
+				continue;
+			}
 			const clang::NamedDecl* decl = (*it)->getDecl();
 			if (decl)
 			{
@@ -23,7 +30,7 @@ const clang::NamedDecl* CxxAstVisitorComponentContext::getTopmostContextDecl() c
 	return nullptr;
 }
 
-const CxxContext* CxxAstVisitorComponentContext::getContext(const size_t skip)
+const CxxContext* CxxAstVisitorComponentContext::getContext(const size_t skip) const
 {
 	size_t skipped = 0;
 
@@ -31,14 +38,12 @@ const CxxContext* CxxAstVisitorComponentContext::getContext(const size_t skip)
 	{
 		if (*it)
 		{
-			if (skipped >= skip)
-			{
-				return it->get();
-			}
-			else
+			if (skipped < skip)
 			{
 				skipped++;
+				continue;
 			}
+			return it->get();
 		}
 	}
 	return nullptr;
@@ -155,7 +160,7 @@ void CxxAstVisitorComponentContext::endTraverseClassTemplatePartialSpecializatio
 
 void CxxAstVisitorComponentContext::beginTraverseDeclRefExpr(clang::DeclRefExpr* s)
 {
-	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(s->getDecl()));
+	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(s->getDecl())); // e.g. used for recording usage of template arguments within function calls
 }
 
 void CxxAstVisitorComponentContext::endTraverseDeclRefExpr(clang::DeclRefExpr* s)

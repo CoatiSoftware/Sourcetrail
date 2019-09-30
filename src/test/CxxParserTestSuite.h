@@ -3000,7 +3000,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<int> -> int <7:4 7:6>"
+			client->typeUses, L"A<int> -> int <7:4 7:6>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> int <7:4 7:6>"
@@ -3021,7 +3021,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<int()> -> int <7:4 7:6>"
+			client->typeUses, L"A<int()> -> int <7:4 7:6>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"void foo() -> int <7:4 7:6>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"void foo() -> int <7:4 7:6>"
@@ -3042,10 +3045,16 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<<int, float>> -> int <7:6 7:8>"
+			client->typeUses, L"A<<int, float>> -> int <7:6 7:8>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<<int, float>> -> float <7:11 7:15>"
+			client->typeUses, L"A<<int, float>> -> float <7:11 7:15>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int main() -> int <7:6 7:8>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int main() -> float <7:11 7:15>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> int <7:6 7:8>"
@@ -3071,7 +3080,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<int> -> int <9:4 9:6>"
+			client->typeUses, L"A<int> -> int <9:4 9:6>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int main() -> int <9:4 9:6>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> int <9:4 9:6>"
@@ -3094,7 +3106,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<int> -> int <9:4 9:6>"
+			client->typeUses, L"A<int> -> int <9:4 9:6>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int main() -> int <9:4 9:6>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> int <9:4 9:6>"
@@ -3117,7 +3132,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<int> -> int <9:8 9:10>"
+			client->typeUses, L"A<int> -> int <9:8 9:10>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int main() -> int <9:8 9:10>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> int <9:8 9:10>"
@@ -3127,35 +3145,35 @@ public:
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_of_explicit_template_instantiation()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template <int T>\n"
+			"template <int T>\n"	// use of "int"
 			"class A\n"
 			"{\n"
 			"};\n"
-			"int main()\n"
+			"int main()\n"			// use of "int"
 			"{\n"
-			"	A<1> a;\n"
+			"	A<1> a;\n"			// use of "A"
 			"	return 0;\n"
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_bool_template_parameter_of_explicit_template_instantiation()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template <bool T>\n"
+			"template <bool T>\n"	// use of "bool"
 			"class A\n"
 			"{\n"
 			"};\n"
-			"int main()\n"
+			"int main()\n"			// use of "int"
 			"{\n"
-			"	A<true> a;\n"
+			"	A<true> a;\n"		// use of "A"
 			"	return 0;\n"
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
 	}
 
 	void test_cxx_parser_finds_non_type_custom_pointer_template_argument_of_implicit_template_instantiation()
@@ -3174,7 +3192,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<&g_p> -> P g_p <9:5 9:7>"
+			client->typeUses, L"A<&g_p> -> P g_p <9:5 9:7>"
 		));
 	}
 
@@ -3194,24 +3212,24 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<&g_p> -> P g_p <9:4 9:6>"
+			client->typeUses, L"A<&g_p> -> P g_p <9:4 9:6>"
 		));
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_pack_of_explicit_template_instantiation()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template <int... T>\n"
+			"template <int... T>\n"	// use of "int"
 			"class A\n"
 			"{\n"
 			"};\n"
-			"int main()\n"
+			"int main()\n"			// use of "int"
 			"{\n"
-			"   A<1, 2, 33>();\n"
+			"   A<1, 2, 33>();\n"	// use of "A"
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
 	}
 
 	void test_cxx_parser_finds_template_template_argument_of_explicit_template_instantiation()
@@ -3230,11 +3248,11 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"B<A> -> A<typename T> <9:4 9:4>"
+			client->typeUses, L"B<A> -> A<typename T> <9:4 9:4>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> A<typename T> <9:4 9:4>"
-		));
+		)); // TODO: this is caused by beginTraverseTemplateArgumentLoc which is great!
 	}
 
 	void test_cxx_parser_finds_template_template_argument_for_parameter_pack_of_explicit_template_instantiation()
@@ -3255,16 +3273,35 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"B<<A, A>> -> A<typename T> <11:4 11:4>"
+			client->typeUses, L"B<<A, A>> -> A<typename T> <11:4 11:4>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"B<<A, A>> -> A<typename T> <11:7 11:7>"
+			client->typeUses, L"B<<A, A>> -> A<typename T> <11:7 11:7>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> A<typename T> <11:4 11:4>"
-		));
+		));  // TODO: this is caused by beginTraverseTemplateArgumentLoc which is great!
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->typeUses, L"int main() -> A<typename T> <11:7 11:7>"
+		));  // TODO: this is caused by beginTraverseTemplateArgumentLoc which is great!
+	}
+
+	void test_cxx_parser_finds_template_argument_for_implicit_specialization_of_global_template_variable()
+	{
+		std::shared_ptr<TestIntermediateStorage> client = parseCode(
+			"template <typename T>\n"
+			"T v;\n"
+			"void test()\n"
+			"{\n"
+			"	v<int> = 9;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"int v<int> -> int <5:4 5:6>"
+		));
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"void test() -> int <5:4 5:6>"
 		));
 	}
 
@@ -3385,14 +3422,14 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<int> -> int <6:9 6:11>"
+			client->typeUses, L"A<int> -> int <6:9 6:11>"
 		));
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_of_explicit_template_specialization()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template <int T>\n"
+			"template <int T>\n"	// use of "int"
 			"class A\n"
 			"{\n"
 			"};\n"
@@ -3402,14 +3439,14 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2); // TODO: this should be 1, so fix the bug where explicit specialization records a typeuse on self
 		// TODO: FIXME: type uses: L"A<1> -> A<1> <6:7 6:7>"
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_bool_template_parameter_of_explicit_template_specialization()
 	{
 		std::shared_ptr<TestIntermediateStorage> client = parseCode(
-			"template <bool T>\n"
+			"template <bool T>\n"	// use of "bool"
 			"class A\n"
 			"{\n"
 			"};\n"
@@ -3419,7 +3456,7 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2); // TODO: this should be 1, so fix the bug where explicit specialization records a typeuse on self
 	}
 
 	void test_cxx_parser_finds_non_type_custom_pointer_template_argument_of_explicit_template_specialization()
@@ -3438,7 +3475,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<&g_p> -> P g_p <8:10 8:12>"
+			client->typeUses, L"A<&g_p> -> P g_p <8:10 8:12>"
 		));
 	}
 
@@ -3458,7 +3495,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<&g_p> -> P g_p <8:9 8:11>"
+			client->typeUses, L"A<&g_p> -> P g_p <8:9 8:11>"
 		));
 	}
 
@@ -3478,7 +3515,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"B<A> -> A<typename T> <8:9 8:9>"
+			client->typeUses, L"B<A> -> A<typename T> <8:9 8:9>"
 		));
 	}
 
@@ -3498,8 +3535,8 @@ public:
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<5:20> <6:9 6:9>"
 		));
-		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<typename T, int> -> int <6:12 6:14>"
+		TS_ASSERT(utility::containsElement<std::wstring>( // TODO: change to type usage
+			client->typeUses, L"A<typename T, int> -> int <6:12 6:14>"
 		));
 	}
 
@@ -3555,7 +3592,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<&g_p, P * q> -> P g_p <8:10 8:12>" //TODO this is completely wrong? should be a normal usage
+			client->typeUses, L"A<&g_p, P * q> -> P g_p <8:10 8:12>" //TODO this is completely wrong? should be a normal usage
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<7:14> <8:15 8:15>"
@@ -3578,7 +3615,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::wstring>(
-			client->templateArgumentTypes, L"A<&g_p, P & q> -> P g_p <8:9 8:11>"
+			client->typeUses, L"A<&g_p, P & q> -> P g_p <8:9 8:11>"
 		));
 		TS_ASSERT(utility::containsElement<std::wstring>(
 			client->localSymbols, L"input.cc<7:14> <8:14 8:14>"

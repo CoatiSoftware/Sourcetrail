@@ -28,8 +28,6 @@ Edge::EdgeType Edge::intToType(int value)
 		return EDGE_INHERITANCE;
 	case EDGE_OVERRIDE:
 		return EDGE_OVERRIDE;
-	case EDGE_TEMPLATE_ARGUMENT:
-		return EDGE_TEMPLATE_ARGUMENT;
 	case EDGE_TYPE_ARGUMENT:
 		return EDGE_TYPE_ARGUMENT;
 	case EDGE_TEMPLATE_SPECIALIZATION:
@@ -141,8 +139,6 @@ std::wstring Edge::getReadableTypeString(EdgeType type)
 		return L"inheritance";
 	case EDGE_OVERRIDE:
 		return L"override";
-	case EDGE_TEMPLATE_ARGUMENT:
-		return L"template argument";
 	case EDGE_TYPE_ARGUMENT:
 		return L"type argument";
 	case EDGE_TEMPLATE_SPECIALIZATION:

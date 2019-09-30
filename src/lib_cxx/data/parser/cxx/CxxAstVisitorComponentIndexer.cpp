@@ -100,14 +100,14 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(const clang
 			const ParseLocation parseLocation = getParseLocation(loc.getLocation());
 
 			m_client->recordReference(
-				getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind(),
+				REFERENCE_TYPE_USAGE,
 				symbolId,
 				getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
 				parseLocation
 			);
 
 			{
-				const clang::NamedDecl* namedContextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl();
+				const clang::NamedDecl* namedContextDecl = getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(1);
 				if (namedContextDecl)
 				{
 					m_client->recordReference(
@@ -502,6 +502,7 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 	if ((getAstVisitor()->shouldVisitReference(tl.getBeginLoc())) &&
 		(!getAstVisitor()->checkIgnoresTypeLoc(tl)))
 	{
+		clang::TypeLoc::TypeLocClass tlcc = tl.getTypeLocClass();
 		if (!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull())
 		{
 			const clang::TemplateTypeParmTypeLoc& ttptl = tl.castAs<clang::TemplateTypeParmTypeLoc>();
@@ -544,18 +545,18 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 			const ParseLocation parseLocation = getParseLocation(loc);
 
 			m_client->recordReference(
-				getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind(),
+				getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->isTraversingInheritance() ? REFERENCE_INHERITANCE : REFERENCE_TYPE_USAGE,
 				symbolId,
 				getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext(1)), // we skip the last element because it refers to this typeloc.
 				parseLocation
 			);
 
-			if (getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->getReferenceKind() == REFERENCE_TEMPLATE_ARGUMENT)
+			if (getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>()->isTraversingTemplateArgument())
 			{
 				m_client->recordReference(
 					REFERENCE_TYPE_USAGE,
 					symbolId,
-					getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()), // we use the closest named decl here
+					getOrCreateSymbolId(getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl(2)), // we use the closest named decl here
 					parseLocation
 				);
 			}
@@ -834,15 +835,16 @@ ReferenceKind CxxAstVisitorComponentIndexer::consumeDeclRefContextKind()
 	ReferenceKind refKind = REFERENCE_UNDEFINED;
 
 	CxxAstVisitorComponentTypeRefKind* typeRefKindComponent = getAstVisitor()->getComponent<CxxAstVisitorComponentTypeRefKind>();
-	if (typeRefKindComponent->getReferenceKind() == REFERENCE_TYPE_USAGE)
+	if (typeRefKindComponent->isTraversingInheritance())
 	{
-		refKind = getAstVisitor()->getComponent<CxxAstVisitorComponentDeclRefKind>()->getReferenceKind();
+		return REFERENCE_INHERITANCE;
 	}
-	else
+	else if (typeRefKindComponent->isTraversingTemplateArgument())
 	{
-		refKind = typeRefKindComponent->getReferenceKind();
+		return REFERENCE_TYPE_USAGE;
 	}
-	return refKind;
+
+	return getAstVisitor()->getComponent<CxxAstVisitorComponentDeclRefKind>()->getReferenceKind();
 }
 
 Id CxxAstVisitorComponentIndexer::getOrCreateSymbolId(const clang::NamedDecl* decl)

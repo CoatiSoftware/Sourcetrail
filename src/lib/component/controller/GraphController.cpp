@@ -2677,7 +2677,7 @@ void GraphController::createLegendGraph()
 			Node* templateSpecializationNode = addNode(NodeType::NODE_TYPE, L"TemplateType<ArgumentType>", Vec2i(x, y + dy * ++i), DEFINITION_IMPLICIT);
 			Node* argumentNode = addNode(NodeType::NODE_TYPE, L"ArgumentType", Vec2i(x + 270, y + dy * i));
 			addEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION, templateSpecializationNode, templateNode);
-			addEdge(Edge::EDGE_TEMPLATE_ARGUMENT, templateSpecializationNode, argumentNode);
+			addEdge(Edge::EDGE_TYPE_USAGE, templateSpecializationNode, argumentNode);
 		}
 
 		{

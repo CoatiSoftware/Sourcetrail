@@ -13,8 +13,8 @@ class CxxAstVisitorComponentContext
 public:
 	CxxAstVisitorComponentContext(CxxAstVisitor* astVisitor);
 
-	const clang::NamedDecl* getTopmostContextDecl() const;
-	const CxxContext* getContext(const size_t skip = 0);
+	const clang::NamedDecl* getTopmostContextDecl(const size_t skip = 0) const;
+	const CxxContext* getContext(const size_t skip = 0) const;
 
 	void beginTraverseDecl(clang::Decl* d);
 	void endTraverseDecl(clang::Decl* d);

@@ -15,7 +15,8 @@ class CxxAstVisitorComponentTypeRefKind
 public:
 	CxxAstVisitorComponentTypeRefKind(CxxAstVisitor* astVisitor);
 
-	ReferenceKind getReferenceKind() const;
+	bool isTraversingInheritance() const;
+	bool isTraversingTemplateArgument() const;
 
 	void beginTraverseCXXBaseSpecifier();
 	void endTraverseCXXBaseSpecifier();
@@ -27,7 +28,14 @@ public:
 	void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
 
 private:
-	std::vector<ReferenceKind> m_refKindStack;
+	enum StateKind
+	{
+		STATE_USAGE,
+		STATE_INHERITANCE,
+		STATE_TEMPLATE_ARGUMENT
+	};
+
+	std::vector<StateKind> m_stateKindStack;
 };
 
 #endif // CXX_AST_VISITOR_COMPONENT_TYPE_REF_KIND_H

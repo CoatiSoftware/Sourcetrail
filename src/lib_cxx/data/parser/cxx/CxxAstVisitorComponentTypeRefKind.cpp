@@ -5,44 +5,42 @@ CxxAstVisitorComponentTypeRefKind::CxxAstVisitorComponentTypeRefKind(CxxAstVisit
 {
 }
 
-ReferenceKind CxxAstVisitorComponentTypeRefKind::getReferenceKind() const
+bool CxxAstVisitorComponentTypeRefKind::isTraversingInheritance() const
 {
-	for (auto it = m_refKindStack.rbegin(); it != m_refKindStack.rend(); it++)
-	{
-		if ((*it) != REFERENCE_UNDEFINED)
-		{
-			return (*it);
-		}
-	}
-	return REFERENCE_TYPE_USAGE;
+	return (!m_stateKindStack.empty() && m_stateKindStack.back() == STATE_INHERITANCE);
+}
+
+bool CxxAstVisitorComponentTypeRefKind::isTraversingTemplateArgument() const
+{
+	return (!m_stateKindStack.empty() && m_stateKindStack.back() == STATE_TEMPLATE_ARGUMENT);
 }
 
 void CxxAstVisitorComponentTypeRefKind::beginTraverseCXXBaseSpecifier()
 {
-	m_refKindStack.push_back(REFERENCE_INHERITANCE);
+	m_stateKindStack.push_back(STATE_INHERITANCE);
 }
 
 void CxxAstVisitorComponentTypeRefKind::endTraverseCXXBaseSpecifier()
 {
-	m_refKindStack.pop_back();
+	m_stateKindStack.pop_back();
 }
 
 void CxxAstVisitorComponentTypeRefKind::beginTraverseTemplateDefaultArgumentLoc()
 {
-	m_refKindStack.push_back(REFERENCE_TYPE_USAGE);
+	m_stateKindStack.push_back(STATE_USAGE);
 }
 
 void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateDefaultArgumentLoc()
 {
-	m_refKindStack.pop_back();
+	m_stateKindStack.pop_back();
 }
 
 void CxxAstVisitorComponentTypeRefKind::beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
 {
-	m_refKindStack.push_back(REFERENCE_TEMPLATE_ARGUMENT);
+	m_stateKindStack.push_back(STATE_TEMPLATE_ARGUMENT);
 }
 
 void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
 {
-	m_refKindStack.pop_back();
+	m_stateKindStack.pop_back();
 }

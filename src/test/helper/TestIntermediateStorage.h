@@ -315,7 +315,6 @@ public:
 	std::vector<std::wstring> typeUses;	// for types
 	std::vector<std::wstring> macroUses;
 	std::vector<std::wstring> annotationUses;
-	std::vector<std::wstring> templateArgumentTypes;
 	std::vector<std::wstring> typeArguments;
 	std::vector<std::wstring> templateSpecializations;
 	std::vector<std::wstring> templateMemberSpecializations;
@@ -385,8 +384,6 @@ private:
 			return L"REFERENCE_INHERITANCE";
 		case Edge::EDGE_OVERRIDE:
 			return L"REFERENCE_OVERRIDE";
-		case Edge::EDGE_TEMPLATE_ARGUMENT:
-			return L"REFERENCE_TEMPLATE_ARGUMENT";
 		case Edge::EDGE_TYPE_ARGUMENT:
 			return L"REFERENCE_TYPE_ARGUMENT";
 		case Edge::EDGE_TEMPLATE_SPECIALIZATION:
@@ -469,8 +466,6 @@ private:
 			return &inheritances;
 		case Edge::EDGE_OVERRIDE:
 			return &overrides;
-		case Edge::EDGE_TEMPLATE_ARGUMENT:
-			return &templateArgumentTypes;
 		case Edge::EDGE_TYPE_ARGUMENT:
 			return &typeArguments;
 		case Edge::EDGE_TEMPLATE_SPECIALIZATION:

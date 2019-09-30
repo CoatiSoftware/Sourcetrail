@@ -166,8 +166,6 @@ Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind reference
 		return Edge::EDGE_INHERITANCE;
 	case REFERENCE_OVERRIDE:
 		return Edge::EDGE_OVERRIDE;
-	case REFERENCE_TEMPLATE_ARGUMENT:
-		return Edge::EDGE_TEMPLATE_ARGUMENT;
 	case REFERENCE_TYPE_ARGUMENT:
 		return Edge::EDGE_TYPE_ARGUMENT;
 	case REFERENCE_TEMPLATE_SPECIALIZATION:
