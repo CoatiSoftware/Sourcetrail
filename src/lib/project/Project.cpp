@@ -338,7 +338,7 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 	m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 	{
-		if (!sourceGroup->prepareIndexing())
+		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED && !sourceGroup->prepareIndexing())
 		{
 			m_refreshStage = RefreshStageType::NONE;
 			return;
