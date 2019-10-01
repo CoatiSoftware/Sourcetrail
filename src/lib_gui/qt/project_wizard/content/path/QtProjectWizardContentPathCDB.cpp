@@ -4,6 +4,7 @@
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "utility.h"
+#include "utilitySourceGroupCxx.h"
 #include "utilityFile.h"
 
 QtProjectWizardContentPathCDB::QtProjectWizardContentPathCDB(
@@ -37,6 +38,7 @@ void QtProjectWizardContentPathCDB::populate(QGridLayout* layout, int& row)
 	m_picker->setPickDirectory(false);
 	m_picker->setFileFilter("JSON Compilation Database (*.json)");
 	connect(m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizardContentPathCDB::pickedPath);
+	connect(m_picker, &QtLocationPicker::textChanged, this, &QtProjectWizardContentPathCDB::onPickerTextChanged);
 
 	QLabel* description = new QLabel(
 		"Sourcetrail will use all include paths and compiler flags from the Compilation Database and stay up-to-date "
@@ -110,6 +112,21 @@ void QtProjectWizardContentPathCDB::pickedPath()
 	m_settings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));
 
 	m_window->loadContent();
+}
+
+void QtProjectWizardContentPathCDB::onPickerTextChanged(const QString& text)
+{
+	const FilePath cdbPath = utility::getExpandedAndAbsolutePath(FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath());
+	if (!cdbPath.empty() && cdbPath.exists() &&
+		cdbPath != m_settings->getCompilationDatabasePathExpandedAndAbsolute())
+	{
+		std::string error;
+		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = utility::loadCDB(cdbPath, &error);
+		if (cdb && error.empty())
+		{
+			pickedPath();
+		}
+	}
 }
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathCDB::getSourceGroupSettings()

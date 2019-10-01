@@ -10,23 +10,13 @@
 #include "OrderedCache.h"
 #include "ResourcePaths.h"
 #include "utility.h"
+#include "utilitySourceGroupCxx.h"
 #include "utilityString.h"
 
-std::shared_ptr<clang::tooling::JSONCompilationDatabase> IndexerCommandCxx::loadCDB(const FilePath& cdbPath)
+std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& cdbPath)
 {
-	if (cdbPath.empty() || !cdbPath.exists())
-	{
-		return nullptr;
-	}
-
 	std::string error;
-	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
-		clang::tooling::JSONCompilationDatabase::loadFromFile(
-			utility::encodeToUtf8(cdbPath.wstr()),
-			error,
-			clang::tooling::JSONCommandLineSyntax::AutoDetect
-		)
-	);
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = utility::loadCDB(cdbPath, &error);
 
 	if (!error.empty())
 	{
@@ -35,12 +25,7 @@ std::shared_ptr<clang::tooling::JSONCompilationDatabase> IndexerCommandCxx::load
 		MessageStatus(message, true).dispatch();
 	}
 
-	return cdb;
-}
-
-std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& cdbPath)
-{
-	return getSourceFilesFromCDB(loadCDB(cdbPath), cdbPath);
+	return getSourceFilesFromCDB(cdb, cdbPath);
 }
 
 std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(

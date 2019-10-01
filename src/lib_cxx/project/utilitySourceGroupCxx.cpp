@@ -99,6 +99,30 @@ namespace utility
 		);
 	}
 
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> loadCDB(const FilePath& cdbPath, std::string* error)
+	{
+		if (cdbPath.empty() || !cdbPath.exists())
+		{
+			return std::shared_ptr<clang::tooling::JSONCompilationDatabase>();
+		}
+
+		std::string errorString;
+		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
+			clang::tooling::JSONCompilationDatabase::loadFromFile(
+				utility::encodeToUtf8(cdbPath.wstr()),
+				errorString,
+				clang::tooling::JSONCommandLineSyntax::AutoDetect
+			)
+		);
+
+		if (error && !errorString.empty())
+		{
+			*error = errorString;
+		}
+
+		return cdb;
+	}
+
 	bool containsIncludePchFlags(std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb)
 	{
 		for (const clang::tooling::CompileCommand& command : cdb->getAllCompileCommands())

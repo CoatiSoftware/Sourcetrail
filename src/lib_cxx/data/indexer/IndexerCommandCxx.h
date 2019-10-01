@@ -17,7 +17,6 @@ class IndexerCommandCxx
 	: public IndexerCommand
 {
 public:
-	static std::shared_ptr<clang::tooling::JSONCompilationDatabase> loadCDB(const FilePath& cdbPath);
 	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& cdbPath);
 	static std::vector<FilePath> getSourceFilesFromCDB(
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb, const FilePath& cdbPath);

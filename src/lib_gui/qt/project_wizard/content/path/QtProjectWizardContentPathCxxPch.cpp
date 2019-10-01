@@ -53,7 +53,7 @@ bool QtProjectWizardContentPathCxxPch::check()
 	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
 		const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
-		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = IndexerCommandCxx::loadCDB(cdbPath);
+		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = utility::loadCDB(cdbPath);
 		if (!cdb)
 		{
 			QMessageBox msgBox;

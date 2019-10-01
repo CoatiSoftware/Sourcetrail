@@ -27,6 +27,7 @@ public:
 
 private slots:
 	void pickedPath();
+	void onPickerTextChanged(const QString& text);
 
 private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
