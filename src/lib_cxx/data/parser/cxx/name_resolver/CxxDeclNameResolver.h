@@ -5,6 +5,8 @@
 
 #include "CxxDeclName.h"
 #include "CxxNameResolver.h"
+#include "CxxTypeName.h"
+#include "CxxTypeNameResolver.h"
 
 class CanonicalFilePathCache;
 
