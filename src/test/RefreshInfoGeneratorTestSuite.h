@@ -54,6 +54,120 @@ public:
 		cleanup();
 	}
 
+	void test_refresh_info_for_all_files_is_empty_for_disabled_source_group()
+	{
+		cleanup();
+		{
+			const FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
+
+			std::shared_ptr<SourceGroupTest> sourceGroup(new SourceGroupTest({ sourceFilePath }));
+			sourceGroup->setStatus(SOURCE_GROUP_STATUS_DISABLED);
+
+			std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
+			sourceGroups.push_back(sourceGroup);
+
+			addFileToFileSystem(sourceFilePath);
+
+			const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForAllFiles(sourceGroups);
+
+			TS_ASSERT_EQUALS(REFRESH_ALL_FILES, refreshInfo.mode);
+			TS_ASSERT_EQUALS(0, refreshInfo.nonIndexedFilesToClear.size());
+			TS_ASSERT_EQUALS(0, refreshInfo.filesToClear.size());
+			TS_ASSERT_EQUALS(0, refreshInfo.filesToIndex.size());
+		}
+		cleanup();
+	}
+
+	void test_refresh_info_for_all_files_is_clears_indexed_files_of_disabled_source_group()
+	{
+		cleanup();
+		{
+			const FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
+
+			std::shared_ptr<SourceGroupTest> sourceGroup(new SourceGroupTest({ sourceFilePath }));
+			sourceGroup->setStatus(SOURCE_GROUP_STATUS_DISABLED);
+
+			std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
+			sourceGroups.push_back(sourceGroup);
+
+			addFileToFileSystem(sourceFilePath);
+
+			std::shared_ptr<PersistentStorage> storage = std::make_shared<PersistentStorage>(
+				m_indexDbPath,
+				m_bookmarkDbPath
+			);
+			storage->setup();
+			addVeryNewFileToStorage(sourceFilePath, true, true, storage);
+			storage->buildCaches();
+
+			const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(sourceGroups, storage);
+
+			TS_ASSERT_EQUALS(REFRESH_UPDATED_FILES, refreshInfo.mode);
+			TS_ASSERT_EQUALS(0, refreshInfo.nonIndexedFilesToClear.size());
+			TS_ASSERT_EQUALS(1, refreshInfo.filesToClear.size());
+			TS_ASSERT_EQUALS(0, refreshInfo.filesToIndex.size());
+
+			TS_ASSERT(utility::containsElement<FilePath>(
+				utility::toVector(refreshInfo.filesToClear), sourceFilePath
+			));
+		}
+		cleanup();
+	}
+
+	void test_refresh_info_for_all_files_is_clears_nonindexed_files_of_disabled_source_group()
+	{
+			cleanup();
+		{
+			const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+			const FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
+
+			std::shared_ptr<SourceGroupTest> sourceGroup(new SourceGroupTest(
+				{
+					upToDateSourceFilePath
+				},
+				{
+					upToDateSourceFilePath,
+					upToDateHeaderFilePath
+				}
+			));
+			sourceGroup->setStatus(SOURCE_GROUP_STATUS_DISABLED);
+
+			std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
+			sourceGroups.push_back(sourceGroup);
+
+			std::shared_ptr<PersistentStorage> storage = std::make_shared<PersistentStorage>(
+				m_indexDbPath,
+				m_bookmarkDbPath
+			);
+			storage->setup();
+
+			const Id upToDateSourceFileId = addVeryNewFileToStorage(upToDateSourceFilePath, true, true, storage);
+			addFileToFileSystem(upToDateSourceFilePath);
+			const Id upToDateHeaderFileId = addVeryNewFileToStorage(upToDateHeaderFilePath, false, true, storage);
+			addFileToFileSystem(upToDateHeaderFilePath);
+
+			storage->addEdge(StorageEdgeData(Edge::EDGE_INCLUDE, upToDateSourceFileId, upToDateHeaderFileId));
+
+			storage->buildCaches();
+
+			const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(sourceGroups, storage);
+
+			TS_ASSERT_EQUALS(REFRESH_UPDATED_FILES, refreshInfo.mode);
+			TS_ASSERT_EQUALS(1, refreshInfo.nonIndexedFilesToClear.size());
+			TS_ASSERT_EQUALS(1, refreshInfo.filesToClear.size());
+			TS_ASSERT_EQUALS(0, refreshInfo.filesToIndex.size());
+
+			TS_ASSERT(utility::containsElement<FilePath>(
+				utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath
+			));
+
+			TS_ASSERT(utility::containsElement<FilePath>(
+				utility::toVector(refreshInfo.nonIndexedFilesToClear), upToDateHeaderFilePath
+			));
+		}
+		cleanup();
+	}
+
 	void test_refresh_info_for_updated_files_is_empty_for_empty_storage_and_empty_sourcegroup()
 	{
 		cleanup();
@@ -874,6 +988,11 @@ private:
 		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override
 		{
 			return std::vector<std::shared_ptr<IndexerCommand>>();
+		}
+
+		void setStatus(SourceGroupStatusType status)
+		{
+			m_sourceGroupSettings->setStatus(status);
 		}
 
 	private:

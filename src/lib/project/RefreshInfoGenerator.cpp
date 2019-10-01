@@ -28,7 +28,10 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 
 			for (std::shared_ptr<SourceGroup> sourceGroup : sourceGroups)
 			{
-				utility::append(alreadyKnownPaths, sourceGroup->filterToContainedFilePaths(filePathsFromStorage));
+				if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
+				{
+					utility::append(alreadyKnownPaths, sourceGroup->filterToContainedFilePaths(filePathsFromStorage));
+				}
 			}
 		}
 
