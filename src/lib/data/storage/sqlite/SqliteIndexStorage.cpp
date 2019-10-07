@@ -1136,6 +1136,31 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 		STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
 		SqliteDatabaseIndex("occurrence_source_location_id_index", "occurrence(source_location_id)")
 	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("element_component_foreign_key_index", "element_component(element_id)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("edge_source_foreign_key_index", "edge(source_node_id)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("edge_target_foreign_key_index", "edge(target_node_id)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("source_location_foreign_key_index", "source_location(file_node_id)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("occurrence_element_foreign_key_index", "occurrence(element_id)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("occurrence_source_location_foreign_key_index", "occurrence(source_location_id)")
+	));
+
 	return indices;
 }
 
@@ -1230,6 +1255,7 @@ void SqliteIndexStorage::setupTables()
 			"CREATE TABLE IF NOT EXISTS filecontent("
 				"id INTERGER, "
 				"content TEXT, "
+				"PRIMARY KEY(id), "
 				"FOREIGN KEY(id) REFERENCES file(id)"
 					"ON DELETE CASCADE "
 					"ON UPDATE CASCADE);"

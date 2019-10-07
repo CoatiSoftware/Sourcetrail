@@ -39,7 +39,7 @@ public:
 	{
 		STORAGE_MODE_READ = 1,
 		STORAGE_MODE_WRITE = 2,
-		STORAGE_MODE_CLEAR = 4,
+		STORAGE_MODE_CLEAR = 4
 	};
 
 	SqliteIndexStorage(const FilePath& dbFilePath);
