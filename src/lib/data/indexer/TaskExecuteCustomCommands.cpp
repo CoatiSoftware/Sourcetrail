@@ -363,7 +363,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 			storage.addElementComponent(StorageElementComponent(ambiguousEdgeIds[i], elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS), L""));
 			storage.addOccurrence(StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
 		}
-
+		storage.setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
 		storage.removeElements(utility::toVector(elementsToDelete));
 		storage.finishInjection();
 		LOG_INFO("Finished Python post processing.");
