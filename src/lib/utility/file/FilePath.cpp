@@ -158,7 +158,14 @@ FilePath& FilePath::makeCanonical()
 
 #if defined(_WIN32)
 	boost::filesystem::path abs_p = boost::filesystem::absolute(getPath());
-	for (boost::filesystem::path::iterator it = abs_p.begin(); it != abs_p.end(); ++it)
+
+	boost::filesystem::path::iterator it = abs_p.begin();
+	
+	// add first element before loop because this won't be recognized as absolute path yet
+	canonicalPath /= *it;
+	it++;
+
+	for (; it != abs_p.end(); ++it)
 	{
 		if (*it == "..")
 		{
@@ -172,7 +179,7 @@ FilePath& FilePath::makeCanonical()
 		{
 			canonicalPath /= *it;
 
-			if (boost::filesystem::is_symlink(canonicalPath))
+			if (boost::filesystem::is_symlink(boost::filesystem::symlink_status(canonicalPath)))
 			{
 				boost::filesystem::path symlink = boost::filesystem::read_symlink(canonicalPath);
 				if (!symlink.empty())
