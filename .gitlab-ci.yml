@@ -60,20 +60,6 @@ build:Linux32:
             - java_indexer/.m2/repository
     <<: *build_def
 
-LicenseGenerator:
-    image: $IMAGE_64
-    stage: build
-    when: manual
-    script:
-        - ./script/setup.sh
-        - ./script/buildonly.sh release keygen
-        - mv build/Release/license_generator/Sourcetrail_license_generator .
-    artifacts:
-        name: "$CI_JOB_NAME"
-        paths:
-            - Sourcetrail_license_generator
-        expire_in: 3 days
-
 ## Deploy ##
 
 deploy:Linux_staging_beta:

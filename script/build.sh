@@ -26,10 +26,6 @@ then
 	then
 		#echo "release test"
 		cd build/Release/test/ && ./Sourcetrail_test
-	elif [ "$2" = "keygen" ]
-	then
-		#echo "release keygen"
-		cd build/Release/license_generator && ./Sourcetrail_license_generator
 	else
 		#echo "release app"
 		cd build/Release/app && ./Sourcetrail $PROJECT_PATH
@@ -40,10 +36,6 @@ then
 	then
 		#echo "debug test"
 		cd build/Debug/test && ./Sourcetrail_test
-	elif [ "$2" = "keygen" ]
-	then
-		#echo "debug keygen"
-		cd build/Debug/license_generator && ./Sourcetrail_license_generator
 	else
 		#echo "debug app"
 		cd build/Debug/app && ./Sourcetrail $PROJECT_PATH

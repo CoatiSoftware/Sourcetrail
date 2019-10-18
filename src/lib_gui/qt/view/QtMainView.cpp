@@ -98,12 +98,12 @@ void QtMainView::saveLayout()
 	m_window->saveLayout();
 }
 
-void QtMainView::loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, std::string licenseError)
+void QtMainView::loadWindow(bool showStartWindow, bool showEULA)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_window->loadWindow(showStartWindow, showEULA, enterLicense, licenseError);
+			m_window->loadWindow(showStartWindow, showEULA);
 		}
 	);
 }
@@ -159,16 +159,6 @@ void QtMainView::activateWindow()
 			m_window->raise();
 			m_window->setFocus(Qt::ActiveWindowFocusReason);
 			m_window->setWindowState(m_window->windowState() & ~Qt::WindowMinimized);
-		}
-	);
-}
-
-void QtMainView::forceEnterLicense(std::string licenseError)
-{
-	m_onQtThread(
-		[=]()
-		{
-			m_window->forceEnterLicense(licenseError);
 		}
 	);
 }

@@ -39,12 +39,10 @@ public:
 signals:
 	void openOpenProjectDialog();
 	void openNewProjectDialog();
-	void openEnterLicenseDialog();
 
 private slots:
 	void handleNewProjectButton();
 	void handleOpenProjectButton();
-	void handleUnlockButton();
 	void handleRecentButton();
 	void updateButtons();
 

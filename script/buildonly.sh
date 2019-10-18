@@ -26,10 +26,6 @@ then
 	then
 		#echo "release test"
 		cmake --build build/Release --target Sourcetrail_test
-	elif [ "$2" = "keygen" ]
-	then
-		#echo "release keygen"
-		cmake --build build/Release --target Sourcetrail_license_generator
 	else
 		#echo "release app"
 		cmake --build build/Release --target Sourcetrail
@@ -40,10 +36,6 @@ then
 	then
 		#echo "debug test"
 		cmake --build build/Debug --target Sourcetrail_test
-	elif [ "$2" = "keygen" ]
-	then
-		#echo "debug keygen"
-		cmake --build build/Debug --target Sourcetrail_license_generator
 	else
 		#echo "debug app"
 		cmake --build build/Debug --target Sourcetrail

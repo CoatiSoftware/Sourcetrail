@@ -1,6 +1,6 @@
 
 WINDOW
-	First launch - eula, license
+	First launch - eula
 	About
 	Help Menu
 	dock widgets

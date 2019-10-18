@@ -1,6 +1,7 @@
 #include "includes.h"
 
 #include <csignal>
+#include <iostream>
 
 #include "Application.h"
 #include "ApplicationSettings.h"

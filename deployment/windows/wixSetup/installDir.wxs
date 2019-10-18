@@ -302,9 +302,6 @@
 						<Component Id='LicenseBoostTxt' Guid='*' Win64="$(var.Win64)">
 							<File Id='LicenseBoost' Name='license_boost.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_boost.txt' KeyPath='yes' />
 						</Component>
-						<Component Id='LicenseBotanTxt' Guid='*' Win64="$(var.Win64)">
-							<File Id='LicenseBotan' Name='license_botan.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_botan.txt' KeyPath='yes' />
-						</Component>
 						<Component Id='LicenseClangTxt' Guid='*' Win64="$(var.Win64)">
 							<File Id='LicenseClang' Name='license_clang.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_clang.txt' KeyPath='yes' />
 						</Component>

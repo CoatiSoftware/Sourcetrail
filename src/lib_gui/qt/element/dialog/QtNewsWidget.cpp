@@ -7,7 +7,6 @@
 #include <QStyle>
 
 #include "ApplicationSettings.h"
-#include "LicenseChecker.h"
 #include "logging.h"
 #include "QtTextEdit.h"
 #include "TimeStamp.h"
@@ -50,7 +49,6 @@ syntax:
 		// optional
 		"conditions":
 		{
-			"license": ["test", "private", "commercial"],
 			"os": ["windows", "macOS", "linux"],
 			"min_version": "2017.2.0",
 			"max_version": "2018.4.2",
@@ -178,20 +176,6 @@ bool QtNewsWidget::checkConditions(const QJsonObject& conditions) const
 			if (maxVersion.isValid() && maxVersion < Version::getApplicationVersion())
 			{
 				LOG_INFO_STREAM(<< "Failed condition max_version.");
-				return false;
-			}
-		}
-	}
-
-	// license
-	{
-		QJsonArray licenseStrings = conditions.value("license").toArray();
-		if (!licenseStrings.isEmpty())
-		{
-			QString licenseString = QString::fromStdString(LicenseChecker::getCurrentLicenseTypeString());
-			if (!licenseStrings.contains(QJsonValue(licenseString)))
-			{
-				LOG_INFO_STREAM(<< "Failed condition license.");
 				return false;
 			}
 		}

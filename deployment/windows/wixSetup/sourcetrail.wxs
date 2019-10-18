@@ -4,7 +4,7 @@
 <?define ProductName = "Sourcetrail" ?>
 <?define ProductAuthor = "Coati Software KG" ?>
 <?define ProductAppFolder = "InstallLocation" ?>
-	 
+
 <?if $(sys.BUILDARCH) = x64 ?>
 	<?define ProductDisplayName = "$(var.ProductName) 64-bit" ?>
 	<?define ProductUpgradeCode = "693A35C7-8D56-4930-8653-1DC880D78678" ?>
@@ -15,24 +15,24 @@
 	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 <?endif ?>
 
-    <Product 
-		Name='$(var.ProductDisplayName)' 
+    <Product
+		Name='$(var.ProductDisplayName)'
 		Manufacturer='$(var.ProductAuthor)'
 		Id='$(var.ProductGuid)'
 		UpgradeCode='$(var.ProductUpgradeCode)'
-		Language='1033' 
+		Language='1033'
 		Codepage='1252'
 		Version='$(var.ProductVersion)'>
 
-		<Package 
-			Id='*' 
-			Keywords='Installer' 
+		<Package
+			Id='*'
+			Keywords='Installer'
 			Description="$(var.ProductDisplayName) Installer"
-			Comments='$(var.ProductName) is a registered trademark of $(var.ProductAuthor)' 
+			Comments='$(var.ProductName) is a registered trademark of $(var.ProductAuthor)'
 			Manufacturer='$(var.ProductAuthor)'
-			InstallerVersion='200' 
-			Languages='1033' 
-			Compressed='yes' 
+			InstallerVersion='200'
+			Languages='1033'
+			Compressed='yes'
 			SummaryCodepage='1252' />
 
 		<Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1' />
@@ -59,12 +59,12 @@
 			<!-- Start menu (shortcuts) -->
 			<Directory Id="ProgramMenuFolder" Name="Programs">
 				<Directory Id="ProgramMenuDir" Name="$(var.ProductDisplayName)">
-					<?if $(var.Win64)="yes" ?> 
-					<?define UninstallShortcut.Guid="95CDC4A0-98DC-42F9-BE37-574BAD663E5E" ?> 
-					<?else ?> 
-					<?define UninstallShortcut.Guid="CE39F8BF-83A6-4E73-A320-2930315909CA" ?> 
+					<?if $(var.Win64)="yes" ?>
+					<?define UninstallShortcut.Guid="95CDC4A0-98DC-42F9-BE37-574BAD663E5E" ?>
+					<?else ?>
+					<?define UninstallShortcut.Guid="CE39F8BF-83A6-4E73-A320-2930315909CA" ?>
 					<?endif ?>
-					<Component Id="UninstallShortcut" Guid="$(var.UninstallShortcut.Guid)" Win64="$(var.Win64)"> 
+					<Component Id="UninstallShortcut" Guid="$(var.UninstallShortcut.Guid)" Win64="$(var.Win64)">
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 						<Shortcut Id="UninstallProduct"
 								Name="Uninstall $(var.ProductDisplayName)"
@@ -75,12 +75,12 @@
 						<RemoveFolder Id='ProgramMenuDir' On='uninstall' />
 					</Component>
 
-					<?if $(var.Win64)="yes" ?> 
-					<?define ApplicationShortcut.Guid="3D1E8D2E-CFD8-4267-82E4-D86C718046B0" ?> 
-					<?else ?> 
-					<?define ApplicationShortcut.Guid="29ED82EB-77D2-4721-BEE2-01250591FCC8" ?> 
+					<?if $(var.Win64)="yes" ?>
+					<?define ApplicationShortcut.Guid="3D1E8D2E-CFD8-4267-82E4-D86C718046B0" ?>
+					<?else ?>
+					<?define ApplicationShortcut.Guid="29ED82EB-77D2-4721-BEE2-01250591FCC8" ?>
 					<?endif ?>
-					<Component Id="ApplicationShortcut" Guid="$(var.ApplicationShortcut.Guid)" Win64="$(var.Win64)"> 
+					<Component Id="ApplicationShortcut" Guid="$(var.ApplicationShortcut.Guid)" Win64="$(var.Win64)">
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 						<Shortcut Id="ApplicationStartMenuShortcut"
 
@@ -95,12 +95,12 @@
 
 			<!-- Desktop menu (shortcuts) -->
 			<Directory Id="DesktopFolder" Name="Desktop">
-				<?if $(var.Win64)="yes" ?> 
-				<?define DesktopShortcut.Guid="2C7844DC-1B4C-4042-B215-D5C4A8F80D50" ?> 
-				<?else ?> 
-				<?define DesktopShortcut.Guid="86426318-27EC-431D-9BED-6C6CA4010F8E" ?> 
+				<?if $(var.Win64)="yes" ?>
+				<?define DesktopShortcut.Guid="2C7844DC-1B4C-4042-B215-D5C4A8F80D50" ?>
+				<?else ?>
+				<?define DesktopShortcut.Guid="86426318-27EC-431D-9BED-6C6CA4010F8E" ?>
 				<?endif ?>
-				<Component Id="DesktopShortcut" Guid="$(var.DesktopShortcut.Guid)" Win64="$(var.Win64)"> 
+				<Component Id="DesktopShortcut" Guid="$(var.DesktopShortcut.Guid)" Win64="$(var.Win64)">
 					<Condition>INSTALLDESKTOPSHORTCUT</Condition>
 					<Shortcut Id="ApplicationDesktopShortcut"
 								Name="$(var.ProductDisplayName)"
@@ -122,12 +122,12 @@
 			<Directory Id="LocalAppDataFolder">
 				<Directory Id="CoatiSoftwareAppData" Name="Coati Software">
 
-					<?if $(var.Win64)="yes" ?> 
-					<?define CoatiSoftwareAppDataDummy.Guid="8FA6F7E4-BDFB-406F-93CC-DA2AAD731BB1" ?> 
-					<?else ?> 
-					<?define CoatiSoftwareAppDataDummy.Guid="2A942F15-2FEB-494D-A3CA-A9ED9F43C200" ?> 
+					<?if $(var.Win64)="yes" ?>
+					<?define CoatiSoftwareAppDataDummy.Guid="8FA6F7E4-BDFB-406F-93CC-DA2AAD731BB1" ?>
+					<?else ?>
+					<?define CoatiSoftwareAppDataDummy.Guid="2A942F15-2FEB-494D-A3CA-A9ED9F43C200" ?>
 					<?endif ?>
-					<Component Id="CoatiSoftwareAppDataDummy" Guid="$(var.CoatiSoftwareAppDataDummy.Guid)" Win64="$(var.Win64)"> 
+					<Component Id="CoatiSoftwareAppDataDummy" Guid="$(var.CoatiSoftwareAppDataDummy.Guid)" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='CoatiSoftwareAppData' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\sourcetrailSoftwareAppData" Root="HKCU" >
@@ -136,12 +136,12 @@
 					</Component>
 
 					<Directory Id="SourcetrailAppData" Name="$(var.ProductDisplayName)">
-						<?if $(var.Win64)="yes" ?> 
-						<?define SourcetrailAppDataDummy.Guid="2318C48D-EFF4-4A6E-95F6-7E94EC14702C" ?> 
-						<?else ?> 
-						<?define SourcetrailAppDataDummy.Guid="340FED40-E14A-4DB3-ADE1-D39BAABB13F8" ?> 
+						<?if $(var.Win64)="yes" ?>
+						<?define SourcetrailAppDataDummy.Guid="2318C48D-EFF4-4A6E-95F6-7E94EC14702C" ?>
+						<?else ?>
+						<?define SourcetrailAppDataDummy.Guid="340FED40-E14A-4DB3-ADE1-D39BAABB13F8" ?>
 						<?endif ?>
-						<Component Id="SourcetrailAppDataDummy" Guid="$(var.SourcetrailAppDataDummy.Guid)" Win64="$(var.Win64)"> 
+						<Component Id="SourcetrailAppDataDummy" Guid="$(var.SourcetrailAppDataDummy.Guid)" Win64="$(var.Win64)">
 							<CreateFolder />
 							<RemoveFolder Id='SourcetrailAppData' On='uninstall' />
 							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\sourcetrailAppData" Root="HKCU" >
@@ -161,15 +161,15 @@
 				<!-- <MergeRef Id='VCRedist'/> --> <!-- see comment at declaration -->
 
 				<!-- Application Folder Stuff -->
-				
+
 				<ComponentRef Id='MainExecutable'/>
-				
+
 				<ComponentRef Id='ApplicationShortcut'/>
 				<ComponentRef Id='DesktopShortcut'/>
 				<ComponentRef Id='UninstallShortcut'/>
 
 				<ComponentRef Id='SourcetrailIndexerExe'/>
-				
+
 				<ComponentRef Id='Qt5CoreDll'/>
 				<ComponentRef Id='Qt5GuiDll'/>
 				<ComponentRef Id='Qt5NetworkDll'/>
@@ -239,10 +239,9 @@
 				<ComponentRef Id='QTiffDll'/>
 				<ComponentRef Id='QWBmpDll'/>
 				<ComponentRef Id='QWebpDll'/>
-				
+
 				<ComponentRef Id='EulaTxt'/>
 				<ComponentRef Id='LicenseBoostTxt'/>
-				<ComponentRef Id='LicenseBotanTxt'/>
 				<ComponentRef Id='LicenseClangTxt'/>
 				<ComponentRef Id='LicenseCppSqliteTxt'/>
 				<ComponentRef Id='LicenseEclipseTxt'/>
@@ -250,7 +249,7 @@
 				<ComponentRef Id='LicenseOpensslTxt'/>
 				<ComponentRef Id='LicenseQtTxt'/>
 				<ComponentRef Id='LicenseTinyxmlTxt'/>
-				
+
 				<ComponentGroupRef Id='DataColorSchemesComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataCxxComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataFallbackComponentGroup' Primary="yes"/>
@@ -259,7 +258,7 @@
 				<ComponentGroupRef Id='DataJavaComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataPythonComponentGroup' Primary="yes"/>
 				<ComponentGroupRef Id='DataSyntaxHighlightingRulesComponentGroup' Primary="yes"/>
-				
+
 				<ComponentRef Id='UninstallBat'/>
 
 				<!-- AppData Folder Stuff -->

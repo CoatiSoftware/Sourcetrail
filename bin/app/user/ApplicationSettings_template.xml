@@ -81,11 +81,6 @@
 			<recent_project><!-- STRING: recent project path --></recent_project>
 		</recent_projects>
 
-		<license>
-			<license><!-- STRING: the license key --></license>
-			<non_commercial_use><!-- BOOL: if used non-commercially --></non_commercial_use>
-		</license>
-
 		<accepted_eula_version><!-- INTEGER: last accepted eula version --></accepted_eula_version>
 
 		<token><!-- UUID: identifier for this user --></token>

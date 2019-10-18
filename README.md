@@ -9,7 +9,6 @@
 * CxxTest 4.3
 * Clang & LLVM 7.0 (doesn't quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.68
-* Botan 2.1.0
 * Image Magick 7.0.6
 * ccache (Unix)
 * Visual Leak Detector (Windows)
@@ -21,7 +20,6 @@
 * CXX_TEST_DIR - .../cxxtest-4.3
 * CLANG_DIR - .../clang-llvm
 * BOOST_DIR - .../boost_1_68_0
-* BOTAN_DIR - .../Botan-2.1.0
 
 For MacOS and Linux
 * QT_DIR - .../Qt/Qt5.10.1/5.10.1/<IDE>
@@ -59,41 +57,6 @@ Build the Boost libs for 32 and 64 bit. Make sure that the platform specific lib
 For Mac:
 $ ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time
 $ ./b2 --link=static --variant=release --threading=multi --runtime-link=static --cxxflags=-fPIC
-
-##### Botan setup
-
-For Windows
-
-Extract the contents of your Botan package into "${BOTAN_DIR}/win32". Duplicate that folder and rename it "win64".
-
-Build 32 bit debug lib in ${BOTAN_DIR}/win32/debug
-$ python configure.py --cc=msvc --cpu=x86_32 --disable-shared --no-optimizations --with-debug-info
-
-Build 32 bit release lib in ${BOTAN_DIR}/win32/release
-$ python configure.py --cc=msvc --cpu=x86_32 --disable-shared
-
-To build the 64 bit lib start the VS command prompt with the "amd64" argument as described here:https://msdn.microsoft.com/en-us/library/x4d2c09s.aspx
-
-Build 64 bit debug lib in ${BOTAN_DIR}/win64/debug
-$ python configure.py --cc=msvc --cpu=x86_64 --disable-shared --no-optimizations --with-debug-info
-
-Build 64 bit release lib in ${BOTAN_DIR}/win64/release
-$ python configure.py --cc=msvc --cpu=x86_64 --disable-shared
-
-
-For MacOS and Linux
-
-Build release lib in ${BOTAN_DIR}/release
-Build debug lib in ${BOTAN_DIR}/debug
-
-for Mac:
-$ mkdir debug/release
-$ cd debug/release
-$ python ../configure.py --disable-shared --disable-modules=darwin_secrandom (--with-debug-info)
-$ make -j 4
-
-for Linux:
-$ python configure.py --disable-shared
 
 #### Settings
 

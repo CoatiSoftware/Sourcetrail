@@ -7,7 +7,6 @@
 #include <QUrl>
 
 #include "ApplicationSettings.h"
-#include "LicenseChecker.h"
 #include "logging.h"
 #include "MessageStatus.h"
 #include "QtRequest.h"
@@ -38,7 +37,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	appSettings->setUpdateDownloadUrl("");
 	appSettings->save();
 
-	QString urlString = "https://www.sourcetrail.com/api/v2/versions/latest";
+	QString urlString = "https://staging.sourcetrail.com/api/v2/versions/latest";
 
 	// OS
 	std::string osString = utility::getOsTypeString();
@@ -53,8 +52,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	urlString += ("&version=" + Version::getApplicationVersion().toDisplayString()).c_str();
 
 	// license
-	std::string licenseString = LicenseChecker::getCurrentLicenseTypeString();
-	urlString += ("&license=" + licenseString).c_str();
+	urlString += "&license=free"; // options: test, private, commercial
 
 	// user token
 	std::string token = appSettings->getUserToken();

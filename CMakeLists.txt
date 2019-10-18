@@ -33,14 +33,12 @@ if(CCACHE_PROGRAM)
 endif()
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
-set(LIB_LICENSE_PROJECT_NAME "${PROJECT_NAME}_lib_license")
 set(LIB_UTILITY_PROJECT_NAME "${PROJECT_NAME}_lib_utility")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
 set(LIB_CXX_PROJECT_NAME "${PROJECT_NAME}_lib_cxx")
 set(LIB_JAVA_PROJECT_NAME "${PROJECT_NAME}_lib_java")
 set(LIB_PYTHON_PROJECT_NAME "${PROJECT_NAME}_lib_python")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
-set(LICENSE_GENERATOR_PROJECT_NAME "${PROJECT_NAME}_license_generator")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
 set (APP_INDEXER_NAME "${PROJECT_NAME_LOWER_CASE}_indexer")
@@ -142,58 +140,6 @@ endif()
 find_package(Boost 1.68 COMPONENTS system program_options filesystem date_time REQUIRED)
 
 
-# Botan ------------------------------------------------------------------------
-
-set(BOTAN_VERSION "botan-2")
-
-if(APPLE)
-	find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
-	find_library(BOTAN_D ${BOTAN_VERSION} $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
-elseif(UNIX)
-	find_library(BOTAN
-		NAMES ${BOTAN_VERSION}
-		HINTS "$ENV{BOTAN_DIR}/lib")
-else()
-	if(${WINXXBITS} STREQUAL "Win32")
-		find_library(BOTAN botan "$ENV{BOTAN_DIR}/win32/release")
-		find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/win32/debug")
-	else()
-		find_library(BOTAN botan "$ENV{BOTAN_DIR}/win64/release")
-		find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/win64/debug")
-	endif()
-endif()
-message(STATUS "botanversion: ${BOTAN}")
-
-if(${BOTAN} STREQUAL "BOTAN-NOTFOUND")
-	message(FATAL_ERROR "Botan not found")
-else()
-	message(STATUS "Botan found")
-endif()
-
-if(UNIX AND NOT APPLE)
-	find_path(BOTAN_INCLUDE_DIR NAMES botan/botan.h
-		HINTS "$ENV{BOTAN_DIR}/include"
-		PATH_SUFFIXES ${BOTAN_VERSION}
-		DOC "The Botan include directory")
-elseif(WIN32)
-	if(${WINXXBITS} STREQUAL "Win32")
-		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/win32//build/include")
-	else()
-		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/win64/build/include")
-	endif()
-else()
-	if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/release/build/include")
-	else()
-		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/debug/build/include")
-	endif()
-endif()
-
-if(NOT BOTAN_INCLUDE_DIR)
-	message(FATAL_ERROR "Botan include dir not found")
-endif()
-
-
 # Qt ---------------------------------------------------------------------------
 
 # Find the QtWidgets library
@@ -243,47 +189,8 @@ add_subdirectory(src/lib_cxx)
 add_subdirectory(src/lib_gui)
 add_subdirectory(src/lib_java)
 add_subdirectory(src/lib_python)
-add_subdirectory(src/lib_license)
 add_subdirectory(src/lib_utility)
-add_subdirectory(src/license_generator)
 add_subdirectory(src/test)
-
-
-# Lib License ------------------------------------------------------------------
-
-if (UNIX)
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/lib/")
-else ()
-	foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
-		string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
-		set( CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/lib/")
-	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
-endif ()
-
-add_library(${LIB_LICENSE_PROJECT_NAME} STATIC ${LIB_LICENSE_FILES})
-
-create_source_groups(${LIB_LICENSE_FILES})
-
-target_include_directories( ${LIB_LICENSE_PROJECT_NAME} PUBLIC
-	"${LIB_LICENSE_INCLUDE_PATHS}"
-	"${CMAKE_BINARY_DIR}/src/lib_license"
-)
-
-target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
-	PUBLIC
-	${Boost_INCLUDE_DIRS}
-	${BOTAN_INCLUDE_DIR}
-)
-
-if(UNIX)
-	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${BOTAN})
-else()
-	link_directories(optimized "$ENV{BOTAN_DIR}/release")
-	link_directories(debug "$ENV{BOTAN_DIR}/debug")
-
-	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} debug ${BOTAN_D})
-	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} optimized ${BOTAN})
-endif()
 
 
 # Lib Utility ------------------------------------------------------------------
@@ -324,12 +231,10 @@ set_property(
 	TARGET ${LIB_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${LIB_INCLUDE_PATHS}"
-		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${LIB_GUI_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
-		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
@@ -338,7 +243,7 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	"${EXTERNAL_C_INCLUDE_PATHS}"
 )
 
-target_link_libraries(${LIB_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES})
+target_link_libraries(${LIB_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES})
 
 
 # Lib Cxx ----------------------------------------------------------------------
@@ -351,7 +256,6 @@ set_property(
 	TARGET ${LIB_CXX_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${LIB_CXX_INCLUDE_PATHS}"
-		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_INCLUDE_PATHS}"
 )
@@ -365,9 +269,9 @@ target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
-llvm_map_components_to_libnames(REQ_LLVM_LIBS 
-	support core libdriver passes 
-	x86asmparser x86codegen 
+llvm_map_components_to_libnames(REQ_LLVM_LIBS
+	support core libdriver passes
+	x86asmparser x86codegen
 	aarch64asmparser aarch64codegen
 	amdgpuasmparser amdgpucodegen
 	armasmparser armcodegen
@@ -493,9 +397,7 @@ set_property(
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
 		"${LIB_PYTHON_INCLUDE_PATHS}" # required for QtProjectWizardContentPathsSource::getFilePaths()
-		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
-		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 # include external header without warnings
@@ -516,9 +418,6 @@ configure_file(
 	${CMAKE_SOURCE_DIR}/cmake/version.h.in
 	${CMAKE_BINARY_DIR}/src/lib_gui/version.h
 )
-
-# configure public key for the sourcetrail version
-include(cmake/public_key.cmake)
 
 set(CMAKE_AUTOMOC OFF)
 
@@ -575,12 +474,10 @@ set_property(
 		"${LIB_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_GUI_INCLUDE_PATHS}"
-		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
 		"${LIB_PYTHON_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
-		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 
@@ -627,7 +524,6 @@ target_link_libraries(
 	${APP_PROJECT_NAME}
 	${LIB_PROJECT_NAME}
 	${LIB_GUI_PROJECT_NAME}
-	${LIB_LICENSE_PROJECT_NAME}
 	${LIB_CXX_PROJECT_NAME}
 	${LIB_JAVA_PROJECT_NAME}
 	${LIB_PYTHON_PROJECT_NAME}
@@ -640,12 +536,10 @@ set_property(
 		"${LIB_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_GUI_INCLUDE_PATHS}"
-		"${LIB_LICENSE_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
 		"${LIB_PYTHON_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
-		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -716,45 +610,6 @@ if (APPLE)
 endif ()
 
 
-# License Generator  -----------------------------------------------------------
-
-# configure private key for the sourcetrail version
-include(cmake/private_key.cmake)
-
-if (UNIX)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/license_generator/")
-else ()
-	foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
-		string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
-		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/license_generator/")
-	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
-endif ()
-
-add_executable(${LICENSE_GENERATOR_PROJECT_NAME} ${LICENSE_GENERATOR_FILES} ${LICENSE_GENERATOR_MAIN_FILES})
-
-create_source_groups(${LICENSE_GENERATOR_FILES} ${LICENSE_GENERATOR_MAIN_FILES})
-
-set_property(
-		TARGET ${LICENSE_GENERATOR_PROJECT_NAME}
-		PROPERTY INCLUDE_DIRECTORIES
-		"${LICENSE_GENERATOR_MAIN_INCLUDE_PATHS}"
-		"${LIB_LICENSE_INCLUDE_PATHS}"
-		"${CMAKE_BINARY_DIR}/src/license_generator"
-		"${CMAKE_BINARY_DIR}/src/lib_license"
-)
-
-target_include_directories(${LICENSE_GENERATOR_PROJECT_NAME} SYSTEM
-		PUBLIC ${Boost_INCLUDE_DIRS}
-)
-
-if(UNIX AND NOT APPLE)
-	target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} pthread rt)
-	set_target_properties(${LICENSE_GENERATOR_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "-pthread")
-endif()
-
-target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
-
-
 # CxxTest ----------------------------------------------------------------------
 
 if (UNIX)
@@ -777,11 +632,11 @@ set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 find_package(PythonInterp REQUIRED)
 
 
-add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} ${LICENSE_GENERATOR_FILES})
+add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES})
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME})
+target_link_libraries(${TEST_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME})
 
 find_package(CxxTest)
 if (CXXTEST_FOUND)
@@ -793,14 +648,10 @@ if (CXXTEST_FOUND)
 			"${LIB_INCLUDE_PATHS}"
 			"${LIB_UTILITY_INCLUDE_PATHS}"
 			"${LIB_GUI_INCLUDE_PATHS}"
-			"${LIB_LICENSE_INCLUDE_PATHS}"
 			"${LIB_CXX_INCLUDE_PATHS}"
 			"${LIB_JAVA_INCLUDE_PATHS}"
 			"${EXTERNAL_INCLUDE_PATHS}"
 			"${EXTERNAL_C_INCLUDE_PATHS}"
-			"${LICENSE_GENERATOR_INCLUDE_PATHS}"
-			"${CMAKE_BINARY_DIR}/src/lib_license"
-			"${CMAKE_BINARY_DIR}/src/license_generator"
 			"${Boost_INCLUDE_DIRS}"
 	)
 endif (CXXTEST_FOUND)

@@ -73,9 +73,7 @@ public:
 	void saveLayout();
 
 	void loadDockWidgetLayout();
-	void loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, const std::string& licenseError);
-
-	void forceEnterLicense(const std::string& licenseError);
+	void loadWindow(bool showStartWindow, bool showEULA);
 
 	void updateHistoryMenu(std::shared_ptr<MessageBase> message);
 	void clearHistoryMenu();
@@ -111,8 +109,6 @@ public slots:
 	void showEula(bool forceAccept = false);
 	void acceptedEula();
 	void showLicenses();
-	void enterLicense();
-	void enteredLicense();
 
 	void showDataFolder();
 	void showLogFolder();

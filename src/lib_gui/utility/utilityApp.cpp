@@ -9,7 +9,6 @@
 #include <qprocessordetection.h>
 #include <QRegularExpression>
 
-#include "License.h"
 #include "ApplicationSettings.h"
 #include "logging.h"
 #include "AppPath.h"

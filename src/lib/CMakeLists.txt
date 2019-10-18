@@ -680,4 +680,6 @@ add_files(
 	utility/utilityWindows.h
 	utility/utilityXml.cpp
 	utility/utilityXml.h
+	utility/Version.cpp
+	utility/Version.h
 )

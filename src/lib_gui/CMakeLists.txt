@@ -297,8 +297,6 @@ add_files(
 	qt/window/QtIndexingDialog.h
 	qt/window/QtKeyboardShortcuts.cpp
 	qt/window/QtKeyboardShortcuts.h
-    qt/window/QtLicenseWindow.cpp
-    qt/window/QtLicenseWindow.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
 	qt/window/QtPathListDialog.cpp

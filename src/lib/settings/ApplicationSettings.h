@@ -193,13 +193,6 @@ public:
 	bool getControlsGraphZoomOnMouseWheel() const;
 	void setControlsGraphZoomOnMouseWheel(bool zoomingDefault);
 
-	// license
-	std::string getLicenseString() const;
-	void setLicenseString(const std::string& licenseString);
-
-	bool getNonCommercialUse() const;
-	void setNonCommercialUse(bool nonCommercialUse);
-
 private:
 	ApplicationSettings(const ApplicationSettings&);
 	void operator=(const ApplicationSettings&);

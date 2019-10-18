@@ -109,14 +109,6 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/opt/llvm/ \
 #COPY scripts/install-llvm.sh /opt/
 #RUN ./install-llvm.sh
 
-## Install botan
-RUN git clone https://github.com/randombit/botan.git /botan && \
-cd /botan && \
-git checkout 2.1.0 && \
-./configure.py --disable-shared --cpu=x86_32 --prefix=/opt/botan && \
-make -j8 && make install && \
-rm -rf /botan
-
 ## Boost
 ARG BOOST_MAJOR=1
 ARG BOOST_MINOR=68
@@ -158,7 +150,6 @@ echo "source /opt/rh/devtoolset-6/enable" >> /etc/bashrc
 
 ENV CXX=/opt/rh/devtoolset-6/root/usr/bin/g++ \
 CC=/opt/rh/devtoolset-6/root/usr/bin/gcc \
-BOTAN_DIR=/opt/botan \
 CXX_TEST_DIR=/opt/cxxtest \
 JAVA_HOME=/usr/lib/jvm/java-openjdk \
 LLVM_DIR=/opt/llvm \

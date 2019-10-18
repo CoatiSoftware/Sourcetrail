@@ -24,12 +24,10 @@
 #include "QtAboutLicense.h"
 #include "QtEulaWindow.h"
 #include "QtKeyboardShortcuts.h"
-#include "QtLicenseWindow.h"
 #include "QtPreferencesWindow.h"
 #include "QtStartScreen.h"
 #include "ApplicationSettings.h"
 #include "FileSystem.h"
-#include "LicenseChecker.h"
 #include "logging.h"
 #include "MessageErrorsHelpMessage.h"
 #include "MessageHistoryRedo.h"
@@ -325,16 +323,11 @@ void QtMainWindow::loadDockWidgetLayout()
 	}
 }
 
-void QtMainWindow::loadWindow(bool showStartWindow, bool showEULA, bool enterLicense, const std::string& licenseError)
+void QtMainWindow::loadWindow(bool showStartWindow, bool showEULA)
 {
 	if (showStartWindow)
 	{
 		showStartScreen();
-	}
-
-	if (enterLicense)
-	{
-		forceEnterLicense(licenseError);
 	}
 
 	if (showEULA)
@@ -358,37 +351,6 @@ void QtMainWindow::saveLayout()
 	settings.endGroup();
 
 	settings.setValue("DOCK_LOCATIONS", this->saveState());
-}
-
-void QtMainWindow::forceEnterLicense(const std::string& licenseError)
-{
-	QtLicenseWindow* window = dynamic_cast<QtLicenseWindow*>(m_windowStack.getTopWindow());
-	if (window)
-	{
-		return;
-	}
-
-	enterLicense();
-
-	window = dynamic_cast<QtLicenseWindow*>(m_windowStack.getTopWindow());
-	if (!window)
-	{
-		LOG_ERROR("No enter license window on top of stack");
-		return;
-	}
-
-	if (licenseError.size())
-	{
-		window->setErrorMessage(QString::fromStdString(licenseError));
-	}
-
-	window->updateCloseButton("Quit");
-
-	setEnabled(false);
-	window->setEnabled(true);
-
-	disconnect(window, &QtWindow::canceled, &m_windowStack, &QtWindowStack::popWindow);
-	connect(window, &QtWindow::canceled, dynamic_cast<QApplication*>(QCoreApplication::instance()), &QApplication::quit);
 }
 
 void QtMainWindow::updateHistoryMenu(std::shared_ptr<MessageBase> message)
@@ -601,37 +563,6 @@ void QtMainWindow::showLicenses()
 	licenseWindow->setup();
 }
 
-void QtMainWindow::enterLicense()
-{
-	QtLicenseWindow* enterLicenseWindow = createWindow<QtLicenseWindow>();
-	enterLicenseWindow->setup();
-
-	disconnect(enterLicenseWindow, &QtLicenseWindow::finished, &m_windowStack, &QtWindowStack::clearWindows);
-	connect(enterLicenseWindow, &QtLicenseWindow::finished, this, &QtMainWindow::enteredLicense);
-
-	enterLicenseWindow->load();
-}
-
-void QtMainWindow::enteredLicense()
-{
-	bool showStartWindow = false;
-	if (m_windowStack.getWindowCount() > 0 && dynamic_cast<QtStartScreen*>(m_windowStack.getBottomWindow()))
-	{
-		showStartWindow = true;
-	}
-
-	m_windowStack.clearWindows();
-
-	MessageRefreshUI().dispatch();
-
-	setEnabled(true);
-
-	if (showStartWindow)
-	{
-		showStartScreen();
-	}
-}
-
 void QtMainWindow::showDataFolder()
 {
 	QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + UserPaths::getUserDataPath().makeCanonical().wstr()), QUrl::TolerantMode));
@@ -674,7 +605,6 @@ void QtMainWindow::showStartScreen()
 
 	connect(startScreen, &QtStartScreen::openOpenProjectDialog, this, &QtMainWindow::openProject);
 	connect(startScreen, &QtStartScreen::openNewProjectDialog, this, &QtMainWindow::newProject);
-	connect(startScreen, &QtStartScreen::openEnterLicenseDialog, this, &QtMainWindow::enterLicense);
 }
 
 void QtMainWindow::hideStartScreen()
@@ -1122,7 +1052,6 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Select License..."), this, &QtMainWindow::enterLicense);
 	menu->addAction(tr("End User License Agreement"), this, &QtMainWindow::showEula);
 	menu->addAction(tr("3rd Party Licenses"), this, &QtMainWindow::showLicenses);
 	menu->addAction(tr("&About Sourcetrail"), this, &QtMainWindow::about);

@@ -14,7 +14,6 @@
 #include "MessageSwitchColorScheme.h"
 #include "MessageWindowFocus.h"
 #include "Project.h"
-#include "TimeStamp.h"
 
 class Bookmark;
 class IDECommunicationController;
@@ -102,8 +101,6 @@ private:
 
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
 	std::shared_ptr<UpdateChecker> m_updateChecker;
-
-	TimeStamp m_lastLicenseCheck;
 };
 
 #endif // APPLICATION_H

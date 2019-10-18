@@ -7,7 +7,6 @@
 #include "FileSystem.h"
 #include "GraphViewStyle.h"
 #include "IDECommunicationController.h"
-#include "LicenseChecker.h"
 #include "logging.h"
 #include "LogManager.h"
 #include "MainView.h"
@@ -42,8 +41,6 @@ void Application::createInstance(
 	bool hasGui = (viewFactory != nullptr);
 
 	Version::setApplicationVersion(version);
-	LicenseChecker::loadPublicKey();
-	LicenseChecker::setEncodeKey(AppPath::getAppPath().str());
 
 	if (hasGui)
 	{
@@ -128,7 +125,6 @@ void Application::loadStyle(const FilePath& colorSchemePath)
 
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
-	, m_lastLicenseCheck(TimeStamp::now())
 {
 }
 
@@ -362,17 +358,6 @@ void Application::handleMessage(MessageWindowFocus* message)
 	{
 		m_updateChecker->checkUpdate();
 	}
-
-	if (!ApplicationSettings::getInstance()->getNonCommercialUse() && TimeStamp::now().deltaHours(m_lastLicenseCheck) > 1)
-	{
-		m_lastLicenseCheck = TimeStamp::now();
-
-		LicenseChecker::LicenseState state = LicenseChecker::checkCurrentLicense();
-		if (state != LicenseChecker::LicenseState::VALID)
-		{
-			m_mainView->forceEnterLicense(LicenseChecker::getLicenseErrorForState(state));
-		}
-	}
 }
 
 FilePath Application::migrateProjectSettings(const FilePath& projectSettingsFilePath) const
@@ -437,36 +422,11 @@ void Application::loadWindow(bool showStartWindow)
 			appSettings->save();
 		}
 
-		LicenseChecker::LicenseState state = LicenseChecker::LicenseState::VALID;
-		std::string licenseError;
-
-		if (!appSettings->getNonCommercialUse())
-		{
-			state = LicenseChecker::setCurrentLicenseStringEncoded(appSettings->getLicenseString());
-			licenseError = LicenseChecker::getLicenseErrorForState(state);
-
-			if (state == LicenseChecker::LicenseState::VALID)
-			{
-				MessageStatus(L"Found valid license key, unlocked application.").dispatch();
-			}
-			else if (state == LicenseChecker::LicenseState::EMPTY)
-			{
-				licenseError = "";
-			}
-			else if (state == LicenseChecker::LicenseState::MALFORMED)
-			{
-				licenseError = "Plese re-enter your license key.";
-				appSettings->setLicenseString("");
-				appSettings->save();
-			}
-		}
-
 		updateTitle();
 
 		bool showEula = (EULA_ACCEPT_REQUIRED && appSettings->getAcceptedEulaVersion() < EULA_VERSION);
-		bool enterLicense = (state != LicenseChecker::LicenseState::VALID);
 
-		m_mainView->loadWindow(showStartWindow, showEula, enterLicense, licenseError);
+		m_mainView->loadWindow(showStartWindow, showEula);
 		m_loadedWindow = true;
 	}
 	else if (!showStartWindow)
@@ -549,18 +509,6 @@ void Application::updateTitle()
 	if (m_hasGUI)
 	{
 		std::wstring title = L"Sourcetrail";
-
-		switch (LicenseChecker::getCurrentLicenseType())
-		{
-			case LicenseType::TEST:
-				title += L" [test]";
-				break;
-			case LicenseType::NON_COMMERCIAL:
-				title += L" [non-commercial]";
-				break;
-			case LicenseType::COMMERCIAL:
-				break;
-		}
 
 		if (m_project)
 		{

@@ -8,7 +8,6 @@
 #include <QMessageBox>
 
 #include "ApplicationSettings.h"
-#include "LicenseChecker.h"
 #include "MessageLoadProject.h"
 #include "ProjectSettings.h"
 #include "QtUpdateCheckerWidget.h"
@@ -169,33 +168,6 @@ void QtStartScreen::setupStartScreen()
 
 		col->addSpacing(15);
 
-		if (LicenseChecker::checkCurrentLicense() == LicenseChecker::LicenseState::VALID)
-		{
-			std::string licenseInfo = LicenseChecker::getCurrentLicense()->getLicenseInfo();
-
-			QLabel* licenseHeader = new QLabel("Licensed to:");
-			licenseHeader->setObjectName("boldLabel");
-			col->addWidget(licenseHeader);
-			col->addSpacing(2);
-			QLabel* licenseLabel = new QLabel(licenseInfo.c_str());
-			licenseLabel->setObjectName("textLabel");
-			col->addWidget(licenseLabel);
-		}
-		else
-		{
-			QLabel* licenseHeader = new QLabel("Not licensed for<br />commercial use.");
-			licenseHeader->setObjectName("boldLabel");
-			col->addWidget(licenseHeader);
-
-			QPushButton* upgradeButton = new QPushButton("upgrade");
-			upgradeButton->setObjectName("upgradeButton");
-			upgradeButton->setCursor(Qt::PointingHandCursor);
-			col->addWidget(upgradeButton);
-			connect(upgradeButton, &QPushButton::clicked, [this](){ emit openEnterLicenseDialog(); });
-		}
-
-		col->addSpacing(15);
-
 		{
 			QLabel* newsHeader = new QLabel("News:");
 			newsHeader->setObjectName("boldLabel");
@@ -274,11 +246,6 @@ void QtStartScreen::handleNewProjectButton()
 void QtStartScreen::handleOpenProjectButton()
 {
 	emit openOpenProjectDialog();
-}
-
-void QtStartScreen::handleUnlockButton()
-{
-	emit openEnterLicenseDialog();
 }
 
 void QtStartScreen::handleRecentButton()

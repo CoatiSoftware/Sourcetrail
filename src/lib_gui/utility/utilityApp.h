@@ -7,8 +7,6 @@
 #include "OsType.h"
 #include "FilePath.h"
 
-class License;
-
 namespace utility
 {
 	std::pair<int, std::string> executeProcess(

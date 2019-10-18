@@ -12,7 +12,6 @@ ENV QT_DIR=/opt/qt${QTVERSION} \
 CXX_TEST_DIR=/opt/cxxtest \
 LLVM_DIR=/opt/llvm \
 BOOST_DIR=/opt/boost \
-BOTAN_DIR=/opt/botan \
 LD_LIBRARY_PATH=$QT_DIR/lib/
 
 # Install Qt
@@ -72,15 +71,6 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/opt/llvm/ \
 && make -j8 install && rm -Rf /llvm
 
 WORKDIR /opt
-## Botan
-RUN git clone https://github.com/randombit/botan.git /botan && \
-cd /botan && \
-ln -sf /opt/rh/devtoolset-6/root/usr/bin/g++ /usr/bin/g++ && \
-ln -sf /opt/rh/devtoolset-6/root/usr/bin/c++ /usr/bin/c++ && \
-git checkout 2.1.0 && \
-./configure.py --disable-shared --prefix=/opt/botan && \
-make -j8 && make install && \
-rm -rf /botan
 
 ## Boost
 ARG BOOST_MAJOR=1

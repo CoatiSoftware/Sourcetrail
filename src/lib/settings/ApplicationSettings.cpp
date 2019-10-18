@@ -1,7 +1,6 @@
 #include "ApplicationSettings.h"
 
 #include "AppPath.h"
-#include "License.h"
 #include "Logger.h"
 #include "ResourcePaths.h"
 #include "SettingsMigrator.h"
@@ -688,24 +687,4 @@ bool ApplicationSettings::getControlsGraphZoomOnMouseWheel() const
 void ApplicationSettings::setControlsGraphZoomOnMouseWheel(bool zoomingDefault)
 {
 	setValue<bool>("controls/graph_zoom_on_mouse_wheel", zoomingDefault);
-}
-
-std::string ApplicationSettings::getLicenseString() const
-{
-	return getValue<std::string>("user/license/license", "");
-}
-
-void ApplicationSettings::setLicenseString(const std::string& licenseString)
-{
-	setValue<std::string>("user/license/license", licenseString);
-}
-
-bool ApplicationSettings::getNonCommercialUse() const
-{
-	return getValue<bool>("user/license/non_commercial_use", false);
-}
-
-void ApplicationSettings::setNonCommercialUse(bool nonCommercialUse)
-{
-	setValue<bool>("user/license/non_commercial_use", nonCommercialUse);
 }
