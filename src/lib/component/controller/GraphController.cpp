@@ -1860,7 +1860,7 @@ void GraphController::layoutNesting()
 
 	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
-		layoutNestingRecursive(node.get(), -1);
+		layoutNestingRecursive(node.get());
 	}
 
 	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
@@ -1903,7 +1903,7 @@ void GraphController::extendEqualFunctionNames(const std::vector<std::shared_ptr
 	}
 }
 
-Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int maxWidth) const
+Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAccessMaxWidth) const
 {
 	if (!node->visible)
 	{
@@ -1975,43 +1975,46 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int maxWidth) con
 	width += margins.iconWidth;
 	width = std::max(width, margins.minWidth);
 
-	int maxAccessWidth = 0;
-
-	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+	if (relayoutAccessMaxWidth == -1)
 	{
-		if (!subNode->visible)
-		{
-			continue;
-		}
-		else if (subNode->isQualifierNode())
-		{
-			subNode->position.y = margins.top + margins.charHeight / 2;
-			width += 5;
-			continue;
-		}
+		int maxAccessWidth = 0;
+		std::shared_ptr<const DummyNode> maxWidthAccessNode;
 
-		Vec4i rect = layoutNestingRecursive(subNode.get(), maxWidth);
-
-		if (subNode->isExpandToggleNode())
-		{
-			width += margins.spacingX + subNode->size.x;
-		}
-		else if (subNode->isAccessNode())
-		{
-			maxAccessWidth = std::max(maxAccessWidth, rect.z());
-		}
-	}
-
-	if (maxAccessWidth > 0)
-	{
 		for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 		{
-			if (!subNode->visible || !subNode->isAccessNode())
+			if (!subNode->visible)
 			{
 				continue;
 			}
+			else if (subNode->isQualifierNode())
+			{
+				subNode->position.y = margins.top + margins.charHeight / 2;
+				width += 5;
+				continue;
+			}
 
-			layoutNestingRecursive(subNode.get(), maxAccessWidth);
+			Vec4i rect = layoutNestingRecursive(subNode.get());
+
+			if (subNode->isExpandToggleNode())
+			{
+				width += margins.spacingX + subNode->size.x;
+			}
+			else if (subNode->isAccessNode() && rect.z() > maxAccessWidth)
+			{
+				maxAccessWidth = rect.z();
+				maxWidthAccessNode = subNode;
+			}
+		}
+
+		if (maxAccessWidth > 0)
+		{
+			for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+			{
+				if (subNode->visible && subNode->isAccessNode() && subNode != maxWidthAccessNode)
+				{
+					layoutNestingRecursive(subNode.get(), maxAccessWidth);
+				}
+			}
 		}
 	}
 
@@ -2053,7 +2056,7 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int maxWidth) con
 		}
 		else if (node->isAccessNode() && !node->hasConnectedSubNode())
 		{
-			ListLayouter::layoutSquare(&node->subNodes, maxWidth);
+			ListLayouter::layoutSquare(&node->subNodes, relayoutAccessMaxWidth);
 		}
 		else
 		{

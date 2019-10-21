@@ -120,7 +120,7 @@ private:
 
 	void layoutNesting();
 	void extendEqualFunctionNames(const std::vector<std::shared_ptr<DummyNode>>& nodes) const;
-	Vec4i layoutNestingRecursive(DummyNode* node, int maxWidth) const;
+	Vec4i layoutNestingRecursive(DummyNode* node, int relayoutAccessMaxWidth = -1) const;
 	void addExpandToggleNode(DummyNode* node) const;
 	void layoutToGrid(DummyNode* node) const;
 
