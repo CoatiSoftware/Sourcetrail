@@ -25,7 +25,7 @@ public:
 	void setBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+	virtual void resizeEvent(QResizeEvent* event) override;
 
 	virtual void handleClose() override;
 	virtual void handleNext() override;

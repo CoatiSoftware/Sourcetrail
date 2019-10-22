@@ -7,32 +7,26 @@
 #include <QWidget>
 
 #include "QtWindowStack.h"
+#include "QtWindowBase.h"
 
 class QLabel;
 class QPushButton;
 class QVBoxLayout;
 
 class QtWindow
-	: public QtWindowStackElement
+	: public QtWindowBase
 {
 	Q_OBJECT
 
 public:
 	QtWindow(bool isSubWindow, QWidget* parent = nullptr);
 
-	QSize sizeHint() const override;
-
 	void setup();
-
-	void setSizeGripStyle(bool isBlack);
 
 	void setCancelAble(bool cancelAble);
 	void setScrollAble(bool scrollAble);
 
 	bool isScrollAble() const;
-    bool isSubWindow() const;
-
-    void moveToCenter();
 
 	void updateTitle(const QString& title);
 	std::wstring getTitle() const;
@@ -54,11 +48,6 @@ public:
 	void setPreviousDefault(bool isDefault);
 	void setCloseDefault(bool isDefault);
 
-	// QtWindowStackElement implementation
-	virtual void showWindow() override;
-	virtual void hideWindow() override;
-
-
 signals:
 	void finished();
 	void canceled();
@@ -67,12 +56,9 @@ signals:
 	void previous();
 
 protected:
-	void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
-	void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
-	void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
-	void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
-	void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
-	void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	void closeEvent(QCloseEvent* event) override;
+	void resizeEvent(QResizeEvent* event) override;
+	void keyPressEvent(QKeyEvent* event) override;
 
 	virtual void populateWindow(QWidget* widget);
 	virtual void windowReady();
@@ -84,11 +70,6 @@ protected:
 	void setupDone();
 	void addLogo();
 	QHBoxLayout* createButtons();
-
-	bool m_isSubWindow;
-
-	QWidget* m_window;
-	QWidget* m_content;
 
 	QLabel* m_title;
 	QLabel* m_subTitle;
@@ -107,11 +88,6 @@ private:
 	bool m_scrollAble;
 
 	bool m_hasLogo;
-
-	QPoint m_dragPosition;
-	bool m_mousePressedInWindow;
-
-    QSizeGrip* m_sizeGrip;
 };
 
 #endif // QT_WINDOW_H

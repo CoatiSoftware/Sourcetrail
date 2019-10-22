@@ -30,7 +30,7 @@ public:
 
 	~QtCodeField();
 
-	virtual QSize sizeHint() const Q_DECL_OVERRIDE;
+	virtual QSize sizeHint() const override;
 
 	size_t getStartLineNumber() const;
 	size_t getEndLineNumber() const;
@@ -44,14 +44,14 @@ public:
 	void annotateText();
 
 protected:
-	virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
-	virtual void enterEvent(QEvent* event) Q_DECL_OVERRIDE;
-	virtual void leaveEvent(QEvent* event) Q_DECL_OVERRIDE;
+	virtual void paintEvent(QPaintEvent* event) override;
+	virtual void enterEvent(QEvent* event) override;
+	virtual void leaveEvent(QEvent* event) override;
 
-	virtual void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
-	virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	virtual void mouseMoveEvent(QMouseEvent* event) override;
+	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 
-	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 	virtual void focusTokenIds(const std::vector<Id>& tokenIds);
 	virtual void defocusTokenIds(const std::vector<Id>& tokenIds);

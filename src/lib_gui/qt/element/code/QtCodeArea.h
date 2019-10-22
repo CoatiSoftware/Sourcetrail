@@ -35,10 +35,10 @@ public:
 	QtLineNumberArea(QtCodeArea* codeArea);
 	virtual ~QtLineNumberArea();
 
-	QSize sizeHint() const Q_DECL_OVERRIDE;
+	QSize sizeHint() const override;
 
 protected:
-	virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
+	virtual void paintEvent(QPaintEvent* event) override;
 
 private:
 	QtCodeArea* m_codeArea;
@@ -62,7 +62,7 @@ public:
 	);
 	virtual ~QtCodeArea();
 
-	virtual QSize sizeHint() const Q_DECL_OVERRIDE;
+	virtual QSize sizeHint() const override;
 
 	void lineNumberAreaPaintEvent(QPaintEvent* event);
 	int lineNumberDigits() const;
@@ -93,13 +93,13 @@ public:
 	void ensureLocationIdVisible(Id locationId, int parentWidth, bool animated);
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
-	virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
-	virtual void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
-	virtual void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
-	virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+	virtual void resizeEvent(QResizeEvent* event) override;
+	virtual void mouseReleaseEvent(QMouseEvent* event) override;
+	virtual void mousePressEvent(QMouseEvent* event) override;
+	virtual void mouseMoveEvent(QMouseEvent* event) override;
+	virtual void wheelEvent(QWheelEvent *event) override;
 
-	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 	virtual void focusTokenIds(const std::vector<Id>& tokenIds) override;
 	virtual void defocusTokenIds(const std::vector<Id>& tokenIds) override;

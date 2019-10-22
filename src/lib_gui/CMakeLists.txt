@@ -295,22 +295,36 @@ add_files(
 	qt/window/QtEulaWindow.h
 	qt/window/QtIndexingDialog.cpp
 	qt/window/QtIndexingDialog.h
+	qt/window/QtIndexingProgressDialog.cpp
+	qt/window/QtIndexingProgressDialog.h
+	qt/window/QtIndexingReportDialog.cpp
+	qt/window/QtIndexingReportDialog.h
+	qt/window/QtIndexingStartDialog.cpp
+	qt/window/QtIndexingStartDialog.h
 	qt/window/QtKeyboardShortcuts.cpp
 	qt/window/QtKeyboardShortcuts.h
+	qt/window/QtKnownProgressDialog.cpp
+	qt/window/QtKnownProgressDialog.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
 	qt/window/QtPathListDialog.cpp
 	qt/window/QtPathListDialog.h
 	qt/window/QtPreferencesWindow.cpp
 	qt/window/QtPreferencesWindow.h
+	qt/window/QtProgressBarDialog.cpp
+	qt/window/QtProgressBarDialog.h
 	qt/window/QtSelectPathsDialog.cpp
 	qt/window/QtSelectPathsDialog.h
 	qt/window/QtStartScreen.cpp
 	qt/window/QtStartScreen.h
 	qt/window/QtTextEditDialog.cpp
 	qt/window/QtTextEditDialog.h
+	qt/window/QtUnknownProgressDialog.cpp
+	qt/window/QtUnknownProgressDialog.h
 	qt/window/QtWindow.cpp
 	qt/window/QtWindow.h
+	qt/window/QtWindowBase.cpp
+	qt/window/QtWindowBase.h
 	qt/window/QtWindowStack.cpp
 	qt/window/QtWindowStack.h
 

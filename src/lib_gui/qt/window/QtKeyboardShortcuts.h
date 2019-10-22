@@ -15,7 +15,7 @@ public:
 	void updateSize();
 
 protected:
-	virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+	virtual void wheelEvent(QWheelEvent *event) override;
 };
 
 class QtKeyboardShortcuts

@@ -31,11 +31,11 @@ public slots:
 	void commentToggled();
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
-	virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+	virtual void resizeEvent(QResizeEvent* event) override;
+	virtual void showEvent(QShowEvent* event) override;
 
-	virtual void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
-	virtual void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+	virtual void enterEvent(QEvent *event) override;
+	virtual void leaveEvent(QEvent *event) override;
 
 private slots:
 	void activateClicked();
