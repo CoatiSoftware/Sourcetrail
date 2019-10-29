@@ -5,43 +5,41 @@ add_files(
 	helper/TestFileRegister.h
 	helper/TestIntermediateStorage.h
 
-	TestSuiteFixture.cpp
-	TestSuiteFixture.h
-
-	CommandlineTestSuite.h
-	ConfigManagerTestSuite.h
-	CxxIncludeProcessingTestSuite.h
-	CxxIndexSampleProjectsTestSuite.h
-	CxxParserTestSuite.h
-	CxxTypeNameTestSuite.h
-	FileManagerTestSuite.h
-	FilePathFilterTestSuite.h
-	FilePathTestSuite.h
-	FileSystemTestSuite.h
-	GraphTestSuite.h
-	LogManagerTestSuite.h
-	LowMemoryStringMapTestSuite.h
-	MatrixBaseTestSuite.h
-	MessageQueueTestSuite.h
-	NetworkProtocolHelperTestSuite.h
-	RefreshInfoGeneratorTestSuite.h
-	SearchIndexTestSuite.h
-	SettingsMigratorTestSuite.h
-	SettingsTestSuite.h
-	SharedMemoryTestSuite.h
-	SourceLocationCollectionTestSuite.h
-	SqliteBookmarkStorageTestSuite.h
-	SqliteIndexStorageTestSuite.h
-	StorageTestSuite.h
-	TaskSchedulerTestSuite.h
-	TextAccessTestSuite.h
-	UtilityMavenTestSuite.h
-	UtilityStringTestSuite.h
-	UtilityTestSuite.h
-	Vector2TestSuite.h
-
-# Java tests need to be executed last because of some linux related issues.
-	JavaParserTestSuite.h
-	JavaIndexSampleProjectsTestSuite.h
-	SourceGroupTestSuite.h
+	test_main.cpp
+		
+	CommandlineTestSuite.cpp
+	ConfigManagerTestSuite.cpp
+	CxxIncludeProcessingTestSuite.cpp
+	CxxIndexSampleProjectsTestSuite.cpp
+	CxxParserTestSuite.cpp
+	CxxTypeNameTestSuite.cpp
+	FileManagerTestSuite.cpp
+	FilePathFilterTestSuite.cpp
+	FilePathTestSuite.cpp
+	FileSystemTestSuite.cpp
+	GraphTestSuite.cpp
+	JavaIndexSampleProjectsTestSuite.cpp
+	JavaParserTestSuite.cpp
+	LogManagerTestSuite.cpp
+	LowMemoryStringMapTestSuite.cpp
+	MatrixBaseTestSuite.cpp
+	MatrixDynamicBaseTestSuite.cpp
+	MessageQueueTestSuite.cpp
+	NetworkProtocolHelperTestSuite.cpp
+	RefreshInfoGeneratorTestSuite.cpp
+	SearchIndexTestSuite.cpp
+	SettingsMigratorTestSuite.cpp
+	SettingsTestSuite.cpp
+	SharedMemoryTestSuite.cpp
+	SourceGroupTestSuite.cpp
+	SourceLocationCollectionTestSuite.cpp
+	SqliteBookmarkStorageTestSuite.cpp
+	SqliteIndexStorageTestSuite.cpp
+	StorageTestSuite.cpp
+	TaskSchedulerTestSuite.cpp
+	TextAccessTestSuite.cpp
+	UtilityMavenTestSuite.cpp
+	UtilityStringTestSuite.cpp
+	UtilityTestSuite.cpp
+	Vector2TestSuite.cpp
 )

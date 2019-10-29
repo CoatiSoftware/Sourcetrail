@@ -610,7 +610,7 @@ if (APPLE)
 endif ()
 
 
-# CxxTest ----------------------------------------------------------------------
+# Test ----------------------------------------------------------------------
 
 if (UNIX)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test/")
@@ -621,71 +621,28 @@ else ()
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
-if (WIN32)
-	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp "")
-endif ()
-
-set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
-set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
-set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
-
-find_package(PythonInterp REQUIRED)
-
-
-add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES})
+add_executable (${TEST_PROJECT_NAME} ${TEST_FILES})
 
 create_source_groups(${TEST_FILES})
 
 target_link_libraries(${TEST_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME})
 
-find_package(CxxTest)
-if (CXXTEST_FOUND)
-	set_property(
-		TARGET ${TEST_PROJECT_NAME}
-		PROPERTY INCLUDE_DIRECTORIES
-			"${CXXTEST_INCLUDE_DIR}"
-			"${TEST_INCLUDE_PATHS}"
-			"${LIB_INCLUDE_PATHS}"
-			"${LIB_UTILITY_INCLUDE_PATHS}"
-			"${LIB_GUI_INCLUDE_PATHS}"
-			"${LIB_CXX_INCLUDE_PATHS}"
-			"${LIB_JAVA_INCLUDE_PATHS}"
-			"${EXTERNAL_INCLUDE_PATHS}"
-			"${EXTERNAL_C_INCLUDE_PATHS}"
-			"${Boost_INCLUDE_DIRS}"
-	)
-endif (CXXTEST_FOUND)
+set_property(
+	TARGET ${TEST_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${TEST_INCLUDE_PATHS}"
+		"${LIB_INCLUDE_PATHS}"
+		"${LIB_UTILITY_INCLUDE_PATHS}"
+		"${LIB_GUI_INCLUDE_PATHS}"
+		"${LIB_CXX_INCLUDE_PATHS}"
+		"${LIB_JAVA_INCLUDE_PATHS}"
+		"${EXTERNAL_INCLUDE_PATHS}"
+		"${EXTERNAL_C_INCLUDE_PATHS}"
+		"${Boost_INCLUDE_DIRS}"
+)
 
 if (WIN32)
-
-	add_custom_command(
-		TARGET ${TEST_PROJECT_NAME}
-		PRE_BUILD
-		COMMAND cd ${PROJECT_SOURCE_DIR} && ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${TEST_FILES}
-		COMMENT "Generating unittest code with cxxtestgen"
-	)
-
-	add_custom_command(
-		TARGET ${TEST_PROJECT_NAME}
-		POST_BUILD
-		COMMAND cd $(ProjectDir)../../bin/test/\n$(OutDir)$(TargetName)$(TargetExt)
-		COMMENT "Running unittest code"
-	)
-
 	set_target_properties(${TEST_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/bigobj")
-
-elseif (UNIX)
-
-	add_custom_command(
-		OUTPUT ${TESTGEN_FILE}
-		COMMAND cd ${PROJECT_SOURCE_DIR} && ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${TEST_FILES}
-		#BYPRODUCTS ${TESTGEN_FILE}
-		DEPENDS ${TEST_FILES}
-		COMMENT "Generating unittest code with cxxtestgen"
-	)
-
-	add_custom_target(gen DEPENDS ${TESTGEN_FILE})
-	add_dependencies(${TEST_PROJECT_NAME} gen)
 endif ()
 
 

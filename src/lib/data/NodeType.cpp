@@ -159,6 +159,11 @@ bool NodeType::operator==(const NodeType& o) const
 	return m_type == o.m_type;
 }
 
+bool NodeType::operator!=(const NodeType& o) const
+{
+	return !operator==(o);
+}
+
 bool NodeType::operator<(const NodeType& o) const
 {
 	return m_type < o.m_type;

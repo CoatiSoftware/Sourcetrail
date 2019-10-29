@@ -6,7 +6,6 @@
 
 * JDK 1.8
 * QT 5.10.1
-* CxxTest 4.3
 * Clang & LLVM 7.0 (doesn't quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.68
 * Image Magick 7.0.6
@@ -17,7 +16,6 @@
 
 #### Environment Variables
 
-* CXX_TEST_DIR - .../cxxtest-4.3
 * CLANG_DIR - .../clang-llvm
 * BOOST_DIR - .../boost_1_68_0
 

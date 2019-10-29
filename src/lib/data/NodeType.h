@@ -88,6 +88,7 @@ public:
 	NodeType(Type type);
 
 	bool operator==(const NodeType& o) const;
+	bool operator!=(const NodeType& o) const;
 	bool operator<(const NodeType& o) const;
 
 	Type getType() const;
