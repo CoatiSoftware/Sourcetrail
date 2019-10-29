@@ -23,11 +23,11 @@ protected:
 	static QLabel* createTitleLabel(QString title, QBoxLayout* layout);
 	static QLabel* createMessageLabel(QBoxLayout* layout);
 	static QWidget* createErrorWidget(QBoxLayout* layout);
-	static QLabel* QtIndexingDialog::createFlagLabel(QWidget* parent);
+	static QLabel* createFlagLabel(QWidget* parent);
 
 public:
 	QtIndexingDialog(bool isSubWindow, QWidget* parent = nullptr);
-	virtual QSize sizeHint() const = 0;
+	QSize sizeHint() const override = 0;
 
 signals:
 	void finished();

@@ -504,3 +504,38 @@ void QtDialogView::updateErrorCount(size_t errorCount, size_t fatalCount)
 		reportWindow->updateErrorCount(errorCount, fatalCount);
 	}
 }
+
+template <typename DialogType, typename... ParamTypes>
+DialogType* QtDialogView::createWindow(ParamTypes... params)
+{
+	DialogType* window = nullptr;
+	if (m_parentWindow)
+	{
+		window = new DialogType(params..., m_parentWindow);
+	}
+	else
+	{
+		window = new DialogType(params..., m_mainWindow);
+	}
+
+	connect(window, &QtIndexingDialog::canceled, &m_windowStack, &QtWindowStack::popWindow);
+	connect(window, &QtIndexingDialog::finished, &m_windowStack, &QtWindowStack::clearWindows);
+	connect(window, &QtIndexingDialog::visibleChanged, this, &QtDialogView::dialogVisibilityChanged);
+
+	if (m_mainWindow)
+	{
+		connect(
+			m_mainWindow, &QtMainWindow::hideIndexingDialog,
+			std::bind(&QtDialogView::dialogVisibilityChanged, this, true)
+		);
+	}
+
+	m_windowStack.pushWindow(window);
+
+	if (!m_dialogsVisible)
+	{
+		window->hide();
+	}
+
+	return window;
+}
