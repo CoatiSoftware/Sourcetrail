@@ -10,4 +10,3 @@ Software
 * LLVM/Clang 5.0.0
 * Boost 1.64.0
 * Ninja
-* CxxTest 4.4

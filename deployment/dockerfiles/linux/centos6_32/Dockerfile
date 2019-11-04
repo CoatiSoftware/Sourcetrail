@@ -130,11 +130,6 @@ git checkout release && \
 mv ninja /usr/bin/ && \
 cd .. && rm -rf ninja
 
-## CxxTest
-RUN git clone https://github.com/CxxTest/cxxtest.git && \
-cd cxxtest && \
-git checkout 4.4
-
 #add user
 RUN useradd builder
 
@@ -150,7 +145,6 @@ echo "source /opt/rh/devtoolset-6/enable" >> /etc/bashrc
 
 ENV CXX=/opt/rh/devtoolset-6/root/usr/bin/g++ \
 CC=/opt/rh/devtoolset-6/root/usr/bin/gcc \
-CXX_TEST_DIR=/opt/cxxtest \
 JAVA_HOME=/usr/lib/jvm/java-openjdk \
 LLVM_DIR=/opt/llvm \
 BOOST_DIR=/opt/boost \

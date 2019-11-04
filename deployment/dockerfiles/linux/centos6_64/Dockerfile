@@ -9,7 +9,6 @@ ARG QVERSION_SHORT=5.10
 ARG QTVERSION=5.10.1
 
 ENV QT_DIR=/opt/qt${QTVERSION} \
-CXX_TEST_DIR=/opt/cxxtest \
 LLVM_DIR=/opt/llvm \
 BOOST_DIR=/opt/boost \
 LD_LIBRARY_PATH=$QT_DIR/lib/
@@ -92,11 +91,6 @@ git checkout release && \
 ./configure.py --bootstrap && \
 mv ninja /usr/bin/ && \
 cd .. && rm -rf ninja
-
-## CxxTest
-RUN git clone https://github.com/CxxTest/cxxtest.git && \
-cd cxxtest && \
-git checkout 4.4
 
 #add user
 RUN useradd -u 1000 builder
