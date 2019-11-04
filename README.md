@@ -8,7 +8,6 @@
 * QT 5.10.1
 * Clang & LLVM 7.0 (doesn't quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.68
-* Image Magick 7.0.6
 * ccache (Unix)
 * Visual Leak Detector (Windows)
 * Wix 3.11 (Windows)

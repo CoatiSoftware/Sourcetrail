@@ -181,6 +181,70 @@ if(Qt5Widgets_FOUND)
 endif()
 
 
+# Setup ---------------------------------------------------------------------------
+
+if (WIN32)
+	get_filename_component(QT_BINARY_DIR "${QT_MOC_EXECUTABLE}" PATH)
+	set(QT_PLUGINS_DIR "${QT_BINARY_DIR}/../plugins")
+
+	function(COPY_QT_BINARIES IS_DEBUG IS_APP)
+		set(SUFFIX "")
+		if (IS_DEBUG)
+			set(SUFFIX "d")
+		endif()
+
+		set(CONFIGURATION "Release")
+		if (IS_DEBUG)
+			set(CONFIGURATION "Debug")
+		endif()
+
+		if(CMAKE_CL_64)
+			set(BITS "64")
+		else()
+			set(BITS "32")
+		endif()
+
+		set(TARGET "test")
+		if (IS_APP)
+			set(TARGET "app")
+
+			file(GLOB MY_PUBLIC_HEADERS
+				"${CMAKE_SOURCE_DIR}/setup/dynamic_libraries/win${BITS}/app/${CONFIGURATION}/*" 
+			)
+			file(COPY ${MY_PUBLIC_HEADERS} DESTINATION "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/")
+
+		endif()
+		
+		configure_file("${QT_BINARY_DIR}/Qt5Core${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Core${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_BINARY_DIR}/Qt5Gui${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Gui${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_BINARY_DIR}/Qt5Network${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Network${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_BINARY_DIR}/Qt5Svg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Svg${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_BINARY_DIR}/Qt5Widgets${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Widgets${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_BINARY_DIR}/Qt5WinExtras${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5WinExtras${SUFFIX}.dll" COPYONLY)
+
+		configure_file("${QT_PLUGINS_DIR}/platforms/qwindows${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/platforms/qwindows${SUFFIX}.dll" COPYONLY)
+
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qgif${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qgif${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qicns${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qicns${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qico${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qico${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qjpeg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qjpeg${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qsvg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qsvg${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qtga${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtga${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qtiff${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtiff${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qwbmp${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwbmp${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_PLUGINS_DIR}/imageformats/qwebp${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwebp${SUFFIX}.dll" COPYONLY)
+	endfunction(COPY_QT_BINARIES)
+
+	COPY_QT_BINARIES(True True)
+	COPY_QT_BINARIES(True False)
+	COPY_QT_BINARIES(False True)
+	COPY_QT_BINARIES(False False)
+
+	configure_file("${CMAKE_SOURCE_DIR}/setup/icon/windows/sourcetrail.ico" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/sourcetrail.ico" COPYONLY)
+
+endif()
+
+
 add_subdirectory(src/app)
 add_subdirectory(src/external)
 add_subdirectory(src/indexer)
@@ -352,6 +416,15 @@ set_property(
 
 target_link_libraries(${LIB_PYTHON_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
+if (WIN32)
+	add_custom_command(
+		TARGET ${LIB_PYTHON_PROJECT_NAME}
+		POST_BUILD
+		COMMAND ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
+		COMMENT "download python indexer"
+	)
+endif ()
+
 
 # Lib Gui ----------------------------------------------------------------------
 
@@ -514,6 +587,19 @@ if (WIN32)
 
 	# generate pdb for release build
 	set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
+
+	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+
+	add_custom_command(
+		TARGET ${APP_PROJECT_NAME}
+		POST_BUILD
+		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\data" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data"
+		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\user" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user"
+		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\data" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data"
+		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\user" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user"
+		COMMENT "create symbolic links for data"
+	)
 else ()
 	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
 endif ()

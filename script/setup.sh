@@ -42,60 +42,6 @@ fi
 # Create Debug and Release folders
 echo -e $INFO "create build folders"
 if [ $PLATFORM == "Windows" ]; then
-
-	copy_dynamic_libraries() # Parameters: bit {32, 64}, mode {Debug, Release}, target {app, test}
-	{
-		mkdir -p build/win$1/$2/$3/platforms
-		mkdir -p build/win$1/$2/$3/styles
-		mkdir -p build/win$1/$2/$3/imageformats
-		
-		local QT_DIR=${QT_WIN32_DIR}
-		
-		if [[ "$1" == "64" ]]
-		then
-			QT_DIR=${QT_WIN64_DIR}
-		fi
-		
-		local SUFFIX=""
-		if [[ "$2" == "Debug" ]]
-		then
-			SUFFIX="d"
-		fi
-		
-		echo -e $INFO "copy dynamic libraries for Win$1 $2 $3"
-		
-		if [[ "$3" == "app" ]]
-		then
-			cp -u -r setup/dynamic_libraries/win$1/$3/$2/* build/win$1/$2/$3
-		fi
-		
-		cp -u -r ${QT_DIR}/bin/Qt5Core$SUFFIX.dll build/win$1/$2/$3
-		cp -u -r ${QT_DIR}/bin/Qt5Gui$SUFFIX.dll build/win$1/$2/$3
-		cp -u -r ${QT_DIR}/bin/Qt5Network$SUFFIX.dll build/win$1/$2/$3
-		cp -u -r ${QT_DIR}/bin/Qt5Svg$SUFFIX.dll build/win$1/$2/$3
-		cp -u -r ${QT_DIR}/bin/Qt5Widgets$SUFFIX.dll build/win$1/$2/$3
-		cp -u -r ${QT_DIR}/bin/Qt5WinExtras$SUFFIX.dll build/win$1/$2/$3
-		cp -u -r ${QT_DIR}/plugins/platforms/qwindows$SUFFIX.dll build/win$1/$2/$3/platforms
-		cp -u -r ${QT_DIR}/plugins/styles/qwindowsvistastyle$SUFFIX.dll build/win$1/$2/$3/styles
-		cp -u -r ${QT_DIR}/plugins/imageformats/qgif$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qicns$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qico$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qjpeg$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qsvg$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qtga$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qtiff$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qwbmp$SUFFIX.dll build/win$1/$2/$3/imageformats
-		cp -u -r ${QT_DIR}/plugins/imageformats/qwebp$SUFFIX.dll build/win$1/$2/$3/imageformats
-	}
-	
-	copy_dynamic_libraries "32" "Debug" "app"
-	copy_dynamic_libraries "32" "Debug" "test"
-	copy_dynamic_libraries "32" "Release" "app"
-	copy_dynamic_libraries "32" "Release" "test"
-	copy_dynamic_libraries "64" "Debug" "app"
-	copy_dynamic_libraries "64" "Debug" "test"
-	copy_dynamic_libraries "64" "Release" "app"
-	copy_dynamic_libraries "64" "Release" "test"
 else
 	mkdir -p build/Debug/app
 	mkdir -p build/Debug/test
@@ -104,31 +50,11 @@ else
 fi
 
 if [ $PLATFORM == "Windows" ]; then
-	sh script/download_python_indexer.sh
 else
 	MY_PATH=`dirname "$0"`
 	$MY_PATH/download_python_indexer.sh
 fi
 
-if [ $PLATFORM == "Windows" ]; then
-	echo -e $INFO "creating program icon"
-	sh script/create_windows_icon.sh
-fi
-
-
-echo -e $INFO "create symbolic links for data"
-if [ $PLATFORM == "Windows" ]; then
-	BACKSLASHED_ROOT_DIR="${ROOT_DIR//\//\\}"
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Debug\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Debug\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
-	
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
-fi
 
 # Setup both Debug and Release configuration
 if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
@@ -140,14 +66,6 @@ if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
 
 	echo -e $INFO "run cmake with Release configuration"
 	cd ../Release && cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" ../..
-else
-	echo -e $INFO "run cmake with 32 bit configuration"
-	
-	cd build/win32
-	cmake -G "Visual Studio 14 2015" ../..
-	
-	cd ../win64
-	cmake -G "Visual Studio 14 2015 Win64" ../..
 fi
 
 echo -e $SUCCESS "setup complete"
