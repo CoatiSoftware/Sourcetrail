@@ -29,7 +29,7 @@ cd $ROOT_DIR/
 
 cd java_indexer
 
-echo "cleaning and building java_indexer.jar"
+echo -e $INFO "cleaning and building java_indexer.jar"
 mvn clean package
 
 cd ../

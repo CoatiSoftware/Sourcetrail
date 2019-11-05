@@ -6,7 +6,7 @@ add_files(
 	helper/TestIntermediateStorage.h
 
 	test_main.cpp
-		
+
 	CommandlineTestSuite.cpp
 	ConfigManagerTestSuite.cpp
 	CxxIncludeProcessingTestSuite.cpp

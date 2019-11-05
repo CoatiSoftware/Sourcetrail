@@ -209,12 +209,12 @@ if (WIN32)
 			set(TARGET "app")
 
 			file(GLOB MY_PUBLIC_HEADERS
-				"${CMAKE_SOURCE_DIR}/setup/dynamic_libraries/win${BITS}/app/${CONFIGURATION}/*" 
+				"${CMAKE_SOURCE_DIR}/setup/dynamic_libraries/win${BITS}/app/${CONFIGURATION}/*"
 			)
 			file(COPY ${MY_PUBLIC_HEADERS} DESTINATION "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/")
 
 		endif()
-		
+
 		configure_file("${QT_BINARY_DIR}/Qt5Core${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Core${SUFFIX}.dll" COPYONLY)
 		configure_file("${QT_BINARY_DIR}/Qt5Gui${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Gui${SUFFIX}.dll" COPYONLY)
 		configure_file("${QT_BINARY_DIR}/Qt5Network${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Network${SUFFIX}.dll" COPYONLY)
@@ -416,14 +416,12 @@ set_property(
 
 target_link_libraries(${LIB_PYTHON_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
-if (WIN32)
-	add_custom_command(
-		TARGET ${LIB_PYTHON_PROJECT_NAME}
-		POST_BUILD
-		COMMAND ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
-		COMMENT "download python indexer"
-	)
-endif ()
+add_custom_command(
+	TARGET ${LIB_PYTHON_PROJECT_NAME}
+	PRE_BUILD
+	COMMAND ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
+	COMMENT "download python indexer"
+)
 
 
 # Lib Gui ----------------------------------------------------------------------
