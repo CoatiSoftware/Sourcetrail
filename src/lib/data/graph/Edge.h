@@ -22,13 +22,13 @@ public:
 		EDGE_CALL								= 1 << 3,
 		EDGE_INHERITANCE						= 1 << 4,
 		EDGE_OVERRIDE							= 1 << 5,
-		EDGE_TYPE_ARGUMENT						= 1 << 7,
-		EDGE_TEMPLATE_SPECIALIZATION			= 1 << 9,
-		EDGE_INCLUDE							= 1 << 11,
-		EDGE_IMPORT								= 1 << 12,
-		EDGE_AGGREGATION						= 1 << 13,
-		EDGE_MACRO_USAGE						= 1 << 14,
-		EDGE_ANNOTATION_USAGE					= 1 << 15,
+		EDGE_TYPE_ARGUMENT						= 1 << 6,
+		EDGE_TEMPLATE_SPECIALIZATION			= 1 << 7,
+		EDGE_INCLUDE							= 1 << 8,
+		EDGE_IMPORT								= 1 << 9,
+		EDGE_AGGREGATION						= 1 << 10,
+		EDGE_MACRO_USAGE						= 1 << 11,
+		EDGE_ANNOTATION_USAGE					= 1 << 12,
 
 		EDGE_MAX_VALUE = EDGE_ANNOTATION_USAGE
 	};

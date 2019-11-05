@@ -11,7 +11,7 @@
 #include "SourceLocationFile.h"
 #include "utilityString.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 24;
+const size_t SqliteIndexStorage::s_storageVersion = 25;
 
 namespace
 {

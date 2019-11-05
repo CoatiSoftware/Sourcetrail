@@ -17,11 +17,10 @@ public enum SymbolKind
 	NAMESPACE(13),
 	PACKAGE(14),
 	STRUCT(15),
-	TEMPLATE_PARAMETER(16),
-	TYPEDEF(17),
-	TYPE_PARAMETER(18),
-	UNION(19),
-	TYPE_MAX(20);
+	TYPEDEF(16),
+	TYPE_PARAMETER(17),
+	UNION(18),
+	TYPE_MAX(19);
 	
 	private final int m_value;
 	

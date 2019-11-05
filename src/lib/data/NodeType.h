@@ -35,11 +35,11 @@ public:
 		NODE_ENUM = 1 << 14,
 		NODE_ENUM_CONSTANT = 1 << 15,
 		NODE_TYPEDEF = 1 << 16,
-		NODE_TYPE_PARAMETER = 1 << 18,
+		NODE_TYPE_PARAMETER = 1 << 17,
 
-		NODE_FILE = 1 << 19,
-		NODE_MACRO = 1 << 20,
-		NODE_UNION = 1 << 21,
+		NODE_FILE = 1 << 18,
+		NODE_MACRO = 1 << 19,
+		NODE_UNION = 1 << 20,
 
 		NODE_MAX_VALUE = NODE_UNION
 	};
