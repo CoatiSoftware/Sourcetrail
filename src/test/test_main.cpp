@@ -17,19 +17,17 @@ struct EventListener : Catch::TestEventListenerBase
 		if (!homedir.empty())
 		{
 			if(!ApplicationSettings::getInstance()->load(
-				FilePath(homedir + "/.config/sourcetrail/ApplicationSettings.xml")
-			))
+				FilePath(homedir + "/.config/sourcetrail/ApplicationSettings.xml")))
 			{
 				std::cout << "no settings" << std::endl;
-				return false;
+				return;
 			}
 		}
 		else
 		{
 			std::cout << "no homedir" << std::endl;
-			return false;
+			return;
 		}
-
 #else
 		ApplicationSettings::getInstance()->load(FilePath(L"data/TestSettings.xml"));
 #endif

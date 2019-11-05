@@ -1,5 +1,7 @@
 #include "QtProjectWizardContentPathsHeaderSearch.h"
 
+#include <cmath>
+
 #include <QMessageBox>
 
 #include "Application.h"
