@@ -36,6 +36,22 @@ ROOT_DIR=$ROOT_DIR/..
 # Enter main directory
 cd $ROOT_DIR/
 
+
+if [ -e "$TARGET_PATH/SourcetrailPythonIndexer.exe" ]; then
+    echo "SourcetrailPythonIndexer already exists, checking version..."
+	
+	INSTALLED_VERSION="$($TARGET_PATH/SourcetrailPythonIndexer.exe --version)"
+	INSTALLED_VERSION="$(sed -e 's#.* \(\)#\1#' <<< $INSTALLED_VERSION)"
+	echo "SourcetrailPythonIndexer version is: $INSTALLED_VERSION"
+	
+	INSTALLED_VERSION="$(echo $INSTALLED_VERSION | tr . _)"
+	
+	if [ $INSTALLED_VERSION == $SOURCETRAIL_PYTHON_INDEXER_VERSION ]; then
+		echo "Nothing to update. Target version of SourcetrailPythonIndexer is already installed."
+		exit
+	fi
+fi
+
 mkdir -p $TEMP_PATH
 
 echo -e $INFO "starting to download $PACKAGE_FILE_NAME"
