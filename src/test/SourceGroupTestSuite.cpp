@@ -157,7 +157,9 @@ namespace
 	{
 		const FilePath projectDataRoot = getInputDirectoryPath(projectName).makeAbsolute();
 
-		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands = sourceGroup->getIndexerCommands(sourceGroup->getAllSourceFilePaths());
+		RefreshInfo info;
+		info.filesToIndex = sourceGroup->getAllSourceFilePaths();
+		std::vector<std::shared_ptr<IndexerCommand>> indexerCommands = sourceGroup->getIndexerCommands(info);
 
 		std::sort(
 			indexerCommands.begin(),

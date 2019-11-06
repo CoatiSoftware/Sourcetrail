@@ -68,7 +68,7 @@ std::set<FilePath> SourceGroupCxxCodeblocks::getAllSourceFilePaths() const
 	return sourceFilePaths;
 }
 
-std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCodeblocks::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCodeblocks::getIndexerCommandProvider(const RefreshInfo& info) const
 {
 	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 
@@ -78,7 +78,7 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCodeblocks::getIndexerComm
 	{
 		for (std::shared_ptr<IndexerCommandCxx> indexerCommand: project->getIndexerCommands(m_settings, ApplicationSettings::getInstance()))
 		{
-			if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
+			if (info.filesToIndex.find(indexerCommand->getSourceFilePath()) != info.filesToIndex.end())
 			{
 				provider->addCommand(indexerCommand);
 			}
@@ -87,9 +87,9 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCodeblocks::getIndexerComm
 	return provider;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCodeblocks::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCodeblocks::getIndexerCommands(const RefreshInfo& info) const
 {
-	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
+	return getIndexerCommandProvider(info)->consumeAllCommands();
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxCodeblocks::getSourceGroupSettings()

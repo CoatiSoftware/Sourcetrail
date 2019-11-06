@@ -80,7 +80,7 @@ namespace
 			return m_sourceFilePaths;
 		}
 
-		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override
+		std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const override
 		{
 			return std::vector<std::shared_ptr<IndexerCommand>>();
 		}

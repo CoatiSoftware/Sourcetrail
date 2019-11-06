@@ -4,10 +4,12 @@
 #include <QPushButton>
 
 #include "MessageErrorsHelpMessage.h"
+#include "MessageIndexingShowDialog.h"
+#include "MessageRefresh.h"
 #include "TimeStamp.h"
 
 QtIndexingReportDialog::QtIndexingReportDialog(
-	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time, bool interrupted, QWidget* parent)
+	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time, bool interrupted, bool shallow, QWidget* parent)
 	: QtIndexingDialog(true, parent)
 	, m_interrupted(interrupted)
 {
@@ -16,6 +18,10 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 	if (interrupted)
 	{
 		QtIndexingDialog::createTitleLabel("Interrupted Indexing", m_layout);
+	}
+	else if (shallow)
+	{
+		QtIndexingDialog::createTitleLabel("Finished Shallow Indexing", m_layout);
 	}
 	else
 	{
@@ -40,6 +46,14 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 
 	m_layout->addStretch();
 
+	if (shallow)
+	{
+		createMessageLabel(m_layout)->setText(
+			"<i>You can now browse your project while running a second pass for in-depth indexing!</i>"
+		);
+		m_layout->addSpacing(12);
+	}
+
 	{
 		QHBoxLayout* buttons = new QHBoxLayout();
 		if (interrupted)
@@ -49,10 +63,17 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 			connect(discardButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onDiscardPressed);
 			buttons->addWidget(discardButton);
 		}
+		else if (shallow)
+		{
+			QPushButton* startInDepthButton = new QPushButton("Start In-Depth Indexing");
+			startInDepthButton->setObjectName("windowButton");
+			connect(startInDepthButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onStartInDepthPressed);
+			buttons->addWidget(startInDepthButton);
+		}
 
 		buttons->addStretch();
 
-		QPushButton* confirmButton = new QPushButton(interrupted ? "Keep" : "OK");
+		QPushButton* confirmButton = new QPushButton(interrupted ? "Keep" : (shallow ? "Quit" : "OK"));
 		confirmButton->setObjectName("windowButton");
 		confirmButton->setDefault(true);
 		connect(confirmButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onConfirmPressed);
@@ -127,4 +148,9 @@ void QtIndexingReportDialog::onConfirmPressed()
 void QtIndexingReportDialog::onDiscardPressed()
 {
 	emit QtIndexingDialog::canceled();
+}
+
+void QtIndexingReportDialog::onStartInDepthPressed()
+{
+	emit requestReindexing();
 }

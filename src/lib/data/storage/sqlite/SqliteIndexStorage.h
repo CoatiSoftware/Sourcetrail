@@ -72,6 +72,9 @@ public:
 
 	void removeElement(Id id);
 	void removeElements(const std::vector<Id>& ids);
+	void removeOccurrence(const StorageOccurrence& occurrence);
+	void removeOccurrences(const std::vector<StorageOccurrence>& occurrences);
+	void removeElementsWithoutOccurrences(const std::vector<Id>& elementIds);
 	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback);
 
 	void removeAllErrors();

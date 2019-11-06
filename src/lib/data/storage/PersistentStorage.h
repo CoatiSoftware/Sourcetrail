@@ -40,6 +40,9 @@ public:
 
 	void removeElement(const Id id);
 	void removeElements(const std::vector<Id>& ids);
+	void removeOccurrence(const StorageOccurrence& occurrence);
+	void removeOccurrences(const std::vector<StorageOccurrence>& occurrences);
+	void removeElementsWithoutOccurrences(const std::vector<Id>& elementIds);
 
 	const std::vector<StorageNode>& getStorageNodes() const override;
 	const std::vector<StorageFile>& getStorageFiles() const override;

@@ -80,7 +80,7 @@ std::set<FilePath> SourceGroupCxxCdb::getAllSourceFilePaths(std::shared_ptr<clan
 	return sourceFilePaths;
 }
 
-std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProvider(const RefreshInfo& info) const
 {
 	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 
@@ -112,7 +112,7 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 			}
 		}
 
-		if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
+		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end() &&
 			sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
 		{
 			std::vector<std::wstring> cdbFlags = utility::convert<std::string, std::wstring>(
@@ -143,9 +143,9 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxCdb::getIndexerCommandProv
 	return provider;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const RefreshInfo& info) const
 {
-	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
+	return getIndexerCommandProvider(info)->consumeAllCommands();
 }
 
 std::shared_ptr<Task> SourceGroupCxxCdb::getPreIndexTask(

@@ -1,13 +1,13 @@
 #include "SourceGroupCxxSonargraph.h"
 
+#include "Application.h"
+#include "ApplicationSettings.h"
 #include "CxxIndexerCommandProvider.h"
 #include "IndexerCommandCxx.h"
-#include "ApplicationSettings.h"
-#include "SourceGroupSettingsCxxSonargraph.h"
 #include "MessageStatus.h"
+#include "SourceGroupSettingsCxxSonargraph.h"
 #include "SonargraphProject.h"
 #include "utility.h"
-#include "Application.h"
 
 SourceGroupCxxSonargraph::SourceGroupCxxSonargraph(std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings)
 	: m_settings(settings)
@@ -55,7 +55,7 @@ std::set<FilePath> SourceGroupCxxSonargraph::getAllSourceFilePaths() const
 	return sourceFilePaths;
 }
 
-std::shared_ptr<IndexerCommandProvider> SourceGroupCxxSonargraph::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroupCxxSonargraph::getIndexerCommandProvider(const RefreshInfo& info) const
 {
 	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 	if (std::shared_ptr<Sonargraph::Project> project = Sonargraph::Project::load(
@@ -66,7 +66,7 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxSonargraph::getIndexerComm
 		{
 			if (std::shared_ptr<IndexerCommandCxx> indexerCommandCxx = std::dynamic_pointer_cast<IndexerCommandCxx>(indexerCommand))
 			{
-				if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
+				if (info.filesToIndex.find(indexerCommand->getSourceFilePath()) != info.filesToIndex.end())
 				{
 					provider->addCommand(indexerCommandCxx);
 				}
@@ -76,9 +76,9 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxSonargraph::getIndexerComm
 	return provider;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxSonargraph::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxSonargraph::getIndexerCommands(const RefreshInfo& info) const
 {
-	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
+	return getIndexerCommandProvider(info)->consumeAllCommands();
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupCxxSonargraph::getSourceGroupSettings()

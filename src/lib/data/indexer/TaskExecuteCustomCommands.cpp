@@ -260,7 +260,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 	std::vector<Id> unsolvedLocationIds;
 	for (const StorageSourceLocation location : storage.getStorageSourceLocations())
 	{
-		if (intToLocationType(location.type) == LOCATION_UNSOLVED)
+		if (intToLocationType(location.type) == LOCATION_UNSOLVED) // FIXME: this doesn't catch unsolved qualifiers -> convert Qualifier location type to qualifier edge
 		{
 			unsolvedLocationIds.push_back(location.id);
 		}
@@ -286,9 +286,9 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 	storage.setMode(SqliteIndexStorage::STORAGE_MODE_READ);
 
 	std::vector<DataToInsert> dataToInsert;
-	std::set<Id> elementsToDelete;
+	std::vector<StorageOccurrence> occurrencesToDelete;
 	locationCollection->forEachSourceLocationFile(
-		[&nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](std::shared_ptr<SourceLocationFile> locationFile)
+		[&nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](std::shared_ptr<SourceLocationFile> locationFile)
 		{
 			const FilePath filePath = locationFile->getFilePath();
 			if (filePath.empty())
@@ -305,7 +305,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 			if (textAccess)
 			{
 				locationFile->forEachStartSourceLocation(
-					[textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &elementsToDelete](const SourceLocation* startLoc)
+					[textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](const SourceLocation* startLoc)
 					{
 						if (!startLoc)
 						{
@@ -319,23 +319,20 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 
 						const std::wstring token = utility::decodeFromUtf8(textAccess->getLine(startLoc->getLineNumber()).substr(startLoc->getColumnNumber() - 1, endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
 
-						for (const Id tokenId : startLoc->getTokenIds())
+						for (const Id elementId : startLoc->getTokenIds())
 						{
-							const StorageEdge edge = storage.getEdgeById(tokenId);
+							const StorageEdge edge = storage.getEdgeById(elementId);
 							if (edge.id != 0)
 							{
 								for (const StorageNode& targetNode : nodeNameToStorageNodes[token])
 								{
-									if (Edge::intToType(edge.type) == Edge::EDGE_CALL &&
-										(
-											NodeType::intToType(targetNode.type) != NodeType::NODE_FUNCTION ||
-											NodeType::intToType(targetNode.type) != NodeType::NODE_METHOD
-										)
-									){
+									if (Edge::intToType(edge.type) == Edge::EDGE_INHERITANCE &&
+										NodeType::intToType(targetNode.type) != NodeType::NODE_CLASS)
+									{
 										continue;
 									}
 									dataToInsert.push_back({ StorageEdgeData(edge.type, edge.sourceNodeId, targetNode.id) , startLoc->getLocationId() });
-									elementsToDelete.insert(edge.id);
+									occurrencesToDelete.push_back(StorageOccurrence(edge.id, startLoc->getLocationId()));
 								}
 							}
 						}
@@ -364,7 +361,15 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 			storage.addOccurrence(StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
 		}
 		storage.setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
-		storage.removeElements(utility::toVector(elementsToDelete));
+
+		storage.removeOccurrences(occurrencesToDelete);
+		std::set<Id> edgeIds;
+		for (const StorageOccurrence& occurrence : occurrencesToDelete)
+		{
+			edgeIds.insert(occurrence.elementId);
+		}
+		storage.removeElementsWithoutOccurrences(utility::toVector(edgeIds));
+
 		storage.finishInjection();
 		LOG_INFO("Finished Python post processing.");
 	}

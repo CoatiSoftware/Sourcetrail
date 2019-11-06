@@ -1,12 +1,13 @@
 #include "QtIndexingStartDialog.h"
 
+#include <QCheckBox>
 #include <QLabel>
-#include <QRadioButton>
 #include <QPushButton>
+#include <QRadioButton>
 
 #include "QtHelpButton.h"
 
-QtIndexingStartDialog::QtIndexingStartDialog(const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode, QWidget* parent)
+QtIndexingStartDialog::QtIndexingStartDialog(const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode, bool enabledShallowOption, bool initialShallowState, QWidget* parent)
 	: QtIndexingDialog(true, parent)
 {
 	setSizeGripStyle(false);
@@ -37,11 +38,18 @@ QtIndexingStartDialog::QtIndexingStartDialog(const std::vector<RefreshMode>& ena
 
 	QtHelpButton* helpButton = new QtHelpButton(
 		"Indexing Modes",
-		"<b>Updated files:</b> Reindexes all files that were modified since the last indexing, all files depending "
-		"on those and new files.<br /><br />"
-		"<b>Incomplete & updated files:</b> Reindexes all files that had errors during last indexing, all files "
-		"depending on those and all updated files.<br /><br />"
-		"<b>All files:</b> Deletes the previous index and reindexes all files.<br /><br />"
+		QString("<b>Updated files:</b> Reindexes all files that were modified since the last indexing, all new files and all files depending "
+			"on those.<br /><br />"
+			"<b>Incomplete & updated files:</b> Reindexes all files that had errors during last indexing, all updated files and all files "
+			"depending on those.<br /><br />"
+			"<b>All files:</b> Deletes the previous index and reindexes all files from scratch.<br /><br />") +
+			(enabledShallowOption ?
+				"<br /><b>Shallow Python Indexing:</b> References within your code base (calls, usages, etc.) are resolved by name, which is "
+				"imprecise but much faster than in-depth indexing.<br />"
+				"<i>Hint: Use this option for a quick first indexing pass and start browsing the code base "
+				"while running a second pass for in-depth indexing.<br /><br />" :
+				""
+			)
 	);
 	helpButton->setColor(Qt::white);
 	modeTitleLayout->addWidget(helpButton);
@@ -89,6 +97,14 @@ QtIndexingStartDialog::QtIndexingStartDialog(const std::vector<RefreshMode>& ena
 	for (RefreshMode mode : enabledModes)
 	{
 		m_refreshModeButtons[mode]->setEnabled(true);
+	}
+
+	if (enabledShallowOption)
+	{
+		QCheckBox* shallowIndexingCheckBox = new QCheckBox("Shallow Python Indexing");
+		connect(shallowIndexingCheckBox, &QCheckBox::toggled, [=]() { emit setShallowIndexing(shallowIndexingCheckBox->isChecked()); });
+		shallowIndexingCheckBox->setChecked(initialShallowState);
+		modeLayout->addWidget(shallowIndexingCheckBox);
 	}
 
 	subLayout->addLayout(modeLayout);

@@ -18,6 +18,8 @@ class SourceGroupSettings;
 class StorageProvider;
 class Task;
 
+struct RefreshInfo;
+
 class SourceGroup
 {
 public:
@@ -25,11 +27,12 @@ public:
 
 	virtual bool prepareIndexing();
 	virtual bool allowsPartialClearing() const;
+	virtual bool allowsShallowIndexing() const;
 
 	virtual std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const = 0;
 	virtual std::set<FilePath> getAllSourceFilePaths() const = 0;
-	virtual std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const;
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const = 0;
+	virtual std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const RefreshInfo& info) const;
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const = 0;
 	virtual std::shared_ptr<Task> getPreIndexTask(
 		std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView) const;
 

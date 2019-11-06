@@ -26,6 +26,7 @@
 #include "FileSystem.h"
 #include "MessageErrorCountClear.h"
 #include "MessageIndexingFinished.h"
+#include "MessageIndexingShowDialog.h"
 #include "MessageIndexingStarted.h"
 #include "MessageIndexingStatus.h"
 #include "MessageRefresh.h"
@@ -73,14 +74,14 @@ bool Project::isLoaded() const
 {
 	switch (m_state)
 	{
-		case PROJECT_STATE_EMPTY:
-		case PROJECT_STATE_LOADED:
-		case PROJECT_STATE_OUTDATED:
-		case PROJECT_STATE_NEEDS_MIGRATION:
-			return true;
+	case PROJECT_STATE_EMPTY:
+	case PROJECT_STATE_LOADED:
+	case PROJECT_STATE_OUTDATED:
+	case PROJECT_STATE_NEEDS_MIGRATION:
+		return true;
 
-		default:
-			break;
+	default:
+		break;
 	}
 
 	return false;
@@ -354,6 +355,18 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 		refreshMode = REFRESH_UPDATED_FILES;
 	}
 
+	bool allowsShallowIndexing = false;
+	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
+	{
+		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED && sourceGroup->allowsShallowIndexing())
+		{
+			allowsShallowIndexing = true;
+			break;
+		}
+	}
+
+	const bool useShallowIndexing = allowsShallowIndexing && (!isLoaded() || m_state == PROJECT_STATE_EMPTY);
+
 	if (m_hasGUI)
 	{
 		std::vector<RefreshMode> enabledModes = { REFRESH_ALL_FILES };
@@ -362,7 +375,7 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 			enabledModes.insert(enabledModes.end(), { REFRESH_UPDATED_FILES, REFRESH_UPDATED_AND_INCOMPLETE_FILES });
 		}
 
-		dialogView->startIndexingDialog(this, enabledModes, refreshMode,
+		dialogView->startIndexingDialog(this, enabledModes, refreshMode, allowsShallowIndexing, useShallowIndexing,
 			[this, dialogView](const RefreshInfo& info)
 			{
 				buildIndex(info, dialogView);
@@ -453,7 +466,9 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 					}
 					else
 					{
+						const bool shallow = info.shallow;
 						info = getRefreshInfo(REFRESH_ALL_FILES);
+						info.shallow = shallow;
 					}
 				}
 
@@ -476,6 +491,7 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 
 	if (info.mode != REFRESH_ALL_FILES)
 	{
+		// store the indexed data into the temp db but keep the current state to allow browsing while indexing
 		FileSystem::copyFile(indexDbFilePath, tempIndexDbFilePath);
 	}
 
@@ -507,17 +523,18 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND ||
 				sourceGroup->getType() == SOURCE_GROUP_PYTHON_EMPTY)
 			{
-				customIndexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info.filesToIndex));
+				customIndexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info));
 			}
 			else
 			{
-				indexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info.filesToIndex));
+				indexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info));
 			}
 		}
 	}
 
 	size_t sourceFileCount = indexerCommandProvider->size() + customIndexerCommandProvider->size();
 
+	taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("shallow_indexing", info.shallow));
 	taskSequential->addTask(std::make_shared<TaskSetValue<int>>("source_file_count", sourceFileCount));
 	taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
 	taskSequential->addTask(std::make_shared<TaskSetValue<bool>>("interrupted_indexing", false));
@@ -669,6 +686,24 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 		m_refreshStage = RefreshStageType::NONE;
 		MessageIndexingFinished().dispatch();
 	}));
+
+	taskSequential->addTask(std::make_shared<TaskGroupSelector>()->addChildTasks(
+		std::make_shared<TaskGroupSequence>()->addChildTasks(
+			std::make_shared<TaskFindKeyOnBlackboard>("refresh_database"),
+			std::make_shared<TaskLambda>([dialogView, this]() {
+				Task::dispatch(TabId::app(), std::make_shared<TaskLambda>([dialogView, this]() {
+					MessageIndexingShowDialog().dispatch();
+					MessageRefresh().refreshAll().dispatch();
+				}));
+			})
+		),
+		std::make_shared<TaskGroupSequence>()->addChildTasks(
+			std::make_shared<TaskLambda>([this]() {
+				Task::dispatch(TabId::app(), std::make_shared<TaskLambda>([this]() {
+				}));
+			})
+		)
+	));
 
 	taskSequential->setIsBackgroundTask(true);
 	Task::dispatch(TabId::app(), taskSequential);

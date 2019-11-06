@@ -15,6 +15,7 @@ enum DatabasePolicy
 {
 	DATABASE_POLICY_KEEP,
 	DATABASE_POLICY_DISCARD,
+	DATABASE_POLICY_REFRESH,
 	DATABASE_POLICY_UNKNOWN
 };
 
@@ -45,7 +46,7 @@ public:
 	virtual void hideProgressDialog();
 
 	virtual void startIndexingDialog(
-		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode,
+		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode, bool enabledShallowOption, bool shallow,
 		std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing);
 	virtual void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths);
@@ -53,7 +54,7 @@ public:
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths);
 	virtual DatabasePolicy finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
-		float time, ErrorCountInfo errorInfo, bool interrupted);
+		float time, ErrorCountInfo errorInfo, bool interrupted, bool shallow);
 
 	int confirm(const std::wstring& message);
 	virtual int confirm(const std::wstring& message, const std::vector<std::wstring>& options);

@@ -7,9 +7,9 @@
 #include "SourceGroupSettings.h"
 #include "TaskLambda.h"
 
-std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const RefreshInfo& info) const
 {
-	return std::make_shared<MemoryIndexerCommandProvider>(getIndexerCommands(filesToIndex));
+	return std::make_shared<MemoryIndexerCommandProvider>(getIndexerCommands(info));
 }
 
 std::shared_ptr<Task> SourceGroup::getPreIndexTask(
@@ -41,6 +41,11 @@ bool SourceGroup::prepareIndexing()
 bool SourceGroup::allowsPartialClearing() const
 {
 	return true;
+}
+
+bool SourceGroup::allowsShallowIndexing() const
+{
+	return false;
 }
 
 std::set<FilePath> SourceGroup::filterToContainedSourceFilePath(const std::set<FilePath>& sourceFilePaths) const

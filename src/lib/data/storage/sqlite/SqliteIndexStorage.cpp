@@ -477,6 +477,28 @@ void SqliteIndexStorage::removeElements(const std::vector<Id>& ids)
 	);
 }
 
+void SqliteIndexStorage::removeOccurrence(const StorageOccurrence& occurrence)
+{
+	executeStatement(
+		"DELETE FROM occurrence WHERE element_id = " + std::to_string(occurrence.elementId) + " AND source_location_id = " + std::to_string(occurrence.sourceLocationId) + ";"
+	);
+}
+
+void SqliteIndexStorage::removeOccurrences(const std::vector<StorageOccurrence>& occurrences)
+{
+	for (const StorageOccurrence& occurrence : occurrences)
+	{
+		removeOccurrence(occurrence);
+	}
+}
+
+void SqliteIndexStorage::removeElementsWithoutOccurrences(const std::vector<Id>& elementIds)
+{
+	executeStatement(
+		"DELETE FROM element WHERE id IN (" + utility::join(utility::toStrings(elementIds), ',') + ") AND id NOT IN (SELECT element_id FROM occurrence);"
+	);
+}
+
 void SqliteIndexStorage::removeElementsWithLocationInFiles(
 	const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback)
 {

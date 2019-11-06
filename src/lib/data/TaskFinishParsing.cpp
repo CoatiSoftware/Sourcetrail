@@ -61,6 +61,9 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	bool interruptedIndexing = false;
 	blackboard->get("interrupted_indexing", interruptedIndexing);
 
+	bool shallowIndexing = false;
+	blackboard->get("shallow_indexing", shallowIndexing);
+
 	ErrorCountInfo errorInfo = m_storage->getErrorCount();
 
 	std::wstring status;
@@ -82,7 +85,8 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		stats.fileCount,
 		time,
 		errorInfo,
-		interruptedIndexing
+		interruptedIndexing,
+		shallowIndexing
 	);
 
 	MessageIndexingStatus(false).dispatch();
@@ -94,6 +98,11 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	else if (policy == DATABASE_POLICY_DISCARD)
 	{
 		blackboard->set("discard_database", true);
+	}
+	else if (policy == DATABASE_POLICY_REFRESH)
+	{
+		blackboard->set("keep_database", true);
+		blackboard->set("refresh_database", true);
 	}
 
 	return STATE_SUCCESS;

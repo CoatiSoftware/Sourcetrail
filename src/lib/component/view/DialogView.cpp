@@ -42,7 +42,7 @@ void DialogView::hideProgressDialog()
 }
 
 void DialogView::startIndexingDialog(
-	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode,
+	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode, bool enabledShallowOption, bool shallow, 
 	std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing)
 {
 }
@@ -59,7 +59,7 @@ void DialogView::updateCustomIndexingDialog(
 
 DatabasePolicy DialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
-	float time, ErrorCountInfo errorInfo, bool interrupted)
+	float time, ErrorCountInfo errorInfo, bool interrupted, bool shallow)
 {
 	return DATABASE_POLICY_KEEP; // used in non-gui mode
 }

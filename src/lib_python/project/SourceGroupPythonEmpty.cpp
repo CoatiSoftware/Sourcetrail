@@ -4,6 +4,7 @@
 #include "FileManager.h"
 #include "IndexerCommandCustom.h"
 #include "ProjectSettings.h"
+#include "RefreshInfo.h"
 #include "ResourcePaths.h"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "SqliteIndexStorage.h"
@@ -18,6 +19,12 @@ bool SourceGroupPythonEmpty::allowsPartialClearing() const
 {
 	return false;
 }
+
+bool SourceGroupPythonEmpty::allowsShallowIndexing() const
+{
+	return true;
+}
+
 
 std::set<FilePath> SourceGroupPythonEmpty::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
@@ -40,7 +47,7 @@ std::set<FilePath> SourceGroupPythonEmpty::getAllSourceFilePaths() const
 	return fileManager.getAllSourceFilePaths();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerCommands(const RefreshInfo& info) const
 {
 	std::wstring args = L"";
 
@@ -57,10 +64,15 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 		args += L" --verbose";
 	}
 
+	if (info.shallow)
+	{
+		args += L" --shallow";
+	}
+
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourceFilePath : getAllSourceFilePaths())
 	{
-		if (filesToIndex.find(sourceFilePath) != filesToIndex.end())
+		if (info.filesToIndex.find(sourceFilePath) != info.filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
 				INDEXER_COMMAND_PYTHON,

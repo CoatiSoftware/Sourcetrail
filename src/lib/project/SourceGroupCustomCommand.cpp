@@ -3,6 +3,7 @@
 #include "FileManager.h"
 #include "IndexerCommandCustom.h"
 #include "ProjectSettings.h"
+#include "RefreshInfo.h"
 #include "SourceGroupSettingsCustomCommand.h"
 #include "SqliteIndexStorage.h"
 #include "utility.h"
@@ -38,7 +39,7 @@ std::set<FilePath> SourceGroupCustomCommand::getAllSourceFilePaths() const
 	return fileManager.getAllSourceFilePaths();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexerCommands(const RefreshInfo& info) const
 {
 	const std::wstring customCommand = m_settings->getCustomCommand();
 	const bool runInParallel = m_settings->getRunInParallel();
@@ -46,7 +47,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexe
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
-		if (filesToIndex.find(sourcePath) != filesToIndex.end())
+		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
 				customCommand, 

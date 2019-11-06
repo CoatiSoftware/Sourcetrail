@@ -13,7 +13,7 @@ class SourceGroupJava
 public:
 	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
 	std::set<FilePath> getAllSourceFilePaths() const override;
-	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
+	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const override;
 
 private:
 	virtual std::vector<FilePath> getAllSourcePaths() const = 0;

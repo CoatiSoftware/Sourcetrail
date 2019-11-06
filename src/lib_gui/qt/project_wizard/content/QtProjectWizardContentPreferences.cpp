@@ -372,7 +372,7 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	addTitle("Python", layout, row);
 
 	m_pythonPostProcessing = addCheckBox("Post Processing",
-		"Add ambiguous edges for unsolved references",
+		"Add ambiguous edges for unsolved references (recommended)",
 		"<p>Enable a post processing step to solve unsolved references after the indexing is done. </p>"
 		"<p>These references will be marked \"ambiguous\" to indicate that some of these edges may never "
 		"be encountered during runtime of the indexed code because the post processing only relies on "

@@ -5,6 +5,7 @@
 #include "FileManager.h"
 #include "IndexerCommandCxx.h"
 #include "logging.h"
+#include "RefreshInfo.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
 #include "SourceGroupSettingsWithCppStandard.h"
@@ -69,7 +70,7 @@ std::set<FilePath> SourceGroupCxxEmpty::getAllSourceFilePaths() const
 	return fileManager.getAllSourceFilePaths();
 }
 
-std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandProvider(const std::set<FilePath>& filesToIndex) const
+std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandProvider(const RefreshInfo& info) const
 {
 	std::set<FilePath> indexedPaths;
 	std::set<FilePathFilter> excludeFilters;
@@ -93,7 +94,7 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 	std::shared_ptr<CxxIndexerCommandProvider> provider = std::make_shared<CxxIndexerCommandProvider>();
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
-		if (filesToIndex.find(sourcePath) != filesToIndex.end())
+		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end())
 		{
 			provider->addCommand(std::make_shared<IndexerCommandCxx>(
 				sourcePath,
@@ -109,9 +110,9 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 	return provider;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerCommands(const RefreshInfo& info) const
 {
-	return getIndexerCommandProvider(filesToIndex)->consumeAllCommands();
+	return getIndexerCommandProvider(info)->consumeAllCommands();
 }
 
 std::shared_ptr<Task> SourceGroupCxxEmpty::getPreIndexTask(

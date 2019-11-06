@@ -3,6 +3,7 @@
 #include "IndexerCommandJava.h"
 #include "FileManager.h"
 #include "logging.h"
+#include "RefreshInfo.h"
 #include "SourceGroupSettings.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
 #include "SourceGroupSettingsWithJavaStandard.h"
@@ -33,7 +34,7 @@ std::set<FilePath> SourceGroupJava::getAllSourceFilePaths() const
 	return fileManager.getAllSourceFilePaths();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const RefreshInfo& info) const
 {
 	const std::wstring languageStandard =
 		dynamic_cast<const SourceGroupSettingsWithJavaStandard*>(getSourceGroupSettings().get())->getJavaStandard();
@@ -43,7 +44,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
-		if (filesToIndex.find(sourcePath) != filesToIndex.end())
+		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandJava>(
 				sourcePath, languageStandard, classPath

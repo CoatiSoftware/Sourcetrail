@@ -165,6 +165,21 @@ void PersistentStorage::removeElements(const std::vector<Id>& ids)
 	m_sqliteIndexStorage.removeElements(ids);
 }
 
+void PersistentStorage::removeOccurrence(const StorageOccurrence& occurrence)
+{
+	m_sqliteIndexStorage.removeOccurrence(occurrence);
+}
+
+void PersistentStorage::removeOccurrences(const std::vector<StorageOccurrence>& occurrences)
+{
+	m_sqliteIndexStorage.removeOccurrences(occurrences);
+}
+
+void PersistentStorage::removeElementsWithoutOccurrences(const std::vector<Id>& elementIds)
+{
+	m_sqliteIndexStorage.removeElementsWithoutOccurrences(elementIds);
+}
+
 const std::vector<StorageNode>& PersistentStorage::getStorageNodes() const
 {
 	return m_storageData.nodes = m_sqliteIndexStorage.getAll<StorageNode>();

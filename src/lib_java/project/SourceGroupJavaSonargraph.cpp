@@ -1,12 +1,13 @@
 #include "SourceGroupJavaSonargraph.h"
 
-#include "IndexerCommandJava.h"
-#include "ApplicationSettings.h"
-#include "SourceGroupSettingsJavaSonargraph.h"
-#include "MessageStatus.h"
-#include "SonargraphProject.h"
-#include "utilityJava.h"
 #include "Application.h"
+#include "ApplicationSettings.h"
+#include "IndexerCommandJava.h"
+#include "MessageStatus.h"
+#include "RefreshInfo.h"
+#include "SonargraphProject.h"
+#include "SourceGroupSettingsJavaSonargraph.h"
+#include "utilityJava.h"
 
 SourceGroupJavaSonargraph::SourceGroupJavaSonargraph(std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings)
 	: m_settings(settings)
@@ -65,7 +66,7 @@ std::set<FilePath> SourceGroupJavaSonargraph::getAllSourceFilePaths() const
 	return std::set<FilePath>();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJavaSonargraph::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJavaSonargraph::getIndexerCommands(const RefreshInfo& info) const
 {
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
@@ -75,7 +76,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJavaSonargraph::getIndex
 	{
 		for (std::shared_ptr<IndexerCommand> indexerCommand : project->getIndexerCommands(m_settings, ApplicationSettings::getInstance()))
 		{
-			if (filesToIndex.find(indexerCommand->getSourceFilePath()) != filesToIndex.end())
+			if (info.filesToIndex.find(indexerCommand->getSourceFilePath()) != info.filesToIndex.end())
 			{
 				indexerCommands.push_back(indexerCommand);
 			}
