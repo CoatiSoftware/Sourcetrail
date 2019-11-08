@@ -65,6 +65,7 @@ add_files(
 	component/controller/UndoRedoController.cpp
 	component/controller/UndoRedoController.h
 
+	component/view/helper/CodeScrollParams.h
 	component/view/helper/CodeSnippetParams.cpp
 	component/view/helper/CodeSnippetParams.h
 	component/view/BookmarkButtonsView.cpp

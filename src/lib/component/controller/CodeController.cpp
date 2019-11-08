@@ -7,6 +7,7 @@
 #include "FileInfo.h"
 #include "logging.h"
 #include "MessageMoveIDECursor.h"
+#include "MessageShowError.h"
 #include "MessageStatus.h"
 #include "StorageAccess.h"
 #include "SourceLocation.h"
@@ -35,9 +36,6 @@ void CodeController::handleMessage(MessageActivateErrors* message)
 
 	CodeView* view = getView();
 
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-	view->scrollTo(scrollParams);
-
 	std::vector<ErrorInfo> errors;
 	if (message->file.empty())
 	{
@@ -49,17 +47,18 @@ void CodeController::handleMessage(MessageActivateErrors* message)
 	}
 
 	m_collection = m_storageAccess->getErrorSourceLocations(errors);
-	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
 
-	std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
+	m_files = getFilesForCollection(m_collection);
+	std::sort(m_files.begin(), m_files.end(), CodeFileParams::sortById);
 
 	CodeView::CodeParams params;
 	params.clearSnippets = true;
-	params.errorInfos = errors;
-	params.showContents = !message->isReplayed();
 	params.useSingleFileCache = false;
+	params.errorInfos = errors;
 
-	showCodeSnippets(snippets, params, false);
+	createReferences();
+	expandVisibleFiles(params.useSingleFileCache);
+	showFiles(params, firstReferenceScrollParams(), !message->isReplayed());
 }
 
 void CodeController::handleMessage(MessageActivateFullTextSearch* message)
@@ -70,15 +69,14 @@ void CodeController::handleMessage(MessageActivateFullTextSearch* message)
 
 	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
 
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-	getView()->scrollTo(scrollParams);
-
 	CodeView::CodeParams params;
 	params.clearSnippets = true;
-	params.showContents = !message->isReplayed();
 	params.useSingleFileCache = false;
 
-	showCodeSnippets(getSnippetsForCollection(m_collection), params);
+	m_files = getFilesForCollection(m_collection);
+	createReferences();
+	expandVisibleFiles(params.useSingleFileCache);
+	showFiles(params, firstReferenceScrollParams(), !message->isReplayed());
 }
 
 void CodeController::handleMessage(MessageActivateLegend* message)
@@ -88,8 +86,11 @@ void CodeController::handleMessage(MessageActivateLegend* message)
 
 void CodeController::handleMessage(MessageActivateLocalSymbols* message)
 {
-	CodeView* view = getView();
-	view->showActiveLocalSymbolIds(message->symbolIds);
+	createLocalReferences(utility::toSet(message->symbolIds));
+	m_codeParams.activeLocalSymbolIds = message->symbolIds;
+	m_codeParams.activeLocalSymbolType = LOCATION_LOCAL_SYMBOL;
+	m_codeParams.currentActiveLocalLocationIds.clear();
+	showFiles(m_codeParams, CodeScrollParams(), !message->isReplayed());
 }
 
 void CodeController::handleMessage(MessageActivateOverview* message)
@@ -97,6 +98,7 @@ void CodeController::handleMessage(MessageActivateOverview* message)
 	TRACE("code all");
 
 	saveOrRestoreViewMode(message);
+	clearReferences();
 
 	std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
 	if (!currentProject || message->acceptedNodeTypes != NodeTypeSet::all())
@@ -106,12 +108,12 @@ void CodeController::handleMessage(MessageActivateOverview* message)
 	}
 
 	CodeSnippetParams statsSnippet;
+	statsSnippet.hasAllSourceLocations = true;
 	statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().fileName();
+	statsSnippet.isOverview = true;
 
 	statsSnippet.startLineNumber = 1;
 	statsSnippet.endLineNumber = 1;
-
-	statsSnippet.reduced = true;
 
 	statsSnippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(), L"", true, true, true);
 
@@ -158,10 +160,20 @@ void CodeController::handleMessage(MessageActivateOverview* message)
 
 	statsSnippet.code = ss.str();
 
+	CodeFileParams file;
+	file.isMinimized = false;
+	file.locationFile = statsSnippet.locationFile;
+	file.snippetParams.push_back(statsSnippet);
+	file.fileParams = std::make_shared<CodeSnippetParams>(statsSnippet);
+
+	m_currentFilePath = file.locationFile->getFilePath();
+	m_files = { file };
+
 	CodeView::CodeParams params;
 	params.clearSnippets = true;
-	params.showContents = !message->isReplayed();
-	showCodeSnippets({ statsSnippet }, params);
+	params.useSingleFileCache = false;
+
+	showFiles(params, CodeScrollParams(), !message->isReplayed());
 }
 
 void CodeController::handleMessage(MessageActivateTokens* message)
@@ -171,17 +183,15 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	saveOrRestoreViewMode(message);
 
 	CodeView* view = getView();
-
-	CodeView::CodeParams params;
-	params.activeTokenIds = message->tokenIds;
-	if (!params.activeTokenIds.size())
+	if (!message->tokenIds.size())
 	{
 		view->clear();
 		return;
 	}
 
-	params.clearSnippets = !message->keepContent();
-	params.showContents = !message->isReplayed();
+	CodeView::CodeParams params;
+	params.activeTokenIds = message->tokenIds;
+	params.clearSnippets = true;
 
 	Id declarationId = 0; // 0 means that no token is found.
 	if (!message->isAggregation)
@@ -194,50 +204,56 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		params.activeTokenIds = activeTokenIds;
 	}
 
-	if (message->isEdge)
+	if (message->isEdge && params.activeTokenIds.size() == 1)
 	{
-		std::shared_ptr<SourceLocationCollection> collection =
-			m_storageAccess->getSourceLocationsForTokenIds(params.activeTokenIds);
-		view->showActiveSnippet(params.activeTokenIds, collection, message->isLast());
+		showFirstActiveReference(params.activeTokenIds[0], !message->isReplayed());
 		return;
 	}
 
-	if (message->keepContent())
+	if (message->keepContent()) // deactivating an edge
 	{
-		view->showActiveTokenIds(params.activeTokenIds);
+		m_codeParams.activeTokenIds = params.activeTokenIds;
+		m_codeParams.activeLocationIds.clear();
+		m_codeParams.activeLocalSymbolIds.clear();
+		m_codeParams.currentActiveLocalLocationIds.clear();
+		clearLocalReferences();
+
+		showFiles(m_codeParams, CodeScrollParams(), !message->isReplayed());
 		return;
 	}
-
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-	scrollParams.ignoreActiveReference = true;
-	view->scrollTo(scrollParams);
 
 	m_collection = m_storageAccess->getSourceLocationsForTokenIds(params.activeTokenIds);
-	showCodeSnippets(getSnippetsForActiveSourceLocations(m_collection.get(), declarationId), params);
 
+	m_files = getFilesForActiveSourceLocations(m_collection.get(), declarationId);
+	createReferences();
+	expandVisibleFiles(params.useSingleFileCache);
+	showFiles(params, definitionReferenceScrollParams(params.activeTokenIds), !message->isReplayed());
 
-	size_t fileCount = m_collection->getSourceLocationFileCount();
-	size_t referenceCount = m_collection->getSourceLocationCount();
-
-	std::wstring status;
-	for (const SearchMatch& match : message->getSearchMatches())
+	// send status message
 	{
-		status += L"Activate \"" + match.name + L"\": ";
-		break;
+		size_t fileCount = m_collection->getSourceLocationFileCount();
+		size_t referenceCount = m_collection->getSourceLocationCount();
+
+		std::wstring status;
+		for (const SearchMatch& match : message->getSearchMatches())
+		{
+			status += L"Activate \"" + match.name + L"\": ";
+			break;
+		}
+
+		status += std::to_wstring(message->tokenIds.size()) + L" ";
+		status += (message->tokenIds.size() == 1 ? L"result" : L"results");
+
+		if (fileCount > 0)
+		{
+			status += L" with " + std::to_wstring(referenceCount) + L" ";
+			status += (referenceCount == 1 ? L"reference" : L"references");
+			status += L" in " + std::to_wstring(fileCount) + L" ";
+			status += (fileCount == 1 ? L"file" : L"files");
+		}
+
+		MessageStatus(status).dispatch();
 	}
-
-	status += std::to_wstring(message->tokenIds.size()) + L" ";
-	status += (message->tokenIds.size() == 1 ? L"result" : L"results");
-
-	if (fileCount > 0)
-	{
-		status += L" with " + std::to_wstring(referenceCount) + L" ";
-		status += (referenceCount == 1 ? L"reference" : L"references");
-		status += L" in " + std::to_wstring(fileCount) + L" ";
-		status += (fileCount == 1 ? L"file" : L"files");
-	}
-
-	MessageStatus(status).dispatch();
 }
 
 void CodeController::handleMessage(MessageActivateTrail* message)
@@ -257,55 +273,53 @@ void CodeController::handleMessage(MessageActivateTrailEdge* message)
 
 	saveOrRestoreViewMode(message);
 
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-	getView()->scrollTo(scrollParams);
+	m_codeParams.activeTokenIds = message->edgeIds;
 
-	CodeView::CodeParams params;
-	params.clearSnippets = true;
-	params.showContents = !message->isReplayed();
-	params.activeTokenIds = message->edgeIds;
+	m_collection = m_storageAccess->getSourceLocationsForTokenIds(m_codeParams.activeTokenIds);
 
-	m_collection = m_storageAccess->getSourceLocationsForTokenIds(params.activeTokenIds);
-	showCodeSnippets(getSnippetsForActiveSourceLocations(m_collection.get(), 0), params);
+	m_files = getFilesForActiveSourceLocations(m_collection.get(), 0);
+	createReferences();
+	expandVisibleFiles(m_codeParams.useSingleFileCache);
+	showFiles(m_codeParams, firstReferenceScrollParams(), !message->isReplayed());
 }
 
 void CodeController::handleMessage(MessageChangeFileView* message)
 {
 	TRACE("code change file");
 
-	CodeView::FileState state;
-	switch (message->state)
+	saveOrRestoreViewMode(message);
+
+	for (CodeFileParams& file : m_files)
 	{
-	case MessageChangeFileView::FILE_MINIMIZED:
-		state = CodeView::FILE_MINIMIZED;
-		break;
+		if (file.locationFile->getFilePath() == message->filePath)
+		{
+			setFileState(file, message->state, m_codeParams.useSingleFileCache);
 
-	case MessageChangeFileView::FILE_SNIPPETS:
-		state = CodeView::FILE_SNIPPETS;
-		break;
+			// maximize within snippet list
+			if (message->viewMode == MessageChangeFileView::VIEW_LIST && message->state == MessageChangeFileView::FILE_MAXIMIZED)
+			{
+				file.snippetParams = { *file.fileParams.get() };
+			}
 
-	case MessageChangeFileView::FILE_MAXIMIZED:
-		state = CodeView::FILE_MAXIMIZED;
-		break;
+			break;
+		}
 	}
 
-	CodeView* view = getView();
-	if (message->viewMode != MessageChangeFileView::VIEW_CURRENT)
+	showFiles(m_codeParams, message->scrollParams, !message->isReplayed());
+}
+
+void CodeController::handleMessage(MessageCodeReference* message)
+{
+	bool next = (message->type == MessageCodeReference::REFERENCE_NEXT);
+	bool local = message->localReference;
+
+	if (local)
 	{
-		view->setMode(message->viewMode == MessageChangeFileView::VIEW_LIST);
+		iterateLocalReference(next, true);
 	}
-
-	if (message->needsData && !message->filePath.empty())
+	else
 	{
-		view->scrollTo(CodeView::ScrollParams());
-		showCodeSnippets(getSnippetsForFileWithState(message->filePath, state), CodeView::CodeParams(), !message->showErrors);
-	}
-
-	view->setFileState(message->filePath, state);
-
-	if (!message->isReplayed())
-	{
-		view->showContents();
+		iterateReference(next);
 	}
 }
 
@@ -378,44 +392,32 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message)
 		return;
 	}
 
-	std::vector<CodeSnippetParams> snippets = getSnippetsForFile(collection->getSourceLocationFiles().begin()->second);
-	if (snippets.size() != 1)
+	CodeFileParams* file = addSourceLocations(collection->getSourceLocationFiles().begin()->second);
+	if (!file)
 	{
-		LOG_ERROR("MessageCodeShowDefinition snippet count is not 1");
+		LOG_ERROR("MessageCodeShowDefinition did not create a file");
 		return;
 	}
 
-	snippets[0].insertSnippet = true;
-
-	if (!m_collection)
-	{
-		m_collection = std::make_shared<SourceLocationCollection>();
-	}
-	m_collection->addSourceLocationCopies(collection.get());
-
 	saveOrRestoreViewMode(message);
 
-	CodeView* view = getView();
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_LINE);
-	scrollParams.filePath = filePath;
-	scrollParams.line = lineNumber;
-	view->scrollTo(scrollParams);
-
-	CodeView::CodeParams params;
-	params.showContents = !message->isReplayed();
-
-	addAllSourceLocations(&snippets);
-	getView()->showCodeSnippets(snippets, params);
+	showFiles(m_codeParams, CodeScrollParams::toLine(filePath, lineNumber, CodeScrollParams::Target::TOP), !message->isReplayed());
 }
 
 void CodeController::handleMessage(MessageDeactivateEdge* message)
 {
 	if (message->scrollToDefinition)
 	{
-		CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
-		scrollParams.animated = true;
-		scrollParams.ignoreActiveReference = true;
-		getView()->scrollTo(scrollParams);
+		CodeScrollParams scrollParams = definitionReferenceScrollParams(m_codeParams.activeTokenIds);
+
+		if (message->isReplayed())
+		{
+			m_scrollParams = scrollParams;
+		}
+		else
+		{
+			getView()->scrollTo(scrollParams, true);
+		}
 	}
 }
 
@@ -429,7 +431,7 @@ void CodeController::handleMessage(MessageErrorCountClear* message)
 
 void CodeController::handleMessage(MessageFlushUpdates* message)
 {
-	getView()->showContents();
+	showFiles(m_codeParams, m_scrollParams, true);
 }
 
 void CodeController::handleMessage(MessageFocusIn* message)
@@ -444,12 +446,7 @@ void CodeController::handleMessage(MessageFocusOut* message)
 
 void CodeController::handleMessage(MessageScrollToLine* message)
 {
-	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_LINE);
-	scrollParams.filePath = message->filePath;
-	scrollParams.line = message->line;
-	getView()->scrollTo(scrollParams);
-
-	getView()->showContents();
+	getView()->scrollTo(CodeScrollParams::toLine(message->filePath, message->line, CodeScrollParams::Target::TOP), false);
 
 	MessageStatus(
 		L"Showing source location: " + message->filePath.wstr() + L" : " + std::to_wstring(message->line)
@@ -460,10 +457,7 @@ void CodeController::handleMessage(MessageScrollCode* message)
 {
 	if (message->isReplayed())
 	{
-		CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_VALUE);
-		scrollParams.value = message->value;
-		scrollParams.inListMode = message->inListMode;
-		getView()->scrollTo(scrollParams);
+		m_scrollParams = CodeScrollParams::toValue(message->value, message->inListMode);
 	}
 }
 
@@ -472,7 +466,32 @@ void CodeController::handleMessage(MessageShowError* message)
 	CodeView* view = getView();
 	if (view->showsErrors())
 	{
-		view->showActiveSnippet({ message->errorId }, m_collection, message->isLast());
+		showFirstActiveReference(message->errorId, !message->isReplayed());
+	}
+}
+
+void CodeController::handleMessage(MessageShowReference* message)
+{
+	m_referenceIndex = message->refIndex;
+	bool replayed = message->isReplayed();
+
+	if (m_referenceIndex >= 0 && m_referenceIndex < m_references.size())
+	{
+		const Reference& ref = m_references[m_referenceIndex];
+		m_codeParams.activeLocationIds = { ref.locationId };
+
+		setFileState(
+			ref.filePath,
+			getView()->isInListMode() ? MessageChangeFileView::FILE_SNIPPETS : MessageChangeFileView::FILE_MAXIMIZED,
+			m_codeParams.useSingleFileCache
+		);
+
+		showFiles(m_codeParams, toReferenceScrollParams(ref), !message->isReplayed());
+
+		if (ref.locationType == LOCATION_ERROR)
+		{
+			MessageShowError(ref.tokenId).dispatch();
+		}
 	}
 }
 
@@ -490,20 +509,16 @@ void CodeController::handleMessage(MessageShowScope* message)
 		return;
 	}
 
-	std::vector<CodeSnippetParams> snippets = getSnippetsForFile(collection->getSourceLocationFiles().begin()->second);
-	if (snippets.size() != 1)
+	addSourceLocations(collection->getSourceLocationFiles().begin()->second);
+
+	if (m_localReferences.size())
 	{
-		LOG_ERROR("MessageShowScope didn't result in one single snippet to be created");
-		return;
+		addAllSourceLocations();
+		createLocalReferences(utility::toSet(m_codeParams.activeLocalSymbolIds));
+		m_codeParams.currentActiveLocalLocationIds.clear();
 	}
 
-	snippets[0].insertSnippet = true;
-
-	CodeView::CodeParams params;
-	params.showContents = !message->isReplayed();
-
-	addAllSourceLocations(&snippets);
-	getView()->showCodeSnippets(snippets, params);
+	showFiles(m_codeParams, CodeScrollParams(), !message->isReplayed());
 }
 
 CodeView* CodeController::getView() const
@@ -516,70 +531,16 @@ void CodeController::clear()
 	getView()->clear();
 
 	m_collection = std::make_shared<SourceLocationCollection>();
+	m_currentFilePath = FilePath();
+	clearReferences();
 }
 
-std::vector<CodeSnippetParams> CodeController::getSnippetsForFileWithState(
-	const FilePath& filePath, CodeView::FileState state) const
-{
-	TRACE();
-
-	std::shared_ptr<SourceLocationFile> file = m_collection->getSourceLocationFileByPath(filePath);
-	if (!file)
-	{
-		return {};
-	}
-
-	std::vector<CodeSnippetParams> snippets;
-
-	switch (state)
-	{
-	case CodeView::FILE_SNIPPETS:
-		snippets = getSnippetsForFile(file);
-		break;
-
-	case CodeView::FILE_MAXIMIZED:
-		{
-			CodeSnippetParams params;
-			params.startLineNumber = 1;
-			params.refCount = -1;
-
-			bool showsErrors = false;
-			if (m_collection->getSourceLocationFiles().size())
-			{
-				std::shared_ptr<SourceLocationFile> file = m_collection->getSourceLocationFiles().begin()->second;
-				if (file->getSourceLocations().size())
-				{
-					showsErrors = (*file->getSourceLocations().begin())->getType() == LOCATION_ERROR;
-				}
-			}
-
-			std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(filePath, showsErrors);
-			params.code = textAccess->getText();
-
-			params.modificationTime = m_storageAccess->getFileInfoForFilePath(filePath).lastWriteTime;
-
-			// make a copy of SourceLocationFile so that isWhole flag is different for first snippet adding the file
-			// and second snippet adding the content
-			params.locationFile = std::make_shared<SourceLocationFile>(*file.get());
-			params.locationFile->setIsWhole(true);
-
-			snippets.push_back(params);
-		}
-		break;
-
-	default:
-		break;
-	}
-
-	return snippets;
-}
-
-std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveSourceLocations(
+std::vector<CodeFileParams> CodeController::getFilesForActiveSourceLocations(
 	const SourceLocationCollection* collection, Id declarationId
 ) const {
 	TRACE();
 
-	std::vector<CodeSnippetParams> snippets;
+	std::vector<CodeFileParams> files;
 	collection->forEachSourceLocationFile(
 		[&](std::shared_ptr<SourceLocationFile> file) -> void
 		{
@@ -605,52 +566,73 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveSourceLocatio
 				}
 			);
 
-			CodeSnippetParams params;
+			CodeFileParams params;
 			params.locationFile = file;
-			params.refCount = file->getUnscopedStartLocationCount();
-
 			params.isDeclaration = isDeclarationFile;
 			params.isDefinition = isDefinitionFile;
-
-			params.isCollapsed = true;
-			snippets.push_back(params);
+			files.push_back(params);
 		}
 	);
 
-	std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sort);
+	std::sort(files.begin(), files.end(), CodeFileParams::sort);
 
-	addModificationTimes(&snippets);
-
-	return snippets;
+	return files;
 }
 
-std::vector<CodeSnippetParams> CodeController::getSnippetsForCollection(
-	std::shared_ptr<SourceLocationCollection> collection
-) const
+std::vector<CodeFileParams> CodeController::getFilesForCollection(std::shared_ptr<SourceLocationCollection> collection) const
 {
 	TRACE();
 
-	std::vector<CodeSnippetParams> snippets;
+	std::vector<CodeFileParams> files;
 
 	collection->forEachSourceLocationFile(
 		[&](std::shared_ptr<SourceLocationFile> file) -> void
 		{
-			CodeSnippetParams params;
+			CodeFileParams params;
 			params.locationFile = file;
-			params.refCount = file->getUnscopedStartLocationCount();
-
-			params.isCollapsed = true;
-			snippets.push_back(params);
+			files.push_back(params);
 		}
 	);
 
-	addModificationTimes(&snippets);
+	return files;
+}
 
-	return snippets;
+
+CodeSnippetParams CodeController::getSnippetParamsForWholeFile(
+	std::shared_ptr<SourceLocationFile> locationFile, bool useSingleFileCache) const
+{
+	CodeSnippetParams snippet;
+	snippet.startLineNumber = 1;
+
+	if (useSingleFileCache && !getView()->isInListMode() && getView()->hasSingleFileCached(locationFile->getFilePath()))
+	{
+		snippet.locationFile = locationFile;
+		return snippet;
+	}
+
+	bool showsErrors = false;
+	if (m_collection->getSourceLocationFiles().size())
+	{
+		std::shared_ptr<SourceLocationFile> file = m_collection->getSourceLocationFiles().begin()->second;
+		if (file->getSourceLocations().size())
+		{
+			showsErrors = (*file->getSourceLocations().begin())->getType() == LOCATION_ERROR;
+		}
+	}
+
+	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(locationFile->getFilePath(), showsErrors);
+	snippet.code = textAccess->getText();
+
+	// make a copy of SourceLocationFile so that isWhole flag is different for first snippet adding the file
+	// and second snippet adding the content
+	snippet.locationFile = std::make_shared<SourceLocationFile>(*locationFile.get());
+	snippet.locationFile->setIsWhole(true);
+
+	return snippet;
 }
 
 std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
-		std::shared_ptr<SourceLocationFile> activeSourceLocations
+	std::shared_ptr<SourceLocationFile> activeSourceLocations
 ) const
 {
 	TRACE();
@@ -699,8 +681,6 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 	for (const SnippetMerger::Range& range: ranges)
 	{
 		CodeSnippetParams params;
-		params.refCount = activeSourceLocations->getUnscopedStartLocationCount();
-
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
 		params.endLineNumber = std::min<int>(lineCount, range.end.row + (range.end.strong ? 0 : snippetExpandRange));
 
@@ -867,93 +847,429 @@ std::vector<std::string> CodeController::getProjectDescription(SourceLocationFil
 	return lines;
 }
 
-void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets, bool useSingleFileCache) const
+void CodeController::clearReferences()
+{
+	m_references.clear();
+	m_referenceIndex = -1;
+
+	clearLocalReferences();
+}
+
+void CodeController::createReferences()
+{
+	clearReferences();
+
+	for (CodeFileParams& file : m_files)
+	{
+		size_t referenceCountBefore = m_references.size();
+
+		if (file.locationFile->isWhole())
+		{
+			Reference ref;
+			ref.filePath = file.locationFile->getFilePath();
+			m_references.push_back(ref);
+		}
+		else
+		{
+			std::map<Id, Id> scopeLocationIds;
+
+			file.locationFile->forEachStartSourceLocation(
+				[&](SourceLocation* location)
+				{
+					if (location->isScopeLocation())
+					{
+						for (Id tokenId : location->getTokenIds())
+						{
+							scopeLocationIds.emplace(tokenId, location->getLocationId());
+						}
+					}
+				}
+			);
+
+			file.locationFile->forEachStartSourceLocation(
+				[&](SourceLocation* location)
+				{
+					if (location->isScopeLocation() || location->getType() == LOCATION_SIGNATURE ||
+						location->getType() == LOCATION_COMMENT || location->getType() == LOCATION_QUALIFIER)
+					{
+						return;
+					}
+
+					if (!location->getTokenIds().size())
+					{
+						Reference ref;
+						ref.filePath = location->getFilePath();
+						ref.tokenId = 0;
+						ref.locationId = location->getLocationId();
+						ref.locationType = location->getType();
+						m_references.push_back(ref);
+						return;
+					}
+
+					for (Id i : location->getTokenIds())
+					{
+						Reference ref;
+						ref.filePath = location->getFilePath();
+						ref.tokenId = i;
+						ref.locationId = location->getLocationId();
+						ref.locationType = location->getType();
+
+						std::map<Id, Id>::const_iterator it = scopeLocationIds.find(i);
+						if (it != scopeLocationIds.end())
+						{
+							ref.scopeLocationId = it->second;
+						}
+
+						m_references.push_back(ref);
+					}
+				}
+			);
+		}
+
+		file.referenceCount = m_references.size() - referenceCountBefore;
+	}
+}
+
+void CodeController::clearLocalReferences()
+{
+	m_localReferences.clear();
+	m_localReferenceIndex = -1;
+}
+
+void CodeController::createLocalReferences(const std::set<Id>& localSymbolIds)
+{
+	clearLocalReferences();
+
+	if (localSymbolIds.size())
+	{
+		auto func = [&localSymbolIds, this](const SourceLocation* location)
+		{
+			for (Id tokenId : location->getTokenIds())
+			{
+				if (localSymbolIds.find(tokenId) != localSymbolIds.end())
+				{
+					Reference ref;
+					ref.filePath = location->getFilePath();
+					ref.locationId = location->getLocationId();
+					ref.locationType = location->getType();
+					m_localReferences.push_back(ref);
+					return;
+				}
+			}
+		};
+
+		bool inListMode = getView()->isInListMode();
+		for (const CodeFileParams& file : m_files)
+		{
+			if (inListMode)
+			{
+				for (const CodeSnippetParams& snippet : file.snippetParams)
+				{
+					snippet.locationFile->forEachStartSourceLocation(func);
+				}
+			}
+			else if (file.fileParams)
+			{
+				file.fileParams->locationFile->forEachStartSourceLocation(func);
+			}
+		}
+	}
+}
+
+void CodeController::iterateReference(bool next)
+{
+	if (!m_references.size())
+	{
+		return;
+	}
+
+	if (next)
+	{
+		m_referenceIndex++;
+
+		if (m_referenceIndex == m_references.size())
+		{
+			m_referenceIndex = 0;
+		}
+	}
+	else
+	{
+		if (m_referenceIndex < 1)
+		{
+			m_referenceIndex = m_references.size() - 1;
+		}
+		else
+		{
+			m_referenceIndex--;
+		}
+	}
+
+	const Reference& ref = m_references[m_referenceIndex - 1];
+	MessageShowReference(m_referenceIndex, ref.tokenId, ref.locationId, true).dispatch();
+}
+
+void CodeController::iterateLocalReference(bool next, bool updateView)
+{
+	if (!m_localReferences.size())
+	{
+		return;
+	}
+
+	if (next)
+	{
+		m_localReferenceIndex++;
+
+		if (m_localReferenceIndex == m_localReferences.size())
+		{
+			m_localReferenceIndex = 0;
+		}
+	}
+	else
+	{
+		if (m_localReferenceIndex < 1)
+		{
+			m_localReferenceIndex = m_localReferences.size() - 1;
+		}
+		else
+		{
+			m_localReferenceIndex--;
+		}
+	}
+
+	const Reference& ref = m_localReferences[m_localReferenceIndex];
+	m_codeParams.currentActiveLocalLocationIds = { ref.locationId };
+
+	// synchronise reference navigation with local reference navigation
+	if (ref.locationType == LOCATION_TOKEN)
+	{
+		for (size_t i = 0; i < m_references.size(); i++)
+		{
+			if (m_references[i].locationId == ref.locationId)
+			{
+				m_referenceIndex = i;
+			}
+		}
+	}
+
+	showFiles(m_codeParams, toReferenceScrollParams(ref), updateView);
+}
+
+void CodeController::expandVisibleFiles(bool useSingleFileCache)
 {
 	TRACE();
 
-	if (!snippets->size())
+	if (!m_files.size())
 	{
 		return;
 	}
 
 	bool inListMode = getView()->isInListMode();
-
-	size_t filesToExpand = inListMode ? std::min(int(snippets->size()), 3) : 1;
-	CodeView::FileState state = inListMode ? CodeView::FILE_SNIPPETS : CodeView::FILE_MAXIMIZED;
+	size_t filesToExpand = inListMode ? std::min(int(m_files.size()), 3) : 1;
+	MessageChangeFileView::FileState state =
+		inListMode ? MessageChangeFileView::FILE_SNIPPETS : MessageChangeFileView::FILE_MAXIMIZED;
 
 	for (size_t i = 0; i < filesToExpand; i++)
 	{
-		CodeSnippetParams& oldSnippet = snippets->at(i);
-		if (!oldSnippet.isCollapsed || oldSnippet.reduced)
-		{
-			continue;
-		}
-
-		if (useSingleFileCache && !inListMode && getView()->hasSingleFileCached(oldSnippet.locationFile->getFilePath()))
-		{
-			continue;
-		}
-
-		CodeView::FileState fileState = oldSnippet.locationFile->isWhole() ? CodeView::FILE_MAXIMIZED : state;
-
-		std::vector<CodeSnippetParams> newSnippets =
-			getSnippetsForFileWithState(oldSnippet.locationFile->getFilePath(), fileState);
-		if (!newSnippets.size())
-		{
-			continue;
-		}
-
-		for (CodeSnippetParams& newSnippet : newSnippets)
-		{
-			newSnippet.isDeclaration = oldSnippet.isDeclaration;
-			newSnippet.isDefinition = oldSnippet.isDefinition;
-
-			newSnippet.isCollapsed = false;
-		}
-
-		snippets->insert(snippets->end(), newSnippets.begin(), newSnippets.end());
+		setFileState(m_files[i], state, useSingleFileCache);
 	}
 }
 
-void CodeController::addAllSourceLocations(std::vector<CodeSnippetParams>* snippets) const
+CodeFileParams* CodeController::addSourceLocations(std::shared_ptr<SourceLocationFile> locationFile)
+{
+	if (!m_collection)
+	{
+		m_collection = std::make_shared<SourceLocationCollection>();
+	}
+	m_collection->addSourceLocationCopies(locationFile.get());
+
+	CodeFileParams* file = nullptr;
+	for (CodeFileParams& f : m_files)
+	{
+		if (f.locationFile->getFilePath() == locationFile->getFilePath())
+		{
+			file = &f;
+			break;
+		}
+	}
+
+	if (!file)
+	{
+		CodeFileParams f;
+		f.locationFile = locationFile;
+		m_files.push_back(f);
+		file = &m_files.back();
+	}
+
+	if (file->snippetParams.size())
+	{
+		std::vector<CodeSnippetParams> snippets = getSnippetsForFile(locationFile);
+		if (snippets.size() != 1)
+		{
+			LOG_ERROR("addSourceLocations() didn't result in one single snippet to be created");
+			return nullptr;
+		}
+
+		CodeSnippetParams newSnippet = snippets[0];
+
+		size_t i = 0;
+		while (i < file->snippetParams.size())
+		{
+			size_t start = newSnippet.startLineNumber;
+			size_t end = newSnippet.endLineNumber;
+
+			const CodeSnippetParams& oldSnippet = file->snippetParams[i];
+
+			if (oldSnippet.endLineNumber + 1 < start) // before
+			{
+				i++;
+				continue;
+			}
+			else if (oldSnippet.startLineNumber > end + 1) // after
+			{
+				break;
+			}
+			else if (oldSnippet.startLineNumber <= start && oldSnippet.endLineNumber >= end) // containing
+			{
+				return nullptr;
+			}
+			else if (oldSnippet.startLineNumber < start || oldSnippet.endLineNumber > end) // overlaping
+			{
+				newSnippet = CodeSnippetParams::merge(newSnippet, oldSnippet);
+			}
+			else if (oldSnippet.startLineNumber >= start && oldSnippet.endLineNumber <= end) // enclosing
+			{
+				// copy all source locations from old to new snippet: fulltext locations got lost
+				newSnippet.locationFile->copySourceLocations(oldSnippet.locationFile);
+			}
+
+			file->snippetParams.erase(file->snippetParams.begin() + i);
+		}
+
+		file->snippetParams.insert(file->snippetParams.begin() + i, newSnippet);
+	}
+
+	setFileState(*file, getView()->isInListMode() ? MessageChangeFileView::FILE_SNIPPETS : MessageChangeFileView::FILE_MAXIMIZED, m_codeParams.useSingleFileCache);
+	return file;
+}
+
+void CodeController::setFileState(const FilePath& filePath, MessageChangeFileView::FileState state, bool useSingleFileCache)
+{
+	for (CodeFileParams& file : m_files)
+	{
+		if (file.locationFile->getFilePath() == filePath)
+		{
+			setFileState(file, state, useSingleFileCache);
+			return;
+		}
+	}
+}
+
+void CodeController::setFileState(CodeFileParams& file, MessageChangeFileView::FileState state, bool useSingleFileCache)
 {
 	TRACE();
 
-	for (CodeSnippetParams& snippet : *snippets)
+	switch (state)
 	{
-		if (!snippet.locationFile || snippet.isCollapsed || snippet.reduced)
+	case MessageChangeFileView::FILE_MINIMIZED:
+		file.isMinimized = true;
+		break;
+
+	case MessageChangeFileView::FILE_SNIPPETS:
+		file.isMinimized = false;
+		if (!file.snippetParams.size())
 		{
-			continue;
+			if (file.locationFile->isWhole())
+			{
+				file.snippetParams = { getSnippetParamsForWholeFile(file.locationFile, useSingleFileCache) };
+			}
+			else
+			{
+				file.snippetParams = getSnippetsForFile(file.locationFile);
+			}
+		}
+		break;
+
+	case MessageChangeFileView::FILE_MAXIMIZED:
+		if (!file.fileParams)
+		{
+			file.fileParams = std::make_shared<CodeSnippetParams>(getSnippetParamsForWholeFile(file.locationFile, useSingleFileCache));
 		}
 
-		std::shared_ptr<SourceLocationFile> file;
-
-		if (snippet.locationFile->isWhole())
+		if (file.locationFile)
 		{
-			file = m_storageAccess->getSourceLocationsForFile(snippet.locationFile->getFilePath());
+			m_currentFilePath = file.locationFile->getFilePath();
 		}
-		else
-		{
-			file = m_storageAccess->getSourceLocationsForLinesInFile(
-				snippet.locationFile->getFilePath(), snippet.startLineNumber, snippet.endLineNumber);
-		}
-
-		if (file)
-		{
-			file->copySourceLocations(snippet.locationFile);
-			snippet.locationFile = file;
-		}
+		break;
 	}
 }
 
-void CodeController::addModificationTimes(std::vector<CodeSnippetParams>* snippets) const
+bool CodeController::addAllSourceLocations()
+{
+	TRACE();
+
+	bool addedNewLocations = false;
+
+	for (CodeFileParams& file : m_files)
+	{
+		for (CodeSnippetParams& snippet : file.snippetParams)
+		{
+			if (snippet.hasAllSourceLocations)
+			{
+				continue;
+			}
+
+			if (snippet.locationFile->isWhole())
+			{
+				snippet.locationFile = m_storageAccess->getSourceLocationsForFile(snippet.locationFile->getFilePath());
+				if (snippet.locationFile)
+				{
+					snippet.locationFile->copySourceLocations(file.locationFile);
+				}
+			}
+			else
+			{
+				std::shared_ptr<SourceLocationFile> file = m_storageAccess->getSourceLocationsForLinesInFile(
+					snippet.locationFile->getFilePath(), snippet.startLineNumber, snippet.endLineNumber);
+				if (file)
+				{
+					file->copySourceLocations(snippet.locationFile);
+					snippet.locationFile = file;
+				}
+			}
+
+			addedNewLocations = true;
+			snippet.hasAllSourceLocations = true;
+		}
+
+		if (file.fileParams)
+		{
+			if (file.fileParams->hasAllSourceLocations)
+			{
+				continue;
+			}
+
+			file.fileParams->locationFile = m_storageAccess->getSourceLocationsForFile(file.locationFile->getFilePath());
+			if (file.fileParams->locationFile)
+			{
+				file.fileParams->locationFile->copySourceLocations(file.locationFile);
+			}
+
+			addedNewLocations = true;
+			file.fileParams->hasAllSourceLocations = true;
+		}
+	}
+
+	return addedNewLocations;
+}
+
+void CodeController::addModificationTimes()
 {
 	TRACE();
 
 	std::vector<FilePath> filePaths;
-	for (const CodeSnippetParams& snippet : *snippets)
+	for (const CodeFileParams& file : m_files)
 	{
-		filePaths.push_back(snippet.locationFile->getFilePath());
+		filePaths.push_back(file.locationFile->getFilePath());
 	}
 	std::vector<FileInfo> fileInfos = m_storageAccess->getFileInfosForFilePaths(filePaths);
 
@@ -963,10 +1279,68 @@ void CodeController::addModificationTimes(std::vector<CodeSnippetParams>* snippe
 		fileInfoMap.emplace(fileInfo.path, fileInfo);
 	}
 
-	for (CodeSnippetParams& snippet : *snippets)
+	for (CodeFileParams& file : m_files)
 	{
-		snippet.modificationTime = fileInfoMap[snippet.locationFile->getFilePath()].lastWriteTime;
+		file.modificationTime = fileInfoMap[file.locationFile->getFilePath()].lastWriteTime;
 	}
+}
+
+CodeScrollParams CodeController::firstReferenceScrollParams() const
+{
+	if (m_references.size())
+	{
+		const Reference& ref = m_references.front();
+
+		return CodeScrollParams::toReference(
+			ref.filePath,
+			ref.scopeLocationId ? ref.scopeLocationId : ref.locationId,
+			CodeScrollParams::Target::TOP
+		);
+	}
+
+	return CodeScrollParams();
+}
+
+CodeScrollParams CodeController::definitionReferenceScrollParams(const std::vector<Id>& activeTokenIds) const
+{
+	Id activeTokenId = activeTokenIds.size() ? activeTokenIds.front() : 0;
+	if (activeTokenId)
+	{
+		for (const Reference& ref : m_references)
+		{
+			if (ref.scopeLocationId && ref.tokenId == activeTokenId)
+			{
+				return CodeScrollParams::toReference(
+					ref.filePath,
+					ref.scopeLocationId,
+					CodeScrollParams::Target::TOP
+				);
+			}
+		}
+
+		for (const Reference& ref : m_references)
+		{
+			if (ref.tokenId == activeTokenId)
+			{
+				return CodeScrollParams::toReference(
+					ref.filePath,
+					ref.locationId,
+					CodeScrollParams::Target::TOP
+				);
+			}
+		}
+	}
+
+	return firstReferenceScrollParams();
+}
+
+CodeScrollParams CodeController::toReferenceScrollParams(const Reference& ref) const
+{
+	return CodeScrollParams::toReference(
+		ref.filePath,
+		ref.scopeLocationId ? ref.scopeLocationId : ref.locationId,
+		CodeScrollParams::Target::CENTER
+	);
 }
 
 void CodeController::saveOrRestoreViewMode(MessageBase* message)
@@ -985,17 +1359,146 @@ void CodeController::saveOrRestoreViewMode(MessageBase* message)
 	}
 }
 
-void CodeController::showCodeSnippets(
-	std::vector<CodeSnippetParams> snippets, const CodeView::CodeParams params, bool addSourceLocations)
+void CodeController::showFirstActiveReference(Id tokenId, bool updateView)
 {
-	expandVisibleSnippets(&snippets, params.useSingleFileCache);
-
-	CodeView* view = getView();
-	view->showCodeSnippets(snippets, params);
-
-	if (addSourceLocations)
+	// iterate local references when same tokenId get reactivated (consecutive edge clicks)
+	if (m_codeParams.activeLocalSymbolIds.size() == 1 && m_codeParams.activeLocalSymbolIds[0] == tokenId && m_localReferences.size())
 	{
-		addAllSourceLocations(&snippets);
-		view->updateCodeSnippets(snippets);
+		iterateLocalReference(true, updateView);
+		return;
+	}
+
+	std::vector<Id> locationIds;
+	int referenceIndex = -1;
+	Reference firstReference;
+
+	std::set<FilePath> filePathsToExpand;
+	std::map<FilePath, size_t> filePathOrder;
+
+	for (size_t i = 0; i < m_references.size(); i++)
+	{
+		const Reference& ref = m_references[i];
+		if (ref.tokenId == tokenId)
+		{
+			filePathsToExpand.insert(ref.filePath);
+			locationIds.push_back(ref.locationId);
+
+			if (!firstReference.tokenId)
+			{
+				firstReference = ref;
+				referenceIndex = i;
+			}
+		}
+
+		filePathOrder.emplace(ref.filePath, filePathOrder.size());
+	}
+
+	if (!locationIds.size())
+	{
+		std::shared_ptr<SourceLocationCollection> collection = m_storageAccess->getSourceLocationsForTokenIds({ tokenId });
+		collection->forEachSourceLocation(
+			[&](SourceLocation* location)
+			{
+				if (!location->isStartLocation())
+				{
+					return;
+				}
+
+				for (Id i : location->getTokenIds())
+				{
+					if (i == tokenId)
+					{
+						locationIds.push_back(location->getLocationId());
+						filePathsToExpand.insert(location->getFilePath());
+
+						if (!firstReference.tokenId || filePathOrder[location->getFilePath()] < filePathOrder[firstReference.filePath])
+						{
+							firstReference.tokenId = tokenId;
+							firstReference.locationId = location->getLocationId();
+							firstReference.filePath = location->getFilePath();
+						}
+						return;
+					}
+				}
+			}
+		);
+	}
+
+	if (getView()->isInListMode())
+	{
+		for (const FilePath& filePath : filePathsToExpand)
+		{
+			setFileState(filePath, MessageChangeFileView::FILE_SNIPPETS, m_codeParams.useSingleFileCache);
+		}
+	}
+	else if (firstReference.tokenId)
+	{
+		setFileState(firstReference.filePath, MessageChangeFileView::FILE_MAXIMIZED, m_codeParams.useSingleFileCache);
+	}
+
+	createLocalReferences({ tokenId });
+	m_codeParams.activeLocalSymbolIds = { tokenId };
+	m_codeParams.activeLocalSymbolType = LOCATION_TOKEN;
+	m_codeParams.currentActiveLocalLocationIds.clear();
+
+	CodeScrollParams scrollParams;
+
+	if (firstReference.tokenId)
+	{
+		scrollParams = toReferenceScrollParams(firstReference);
+		m_referenceIndex = referenceIndex;
+	}
+
+	showFiles(m_codeParams, scrollParams, updateView);
+}
+
+void CodeController::showFiles(CodeView::CodeParams params, CodeScrollParams scrollParams, bool updateView)
+{
+	if (updateView)
+	{
+		addModificationTimes();
+
+		params.referenceCount = m_references.size();
+		params.referenceIndex = m_referenceIndex >= 0 ? m_referenceIndex : m_references.size();
+
+		params.localReferenceCount = m_localReferences.size();
+		params.localReferenceIndex = m_localReferenceIndex >= 0 ? m_localReferenceIndex : m_localReferences.size();
+
+		if (getView()->isInListMode())
+		{
+			getView()->showSnippets(m_files, params, scrollParams);
+		}
+		else
+		{
+			bool updated = false;
+			for (const CodeFileParams& file : m_files)
+			{
+				if (file.locationFile->getFilePath() == m_currentFilePath)
+				{
+					getView()->showSingleFile(file, params, scrollParams);
+					updated = true;
+					break;
+				}
+			}
+
+			if (!updated)
+			{
+				getView()->showSingleFile(CodeFileParams(), params, scrollParams);
+			}
+		}
+
+		params.clearSnippets = false;
+		m_scrollParams = CodeScrollParams();
+	}
+	else if (scrollParams.type != CodeScrollParams::Type::NONE)
+	{
+		m_scrollParams = scrollParams;
+	}
+
+	m_codeParams = params;
+
+	if (addAllSourceLocations() && updateView)
+	{
+		getView()->updateSourceLocations(m_files);
 	}
 }

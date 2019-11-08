@@ -60,8 +60,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 			message->filePath,
 			MessageChangeFileView::FILE_MAXIMIZED,
 			MessageChangeFileView::VIEW_CURRENT,
-			true,
-			true
+			CodeScrollParams::toFile(message->filePath, CodeScrollParams::Target::VISIBLE)
 		);
 		msg.setSchedulerId(message->getSchedulerId());
 		msg.dispatchImmediately();

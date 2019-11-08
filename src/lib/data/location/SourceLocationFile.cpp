@@ -233,7 +233,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByTypes(const
 	}
 
 	std::shared_ptr<SourceLocationFile> ret =
-		std::make_shared<SourceLocationFile>(getFilePath(), getLanguage(), false, isComplete(), isIndexed());
+		std::make_shared<SourceLocationFile>(getFilePath(), getLanguage(), isWhole(), isComplete(), isIndexed());
 
 	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{

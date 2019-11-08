@@ -91,16 +91,21 @@ void SourceLocationCollection::addSourceLocationCopies(const SourceLocationColle
 	other->forEachSourceLocationFile(
 		[this](std::shared_ptr<SourceLocationFile> otherFile)
 		{
-			SourceLocationFile* file = createSourceLocationFile(
-				otherFile->getFilePath(), otherFile->getLanguage(), otherFile->isWhole(), otherFile->isComplete(),
-				otherFile->isIndexed());
+			addSourceLocationCopies(otherFile.get());
+		}
+	);
+}
 
-			otherFile->forEachSourceLocation(
-				[file](SourceLocation* otherLocation)
-				{
-					file->addSourceLocationCopy(otherLocation);
-				}
-			);
+void SourceLocationCollection::addSourceLocationCopies(const SourceLocationFile* otherFile)
+{
+	SourceLocationFile* file = createSourceLocationFile(
+		otherFile->getFilePath(), otherFile->getLanguage(), otherFile->isWhole(), otherFile->isComplete(),
+		otherFile->isIndexed());
+
+	otherFile->forEachSourceLocation(
+		[file](SourceLocation* otherLocation)
+		{
+			file->addSourceLocationCopy(otherLocation);
 		}
 	);
 }

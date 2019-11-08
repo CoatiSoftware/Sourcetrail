@@ -15,7 +15,6 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, boo
 	, m_navigator(navigator)
 	, m_filePath(filePath)
 	, m_isWholeFile(false)
-	, m_contentRequested(false)
 {
 	setObjectName("code_file");
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
@@ -43,6 +42,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, boo
 	m_snippetLayout->setSpacing(0);
 	layout->addLayout(m_snippetLayout);
 
+	setMinimized();
 	update();
 }
 
@@ -67,118 +67,30 @@ const QtCodeFileTitleBar* QtCodeFile::getTitleBar() const
 
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
-	if (m_isWholeFile && m_snippets.size() == 1)
-	{
-		return m_snippets[0];
-	}
-
-	for (QtCodeSnippet* snippet : m_snippets)
-	{
-		if (snippet->getStartLineNumber() == params.startLineNumber &&
-			snippet->getEndLineNumber() == params.endLineNumber)
-		{
-			return snippet;
-		}
-	}
-
 	QtCodeSnippet* snippet = new QtCodeSnippet(params, m_navigator, this);
 
-	if (params.reduced)
+	if (params.isOverview)
 	{
 		m_titleBar->getTitleButton()->setProject(params.title);
-		m_isWholeFile = true;
 	}
 
 	if (params.locationFile->isWhole() || m_isWholeFile)
 	{
 		m_isWholeFile = true;
-
 		snippet->setIsActiveFile(true);
-
-		if (params.refCount != -1)
-		{
-			updateRefCount(0);
-		}
-
-		for (QtCodeSnippet* oldSnippet : m_snippets)
-		{
-			oldSnippet->hide();
-		}
-		m_snippets.clear();
-	}
-	else
-	{
-		updateRefCount(params.refCount);
 	}
 
 	m_snippetLayout->addWidget(snippet);
 	m_snippets.push_back(snippet);
 
-	setSnippets();
-
 	return snippet;
 }
 
-QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
-{
-	QtCodeSnippet* newSnippet = new QtCodeSnippet(params, m_navigator, this);
-
-	size_t i = 0;
-	while (i < m_snippets.size())
-	{
-		size_t start = newSnippet->getStartLineNumber();
-		size_t end = newSnippet->getEndLineNumber();
-
-		QtCodeSnippet* oldSnippet = m_snippets[i];
-
-		if (oldSnippet->getEndLineNumber() + 1 < start) // before
-		{
-			i++;
-			continue;
-		}
-		else if (oldSnippet->getStartLineNumber() > end + 1) // after
-		{
-			break;
-		}
-		else if (oldSnippet->getStartLineNumber() <= start && oldSnippet->getEndLineNumber() >= end) // containing
-		{
-			newSnippet->deleteLater();
-			return oldSnippet;
-		}
-		else if (oldSnippet->getStartLineNumber() < start || oldSnippet->getEndLineNumber() > end) // overlaping
-		{
-			newSnippet = QtCodeSnippet::merged(newSnippet, oldSnippet, m_navigator, this);
-		}
-		else if (oldSnippet->getStartLineNumber() >= start && oldSnippet->getEndLineNumber() <= end) // enclosing
-		{
-			// copy all source locations from old to new snippet: fulltext locations got lost
-			oldSnippet->getArea()->getSourceLocationFile()->copySourceLocations(
-				newSnippet->getArea()->getSourceLocationFile());
-			newSnippet->getArea()->updateSourceLocations(oldSnippet->getArea()->getSourceLocationFile());
-		}
-
-		m_navigator->clearSnippetReferences();
-
-		oldSnippet->hide();
-		m_snippetLayout->removeWidget(oldSnippet);
-		oldSnippet->deleteLater();
-
-		m_snippets.erase(m_snippets.begin() + i);
-	}
-
-	m_snippetLayout->insertWidget(i, newSnippet);
-	m_snippets.insert(m_snippets.begin() + i, newSnippet);
-
-	setSnippets();
-
-	return newSnippet;
-}
-
-void QtCodeFile::updateCodeSnippet(const CodeSnippetParams& params)
+void QtCodeFile::updateSourceLocations(const CodeSnippetParams& params)
 {
 	if (m_isWholeFile && m_snippets.size() == 1)
 	{
-		m_snippets[0]->updateCodeSnippet(params);
+		m_snippets[0]->updateSourceLocations(params);
 		return;
 	}
 
@@ -187,9 +99,14 @@ void QtCodeFile::updateCodeSnippet(const CodeSnippetParams& params)
 		if (snippet->getStartLineNumber() == params.startLineNumber &&
 			snippet->getEndLineNumber() == params.endLineNumber)
 		{
-			snippet->updateCodeSnippet(params);
+			snippet->updateSourceLocations(params);
 		}
 	}
+}
+
+const std::vector<QtCodeSnippet*>& QtCodeFile::getSnippets() const
+{
+	return m_snippets;
 }
 
 std::vector<QtCodeSnippet*> QtCodeFile::getVisibleSnippets() const
@@ -251,32 +168,7 @@ std::pair<QtCodeSnippet*, Id> QtCodeFile::getFirstSnippetWithActiveLocationId(Id
 	return result;
 }
 
-bool QtCodeFile::isCollapsed() const
-{
-	return !m_snippets.size();
-}
-
-void QtCodeFile::requestContent()
-{
-	if (!isCollapsed() || m_contentRequested)
-	{
-		updateContent();
-		return;
-	}
-
-	m_contentRequested = true;
-
-	MessageChangeFileView::FileState state =
-		m_isWholeFile ? MessageChangeFileView::FILE_MAXIMIZED : MessageChangeFileView::FILE_SNIPPETS;
-
-	bool needsData = (m_snippets.size() == 0);
-
-	MessageChangeFileView msg(m_filePath, state, MessageChangeFileView::VIEW_LIST, needsData, m_navigator->hasErrors());
-	msg.setSchedulerId(m_navigator->getSchedulerId());
-	msg.dispatch();
-}
-
-void QtCodeFile::requestWholeFileContent()
+void QtCodeFile::requestWholeFileContent(size_t targetLineNumber)
 {
 	if (!m_isWholeFile)
 	{
@@ -284,8 +176,7 @@ void QtCodeFile::requestWholeFileContent()
 			m_filePath,
 			MessageChangeFileView::FILE_MAXIMIZED,
 			MessageChangeFileView::VIEW_LIST,
-			true,
-			m_navigator->hasErrors()
+			CodeScrollParams::toLine(m_filePath, targetLineNumber, CodeScrollParams::Target::VISIBLE)
 		);
 		msg.setSchedulerId(m_navigator->getSchedulerId());
 		msg.dispatch();
@@ -309,7 +200,6 @@ void QtCodeFile::updateContent()
 void QtCodeFile::setWholeFile(bool isWholeFile, int refCount)
 {
 	m_isWholeFile = isWholeFile;
-	setMinimized();
 
 	updateRefCount(isWholeFile ? 0 : refCount);
 }
@@ -344,14 +234,26 @@ void QtCodeFile::setSnippets()
 	m_titleBar->setSnippets();
 }
 
-void QtCodeFile::setMaximized()
-{
-	setSnippets();
-}
-
 bool QtCodeFile::hasSnippets() const
 {
 	return m_snippets.size() > 0;
+}
+
+void QtCodeFile::clearSnippets()
+{
+	for (QtCodeSnippet* snippet : m_snippets)
+	{
+		m_snippetLayout->removeWidget(snippet);
+		snippet->hide();
+		snippet->deleteLater();
+	}
+
+	if (m_snippets.size())
+	{
+		m_navigator->clearSnippetReferences();
+	}
+
+	m_snippets.clear();
 }
 
 void QtCodeFile::updateSnippets()
@@ -391,27 +293,13 @@ void QtCodeFile::findScreenMatches(const std::wstring& query, std::vector<std::p
 	}
 }
 
-std::vector<std::pair<FilePath, Id>> QtCodeFile::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
-{
-	std::vector<std::pair<FilePath, Id>> locationIds;
-	for (QtCodeSnippet* snippet : m_snippets)
-	{
-		for (Id locationId : snippet->getLocationIdsForTokenIds(tokenIds))
-		{
-			locationIds.push_back(std::make_pair(m_filePath, locationId));
-		}
-	}
-	return locationIds;
-}
-
 void QtCodeFile::clickedMinimizeButton()
 {
 	MessageChangeFileView msg(
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
 		MessageChangeFileView::VIEW_LIST,
-		false,
-		m_navigator->hasErrors()
+		CodeScrollParams::toFile(m_filePath, CodeScrollParams::Target::VISIBLE)
 	);
 	msg.setSchedulerId(m_navigator->getSchedulerId());
 	msg.dispatch();
@@ -419,14 +307,11 @@ void QtCodeFile::clickedMinimizeButton()
 
 void QtCodeFile::clickedSnippetButton()
 {
-	m_navigator->requestScroll(m_filePath, 0, 0, false, QtCodeNavigateable::SCROLL_VISIBLE);
-
 	MessageChangeFileView msg(
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
 		MessageChangeFileView::VIEW_LIST,
-		isCollapsed(),
-		m_navigator->hasErrors()
+		CodeScrollParams::toFile(m_filePath, CodeScrollParams::Target::VISIBLE)
 	);
 	msg.setSchedulerId(m_navigator->getSchedulerId());
 	msg.dispatch();
@@ -453,14 +338,17 @@ void QtCodeFile::clickedMaximizeButton()
 		}
 	}
 
-	m_navigator->requestScroll(m_filePath, lineNumber, locationId, false, QtCodeNavigateable::SCROLL_CENTER);
+	m_navigator->setMode(QtCodeNavigator::MODE_SINGLE);
+
+	CodeScrollParams scrollParams = locationId ?
+		CodeScrollParams::toReference(m_filePath, locationId, CodeScrollParams::Target::CENTER) :
+		CodeScrollParams::toLine(m_filePath, lineNumber, CodeScrollParams::Target::CENTER);
 
 	MessageChangeFileView msg(
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
 		MessageChangeFileView::VIEW_SINGLE,
-		true, // TODO: check if data is really needed
-		m_navigator->hasErrors(),
+		scrollParams,
 		true
 	);
 	msg.setSchedulerId(m_navigator->getSchedulerId());

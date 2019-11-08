@@ -27,23 +27,20 @@ public:
 	// CodeView implementation
 	void clear() override;
 
-	void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const CodeParams params) override;
-	void updateCodeSnippets(const std::vector<CodeSnippetParams>& snippets) override;
-	void scrollTo(const ScrollParams params) override;
+	void showSnippets(
+		const std::vector<CodeFileParams> files, const CodeParams params, const CodeScrollParams scrollParams) override;
+
+	void showSingleFile(
+		const CodeFileParams file, const CodeParams params, const CodeScrollParams scrollParams) override;
+
+	void updateSourceLocations(const std::vector<CodeFileParams> files) override;
+
+	void scrollTo(const CodeScrollParams params, bool animated) override;
 
 	bool showsErrors() const override;
 
-	void setFileState(const FilePath filePath, FileState state) override;
-
-	void showActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo) override;
-	void showActiveTokenIds(const std::vector<Id>& activeTokenIds) override;
-	void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds) override;
-
 	void focusTokenIds(const std::vector<Id>& focusedTokenIds) override;
 	void defocusTokenIds() override;
-
-	void showContents() override;
 
 	bool isInListMode() const override;
 	void setMode(bool listMode) override;
@@ -51,14 +48,14 @@ public:
 	bool hasSingleFileCached(const FilePath& filePath) const override;
 
 private:
-	void performScroll();
+	void setNavigationState(const CodeParams& params);
+
+	// void performScroll(const CodeScrollParams& scrollParams);
 	void setStyleSheet() const;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtCodeNavigator* m_widget;
-
-	ScrollParams m_scrollParams;
 };
 
 # endif // QT_CODE_VIEW_H

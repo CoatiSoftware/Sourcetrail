@@ -388,19 +388,6 @@ Id QtCodeArea::getLocationIdOfFirstHighlightedLocation() const
 	return 0;
 }
 
-std::vector<Id> QtCodeArea::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
-{
-	std::vector<Id> locationIds;
-	for (const Annotation& annotation : m_annotations)
-	{
-		if (utility::shareElement(annotation.tokenIds, tokenIds))
-		{
-			locationIds.push_back(annotation.locationId);
-		}
-	}
-	return locationIds;
-}
-
 size_t QtCodeArea::getActiveLocationCount() const
 {
 	size_t count = 0;
@@ -639,14 +626,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());
 				if (annotations.size())
 				{
-					if (m_navigator->hasErrors())
-					{
-						activateErrors(annotations);
-					}
-					else
-					{
-						activateAnnotations(annotations);
-					}
+					activateAnnotationsOrErrors(annotations);
 				}
 				else if (m_navigator->getActiveLocalTokenIds().size())
 				{
@@ -700,15 +680,25 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 	if (!same)
 	{
+		if (m_navigator->hasErrors())
+		{
+			for (const Annotation* annotation : annotations)
+			{
+				if (annotation->locationType == LOCATION_ERROR && annotation->tokenIds.size())
+				{
+					std::wstring errorMessage = m_navigator->getErrorMessageForId(*annotation->tokenIds.begin());
+					QToolTip::showText(event->globalPos(), QString::fromStdWString(errorMessage), this);
+
+					QtCodeField::focusTokenIds({ *annotation->tokenIds.begin() });
+					viewport()->setCursor(Qt::PointingHandCursor);
+					return;
+				}
+			}
+		}
+
 		QToolTip::hideText();
 
 		setHoveredAnnotations(annotations);
-
-		if (m_navigator->hasErrors() && annotations.size() == 1 && annotations[0]->tokenIds.size())
-		{
-			std::wstring errorMessage = m_navigator->getErrorMessageForId(*annotations[0]->tokenIds.begin());
-			QToolTip::showText(event->globalPos(), QString::fromStdWString(errorMessage), this);
-		}
 	}
 }
 
@@ -748,23 +738,11 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 
 void QtCodeArea::focusTokenIds(const std::vector<Id>& tokenIds)
 {
-	if (m_navigator->hasErrors() && tokenIds.size() == 1)
-	{
-		QtCodeField::focusTokenIds(tokenIds);
-		return;
-	}
-
 	MessageFocusIn(tokenIds, TOOLTIP_ORIGIN_CODE).dispatch();
 }
 
 void QtCodeArea::defocusTokenIds(const std::vector<Id>& tokenIds)
 {
-	if (m_navigator->hasErrors() && tokenIds.size() == 1)
-	{
-		annotateText();
-		return;
-	}
-
 	MessageFocusOut(tokenIds).dispatch();
 }
 
@@ -821,21 +799,27 @@ void QtCodeArea::setNewTextCursor(const QTextCursor& cursor)
 	verticalScrollBar()->setValue(verticalValue);
 }
 
-void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotations)
+void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations)
 {
-	std::vector<Id> errorIds;
-	for (const Annotation* annotation : annotations)
+	if (m_navigator->hasErrors())
 	{
-		if (annotation->locationType == LOCATION_ERROR && annotation->tokenIds.size())
+		std::vector<Id> errorIds;
+		for (const Annotation* annotation : annotations)
 		{
-			errorIds.insert(errorIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
+			if (annotation->locationType == LOCATION_ERROR && annotation->tokenIds.size())
+			{
+				errorIds.insert(errorIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
+			}
+		}
+
+		if (errorIds.size() == 1)
+		{
+			MessageShowError(errorIds[0]).dispatch();
+			return;
 		}
 	}
 
-	if (errorIds.size() == 1)
-	{
-		MessageShowError(errorIds[0]).dispatch();
-	}
+	activateAnnotations(annotations);
 }
 
 void QtCodeArea::annotateText()

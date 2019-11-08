@@ -1,6 +1,8 @@
 #ifndef MESSAGE_CHANGE_FILE_VIEW_H
 #define MESSAGE_CHANGE_FILE_VIEW_H
 
+#include "CodeScrollParams.h"
+#include "CodeSnippetParams.h"
 #include "FilePath.h"
 #include "Message.h"
 #include "TabId.h"
@@ -27,15 +29,13 @@ public:
 		const FilePath& filePath,
 		FileState state,
 		ViewMode viewMode,
-		bool needsData,
-		bool showErrors,
+		CodeScrollParams scrollParams,
 		bool switchesViewMode = false
 	)
 		: filePath(filePath)
 		, state(state)
 		, viewMode(viewMode)
-		, needsData(needsData)
-		, showErrors(showErrors)
+		, scrollParams(scrollParams)
 		, switchesViewMode(switchesViewMode)
 	{
 		setSchedulerId(TabId::currentTab());
@@ -63,18 +63,12 @@ public:
 		case VIEW_SINGLE: os << L", single"; break;
 		case VIEW_CURRENT: os << L", current"; break;
 		}
-
-		if (needsData)
-		{
-			os << L", needs data";
-		}
 	}
 
 	const FilePath filePath;
 	const FileState state;
 	const ViewMode viewMode;
-	const bool needsData;
-	const bool showErrors;
+	const CodeScrollParams scrollParams;
 	const bool switchesViewMode;
 };
 

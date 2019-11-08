@@ -4,9 +4,10 @@
 #include <memory>
 
 #include "ErrorInfo.h"
-
-#include "ScreenSearchInterfaces.h"
+#include "LocationType.h"
+#include "CodeScrollParams.h"
 #include "CodeSnippetParams.h"
+#include "ScreenSearchInterfaces.h"
 #include "View.h"
 
 class CodeController;
@@ -30,40 +31,20 @@ public:
 	struct CodeParams
 	{
 		bool clearSnippets = false;
-		bool showContents = false;
 		bool useSingleFileCache = true;
 
+		size_t referenceCount = 0;
+		size_t referenceIndex = 0;
+		size_t localReferenceCount = 0;
+		size_t localReferenceIndex = 0;
+
 		std::vector<Id> activeTokenIds;
+		std::vector<Id> activeLocationIds;
+		std::vector<Id> activeLocalSymbolIds;
+		LocationType activeLocalSymbolType = LOCATION_TOKEN;
+		std::vector<Id> currentActiveLocalLocationIds;
+
 		std::vector<ErrorInfo> errorInfos;
-	};
-
-	struct ScrollParams
-	{
-		enum ScrollType
-		{
-			SCROLL_NONE,
-			SCROLL_TO_DEFINITION,
-			SCROLL_TO_LINE,
-			SCROLL_TO_VALUE
-		} type;
-
-		ScrollParams(ScrollType type = SCROLL_NONE)
-			: type(type)
-			, line(0)
-			, value(0)
-			, animated(false)
-			, ignoreActiveReference(false)
-			, inListMode(false)
-		{}
-
-		FilePath filePath;
-		size_t line;
-
-		size_t value;
-
-		bool animated;
-		bool ignoreActiveReference;
-		bool inListMode;
 	};
 
 	CodeView(ViewLayout* viewLayout);
@@ -73,23 +54,20 @@ public:
 
 	virtual void clear() = 0;
 
-	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const CodeParams params) = 0;
-	virtual void updateCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
-	virtual void scrollTo(const ScrollParams params) = 0;
+	virtual void showSnippets(
+		const std::vector<CodeFileParams> files, const CodeParams params, const CodeScrollParams scrollParams) = 0;
+
+	virtual void showSingleFile(
+		const CodeFileParams file, const CodeParams params, const CodeScrollParams scrollParams) = 0;
+
+	virtual void updateSourceLocations(const std::vector<CodeFileParams> files) = 0;
+
+	virtual void scrollTo(const CodeScrollParams params, bool animated) = 0;
 
 	virtual bool showsErrors() const = 0;
 
-	virtual void setFileState(const FilePath filePath, FileState state) = 0;
-
-	virtual void showActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo) = 0;
-	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
-	virtual void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds) = 0;
-
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
 	virtual void defocusTokenIds() = 0;
-
-	virtual void showContents() = 0;
 
 	virtual bool isInListMode() const = 0;
 	virtual void setMode(bool listMode) = 0;

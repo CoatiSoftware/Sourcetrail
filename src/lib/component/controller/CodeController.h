@@ -5,8 +5,10 @@
 #include <string>
 
 #include "FilePath.h"
+#include "LocationType.h"
 #include "MessageListener.h"
 #include "MessageActivateLegend.h"
+#include "MessageCodeReference.h"
 #include "MessageCodeShowDefinition.h"
 #include "MessageActivateErrors.h"
 #include "MessageErrorCountClear.h"
@@ -24,6 +26,7 @@
 #include "MessageFocusOut.h"
 #include "MessageScrollCode.h"
 #include "MessageScrollToLine.h"
+#include "MessageShowReference.h"
 #include "MessageShowScope.h"
 #include "types.h"
 
@@ -47,6 +50,7 @@ class CodeController
 	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
+	, public MessageListener<MessageCodeReference>
 	, public MessageListener<MessageCodeShowDefinition>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageErrorCountClear>
@@ -56,6 +60,7 @@ class CodeController
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollToLine>
 	, public MessageListener<MessageShowError>
+	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageShowScope>
 {
 public:
@@ -65,6 +70,15 @@ public:
 	Id getSchedulerId() const override;
 
 private:
+	struct Reference
+	{
+		FilePath filePath;
+		Id tokenId = 0;
+		Id locationId = 0;
+		Id scopeLocationId = 0;
+		LocationType locationType = LOCATION_TOKEN;
+	};
+
 	void handleMessage(MessageActivateErrors* message) override;
 	void handleMessage(MessageActivateFullTextSearch* message) override;
 	void handleMessage(MessageActivateLegend* message) override;
@@ -74,6 +88,7 @@ private:
 	void handleMessage(MessageActivateTrail* message) override;
 	void handleMessage(MessageActivateTrailEdge* message) override;
 	void handleMessage(MessageChangeFileView* message) override;
+	void handleMessage(MessageCodeReference* message) override;
 	void handleMessage(MessageCodeShowDefinition* message) override;
 	void handleMessage(MessageDeactivateEdge* message) override;
 	void handleMessage(MessageErrorCountClear* message) override;
@@ -83,17 +98,18 @@ private:
 	void handleMessage(MessageScrollCode* message) override;
 	void handleMessage(MessageScrollToLine* message) override;
 	void handleMessage(MessageShowError* message) override;
+	void handleMessage(MessageShowReference* message) override;
 	void handleMessage(MessageShowScope* message) override;
 
 	CodeView* getView() const;
 
 	void clear() override;
 
-	std::vector<CodeSnippetParams> getSnippetsForFileWithState(const FilePath& filePath, CodeView::FileState state) const;
-	std::vector<CodeSnippetParams> getSnippetsForActiveSourceLocations(
+	std::vector<CodeFileParams> getFilesForActiveSourceLocations(
 		const SourceLocationCollection* collection, Id declarationId) const;
-	std::vector<CodeSnippetParams> getSnippetsForCollection(std::shared_ptr<SourceLocationCollection> collection) const;
-	std::vector<CodeSnippetParams> getSnippetsForFile(std::shared_ptr<SourceLocationFile> file) const;
+	std::vector<CodeFileParams> getFilesForCollection(std::shared_ptr<SourceLocationCollection> collection) const;
+	CodeSnippetParams getSnippetParamsForWholeFile(std::shared_ptr<SourceLocationFile> locationFile, bool useSingleFileCache) const;
+	std::vector<CodeSnippetParams> getSnippetsForFile(std::shared_ptr<SourceLocationFile> activeSourceLocations) const;
 
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
 		const SourceLocation* location, const SourceLocationFile* scopeLocations, SnippetMerger& fileScopedMerger,
@@ -103,19 +119,48 @@ private:
 
 	std::vector<std::string> getProjectDescription(SourceLocationFile* locationFile) const;
 
-	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets, bool useSingleFileCache) const;
-	void addAllSourceLocations(std::vector<CodeSnippetParams>* snippets) const;
-	void addModificationTimes(std::vector<CodeSnippetParams>* snippets) const;
+	void clearReferences();
+	void createReferences();
+
+	void clearLocalReferences();
+	void createLocalReferences(const std::set<Id>& localSymbolIds);
+
+	void iterateReference(bool next);
+	void iterateLocalReference(bool next, bool updateView);
+
+	void expandVisibleFiles(bool useSingleFileCache);
+	CodeFileParams* addSourceLocations(std::shared_ptr<SourceLocationFile> locationFile);
+	void setFileState(const FilePath& filePath, MessageChangeFileView::FileState state, bool useSingleFileCache);
+	void setFileState(CodeFileParams& file, MessageChangeFileView::FileState state, bool useSingleFileCache);
+	bool addAllSourceLocations();
+	void addModificationTimes();
+
+	CodeScrollParams firstReferenceScrollParams() const;
+	CodeScrollParams definitionReferenceScrollParams(const std::vector<Id>& activeTokenIds) const;
+	CodeScrollParams toReferenceScrollParams(const Reference& ref) const;
 
 	void saveOrRestoreViewMode(MessageBase* message);
 
-	void showCodeSnippets(
-		std::vector<CodeSnippetParams> snippets, const CodeView::CodeParams params, bool addSourceLocations = true);
+	void showFirstActiveReference(Id tokenId, bool updateView);
+	void showFiles(CodeView::CodeParams params, CodeScrollParams scrollParams, bool updateView);
 
 	StorageAccess* m_storageAccess;
-	mutable std::shared_ptr<SourceLocationCollection> m_collection;
+
+	std::shared_ptr<SourceLocationCollection> m_collection;
+
+	std::vector<CodeFileParams> m_files;
+	FilePath m_currentFilePath;
+
+	CodeView::CodeParams m_codeParams;
+	CodeScrollParams m_scrollParams;
 
 	std::map<Id, bool> m_messageIdToViewModeMap;
+
+	std::vector<Reference> m_references;
+	int m_referenceIndex = -1;
+
+	std::vector<Reference> m_localReferences;
+	int m_localReferenceIndex = -1;
 };
 
 #endif // CODE_CONTROLLER_H

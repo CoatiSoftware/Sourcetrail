@@ -11,7 +11,7 @@ QtCodeNavigateable::~QtCodeNavigateable()
 }
 
 void QtCodeNavigateable::ensureWidgetVisibleAnimated(
-	const QWidget* parentWidget, const QWidget *childWidget, QRectF rect, bool animated, ScrollTarget target)
+	const QWidget* parentWidget, const QWidget *childWidget, QRectF rect, bool animated, CodeScrollParams::Target target)
 {
 	QAbstractScrollArea* area = getScrollArea();
 	if (!area || !parentWidget->isAncestorOf(childWidget))
@@ -36,19 +36,28 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	// scroll to top if widget is bigger than view
 	if (focusRect.height() > visibleRect.height())
 	{
-		target = SCROLL_TOP;
+		target = CodeScrollParams::Target::TOP;
 	}
 
 	int value = 0;
 	switch (target)
 	{
-	case SCROLL_VISIBLE:
+	case CodeScrollParams::Target::VISIBLE:
 		if (focusRect.top() > visibleRect.top() && focusRect.bottom() < visibleRect.bottom())
 		{
 			return;
 		}
+		else if (focusRect.top() < visibleRect.top())
+		{
+			value = focusRect.top() - visibleRect.top() - 50;
+		}
+		else
+		{
+			value = focusRect.bottom() - visibleRect.bottom() + 50;
+		}
+		break;
 
-	case SCROLL_CENTER:
+	case CodeScrollParams::Target::CENTER:
 		value = focusRect.center().y() - visibleRect.center().y();
 		if (abs(value) < 50)
 		{
@@ -56,8 +65,12 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 		}
 		break;
 
-	case SCROLL_TOP:
+	case CodeScrollParams::Target::TOP:
 		value = focusRect.top() - visibleRect.top() - 50;
+		if (value > 0 && value < 150)
+		{
+			value = 0;
+		}
 		break;
 	}
 
@@ -80,7 +93,8 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	}
 }
 
-void QtCodeNavigateable::ensurePercentVisibleAnimated(double percentA, double percentB, bool animated, ScrollTarget target)
+void QtCodeNavigateable::ensurePercentVisibleAnimated(
+	double percentA, double percentB, bool animated, CodeScrollParams::Target target)
 {
 	QAbstractScrollArea* area = getScrollArea();
 	if (!area)
@@ -105,18 +119,18 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(double percentA, double pe
 
 	if (rectHeight > visibleHeight)
 	{
-		target = SCROLL_TOP;
+		target = CodeScrollParams::Target::TOP;
 	}
 
 	switch (target)
 	{
-	case SCROLL_VISIBLE:
+	case CodeScrollParams::Target::VISIBLE:
 		if (scrollY > visibleY && scrollY + rectHeight < visibleY + scrollableHeight)
 		{
 			return;
 		}
 
-	case SCROLL_CENTER:
+	case CodeScrollParams::Target::CENTER:
 		if (rectHeight < visibleHeight / 2)
 		{
 			scrollY -= visibleHeight / 4;
@@ -127,8 +141,8 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(double percentA, double pe
 		}
 		break;
 
-	case SCROLL_TOP:
-		scrollY -= 20;
+	case CodeScrollParams::Target::TOP:
+		scrollY -= 100;
 		break;
 	}
 

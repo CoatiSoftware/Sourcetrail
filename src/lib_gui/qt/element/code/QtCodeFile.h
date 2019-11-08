@@ -35,19 +35,16 @@ public:
 	const QtCodeFileTitleBar* getTitleBar() const;
 
 	QtCodeSnippet* addCodeSnippet(const CodeSnippetParams& params);
-	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
-	void updateCodeSnippet(const CodeSnippetParams& params);
+	void updateSourceLocations(const CodeSnippetParams& params);
 
+	const std::vector<QtCodeSnippet*>& getSnippets() const;
 	std::vector<QtCodeSnippet*> getVisibleSnippets() const;
 	QtCodeSnippet* getSnippetForLocationId(Id locationId) const;
 	QtCodeSnippet* getSnippetForLine(unsigned int line) const;
 
 	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 
-	bool isCollapsed() const;
-
-	void requestContent();
-	void requestWholeFileContent();
+	void requestWholeFileContent(size_t targetLineNumber);
 	void updateContent();
 
 	void setWholeFile(bool isWholeFile, int refCount);
@@ -56,15 +53,13 @@ public:
 
 	void setMinimized();
 	void setSnippets();
-	void setMaximized();
 
 	bool hasSnippets() const;
+	void clearSnippets();
 	void updateSnippets();
 	void updateTitleBar();
 
 	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
-
-	std::vector<std::pair<FilePath, Id>> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const;
 
 public slots:
 	void clickedMinimizeButton();
@@ -83,8 +78,6 @@ private:
 
 	const FilePath m_filePath;
 	bool m_isWholeFile;
-
-	mutable bool m_contentRequested;
 };
 
 #endif // QT_CODE_FILE_H

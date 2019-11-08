@@ -115,13 +115,51 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 	return file;
 }
 
-void QtCodeFileList::addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime)
+void QtCodeFileList::addFile(const CodeFileParams& params)
 {
-	QtCodeFile* file = getFile(locationFile->getFilePath());
-	file->setWholeFile(locationFile->isWhole(), refCount);
-	file->setModificationTime(modificationTime);
-	file->setIsComplete(locationFile->isComplete());
-	file->setIsIndexed(locationFile->isIndexed());
+	QtCodeFile* file = getFile(params.locationFile->getFilePath());
+	file->setWholeFile(params.locationFile->isWhole(), params.referenceCount);
+	file->setModificationTime(params.modificationTime);
+	file->setIsComplete(params.locationFile->isComplete());
+	file->setIsIndexed(params.locationFile->isIndexed());
+
+	if (params.isMinimized)
+	{
+		file->setMinimized();
+	}
+	else
+	{
+		bool same = true;
+		const std::vector<QtCodeSnippet*> snippets = file->getSnippets();
+		if (params.snippetParams.size() != snippets.size())
+		{
+			same = false;
+		}
+		else
+		{
+			for (size_t i = 0; i < snippets.size(); i++)
+			{
+				if (params.snippetParams[i].startLineNumber != snippets[i]->getStartLineNumber() ||
+					params.snippetParams[i].endLineNumber != snippets[i]->getEndLineNumber())
+				{
+					same = false;
+					break;
+				}
+			}
+		}
+
+		if (!same)
+		{
+			file->clearSnippets();
+
+			for (const CodeSnippetParams& snippetParams : params.snippetParams)
+			{
+				file->addCodeSnippet(snippetParams);
+			}
+		}
+
+		file->setSnippets();
+	}
 }
 
 QScrollArea* QtCodeFileList::getScrollArea()
@@ -129,47 +167,36 @@ QScrollArea* QtCodeFileList::getScrollArea()
 	return m_scrollArea;
 }
 
-void QtCodeFileList::addCodeSnippet(const CodeSnippetParams& params)
+void QtCodeFileList::updateSourceLocations(const CodeSnippetParams& params)
 {
 	QtCodeFile* file = getFile(params.locationFile->getFilePath());
-
-	if (params.insertSnippet)
+	if (file)
 	{
-		file->insertCodeSnippet(params);
+		file->updateSourceLocations(params);
 	}
-	else
+}
+
+void QtCodeFileList::updateFiles()
+{
+	for (QtCodeFile* file : m_files)
 	{
-		file->addCodeSnippet(params);
+		file->setProperty("last", file == m_files.back());
+		file->updateContent();
+		file->updateTitleBar();
+		file->show();
 	}
 
-	file->setModificationTime(params.modificationTime);
-	file->setIsComplete(params.locationFile->isComplete());
-	file->setIsIndexed(params.locationFile->isIndexed());
+	// Perform delayed so all widgets are already visible
+	QTimer::singleShot(100, this, &QtCodeFileList::updateSnippetTitleAndScrollBarSlot);
 }
 
-void QtCodeFileList::updateCodeSnippet(const CodeSnippetParams& params)
-{
-	QtCodeFile* file = getFile(params.locationFile->getFilePath());
-	file->updateCodeSnippet(params);
-}
-
-void QtCodeFileList::requestFileContent(const FilePath& filePath)
-{
-	getFile(filePath)->requestContent();
-}
-
-bool QtCodeFileList::requestScroll(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, ScrollTarget target)
+void QtCodeFileList::scrollTo(
+	const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, CodeScrollParams::Target target)
 {
 	QtCodeFile* file = getFile(filePath);
 	if (!file)
 	{
-		return true;
-	}
-
-	if (file->isCollapsed())
-	{
-		file->requestContent();
-		return false;
+		return;
 	}
 
 	QtCodeSnippet* snippet = nullptr;
@@ -187,16 +214,10 @@ bool QtCodeFileList::requestScroll(const FilePath& filePath, size_t lineNumber, 
 		snippet = file->getSnippetForLine(1);
 	}
 
-	if (!snippet)
+	if (!snippet || !snippet->isVisible())
 	{
 		ensureWidgetVisibleAnimated(m_filesArea, file->getTitleBar(), QRect(), animated, target);
-		return true;
-	}
-
-	if (!snippet->isVisible())
-	{
-		file->setSnippets();
-		return true;
+		return;
 	}
 
 	size_t endLineNumber = 0;
@@ -228,29 +249,6 @@ bool QtCodeFileList::requestScroll(const FilePath& filePath, size_t lineNumber, 
 	ensureWidgetVisibleAnimated(m_filesArea, snippet, lineRect, animated, target);
 
 	snippet->ensureLocationIdVisible(locationId, animated);
-
-	return true;
-}
-
-void QtCodeFileList::updateFiles()
-{
-	for (QtCodeFile* file : m_files)
-	{
-		file->setProperty("last", file == m_files.back());
-		file->updateContent();
-	}
-
-	// Perform delayed so all widgets are already visible
-	QTimer::singleShot(100, this, &QtCodeFileList::updateSnippetTitleAndScrollBarSlot);
-}
-
-void QtCodeFileList::showContents()
-{
-	for (QtCodeFile* file : m_files)
-	{
-		file->updateTitleBar();
-		file->show();
-	}
 }
 
 void QtCodeFileList::onWindowFocus()
@@ -274,67 +272,6 @@ void QtCodeFileList::findScreenMatches(const std::wstring& query, std::vector<st
 	}
 }
 
-std::vector<std::pair<FilePath, Id>> QtCodeFileList::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
-{
-	std::vector<std::pair<FilePath, Id>> locationIds;
-	for (QtCodeFile* file : m_files)
-	{
-		utility::append(locationIds, file->getLocationIdsForTokenIds(tokenIds));
-	}
-	return locationIds;
-}
-
-void QtCodeFileList::setFileMinimized(const FilePath path)
-{
-	if (path.empty())
-	{
-		if (m_files.size())
-		{
-			m_files[0]->setMinimized();
-		}
-	}
-	else
-	{
-		QtCodeFile* file = getFile(path);
-		file->setMinimized();
-
-		if (m_firstSnippetTitleBar->isVisible())
-		{
-			ensureWidgetVisibleAnimated(m_filesArea, file->getTitleBar(), QRect(), false, SCROLL_TOP);
-		}
-	}
-}
-
-void QtCodeFileList::setFileSnippets(const FilePath path)
-{
-	if (path.empty())
-	{
-		if (m_files.size())
-		{
-			m_files[0]->setSnippets();
-		}
-	}
-	else
-	{
-		getFile(path)->setSnippets();
-	}
-}
-
-void QtCodeFileList::setFileMaximized(const FilePath path)
-{
-	if (path.empty())
-	{
-		if (m_files.size())
-		{
-			m_files[0]->setMaximized();
-		}
-	}
-	else
-	{
-		getFile(path)->setMaximized();
-	}
-}
-
 void QtCodeFileList::maximizeFirstFile()
 {
 	if (m_files.size())
@@ -347,11 +284,6 @@ std::pair<QtCodeFile*, Id> QtCodeFileList::getFirstFileWithActiveLocationId() co
 {
 	for (QtCodeFile* file : m_files)
 	{
-		if (file->isCollapsed())
-		{
-			continue;
-		}
-
 		std::pair<QtCodeSnippet*, Id> snippet = file->getFirstSnippetWithActiveLocationId(0);
 		if (snippet.first != nullptr)
 		{
@@ -368,11 +300,6 @@ std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationI
 
 	for (QtCodeFile* file : m_files)
 	{
-		if (file->isCollapsed())
-		{
-			continue;
-		}
-
 		result = file->getFirstSnippetWithActiveLocationId(tokenId);
 		if (result.first != nullptr)
 		{

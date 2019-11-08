@@ -21,6 +21,11 @@ public:
 		return "MessageScrollToLine";
 	}
 
+	void print(std::wostream& os) const override
+	{
+		os << filePath.wstr() << L":" << line;
+	}
+
 	const FilePath filePath;
 	size_t line;
 };

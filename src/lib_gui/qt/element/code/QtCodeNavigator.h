@@ -10,8 +10,6 @@
 #include "QtThreadedFunctor.h"
 #include "MessageListener.h"
 #include "MessageIndexingFinished.h"
-#include "MessageCodeReference.h"
-#include "MessageShowReference.h"
 #include "MessageSwitchColorScheme.h"
 #include "MessageWindowFocus.h"
 
@@ -23,9 +21,7 @@ class SourceLocationFile;
 
 class QtCodeNavigator
 	: public QWidget
-	, public MessageListener<MessageCodeReference>
 	, public MessageListener<MessageIndexingFinished>
-	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageWindowFocus>
 {
@@ -42,16 +38,16 @@ public:
 	QtCodeNavigator(QWidget* parent = nullptr);
 	virtual ~QtCodeNavigator();
 
-	void addCodeSnippet(const CodeSnippetParams& params);
-	void updateCodeSnippet(const CodeSnippetParams& params);
-	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime);
-
-	void addedFiles();
+	void addSnippetFile(const CodeFileParams& params);
+	bool addSingleFile(const CodeFileParams& params, bool useSingleFileCache);
+	void updateSourceLocations(const CodeSnippetParams& params);
+	void updateReferenceCount(
+		size_t referenceCount, size_t referenceIndex, size_t localReferenceCount, size_t localReferenceIndex);
 
 	void clear();
-	void clearCodeSnippets(bool useSingleFileCache);
+	void clearSnippets();
 	void clearFile();
-	void clearCaches();
+	void clearCache();
 	void clearSnippetReferences();
 
 	void setMode(Mode mode);
@@ -86,18 +82,10 @@ public:
 	bool isInListMode() const;
 	bool hasSingleFileCached(const FilePath& filePath) const;
 
-	void showActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo);
-
 	void focusTokenIds(const std::vector<Id>& focusedTokenIds);
 	void defocusTokenIds();
 
-	void setFileMinimized(const FilePath path);
-	void setFileSnippets(const FilePath path);
-	void setFileMaximized(const FilePath path);
-
 	void updateFiles();
-	void showContents();
 
 	void refreshStyle();
 
@@ -107,17 +95,7 @@ public:
 	bool hasScreenMatches() const;
 	void clearScreenMatches();
 
-	void scrollToValue(int value, bool inListMode);
-	void scrollToLine(const FilePath& filePath, unsigned int line);
-	void scrollToDefinition(bool animated, bool ignoreActiveReference);
-
-	void scrollToSnippetIfRequested();
-
-	void requestScroll(
-		const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, QtCodeNavigateable::ScrollTarget target);
-
-signals:
-	void scrollRequest();
+	void scrollTo(const CodeScrollParams& params, bool animated);
 
 public slots:
 	void scrolled(int value);
@@ -126,62 +104,17 @@ protected:
 	void showEvent(QShowEvent* event) override;
 
 private slots:
-	void handleScrollRequest();
-	void setValue();
+	void previousReference();
+	void nextReference();
 
-	void previousFile(bool fromUI = true);
-	void nextFile(bool fromUI = true);
-
-	void previousReference(bool fromUI = true);
-	void nextReference(bool fromUI = true);
-
-	void previousLocalReference(bool fromUI = true);
-	void nextLocalReference(bool fromUI = true);
+	void previousLocalReference();
+	void nextLocalReference();
 
 	void setModeList();
 	void setModeSingle();
 
 private:
-	struct Reference
-	{
-		Reference()
-			: tokenId(0)
-			, locationId(0)
-			, locationType(LOCATION_TOKEN)
-		{
-		}
-
-		FilePath filePath;
-		Id tokenId;
-		Id locationId;
-		LocationType locationType;
-	};
-
-	void showCurrentReference(bool fromUI);
-	void showCurrentLocalReference();
-	void updateRefLabels();
-
-	struct ScrollRequest
-	{
-		ScrollRequest()
-			: lineNumber(0)
-			, locationId(0)
-			, animated(false)
-			, target(QtCodeNavigateable::SCROLL_VISIBLE)
-		{
-		}
-
-		FilePath filePath;
-		size_t lineNumber;
-		Id locationId;
-
-		bool animated;
-		QtCodeNavigateable::ScrollTarget target;
-	};
-
-	void handleMessage(MessageCodeReference* message) override;
 	void handleMessage(MessageIndexingFinished* message) override;
-	void handleMessage(MessageShowReference* message) override;
 	void handleMessage(MessageSwitchColorScheme* message) override;
 	void handleMessage(MessageWindowFocus* message) override;
 
@@ -205,12 +138,6 @@ private:
 	std::set<Id> m_focusedTokenIds;
 	std::map<Id, ErrorInfo> m_errorInfos;
 
-	Id m_activeTokenId;
-
-	int m_value;
-
-	QtSearchBarButton* m_prevFileButton;
-	QtSearchBarButton* m_nextFileButton;
 	QtSearchBarButton* m_prevReferenceButton;
 	QtSearchBarButton* m_nextReferenceButton;
 	QLabel* m_refLabel;
@@ -224,16 +151,7 @@ private:
 
 	QFrame* m_separatorLine;
 
-	std::vector<Reference> m_references;
-	Reference m_activeReference;
-	size_t m_refIndex;
-
-	std::vector<Reference> m_localReferences;
-	size_t m_localRefIndex;
-
-	ScrollRequest m_scrollRequest;
-	bool m_singleHasNewFile;
-	bool m_useSingleFileCache;
+	CodeScrollParams m_scrollParams;
 
 	std::vector<std::pair<QtCodeArea*, Id>> m_screenMatches;
 	Id m_activeScreenMatchId = 0;

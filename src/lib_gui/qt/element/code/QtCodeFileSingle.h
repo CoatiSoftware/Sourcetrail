@@ -30,25 +30,20 @@ public:
 	void clearFile();
 	void clearCache();
 
+	bool addFile(const CodeFileParams& params, bool useSingleFileCache);
+
 	// QtCodeNavigateable implementation
 	QAbstractScrollArea* getScrollArea() override;
 
-	void addCodeSnippet(const CodeSnippetParams& params) override;
-	void updateCodeSnippet(const CodeSnippetParams& params) override;
-
-	void requestFileContent(const FilePath& filePath) override;
-	bool requestScroll(
-		const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, ScrollTarget target) override;
-
+	void updateSourceLocations(const CodeSnippetParams& params) override;
 	void updateFiles() override;
-	void showContents() override;
+
+	void scrollTo(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, CodeScrollParams::Target target)  override;
 
 	void onWindowFocus() override;
 
 	void findScreenMatches(
 		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
-
-	std::vector<std::pair<FilePath, Id>> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const override;
 
 	const FilePath& getCurrentFilePath() const;
 	bool hasFileCached(const FilePath& filePath) const;
@@ -86,8 +81,7 @@ private:
 	std::map<FilePath, FileData> m_fileDatas;
 	std::deque<FilePath> m_filePaths;
 
-	bool m_contentRequested;
-	bool m_scrollRequested;
+	std::shared_ptr<SourceLocationFile> m_lastLocationFile;
 };
 
 #endif // QT_CODE_FILE_SINGLE_H

@@ -23,9 +23,6 @@ class QtCodeSnippet
 	Q_OBJECT
 
 public:
-	static QtCodeSnippet* merged(
-		const QtCodeSnippet* a, const QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file);
-
 	QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file);
 	virtual ~QtCodeSnippet();
 
@@ -37,7 +34,7 @@ public:
 
 	int lineNumberDigits() const;
 
-	void updateCodeSnippet(const CodeSnippetParams& params);
+	void updateSourceLocations(const CodeSnippetParams& params);
 
 	void updateLineNumberAreaWidthForDigits(int digits);
 	void updateContent();
@@ -53,8 +50,6 @@ public:
 	std::string getCode() const;
 
 	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
-
-	std::vector<Id> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const;
 
 	void ensureLocationIdVisible(Id locationId, bool animated);
 

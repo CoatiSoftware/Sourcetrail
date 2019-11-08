@@ -10,54 +10,6 @@
 #include "QtCodeNavigator.h"
 #include "QtCodeFile.h"
 
-QtCodeSnippet* QtCodeSnippet::merged(
-	const QtCodeSnippet* a, const QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file)
-{
-	const QtCodeSnippet* first = a->getStartLineNumber() < b->getStartLineNumber() ? a : b;
-	const QtCodeSnippet* second = a->getStartLineNumber() > b->getStartLineNumber() ? a : b;
-
-	SourceLocationFile* aFile = a->m_codeArea->getSourceLocationFile().get();
-	SourceLocationFile* bFile = b->m_codeArea->getSourceLocationFile().get();
-
-	std::shared_ptr<SourceLocationFile> locationFile = std::make_shared<SourceLocationFile>(
-		aFile->getFilePath(), aFile->getLanguage(), aFile->isWhole(), aFile->isComplete(), aFile->isIndexed());
-
-	aFile->forEachSourceLocation(
-		[&locationFile](SourceLocation* loc)
-		{
-			locationFile->addSourceLocationCopy(loc);
-		}
-	);
-
-	bFile->forEachSourceLocation(
-		[&locationFile](SourceLocation* loc)
-		{
-			locationFile->addSourceLocationCopy(loc);
-		}
-	);
-
-	std::string code = first->getCode();
-
-	std::string secondCode = second->getCode();
-	int secondCodeStartIndex = 0;
-	for (size_t i = second->getStartLineNumber(); i <= first->getEndLineNumber(); i++)
-	{
-		secondCodeStartIndex = secondCode.find("\n", secondCodeStartIndex) + 1;
-	}
-	code += secondCode.substr(secondCodeStartIndex, secondCode.npos);
-
-	CodeSnippetParams params;
-	params.startLineNumber = first->getStartLineNumber();
-	params.title = first->m_titleString;
-	params.titleId = first->m_titleId;
-	params.footer = second->m_footerString;
-	params.footerId = second->m_footerId;
-	params.code = code;
-	params.locationFile = locationFile;
-
-	return new QtCodeSnippet(params, navigator, file);
-}
-
 QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file)
 	: QFrame(file)
 	, m_navigator(navigator)
@@ -78,7 +30,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	if (!m_titleString.empty() && !params.reduced)
+	if (!m_titleString.empty() && !params.isOverview)
 	{
 		m_title = createScopeLine(layout);
 		if (m_titleId == 0) // title is a file path
@@ -92,7 +44,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		connect(m_title, &QPushButton::clicked, this, &QtCodeSnippet::clickedTitle);
 	}
 
-	m_codeArea = new QtCodeArea(params.startLineNumber, params.code, params.locationFile, navigator, !params.reduced, this);
+	m_codeArea = new QtCodeArea(params.startLineNumber, params.code, params.locationFile, navigator, !params.isOverview, this);
 	layout->addWidget(m_codeArea);
 
 	if (!m_footerString.empty())
@@ -139,7 +91,7 @@ int QtCodeSnippet::lineNumberDigits() const
 	return m_codeArea->lineNumberDigits();
 }
 
-void QtCodeSnippet::updateCodeSnippet(const CodeSnippetParams& params)
+void QtCodeSnippet::updateSourceLocations(const CodeSnippetParams& params)
 {
 	m_codeArea->updateSourceLocations(params.locationFile);
 
@@ -199,11 +151,6 @@ void QtCodeSnippet::findScreenMatches(const std::wstring& query, std::vector<std
 	m_codeArea->findScreenMatches(query, screenMatches);
 }
 
-std::vector<Id> QtCodeSnippet::getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const
-{
-	return m_codeArea->getLocationIdsForTokenIds(tokenIds);
-}
-
 void QtCodeSnippet::ensureLocationIdVisible(Id locationId, bool animated)
 {
 	m_codeArea->ensureLocationIdVisible(locationId, width(), animated);
@@ -217,10 +164,8 @@ void QtCodeSnippet::clickedTitle()
 	}
 	else
 	{
-		getFile()->requestWholeFileContent();
+		getFile()->requestWholeFileContent(getStartLineNumber());
 	}
-
-	m_navigator->requestScroll(getFile()->getFilePath(), getStartLineNumber(), 0, true, QtCodeNavigateable::SCROLL_VISIBLE);
 }
 
 void QtCodeSnippet::clickedFooter()
@@ -231,10 +176,8 @@ void QtCodeSnippet::clickedFooter()
 	}
 	else
 	{
-		getFile()->requestWholeFileContent();
+		getFile()->requestWholeFileContent(getEndLineNumber());
 	}
-
-	m_navigator->requestScroll(getFile()->getFilePath(), getEndLineNumber(), 0, true, QtCodeNavigateable::SCROLL_CENTER);
 }
 
 QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)

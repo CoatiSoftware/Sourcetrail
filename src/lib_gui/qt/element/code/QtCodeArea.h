@@ -81,8 +81,6 @@ public:
 	Id getLocationIdOfFirstActiveScopeLocation(Id tokenId) const;
 	Id getLocationIdOfFirstHighlightedLocation() const;
 
-	std::vector<Id> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const;
-
 	size_t getActiveLocationCount() const;
 
 	QRectF getLineRectForLineNumber(size_t lineNumber) const;
@@ -114,7 +112,7 @@ private:
 	void clearSelection();
 	void setNewTextCursor(const QTextCursor& cursor);
 
-	void activateErrors(const std::vector<const Annotation*>& annotations);
+	void activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations);
 
 	void annotateText();
 

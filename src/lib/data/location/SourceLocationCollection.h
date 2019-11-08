@@ -35,6 +35,7 @@ public:
 
 	SourceLocation* addSourceLocationCopy(const SourceLocation* location);
 	void addSourceLocationCopies(const SourceLocationCollection* other);
+	void addSourceLocationCopies(const SourceLocationFile* otherFile);
 
 	void addSourceLocationFile(std::shared_ptr<SourceLocationFile> file);
 

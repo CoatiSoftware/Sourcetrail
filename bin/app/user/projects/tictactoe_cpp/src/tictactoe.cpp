@@ -13,7 +13,6 @@ TicTacToe::~TicTacToe() {
 	Reset();
 }
 
-
 bool TicTacToe::Start() {
 	Reset();
 	io::stringOut("Tic Tac Toe\n\n[1] Human\n[2] Computer\n[3] Quit\n\n");

@@ -29,29 +29,20 @@ public:
 	void clearSnippetTitleAndScrollBar();
 
 	QtCodeFile* getFile(const FilePath filePath);
-	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime);
+
+	void addFile(const CodeFileParams& params);
 
 	// QtCodeNaviatebale implementation
 	QScrollArea* getScrollArea() override;
 
-	void addCodeSnippet(const CodeSnippetParams& params) override;
-	void updateCodeSnippet(const CodeSnippetParams& params) override;
-
-	void requestFileContent(const FilePath& filePath) override;
-	bool requestScroll(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, ScrollTarget target) override;
-
+	void updateSourceLocations(const CodeSnippetParams& params) override;
 	void updateFiles() override;
-	void showContents() override;
+
+	void scrollTo(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, CodeScrollParams::Target target) override;
 
 	void onWindowFocus() override;
 
 	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
-
-	std::vector<std::pair<FilePath, Id>> getLocationIdsForTokenIds(const std::set<Id>& tokenIds) const override;
-
-	void setFileMinimized(const FilePath path);
-	void setFileSnippets(const FilePath path);
-	void setFileMaximized(const FilePath path);
 
 	void maximizeFirstFile();
 
@@ -64,6 +55,7 @@ protected:
 private slots:
 	void updateSnippetTitleAndScrollBarSlot();
 	void updateSnippetTitleAndScrollBar(int value = 0);
+
 	void scrollLastSnippet(int value);
 	void scrollLastSnippetScrollBar(int value);
 
