@@ -4,7 +4,11 @@
 
 std::wstring SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic()
 {
+#ifdef __linux__
+	return L"gnu++17"
+#else
 	return L"c++17";
+#endif
 }
 
 std::wstring SourceGroupSettingsWithCppStandard::getCppStandard() const

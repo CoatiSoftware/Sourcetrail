@@ -4,7 +4,11 @@
 
 std::wstring SourceGroupSettingsWithCStandard::getDefaultCStandardStatic()
 {
+#ifdef __linux__
+	return L"gnu11"
+#else
 	return L"c11";
+#endif
 }
 
 std::wstring SourceGroupSettingsWithCStandard::getCStandard() const
