@@ -8,11 +8,9 @@
 #include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
-#include "SourceGroupSettingsCxxSonargraph.h"
 #include "SourceGroupSettingsJavaEmpty.h"
 #include "SourceGroupSettingsJavaMaven.h"
 #include "SourceGroupSettingsJavaGradle.h"
-#include "SourceGroupSettingsJavaSonargraph.h"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "logging.h"
 #include "utilityFile.h"
@@ -188,9 +186,6 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 		case SOURCE_GROUP_CXX_CODEBLOCKS:
 			settings = std::make_shared<SourceGroupSettingsCxxCodeblocks>(id, this);
 			break;
-		case SOURCE_GROUP_CXX_SONARGRAPH:
-			settings = std::make_shared<SourceGroupSettingsCxxSonargraph>(id, this);
-			break;
 		case SOURCE_GROUP_JAVA_EMPTY:
 			settings = std::make_shared<SourceGroupSettingsJavaEmpty>(id, this);
 			break;
@@ -199,9 +194,6 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 			break;
 		case SOURCE_GROUP_JAVA_GRADLE:
 			settings = std::make_shared<SourceGroupSettingsJavaGradle>(id, this);
-			break;
-		case SOURCE_GROUP_JAVA_SONARGRAPH:
-			settings = std::make_shared<SourceGroupSettingsJavaSonargraph>(id, this);
 			break;
 		case SOURCE_GROUP_PYTHON_EMPTY:
 			settings = std::make_shared<SourceGroupSettingsPythonEmpty>(id, this);

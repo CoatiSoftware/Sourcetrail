@@ -22,7 +22,6 @@
 #include "QtProjectWizardContentPathCodeblocksProject.h"
 #include "QtProjectWizardContentPathCxxPch.h"
 #include "QtProjectWizardContentPathPythonEnvironment.h"
-#include "QtProjectWizardContentPathSonargraphProject.h"
 #include "QtProjectWizardContentPathSourceGradle.h"
 #include "QtProjectWizardContentPathSourceMaven.h"
 #include "QtProjectWizardContentPaths.h"
@@ -46,11 +45,9 @@
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCdbVs.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
-#include "SourceGroupSettingsCxxSonargraph.h"
 #include "SourceGroupSettingsJavaEmpty.h"
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaMaven.h"
-#include "SourceGroupSettingsJavaSonargraph.h"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "MessageLoadProject.h"
 #include "MessageStatus.h"
@@ -280,45 +277,6 @@ namespace
 	}
 
 	template <>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxSonargraph>> getSourceGroupWizardPages<SourceGroupSettingsCxxSonargraph>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxSonargraph>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxSonargraph> page("Sonargraph Project Path");
-			page.addContentCreatorWithSettings<QtProjectWizardContentCppStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreator(
-				WIZARD_CONTENT_CONTEXT_ALL,
-				[](std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings, QtProjectWizardWindow* window)
-				{
-					return new QtProjectWizardContentPathSonargraphProject(settings, settings, settings, window);
-				}
-			);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsIndexedHeaders>(WIZARD_CONTENT_CONTEXT_ALL, std::string("Sonargraph project"));
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxSonargraph> page("Include Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		if (utility::getOsType() == OS_MAC)
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxSonargraph> page("Framework Search Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxSonargraph> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			pages.push_back(page);
-		}
-
-		return pages;
-	}
-
-	template <>
 	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs>> getSourceGroupWizardPages<SourceGroupSettingsCxxCdbVs>()
 	{
 		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs>> pages;
@@ -351,7 +309,6 @@ namespace
 
 		return pages;
 	}
-
 
 	template<>
 	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty>> getSourceGroupWizardPages<SourceGroupSettingsJavaEmpty>()
@@ -412,31 +369,6 @@ namespace
 			QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle> page("Advanced (optional)");
 			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-
-		return pages;
-	}
-
-	template<>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaSonargraph>> getSourceGroupWizardPages<SourceGroupSettingsJavaSonargraph>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaSonargraph>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaSonargraph> page("Sonargraph Project Path");
-			page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreator(
-				WIZARD_CONTENT_CONTEXT_ALL,
-				[](std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings, QtProjectWizardWindow* window)
-				{
-					return new QtProjectWizardContentPathSonargraphProject(settings, std::shared_ptr<SourceGroupSettingsCxxSonargraph>(), settings, window);
-				}
-			);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaSonargraph> page("Dependencies");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsClassJava>(WIZARD_CONTENT_CONTEXT_ALL);
 			pages.push_back(page);
 		}
 
@@ -874,10 +806,6 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(group))
-	{
-		fillSummary(summary, settings, this);
-	}
 	else if (std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdbVs>(group))
 	{
 		fillSummary(summary, settings, this);
@@ -891,10 +819,6 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 		fillSummary(summary, settings, this);
 	}
 	else if (std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(group))
-	{
-		fillSummary(summary, settings, this);
-	}
-	else if (std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaSonargraph>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
@@ -1107,13 +1031,6 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 			executeSourceGroupSetup<SourceGroupSettingsCxxCodeblocks>(settings);
 		}
 		break;
-	case SOURCE_GROUP_CXX_SONARGRAPH:
-		{
-			std::shared_ptr<SourceGroupSettingsCxxSonargraph> settings = std::make_shared<SourceGroupSettingsCxxSonargraph>(sourceGroupId, m_projectSettings.get());
-			addMsvcCompatibilityFlagsOnDemand(settings);
-			executeSourceGroupSetup<SourceGroupSettingsCxxSonargraph>(settings);
-		}
-		break;
 	case SOURCE_GROUP_CXX_VS:
 		{
 			std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings = std::make_shared<SourceGroupSettingsCxxCdbVs>(sourceGroupId, m_projectSettings.get());
@@ -1136,12 +1053,6 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 		{
 			std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
 			executeSourceGroupSetup<SourceGroupSettingsJavaGradle>(settings);
-		}
-		break;
-	case SOURCE_GROUP_JAVA_SONARGRAPH:
-		{
-			std::shared_ptr<SourceGroupSettingsJavaSonargraph> settings = std::make_shared<SourceGroupSettingsJavaSonargraph>(sourceGroupId, m_projectSettings.get());
-			executeSourceGroupSetup<SourceGroupSettingsJavaSonargraph>(settings);
 		}
 		break;
 	case SOURCE_GROUP_PYTHON_EMPTY:

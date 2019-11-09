@@ -9,22 +9,18 @@
 #include "SourceGroupCxxEmpty.h"
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupCxxCodeblocks.h"
-#include "SourceGroupCxxSonargraph.h"
 #include "SourceGroupCustomCommand.h"
 #include "SourceGroupJavaEmpty.h"
 #include "SourceGroupJavaGradle.h"
 #include "SourceGroupJavaMaven.h"
-#include "SourceGroupJavaSonargraph.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
-#include "SourceGroupSettingsCxxSonargraph.h"
 #include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsJavaEmpty.h"
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaMaven.h"
-#include "SourceGroupSettingsJavaSonargraph.h"
 #include "ProjectSettings.h"
 #include "ApplicationSettings.h"
 #include "FileSystem.h"
@@ -389,56 +385,6 @@ TEST_CASE("source group cxx cdb generates expected output")
 	applicationSettings->setFrameworkSearchPaths(storedFrameworkSearchPaths);
 }
 
-TEST_CASE("source group cxx sonargraph with cmake json modules generates expected output")
-{
-	const std::wstring projectName = L"cxx_sonargraph_cmake_json";
-
-	ProjectSettings projectSettings;
-	projectSettings.setProjectFilePath(L"non_existent_project", getInputDirectoryPath(projectName));
-
-	std::shared_ptr<SourceGroupSettingsCxxSonargraph> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxxSonargraph>("fake_id", &projectSettings);
-	sourceGroupSettings->setIndexedHeaderPaths({ FilePath(L"test/indexed/header/path") });
-	sourceGroupSettings->setSonargraphProjectPath(getInputDirectoryPath(projectName).concatenate(L"sonargraph/system.sonargraph"));
-
-	std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
-
-	std::vector<FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
-	std::vector<FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
-
-	applicationSettings->setHeaderSearchPaths({ FilePath(L"test/header/search/path") });
-	applicationSettings->setFrameworkSearchPaths({ FilePath(L"test/framework/search/path") });
-
-	generateAndCompareExpectedOutput(projectName, std::make_shared<SourceGroupCxxSonargraph>(sourceGroupSettings));
-
-	applicationSettings->setHeaderSearchPaths(storedHeaderSearchPaths);
-	applicationSettings->setFrameworkSearchPaths(storedFrameworkSearchPaths);
-}
-
-TEST_CASE("source group cxx sonargraph with cpp manual modules generates expected output")
-{
-	const std::wstring projectName = L"cxx_sonargraph_cpp_manual";
-
-	ProjectSettings projectSettings;
-	projectSettings.setProjectFilePath(L"non_existent_project", getInputDirectoryPath(projectName));
-
-	std::shared_ptr<SourceGroupSettingsCxxSonargraph> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxxSonargraph>("fake_id", &projectSettings);
-	sourceGroupSettings->setIndexedHeaderPaths({ FilePath(L"test/indexed/header/path") });
-	sourceGroupSettings->setSonargraphProjectPath(getInputDirectoryPath(projectName).concatenate(L"/sonargraph/system.sonargraph"));
-
-	std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
-
-	std::vector<FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
-	std::vector<FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
-
-	applicationSettings->setHeaderSearchPaths({ FilePath(L"test/header/search/path") });
-	applicationSettings->setFrameworkSearchPaths({ FilePath(L"test/framework/search/path") });
-
-	generateAndCompareExpectedOutput(projectName, std::make_shared<SourceGroupCxxSonargraph>(sourceGroupSettings));
-
-	applicationSettings->setHeaderSearchPaths(storedHeaderSearchPaths);
-	applicationSettings->setFrameworkSearchPaths(storedFrameworkSearchPaths);
-}
-
 TEST_CASE("sourcegroup java empty generates expected output")
 {
 	const std::wstring projectName = L"java_empty";
@@ -534,32 +480,6 @@ TEST_CASE("sourcegroup java maven generates expected output")
 	applicationSettings->setJreSystemLibraryPaths(storedJreSystemLibraryPaths);
 }
 
-TEST_CASE("sourcegroup java sonargraph with java modules generates expected output")
-{
-	const std::wstring projectName = L"java_sonargraph";
-
-	ProjectSettings projectSettings;
-	projectSettings.setProjectFilePath(L"non_existent_project", getInputDirectoryPath(projectName));
-
-	std::shared_ptr<SourceGroupSettingsJavaSonargraph> sourceGroupSettings =
-		std::make_shared<SourceGroupSettingsJavaSonargraph>("fake_id", &projectSettings);
-	sourceGroupSettings->setUseJreSystemLibrary(true);
-	sourceGroupSettings->setClasspath({
-		FilePath(L"test/classpath/file.jar"), FilePath(L"test/classpath/dir")
-	});
-	sourceGroupSettings->setSonargraphProjectPath(getInputDirectoryPath(projectName).concatenate(L"sonargraph/system.sonargraph"));
-
-	std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
-
-	std::vector<FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
-
-	applicationSettings->setJreSystemLibraryPaths({ FilePath(L"test/jre/system/library/path.jar") });
-
-	generateAndCompareExpectedOutput(projectName, std::make_shared<SourceGroupJavaSonargraph>(sourceGroupSettings));
-
-	applicationSettings->setJreSystemLibraryPaths(storedJreSystemLibraryPaths);
-}
-
 TEST_CASE("source group custom command generates expected output")
 {
 	const std::wstring projectName = L"custom_command";
@@ -574,44 +494,6 @@ TEST_CASE("source group custom command generates expected output")
 	sourceGroupSettings->setExcludeFilterStrings({ L"**/excluded/**" });
 
 	generateAndCompareExpectedOutput(projectName, std::make_shared<SourceGroupCustomCommand>(sourceGroupSettings));
-}
-
-// Special Tests
-
-TEST_CASE("sourcegroup java sonargraph with cpp modules does not generate output")
-{
-	const std::wstring projectName = L"cxx_sonargraph_cpp_manual";
-	const FilePath sonargraphProjectFilePath(getInputDirectoryPath(projectName).concatenate(L"sonargraph/system.sonargraph"));
-
-	REQUIRE(sonargraphProjectFilePath.exists());
-
-	ProjectSettings projectSettings;
-	projectSettings.setProjectFilePath(L"non_existent_project", getInputDirectoryPath(projectName));
-
-	std::shared_ptr<SourceGroupSettingsJavaSonargraph> sourceGroupSettings = std::make_shared<SourceGroupSettingsJavaSonargraph>("fake_id", &projectSettings);
-	sourceGroupSettings->setSonargraphProjectPath(sonargraphProjectFilePath);
-
-	std::shared_ptr<TextAccess> output = generateExpectedOutput(projectName, std::make_shared<SourceGroupJavaSonargraph>(sourceGroupSettings));
-
-	REQUIRE(0 == output->getLineCount());
-}
-
-TEST_CASE("sourcegroup cxx sonargraph with java modules does not generate output")
-{
-	const std::wstring projectName = L"java_sonargraph";
-	const FilePath sonargraphProjectFilePath(getInputDirectoryPath(projectName).concatenate(L"sonargraph/system.sonargraph"));
-
-	REQUIRE(sonargraphProjectFilePath.exists());
-
-	ProjectSettings projectSettings;
-	projectSettings.setProjectFilePath(L"non_existent_project", getInputDirectoryPath(projectName));
-
-	std::shared_ptr<SourceGroupSettingsCxxSonargraph> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxxSonargraph>("fake_id", &projectSettings);
-	sourceGroupSettings->setSonargraphProjectPath(sonargraphProjectFilePath);
-
-	std::shared_ptr<TextAccess> output = generateExpectedOutput(projectName, std::make_shared<SourceGroupCxxSonargraph>(sourceGroupSettings));
-
-	REQUIRE(0 == output->getLineCount());
 }
 
 TEST_CASE("can destroy application instance")

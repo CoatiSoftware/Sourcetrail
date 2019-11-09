@@ -154,8 +154,6 @@ add_files(
 	qt/project_wizard/content/path/QtProjectWizardContentPathCxxPch.h
 	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.cpp
 	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathSonargraphProject.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathSonargraphProject.h
 	qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.cpp
 	qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.h
 	qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.cpp

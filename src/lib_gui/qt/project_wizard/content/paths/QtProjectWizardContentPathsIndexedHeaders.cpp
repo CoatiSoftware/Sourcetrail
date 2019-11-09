@@ -10,49 +10,10 @@
 #include "QtPathListDialog.h"
 #include "QtSelectPathsDialog.h"
 #include "QtTextEditDialog.h"
-#include "SonargraphProject.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
-#include "SourceGroupSettingsCxxSonargraph.h"
 #include "utility.h"
 #include "utilityFile.h"
-
-std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromSonargraphProject(
-	std::shared_ptr<const SourceGroupSettingsCxxSonargraph> settings)
-{
-	std::set<FilePath> indexedHeaderPaths;
-	{
-		const FilePath sonargraphProjectPath = settings->getSonargraphProjectPathExpandedAndAbsolute();
-		if (!sonargraphProjectPath.empty() && sonargraphProjectPath.exists())
-		{
-			if (std::shared_ptr<Sonargraph::Project> sonargraphProject = Sonargraph::Project::load(
-				sonargraphProjectPath, settings->getLanguage()
-			))
-			{
-				for (const FilePath& path : sonargraphProject->getAllSourceFilePathsCanonical())
-				{
-					indexedHeaderPaths.insert(path.getCanonical().getParentDirectory());
-				}
-				utility::append(indexedHeaderPaths, sonargraphProject->getAllCxxHeaderSearchPathsCanonical());
-			}
-		}
-		else
-		{
-			LOG_WARNING("Unable to fetch indexed header paths. The provided Sonargraph project path does not exist.");
-		}
-	}
-
-	std::vector<FilePath> topLevelPaths;
-	for (const FilePath& path : utility::getTopLevelPaths(indexedHeaderPaths))
-	{
-		if (path.exists())
-		{
-			topLevelPaths.push_back(path);
-		}
-	}
-
-	return topLevelPaths;
-}
 
 std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCodeblocksProject(
 	std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> settings)
@@ -78,7 +39,7 @@ std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPaths
 		}
 		else
 		{
-			LOG_WARNING("Unable to fetch indexed header paths. The provided Sonargraph project path does not exist.");
+			LOG_WARNING("Unable to fetch indexed header paths. The provided Codeblocks project path does not exist.");
 		}
 	}
 
@@ -212,39 +173,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 
 	if (!m_filesDialog)
 	{
-		if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> sonargraphSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(m_settings))
-		{
-			const FilePath sonargraphProjectPath = sonargraphSettings->getSonargraphProjectPathExpandedAndAbsolute();
-			if (!sonargraphProjectPath.exists())
-			{
-				QMessageBox msgBox;
-				msgBox.setText("The provided Sonargraph project path does not exist.");
-				msgBox.setDetailedText(QString::fromStdWString(sonargraphProjectPath.wstr()));
-				msgBox.exec();
-				return;
-			}
-
-			m_filesDialog = std::make_shared<QtSelectPathsDialog>(
-				"Select from Include Paths",
-				"The list contains all Include Paths found in the Sonargraph project. Red paths do not exist. Select the "
-				"paths containing the header files you want to index with Sourcetrail.");
-			m_filesDialog->setup();
-
-			connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizardContentPathsIndexedHeaders::savedFilesDialog);
-			connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizardContentPathsIndexedHeaders::closedFilesDialog);
-
-			const FilePath projectPath = sonargraphSettings->getProjectDirectoryPath();
-
-			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
-				utility::convert<FilePath, FilePath>(
-					getIndexedPathsDerivedFromSonargraphProject(sonargraphSettings),
-					[&](const FilePath& path) { return utility::getAsRelativeIfShorter(path, projectPath); }
-				),
-				sonargraphSettings->getIndexedHeaderPaths(),
-				m_settings->getProjectDirectoryPath()
-			);
-		}
-		else if (std::shared_ptr<SourceGroupSettingsCxxCodeblocks> codeblocksSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings))
+		if (std::shared_ptr<SourceGroupSettingsCxxCodeblocks> codeblocksSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings))
 		{
 			const FilePath codeblocksProjectPath = codeblocksSettings->getCodeblocksProjectPathExpandedAndAbsolute();
 			if (!codeblocksProjectPath.exists())

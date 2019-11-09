@@ -3,12 +3,10 @@
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupCxxCodeblocks.h"
 #include "SourceGroupCxxEmpty.h"
-#include "SourceGroupCxxSonargraph.h"
 #include "SourceGroupSettingsCxxCdb.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
-#include "SourceGroupSettingsCxxSonargraph.h"
 
 bool SourceGroupFactoryModuleCxx::supports(SourceGroupType type) const
 {
@@ -18,7 +16,6 @@ bool SourceGroupFactoryModuleCxx::supports(SourceGroupType type) const
 	case SOURCE_GROUP_CPP_EMPTY:
 	case SOURCE_GROUP_CXX_CDB:
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
-	case SOURCE_GROUP_CXX_SONARGRAPH:
 		return true;
 	default:
 		break;
@@ -44,10 +41,6 @@ std::shared_ptr<SourceGroup> SourceGroupFactoryModuleCxx::createSourceGroup(std:
 	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(settings))
 	{
 		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupCxxEmpty(cxxSettings));
-	}
-	else if (std::shared_ptr<SourceGroupSettingsCxxSonargraph> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxSonargraph>(settings))
-	{
-		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupCxxSonargraph(cxxSettings));
 	}
 	return sourceGroup;
 }

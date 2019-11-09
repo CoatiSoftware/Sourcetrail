@@ -12,8 +12,6 @@ std::string sourceGroupTypeToString(SourceGroupType v)
 		return "C/C++ from Compilation Database";
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
 		return "C/C++ from Code::Blocks";
-	case SOURCE_GROUP_CXX_SONARGRAPH:
-		return "C/C++ from Sonargraph";
 	case SOURCE_GROUP_CXX_VS:
 		return "C/C++ from Visual Studio";
 	case SOURCE_GROUP_JAVA_EMPTY:
@@ -22,8 +20,6 @@ std::string sourceGroupTypeToString(SourceGroupType v)
 		return "Java Source Group from Maven";
 	case SOURCE_GROUP_JAVA_GRADLE:
 		return "Java Source Group from Gradle";
-	case SOURCE_GROUP_JAVA_SONARGRAPH:
-		return "Java from Sonargraph";
 	case SOURCE_GROUP_PYTHON_EMPTY:
 		return "Python Source Group";
 	case SOURCE_GROUP_CUSTOM_COMMAND:
@@ -46,8 +42,6 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 		return "C/C++ from Compilation Database";
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
 		return "C/C++ from Code::Blocks";
-	case SOURCE_GROUP_CXX_SONARGRAPH:
-		return "C/C++ from Sonargraph";
 	case SOURCE_GROUP_CXX_VS:
 		return "C/C++ from Visual Studio";
 	case SOURCE_GROUP_JAVA_EMPTY:
@@ -56,8 +50,6 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 		return "Java Source Group from Maven";
 	case SOURCE_GROUP_JAVA_GRADLE:
 		return "Java Source Group from Gradle";
-	case SOURCE_GROUP_JAVA_SONARGRAPH:
-		return "Java from Sonargraph";
 	case SOURCE_GROUP_PYTHON_EMPTY:
 		return "Empty Python Source Group";
 	case SOURCE_GROUP_CUSTOM_COMMAND:
@@ -86,10 +78,6 @@ SourceGroupType stringToSourceGroupType(const std::string& v)
 	{
 		return SOURCE_GROUP_CXX_CODEBLOCKS;
 	}
-	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_SONARGRAPH))
-	{
-		return SOURCE_GROUP_CXX_SONARGRAPH;
-	}
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_CXX_VS))
 	{
 		return SOURCE_GROUP_CXX_VS;
@@ -105,10 +93,6 @@ SourceGroupType stringToSourceGroupType(const std::string& v)
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_JAVA_GRADLE))
 	{
 		return SOURCE_GROUP_JAVA_GRADLE;
-	}
-	else if (v == sourceGroupTypeToString(SOURCE_GROUP_JAVA_SONARGRAPH))
-	{
-		return SOURCE_GROUP_JAVA_SONARGRAPH;
 	}
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_PYTHON_EMPTY))
 	{

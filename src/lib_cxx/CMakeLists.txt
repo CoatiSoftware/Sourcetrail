@@ -88,8 +88,6 @@ add_files(
 	project/SourceGroupCxxCodeblocks.h
 	project/SourceGroupCxxEmpty.cpp
 	project/SourceGroupCxxEmpty.h
-	project/SourceGroupCxxSonargraph.cpp
-	project/SourceGroupCxxSonargraph.h
 	project/SourceGroupFactoryModuleCxx.cpp
 	project/SourceGroupFactoryModuleCxx.h
 	project/utilitySourceGroupCxx.cpp

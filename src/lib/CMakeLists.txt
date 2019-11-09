@@ -381,8 +381,6 @@ add_files(
 	settings/source_group/component/SourceGroupSettingsWithCustomCommand.h
 	settings/source_group/component/SourceGroupSettingsWithExcludeFilters.cpp
 	settings/source_group/component/SourceGroupSettingsWithExcludeFilters.h
-	settings/source_group/component/SourceGroupSettingsWithSonargraphProjectPath.cpp
-	settings/source_group/component/SourceGroupSettingsWithSonargraphProjectPath.h
 	settings/source_group/component/SourceGroupSettingsWithSourceExtensions.cpp
 	settings/source_group/component/SourceGroupSettingsWithSourceExtensions.h
 	settings/source_group/component/SourceGroupSettingsWithSourceExtensionsEmpty.h
@@ -395,11 +393,9 @@ add_files(
 	settings/source_group/type/SourceGroupSettingsCxxCdb.h
 	settings/source_group/type/SourceGroupSettingsCxxCdbVs.h
 	settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h
-	settings/source_group/type/SourceGroupSettingsCxxSonargraph.h
 	settings/source_group/type/SourceGroupSettingsJavaEmpty.h
 	settings/source_group/type/SourceGroupSettingsJavaGradle.h
 	settings/source_group/type/SourceGroupSettingsJavaMaven.h
-	settings/source_group/type/SourceGroupSettingsJavaSonargraph.h
 	settings/source_group/type/SourceGroupSettingsPythonEmpty.h
 
 	settings/source_group/SourceGroupSettings.cpp
@@ -622,33 +618,6 @@ add_files(
 	utility/scheduling/TaskScheduler.cpp
 	utility/scheduling/TaskScheduler.h
 	utility/scheduling/TaskSetValue.h
-
-	utility/sonargraph/SonargraphProject.cpp
-	utility/sonargraph/SonargraphProject.h
-	utility/sonargraph/SonargraphSoftwareSystem.cpp
-	utility/sonargraph/SonargraphSoftwareSystem.h
-	utility/sonargraph/SonargraphSourceRootPath.cpp
-	utility/sonargraph/SonargraphSourceRootPath.h
-	utility/sonargraph/SonargraphXsdAbstractModule.cpp
-	utility/sonargraph/SonargraphXsdAbstractModule.h
-	utility/sonargraph/SonargraphXsdAbstractSystemExtension.cpp
-	utility/sonargraph/SonargraphXsdAbstractSystemExtension.h
-	utility/sonargraph/SonargraphXsdCmakeJsonModule.cpp
-	utility/sonargraph/SonargraphXsdCmakeJsonModule.h
-	utility/sonargraph/SonargraphXsdCppManualModule.cpp
-	utility/sonargraph/SonargraphXsdCppManualModule.h
-	utility/sonargraph/SonargraphXsdCppSystemSettings.cpp
-	utility/sonargraph/SonargraphXsdCppSystemSettings.h
-	utility/sonargraph/SonargraphXsdJavaModule.cpp
-	utility/sonargraph/SonargraphXsdJavaModule.h
-	utility/sonargraph/SonargraphXsdRootPath.cpp
-	utility/sonargraph/SonargraphXsdRootPath.h
-	utility/sonargraph/SonargraphXsdRootPathWithFiles.cpp
-	utility/sonargraph/SonargraphXsdRootPathWithFiles.h
-	utility/sonargraph/SonargraphXsdSourceRootPath.cpp
-	utility/sonargraph/SonargraphXsdSourceRootPath.h
-	utility/sonargraph/utilitySonargraph.cpp
-	utility/sonargraph/utilitySonargraph.h
 
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h

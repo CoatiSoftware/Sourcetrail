@@ -5,7 +5,6 @@
 
 class SourceGroupSettingsCxxCdb;
 class SourceGroupSettingsCxxCodeblocks;
-class SourceGroupSettingsCxxSonargraph;
 
 class QtProjectWizardContentPathsIndexedHeaders
 	: public QtProjectWizardContentPaths
@@ -13,7 +12,6 @@ class QtProjectWizardContentPathsIndexedHeaders
 	Q_OBJECT
 
 public:
-	static std::vector<FilePath> getIndexedPathsDerivedFromSonargraphProject(std::shared_ptr<const SourceGroupSettingsCxxSonargraph> settings);
 	static std::vector<FilePath> getIndexedPathsDerivedFromCodeblocksProject(std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> settings);
 	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(std::shared_ptr<const SourceGroupSettingsCxxCdb> settings);
 

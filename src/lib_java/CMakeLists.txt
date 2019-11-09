@@ -24,8 +24,6 @@ add_files(
 	project/SourceGroupJavaGradle.h
 	project/SourceGroupJavaMaven.cpp
 	project/SourceGroupJavaMaven.h
-	project/SourceGroupJavaSonargraph.cpp
-	project/SourceGroupJavaSonargraph.h
 
 	utility/utilityJava.cpp
 	utility/utilityJava.h

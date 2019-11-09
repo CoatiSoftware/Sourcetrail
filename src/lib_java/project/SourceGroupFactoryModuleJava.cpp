@@ -3,11 +3,9 @@
 #include "SourceGroupJavaEmpty.h"
 #include "SourceGroupJavaGradle.h"
 #include "SourceGroupJavaMaven.h"
-#include "SourceGroupJavaSonargraph.h"
 #include "SourceGroupSettingsJavaEmpty.h"
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaMaven.h"
-#include "SourceGroupSettingsJavaSonargraph.h"
 
 bool SourceGroupFactoryModuleJava::supports(SourceGroupType type) const
 {
@@ -16,7 +14,6 @@ bool SourceGroupFactoryModuleJava::supports(SourceGroupType type) const
 	case SOURCE_GROUP_JAVA_EMPTY:
 	case SOURCE_GROUP_JAVA_GRADLE:
 	case SOURCE_GROUP_JAVA_MAVEN:
-	case SOURCE_GROUP_JAVA_SONARGRAPH:
 		return true;
 	default:
 		break;
@@ -38,10 +35,6 @@ std::shared_ptr<SourceGroup> SourceGroupFactoryModuleJava::createSourceGroup(std
 	else if (std::shared_ptr<SourceGroupSettingsJavaMaven> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(settings))
 	{
 		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupJavaMaven(javaSettings));
-	}
-	else if (std::shared_ptr<SourceGroupSettingsJavaSonargraph> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJavaSonargraph>(settings))
-	{
-		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupJavaSonargraph(javaSettings));
 	}
 	return sourceGroup;
 }
