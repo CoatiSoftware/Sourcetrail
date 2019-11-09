@@ -24,37 +24,65 @@ struct CodeScrollParams
 
 	static CodeScrollParams toReference(const FilePath& filePath, Id locationId, Target target)
 	{
-		return CodeScrollParams { Type::TO_REFERENCE, target, filePath, locationId, 0, 0, false };
+		return CodeScrollParams(Type::TO_REFERENCE, target, filePath, locationId, 0, 0, false);
 	}
 
 	static CodeScrollParams toFile(const FilePath& filePath, Target target)
 	{
-		return CodeScrollParams { Type::TO_LINE, target, filePath, 0, 0, 0, false };
+		return CodeScrollParams(Type::TO_LINE, target, filePath, 0, 0, 0, false);
 	}
 
 	static CodeScrollParams toLine(const FilePath& filePath, size_t line, Target target)
 	{
-		return CodeScrollParams { Type::TO_LINE, target, filePath, 0, line, 0, false };
+		return CodeScrollParams(Type::TO_LINE, target, filePath, 0, line, 0, false);
 	}
 
 	static CodeScrollParams toValue(size_t value, bool inListMode)
 	{
-		return CodeScrollParams { Type::TO_VALUE, Target::VISIBLE, FilePath(), 0, 0, value, inListMode };
+		return CodeScrollParams(Type::TO_VALUE, Target::VISIBLE, FilePath(), 0, 0, value, inListMode);
 	}
 
-	Type type = Type::NONE;
-	Target target = Target::VISIBLE;
+	CodeScrollParams(
+		Type type,
+		Target target,
+		FilePath filePath,
+		Id locationId,
+		size_t line,
+		size_t value,
+		bool inListMode
+	)
+		: type(type)
+		, target(target)
+		, filePath(filePath)
+		, locationId(locationId)
+		, line(line)
+		, value(value)
+		, inListMode(inListMode)
+	{}
+
+	CodeScrollParams()
+		: type(Type::NONE)
+		, target(Target::VISIBLE)
+		, locationId(0)
+		, line(0)
+		, value(0)
+		, inListMode(false)
+	{}
+
+
+	Type type;
+	Target target;
 
 	FilePath filePath;
 
 	// Reference
-	Id locationId = 0;
+	Id locationId;
 
 	// Line
-	size_t line = 0;
+	size_t line;
 
 	// Value
-	size_t value = 0;
+	size_t value;
 	bool inListMode = false;
 };
 
