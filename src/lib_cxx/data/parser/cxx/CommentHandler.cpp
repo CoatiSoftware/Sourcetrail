@@ -14,10 +14,6 @@ CommentHandler::CommentHandler(
 {
 }
 
-CommentHandler::~CommentHandler()
-{
-}
-
 bool CommentHandler::HandleComment(clang::Preprocessor& preprocessor, clang::SourceRange sourceRange)
 {
 	const clang::SourceManager& sourceManager = preprocessor.getSourceManager();

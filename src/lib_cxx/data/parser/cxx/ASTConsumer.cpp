@@ -24,10 +24,6 @@ ASTConsumer::ASTConsumer(
 	}
 }
 
-ASTConsumer::~ASTConsumer()
-{
-}
-
 void ASTConsumer::HandleTranslationUnit(clang::ASTContext& context)
 {
 	m_visitor->indexDecl(context.getTranslationUnitDecl());

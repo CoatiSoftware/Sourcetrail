@@ -188,7 +188,6 @@ ParseLocation utility::getParseLocation(
 	return ParseLocation();
 }
 
-
 ParseLocation utility::getParseLocation(
 	const clang::SourceRange& sourceRange,
 	const clang::SourceManager& sourceManager,

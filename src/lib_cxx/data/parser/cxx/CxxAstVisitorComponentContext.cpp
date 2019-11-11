@@ -75,21 +75,9 @@ void CxxAstVisitorComponentContext::endTraverseDecl(clang::Decl* d)
 {
 	m_contextStack.pop_back();
 }
-#include "CxxTypeNameResolver.h"
+
 void CxxAstVisitorComponentContext::beginTraverseTypeLoc(const clang::TypeLoc& tl)
 {
-	std::wstring namesss;
-	std::unique_ptr<CxxTypeName> typeName =
-		CxxTypeNameResolver(getAstVisitor()->getCanonicalFilePathCache()).getName(tl.getTypePtr());
-	if (typeName)
-	{
-		namesss = typeName->toNameHierarchy().getQualifiedNameWithSignature();
-	}
-
-
-
-
-
 	std::shared_ptr<CxxContextType> context;
 	clang::TypeLoc::TypeLocClass tlcc = tl.getTypeLocClass();
 	if (!getAstVisitor()->checkIgnoresTypeLoc(tl))
@@ -170,14 +158,6 @@ void CxxAstVisitorComponentContext::endTraverseDeclRefExpr(clang::DeclRefExpr* s
 
 void CxxAstVisitorComponentContext::beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc)
 {
-	std::wstring namesss;
-	std::unique_ptr<CxxTypeName> typeName =
-		CxxTypeNameResolver(getAstVisitor()->getCanonicalFilePathCache()).getName(loc.getTypePtr());
-	if (typeName)
-	{
-		namesss = typeName->toNameHierarchy().getQualifiedNameWithSignature();
-	}
-
 	bool recordContext = true;
 	const clang::TemplateSpecializationType* tst = loc.getTypePtr();
 	if (tst && tst->getTemplateName().isDependent())

@@ -692,29 +692,6 @@ void CxxAstVisitorComponentIndexer::visitCXXConstructExpr(clang::CXXConstructExp
 
 	if (getAstVisitor()->shouldVisitReference(s->getLocation()))
 	{
-		//if (e->getParenOrBraceRange().isValid()) {
-		//    // XXX: This code is a kludge.  Recording calls to constructors is
-		//    // troublesome because there isn't an obvious location to associate the
-		//    // call with.  Consider:
-		//    //     A::A() : field(1, 2, 3) {}
-		//    //     new A<B>(1, 2, 3)
-		//    //     struct A { A(B); }; A f() { B b; return b; }
-		//    // Implicit calls to conversion operator methods pose a similar
-		//    // problem.
-		//    //
-		//    // Recording constructor calls is very useful, though, so, as a
-		//    // temporary measure, when there are constructor arguments surrounded
-		//    // by parentheses, associate the call with the right parenthesis.
-		//    //
-		//    // Perhaps the right fix is to associate the call with the line itself
-		//    // or with a larger span which may have other references nested within
-		//    // it.  The fix may have implications for the navigator GUI.
-		//    RecordDeclRefExpr(
-		//                e->getConstructor(),
-		//                e->getParenOrBraceRange().getEnd(),
-		//                e,
-		//                CF_Called);
-		//}
 		clang::SourceLocation loc;
 		clang::SourceLocation braceBeginLoc = s->getParenOrBraceRange().getBegin();
 		clang::SourceLocation nameBeginLoc = s->getSourceRange().getBegin();

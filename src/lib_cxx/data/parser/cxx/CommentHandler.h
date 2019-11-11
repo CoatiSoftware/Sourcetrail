@@ -15,7 +15,7 @@ public:
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
 
-	virtual ~CommentHandler();
+	virtual ~CommentHandler() = default;
 
 	virtual bool HandleComment(clang::Preprocessor& preprocessor, clang::SourceRange sourceRange) override;
 

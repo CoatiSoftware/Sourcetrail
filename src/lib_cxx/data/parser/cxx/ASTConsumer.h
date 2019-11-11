@@ -21,7 +21,7 @@ public:
 		std::shared_ptr<IndexerStateInfo> indexerStateInfo
 	);
 
-	virtual ~ASTConsumer();
+	virtual ~ASTConsumer() = default;
 
 	virtual void HandleTranslationUnit(clang::ASTContext& context) override;
 

@@ -25,7 +25,7 @@ void CxxAstVisitorComponentBraceRecorder::visitTagDecl(clang::TagDecl* d)
 			(
 				!clang::isa<clang::CXXRecordDecl>(d) ||
 				clang::dyn_cast<clang::CXXRecordDecl>(d)->getTemplateSpecializationKind() != clang::TSK_ImplicitInstantiation
-				))
+			))
 		{
 			recordBraces(
 				getFilePath(d->getBraceRange().getBegin()),
