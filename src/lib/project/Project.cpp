@@ -418,20 +418,32 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 		return;
 	}
 
-	if (info.mode != REFRESH_ALL_FILES && info.filesToClear.empty() && info.filesToIndex.empty())
 	{
-		if (m_hasGUI)
+		std::wstring message;
+		if (info.mode != REFRESH_ALL_FILES && info.filesToClear.empty() && info.filesToIndex.empty())
 		{
-			dialogView->clearDialogs();
+			message = L"Nothing to refresh, all files are up-to-date.";
 		}
-		else
+		else if (m_sourceGroups.empty())
 		{
-			MessageIndexingFinished().dispatch();
+			message = L"Nothing to refresh, no Source Groups loaded.";
 		}
 
-		MessageStatus(L"Nothing to refresh, all files are up-to-date.").dispatch();
-		m_refreshStage = RefreshStageType::NONE;
-		return;
+		if (!message.empty())
+		{
+			if (m_hasGUI)
+			{
+				dialogView->clearDialogs();
+			}
+			else
+			{
+				MessageIndexingFinished().dispatch();
+			}
+
+			MessageStatus(message).dispatch();
+			m_refreshStage = RefreshStageType::NONE;
+			return;
+		}
 	}
 
 	if (info.mode != REFRESH_ALL_FILES && (info.filesToClear.size() || info.nonIndexedFilesToClear.size()))
@@ -520,11 +532,16 @@ void Project::buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogVie
 	{
 		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 		{
-			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND ||
-				sourceGroup->getType() == SOURCE_GROUP_PYTHON_EMPTY)
+			if (sourceGroup->getType() == SOURCE_GROUP_CUSTOM_COMMAND)
 			{
 				customIndexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info));
 			}
+#if	BUILD_PYTHON_LANGUAGE_PACKAGE
+			else if (sourceGroup->getType() == SOURCE_GROUP_PYTHON_EMPTY)
+			{
+				customIndexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info));
+			}
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
 			else
 			{
 				indexerCommandProvider->addProvider(sourceGroup->getIndexerCommandProvider(info));
@@ -775,6 +792,7 @@ void Project::discardTempStorage()
 
 bool Project::hasCxxSourceGroup() const
 {
+#if	BUILD_CXX_LANGUAGE_PACKAGE
 	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
 		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
@@ -785,5 +803,6 @@ bool Project::hasCxxSourceGroup() const
 			}
 		}
 	}
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 	return false;
 }

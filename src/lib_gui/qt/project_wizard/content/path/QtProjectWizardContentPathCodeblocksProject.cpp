@@ -1,5 +1,7 @@
 #include "QtProjectWizardContentPathCodeblocksProject.h"
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "QtProjectWizardContentPathsIndexedHeaders.h"
 #include "SourceGroupCxxCodeblocks.h"
 #include "SourceGroupSettingsCxxCodeblocks.h"
@@ -113,3 +115,5 @@ std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathCodeblocksProject
 {
 	return m_settings;
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

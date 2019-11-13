@@ -1,6 +1,10 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_CXX_PATHS_AND_FLAGS_H
 #define SOURCE_GROUP_SETTINGS_WITH_CXX_PATHS_AND_FLAGS_H
 
+#include "language_packages.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include <vector>
 
 #include "FilePath.h"
@@ -34,5 +38,7 @@ private:
 	std::vector<FilePath> m_frameworkSearchPaths;
 	std::vector<std::wstring> m_compilerFlags;
 };
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // SOURCE_GROUP_SETTINGS_WITH_CXX_PATHS_AND_FLAGS_H

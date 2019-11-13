@@ -3,6 +3,8 @@
 
 #include <set>
 
+#include "language_packages.h"
+
 #include "FilePath.h"
 #include "FilePathFilter.h"
 #include "SharedMemory.h"
@@ -21,6 +23,8 @@ public:
 	FilePath getSourceFilePath() const;
 	void setSourceFilePath(const FilePath& filePath);
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 	std::set<FilePath> getIndexedPaths() const;
 	void setIndexedPaths(const std::set<FilePath>& indexedPaths);
 
@@ -33,21 +37,30 @@ public:
 	FilePath getWorkingDirectory() const;
 	void setWorkingDirectory(const FilePath& workingDirectory);
 
-	std::wstring getLanguageStandard() const;
-	void setLanguageStandard(const std::wstring& languageStandard);
-
 	std::vector<std::wstring> getCompilerFlags() const;
 	void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
 
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
+	std::wstring getLanguageStandard() const;
+	void setLanguageStandard(const std::wstring& languageStandard);
+
 	std::vector<FilePath> getClassPaths() const;
 	void setClassPaths(const std::vector<FilePath>& classPaths);
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 private:
 	enum Type
 	{
 		UNKNOWN = 0,
+#if BUILD_CXX_LANGUAGE_PACKAGE
 		CXX,
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 		JAVA
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 	};
 
 	Type getType() const;
@@ -57,17 +70,19 @@ private:
 
 	// indexer command
 	SharedMemory::String m_sourceFilePath;
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	SharedMemory::Vector<SharedMemory::String> m_indexedPaths;
 	SharedMemory::Vector<SharedMemory::String> m_excludeFilters;
 	SharedMemory::Vector<SharedMemory::String> m_includeFilters;
-
-	// cxx
 	SharedMemory::String m_workingDirectory;
-	SharedMemory::String m_languageStandard;
 	SharedMemory::Vector<SharedMemory::String> m_compilerFlags;
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
-	// java
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+	SharedMemory::String m_languageStandard;
 	SharedMemory::Vector<SharedMemory::String> m_classPaths;
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 };
 
 #endif // SHARED_INDEXER_COMMAND_H

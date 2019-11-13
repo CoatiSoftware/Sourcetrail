@@ -1,5 +1,9 @@
 #include "catch.hpp"
 
+#include "language_packages.h"
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include <fstream>
 #include <iostream>
 
@@ -287,3 +291,5 @@ TEST_CASE("index javasymbolsolver 0 6 0 project")
 		classpath
 	);
 }
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE

@@ -1,6 +1,10 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
 #define SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
 
+#include "language_packages.h"
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
 #include "SourceGroupSettingsWithJavaGradle.h"
@@ -25,5 +29,7 @@ public:
 		return std::make_shared<SourceGroupSettingsJavaGradle>(*this);
 	}
 };
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #endif // SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H

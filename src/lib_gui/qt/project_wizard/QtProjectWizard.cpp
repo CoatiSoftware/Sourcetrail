@@ -7,6 +7,8 @@
 #include <QSysInfo>
 #include <QTimer>
 
+#include "language_packages.h"
+
 #include "QtProjectWizardContent.h"
 #include "QtProjectWizardContentCppStandard.h"
 #include "QtProjectWizardContentCrossCompilationOptions.h"
@@ -37,6 +39,7 @@
 #include "QtProjectWizardContentSelect.h"
 #include "QtProjectWizardContentSourceGroupData.h"
 #include "QtProjectWizardContentSourceGroupInfoText.h"
+#include "QtProjectWizardContentUnloadable.h"
 #include "QtProjectWizardContentVS.h"
 #include "QtSourceGroupWizardPage.h"
 #include "SourceGroupSettingsCEmpty.h"
@@ -49,6 +52,7 @@
 #include "SourceGroupSettingsJavaGradle.h"
 #include "SourceGroupSettingsJavaMaven.h"
 #include "SourceGroupSettingsPythonEmpty.h"
+#include "SourceGroupSettingsUnloadable.h"
 #include "MessageLoadProject.h"
 #include "MessageStatus.h"
 #include "ResourcePaths.h"
@@ -62,6 +66,9 @@
 
 namespace
 {
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 	bool applicationSettingsContainVisualStudioHeaderSearchPaths()
 	{
 		std::vector<FilePath> expandedPaths;
@@ -102,8 +109,12 @@ namespace
 		}
 	}
 
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
 	template <typename SettingsType>
 	std::vector<QtSourceGroupWizardPage<SettingsType>> getSourceGroupWizardPages();
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
 
 	template <>
 	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCEmpty>> getSourceGroupWizardPages<SourceGroupSettingsCEmpty>()
@@ -310,6 +321,10 @@ namespace
 		return pages;
 	}
 
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 	template<>
 	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty>> getSourceGroupWizardPages<SourceGroupSettingsJavaEmpty>()
 	{
@@ -375,6 +390,8 @@ namespace
 		return pages;
 	}
 
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
 
 	template<>
 	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsPythonEmpty>> getSourceGroupWizardPages<SourceGroupSettingsPythonEmpty>()
@@ -392,6 +409,8 @@ namespace
 		return pages;
 	}
 
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+
 	template<>
 	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCustomCommand>> getSourceGroupWizardPages<SourceGroupSettingsCustomCommand>()
 	{
@@ -402,6 +421,18 @@ namespace
 			page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(WIZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
 			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
+			pages.push_back(page);
+		}
+		return pages;
+	}
+
+	template<>
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsUnloadable>> getSourceGroupWizardPages<SourceGroupSettingsUnloadable>()
+	{
+		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsUnloadable>> pages;
+		{
+			QtSourceGroupWizardPage<SourceGroupSettingsUnloadable> page("");
+			page.addContentCreatorWithSettings<QtProjectWizardContentUnloadable>(WIZARD_CONTENT_CONTEXT_ALL);
 			pages.push_back(page);
 		}
 		return pages;
@@ -456,6 +487,7 @@ void QtProjectWizard::newProject()
 
 void QtProjectWizard::newProjectFromCDB(const FilePath& filePath)
 {
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	if (!m_projectSettings)
 	{
 		m_projectSettings = std::make_shared<ProjectSettings>();
@@ -482,6 +514,7 @@ void QtProjectWizard::newProjectFromCDB(const FilePath& filePath)
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
 
 	executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(sourceGroupSettings);
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 }
 
 void QtProjectWizard::editProject(const FilePath& settingsPath)
@@ -790,7 +823,16 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	summary->addContent(content);
 	summary->addSpace();
 
-	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(group))
+	if (std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(group))
+	{
+		fillSummary(summary, settings, this);
+	}
+	if (std::shared_ptr<SourceGroupSettingsUnloadable> settings = std::dynamic_pointer_cast<SourceGroupSettingsUnloadable>(group))
+	{
+		fillSummary(summary, settings, this);
+	}
+#if BUILD_CXX_LANGUAGE_PACKAGE
+	else if (std::shared_ptr<SourceGroupSettingsCEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
@@ -810,6 +852,8 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	{
 		fillSummary(summary, settings, this);
 	}
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	else if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
@@ -822,14 +866,13 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	{
 		fillSummary(summary, settings, this);
 	}
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
 	else if (std::shared_ptr<SourceGroupSettingsPythonEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsPythonEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(group))
-	{
-		fillSummary(summary, settings, this);
-	}
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 	setContent(summary);
 
@@ -1004,6 +1047,7 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 
 	switch (sourceGroupType)
 	{
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_C_EMPTY:
 		{
 			std::shared_ptr<SourceGroupSettingsCEmpty> settings = std::make_shared<SourceGroupSettingsCEmpty>(sourceGroupId, m_projectSettings.get());
@@ -1037,6 +1081,8 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 			executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(settings);
 		}
 		break;
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_JAVA_EMPTY:
 		{
 			std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
@@ -1055,12 +1101,15 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 			executeSourceGroupSetup<SourceGroupSettingsJavaGradle>(settings);
 		}
 		break;
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_PYTHON_EMPTY:
 	{
 		std::shared_ptr<SourceGroupSettingsPythonEmpty> settings = std::make_shared<SourceGroupSettingsPythonEmpty>(sourceGroupId, m_projectSettings.get());
 		executeSourceGroupSetup<SourceGroupSettingsPythonEmpty>(settings);
 	}
 	break;
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_CUSTOM_COMMAND:
 		{
 			std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::make_shared<SourceGroupSettingsCustomCommand>(sourceGroupId, m_projectSettings.get());

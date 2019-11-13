@@ -208,6 +208,8 @@ add_files(
 	qt/project_wizard/content/QtProjectWizardContentSourceGroupData.h
 	qt/project_wizard/content/QtProjectWizardContentSourceGroupInfoText.cpp
 	qt/project_wizard/content/QtProjectWizardContentSourceGroupInfoText.h
+	qt/project_wizard/content/QtProjectWizardContentUnloadable.cpp
+	qt/project_wizard/content/QtProjectWizardContentUnloadable.h
 	qt/project_wizard/content/QtProjectWizardContentVS.cpp
 	qt/project_wizard/content/QtProjectWizardContentVS.h
 

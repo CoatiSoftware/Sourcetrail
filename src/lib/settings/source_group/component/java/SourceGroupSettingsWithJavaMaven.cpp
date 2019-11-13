@@ -1,5 +1,7 @@
 #include "SourceGroupSettingsWithJavaMaven.h"
 
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "ConfigManager.h"
 #include "ProjectSettings.h"
 #include "utilityFile.h"
@@ -56,3 +58,5 @@ void SourceGroupSettingsWithJavaMaven::save(ConfigManager* config, const std::st
 	config->setValue(key + "/maven/project_file_path", getMavenProjectFilePath().wstr());
 	config->setValue(key + "/maven/should_index_tests", getShouldIndexMavenTests());
 }
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE

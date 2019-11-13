@@ -1,6 +1,10 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_PATH_CDB_H
 #define QT_PROJECT_WIZARD_CONTENT_PATH_CDB_H
 
+#include "language_packages.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "QtProjectWizardContentPath.h"
 #include "SingleValueCache.h"
 
@@ -36,5 +40,7 @@ private:
 	QLabel* m_fileCountLabel;
 	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
 };
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_PATH_CDB_H

@@ -397,6 +397,7 @@ add_files(
 	settings/source_group/type/SourceGroupSettingsJavaGradle.h
 	settings/source_group/type/SourceGroupSettingsJavaMaven.h
 	settings/source_group/type/SourceGroupSettingsPythonEmpty.h
+	settings/source_group/type/SourceGroupSettingsUnloadable.h
 
 	settings/source_group/SourceGroupSettings.cpp
 	settings/source_group/SourceGroupSettings.h

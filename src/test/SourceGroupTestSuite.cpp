@@ -2,17 +2,10 @@
 
 #include <fstream>
 
+#include "language_packages.h"
+
 #include "IndexerCommandCustom.h"
-#include "IndexerCommandCxx.h"
-#include "IndexerCommandJava.h"
-#include "JavaEnvironmentFactory.h"
-#include "SourceGroupCxxEmpty.h"
-#include "SourceGroupCxxCdb.h"
-#include "SourceGroupCxxCodeblocks.h"
 #include "SourceGroupCustomCommand.h"
-#include "SourceGroupJavaEmpty.h"
-#include "SourceGroupJavaGradle.h"
-#include "SourceGroupJavaMaven.h"
 #include "SourceGroupSettingsCEmpty.h"
 #include "SourceGroupSettingsCppEmpty.h"
 #include "SourceGroupSettingsCxxCdb.h"
@@ -26,11 +19,26 @@
 #include "FileSystem.h"
 #include "TextAccess.h"
 #include "AppPath.h"
-#include "utilityJava.h"
 #include "utilityPathDetection.h"
 #include "utilityString.h"
 #include "Version.h"
 #include "Application.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+#include "IndexerCommandCxx.h"
+#include "SourceGroupCxxEmpty.h"
+#include "SourceGroupCxxCdb.h"
+#include "SourceGroupCxxCodeblocks.h"
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+#include "IndexerCommandJava.h"
+#include "JavaEnvironmentFactory.h"
+#include "SourceGroupJavaEmpty.h"
+#include "SourceGroupJavaGradle.h"
+#include "SourceGroupJavaMaven.h"
+#include "utilityJava.h"
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+
 
 #define REQUIRE_MESSAGE(msg, cond) do { INFO(msg); REQUIRE(cond); } while((void)0, 0)
 
@@ -48,6 +56,7 @@ namespace
 		return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/expected_output").makeAbsolute().makeCanonical();
 	}
 
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	std::string setupJavaEnvironmentFactory()
 	{
 		if (!JavaEnvironmentFactory::getInstance())
@@ -81,7 +90,9 @@ namespace
 
 		return "";
 	}
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	std::wstring indexerCommandCxxToString(std::shared_ptr<const IndexerCommandCxx> indexerCommand, const FilePath& baseDirectory)
 	{
 		std::wstring result;
@@ -105,7 +116,9 @@ namespace
 		}
 		return result;
 	}
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	std::wstring indexerCommandJavaToString(std::shared_ptr<const IndexerCommandJava> indexerCommand, const FilePath& baseDirectory)
 	{
 		std::wstring result;
@@ -117,6 +130,7 @@ namespace
 		}
 		return result;
 	}
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 	std::wstring indexerCommandCustomToString(std::shared_ptr<const IndexerCommandCustom> indexerCommand, const FilePath& baseDirectory)
 	{
@@ -130,14 +144,18 @@ namespace
 	{
 		if (indexerCommand)
 		{
+#if BUILD_CXX_LANGUAGE_PACKAGE
 			if (std::shared_ptr<const IndexerCommandCxx> indexerCommandCxx = std::dynamic_pointer_cast<const IndexerCommandCxx>(indexerCommand))
 			{
 				return indexerCommandCxxToString(indexerCommandCxx, baseDirectory);
 			}
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 			if (std::shared_ptr<const IndexerCommandJava> indexerCommandJava = std::dynamic_pointer_cast<const IndexerCommandJava>(indexerCommand))
 			{
 				return indexerCommandJavaToString(indexerCommandJava, baseDirectory);
 			}
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 			if (std::shared_ptr<const IndexerCommandCustom> indexerCommandCustom = std::dynamic_pointer_cast<const IndexerCommandCustom>(indexerCommand))
 			{
 				return indexerCommandCustomToString(indexerCommandCustom, baseDirectory);
@@ -208,6 +226,8 @@ namespace
 	}
 }
 
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 TEST_CASE("finds all jar dependencies")
 {
 	for (const std::wstring& jarName : utility::getRequiredJarNames())
@@ -232,6 +252,8 @@ TEST_CASE("can setup environment factory")
 	REQUIRE(JavaEnvironmentFactory::getInstance().use_count() >= 1);
 }
 
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+
 TEST_CASE("can create application instance")
 {
 	// required to query in SourceGroup for dialog view... this is not a very elegant solution. should be refactored to pass dialog view to SourceGroup on creation.
@@ -239,6 +261,7 @@ TEST_CASE("can create application instance")
 	REQUIRE(Application::getInstance().use_count() >= 1);
 }
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
 TEST_CASE("source group cxx c empty generates expected output")
 {
 	const std::wstring projectName = L"cxx_c_empty";
@@ -385,6 +408,10 @@ TEST_CASE("source group cxx cdb generates expected output")
 	applicationSettings->setFrameworkSearchPaths(storedFrameworkSearchPaths);
 }
 
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 TEST_CASE("sourcegroup java empty generates expected output")
 {
 	const std::wstring projectName = L"java_empty";
@@ -479,6 +506,10 @@ TEST_CASE("sourcegroup java maven generates expected output")
 
 	applicationSettings->setJreSystemLibraryPaths(storedJreSystemLibraryPaths);
 }
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+
+// fixme: test python source group here
 
 TEST_CASE("source group custom command generates expected output")
 {

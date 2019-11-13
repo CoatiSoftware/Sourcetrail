@@ -12,7 +12,7 @@ public:
 	QtProjectWizardContentSourceGroupInfoText(QtProjectWizardWindow* window);
 
 	// QtProjectWizardContent implementation
-	virtual void populate(QGridLayout* layout, int& row) override;
+	void populate(QGridLayout* layout, int& row) override;
 };
 
 #endif // QT_PROJECT_WIZARD_CONTENT_SOURCE_GROUP_INFO_TEXT_H

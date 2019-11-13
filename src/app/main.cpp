@@ -3,14 +3,14 @@
 #include <csignal>
 #include <iostream>
 
+#include "language_packages.h"
+
 #include "Application.h"
 #include "ApplicationSettings.h"
 #include "ApplicationSettingsPrefiller.h"
 #include "CommandLineParser.h"
 #include "ConsoleLogger.h"
 #include "FileLogger.h"
-#include "LanguagePackageCxx.h"
-#include "LanguagePackageJava.h"
 #include "LanguagePackageManager.h"
 #include "logging.h"
 #include "LogManager.h"
@@ -25,9 +25,6 @@
 #include "ResourcePaths.h"
 #include "ScopedFunctor.h"
 #include "SourceGroupFactory.h"
-#include "SourceGroupFactoryModuleCxx.h"
-#include "SourceGroupFactoryModuleJava.h"
-#include "SourceGroupFactoryModulePython.h"
 #include "SourceGroupFactoryModuleCustom.h"
 #include "TextAccess.h"
 #include "UserPaths.h"
@@ -35,6 +32,20 @@
 #include "utilityApp.h"
 #include "utilityQt.h"
 #include "Version.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+#include "LanguagePackageCxx.h"
+#include "SourceGroupFactoryModuleCxx.h"
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+#include "LanguagePackageJava.h"
+#include "SourceGroupFactoryModuleJava.h"
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+#include "SourceGroupFactoryModulePython.h"
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 void signalHandler(int signum)
 {
@@ -60,13 +71,27 @@ void setupLogging()
 
 void addLanguagePackages()
 {
-	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
-	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
-	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModulePython>());
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCustom>());
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModulePython>());
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 }
 
 QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)

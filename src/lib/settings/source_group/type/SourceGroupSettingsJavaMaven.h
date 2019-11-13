@@ -1,6 +1,10 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H
 #define SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H
 
+#include "language_packages.h"
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
 #include "SourceGroupSettingsWithJavaMaven.h"
@@ -25,5 +29,7 @@ public:
 		return std::make_shared<SourceGroupSettingsJavaMaven>(*this);
 	}
 };
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #endif // SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H

@@ -30,10 +30,18 @@ void SqliteBookmarkStorage::migrateIfNecessary()
 			std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
 			{
 				LanguageType currentLanguage = ProjectSettings::getLanguageOfProject(currentProject->getProjectSettingsFilePath());
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 				if (currentLanguage == LANGUAGE_JAVA)
 				{
 					separator = ".";
 				}
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+				if (currentLanguage == LANGUAGE_PYTHON)
+				{
+					separator = ".";
+				}
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 			}
 		}
 		migration->executeStatementInStorage(storage, "UPDATE bookmarked_node SET serialized_node_name = '" + separator + "\tm' || serialized_node_name");

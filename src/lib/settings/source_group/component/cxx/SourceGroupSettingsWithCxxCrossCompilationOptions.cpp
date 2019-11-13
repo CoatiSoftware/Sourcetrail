@@ -1,7 +1,8 @@
 #include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
 
-#include "ProjectSettings.h"
+#if BUILD_CXX_LANGUAGE_PACKAGE
 
+#include "ProjectSettings.h"
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableArchTypes()
 {
@@ -232,3 +233,5 @@ void SourceGroupSettingsWithCxxCrossCompilationOptions::save(ConfigManager* conf
 	config->setValue(key + "/cross_compilation/target/sys", getTargetSys());
 	config->setValue(key + "/cross_compilation/target/abi", getTargetAbi());
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

@@ -1,5 +1,7 @@
 #include "SourceGroupSettingsWithCxxCodeblocksPath.h"
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "ProjectSettings.h"
 #include "utilityFile.h"
 
@@ -38,3 +40,5 @@ void SourceGroupSettingsWithCxxCodeblocksPath::save(ConfigManager* config, const
 {
 	config->setValue(key + "/codeblocks_project_path", getCodeblocksProjectPath().wstr());
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

@@ -1,6 +1,10 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_JAVA_STANDARD
 #define QT_PROJECT_WIZARD_CONTENT_JAVA_STANDARD
 
+#include "language_packages.h"
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "QtProjectWizardContent.h"
 
 class QComboBox;
@@ -27,5 +31,7 @@ private:
 
 	QComboBox* m_standard;
 };
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_JAVA_STANDARD

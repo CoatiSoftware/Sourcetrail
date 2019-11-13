@@ -52,11 +52,12 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 				{
 					m_targetDatabaseFilePath = indexerCommand->getDatabaseFilePath();
 				}
-
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
 				if (indexerCommand->getIndexerCommandType() == INDEXER_COMMAND_PYTHON)
 				{
 					m_hasPythonCommands = true;
 				}
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 				if (indexerCommand->getRunInParallel())
 				{

@@ -1,5 +1,7 @@
 #include "QtProjectWizardContentCxxPchFlags.h"
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include <QCheckBox>
 #include <QMessageBox>
 
@@ -83,3 +85,5 @@ bool QtProjectWizardContentCxxPchFlags::check()
 
 	return true;
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

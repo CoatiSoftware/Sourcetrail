@@ -1,6 +1,10 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_PATH_PYTHON_ENVIRONMENT_H
 #define QT_PROJECT_WIZARD_CONTENT_PATH_PYTHON_ENVIRONMENT_H
 
+#include "language_packages.h"
+
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+
 #include "QtProjectWizardContentPath.h"
 #include "QtThreadedFunctor.h"
 
@@ -26,5 +30,7 @@ private:
 	QtThreadedLambdaFunctor m_onQtThread;
 	QLabel* m_resultLabel;
 };
+
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_PATH_PYTHON_ENVIRONMENT_H

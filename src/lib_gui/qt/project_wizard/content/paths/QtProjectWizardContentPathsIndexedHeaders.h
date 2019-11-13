@@ -1,6 +1,10 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_PATHS_INDEXED_HEADER_PATHS_H
 #define QT_PROJECT_WIZARD_CONTENT_PATHS_INDEXED_HEADER_PATHS_H
 
+#include "language_packages.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "QtProjectWizardContentPaths.h"
 
 class SourceGroupSettingsCxxCdb;
@@ -33,5 +37,7 @@ private slots:
 private:
 	const std::string m_projectKindName;
 };
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_PATHS_INDEXED_HEADER_PATHS_H

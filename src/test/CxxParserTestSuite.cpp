@@ -1,4 +1,9 @@
 #include "catch.hpp"
+
+#include "language_packages.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "TextAccess.h"
 #include "utility.h"
 #include "utilityString.h"
@@ -4722,3 +4727,5 @@ void _test_TEST()
 	);
 	int ofo = 0;
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

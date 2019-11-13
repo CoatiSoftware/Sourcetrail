@@ -1,5 +1,7 @@
 #include "QtPreferencesWindow.h"
 
+#include "language_packages.h"
+
 #include "MessageLoadProject.h"
 #include "MessagePluginPortChange.h"
 #include "MessageRefreshUI.h"
@@ -32,11 +34,13 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	summary->setIsForm(true);
 	summary->addContent(new QtProjectWizardContentPreferences(this));
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	summary->addContent(new QtProjectWizardContentPathsHeaderSearchGlobal(this));
 	if (utility::getOsType() == OS_MAC)
 	{
 		summary->addContent(new QtProjectWizardContentPathsFrameworkSearchGlobal(this));
 	}
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 	setPreferredSize(QSize(750, 500));
 	setContent(summary);

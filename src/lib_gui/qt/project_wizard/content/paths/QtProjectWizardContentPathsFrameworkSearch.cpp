@@ -1,5 +1,7 @@
 #include "QtProjectWizardContentPathsFrameworkSearch.h"
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "SourceGroupSettings.h"
 #include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 
@@ -41,3 +43,5 @@ bool QtProjectWizardContentPathsFrameworkSearch::isScrollAble() const
 {
 	return true;
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

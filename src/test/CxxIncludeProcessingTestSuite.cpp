@@ -1,5 +1,9 @@
 #include "catch.hpp"
 
+#include "language_packages.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "TextAccess.h"
 #include "IncludeDirective.h"
 #include "IncludeProcessing.h"
@@ -143,3 +147,5 @@ TEST_CASE("header search path detection finds path included in future header sea
 		FilePath(L"data/CxxIncludeProcessingTestSuite/test_header_search_path_detection_finds_path_included_in_future_header_search_path/include_b").makeAbsolute()
 	));
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

@@ -1,5 +1,9 @@
 #include "catch.hpp"
 
+#include "language_packages.h"
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "ApplicationSettings.h"
 #include "JavaEnvironmentFactory.h"
 #include "JavaParser.h"
@@ -1881,3 +1885,5 @@ TEST_CASE("java parser finds bound type of type parameter")
 		client->typeUses, L"A<T>.T -> java.lang.Void <1:27 1:30>"
 	));
 }
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE

@@ -1,5 +1,7 @@
 #include "QtProjectWizardContentPathPythonEnvironment.h"
 
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+
 #include "ResourcePaths.h"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "utilityApp.h"
@@ -89,3 +91,5 @@ std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathPythonEnvironment
 {
 	return m_settings;
 }
+
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE

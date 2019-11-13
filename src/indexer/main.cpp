@@ -1,7 +1,7 @@
 #include "includes.h"
 
-#include "LanguagePackageCxx.h"
-#include "LanguagePackageJava.h"
+#include "language_packages.h"
+
 #include "LanguagePackageManager.h"
 #include "InterprocessIndexer.h"
 #include "ApplicationSettings.h"
@@ -10,6 +10,14 @@
 #include "FileLogger.h"
 #include "logging.h"
 #include "LogManager.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+#include "LanguagePackageCxx.h"
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+#include "LanguagePackageJava.h"
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 void setupLogging(const FilePath& logFilePath)
 {
@@ -83,8 +91,14 @@ int main(int argc, char *argv[])
 	LOG_INFO(L"appPath: " + AppPath::getAppPath().wstr());
 	LOG_INFO(L"userDataPath: " + UserPaths::getUserDataPath().wstr());
 
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 	InterprocessIndexer indexer(instanceUuid, processId);
 	indexer.work();

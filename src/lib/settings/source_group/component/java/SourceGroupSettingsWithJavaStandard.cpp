@@ -1,5 +1,7 @@
 #include "SourceGroupSettingsWithJavaStandard.h"
 
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "ProjectSettings.h"
 
 std::wstring SourceGroupSettingsWithJavaStandard::getDefaultJavaStandardStatic()
@@ -50,3 +52,5 @@ std::wstring SourceGroupSettingsWithJavaStandard::getDefaultJavaStandard() const
 {
 	return getDefaultJavaStandardStatic();
 }
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE

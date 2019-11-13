@@ -1,8 +1,17 @@
 cmake_minimum_required(VERSION 3.1)
 
-#set (CMAKE_VERBOSE_MAKEFILE ON)
 
-set (BINARY_DIR ${CMAKE_BINARY_DIR})
+set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the Sourcetrail indexer.")
+set(BUILD_JAVA_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
+set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
+
+
+configure_file(
+	"${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in"
+	"${CMAKE_BINARY_DIR}/src/lib/language_packages.h"
+)
+
+#set (CMAKE_VERBOSE_MAKEFILE ON)
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
@@ -13,9 +22,9 @@ include(cmake/licenses.cmake)
 
 # prohibit in-source-builds
 IF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-  MESSAGE(STATUS "In-source-builds are not allowed")
-  MESSAGE(STATUS "Clean your source directory (e.g. delete the CMakeCache.txt file)")
-  MESSAGE(FATAL_ERROR "Please create a separate build directory and call CMake again")
+	MESSAGE(STATUS "In-source-builds are not allowed")
+	MESSAGE(STATUS "Clean your source directory (e.g. delete the CMakeCache.txt file)")
+	MESSAGE(FATAL_ERROR "Please create a separate build directory and call CMake again")
 ENDIF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
 
@@ -92,25 +101,29 @@ endif()
 
 # Clang ------------------------------------------------------------------------
 
-if (UNIX AND APPLE)
-	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/lib/cmake/llvm" NO_DEFAULT_PATH)
+if (BUILD_CXX_LANGUAGE_PACKAGE)
+
+	if (UNIX AND APPLE)
+		if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/lib/cmake/llvm" NO_DEFAULT_PATH)
+		else()
+			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/lib/cmake/llvm" NO_DEFAULT_PATH)
+		endif()
+	elseif(UNIX)
+		find_package(LLVM REQUIRED PATHS "$ENV{LLVM_DIR}/lib/cmake" )
 	else()
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/lib/cmake/llvm" NO_DEFAULT_PATH)
+		if(${WINXXBITS} STREQUAL "Win32")
+			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win32/lib/cmake/llvm")
+		else()
+			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win64/lib/cmake/llvm")
+		endif()
 	endif()
-elseif(UNIX)
-	find_package(LLVM REQUIRED PATHS "$ENV{LLVM_DIR}/lib/cmake" )
-else()
-	if(${WINXXBITS} STREQUAL "Win32")
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win32/lib/cmake/llvm")
-	else()
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win64/lib/cmake/llvm")
-	endif()
+
+	find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake" NO_DEFAULT_PATH)
+
+	add_definitions(${CLANG_DEFINITIONS})
+
 endif()
-
-find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake" NO_DEFAULT_PATH)
-
-add_definitions(${CLANG_DEFINITIONS})
 
 
 # Boost ------------------------------------------------------------------------
@@ -299,6 +312,7 @@ set_property(
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_CXX_INCLUDE_PATHS}"
 		"${LIB_JAVA_INCLUDE_PATHS}"
+		"${CMAKE_BINARY_DIR}/src/lib"
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
@@ -312,116 +326,138 @@ target_link_libraries(${LIB_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${Boost_LI
 
 # Lib Cxx ----------------------------------------------------------------------
 
-add_library(${LIB_CXX_PROJECT_NAME} ${LIB_CXX_FILES})
+if (BUILD_CXX_LANGUAGE_PACKAGE)
 
-create_source_groups(${LIB_CXX_FILES})
+	add_library(${LIB_CXX_PROJECT_NAME} ${LIB_CXX_FILES})
 
-set_property(
-	TARGET ${LIB_CXX_PROJECT_NAME}
-	PROPERTY INCLUDE_DIRECTORIES
-		"${LIB_CXX_INCLUDE_PATHS}"
-		"${LIB_UTILITY_INCLUDE_PATHS}"
-		"${LIB_INCLUDE_PATHS}"
-)
+	create_source_groups(${LIB_CXX_FILES})
 
-target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
-	PUBLIC ${LLVM_INCLUDE_DIRS}
-	${CLANG_INCLUDE_DIRS}
-	${Boost_INCLUDE_DIRS}
-	"${EXTERNAL_INCLUDE_PATHS}"
-	"${EXTERNAL_C_INCLUDE_PATHS}"
-)
+	set_property(
+		TARGET ${LIB_CXX_PROJECT_NAME}
+		PROPERTY INCLUDE_DIRECTORIES
+			"${LIB_CXX_INCLUDE_PATHS}"
+			"${LIB_UTILITY_INCLUDE_PATHS}"
+			"${LIB_INCLUDE_PATHS}"
+			"${CMAKE_BINARY_DIR}/src/lib"
+	)
 
-link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
-llvm_map_components_to_libnames(REQ_LLVM_LIBS
-	support core libdriver passes
-	x86asmparser x86codegen
-	aarch64asmparser aarch64codegen
-	amdgpuasmparser amdgpucodegen
-	armasmparser armcodegen
-	bpfasmparser bpfcodegen
-	hexagonasmparser hexagoncodegen
-	lanaiasmparser lanaicodegen
-	mipsasmparser mipscodegen
-	msp430asmparser msp430codegen
-	nvptxcodegen
-	powerpcasmparser powerpccodegen
-	sparcasmparser sparccodegen
-	systemzasmparser systemzcodegen
-	webassemblyasmparser webassemblycodegen
-	xcorecodegen
-)
+	target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
+		PUBLIC ${LLVM_INCLUDE_DIRS}
+		${CLANG_INCLUDE_DIRS}
+		${Boost_INCLUDE_DIRS}
+		"${EXTERNAL_INCLUDE_PATHS}"
+		"${EXTERNAL_C_INCLUDE_PATHS}"
+	)
 
-target_link_libraries(${LIB_CXX_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
+	link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
+	llvm_map_components_to_libnames(REQ_LLVM_LIBS
+		support core libdriver passes
+		x86asmparser x86codegen
+		aarch64asmparser aarch64codegen
+		amdgpuasmparser amdgpucodegen
+		armasmparser armcodegen
+		bpfasmparser bpfcodegen
+		hexagonasmparser hexagoncodegen
+		lanaiasmparser lanaicodegen
+		mipsasmparser mipscodegen
+		msp430asmparser msp430codegen
+		nvptxcodegen
+		powerpcasmparser powerpccodegen
+		sparcasmparser sparccodegen
+		systemzasmparser systemzcodegen
+		webassemblyasmparser webassemblycodegen
+		xcorecodegen
+	)
 
-if (WIN32)
-	target_link_libraries(${LIB_CXX_PROJECT_NAME} version)
+	target_link_libraries(${LIB_CXX_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
+
+	if (WIN32)
+		target_link_libraries(${LIB_CXX_PROJECT_NAME} version)
+	endif()
+
+else()
+
+	message(STATUS "Building the Cxx indexer will be skipped. You can enable building this target by setting 'BUILD_CXX_LANGUAGE_PACKAGE' to 'ON'.")
+
 endif()
 
 
 # Lib Java ---------------------------------------------------------------------
 
-find_package(JNI)
+if (BUILD_JAVA_LANGUAGE_PACKAGE)
 
-add_library(${LIB_JAVA_PROJECT_NAME} ${LIB_JAVA_FILES})
+	find_package(JNI)
 
-create_source_groups(${LIB_JAVA_FILES})
+	add_library(${LIB_JAVA_PROJECT_NAME} ${LIB_JAVA_FILES})
 
-set_property(
-	TARGET ${LIB_JAVA_PROJECT_NAME}
-	PROPERTY INCLUDE_DIRECTORIES
-		"${LIB_JAVA_INCLUDE_PATHS}"
-		"${LIB_UTILITY_INCLUDE_PATHS}"
-		"${LIB_INCLUDE_PATHS}"
-		"${LIB_GUI_INCLUDE_PATHS}"
-)
+	create_source_groups(${LIB_JAVA_FILES})
 
-target_include_directories(${LIB_JAVA_PROJECT_NAME} SYSTEM
-	PUBLIC ${JNI_INCLUDE_DIRS}
-	${Boost_INCLUDE_DIRS}
-)
+	set_property(
+		TARGET ${LIB_JAVA_PROJECT_NAME}
+		PROPERTY INCLUDE_DIRECTORIES
+			"${LIB_JAVA_INCLUDE_PATHS}"
+			"${LIB_UTILITY_INCLUDE_PATHS}"
+			"${LIB_INCLUDE_PATHS}"
+			"${LIB_GUI_INCLUDE_PATHS}"
+			"${CMAKE_BINARY_DIR}/src/lib"
+	)
 
-link_directories(${Boost_LIBRARY_DIRS})
+	target_include_directories(${LIB_JAVA_PROJECT_NAME} SYSTEM
+		PUBLIC ${JNI_INCLUDE_DIRS}
+		${Boost_INCLUDE_DIRS}
+	)
 
-target_link_libraries(${LIB_JAVA_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
+	link_directories(${Boost_LIBRARY_DIRS})
 
-add_custom_command(
-	TARGET ${LIB_JAVA_PROJECT_NAME}
-	PRE_BUILD
-	COMMAND ${PROJECT_SOURCE_DIR}/script/update_java_indexer.sh
-	COMMENT "updating java indexer jars"
-)
+	target_link_libraries(${LIB_JAVA_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
+
+	add_custom_command(
+		TARGET ${LIB_JAVA_PROJECT_NAME}
+		PRE_BUILD
+		COMMAND ${PROJECT_SOURCE_DIR}/script/update_java_indexer.sh
+		COMMENT "updating java indexer jars"
+	)
+
+else()
+
+	message(STATUS "Building the Java indexer will be skipped. You can enable building this target by setting 'BUILD_JAVA_LANGUAGE_PACKAGE' to 'ON'.")
+
+endif()
 
 
 # Lib Python ---------------------------------------------------------------------
 
-add_library(${LIB_PYTHON_PROJECT_NAME} ${LIB_PYTHON_FILES})
+if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 
-create_source_groups(${LIB_PYTHON_FILES})
+	add_library(${LIB_PYTHON_PROJECT_NAME} ${LIB_PYTHON_FILES})
 
-set_property(
-	TARGET ${LIB_PYTHON_PROJECT_NAME}
-	PROPERTY INCLUDE_DIRECTORIES
-		"${LIB_PYTHON_INCLUDE_PATHS}"
-		"${LIB_UTILITY_INCLUDE_PATHS}"
-		"${LIB_INCLUDE_PATHS}"
-#		"${LIB_GUI_INCLUDE_PATHS}"
-)
+	create_source_groups(${LIB_PYTHON_FILES})
 
-#target_include_directories(${LIB_PYTHON_PROJECT_NAME} SYSTEM
-#	PUBLIC ${Boost_INCLUDE_DIRS}
-#)
+	set_property(
+		TARGET ${LIB_PYTHON_PROJECT_NAME}
+		PROPERTY INCLUDE_DIRECTORIES
+			"${LIB_PYTHON_INCLUDE_PATHS}"
+			"${LIB_UTILITY_INCLUDE_PATHS}"
+			"${LIB_INCLUDE_PATHS}"
+			"${CMAKE_BINARY_DIR}/src/lib"
+	)
 
-#link_directories(${Boost_LIBRARY_DIRS})
+	#link_directories(${Boost_LIBRARY_DIRS})
 
-target_link_libraries(${LIB_PYTHON_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
+	target_link_libraries(${LIB_PYTHON_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
-add_custom_command(
-	TARGET ${LIB_PYTHON_PROJECT_NAME}
-	PRE_BUILD
-	COMMAND ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
-	COMMENT "download python indexer"
-)
+	add_custom_command(
+		TARGET ${LIB_PYTHON_PROJECT_NAME}
+		PRE_BUILD
+		COMMAND ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
+		COMMENT "download python indexer"
+	)
+
+else()
+
+	message(STATUS "Building the Python indexer will be skipped. You can enable building this target by setting 'BUILD_PYTHON_LANGUAGE_PACKAGE' to 'ON'.")
+
+endif()
 
 
 # Lib Gui ----------------------------------------------------------------------
@@ -465,10 +501,11 @@ set_property(
 		"${LIB_GUI_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_INCLUDE_PATHS}"
-		"${LIB_CXX_INCLUDE_PATHS}"
-		"${LIB_JAVA_INCLUDE_PATHS}"
-		"${LIB_PYTHON_INCLUDE_PATHS}" # required for QtProjectWizardContentPathsSource::getFilePaths()
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
+		"${CMAKE_BINARY_DIR}/src/lib"
+		$<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
+		$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
+		$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>
 )
 
 # include external header without warnings
@@ -528,9 +565,9 @@ target_link_libraries(
 	${APP_INDEXER_NAME}
 	${LIB_PROJECT_NAME}
 	${LIB_GUI_PROJECT_NAME}
-	${LIB_CXX_PROJECT_NAME}
-	${LIB_JAVA_PROJECT_NAME}
-	${LIB_PYTHON_PROJECT_NAME}
+	$<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
+	$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
+	$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
 )
 
 if (APPLE)
@@ -545,10 +582,11 @@ set_property(
 		"${LIB_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_GUI_INCLUDE_PATHS}"
-		"${LIB_CXX_INCLUDE_PATHS}"
-		"${LIB_JAVA_INCLUDE_PATHS}"
-		"${LIB_PYTHON_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
+		"${CMAKE_BINARY_DIR}/src/lib"
+		$<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
+		$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
+		$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>
 )
 
 
@@ -608,9 +646,9 @@ target_link_libraries(
 	${APP_PROJECT_NAME}
 	${LIB_PROJECT_NAME}
 	${LIB_GUI_PROJECT_NAME}
-	${LIB_CXX_PROJECT_NAME}
-	${LIB_JAVA_PROJECT_NAME}
-	${LIB_PYTHON_PROJECT_NAME}
+	$<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
+	$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
+	$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
 )
 
 set_property(
@@ -620,10 +658,11 @@ set_property(
 		"${LIB_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_GUI_INCLUDE_PATHS}"
-		"${LIB_CXX_INCLUDE_PATHS}"
-		"${LIB_JAVA_INCLUDE_PATHS}"
-		"${LIB_PYTHON_INCLUDE_PATHS}"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
+		"${CMAKE_BINARY_DIR}/src/lib"
+		$<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
+		$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
+		$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -709,7 +748,13 @@ add_executable (${TEST_PROJECT_NAME} ${TEST_FILES})
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME})
+target_link_libraries(
+	${TEST_PROJECT_NAME}
+	${LIB_PROJECT_NAME}
+	${LIB_GUI_PROJECT_NAME}
+	$<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
+	$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
+)
 
 set_property(
 	TARGET ${TEST_PROJECT_NAME}
@@ -718,11 +763,12 @@ set_property(
 		"${LIB_INCLUDE_PATHS}"
 		"${LIB_UTILITY_INCLUDE_PATHS}"
 		"${LIB_GUI_INCLUDE_PATHS}"
-		"${LIB_CXX_INCLUDE_PATHS}"
-		"${LIB_JAVA_INCLUDE_PATHS}"
 		"${EXTERNAL_INCLUDE_PATHS}"
 		"${EXTERNAL_C_INCLUDE_PATHS}"
 		"${Boost_INCLUDE_DIRS}"
+		"${CMAKE_BINARY_DIR}/src/lib"
+		$<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
+		$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
 )
 
 if (WIN32)

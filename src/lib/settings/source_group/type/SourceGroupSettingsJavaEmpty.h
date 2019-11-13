@@ -1,6 +1,10 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 
+#include "language_packages.h"
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithClasspath.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
@@ -27,5 +31,7 @@ public:
 		return std::make_shared<SourceGroupSettingsJavaEmpty>(*this);
 	}
 };
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #endif // SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H

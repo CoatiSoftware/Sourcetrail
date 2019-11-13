@@ -1,5 +1,9 @@
 #include "catch.hpp"
 
+#include "language_packages.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include <fstream>
 
 #include "ApplicationSettings.h"
@@ -219,3 +223,4 @@ TEST_CASE("index bullet3 project")
 #endif // _WIN32
 }
 
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

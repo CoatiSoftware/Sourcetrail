@@ -1,5 +1,7 @@
 #include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include "ProjectSettings.h"
 #include "utility.h"
 
@@ -69,3 +71,5 @@ void SourceGroupSettingsWithCxxPathsAndFlags::save(ConfigManager* config, const 
 	config->setValues(key + "/framework_search_paths/framework_search_path", getFrameworkSearchPaths());
 	config->setValues(key + "/compiler_flags/compiler_flag", getCompilerFlags());
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

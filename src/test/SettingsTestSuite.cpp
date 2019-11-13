@@ -1,5 +1,7 @@
 #include "catch.hpp"
 
+#include "language_packages.h"
+
 #include "ProjectSettings.h"
 #include "Settings.h"
 #include "SourceGroupSettingsWithCxxPathsAndFlags.h"
@@ -197,19 +199,7 @@ TEST_CASE("load source path from file")
 		std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(projectSettings.getAllSourceGroupSettings().front());
 	std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
 
-	REQUIRE(paths.size() == 1);
-	REQUIRE(paths[0].wstr() == L"data");
-}
-
-TEST_CASE("load header search paths from file")
-{
-	ProjectSettings projectSettings;
-	projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
-	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> sourceGroupSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(projectSettings.getAllSourceGroupSettings().front());
-	std::vector<FilePath> paths = sourceGroupSettings->getHeaderSearchPaths();
-
 	REQUIRE(paths.size() == 2);
-	REQUIRE(paths[0].wstr() == L"data/");
-	REQUIRE(paths[1].wstr() == L"src/");
+	REQUIRE(paths[0].wstr() == L"src");
+	REQUIRE(paths[1].wstr() == L"test");
 }

@@ -1,5 +1,7 @@
 #include "QtProjectWizardContentCrossCompilationOptions.h"
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
@@ -165,3 +167,5 @@ void QtProjectWizardContentCrossCompilationOptions::updateTargetOptionsEnabled()
 	m_sys->setEnabled(useTargetOptions);
 	m_abi->setEnabled(useTargetOptions);
 }
+
+#endif // BUILD_CXX_LANGUAGE_PACKAGE

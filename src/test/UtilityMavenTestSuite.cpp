@@ -1,5 +1,9 @@
 #include "catch.hpp"
 
+#include "language_packages.h"
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+
 #include "FilePath.h"
 #include "utility.h"
 #include "utilityMaven.h"
@@ -110,3 +114,5 @@ TEST_CASE("maven wrapper detects source and test directories of nested modules")
 		));
 	}
 }
+
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
