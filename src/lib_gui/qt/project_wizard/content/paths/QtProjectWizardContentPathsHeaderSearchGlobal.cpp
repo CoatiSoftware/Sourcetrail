@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathsHeaderSearchGlobal.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include <QMessageBox>
 
 #include "ApplicationSettings.h"
@@ -112,5 +110,3 @@ void QtProjectWizardContentPathsHeaderSearchGlobal::setPaths(const std::vector<F
 	m_list->addPaths({ ResourcePaths::getCxxCompilerHeaderPath() }, true);
 	m_list->addPaths(paths);
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

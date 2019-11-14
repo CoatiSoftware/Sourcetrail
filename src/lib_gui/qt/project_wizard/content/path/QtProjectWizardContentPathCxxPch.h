@@ -1,10 +1,6 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_PATH_CXX_PCH_H
 #define QT_PROJECT_WIZARD_CONTENT_PATH_CXX_PCH_H
 
-#include "language_packages.h"
-
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "QtProjectWizardContentPath.h"
 #include "SingleValueCache.h"
 
@@ -34,7 +30,5 @@ private:
 	std::shared_ptr<SourceGroupSettings> m_settings;
 	std::shared_ptr<SourceGroupSettingsWithCxxPchOptions> m_settingsCxxPch;
 };
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_PATH_CXX_PCH_H

@@ -1,7 +1,5 @@
 #include "SourceGroupSettingsWithCxxPchOptions.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "ProjectSettings.h"
 #include "utility.h"
 #include "utilityFile.h"
@@ -72,5 +70,3 @@ void SourceGroupSettingsWithCxxPchOptions::setPchFlags(const std::vector<std::ws
 {
 	m_pchFlags = pchFlags;
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

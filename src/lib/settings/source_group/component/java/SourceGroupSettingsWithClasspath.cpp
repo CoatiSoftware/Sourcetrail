@@ -1,7 +1,5 @@
 #include "SourceGroupSettingsWithClasspath.h"
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-
 #include "ProjectSettings.h"
 #include "utility.h"
 
@@ -52,5 +50,3 @@ void SourceGroupSettingsWithClasspath::save(ConfigManager* config, const std::st
 	config->setValues(key + "/class_paths/class_path", getClasspath());
 	config->setValue(key + "/use_jre_system_library", getUseJreSystemLibrary());
 }
-
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE

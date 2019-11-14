@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentCStandard.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include <QComboBox>
 #include <QLabel>
 
@@ -48,5 +46,3 @@ void QtProjectWizardContentCStandard::save()
 		m_sourceGroupSettings->setCStandard(m_standard->currentText().toStdWString());
 	}
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathSourceGradle.h"
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-
 #include <QCheckBox>
 
 #include "Application.h"
@@ -73,5 +71,3 @@ std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathSourceGradle::get
 {
 	return m_settings;
 }
-
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE

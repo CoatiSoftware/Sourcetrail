@@ -4,13 +4,13 @@
 
 #include "SourceGroupCustomCommand.h"
 #include "SourceGroupSettingsCustomCommand.h"
-#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "SourceGroupSettingsWithSourcePaths.h"
 #include "utility.h"
 #include "utilityFile.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 #include "SourceGroupCxxEmpty.h"
+#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE

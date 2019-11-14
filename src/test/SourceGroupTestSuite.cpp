@@ -4,38 +4,39 @@
 
 #include "language_packages.h"
 
-#include "IndexerCommandCustom.h"
-#include "SourceGroupCustomCommand.h"
-#include "SourceGroupSettingsCEmpty.h"
-#include "SourceGroupSettingsCppEmpty.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
-#include "SourceGroupSettingsCustomCommand.h"
-#include "SourceGroupSettingsJavaEmpty.h"
-#include "SourceGroupSettingsJavaGradle.h"
-#include "SourceGroupSettingsJavaMaven.h"
-#include "ProjectSettings.h"
+#include "Application.h"
 #include "ApplicationSettings.h"
-#include "FileSystem.h"
-#include "TextAccess.h"
 #include "AppPath.h"
+#include "FileSystem.h"
+#include "IndexerCommandCustom.h"
+#include "ProjectSettings.h"
+#include "SourceGroupCustomCommand.h"
+#include "SourceGroupSettingsCustomCommand.h"
+#include "TextAccess.h"
 #include "utilityPathDetection.h"
 #include "utilityString.h"
 #include "Version.h"
-#include "Application.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 #include "IndexerCommandCxx.h"
 #include "SourceGroupCxxEmpty.h"
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupCxxCodeblocks.h"
+#include "SourceGroupSettingsCEmpty.h"
+#include "SourceGroupSettingsCppEmpty.h"
+#include "SourceGroupSettingsCxxCdb.h"
+#include "SourceGroupSettingsCxxCodeblocks.h"
 #endif // BUILD_CXX_LANGUAGE_PACKAGE
+
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 #include "IndexerCommandJava.h"
 #include "JavaEnvironmentFactory.h"
 #include "SourceGroupJavaEmpty.h"
 #include "SourceGroupJavaGradle.h"
 #include "SourceGroupJavaMaven.h"
+#include "SourceGroupSettingsJavaEmpty.h"
+#include "SourceGroupSettingsJavaGradle.h"
+#include "SourceGroupSettingsJavaMaven.h"
 #include "utilityJava.h"
 #endif // BUILD_JAVA_LANGUAGE_PACKAGE
 

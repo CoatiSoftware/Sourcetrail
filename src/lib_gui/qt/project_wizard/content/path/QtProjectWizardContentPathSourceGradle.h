@@ -1,10 +1,6 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_PATH_SOURCE_GRADLE_H
 #define QT_PROJECT_WIZARD_CONTENT_PATH_SOURCE_GRADLE_H
 
-#include "language_packages.h"
-
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-
 #include "QtProjectWizardContentPath.h"
 
 class QCheckBox;
@@ -33,7 +29,5 @@ private:
 	std::shared_ptr<SourceGroupSettingsJavaGradle> m_settings;
 	QCheckBox* m_shouldIndexTests;
 };
-
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_PATH_SOURCE_GRADLE_H

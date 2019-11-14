@@ -3,20 +3,29 @@
 #include "SettingsMigrationDeleteKey.h"
 #include "SettingsMigrationLambda.h"
 #include "SettingsMigrationMoveKey.h"
-#include "SourceGroupSettingsCEmpty.h"
-#include "SourceGroupSettingsCppEmpty.h"
 #include "SourceGroupSettingsCustomCommand.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
-#include "SourceGroupSettingsJavaEmpty.h"
-#include "SourceGroupSettingsJavaMaven.h"
-#include "SourceGroupSettingsJavaGradle.h"
-#include "SourceGroupSettingsPythonEmpty.h"
 #include "SourceGroupSettingsUnloadable.h"
 #include "logging.h"
 #include "utilityFile.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+#include "SourceGroupSettingsCEmpty.h"
+#include "SourceGroupSettingsCppEmpty.h"
+#include "SourceGroupSettingsCxxCdb.h"
+#include "SourceGroupSettingsCxxCodeblocks.h"
+#endif // BUILD_CXX_LANGUAGE_PACKAGE
+
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+#include "SourceGroupSettingsJavaEmpty.h"
+#include "SourceGroupSettingsJavaMaven.h"
+#include "SourceGroupSettingsJavaGradle.h"
+#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+#include "SourceGroupSettingsPythonEmpty.h"
+#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 const std::wstring ProjectSettings::PROJECT_FILE_EXTENSION = L".srctrlprj";
 const std::wstring ProjectSettings::BOOKMARK_DB_FILE_EXTENSION = L".srctrlbm";

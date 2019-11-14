@@ -1,10 +1,6 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_CROSS_COMPILATION_OPTIONS
 #define QT_PROJECT_WIZARD_CONTENT_CROSS_COMPILATION_OPTIONS
 
-#include "language_packages.h"
-
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "QtProjectWizardContent.h"
 
 class QCheckBox;
@@ -41,7 +37,5 @@ private:
 	QComboBox* m_sys;
 	QComboBox* m_abi;
 };
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_CROSS_COMPILATION_OPTIONS

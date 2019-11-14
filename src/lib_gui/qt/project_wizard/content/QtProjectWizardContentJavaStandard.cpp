@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentJavaStandard.h"
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-
 #include <QComboBox>
 #include <QLabel>
 
@@ -48,5 +46,3 @@ void QtProjectWizardContentJavaStandard::save()
 		m_sourceGroupSettings->setJavaStandard(m_standard->currentText().toStdWString());
 	}
 }
-
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE

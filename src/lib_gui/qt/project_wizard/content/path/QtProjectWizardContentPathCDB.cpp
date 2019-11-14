@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathCDB.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "QtProjectWizardContentPathsIndexedHeaders.h"
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupSettingsCxxCdb.h"
@@ -135,5 +133,3 @@ std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathCDB::getSourceGro
 {
 	return m_settings;
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

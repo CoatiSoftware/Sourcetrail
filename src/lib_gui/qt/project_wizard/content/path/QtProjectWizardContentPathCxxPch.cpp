@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathCxxPch.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include <QMessageBox>
 
 #include "IndexerCommandCxx.h"
@@ -110,5 +108,3 @@ std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathCxxPch::getSource
 {
 	return m_settings;
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

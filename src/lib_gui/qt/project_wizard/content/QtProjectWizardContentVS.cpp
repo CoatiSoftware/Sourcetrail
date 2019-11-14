@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentVS.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "MessageIDECreateCDB.h"
 
 QtProjectWizardContentVS::QtProjectWizardContentVS(QtProjectWizardWindow* window)
@@ -46,5 +44,3 @@ void QtProjectWizardContentVS::handleVSCDBClicked()
 {
 	MessageIDECreateCDB().dispatch();
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

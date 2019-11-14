@@ -1,10 +1,6 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_PATHS_HEADER_SEARCH_GLOBAL_H
 #define QT_PROJECT_WIZARD_CONTENT_PATHS_HEADER_SEARCH_GLOBAL_H
 
-#include "language_packages.h"
-
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "QtProjectWizardContentPaths.h"
 
 class QtProjectWizardContentPathsHeaderSearchGlobal
@@ -26,7 +22,5 @@ protected:
 private:
 	void setPaths(const std::vector<FilePath>& paths);
 };
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // QT_PROJECT_WIZARD_CONTENT_PATHS_HEADER_SEARCH_GLOBAL_H

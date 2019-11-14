@@ -1,7 +1,5 @@
 #include "SourceGroupSettingsWithJavaGradle.h"
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-
 #include "ConfigManager.h"
 #include "ProjectSettings.h"
 #include "utilityFile.h"
@@ -58,5 +56,3 @@ void SourceGroupSettingsWithJavaGradle::save(ConfigManager* config, const std::s
 	config->setValue(key + "/gradle/project_file_path", getGradleProjectFilePath().wstr());
 	config->setValue(key + "/gradle/should_index_tests", getShouldIndexGradleTests());
 }
-
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE

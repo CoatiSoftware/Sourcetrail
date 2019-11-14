@@ -1,7 +1,5 @@
 #include "SourceGroupSettingsWithCppStandard.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "ProjectSettings.h"
 
 std::wstring SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic()
@@ -69,5 +67,3 @@ std::wstring SourceGroupSettingsWithCppStandard::getDefaultCppStandard() const
 {
 	return getDefaultCppStandardStatic();
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

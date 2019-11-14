@@ -1,7 +1,5 @@
 #include "SourceGroupSettingsWithCxxCdbPath.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "ProjectSettings.h"
 #include "utilityFile.h"
 
@@ -41,5 +39,3 @@ void SourceGroupSettingsWithCxxCdbPath::save(ConfigManager* config, const std::s
 {
 	config->setValue(key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().wstr());
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

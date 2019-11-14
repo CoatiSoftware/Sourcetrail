@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathsIndexedHeaders.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include <QMessageBox>
 
 #include "CodeblocksProject.h"
@@ -253,5 +251,3 @@ void QtProjectWizardContentPathsIndexedHeaders::savedFilesDialog()
 	m_list->setPaths(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->getPathsList());
 	closedFilesDialog();
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

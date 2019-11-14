@@ -1,10 +1,6 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_CLASSPATH_H
 #define SOURCE_GROUP_SETTINGS_WITH_CLASSPATH_H
 
-#include "language_packages.h"
-
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-
 #include <vector>
 
 #include "FilePath.h"
@@ -33,7 +29,5 @@ private:
 	std::vector<FilePath> m_classpath;
 	bool m_useJreSystemLibrary = true;
 };
-
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #endif // SOURCE_GROUP_SETTINGS_WITH_CLASSPATH_H

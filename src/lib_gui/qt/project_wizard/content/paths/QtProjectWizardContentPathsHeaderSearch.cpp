@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathsHeaderSearch.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include <cmath>
 
 #include <QMessageBox>
@@ -399,5 +397,3 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(const std::ve
 		connect(m_filesDialog.get(), &QtTextEditDialog::canceled, this, &QtProjectWizardContentPathsHeaderSearch::closedFilesDialog);
 	}
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

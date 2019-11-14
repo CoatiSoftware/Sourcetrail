@@ -1,10 +1,7 @@
 #include "catch.hpp"
 
-#include "language_packages.h"
-
 #include "ProjectSettings.h"
 #include "Settings.h"
-#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "SourceGroupSettings.h"
 #include "SourceGroupSettingsWithSourcePaths.h"
 

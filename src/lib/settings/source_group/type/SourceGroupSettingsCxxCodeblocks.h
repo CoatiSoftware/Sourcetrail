@@ -1,10 +1,6 @@
 #ifndef SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H
 #define SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H
 
-#include "language_packages.h"
-
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithCppStandard.h"
 #include "SourceGroupSettingsWithCStandard.h"
@@ -35,7 +31,5 @@ public:
 		return std::make_shared<SourceGroupSettingsCxxCodeblocks>(*this);
 	}
 };
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H

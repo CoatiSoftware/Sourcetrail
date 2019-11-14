@@ -1,7 +1,5 @@
 #include "SourceGroupSettingsWithIndexedHeaderPaths.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "ProjectSettings.h"
 #include "utility.h"
 
@@ -40,5 +38,3 @@ void SourceGroupSettingsWithIndexedHeaderPaths::save(ConfigManager* config, cons
 {
 	config->setValues(key + "/indexed_header_paths/indexed_header_path", getIndexedHeaderPaths());
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

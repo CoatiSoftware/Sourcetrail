@@ -1,10 +1,6 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H
 #define SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H
 
-#include "language_packages.h"
-
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include <vector>
 
 #include "SourceGroupSettingsComponent.h"
@@ -50,7 +46,5 @@ private:
 	std::wstring m_targetSys;
 	std::wstring m_targetAbi;
 };
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
 
 #endif // SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H

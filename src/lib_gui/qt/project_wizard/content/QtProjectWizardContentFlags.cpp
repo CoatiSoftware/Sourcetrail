@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentFlags.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include <QFormLayout>
 #include <QMessageBox>
 
@@ -71,5 +69,3 @@ bool QtProjectWizardContentFlags::check()
 
 	return true;
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

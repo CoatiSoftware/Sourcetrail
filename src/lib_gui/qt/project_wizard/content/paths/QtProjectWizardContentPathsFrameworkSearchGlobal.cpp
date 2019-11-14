@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathsFrameworkSearchGlobal.h"
 
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
 #include "ApplicationSettings.h"
 #include "utilityPathDetection.h"
 
@@ -34,5 +32,3 @@ void QtProjectWizardContentPathsFrameworkSearchGlobal::save()
 	ApplicationSettings::getInstance()->setFrameworkSearchPaths(m_list->getPathsAsDisplayed());
 	ApplicationSettings::getInstance()->save();
 }
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE

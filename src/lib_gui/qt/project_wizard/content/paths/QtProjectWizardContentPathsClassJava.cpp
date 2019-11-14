@@ -1,7 +1,5 @@
 #include "QtProjectWizardContentPathsClassJava.h"
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-
 #include <QCheckBox>
 
 #include "SourceGroupSettings.h"
@@ -56,5 +54,3 @@ void QtProjectWizardContentPathsClassJava::save()
 		settings->setUseJreSystemLibrary(m_useJreSystemLibraryCheckBox->isChecked());
 	}
 }
-
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE

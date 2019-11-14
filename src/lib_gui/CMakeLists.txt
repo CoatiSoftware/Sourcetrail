@@ -146,58 +146,22 @@ add_files(
 
 	qt/project_wizard/content/path/QtProjectWizardContentPath.cpp
 	qt/project_wizard/content/path/QtProjectWizardContentPath.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathCDB.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathCDB.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathCxxPch.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathCxxPch.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.h
-	qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.cpp
-	qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.h
 
 	qt/project_wizard/content/paths/QtProjectWizardContentPaths.cpp
 	qt/project_wizard/content/paths/QtProjectWizardContentPaths.h
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.cpp
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.h
 	qt/project_wizard/content/paths/QtProjectWizardContentPathsExclude.cpp
 	qt/project_wizard/content/paths/QtProjectWizardContentPathsExclude.h
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearch.cpp
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearch.h
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearchGlobal.cpp
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearchGlobal.h
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearch.cpp
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearch.h
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearchGlobal.cpp
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearchGlobal.h
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsIndexedHeaders.cpp
-	qt/project_wizard/content/paths/QtProjectWizardContentPathsIndexedHeaders.h
 	qt/project_wizard/content/paths/QtProjectWizardContentPathsSource.cpp
 	qt/project_wizard/content/paths/QtProjectWizardContentPathsSource.h
 
 	qt/project_wizard/content/QtProjectWizardContent.cpp
 	qt/project_wizard/content/QtProjectWizardContent.h
-	qt/project_wizard/content/QtProjectWizardContentCppStandard.cpp
-	qt/project_wizard/content/QtProjectWizardContentCppStandard.h
-	qt/project_wizard/content/QtProjectWizardContentCrossCompilationOptions.cpp
-	qt/project_wizard/content/QtProjectWizardContentCrossCompilationOptions.h
-	qt/project_wizard/content/QtProjectWizardContentCStandard.cpp
-	qt/project_wizard/content/QtProjectWizardContentCStandard.h
 	qt/project_wizard/content/QtProjectWizardContentCustomCommand.cpp
 	qt/project_wizard/content/QtProjectWizardContentCustomCommand.h
-	qt/project_wizard/content/QtProjectWizardContentCxxPchFlags.cpp
-	qt/project_wizard/content/QtProjectWizardContentCxxPchFlags.h
 	qt/project_wizard/content/QtProjectWizardContentExtensions.cpp
 	qt/project_wizard/content/QtProjectWizardContentExtensions.h
-	qt/project_wizard/content/QtProjectWizardContentFlags.cpp
-	qt/project_wizard/content/QtProjectWizardContentFlags.h
 	qt/project_wizard/content/QtProjectWizardContentGroup.cpp
 	qt/project_wizard/content/QtProjectWizardContentGroup.h
-	qt/project_wizard/content/QtProjectWizardContentJavaStandard.cpp
-	qt/project_wizard/content/QtProjectWizardContentJavaStandard.h
 	qt/project_wizard/content/QtProjectWizardContentPreferences.cpp
 	qt/project_wizard/content/QtProjectWizardContentPreferences.h
 	qt/project_wizard/content/QtProjectWizardContentProjectData.cpp
@@ -210,8 +174,6 @@ add_files(
 	qt/project_wizard/content/QtProjectWizardContentSourceGroupInfoText.h
 	qt/project_wizard/content/QtProjectWizardContentUnloadable.cpp
 	qt/project_wizard/content/QtProjectWizardContentUnloadable.h
-	qt/project_wizard/content/QtProjectWizardContentVS.cpp
-	qt/project_wizard/content/QtProjectWizardContentVS.h
 
 	qt/project_wizard/QtProjectWizard.cpp
 	qt/project_wizard/QtProjectWizard.h
@@ -333,40 +295,6 @@ add_files(
 	qt/QtCoreApplication.cpp
 	qt/QtCoreApplication.h
 
-	utility/path_detector/cxx_header/CxxFrameworkPathDetector.cpp
-	utility/path_detector/cxx_header/CxxFrameworkPathDetector.h
-	utility/path_detector/cxx_header/CxxHeaderPathDetector.cpp
-	utility/path_detector/cxx_header/CxxHeaderPathDetector.h
-	utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.cpp
-	utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.h
-	utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.cpp
-	utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.h
-	utility/path_detector/cxx_header/utilityCxxHeaderDetection.cpp
-	utility/path_detector/cxx_header/utilityCxxHeaderDetection.h
-
-	utility/path_detector/java_runtime/JavaPathDetector.cpp
-	utility/path_detector/java_runtime/JavaPathDetector.h
-	utility/path_detector/java_runtime/JavaPathDetectorLinux.cpp
-	utility/path_detector/java_runtime/JavaPathDetectorLinux.h
-	utility/path_detector/java_runtime/JavaPathDetectorMac.cpp
-	utility/path_detector/java_runtime/JavaPathDetectorMac.h
-	utility/path_detector/java_runtime/JavaPathDetectorWindows.cpp
-	utility/path_detector/java_runtime/JavaPathDetectorWindows.h
-
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetector.cpp
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetector.h
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorLinux.cpp
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorLinux.h
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.cpp
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.h
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorWindows.cpp
-	utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorWindows.h
-
-	utility/path_detector/maven_executable/MavenPathDetectorUnix.cpp
-	utility/path_detector/maven_executable/MavenPathDetectorUnix.h
-	utility/path_detector/maven_executable/MavenPathDetectorWindows.cpp
-	utility/path_detector/maven_executable/MavenPathDetectorWindows.h
-
 	utility/path_detector/CombinedPathDetector.cpp
 	utility/path_detector/CombinedPathDetector.h
 	utility/path_detector/PathDetector.cpp
@@ -378,3 +306,99 @@ add_files(
 	utility/utilityPathDetection.h
 )
 
+if (BUILD_CXX_LANGUAGE_PACKAGE)
+	add_files(
+		LIB_GUI
+
+		qt/project_wizard/content/path/QtProjectWizardContentPathCDB.cpp
+		qt/project_wizard/content/path/QtProjectWizardContentPathCDB.h
+		qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.cpp
+		qt/project_wizard/content/path/QtProjectWizardContentPathCodeblocksProject.h
+		qt/project_wizard/content/path/QtProjectWizardContentPathCxxPch.cpp
+		qt/project_wizard/content/path/QtProjectWizardContentPathCxxPch.h
+
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearch.cpp
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearch.h
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearchGlobal.cpp
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearchGlobal.h
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearch.cpp
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearch.h
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearchGlobal.cpp
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearchGlobal.h
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsIndexedHeaders.cpp
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsIndexedHeaders.h
+
+		qt/project_wizard/content/QtProjectWizardContentCppStandard.cpp
+		qt/project_wizard/content/QtProjectWizardContentCppStandard.h
+		qt/project_wizard/content/QtProjectWizardContentCrossCompilationOptions.cpp
+		qt/project_wizard/content/QtProjectWizardContentCrossCompilationOptions.h
+		qt/project_wizard/content/QtProjectWizardContentCStandard.cpp
+		qt/project_wizard/content/QtProjectWizardContentCStandard.h
+		qt/project_wizard/content/QtProjectWizardContentCxxPchFlags.cpp
+		qt/project_wizard/content/QtProjectWizardContentCxxPchFlags.h
+		qt/project_wizard/content/QtProjectWizardContentFlags.cpp
+		qt/project_wizard/content/QtProjectWizardContentFlags.h
+		qt/project_wizard/content/QtProjectWizardContentVS.cpp
+		qt/project_wizard/content/QtProjectWizardContentVS.h
+
+		utility/path_detector/cxx_header/CxxFrameworkPathDetector.cpp
+		utility/path_detector/cxx_header/CxxFrameworkPathDetector.h
+		utility/path_detector/cxx_header/CxxHeaderPathDetector.cpp
+		utility/path_detector/cxx_header/CxxHeaderPathDetector.h
+		utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.cpp
+		utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.h
+		utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.cpp
+		utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.h
+		utility/path_detector/cxx_header/utilityCxxHeaderDetection.cpp
+		utility/path_detector/cxx_header/utilityCxxHeaderDetection.h
+	)
+endif()
+
+if (BUILD_JAVA_LANGUAGE_PACKAGE)
+	add_files(
+		LIB_GUI
+
+		qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.cpp
+		qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.h
+		qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.cpp
+		qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.h
+
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.cpp
+		qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.h
+
+		qt/project_wizard/content/QtProjectWizardContentJavaStandard.cpp
+		qt/project_wizard/content/QtProjectWizardContentJavaStandard.h
+
+		utility/path_detector/java_runtime/JavaPathDetector.cpp
+		utility/path_detector/java_runtime/JavaPathDetector.h
+		utility/path_detector/java_runtime/JavaPathDetectorLinux.cpp
+		utility/path_detector/java_runtime/JavaPathDetectorLinux.h
+		utility/path_detector/java_runtime/JavaPathDetectorMac.cpp
+		utility/path_detector/java_runtime/JavaPathDetectorMac.h
+		utility/path_detector/java_runtime/JavaPathDetectorWindows.cpp
+		utility/path_detector/java_runtime/JavaPathDetectorWindows.h
+
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetector.cpp
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetector.h
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorLinux.cpp
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorLinux.h
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.cpp
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.h
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorWindows.cpp
+		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorWindows.h
+
+		utility/path_detector/maven_executable/MavenPathDetectorUnix.cpp
+		utility/path_detector/maven_executable/MavenPathDetectorUnix.h
+		utility/path_detector/maven_executable/MavenPathDetectorWindows.cpp
+		utility/path_detector/maven_executable/MavenPathDetectorWindows.h
+	)
+endif()
+
+if (BUILD_PYTHON_LANGUAGE_PACKAGE)
+	add_files(
+		LIB_GUI
+
+		qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.cpp
+		qt/project_wizard/content/path/QtProjectWizardContentPathPythonEnvironment.h
+	)
+endif()

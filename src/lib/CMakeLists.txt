@@ -344,39 +344,6 @@ add_files(
 	settings/migration/SettingsMigrationMoveKey.h
 	settings/migration/SettingsMigrator.h
 
-	settings/source_group/component/java/SourceGroupSettingsWithClasspath.cpp
-	settings/source_group/component/java/SourceGroupSettingsWithClasspath.h
-	settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.cpp
-	settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.h
-	settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.cpp
-	settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.h
-	settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.cpp
-	settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.h
-	settings/source_group/component/java/SourceGroupSettingsWithSourceExtensionsJava.h
-
-	settings/source_group/component/cxx/SourceGroupSettingsWithCppStandard.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithCppStandard.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithCStandard.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithCStandard.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCdbPath.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCdbPath.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCodeblocksPath.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCodeblocksPath.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithIndexedHeaderPaths.cpp
-	settings/source_group/component/cxx/SourceGroupSettingsWithIndexedHeaderPaths.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithSourceExtensionsC.h
-	settings/source_group/component/cxx/SourceGroupSettingsWithSourceExtensionsCpp.h
-
-	settings/source_group/component/python/SourceGroupSettingsWithPythonEnvironmentPath.cpp
-	settings/source_group/component/python/SourceGroupSettingsWithPythonEnvironmentPath.h
-	settings/source_group/component/python/SourceGroupSettingsWithSourceExtensionsPython.h
-
 	settings/source_group/component/SourceGroupSettingsWithCustomCommand.cpp
 	settings/source_group/component/SourceGroupSettingsWithCustomCommand.h
 	settings/source_group/component/SourceGroupSettingsWithExcludeFilters.cpp
@@ -387,16 +354,6 @@ add_files(
 	settings/source_group/component/SourceGroupSettingsWithSourcePaths.cpp
 	settings/source_group/component/SourceGroupSettingsWithSourcePaths.h
 
-	settings/source_group/type/SourceGroupSettingsCEmpty.h
-	settings/source_group/type/SourceGroupSettingsCppEmpty.h
-	settings/source_group/type/SourceGroupSettingsCustomCommand.h
-	settings/source_group/type/SourceGroupSettingsCxxCdb.h
-	settings/source_group/type/SourceGroupSettingsCxxCdbVs.h
-	settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h
-	settings/source_group/type/SourceGroupSettingsJavaEmpty.h
-	settings/source_group/type/SourceGroupSettingsJavaGradle.h
-	settings/source_group/type/SourceGroupSettingsJavaMaven.h
-	settings/source_group/type/SourceGroupSettingsPythonEmpty.h
 	settings/source_group/type/SourceGroupSettingsUnloadable.h
 
 	settings/source_group/SourceGroupSettings.cpp
@@ -659,5 +616,69 @@ if (WIN32)
 
 		utility/utilityWindows.cpp
 		utility/utilityWindows.h
+	)
+endif()
+
+if (BUILD_CXX_LANGUAGE_PACKAGE)
+	add_files(
+		LIB
+
+		settings/source_group/component/cxx/SourceGroupSettingsWithCppStandard.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithCppStandard.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithCStandard.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithCStandard.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxCdbPath.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxCdbPath.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxCodeblocksPath.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxCodeblocksPath.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithIndexedHeaderPaths.cpp
+		settings/source_group/component/cxx/SourceGroupSettingsWithIndexedHeaderPaths.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithSourceExtensionsC.h
+		settings/source_group/component/cxx/SourceGroupSettingsWithSourceExtensionsCpp.h
+
+		settings/source_group/type/SourceGroupSettingsCEmpty.h
+		settings/source_group/type/SourceGroupSettingsCppEmpty.h
+		settings/source_group/type/SourceGroupSettingsCustomCommand.h
+		settings/source_group/type/SourceGroupSettingsCxxCdb.h
+		settings/source_group/type/SourceGroupSettingsCxxCdbVs.h
+		settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h
+	)
+endif()
+
+if (BUILD_JAVA_LANGUAGE_PACKAGE)
+	add_files(
+		LIB
+
+		settings/source_group/component/java/SourceGroupSettingsWithClasspath.cpp
+		settings/source_group/component/java/SourceGroupSettingsWithClasspath.h
+		settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.cpp
+		settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.h
+		settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.cpp
+		settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.h
+		settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.cpp
+		settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.h
+		settings/source_group/component/java/SourceGroupSettingsWithSourceExtensionsJava.h
+
+		settings/source_group/type/SourceGroupSettingsJavaEmpty.h
+		settings/source_group/type/SourceGroupSettingsJavaGradle.h
+		settings/source_group/type/SourceGroupSettingsJavaMaven.h
+	)
+endif()
+
+if (BUILD_PYTHON_LANGUAGE_PACKAGE)
+	add_files(
+		LIB
+
+		settings/source_group/component/python/SourceGroupSettingsWithPythonEnvironmentPath.cpp
+		settings/source_group/component/python/SourceGroupSettingsWithPythonEnvironmentPath.h
+		settings/source_group/component/python/SourceGroupSettingsWithSourceExtensionsPython.h
+
+		settings/source_group/type/SourceGroupSettingsPythonEmpty.h
 	)
 endif()
