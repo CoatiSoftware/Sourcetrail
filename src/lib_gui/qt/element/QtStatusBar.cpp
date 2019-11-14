@@ -104,7 +104,7 @@ void QtStatusBar::setText(const std::wstring& text, bool isError, bool showLoade
 	}
 	else
 	{
-		m_text.setStyleSheet("QPushButton { color: #000000; margin-right: 0; spacing: none; text-align: left; }");
+		m_text.setStyleSheet("QPushButton { margin-right: 0; spacing: none; text-align: left; }");
 	}
 
 	if (showLoader)
@@ -137,7 +137,7 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 		}
 		else
 		{
-			m_errorButton.setStyleSheet("QPushButton { color: #000000; margin-right: 0; spacing: none; }");
+			m_errorButton.setStyleSheet("QPushButton { margin-right: 0; spacing: none; }");
 		}
 
 		m_errorButton.show();

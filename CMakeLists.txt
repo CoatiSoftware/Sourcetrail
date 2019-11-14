@@ -525,9 +525,11 @@ configure_file(
 
 #configure the versioning file
 configure_file(
-	${CMAKE_SOURCE_DIR}/cmake/version.h.in
-	${CMAKE_BINARY_DIR}/src/lib_gui/version.h
+	${CMAKE_SOURCE_DIR}/cmake/productVersion.h.in
+	${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h
 )
+
+set_property(SOURCE ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h PROPERTY SKIP_AUTOMOC ON)
 
 set(CMAKE_AUTOMOC OFF)
 

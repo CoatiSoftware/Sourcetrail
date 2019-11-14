@@ -647,10 +647,17 @@ add_files(
 	utility/utilityLibrary.h
 	utility/utilityUuid.cpp
 	utility/utilityUuid.h
-	utility/utilityWindows.cpp
-	utility/utilityWindows.h
 	utility/utilityXml.cpp
 	utility/utilityXml.h
 	utility/Version.cpp
 	utility/Version.h
 )
+
+if (WIN32)
+	add_files(
+		LIB
+
+		utility/utilityWindows.cpp
+		utility/utilityWindows.h
+	)
+endif()
