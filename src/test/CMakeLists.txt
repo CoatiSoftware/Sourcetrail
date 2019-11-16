@@ -10,7 +10,6 @@ add_files(
 	CommandlineTestSuite.cpp
 	ConfigManagerTestSuite.cpp
 	CxxIncludeProcessingTestSuite.cpp
-	CxxIndexSampleProjectsTestSuite.cpp
 	CxxParserTestSuite.cpp
 	CxxTypeNameTestSuite.cpp
 	FileManagerTestSuite.cpp
