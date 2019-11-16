@@ -63,8 +63,6 @@ void setupApp(int argc, char *argv[])
 					userDataPath.concatenate(L"Sourcetrail/");
 				}
 				userDataPath.makeCanonical();
-				Application::EULA_ACCEPT_REQUIRED = false;
-
 			}
 			else
 			{

@@ -15,10 +15,6 @@ set(binPath ${CMAKE_CURRENT_LIST_DIR}/../build/Release/app/Sourcetrail)
 set(projPath ${CMAKE_CURRENT_LIST_DIR}/../bin/app/user/projects)
 
 execute_process(
-	COMMAND ${binPath} accept-eula
-)
-
-execute_process(
 	COMMAND ${binPath} index --full ${projPath}/tictactoe_cpp/tictactoe_cpp.srctrlprj
 )
 

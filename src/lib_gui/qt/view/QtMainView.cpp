@@ -98,12 +98,12 @@ void QtMainView::saveLayout()
 	m_window->saveLayout();
 }
 
-void QtMainView::loadWindow(bool showStartWindow, bool showEULA)
+void QtMainView::loadWindow(bool showStartWindow)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_window->loadWindow(showStartWindow, showEULA);
+			m_window->loadWindow(showStartWindow);
 		}
 	);
 }

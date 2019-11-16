@@ -384,8 +384,6 @@ add_files(
 	utility/commandline/CommandLineParser.h
 	utility/commandline/commands/CommandlineCommand.cpp
 	utility/commandline/commands/CommandlineCommand.h
-	utility/commandline/commands/CommandlineCommandAcceptEULA.cpp
-	utility/commandline/commands/CommandlineCommandAcceptEULA.h
 	utility/commandline/commands/CommandlineCommandConfig.cpp
 	utility/commandline/commands/CommandlineCommandConfig.h
 	utility/commandline/commands/CommandlineCommandIndex.cpp

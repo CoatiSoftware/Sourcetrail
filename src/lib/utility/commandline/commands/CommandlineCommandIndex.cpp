@@ -33,10 +33,6 @@ void CommandlineCommandIndex::setup()
 	m_positional.add("project-file", 1);
 }
 
-void CommandlineCommandIndex::preparse()
-{
-}
-
 CommandlineCommand::ReturnStatus CommandlineCommandIndex::parse(std::vector<std::string>& args)
 {
 	po::variables_map vm;

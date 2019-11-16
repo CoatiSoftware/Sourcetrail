@@ -35,9 +35,6 @@ class Application
 	, public MessageListener<MessageWindowFocus>
 {
 public:
-	static const int EULA_VERSION = 5;
-	static bool EULA_ACCEPT_REQUIRED;
-
 	static void createInstance(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
 	static std::shared_ptr<Application> getInstance();
 	static void destroyInstance();

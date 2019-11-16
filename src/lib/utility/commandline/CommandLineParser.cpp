@@ -6,7 +6,6 @@
 #include <boost/program_options.hpp>
 
 #include "CommandlineHelper.h"
-#include "CommandlineCommandAcceptEULA.h"
 #include "CommandlineCommandConfig.h"
 #include "CommandlineCommandIndex.h"
 #include "ConfigManager.h"
@@ -42,7 +41,6 @@ void CommandLineParser::setup()
 
 	addCommand(std::make_unique<commandline::CommandlineCommandConfig>(this));
 	addCommand(std::make_unique<commandline::CommandlineCommandIndex>(this));
-	addCommand(std::make_unique<commandline::CommandlineCommandAcceptEULA>(this));
 
 	for (auto& command : m_commands)
 	{
@@ -76,7 +74,6 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 		{
 			if ( m_args[0] == command->name())
 			{
-				command->preparse();
 				m_withoutGUI = true;
 				return;
 			}
@@ -193,11 +190,6 @@ bool CommandLineParser::exitApplication() const
 	return m_quit;
 }
 
-bool CommandLineParser::acceptedEULA() const
-{
-	return m_acceptEULA;
-}
-
 bool CommandLineParser::hasError() const
 {
 	return !m_errorString.empty();
@@ -245,11 +237,6 @@ void CommandLineParser::fullRefresh()
 void CommandLineParser::incompleteRefresh()
 {
 	m_refreshMode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
-}
-
-void CommandLineParser::acceptEULA()
-{
-	m_acceptEULA = true;
 }
 
 const FilePath& CommandLineParser::getProjectFilePath() const

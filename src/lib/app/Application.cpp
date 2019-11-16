@@ -33,7 +33,6 @@
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
-bool Application::EULA_ACCEPT_REQUIRED = true;
 
 void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
@@ -424,9 +423,7 @@ void Application::loadWindow(bool showStartWindow)
 
 		updateTitle();
 
-		bool showEula = (EULA_ACCEPT_REQUIRED && appSettings->getAcceptedEulaVersion() < EULA_VERSION);
-
-		m_mainView->loadWindow(showStartWindow, showEula);
+		m_mainView->loadWindow(showStartWindow);
 		m_loadedWindow = true;
 	}
 	else if (!showStartWindow)

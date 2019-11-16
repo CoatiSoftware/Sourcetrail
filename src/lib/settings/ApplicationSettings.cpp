@@ -553,16 +553,6 @@ bool ApplicationSettings::setRecentProjects(const std::vector<FilePath> &recentP
 	return setPathValues("user/recent_projects/recent_project", recentProjects);
 }
 
-int ApplicationSettings::getAcceptedEulaVersion() const
-{
-	return getValue<int>("user/accepted_eula_version", 0);
-}
-
-void ApplicationSettings::setAcceptedEulaVersion(int version)
-{
-	setValue<int>("user/accepted_eula_version", version);
-}
-
 std::string ApplicationSettings::getUserToken() const
 {
 	return getValue<std::string>("user/token", "");

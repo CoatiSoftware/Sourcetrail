@@ -101,7 +101,6 @@ if [ $UPDATE_DATABASES = true ]; then
 	cd temp
 
 	echo -e "$INFO configuring application"
-	../build/win32/Release/app/Sourcetrail.exe accept-eula
 	../build/win32/Release/app/Sourcetrail.exe config -t 8
 
 	echo -e "$INFO creating database for tutorial"
@@ -204,7 +203,6 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		# COPYING APPLICATION DATA
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/license/3rd_party_licenses/
 		cp -u -r bin/app/data/license/3rd_party_licenses/* $PORTABLE_PACKAGE_APP_DIR/data/license/3rd_party_licenses/
-		cp -u -r bin/app/data/license/EULA.txt $PORTABLE_PACKAGE_APP_DIR/data/license/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
 		cp -u -r bin/app/data/color_schemes/* $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
 		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/cxx/

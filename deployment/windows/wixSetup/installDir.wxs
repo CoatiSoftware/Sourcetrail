@@ -295,9 +295,6 @@
 
 			<Directory Id='LieutenantCommanderData' Name='data'>
 				<Directory Id='License' Name='license'>
-					<Component Id='EulaTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='EulaTxtId' Name='EULA.txt' DiskId='1' Source='./../../../bin/app/data/license/EULA.txt' KeyPath='yes' />
-					</Component>
 					<Directory Id='ThirdPartyLicenses' Name='3rd_party_licenses'>
 						<Component Id='LicenseBoostTxt' Guid='*' Win64="$(var.Win64)">
 							<File Id='LicenseBoost' Name='license_boost.txt' DiskId='1' Source='./../../../bin/app/data/license/3rd_party_licenses/license_boost.txt' KeyPath='yes' />

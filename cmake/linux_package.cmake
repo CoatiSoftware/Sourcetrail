@@ -60,11 +60,6 @@ function(AddSharedToComponent)
 		DESTINATION Sourcetrail/data/python
 	)
 
-	INSTALL(FILES
-		${CMAKE_SOURCE_DIR}/bin/app/data/license/EULA.txt
-		DESTINATION Sourcetrail
-	)
-
     InstallQt(5)
 
 	GetAndInstallLibrary(libicui18n.so 0)

@@ -1,6 +1,6 @@
 
 WINDOW
-	First launch - eula
+	First launch
 	About
 	Help Menu
 	dock widgets

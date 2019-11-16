@@ -81,8 +81,6 @@
 			<recent_project><!-- STRING: recent project path --></recent_project>
 		</recent_projects>
 
-		<accepted_eula_version><!-- INTEGER: last accepted eula version --></accepted_eula_version>
-
 		<token><!-- UUID: identifier for this user --></token>
 
 		<update_check>

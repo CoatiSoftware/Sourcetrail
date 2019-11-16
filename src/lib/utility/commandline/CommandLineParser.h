@@ -30,12 +30,10 @@ public:
 
 	bool runWithoutGUI() const;
 	bool exitApplication() const;
-	bool acceptedEULA() const;
 
 	bool hasError() const;
 	std::wstring getError();
 
-	void acceptEULA();
 	void fullRefresh();
 	void incompleteRefresh();
 
@@ -61,7 +59,6 @@ private:
 
 	bool m_quit = false;
 	bool m_withoutGUI = false;
-	bool m_acceptEULA = false;
 
 	std::wstring m_errorString;
 };

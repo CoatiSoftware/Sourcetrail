@@ -22,7 +22,6 @@
 #include "QtProjectWizard.h"
 #include "QtAbout.h"
 #include "QtAboutLicense.h"
-#include "QtEulaWindow.h"
 #include "QtKeyboardShortcuts.h"
 #include "QtPreferencesWindow.h"
 #include "QtStartScreen.h"
@@ -323,16 +322,11 @@ void QtMainWindow::loadDockWidgetLayout()
 	}
 }
 
-void QtMainWindow::loadWindow(bool showStartWindow, bool showEULA)
+void QtMainWindow::loadWindow(bool showStartWindow)
 {
 	if (showStartWindow)
 	{
 		showStartScreen();
-	}
-
-	if (showEULA)
-	{
-		showEula(true);
 	}
 }
 
@@ -526,35 +520,6 @@ void QtMainWindow::showChangelog()
 void QtMainWindow::showBugtracker()
 {
 	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/SourcetrailBugTracker/issues"));
-}
-
-void QtMainWindow::showEula(bool forceAccept)
-{
-	QtEulaWindow* window = new QtEulaWindow(this, forceAccept);
-	m_windowStack.pushWindow(window);
-	window->setup();
-
-	if (forceAccept)
-	{
-		setEnabled(false);
-		window->setEnabled(true);
-
-		connect(window, &QtEulaWindow::finished, this, &QtMainWindow::acceptedEula);
-		connect(window, &QtEulaWindow::canceled, dynamic_cast<QApplication*>(QCoreApplication::instance()), &QApplication::quit);
-	}
-	else
-	{
-		connect(window, &QtEulaWindow::canceled, &m_windowStack, &QtWindowStack::popWindow);
-	}
-}
-
-void QtMainWindow::acceptedEula()
-{
-	ApplicationSettings::getInstance()->setAcceptedEulaVersion(Application::EULA_VERSION);
-	ApplicationSettings::getInstance()->save();
-
-	setEnabled(true);
-	m_windowStack.popWindow();
 }
 
 void QtMainWindow::showLicenses()
@@ -1052,7 +1017,6 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addSeparator();
 
-	menu->addAction(tr("End User License Agreement"), this, &QtMainWindow::showEula);
 	menu->addAction(tr("3rd Party Licenses"), this, &QtMainWindow::showLicenses);
 	menu->addAction(tr("&About Sourcetrail"), this, &QtMainWindow::about);
 

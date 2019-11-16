@@ -73,7 +73,7 @@ public:
 	void saveLayout();
 
 	void loadDockWidgetLayout();
-	void loadWindow(bool showStartWindow, bool showEULA);
+	void loadWindow(bool showStartWindow);
 
 	void updateHistoryMenu(std::shared_ptr<MessageBase> message);
 	void clearHistoryMenu();
@@ -106,8 +106,6 @@ public slots:
 	void showDocumentation();
 	void showKeyboardShortcuts();
 	void showErrorHelpMessage();
-	void showEula(bool forceAccept = false);
-	void acceptedEula();
 	void showLicenses();
 
 	void showDataFolder();

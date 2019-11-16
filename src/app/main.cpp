@@ -26,7 +26,6 @@
 #include "ScopedFunctor.h"
 #include "SourceGroupFactory.h"
 #include "SourceGroupFactoryModuleCustom.h"
-#include "TextAccess.h"
 #include "UserPaths.h"
 #include "utility.h"
 #include "utilityApp.h"
@@ -94,18 +93,6 @@ void addLanguagePackages()
 #endif // BUILD_JAVA_LANGUAGE_PACKAGE
 }
 
-QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)
-{
-	if (noGUI)
-	{
-		return new QtCoreApplication(argc, argv);
-	}
-	else
-	{
-		return new QtApplication(argc, argv);
-	}
-}
-
 int main(int argc, char *argv[])
 {
 	QCoreApplication::addLibraryPath(".");
@@ -159,37 +146,7 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
-		// check if already agreed to EULA
-		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		if (appSettings->getAcceptedEulaVersion() < Application::EULA_VERSION)
-		{
-			if (!commandLineParser.acceptedEULA())
-			{
-				// to avoid interferring with other console output
-				std::this_thread::sleep_for(std::chrono::milliseconds(250));
-
-				std::shared_ptr<TextAccess> text =
-					TextAccess::createFromFile(ResourcePaths::getLicensePath().concatenate(L"EULA.txt"));
-
-				std::cout << std::endl << text->getText() << std::endl;
-				std::cout << "Do you accept the Sourcetrail End User License Agreement? (y/n)" << std::endl;
-
-				char c = 'n';
-				std::cin >> c;
-
-				if (c != 'Y' && c != 'y')
-				{
-					std::cout << "\nAgreement not accepted. quitting..." << std::endl;
-					return 1;
-				}
-			}
-
-			std::cout << "\nSourcetrail End User License Agreement accepted.\n" << std::endl;
-			appSettings->setAcceptedEulaVersion(Application::EULA_VERSION);
-			appSettings->save();
-		}
-
-		ApplicationSettingsPrefiller::prefillPaths(appSettings);
+		ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
 		addLanguagePackages();
 
 		signal(SIGINT, signalHandler);
@@ -248,8 +205,7 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
-		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		ApplicationSettingsPrefiller::prefillPaths(appSettings);
+		ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
 		addLanguagePackages();
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), L".otf");

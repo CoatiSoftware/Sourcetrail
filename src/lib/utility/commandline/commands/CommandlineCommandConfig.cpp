@@ -121,10 +121,6 @@ void CommandlineCommandConfig::setup()
 	m_options.add(options);
 }
 
-void CommandlineCommandConfig::preparse()
-{
-}
-
 CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std::string>& args)
 {
 	po::variables_map vm;

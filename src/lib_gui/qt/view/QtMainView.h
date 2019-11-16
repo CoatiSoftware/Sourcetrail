@@ -48,7 +48,7 @@ public:
 	void loadLayout() override;
 	void saveLayout() override;
 
-	void loadWindow(bool showStartWindow, bool showEULA) override;
+	void loadWindow(bool showStartWindow) override;
 
 	void refreshView() override;
 

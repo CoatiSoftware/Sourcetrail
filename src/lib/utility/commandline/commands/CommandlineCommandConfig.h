@@ -14,7 +14,6 @@ public:
 	virtual ~CommandlineCommandConfig();
 
 	virtual void setup();
-	virtual void preparse();
 	virtual ReturnStatus parse(std::vector<std::string>& args);
 
 	virtual bool hasHelp() const { return true; }

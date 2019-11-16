@@ -152,9 +152,6 @@ public:
 	std::vector<FilePath> getRecentProjects() const;
 	bool setRecentProjects(const std::vector<FilePath>& recentProjects);
 
-	int getAcceptedEulaVersion() const;
-	void setAcceptedEulaVersion(int version);
-
 	std::string getUserToken() const;
 	void setUserToken(std::string token);
 

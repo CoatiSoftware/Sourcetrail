@@ -27,7 +27,6 @@ public:
 	const std::string& description();
 
 	virtual void setup() = 0;
-	virtual void preparse() = 0;
 	virtual ReturnStatus parse(std::vector<std::string>& args) = 0;
 
 	virtual bool hasHelp() const = 0;

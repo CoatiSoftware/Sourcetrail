@@ -193,8 +193,6 @@ cp -R ../../../ide_plugins/eclipse $PACKAGE_DIR/plugins/eclipse/
 cp -R ../../../ide_plugins/idea $PACKAGE_DIR/plugins/idea/
 cp -R ../../../ide_plugins/qt_creator $PACKAGE_DIR/plugins/qt_creator/
 
-cp ../../../bin/app/data/license/EULA.rtf $PACKAGE_DIR/EULA.rtf
-
 ln -s /Applications $PACKAGE_DIR/Applications
 
 echo -e $INFO "create DMG package"
