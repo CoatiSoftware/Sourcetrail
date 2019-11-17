@@ -265,8 +265,6 @@ void Application::handleMessage(MessageLoadProject* message)
 	{
 		MessageStatus(L"Loading Project: " + projectSettingsFilePath.wstr(), false, true).dispatch();
 
-		projectSettingsFilePath = migrateProjectSettings(projectSettingsFilePath);
-
 		m_project.reset();
 
 		if (m_hasGUI)
@@ -357,36 +355,6 @@ void Application::handleMessage(MessageWindowFocus* message)
 	{
 		m_updateChecker->checkUpdate();
 	}
-}
-
-FilePath Application::migrateProjectSettings(const FilePath& projectSettingsFilePath) const
-{
-	if (projectSettingsFilePath.extension() == L".coatiproject")
-	{
-		MessageStatus(L"Migrating deprecated project file extension \".coatiproject\" to new file extension \".srctrlprj\"").dispatch();
-		const FilePath newSettingsPath = projectSettingsFilePath.replaceExtension(ProjectSettings::PROJECT_FILE_EXTENSION);
-		{
-			FileSystem::rename(projectSettingsFilePath, newSettingsPath);
-			const FilePath oldDbPath = projectSettingsFilePath.replaceExtension(L"coatidb");
-			if (oldDbPath.exists())
-			{
-				FileSystem::rename(oldDbPath, oldDbPath.replaceExtension(L"srctrldb"));
-			}
-		}
-		{
-			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-			std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
-			std::vector<FilePath>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
-			if (it != recentProjects.end())
-			{
-				recentProjects.erase(it);
-			}
-			appSettings->setRecentProjects(recentProjects);
-			appSettings->save(UserPaths::getAppSettingsPath());
-		}
-		return newSettingsPath;
-	}
-	return projectSettingsFilePath;
 }
 
 void Application::startMessagingAndScheduling()

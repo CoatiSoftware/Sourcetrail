@@ -74,7 +74,6 @@ private:
 	void handleMessage(MessageSwitchColorScheme* message) override;
 	void handleMessage(MessageWindowFocus* message) override;
 
-	FilePath migrateProjectSettings(const FilePath& projectSettingsFilePath) const;
 	void startMessagingAndScheduling();
 
 	void loadWindow(bool showStartWindow);

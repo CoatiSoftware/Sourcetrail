@@ -47,21 +47,13 @@ void setupApp(int argc, char *argv[])
 	AppPath::setAppPath(FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute());
 
 	std::string userdir(std::getenv("HOME"));
-	QDir coatiDir((userdir + "/.config/coati").c_str());
 	userdir.append("/.config/sourcetrail/");
 
 	QString userDataPath(userdir.c_str());
 	QDir dataDir(userdir.c_str());
 	if (!dataDir.exists())
 	{
-		if (coatiDir.exists())
-		{
-			utility::copyNewFilesFromDirectory(coatiDir.absolutePath(), userDataPath);
-		}
-		else
-		{
-			dataDir.mkpath(userDataPath);
-		}
+		dataDir.mkpath(userDataPath);
 	}
 
 	utility::copyNewFilesFromDirectory(QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);

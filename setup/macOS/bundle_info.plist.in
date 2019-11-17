@@ -46,7 +46,6 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>srctrlprj</string>
-				<string>coatiproject</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>project</string>

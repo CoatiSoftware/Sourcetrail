@@ -28,7 +28,7 @@ bool QtApplication::event(QEvent *event)
 
 		FilePath path(fileEvent->file().toStdWString());
 
-		if (path.exists() && (path.extension() == L".srctrlprj" || path.extension() == L".coatiproject"))
+		if (path.exists() && path.extension() == L".srctrlprj")
 		{
 			MessageLoadProject(path).dispatch();
 			return true;

@@ -20,10 +20,6 @@
 						<Verb Id='open' Command='Open' Argument='"%1"' />
 						<MIME Advertise='yes' ContentType='application/sourcetrailproject' Default='yes' />
 					</Extension>
-					<Extension Id='coatiproject'>  <!-- ContentType='application/coatiproject' Advertise='no' -->
-						<Verb Id='open' Command='Open' Argument='"%1"' />
-						<MIME Advertise='yes' ContentType='application/coatiproject' Default='yes' />
-					</Extension>
 				</ProgId>
 			</Component>
 

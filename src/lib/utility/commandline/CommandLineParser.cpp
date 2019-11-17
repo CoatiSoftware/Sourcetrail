@@ -213,7 +213,7 @@ void CommandLineParser::processProjectfile()
 		return;
 	}
 
-	if (m_projectFile.extension() != L".srctrlprj" && m_projectFile.extension() != L".coatiproject")
+	if (m_projectFile.extension() != L".srctrlprj")
 	{
 		m_errorString = errorstring + L" has a wrong file ending";
 		m_projectFile = FilePath();

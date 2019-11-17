@@ -5,12 +5,10 @@
 		<icon name="project-sourcetrail"/>
 		<glob-deleteall/>
 		<glob pattern="*.srctrlprj"/>
-		<glob pattern="*.coatiproject"/>
 	</mime-type>
     <mime-type type="application/x-sourcetrail">
 		<comment>Sourcetrail Database</comment>
 		<glob-deleteall/>
 		<glob pattern="*.srctrldb"/>
-		<glob pattern="*.coatidb"/>
 	</mime-type>
 </mime-info>

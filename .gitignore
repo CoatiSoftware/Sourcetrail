@@ -41,7 +41,6 @@
 
 /ide_plugins/vs/vs2015/SourcetrailPlugin/TestResults
 
-*.coatidb
 *.srctrldb
 *.srctrlbm
 *.suo

@@ -64,18 +64,6 @@ void setupPlatform(int argc, char *argv[])
 	if (!dataDir.exists())
 	{
 		dataDir.mkpath(dataPath);
-
-		if (dataPath.endsWith("Sourcetrail"))
-		{
-			QString coatiDataPath = dataPath;
-			coatiDataPath.append("/../Coati");
-
-			QDir coatiDataDir(coatiDataPath);
-			if (coatiDataDir.exists())
-			{
-				oldDataPath = coatiDataPath;
-			}
-		}
 	}
 
 	utility::copyNewFilesFromDirectory(oldDataPath, dataPath);
