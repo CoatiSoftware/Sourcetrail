@@ -1,6 +1,7 @@
 #include "QtStartScreen.h"
 
 #include <QCheckBox>
+#include <QDesktopServices>
 #include <QLabel>
 #include <QString>
 #include <QHBoxLayout>
@@ -86,6 +87,8 @@ QtStartScreen::QtStartScreen(QWidget *parent)
 	, m_pythonIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/python_icon.png").wstr()))
 	, m_javaIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/java_icon.png").wstr()))
 	, m_projectIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/empty_icon.png").wstr()))
+	, m_githubIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"startscreen/github_icon.png").wstr()))
+	, m_patreonIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"startscreen/patreon_icon.png").wstr()))
 {
 }
 
@@ -171,6 +174,31 @@ void QtStartScreen::setupStartScreen()
 
 		QtUpdateCheckerWidget* checker = new QtUpdateCheckerWidget(this);
 		col->addWidget(checker);
+
+		col->addSpacing(15);
+
+		QPushButton* githubButton = new QPushButton("Contribute on GitHub", this);
+		githubButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		githubButton->setObjectName("infoButton");
+		githubButton->setIcon(m_githubIcon);
+		githubButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+		connect(githubButton, &QPushButton::clicked, [](){
+			QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/Sourcetrail", QUrl::TolerantMode));
+		});
+		col->addWidget(githubButton);
+
+		col->addSpacing(8);
+
+		// QPushButton* patreonButton = new QPushButton("Support on Patreon", this);
+		QPushButton* patreonButton = new QPushButton("Become a Patron", this);
+		patreonButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		patreonButton->setObjectName("infoButton");
+		patreonButton->setIcon(m_patreonIcon);
+		patreonButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+		connect(patreonButton, &QPushButton::clicked, [](){
+			QDesktopServices::openUrl(QUrl("https://www.patreon.com/sourcetrail", QUrl::TolerantMode));
+		});
+		col->addWidget(patreonButton);
 
 		col->addSpacing(15);
 

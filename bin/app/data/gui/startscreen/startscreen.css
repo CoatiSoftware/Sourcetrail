@@ -1,14 +1,18 @@
-#projectButton {
+#projectButton, #infoButton {
 	background: white;
 	border: 1px solid lightgray;
 	border-radius: 8px;
 	color: black;
-	padding: 3px 5px 2px;
+	padding: 4px 5px 3px;
 	font-size: 14px;
 	min-width: 6em;
 }
 
-#projectButton:hover {
+#infoButton {
+	padding: 4px 15px 3px;
+}
+
+#projectButton:hover, #infoButton:hover {
 	color: white;
 	background: #2D3F85;
 }

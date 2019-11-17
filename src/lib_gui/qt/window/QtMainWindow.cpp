@@ -514,12 +514,12 @@ void QtMainWindow::showErrorHelpMessage()
 
 void QtMainWindow::showChangelog()
 {
-	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/SourcetrailBugTracker/#changelog"));
+	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/Sourcetrail/blob/master/CHANGELOG.md"));
 }
 
 void QtMainWindow::showBugtracker()
 {
-	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/SourcetrailBugTracker/issues"));
+	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/Sourcetrail/issues"));
 }
 
 void QtMainWindow::showLicenses()

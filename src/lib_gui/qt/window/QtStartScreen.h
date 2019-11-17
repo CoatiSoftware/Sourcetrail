@@ -48,11 +48,13 @@ private slots:
 
 private:
 	std::vector<QtRecentProjectButton*> m_recentProjectsButtons;
-	QIcon m_cppIcon;
-	QIcon m_cIcon;
-	QIcon m_pythonIcon;
-	QIcon m_javaIcon;
-	QIcon m_projectIcon;
+	const QIcon m_cppIcon;
+	const QIcon m_cIcon;
+	const QIcon m_pythonIcon;
+	const QIcon m_javaIcon;
+	const QIcon m_projectIcon;
+	const QIcon m_githubIcon;
+	const QIcon m_patreonIcon;
 };
 
 #endif // QT_START_SCREEN_H
