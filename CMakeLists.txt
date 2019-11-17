@@ -1,15 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 
-
 set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the Sourcetrail indexer.")
 set(BUILD_JAVA_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
-
-
-configure_file(
-	"${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in"
-	"${CMAKE_BINARY_DIR}/src/lib/language_packages.h"
-)
 
 #set (CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -19,29 +12,29 @@ include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 include(cmake/licenses.cmake)
 
-
 # prohibit in-source-builds
-IF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-	MESSAGE(STATUS "In-source-builds are not allowed")
-	MESSAGE(STATUS "Clean your source directory (e.g. delete the CMakeCache.txt file)")
-	MESSAGE(FATAL_ERROR "Please create a separate build directory and call CMake again")
-ENDIF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+if (${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+	message(STATUS "In-source-builds are not allowed")
+	message(STATUS "Clean your source directory (e.g. delete the CMakeCache.txt file)")
+	message(FATAL_ERROR "Please create a separate build directory and call CMake again")
+endif()
+
+# speed up recompiling on unix with ccache
+find_program(CCACHE_PROGRAM ccache)
+if (CCACHE_PROGRAM)
+	message(STATUS "ccache found")
+
+	# Support Unix Makefiles and Ninja
+	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+endif()
 
 
 # Variables --------------------------------------------------------------------
 
 set(PROJECT_NAME Sourcetrail)
-set(PROJECT_NAME_LOWER_CASE sourcetrail)
-
-# speed up recompiling on unix with ccache
-find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM)
-	MESSAGE(STATUS "ccache found")
-	# Support Unix Makefiles and Ninja
-	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
-endif()
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
+set(APP_INDEXER_NAME "${PROJECT_NAME}_indexer")
 set(LIB_UTILITY_PROJECT_NAME "${PROJECT_NAME}_lib_utility")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
 set(LIB_CXX_PROJECT_NAME "${PROJECT_NAME}_lib_cxx")
@@ -50,17 +43,8 @@ set(LIB_PYTHON_PROJECT_NAME "${PROJECT_NAME}_lib_python")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
-set (APP_INDEXER_NAME "${PROJECT_NAME_LOWER_CASE}_indexer")
-
 if (WIN32)
-	include(cmake/setWinXxBits.cmake)
 	set(PLATFORM_INCLUDE "includesWindows.h")
-	# this adds the library path for VLD, must be done before the project target is created
-	if(${WINXXBITS} STREQUAL "Win32")
-		LINK_DIRECTORIES($ENV{VLD_DIR}/lib/Win32)
-	else()
-		LINK_DIRECTORIES($ENV{VLD_DIR}/lib/Win64)
-	endif()
 elseif (APPLE)
 	set(PLATFORM_INCLUDE "includesMac.h")
 else ()
@@ -103,25 +87,11 @@ endif()
 
 if (BUILD_CXX_LANGUAGE_PACKAGE)
 
-	if (UNIX AND APPLE)
-		if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/lib/cmake/llvm" NO_DEFAULT_PATH)
-		else()
-			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/lib/cmake/llvm" NO_DEFAULT_PATH)
-		endif()
-	elseif(UNIX)
-		find_package(LLVM REQUIRED PATHS "$ENV{LLVM_DIR}/lib/cmake" )
-	else()
-		if(${WINXXBITS} STREQUAL "Win32")
-			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win32/lib/cmake/llvm")
-		else()
-			find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win64/lib/cmake/llvm")
-		endif()
+	find_package(Clang REQUIRED)
+
+	if (LLVM_FOUND)
+		message(STATUS "Found LLVM ${LLVM_VERSION}")
 	endif()
-
-	find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake" NO_DEFAULT_PATH)
-
-	add_definitions(${CLANG_DEFINITIONS})
 
 endif()
 
@@ -131,62 +101,20 @@ endif()
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-set(BOOST_LIBRARYDIR $ENV{BOOST_DIR})
-
-if(UNIX AND NOT APPLE)
-	set(BOOST_ROOT $ENV{BOOST_DIR})
-elseif(UNIX AND APPLE)
-	set(BOOST_ROOT $ENV{BOOST_DIR})
-	set(Boost_NO_SYSTEM_PATHS ON)
-else()
-	set(BOOST_INCLUDEDIR $ENV{BOOST_DIR})
-	STRING(REGEX REPLACE "\\\\" "/" BOOST_LIBRARYDIR ${BOOST_LIBRARYDIR})
-
-	if(${WINXXBITS} STREQUAL "Win32")
-		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib32-msvc-14.0")
-	else()
-		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib64-msvc-14.0")
-	endif()
-	set(Boost_NO_SYSTEM_PATHS ON)
-endif()
-
 find_package(Boost 1.68 COMPONENTS system program_options filesystem date_time REQUIRED)
 
 
 # Qt ---------------------------------------------------------------------------
 
-# Find the QtWidgets library
-if(UNIX)
-	set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
-
-	if(APPLE)
-		set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
-		set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
-	endif()
-
-else()
-	if(${WINXXBITS} STREQUAL "Win32")
-		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN32_DIR}/")
-	else()
-		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN64_DIR}/")
-	endif()
-	set(Qt5Widgets_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Widgets")
-	set(Qt5PrintSupport_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5PrintSupport")
-	set(Qt5Network_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Network")
-	set(Qt5Svg_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Svg")
-endif()
-
-find_package(Qt5Widgets)
-find_package(Qt5PrintSupport)
-find_package(Qt5Network)
-find_package(Qt5Svg)
+find_package(Qt5 COMPONENTS Widgets PrintSupport Network Svg REQUIRED)
 
 if (WIN32)
-	find_package(Qt5WinExtras)
+	find_package(Qt5 COMPONENTS WinExtras REQUIRED)
 endif()
 
 if(Qt5Widgets_FOUND)
-	MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
+	message(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
+
 	# FIX: Qt was built with -reduce-relocations
 	if (Qt5_POSITION_INDEPENDENT_CODE)
 		SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -325,6 +253,12 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 
 target_link_libraries(${LIB_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES})
 
+#configure language package defines
+configure_file(
+	"${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in"
+	"${CMAKE_BINARY_DIR}/src/lib/language_packages.h"
+)
+
 
 # Lib Cxx ----------------------------------------------------------------------
 
@@ -352,6 +286,7 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	)
 
 	link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
+
 	llvm_map_components_to_libnames(REQ_LLVM_LIBS
 		support core libdriver passes
 		x86asmparser x86codegen
@@ -369,6 +304,25 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 		systemzasmparser systemzcodegen
 		webassemblyasmparser webassemblycodegen
 		xcorecodegen
+	)
+
+	set(CLANG_LIBRARIES
+		clangASTMatchers
+		clangFrontend
+		clangSerialization
+		clangDriver
+		clangTooling
+		clangParse
+		clangSema
+		clangStaticAnalyzerFrontend
+		clangStaticAnalyzerCheckers
+		clangStaticAnalyzerCore
+		clangAnalysis
+		clangRewriteFrontend
+		clangEdit
+		clangAST
+		clangLex
+		clangBasic
 	)
 
 	target_link_libraries(${LIB_CXX_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
@@ -549,6 +503,9 @@ endif ()
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_executable(${APP_INDEXER_NAME} ${INDEXER_FILES})
+
+
+set_target_properties(${APP_INDEXER_NAME} PROPERTIES OUTPUT_NAME sourcetrail_indexer)
 
 if (WIN32)
 	# hide the console when running a release build.
@@ -780,11 +737,7 @@ if (WIN32)
 endif ()
 
 
-# Visual Leak Detector ---------------------------------------------------------
 
-if (WIN32)
-	include_directories($ENV{VLD_DIR}/include)
-endif ()
 
 if (UNIX)
 	# symlinks for data
