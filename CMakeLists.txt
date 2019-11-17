@@ -101,6 +101,7 @@ endif()
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
+
 find_package(Boost 1.68 COMPONENTS system program_options filesystem date_time REQUIRED)
 
 
@@ -645,16 +646,14 @@ endif ()
 add_dependencies(${APP_PROJECT_NAME} ${APP_INDEXER_NAME})
 
 
-# MacOSX Bundle ----------------------------------------------------------------
+# macOS Bundle ----------------------------------------------------------------
 
 if (APPLE)
 
-	set(MACOSX_BUNDLE_NAME ${PROJECT_NAME})
-	set(MACOSX_BINARY_NAME ${APP_PROJECT_NAME})
-	set(MACOSX_INDEXER_BINARY_NAME ${APP_INDEXER_NAME})
-
-	set(MACOSX_DYNAMIC_LIBRARIES "")
-	string(REPLACE ";" " " MACOSX_DYNAMIC_LIBRARIES "${MACOSX_DYNAMIC_LIBRARIES}")
+	set(MACOS_BUNDLE_NAME ${PROJECT_NAME})
+	set(MACOS_BUNDLE_VERSION ${VERSION_STRING})
+	set(MACOS_BINARY_NAME ${APP_PROJECT_NAME})
+	set(MACOS_INDEXER_BINARY_NAME ${APP_INDEXER_NAME})
 
 	get_property(QT_CORE_PATH TARGET ${Qt5Core_LIBRARIES} PROPERTY LOCATION)
 	get_filename_component(QT_CORE_PATH ${QT_CORE_PATH} REALPATH)
@@ -674,19 +673,21 @@ if (APPLE)
 	get_property(QT_SVG_PATH TARGET ${Qt5Svg_LIBRARIES} PROPERTY LOCATION)
 	get_filename_component(QT_SVG_PATH ${QT_SVG_PATH} REALPATH)
 
-	list(APPEND MACOSX_QT_FRAMEWORKS ${QT_CORE_PATH} ${QT_GUI_PATH} ${QT_WIDGETS_PATH} ${QT_PRINT_PATH} ${QT_NETWORK_PATH} ${QT_SVG_PATH})
-	string(REPLACE ";" " " MACOSX_QT_FRAMEWORKS "${MACOSX_QT_FRAMEWORKS}")
+	list(APPEND MACOS_QT_FRAMEWORKS ${QT_CORE_PATH} ${QT_GUI_PATH} ${QT_WIDGETS_PATH} ${QT_PRINT_PATH} ${QT_NETWORK_PATH} ${QT_SVG_PATH})
+	string(REPLACE ";" " " MACOS_QT_FRAMEWORKS "${MACOS_QT_FRAMEWORKS}")
 
-	set(MACOSX_QT_DIR "$ENV{QT_DIR}")
+	set(MACOS_BOOST_DIR "${Boost_INCLUDE_DIR}")
+	STRING(REGEX REPLACE "/lib/cmake/clang" "" MACOS_CLANG_DIR ${Clang_DIR})
+	STRING(REGEX REPLACE "/lib/cmake/Qt5" "" MACOS_QT_DIR ${Qt5_DIR})
 
 	configure_file(
-		${PROJECT_SOURCE_DIR}/setup/MacOSX/bundle_install.sh.in
+		${PROJECT_SOURCE_DIR}/setup/macOS/bundle_install.sh.in
 		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_install.sh
 		@ONLY
 	)
 
 	configure_file(
-		${PROJECT_SOURCE_DIR}/setup/MacOSX/Info.plist.in
+		${PROJECT_SOURCE_DIR}/setup/macOS/bundle_info.plist.in
 		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_info.plist
 		@ONLY
 	)

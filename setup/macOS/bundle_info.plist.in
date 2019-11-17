@@ -8,26 +8,20 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>@MACOSX_BINARY_NAME@</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>com.sourcetrail</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleLongVersionString</key>
-	<string></string>
 	<key>CFBundleName</key>
-	<string></string>
+	<string>Sourcetrail</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string></string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>@GIT_VERSION_NUMBER@</string>
+	<string>@VERSION_STRING@</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@VERSION_STRING@</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>LSRequiresCarbon</key>

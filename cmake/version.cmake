@@ -41,10 +41,14 @@ string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_YEAR "${GIT_VERSION_NUMBER}"
 string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${GIT_VERSION_NUMBER}")
 string(REGEX REPLACE "^[0-9]+\\.[0-9]+-([0-9]+).*" "\\1" VERSION_COMMIT "${GIT_VERSION_NUMBER}")
 
-message(STATUS "Git current branch: ${GIT_BRANCH}")
-message(STATUS "Git version number: " ${GIT_VERSION_NUMBER} )
-message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
-message(STATUS "Version year: ${VERSION_YEAR}")
-message(STATUS "Version minor: ${VERSION_MINOR}")
-message(STATUS "Version commit: ${VERSION_COMMIT}")
-message(STATUS "Git commit time: ${GIT_COMMIT_TIME}")
+set(VERSION_STRING "${VERSION_YEAR}.${VERSION_MINOR}.${VERSION_COMMIT}")
+
+message(STATUS "Version: ${VERSION_STRING}")
+
+# message(STATUS "Git current branch: ${GIT_BRANCH}")
+# message(STATUS "Git version number: " ${GIT_VERSION_NUMBER} )
+# message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
+# message(STATUS "Git commit time: ${GIT_COMMIT_TIME}")
+# message(STATUS "Version year: ${VERSION_YEAR}")
+# message(STATUS "Version minor: ${VERSION_MINOR}")
+# message(STATUS "Version commit: ${VERSION_COMMIT}")

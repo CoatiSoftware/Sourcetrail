@@ -9,20 +9,18 @@ cd $MY_PATH
 
 echo -e $INFO "Creating app bundle for macOS."
 
-BUNDLE_NAME="@MACOSX_BUNDLE_NAME@"
-APP_NAME="@MACOSX_BINARY_NAME@"
-INDEXER_NAME="@MACOSX_INDEXER_BINARY_NAME@"
-DYNLIB_PATHS=(@MACOSX_DYNAMIC_LIBRARIES@)
+BUNDLE_NAME="@MACOS_BUNDLE_NAME@"
+APP_NAME="@MACOS_BINARY_NAME@"
+INDEXER_NAME="@MACOS_INDEXER_BINARY_NAME@"
 
-VERSION_STRING=$(git describe --long)
-VERSION_STRING="${VERSION_STRING//-/_}"
+VERSION_STRING="@MACOS_BUNDLE_VERSION@"
 VERSION_STRING="${VERSION_STRING//./_}"
-VERSION_STRING="${VERSION_STRING%_*}"
-
 PACKAGE_DIR=${BUNDLE_NAME}_${VERSION_STRING}
 
-QT_DIR="@MACOSX_QT_DIR@"
-QT_FRAMEWORK_PATHS=(@MACOSX_QT_FRAMEWORKS@)
+BOOST_DIR="@MACOS_BOOST_DIR@"
+CLANG_DIR="@MACOS_CLANG_DIR@"
+QT_DIR="@MACOS_QT_DIR@"
+QT_FRAMEWORK_PATHS=(@MACOS_QT_FRAMEWORKS@)
 
 if [ ! -x "$APP_NAME" ]
 then
@@ -89,15 +87,13 @@ $QT_DIR/bin/macdeployqt $BUNDLE_PATH
 echo -e $INFO "edit qt.conf"
 sed -i '' -e 's/PlugIns/Plugins/g' $RES_DIR/qt.conf
 
-install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $APP_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $APP_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_68_0/stage/lib" $APP_PATH
+install_name_tool -delete_rpath "$CLANG_DIR/./lib" $APP_PATH
+install_name_tool -delete_rpath "$BOOST_DIR/stage/lib" $APP_PATH
 install_name_tool -delete_rpath "@executable_path/../Frameworks" $APP_PATH
 install_name_tool -add_rpath "@loader_path/../Frameworks" $APP_PATH
 
-install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $INDEXER_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $INDEXER_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_68_0/stage/lib" $INDEXER_PATH
+install_name_tool -delete_rpath "$CLANG_DIR/./lib" $INDEXER_PATH
+install_name_tool -delete_rpath "$BOOST_DIR/stage/lib" $INDEXER_PATH
 install_name_tool -delete_rpath "$QT_DIR/lib" $INDEXER_PATH
 install_name_tool -add_rpath "@loader_path/../Frameworks" $INDEXER_PATH
 
