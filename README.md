@@ -1,126 +1,225 @@
-## Sourcetrail
+# Sourcetrail
 
-### Setup
+[Sourcetrail](https://www.sourcetrail.com/) is a free and open-source cross-platform source explorer that helps you get productive on unfamiliar source code.
 
-#### External Software
+Links
+* [Website](https://www.sourcetrail.com/)
+* [Download](https://www.sourcetrail.com/downloads)
+* [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE)
+* [Documentation](https://www.sourcetrail.com/documentation)
+* [Changelog](CHANGELOG.md)
+* [Slack Channel](https://join.slack.com/t/sourcetrail/shared_invite/enQtNDc3MjcyOTk5MTc0LTc3NjJiMzI1NDFiOTE2NDZmOWIwMDQzZjA3N2RhOTZlOGMxYmRjOTA1ZGQ3ZDdlNjliZWQ5MDIwOWU1YWZmYzg)
+* [Mailing List](https://coati.us12.list-manage.com/subscribe/post?u=3dabab4e475b5ed577d1dcd0f&id=cf7301fc53)
+* [Patreon](https://www.patreon.com/sourcetrail)
 
-* JDK 1.8
-* QT 5.10.1
-* Clang & LLVM 7.0 (doesn't quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
-* Boost 1.68
-* ccache (Unix)
-* Visual Leak Detector (Windows)
-* Wix 3.11 (Windows)
-* Winrar (Windows)
+!["Sourcetrail User Interface"](docs/readme/user_interface.png "Sourcetrail User Interface")
 
-#### Environment Variables
+Sourcetrail is:
+* free
+* working offline
+* operating on Windows, macOS and Linux
+* supporting C, C++, Java and Python
+* offering an SDK ([SourcetrailDB](https://github.com/CoatiSoftware/SourcetrailDB)) to write custom language extensions
 
-* CLANG_DIR - .../clang-llvm
-* BOOST_DIR - .../boost_1_68_0
+## Support Sourcetrail via Patreon
 
-For MacOS and Linux
-* QT_DIR - .../Qt/Qt5.10.1/5.10.1/<IDE>
-* LLVM_DIR - .../clang-llvm
+The ongoing development and regular software releases are made possible entirely by the support of [these awesome patrons](SPONSORS.md)! If you'd like to join them, please consider [becoming a patron](https://www.patreon.com/sourcetrail) of Souretrail.
 
-For Windows:
-* QT_WIN32_DIR - .../Qt/Qt5.10.1/5.10.1/msvc2015
-* QT_WIN64_DIR - .../Qt/Qt5.10.1/5.10.1/msvc2015_64
-* VLD_DIR - .../Visual Leak Detector
-* JAVA_HOME - .../Java/jdk1.x.x_xxx
-* path
-	- append path to git.exe
-	- append path to jdk/bin
-	- append path to VisualStudio/Common7/Tools
-	- append path to VisualStudio/Common7/IDE
-	- append path to .../Microsoft SDKs/Windows/v7.1A/Bin (for uuidgen in deploy script)
-	- append path to .../WiX Toolset v3.11/bin
-	- append path to .../WinRAR
+## Using Sourcetrail
 
-##### ccache
+Download the respective build for your operating system from our list of [Releases](https://www.sourcetrail.com/downloads) and install it on your machine. After that follow our [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE) to get to know Sourcetrail.
 
-* install ccache
-* if ccache is in path it will be used for recompilation
+## How to Report Issues
 
-##### Clang setup
+You can post all your feature requests and bug reports on our [issue tracker](https://github.com/CoatiSoftware/Sourcetrail/issues).
 
-For Windows:
-Execute Cmake twice (once for each target compiler (32 and 64 bit)). Set the respective build path to ${CLANG_DIR}/build_win32 or ${CLANG_DIR}/build_win64
+### Reporting
 
-##### Boost setup
+Use the following template:
 
-For Windows:
-Build the Boost libs for 32 and 64 bit. Make sure that the platform specific libs are located in ${BOOST_DIR}/lib32-msvc-14.0 and ${BOOST_DIR}/lib64-msvc-14.0.
+* platform version:
+* Sourcetrail version:
+* description of the problem:
+* steps to reproduce the problem:
 
-For Mac:
+
+### Supporting
+
+If you want to support a certain feature request or you have the same bug that another user already reported, please let us know:
+* post a comment with "+1" to the issue
+* or send an email to support@sourcetrail.com with the issue ID
+
+## How to Contribute
+
+Please read and follow the steps in [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+
+# How to Build
+
+Building Sourcetrail requires several dependencies to be in place on your machine. However, our CMake based setup allows to disable indexing support for specific languages which reduces the number of dependencies to a minimum.
+
+## Building the bare minimum
+
+### Required Tools
+
+#### Git
+
+This is required for generating the Sourcetrail version number. Get it from: https://git-scm.com/download.
+
+Make sure `git` is available in added to your `PATH` environment variable.
+
+#### CMake v3.12
+
+This is used for generating a build configuration. Get it from: https://cmake.org/download/
+
+### Additional tools for Windows
+
+#### Visual Studio
+
+### Additional tools for Unix
+
+#### ccache
+
+This is optionally used to speed up rebuilds if found in `PATH`.
+
+### Required dependencies
+
+#### Boost 1.68
+For the __msvc__ compiler pre-built binaries can be downloaded from [sourceforge.net/projects/boost/files/boost-binaries](https://sourceforge.net/projects/boost/files/boost-binaries/)
+
+For building on Unix:
+```
 $ ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time
 $ ./b2 --link=static --variant=release --threading=multi --runtime-link=static --cxxflags=-fPIC
+```
 
-#### Settings
+#### Qt 5.12
 
-Run setup script:
-$ ./script/setup.sh
+__Note__: still causes style issues on Windows, resort to Qt 5.10
 
-### Release
+For the __msvc__ compiler pre-built binaries can be downloaded from [download.qt.io/official_releases/qt](http://download.qt.io/official_releases/qt/)
 
-#### App
-* create release build
-* make sure it uses the Sourcetrail icon
-* obfuscate the executable using upx
+### Building
 
-#### Data folder
-* put data folder in working directory
-* add empty log folder
-* add working tictactoe.xml project to /projects/tictactoe with sources in /projects/tictactoe/src
-* add empty app settings with one recent project tictactoe.xml
-* leave window_settings.ini with correct Sourcetrail start layout
+#### For Windows / Visual Studio
+```
+$ cd Sourcetrail
+$ mkdir -p build/win64
+$ cd build/win64
+$ cmake -G "Visual Studio 15 2017 Win64" -DBOOST_ROOT=<path/to/boost_1_68_0> -DQt5_DIR=<path/to/Qt/version/platform/compiler/lib/cmake/Qt5> ../..
+```
+If you are using the gui, we recommend that you activate advanced mode. Also you may be required to add some of the defines via the "Add Entry" button.
 
-#### Package
-* add app
+After generating the build configuration, just open the Sourcetrail.sln file that was generated by CMake and build the Sourcetrail project.
 
-#### Updating Clang on UNIX
+#### For Unix
 
-$ cd .../clang_llvm
+```
+$ cd Sourcetrail
+$ mkdir -p build/Release
+$ cd build/Release
+$ cmake -DCMAKE_BUILD_TYPE="Release" -DBOOST_ROOT=<path/to/boost_1_68_0> -DQt5_DIR=<path/to/Qt/version/platform/compiler/lib/cmake/Qt5> ../..
+$ make Sourcetrail
+```
 
-$ cd llvm
-$ git pull origin master
+### Running
 
-$ cd tools/clang
-$ git pull origin master
+Run Sourcetrail from within the build directory. During execution Sourcetrail needs resources from `bin/app/data` and `bin/app/user`. Cmake creates symlinks to these directories within the build directory.
 
-$ cd ../../../../../build_debug
-$ cmake -G Ninja -DLLVM_ENABLE_RTTI=ON ../llvm
-$ ninja -j4 check-all
 
-$ cd ../build_release
-$ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=ON ../llvm
-$ ninja -j4
+## Enable C/C++ Language Support
 
-# Update CMakeLists.txt symlink directory
-# Update cmake/linux_package.cmake clang include path
-# Update LLVM version in dockerfiles
+### Required dependencies
 
-#### Remarks
+#### LLVM/Clang 8.0.1
 
-* Boost lib dir: rename library directory for your system (e.g.: 'lib32-msvc-12.0') to 'lib'
+##### Windows
+For the __msvc__ compiler, follow [these steps](https://clang.llvm.org/get_started.html) to build the project and make sure that you run the cmake command exactly as described.
 
-### Tagging
+##### Unix
+For Unix, follow this [installation guide](http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 
-$ git tag -a VERSION_NUMBER -m "DESCRIPTION"
-$ git push --tags
+Build with `-DLLVM_ENABLE_RTTI=ON`.
 
-### Loader gif creation from png sequence
+### Building
 
-// from png sequence
-convert -delay 3 -loop 0 souretrail_*.png souretrail.gif
+Run CMake with these additional options:
+```
+-DClang_DIR=<path/to/llvm_build/lib/cmake/clang>
+-DBUILD_CXX_LANGUAGE_PACKAGE=ON
+```
 
-// less colors
-gifsicle --colors 255 souretrail.gif > color.gif
+## Enable Java Language Support
 
-// crop size
-gifsicle --crop 0,5+0x-5 color.gif > crop.gif
+### Required dependencies
 
-// add transparency
-gifsicle --unoptimize --disposal=previous --transparent="#FFFFFF" crop.gif > trans.gif
+#### JDK 1.8
 
-// resize
-gifsicle --resize-height 18 trans.gif > loader.gif
+Install JDK and make sure the `JAVA_HOME` environment variable is set:
+```
+JAVA_HOME=.../Java/jdk1.x.x_xxx
+```
+
+Also make sure `<jdk_root>/bin` is available in your `PATH` environmen variable.
+
+### Building
+
+Run CMake with these additional options:
+```
+-DBUILD_JAVA_LANGUAGE_PACKAGE=ON
+```
+
+
+## Enable Python Language Support
+
+### Required dependencies
+
+#### WinRAR (for Windows only)
+
+### Building
+
+Run CMake with these additional options:
+```
+-DBUILD_PYTHON_LANGUAGE_PACKAGE=ON
+```
+
+## Packaging
+
+### Windows
+
+#### Required Tools
+
+##### Wix 3.11
+
+##### WinRAR
+
+Make sure to append these directories to your `PATH` environment variable:
+* VisualStudio/Common7/Tools
+* VisualStudio/Common7/IDE
+* .../Microsoft SDKs/Windows/v7.1A/Bin (for uuidgen in deploy script)
+* .../WiX Toolset v3.11/bin
+* .../WinRAR
+
+Run `./script/deploy_windows.sh` script which will generate 32bit/64bit builds and packages these into a portable `.zip` file and a Wix-based Windows installer, each.
+
+### macOS
+
+After building, run the `bundle_install.sh` script within the build directory which will create a `Sourcetrail.app` bundle and generate a `Sourcetrail_<version>.dmg` container.
+
+### Linux
+
+Run `./script/buildonly.sh package`
+
+
+# How to Run the Tests
+
+The automated test suite of Sourcetrail is powered by [Catch2](https://github.com/catchorg/Catch2). To run the tests, simply execute the `Sourcetrail_test` binary. Before executing, please make sure to set the working directory to `./bin/test`.
+
+
+# License
+
+Sourcetrail is licensed under the [GNU General Public License Version 3](LICENSE.txt).
+
+# Trademark
+
+The "Sourcetrail" name is a trademark owned by Coati Software and is not included within the assets licensed under the GNU GPLv3.
