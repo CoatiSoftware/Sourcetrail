@@ -1,47 +1,74 @@
 ### Changelog
 
-#### 2019.3.42
+#### 2019.4.61
+released 2019-11-18
+
+* Added GitHub and Patreon buttons to start window
+* Added GNU General Public License
+* Removed End User License Agreement and accept dialog from UI and Windows installer
+* Removed Sonargraph based project setup
+* Code: Add all source locations indexed for a file when displaying errors
+* C/C++: Use gnu C and C++ standards as default in source groups on Linux platforms
+* Python: add fast 'shallow indexing' mode (issue [#725](https://github.com/CoatiSoftware/Sourcetrail/issues/725))
+* Fixed nested layout broken after relayout for maximum access node width
+* Removed license key check
+* Python: Improved performance of python post processing (by about factor 2)
+* Improved performance of clearing data from re-indexed files to be instant
+* Fixed making canonical filepaths when working directory contains symlink on Windows (issue [#733](https://github.com/CoatiSoftware/Sourcetrail/issues/733))
+* C/C++: Update indexed headers list when editing the compilation database text box (issue [#724](https://github.com/CoatiSoftware/Sourcetrail/issues/724))
+* Skip pre-indexing steps of disabled source groups (issue [#737](https://github.com/CoatiSoftware/Sourcetrail/issues/737))
+* Fixed refresh cleared files of disabled source groups
+* C++: Merged nodes for all possible expansions of a template parameter pack
+* C++: Replaced template member specialization edge by template specialization edge
+* C++: Record template default args as type usage
+* C++: Record template parameter as local symbol
+* Java: Use caching to speed up gradle and maven based projects
+* Windows: Fixed styles missing in portable packages
+* Add menu entry to close the current project (issue [#722](https://github.com/CoatiSoftware/Sourcetrail/issues/722))
+
+#### 2019.3.46
 released 2019-08-27
 
-* Windows: sign installer and executables with Authenticode certificate (issue #704)
-* Show proper error messages and progress when indexing with CLI (issue #718)
-* C/C++: only use precompiled headers for compilation database commands that specify the "-include-pch" flag (issue #719)
+* Fixed errors were sometimes not clickable
+* Windows: sign installer and executables with Authenticode certificate (issue [#704](https://github.com/CoatiSoftware/Sourcetrail/issues/704))
+* Show proper error messages and progress when indexing with CLI (issue [#718](https://github.com/CoatiSoftware/Sourcetrail/issues/718))
+* C/C++: only use precompiled headers for compilation database commands that specify the "-include-pch" flag (issue [#719](https://github.com/CoatiSoftware/Sourcetrail/issues/719))
 * Python: Updated to SourcetrailPythonIndexer v1.db24.p2
 * Graph: Fixed bezier edges stayed highlighted after getting unhovered
 * Windows: Use modern Windows style for default ui elements on Windows 10
-* Change mouse cursor to pointer on graph and code view contents (issue #715)
-* Java: Remove JVM maximum memory setting because it causes issues (issue #694)
+* Change mouse cursor to pointer on graph and code view contents (issue [#715](https://github.com/CoatiSoftware/Sourcetrail/issues/311))
+* Java: Remove JVM maximum memory setting because it causes issues (issue [#694](https://github.com/CoatiSoftware/Sourcetrail/issues/311))
 * Show overview instead of empty error screen after all indexing errors are gone
-* C/C++: Allow indexing multiple indexer commands with different options for one source file in Compilation Database source group (issue #717)
-* Graph: Added custom trail dialog to show trail graph with specific origin and/or target, using node/edge filters (issue #249)
-* C/C++: Fixed removing duplicate compiler header directory not working (issue #710)
-* Java: Fixed maven source groups broken when default console output contains colors (issue #705)
-* Code: Added option to preferences to show relative file directory in code view title (issue #556)
+* C/C++: Allow indexing multiple indexer commands with different options for one source file in Compilation Database source group (issue [#717](https://github.com/CoatiSoftware/Sourcetrail/issues/311))
+* Graph: Added custom trail dialog to show trail graph with specific origin and/or target, using node/edge filters (issue [#249](https://github.com/CoatiSoftware/Sourcetrail/issues/249))
+* C/C++: Fixed removing duplicate compiler header directory not working (issue [#710](https://github.com/CoatiSoftware/Sourcetrail/issues/710))
+* Java: Fixed maven source groups broken when default console output contains colors (issue [#705](https://github.com/CoatiSoftware/Sourcetrail/issues/705))
+* Code: Added option to preferences to show relative file directory in code view title (issue [#556](https://github.com/CoatiSoftware/Sourcetrail/issues/556))
 * C++: Fixed lambdas created additional type nodes
 * C/C++: Initialize all clang targets to reduce errors for cross-target compilation
-* C/C++: Added Precompiled Header Support to Empty and Compilation Database Source Groups (issue #311)
+* C/C++: Added Precompiled Header Support to Empty and Compilation Database Source Groups (issue [#311](https://github.com/CoatiSoftware/Sourcetrail/issues/311))
 * Search: Turn search element editable when pressing DELETE with cursor in front
 * Graph: increased the tolerated movement distance during click to still count as click action
 
 #### 2019.2.39
 released 2019-05-28
 
-* Python: Added example for Python environment to Source Group help text (issue #696)
+* Python: Added example for Python environment to Source Group help text (issue [#696](https://github.com/CoatiSoftware/Sourcetrail/issues/696))
 * Python: Improved post processing speed and show progress dialog
 * Python: Added validity check for Python environment when entered in Source Group
 * Code: Improved performance of location hovering in snippet mode
 * Graph: Fixed undo after single edge activation within aggregation caused missing edges
-* Don't set project state outdated if only Source Group name changed (issue #700)
+* Don't set project state outdated if only Source Group name changed (issue [#700](https://github.com/CoatiSoftware/Sourcetrail/issues/700))
 * C/C++: Don't store path to compiler headers in preferences, instead always add it before indexing
 * Python: write output of indexer processes to log file
-* Fixed crashes on application close (issue #698)
+* Fixed crashes on application close (issue [#698](https://github.com/CoatiSoftware/Sourcetrail/issues/698))
 
 #### 2019.2.25
 released 2019-05-22
 
 * Enable console and file logging by default
 * Python: Sort indexer commands by file size
-* Linux: Add path to OpenSSL config in Sourcetrail.sh script (issue #659)
+* Linux: Add path to OpenSSL config in Sourcetrail.sh script (issue [#659](https://github.com/CoatiSoftware/Sourcetrail/issues/659))
 * Search: Refocus already focused search box on 'find symbol' shortcut to select content
 * Renamed 'main' function in tutorial to 'start_tour', due to multiple main fix
 * Python: Fixed macOS app bundle not using correct Python default environment
@@ -51,26 +78,26 @@ released 2019-05-22
 * Python: Added sample project "tictactoe_py"
 * Code: Fixed symbol definition shown instead of most recent reference when using back action
 * Python: Added post processing to add ambiguous edges for unsolved symbols with matching name
-* Fixed old test license format not loaded (issue #691)
-* C/C++: Added intermediate fix to handle multiple definitions of main() in C/C++ (issue #233)
-* Graph: Added "Show Definition in IDE" action to context menu (issue #687)
+* Fixed old test license format not loaded (issue [#691](https://github.com/CoatiSoftware/Sourcetrail/issues/691))
+* C/C++: Added intermediate fix to handle multiple definitions of main() in C/C++ (issue [#233](https://github.com/CoatiSoftware/Sourcetrail/issues/233))
+* Graph: Added "Show Definition in IDE" action to context menu (issue [#687](https://github.com/CoatiSoftware/Sourcetrail/issues/687))
 * Increased contrasts in color scheme 'bright'
-* Automatically delete log files older than a month (issue #676)
+* Automatically delete log files older than a month (issue [#676](https://github.com/CoatiSoftware/Sourcetrail/issues/676))
 * Code: renamed 'relations' to 'references' in overview stats
 * Fixed bug that caused the UI to be blocked after aborting indexing on "partial clearing not possible" warning
 * Start automatic update checks on second day of use
-* Graph: Show multi-level inheritance edge in graph legend (issue #688)
+* Graph: Show multi-level inheritance edge in graph legend (issue [#688](https://github.com/CoatiSoftware/Sourcetrail/issues/688))
 * C/C++: Updated to LLVM/Clang 8.0.1
 * Graph: Use multicolumn layout for nodes with many children if none of the children has edges
-* Python: Added Python 2 & 3 support based on SourcetrailPythonIndexer (https://github.com/CoatiSoftware/SourcetrailPythonIndexer) (issue #51)
+* Python: Added Python 2 & 3 support based on [SourcetrailPythonIndexer](https://github.com/CoatiSoftware/SourcetrailPythonIndexer) (issue [#51](https://github.com/CoatiSoftware/Sourcetrail/issues/51))
 * Python: Added source group type "Empty Python" to project setup
-* Search: Edit last search element on backspace instead of deleting (issue #681)
+* Search: Edit last search element on backspace instead of deleting (issue [#681](https://github.com/CoatiSoftware/Sourcetrail/issues/681))
 * EULA: added support for lifelong licenses
-* Improved text search performance (issue #680)
+* Improved text search performance (issue [#680](https://github.com/CoatiSoftware/Sourcetrail/issues/680))
 * Windows: Fixed bug that caused texts within tooltips sometimes to be cut off
 * Fixed crash when closing license window at first start
-* Automatically replace invalid characters in project name during project setup with "_" (issue #671)
-* Windows: Added syntax highlighting rules to portable package (issue #672)
+* Automatically replace invalid characters in project name during project setup with "_" (issue [#671](https://github.com/CoatiSoftware/Sourcetrail/issues/671))
+* Windows: Added syntax highlighting rules to portable package (issue [#672](https://github.com/CoatiSoftware/Sourcetrail/issues/672))
 
 #### 2019.1.11
 released 2019-02-05
@@ -80,7 +107,7 @@ released 2019-02-05
 * Fixed error count in status bar not restored after discarding interrupted index
 * Graph: Fixed layout for inheritance chains
 * Added syntax highlighting rules for Python
-* Rerun cxx global header path detection if skipped due to error in previous release (issue #664)
+* Rerun cxx global header path detection if skipped due to error in previous release (issue [#664](https://github.com/CoatiSoftware/Sourcetrail/issues/664))
 * Fixed status error may not show up if custom command fails on Windows
 * Graph: Fixed right click activates edge on Windows but should not
 * C/C++: Always add compiler header path to global include paths and warn user about possible problems
@@ -92,13 +119,13 @@ released 2019-02-05
 * Project Setup: Double-click in project setup list boxes adds new line
 * Graph: Only bundle as "importing files" when "import" edge is present
 * Graph: Prevent flickering of edges when going back after multiple edge activations
-* Fixed relative paths not working in Code::Blocks project files (issue #663)
-* Graph: Remove virtual nodes in depth-graph edges when moving nodes (issue #639)
-* Added exception handling for HTTP request exceptions in update checker (issue #659)
-* Clear screen-search matches when the active symbol in the view changes (issue #660)
-* Wrap lines in status and error table (issue #658)
-* Graph: Elide name of active node if it has more than 100 characters (issue #652)
-* Added link to changelog to help menu (issue #653)
+* Fixed relative paths not working in Code::Blocks project files (issue [#663](https://github.com/CoatiSoftware/Sourcetrail/issues/663))
+* Graph: Remove virtual nodes in depth-graph edges when moving nodes (issue [#639](https://github.com/CoatiSoftware/Sourcetrail/issues/639))
+* Added exception handling for HTTP request exceptions in update checker (issue [#659](https://github.com/CoatiSoftware/Sourcetrail/issues/659))
+* Clear screen-search matches when the active symbol in the view changes (issue [#660](https://github.com/CoatiSoftware/Sourcetrail/issues/660))
+* Wrap lines in status and error table (issue [#658](https://github.com/CoatiSoftware/Sourcetrail/issues/658))
+* Graph: Elide name of active node if it has more than 100 characters (issue [#652](https://github.com/CoatiSoftware/Sourcetrail/issues/652))
+* Added link to changelog to help menu (issue [#653](https://github.com/CoatiSoftware/Sourcetrail/issues/653))
 
 #### 2018.4.45
 released 2018-12-18
@@ -111,28 +138,27 @@ released 2018-12-18
 * C/C++: Still log the first 20.000 characters of the Clang invocation if verbose indexer logging is disabled
 * Added Source Group Custom Command to use with SourcetrailDB binaries
 * Fixed indexed source files not updated when clicking "show files" after other changes in project setup
-* Linux: Fixed issue in sourcetrail.sh script (issue #638)
-* Inspect errors during indexing (issue #235)
-* C/C++: Fixed header path selection in Source Group setup also preselects non exsiting paths (issue #640)
+* Linux: Fixed issue in sourcetrail.sh script (issue [#638](https://github.com/CoatiSoftware/Sourcetrail/issues/638))
+* Inspect errors during indexing (issue [#235](https://github.com/CoatiSoftware/Sourcetrail/issues/235))
+* C/C++: Fixed header path selection in Source Group setup also preselects non exsiting paths (issue [#640](https://github.com/CoatiSoftware/Sourcetrail/issues/640))
 * Graph: Fixed graph node centering shows right end when node has greater width than view
 * Code: Fixed multiple multiline comments within one line not correctly highlighted
 * Code: Changed snippet style, removing per file frame and minimize/snippet buttons
-* C/C++: Fixed shrinking shared memory below initial size (issue #636)
-* Fixed indexers still waiting until less storages are queued, although indexing was already interrupted (issue #634)
+* C/C++: Fixed shrinking shared memory below initial size (issue [#636](https://github.com/CoatiSoftware/Sourcetrail/issues/636))
+* Fixed indexers still waiting until less storages are queued, although indexing was already interrupted (issue [#634](https://github.com/CoatiSoftware/Sourcetrail/issues/634))
 * Fixed interrupting indexing while dialog hidden
 * Graph: Fixed nodes and edges stay highlighted after hovering in code
 * C/C++: Reduced shared memory consumption during indexing when indexers are faster than db insertion
 
-
 #### 2018.4.8
-released 2018-11-05
+released 2018-11-13
 
 * Fixed search activates wrong symbol if multiple potential matches share the same "long" symbol name
 * C++: Fixed infinite iteration when solving parent name of C++ template arguments with multiple parent contexts
 * C++: Only log Clang tool invocation info when enabling "verbose indexer logging"
 * Running shrink on shared memory that is used to transfer data between processes during indexing from time to time
-* Added tabs UI to top of main window (issue #215)
-* Linux: Fixed no write permission to ~/.config/sourcetrail after installation (issue #625, #626)
+* Added tabs UI to top of main window (issue [#215](https://github.com/CoatiSoftware/Sourcetrail/issues/215))
+* Linux: Fixed no write permission to ~/.config/sourcetrail after installation (issue [#625](https://github.com/CoatiSoftware/Sourcetrail/issues/625), [#626](https://github.com/CoatiSoftware/Sourcetrail/issues/626))
 * C++: Added type usage edges from parent context for types that occur as template arguments
 * C++: Skip recording of implicit local symbols
 * Java: Show explicit error message if no Java path provided in preferences
@@ -150,7 +176,7 @@ released 2018-11-05
 * Code: Fixed crash on code view scope expansion
 * Rewrote indexer data recording API to rely on IDs instead of strings for faster indexer performance
 * Removed unnecessary SQLite indexes for smaller database size
-* JAVA: display multi-line maven error messages (issue #622)
+* JAVA: display multi-line maven error messages (issue [#622](https://github.com/CoatiSoftware/Sourcetrail/issues/622))
 * Improved indexer storing performance by splitting insertion into multiples of pre-compiled SQLite batch insert statements
 * Reduced copies during indexer data recording
 * Improved cache lookups in indexer data recording
@@ -158,27 +184,26 @@ released 2018-11-05
 * C/C++: Reduced waiting time when interrupting indexer processes
 * C/C++: Improved name handling and caching performance
 * Fixed edge cases in determining files to update/clear when re-indexing
-* C/C++: record and display indexer configuration issues (issue #618)
+* C/C++: record and display indexer configuration issues (issue [#618](https://github.com/CoatiSoftware/Sourcetrail/issues/618))
 * Windows: Log success of Visual Studio path detector instead of printing to console
 * Generate and pass index file commands to indexers one by one to reduce memory consumption
 * C/C++: Query files from compilation database one by one to reduce memory consumption
 * Java: changed type_argument edges to originate in the generic type or method
 * Optimized storage in-memory caches to reduce memory use during indexing
 
-
 #### 2018.3.55
 released 2018-08-31
 
-* C/C++: Fixed crash on logging Clang invocation info with flags that throw errors (issue #617)
-* Plugin: Move window to the front when sending symbol via plugin (issue #605)
+* C/C++: Fixed crash on logging Clang invocation info with flags that throw errors (issue [#617](https://github.com/CoatiSoftware/Sourcetrail/issues/617))
+* Plugin: Move window to the front when sending symbol via plugin (issue [#605](https://github.com/CoatiSoftware/Sourcetrail/issues/605))
 * Java: Fixed crash on Windows if JVM tries to allocate too much memory
 * Java: Fixed loading dialogs shown in main window instead of project setup dialog for setup with gradle
 * Graph: Display bundle node count as pill instead of circle
 * Fixed crash that had a chance to occur when showing source files of cdb/cbp/sonargraph project during setup
-* Fixed source extensions not converted to lowercase (issue #614)
-* C/C++: fixed line of errors wrong when appearing after #line directives (issue #610)
-* Graph: Clear graph contents on overview (issue #609)
-* Windows: Fixed policy for finding Windows user data folder (issue #612)
+* Fixed source extensions not converted to lowercase (issue [#614](https://github.com/CoatiSoftware/Sourcetrail/issues/614))
+* C/C++: fixed line of errors wrong when appearing after #line directives (issue [#610](https://github.com/CoatiSoftware/Sourcetrail/issues/610))
+* Graph: Clear graph contents on overview (issue [#609](https://github.com/CoatiSoftware/Sourcetrail/issues/609))
+* Windows: Fixed policy for finding Windows user data folder (issue [#612](https://github.com/CoatiSoftware/Sourcetrail/issues/612))
 * C/C++: Fixed recording of multiple cxx anonymous namespaces within the same file
 * C/C++: Fixed files within indexed directories always refreshed in empty C/C++ source groups
 * Code: Don't show list of overriden methods when clicking overriding method
@@ -195,9 +220,8 @@ released 2018-08-31
 * Indexer: Don't shuffle file order for indexing
 * Indexer: Improved storing performance by optimizing insertion statements and indices
 
-
 #### 2018.3.13
-released 2018-08-07
+released 2018-08-06
 
 * Code: Fixed text search locations sometimes disappearing when expanding scope of code snippets
 * Graph: Added Expand/Collapse Node actions to graph context menu
@@ -211,35 +235,35 @@ released 2018-08-07
 * Prefill system specific paths in application settings only once
 * Added check if entered project name is a valid file name
 * Windows: Fixed names of available header path detectors
-* Graph: Show graph legend via 'legend' command or '?' button in the lower right corner (issue #308, #540)
+* Graph: Show graph legend via 'legend' command or '?' button in the lower right corner (issue [#308](https://github.com/CoatiSoftware/Sourcetrail/issues/308), [#540](https://github.com/CoatiSoftware/Sourcetrail/issues/540))
 * C/C++: Ship clang compiler headers also for Windows
-* Code: Added on-demand local reference navigation to code view navigation bar (issue #453, #538)
+* Code: Added on-demand local reference navigation to code view navigation bar (issue [#453](https://github.com/CoatiSoftware/Sourcetrail/issues/453), [#538](https://github.com/CoatiSoftware/Sourcetrail/issues/538))
 * Improved button texts for "reindexing required" dialog
 * Code: Scroll code horizontally to active source location if out of view
-* Graph: Added show definition context menu action/shortcut to show definition of any node in the code (issue #83)
+* Graph: Added show definition context menu action/shortcut to show definition of any node in the code (issue [#83](https://github.com/CoatiSoftware/Sourcetrail/issues/83))
 * Improved project loading speed
 * Create project directory during project setup if not existing
 * Tooltip: Show function/method signatures exactly as declared in source file
 * Search: Improved autocompletion scoring to process more symbols
-* Search: Fixed autocompletions fail with wide characters (issue #598)
+* Search: Fixed autocompletions fail with wide characters (issue [#598](https://github.com/CoatiSoftware/Sourcetrail/issues/598))
 * Windows: Show error text when opening external .dll fails
-* C/C++: Highlight opening and closing braces in code when hovering either one (issue #12)
+* C/C++: Highlight opening and closing braces in code when hovering either one (issue [#12](https://github.com/CoatiSoftware/Sourcetrail/issues/12))
 * macOS: Fixed start screen not disappearing when launching Sourcetrail by opening a project
 * Graph: Fixed restoring of scroll position in graph on undo broken
 * Graph: Hide children with type use edges to parent if parent is active
 * Bookmark: Fixed bookmark creator dialog header not visible
-* Graph: Show parameters for functions/methods with same name (issue #259)
-* Graph: exporting graph as .svg (issue #596)
+* Graph: Show parameters for functions/methods with same name (issue [#259](https://github.com/CoatiSoftware/Sourcetrail/issues/259))
+* Graph: exporting graph as .svg (issue [#596](https://github.com/CoatiSoftware/Sourcetrail/issues/596))
 * Show indexing progress bar in status bar
-* Keep browsing old project state while indexing (issue #175)
+* Keep browsing old project state while indexing (issue [#175](https://github.com/CoatiSoftware/Sourcetrail/issues/175))
 * Java: Added support for Java 9 & 10
 * Added project setup from Sonargraph project for C, C++ and Java.
 * Migrate old ".coatiproject" settings to new ".srctrlprj" extension when loading project
 * Allow discarding unfinished index when aborting indexing
-* Fixed partly indexed project can't be opened after closing while indexing (issue #594)
+* Fixed partly indexed project can't be opened after closing while indexing (issue [#594](https://github.com/CoatiSoftware/Sourcetrail/issues/594))
 * C/C++: Show translation unit of indexing errors
-* Fixed activating history item from menu showed wrong symbol (issue #572)
-* Fixed all errors shown when only showing errors for certain file and changing error filter (issue #577)
+* Fixed activating history item from menu showed wrong symbol (issue [#572](https://github.com/CoatiSoftware/Sourcetrail/issues/572))
+* Fixed all errors shown when only showing errors for certain file and changing error filter (issue [#577](https://github.com/CoatiSoftware/Sourcetrail/issues/577))
 * Added pagination to project setup dialogs
 * C/C++: Make complete file incomplete if it has errors in later translation units
 
@@ -249,7 +273,7 @@ released 2018-06-18
 
 * C/C++: Fixed incomplete header file got changed to complete from correct translation unit, although it had errors
 * Fixed show errors button click on incomplete file with no associated errors showed all errors
-* C/C++: Ship clang compiler headers within package on macOS and Linux (issue #99)
+* C/C++: Ship clang compiler headers within package on macOS and Linux (issue [#99](https://github.com/CoatiSoftware/Sourcetrail/issues/99))
 * Graph: Fixed undoing one of multiple edge activations caused multiple recenterings of the graph
 * Fixed links not clickable in source group type selection
 * Explicitly clear all errors when refreshing incomplete files
@@ -258,12 +282,11 @@ released 2018-06-18
 * Code: Fixed snippet minimize click expanded snippet again
 * Fixed changing of selected source group not possible if validity check fails.
 * C/C++: Added C/C++ project setup from Code::Blocks (.cdb), which is also created for cmake projects in QtCreator
-* C/C++: fixed endless loop in include path auto detection (issue #585, #470)
+* C/C++: fixed endless loop in include path auto detection (issue [#585](https://github.com/CoatiSoftware/Sourcetrail/issues/585), [#470](https://github.com/CoatiSoftware/Sourcetrail/issues/470))
 * C/C++: fixed crash in include validation in source group setup
-* Fixed typo in update check (issue #586)
+* Fixed typo in update check (issue [#586](https://github.com/CoatiSoftware/Sourcetrail/issues/586))
 * C/C++: Added some compiler flags checks
 * C/C++: Errors without location are now recorded for current main file
-
 
 #### 2018.2.36
 released 2018-05-04
@@ -272,13 +295,12 @@ released 2018-05-04
 * Improved help dialog for compiler flags in project setup
 * Fixed handling case insensitive filepath matches when activating a symbol via editor plugin
 * Wrote cmake export compile command to description in source group setup
-* Fixed macOS gatekeeper refusing to open app bundle (issue #568)
+* Fixed macOS gatekeeper refusing to open app bundle (issue [#568](https://github.com/CoatiSoftware/Sourcetrail/issues/568))
 * Use custom radio button style on start indexing dialog to fix radio indicator not visible on old Windows systems
-* Fixed indexed header paths in compilation database project change the processing order of includes (issue #571)
-* Allow tooltips to be as wide as the window (issue #570)
+* Fixed indexed header paths in compilation database project change the processing order of includes (issue [#571](https://github.com/CoatiSoftware/Sourcetrail/issues/571))
+* Allow tooltips to be as wide as the window (issue [#570](https://github.com/CoatiSoftware/Sourcetrail/issues/570))
 * Graph: Improved edge routing in graph layout
 * Graph: Only use base/derived bundles for inheritance
-
 
 #### 2018.2.23
 released 2018-04-24
@@ -286,7 +308,7 @@ released 2018-04-24
 * C/C++: removed check if header was already indexed to fix missing data due to different preprocessor conditions.
 * Fixed fulltext search missing results for queries with many matches in the same file.
 * Fixed crash on converting relative paths to canonical paths in project setup
-* Also clear errors in non-indexed files when refreshing "updated and incomplete files" (issue #564)
+* Also clear errors in non-indexed files when refreshing "updated and incomplete files" (issue [#564](https://github.com/CoatiSoftware/Sourcetrail/issues/564))
 * Updated about dialog to new company name
 * Graph: Improved layout of aggregation edges
 * Fixed race condition causing crashes when showing tooltips
@@ -304,21 +326,21 @@ released 2018-04-24
 * Graph: Improved horizontal layout to avoid edges overlapping nodes
 * Show versions of 3rd party dependencies in 3rd party dialog
 * Updated help info for update check
-* Graph: Group graph nodes by file or namespace (issues #171, #439, #522)
+* Graph: Group graph nodes by file or namespace (issues [#171](https://github.com/CoatiSoftware/Sourcetrail/issues/171), [#439](https://github.com/CoatiSoftware/Sourcetrail/issues/439), [#522](https://github.com/CoatiSoftware/Sourcetrail/issues/522))
 * Graph: Layout template specializations vertically and show them in inheritance depth graph
-* Graph: Show symbols defined within file when activating file node (issue #268)
+* Graph: Show symbols defined within file when activating file node (issue [#268](https://github.com/CoatiSoftware/Sourcetrail/issues/268))
 * UI: Updated to Qt 5.10.1
 * C/C++: Updated to clang 6.0
 * Graph: better contrast for non-indexed hatching colors
-* Graph: group nodes with same base and derived nodes in inheritance depth graph (issue #459)
-* Code: Lazy load code annotations for shorter display time (issue #389)
-* Code: Improved snippet display time (issue #389)
-* C++: fixed infinite recursion while solving c++ template parameter names (issue #553)
+* Graph: group nodes with same base and derived nodes in inheritance depth graph (issue [#459](https://github.com/CoatiSoftware/Sourcetrail/issues/459))
+* Code: Lazy load code annotations for shorter display time (issue [#389](https://github.com/CoatiSoftware/Sourcetrail/issues/389))
+* Code: Improved snippet display time (issue [#389](https://github.com/CoatiSoftware/Sourcetrail/issues/389))
+* C++: fixed infinite recursion while solving c++ template parameter names (issue [#553](https://github.com/CoatiSoftware/Sourcetrail/issues/544))
 * Added close button to status view
 * Improved style of tab bar in status view
-* Added Show Errors button to title bar of incomplete files to show only errors related to certain file (issue #246)
-* Added sorting to error table columns (issue #559)
-* Added wildcards for excluded paths (issue #475)
+* Added Show Errors button to title bar of incomplete files to show only errors related to certain file (issue [#246](https://github.com/CoatiSoftware/Sourcetrail/issues/246))
+* Added sorting to error table columns (issue [#559](https://github.com/CoatiSoftware/Sourcetrail/issues/559))
+* Added wildcards for excluded paths (issue [#475](https://github.com/CoatiSoftware/Sourcetrail/issues/475))
 * Option to accept EULA via commandline API
 * Changed seats to users for Commercial License in EULA
 * Graph: Improved vertical layout for override and inheritance edges
@@ -327,23 +349,22 @@ released 2018-04-24
 * Allow non-ASCII characters in bookmarks
 * Allow non-ASCII characters in file paths
 
-
 #### 2018.1.19
 released 2018-01-30
 
-* Fixed crash on filling DirectoryListBox with no selected items (issue #544, #545)
+* Fixed crash on filling DirectoryListBox with no selected items (issue [#544](https://github.com/CoatiSoftware/Sourcetrail/issues/544), [#545](https://github.com/CoatiSoftware/Sourcetrail/issues/545))
 * Graph: Improved type node contrast in bright color scheme
 * Code: Fixed going back in history sometimes showed the wrong file when an edge was activated last
 * Code: Clicking on active location will activate it again and show it's definition
 * Graph: Don't keep expanded nodes expanded after using symbol search
-* Fixed file picker didn't start in recent directory when exporting graph as image (issue #541)
+* Fixed file picker didn't start in recent directory when exporting graph as image (issue [#541](https://github.com/CoatiSoftware/Sourcetrail/issues/541))
 * Code: Fixed file content shown multiple times when clicking title button of non-indexed file with errors
 * Preferences: Only show latin fonts in the font face dropdown
 * Code: Fixed gaps in line indicators for some font faces
 * Windows: Show indexing progress in Windows task bar
-* Linux: Added settings to change screen scaling to preferences (issue #518, #523)
+* Linux: Added settings to change screen scaling to preferences (issue [#518](https://github.com/CoatiSoftware/Sourcetrail/issues/518), [#523](https://github.com/CoatiSoftware/Sourcetrail/issues/523))
 * Allow for disabling certain Source Groups via Status checkbox in the "Edit Project" dialog
-* C/C++: Fixed no indexed information saved for compilation database referencing certain compiler (issue #531)
+* C/C++: Fixed no indexed information saved for compilation database referencing certain compiler (issue [#531](https://github.com/CoatiSoftware/Sourcetrail/issues/531))
 * Increased history dropdown list size to 50 items
 * Still allow project refresh if database file can't be loaded
 * Removed focus outlines from push buttons
@@ -360,8 +381,8 @@ released 2018-01-30
 * C/C++: Fixed policy for recording elements inside macro arguments and bodies
 * Allow users to ignore warning on non-existing paths in project setup
 * Code: Switch to single file view when clicking snippet maximize
-* Code: Show scrollbar at bottom of snippet list if bottom snippet is horizontally scrollable (issue #432)
-* Code: Keep snippet title bar at top when scrolling down (issue #479)
+* Code: Show scrollbar at bottom of snippet list if bottom snippet is horizontally scrollable (issue [#432](https://github.com/CoatiSoftware/Sourcetrail/issues/432))
+* Code: Keep snippet title bar at top when scrolling down (issue [#479](https://github.com/CoatiSoftware/Sourcetrail/issues/479))
 * Fixed history dropdown opened again when clicking on button again
 * Code: Fixed single file view cleared when refreshing
 * Graph: Added "Exported from Sourcetrail" note to exported graph images
@@ -370,50 +391,49 @@ released 2018-01-30
 * Group include validation results by file and add line breaks for readability
 * Fixed location pickers used system root directory when empty
 * Graph: Add "bidirectional" to tooltip of bidirectional aggregation edges
-* Linux: Don't explicitely open terminal when running on Linux (issue #525)
-* Fixed files and directories dialog to offer selection of files (issue #521)
+* Linux: Don't explicitely open terminal when running on Linux (issue [#525](https://github.com/CoatiSoftware/Sourcetrail/issues/525))
+* Fixed files and directories dialog to offer selection of files (issue [#521](https://github.com/CoatiSoftware/Sourcetrail/issues/521))
 * C++: Fixed cases where references to members were recorded as usage instead of call
 * Fixed crash when Start Screen is closed while checking for update
-* Search: Fixed selected text not deleted when pasting into search field (issue #527)
+* Search: Fixed selected text not deleted when pasting into search field (issue [#527](https://github.com/CoatiSoftware/Sourcetrail/issues/527))
 * C++: Record template variable specialization edges
 * Code: Use different background color in snippet list to improve visual layering
-* Don't force full project refresh when project settings changed (issue #493)
-* Added indexing mode to reindex incomplete files (issue #496)
+* Don't force full project refresh when project settings changed (issue [#493](https://github.com/CoatiSoftware/Sourcetrail/issues/493))
+* Added indexing mode to reindex incomplete files (issue [#496](https://github.com/CoatiSoftware/Sourcetrail/issues/496))
 * Java: Allow using .aar files as Java project dependencies
 * Java: fixed some Java exceptions and write Java exceptions to log file
 * Java: Note architecture of Java version in preferences dialog
 * Code: Show line indicators for fulltext search results and fixed matches at line start
-* Graph: Update visible depth graph when changing depth level slider (issue #484)
+* Graph: Update visible depth graph when changing depth level slider (issue [#484](https://github.com/CoatiSoftware/Sourcetrail/issues/484))
 * Always show all context menu actions, but disable unavailable ones
-* Graph: Hide nodes and edges via context menu action or Alt + Click (issue #472)
-* Graph: Added option to preferences to show/hide builtin types, default is hidden (issue #409)
+* Graph: Hide nodes and edges via context menu action or Alt + Click (issue [#472](https://github.com/CoatiSoftware/Sourcetrail/issues/472))
+* Graph: Added option to preferences to show/hide builtin types, default is hidden (issue [#409](https://github.com/CoatiSoftware/Sourcetrail/issues/409))
 * Improved style and color of scrollbars and main window separators
 * Linux: Fixed icon sizes when scaling to highDPI fails
 * Search: Fixed cursor disappearing when entering long string in the search field
 * C++: Fixed parent node hierarchy for C++ template parameters of variable declarations
-* Linux: Fixed syntax error in Sourcetrail.sh (issue #519)
+* Linux: Fixed syntax error in Sourcetrail.sh (issue [#519](https://github.com/CoatiSoftware/Sourcetrail/issues/519))
 * Graph: Improved exported image quality
-* Graph: Fixed exported graph image were too large (issue #511)
+* Graph: Fixed exported graph image were too large (issue [#511](https://github.com/CoatiSoftware/Sourcetrail/issues/511))
 * Fixed crashes due to double deleted Qt widgets
 * Fixed crash when specifying an unknown text encoding in the preferences
 * C++: Fixed retrieval of CXX template parameter declarations of parent
-* C/C++: Fixed filepaths to always be canonical (issue #516)
+* C/C++: Fixed filepaths to always be canonical (issue [#516](https://github.com/CoatiSoftware/Sourcetrail/issues/516))
 * Graph: Fixed implicit nodes not auto-expanded when activated
-* C/C++: Add filename info to static functions (issue #515)
-
+* C/C++: Add filename info to static functions (issue [#515](https://github.com/CoatiSoftware/Sourcetrail/issues/515))
 
 #### 2017.4.46
 released 2017-11-09
 
-* C/C++: Add filename info to static global variables to avoid collision (issue #514)
+* C/C++: Add filename info to static global variables to avoid collision (issue [#514](https://github.com/CoatiSoftware/Sourcetrail/issues/514))
 * Allow duplicate indexing of source files if the indexer command differs
-* Fixed single header files within indexed paths were not indexed (issue #513
-* Status: Explain differences of errors and how to fix them in help message dialog (issue #501)
+* Fixed single header files within indexed paths were not indexed (issue [#513](https://github.com/CoatiSoftware/Sourcetrail/issues/513))
+* Status: Explain differences of errors and how to fix them in help message dialog (issue [#501](https://github.com/CoatiSoftware/Sourcetrail/issues/501))
 * C/C++: Add parent directories of source files in the compilation database automatically to indexed header paths
 * C/C++: Give clang higher precedence in automatic global header search path detection
 * C/C++: Added new clang 5.0.0 language standards to project setup dropdown box
-* Graph: Show nodes with more than 20 children initially collapsed (issue #509)
-* Show message box informing about shared memory problems before indexing (issue #508)
+* Graph: Show nodes with more than 20 children initially collapsed (issue [#509](https://github.com/CoatiSoftware/Sourcetrail/issues/509))
+* Show message box informing about shared memory problems before indexing (issue [#508](https://github.com/CoatiSoftware/Sourcetrail/issues/508))
 * Fixed files from symlinked directories within indexed directories were not indexed
 * Start from correct directory for relative paths in project setup location pickers
 * Java: Added all previous Java versions to language standard selection
@@ -424,20 +444,19 @@ released 2017-11-09
 * Search: Fixed focus and selection policy of search elements for Windows and Linux
 * Graph: Fixed type usage edges not shown between class members and inner class types
 * Graph: Fixed activation of bookmarked edge did not highlight edge in all situations
-* Status: Fixed resize status view table columns were only resizeable in the title bar (issue #506)
-* Added setting for text encoding to preferences (issue #500)
-* Search: Fixed low contrast of search field cursor in dark schemes (issue #487)
-
+* Status: Fixed resize status view table columns were only resizeable in the title bar (issue [#506](https://github.com/CoatiSoftware/Sourcetrail/issues/506))
+* Added setting for text encoding to preferences (issue [#500](https://github.com/CoatiSoftware/Sourcetrail/issues/500))
+* Search: Fixed low contrast of search field cursor in dark schemes (issue [#487](https://github.com/CoatiSoftware/Sourcetrail/issues/487))
 
 #### 2017.4.20
 released 2017-10-25
 
 * Code: Fixed file state of snippets wrong after iterating references in single file view
-* Search: Improved selection on focus to allow editing of search query (issue #483)
+* Search: Improved selection on focus to allow editing of search query (issue [#483](https://github.com/CoatiSoftware/Sourcetrail/issues/483))
 * Code: Fixed last line removed in full file view
 * Fixed local symbol activation via plugin shows empty view
-* Fixed handling of symbolic links when activated via plugin (issue #489)
-* Code: Fixed crash due to double deletion of elements (issue #488)
+* Fixed handling of symbolic links when activated via plugin (issue [#489](https://github.com/CoatiSoftware/Sourcetrail/issues/489))
+* Code: Fixed crash due to double deletion of elements (issue [#488](https://github.com/CoatiSoftware/Sourcetrail/issues/488))
 * Code: Show shortcut 'Ctrl + Left Mouse' in code for 'Show in IDE' context menu action
 * Improved names, texts and order in project setup
 * macOS: Fixed start screen did not vanish when opening project with double click
@@ -450,15 +469,15 @@ released 2017-10-25
 * Linux: Enabled Qt highDPI scaling to fix UI issues on high resolution screens
 * Fixed handling of non-indexed files in Graph and Code
 * C/C++: Removed include check validataion for compilation database source groups
-* Graph: Bundle nested anonymous namespaces into anonymous namespace bundle in namespace overview (issue #465)
+* Graph: Bundle nested anonymous namespaces into anonymous namespace bundle in namespace overview (issue [#465](https://github.com/CoatiSoftware/Sourcetrail/issues/465))
 * Search: Fixed vertical growth of search bar area when resizing window
 * Visual Studio plugin: Lots off fixes, see changelog (https://github.com/CoatiSoftware/vs-sourcetrail/blob/master/CHANGELOG.md)
 * Sublime Text plugin: Fixed plugin not working when installed via Package Control (issue #468)
-* Windows: Added missing Qt dlls to save graph images as .jpg (issue #474)
+* Windows: Added missing Qt dlls to save graph images as .jpg (issue [#474](https://github.com/CoatiSoftware/Sourcetrail/issues/474))
 * C/C++: Updated to Clang 5.0.0
 * Code: Fixed annotations missing for full file snippets
-* Java: Added project setup from Gradle (issue #379)
-* Added "Find On-Screen" option with search bar at bottom of window for searching Graph and Code on-screen (issue #79)
+* Java: Added project setup from Gradle (issue [#379](https://github.com/CoatiSoftware/Sourcetrail/issues/379))
+* Added "Find On-Screen" option with search bar at bottom of window for searching Graph and Code on-screen (issue [#79](https://github.com/CoatiSoftware/Sourcetrail/issues/79))
 * Use "Find On-Screen" with 'Ctrl + D' or '/'
 * Graph: Added C++ template specialization and template member specialization edges
 * Graph: Show implicit children of implicit nodes
@@ -467,7 +486,6 @@ released 2017-10-25
 * C++: Improved recording of template member specializations
 * Refresh only files where content actually changed
 
-
 #### 2017.3.48
 released 2017-09-07
 
@@ -475,13 +493,13 @@ released 2017-09-07
 * Java: Use same node order in graph as in file
 * Code: Added second line marker color to better highlight hovered and local symbols
 * Added "Skip this Version" option to update dialog
-* Search: replace template arguments with .. in non-indexed nodes to reduce clutter in search results
+* Search: replace template arguments with <..> in non-indexed nodes to reduce clutter in search results
 * Code: Fixed default text color not reset text was annotated in dark schemes
 * Code: Fixed text color not correctly changed when annotation type changes
 * Fixed history list activating wrong symbol after aggregation edge was active
-* Added node type keywords to filter autocompletions or activate all nodes (issue #78)
-* File dialog shows home directory instead of working directory for first file dialog (issue #448)
-* Java: improved Maven timeout policy (issue #449)
+* Added node type keywords to filter autocompletions or activate all nodes (issue [#78](https://github.com/CoatiSoftware/Sourcetrail/issues/78))
+* File dialog shows home directory instead of working directory for first file dialog (issue [#448](https://github.com/CoatiSoftware/Sourcetrail/issues/448))
+* Java: improved Maven timeout policy (issue [#449](https://github.com/CoatiSoftware/Sourcetrail/issues/449))
 * Fixed indexing results insertion starving when indexers are really fast because of other UI updates
 
 #### 2017.3.26
@@ -491,19 +509,19 @@ released 2017-08-24
 * Changed default indexer thread count to 0, which uses optimal thread count
 * Java: Changed default value for maven dependencies directory
 * Java: improved indexing speed to be 2.5 time faster
-* Added commandline API for indexing projects and configuring indexing related preferences (issue #383)
+* Added commandline API for indexing projects and configuring indexing related preferences (issue [#383](https://github.com/CoatiSoftware/Sourcetrail/issues/383))
 * Mention call/inheritance graphs in tutorial
-* CXX: Save command line info of indexer command to errors and show within errors table (issue #351)
-* CXX: Added cross-compilation UI to project setup (issue #370)
+* CXX: Save command line info of indexer command to errors and show within errors table (issue [#351](https://github.com/CoatiSoftware/Sourcetrail/issues/351))
+* CXX: Added cross-compilation UI to project setup (issue [#370](https://github.com/CoatiSoftware/Sourcetrail/issues/370))
 * Added update checker connecting to online API and checkbox to enable daily update checks on start screen.
 * Java: Implemented interrupting AST visiting of Java indexer
 * Java: Updated to JavaSymbolSolver 0.6.0.X and Javaparser 3.3.0
 * CXX: Removed preprocessor only option, because of new include path validation
-* CXX: Fixed uppercase CXX header file name and extensions saved in lowercase (issue #437)
+* CXX: Fixed uppercase CXX header file name and extensions saved in lowercase (issue [#437](https://github.com/CoatiSoftware/Sourcetrail/issues/396))
 * Code: When clicking source location with multiple tokens or local symbols show a list to select one of these
 * Sort indexer commands for increased performance
-* Added custom tooltipping to Code and Graph with clickable types of variables and signatures (issue #195)
-* Java: fix issue where Maven project did not show any source files (issue #428)
+* Added custom tooltipping to Code and Graph with clickable types of variables and signatures (issue [#195](https://github.com/CoatiSoftware/Sourcetrail/issues/195), [#331](https://github.com/CoatiSoftware/Sourcetrail/issues/331))
+* Java: fix issue where Maven project did not show any source files (issue [#428](https://github.com/CoatiSoftware/Sourcetrail/issues/428))
 * CXX: clean indexed header path selection for project setup from Compilation Database
 * Added progress dialog for "show source files" button in project setup UI
 * CXX: Added include path validation to project settings
@@ -511,57 +529,57 @@ released 2017-08-24
 * Search: Fixed crash when fulltext search yields no results
 * Updated to Qt 5.9.1
 * CXX: Added node type for "union"
-* CXX: Merge anonymous types and the respective typedef (issue #189, #292)
+* CXX: Merge anonymous types and the respective typedef (issue [#189](https://github.com/CoatiSoftware/Sourcetrail/issues/189), [#292](https://github.com/CoatiSoftware/Sourcetrail/issues/292))
 * CXX: Updated to clang 4.0.1
 * Added Menu option to show Start Window
 * Don't show start window when opening project with double-click
 * Show license type label in title bar: "Sourcetrail [trial, test, non-commercial]"
 * Graph: Fixed class expand toggle shown in overview and namespace lists
-* Graph: Show inheritance edges between parents of active symbol and other visible symbols (issue #167)
+* Graph: Show inheritance edges between parents of active symbol and other visible symbols (issue [#167](https://github.com/CoatiSoftware/Sourcetrail/issues/167))
 * Improved project loading performance
 * Code: improved location retrieval and hover performance
-* Show recent bookmarks in bookmarks menu (issue #414)
+* Show recent bookmarks in bookmarks menu (issue [#414](https://github.com/CoatiSoftware/Sourcetrail/issues/414))
 * Code: Fixed references and buttons when activating file in snippet mode
 * Java: added auto-detection for JRE System Library
 * Java: Prefill JRE system library path on first Sourcetrail launch
-* macOS: fixed qt.conf for case-sensitive file system (issue #404)
+* macOS: fixed qt.conf for case-sensitive file system (issue [#404](https://github.com/CoatiSoftware/Sourcetrail/issues/404))
 * Improved database saving performance
 * Improved database file clearing performance
 * Improved contrasts of UI elements in bright color scheme
 * Graph: Show zoom level as percent label next to zoom buttons
-* Added Visual Studio Code plugin (issue #397)
+* Added Visual Studio Code plugin (issue [#397](https://github.com/CoatiSoftware/Sourcetrail/issues/397))
 * Added "Edit Project" button below error table
-* Java: Maven fixes regarding JAVA_HOME variable (issue #405)
+* Java: Maven fixes regarding JAVA_HOME variable (issue [#405](https://github.com/CoatiSoftware/Sourcetrail/issues/405))
 
 #### 2017.2
 released 2017-06-21
 
-* Fixed crash when using shortcuts containing letters with focus on the graph on macOS (issue #390)
+* Fixed crash when using shortcuts containing letters with focus on the graph on macOS (issue [#390](https://github.com/CoatiSoftware/Sourcetrail/issues/390))
 * Improved Visual Studio plugin performance
 * Updated End User License Agreement and have users accept on first run on macOS and Linux
-* Fixed memory issues when using large Compilation Database files (issue #396)
+* Fixed memory issues when using large Compilation Database files (issue [#396](https://github.com/CoatiSoftware/Sourcetrail/issues/396))
 * Updated to JavaParser and JavaSymbolSolver
-* Fixed issue where black borders appeared around dialogs for some Linux window managers (issue #376)
+* Fixed issue where black borders appeared around dialogs for some Linux window managers (issue [#376](https://github.com/CoatiSoftware/Sourcetrail/issues/376))
 * Use platform default window decorations for UI dialogs
 * Code: Made snippet minimize/maximize buttons more interactive by showing hover states
 * Code: improved code view loading performance
 * Java: Record more "import not found" errors
-* Support Visual Studio 2017 in Visual Studio Plugin (issue #381)
+* Support Visual Studio 2017 in Visual Studio Plugin (issue [#381](https://github.com/CoatiSoftware/Sourcetrail/issues/381))
 * Graph: increased creation speed by requesting less data
 * macOS: Codesign .app bundle to avoid "from unidentified developer" warning
 * Error: Use same error order in error table and code view
-* Error: Only show first 1000 errors, click button in lower right of error table to show all (issue #385)
+* Error: Only show first 1000 errors, click button in lower right of error table to show all (issue [#385](https://github.com/CoatiSoftware/Sourcetrail/issues/385))
 * Graph: use bezier edges when activating aggregation edge
 * Send ping after changing plugin ports
 * Added menu action to display EULA and force accepting on macOS
 * Fixed use of environment variables in project setup paths
-* Multi-language project setup via Source Groups setup UI (issue #230)
+* Multi-language project setup via Source Groups setup UI (issue [#230](https://github.com/CoatiSoftware/Sourcetrail/issues/230))
 * C/C++: Fixed no files indexed when relative file paths are provided in Compilation Database (issue #388)
 * C/C++: Display an error when loading a Compilation Database fails
 * C/C++: Fixed source files within Compilation Database not indexed unless within Indexed Header Paths
-* Fixed status message length limiting window resizing (issue #372)
-* Match source file extensions case insensitive (issue #384)
-* Fixed indexing progress file count in status bar and status view (issue #387)
+* Fixed status message length limiting window resizing (issue [#372](https://github.com/CoatiSoftware/Sourcetrail/issues/372))
+* Match source file extensions case insensitive (issue [#384](https://github.com/CoatiSoftware/Sourcetrail/issues/384))
+* Fixed indexing progress file count in status bar and status view (issue [#387](https://github.com/CoatiSoftware/Sourcetrail/issues/387))
 * Windows: remove setup.exe from windows installer with all necessary .dll files
 * Added history list button between back and forward button
 * Added history menu showing activated symbols in chronologic order
@@ -570,7 +588,7 @@ released 2017-06-21
 released 2017-05-16
 
 * Added QtCreator plugin
-* Graph: Added context menu action to create bookmark for node under mouse cursor (issue #373)
+* Graph: Added context menu action to create bookmark for node under mouse cursor (issue [#373](https://github.com/CoatiSoftware/Sourcetrail/issues/373))
 * Code: Fixed code view not scrolled to first fulltext search match in single file mode
 * Set unrestricted permission for accessing shared memory to fix crash on Windows
 * Improved setting descriptions in preferences dialog
@@ -584,22 +602,22 @@ released 2017-05-16
 * Added dialog to warn about "verbose indexer logging" before indexing.
 * Added multi process indexing for C/C++ projects to better handle crashes during indexing.
 * Reduced file accesses during C/C++ indexing.
-* Graph: Show call graphs, inheritance trees and include trees for active symbol. UI in the top left of the graph view for defining direction and depth. (issues #249 #337)
+* Graph: Show call graphs, inheritance trees and include trees for active symbol. UI in the top left of the graph view for defining direction and depth. (issues [#249](https://github.com/CoatiSoftware/Sourcetrail/issues/249) [#337](https://github.com/CoatiSoftware/Sourcetrail/issues/337))
 * Improved performance by running UI updates in parallel for each view
 * Fixed project refresh not recognizing newly added files
-* Show progress dialog when clicking refresh while computing files (issue #341)
-* Added show files button to summary of compilation database project setup (issue #354)
-* Show option to run only C/C++ preprocessor when indexing on indexing start dialog (issue #297)
-* Added bookmarking feature for nodes and edges. Bookmarks can have categories and comments. Data gets stored in .srctrlbm next to project file. Shortcuts similar to web browsers. (issue #138)
-* Mark files with errors and all files within a translation unit with fatal errors as incomplete (issue #358)
-* Fixed compilation database projects using C++ source extensions and standard (issue #366)
+* Show progress dialog when clicking refresh while computing files (issue [#341](https://github.com/CoatiSoftware/Sourcetrail/issues/341))
+* Added show files button to summary of compilation database project setup (issue [#354](https://github.com/CoatiSoftware/Sourcetrail/issues/354))
+* Show option to run only C/C++ preprocessor when indexing on indexing start dialog (issue [#297](https://github.com/CoatiSoftware/Sourcetrail/issues/297))
+* Added bookmarking feature for nodes and edges. Bookmarks can have categories and comments. Data gets stored in .srctrlbm next to project file. Shortcuts similar to web browsers. (issue [#138](https://github.com/CoatiSoftware/Sourcetrail/issues/138))
+* Mark files with errors and all files within a translation unit with fatal errors as incomplete (issue [#358](https://github.com/CoatiSoftware/Sourcetrail/issues/358))
+* Fixed compilation database projects using C++ source extensions and standard (issue [#366](https://github.com/CoatiSoftware/Sourcetrail/issues/366))
 
 #### 0.11.86
 released 2017-04-12
 
-* Terminating all running tasks before closing the application (issue #343)
-* Use all available cores when setting indexer threads to 0 (issue #342)
-* Added reset window layout option to view menu (issue #289)
+* Terminating all running tasks before closing the application (issue [#343](https://github.com/CoatiSoftware/Sourcetrail/issues/343))
+* Use all available cores when setting indexer threads to 0 (issue [#342](https://github.com/CoatiSoftware/Sourcetrail/issues/342))
+* Added reset window layout option to view menu (issue [#289](https://github.com/CoatiSoftware/Sourcetrail/issues/289))
 * Fixed colorscheme gets refreshed when cancelling preferences dialog
 * Log: Scroll to first line in errors table after indexing and after display
 * Copy old ApplicationSettings.xml and window_settings.ini files from previous Coati install if available.
@@ -618,7 +636,7 @@ released 2017-04-12
 #### 0.11.15
 released 2017-03-01
 
-* Don't accept richt text in 'enter license' dialog field (issue #207)
+* Don't accept richt text in 'enter license' dialog field (issue [#207](https://github.com/CoatiSoftware/Sourcetrail/issues/207))
 * Updated EULA to include Test License and better clarify other license types
 * Fixed icons in project setup dialogs blurry on highDPI screens
 * Added link to additional downloadable pre-indexed projects to trial start screen
@@ -626,28 +644,28 @@ released 2017-03-01
 * Convert all paths chosen by patch picker relative to project location in project setup
 * Disabled name and location changing in project editing and removed project moving
 * Split default file extensions for C++ and C to avoid wrong files getting indexed
-* Deprecated 'Lazy Include Search', it's only visible to previously created projects (issue #335)
-* Support relative paths and paths containing environment variables for compilation database path (issue #312)
-* Removed 'Advanced Settings' section in project setup and show theses options in separate dialog (#293)
-* Support environment variables containing multiple files in project setup paths (issue #283)
-* Warn users when no 'Indexed Header Paths' were set in compilation database project (issue #254)
+* Deprecated 'Lazy Include Search', it's only visible to previously created projects (issue [#335](https://github.com/CoatiSoftware/Sourcetrail/issues/335))
+* Support relative paths and paths containing environment variables for compilation database path (issue [#312](https://github.com/CoatiSoftware/Sourcetrail/issues/312))
+* Removed 'Advanced Settings' section in project setup and show theses options in separate dialog (issue [#293](https://github.com/CoatiSoftware/Sourcetrail/issues/293))
+* Support environment variables containing multiple files in project setup paths (issue [#283](https://github.com/CoatiSoftware/Sourcetrail/issues/283))
+* Warn users when no 'Indexed Header Paths' were set in compilation database project (issue [#254](https://github.com/CoatiSoftware/Sourcetrail/issues/254))
 * Renamed "Project Paths" to "Indexed Paths" in project setup
-* Renamed "Project File Location" to "Coati Project Location" in project setup (issue #234)
+* Renamed "Project File Location" to "Coati Project Location" in project setup (issue [#234](https://github.com/CoatiSoftware/Sourcetrail/issues/234))
 * Allow opening indexed projects in trial mode
 * Record node type of non-indexed qualifiers (e.g. "std" in "std::string" as namespace)
-* Log: Fixed error icon loaded for every row (issue #287)
+* Log: Fixed error icon loaded for every row (issue [#287](https://github.com/CoatiSoftware/Sourcetrail/issues/287))
 * Graph: Fixed lambda are placed within white area to better see call edges
 * Graph: Show non-indexed nodes within their parents instead of using namespace labeling
 * Code: Disabled syntax highlighting for project description
 * Graph: Fixed different font-faces causing graph nodes to expand to bigger cell amount
-* Mac: Fixed wrong READMEs at some plugins (issue #315)
+* Mac: Fixed wrong READMEs at some plugins (issue [#315](https://github.com/CoatiSoftware/Sourcetrail/issues/315))
 * Mac: Removed boost libraries and libLTO from Mac bundle
 * Windows: Add Visual Studio compatibility flags to new project when Visual Studio include paths are present
 * Renamed undefined nodes to non-indexed nodes for clarification
 * Show progress in file clearing dialog
 * Extended syntax highlighting for Java and distinguish by project type
-* offer Windows 64bit build (issue #300)
-* Fixed legacy Java 6 install necessary on MacOS (issue #280)
+* offer Windows 64bit build (issue [#300](https://github.com/CoatiSoftware/Sourcetrail/issues/300))
+* Fixed legacy Java 6 install necessary on MacOS (issue [#280](https://github.com/CoatiSoftware/Sourcetrail/issues/280))
 * Updated to Qt 5.8
 * Updated to clang/llvm 3.9
 * Added multithreading to Visual Studio plugin compilation database creation
@@ -657,18 +675,18 @@ released 2017-03-01
 * Visual Studio plugin can now handle projects with non-native build tool for compilation database export
 * Changed menu action 'Licenses' to '3rd Party Licenses'
 * Added dialog with all shortcuts to Help menu
-* Log: Show error in errors table when clicked in code view (issue #323)
+* Log: Show error in errors table when clicked in code view (issue [#323](https://github.com/CoatiSoftware/Sourcetrail/issues/323))
 * Code: Switched default mouse drag behavior to selection, panning on Shift + drag, and show suitable cursors
 * Updated company address in about dialog
 * Graph: Added on-screen zoom buttons
 * Graph: Split aggregation edge when expanding nodes if possible
 * Uncommented lines using the std library in TicTacToe sample
-* Fixed issue with lambda return type (issue #318)
-* Save builtin types as separate node type (issue #2)
+* Fixed issue with lambda return type (issue [#318](https://github.com/CoatiSoftware/Sourcetrail/issues/318))
+* Save builtin types as separate node type (issue [#2](https://github.com/CoatiSoftware/Sourcetrail/issues/2))
 * Remove unused included files after refreshing
 * Java: Fixed packages that only contain packages to show up as non-indexed
-* Added context-menu actions to copy node names, file paths and show files in containing directory (issue #320)
-* Fixed crash when entering a single space in 'enter license' dialog (issue #277)
+* Added context-menu actions to copy node names, file paths and show files in containing directory (issue [#320](https://github.com/CoatiSoftware/Sourcetrail/issues/320))
+* Fixed crash when entering a single space in 'enter license' dialog (issue [#277](https://github.com/CoatiSoftware/Sourcetrail/issues/277))
 * Graph: Made edge lines thicker
 * Fixed handling and storing of files with the same name
 * Fixed environment variable detection within project paths for %VARIABLE_NAME% syntax
@@ -687,7 +705,7 @@ released 2017-03-01
 
 
 #### 0.10.0
-released 2016-12-13
+released 2016-12-14
 
 * Windows: Added runtime DLLs that could be missing on some systems
 * Click message in status bar to open status window
@@ -700,11 +718,11 @@ released 2016-12-13
 * Graph: Disable bundling when files or macros are active
 * Graph: Bundle importing files of active symbol in Java projects
 * Improved speed of depending file search on refresh
-* Search: Fixed crashes related to empty searches (issue #251)
+* Search: Fixed crashes related to empty searches (issue [#251](https://github.com/CoatiSoftware/Sourcetrail/issues/251))
 * Search: Do fulltext search when no autocompletion match is available
 * Added checkbox for full project refresh to start indexing dialog
 * Disabled clang error limit by default to make sure all errors are shown
-* Linux: Updated libs and added missing ones (issue #245)
+* Linux: Updated libs and added missing ones (issue [#245](https://github.com/CoatiSoftware/Sourcetrail/issues/245))
 * Updated icons for some graph nodes and project types
 * Windows: Updated Visual Studio plugin UI
 * Graph: Fixed view to not recenter on active node when clicking edge
@@ -721,10 +739,10 @@ released 2016-12-13
 * Integrated Visual Studio Plugin with Coati Project creation and removed previous Visual Studio Solution parser
 * Improved C++ indexer coverage: using decls, using directives, auto keyword, lambda signatures, symbol references inside lambda captures, template argument related elements
 * Reduced size of .coatidb file by up to 50% for large projects
-* Fixed anonymouse symbol name conflicts (issue #241)
+* Fixed anonymouse symbol name conflicts (issue [#241](https://github.com/CoatiSoftware/Sourcetrail/issues/241))
 * Preferences: Added Indexer Logging option to print AST information during indexing
 * Search: Added second line to search autocompletion list showing namespace, package or filepath
-* Made cells readonly in errors table to prevent editing (issue #236)
+* Made cells readonly in errors table to prevent editing (issue [#236](https://github.com/CoatiSoftware/Sourcetrail/issues/236))
 * Renamed Log Window to Status window
 
 
@@ -733,19 +751,20 @@ released 2016-10-27
 
 * Windows: Added logging and exception handling to VS plugin
 * Windows: Added VC++ runtime dlls for windows installer
-* Windows: Added missing VC++ runtime dlls (issue #231)
-* Added setting for default graph zoom on mouse wheel to preferences (issue #237)
+* Windows: Added missing VC++ runtime dlls (issue [#231](https://github.com/CoatiSoftware/Sourcetrail/issues/231))
+* Added setting for default graph zoom on mouse wheel to preferences (issue [#237](https://github.com/CoatiSoftware/Sourcetrail/issues/237))
 * Scroll errors table to newest error during indexing
 * Fixed best scoring for search autocompletions skipped some combinations
 * Fixed flickering of errors table when indexing
 * Don't show error snippets in overview screen anymore
-* Fixed crash when Project Paths contain files and lazy include search in enabled (issue #201)
+* Fixed crash when Project Paths contain files and lazy include search in enabled (issue [#201](https://github.com/CoatiSoftware/Sourcetrail/issues/201))
 * Fixed edge cases that caused deadlocks in indexing
 * Added language specific project icons to start screen
-* Fixed application couldn't be quit when start screen was showing (issue #227)
+* Fixed application couldn't be quit when start screen was showing (issue [#227](https://github.com/CoatiSoftware/Sourcetrail/issues/227))
 * Graph: Fixed missing image file ending when exporting graph for Linux
 * Log Coati version when logging gets enabled
 * Fixed non-indexed errors filter in errors table
+
 
 #### 0.9.0
 released 2016-10-14
@@ -762,38 +781,38 @@ released 2016-10-14
 * Graph: Move aggregation and inheritance edges to front when hovered or active
 * Graph: Push parent nodes of active nodes to back to make all incoming and outgoing edges visible
 * Properly quit application when window is closed while confirm box is open
-* Properly quit application when window is closed while indexing (issue #121)
+* Properly quit application when window is closed while indexing (issue [#121](https://github.com/CoatiSoftware/Sourcetrail/issues/121))
 * Graph: Count only top level nodes in bundle nodes of graph
 * Search: Improved scoring of autocompletion matches to use best score for match
 * App will go into trial mode without valid license
 * Java: Auto detect java root source directories
-* Fixed refresh crash (issue #220)
+* Fixed refresh crash (issue [#220](https://github.com/CoatiSoftware/Sourcetrail/issues/220))
 * Java: improved indexer reliability a lot
 * Java: Changed name of generic type to use name of declaration
 * Fixed project refresh does not recognize removed source paths
 * Java: Define maximum allocated jvm memory in preferences
-* Follow symbolic directory links within source paths (issue #205)
+* Follow symbolic directory links within source paths (issue [#205](https://github.com/CoatiSoftware/Sourcetrail/issues/205))
 * Use white size grip in blue dialogs
 * Graph: Use type node colors for undefined nodes
 * Java: Show import not found as error
-* Code: Select and copy source code in code view with SHIFT + mouse drag (issue #7)
+* Code: Select and copy source code in code view with SHIFT + mouse drag (issue [#7](https://github.com/CoatiSoftware/Sourcetrail/issues/7))
 * Code: Added markers next to line numbers in code view showing active locations and scopes
 * Merged app and trial to one build
 
 #### 0.8.21
 released 2016-09-16
 
-* Added options for checking multiple paths in Indexed Header Paths dialog during project setup from Compilation Database #190
+* Added options for checking multiple paths in Indexed Header Paths dialog during project setup from Compilation Database [#190](https://github.com/CoatiSoftware/Sourcetrail/issues/190)
 * Added all C/C++ standards supported by clang
-* Fixed C language setting in empty project setup not propagated to indexer #177
+* Fixed C language setting in empty project setup not propagated to indexer [#177](https://github.com/CoatiSoftware/Sourcetrail/issues/177)
 * Added Sublime plugin to Sublime Text Package Control
 * Improved indexer parallelization for faster indexing
 * Changed all font-sizes to px for similar look on all platforms
-* Added font face dropdown to Preferences showing all available monospace fonts #172
-* Smoother font rendering on Windows by setting font engine to FreeType via qt.conf file #137
+* Added font face dropdown to Preferences showing all available monospace fonts [#172](https://github.com/CoatiSoftware/Sourcetrail/issues/172)
+* Smoother font rendering on Windows by setting font engine to FreeType via qt.conf file [#137](https://github.com/CoatiSoftware/Sourcetrail/issues/137)
 * Interrupt indexing while AST visiting for C/C++ for shorter waiting time
-* Save graph as PNG image via context menu in graph view #180
-* Added base folder to Linux package #181
+* Save graph as PNG image via context menu in graph view [#180](https://github.com/CoatiSoftware/Sourcetrail/issues/180)
+* Added base folder to Linux package [#181](https://github.com/CoatiSoftware/Sourcetrail/issues/181)
 * Use inverted golden ratio in indexing progress dialog
 
 #### 0.8.0
@@ -801,30 +820,30 @@ released 2016-09-01
 
 * Improved titles and help texts in project setup UI
 * Fixed error locations not saved with absolute file paths in Compilation Database projects
-* Added missing source files extensions setting to the Edit Project dialog #132
-* Changed default text colors to black in project setup UI #140
-* Added plugin ports settings to Preferences #145
+* Added missing source files extensions setting to the Edit Project dialog [#132](https://github.com/CoatiSoftware/Sourcetrail/issues/132)
+* Changed default text colors to black in project setup UI [#140](https://github.com/CoatiSoftware/Sourcetrail/issues/140)
+* Added plugin ports settings to Preferences [#145](https://github.com/CoatiSoftware/Sourcetrail/issues/145)
 * Improved project state handling on refreshing
 * Added Java sample project JavaParser: http://javaparser.org/
 * Fixed regex for system includes used wrongly in syntax highlighter
-* Added setting to disable file and console logging, default is off #157
+* Added setting to disable file and console logging, default is off [#157](https://github.com/CoatiSoftware/Sourcetrail/issues/157)
 * Added migrations between different ApplicationSettings versions
 * Added auto detection for Java library to Preferences
 * Removed auto refresh option from Search view
-* Added progress dialogs for indexing and block UI #143
+* Added progress dialogs for indexing and block UI [#143](https://github.com/CoatiSoftware/Sourcetrail/issues/143)
 * Hide name qualifiers for graph nodes in Java projects
 * Added handling when java library not found
 * Added plain text editing dialog to path list boxes
 * Use language dependent symbol name delimiter in UI
-* Added scroll speed setting to preferences #112
+* Added scroll speed setting to preferences [#112](https://github.com/CoatiSoftware/Sourcetrail/issues/112)
 * Added Java project setup UI
 * Record start and end locations of scopes in Java
 * Display unresolved types names in Java as 'unresolved-type'
 * Cache stats for overview to speed up display
-* Fixed graph nodes to restore their expand state when going back #118
+* Fixed graph nodes to restore their expand state when going back [#118](https://github.com/CoatiSoftware/Sourcetrail/issues/118)
 * Added shortcuts for navigating to next and previous reference in code view
-* Pressing Tab in search completes up to next ::, Delete erases to last :: #133
-* Bundle anonymous namespaces separately in graph overview #126
+* Pressing Tab in search completes up to next ::, Delete erases to last :: [#133](https://github.com/CoatiSoftware/Sourcetrail/issues/133)
+* Bundle anonymous namespaces separately in graph overview [#126](https://github.com/CoatiSoftware/Sourcetrail/issues/126)
 * Added 'Show Data Folder' and 'Show Log Folder' items to Help menu
 * Added new status bar loader gif with higher resolution
 * Record type aliases in C++
@@ -835,7 +854,7 @@ released 2016-09-01
 * Leave code view at original line when expanding scopes
 * Pan graph view to center on name of active symbol after activation
 * Moved color scheme selection to Preferences
-* Moved Preferences menu item to Edit menu on Windows/Linux #113
+* Moved Preferences menu item to Edit menu on Windows/Linux [#113](https://github.com/CoatiSoftware/Sourcetrail/issues/113)
 * Added setting for hiding non-fatal errors in unindexed files to preferences, turned on by default
 * Fixed file out-of-date asterisk disappearing when showing snippets after minimize state
 * Implemented Atom plugin: https://github.com/CoatiSoftware/atom-coati
@@ -844,7 +863,6 @@ released 2016-09-01
 * Implemented emacs plugin: https://github.com/CoatiSoftware/emacs-coati
 * Improved code view rendering times
 * Don't show implicit nodes in search auto completion list
-
 
 #### 0.7.0.22
 released 2016-07-07
@@ -908,42 +926,42 @@ released 2016-06-15
 #### 0.6.0.0
 released 2016-04-27
 
-* Smoother graph panning and zooming on keyboard using update loop
-* Differentiate between explicit and implicit nodes and only show implicit nodes in the graph view when connected
-* Improved file clearing performance on project refresh
-* Show deleted projects on the start screen and show messagebox to delete them
-* Show analysis duration in hh:mm:ss
 * Added suppport for temporary test licenses and show error message when it expired
-* Increased graph performance by reducing to fixed number of requests
-* Add vs-clang compatibility flags when creating project from Visual Studio solution
-* Increased graph edge drawing performance
-* Added auto detection for system header paths to project wizard and preferences when using gcc, clang or vs compilers
-* Added bug tracker to help menu
 * Increased search autocompletion performance to stay mostly below 100ms
+* Increased project load performance
+* Improved file clearing performance on project refresh
+* Increased graph creation performance for overview screen
+* Increased graph performance by reducing to fixed number of requests
+* Increased graph edge drawing performance
+* Improved error display performance by not expanding all of them at once
+* Added analysis for local symbols and allow selecting them in the code view
+* Added support for function pointers to analysis
+* Smoother graph panning and zooming on keyboard using update loop
 * Changed style of aggregation edge to cleaner look
 * Allow certain edge types to enter and leave at top and bottom of nodes as well e.g. inheritance
-* Increased project load performance
-* Increased graph creation performance for overview screen
 * Changed namespace activation to show the namespace name in the search bar and the namespace definitions in the code view
-* Updated to Qt 5.6
-* Added analysis for local symbols and allow selecting them in the code view
-* Improved error display performance by not expanding all of them at once
+* Differentiate between explicit and implicit nodes and only show implicit nodes in the graph view when connected
+* Show deleted projects on the start screen and show messagebox to delete them
+* Show analysis duration in hh:mm:ss
+* Added bug tracker to the help menu
 * Added home button next to search field for showing the project overview
 * Added shortcut and menu item to show project overview
-* Fixed Path boxes not sized correctly when switching back and forth in the project wizard
 * Allow support for environment variables in project setup with syntax ${VARIABLE_NAME}
+* Added welcome message to Coati trial
 * Show quit button on license enter screen when no valid license was entered yet
 * Allow color schemes to define text colors for code view highlights
-* Added support for function pointers to analysis
-* Added Windows system dlls to installer on Windows so users don't not need to install the redistributable package
+* Defined new highlight colors for code view in all color schemes
 * Changed style of out-of-date files to be followed by *
-* Set Qt flag for high DPI scaling
+* Fixed Path boxes not sized correctly when switching back and forth in the project wizard
 * Check analyzed paths for existence in project wizard
 * Inform the user about project changes and ask before reparsing the project
 * Removed "simple setup" step in project wizard and added "lazy include search"-checkbox
 * Edit the project settings by clicking the project name in the overview stats
-* Added welcome message to Coati trial
-* Defined new highlight colors for code view in all color schemes
+* Updated to Qt 5.6
+* Improved high DPI support for windows
+* Added Windows system dlls to installer on Windows so users don't not need to install the redistributable package
+* Added vs-clang compatibility mode as compile flags when creating project from Visual Studio solution
+* Added auto detection for system header paths to project wizard and preferences when using gcc, clang or vs compilers
 
 #### 0.5.1.21
 released 2016-03-16
