@@ -5,8 +5,6 @@
 #include <QDir>
 #include <windows.h>
 
-#include "vld.h"
-
 #include "FileSystem.h"
 #include "AppPath.h"
 #include "Application.h"
