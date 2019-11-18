@@ -21,8 +21,8 @@
 #include "QtViewWidgetWrapper.h"
 #include "QtProjectWizard.h"
 #include "QtAbout.h"
-#include "QtAboutLicense.h"
 #include "QtKeyboardShortcuts.h"
+#include "QtLicenseWindow.h"
 #include "QtPreferencesWindow.h"
 #include "QtStartScreen.h"
 #include "ApplicationSettings.h"
@@ -524,7 +524,7 @@ void QtMainWindow::showBugtracker()
 
 void QtMainWindow::showLicenses()
 {
-	QtAboutLicense* licenseWindow = createWindow<QtAboutLicense>();
+	QtLicenseWindow* licenseWindow = createWindow<QtLicenseWindow>();
 	licenseWindow->setup();
 }
 
@@ -1017,7 +1017,7 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addSeparator();
 
-	menu->addAction(tr("3rd Party Licenses"), this, &QtMainWindow::showLicenses);
+	menu->addAction(tr("License"), this, &QtMainWindow::showLicenses);
 	menu->addAction(tr("&About Sourcetrail"), this, &QtMainWindow::about);
 
 	menu->addSeparator();

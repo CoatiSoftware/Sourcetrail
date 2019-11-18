@@ -247,8 +247,6 @@ add_files(
 
 	qt/window/QtAbout.cpp
 	qt/window/QtAbout.h
-	qt/window/QtAboutLicense.cpp
-	qt/window/QtAboutLicense.h
 	qt/window/QtBookmarkBrowser.cpp
 	qt/window/QtBookmarkBrowser.h
 	qt/window/QtBookmarkCreator.cpp
@@ -265,6 +263,8 @@ add_files(
 	qt/window/QtKeyboardShortcuts.h
 	qt/window/QtKnownProgressDialog.cpp
 	qt/window/QtKnownProgressDialog.h
+	qt/window/QtLicenseWindow.cpp
+	qt/window/QtLicenseWindow.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
 	qt/window/QtPathListDialog.cpp

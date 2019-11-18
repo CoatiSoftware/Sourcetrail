@@ -1,14 +1,14 @@
-#ifndef QT_ABOUT_LICENSE_H
-#define QT_ABOUT_LICENSE_H
+#ifndef QT_LICENSE_WINDOW_H
+#define QT_LICENSE_WINDOW_H
 
 #include "QtWindow.h"
 
-class QtAboutLicense
+class QtLicenseWindow
 	: public QtWindow
 {
 	Q_OBJECT
 public:
-	QtAboutLicense(QWidget* parent = 0);
+	QtLicenseWindow(QWidget* parent = 0);
 	QSize sizeHint() const override;
 
 protected:
@@ -17,4 +17,4 @@ protected:
 	virtual void windowReady() override;
 };
 
-#endif // QT_ABOUT_LICENSE_H
+#endif // QT_LICENSE_WINDOW_H

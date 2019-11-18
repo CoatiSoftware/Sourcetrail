@@ -3,20 +3,20 @@
 
 // This File(licenses.h) is generated with CMake
 
-struct ThirdPartyLicense {
+struct LicenseInfo {
 	const char* name;
 	const char* version;
 	const char* url;
 	const char* license;
 
-	ThirdPartyLicense()
+	LicenseInfo()
 		: name(0)
 		, version(0)
 		, url(0)
 		, license(0)
 	{}
 
-	ThirdPartyLicense(const char* name, const char* version, const char* url, const char* license)
+	LicenseInfo(const char* name, const char* version, const char* url, const char* license)
 	    : name(name)
 	    , version(version)
 	    , url(url)
@@ -32,7 +32,9 @@ struct ThirdPartyLicense {
 // License Textfiles
 @LICENSES@
 
-static const ThirdPartyLicense licenses3rdParties[] = {
+static const LicenseInfo licenseApp = @LICENSE_APP@;
+
+static const LicenseInfo licenses3rdParties[] = {
 @LICENSE_ARRAY@
 };
 
