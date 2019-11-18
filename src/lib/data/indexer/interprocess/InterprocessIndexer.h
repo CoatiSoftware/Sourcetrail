@@ -21,4 +21,4 @@ private:
 	const Id m_processId;
 };
 
-#endif // INTERPROCESS_INDEXER_H
+#endif	  // INTERPROCESS_INDEXER_H

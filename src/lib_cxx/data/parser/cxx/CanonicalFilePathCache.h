@@ -46,5 +46,4 @@ private:
 	std::map<clang::FileID, bool> m_isProjectFileMap;
 };
 
-#endif // CANONICAL_FILE_PATH_CACHE_H
-
+#endif	  // CANONICAL_FILE_PATH_CACHE_H

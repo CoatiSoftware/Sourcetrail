@@ -3,8 +3,7 @@
 
 #include "TokenComponent.h"
 
-class TokenComponentInheritanceChain
-	: public TokenComponent
+class TokenComponentInheritanceChain: public TokenComponent
 {
 public:
 	TokenComponentInheritanceChain(const std::vector<Id>& inheritanceEdgeIds)
@@ -20,4 +19,4 @@ public:
 	const std::vector<Id> inheritanceEdgeIds;
 };
 
-#endif // TOKEN_COMPONENT_INHERITANCE_CHAIN_H
+#endif	  // TOKEN_COMPONENT_INHERITANCE_CHAIN_H

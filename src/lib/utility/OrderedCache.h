@@ -21,9 +21,7 @@ private:
 
 template <typename KeyType, typename ValType>
 OrderedCache<KeyType, ValType>::OrderedCache(std::function<ValType(const KeyType&)> calculator)
-	: m_calculator(calculator)
-	, m_hitCount(0)
-	, m_missCount(0)
+	: m_calculator(calculator), m_hitCount(0), m_missCount(0)
 {
 }
 
@@ -42,4 +40,4 @@ ValType OrderedCache<KeyType, ValType>::getValue(const KeyType& key)
 	return val;
 }
 
-#endif // ORDERED_CACHE_H
+#endif	  // ORDERED_CACHE_H

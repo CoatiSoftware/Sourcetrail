@@ -17,7 +17,7 @@ public:
 
 protected:
 	template <typename ViewType>
-		ViewType* getView() const;
+	ViewType* getView() const;
 
 private:
 	Component* m_component;
@@ -35,4 +35,4 @@ ViewType* Controller::getView() const
 	return nullptr;
 }
 
-#endif // CONTROLLER_H
+#endif	  // CONTROLLER_H

@@ -139,7 +139,7 @@ TEST_CASE("wstring")
 	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
 	std::vector<std::wstring> names;
-	for (std::string line : textAccess->getAllLines())
+	for (std::string line: textAccess->getAllLines())
 	{
 		names.emplace_back(utility::decodeFromUtf8(line.substr(0, line.find("\n"))));
 	}

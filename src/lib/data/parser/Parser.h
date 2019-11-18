@@ -15,4 +15,4 @@ protected:
 	std::shared_ptr<ParserClient> m_client;
 };
 
-#endif // PARSER_H
+#endif	  // PARSER_H

@@ -3,17 +3,14 @@
 #include "IndexerCommandCxx.h"
 #include "logging.h"
 
-CxxIndexerCommandProvider::CxxIndexerCommandProvider()
-	: m_nextId(1)
-{
-}
+CxxIndexerCommandProvider::CxxIndexerCommandProvider(): m_nextId(1) {}
 
 void CxxIndexerCommandProvider::addCommand(const std::shared_ptr<IndexerCommandCxx>& command)
 {
 	std::shared_ptr<CommandRepresentation> representation = std::make_shared<CommandRepresentation>();
 
 	{
-		for (const FilePath& indexedPath : command->getIndexedPaths())
+		for (const FilePath& indexedPath: command->getIndexedPaths())
 		{
 			std::map<FilePath, Id>::const_iterator it = m_indexedPathsToIds.find(indexedPath);
 			if (it != m_indexedPathsToIds.end())
@@ -31,9 +28,10 @@ void CxxIndexerCommandProvider::addCommand(const std::shared_ptr<IndexerCommandC
 	}
 
 	{
-		for (const FilePathFilter& excludeFilter : command->getExcludeFilters())
+		for (const FilePathFilter& excludeFilter: command->getExcludeFilters())
 		{
-			std::map<std::wstring, Id>::const_iterator it = m_excludeFiltersToIds.find(excludeFilter.wstr());
+			std::map<std::wstring, Id>::const_iterator it = m_excludeFiltersToIds.find(
+				excludeFilter.wstr());
 			if (it != m_excludeFiltersToIds.end())
 			{
 				representation->m_excludeFilterIds.emplace(it->second);
@@ -49,9 +47,10 @@ void CxxIndexerCommandProvider::addCommand(const std::shared_ptr<IndexerCommandC
 	}
 
 	{
-		for (const FilePathFilter& includeFilter : command->getIncludeFilters())
+		for (const FilePathFilter& includeFilter: command->getIncludeFilters())
 		{
-			std::map<std::wstring, Id>::const_iterator it = m_includeFiltersToIds.find(includeFilter.wstr());
+			std::map<std::wstring, Id>::const_iterator it = m_includeFiltersToIds.find(
+				includeFilter.wstr());
 			if (it != m_includeFiltersToIds.end())
 			{
 				representation->m_includeFilterIds.emplace(it->second);
@@ -85,9 +84,10 @@ void CxxIndexerCommandProvider::addCommand(const std::shared_ptr<IndexerCommandC
 	{
 		const std::vector<std::wstring>& compilerFlags = command->getCompilerFlags();
 		representation->m_compilerFlagIds.reserve(compilerFlags.size());
-		for (const std::wstring& compilerFlag : compilerFlags)
+		for (const std::wstring& compilerFlag: compilerFlags)
 		{
-			std::unordered_map<std::wstring, Id>::const_iterator it = m_compilerFlagsToIds.find(compilerFlag);
+			std::unordered_map<std::wstring, Id>::const_iterator it = m_compilerFlagsToIds.find(
+				compilerFlag);
 			if (it != m_compilerFlagsToIds.end())
 			{
 				representation->m_compilerFlagIds.emplace_back(it->second);
@@ -110,7 +110,10 @@ std::vector<FilePath> CxxIndexerCommandProvider::getAllSourceFilePaths() const
 	std::vector<FilePath> paths;
 	paths.reserve(m_commands.size());
 
-	for (std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it = m_commands.begin(); it != m_commands.end(); it++)
+	for (std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it =
+			 m_commands.begin();
+		 it != m_commands.end();
+		 it++)
 	{
 		paths.emplace_back(it->first);
 	}
@@ -122,7 +125,8 @@ std::shared_ptr<IndexerCommand> CxxIndexerCommandProvider::consumeCommand()
 {
 	if (!m_commands.empty())
 	{
-		std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it = m_commands.begin();
+		std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it =
+			m_commands.begin();
 		if (it->second)
 		{
 			std::shared_ptr<IndexerCommand> command = represetationToCommand(it->first, it->second);
@@ -133,9 +137,11 @@ std::shared_ptr<IndexerCommand> CxxIndexerCommandProvider::consumeCommand()
 	return std::shared_ptr<IndexerCommand>();
 }
 
-std::shared_ptr<IndexerCommand> CxxIndexerCommandProvider::consumeCommandForSourceFilePath(const FilePath& filePath)
+std::shared_ptr<IndexerCommand> CxxIndexerCommandProvider::consumeCommandForSourceFilePath(
+	const FilePath& filePath)
 {
-	std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it = m_commands.find(filePath);
+	std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it = m_commands.find(
+		filePath);
 	if (it != m_commands.end() && it->second)
 	{
 		std::shared_ptr<IndexerCommand> command = represetationToCommand(it->first, it->second);
@@ -149,7 +155,10 @@ std::vector<std::shared_ptr<IndexerCommand>> CxxIndexerCommandProvider::consumeA
 {
 	std::vector<std::shared_ptr<IndexerCommand>> commands;
 	commands.reserve(m_commands.size());
-	for (std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it = m_commands.begin(); it != m_commands.end(); it++)
+	for (std::map<FilePath, std::shared_ptr<CommandRepresentation>>::const_iterator it =
+			 m_commands.begin();
+		 it != m_commands.end();
+		 it++)
 	{
 		commands.emplace_back(represetationToCommand(it->first, it->second));
 	}
@@ -182,22 +191,23 @@ Id CxxIndexerCommandProvider::getId()
 	return m_nextId++;
 }
 
-std::shared_ptr<IndexerCommandCxx> CxxIndexerCommandProvider::represetationToCommand(const FilePath& sourceFilePath, std::shared_ptr<CommandRepresentation> representation)
+std::shared_ptr<IndexerCommandCxx> CxxIndexerCommandProvider::represetationToCommand(
+	const FilePath& sourceFilePath, std::shared_ptr<CommandRepresentation> representation)
 {
 	std::set<FilePath> indexedPaths;
-	for (const Id id : representation->m_indexedPathIds)
+	for (const Id id: representation->m_indexedPathIds)
 	{
 		indexedPaths.insert(m_idsToIndexedPaths[id]);
 	}
 
 	std::set<FilePathFilter> excludeFilters;
-	for (const Id id : representation->m_excludeFilterIds)
+	for (const Id id: representation->m_excludeFilterIds)
 	{
 		excludeFilters.insert(FilePathFilter(m_idsToExcludeFilters[id]));
 	}
 
 	std::set<FilePathFilter> includeFilters;
-	for (const Id id : representation->m_includeFilterIds)
+	for (const Id id: representation->m_includeFilterIds)
 	{
 		includeFilters.insert(FilePathFilter(m_idsToIncludeFilters[id]));
 	}
@@ -205,17 +215,11 @@ std::shared_ptr<IndexerCommandCxx> CxxIndexerCommandProvider::represetationToCom
 	FilePath workingDirectory = m_idsToWorkingDirectories[representation->m_workingDirectoryId];
 
 	std::vector<std::wstring> compilerFlags;
-	for (const Id id : representation->m_compilerFlagIds)
+	for (const Id id: representation->m_compilerFlagIds)
 	{
 		compilerFlags.push_back(m_idsToCompilerFlags[id]);
 	}
 
 	return std::make_shared<IndexerCommandCxx>(
-		sourceFilePath,
-		indexedPaths,
-		excludeFilters,
-		includeFilters,
-		workingDirectory,
-		compilerFlags
-	);
+		sourceFilePath, indexedPaths, excludeFilters, includeFilters, workingDirectory, compilerFlags);
 }

@@ -2,17 +2,11 @@
 
 #include "RefreshView.h"
 
-RefreshController::RefreshController()
-{
-}
+RefreshController::RefreshController() {}
 
-RefreshController::~RefreshController()
-{
-}
+RefreshController::~RefreshController() {}
 
-void RefreshController::clear()
-{
-}
+void RefreshController::clear() {}
 
 RefreshView* RefreshController::getView()
 {

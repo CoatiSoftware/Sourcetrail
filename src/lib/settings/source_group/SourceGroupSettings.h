@@ -12,14 +12,14 @@
 class ConfigManager;
 class FilePath;
 
-class SourceGroupSettings
-	: virtual public SourceGroupSettingsBase
+class SourceGroupSettings: virtual public SourceGroupSettingsBase
 {
 public:
 	static const size_t s_version;
 	static const std::string s_keyPrefix;
 
-	SourceGroupSettings(SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings);
+	SourceGroupSettings(
+		SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings);
 	virtual ~SourceGroupSettings() = default;
 
 	virtual std::shared_ptr<SourceGroupSettings> createCopy() const = 0;
@@ -60,4 +60,4 @@ private:
 	SourceGroupStatusType m_status;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_H
+#endif	  // SOURCE_GROUP_SETTINGS_H

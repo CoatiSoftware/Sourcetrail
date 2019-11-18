@@ -19,4 +19,4 @@ public:
 	static FilePath getCxxCompilerHeaderPath();
 };
 
-#endif // RESOURCE_PATHS_H
+#endif	  // RESOURCE_PATHS_H

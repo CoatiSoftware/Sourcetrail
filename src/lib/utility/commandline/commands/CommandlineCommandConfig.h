@@ -5,9 +5,7 @@
 
 namespace commandline
 {
-
-class CommandlineCommandConfig
-	: public CommandlineCommand
+class CommandlineCommandConfig: public CommandlineCommand
 {
 public:
 	CommandlineCommandConfig(CommandLineParser* parser);
@@ -16,9 +14,12 @@ public:
 	virtual void setup();
 	virtual ReturnStatus parse(std::vector<std::string>& args);
 
-	virtual bool hasHelp() const { return true; }
+	virtual bool hasHelp() const
+	{
+		return true;
+	}
 };
 
-} // namespace commandline
+}	 // namespace commandline
 
-#endif // COMMANDLINE_COMMAND_CONFIG_H
+#endif	  // COMMANDLINE_COMMAND_CONFIG_H

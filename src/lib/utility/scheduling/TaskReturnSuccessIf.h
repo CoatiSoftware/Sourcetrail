@@ -1,12 +1,11 @@
 #ifndef TASK_RETURN_SUCCESS_IF_H
 #define TASK_RETURN_SUCCESS_IF_H
 
-#include "Task.h"
 #include "Blackboard.h"
+#include "Task.h"
 
 template <typename T>
-class TaskReturnSuccessIf:
-	public Task
+class TaskReturnSuccessIf: public Task
 {
 public:
 	enum ConditionType
@@ -29,10 +28,9 @@ private:
 };
 
 template <typename T>
-TaskReturnSuccessIf<T>::TaskReturnSuccessIf(const std::string& lhsValueName, ConditionType condition, T rhsValue)
-	: m_lhsValueName(lhsValueName)
-	, m_condition(condition)
-	, m_rhsValue(rhsValue)
+TaskReturnSuccessIf<T>::TaskReturnSuccessIf(
+	const std::string& lhsValueName, ConditionType condition, T rhsValue)
+	: m_lhsValueName(lhsValueName), m_condition(condition), m_rhsValue(rhsValue)
 {
 }
 
@@ -75,4 +73,4 @@ void TaskReturnSuccessIf<T>::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
-#endif // TASK_RETURN_SUCCESS_IF_H
+#endif	  // TASK_RETURN_SUCCESS_IF_H

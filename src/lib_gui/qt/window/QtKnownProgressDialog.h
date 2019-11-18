@@ -3,8 +3,7 @@
 
 #include "QtProgressBarDialog.h"
 
-class QtKnownProgressDialog
-	: public QtProgressBarDialog
+class QtKnownProgressDialog: public QtProgressBarDialog
 {
 	Q_OBJECT
 
@@ -19,4 +18,4 @@ private:
 	void onHidePressed();
 };
 
-#endif // QT_KNOWN_PROGRESS_DIALOG_H
+#endif	  // QT_KNOWN_PROGRESS_DIALOG_H

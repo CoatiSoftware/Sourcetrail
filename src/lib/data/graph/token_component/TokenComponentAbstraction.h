@@ -5,8 +5,7 @@
 
 #include "TokenComponent.h"
 
-class TokenComponentAbstraction
-	: public TokenComponent
+class TokenComponentAbstraction: public TokenComponent
 {
 public:
 	enum AbstractionType
@@ -28,4 +27,4 @@ private:
 	const AbstractionType m_abstraction;
 };
 
-#endif // TOKEN_COMPONENT_ABSTRACTION_H
+#endif	  // TOKEN_COMPONENT_ABSTRACTION_H

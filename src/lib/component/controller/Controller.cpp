@@ -1,13 +1,8 @@
-#include  "Controller.h"
+#include "Controller.h"
 
-Controller::Controller()
-	: m_component(nullptr)
-{
-}
+Controller::Controller(): m_component(nullptr) {}
 
-Controller::~Controller()
-{
-}
+Controller::~Controller() {}
 
 void Controller::setComponent(Component* component)
 {

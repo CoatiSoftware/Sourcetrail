@@ -3,8 +3,7 @@
 
 #include "QtProjectWizardContentPaths.h"
 
-class QtProjectWizardContentPathsHeaderSearchGlobal
-	: public QtProjectWizardContentPaths
+class QtProjectWizardContentPathsHeaderSearchGlobal: public QtProjectWizardContentPaths
 {
 	Q_OBJECT
 public:
@@ -23,4 +22,4 @@ private:
 	void setPaths(const std::vector<FilePath>& paths);
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATHS_HEADER_SEARCH_GLOBAL_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATHS_HEADER_SEARCH_GLOBAL_H

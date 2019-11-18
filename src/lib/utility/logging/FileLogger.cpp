@@ -1,14 +1,15 @@
 #include "FileLogger.h"
 
+#include <cstdio>
+#include <ctime>
 #include <fstream>
 #include <sstream>
-#include <ctime>
-#include <cstdio>
 
 #include "FileSystem.h"
 #include "utilityString.h"
 
-std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix, const std::wstring& suffix, int offsetDays)
+std::wstring FileLogger::generateDatedFileName(
+	const std::wstring& prefix, const std::wstring& suffix, int offsetDays)
 {
 	time_t time;
 	std::time(&time);
@@ -108,7 +109,7 @@ void FileLogger::setMaxLogFileCount(unsigned int fileCount)
 
 void FileLogger::deleteLogFiles(const std::wstring& cutoffDate)
 {
-	for (const FilePath& file : FileSystem::getFilePathsFromDirectory(m_logDirectory, { L".txt" }))
+	for (const FilePath& file: FileSystem::getFilePathsFromDirectory(m_logDirectory, {L".txt"}))
 	{
 		if (file.fileName() < cutoffDate)
 		{
@@ -142,7 +143,6 @@ void FileLogger::updateLogFileName()
 			fileChanged = true;
 		}
 		currentLogFilePath += std::to_wstring(m_currentLogFileCount);
-
 	}
 	currentLogFilePath += L".txt";
 
@@ -163,7 +163,8 @@ void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 
 	if (message.filePath.size())
 	{
-		fileStream << message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | ";
+		fileStream << message.getFileName() << ':' << message.line << ' ' << message.functionName
+				   << "() | ";
 	}
 
 	fileStream << type << ": " << utility::encodeToUtf8(message.message) << std::endl;

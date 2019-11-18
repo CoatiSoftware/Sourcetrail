@@ -3,8 +3,7 @@
 
 #include "QtProjectWizardContent.h"
 
-class QtProjectWizardContentSourceGroupInfoText
-	: public QtProjectWizardContent
+class QtProjectWizardContentSourceGroupInfoText: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -15,4 +14,4 @@ public:
 	void populate(QGridLayout* layout, int& row) override;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_SOURCE_GROUP_INFO_TEXT_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_SOURCE_GROUP_INFO_TEXT_H

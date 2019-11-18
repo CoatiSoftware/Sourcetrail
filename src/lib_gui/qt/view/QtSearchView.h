@@ -3,13 +3,12 @@
 
 #include <vector>
 
-#include "SearchView.h"
 #include "QtThreadedFunctor.h"
+#include "SearchView.h"
 
 class QtSearchBar;
 
-class QtSearchView
-	: public SearchView
+class QtSearchView: public SearchView
 {
 public:
 	QtSearchView(ViewLayout* viewLayout);
@@ -34,4 +33,4 @@ private:
 	QtSearchBar* m_widget;
 };
 
-# endif // QT_SEARCH_VIEW_H
+#endif	  // QT_SEARCH_VIEW_H

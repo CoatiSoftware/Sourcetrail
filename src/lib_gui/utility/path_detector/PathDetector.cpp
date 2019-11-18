@@ -2,10 +2,7 @@
 
 #include "FilePath.h"
 
-PathDetector::PathDetector(const std::string& name)
-	: m_name(name)
-{
-}
+PathDetector::PathDetector(const std::string& name): m_name(name) {}
 
 std::string PathDetector::getName() const
 {

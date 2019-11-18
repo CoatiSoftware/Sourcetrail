@@ -1,12 +1,12 @@
 #include "TaskParseWrapper.h"
 
+#include "Blackboard.h"
 #include "DialogView.h"
 #include "PersistentStorage.h"
-#include "Blackboard.h"
 
-TaskParseWrapper::TaskParseWrapper(std::weak_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)
-	: m_storage(storage)
-	, m_dialogView(dialogView)
+TaskParseWrapper::TaskParseWrapper(
+	std::weak_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)
+	: m_storage(storage), m_dialogView(dialogView)
 {
 }
 
@@ -16,7 +16,7 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 	blackboard->get("source_file_count", sourceFileCount);
 
 	m_dialogView->clearDialogs();
-	m_dialogView->updateIndexingDialog(0, 0, sourceFileCount, { });
+	m_dialogView->updateIndexingDialog(0, 0, sourceFileCount, {});
 
 	m_start = TimeStamp::now();
 
@@ -37,7 +37,8 @@ Task::TaskState TaskParseWrapper::doUpdate(std::shared_ptr<Blackboard> blackboar
 void TaskParseWrapper::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 	float duration = TimeStamp::durationSeconds(m_start);
-	blackboard->update<float>("index_time", [duration](float currentDuration) { return currentDuration + duration; });
+	blackboard->update<float>(
+		"index_time", [duration](float currentDuration) { return currentDuration + duration; });
 }
 
 void TaskParseWrapper::doReset(std::shared_ptr<Blackboard> blackboard)

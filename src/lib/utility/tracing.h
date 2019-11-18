@@ -18,19 +18,10 @@
 struct TraceEvent
 {
 public:
-	TraceEvent()
-		: eventName("")
-		, id(0)
-		, depth(0)
-		, time(0.0)
-	{
-	}
+	TraceEvent(): eventName(""), id(0), depth(0), time(0.0) {}
 
 	TraceEvent(const std::string& eventName, Id id, size_t depth)
-		: eventName(eventName)
-		, id(id)
-		, depth(depth)
-		, time(0.0)
+		: eventName(eventName), id(id), depth(depth), time(0.0)
 	{
 	}
 
@@ -106,7 +97,11 @@ template <typename TracerType>
 class ScopedTrace
 {
 public:
-	ScopedTrace(const std::string& eventName, const std::string& fileName, int lineNumber, const std::string& functionName);
+	ScopedTrace(
+		const std::string& eventName,
+		const std::string& fileName,
+		int lineNumber,
+		const std::string& functionName);
 	~ScopedTrace();
 
 private:
@@ -116,11 +111,15 @@ private:
 
 template <typename TracerType>
 ScopedTrace<TracerType>::ScopedTrace(
-	const std::string& eventName, const std::string& fileName, int lineNumber, const std::string& functionName)
+	const std::string& eventName,
+	const std::string& fileName,
+	int lineNumber,
+	const std::string& functionName)
 {
 	m_event = TracerType::getInstance()->startEvent(eventName);
 	m_event->functionName = functionName;
-	m_event->locationName = utility::encodeToUtf8(FilePath(fileName).fileName()) + ":" + std::to_string(lineNumber);
+	m_event->locationName = utility::encodeToUtf8(FilePath(fileName).fileName()) + ":" +
+		std::to_string(lineNumber);
 
 	m_timeStamp = TimeStamp::now();
 }
@@ -134,24 +133,23 @@ ScopedTrace<TracerType>::~ScopedTrace()
 
 
 #ifdef TRACING_ENABLED
-	#ifdef USE_ACCUMULATED_TRACING
-		#define TRACE(__name__) \
-			ScopedTrace<AccumulatingTracer> __trace__(std::string(__name__), __FILE__, __LINE__, __FUNCTION__)
+#	ifdef USE_ACCUMULATED_TRACING
+#		define TRACE(__name__)                                                                    \
+			ScopedTrace<AccumulatingTracer> __trace__(                                             \
+				std::string(__name__), __FILE__, __LINE__, __FUNCTION__)
 
-		#define PRINT_TRACES() \
-				AccumulatingTracer::getInstance()->printTraces()
-	#else
-		#define TRACE(__name__) \
+#		define PRINT_TRACES() AccumulatingTracer::getInstance()->printTraces()
+#	else
+#		define TRACE(__name__)                                                                    \
 			ScopedTrace<Tracer> __trace__(std::string(__name__), __FILE__, __LINE__, __FUNCTION__)
 
-		#define PRINT_TRACES() \
-				Tracer::getInstance()->printTraces()
-	#endif
+#		define PRINT_TRACES() Tracer::getInstance()->printTraces()
+#	endif
 
 
 #else
-	#define TRACE(__name__)
-	#define PRINT_TRACES()
+#	define TRACE(__name__)
+#	define PRINT_TRACES()
 #endif
 
-#endif // TRACING_H
+#endif	  // TRACING_H

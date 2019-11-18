@@ -2,10 +2,7 @@
 
 #include "StatusBarController.h"
 
-StatusBarView::StatusBarView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+StatusBarView::StatusBarView(ViewLayout* viewLayout): View(viewLayout) {}
 
 std::string StatusBarView::getName() const
 {

@@ -1,7 +1,6 @@
 #include "CxxAstVisitorComponent.h"
 
-CxxAstVisitorComponent::CxxAstVisitorComponent(CxxAstVisitor* astVisitor)
-	: m_astVisitor(astVisitor)
+CxxAstVisitorComponent::CxxAstVisitorComponent(CxxAstVisitor* astVisitor): m_astVisitor(astVisitor)
 {
 }
 

@@ -26,4 +26,4 @@ private:
 	std::vector<const clang::Decl*> m_ignoredContextDecls;
 };
 
-#endif // CXX_NAME_RESOLVER_H
+#endif	  // CXX_NAME_RESOLVER_H

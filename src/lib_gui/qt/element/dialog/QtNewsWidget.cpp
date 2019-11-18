@@ -3,18 +3,17 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QVBoxLayout>
 #include <QStyle>
+#include <QVBoxLayout>
 
 #include "ApplicationSettings.h"
-#include "logging.h"
 #include "QtTextEdit.h"
 #include "TimeStamp.h"
-#include "utilityApp.h"
 #include "Version.h"
+#include "logging.h"
+#include "utilityApp.h"
 
-QtNewsWidget::QtNewsWidget(QWidget* parent)
-	: QWidget(parent)
+QtNewsWidget::QtNewsWidget(QWidget* parent): QWidget(parent)
 {
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -91,14 +90,15 @@ void QtNewsWidget::updateNews()
 	QJsonDocument doc = QJsonDocument::fromJson(QString::fromStdString(newsRaw).toUtf8(), &error);
 	if (doc.isNull() || !doc.isArray())
 	{
-		LOG_ERROR_STREAM(<< "News string couldn't be parsed as JSON: " << error.errorString().toStdString()
+		LOG_ERROR_STREAM(
+			<< "News string couldn't be parsed as JSON: " << error.errorString().toStdString()
 			<< "\nJSON: " << newsRaw);
 		setNews("");
 		return;
 	}
 
 	size_t itemNum = 0;
-	for (QJsonValueRef value : doc.array())
+	for (QJsonValueRef value: doc.array())
 	{
 		if (!value.isObject())
 		{

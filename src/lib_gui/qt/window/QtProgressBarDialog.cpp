@@ -5,9 +5,7 @@
 #include "QtProgressBar.h"
 
 QtProgressBarDialog::QtProgressBarDialog(float topRatio, bool hideable, QWidget* parent)
-	: QtIndexingDialog(true, parent)
-	, m_title(nullptr)
-	, m_topRatio(topRatio)
+	: QtIndexingDialog(true, parent), m_title(nullptr), m_topRatio(topRatio)
 {
 	m_top = new QWidget(m_window);
 	m_top->setObjectName("topHalf");
@@ -102,15 +100,12 @@ void QtProgressBarDialog::setGeometries()
 		m_top->setGeometry(0, 0, m_window->size().width(), m_window->size().height() * m_topRatio);
 
 		m_title->setGeometry(
-			45,
-			m_window->size().height() * m_topRatio - 50,
-			m_window->size().width() - 60,
-			40
-		);
+			45, m_window->size().height() * m_topRatio - 50, m_window->size().width() - 60, 40);
 	}
 
 	if (m_progressBar)
 	{
-		m_progressBar->setGeometry(0, m_window->size().height() * m_topRatio - 5, m_window->size().width(), 10);
+		m_progressBar->setGeometry(
+			0, m_window->size().height() * m_topRatio - 5, m_window->size().width(), 10);
 	}
 }

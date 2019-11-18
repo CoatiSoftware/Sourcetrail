@@ -8,12 +8,16 @@
 #include <qtcpserver.h>
 #include <qtcpsocket.h>
 
-class QtTcpWrapper : public QObject
+class QtTcpWrapper: public QObject
 {
 	Q_OBJECT
 
 public:
-	QtTcpWrapper(QObject* parent, const std::string& ip = "127.0.0.1", const quint16 serverPort = 6667, const quint16 clientPort = 6666);
+	QtTcpWrapper(
+		QObject* parent,
+		const std::string& ip = "127.0.0.1",
+		const quint16 serverPort = 6667,
+		const quint16 clientPort = 6666);
 	~QtTcpWrapper();
 
 	void startListening();
@@ -48,4 +52,4 @@ private:
 	QTcpSocket* m_tcpClient;
 };
 
-#endif // QT_SOCKET_WRAPPER_H
+#endif	  // QT_SOCKET_WRAPPER_H

@@ -2,9 +2,9 @@
 #define QT_SCREEN_SEARCH_VIEW_H
 
 #include "ControllerProxy.h"
+#include "QtThreadedFunctor.h"
 #include "ScreenSearchController.h"
 #include "ScreenSearchView.h"
-#include "QtThreadedFunctor.h"
 
 class QtScreenSearchBox;
 class QToolBar;
@@ -41,4 +41,4 @@ private:
 	QToolBar* m_bar;
 };
 
-#endif // QT_SCREEN_SEARCH_VIEW_H
+#endif	  // QT_SCREEN_SEARCH_VIEW_H

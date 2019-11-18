@@ -16,7 +16,7 @@ class NodeType
 public:
 	typedef int TypeMask;
 	enum Type : NodeType::TypeMask
-	{ // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
+	{	 // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
 		NODE_SYMBOL = 1 << 0,
 		NODE_TYPE = 1 << 1,
 		NODE_BUILTIN_TYPE = 1 << 2,
@@ -54,18 +54,17 @@ public:
 
 	struct BundleInfo
 	{
-		BundleInfo()
-		{}
+		BundleInfo() {}
 
 		BundleInfo(std::wstring bundleName)
-			: nameMatcher([](const std::wstring&) { return true; })
-			, bundleName(bundleName)
-		{}
+			: nameMatcher([](const std::wstring&) { return true; }), bundleName(bundleName)
+		{
+		}
 
 		BundleInfo(std::function<bool(std::wstring)> nameMatcher, std::wstring bundleName)
-			: nameMatcher(nameMatcher)
-			, bundleName(bundleName)
-		{}
+			: nameMatcher(nameMatcher), bundleName(bundleName)
+		{
+		}
 
 		bool isValid() const
 		{
@@ -123,4 +122,4 @@ private:
 	Type m_type;
 };
 
-#endif // NODE_TYPE_H
+#endif	  // NODE_TYPE_H

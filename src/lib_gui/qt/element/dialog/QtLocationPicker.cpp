@@ -6,14 +6,12 @@
 #include <QPainter>
 #include <QStyleOption>
 
-#include "QtIconButton.h"
 #include "QtFileDialog.h"
+#include "QtIconButton.h"
 #include "ResourcePaths.h"
 #include "utilityFile.h"
 
-QtLocationPicker::QtLocationPicker(QWidget *parent)
-	: QWidget(parent)
-	, m_pickDirectory(false)
+QtLocationPicker::QtLocationPicker(QWidget* parent): QWidget(parent), m_pickDirectory(false)
 {
 	setObjectName("picker");
 
@@ -30,8 +28,7 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 
 	m_button = new QtIconButton(
 		ResourcePaths::getGuiPath().concatenate(L"window/dots.png"),
-		ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png")
-	);
+		ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png"));
 	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName("dotsButton");
 	m_button->setToolTip("pick file");
@@ -91,7 +88,7 @@ void QtLocationPicker::setRelativeRootDirectory(const FilePath& dir)
 	m_relativeRootDirectory = dir;
 }
 
-void QtLocationPicker::changeEvent(QEvent *event)
+void QtLocationPicker::changeEvent(QEvent* event)
 {
 	if (event->type() == QEvent::EnabledChange)
 	{
@@ -119,9 +116,9 @@ void QtLocationPicker::onHandleButtonPressed()
 
 	if (!fileName.isEmpty())
 	{
-		m_data->setText(QString::fromStdWString(utility::getAsRelativeIfShorter(
-			FilePath(fileName.toStdWString()), m_relativeRootDirectory
-		).wstr()));
+		m_data->setText(QString::fromStdWString(
+			utility::getAsRelativeIfShorter(FilePath(fileName.toStdWString()), m_relativeRootDirectory)
+				.wstr()));
 		emit locationPicked();
 	}
 }

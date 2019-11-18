@@ -11,10 +11,7 @@ const clang::Type* CxxContext::getType() const
 }
 
 
-CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl)
-	: m_decl(decl)
-{
-}
+CxxContextDecl::CxxContextDecl(const clang::NamedDecl* decl): m_decl(decl) {}
 
 const clang::NamedDecl* CxxContextDecl::getDecl() const
 {
@@ -22,10 +19,7 @@ const clang::NamedDecl* CxxContextDecl::getDecl() const
 }
 
 
-CxxContextType::CxxContextType(const clang::Type* type)
-	: m_type(type)
-{
-}
+CxxContextType::CxxContextType(const clang::Type* type): m_type(type) {}
 
 const clang::Type* CxxContextType::getType() const
 {

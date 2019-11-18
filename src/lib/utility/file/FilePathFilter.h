@@ -24,4 +24,4 @@ private:
 	std::wregex m_filterRegex;
 };
 
-#endif // FILE_PATH_FILTER_H
+#endif	  // FILE_PATH_FILTER_H

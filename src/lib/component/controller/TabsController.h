@@ -1,9 +1,9 @@
 #ifndef TABS_CONTROLLER_H
 #define TABS_CONTROLLER_H
 
-#include "MessageListener.h"
 #include "MessageActivateErrors.h"
 #include "MessageIndexingFinished.h"
+#include "MessageListener.h"
 #include "MessageTabClose.h"
 #include "MessageTabOpen.h"
 #include "MessageTabOpenWith.h"
@@ -35,8 +35,7 @@ public:
 		ViewLayout* mainLayout,
 		const ViewFactory* viewFactory,
 		StorageAccess* storageAccess,
-		ScreenSearchSender* screenSearchSender
-	);
+		ScreenSearchSender* screenSearchSender);
 
 	// Controller implementation
 	virtual void clear();
@@ -70,4 +69,4 @@ private:
 	std::tuple<Id, FilePath, size_t> m_scrollToLine;
 };
 
-#endif // TABS_CONTROLLER_H
+#endif	  // TABS_CONTROLLER_H

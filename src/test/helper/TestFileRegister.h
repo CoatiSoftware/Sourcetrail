@@ -3,8 +3,7 @@
 
 #include "FileRegister.h"
 
-class TestFileRegister
-	: public FileRegister
+class TestFileRegister: public FileRegister
 {
 public:
 	TestFileRegister();
@@ -12,4 +11,4 @@ public:
 	virtual bool hasFilePath(const FilePath& filePath) const;
 };
 
-#endif // TEST_FILE_MANAGER_H
+#endif	  // TEST_FILE_MANAGER_H

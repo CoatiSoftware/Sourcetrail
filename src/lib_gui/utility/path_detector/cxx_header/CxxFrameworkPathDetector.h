@@ -13,4 +13,4 @@ private:
 	const std::string m_compilerName;
 };
 
-#endif // CXX_FRAMEWORK_PATH_DETECTOR_H
+#endif	  // CXX_FRAMEWORK_PATH_DETECTOR_H

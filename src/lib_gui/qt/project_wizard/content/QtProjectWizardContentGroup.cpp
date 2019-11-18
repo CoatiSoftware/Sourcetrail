@@ -1,10 +1,7 @@
 #include "QtProjectWizardContentGroup.h"
 
-QtProjectWizardContentGroup::QtProjectWizardContentGroup(
-	QtProjectWizardWindow* window
-)
-	: QtProjectWizardContent(window)
-	, m_isForm(false)
+QtProjectWizardContentGroup::QtProjectWizardContentGroup(QtProjectWizardWindow* window)
+	: QtProjectWizardContent(window), m_isForm(false)
 {
 }
 
@@ -30,7 +27,7 @@ void QtProjectWizardContentGroup::setIsForm(bool isForm)
 
 bool QtProjectWizardContentGroup::hasContents() const
 {
-	for (QtProjectWizardContent* content : m_contents)
+	for (QtProjectWizardContent* content: m_contents)
 	{
 		if (content)
 		{
@@ -51,7 +48,7 @@ void QtProjectWizardContentGroup::populate(QGridLayout* layout, int& row)
 
 	layout->setRowMinimumHeight(row++, 10);
 
-	for (QtProjectWizardContent* content : m_contents)
+	for (QtProjectWizardContent* content: m_contents)
 	{
 		if (content)
 		{
@@ -71,7 +68,7 @@ void QtProjectWizardContentGroup::populateForm(QGridLayout* layout, int& row)
 {
 	layout->setRowMinimumHeight(row++, 10);
 
-	for (QtProjectWizardContent* content : m_contents)
+	for (QtProjectWizardContent* content: m_contents)
 	{
 		if (content)
 		{
@@ -89,7 +86,7 @@ void QtProjectWizardContentGroup::populateForm(QGridLayout* layout, int& row)
 
 void QtProjectWizardContentGroup::load()
 {
-	for (QtProjectWizardContent* content : m_contents)
+	for (QtProjectWizardContent* content: m_contents)
 	{
 		if (content)
 		{
@@ -100,7 +97,7 @@ void QtProjectWizardContentGroup::load()
 
 void QtProjectWizardContentGroup::save()
 {
-	for (QtProjectWizardContent* content : m_contents)
+	for (QtProjectWizardContent* content: m_contents)
 	{
 		if (content)
 		{
@@ -111,7 +108,7 @@ void QtProjectWizardContentGroup::save()
 
 bool QtProjectWizardContentGroup::check()
 {
-	for (QtProjectWizardContent* content : m_contents)
+	for (QtProjectWizardContent* content: m_contents)
 	{
 		if (content && !content->check())
 		{

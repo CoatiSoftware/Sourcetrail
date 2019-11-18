@@ -5,12 +5,7 @@
 
 struct ErrorFilter
 {
-	ErrorFilter()
-		: error(true)
-		, fatal(true)
-		, unindexedError(true)
-		, unindexedFatal(true)
-		, limit(1000)
+	ErrorFilter(): error(true), fatal(true), unindexedError(true), unindexedFatal(true), limit(1000)
 	{
 	}
 
@@ -31,7 +26,7 @@ struct ErrorFilter
 	{
 		std::vector<ErrorInfo> filteredErrors;
 
-		for (const ErrorInfo& error : errors)
+		for (const ErrorInfo& error: errors)
 		{
 			if (filter(error))
 			{
@@ -49,10 +44,8 @@ struct ErrorFilter
 
 	bool operator==(const ErrorFilter& other) const
 	{
-		return error == other.error &&
-			fatal == other.fatal &&
-			unindexedError == other.unindexedError &&
-			unindexedFatal == other.unindexedFatal &&
+		return error == other.error && fatal == other.fatal &&
+			unindexedError == other.unindexedError && unindexedFatal == other.unindexedFatal &&
 			limit == other.limit;
 	}
 
@@ -65,4 +58,4 @@ struct ErrorFilter
 	size_t limit;
 };
 
-#endif // ERROR_FILTER_H
+#endif	  // ERROR_FILTER_H

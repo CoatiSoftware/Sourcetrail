@@ -10,25 +10,18 @@ QtProjectWizardContent::QtProjectWizardContent(QtProjectWizardWindow* window)
 	: QWidget(window)
 	, m_window(window)
 	, m_isInForm(false)
-	, m_showFilesFunctor(std::bind(&QtProjectWizardContent::showFilesDialog, this, std::placeholders::_1))
+	, m_showFilesFunctor(
+		  std::bind(&QtProjectWizardContent::showFilesDialog, this, std::placeholders::_1))
 {
 }
 
-void QtProjectWizardContent::populate(QGridLayout* layout, int& row)
-{
-}
+void QtProjectWizardContent::populate(QGridLayout* layout, int& row) {}
 
-void QtProjectWizardContent::windowReady()
-{
-}
+void QtProjectWizardContent::windowReady() {}
 
-void QtProjectWizardContent::load()
-{
-}
+void QtProjectWizardContent::load() {}
 
-void QtProjectWizardContent::save()
-{
-}
+void QtProjectWizardContent::save() {}
 
 bool QtProjectWizardContent::check()
 {
@@ -94,7 +87,8 @@ QToolButton* QtProjectWizardContent::createSourceGroupButton(QString name, QStri
 	return button;
 }
 
-QtHelpButton* QtProjectWizardContent::addHelpButton(const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const
+QtHelpButton* QtProjectWizardContent::addHelpButton(
+	const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const
 {
 	QtHelpButton* button = new QtHelpButton(helpTitle, helpText);
 	layout->addWidget(button, row, QtProjectWizardWindow::HELP_COL, Qt::AlignTop);
@@ -105,10 +99,11 @@ QPushButton* QtProjectWizardContent::addFilesButton(QString name, QGridLayout* l
 {
 	QPushButton* button = new QPushButton(name);
 	button->setObjectName("windowButton");
-	button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	button->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	if (layout)
 	{
-		layout->addWidget(button, row, QtProjectWizardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+		layout->addWidget(
+			button, row, QtProjectWizardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
 	}
 	connect(button, &QPushButton::clicked, this, &QtProjectWizardContent::filesButtonClicked);
 
@@ -133,7 +128,7 @@ void QtProjectWizardContent::filesButtonClicked()
 	m_window->saveContent();
 	m_window->loadContent();
 
-	std::thread([&](){
+	std::thread([&]() {
 		const std::vector<FilePath> filePaths = getFilePaths();
 		m_showFilesFunctor(filePaths);
 	}).detach();
@@ -151,8 +146,16 @@ void QtProjectWizardContent::showFilesDialog(const std::vector<FilePath>& filePa
 		m_filesDialog->setCloseVisible(false);
 		m_filesDialog->setReadOnly(true);
 
-		connect(m_filesDialog.get(), &QtTextEditDialog::finished, this, &QtProjectWizardContent::closedFilesDialog);
-		connect(m_filesDialog.get(), &QtTextEditDialog::canceled, this, &QtProjectWizardContent::closedFilesDialog);
+		connect(
+			m_filesDialog.get(),
+			&QtTextEditDialog::finished,
+			this,
+			&QtProjectWizardContent::closedFilesDialog);
+		connect(
+			m_filesDialog.get(),
+			&QtTextEditDialog::canceled,
+			this,
+			&QtProjectWizardContent::closedFilesDialog);
 	}
 
 	m_filesDialog->showWindow();

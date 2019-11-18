@@ -12,29 +12,30 @@
 #include "NodeType.h"
 #include "utilityString.h"
 
-class TestIntermediateStorage
-	: public IntermediateStorage
+class TestIntermediateStorage: public IntermediateStorage
 {
 public:
 	void generateStringLists()
 	{
 		std::map<Id, FilePath> filePathMap;
-		for (const StorageFile& file : getStorageFiles())
+		for (const StorageFile& file: getStorageFiles())
 		{
 			filePathMap.emplace(file.id, FilePath(file.filePath));
 			files.emplace(file.filePath);
 
-			addLine(L"FILE: " + FilePath(file.filePath).fileName() + (file.indexed ? L"" : L" non-indexed"));
+			addLine(
+				L"FILE: " + FilePath(file.filePath).fileName() +
+				(file.indexed ? L"" : L" non-indexed"));
 		}
 
 		std::map<Id, StorageComponentAccess> accessMap;
-		for (const StorageComponentAccess& access : getComponentAccesses())
+		for (const StorageComponentAccess& access: getComponentAccesses())
 		{
 			accessMap.emplace(access.nodeId, access);
 		}
 
 		std::multimap<Id, Id> occurrenceMap;
-		for (const StorageOccurrence& occurence : getStorageOccurrences())
+		for (const StorageOccurrence& occurence: getStorageOccurrences())
 		{
 			occurrenceMap.emplace(occurence.sourceLocationId, occurence.elementId);
 		}
@@ -46,10 +47,12 @@ public:
 		std::multimap<Id, StorageSourceLocation> qualifierLocationMap;
 		std::multimap<Id, StorageSourceLocation> errorLocationMap;
 		std::vector<StorageSourceLocation> commentLocations;
-		for (const StorageSourceLocation& location : getStorageSourceLocations())
+		for (const StorageSourceLocation& location: getStorageSourceLocations())
 		{
 			std::vector<Id> elementIds;
-			for (auto it = occurrenceMap.find(location.id); it != occurrenceMap.end() && it->first == location.id; it++)
+			for (auto it = occurrenceMap.find(location.id);
+				 it != occurrenceMap.end() && it->first == location.id;
+				 it++)
 			{
 				elementIds.emplace_back(it->second);
 			}
@@ -59,7 +62,7 @@ public:
 				elementIds.emplace_back(0);
 			}
 
-			for (Id elementId : elementIds)
+			for (Id elementId: elementIds)
 			{
 				switch (intToLocationType(location.type))
 				{
@@ -109,19 +112,23 @@ public:
 		}
 
 		std::map<Id, StorageNode> nodesMap;
-		for (const StorageNode& node : getStorageNodes())
+		for (const StorageNode& node: getStorageNodes())
 		{
 			nodesMap.emplace(node.id, node);
 
-			std::wstring nameStr = NameHierarchy::deserialize(node.serializedName).getQualifiedNameWithSignature();
+			std::wstring nameStr =
+				NameHierarchy::deserialize(node.serializedName).getQualifiedNameWithSignature();
 
 			for (auto qualifierLocationIt = qualifierLocationMap.find(node.id);
-				qualifierLocationIt != qualifierLocationMap.end() && qualifierLocationIt->first == node.id;
-				qualifierLocationIt++)
+				 qualifierLocationIt != qualifierLocationMap.end() &&
+				 qualifierLocationIt->first == node.id;
+				 qualifierLocationIt++)
 			{
 				std::wstring locStr = addLocationStr(L"", qualifierLocationIt->second);
 				qualifiers.emplace_back(nameStr + locStr);
-				addLine(L"QUALIFIER: " + nameStr + addFileName(locStr, filePathMap[qualifierLocationIt->second.fileNodeId]));
+				addLine(
+					L"QUALIFIER: " + nameStr +
+					addFileName(locStr, filePathMap[qualifierLocationIt->second.fileNodeId]));
 			}
 
 			std::vector<std::wstring>* bin = getBinForNodeType(node.type);
@@ -133,14 +140,15 @@ public:
 					if (intToAccessKind(accessIt->second.type) != ACCESS_TEMPLATE_PARAMETER &&
 						intToAccessKind(accessIt->second.type) != ACCESS_TYPE_PARAMETER)
 					{
-						nameStr = accessKindToString(intToAccessKind(accessIt->second.type)) + L' ' + nameStr;
+						nameStr = accessKindToString(intToAccessKind(accessIt->second.type)) +
+							L' ' + nameStr;
 					}
 				}
 
 				bool added = false;
 				for (auto tokenLocationIt = tokenLocationMap.find(node.id);
-					tokenLocationIt != tokenLocationMap.end() && tokenLocationIt->first == node.id;
-					tokenLocationIt++)
+					 tokenLocationIt != tokenLocationMap.end() && tokenLocationIt->first == node.id;
+					 tokenLocationIt++)
 				{
 					added = false;
 					std::wstring locationStr = addLocationStr(L"", tokenLocationIt->second);
@@ -153,14 +161,18 @@ public:
 					}
 
 					for (auto scopeLocationIt = scopeLocationMap.find(node.id);
-						scopeLocationIt != scopeLocationMap.end() && scopeLocationIt->first == node.id;
-						scopeLocationIt++)
+						 scopeLocationIt != scopeLocationMap.end() &&
+						 scopeLocationIt->first == node.id;
+						 scopeLocationIt++)
 					{
 						if (containsLocation(scopeLocationIt->second, tokenLocationIt->second))
 						{
-							std::wstring locStr = addLocationStr(locationStr, scopeLocationIt->second);
+							std::wstring locStr = addLocationStr(
+								locationStr, scopeLocationIt->second);
 							bin->emplace_back(nameStr + locStr);
-							addLine(nodeTypeToString(node.type) + L": " + nameStr + addFileName(locStr, filePathMap[tokenLocationIt->second.fileNodeId]));
+							addLine(
+								nodeTypeToString(node.type) + L": " + nameStr +
+								addFileName(locStr, filePathMap[tokenLocationIt->second.fileNodeId]));
 							added = true;
 						}
 					}
@@ -168,7 +180,9 @@ public:
 					if (!added)
 					{
 						bin->emplace_back(nameStr + locationStr);
-						addLine(nodeTypeToString(node.type) + L": " + nameStr + addFileName(locationStr, filePathMap[tokenLocationIt->second.fileNodeId]));
+						addLine(
+							nodeTypeToString(node.type) + L": " + nameStr +
+							addFileName(locationStr, filePathMap[tokenLocationIt->second.fileNodeId]));
 						added = true;
 					}
 				}
@@ -181,7 +195,7 @@ public:
 			}
 		}
 
-		for (const StorageEdge& edge : getStorageEdges())
+		for (const StorageEdge& edge: getStorageEdges())
 		{
 			auto targetIt = nodesMap.find(edge.targetNodeId);
 			if (targetIt == nodesMap.end())
@@ -201,7 +215,8 @@ public:
 			std::vector<std::wstring>* bin = getBinForEdgeType(edge.type);
 			if (bin != nullptr)
 			{
-				std::wstring sourceName = NameHierarchy::deserialize(source.serializedName).getQualifiedNameWithSignature();
+				std::wstring sourceName =
+					NameHierarchy::deserialize(source.serializedName).getQualifiedNameWithSignature();
 				try
 				{
 					if (FilePath(sourceName).exists())
@@ -209,9 +224,12 @@ public:
 						sourceName = FilePath(sourceName).fileName();
 					}
 				}
-				catch (const boost::filesystem::filesystem_error&) {}
+				catch (const boost::filesystem::filesystem_error&)
+				{
+				}
 
-				std::wstring targetName = NameHierarchy::deserialize(target.serializedName).getQualifiedNameWithSignature();
+				std::wstring targetName =
+					NameHierarchy::deserialize(target.serializedName).getQualifiedNameWithSignature();
 				try
 				{
 					if (FilePath(targetName).exists())
@@ -219,18 +237,22 @@ public:
 						targetName = FilePath(targetName).fileName();
 					}
 				}
-				catch (const boost::filesystem::filesystem_error&) {}
+				catch (const boost::filesystem::filesystem_error&)
+				{
+				}
 
-				std::wstring nameStr = sourceName +  L" -> " + targetName;
+				std::wstring nameStr = sourceName + L" -> " + targetName;
 
 				bool added = false;
 				for (auto tokenLocationIt = tokenLocationMap.find(edge.id);
-					tokenLocationIt != tokenLocationMap.end() && tokenLocationIt->first == edge.id;
-					tokenLocationIt++)
+					 tokenLocationIt != tokenLocationMap.end() && tokenLocationIt->first == edge.id;
+					 tokenLocationIt++)
 				{
 					std::wstring locStr = addLocationStr(L"", tokenLocationIt->second);
 					bin->emplace_back(nameStr + locStr);
-					addLine(edgeTypeToString(edge.type) + L": " + nameStr + addFileName(locStr, filePathMap[tokenLocationIt->second.fileNodeId]));
+					addLine(
+						edgeTypeToString(edge.type) + L": " + nameStr +
+						addFileName(locStr, filePathMap[tokenLocationIt->second.fileNodeId]));
 					added = true;
 				}
 
@@ -242,16 +264,19 @@ public:
 			}
 		}
 
-		for (const StorageLocalSymbol& localSymbol : getStorageLocalSymbols())
+		for (const StorageLocalSymbol& localSymbol: getStorageLocalSymbols())
 		{
 			bool added = false;
 			for (auto localSymbolLocationIt = localSymbolLocationMap.find(localSymbol.id);
-				localSymbolLocationIt != localSymbolLocationMap.end() && localSymbolLocationIt->first == localSymbol.id;
-				localSymbolLocationIt++)
+				 localSymbolLocationIt != localSymbolLocationMap.end() &&
+				 localSymbolLocationIt->first == localSymbol.id;
+				 localSymbolLocationIt++)
 			{
 				std::wstring locStr = addLocationStr(L"", localSymbolLocationIt->second);
 				localSymbols.emplace_back(localSymbol.name + locStr);
-				addLine(L"LOCAL_SYMBOL: " + localSymbol.name + addFileName(locStr, filePathMap[localSymbolLocationIt->second.fileNodeId]));
+				addLine(
+					L"LOCAL_SYMBOL: " + localSymbol.name +
+					addFileName(locStr, filePathMap[localSymbolLocationIt->second.fileNodeId]));
 				added = true;
 			}
 
@@ -262,22 +287,24 @@ public:
 			}
 		}
 
-		for (const StorageSourceLocation& location : commentLocations)
+		for (const StorageSourceLocation& location: commentLocations)
 		{
 			std::wstring locStr = addLocationStr(L"", location);
 			comments.emplace_back(L"comment" + locStr);
 			addLine(L"COMMENT: comment" + addFileName(locStr, filePathMap[location.fileNodeId]));
 		}
 
-		for (const StorageError& error : getErrors())
+		for (const StorageError& error: getErrors())
 		{
 			for (auto errorLocationIt = errorLocationMap.find(error.id);
-				errorLocationIt != errorLocationMap.end() && errorLocationIt->first == error.id;
-				errorLocationIt++)
+				 errorLocationIt != errorLocationMap.end() && errorLocationIt->first == error.id;
+				 errorLocationIt++)
 			{
 				std::wstring locStr = addLocationStr(L"", errorLocationIt->second);
 				errors.emplace_back(error.message + locStr);
-				addLine(L"ERROR: " + error.message + addFileName(locStr, filePathMap[errorLocationIt->second.fileNodeId]));
+				addLine(
+					L"ERROR: " + error.message +
+					addFileName(locStr, filePathMap[errorLocationIt->second.fileNodeId]));
 			}
 		}
 	}
@@ -310,8 +337,8 @@ public:
 	std::vector<std::wstring> inheritances;
 	std::vector<std::wstring> overrides;
 	std::vector<std::wstring> calls;
-	std::vector<std::wstring> usages;	// for variables
-	std::vector<std::wstring> typeUses;	// for types
+	std::vector<std::wstring> usages;	   // for variables
+	std::vector<std::wstring> typeUses;	   // for types
 	std::vector<std::wstring> macroUses;
 	std::vector<std::wstring> annotationUses;
 	std::vector<std::wstring> typeArguments;
@@ -478,8 +505,9 @@ private:
 
 	std::wstring addLocationStr(const std::wstring& locationStr, const StorageSourceLocation& loc) const
 	{
-		return L" <" + std::to_wstring(loc.startLine) + L':' + std::to_wstring(loc.startCol) + locationStr
-			+ L' ' + std::to_wstring(loc.endLine) + L':' + std::to_wstring(loc.endCol) + L'>';
+		return L" <" + std::to_wstring(loc.startLine) + L':' + std::to_wstring(loc.startCol) +
+			locationStr + L' ' + std::to_wstring(loc.endLine) + L':' + std::to_wstring(loc.endCol) +
+			L'>';
 	}
 
 	std::wstring addFileName(const std::wstring& locationStr, const FilePath& filePath) const
@@ -518,4 +546,4 @@ private:
 	}
 };
 
-#endif // TEST_INTERMEDIATE_STORAGE_H
+#endif	  // TEST_INTERMEDIATE_STORAGE_H

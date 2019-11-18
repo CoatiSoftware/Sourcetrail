@@ -24,18 +24,17 @@ bool SourceGroupSettingsWithCxxCdbPath::equals(const SourceGroupSettingsBase* ot
 	const SourceGroupSettingsWithCxxCdbPath* otherPtr =
 		dynamic_cast<const SourceGroupSettingsWithCxxCdbPath*>(other);
 
-	return (
-		otherPtr &&
-		m_compilationDatabasePath == otherPtr->m_compilationDatabasePath
-	);
+	return (otherPtr && m_compilationDatabasePath == otherPtr->m_compilationDatabasePath);
 }
 
 void SourceGroupSettingsWithCxxCdbPath::load(const ConfigManager* config, const std::string& key)
 {
-	setCompilationDatabasePath(config->getValueOrDefault(key + "/build_file_path/compilation_db_path", FilePath(L"")));
+	setCompilationDatabasePath(
+		config->getValueOrDefault(key + "/build_file_path/compilation_db_path", FilePath(L"")));
 }
 
 void SourceGroupSettingsWithCxxCdbPath::save(ConfigManager* config, const std::string& key)
 {
-	config->setValue(key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().wstr());
+	config->setValue(
+		key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().wstr());
 }

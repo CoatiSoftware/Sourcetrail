@@ -3,8 +3,7 @@
 
 #include "QtLineItemBase.h"
 
-class QtLineItemAngled
-	: public QtLineItemBase
+class QtLineItemAngled: public QtLineItemBase
 {
 public:
 	QtLineItemAngled(QGraphicsItem* parent);
@@ -14,4 +13,4 @@ public:
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
 };
 
-#endif // QT_LINE_ITEM_ANGLED_H
+#endif	  // QT_LINE_ITEM_ANGLED_H

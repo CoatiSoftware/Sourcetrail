@@ -5,8 +5,7 @@
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
 
-class MessageFilterFocusInOut
-	: public MessageFilter
+class MessageFilterFocusInOut: public MessageFilter
 {
 	void filter(MessageQueue::MessageBufferType* messageBuffer) override
 	{
@@ -21,7 +20,8 @@ class MessageFilterFocusInOut
 			for (auto it = messageBuffer->begin() + 1; it != messageBuffer->end(); it++)
 			{
 				if ((*it)->getType() == MessageFocusOut::getStaticType() &&
-					dynamic_cast<MessageFocusIn*>(message)->tokenIds == dynamic_cast<MessageFocusOut*>(it->get())->tokenIds)
+					dynamic_cast<MessageFocusIn*>(message)->tokenIds ==
+						dynamic_cast<MessageFocusOut*>(it->get())->tokenIds)
 				{
 					messageBuffer->erase(it);
 					messageBuffer->pop_front();
@@ -32,4 +32,4 @@ class MessageFilterFocusInOut
 	}
 };
 
-#endif // MESSAGE_FILTER_FOCUS_IN_OUT_H
+#endif	  // MESSAGE_FILTER_FOCUS_IN_OUT_H

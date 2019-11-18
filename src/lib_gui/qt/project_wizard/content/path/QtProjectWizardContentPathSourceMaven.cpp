@@ -4,29 +4,26 @@
 
 #include "Application.h"
 #include "ApplicationSettings.h"
-#include "logging.h"
 #include "MessageStatus.h"
 #include "QtDialogView.h"
 #include "ScopedFunctor.h"
 #include "SourceGroupJavaMaven.h"
 #include "SourceGroupSettingsJavaMaven.h"
+#include "logging.h"
 #include "utility.h"
 #include "utilityFile.h"
 #include "utilityMaven.h"
 
 QtProjectWizardContentPathSourceMaven::QtProjectWizardContentPathSourceMaven(
-	std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizardWindow* window
-)
-	: QtProjectWizardContentPath(window)
-	, m_settings(settings)
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizardWindow* window)
+	: QtProjectWizardContentPath(window), m_settings(settings)
 {
 	setTitleString("Maven Project File (pom.xml)");
 	setHelpString(
 		"Enter the path to the main pom.xml file of your Maven project.<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
-	);
-	setFileEndings({ L".xml" });
+		"You can make use of environment variables with ${ENV_VAR}.");
+	setFileEndings({L".xml"});
 }
 
 void QtProjectWizardContentPathSourceMaven::populate(QGridLayout* layout, int& row)
@@ -64,23 +61,24 @@ std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() cons
 {
 	{
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
-		const FilePath mavenProjectRoot = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
+		const FilePath mavenProjectRoot =
+			m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 		if (!mavenProjectRoot.exists())
 		{
-			LOG_INFO("Could not find any source file paths because Maven project path does not exist.");
+			LOG_INFO(
+				"Could not find any source file paths because Maven project path does not exist.");
 			return std::vector<FilePath>();
 		}
 
 		QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
 			Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
-		ScopedFunctor scopedFunctor([&dialogView]() {
-			dialogView->hideUnknownProgressDialog();
-		});
+		ScopedFunctor scopedFunctor([&dialogView]() { dialogView->hideUnknownProgressDialog(); });
 
 		dialogView->setParentWindow(m_window);
-		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nGenerating Source Files");
+		dialogView->showUnknownProgressDialog(
+			L"Preparing Project", L"Maven\nGenerating Source Files");
 
 		const std::wstring errorMessage = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
 		if (!errorMessage.empty())
@@ -93,8 +91,7 @@ std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() cons
 
 	return utility::getAsRelativeIfShorter(
 		utility::toVector(SourceGroupJavaMaven(m_settings).getAllSourceFilePaths()),
-		m_settings->getProjectDirectoryPath()
-	);
+		m_settings->getProjectDirectoryPath());
 }
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathSourceMaven::getSourceGroupSettings()

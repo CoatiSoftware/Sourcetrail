@@ -27,4 +27,4 @@ private:
 	mutable SingleValueCache<std::vector<FilePath>> m_allSourcePathsCache;
 };
 
-#endif // SOURCE_GROUP_JAVA_MAVEN_H
+#endif	  // SOURCE_GROUP_JAVA_MAVEN_H

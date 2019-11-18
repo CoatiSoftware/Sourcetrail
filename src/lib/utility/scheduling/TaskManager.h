@@ -22,4 +22,4 @@ private:
 	static std::mutex s_schedulersMutex;
 };
 
-#endif // TASK_MANAGER_H
+#endif	  // TASK_MANAGER_H

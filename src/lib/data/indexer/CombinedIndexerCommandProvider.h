@@ -5,8 +5,7 @@
 
 #include "IndexerCommandProvider.h"
 
-class CombinedIndexerCommandProvider
-	: public IndexerCommandProvider
+class CombinedIndexerCommandProvider: public IndexerCommandProvider
 {
 public:
 	void addProvider(std::shared_ptr<IndexerCommandProvider> provider);
@@ -23,4 +22,4 @@ private:
 	std::vector<std::shared_ptr<IndexerCommandProvider>> m_providers;
 };
 
-#endif // COMBINED_INDEXER_COMMAND_PROVIDER_H
+#endif	  // COMBINED_INDEXER_COMMAND_PROVIDER_H

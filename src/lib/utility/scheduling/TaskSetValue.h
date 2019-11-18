@@ -1,12 +1,11 @@
 #ifndef TASK_SET_VALUE_H
 #define TASK_SET_VALUE_H
 
-#include "Task.h"
 #include "Blackboard.h"
+#include "Task.h"
 
 template <typename T>
-class TaskSetValue:
-	public Task
+class TaskSetValue: public Task
 {
 public:
 	TaskSetValue(const std::string& valueName, T value);
@@ -23,8 +22,7 @@ private:
 
 template <typename T>
 TaskSetValue<T>::TaskSetValue(const std::string& valueName, T value)
-	: m_valueName(valueName)
-	, m_value(value)
+	: m_valueName(valueName), m_value(value)
 {
 }
 
@@ -50,4 +48,4 @@ void TaskSetValue<T>::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
-#endif // TASK_SET_VALUE_H
+#endif	  // TASK_SET_VALUE_H

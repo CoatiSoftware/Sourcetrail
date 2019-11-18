@@ -5,8 +5,7 @@
 
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithSourceExtensions
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithSourceExtensions: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithSourceExtensions() = default;
@@ -26,4 +25,4 @@ private:
 	std::vector<std::wstring> m_sourceExtensions;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_H

@@ -1,17 +1,17 @@
 #include "ActivationController.h"
 
-#include "StorageAccess.h"
 #include "ApplicationSettings.h"
+#include "StorageAccess.h"
 
 #include "MessageActivateLegend.h"
-#include "MessageErrorsAll.h"
 #include "MessageActivateOverview.h"
 #include "MessageActivateTokens.h"
 #include "MessageChangeFileView.h"
+#include "MessageErrorsAll.h"
 #include "MessageFlushUpdates.h"
 #include "MessageRefreshUI.h"
-#include "MessageStatus.h"
 #include "MessageScrollToLine.h"
+#include "MessageStatus.h"
 #include "MessageTooltipShow.h"
 #include "utility.h"
 
@@ -20,9 +20,7 @@ ActivationController::ActivationController(StorageAccess* storageAccess)
 {
 }
 
-void ActivationController::clear()
-{
-}
+void ActivationController::clear() {}
 
 void ActivationController::handleMessage(MessageActivateEdge* message)
 {
@@ -51,7 +49,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 	{
 		MessageActivateTokens messageActivateTokens(message);
 		messageActivateTokens.tokenIds.push_back(fileId);
-		messageActivateTokens.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({ fileId });
+		messageActivateTokens.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({fileId});
 		messageActivateTokens.dispatchImmediately();
 	}
 	else
@@ -60,8 +58,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 			message->filePath,
 			MessageChangeFileView::FILE_MAXIMIZED,
 			MessageChangeFileView::VIEW_CURRENT,
-			CodeScrollParams::toFile(message->filePath, CodeScrollParams::Target::VISIBLE)
-		);
+			CodeScrollParams::toFile(message->filePath, CodeScrollParams::Target::VISIBLE));
 		msg.setSchedulerId(message->getSchedulerId());
 		msg.dispatchImmediately();
 	}
@@ -77,7 +74,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 void ActivationController::handleMessage(MessageActivateNodes* message)
 {
 	MessageActivateTokens m(message);
-	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
+	for (const MessageActivateNodes::ActiveNode& node: message->nodes)
 	{
 		Id nodeId = node.nodeId;
 		if (!nodeId)
@@ -105,13 +102,14 @@ void ActivationController::handleMessage(MessageActivateTokenIds* message)
 void ActivationController::handleMessage(MessageActivateSourceLocations* message)
 {
 	MessageActivateNodes msg;
-	for (Id nodeId : m_storageAccess->getNodeIdsForLocationIds(message->locationIds))
+	for (Id nodeId: m_storageAccess->getNodeIdsForLocationIds(message->locationIds))
 	{
 		msg.addNode(nodeId);
 	}
 
 	if (message->containsUnsolvedLocations && msg.nodes.size() == 1 &&
-		m_storageAccess->getNameHierarchyForNodeId(msg.nodes[0].nodeId).getQualifiedName() == L"unsolved symbol")
+		m_storageAccess->getNameHierarchyForNodeId(msg.nodes[0].nodeId).getQualifiedName() ==
+			L"unsolved symbol")
 	{
 		MessageTooltipShow m(message->locationIds, {}, TOOLTIP_ORIGIN_CODE);
 		m.force = true;
@@ -147,36 +145,36 @@ void ActivationController::handleMessage(MessageSearch* message)
 	{
 		switch (matches.back().getCommandType())
 		{
-			case SearchMatch::COMMAND_ALL:
-			case SearchMatch::COMMAND_NODE_FILTER:
-			{
-				MessageActivateOverview msg(message->acceptedNodeTypes);
-				msg.setSchedulerId(message->getSchedulerId());
-				msg.dispatch();
-				return;
-			}
+		case SearchMatch::COMMAND_ALL:
+		case SearchMatch::COMMAND_NODE_FILTER:
+		{
+			MessageActivateOverview msg(message->acceptedNodeTypes);
+			msg.setSchedulerId(message->getSchedulerId());
+			msg.dispatch();
+			return;
+		}
 
-			case SearchMatch::COMMAND_ERROR:
-			{
-				MessageErrorsAll msg;
-				msg.setSchedulerId(message->getSchedulerId());
-				msg.dispatch();
-				return;
-			}
+		case SearchMatch::COMMAND_ERROR:
+		{
+			MessageErrorsAll msg;
+			msg.setSchedulerId(message->getSchedulerId());
+			msg.dispatch();
+			return;
+		}
 
-			case SearchMatch::COMMAND_LEGEND:
-			{
-				MessageActivateLegend msg;
-				msg.setSchedulerId(message->getSchedulerId());
-				msg.dispatch();
-				return;
-			}
+		case SearchMatch::COMMAND_LEGEND:
+		{
+			MessageActivateLegend msg;
+			msg.setSchedulerId(message->getSchedulerId());
+			msg.dispatch();
+			return;
+		}
 		}
 	}
 
 	MessageActivateTokens m(message);
 	m.isFromSearch = true;
-	for (const SearchMatch& match : matches)
+	for (const SearchMatch& match: matches)
 	{
 		if (match.tokenIds.size() && match.tokenIds[0] != 0)
 		{
@@ -197,8 +195,7 @@ void ActivationController::handleMessage(MessageZoom* message)
 	int maxSize = settings->getFontSizeMax();
 	int minSize = settings->getFontSizeMin();
 
-	if ((fontSize >= maxSize && zoomIn)
-		|| (fontSize <= minSize && !zoomIn))
+	if ((fontSize >= maxSize && zoomIn) || (fontSize <= minSize && !zoomIn))
 	{
 		return;
 	}

@@ -6,8 +6,7 @@
 #include "CompositeView.h"
 #include "QtThreadedFunctor.h"
 
-class QtCompositeView
-	: public CompositeView
+class QtCompositeView: public CompositeView
 {
 public:
 	QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name);
@@ -25,4 +24,4 @@ private:
 	QWidget* m_widget;
 };
 
-#endif // QT_COMPOSITE_VIEW
+#endif	  // QT_COMPOSITE_VIEW

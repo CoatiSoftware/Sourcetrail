@@ -1,14 +1,11 @@
 #include "SettingsMigrationMoveKey.h"
 
 SettingsMigrationMoveKey::SettingsMigrationMoveKey(const std::string& oldKey, const std::string& newKey)
-	: m_oldKey(oldKey)
-	, m_newKey(newKey)
+	: m_oldKey(oldKey), m_newKey(newKey)
 {
 }
 
-SettingsMigrationMoveKey::~SettingsMigrationMoveKey()
-{
-}
+SettingsMigrationMoveKey::~SettingsMigrationMoveKey() {}
 
 void SettingsMigrationMoveKey::apply(Settings* migratable) const
 {
@@ -17,8 +14,7 @@ void SettingsMigrationMoveKey::apply(Settings* migratable) const
 		setValuesInSettings<std::string>(
 			migratable,
 			m_newKey,
-			getValuesFromSettings<std::string>(migratable, m_oldKey, std::vector<std::string>())
-		);
+			getValuesFromSettings<std::string>(migratable, m_oldKey, std::vector<std::string>()));
 		removeValuesInSettings(migratable, m_oldKey);
 	}
 }

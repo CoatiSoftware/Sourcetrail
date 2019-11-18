@@ -11,7 +11,7 @@
 
 class IndexerCommandCxx;
 
-class CxxIndexerCommandProvider : public IndexerCommandProvider
+class CxxIndexerCommandProvider: public IndexerCommandProvider
 {
 public:
 	CxxIndexerCommandProvider();
@@ -35,7 +35,8 @@ private:
 	};
 
 	Id getId();
-	std::shared_ptr<IndexerCommandCxx> represetationToCommand(const FilePath& sourceFilePath, std::shared_ptr<CommandRepresentation> representation);
+	std::shared_ptr<IndexerCommandCxx> represetationToCommand(
+		const FilePath& sourceFilePath, std::shared_ptr<CommandRepresentation> representation);
 
 	Id m_nextId;
 
@@ -53,4 +54,4 @@ private:
 	std::unordered_map<std::wstring, Id> m_compilerFlagsToIds;
 };
 
-#endif // CXX_INDEXER_COMMAND_PROVIDER_H
+#endif	  // CXX_INDEXER_COMMAND_PROVIDER_H

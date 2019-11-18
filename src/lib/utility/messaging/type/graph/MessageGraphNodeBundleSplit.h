@@ -5,14 +5,11 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageGraphNodeBundleSplit
-	: public Message<MessageGraphNodeBundleSplit>
+class MessageGraphNodeBundleSplit: public Message<MessageGraphNodeBundleSplit>
 {
 public:
 	MessageGraphNodeBundleSplit(Id bundleId, bool removeOtherNodes = false, bool layoutToList = false)
-		: bundleId(bundleId)
-		, removeOtherNodes(removeOtherNodes)
-		, layoutToList(layoutToList)
+		: bundleId(bundleId), removeOtherNodes(removeOtherNodes), layoutToList(layoutToList)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -32,4 +29,4 @@ public:
 	bool layoutToList;
 };
 
-#endif // MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H
+#endif	  // MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H

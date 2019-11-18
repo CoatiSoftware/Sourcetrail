@@ -13,13 +13,15 @@ class QComboBox;
 class QLineEdit;
 class QTextEdit;
 
-class QtBookmarkCreator
-	: public QtWindow
+class QtBookmarkCreator: public QtWindow
 {
 	Q_OBJECT
 
 public:
-	QtBookmarkCreator(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent = nullptr, Id bookmarkId = 0);
+	QtBookmarkCreator(
+		ControllerProxy<BookmarkController>* controllerProxy,
+		QWidget* parent = nullptr,
+		Id bookmarkId = 0);
 	~QtBookmarkCreator();
 
 	void setupBookmarkCreator();
@@ -53,4 +55,4 @@ private:
 	Id m_nodeId;
 };
 
-#endif // QT_BOOKMARK_CREATOR_H
+#endif	  // QT_BOOKMARK_CREATOR_H

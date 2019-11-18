@@ -2,11 +2,12 @@
 
 #include <QBoxLayout>
 
-#include "utilityQt.h"
-#include "QtViewWidgetWrapper.h"
 #include "ColorScheme.h"
+#include "QtViewWidgetWrapper.h"
+#include "utilityQt.h"
 
-QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
+QtCompositeView::QtCompositeView(
+	ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
 	: CompositeView(viewLayout, direction, name)
 {
 	QBoxLayout* layout;
@@ -36,9 +37,9 @@ void QtCompositeView::createWidgetWrapper()
 
 void QtCompositeView::refreshView()
 {
-	m_onQtThread([=]()
-	{
-		utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("search/background"));
+	m_onQtThread([=]() {
+		utility::setWidgetBackgroundColor(
+			m_widget, ColorScheme::getInstance()->getColor("search/background"));
 	});
 }
 

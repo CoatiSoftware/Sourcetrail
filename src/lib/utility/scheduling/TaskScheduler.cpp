@@ -3,8 +3,8 @@
 #include <chrono>
 #include <thread>
 
-#include "logging.h"
 #include "ScopedFunctor.h"
+#include "logging.h"
 
 TaskScheduler::TaskScheduler(Id schedulerId)
 	: m_schedulerId(schedulerId)
@@ -141,9 +141,7 @@ void TaskScheduler::processTasks()
 
 		{
 			m_tasksMutex.unlock();
-			ScopedFunctor functor([this](){
-				m_tasksMutex.lock();
-			});
+			ScopedFunctor functor([this]() { m_tasksMutex.lock(); });
 
 			while (true)
 			{

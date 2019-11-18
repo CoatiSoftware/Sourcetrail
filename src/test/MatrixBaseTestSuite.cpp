@@ -4,90 +4,90 @@
 #include "VectorBase.h"
 namespace
 {
-	/**
-	* C++ functions can't return statically allocated arrays.
-	* I don't want to use dynamically allocated arrays, so here's my work around for that...
-	*
-	* Update: acutally they can... see MatrixBase [] operator (in MatrixBase.cpp)
-	*/
-	template<class T>
-	struct Array3x5
-	{
-		T array[3][5];
-	};
+/**
+ * C++ functions can't return statically allocated arrays.
+ * I don't want to use dynamically allocated arrays, so here's my work around for that...
+ *
+ * Update: acutally they can... see MatrixBase [] operator (in MatrixBase.cpp)
+ */
+template <class T>
+struct Array3x5
+{
+	T array[3][5];
+};
 
-	template<class T>
-	struct Array5x3
-	{
-		T array[5][3];
-	};
+template <class T>
+struct Array5x3
+{
+	T array[5][3];
+};
 
-	Array3x5<int> getTestValues3x5()
-	{
-		Array3x5<int> result;
+Array3x5<int> getTestValues3x5()
+{
+	Array3x5<int> result;
 
-		for (unsigned int i = 0; i < 3; i++)
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		for (unsigned int j = 0; j < 5; j++)
 		{
-			for (unsigned int j = 0; j < 5; j++)
-			{
-				result.array[i][j] = i + j;
-			}
+			result.array[i][j] = i + j;
 		}
-
-		return result;
 	}
 
-	Array3x5<int> getTestValues3x5_b()
-	{
-		Array3x5<int> result;
-
-		for (unsigned int i = 0; i < 3; i++)
-		{
-			for (unsigned int j = 0; j < 5; j++)
-			{
-				result.array[i][j] = -i - j;
-			}
-		}
-
-		return result;
-	}
-
-	Array5x3<int> getTestValues5x3()
-	{
-		Array5x3<int> result;
-
-		for (unsigned int i = 0; i < 5; i++)
-		{
-			for (unsigned int j = 0; j < 3; j++)
-			{
-				result.array[i][j] = i + j;
-			}
-		}
-
-		return result;
-	}
-
-	MatrixBase<int, 3, 5> getTestMatrix3x5()
-	{
-		Array3x5<int> testValues = getTestValues3x5();
-
-		return MatrixBase<int, 3, 5>(testValues.array);
-	}
-
-	MatrixBase<int, 3, 5> getTestMatrix3x5_b()
-	{
-		Array3x5<int> testValues = getTestValues3x5_b();
-
-		return MatrixBase<int, 3, 5>(testValues.array);
-	}
-
-	MatrixBase<int, 5, 3> getTestMatrix5x3()
-	{
-		Array5x3<int> testValues = getTestValues5x3();
-
-		return MatrixBase<int, 5, 3>(testValues.array);
-	}
+	return result;
 }
+
+Array3x5<int> getTestValues3x5_b()
+{
+	Array3x5<int> result;
+
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		for (unsigned int j = 0; j < 5; j++)
+		{
+			result.array[i][j] = -i - j;
+		}
+	}
+
+	return result;
+}
+
+Array5x3<int> getTestValues5x3()
+{
+	Array5x3<int> result;
+
+	for (unsigned int i = 0; i < 5; i++)
+	{
+		for (unsigned int j = 0; j < 3; j++)
+		{
+			result.array[i][j] = i + j;
+		}
+	}
+
+	return result;
+}
+
+MatrixBase<int, 3, 5> getTestMatrix3x5()
+{
+	Array3x5<int> testValues = getTestValues3x5();
+
+	return MatrixBase<int, 3, 5>(testValues.array);
+}
+
+MatrixBase<int, 3, 5> getTestMatrix3x5_b()
+{
+	Array3x5<int> testValues = getTestValues3x5_b();
+
+	return MatrixBase<int, 3, 5>(testValues.array);
+}
+
+MatrixBase<int, 5, 3> getTestMatrix5x3()
+{
+	Array5x3<int> testValues = getTestValues5x3();
+
+	return MatrixBase<int, 5, 3>(testValues.array);
+}
+}	 // namespace
 
 TEST_CASE("matrixBase constructors")
 {
@@ -117,8 +117,8 @@ TEST_CASE("matrixBase getSetValue")
 	MatrixBase<int, 3, 5> matrix0 = getTestMatrix3x5();
 
 	int value2_2 = matrix0.getValue(2, 2);
-	matrix0.setValue(2, 2, value2_2*2);
-	REQUIRE(value2_2*2 == matrix0.getValue(2, 2));
+	matrix0.setValue(2, 2, value2_2 * 2);
+	REQUIRE(value2_2 * 2 == matrix0.getValue(2, 2));
 	REQUIRE(3 == matrix0.getValue(1, 2));
 	REQUIRE(0 == matrix0.getValue(0, 0));
 }
@@ -197,7 +197,7 @@ TEST_CASE("matrixBase multiplyDivideScalar")
 {
 	MatrixBase<int, 3, 5> matrix0 = getTestMatrix3x5();
 
-	matrix0.scalarMultiplication(2.0f); // float is on porpoise (so is porpoise, womp womp)
+	matrix0.scalarMultiplication(2.0f);	   // float is on porpoise (so is porpoise, womp womp)
 
 	REQUIRE(0 == matrix0.getValue(0, 0));
 	REQUIRE(4 == matrix0.getValue(1, 1));
@@ -234,19 +234,19 @@ TEST_CASE("matrixBase multiplyMatrix")
 	// expected results
 	// matrix0 * matrix1t
 	/**
-		* -5, -8, -11, -14, -17
-		* -8, -14, -20, -26, -32
-		* -11, -20, -29, -38, -47
-		* -14, -26, -38, -50, -62
-		* -17, -32, -47, -62, -77
-		*/
+	 * -5, -8, -11, -14, -17
+	 * -8, -14, -20, -26, -32
+	 * -11, -20, -29, -38, -47
+	 * -14, -26, -38, -50, -62
+	 * -17, -32, -47, -62, -77
+	 */
 
 	// matrix1t * matrix0
 	/**
-		* -30, -40, -50
-		* -40, -55, -70
-		* -50, -70, -90
-		*/
+	 * -30, -40, -50
+	 * -40, -55, -70
+	 * -50, -70, -90
+	 */
 
 
 	REQUIRE(5 == matrix2.getColumnsCount());
@@ -333,7 +333,7 @@ TEST_CASE("matrixBase operators")
 
 	MatrixBase<int, 3, 5> matrix3 = matrix0 * 3;
 	MatrixBase<int, 3, 5> matrix4 = matrix0 / 2;
-	MatrixBase<int, 3, 5> matrix5 = matrix0 * 3.3f; // float is on purpose
+	MatrixBase<int, 3, 5> matrix5 = matrix0 * 3.3f;	   // float is on purpose
 
 	REQUIRE(0 == matrix3.getValue(0, 0));
 	REQUIRE(12 == matrix3.getValue(2, 2));
@@ -425,9 +425,9 @@ TEST_CASE("matrixBase vectorMultiplication")
 	MatrixBase<int, 3, 5> matrix0 = getTestMatrix3x5();
 	VectorBase<int, 3> vector0;
 
-	for(unsigned int i = 0; i < vector0.getDimensions(); i++)
+	for (unsigned int i = 0; i < vector0.getDimensions(); i++)
 	{
-		vector0.setValue(i, i+1);
+		vector0.setValue(i, i + 1);
 	}
 
 	VectorBase<int, 5> vector0_r = multiply(matrix0, vector0);
@@ -441,9 +441,9 @@ TEST_CASE("matrixBase vectorMultiplication")
 	MatrixBase<int, 5, 3> matrix1 = getTestMatrix5x3();
 	VectorBase<int, 3> vector1;
 
-	for(unsigned int i = 0; i < vector1.getDimensions(); i++)
+	for (unsigned int i = 0; i < vector1.getDimensions(); i++)
 	{
-		vector1.setValue(i, i+1);
+		vector1.setValue(i, i + 1);
 	}
 
 	VectorBase<int, 5> vector1_r = multiply(vector1, matrix1);
@@ -457,9 +457,9 @@ TEST_CASE("matrixBase vectorMultiplication")
 	MatrixBase<int, 3, 5> matrix2 = getTestMatrix3x5();
 	VectorBase<int, 5> vector2;
 
-	for(unsigned int i = 0; i < vector2.getDimensions(); i++)
+	for (unsigned int i = 0; i < vector2.getDimensions(); i++)
 	{
-		vector2.setValue(i, i+1);
+		vector2.setValue(i, i + 1);
 	}
 
 	VectorBase<int, 3> vector2_r = multiply(vector2, matrix2);

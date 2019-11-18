@@ -5,9 +5,11 @@ BaseInterprocessDataManager::BaseInterprocessDataManager(
 	size_t initialSharedMemorySize,
 	const std::string& instanceUuid,
 	Id processId,
-	bool isOwner
-)
-	: m_sharedMemory(sharedMemoryName, initialSharedMemorySize, isOwner ? SharedMemory::CREATE_AND_DELETE : SharedMemory::OPEN_ONLY)
+	bool isOwner)
+	: m_sharedMemory(
+		  sharedMemoryName,
+		  initialSharedMemorySize,
+		  isOwner ? SharedMemory::CREATE_AND_DELETE : SharedMemory::OPEN_ONLY)
 	, m_instanceUuid(instanceUuid)
 	, m_processId(processId)
 {

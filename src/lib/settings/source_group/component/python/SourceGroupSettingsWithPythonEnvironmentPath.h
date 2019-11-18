@@ -4,8 +4,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithPythonEnvironmentPath
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithPythonEnvironmentPath: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithPythonEnvironmentPath() = default;
@@ -24,4 +23,4 @@ private:
 	FilePath m_environmentPath;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_PYTHON_ENVIRONMENT_PATH_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_PYTHON_ENVIRONMENT_PATH_H

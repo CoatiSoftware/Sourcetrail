@@ -27,4 +27,4 @@ private:
 	QPixmap m_pixmap;
 };
 
-#endif // QT_DEVICE_SCALED_PIXMAP_H
+#endif	  // QT_DEVICE_SCALED_PIXMAP_H

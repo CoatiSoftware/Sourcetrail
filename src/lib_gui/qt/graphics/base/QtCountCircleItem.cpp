@@ -6,8 +6,7 @@
 
 #include "GraphViewStyle.h"
 
-QtCountCircleItem::QtCountCircleItem(QGraphicsItem* parent)
-	: QtRoundedRectItem(parent)
+QtCountCircleItem::QtCountCircleItem(QGraphicsItem* parent): QtRoundedRectItem(parent)
 {
 	this->setRadius(10);
 	this->setAcceptHoverEvents(true);
@@ -21,9 +20,7 @@ QtCountCircleItem::QtCountCircleItem(QGraphicsItem* parent)
 	m_number->setFont(font);
 }
 
-QtCountCircleItem::~QtCountCircleItem()
-{
-}
+QtCountCircleItem::~QtCountCircleItem() {}
 
 void QtCountCircleItem::setPosition(const Vec2f& pos)
 {
@@ -32,9 +29,10 @@ void QtCountCircleItem::setPosition(const Vec2f& pos)
 
 	this->setRadius(height / 2 + 1);
 	this->setRect(
-		pos.x - std::max(width / 2 + 4, height / 2 + 1), pos.y - height / 2 - 1,
-		std::max(width + 8, height + 2), height + 2
-	);
+		pos.x - std::max(width / 2 + 4, height / 2 + 1),
+		pos.y - height / 2 - 1,
+		std::max(width + 8, height + 2),
+		height + 2);
 	m_number->setPos(pos.x - width / 2, pos.y - height / 2);
 }
 

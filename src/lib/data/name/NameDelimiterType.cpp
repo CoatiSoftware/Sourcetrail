@@ -4,7 +4,7 @@
 
 std::wstring nameDelimiterTypeToString(NameDelimiterType delimiter)
 {
-	switch(delimiter)
+	switch (delimiter)
 	{
 	case NAME_DELIMITER_FILE:
 		return L"/";
@@ -37,7 +37,8 @@ NameDelimiterType stringToNameDelimiterType(const std::wstring& s)
 
 NameDelimiterType detectDelimiterType(const std::wstring& name)
 {
-	std::vector<NameDelimiterType> allDelimiters {NAME_DELIMITER_FILE, NAME_DELIMITER_CXX, NAME_DELIMITER_JAVA};
+	std::vector<NameDelimiterType> allDelimiters {
+		NAME_DELIMITER_FILE, NAME_DELIMITER_CXX, NAME_DELIMITER_JAVA};
 
 	for (NameDelimiterType delimiter: allDelimiters)
 	{

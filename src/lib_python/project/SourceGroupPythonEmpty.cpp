@@ -26,14 +26,14 @@ bool SourceGroupPythonEmpty::allowsShallowIndexing() const
 }
 
 
-std::set<FilePath> SourceGroupPythonEmpty::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
+std::set<FilePath> SourceGroupPythonEmpty::filterToContainedFilePaths(
+	const std::set<FilePath>& filePaths) const
 {
 	return SourceGroup::filterToContainedFilePaths(
 		filePaths,
 		std::set<FilePath>(),
 		utility::toSet(m_settings->getSourcePathsExpandedAndAbsolute()),
-		m_settings->getExcludeFiltersExpandedAndAbsolute()
-	);
+		m_settings->getExcludeFiltersExpandedAndAbsolute());
 }
 
 std::set<FilePath> SourceGroupPythonEmpty::getAllSourceFilePaths() const
@@ -42,12 +42,12 @@ std::set<FilePath> SourceGroupPythonEmpty::getAllSourceFilePaths() const
 	fileManager.update(
 		m_settings->getSourcePathsExpandedAndAbsolute(),
 		m_settings->getExcludeFiltersExpandedAndAbsolute(),
-		m_settings->getSourceExtensions()
-	);
+		m_settings->getSourceExtensions());
 	return fileManager.getAllSourceFilePaths();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerCommands(const RefreshInfo& info) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerCommands(
+	const RefreshInfo& info) const
 {
 	std::wstring args = L"";
 
@@ -70,19 +70,19 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 	}
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-	for (const FilePath& sourceFilePath : getAllSourceFilePaths())
+	for (const FilePath& sourceFilePath: getAllSourceFilePaths())
 	{
 		if (info.filesToIndex.find(sourceFilePath) != info.filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
 				INDEXER_COMMAND_PYTHON,
-				L"\"" + ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer\" index" + args,
+				L"\"" + ResourcePaths::getPythonPath().wstr() +
+					L"SourcetrailPythonIndexer\" index" + args,
 				m_settings->getProjectSettings()->getProjectFilePath(),
 				m_settings->getProjectSettings()->getTempDBFilePath(),
 				std::to_wstring(SqliteIndexStorage::getStorageVersion()),
 				sourceFilePath,
-				true
-			));
+				true));
 		}
 	}
 

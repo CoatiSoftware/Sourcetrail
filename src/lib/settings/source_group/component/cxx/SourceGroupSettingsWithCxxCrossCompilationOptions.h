@@ -5,8 +5,7 @@
 
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCxxCrossCompilationOptions
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithCxxCrossCompilationOptions: public SourceGroupSettingsComponent
 {
 public:
 	static std::vector<std::wstring> getAvailableArchTypes();
@@ -47,4 +46,4 @@ private:
 	std::wstring m_targetAbi;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CXX_CROSS_COMPILATION_OPTIONS_H

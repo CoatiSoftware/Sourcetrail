@@ -5,12 +5,11 @@
 #include "utility.h"
 
 #include "Application.h"
-#include "UndoRedoView.h"
-#include "StorageAccess.h"
 #include "Project.h"
+#include "StorageAccess.h"
+#include "UndoRedoView.h"
 
-UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
+UndoRedoController::UndoRedoController(StorageAccess* storageAccess): m_storageAccess(storageAccess)
 {
 	m_iterator = m_list.end();
 }
@@ -41,9 +40,7 @@ void UndoRedoController::clear()
 }
 
 UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order order, bool replayLastOnly)
-	: message(message)
-	, order(order)
-	, replayLastOnly(replayLastOnly)
+	: message(message), order(order), replayLastOnly(replayLastOnly)
 {
 }
 
@@ -64,12 +61,14 @@ void UndoRedoController::handleMessage(MessageActivateFullTextSearch* message)
 {
 	if (sameMessageTypeAsLast(message) &&
 		static_cast<MessageActivateFullTextSearch*>(lastMessage())->searchTerm == message->searchTerm &&
-		static_cast<MessageActivateFullTextSearch*>(lastMessage())->caseSensitive == message->caseSensitive)
+		static_cast<MessageActivateFullTextSearch*>(lastMessage())->caseSensitive ==
+			message->caseSensitive)
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateFullTextSearch>(*message), Command::ORDER_ACTIVATE);
+	Command command(
+		std::make_shared<MessageActivateFullTextSearch>(*message), Command::ORDER_ACTIVATE);
 	processCommand(command);
 }
 
@@ -92,14 +91,16 @@ void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message)
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateLocalSymbols>(*message), Command::ORDER_VIEW, true);
+	Command command(
+		std::make_shared<MessageActivateLocalSymbols>(*message), Command::ORDER_VIEW, true);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageActivateOverview* message)
 {
 	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageActivateOverview*>(lastMessage())->acceptedNodeTypes == message->acceptedNodeTypes)
+		static_cast<MessageActivateOverview*>(lastMessage())->acceptedNodeTypes ==
+			message->acceptedNodeTypes)
 	{
 		return;
 	}
@@ -118,8 +119,7 @@ void UndoRedoController::handleMessage(MessageActivateTokens* message)
 
 	Command command(
 		std::make_shared<MessageActivateTokens>(*message),
-		message->isEdge ? Command::ORDER_ADAPT : Command::ORDER_ACTIVATE
-	);
+		message->isEdge ? Command::ORDER_ADAPT : Command::ORDER_ACTIVATE);
 	processCommand(command);
 }
 
@@ -134,8 +134,7 @@ void UndoRedoController::handleMessage(MessageActivateTrail* message)
 
 	Command command(
 		std::make_shared<MessageActivateTrail>(*message),
-		message->custom ? Command::ORDER_ACTIVATE : Command::ORDER_ADAPT
-	);
+		message->custom ? Command::ORDER_ACTIVATE : Command::ORDER_ADAPT);
 	processCommand(command);
 }
 
@@ -153,7 +152,8 @@ void UndoRedoController::handleMessage(MessageActivateTrailEdge* message)
 
 void UndoRedoController::handleMessage(MessageChangeFileView* message)
 {
-	Command command(std::make_shared<MessageChangeFileView>(*message),
+	Command command(
+		std::make_shared<MessageChangeFileView>(*message),
 		message->switchesViewMode ? Command::ORDER_ADAPT : Command::ORDER_VIEW);
 	processCommand(command);
 }
@@ -181,8 +181,7 @@ void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 	do
 	{
 		std::advance(it, -1);
-	}
-	while (it != m_list.begin() && it->order != Command::ORDER_ACTIVATE);
+	} while (it != m_list.begin() && it->order != Command::ORDER_ACTIVATE);
 
 	MessageBase* m = it->message.get();
 	bool keepContent = m->keepContent();
@@ -261,8 +260,7 @@ void UndoRedoController::handleMessage(MessageHistoryToPosition* message)
 				do
 				{
 					std::advance(it, 1);
-				}
-				while (it != m_list.end() && it->order != Command::ORDER_ACTIVATE);
+				} while (it != m_list.end() && it->order != Command::ORDER_ACTIVATE);
 
 				m_iterator = it;
 
@@ -290,7 +288,8 @@ void UndoRedoController::handleMessage(MessageHistoryToPosition* message)
 	}
 
 	getView()->setUndoButtonEnabled(index > activeIndex + 1);
-	getView()->setRedoButtonEnabled(m_iterator != m_list.end() && m_iterator->order == Command::ORDER_ACTIVATE);
+	getView()->setRedoButtonEnabled(
+		m_iterator != m_list.end() && m_iterator->order == Command::ORDER_ACTIVATE);
 
 	updateHistory();
 }
@@ -340,7 +339,7 @@ void UndoRedoController::handleMessage(MessageIndexingFinished* message)
 {
 	std::list<Command> newList;
 
-	for (const Command& command : m_list)
+	for (const Command& command: m_list)
 	{
 		if (command.order == Command::ORDER_ACTIVATE)
 		{
@@ -368,12 +367,12 @@ void UndoRedoController::handleMessage(MessageRefreshUI* message)
 	do
 	{
 		std::advance(startIterator, -1);
-	}
-	while (startIterator != m_list.begin() && startIterator->order != Command::ORDER_ACTIVATE);
+	} while (startIterator != m_list.begin() && startIterator->order != Command::ORDER_ACTIVATE);
 
 	if (startIterator == m_list.begin() ||
-		(message->isAfterIndexing && dynamic_cast<MessageActivateErrors*>(startIterator->message.get()) &&
-			m_storageAccess->getErrorCount().total == 0))
+		(message->isAfterIndexing &&
+		 dynamic_cast<MessageActivateErrors*>(startIterator->message.get()) &&
+		 m_storageAccess->getErrorCount().total == 0))
 	{
 		MessageActivateOverview msg;
 		msg.setSchedulerId(getSchedulerId());
@@ -447,8 +446,7 @@ void UndoRedoController::replayCommands()
 	do
 	{
 		std::advance(startIterator, -1);
-	}
-	while (startIterator != m_list.begin() && startIterator->order != Command::ORDER_ACTIVATE);
+	} while (startIterator != m_list.begin() && startIterator->order != Command::ORDER_ACTIVATE);
 
 	replayCommands(startIterator);
 }
@@ -503,11 +501,11 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 			msg->searchMatches.clear();
 			msg->tokenIds.clear();
 
-			for (SearchMatch match : matches)
+			for (SearchMatch match: matches)
 			{
 				// TODO: replace duplicate main definition fix with better solution
-				if (match.nodeType.getType() != NodeType::NODE_FUNCTION || !match.tokenNames.size() ||
-					match.tokenNames[0].getRawName() != L"main")
+				if (match.nodeType.getType() != NodeType::NODE_FUNCTION ||
+					!match.tokenNames.size() || match.tokenNames[0].getRawName() != L"main")
 				{
 					match.tokenIds = m_storageAccess->getNodeIdsForNameHierarchies(match.tokenNames);
 				}
@@ -524,7 +522,8 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 	}
 	else if (m->getType() == MessageActivateErrors::getStaticType())
 	{
-		std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+		std::shared_ptr<const Project> currentProject =
+			Application::getInstance()->getCurrentProject();
 		if (currentProject && currentProject->isIndexing())
 		{
 			Application::getInstance()->handleDialog(L"Errors cannot be activated while indexing.");
@@ -543,7 +542,6 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 
 			return;
 		}
-
 	}
 
 	m->setIsReplayed(true);
@@ -652,11 +650,13 @@ void UndoRedoController::updateHistory()
 			currentIndex = index;
 		}
 
-		if (it->order == Command::ORDER_ACTIVATE && dynamic_cast<MessageActivateBase*>(it->message.get()))
+		if (it->order == Command::ORDER_ACTIVATE &&
+			dynamic_cast<MessageActivateBase*>(it->message.get()))
 		{
 			index++;
 
-			std::vector<SearchMatch> matches = dynamic_cast<MessageActivateBase*>(it->message.get())->getSearchMatches();
+			std::vector<SearchMatch> matches =
+				dynamic_cast<MessageActivateBase*>(it->message.get())->getSearchMatches();
 			if (!matches.size() || matches[0].text.empty())
 			{
 				continue;
@@ -670,8 +670,8 @@ void UndoRedoController::updateHistory()
 				m_historyOffset++;
 			}
 
-			if (historyListMatches.size() == historyListSize &&
-				currentIndex != -1 && currentIndex - m_historyOffset != historyListSize - 1)
+			if (historyListMatches.size() == historyListSize && currentIndex != -1 &&
+				currentIndex - m_historyOffset != historyListSize - 1)
 			{
 				break;
 			}
@@ -690,12 +690,12 @@ void UndoRedoController::dump() const
 	{
 		switch (it->order)
 		{
-			case Command::ORDER_VIEW:
-				std::cout << "\t";
-			case Command::ORDER_ADAPT:
-				std::cout << "\t";
-			case Command::ORDER_ACTIVATE:
-				break;
+		case Command::ORDER_VIEW:
+			std::cout << "\t";
+		case Command::ORDER_ADAPT:
+			std::cout << "\t";
+		case Command::ORDER_ACTIVATE:
+			break;
 		}
 
 		std::cout << it->message->getType();

@@ -14,9 +14,7 @@ std::shared_ptr<ColorScheme> ColorScheme::getInstance()
 	return s_instance;
 }
 
-ColorScheme::~ColorScheme()
-{
-}
+ColorScheme::~ColorScheme() {}
 
 bool ColorScheme::hasColor(const std::string& key) const
 {
@@ -38,16 +36,19 @@ std::string ColorScheme::getNodeTypeColor(NodeType type, const std::string& key,
 	return getNodeTypeColor(type.getUnderscoredTypeString(), key, state);
 }
 
-std::string ColorScheme::getNodeTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const
+std::string ColorScheme::getNodeTypeColor(
+	const std::string& typeStr, const std::string& key, ColorState state) const
 {
 	disableWarnings();
 
 	std::string type = getValue<std::string>("graph/node/" + typeStr + "/like", typeStr);
-	std::string color = getValue<std::string>("graph/node/" + type + "/" + key + "/" + stateToString(state), "");
+	std::string color = getValue<std::string>(
+		"graph/node/" + type + "/" + key + "/" + stateToString(state), "");
 
 	if (!color.size() && state != NORMAL)
 	{
-		color = getValue<std::string>("graph/node/" + type + "/" + key + "/" + stateToString(NORMAL), "");
+		color = getValue<std::string>(
+			"graph/node/" + type + "/" + key + "/" + stateToString(NORMAL), "");
 	}
 
 	if (!color.size())
@@ -59,7 +60,8 @@ std::string ColorScheme::getNodeTypeColor(const std::string& typeStr, const std:
 
 	if (!color.size() && state != NORMAL)
 	{
-		color = getValue<std::string>("graph/node/default/" + key + "/" + stateToString(NORMAL), "#FFFFFF");
+		color = getValue<std::string>(
+			"graph/node/default/" + key + "/" + stateToString(NORMAL), "#FFFFFF");
 	}
 
 	return color;
@@ -109,19 +111,23 @@ std::string ColorScheme::getSyntaxColor(const std::string& key) const
 	return getValue<std::string>("code/snippet/syntax/" + key, "#FFFFFF");
 }
 
-std::string ColorScheme::getCodeAnnotationTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const
+std::string ColorScheme::getCodeAnnotationTypeColor(
+	const std::string& typeStr, const std::string& key, ColorState state) const
 {
 	disableWarnings();
-	std::string color = getValue<std::string>("code/snippet/annotation/" + typeStr + "/" + stateToString(state) + "/" + key, "");
+	std::string color = getValue<std::string>(
+		"code/snippet/annotation/" + typeStr + "/" + stateToString(state) + "/" + key, "");
 
 	if (!color.size() && state == ACTIVE)
 	{
-		color = getValue<std::string>("code/snippet/annotation/" + typeStr + "/" + stateToString(FOCUS) + "/" + key, "");
+		color = getValue<std::string>(
+			"code/snippet/annotation/" + typeStr + "/" + stateToString(FOCUS) + "/" + key, "");
 	}
 
 	if (!color.size() && state != NORMAL)
 	{
-		color = getValue<std::string>("code/snippet/annotation/" + typeStr + "/" + stateToString(NORMAL) + "/" + key, "");
+		color = getValue<std::string>(
+			"code/snippet/annotation/" + typeStr + "/" + stateToString(NORMAL) + "/" + key, "");
 	}
 
 	if (!color.size())
@@ -134,17 +140,18 @@ std::string ColorScheme::getCodeAnnotationTypeColor(const std::string& typeStr, 
 	return color;
 }
 
-ColorScheme::ColorScheme()
-{
-}
+ColorScheme::ColorScheme() {}
 
 std::string ColorScheme::stateToString(ColorState state)
 {
 	switch (state)
 	{
-	case NORMAL: return "normal";
-	case FOCUS: return "focus";
-	case ACTIVE: return "active";
+	case NORMAL:
+		return "normal";
+	case FOCUS:
+		return "focus";
+	case ACTIVE:
+		return "active";
 	}
 
 	return "";

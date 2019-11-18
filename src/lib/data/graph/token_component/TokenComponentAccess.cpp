@@ -23,14 +23,9 @@ std::wstring TokenComponentAccess::getAccessString(AccessKind access)
 }
 
 
-TokenComponentAccess::TokenComponentAccess(AccessKind access)
-	: m_access(access)
-{
-}
+TokenComponentAccess::TokenComponentAccess(AccessKind access): m_access(access) {}
 
-TokenComponentAccess::~TokenComponentAccess()
-{
-}
+TokenComponentAccess::~TokenComponentAccess() {}
 
 std::shared_ptr<TokenComponent> TokenComponentAccess::copy() const
 {

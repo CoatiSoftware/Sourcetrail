@@ -1,9 +1,6 @@
 #include "TaskGroupSelector.h"
 
-TaskGroupSelector::TaskGroupSelector()
-	: m_taskIndex(0)
-{
-}
+TaskGroupSelector::TaskGroupSelector(): m_taskIndex(0) {}
 
 void TaskGroupSelector::addTask(std::shared_ptr<Task> task)
 {
@@ -45,9 +42,7 @@ Task::TaskState TaskGroupSelector::doUpdate(std::shared_ptr<Blackboard> blackboa
 	return STATE_RUNNING;
 }
 
-void TaskGroupSelector::doExit(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskGroupSelector::doExit(std::shared_ptr<Blackboard> blackboard) {}
 
 void TaskGroupSelector::doReset(std::shared_ptr<Blackboard> blackboard)
 {

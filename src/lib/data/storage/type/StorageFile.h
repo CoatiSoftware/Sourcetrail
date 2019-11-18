@@ -14,16 +14,24 @@ struct StorageFile
 		, modificationTime("")
 		, indexed(true)
 		, complete(true)
-	{}
+	{
+	}
 
-	StorageFile(Id id, std::wstring filePath, std::wstring languageIdentifier, std::string modificationTime, bool indexed, bool complete)
+	StorageFile(
+		Id id,
+		std::wstring filePath,
+		std::wstring languageIdentifier,
+		std::string modificationTime,
+		bool indexed,
+		bool complete)
 		: id(id)
 		, filePath(std::move(filePath))
 		, languageIdentifier(std::move(languageIdentifier))
 		, modificationTime(std::move(modificationTime))
 		, indexed(indexed)
 		, complete(complete)
-	{}
+	{
+	}
 
 	bool operator<(const StorageFile& other) const
 	{
@@ -38,4 +46,4 @@ struct StorageFile
 	bool complete;
 };
 
-#endif // STORAGE_FILE_H
+#endif	  // STORAGE_FILE_H

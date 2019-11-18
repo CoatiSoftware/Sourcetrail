@@ -4,16 +4,16 @@
 #include <QCoreApplication>
 #include <QDir>
 
-#include "utilityQt.h"
 #include "AppPath.h"
 #include "FilePath.h"
 #include "FileSystem.h"
 #include "ResourcePaths.h"
 #include "UserPaths.h"
+#include "utilityQt.h"
 
 #include "ApplicationSettings.h"
 
-void setupPlatform(int argc, char *argv[])
+void setupPlatform(int argc, char* argv[])
 {
 	std::string home = std::getenv("HOME");
 	UserPaths::setUserDataPath(FilePath(home + "/.config/sourcetrail/"));
@@ -42,9 +42,10 @@ void setupPlatform(int argc, char *argv[])
 	}
 }
 
-void setupApp(int argc, char *argv[])
+void setupApp(int argc, char* argv[])
 {
-	AppPath::setAppPath(FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute());
+	AppPath::setAppPath(
+		FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute());
 
 	std::string userdir(std::getenv("HOME"));
 	userdir.append("/.config/sourcetrail/");
@@ -56,8 +57,10 @@ void setupApp(int argc, char *argv[])
 		dataDir.mkpath(userDataPath);
 	}
 
-	utility::copyNewFilesFromDirectory(QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);
-	utility::copyNewFilesFromDirectory(QString::fromStdWString(AppPath::getAppPath().concatenate(L"user/").wstr()), userDataPath);
+	utility::copyNewFilesFromDirectory(
+		QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);
+	utility::copyNewFilesFromDirectory(
+		QString::fromStdWString(AppPath::getAppPath().concatenate(L"user/").wstr()), userDataPath);
 }
 
-#endif // INCLUDES_DEFAULT_H
+#endif	  // INCLUDES_DEFAULT_H

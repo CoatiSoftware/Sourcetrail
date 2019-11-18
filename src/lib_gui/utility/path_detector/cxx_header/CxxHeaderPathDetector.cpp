@@ -5,8 +5,7 @@
 #include "utilityString.h"
 
 CxxHeaderPathDetector::CxxHeaderPathDetector(const std::string& compilerName)
-	: PathDetector(compilerName)
-	, m_compilerName(compilerName)
+	: PathDetector(compilerName), m_compilerName(compilerName)
 {
 }
 
@@ -15,7 +14,7 @@ std::vector<FilePath> CxxHeaderPathDetector::getPaths() const
 	std::vector<std::string> paths = utility::getCxxHeaderPaths(m_compilerName);
 	std::vector<FilePath> headerSearchPaths;
 
-	for (const std::string& path : paths)
+	for (const std::string& path: paths)
 	{
 		if (!utility::isPostfix<std::string>(" (framework directory)", path) &&
 			FilePath(path).getCanonical().exists() &&

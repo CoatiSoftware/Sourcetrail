@@ -18,7 +18,8 @@ void SourceGroupFactory::addModule(std::shared_ptr<SourceGroupFactoryModule> mod
 	m_modules.push_back(module);
 }
 
-std::vector<std::shared_ptr<SourceGroup>> SourceGroupFactory::createSourceGroups(std::vector<std::shared_ptr<SourceGroupSettings>> allSourceGroupSettings)
+std::vector<std::shared_ptr<SourceGroup>> SourceGroupFactory::createSourceGroups(
+	std::vector<std::shared_ptr<SourceGroupSettings>> allSourceGroupSettings)
 {
 	std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
 	for (const std::shared_ptr<SourceGroupSettings>& sourceGroupSettings: allSourceGroupSettings)
@@ -32,7 +33,8 @@ std::vector<std::shared_ptr<SourceGroup>> SourceGroupFactory::createSourceGroups
 	return sourceGroups;
 }
 
-std::shared_ptr<SourceGroup> SourceGroupFactory::createSourceGroup(std::shared_ptr<SourceGroupSettings> settings)
+std::shared_ptr<SourceGroup> SourceGroupFactory::createSourceGroup(
+	std::shared_ptr<SourceGroupSettings> settings)
 {
 	std::shared_ptr<SourceGroup> sourceGroup;
 
@@ -50,6 +52,4 @@ std::shared_ptr<SourceGroup> SourceGroupFactory::createSourceGroup(std::shared_p
 
 std::shared_ptr<SourceGroupFactory> SourceGroupFactory::s_instance;
 
-SourceGroupFactory::SourceGroupFactory()
-{
-}
+SourceGroupFactory::SourceGroupFactory() {}

@@ -2,17 +2,14 @@
 #define MESSAGE_GRAPH_NODE_EXPAND_H
 
 #include "Message.h"
-#include "types.h"
 #include "TabId.h"
+#include "types.h"
 
-class MessageGraphNodeExpand
-	: public Message<MessageGraphNodeExpand>
+class MessageGraphNodeExpand: public Message<MessageGraphNodeExpand>
 {
 public:
 	MessageGraphNodeExpand(Id tokenId, bool expand, bool ignoreIfNotReplayed = false)
-		: tokenId(tokenId)
-		, expand(expand)
-		, ignoreIfNotReplayed(ignoreIfNotReplayed)
+		: tokenId(tokenId), expand(expand), ignoreIfNotReplayed(ignoreIfNotReplayed)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -40,4 +37,4 @@ public:
 	const bool ignoreIfNotReplayed;
 };
 
-#endif // MESSAGE_GRAPH_NODE_EXPAND_H
+#endif	  // MESSAGE_GRAPH_NODE_EXPAND_H

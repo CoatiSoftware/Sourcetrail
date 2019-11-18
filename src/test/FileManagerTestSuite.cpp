@@ -17,11 +17,12 @@ TEST_CASE("file manager has added file paths after first fetch")
 	// catch exceptions thrown on linux build machine
 	try
 	{
-		std::vector<FilePath> filePaths = FileSystem::getFilePathsFromDirectory(FilePath(L"./data/FileManagerTestSuite/src/"));
+		std::vector<FilePath> filePaths = FileSystem::getFilePathsFromDirectory(
+			FilePath(L"./data/FileManagerTestSuite/src/"));
 		REQUIRE(filePaths.size() == 3);
 
 		std::vector<std::wstring> sourceExtensions;
-		for (FilePath p : filePaths)
+		for (FilePath p: filePaths)
 		{
 			sourceExtensions.push_back(p.extension());
 		}

@@ -5,9 +5,9 @@
 
 #include <boost/program_options.hpp>
 
-#include "CommandlineHelper.h"
 #include "CommandlineCommandConfig.h"
 #include "CommandlineCommandIndex.h"
+#include "CommandlineHelper.h"
 #include "ConfigManager.h"
 #include "TextAccess.h"
 #include "utilityString.h"
@@ -16,25 +16,19 @@ namespace po = boost::program_options;
 
 namespace commandline
 {
-
-CommandLineParser::CommandLineParser(const std::string& version)
-	: m_version(version)
+CommandLineParser::CommandLineParser(const std::string& version): m_version(version)
 {
 	setup();
 }
 
-CommandLineParser::~CommandLineParser()
-{
-}
+CommandLineParser::~CommandLineParser() {}
 
 void CommandLineParser::setup()
 {
 	po::options_description options("Options");
-	options.add_options()
-		("help,h", "Print this help message")
-		("version,v", "Version of Sourcetrail")
-		("project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)")
-		;
+	options.add_options()("help,h", "Print this help message")(
+		"version,v", "Version of Sourcetrail")(
+		"project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)");
 
 	m_options.add(options);
 	m_positional.add("project-file", 1);
@@ -42,7 +36,7 @@ void CommandLineParser::setup()
 	addCommand(std::make_unique<commandline::CommandlineCommandConfig>(this));
 	addCommand(std::make_unique<commandline::CommandlineCommandIndex>(this));
 
-	for (auto& command : m_commands)
+	for (auto& command: m_commands)
 	{
 		command->setup();
 	}
@@ -51,7 +45,7 @@ void CommandLineParser::setup()
 void CommandLineParser::preparse(int argc, char** argv)
 {
 	std::vector<std::string> args;
-	for(int i = 1; i < argc; i++)
+	for (int i = 1; i < argc; i++)
 	{
 		args.push_back(std::string(argv[i]));
 	}
@@ -70,9 +64,9 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 
 	try
 	{
-		for (auto& command : m_commands)
+		for (auto& command: m_commands)
 		{
-			if ( m_args[0] == command->name())
+			if (m_args[0] == command->name())
 			{
 				m_withoutGUI = true;
 				return;
@@ -81,8 +75,14 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 
 		po::variables_map vm;
 		po::positional_options_description positional;
-		positional.add("project-file",1);
-		po::store(po::command_line_parser(m_args).options(m_options).positional(positional).allow_unregistered().run(), vm);
+		positional.add("project-file", 1);
+		po::store(
+			po::command_line_parser(m_args)
+				.options(m_options)
+				.positional(positional)
+				.allow_unregistered()
+				.run(),
+			vm);
 		po::notify(vm);
 
 		if (vm.count("version"))
@@ -104,7 +104,7 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 			processProjectfile();
 		}
 	}
-	catch(boost::program_options::error& e)
+	catch (boost::program_options::error& e)
 	{
 		std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
 		std::cerr << m_options << std::endl;
@@ -121,9 +121,9 @@ void CommandLineParser::parse()
 	try
 	{
 		// parsing for all commands
-		for (auto& command : m_commands)
+		for (auto& command: m_commands)
 		{
-			if ( m_args[0] == command->name())
+			if (m_args[0] == command->name())
 			{
 				m_args.erase(m_args.begin());
 				CommandlineCommand::ReturnStatus status = command->parse(m_args);
@@ -142,7 +142,7 @@ void CommandLineParser::parse()
 	}
 }
 
-void CommandLineParser::setProjectFile(const FilePath &filepath)
+void CommandLineParser::setProjectFile(const FilePath& filepath)
 {
 	m_projectFile = filepath;
 	processProjectfile();
@@ -159,7 +159,7 @@ void CommandLineParser::printHelp() const
 
 	// Commands
 	std::cout << "Commands:\n";
-	for (auto& command : m_commands)
+	for (auto& command: m_commands)
 	{
 		std::cout << "  " << command->name();
 		std::cout << std::string(std::max(23 - command->name().size(), size_t(2)), ' ');
@@ -205,7 +205,8 @@ void CommandLineParser::processProjectfile()
 	m_projectFile.makeAbsolute();
 
 	const std::wstring errorstring =
-		L"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.fileName() + L"') ";
+		L"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.fileName() +
+		L"') ";
 	if (!m_projectFile.exists())
 	{
 		m_errorString = errorstring + L" does not exist";
@@ -249,4 +250,4 @@ RefreshMode CommandLineParser::getRefreshMode() const
 	return m_refreshMode;
 }
 
-} // namespace cmd
+}	 // namespace commandline

@@ -3,13 +3,14 @@
 
 #include "SourceGroupSettings.h"
 
-template<typename... ComponentTypes>
+template <typename... ComponentTypes>
 class SourceGroupSettingsWithComponents
 	: public SourceGroupSettings
 	, public ComponentTypes...
 {
 public:
-	SourceGroupSettingsWithComponents(SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings)
+	SourceGroupSettingsWithComponents(
+		SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings)
 		: SourceGroupSettings(type, id, projectSettings)
 	{
 	}
@@ -23,7 +24,7 @@ public:
 		SourceGroupSettings::load(config, key);
 
 		using expand_type = int[];
-		expand_type a{ 0, loadHelper<ComponentTypes>(config, key)... };
+		expand_type a {0, loadHelper<ComponentTypes>(config, key)...};
 	}
 
 	void saveSettings(ConfigManager* config) override
@@ -33,7 +34,7 @@ public:
 		SourceGroupSettings::save(config, key);
 
 		using expand_type = int[];
-		expand_type a{ 0, saveHelper<ComponentTypes>(config, key)... };
+		expand_type a {0, saveHelper<ComponentTypes>(config, key)...};
 	}
 
 	bool equalsSettings(const SourceGroupSettingsBase* other) override
@@ -51,7 +52,7 @@ public:
 		}
 
 		using expand_type = int[];
-		expand_type a{ false, equalsHelper<ComponentTypes>(other)... };
+		expand_type a {false, equalsHelper<ComponentTypes>(other)...};
 
 		bool r = true;
 		for (size_t i = 1; i <= getComponentCount(); ++i)
@@ -89,4 +90,4 @@ private:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_COMPONENTS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_COMPONENTS_H

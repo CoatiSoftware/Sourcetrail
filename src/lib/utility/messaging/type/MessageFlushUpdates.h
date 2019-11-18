@@ -4,8 +4,7 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageFlushUpdates:
-	public Message<MessageFlushUpdates>
+class MessageFlushUpdates: public Message<MessageFlushUpdates>
 {
 public:
 	MessageFlushUpdates(bool keepsContent = false)
@@ -20,4 +19,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_FLUSH_UPDATES_H
+#endif	  // MESSAGE_FLUSH_UPDATES_H

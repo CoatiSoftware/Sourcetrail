@@ -69,4 +69,4 @@ private:
 	bool m_sendMessagesAsTasks;
 };
 
-#endif // MESSAGE_QUEUE_H
+#endif	  // MESSAGE_QUEUE_H

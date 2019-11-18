@@ -1,17 +1,15 @@
 #include "QtProjectWizardWindow.h"
 
-#include <QGridLayout>
 #include <QFrame>
+#include <QGridLayout>
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "utilityQt.h"
 #include "QtProjectWizardContent.h"
+#include "utilityQt.h"
 
-QtProjectWizardWindow::QtProjectWizardWindow(QWidget *parent, bool showSeparator)
-	: QtWindow(false, parent)
-	, m_content(nullptr)
-	, m_showSeparator(showSeparator)
+QtProjectWizardWindow::QtProjectWizardWindow(QWidget* parent, bool showSeparator)
+	: QtWindow(false, parent), m_content(nullptr), m_showSeparator(showSeparator)
 {
 }
 

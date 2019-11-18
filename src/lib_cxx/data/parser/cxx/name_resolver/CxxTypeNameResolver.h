@@ -1,11 +1,10 @@
 #ifndef CXX_TYPE_NAME_RESOLVER_H
 #define CXX_TYPE_NAME_RESOLVER_H
 
-#include "CxxTypeName.h"
 #include "CxxNameResolver.h"
+#include "CxxTypeName.h"
 
-class CxxTypeNameResolver
-	: public CxxNameResolver
+class CxxTypeNameResolver: public CxxNameResolver
 {
 public:
 	CxxTypeNameResolver(CanonicalFilePathCache* canonicalFilePathCache);
@@ -15,4 +14,4 @@ public:
 	std::unique_ptr<CxxTypeName> getName(const clang::Type* type);
 };
 
-#endif // CXX_TYPE_NAME_RESOLVER_H
+#endif	  // CXX_TYPE_NAME_RESOLVER_H

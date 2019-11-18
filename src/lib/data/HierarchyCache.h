@@ -13,7 +13,8 @@ class HierarchyCache
 public:
 	void clear();
 
-	void createConnection(Id edgeId, Id fromId, Id toId, bool sourceVisible, bool sourceImplicit, bool targetImplicit);
+	void createConnection(
+		Id edgeId, Id fromId, Id toId, bool sourceVisible, bool sourceImplicit, bool targetImplicit);
 	void createInheritance(Id edgeId, Id fromId, Id toId);
 
 	Id getLastVisibleParentNodeId(Id nodeId) const;
@@ -32,7 +33,8 @@ public:
 	bool nodeIsVisible(Id nodeId) const;
 	bool nodeIsImplicit(Id nodeId) const;
 
-	std::vector<std::tuple<Id, Id, std::vector<Id>>> getInheritanceEdgesForNodeId(Id nodeId, const std::set<Id>& nodeIds) const;
+	std::vector<std::tuple<Id, Id, std::vector<Id>>> getInheritanceEdgesForNodeId(
+		Id nodeId, const std::set<Id>& nodeIds) const;
 
 private:
 	class HierarchyNode
@@ -66,8 +68,10 @@ private:
 		void setIsImplicit(bool isImplicit);
 
 		void addInheritanceEdgesRecursive(
-			Id startId, std::vector<Id> inheritanceEdgeIds,
-			const std::set<Id>& nodeIds, std::vector<std::tuple<Id, Id, std::vector<Id>>>* inheritanceEdges);
+			Id startId,
+			std::vector<Id> inheritanceEdgeIds,
+			const std::set<Id>& nodeIds,
+			std::vector<std::tuple<Id, Id, std::vector<Id>>>* inheritanceEdges);
 
 	private:
 		const Id m_nodeId;
@@ -90,4 +94,4 @@ private:
 	std::map<Id, std::unique_ptr<HierarchyNode>> m_nodes;
 };
 
-#endif // HIERARCHY_CACHE_H
+#endif	  // HIERARCHY_CACHE_H

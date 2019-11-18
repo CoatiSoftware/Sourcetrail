@@ -3,13 +3,12 @@
 
 #include <set>
 
-#include "QtProjectWizardContent.h"
 #include "QtLocationPicker.h"
+#include "QtProjectWizardContent.h"
 
 class SourceGroupSettings;
 
-class QtProjectWizardContentPath
-	: public QtProjectWizardContent
+class QtProjectWizardContentPath: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -41,4 +40,4 @@ private:
 	bool m_allowEmpty;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATH_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_H

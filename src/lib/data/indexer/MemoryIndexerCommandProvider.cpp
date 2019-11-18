@@ -2,9 +2,10 @@
 
 #include "IndexerCommand.h"
 
-MemoryIndexerCommandProvider::MemoryIndexerCommandProvider(const std::vector<std::shared_ptr<IndexerCommand>>& commands)
+MemoryIndexerCommandProvider::MemoryIndexerCommandProvider(
+	const std::vector<std::shared_ptr<IndexerCommand>>& commands)
 {
-	for (const std::shared_ptr<IndexerCommand>& command : commands)
+	for (const std::shared_ptr<IndexerCommand>& command: commands)
 	{
 		m_commands[command->getSourceFilePath()] = command;
 	}
@@ -15,7 +16,9 @@ std::vector<FilePath> MemoryIndexerCommandProvider::getAllSourceFilePaths() cons
 	std::vector<FilePath> paths;
 	paths.reserve(m_commands.size());
 
-	for (std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin(); it != m_commands.end(); it++)
+	for (std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
+		 it != m_commands.end();
+		 it++)
 	{
 		paths.emplace_back(it->first);
 	}
@@ -35,7 +38,8 @@ std::shared_ptr<IndexerCommand> MemoryIndexerCommandProvider::consumeCommand()
 	return std::shared_ptr<IndexerCommand>();
 }
 
-std::shared_ptr<IndexerCommand> MemoryIndexerCommandProvider::consumeCommandForSourceFilePath(const FilePath& filePath)
+std::shared_ptr<IndexerCommand> MemoryIndexerCommandProvider::consumeCommandForSourceFilePath(
+	const FilePath& filePath)
 {
 	std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.find(filePath);
 	if (it != m_commands.end())
@@ -51,7 +55,9 @@ std::vector<std::shared_ptr<IndexerCommand>> MemoryIndexerCommandProvider::consu
 {
 	std::vector<std::shared_ptr<IndexerCommand>> commands;
 	commands.reserve(m_commands.size());
-	for (std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin(); it != m_commands.end(); it++)
+	for (std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
+		 it != m_commands.end();
+		 it++)
 	{
 		commands.emplace_back(it->second);
 	}

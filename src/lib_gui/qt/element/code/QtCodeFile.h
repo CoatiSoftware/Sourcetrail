@@ -19,8 +19,7 @@ class QtCodeSnippet;
 class QVBoxLayout;
 class TimeStamp;
 
-class QtCodeFile
-	: public QFrame
+class QtCodeFile: public QFrame
 {
 	Q_OBJECT
 
@@ -59,7 +58,8 @@ public:
 	void updateSnippets();
 	void updateTitleBar();
 
-	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+	void findScreenMatches(
+		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 
 public slots:
 	void clickedMinimizeButton();
@@ -80,4 +80,4 @@ private:
 	bool m_isWholeFile;
 };
 
-#endif // QT_CODE_FILE_H
+#endif	  // QT_CODE_FILE_H

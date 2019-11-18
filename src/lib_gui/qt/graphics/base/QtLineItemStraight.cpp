@@ -3,15 +3,12 @@
 #include <QBrush>
 #include <QPen>
 
-QtLineItemStraight::QtLineItemStraight(QGraphicsItem* parent)
-	: QGraphicsLineItem(parent)
+QtLineItemStraight::QtLineItemStraight(QGraphicsItem* parent): QGraphicsLineItem(parent)
 {
 	this->setAcceptHoverEvents(true);
 }
 
-QtLineItemStraight::~QtLineItemStraight()
-{
-}
+QtLineItemStraight::~QtLineItemStraight() {}
 
 void QtLineItemStraight::updateLine(Vec2i origin, Vec2i target, GraphViewStyle::EdgeStyle style)
 {

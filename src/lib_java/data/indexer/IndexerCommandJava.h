@@ -8,8 +8,7 @@
 class FilePath;
 class FilePathFilter;
 
-class IndexerCommandJava
-	: public IndexerCommand
+class IndexerCommandJava: public IndexerCommand
 {
 public:
 	static IndexerCommandType getStaticIndexerCommandType();
@@ -35,4 +34,4 @@ private:
 	std::vector<FilePath> m_classPath;
 };
 
-#endif // INDEXER_COMMAND_JAVA_H
+#endif	  // INDEXER_COMMAND_JAVA_H

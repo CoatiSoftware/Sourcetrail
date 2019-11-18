@@ -4,8 +4,7 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageShowError
-	: public Message<MessageShowError>
+class MessageShowError: public Message<MessageShowError>
 {
 public:
 	static const std::string getStaticType()
@@ -13,8 +12,7 @@ public:
 		return "MessageShowError";
 	}
 
-	MessageShowError(Id errorId)
-		: errorId(errorId)
+	MessageShowError(Id errorId): errorId(errorId)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -22,4 +20,4 @@ public:
 	const Id errorId;
 };
 
-#endif // MESSAGE_SHOW_ERROR_H
+#endif	  // MESSAGE_SHOW_ERROR_H

@@ -8,16 +8,13 @@
 #include <QStyle>
 #include <QTimer>
 
-#include "SourceLocationFile.h"
-#include "TooltipInfo.h"
-#include "QtCodeField.h"
 #include "ApplicationSettings.h"
+#include "QtCodeField.h"
+#include "SourceLocationFile.h"
 #include "TextCodec.h"
+#include "TooltipInfo.h"
 
-QtTooltip::QtTooltip(QWidget* parent)
-	: QFrame(parent)
-	, m_parentView(nullptr)
-	, m_isHovered(false)
+QtTooltip::QtTooltip(QWidget* parent): QFrame(parent), m_parentView(nullptr), m_isHovered(false)
 {
 	QWidget::setWindowFlags(Qt::ToolTip);
 	setObjectName("tooltip");
@@ -28,9 +25,7 @@ QtTooltip::QtTooltip(QWidget* parent)
 	setLayout(layout);
 }
 
-QtTooltip::~QtTooltip()
-{
-}
+QtTooltip::~QtTooltip() {}
 
 void QtTooltip::setTooltipInfo(TooltipInfo info)
 {
@@ -46,16 +41,19 @@ void QtTooltip::setTooltipInfo(TooltipInfo info)
 		addTitle(QString::fromStdWString(info.title), info.count, info.countText.c_str());
 	}
 
-	for (const TooltipSnippet& snippet : info.snippets)
+	for (const TooltipSnippet& snippet: info.snippets)
 	{
 		const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
 
-		QtCodeField* field = new QtCodeField(1, codec.encode(snippet.code), snippet.locationFile, false);
+		QtCodeField* field = new QtCodeField(
+			1, codec.encode(snippet.code), snippet.locationFile, false);
 
 		QSize size = field->sizeHint() + QSize(15, 5);
 		if (size.width() > maxWidth)
 		{
-			field->setMinimumSize(QSize(maxWidth, size.height() + QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent)));
+			field->setMinimumSize(QSize(
+				maxWidth,
+				size.height() + QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent)));
 		}
 		else
 		{
@@ -130,14 +128,14 @@ void QtTooltip::hide(bool force)
 	}
 }
 
-void QtTooltip::leaveEvent(QEvent *event)
+void QtTooltip::leaveEvent(QEvent* event)
 {
 	m_isHovered = false;
 
 	QTimer::singleShot(500, this, SLOT(hide()));
 }
 
-void QtTooltip::enterEvent(QEvent *event)
+void QtTooltip::enterEvent(QEvent* event)
 {
 	m_isHovered = true;
 }
@@ -154,7 +152,8 @@ void QtTooltip::addTitle(QString title, int count, QString countText)
 
 	if (count >= 0)
 	{
-		QLabel* referenceLabel = new QLabel(QString::number(count) + " " + countText + (count != 1 ? "s" : ""));
+		QLabel* referenceLabel = new QLabel(
+			QString::number(count) + " " + countText + (count != 1 ? "s" : ""));
 		referenceLabel->setObjectName("tooltip_references");
 
 		titleLayout->addWidget(referenceLabel, 0, Qt::AlignRight);
@@ -167,7 +166,7 @@ void QtTooltip::addTitle(QString title, int count, QString countText)
 	layout()->addWidget(titleWidget);
 }
 
-void QtTooltip::addWidget(QWidget *widget)
+void QtTooltip::addWidget(QWidget* widget)
 {
 	widget->setObjectName("tooltip_widget");
 	layout()->addWidget(widget);

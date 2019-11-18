@@ -1,16 +1,16 @@
 #include "EdgeBookmark.h"
 
 EdgeBookmark::EdgeBookmark(
-	const Id id, const std::wstring& name, const std::wstring& comment,
-	const TimeStamp& timeStamp, const BookmarkCategory& category
-)
+	const Id id,
+	const std::wstring& name,
+	const std::wstring& comment,
+	const TimeStamp& timeStamp,
+	const BookmarkCategory& category)
 	: Bookmark(id, name, comment, timeStamp, category)
 {
 }
 
-EdgeBookmark::~EdgeBookmark()
-{
-}
+EdgeBookmark::~EdgeBookmark() {}
 
 void EdgeBookmark::addEdgeId(const Id edgeId)
 {

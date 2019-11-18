@@ -5,10 +5,10 @@
 #include <vector>
 
 #include "FilePath.h"
-#include "Task.h"
-#include "TimeStamp.h"
 #include "MessageIndexingInterrupted.h"
 #include "MessageListener.h"
+#include "Task.h"
+#include "TimeStamp.h"
 
 class DialogView;
 class IndexerCommandCustom;
@@ -36,7 +36,8 @@ private:
 	void handleMessage(MessageIndexingInterrupted* message) override;
 
 	void executeParallelIndexerCommands(int threadId, std::shared_ptr<Blackboard> blackboard);
-	void runIndexerCommand(std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard);
+	void runIndexerCommand(
+		std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard);
 	void runPythonPostProcessing(PersistentStorage& storage);
 
 private:
@@ -58,4 +59,4 @@ private:
 	std::mutex m_sourceDatabaseFilePathsMutex;
 };
 
-#endif // TASK_EXECUTE_CUSTOM_COMMANDS_H
+#endif	  // TASK_EXECUTE_CUSTOM_COMMANDS_H

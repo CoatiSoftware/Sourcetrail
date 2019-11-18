@@ -9,8 +9,7 @@ class CxxAstVisitor;
 class ParserClient;
 struct IndexerStateInfo;
 
-class ASTConsumer
-	: public clang::ASTConsumer
+class ASTConsumer: public clang::ASTConsumer
 {
 public:
 	explicit ASTConsumer(
@@ -18,8 +17,7 @@ public:
 		clang::Preprocessor* preprocessor,
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		std::shared_ptr<IndexerStateInfo> indexerStateInfo
-	);
+		std::shared_ptr<IndexerStateInfo> indexerStateInfo);
 
 	virtual ~ASTConsumer() = default;
 
@@ -30,4 +28,4 @@ private:
 	std::shared_ptr<IndexerStateInfo> m_indexerStateInfo;
 };
 
-#endif // AST_CONSUMER_H
+#endif	  // AST_CONSUMER_H

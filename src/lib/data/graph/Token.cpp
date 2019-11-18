@@ -2,14 +2,9 @@
 
 #include "logging.h"
 
-Token::Token(Id id)
-	: m_id(id)
-{
-}
+Token::Token(Id id): m_id(id) {}
 
-Token::~Token()
-{
-}
+Token::~Token() {}
 
 Id Token::getId() const
 {
@@ -45,8 +40,7 @@ void Token::addComponent(std::shared_ptr<TokenComponent> component)
 	m_components.push_back(component);
 }
 
-Token::Token(const Token& other)
-	: m_id(other.m_id)
+Token::Token(const Token& other): m_id(other.m_id)
 {
 	for (const std::shared_ptr<TokenComponent>& component: other.m_components)
 	{

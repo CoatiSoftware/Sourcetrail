@@ -4,8 +4,7 @@
 #include "TaskGroup.h"
 #include "TaskRunner.h"
 
-class TaskGroupSequence
-	: public TaskGroup
+class TaskGroupSequence: public TaskGroup
 {
 public:
 	TaskGroupSequence();
@@ -23,4 +22,4 @@ private:
 	int m_taskIndex;
 };
 
-#endif // TASK_GROUP_SEQUENCE_H
+#endif	  // TASK_GROUP_SEQUENCE_H

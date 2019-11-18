@@ -1,17 +1,15 @@
 #ifndef MESSAGE_ACTIVATE_FILE_H
 #define MESSAGE_ACTIVATE_FILE_H
 
-#include "Message.h"
 #include "FilePath.h"
+#include "Message.h"
 #include "TabId.h"
 
-class MessageActivateFile
-	: public Message<MessageActivateFile>
+class MessageActivateFile: public Message<MessageActivateFile>
 {
 public:
 	MessageActivateFile(const FilePath& filePath, unsigned int line = 0)
-		: filePath(filePath)
-		, line(line)
+		: filePath(filePath), line(line)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -30,4 +28,4 @@ public:
 	unsigned int line;
 };
 
-#endif // MESSAGE_ACTIVATE_FILE_H
+#endif	  // MESSAGE_ACTIVATE_FILE_H

@@ -27,7 +27,7 @@ public:
 
 	TaskState update(std::shared_ptr<Blackboard> blackboard);
 	void reset(std::shared_ptr<Blackboard> blackboard);
-	virtual void terminate(); // caution: this should only be called just before quitting the app.
+	virtual void terminate();	 // caution: this should only be called just before quitting the app.
 
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard) = 0;
@@ -41,4 +41,4 @@ private:
 	bool m_exitCalled = false;
 };
 
-#endif // TASK_H
+#endif	  // TASK_H

@@ -53,17 +53,18 @@ void CxxAstVisitorComponentContext::beginTraverseDecl(clang::Decl* d)
 {
 	std::shared_ptr<CxxContextDecl> context;
 
-	if (d &&
-		clang::isa<clang::NamedDecl>(d) &&
-		!clang::isa<clang::ParmVarDecl>(d) &&												// no parameter
-		!(clang::isa<clang::VarDecl>(d) && d->getParentFunctionOrMethod() != nullptr) &&	// no local variable
-		!clang::isa<clang::UsingDirectiveDecl>(d) &&										// no using directive decl
-		!clang::isa<clang::UsingDecl>(d) &&													// no using decl
-		!clang::isa<clang::NamespaceDecl>(d) &&												// no namespace
-		!clang::isa<clang::NonTypeTemplateParmDecl>(d) &&									// no template params
-		!clang::isa<clang::TemplateTypeParmDecl>(d) &&										// no template params
-		!clang::isa<clang::TemplateTemplateParmDecl>(d) 									// no template params
-	){
+	if (d && clang::isa<clang::NamedDecl>(d) &&
+		!clang::isa<clang::ParmVarDecl>(d) &&	 // no parameter
+		!(clang::isa<clang::VarDecl>(d) &&
+		  d->getParentFunctionOrMethod() != nullptr) &&		 // no local variable
+		!clang::isa<clang::UsingDirectiveDecl>(d) &&		 // no using directive decl
+		!clang::isa<clang::UsingDecl>(d) &&					 // no using decl
+		!clang::isa<clang::NamespaceDecl>(d) &&				 // no namespace
+		!clang::isa<clang::NonTypeTemplateParmDecl>(d) &&	 // no template params
+		!clang::isa<clang::TemplateTypeParmDecl>(d) &&		 // no template params
+		!clang::isa<clang::TemplateTemplateParmDecl>(d)		 // no template params
+	)
+	{
 		clang::NamedDecl* nd = clang::dyn_cast<clang::NamedDecl>(d);
 		context = std::make_shared<CxxContextDecl>(nd);
 	}
@@ -85,7 +86,8 @@ void CxxAstVisitorComponentContext::beginTraverseTypeLoc(const clang::TypeLoc& t
 		bool recordContext = true;
 		if (tl.getTypeLocClass() == clang::TypeLoc::TemplateSpecialization)
 		{
-			const clang::TemplateSpecializationTypeLoc& tstl = tl.castAs<clang::TemplateSpecializationTypeLoc>();
+			const clang::TemplateSpecializationTypeLoc& tstl =
+				tl.castAs<clang::TemplateSpecializationTypeLoc>();
 			const clang::TemplateSpecializationType* tst = tstl.getTypePtr();
 			if (tst && tst->getTemplateName().isDependent())
 			{
@@ -126,29 +128,34 @@ void CxxAstVisitorComponentContext::endTraverseFunctionDecl(clang::FunctionDecl*
 	m_templateArgumentContext.pop_back();
 }
 
-void CxxAstVisitorComponentContext::beginTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d)
+void CxxAstVisitorComponentContext::beginTraverseClassTemplateSpecializationDecl(
+	clang::ClassTemplateSpecializationDecl* d)
 {
 	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d));
 }
 
-void CxxAstVisitorComponentContext::endTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d)
+void CxxAstVisitorComponentContext::endTraverseClassTemplateSpecializationDecl(
+	clang::ClassTemplateSpecializationDecl* d)
 {
 	m_templateArgumentContext.pop_back();
 }
 
-void CxxAstVisitorComponentContext::beginTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d)
+void CxxAstVisitorComponentContext::beginTraverseClassTemplatePartialSpecializationDecl(
+	clang::ClassTemplatePartialSpecializationDecl* d)
 {
 	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(d));
 }
 
-void CxxAstVisitorComponentContext::endTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d)
+void CxxAstVisitorComponentContext::endTraverseClassTemplatePartialSpecializationDecl(
+	clang::ClassTemplatePartialSpecializationDecl* d)
 {
 	m_templateArgumentContext.pop_back();
 }
 
 void CxxAstVisitorComponentContext::beginTraverseDeclRefExpr(clang::DeclRefExpr* s)
 {
-	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(s->getDecl())); // e.g. used for recording usage of template arguments within function calls
+	m_templateArgumentContext.push_back(std::make_shared<CxxContextDecl>(
+		s->getDecl()));	   // e.g. used for recording usage of template arguments within function calls
 }
 
 void CxxAstVisitorComponentContext::endTraverseDeclRefExpr(clang::DeclRefExpr* s)
@@ -156,7 +163,8 @@ void CxxAstVisitorComponentContext::endTraverseDeclRefExpr(clang::DeclRefExpr* s
 	m_templateArgumentContext.pop_back();
 }
 
-void CxxAstVisitorComponentContext::beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc)
+void CxxAstVisitorComponentContext::beginTraverseTemplateSpecializationTypeLoc(
+	const clang::TemplateSpecializationTypeLoc& loc)
 {
 	bool recordContext = true;
 	const clang::TemplateSpecializationType* tst = loc.getTypePtr();
@@ -175,12 +183,14 @@ void CxxAstVisitorComponentContext::beginTraverseTemplateSpecializationTypeLoc(c
 	}
 }
 
-void CxxAstVisitorComponentContext::endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc)
+void CxxAstVisitorComponentContext::endTraverseTemplateSpecializationTypeLoc(
+	const clang::TemplateSpecializationTypeLoc& loc)
 {
 	m_templateArgumentContext.pop_back();
 }
 
-void CxxAstVisitorComponentContext::beginTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) // TODO: do this for unresolved and dependent stuff
+void CxxAstVisitorComponentContext::beginTraverseUnresolvedLookupExpr(
+	clang::UnresolvedLookupExpr* e)	   // TODO: do this for unresolved and dependent stuff
 {
 	m_templateArgumentContext.push_back(nullptr);
 }
@@ -190,7 +200,8 @@ void CxxAstVisitorComponentContext::endTraverseUnresolvedLookupExpr(clang::Unres
 	m_templateArgumentContext.pop_back();
 }
 
-void CxxAstVisitorComponentContext::beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
+void CxxAstVisitorComponentContext::beginTraverseTemplateArgumentLoc(
+	const clang::TemplateArgumentLoc& loc)
 {
 	std::shared_ptr<CxxContext> context;
 

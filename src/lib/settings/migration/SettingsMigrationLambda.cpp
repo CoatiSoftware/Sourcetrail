@@ -1,13 +1,12 @@
 #include "SettingsMigrationLambda.h"
 
-SettingsMigrationLambda::SettingsMigrationLambda(std::function<void(const SettingsMigration*, Settings*)> m_lambda)
+SettingsMigrationLambda::SettingsMigrationLambda(
+	std::function<void(const SettingsMigration*, Settings*)> m_lambda)
 	: m_lambda(m_lambda)
 {
 }
 
-SettingsMigrationLambda::~SettingsMigrationLambda()
-{
-}
+SettingsMigrationLambda::~SettingsMigrationLambda() {}
 
 void SettingsMigrationLambda::apply(Settings* migratable) const
 {

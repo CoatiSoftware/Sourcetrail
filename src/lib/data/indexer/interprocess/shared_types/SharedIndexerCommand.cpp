@@ -23,7 +23,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setCompilerFlags(cmd->getCompilerFlags());
 		return;
 	}
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	if (dynamic_cast<IndexerCommandJava*>(indexerCommand) != nullptr)
 	{
@@ -34,9 +34,10 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setClassPaths(cmd->getClassPath());
 		return;
 	}
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
-	LOG_ERROR(L"Trying to push unhandled type of IndexerCommand for file: " +
+	LOG_ERROR(
+		L"Trying to push unhandled type of IndexerCommand for file: " +
 		indexerCommand->getSourceFilePath().wstr() + L". Type string is: " +
 		utility::decodeFromUtf8(indexerCommandTypeToString(indexerCommand->getIndexerCommandType())) +
 		L". It will be ignored.");
@@ -54,19 +55,18 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getExcludeFilters(),
 			indexerCommand.getIncludeFilters(),
 			indexerCommand.getWorkingDirectory(),
-			indexerCommand.getCompilerFlags()
-		);
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+			indexerCommand.getCompilerFlags());
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	case JAVA:
 		return std::make_shared<IndexerCommandJava>(
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getLanguageStandard(),
-			indexerCommand.getClassPaths()
-		);
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+			indexerCommand.getClassPaths());
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 	default:
-		LOG_ERROR(L"Cannot convert shared IndexerCommand for file: " +
+		LOG_ERROR(
+			L"Cannot convert shared IndexerCommand for file: " +
 			indexerCommand.getSourceFilePath().wstr() + L". The type is unknown.");
 	}
 
@@ -83,17 +83,15 @@ SharedIndexerCommand::SharedIndexerCommand(SharedMemory::Allocator* allocator)
 	, m_includeFilters(allocator)
 	, m_workingDirectory("", allocator)
 	, m_compilerFlags(allocator)
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	, m_languageStandard("", allocator)
 	, m_classPaths(allocator)
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 {
 }
 
-SharedIndexerCommand::~SharedIndexerCommand()
-{
-}
+SharedIndexerCommand::~SharedIndexerCommand() {}
 
 FilePath SharedIndexerCommand::getSourceFilePath() const
 {
@@ -147,7 +145,7 @@ void SharedIndexerCommand::setExcludeFilters(const std::set<FilePathFilter>& exc
 {
 	m_excludeFilters.clear();
 
-	for (const FilePathFilter& excludeFilter : excludeFilters)
+	for (const FilePathFilter& excludeFilter: excludeFilters)
 	{
 		SharedMemory::String path(m_excludeFilters.get_allocator());
 		path = utility::encodeToUtf8(excludeFilter.wstr()).c_str();
@@ -171,7 +169,7 @@ void SharedIndexerCommand::setIncludeFilters(const std::set<FilePathFilter>& inc
 {
 	m_includeFilters.clear();
 
-	for (const FilePathFilter& includeFilter : includeFilters)
+	for (const FilePathFilter& includeFilter: includeFilters)
 	{
 		SharedMemory::String path(m_includeFilters.get_allocator());
 		path = utility::encodeToUtf8(includeFilter.wstr()).c_str();
@@ -194,7 +192,7 @@ std::vector<std::wstring> SharedIndexerCommand::getCompilerFlags() const
 	std::vector<std::wstring> result;
 	result.reserve(m_compilerFlags.size());
 
-	for (unsigned int i = 0; i <  m_compilerFlags.size(); i++)
+	for (unsigned int i = 0; i < m_compilerFlags.size(); i++)
 	{
 		result.push_back(utility::decodeFromUtf8(m_compilerFlags[i].c_str()));
 	}
@@ -207,7 +205,7 @@ void SharedIndexerCommand::setCompilerFlags(const std::vector<std::wstring>& com
 	m_compilerFlags.clear();
 	m_compilerFlags.reserve(compilerFlags.size());
 
-	for (const std::wstring& compilerFlag : compilerFlags)
+	for (const std::wstring& compilerFlag: compilerFlags)
 	{
 		SharedMemory::String path(m_compilerFlags.get_allocator());
 		path = utility::encodeToUtf8(compilerFlag).c_str();
@@ -215,7 +213,7 @@ void SharedIndexerCommand::setCompilerFlags(const std::vector<std::wstring>& com
 	}
 }
 
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 
@@ -247,7 +245,7 @@ void SharedIndexerCommand::setClassPaths(const std::vector<FilePath>& classPaths
 	m_classPaths.clear();
 	m_classPaths.reserve(classPaths.size());
 
-	for (const FilePath& classPath : classPaths)
+	for (const FilePath& classPath: classPaths)
 	{
 		SharedMemory::String path(m_classPaths.get_allocator());
 		path = utility::encodeToUtf8(classPath.wstr()).c_str();
@@ -255,7 +253,7 @@ void SharedIndexerCommand::setClassPaths(const std::vector<FilePath>& classPaths
 	}
 }
 
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 SharedIndexerCommand::Type SharedIndexerCommand::getType() const
 {

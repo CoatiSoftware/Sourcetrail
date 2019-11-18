@@ -15,10 +15,10 @@ class ControllerProxy;
 class View
 {
 public:
-	template<typename T, typename... Args>
+	template <typename T, typename... Args>
 	static std::shared_ptr<T> create(ViewLayout* viewLayout, const Args... args);
 
-	template<typename T, typename... Args>
+	template <typename T, typename... Args>
 	static std::shared_ptr<T> createAndAddToLayout(ViewLayout* viewLayout, const Args... args);
 
 	View(ViewLayout* viewLayout);
@@ -35,9 +35,9 @@ public:
 	void setComponent(Component* component);
 
 	ViewWidgetWrapper* getWidgetWrapper() const;
-    ViewLayout* getViewLayout() const;
+	ViewLayout* getViewLayout() const;
 
-    void setEnabled(bool enabled);
+	void setEnabled(bool enabled);
 
 protected:
 	template <typename ControllerType>
@@ -54,7 +54,7 @@ private:
 	std::shared_ptr<ViewWidgetWrapper> m_widgetWrapper;
 };
 
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 std::shared_ptr<T> View::create(ViewLayout* viewLayout, const Args... args)
 {
 	std::shared_ptr<T> ptr = std::make_shared<T>(viewLayout, args...);
@@ -64,7 +64,7 @@ std::shared_ptr<T> View::create(ViewLayout* viewLayout, const Args... args)
 	return ptr;
 }
 
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 std::shared_ptr<T> View::createAndAddToLayout(ViewLayout* viewLayout, const Args... args)
 {
 	std::shared_ptr<T> ptr = View::create<T, Args...>(viewLayout, args...);
@@ -84,4 +84,4 @@ ControllerType* View::getController()
 	return nullptr;
 }
 
-#endif // VIEW_H
+#endif	  // VIEW_H

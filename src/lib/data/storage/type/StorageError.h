@@ -8,25 +8,15 @@
 
 struct StorageErrorData
 {
-	StorageErrorData()
-		: message(L"")
-		, translationUnit(L"")
-		, fatal(0)
-		, indexed(0)
+	StorageErrorData(): message(L""), translationUnit(L""), fatal(0), indexed(0) {}
 
-	{}
-
-	StorageErrorData(
-		std::wstring message,
-		std::wstring translationUnit,
-		bool fatal,
-		bool indexed
-	)
+	StorageErrorData(std::wstring message, std::wstring translationUnit, bool fatal, bool indexed)
 		: message(std::move(message))
 		, translationUnit(std::move(translationUnit))
 		, fatal(fatal)
 		, indexed(indexed)
-	{}
+	{
+	}
 
 	bool operator<(const StorageErrorData& other) const
 	{
@@ -56,33 +46,16 @@ struct StorageErrorData
 
 struct StorageError: public StorageErrorData
 {
-	StorageError()
-		: StorageErrorData()
-		, id(0)
-	{}
+	StorageError(): StorageErrorData(), id(0) {}
 
-	StorageError(Id id, const StorageErrorData& data)
-		: StorageErrorData(data)
-		, id(id)
-	{}
+	StorageError(Id id, const StorageErrorData& data): StorageErrorData(data), id(id) {}
 
-	StorageError(
-		Id id,
-		std::wstring message,
-		std::wstring translationUnit,
-		bool fatal,
-		bool indexed
-	)
-		: StorageErrorData(
-			std::move(message),
-			std::move(translationUnit),
-			fatal,
-			indexed
-		)
-		, id(id)
-	{}
+	StorageError(Id id, std::wstring message, std::wstring translationUnit, bool fatal, bool indexed)
+		: StorageErrorData(std::move(message), std::move(translationUnit), fatal, indexed), id(id)
+	{
+	}
 
 	Id id;
 };
 
-#endif // STORAGE_ERROR_H
+#endif	  // STORAGE_ERROR_H

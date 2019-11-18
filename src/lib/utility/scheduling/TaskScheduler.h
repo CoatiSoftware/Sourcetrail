@@ -1,9 +1,9 @@
 #ifndef TASK_SCHEDULER_H
 #define TASK_SCHEDULER_H
 
+#include <deque>
 #include <memory>
 #include <mutex>
-#include <deque>
 
 #include "Task.h"
 #include "TaskRunner.h"
@@ -43,4 +43,4 @@ private:
 	mutable std::mutex m_threadMutex;
 };
 
-#endif // TASK_SCHEDULER_H
+#endif	  // TASK_SCHEDULER_H

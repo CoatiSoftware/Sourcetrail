@@ -7,8 +7,7 @@
 class QGraphicsPolygonItem;
 class QPainterPath;
 
-class QtGraphNodeGroup
-	: public QtGraphNode
+class QtGraphNodeGroup: public QtGraphNode
 {
 	Q_OBJECT
 public:
@@ -37,4 +36,4 @@ private:
 	mutable QPainterPath m_path;
 };
 
-#endif // QT_GRAPH_NODE_GROUP_H
+#endif	  // QT_GRAPH_NODE_GROUP_H

@@ -10,8 +10,11 @@
 #include "utility.h"
 #include "utilityCxxHeaderDetection.h"
 
-CxxVs10To14HeaderPathDetector::CxxVs10To14HeaderPathDetector(VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture)
-	: PathDetector(visualStudioTypeToString(type) + (isExpress ? " Express" : "") + (architecture == APPLICATION_ARCHITECTURE_X86_64 ? " 64 Bit" : ""))
+CxxVs10To14HeaderPathDetector::CxxVs10To14HeaderPathDetector(
+	VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture)
+	: PathDetector(
+		  visualStudioTypeToString(type) + (isExpress ? " Express" : "") +
+		  (architecture == APPLICATION_ARCHITECTURE_X86_64 ? " 64 Bit" : ""))
 	, m_version(visualStudioTypeToVersion(type))
 	, m_isExpress(isExpress)
 	, m_architecture(architecture)
@@ -26,7 +29,7 @@ std::vector<FilePath> CxxVs10To14HeaderPathDetector::getPaths() const
 	std::vector<FilePath> headerSearchPaths;
 	if (vsInstallPath.exists())
 	{
-		for (const std::wstring& subdirectory : { L"vc/include" , L"vc/atlmfc/include" })
+		for (const std::wstring& subdirectory: {L"vc/include", L"vc/atlmfc/include"})
 		{
 			FilePath headerSearchPath = vsInstallPath.getConcatenated(subdirectory);
 			if (headerSearchPath.exists())
@@ -88,7 +91,8 @@ FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 	key += (m_isExpress ? "VCExpress" : "VisualStudio");
 	key += "\\" + QString::number(m_version) + ".0";
 
-	QSettings expressKey(key, QSettings::NativeFormat); // NativeFormat means from Registry on Windows.
+	QSettings expressKey(
+		key, QSettings::NativeFormat);	  // NativeFormat means from Registry on Windows.
 	QString value = expressKey.value("InstallDir").toString() + "../../";
 
 	FilePath path(value.toStdWString());

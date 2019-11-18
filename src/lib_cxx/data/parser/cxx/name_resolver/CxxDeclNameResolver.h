@@ -10,8 +10,7 @@
 
 class CanonicalFilePathCache;
 
-class CxxDeclNameResolver
-	: public CxxNameResolver
+class CxxDeclNameResolver: public CxxNameResolver
 {
 public:
 	CxxDeclNameResolver(CanonicalFilePathCache* canonicalFilePathCache);
@@ -23,7 +22,8 @@ private:
 	std::unique_ptr<CxxName> getContextName(const clang::DeclContext* declaration);
 	std::unique_ptr<CxxDeclName> getDeclName(const clang::NamedDecl* declaration);
 	std::wstring getTranslationUnitMainFileName(const clang::Decl* declaration);
-	std::wstring getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration);
+	std::wstring getNameForAnonymousSymbol(
+		const std::wstring& symbolKindName, const clang::Decl* declaration);
 	std::vector<std::wstring> getTemplateParameterStrings(const clang::TemplateDecl* templateDecl);
 	template <typename T>
 	std::vector<std::wstring> getTemplateParameterStringsOfPartialSpecialization(const T* templateDecl);
@@ -35,12 +35,14 @@ private:
 
 
 template <typename T>
-std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPartialSpecialization(const T* partialSpecializationDecl)
+std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPartialSpecialization(
+	const T* partialSpecializationDecl)
 {
 	std::vector<std::wstring> templateParameterNames;
 	clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
 
-	const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
+	const clang::TemplateArgumentList& templateArgumentList =
+		partialSpecializationDecl->getTemplateArgs();
 	for (int i = 0; i < templateArgumentList.size(); i++)
 	{
 		const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
@@ -50,36 +52,51 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPart
 			if (argKind == clang::TemplateArgument::Type && !templateArgument.getAsType().isNull())
 			{
 				const clang::Type* argumentType = templateArgument.getAsType().getTypePtr();
-				if (const clang::TemplateTypeParmType* ttpt = clang::dyn_cast<clang::TemplateTypeParmType>(argumentType))
+				if (const clang::TemplateTypeParmType* ttpt =
+						clang::dyn_cast<clang::TemplateTypeParmType>(argumentType))
 				{
 					if (ttpt->getDepth() == parameterList->getDepth())
 					{
-						templateParameterNames.push_back(getTemplateParameterString(parameterList->getParam(ttpt->getIndex())));
+						templateParameterNames.push_back(
+							getTemplateParameterString(parameterList->getParam(ttpt->getIndex())));
 					}
 					else
 					{
-						// TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
-						templateParameterNames.push_back(L"arg" + std::to_wstring(ttpt->getDepth()) + L"_" + std::to_wstring(ttpt->getIndex()));
+						// TODO: fix case when arg depends on template parameter of outer template
+						// class, or depends on first template parameter.
+						templateParameterNames.push_back(
+							L"arg" + std::to_wstring(ttpt->getDepth()) + L"_" +
+							std::to_wstring(ttpt->getIndex()));
 					}
 				}
 				else
 				{
-					templateParameterNames.push_back(std::move(CxxTypeName::makeUnsolvedIfNull(CxxTypeNameResolver(this).getName(argumentType))->toString()));
+					templateParameterNames.push_back(std::move(
+						CxxTypeName::makeUnsolvedIfNull(CxxTypeNameResolver(this).getName(argumentType))
+							->toString()));
 				}
 			}
-			else if (argKind == clang::TemplateArgument::Template && !templateArgument.getAsTemplate().isNull())
+			else if (
+				argKind == clang::TemplateArgument::Template &&
+				!templateArgument.getAsTemplate().isNull())
 			{
-				const clang::TemplateTemplateParmDecl* decl = clang::dyn_cast<clang::TemplateTemplateParmDecl>(templateArgument.getAsTemplate().getAsTemplateDecl());
+				const clang::TemplateTemplateParmDecl* decl =
+					clang::dyn_cast<clang::TemplateTemplateParmDecl>(
+						templateArgument.getAsTemplate().getAsTemplateDecl());
 				if (decl)
 				{
 					if (decl->getDepth() == parameterList->getDepth())
 					{
-						templateParameterNames.push_back(getTemplateParameterString(parameterList->getParam(decl->getIndex())));
+						templateParameterNames.push_back(
+							getTemplateParameterString(parameterList->getParam(decl->getIndex())));
 					}
 					else
 					{
-						// TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
-						templateParameterNames.push_back(L"arg" + std::to_wstring(decl->getDepth()) + L"_" + std::to_wstring(decl->getIndex()));
+						// TODO: fix case when arg depends on template parameter of outer template
+						// class, or depends on first template parameter.
+						templateParameterNames.push_back(
+							L"arg" + std::to_wstring(decl->getDepth()) + L"_" +
+							std::to_wstring(decl->getIndex()));
 					}
 				}
 				else
@@ -100,4 +117,4 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPart
 	return templateParameterNames;
 }
 
-#endif // CXX_DECL_NAME_RESOLVER_H
+#endif	  // CXX_DECL_NAME_RESOLVER_H

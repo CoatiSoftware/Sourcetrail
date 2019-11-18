@@ -7,7 +7,8 @@
 #include "ApplicationSettings.h"
 
 QtScrollSpeedChangeListener::QtScrollSpeedChangeListener()
-	: m_changeScrollSpeedFunctor(std::bind(&QtScrollSpeedChangeListener::doChangeScrollSpeed, this, std::placeholders::_1))
+	: m_changeScrollSpeedFunctor(
+		  std::bind(&QtScrollSpeedChangeListener::doChangeScrollSpeed, this, std::placeholders::_1))
 	, m_scrollBar(nullptr)
 	, m_singleStep(1)
 {

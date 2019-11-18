@@ -6,8 +6,7 @@
 
 class QtCodeNavigator;
 
-class QtCodeView
-	: public CodeView
+class QtCodeView: public CodeView
 {
 public:
 	QtCodeView(ViewLayout* viewLayout);
@@ -28,10 +27,14 @@ public:
 	void clear() override;
 
 	void showSnippets(
-		const std::vector<CodeFileParams> files, const CodeParams params, const CodeScrollParams scrollParams) override;
+		const std::vector<CodeFileParams> files,
+		const CodeParams params,
+		const CodeScrollParams scrollParams) override;
 
 	void showSingleFile(
-		const CodeFileParams file, const CodeParams params, const CodeScrollParams scrollParams) override;
+		const CodeFileParams file,
+		const CodeParams params,
+		const CodeScrollParams scrollParams) override;
 
 	void updateSourceLocations(const std::vector<CodeFileParams> files) override;
 
@@ -58,4 +61,4 @@ private:
 	QtCodeNavigator* m_widget;
 };
 
-# endif // QT_CODE_VIEW_H
+#endif	  // QT_CODE_VIEW_H

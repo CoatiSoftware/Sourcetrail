@@ -15,8 +15,7 @@
 #include "utilityQt.h"
 
 QtBookmarkButtonsView::QtBookmarkButtonsView(ViewLayout* viewLayout)
-	: BookmarkButtonsView(viewLayout)
-	, m_createButtonState(MessageBookmarkButtonState::CANNOT_CREATE)
+	: BookmarkButtonsView(viewLayout), m_createButtonState(MessageBookmarkButtonState::CANNOT_CREATE)
 {
 	m_widget = new QFrame();
 	m_widget->setObjectName("bookmark_bar");
@@ -34,7 +33,11 @@ QtBookmarkButtonsView::QtBookmarkButtonsView(ViewLayout* viewLayout)
 	m_createBookmarkButton->setEnabled(false);
 	layout->addWidget(m_createBookmarkButton);
 
-	connect(m_createBookmarkButton, &QPushButton::clicked, this, &QtBookmarkButtonsView::createBookmarkClicked);
+	connect(
+		m_createBookmarkButton,
+		&QPushButton::clicked,
+		this,
+		&QtBookmarkButtonsView::createBookmarkClicked);
 
 	m_showBookmarksButton = new QtSearchBarButton(
 		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_list_icon.png"));
@@ -42,7 +45,11 @@ QtBookmarkButtonsView::QtBookmarkButtonsView(ViewLayout* viewLayout)
 	m_showBookmarksButton->setToolTip("Show bookmarks");
 	layout->addWidget(m_showBookmarksButton);
 
-	connect(m_showBookmarksButton, &QPushButton::clicked, this, &QtBookmarkButtonsView::showBookmarksClicked);
+	connect(
+		m_showBookmarksButton,
+		&QPushButton::clicked,
+		this,
+		&QtBookmarkButtonsView::showBookmarksClicked);
 }
 
 void QtBookmarkButtonsView::createWidgetWrapper()
@@ -52,47 +59,41 @@ void QtBookmarkButtonsView::createWidgetWrapper()
 
 void QtBookmarkButtonsView::refreshView()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->setStyleSheet(utility::getStyleSheet(
-				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/bookmark_view.css")
-			).c_str());
-		}
-	);
+	m_onQtThread([=]() {
+		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+														   L"bookmark_view/bookmark_view.css"))
+									.c_str());
+	});
 }
 
 void QtBookmarkButtonsView::setCreateButtonState(const MessageBookmarkButtonState::ButtonState& state)
 {
-	m_onQtThread(
-		[=]()
+	m_onQtThread([=]() {
+		m_createButtonState = state;
+
+		m_createBookmarkButton->setIconPath(ResourcePaths::getGuiPath().concatenate(
+			L"bookmark_view/images/edit_bookmark_icon.png"));
+
+		if (state == MessageBookmarkButtonState::CAN_CREATE)
 		{
-			m_createButtonState = state;
-
-			m_createBookmarkButton->setIconPath(
-				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"));
-
-			if (state == MessageBookmarkButtonState::CAN_CREATE)
-			{
-				m_createBookmarkButton->setEnabled(true);
-			}
-			else if (state == MessageBookmarkButtonState::CANNOT_CREATE)
-			{
-				m_createBookmarkButton->setEnabled(false);
-			}
-			else if (state == MessageBookmarkButtonState::ALREADY_CREATED)
-			{
-				m_createBookmarkButton->setEnabled(true);
-
-				m_createBookmarkButton->setIconPath(
-					ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_active.png"));
-			}
-			else
-			{
-				m_createBookmarkButton->setEnabled(false);
-			}
+			m_createBookmarkButton->setEnabled(true);
 		}
-	);
+		else if (state == MessageBookmarkButtonState::CANNOT_CREATE)
+		{
+			m_createBookmarkButton->setEnabled(false);
+		}
+		else if (state == MessageBookmarkButtonState::ALREADY_CREATED)
+		{
+			m_createBookmarkButton->setEnabled(true);
+
+			m_createBookmarkButton->setIconPath(ResourcePaths::getGuiPath().concatenate(
+				L"bookmark_view/images/bookmark_active.png"));
+		}
+		else
+		{
+			m_createBookmarkButton->setEnabled(false);
+		}
+	});
 }
 
 void QtBookmarkButtonsView::createBookmarkClicked()
@@ -113,7 +114,7 @@ void QtBookmarkButtonsView::createBookmarkClicked()
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();
 
-		if (ret == 0) // QMessageBox::Yes
+		if (ret == 0)	 // QMessageBox::Yes
 		{
 			MessageBookmarkEdit().dispatch();
 		}

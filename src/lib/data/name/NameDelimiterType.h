@@ -16,4 +16,4 @@ NameDelimiterType stringToNameDelimiterType(const std::wstring& s);
 
 NameDelimiterType detectDelimiterType(const std::wstring& name);
 
-#endif // NAME_DELIMITER_TYPE_H
+#endif	  // NAME_DELIMITER_TYPE_H

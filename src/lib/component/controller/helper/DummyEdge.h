@@ -1,8 +1,8 @@
 #ifndef DUMMY_EDGE_H
 #define DUMMY_EDGE_H
 
-#include "types.h"
 #include "Vector4.h"
+#include "types.h"
 
 #include "Edge.h"
 #include "TokenComponentAggregation.h"
@@ -101,4 +101,4 @@ struct DummyEdge
 	TokenComponentAggregation::Direction direction;
 };
 
-#endif // DUMMY_EDGE_H
+#endif	  // DUMMY_EDGE_H

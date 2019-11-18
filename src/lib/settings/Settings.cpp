@@ -1,12 +1,11 @@
 #include "Settings.h"
 
-#include "logging.h"
 #include "TextAccess.h"
+#include "logging.h"
 #include "utility.h"
 
 Settings::Settings(const Settings& other)
-	: m_config(other.m_config->createCopy())
-	, m_filePath(other.m_filePath)
+	: m_config(other.m_config->createCopy()), m_filePath(other.m_filePath)
 {
 }
 
@@ -21,9 +20,7 @@ Settings& Settings::operator=(const Settings& other)
 	return *this;
 }
 
-Settings::~Settings()
-{
-}
+Settings::~Settings() {}
 
 bool Settings::load(const FilePath& filePath, bool readOnly)
 {
@@ -111,7 +108,7 @@ void Settings::setFilePath(const FilePath& filePath)
 std::vector<FilePath> Settings::getPathValues(const std::string& key) const
 {
 	std::vector<FilePath> paths;
-	for (const std::wstring& value : getValues<std::wstring>(key, {}))
+	for (const std::wstring& value: getValues<std::wstring>(key, {}))
 	{
 		paths.push_back(FilePath(value));
 	}
@@ -121,7 +118,7 @@ std::vector<FilePath> Settings::getPathValues(const std::string& key) const
 bool Settings::setPathValues(const std::string& key, const std::vector<FilePath>& paths)
 {
 	std::vector<std::wstring> values;
-	for (const FilePath& path : paths)
+	for (const FilePath& path: paths)
 	{
 		values.push_back(path.wstr());
 	}

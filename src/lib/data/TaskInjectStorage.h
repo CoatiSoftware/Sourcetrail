@@ -15,10 +15,7 @@ class TaskInjectStorage
 	, public MessageListener<MessageIndexingInterrupted>
 {
 public:
-	TaskInjectStorage(
-		std::shared_ptr<StorageProvider> storageProvider,
-		std::weak_ptr<Storage> target
-	);
+	TaskInjectStorage(std::shared_ptr<StorageProvider> storageProvider, std::weak_ptr<Storage> target);
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -32,4 +29,4 @@ private:
 	std::weak_ptr<Storage> m_target;
 };
 
-#endif // TASK_INJECT_STORAGE_H
+#endif	  // TASK_INJECT_STORAGE_H

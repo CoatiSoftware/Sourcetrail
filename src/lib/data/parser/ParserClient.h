@@ -24,16 +24,24 @@ public:
 	virtual void recordAccessKind(Id symbolId, AccessKind accessKind) = 0;
 	virtual void recordDefinitionKind(Id symbolId, DefinitionKind definitionKind) = 0;
 
-	virtual Id recordReference(ReferenceKind referenceKind, Id referencedSymbolId, Id contextSymbolId,
+	virtual Id recordReference(
+		ReferenceKind referenceKind,
+		Id referencedSymbolId,
+		Id contextSymbolId,
 		const ParseLocation& location) = 0;
 
 	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) = 0;
 	virtual void recordLocation(Id elementId, const ParseLocation& location, ParseLocationType type) = 0;
 	virtual void recordComment(const ParseLocation& location) = 0;
 
-	virtual void recordError(const std::wstring& message, bool fatal, bool indexed, const FilePath& translationUnit, const ParseLocation& location) = 0;
+	virtual void recordError(
+		const std::wstring& message,
+		bool fatal,
+		bool indexed,
+		const FilePath& translationUnit,
+		const ParseLocation& location) = 0;
 
 	virtual bool hasContent() const = 0;
 };
 
-#endif // PARSER_CLIENT_H
+#endif	  // PARSER_CLIENT_H

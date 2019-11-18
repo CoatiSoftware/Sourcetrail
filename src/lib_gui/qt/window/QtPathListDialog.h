@@ -6,13 +6,16 @@
 
 class FilePath;
 
-class QtPathListDialog
-	: public QtWindow
+class QtPathListDialog: public QtWindow
 {
 	Q_OBJECT
 
 public:
-	QtPathListDialog(const QString& title, const QString& description, QtPathListBox::SelectionPolicyType selectionPolicy, QWidget* parent = 0);
+	QtPathListDialog(
+		const QString& title,
+		const QString& description,
+		QtPathListBox::SelectionPolicyType selectionPolicy,
+		QWidget* parent = 0);
 
 	QSize sizeHint() const override;
 
@@ -32,4 +35,4 @@ private:
 	QtPathListBox* m_pathList;
 };
 
-#endif // QT_PATH_LIST_DIALOG_H
+#endif	  // QT_PATH_LIST_DIALOG_H

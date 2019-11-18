@@ -4,14 +4,9 @@
 
 const char* CodeView::VIEW_NAME = "Code";
 
-CodeView::CodeView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+CodeView::CodeView(ViewLayout* viewLayout): View(viewLayout) {}
 
-CodeView::~CodeView()
-{
-}
+CodeView::~CodeView() {}
 
 std::string CodeView::getName() const
 {

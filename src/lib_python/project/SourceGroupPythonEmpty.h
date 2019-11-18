@@ -26,4 +26,4 @@ private:
 	std::shared_ptr<SourceGroupSettingsPythonEmpty> m_settings;
 };
 
-#endif // SOURCE_GROUP_PYTHON_EMPTY_H
+#endif	  // SOURCE_GROUP_PYTHON_EMPTY_H

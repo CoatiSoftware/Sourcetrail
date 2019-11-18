@@ -5,12 +5,12 @@
 
 class QCheckBox;
 
-class QtProjectWizardContentPathsClassJava
-	: public QtProjectWizardContentPaths
+class QtProjectWizardContentPathsClassJava: public QtProjectWizardContentPaths
 {
 	Q_OBJECT
 public:
-	QtProjectWizardContentPathsClassJava(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window);
+	QtProjectWizardContentPathsClassJava(
+		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -21,4 +21,4 @@ private:
 	QCheckBox* m_useJreSystemLibraryCheckBox;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATHS_CLASS_JAVA_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATHS_CLASS_JAVA_H

@@ -3,10 +3,7 @@
 #include "FilePath.h"
 #include "utilityApp.h"
 
-MavenPathDetectorWindows::MavenPathDetectorWindows()
-	: PathDetector("Maven for Windows")
-{
-}
+MavenPathDetectorWindows::MavenPathDetectorWindows(): PathDetector("Maven for Windows") {}
 
 std::vector<FilePath> MavenPathDetectorWindows::getPaths() const
 {

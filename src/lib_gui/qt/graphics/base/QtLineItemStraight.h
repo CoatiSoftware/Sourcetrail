@@ -5,8 +5,7 @@
 
 #include "GraphViewStyle.h"
 
-class QtLineItemStraight
-	: public QGraphicsLineItem
+class QtLineItemStraight: public QGraphicsLineItem
 {
 public:
 	QtLineItemStraight(QGraphicsItem* parent);
@@ -17,4 +16,4 @@ public:
 	virtual QPainterPath shape() const;
 };
 
-#endif // QT_LINE_ITEM_STRAIGHT_H
+#endif	  // QT_LINE_ITEM_STRAIGHT_H

@@ -3,11 +3,10 @@
 
 #include <mutex>
 
-#include "Logger.h"
 #include "LogMessage.h"
+#include "Logger.h"
 
-class ConsoleLogger
-	: public Logger
+class ConsoleLogger: public Logger
 {
 public:
 	ConsoleLogger();
@@ -20,4 +19,4 @@ private:
 	void logMessage(const std::string& type, const LogMessage& message);
 };
 
-#endif // CONSOLE_LOGGER_H
+#endif	  // CONSOLE_LOGGER_H

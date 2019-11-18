@@ -5,11 +5,11 @@
 
 #include <QWidget>
 
+#include "ApplicationSettings.h"
+#include "ProjectSettings.h"
 #include "QtProjectWizardWindow.h"
 #include "QtSourceGroupWizard.h"
 #include "QtWindow.h"
-#include "ApplicationSettings.h"
-#include "ProjectSettings.h"
 
 class QListWidget;
 class QPushButton;
@@ -17,8 +17,7 @@ class QtProjectWizardContent;
 class QtProjectWizardContentGroup;
 class QtProjectWizardWindow;
 
-class QtProjectWizard
-	: public QtProjectWizardWindow
+class QtProjectWizard: public QtProjectWizardWindow
 {
 	Q_OBJECT
 
@@ -90,4 +89,4 @@ private slots:
 	void createProject();
 };
 
-#endif // QT_PROJECT_WIZARD_H
+#endif	  // QT_PROJECT_WIZARD_H

@@ -11,11 +11,7 @@ template <typename ControllerType>
 class ControllerProxy
 {
 public:
-	ControllerProxy(View* view, Id schedulerId)
-		: m_view(view)
-		, m_schedulerId(schedulerId)
-	{
-	}
+	ControllerProxy(View* view, Id schedulerId): m_view(view), m_schedulerId(schedulerId) {}
 
 	void execute(std::function<void(ControllerType*)> callback)
 	{
@@ -31,24 +27,21 @@ public:
 		ControllerType* controller = m_view->getController<ControllerType>();
 		if (controller)
 		{
-			Task::dispatch(m_schedulerId, std::make_shared<TaskLambda>(
-				std::bind(callback, controller)
-			));
+			Task::dispatch(
+				m_schedulerId, std::make_shared<TaskLambda>(std::bind(callback, controller)));
 		}
 	}
 
-	template<typename FuncType, typename... Args>
+	template <typename FuncType, typename... Args>
 	void executeAsTaskWithArgs(FuncType callback, const Args... args)
 	{
 		ControllerType* controller = m_view->getController<ControllerType>();
 		if (controller)
 		{
-			Task::dispatch(m_schedulerId, std::make_shared<TaskLambda>(
-				[func = std::bind(callback, controller, args...)]()
-				{
-					func();
-				}
-			));
+			Task::dispatch(
+				m_schedulerId,
+				std::make_shared<TaskLambda>(
+					[func = std::bind(callback, controller, args...)]() { func(); }));
 		}
 	}
 
@@ -57,4 +50,4 @@ private:
 	Id m_schedulerId;
 };
 
-#endif // CONTROLLER_PROXY_H
+#endif	  // CONTROLLER_PROXY_H

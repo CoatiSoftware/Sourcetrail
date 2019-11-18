@@ -80,8 +80,10 @@ TEST_CASE("search index query is case insensitive")
 TEST_CASE("search index rates higher on consecutive letters")
 {
 	SearchIndex index;
-	index.addNode(1, NameHierarchy::deserialize(L"::\tmoaabbcc\tsvoid\tp() const").getQualifiedName());
-	index.addNode(2, NameHierarchy::deserialize(L"::\tmocbcabc\tsvoid\tp() const").getQualifiedName());
+	index.addNode(
+		1, NameHierarchy::deserialize(L"::\tmoaabbcc\tsvoid\tp() const").getQualifiedName());
+	index.addNode(
+		2, NameHierarchy::deserialize(L"::\tmocbcabc\tsvoid\tp() const").getQualifiedName());
 	index.finishSetup();
 	std::vector<SearchResult> results = index.search(L"abc", NodeTypeSet::all(), 0);
 

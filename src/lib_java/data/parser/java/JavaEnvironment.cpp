@@ -2,8 +2,8 @@
 
 #include <jni.h>
 
-#include "logging.h"
 #include "JavaEnvironmentFactory.h"
+#include "logging.h"
 
 JavaEnvironment::~JavaEnvironment()
 {
@@ -14,7 +14,7 @@ bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string me
 {
 	jclass javaClass = getJavaClass(className);
 	jmethodID javaMethodId = getJavaStaticMethod(javaClass, methodName, "()V");
-	if(javaMethodId != nullptr)
+	if (javaMethodId != nullptr)
 	{
 		m_env->CallStaticVoidMethod(javaClass, javaMethodId);
 		return true;
@@ -22,10 +22,16 @@ bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string me
 	return false;
 }
 
-bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string methodName, const std::string& arg1, const std::string& arg2, const std::string& arg3)
+bool JavaEnvironment::callStaticVoidMethod(
+	std::string className,
+	std::string methodName,
+	const std::string& arg1,
+	const std::string& arg2,
+	const std::string& arg3)
 {
 	jclass javaClass = getJavaClass(className);
-	jmethodID javaMethodId = getJavaStaticMethod(javaClass, methodName, "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	jmethodID javaMethodId = getJavaStaticMethod(
+		javaClass, methodName, "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (javaMethodId != nullptr)
 	{
 		jstring jarg1 = m_env->NewStringUTF(arg1.c_str());
@@ -37,11 +43,22 @@ bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string me
 	return false;
 }
 
-bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string methodName, int arg1, std::string arg2, std::string arg3, std::string arg4, std::string arg5, int arg6)
+bool JavaEnvironment::callStaticVoidMethod(
+	std::string className,
+	std::string methodName,
+	int arg1,
+	std::string arg2,
+	std::string arg3,
+	std::string arg4,
+	std::string arg5,
+	int arg6)
 {
 	jclass javaClass = getJavaClass(className);
-	jmethodID javaMethodId = getJavaStaticMethod(javaClass, methodName, "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
-	if(javaMethodId != nullptr)
+	jmethodID javaMethodId = getJavaStaticMethod(
+		javaClass,
+		methodName,
+		"(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
+	if (javaMethodId != nullptr)
 	{
 		jint jarg1 = arg1;
 		jstring jarg2 = m_env->NewStringUTF(arg2.c_str());
@@ -49,23 +66,26 @@ bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string me
 		jstring jarg4 = m_env->NewStringUTF(arg4.c_str());
 		jstring jarg5 = m_env->NewStringUTF(arg5.c_str());
 		jint jarg6 = arg6;
-		m_env->CallStaticVoidMethod(javaClass, javaMethodId, jarg1, jarg2, jarg3, jarg4, jarg5, jarg6);
+		m_env->CallStaticVoidMethod(
+			javaClass, javaMethodId, jarg1, jarg2, jarg3, jarg4, jarg5, jarg6);
 		return true;
 	}
 	return false;
 }
 
-bool JavaEnvironment::callStaticStringMethod(std::string className, std::string methodName, std::string& ret, const std::string& arg1)
+bool JavaEnvironment::callStaticStringMethod(
+	std::string className, std::string methodName, std::string& ret, const std::string& arg1)
 {
 	jclass javaClass = getJavaClass(className);
-	jmethodID javaMethodId = getJavaStaticMethod(javaClass, methodName, "(Ljava/lang/String;)Ljava/lang/String;");
+	jmethodID javaMethodId = getJavaStaticMethod(
+		javaClass, methodName, "(Ljava/lang/String;)Ljava/lang/String;");
 	if (javaMethodId != nullptr)
 	{
 		jstring jarg1 = m_env->NewStringUTF(arg1.c_str());
 		jstring jret = (jstring)m_env->CallStaticObjectMethod(javaClass, javaMethodId, jarg1);
 		if (jret)
 		{
-			const char *buffer = m_env->GetStringUTFChars(jret, JNI_FALSE);
+			const char* buffer = m_env->GetStringUTFChars(jret, JNI_FALSE);
 			ret = std::string(buffer);
 			m_env->ReleaseStringUTFChars(jret, buffer);
 			return true;
@@ -74,10 +94,16 @@ bool JavaEnvironment::callStaticStringMethod(std::string className, std::string 
 	return false;
 }
 
-bool JavaEnvironment::callStaticStringMethod(std::string className, std::string methodName, std::string& ret, const std::string& arg1, const std::string& arg2)
+bool JavaEnvironment::callStaticStringMethod(
+	std::string className,
+	std::string methodName,
+	std::string& ret,
+	const std::string& arg1,
+	const std::string& arg2)
 {
 	jclass javaClass = getJavaClass(className);
-	jmethodID javaMethodId = getJavaStaticMethod(javaClass, methodName, "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
+	jmethodID javaMethodId = getJavaStaticMethod(
+		javaClass, methodName, "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
 	if (javaMethodId != nullptr)
 	{
 		jstring jarg1 = m_env->NewStringUTF(arg1.c_str());
@@ -85,7 +111,7 @@ bool JavaEnvironment::callStaticStringMethod(std::string className, std::string 
 		jstring jret = (jstring)m_env->CallStaticObjectMethod(javaClass, javaMethodId, jarg1, jarg2);
 		if (jret)
 		{
-			const char *buffer = m_env->GetStringUTFChars(jret, JNI_FALSE);
+			const char* buffer = m_env->GetStringUTFChars(jret, JNI_FALSE);
 			ret = std::string(buffer);
 			m_env->ReleaseStringUTFChars(jret, buffer);
 			return true;
@@ -96,7 +122,7 @@ bool JavaEnvironment::callStaticStringMethod(std::string className, std::string 
 
 std::string JavaEnvironment::toStdString(jstring s)
 {
-	const char *nativeString = m_env->GetStringUTFChars(s, 0);
+	const char* nativeString = m_env->GetStringUTFChars(s, 0);
 	std::string ret = nativeString;
 	m_env->ReleaseStringUTFChars(s, nativeString);
 	return ret;
@@ -131,12 +157,10 @@ void JavaEnvironment::registerNativeMethods(std::string className, std::vector<N
 		LOG_ERROR("class \"" + className + "\" not found while registering native methods");
 	}
 
-	delete [] jniMethods;
+	delete[] jniMethods;
 }
 
-JavaEnvironment::JavaEnvironment(JavaVM* jvm, JNIEnv* env)
-	: m_jvm(jvm)
-	, m_env(env)
+JavaEnvironment::JavaEnvironment(JavaVM* jvm, JNIEnv* env): m_jvm(jvm), m_env(env)
 {
 	JavaEnvironmentFactory::getInstance()->registerEnvironment();
 }
@@ -144,11 +168,11 @@ JavaEnvironment::JavaEnvironment(JavaVM* jvm, JNIEnv* env)
 jclass JavaEnvironment::getJavaClass(const std::string& className)
 {
 	jclass javaClass = m_env->FindClass(className.c_str());
-	if(javaClass == nullptr)
+	if (javaClass == nullptr)
 	{
 		LOG_ERROR("class " + className + " not found in JVM environment");
 		jthrowable exc = m_env->ExceptionOccurred();
-		if(exc)
+		if (exc)
 		{
 			m_env->ExceptionDescribe();
 			m_env->ExceptionClear();
@@ -157,17 +181,20 @@ jclass JavaEnvironment::getJavaClass(const std::string& className)
 	return javaClass;
 }
 
-jmethodID JavaEnvironment::getJavaStaticMethod(const std::string& className, const std::string& methodName, const std::string& methodSignature)
+jmethodID JavaEnvironment::getJavaStaticMethod(
+	const std::string& className, const std::string& methodName, const std::string& methodSignature)
 {
 	return getJavaStaticMethod(getJavaClass(className), methodName, methodSignature);
 }
 
-jmethodID JavaEnvironment::getJavaStaticMethod(jclass javaClass, const std::string& methodName, const std::string& methodSignature)
+jmethodID JavaEnvironment::getJavaStaticMethod(
+	jclass javaClass, const std::string& methodName, const std::string& methodSignature)
 {
-	if(javaClass != nullptr)
+	if (javaClass != nullptr)
 	{
-		jmethodID javaMethodId = m_env->GetStaticMethodID(javaClass, methodName.c_str(), methodSignature.c_str());
-		if(javaMethodId == nullptr)
+		jmethodID javaMethodId = m_env->GetStaticMethodID(
+			javaClass, methodName.c_str(), methodSignature.c_str());
+		if (javaMethodId == nullptr)
 		{
 			LOG_ERROR("method " + methodName + methodSignature + " not found in JVM environment");
 		}

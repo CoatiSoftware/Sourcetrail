@@ -16,7 +16,8 @@ FilePath SourceGroupSettingsWithCxxPchOptions::getPchInputFilePath() const
 
 FilePath SourceGroupSettingsWithCxxPchOptions::getPchInputFilePathExpandedAndAbsolute() const
 {
-	return utility::getExpandedAndAbsolutePath(getPchInputFilePath(), getProjectSettings()->getProjectDirectoryPath());
+	return utility::getExpandedAndAbsolutePath(
+		getPchInputFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsWithCxxPchOptions::setPchInputFilePathFilePath(const FilePath& path)
@@ -30,16 +31,15 @@ bool SourceGroupSettingsWithCxxPchOptions::equals(const SourceGroupSettingsBase*
 		dynamic_cast<const SourceGroupSettingsWithCxxPchOptions*>(other);
 
 	return (
-		otherPtr &&
-		m_pchInputFilePath == otherPtr->m_pchInputFilePath &&
+		otherPtr && m_pchInputFilePath == otherPtr->m_pchInputFilePath &&
 		utility::isPermutation(m_pchFlags, otherPtr->m_pchFlags) &&
-		m_useCompilerFlags == otherPtr->m_useCompilerFlags
-	);
+		m_useCompilerFlags == otherPtr->m_useCompilerFlags);
 }
 
 void SourceGroupSettingsWithCxxPchOptions::load(const ConfigManager* config, const std::string& key)
 {
-	setPchInputFilePathFilePath(config->getValueOrDefault(key + "/pch_input_file_path", FilePath(L"")));
+	setPchInputFilePathFilePath(
+		config->getValueOrDefault(key + "/pch_input_file_path", FilePath(L"")));
 	setPchFlags(config->getValuesOrDefaults(key + "/pch_flags/pch_flag", std::vector<std::wstring>()));
 	setUseCompilerFlags(config->getValueOrDefault(key + "/pch_flags/use_compiler_flags", false));
 }

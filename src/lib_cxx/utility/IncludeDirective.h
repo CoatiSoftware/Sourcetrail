@@ -24,4 +24,4 @@ private:
 	bool m_usesBrackets;
 };
 
-#endif // INCLUDE_DIRECTIVE_H
+#endif	  // INCLUDE_DIRECTIVE_H

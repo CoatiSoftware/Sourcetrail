@@ -35,4 +35,4 @@ private:
 	std::string m_name;
 };
 
-#endif // TABBED_VIEW_H
+#endif	  // TABBED_VIEW_H

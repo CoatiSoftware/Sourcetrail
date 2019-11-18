@@ -3,8 +3,8 @@
 
 #include <memory>
 #include <mutex>
-#include <string>
 #include <set>
+#include <string>
 
 #include "SharedMemory.h"
 
@@ -50,4 +50,4 @@ private:
 	std::set<std::string> m_removedSharedMemoryNames;
 };
 
-#endif // SHARED_MEMORY_GARBAGE_COLLECTOR_H
+#endif	  // SHARED_MEMORY_GARBAGE_COLLECTOR_H

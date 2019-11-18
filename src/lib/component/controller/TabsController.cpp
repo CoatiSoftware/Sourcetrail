@@ -3,8 +3,8 @@
 #include "Application.h"
 #include "MessageFind.h"
 #include "MessageIndexingFinished.h"
-#include "MessageSearch.h"
 #include "MessageScrollToLine.h"
+#include "MessageSearch.h"
 #include "ScreenSearchInterfaces.h"
 #include "TabId.h"
 #include "TaskLambda.h"
@@ -15,8 +15,7 @@ TabsController::TabsController(
 	ViewLayout* mainLayout,
 	const ViewFactory* viewFactory,
 	StorageAccess* storageAccess,
-	ScreenSearchSender* screenSearchSender
-)
+	ScreenSearchSender* screenSearchSender)
 	: m_mainLayout(mainLayout)
 	, m_viewFactory(viewFactory)
 	, m_storageAccess(storageAccess)
@@ -50,11 +49,12 @@ void TabsController::addTab(Id tabId, SearchMatch match)
 
 	TaskManager::createScheduler(tabId)->startSchedulerLoopThreaded();
 
-	m_tabs.emplace(tabId, std::make_shared<Tab>(tabId, m_viewFactory, m_storageAccess, m_screenSearchSender));
+	m_tabs.emplace(
+		tabId, std::make_shared<Tab>(tabId, m_viewFactory, m_storageAccess, m_screenSearchSender));
 
 	if (match.isValid())
 	{
-		MessageSearch msg({ match }, NodeTypeSet::all());
+		MessageSearch msg({match}, NodeTypeSet::all());
 		msg.setSchedulerId(tabId);
 		msg.dispatch();
 
@@ -92,37 +92,25 @@ void TabsController::showTab(Id tabId)
 		m_mainLayout->showOriginalViews();
 	}
 
-	Task::dispatch(
-		TabId::app(),
-		std::make_shared<TaskLambda>(
-			[this]()
-			{
-				m_screenSearchSender->clearMatches();
-			}
-		)
-	);
+	Task::dispatch(TabId::app(), std::make_shared<TaskLambda>([this]() {
+					   m_screenSearchSender->clearMatches();
+				   }));
 }
 
 void TabsController::removeTab(Id tabId)
 {
 	// use app task scheduler thread to stop running tasks of tab
-	Task::dispatch(
-		TabId::background(),
-		std::make_shared<TaskLambda>(
-			[tabId, this]()
-			{
-				m_screenSearchSender->clearMatches();
+	Task::dispatch(TabId::background(), std::make_shared<TaskLambda>([tabId, this]() {
+					   m_screenSearchSender->clearMatches();
 
-				TaskScheduler* scheduler = TaskManager::getScheduler(tabId).get();
-				scheduler->terminateRunningTasks();
-				scheduler->stopSchedulerLoop();
+					   TaskScheduler* scheduler = TaskManager::getScheduler(tabId).get();
+					   scheduler->terminateRunningTasks();
+					   scheduler->stopSchedulerLoop();
 
-				TaskManager::destroyScheduler(tabId);
+					   TaskManager::destroyScheduler(tabId);
 
-				getView()->destroyTab(tabId);
-			}
-		)
-	);
+					   getView()->destroyTab(tabId);
+				   }));
 }
 
 void TabsController::destroyTab(Id tabId)
@@ -193,7 +181,8 @@ void TabsController::handleMessage(MessageTabOpenWith* message)
 		Id tokenId = message->tokenId;
 		if (!tokenId && message->locationId)
 		{
-			std::vector<Id> tokenIds = m_storageAccess->getNodeIdsForLocationIds({ message->locationId });
+			std::vector<Id> tokenIds = m_storageAccess->getNodeIdsForLocationIds(
+				{message->locationId});
 			if (tokenIds.size())
 			{
 				tokenId = tokenIds[0];
@@ -212,7 +201,7 @@ void TabsController::handleMessage(MessageTabOpenWith* message)
 
 		if (tokenId)
 		{
-			std::vector<SearchMatch> matches = m_storageAccess->getSearchMatchesForTokenIds({ tokenId });
+			std::vector<SearchMatch> matches = m_storageAccess->getSearchMatchesForTokenIds({tokenId});
 			if (matches.size())
 			{
 				match = matches[0];

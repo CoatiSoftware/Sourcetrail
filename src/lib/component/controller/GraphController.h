@@ -4,7 +4,6 @@
 #include <list>
 #include <vector>
 
-#include "MessageListener.h"
 #include "MessageActivateErrors.h"
 #include "MessageActivateFullTextSearch.h"
 #include "MessageActivateLegend.h"
@@ -19,6 +18,7 @@
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
 #include "MessageGraphNodeMove.h"
+#include "MessageListener.h"
 #include "MessageScrollGraph.h"
 #include "MessageShowReference.h"
 
@@ -80,7 +80,9 @@ private:
 
 	void createDummyGraph(const std::shared_ptr<Graph> graph);
 	void createDummyGraphAndSetActiveAndVisibility(
-		const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph, bool keepExpandedNodesExpanded);
+		const std::vector<Id>& tokenIds,
+		const std::shared_ptr<Graph> graph,
+		bool keepExpandedNodesExpanded);
 	std::vector<std::shared_ptr<DummyNode>> createDummyNodeTopDown(Node* node, Id ancestorId);
 
 	void updateDummyNodeNamesAndAddQualifiers(const std::vector<std::shared_ptr<DummyNode>>& dummyNodes);
@@ -100,10 +102,14 @@ private:
 
 	void bundleNodes();
 	void bundleNodesAndEdgesMatching(
-		std::function<bool(const DummyNode::BundleInfo&, const Node*)> matcher, size_t count, bool countConnectedNodes,
+		std::function<bool(const DummyNode::BundleInfo&, const Node*)> matcher,
+		size_t count,
+		bool countConnectedNodes,
 		const std::wstring& name);
 	std::shared_ptr<DummyNode> bundleNodesMatching(
-		std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::wstring& name);
+		std::list<std::shared_ptr<DummyNode>>& nodes,
+		std::function<bool(const DummyNode*)> matcher,
+		const std::wstring& name);
 	std::shared_ptr<DummyNode> bundleByType(
 		std::list<std::shared_ptr<DummyNode>>& nodes,
 		const NodeType& type,
@@ -134,7 +140,10 @@ private:
 	DummyEdge* getDummyGraphEdgeById(Id tokenId) const;
 
 	void relayoutGraph(
-		MessageBase* message, GraphView::GraphParams params, bool withCharacterIndex, const std::wstring& groupName);
+		MessageBase* message,
+		GraphView::GraphParams params,
+		bool withCharacterIndex,
+		const std::wstring& groupName);
 	void buildGraph(MessageBase* message, GraphView::GraphParams params);
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);
@@ -160,4 +169,4 @@ private:
 	bool m_showsLegend = false;
 };
 
-#endif // GRAPH_CONTROLLER_H
+#endif	  // GRAPH_CONTROLLER_H

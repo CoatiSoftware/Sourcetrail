@@ -8,12 +8,11 @@
 
 #include "DefinitionKind.h"
 #include "Edge.h"
-#include "Token.h"
 #include "NameHierarchy.h"
 #include "NodeType.h"
+#include "Token.h"
 
-class Node
-	: public Token
+class Node: public Token
 {
 public:
 	Node(Id id, NodeType type, NameHierarchy nameHierarchy, DefinitionKind definitionKind);
@@ -77,4 +76,4 @@ private:
 
 std::wostream& operator<<(std::wostream& ostream, const Node& node);
 
-#endif // NODE_H
+#endif	  // NODE_H

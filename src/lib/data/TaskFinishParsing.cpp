@@ -9,9 +9,9 @@
 #include "TimeStamp.h"
 #include "utilityString.h"
 
-TaskFinishParsing::TaskFinishParsing(std::shared_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)
-	: m_storage(storage)
-	, m_dialogView(dialogView)
+TaskFinishParsing::TaskFinishParsing(
+	std::shared_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)
+	: m_storage(storage), m_dialogView(dialogView)
 {
 }
 
@@ -68,9 +68,11 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 
 	std::wstring status;
 	status += L"Finished indexing: ";
-	status += std::to_wstring(indexedSourceFileCount) + L"/" + std::to_wstring(sourceFileCount) + L" source files indexed; ";
+	status += std::to_wstring(indexedSourceFileCount) + L"/" + std::to_wstring(sourceFileCount) +
+		L" source files indexed; ";
 	status += utility::decodeFromUtf8(TimeStamp::secondsToString(time));
-	status += L"; " + std::to_wstring(errorInfo.total) + L" error" + (errorInfo.total != 1 ? L"s" : L"");
+	status += L"; " + std::to_wstring(errorInfo.total) + L" error" +
+		(errorInfo.total != 1 ? L"s" : L"");
 	if (errorInfo.fatal > 0)
 	{
 		status += L" (" + std::to_wstring(errorInfo.fatal) + L" fatal)";
@@ -86,8 +88,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		time,
 		errorInfo,
 		interruptedIndexing,
-		shallowIndexing
-	);
+		shallowIndexing);
 
 	MessageIndexingStatus(false).dispatch();
 
@@ -113,6 +114,4 @@ void TaskFinishParsing::doExit(std::shared_ptr<Blackboard> blackboard)
 	m_storage.reset();
 }
 
-void TaskFinishParsing::doReset(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskFinishParsing::doReset(std::shared_ptr<Blackboard> blackboard) {}

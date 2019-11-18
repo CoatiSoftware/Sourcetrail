@@ -6,11 +6,11 @@
 #include "Controller.h"
 #include "NetworkProtocolHelper.h"
 
-#include "MessageListener.h"
-#include "MessageWindowFocus.h"
 #include "MessageIDECreateCDB.h"
+#include "MessageListener.h"
 #include "MessageMoveIDECursor.h"
 #include "MessagePluginPortChange.h"
+#include "MessageWindowFocus.h"
 
 class StorageAccess;
 
@@ -56,4 +56,4 @@ private:
 	bool m_enabled;
 };
 
-#endif // IDE_COMMUNICATION_CONTROLLER_H
+#endif	  // IDE_COMMUNICATION_CONTROLLER_H

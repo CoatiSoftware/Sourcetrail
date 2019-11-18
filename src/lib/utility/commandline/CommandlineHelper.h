@@ -4,23 +4,25 @@
 #include <string>
 #include <vector>
 
-#include "utilityString.h"
 #include "utility.h"
+#include "utilityString.h"
 
-namespace boost {
-namespace program_options {
-	class variables_map;
-	class options_description;
-}
-}
+namespace boost
+{
+namespace program_options
+{
+class variables_map;
+class options_description;
+}	 // namespace program_options
+}	 // namespace boost
 
 namespace po = boost::program_options;
 
 namespace commandline
 {
-	void parseConfigFile(po::variables_map& vm, po::options_description& options);
+void parseConfigFile(po::variables_map& vm, po::options_description& options);
 
-	std::vector<FilePath> extractPaths(const std::vector<std::string>& vector);
-}
+std::vector<FilePath> extractPaths(const std::vector<std::string>& vector);
+}	 // namespace commandline
 
-#endif // COMMANDLINE_HELPER_H
+#endif	  // COMMANDLINE_HELPER_H

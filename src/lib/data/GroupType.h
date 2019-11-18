@@ -24,4 +24,4 @@ enum class GroupLayout
 	SQUARE
 };
 
-#endif // GROUP_TYPE_H
+#endif	  // GROUP_TYPE_H

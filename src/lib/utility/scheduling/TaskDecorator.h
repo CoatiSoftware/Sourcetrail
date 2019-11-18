@@ -25,4 +25,4 @@ private:
 	virtual void doTerminate();
 };
 
-#endif // TASK_DECORATOR_H
+#endif	  // TASK_DECORATOR_H

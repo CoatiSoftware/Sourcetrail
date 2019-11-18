@@ -4,13 +4,10 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageScrollCode
-	: public Message<MessageScrollCode>
+class MessageScrollCode: public Message<MessageScrollCode>
 {
 public:
-	MessageScrollCode(int value, bool inListMode)
-		: value(value)
-		, inListMode(inListMode)
+	MessageScrollCode(int value, bool inListMode): value(value), inListMode(inListMode)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());
@@ -25,4 +22,4 @@ public:
 	bool inListMode;
 };
 
-#endif // MESSAGE_SCROLL_CODE_H
+#endif	  // MESSAGE_SCROLL_CODE_H

@@ -9,7 +9,7 @@
 class UndoRedoController;
 struct SearchMatch;
 
-class UndoRedoView : public View
+class UndoRedoView: public View
 {
 public:
 	UndoRedoView(ViewLayout* viewLayout);
@@ -26,4 +26,4 @@ protected:
 	UndoRedoController* getController();
 };
 
-#endif //UNDO_REDO_VIEW_H
+#endif	  // UNDO_REDO_VIEW_H

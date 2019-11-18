@@ -17,7 +17,7 @@ class QtCoreApplication
 	Q_OBJECT
 
 public:
-	QtCoreApplication(int argc, char **argv);
+	QtCoreApplication(int argc, char** argv);
 	virtual ~QtCoreApplication() = default;
 
 private:
@@ -26,4 +26,4 @@ private:
 	virtual void handleMessage(MessageStatus* message);
 };
 
-#endif // QT_COREAPPLICATION
+#endif	  // QT_COREAPPLICATION

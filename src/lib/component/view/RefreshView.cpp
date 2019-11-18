@@ -2,14 +2,9 @@
 
 #include "RefreshController.h"
 
-RefreshView::RefreshView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+RefreshView::RefreshView(ViewLayout* viewLayout): View(viewLayout) {}
 
-RefreshView::~RefreshView()
-{
-}
+RefreshView::~RefreshView() {}
 
 std::string RefreshView::getName() const
 {

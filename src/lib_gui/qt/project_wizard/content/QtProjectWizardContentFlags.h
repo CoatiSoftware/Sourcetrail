@@ -6,8 +6,7 @@
 class QtStringListBox;
 class SourceGroupSettingsWithCxxPathsAndFlags;
 
-class QtProjectWizardContentFlags
-	: public QtProjectWizardContent
+class QtProjectWizardContentFlags: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -15,8 +14,7 @@ public:
 	QtProjectWizardContentFlags(
 		std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings,
 		QtProjectWizardWindow* window,
-		bool indicateAsAdditional = false
-	);
+		bool indicateAsAdditional = false);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -32,4 +30,4 @@ private:
 	QtStringListBox* m_list;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_FLAGS_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_FLAGS_H

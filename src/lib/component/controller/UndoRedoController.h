@@ -3,8 +3,6 @@
 
 #include <list>
 
-#include "MessageBase.h"
-#include "MessageListener.h"
 #include "MessageActivateErrors.h"
 #include "MessageActivateFullTextSearch.h"
 #include "MessageActivateLegend.h"
@@ -13,6 +11,7 @@
 #include "MessageActivateTokens.h"
 #include "MessageActivateTrail.h"
 #include "MessageActivateTrailEdge.h"
+#include "MessageBase.h"
 #include "MessageChangeFileView.h"
 #include "MessageCodeShowDefinition.h"
 #include "MessageDeactivateEdge.h"
@@ -24,6 +23,7 @@
 #include "MessageHistoryToPosition.h"
 #include "MessageHistoryUndo.h"
 #include "MessageIndexingFinished.h"
+#include "MessageListener.h"
 #include "MessageRefreshUI.h"
 #include "MessageScrollCode.h"
 #include "MessageScrollGraph.h"
@@ -140,4 +140,4 @@ private:
 	size_t m_historyOffset;
 };
 
-#endif // UNDO_REDO_CONTROLLER_H
+#endif	  // UNDO_REDO_CONTROLLER_H

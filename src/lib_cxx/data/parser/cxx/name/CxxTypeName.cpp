@@ -17,36 +17,25 @@ std::unique_ptr<CxxTypeName> CxxTypeName::makeUnsolvedIfNull(std::unique_ptr<Cxx
 	return getUnsolved();
 }
 
-CxxTypeName::Modifier::Modifier(std::wstring symbol)
-	: symbol(std::move(symbol))
-{
-}
+CxxTypeName::Modifier::Modifier(std::wstring symbol): symbol(std::move(symbol)) {}
 
-CxxTypeName::CxxTypeName(std::wstring name)
-	: m_name(std::move(name))
-{
-}
+CxxTypeName::CxxTypeName(std::wstring name): m_name(std::move(name)) {}
 
 CxxTypeName::CxxTypeName(std::wstring name, std::vector<std::wstring> templateArguments)
-	: m_name(std::move(name))
-	, m_templateArguments(std::move(templateArguments))
+	: m_name(std::move(name)), m_templateArguments(std::move(templateArguments))
 {
 }
 
 CxxTypeName::CxxTypeName(
-	std::wstring name,
-	std::vector<std::wstring> templateArguments,
-	std::shared_ptr<CxxName> parent
-)
-	: CxxName(parent)
-	, m_name(std::move(name))
-	, m_templateArguments(std::move(templateArguments))
+	std::wstring name, std::vector<std::wstring> templateArguments, std::shared_ptr<CxxName> parent)
+	: CxxName(parent), m_name(std::move(name)), m_templateArguments(std::move(templateArguments))
 {
 }
 
 NameHierarchy CxxTypeName::toNameHierarchy() const
 {
-	NameHierarchy ret = getParent() ? getParent()->toNameHierarchy() : NameHierarchy(NAME_DELIMITER_CXX);
+	NameHierarchy ret = getParent() ? getParent()->toNameHierarchy()
+									: NameHierarchy(NAME_DELIMITER_CXX);
 	ret.push(m_name + getTemplateSuffix(m_templateArguments));
 	return ret;
 }
@@ -78,7 +67,7 @@ std::wstring CxxTypeName::toString() const
 
 	ss << toNameHierarchy().getQualifiedName();
 
-	for (const Modifier& modifier : m_modifiers)
+	for (const Modifier& modifier: m_modifiers)
 	{
 		ss << L' ' << modifier.symbol;
 		if (!modifier.qualifierFlags.empty())

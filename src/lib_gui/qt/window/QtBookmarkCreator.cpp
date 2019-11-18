@@ -7,21 +7,20 @@
 #include <QVBoxLayout>
 
 #include "BookmarkCategory.h"
-#include "utilityQt.h"
 #include "MessageStatus.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
-QtBookmarkCreator::QtBookmarkCreator(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent, Id bookmarkId)
-    : QtWindow(false, parent)
-    , m_controllerProxy(controllerProxy)
+QtBookmarkCreator::QtBookmarkCreator(
+	ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent, Id bookmarkId)
+	: QtWindow(false, parent)
+	, m_controllerProxy(controllerProxy)
 	, m_editBookmarkId(bookmarkId)
 	, m_nodeId(0)
 {
 }
 
-QtBookmarkCreator::~QtBookmarkCreator()
-{
-}
+QtBookmarkCreator::~QtBookmarkCreator() {}
 
 void QtBookmarkCreator::setupBookmarkCreator()
 {
@@ -99,10 +98,11 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 void QtBookmarkCreator::refreshStyle()
 {
-	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/bookmark_view.css"))
-	).c_str());
+	setStyleSheet(
+		(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
+		 utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/"
+																		L"bookmark_view.css")))
+			.c_str());
 }
 
 void QtBookmarkCreator::setDisplayName(const std::wstring& name)

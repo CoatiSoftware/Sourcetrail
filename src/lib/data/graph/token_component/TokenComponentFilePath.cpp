@@ -1,14 +1,11 @@
 #include "TokenComponentFilePath.h"
 
 TokenComponentFilePath::TokenComponentFilePath(const FilePath& path, bool complete)
-	: m_path(path)
-	, m_complete(complete)
+	: m_path(path), m_complete(complete)
 {
 }
 
-TokenComponentFilePath::~TokenComponentFilePath()
-{
-}
+TokenComponentFilePath::~TokenComponentFilePath() {}
 
 std::shared_ptr<TokenComponent> TokenComponentFilePath::copy() const
 {

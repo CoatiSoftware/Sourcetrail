@@ -3,8 +3,7 @@
 
 #include "QtLineItemBase.h"
 
-class QtLineItemBezier
-	: public QtLineItemBase
+class QtLineItemBezier: public QtLineItemBase
 {
 public:
 	QtLineItemBezier(QGraphicsItem* parent);
@@ -20,4 +19,4 @@ private:
 	QPainterPath getCurve() const;
 };
 
-#endif // QT_LINE_ITEM_BEZIER_H
+#endif	  // QT_LINE_ITEM_BEZIER_H

@@ -12,9 +12,9 @@
 #include "utilityString.h"
 
 #include "Application.h"
+#include "ColorScheme.h"
 #include "Project.h"
 #include "QtContextMenu.h"
-#include "ColorScheme.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QtSelfRefreshIconButton("", FilePath(), "code/file/title", parent)
@@ -22,7 +22,7 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	, m_isIndexed(true)
 {
 	setObjectName("title_button");
-	minimumSizeHint(); // force font loading
+	minimumSizeHint();	  // force font loading
 
 	setFixedHeight(std::max(fontMetrics().height() * 1.2, 28.0));
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
@@ -249,7 +249,8 @@ void QtCodeFileTitleButton::updateIcon()
 	}
 	else if (!m_isComplete)
 	{
-		setIconPath(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file_incomplete.png"));
+		setIconPath(
+			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file_incomplete.png"));
 	}
 	else
 	{
@@ -261,13 +262,14 @@ void QtCodeFileTitleButton::updateHatching()
 {
 	if (!m_isIndexed)
 	{
-		FilePath hatchingFilePath = ResourcePaths::getGuiPath().concatenate(L"code_view/images/pattern_" +
-			utility::decodeFromUtf8(ColorScheme::getInstance()->getColor("code/file/title/hatching")) + L".png"
-		);
+		FilePath hatchingFilePath = ResourcePaths::getGuiPath().concatenate(
+			L"code_view/images/pattern_" +
+			utility::decodeFromUtf8(
+				ColorScheme::getInstance()->getColor("code/file/title/hatching")) +
+			L".png");
 
 		setStyleSheet(QString::fromStdWString(
-			L"#title_button { background-image: url(" + hatchingFilePath.wstr() + L"); }"
-		));
+			L"#title_button { background-image: url(" + hatchingFilePath.wstr() + L"); }"));
 	}
 	else
 	{

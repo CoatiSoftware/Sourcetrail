@@ -13,15 +13,13 @@
 #include "utilityQt.h"
 
 
-QtFocusInFilter::QtFocusInFilter(QObject* parent)
-	: QObject(parent)
-{
-}
+QtFocusInFilter::QtFocusInFilter(QObject* parent): QObject(parent) {}
 
 bool QtFocusInFilter::eventFilter(QObject* obj, QEvent* event)
 {
 	QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(obj);
-	if (lineEdit && event->type() == QEvent::FocusIn && dynamic_cast<QFocusEvent*>(event)->reason() == Qt::MouseFocusReason)
+	if (lineEdit && event->type() == QEvent::FocusIn &&
+		dynamic_cast<QFocusEvent*>(event)->reason() == Qt::MouseFocusReason)
 	{
 		emit focusIn();
 	}
@@ -30,9 +28,9 @@ bool QtFocusInFilter::eventFilter(QObject* obj, QEvent* event)
 }
 
 
-QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent)
-	: QFrame(parent)
-	, m_controllerProxy(controllerProxy)
+QtScreenSearchBox::QtScreenSearchBox(
+	ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent)
+	: QFrame(parent), m_controllerProxy(controllerProxy)
 {
 	setObjectName("screen_search_box");
 
@@ -44,7 +42,9 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 	// search field
 	{
 		m_searchButton = new QtSelfRefreshIconButton(
-			"", ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"), "screen_search/button");
+			"",
+			ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"),
+			"screen_search/button");
 		m_searchButton->setObjectName("search_button");
 		m_searchButton->setIconSize(QSize(12, 12));
 		layout->addWidget(m_searchButton);
@@ -53,7 +53,7 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 
 		m_searchBox = new QLineEdit(this);
 		m_searchBox->setObjectName("search_box");
-		m_searchBox->setAttribute(Qt::WA_MacShowFocusRect, 0); // remove blue focus box on Mac
+		m_searchBox->setAttribute(Qt::WA_MacShowFocusRect, 0);	  // remove blue focus box on Mac
 		layout->addWidget(m_searchBox);
 
 		connect(m_searchBox, &QLineEdit::textChanged, this, &QtScreenSearchBox::searchQueryChanged);
@@ -67,7 +67,7 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 	// match label
 	{
 		m_matchLabel = new QPushButton();
-		m_matchLabel->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_matchLabel->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 		m_matchLabel->setObjectName("match_label");
 		layout->addWidget(m_matchLabel);
 
@@ -77,9 +77,13 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 	// buttons
 	{
 		m_prevButton = new QtSelfRefreshIconButton(
-			"", ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"), "screen_search/button");
+			"",
+			ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"),
+			"screen_search/button");
 		m_nextButton = new QtSelfRefreshIconButton(
-			"", ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"), "screen_search/button");
+			"",
+			ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"),
+			"screen_search/button");
 
 		m_prevButton->setObjectName("prev_button");
 		m_nextButton->setObjectName("next_button");
@@ -104,12 +108,14 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 	// buttons
 	{
 		m_closeButton = new QtSelfRefreshIconButton(
-			"", ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"), "screen_search/button");
+			"",
+			ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
+			"screen_search/button");
 		m_closeButton->setObjectName("close_button");
 		m_closeButton->setIconSize(QSize(15, 15));
 		layout->addWidget(m_closeButton);
 
-		connect(m_closeButton, &QPushButton::clicked, [this](){ emit closePressed(); });
+		connect(m_closeButton, &QPushButton::clicked, [this]() { emit closePressed(); });
 	}
 
 	m_timer = new QTimer(this);
@@ -119,9 +125,7 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 	setMatchCount(0);
 }
 
-QtScreenSearchBox::~QtScreenSearchBox()
-{
-}
+QtScreenSearchBox::~QtScreenSearchBox() {}
 
 void QtScreenSearchBox::setMatchCount(size_t matchCount)
 {
@@ -174,21 +178,18 @@ void QtScreenSearchBox::searchQueryChanged()
 
 void QtScreenSearchBox::findMatches()
 {
-	m_controllerProxy->executeAsTask(
-		[this](ScreenSearchController* controller)
+	m_controllerProxy->executeAsTask([this](ScreenSearchController* controller) {
+		std::set<std::string> responderNames;
+		for (auto p: m_checkBoxes)
 		{
-			std::set<std::string> responderNames;
-			for (auto p : m_checkBoxes)
+			if (p.second->isChecked())
 			{
-				if (p.second->isChecked())
-				{
-					responderNames.insert(p.first);
-				}
+				responderNames.insert(p.first);
 			}
-
-			controller->search(m_searchBox->text().toLower().toStdWString(), responderNames);
 		}
-	);
+
+		controller->search(m_searchBox->text().toLower().toStdWString(), responderNames);
+	});
 }
 
 void QtScreenSearchBox::returnPressed()

@@ -20,4 +20,4 @@ private:
 	static Id s_currentTabId;
 };
 
-#endif // TAB_ID_H
+#endif	  // TAB_ID_H

@@ -9,8 +9,7 @@
 class TimeStamp;
 class Version;
 
-class ApplicationSettings
-	: public Settings
+class ApplicationSettings: public Settings
 {
 public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
@@ -197,4 +196,4 @@ private:
 	static std::shared_ptr<ApplicationSettings> s_instance;
 };
 
-#endif // APPLICATION_SETTINGS_H
+#endif	  // APPLICATION_SETTINGS_H

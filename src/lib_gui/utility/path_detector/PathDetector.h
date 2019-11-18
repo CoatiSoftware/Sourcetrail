@@ -20,4 +20,4 @@ protected:
 	const std::string m_name;
 };
 
-#endif // PATH_DETECTOR_BASE_H
+#endif	  // PATH_DETECTOR_BASE_H

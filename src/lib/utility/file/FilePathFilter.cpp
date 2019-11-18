@@ -1,8 +1,7 @@
 #include "FilePathFilter.h"
 
 FilePathFilter::FilePathFilter(const std::wstring& filterString)
-	: m_filterString(filterString)
-	, m_filterRegex(convertFilterStringToRegex(filterString))
+	: m_filterString(filterString), m_filterRegex(convertFilterStringToRegex(filterString))
 {
 }
 

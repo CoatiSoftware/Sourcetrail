@@ -5,16 +5,12 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageActivateNodes
-	: public Message<MessageActivateNodes>
+class MessageActivateNodes: public Message<MessageActivateNodes>
 {
 public:
 	struct ActiveNode
 	{
-		ActiveNode()
-			: nodeId(0)
-			, nameHierarchy(NAME_DELIMITER_UNKNOWN)
-		{ }
+		ActiveNode(): nodeId(0), nameHierarchy(NAME_DELIMITER_UNKNOWN) {}
 		Id nodeId;
 		NameHierarchy nameHierarchy;
 	};
@@ -51,7 +47,7 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		for (const ActiveNode& node : nodes)
+		for (const ActiveNode& node: nodes)
 		{
 			os << node.nodeId << L" ";
 		}
@@ -60,4 +56,4 @@ public:
 	std::vector<ActiveNode> nodes;
 };
 
-#endif // MESSAGE_ACTIVATE_NODES_H
+#endif	  // MESSAGE_ACTIVATE_NODES_H

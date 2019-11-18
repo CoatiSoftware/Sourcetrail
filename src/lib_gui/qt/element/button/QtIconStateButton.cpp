@@ -4,11 +4,10 @@
 
 #include "utilityQt.h"
 
-QtIconStateButton::QtIconStateButton(QWidget* parent)
-	: QPushButton("", parent)
+QtIconStateButton::QtIconStateButton(QWidget* parent): QPushButton("", parent)
 {
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	setMouseTracking(true);
 
 	setObjectName("iconStateButton");
@@ -39,7 +38,7 @@ void QtIconStateButton::hoverOut()
 	leaveEvent(nullptr);
 }
 
-void QtIconStateButton::changeEvent(QEvent *event)
+void QtIconStateButton::changeEvent(QEvent* event)
 {
 	if (event->type() != QEvent::EnabledChange)
 	{
@@ -53,7 +52,7 @@ void QtIconStateButton::changeEvent(QEvent *event)
 	}
 }
 
-void QtIconStateButton::enterEvent(QEvent *event)
+void QtIconStateButton::enterEvent(QEvent* event)
 {
 	if (!isEnabled())
 	{
@@ -72,7 +71,7 @@ void QtIconStateButton::enterEvent(QEvent *event)
 	}
 }
 
-void QtIconStateButton::leaveEvent(QEvent *event)
+void QtIconStateButton::leaveEvent(QEvent* event)
 {
 	if (!isEnabled())
 	{

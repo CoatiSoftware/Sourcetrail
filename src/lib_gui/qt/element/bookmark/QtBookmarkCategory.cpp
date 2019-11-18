@@ -6,12 +6,11 @@
 #include <QPushButton>
 #include <QTreeWidget>
 
-#include "utilityQt.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
 QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* controllerProxy)
-	: m_controllerProxy(controllerProxy)
-	, m_id(0)
+	: m_controllerProxy(controllerProxy), m_id(0)
 {
 	setObjectName("bookmark_category");
 
@@ -25,7 +24,8 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 	m_expandButton->setObjectName("category_expand_button");
 	m_expandButton->setToolTip("Show/Hide bookmarks in this category");
 	m_expandButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-	m_expandButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr())));
+	m_expandButton->setIcon(QPixmap(QString::fromStdWString(
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr())));
 	m_expandButton->setIconSize(QSize(8, 8));
 	layout->addWidget(m_expandButton);
 
@@ -42,7 +42,10 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 	m_deleteButton->setToolTip("Delete this Bookmark Category and the containing Bookmarks");
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIconSize(QSize(20, 20));
-	m_deleteButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_delete_icon.png").wstr())));
+	m_deleteButton->setIcon(QPixmap(
+		QString::fromStdWString(ResourcePaths::getGuiPath()
+									.concatenate(L"bookmark_view/images/bookmark_delete_icon.png")
+									.wstr())));
 	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
 	m_deleteButton->hide();
 	layout->addWidget(m_deleteButton);
@@ -50,9 +53,7 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 	connect(m_deleteButton, &QPushButton::clicked, this, &QtBookmarkCategory::deleteClicked);
 }
 
-QtBookmarkCategory::~QtBookmarkCategory()
-{
-}
+QtBookmarkCategory::~QtBookmarkCategory() {}
 
 void QtBookmarkCategory::setName(const std::wstring& name)
 {
@@ -85,12 +86,14 @@ void QtBookmarkCategory::updateArrow()
 	{
 		if (m_treeItem->isExpanded())
 		{
-			QPixmap pixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr()));
+			QPixmap pixmap(QString::fromStdWString(
+				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr()));
 			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "black")));
 		}
 		else
 		{
-			QPixmap pixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_right.png").wstr()));
+			QPixmap pixmap(QString::fromStdWString(
+				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_right.png").wstr()));
 			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "black")));
 		}
 	}
@@ -105,12 +108,12 @@ void QtBookmarkCategory::expandClicked()
 	}
 }
 
-void QtBookmarkCategory::enterEvent(QEvent *event)
+void QtBookmarkCategory::enterEvent(QEvent* event)
 {
 	m_deleteButton->show();
 }
 
-void QtBookmarkCategory::leaveEvent(QEvent *event)
+void QtBookmarkCategory::leaveEvent(QEvent* event)
 {
 	m_deleteButton->hide();
 }
@@ -119,13 +122,14 @@ void QtBookmarkCategory::deleteClicked()
 {
 	QMessageBox msgBox;
 	msgBox.setText("Delete Category");
-	msgBox.setInformativeText("Do you really want to delete this category AND all containing bookmarks?");
+	msgBox.setInformativeText(
+		"Do you really want to delete this category AND all containing bookmarks?");
 	msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
 	msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
 	int ret = msgBox.exec();
 
-	if (ret == 0) // QMessageBox::Yes
+	if (ret == 0)	 // QMessageBox::Yes
 	{
 		m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::deleteBookmarkCategory, m_id);
 	}

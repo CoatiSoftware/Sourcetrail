@@ -3,13 +3,12 @@
 
 #include <vector>
 
-#include "View.h"
 #include "NameHierarchy.h"
 #include "TooltipInfo.h"
+#include "View.h"
 #include "types.h"
 
-class TooltipView
-	: public View
+class TooltipView: public View
 {
 public:
 	TooltipView(ViewLayout* viewLayout);
@@ -24,4 +23,4 @@ public:
 	virtual bool tooltipVisible() const = 0;
 };
 
-#endif // TOOLTIP_VIEW_H
+#endif	  // TOOLTIP_VIEW_H

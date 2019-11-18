@@ -64,7 +64,8 @@ std::vector<ErrorInfo> StorageCache::getErrorsLimited(const ErrorFilter& filter)
 	return filter.filterErrors(m_cachedErrors);
 }
 
-std::vector<ErrorInfo> StorageCache::getErrorsForFileLimited(const ErrorFilter& filter, const FilePath& filePath) const
+std::vector<ErrorInfo> StorageCache::getErrorsForFileLimited(
+	const ErrorFilter& filter, const FilePath& filePath) const
 {
 	if (!m_useErrorCache)
 	{
@@ -74,34 +75,33 @@ std::vector<ErrorInfo> StorageCache::getErrorsForFileLimited(const ErrorFilter& 
 	return {};
 }
 
-std::shared_ptr<SourceLocationCollection> StorageCache::getErrorSourceLocations(const std::vector<ErrorInfo>& errors) const
+std::shared_ptr<SourceLocationCollection> StorageCache::getErrorSourceLocations(
+	const std::vector<ErrorInfo>& errors) const
 {
-	std::shared_ptr<SourceLocationCollection> collection = StorageAccessProxy::getErrorSourceLocations(errors);
+	std::shared_ptr<SourceLocationCollection> collection =
+		StorageAccessProxy::getErrorSourceLocations(errors);
 
 	if (m_useErrorCache)
 	{
 		std::map<std::wstring, bool> fileIndexed;
-		for (const ErrorInfo& error : m_cachedErrors)
+		for (const ErrorInfo& error: m_cachedErrors)
 		{
 			fileIndexed.emplace(error.filePath, error.indexed);
 		}
 
-		collection->forEachSourceLocationFile(
-			[&](std::shared_ptr<SourceLocationFile> file)
-			{
-				file->setIsComplete(false);
+		collection->forEachSourceLocationFile([&](std::shared_ptr<SourceLocationFile> file) {
+			file->setIsComplete(false);
 
-				auto it = fileIndexed.find(file->getFilePath().wstr());
-				if (it != fileIndexed.end())
-				{
-					file->setIsIndexed(it->second);
-				}
-				else
-				{
-					file->setIsIndexed(true);
-				}
+			auto it = fileIndexed.find(file->getFilePath().wstr());
+			if (it != fileIndexed.end())
+			{
+				file->setIsIndexed(it->second);
 			}
-		);
+			else
+			{
+				file->setIsIndexed(true);
+			}
+		});
 	}
 
 	return collection;
@@ -115,7 +115,8 @@ void StorageCache::setUseErrorCache(bool enabled)
 	m_errorCount = ErrorCountInfo();
 }
 
-void StorageCache::addErrorsToCache(const std::vector<ErrorInfo>& newErrors, const ErrorCountInfo& errorCount)
+void StorageCache::addErrorsToCache(
+	const std::vector<ErrorInfo>& newErrors, const ErrorCountInfo& errorCount)
 {
 	utility::append(m_cachedErrors, newErrors);
 	m_errorCount = errorCount;

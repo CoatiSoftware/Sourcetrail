@@ -7,13 +7,8 @@
 #include "SourceGroupSettings.h"
 
 QtProjectWizardContentSourceGroupData::QtProjectWizardContentSourceGroupData(
-	std::shared_ptr<SourceGroupSettings> settings,
-	QtProjectWizardWindow* window
-)
-	: QtProjectWizardContent(window)
-	, m_settings(settings)
-	, m_name(nullptr)
-	, m_status(nullptr)
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window)
+	: QtProjectWizardContent(window), m_settings(settings), m_name(nullptr), m_status(nullptr)
 {
 }
 
@@ -24,18 +19,26 @@ void QtProjectWizardContentSourceGroupData::populate(QGridLayout* layout, int& r
 	m_name->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	connect(m_name, &QLineEdit::textEdited, this, &QtProjectWizardContentSourceGroupData::editedName);
 
-	layout->addWidget(createFormLabel("Source Group Name"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(
+		createFormLabel("Source Group Name"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_name, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
 	m_status = new QCheckBox("active");
-	connect(m_status, &QCheckBox::toggled, this, &QtProjectWizardContentSourceGroupData::changedStatus);
-	layout->addWidget(createFormLabel("Status"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+	connect(
+		m_status, &QCheckBox::toggled, this, &QtProjectWizardContentSourceGroupData::changedStatus);
+	layout->addWidget(
+		createFormLabel("Status"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_status, row, QtProjectWizardWindow::BACK_COL);
 
-	addHelpButton("Status", "<p>Only source files of active Source Groups will be processed during indexing. "
-		"Inactive Source Groups will be ignored or cleared from the index.</p><p>Use this setting to temporarily "
-		"remove files from your project (e.g. tests).</p>", layout, row);
+	addHelpButton(
+		"Status",
+		"<p>Only source files of active Source Groups will be processed during indexing. "
+		"Inactive Source Groups will be ignored or cleared from the index.</p><p>Use this setting "
+		"to temporarily "
+		"remove files from your project (e.g. tests).</p>",
+		layout,
+		row);
 
 	row++;
 }
@@ -51,7 +54,8 @@ void QtProjectWizardContentSourceGroupData::save()
 {
 	m_settings->setName(m_name->text().toStdString());
 
-	m_settings->setStatus(m_status->isChecked() ? SOURCE_GROUP_STATUS_ENABLED : SOURCE_GROUP_STATUS_DISABLED);
+	m_settings->setStatus(
+		m_status->isChecked() ? SOURCE_GROUP_STATUS_ENABLED : SOURCE_GROUP_STATUS_DISABLED);
 }
 
 bool QtProjectWizardContentSourceGroupData::check()
@@ -79,7 +83,8 @@ void QtProjectWizardContentSourceGroupData::editedName(QString name)
 
 void QtProjectWizardContentSourceGroupData::changedStatus(bool checked)
 {
-	emit statusUpdated(m_status->isChecked() ? SOURCE_GROUP_STATUS_ENABLED : SOURCE_GROUP_STATUS_DISABLED);
+	emit statusUpdated(
+		m_status->isChecked() ? SOURCE_GROUP_STATUS_ENABLED : SOURCE_GROUP_STATUS_DISABLED);
 
 	editedName(m_name->text());
 }

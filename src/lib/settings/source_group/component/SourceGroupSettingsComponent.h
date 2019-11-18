@@ -7,8 +7,7 @@
 
 class ConfigManager;
 
-class SourceGroupSettingsComponent
-	: virtual public SourceGroupSettingsBase
+class SourceGroupSettingsComponent: virtual public SourceGroupSettingsBase
 {
 public:
 	virtual ~SourceGroupSettingsComponent() = default;
@@ -20,4 +19,4 @@ protected:
 	virtual bool equals(const SourceGroupSettingsBase* other) const = 0;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_COMPONENT_H
+#endif	  // SOURCE_GROUP_SETTINGS_COMPONENT_H

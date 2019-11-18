@@ -12,7 +12,8 @@ std::vector<std::wstring> SourceGroupSettingsWithSourceExtensions::getSourceExte
 	return m_sourceExtensions;
 }
 
-void SourceGroupSettingsWithSourceExtensions::setSourceExtensions(const std::vector<std::wstring>& sourceExtensions)
+void SourceGroupSettingsWithSourceExtensions::setSourceExtensions(
+	const std::vector<std::wstring>& sourceExtensions)
 {
 	m_sourceExtensions = sourceExtensions;
 }
@@ -22,15 +23,13 @@ bool SourceGroupSettingsWithSourceExtensions::equals(const SourceGroupSettingsBa
 	const SourceGroupSettingsWithSourceExtensions* otherPtr =
 		dynamic_cast<const SourceGroupSettingsWithSourceExtensions*>(other);
 
-	return (
-		otherPtr &&
-		utility::isPermutation(m_sourceExtensions, otherPtr->m_sourceExtensions)
-	);
+	return (otherPtr && utility::isPermutation(m_sourceExtensions, otherPtr->m_sourceExtensions));
 }
 
 void SourceGroupSettingsWithSourceExtensions::load(const ConfigManager* config, const std::string& key)
 {
-	setSourceExtensions(config->getValuesOrDefaults(key + "/source_extensions/source_extension", std::vector<std::wstring>()));
+	setSourceExtensions(config->getValuesOrDefaults(
+		key + "/source_extensions/source_extension", std::vector<std::wstring>()));
 }
 
 void SourceGroupSettingsWithSourceExtensions::save(ConfigManager* config, const std::string& key)

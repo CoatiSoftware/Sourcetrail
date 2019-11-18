@@ -3,21 +3,9 @@
 #include "DummyEdge.h"
 #include "GraphViewStyle.h"
 
-Bucket::Bucket()
-	: i(0)
-	, j(0)
-	, m_width(0)
-	, m_height(0)
-{
-}
+Bucket::Bucket(): i(0), j(0), m_width(0), m_height(0) {}
 
-Bucket::Bucket(int i, int j)
-	: i(i)
-	, j(j)
-	, m_width(0)
-	, m_height(0)
-{
-}
+Bucket::Bucket(int i, int j): i(i), j(j), m_width(0), m_height(0) {}
 
 int Bucket::getWidth() const
 {
@@ -31,7 +19,7 @@ int Bucket::getHeight() const
 
 bool Bucket::hasNode(std::shared_ptr<DummyNode> node) const
 {
-	for (const std::shared_ptr<DummyNode>& n : m_nodes)
+	for (const std::shared_ptr<DummyNode>& n: m_nodes)
 	{
 		if (node == n)
 		{
@@ -69,15 +57,17 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 	std::vector<int> colWidths;
 	std::vector<int> colHeights;
 	std::vector<std::vector<DummyNode*>> nodesInCol;
-	nodesInCol.push_back({ });
+	nodesInCol.push_back({});
 
 	int heightDiff = 0;
-	for (const std::shared_ptr<DummyNode>& node : m_nodes)
+	for (const std::shared_ptr<DummyNode>& node: m_nodes)
 	{
 		if (y > height + heightDiff)
 		{
-			// keep adding to the same columns if it only contains 1 element, which will end up above the middle split
-			if (nodesInCol.back().size() == 1 && m_nodes.size() > 1 && addVerticalSplit | forceVerticalSplit)
+			// keep adding to the same columns if it only contains 1 element, which will end up
+			// above the middle split
+			if (nodesInCol.back().size() == 1 && m_nodes.size() > 1 &&
+				addVerticalSplit | forceVerticalSplit)
 			{
 				heightDiff = y;
 			}
@@ -90,7 +80,7 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 				x += GraphViewStyle::toGridOffset(width + 45);
 				width = 0;
 
-				nodesInCol.push_back({ });
+				nodesInCol.push_back({});
 
 				heightDiff = 0;
 			}
@@ -115,7 +105,7 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 
 	for (size_t i = 0; i < nodesInCol.size(); i++)
 	{
-		for (DummyNode* node : nodesInCol[i])
+		for (DummyNode* node: nodesInCol[i])
 		{
 			node->columnSize.x = colWidths[i];
 			node->columnSize.y = colHeights[i];
@@ -131,8 +121,8 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 	}
 
 	// align each column vertically and leave a gap in the middle where edges can pass through
-	// NOTE: m_height is not gonna be correct after this, but stays unchanged to allow correct positioning next to
-	// active node.
+	// NOTE: m_height is not gonna be correct after this, but stays unchanged to allow correct
+	// positioning next to active node.
 	int nodeOffset = GraphViewStyle::s_gridCellPadding + GraphViewStyle::s_gridCellSize;
 
 	for (size_t i = 0; i < nodesInCol.size(); i++)
@@ -147,7 +137,7 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 		int aboveNodesMaxWidth = 0;
 		int belowNodesMaxWidth = 0;
 
-		for (DummyNode* node : nodesInCol[i])
+		for (DummyNode* node: nodesInCol[i])
 		{
 			bool above = true;
 
@@ -168,14 +158,15 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 				}
 				else
 				{
-					offset = mid - (node->position.y + node->size.y) - GraphViewStyle::s_gridCellPadding / 2;
+					offset = mid - (node->position.y + node->size.y) -
+						GraphViewStyle::s_gridCellPadding / 2;
 				}
 				hasOffset = true;
 			}
-			else if (node->position.y + node->size.y < mid &&
-				mid < node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding)
+			else if (node->position.y + node->size.y < mid && mid < node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding)
 			{
-				offset = mid - (node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding / 2);
+				offset = mid -
+					(node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding / 2);
 				hasOffset = true;
 			}
 
@@ -192,12 +183,12 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 		}
 
 		offset += (m_height - colHeights[i]) / 2;
-		for (DummyNode* node : aboveNodes)
+		for (DummyNode* node: aboveNodes)
 		{
 			node->position.y() += offset - nodeOffset;
 			node->columnSize.x() = aboveNodesMaxWidth;
 		}
-		for (DummyNode* node : belowNodes)
+		for (DummyNode* node: belowNodes)
 		{
 			node->position.y() += offset + nodeOffset;
 			node->columnSize.x() = belowNodesMaxWidth;
@@ -213,9 +204,10 @@ void Bucket::layout(int x, int y, int width, int height)
 	}
 
 	Vec2i offset = Vec2i(x + (width - m_width) / 2, y + (height - m_height) / 2);
-	offset = GraphViewStyle::alignOnRaster((*m_nodes.begin())->position + offset) - (*m_nodes.begin())->position;
+	offset = GraphViewStyle::alignOnRaster((*m_nodes.begin())->position + offset) -
+		(*m_nodes.begin())->position;
 
-	for (const std::shared_ptr<DummyNode>& node : m_nodes)
+	for (const std::shared_ptr<DummyNode>& node: m_nodes)
 	{
 		node->position += offset;
 	}
@@ -231,7 +223,7 @@ int Bucket::getMiddleGapX() const
 	int middleGapX = 0;
 	int dist = getWidth() / 2;
 
-	for (int colWidth : m_colWidths)
+	for (int colWidth: m_colWidths)
 	{
 		int gapX = middleGapX + GraphViewStyle::toGridOffset(colWidth + 45);
 		int d = std::abs(getWidth() / 2 - gapX);
@@ -247,25 +239,22 @@ int Bucket::getMiddleGapX() const
 
 
 BucketLayouter::BucketLayouter(Vec2i viewSize)
-	: m_viewSize(viewSize)
-	, m_i1(0)
-	, m_j1(0)
-	, m_i2(0)
-	, m_j2(0)
+	: m_viewSize(viewSize), m_i1(0), m_j1(0), m_i2(0), m_j2(0)
 {
 	m_buckets[0][0] = Bucket(0, 0);
 }
 
 void BucketLayouter::createBuckets(
-	std::vector<std::shared_ptr<DummyNode>>& nodes, const std::vector<std::shared_ptr<DummyEdge>>& edges
-){
+	std::vector<std::shared_ptr<DummyNode>>& nodes,
+	const std::vector<std::shared_ptr<DummyEdge>>& edges)
+{
 	if (!nodes.size())
 	{
 		return;
 	}
 
 	bool activeNodeAdded = false;
-	for (std::shared_ptr<DummyNode>& node : nodes)
+	for (std::shared_ptr<DummyNode>& node: nodes)
 	{
 		if (node->hasActiveSubNode() || !edges.size())
 		{
@@ -301,8 +290,10 @@ void BucketLayouter::createBuckets(
 		std::shared_ptr<DummyEdge> edge = remainingEdges.front();
 		remainingEdges.pop_front();
 
-		std::shared_ptr<DummyNode> owner = findTopMostDummyNodeRecursive(nodes, edge->ownerId, nullptr);
-		std::shared_ptr<DummyNode> target = findTopMostDummyNodeRecursive(nodes, edge->targetId, nullptr);
+		std::shared_ptr<DummyNode> owner = findTopMostDummyNodeRecursive(
+			nodes, edge->ownerId, nullptr);
+		std::shared_ptr<DummyNode> target = findTopMostDummyNodeRecursive(
+			nodes, edge->targetId, nullptr);
 
 		bool horizontal = true;
 
@@ -318,10 +309,11 @@ void BucketLayouter::createBuckets(
 					std::swap(owner, target);
 				}
 			}
-			else if (edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD ||
+			else if (
+				edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD ||
 				// put nodes with bidirectional edges on the left
 				(edge->getDirection() == TokenComponentAggregation::DIRECTION_NONE &&
-					!target->bundleInfo.isReferencing && !target->bundleInfo.isReferenced))
+				 !target->bundleInfo.isReferencing && !target->bundleInfo.isReferenced))
 			{
 				std::swap(owner, target);
 			}
@@ -413,8 +405,8 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 		verticalOffset = (rect.y + rect.w - m_activeParentNode->size.y) / 2;
 	}
 
-	// Calculate x offsets in the middle column to align all columns in each bucket at the column gap closest to the
-	// middle to avoid weird edge routing.
+	// Calculate x offsets in the middle column to align all columns in each bucket at the column
+	// gap closest to the middle to avoid weird edge routing.
 	std::map<int, int> xOffs;
 	std::map<int, int> xOffsFront;
 	bool useFront = false;
@@ -429,7 +421,8 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 		// only align if max width bucket has multiple columns
 		if (j != maxMidWidthJ && maxWidthBucket->getColWidths().size() > 1)
 		{
-			int xOff = maxWidthMiddleGapX - bucket->getMiddleGapX() - (widths[0] - bucket->getWidth()) / 2;
+			int xOff = maxWidthMiddleGapX - bucket->getMiddleGapX() -
+				(widths[0] - bucket->getWidth()) / 2;
 
 			xOffs[j] = xOff;
 			xOffsFront[j] = (bucket->getWidth() - widths[0]) / 2;
@@ -505,9 +498,9 @@ std::vector<std::shared_ptr<DummyNode>> BucketLayouter::getSortedNodes()
 }
 
 std::shared_ptr<DummyNode> BucketLayouter::findTopMostDummyNodeRecursive(
-	std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top
-){
-	for (const std::shared_ptr<DummyNode>& node : nodes)
+	std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top)
+{
+	for (const std::shared_ptr<DummyNode>& node: nodes)
 	{
 		std::shared_ptr<DummyNode> t = (top ? top : node);
 

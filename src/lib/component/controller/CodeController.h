@@ -6,33 +6,33 @@
 
 #include "FilePath.h"
 #include "LocationType.h"
-#include "MessageListener.h"
-#include "MessageActivateLegend.h"
-#include "MessageCodeReference.h"
-#include "MessageCodeShowDefinition.h"
 #include "MessageActivateErrors.h"
-#include "MessageErrorCountClear.h"
-#include "MessageShowError.h"
 #include "MessageActivateFullTextSearch.h"
+#include "MessageActivateLegend.h"
 #include "MessageActivateLocalSymbols.h"
 #include "MessageActivateOverview.h"
 #include "MessageActivateTokens.h"
 #include "MessageActivateTrail.h"
 #include "MessageActivateTrailEdge.h"
 #include "MessageChangeFileView.h"
+#include "MessageCodeReference.h"
+#include "MessageCodeShowDefinition.h"
 #include "MessageDeactivateEdge.h"
+#include "MessageErrorCountClear.h"
 #include "MessageFlushUpdates.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
+#include "MessageListener.h"
 #include "MessageScrollCode.h"
 #include "MessageScrollToLine.h"
+#include "MessageShowError.h"
 #include "MessageShowReference.h"
 #include "MessageShowScope.h"
 #include "types.h"
 
-#include "SnippetMerger.h"
-#include "Controller.h"
 #include "CodeView.h"
+#include "Controller.h"
+#include "SnippetMerger.h"
 
 class StorageAccess;
 class SourceLocation;
@@ -107,12 +107,17 @@ private:
 
 	std::vector<CodeFileParams> getFilesForActiveSourceLocations(
 		const SourceLocationCollection* collection, Id declarationId) const;
-	std::vector<CodeFileParams> getFilesForCollection(std::shared_ptr<SourceLocationCollection> collection) const;
-	CodeSnippetParams getSnippetParamsForWholeFile(std::shared_ptr<SourceLocationFile> locationFile, bool useSingleFileCache) const;
-	std::vector<CodeSnippetParams> getSnippetsForFile(std::shared_ptr<SourceLocationFile> activeSourceLocations) const;
+	std::vector<CodeFileParams> getFilesForCollection(
+		std::shared_ptr<SourceLocationCollection> collection) const;
+	CodeSnippetParams getSnippetParamsForWholeFile(
+		std::shared_ptr<SourceLocationFile> locationFile, bool useSingleFileCache) const;
+	std::vector<CodeSnippetParams> getSnippetsForFile(
+		std::shared_ptr<SourceLocationFile> activeSourceLocations) const;
 
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
-		const SourceLocation* location, const SourceLocationFile* scopeLocations, SnippetMerger& fileScopedMerger,
+		const SourceLocation* location,
+		const SourceLocationFile* scopeLocations,
+		SnippetMerger& fileScopedMerger,
 		std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
 	const SourceLocation* getSourceLocationOfParentScope(
 		size_t lineNumber, const SourceLocationFile* scopeLocations) const;
@@ -130,8 +135,10 @@ private:
 
 	void expandVisibleFiles(bool useSingleFileCache);
 	CodeFileParams* addSourceLocations(std::shared_ptr<SourceLocationFile> locationFile);
-	void setFileState(const FilePath& filePath, MessageChangeFileView::FileState state, bool useSingleFileCache);
-	void setFileState(CodeFileParams& file, MessageChangeFileView::FileState state, bool useSingleFileCache);
+	void setFileState(
+		const FilePath& filePath, MessageChangeFileView::FileState state, bool useSingleFileCache);
+	void setFileState(
+		CodeFileParams& file, MessageChangeFileView::FileState state, bool useSingleFileCache);
 	bool addAllSourceLocations();
 	void addModificationTimes();
 
@@ -163,4 +170,4 @@ private:
 	int m_localReferenceIndex = -1;
 };
 
-#endif // CODE_CONTROLLER_H
+#endif	  // CODE_CONTROLLER_H

@@ -5,8 +5,7 @@
 
 struct TooltipInfo;
 
-class QtTooltip
-	: public QFrame
+class QtTooltip: public QFrame
 {
 	Q_OBJECT
 
@@ -40,4 +39,4 @@ private:
 	bool m_isHovered;
 };
 
-#endif // QT_TOOLTIP_H
+#endif	  // QT_TOOLTIP_H

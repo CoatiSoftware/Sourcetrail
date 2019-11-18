@@ -8,8 +8,7 @@
 
 #include "TokenComponent.h"
 
-class TokenComponentAggregation
-	: public TokenComponent
+class TokenComponentAggregation: public TokenComponent
 {
 public:
 	enum Direction
@@ -40,4 +39,4 @@ private:
 	Direction m_direction;
 };
 
-#endif // TOKEN_COMPONENT_AGGREGATION_H
+#endif	  // TOKEN_COMPONENT_AGGREGATION_H

@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageErrorCountClear
-	: public Message<MessageErrorCountClear>
+class MessageErrorCountClear: public Message<MessageErrorCountClear>
 {
 public:
 	static const std::string getStaticType()
@@ -18,4 +17,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_ERROR_COUNT_CLEAR_H
+#endif	  // MESSAGE_ERROR_COUNT_CLEAR_H

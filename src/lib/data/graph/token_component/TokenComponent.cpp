@@ -1,5 +1,3 @@
 #include "TokenComponent.h"
 
-TokenComponent::~TokenComponent()
-{
-}
+TokenComponent::~TokenComponent() {}

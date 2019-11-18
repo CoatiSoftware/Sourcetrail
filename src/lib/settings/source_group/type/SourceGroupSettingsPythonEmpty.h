@@ -9,10 +9,10 @@
 
 class SourceGroupSettingsPythonEmpty
 	: public SourceGroupSettingsWithComponents<
-		SourceGroupSettingsWithExcludeFilters,
-		SourceGroupSettingsWithPythonEnvironmentPath,
-		SourceGroupSettingsWithSourceExtensionsPython,
-		SourceGroupSettingsWithSourcePaths>
+		  SourceGroupSettingsWithExcludeFilters,
+		  SourceGroupSettingsWithPythonEnvironmentPath,
+		  SourceGroupSettingsWithSourceExtensionsPython,
+		  SourceGroupSettingsWithSourcePaths>
 {
 public:
 	SourceGroupSettingsPythonEmpty(const std::string& id, const ProjectSettings* projectSettings)
@@ -26,4 +26,4 @@ public:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_PYTHON_EMPTY_H
+#endif	  // SOURCE_GROUP_SETTINGS_PYTHON_EMPTY_H

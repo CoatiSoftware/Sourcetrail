@@ -2,10 +2,7 @@
 
 #include "FilePath.h"
 
-CombinedPathDetector::CombinedPathDetector()
-	: PathDetector("combined")
-{
-}
+CombinedPathDetector::CombinedPathDetector(): PathDetector("combined") {}
 
 void CombinedPathDetector::addDetector(std::shared_ptr<PathDetector> detector)
 {

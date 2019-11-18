@@ -13,7 +13,7 @@ public:
 	Task::TaskState update(Id schedulerId);
 	Task::TaskState update(std::shared_ptr<Blackboard> blackboard);
 	void reset();
-	void terminate(); // caution: this should only be called just before quitting the app.
+	void terminate();	 // caution: this should only be called just before quitting the app.
 
 private:
 	std::shared_ptr<Task> m_task;
@@ -23,4 +23,4 @@ private:
 	std::shared_ptr<Blackboard> m_blackboard;
 };
 
-#endif // TASK_RUNNER_H
+#endif	  // TASK_RUNNER_H

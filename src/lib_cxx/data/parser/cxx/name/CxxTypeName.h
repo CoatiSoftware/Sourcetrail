@@ -5,12 +5,11 @@
 #include <string>
 #include <vector>
 
-#include "NameHierarchy.h"
 #include "CxxName.h"
 #include "CxxQualifierFlags.h"
+#include "NameHierarchy.h"
 
-class CxxTypeName
-	: public CxxName
+class CxxTypeName: public CxxName
 {
 public:
 	static std::unique_ptr<CxxTypeName> getUnsolved();
@@ -26,16 +25,12 @@ public:
 
 	CxxTypeName(std::wstring name);
 
-	CxxTypeName(
-		std::wstring name,
-		std::vector<std::wstring> templateArguments
-	);
+	CxxTypeName(std::wstring name, std::vector<std::wstring> templateArguments);
 
 	CxxTypeName(
 		std::wstring name,
 		std::vector<std::wstring> templateArguments,
-		std::shared_ptr<CxxName> parent
-	);
+		std::shared_ptr<CxxName> parent);
 
 	NameHierarchy toNameHierarchy() const override;
 
@@ -52,4 +47,4 @@ private:
 	std::vector<Modifier> m_modifiers;
 };
 
-#endif // CXX_TYPE_NAME_H
+#endif	  // CXX_TYPE_NAME_H

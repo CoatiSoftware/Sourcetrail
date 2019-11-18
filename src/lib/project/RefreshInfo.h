@@ -23,4 +23,4 @@ struct RefreshInfo
 	bool shallow = true;
 };
 
-#endif // REFRESH_INFO_H
+#endif	  // REFRESH_INFO_H

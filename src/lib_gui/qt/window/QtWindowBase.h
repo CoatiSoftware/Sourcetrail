@@ -11,8 +11,7 @@ class QPushButton;
 class QVBoxLayout;
 class QMouseEvent;
 
-class QtWindowBase
-	: public QtWindowStackElement
+class QtWindowBase: public QtWindowStackElement
 {
 	Q_OBJECT
 
@@ -47,4 +46,4 @@ protected:
 	QSizeGrip* m_sizeGrip;
 };
 
-#endif // QT_WINDOW_BASE_H
+#endif	  // QT_WINDOW_BASE_H

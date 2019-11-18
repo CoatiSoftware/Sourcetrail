@@ -1,13 +1,14 @@
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() function
+#define CATCH_CONFIG_MAIN	 // This tells Catch to provide a main() function
 
 #include "catch.hpp"
-// IMPORTANT NOTE: removed signal listener for "EXCEPTION_ACCESS_VIOLATION" from catch source code because it interferes with the jni interface that emits such a signal on purpose
+// IMPORTANT NOTE: removed signal listener for "EXCEPTION_ACCESS_VIOLATION" from catch source code
+// because it interferes with the jni interface that emits such a signal on purpose
 
 #include "ApplicationSettings.h"
 
-struct EventListener : Catch::TestEventListenerBase
+struct EventListener: Catch::TestEventListenerBase
 {
-	using TestEventListenerBase::TestEventListenerBase; // inherit constructor
+	using TestEventListenerBase::TestEventListenerBase;	   // inherit constructor
 
 	void testRunStarting(const Catch::TestRunInfo& testRunInfo) override
 	{
@@ -16,8 +17,8 @@ struct EventListener : Catch::TestEventListenerBase
 
 		if (!homedir.empty())
 		{
-			if(!ApplicationSettings::getInstance()->load(
-				FilePath(homedir + "/.config/sourcetrail/ApplicationSettings.xml")))
+			if (!ApplicationSettings::getInstance()->load(
+					FilePath(homedir + "/.config/sourcetrail/ApplicationSettings.xml")))
 			{
 				std::cout << "no settings" << std::endl;
 				return;

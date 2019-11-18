@@ -15,8 +15,10 @@ TEST_CASE("add bookmarks")
 
 		for (size_t i = 0; i < bookmarkCount; i++)
 		{
-			const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
-			storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId));
+			const Id categoryId =
+				storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+			storage.addBookmark(StorageBookmarkData(
+				L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId));
 		}
 
 		result = storage.getAllBookmarks().size();
@@ -37,8 +39,13 @@ TEST_CASE("add bookmarked node")
 		SqliteBookmarkStorage storage(databasePath);
 		storage.setup();
 
-		const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
-		const Id bookmarkId = storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId)).id;
+		const Id categoryId =
+			storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+		const Id bookmarkId =
+			storage
+				.addBookmark(StorageBookmarkData(
+					L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId))
+				.id;
 
 		for (size_t i = 0; i < bookmarkCount; i++)
 		{
@@ -62,8 +69,13 @@ TEST_CASE("remove bookmark also removes bookmarked node")
 		SqliteBookmarkStorage storage(databasePath);
 		storage.setup();
 
-		const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
-		const Id bookmarkId = storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId)).id;
+		const Id categoryId =
+			storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+		const Id bookmarkId =
+			storage
+				.addBookmark(StorageBookmarkData(
+					L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId))
+				.id;
 		storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, L"test name"));
 
 		storage.removeBookmark(bookmarkId);
@@ -89,8 +101,13 @@ TEST_CASE("edit nodeBookmark")
 		SqliteBookmarkStorage storage(databasePath);
 		storage.setup();
 
-		const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
-		const Id bookmarkId = storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId)).id;
+		const Id categoryId =
+			storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+		const Id bookmarkId =
+			storage
+				.addBookmark(StorageBookmarkData(
+					L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId))
+				.id;
 		storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, L"test name"));
 
 		storage.updateBookmark(bookmarkId, updatedName, updatedComment, categoryId);

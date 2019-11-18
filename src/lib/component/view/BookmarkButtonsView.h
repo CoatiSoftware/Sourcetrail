@@ -26,4 +26,4 @@ private:
 	Id m_schedulerId;
 };
 
-#endif // BOOKMARK_BUTTONS_VIEW_H
+#endif	  // BOOKMARK_BUTTONS_VIEW_H

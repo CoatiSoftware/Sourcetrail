@@ -10,11 +10,12 @@ std::vector<FilePath> utility::partitionFilePathsBySize(std::vector<FilePath> fi
 {
 	typedef std::pair<unsigned long long int, FilePath> PairType;
 	std::vector<PairType> sourceFileSizesToCommands;
-	for (const FilePath& path : filePaths)
+	for (const FilePath& path: filePaths)
 	{
 		if (path.exists())
 		{
-			sourceFileSizesToCommands.push_back(std::make_pair(FileSystem::getFileByteSize(path), path));
+			sourceFileSizesToCommands.push_back(
+				std::make_pair(FileSystem::getFileByteSize(path), path));
 		}
 		else
 		{
@@ -22,22 +23,28 @@ std::vector<FilePath> utility::partitionFilePathsBySize(std::vector<FilePath> fi
 		}
 	}
 
-	std::sort(sourceFileSizesToCommands.begin(), sourceFileSizesToCommands.end(), [](const PairType& p, const PairType& q) { return p.first > q.first; });
+	std::sort(
+		sourceFileSizesToCommands.begin(),
+		sourceFileSizesToCommands.end(),
+		[](const PairType& p, const PairType& q) { return p.first > q.first; });
 
 	if (0 < partitionCount && partitionCount < sourceFileSizesToCommands.size())
 	{
 		for (int i = 0; i < partitionCount; i++)
 		{
 			std::sort(
-				sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() * i / partitionCount,
-				sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() * (i + 1) / partitionCount,
-				[](const PairType& p, const PairType& q) { return p.second.wstr() < q.second.wstr(); }
-			);
+				sourceFileSizesToCommands.begin() +
+					sourceFileSizesToCommands.size() * i / partitionCount,
+				sourceFileSizesToCommands.begin() +
+					sourceFileSizesToCommands.size() * (i + 1) / partitionCount,
+				[](const PairType& p, const PairType& q) {
+					return p.second.wstr() < q.second.wstr();
+				});
 		}
 	}
 
 	std::vector<FilePath> sortedFilePaths;
-	for (const PairType &pair : sourceFileSizesToCommands)
+	for (const PairType& pair: sourceFileSizesToCommands)
 	{
 		sortedFilePaths.push_back(pair.second);
 	}
@@ -55,9 +62,10 @@ std::vector<FilePath> utility::getTopLevelPaths(const std::set<FilePath>& paths)
 	std::vector<FilePath> topLevelPaths;
 
 	FilePath lastPath;
-	for (const FilePath& path : paths)
+	for (const FilePath& path: paths)
 	{
-		if (lastPath.empty() || !lastPath.contains(path)) // don't add subdirectories of already added paths
+		if (lastPath.empty() ||
+			!lastPath.contains(path))	 // don't add subdirectories of already added paths
 		{
 			lastPath = path;
 			topLevelPaths.push_back(path);
@@ -75,9 +83,9 @@ FilePath utility::getExpandedPath(const FilePath& path)
 		if (paths.size() > 1)
 		{
 			LOG_WARNING(
-				L"Environment variable in path \"" + path.wstr() + L"\" has been expanded to " + std::to_wstring(paths.size()) +
-				L"paths, but only \"" + paths.front().wstr() + L"\" will be used."
-			);
+				L"Environment variable in path \"" + path.wstr() + L"\" has been expanded to " +
+				std::to_wstring(paths.size()) + L"paths, but only \"" + paths.front().wstr() +
+				L"\" will be used.");
 		}
 		return paths.front();
 	}
@@ -87,7 +95,7 @@ FilePath utility::getExpandedPath(const FilePath& path)
 std::vector<FilePath> utility::getExpandedPaths(const std::vector<FilePath>& paths)
 {
 	std::vector<FilePath> expanedPaths;
-	for (const FilePath& path : paths)
+	for (const FilePath& path: paths)
 	{
 		utility::append(expanedPaths, path.expandEnvironmentVariables());
 	}
@@ -119,8 +127,10 @@ FilePath utility::getAsRelativeIfShorter(const FilePath& absolutePath, const Fil
 	return absolutePath;
 }
 
-std::vector<FilePath> utility::getAsRelativeIfShorter(const std::vector<FilePath>& absolutePaths, const FilePath& baseDirectory)
+std::vector<FilePath> utility::getAsRelativeIfShorter(
+	const std::vector<FilePath>& absolutePaths, const FilePath& baseDirectory)
 {
-	return utility::convert<FilePath, FilePath>(absolutePaths, [&](const FilePath& path) { return getAsRelativeIfShorter(path, baseDirectory); });
+	return utility::convert<FilePath, FilePath>(absolutePaths, [&](const FilePath& path) {
+		return getAsRelativeIfShorter(path, baseDirectory);
+	});
 }
-

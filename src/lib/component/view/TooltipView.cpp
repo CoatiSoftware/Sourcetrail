@@ -1,13 +1,8 @@
 #include "TooltipView.h"
 
-TooltipView::TooltipView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+TooltipView::TooltipView(ViewLayout* viewLayout): View(viewLayout) {}
 
-TooltipView::~TooltipView()
-{
-}
+TooltipView::~TooltipView() {}
 
 std::string TooltipView::getName() const
 {

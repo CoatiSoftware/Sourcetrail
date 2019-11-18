@@ -1,29 +1,24 @@
 #include "IDECommunicationController.h"
 
 #include "FileSystem.h"
-#include "logging.h"
 #include "MessageActivateWindow.h"
 #include "MessagePingReceived.h"
 #include "MessageProjectNew.h"
 #include "MessageStatus.h"
 #include "MessageTabOpenWith.h"
+#include "logging.h"
 
-#include "StorageAccess.h"
 #include "SourceLocationFile.h"
+#include "StorageAccess.h"
 
 IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
-	, m_enabled(true)
+	: m_storageAccess(storageAccess), m_enabled(true)
 {
 }
 
-IDECommunicationController::~IDECommunicationController()
-{
-}
+IDECommunicationController::~IDECommunicationController() {}
 
-void IDECommunicationController::clear()
-{
-}
+void IDECommunicationController::clear() {}
 
 void IDECommunicationController::handleIncomingMessage(const std::wstring& message)
 {
@@ -76,8 +71,7 @@ void IDECommunicationController::sendUpdatePing()
 }
 
 void IDECommunicationController::handleSetActiveTokenMessage(
-	const NetworkProtocolHelper::SetActiveTokenMessage& message
-)
+	const NetworkProtocolHelper::SetActiveTokenMessage& message)
 {
 	if (message.valid)
 	{
@@ -90,33 +84,32 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 		if (FileSystem::getFileInfoForPath(filePath).lastWriteTime == fileInfo.lastWriteTime)
 		{
 			// file was not modified
-			std::shared_ptr<SourceLocationFile> sourceLocationFile = m_storageAccess->getSourceLocationsForLinesInFile(
-				filePath, message.row, message.row
-			);
+			std::shared_ptr<SourceLocationFile> sourceLocationFile =
+				m_storageAccess->getSourceLocationsForLinesInFile(filePath, message.row, message.row);
 
 			std::vector<Id> selectedLocationIds;
 			sourceLocationFile->forEachStartSourceLocation(
-				[&selectedLocationIds, &cursorColumn](SourceLocation* startLocation)
-				{
+				[&selectedLocationIds, &cursorColumn](SourceLocation* startLocation) {
 					const SourceLocation* endLocation = startLocation->getEndLocation();
 
-					if ((startLocation->getType() == LOCATION_TOKEN || startLocation->getType() == LOCATION_QUALIFIER
-						|| startLocation->getType() == LOCATION_UNSOLVED)
-						&& startLocation->getLineNumber() == endLocation->getLineNumber()
-						&& startLocation->getColumnNumber() <= cursorColumn
-						&& endLocation->getColumnNumber() + 1 >= cursorColumn)
+					if ((startLocation->getType() == LOCATION_TOKEN ||
+						 startLocation->getType() == LOCATION_QUALIFIER ||
+						 startLocation->getType() == LOCATION_UNSOLVED) &&
+						startLocation->getLineNumber() == endLocation->getLineNumber() &&
+						startLocation->getColumnNumber() <= cursorColumn &&
+						endLocation->getColumnNumber() + 1 >= cursorColumn)
 					{
 						selectedLocationIds.push_back(startLocation->getLocationId());
 					}
-				}
-			);
+				});
 
 			if (!selectedLocationIds.empty())
 			{
 				MessageStatus(
-					L"Activating source location from plug-in succeeded: " + filePath.wstr() + L", row: " +
-					std::to_wstring(message.row) + L", col: " + std::to_wstring(message.column)
-				).dispatch();
+					L"Activating source location from plug-in succeeded: " + filePath.wstr() +
+					L", row: " + std::to_wstring(message.row) + L", col: " +
+					std::to_wstring(message.column))
+					.dispatch();
 
 				MessageTabOpenWith(0, selectedLocationIds[0]).showNewTab(true).dispatch();
 				MessageActivateWindow().dispatch();
@@ -132,20 +125,22 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 		else
 		{
 			MessageStatus(
-				L"Activating source location from plug-in failed. File " + filePath.wstr()
-				+ L" was not found in the project.",
-				true
-			).dispatch();
+				L"Activating source location from plug-in failed. File " + filePath.wstr() +
+					L" was not found in the project.",
+				true)
+				.dispatch();
 		}
 	}
 }
 
-void IDECommunicationController::handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message)
+void IDECommunicationController::handleCreateProjectMessage(
+	const NetworkProtocolHelper::CreateProjectMessage& message)
 {
 	LOG_ERROR_STREAM(<< "Network Protocol CreateProjectMessage not supported anymore.");
 }
 
-void IDECommunicationController::handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message)
+void IDECommunicationController::handleCreateCDBProjectMessage(
+	const NetworkProtocolHelper::CreateCDBProjectMessage& message)
 {
 	if (message.valid)
 	{
@@ -198,13 +193,12 @@ void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
 void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 {
 	std::wstring networkMessage = NetworkProtocolHelper::buildSetIDECursorMessage(
-		message->filePath, message->row, message->column
-	);
+		message->filePath, message->row, message->column);
 
 	MessageStatus(
 		L"Jump to source location via plug-in: " + message->filePath.wstr() + L", row: " +
-		std::to_wstring(message->row) + L", col: " + std::to_wstring(message->column)
-	).dispatch();
+		std::to_wstring(message->row) + L", col: " + std::to_wstring(message->column))
+		.dispatch();
 
 	sendMessage(networkMessage);
 }

@@ -10,7 +10,7 @@ void SearchMatch::log(const std::vector<SearchMatch>& matches, const std::wstrin
 	std::wstringstream ss;
 	ss << std::endl << matches.size() << " matches for \"" << query << "\":" << std::endl;
 
-	for (const SearchMatch& match : matches)
+	for (const SearchMatch& match: matches)
 	{
 		match.print(ss);
 	}
@@ -39,9 +39,10 @@ std::wstring SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& 
 {
 	std::wstringstream ss;
 
-	for (const SearchMatch& match : matches)
+	for (const SearchMatch& match: matches)
 	{
-		ss << L'@' << match.getFullName() << L':' << NodeType::getReadableTypeWString(match.nodeType.getType()) << L' ';
+		ss << L'@' << match.getFullName() << L':'
+		   << NodeType::getReadableTypeWString(match.nodeType.getType()) << L' ';
 	}
 
 	return ss.str();
@@ -93,10 +94,7 @@ std::wstring SearchMatch::getCommandName(CommandType type)
 }
 
 SearchMatch::SearchMatch()
-	: typeName(L"")
-	, nodeType(NodeType::NODE_SYMBOL)
-	, searchType(SEARCH_NONE)
-	, hasChildren(false)
+	: typeName(L""), nodeType(NodeType::NODE_SYMBOL), searchType(SEARCH_NONE), hasChildren(false)
 {
 }
 
@@ -208,7 +206,7 @@ void SearchMatch::print(std::wostream& ostream) const
 {
 	ostream << name << std::endl << L'\t';
 	size_t i = 0;
-	for (size_t index : indices)
+	for (size_t index: indices)
 	{
 		while (i < index)
 		{

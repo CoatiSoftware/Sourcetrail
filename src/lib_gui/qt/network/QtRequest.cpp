@@ -30,7 +30,7 @@ void QtRequest::sendRequest(QString url)
 	}
 }
 
-void QtRequest::finished(QNetworkReply *reply)
+void QtRequest::finished(QNetworkReply* reply)
 {
 	QVariant statusCodeV = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 	QVariant redirectionTargetUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);

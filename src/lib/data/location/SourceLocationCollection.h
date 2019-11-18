@@ -29,9 +29,14 @@ public:
 	SourceLocation* getSourceLocationById(Id locationId) const;
 
 	SourceLocation* addSourceLocation(
-		LocationType type, Id locationId, std::vector<Id> tokenIds, const FilePath& filePath,
-		size_t startLineNumber, size_t startColumnNumber,
-		size_t endLineNumber, size_t endColumnNumber);
+		LocationType type,
+		Id locationId,
+		std::vector<Id> tokenIds,
+		const FilePath& filePath,
+		size_t startLineNumber,
+		size_t startColumnNumber,
+		size_t endLineNumber,
+		size_t endColumnNumber);
 
 	SourceLocation* addSourceLocationCopy(const SourceLocation* location);
 	void addSourceLocationCopies(const SourceLocationCollection* other);
@@ -44,11 +49,15 @@ public:
 
 private:
 	SourceLocationFile* createSourceLocationFile(
-		const FilePath& filePath, const std::wstring& language = L"", bool isWhole = false, bool isComplete = false, bool isIndexed = false);
+		const FilePath& filePath,
+		const std::wstring& language = L"",
+		bool isWhole = false,
+		bool isComplete = false,
+		bool isIndexed = false);
 
 	std::map<FilePath, std::shared_ptr<SourceLocationFile>> m_files;
 };
 
 std::wostream& operator<<(std::wostream& ostream, const SourceLocationCollection& base);
 
-#endif // SOURCE_LOCATION_COLLECTION_H
+#endif	  // SOURCE_LOCATION_COLLECTION_H

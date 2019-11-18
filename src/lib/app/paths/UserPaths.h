@@ -19,4 +19,4 @@ private:
 	static FilePath s_userDataPath;
 };
 
-#endif // USER_PATHS_H
+#endif	  // USER_PATHS_H

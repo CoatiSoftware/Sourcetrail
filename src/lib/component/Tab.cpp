@@ -1,6 +1,10 @@
 #include "Tab.h"
 
-Tab::Tab(Id tabId, const ViewFactory* viewFactory, StorageAccess* storageAccess, ScreenSearchSender* screenSearchSender)
+Tab::Tab(
+	Id tabId,
+	const ViewFactory* viewFactory,
+	StorageAccess* storageAccess,
+	ScreenSearchSender* screenSearchSender)
 	: m_tabId(tabId)
 	, m_componentManager(viewFactory, storageAccess)
 	, m_parentLayout(nullptr)
@@ -21,7 +25,7 @@ void Tab::setParentLayout(ViewLayout* parentLayout)
 
 	if (parentLayout)
 	{
-		for (View* view : m_views)
+		for (View* view: m_views)
 		{
 			parentLayout->overrideView(view);
 		}

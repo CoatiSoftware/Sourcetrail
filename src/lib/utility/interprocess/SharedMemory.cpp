@@ -14,9 +14,7 @@ SharedMemory::ScopedAccess::ScopedAccess(SharedMemory* memory)
 {
 }
 
-SharedMemory::ScopedAccess::~ScopedAccess()
-{
-}
+SharedMemory::ScopedAccess::~ScopedAccess() {}
 
 SharedMemory::Allocator* SharedMemory::ScopedAccess::getAllocator()
 {
@@ -44,7 +42,8 @@ void SharedMemory::ScopedAccess::growMemory(size_t size)
 
 	boost::interprocess::managed_shared_memory::grow(m_memoryName.c_str(), size);
 
-	m_memory = boost::interprocess::managed_shared_memory(boost::interprocess::open_only, m_memoryName.c_str());
+	m_memory = boost::interprocess::managed_shared_memory(
+		boost::interprocess::open_only, m_memoryName.c_str());
 }
 
 void SharedMemory::ScopedAccess::shrinkToFitMemory()
@@ -58,7 +57,8 @@ void SharedMemory::ScopedAccess::shrinkToFitMemory()
 
 	boost::interprocess::managed_shared_memory::shrink_to_fit(m_memoryName.c_str());
 
-	m_memory = boost::interprocess::managed_shared_memory(boost::interprocess::open_only, m_memoryName.c_str());
+	m_memory = boost::interprocess::managed_shared_memory(
+		boost::interprocess::open_only, m_memoryName.c_str());
 }
 
 std::string SharedMemory::ScopedAccess::logString() const
@@ -67,7 +67,8 @@ std::string SharedMemory::ScopedAccess::logString() const
 	log += " size: " + std::to_string(getMemorySize());
 	log += " free: " + std::to_string(getFreeMemorySize());
 	log += " used: " + std::to_string(getUsedMemorySize());
-	log += " used pct: " + std::to_string(100 - int(float(getFreeMemorySize()) / getMemorySize() * 100));
+	log += " used pct: " +
+		std::to_string(100 - int(float(getFreeMemorySize()) / getMemorySize() * 100));
 	return log;
 }
 
@@ -101,9 +102,7 @@ void SharedMemory::deleteSharedMemory(const std::string& name)
 }
 
 SharedMemory::SharedMemory(const std::string& name, size_t initialMemorySize, AccessMode mode)
-	: m_name(checkName(name))
-	, m_mode(mode)
-	, m_initialMemorySize(initialMemorySize)
+	: m_name(checkName(name)), m_mode(mode), m_initialMemorySize(initialMemorySize)
 {
 	try
 	{
@@ -112,23 +111,28 @@ SharedMemory::SharedMemory(const std::string& name, size_t initialMemorySize, Ac
 		switch (mode)
 		{
 		case CREATE_AND_DELETE:
+		{
+			SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
+			if (collector)
 			{
-				SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
-				if (collector)
-				{
-					collector->registerSharedMemory(m_name);
-				}
-
-				deleteSharedMemory(m_name);
-
-				boost::interprocess::permissions permissions;
-				permissions.set_unrestricted();
-
-				boost::interprocess::managed_shared_memory(
-					boost::interprocess::create_only, getMemoryName().c_str(), initialMemorySize, 0, permissions);
-				boost::interprocess::named_mutex(boost::interprocess::create_only, getMutexName().c_str());
+				collector->registerSharedMemory(m_name);
 			}
-			break;
+
+			deleteSharedMemory(m_name);
+
+			boost::interprocess::permissions permissions;
+			permissions.set_unrestricted();
+
+			boost::interprocess::managed_shared_memory(
+				boost::interprocess::create_only,
+				getMemoryName().c_str(),
+				initialMemorySize,
+				0,
+				permissions);
+			boost::interprocess::named_mutex(
+				boost::interprocess::create_only, getMutexName().c_str());
+		}
+		break;
 
 		case OPEN_ONLY:
 			boost::interprocess::managed_shared_memory(
@@ -138,26 +142,35 @@ SharedMemory::SharedMemory(const std::string& name, size_t initialMemorySize, Ac
 			break;
 
 		case OPEN_OR_CREATE:
-			{
-				boost::interprocess::permissions permissions;
-				permissions.set_unrestricted();
+		{
+			boost::interprocess::permissions permissions;
+			permissions.set_unrestricted();
 
-				boost::interprocess::managed_shared_memory(
-					boost::interprocess::open_or_create, getMemoryName().c_str(), initialMemorySize, 0, permissions);
-				boost::interprocess::named_mutex(boost::interprocess::open_or_create, getMutexName().c_str());
-			}
-			break;
+			boost::interprocess::managed_shared_memory(
+				boost::interprocess::open_or_create,
+				getMemoryName().c_str(),
+				initialMemorySize,
+				0,
+				permissions);
+			boost::interprocess::named_mutex(
+				boost::interprocess::open_or_create, getMutexName().c_str());
+		}
+		break;
 		}
 
 		if (unlockMutex)
 		{
-			boost::interprocess::named_mutex mutex(boost::interprocess::open_only, getMutexName().c_str());
-			boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::try_to_lock);
+			boost::interprocess::named_mutex mutex(
+				boost::interprocess::open_only, getMutexName().c_str());
+			boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(
+				mutex, boost::interprocess::try_to_lock);
 		}
 	}
 	catch (boost::interprocess::interprocess_exception& e)
 	{
-		LOG_ERROR_STREAM(<< "boost exception thrown at shared memory creation - " << getMemoryName() << ": " << e.what());
+		LOG_ERROR_STREAM(
+			<< "boost exception thrown at shared memory creation - " << getMemoryName() << ": "
+			<< e.what());
 		throw e;
 	}
 }
@@ -179,7 +192,9 @@ SharedMemory::~SharedMemory()
 	}
 	catch (boost::interprocess::interprocess_exception& e)
 	{
-		LOG_ERROR_STREAM(<< "boost exception thrown at shared memory destruction - " << getMemoryName() << ": " << e.what());
+		LOG_ERROR_STREAM(
+			<< "boost exception thrown at shared memory destruction - " << getMemoryName() << ": "
+			<< e.what());
 		throw e;
 	}
 }
@@ -194,8 +209,9 @@ bool SharedMemory::checkSharedMutex()
 		{
 			{
 				// try to get ownership of the mutex a couple times
-				boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::try_to_lock);
-				if (lock.owns()) // mutex successfully locked
+				boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(
+					mutex, boost::interprocess::try_to_lock);
+				if (lock.owns())	// mutex successfully locked
 				{
 					return true;
 				}
@@ -205,7 +221,8 @@ bool SharedMemory::checkSharedMutex()
 		}
 
 		// locking kept failing, try to get ownership
-		boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::accept_ownership);
+		boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(
+			mutex, boost::interprocess::accept_ownership);
 		return true;
 	}
 	catch (boost::interprocess::interprocess_exception& e)

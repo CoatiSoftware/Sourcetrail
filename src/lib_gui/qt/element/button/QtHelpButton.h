@@ -3,8 +3,7 @@
 
 #include "QtIconButton.h"
 
-class QtHelpButton
-	: public QtIconButton
+class QtHelpButton: public QtIconButton
 {
 	Q_OBJECT
 
@@ -19,4 +18,4 @@ private:
 	QString m_helpText;
 };
 
-#endif // QT_HELP_BUTTON_H
+#endif	  // QT_HELP_BUTTON_H

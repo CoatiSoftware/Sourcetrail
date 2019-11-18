@@ -2,10 +2,7 @@
 
 #include <iostream>
 
-ConsoleLogger::ConsoleLogger()
-	: Logger("ConsoleLogger")
-{
-}
+ConsoleLogger::ConsoleLogger(): Logger("ConsoleLogger") {}
 
 void ConsoleLogger::logInfo(const LogMessage& message)
 {
@@ -28,7 +25,8 @@ void ConsoleLogger::logMessage(const std::string& type, const LogMessage& messag
 
 	if (!message.filePath.empty())
 	{
-		std::cout << message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | ";
+		std::cout << message.getFileName() << ':' << message.line << ' ' << message.functionName
+				  << "() | ";
 	}
 
 	std::cout << type << ": ";

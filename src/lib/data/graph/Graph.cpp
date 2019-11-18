@@ -2,10 +2,7 @@
 
 #include "logging.h"
 
-Graph::Graph()
-	: m_trailMode(TRAIL_NONE)
-{
-}
+Graph::Graph(): m_trailMode(TRAIL_NONE) {}
 
 Graph::~Graph()
 {
@@ -21,7 +18,7 @@ void Graph::clear()
 
 void Graph::forEachNode(std::function<void(Node*)> func) const
 {
-	for (const std::pair<Id, std::shared_ptr<Node>>& node : m_nodes)
+	for (const std::pair<Id, std::shared_ptr<Node>>& node: m_nodes)
 	{
 		func(node.second.get());
 	}
@@ -29,7 +26,7 @@ void Graph::forEachNode(std::function<void(Node*)> func) const
 
 void Graph::forEachEdge(std::function<void(Edge*)> func) const
 {
-	for (const std::pair<Id, std::shared_ptr<Edge>>& edge : m_edges)
+	for (const std::pair<Id, std::shared_ptr<Edge>>& edge: m_edges)
 	{
 		func(edge.second.get());
 	}
@@ -49,7 +46,8 @@ Node* Graph::createNode(Id id, NodeType type, NameHierarchy nameHierarchy, Defin
 		return n;
 	}
 
-	std::shared_ptr<Node> node = std::make_shared<Node>(id, type, std::move(nameHierarchy), definitionKind);
+	std::shared_ptr<Node> node = std::make_shared<Node>(
+		id, type, std::move(nameHierarchy), definitionKind);
 	m_nodes.emplace(node->getId(), node);
 	return node.get();
 }
@@ -123,31 +121,22 @@ void Graph::removeNode(Node* node)
 	}
 
 	std::vector<Node*> childNodesToRemove;
-	node->forEachEdgeOfType(
-		Edge::EDGE_MEMBER,
-		[node, &childNodesToRemove](Edge* e)
+	node->forEachEdgeOfType(Edge::EDGE_MEMBER, [node, &childNodesToRemove](Edge* e) {
+		if (node == e->getFrom())
 		{
-			if (node == e->getFrom())
-			{
-				childNodesToRemove.push_back(e->getTo());
-			}
+			childNodesToRemove.push_back(e->getTo());
 		}
-	);
+	});
 
-	for (Node* childNode : childNodesToRemove)
+	for (Node* childNode: childNodesToRemove)
 	{
 		removeNode(childNode);
 	}
 
 	std::vector<Edge*> edgesToRemove;
-	node->forEachEdge(
-		[&edgesToRemove](Edge* e)
-		{
-			edgesToRemove.push_back(e);
-		}
-	);
+	node->forEachEdge([&edgesToRemove](Edge* e) { edgesToRemove.push_back(e); });
 
-	for (Edge* edge : edgesToRemove)
+	for (Edge* edge: edgesToRemove)
 	{
 		removeEdgeInternal(edge);
 	}
@@ -179,12 +168,10 @@ void Graph::removeEdge(Edge* edge)
 
 Node* Graph::findNode(std::function<bool(Node*)> func) const
 {
-	std::map<Id, std::shared_ptr<Node>>::const_iterator it = find_if(m_nodes.begin(), m_nodes.end(),
-		[&func](const std::pair<Id, std::shared_ptr<Node>>& n)
-		{
+	std::map<Id, std::shared_ptr<Node>>::const_iterator it = find_if(
+		m_nodes.begin(), m_nodes.end(), [&func](const std::pair<Id, std::shared_ptr<Node>>& n) {
 			return func(n.second.get());
-		}
-	);
+		});
 
 	if (it != m_nodes.end())
 	{
@@ -196,12 +183,10 @@ Node* Graph::findNode(std::function<bool(Node*)> func) const
 
 Edge* Graph::findEdge(std::function<bool(Edge*)> func) const
 {
-	std::map<Id, std::shared_ptr<Edge>>::const_iterator it = find_if(m_edges.begin(), m_edges.end(),
-		[func](const std::pair<Id, std::shared_ptr<Edge>>& e)
-		{
+	std::map<Id, std::shared_ptr<Edge>>::const_iterator it = find_if(
+		m_edges.begin(), m_edges.end(), [func](const std::pair<Id, std::shared_ptr<Edge>>& e) {
 			return func(e.second.get());
-		}
-	);
+		});
 
 	if (it != m_edges.end())
 	{
@@ -261,16 +246,13 @@ Node* Graph::addNodeAndAllChildrenAsPlainCopy(Node* node)
 {
 	Node* n = addNodeAsPlainCopy(node);
 
-	node->forEachEdgeOfType(Edge::EDGE_MEMBER,
-		[node, this](Edge* edge)
+	node->forEachEdgeOfType(Edge::EDGE_MEMBER, [node, this](Edge* edge) {
+		if (edge->getFrom() == node)
 		{
-			if (edge->getFrom() == node)
-			{
-				addEdgeAsPlainCopy(edge);
-				addNodeAndAllChildrenAsPlainCopy(edge->getTo());
-			}
+			addEdgeAsPlainCopy(edge);
+			addNodeAndAllChildrenAsPlainCopy(edge->getTo());
 		}
-	);
+	});
 
 	return n;
 }
@@ -322,40 +304,22 @@ void Graph::print(std::wostream& ostream) const
 {
 	ostream << L"Graph:\n";
 	ostream << L"nodes (" << getNodeCount() << L")\n";
-	forEachNode(
-		[&ostream](Node* n)
-		{
-			ostream << *n << L'\n';
-		}
-	);
+	forEachNode([&ostream](Node* n) { ostream << *n << L'\n'; });
 
 	ostream << L"edges (" << getEdgeCount() << L")\n";
-	forEachEdge(
-		[&ostream](Edge* e)
-		{
-			ostream << *e << L'\n';
-		}
-	);
+	forEachEdge([&ostream](Edge* e) { ostream << *e << L'\n'; });
 }
 
 void Graph::printBasic(std::wostream& ostream) const
 {
 	ostream << getNodeCount() << L" nodes:";
-	forEachNode(
-		[&ostream](Node* n)
-		{
-			ostream << L' ' << n->getReadableTypeString() << L':' << n->getFullName();
-		}
-	);
+	forEachNode([&ostream](Node* n) {
+		ostream << L' ' << n->getReadableTypeString() << L':' << n->getFullName();
+	});
 	ostream << '\n';
 
 	ostream << getEdgeCount() << L" edges:";
-	forEachEdge(
-		[&ostream](Edge* e)
-		{
-			ostream << L' ' << e->getName();
-		}
-	);
+	forEachEdge([&ostream](Edge* e) { ostream << L' ' << e->getName(); });
 	ostream << L'\n';
 }
 

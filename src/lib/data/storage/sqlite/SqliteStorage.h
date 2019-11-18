@@ -3,8 +3,8 @@
 
 #include "CppSQLite3.h"
 
-#include "SqliteDatabaseIndex.h"
 #include "FilePath.h"
+#include "SqliteDatabaseIndex.h"
 
 class SqliteStorageMigration;
 class TimeStamp;
@@ -67,4 +67,4 @@ private:
 	friend SqliteStorageMigration;
 };
 
-#endif // SQLITE_STORAGE_H
+#endif	  // SQLITE_STORAGE_H

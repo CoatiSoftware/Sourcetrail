@@ -2,10 +2,7 @@
 
 #include "BookmarkController.h"
 
-BookmarkView::BookmarkView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+BookmarkView::BookmarkView(ViewLayout* viewLayout): View(viewLayout) {}
 
 std::string BookmarkView::getName() const
 {

@@ -15,9 +15,11 @@ TEST_CASE("parse message")
 
 	// valid message
 	std::wstringstream message;
-	message << type << divider << filePath << divider << row << divider << column << endOfMessageToken;
+	message << type << divider << filePath << divider << row << divider << column
+			<< endOfMessageToken;
 
-	NetworkProtocolHelper::SetActiveTokenMessage networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
+	NetworkProtocolHelper::SetActiveTokenMessage networkMessage =
+		NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 	REQUIRE(networkMessage.filePath.wstr() == filePath);
 	REQUIRE(networkMessage.row == row);
@@ -26,7 +28,8 @@ TEST_CASE("parse message")
 
 	// invalid type
 	message.str(L"");
-	message << L"foo" << divider << filePath << divider << row << divider << column << endOfMessageToken;
+	message << L"foo" << divider << filePath << divider << row << divider << column
+			<< endOfMessageToken;
 	networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 	REQUIRE(networkMessage.filePath.wstr() == L"");
@@ -46,7 +49,8 @@ TEST_CASE("parse message")
 
 	// invalid row
 	message.str(L"");
-	message << type << divider << filePath << divider << "potato" << divider << column << endOfMessageToken;
+	message << type << divider << filePath << divider << "potato" << divider << column
+			<< endOfMessageToken;
 	networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 	REQUIRE(networkMessage.filePath.wstr() == L"");
@@ -56,7 +60,8 @@ TEST_CASE("parse message")
 
 	// invalid column
 	message.str(L"");
-	message << type << divider << filePath << divider << row << divider << "laz0r" << endOfMessageToken;
+	message << type << divider << filePath << divider << row << divider << "laz0r"
+			<< endOfMessageToken;
 	networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 	REQUIRE(networkMessage.filePath.wstr() == L"");

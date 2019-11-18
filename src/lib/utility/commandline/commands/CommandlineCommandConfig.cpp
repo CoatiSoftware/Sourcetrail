@@ -5,20 +5,16 @@
 #include <utility>
 
 #include "ApplicationSettings.h"
-#include "CommandlineHelper.h"
 #include "CommandLineParser.h"
+#include "CommandlineHelper.h"
 #include "FilePath.h"
 #include "logging.h"
 
-namespace commandline {
-
+namespace commandline
+{
 // helper functions
-typedef void(ApplicationSettings::*intFunc)(int);
-void parseAndSetValue(
-	intFunc f,
-	const char* opt,
-	ApplicationSettings* settings,
-	po::variables_map& vm)
+typedef void (ApplicationSettings::*intFunc)(int);
+void parseAndSetValue(intFunc f, const char* opt, ApplicationSettings* settings, po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
@@ -26,12 +22,8 @@ void parseAndSetValue(
 	}
 }
 
-typedef void(ApplicationSettings::*boolFunc)(bool);
-void parseAndSetValue(
-	boolFunc f,
-	const char* opt,
-	ApplicationSettings* settings,
-	po::variables_map& vm)
+typedef void (ApplicationSettings::*boolFunc)(bool);
+void parseAndSetValue(boolFunc f, const char* opt, ApplicationSettings* settings, po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
@@ -39,31 +31,23 @@ void parseAndSetValue(
 	}
 }
 
-typedef void(ApplicationSettings::*filePathFunc)(const FilePath&);
+typedef void (ApplicationSettings::*filePathFunc)(const FilePath&);
 void parseAndSetValue(
-	filePathFunc f,
-	const char* opt,
-	ApplicationSettings* settings,
-	po::variables_map& vm)
+	filePathFunc f, const char* opt, ApplicationSettings* settings, po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
 		FilePath path(vm[opt].as<std::string>());
 		if (!path.exists())
 		{
-			std::cout << "\nWARNING: " << path.str()
-					  << " does not exist." << std::endl;
+			std::cout << "\nWARNING: " << path.str() << " does not exist." << std::endl;
 		}
 		(settings->*f)(path);
 	}
 }
 
-typedef bool(ApplicationSettings::*vectorFunc)(const std::vector<FilePath>&);
-void parseAndSetValue(
-	vectorFunc f,
-	const char* opt,
-	ApplicationSettings* settings,
-	po::variables_map& vm)
+typedef bool (ApplicationSettings::*vectorFunc)(const std::vector<FilePath>&);
+void parseAndSetValue(vectorFunc f, const char* opt, ApplicationSettings* settings, po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
@@ -79,7 +63,7 @@ void printVector(const std::string& title, const std::vector<FilePath>& vec)
 	{
 		std::cout << "\n    -\n";
 	}
-	for (const FilePath& item : vec)
+	for (const FilePath& item: vec)
 	{
 		std::cout << "\n    " << item.str();
 	}
@@ -91,32 +75,38 @@ CommandlineCommandConfig::CommandlineCommandConfig(CommandLineParser* parser)
 {
 }
 
-CommandlineCommandConfig::~CommandlineCommandConfig()
-{
-}
+CommandlineCommandConfig::~CommandlineCommandConfig() {}
 
 void CommandlineCommandConfig::setup()
 {
 	po::options_description options("Config Options");
-	options.add_options()
-		("help,h", "Print this help message")
-		("indexer-threads,t", po::value<int>(), "Set the number of threads used for indexing (0 uses ideal thread count)")
-		("use-processes,p", po::value<bool>(), "Enable C/C++ Indexer threads to run in different processes. <true/false>")
-		("logging-enabled,l", po::value<bool>(), "Enable file/console logging <true/false>")
-		("verbose-indexer-logging-enabled,L", po::value<bool>(),
-			"Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG Slows down "
-			"indexing speed")
-		("jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")
-		("maven-path,m", po::value<std::string>(), "Path to the maven binary")
-		("jre-system-library-paths,J", po::value<std::vector<std::string>>(),
-			"paths to the jars of the JRE system library. "
-			"These jars can be found inside your JRE install directory (once per path or comma separated)")
-		("global-header-search-paths,g", po::value<std::vector<std::string>>(),
-			"Global include paths (once per path or comma separated)")
-		("global-framework-search-paths,F", po::value<std::vector<std::string>>(),
-			"Global include paths (once per path or comma separated)")
-		("show,s", "displays all settings")
-		;
+	options.add_options()("help,h", "Print this help message")(
+		"indexer-threads,t",
+		po::value<int>(),
+		"Set the number of threads used for indexing (0 uses ideal thread count)")(
+		"use-processes,p",
+		po::value<bool>(),
+		"Enable C/C++ Indexer threads to run in different processes. <true/false>")(
+		"logging-enabled,l", po::value<bool>(), "Enable file/console logging <true/false>")(
+		"verbose-indexer-logging-enabled,L",
+		po::value<bool>(),
+		"Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG "
+		"Slows down "
+		"indexing speed")(
+		"jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")(
+		"maven-path,m", po::value<std::string>(), "Path to the maven binary")(
+		"jre-system-library-paths,J",
+		po::value<std::vector<std::string>>(),
+		"paths to the jars of the JRE system library. "
+		"These jars can be found inside your JRE install directory (once per path or comma "
+		"separated)")(
+		"global-header-search-paths,g",
+		po::value<std::vector<std::string>>(),
+		"Global include paths (once per path or comma separated)")(
+		"global-framework-search-paths,F",
+		po::value<std::vector<std::string>>(),
+		"Global include paths (once per path or comma separated)")(
+		"show,s", "displays all settings");
 
 	m_options.add(options);
 }
@@ -131,7 +121,7 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 
 		parseConfigFile(vm, m_options);
 	}
-	catch(po::error& e)
+	catch (po::error& e)
 	{
 		std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
 		std::cerr << m_options << std::endl;
@@ -156,39 +146,43 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 	if (args[0] == "show" || vm.count("show"))
 	{
 		std::cout << "Sourcetrail Settings:\n"
-			<< "\n  indexer-threads: " << settings->getIndexerThreadCount()
-			<< "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
-			<< "\n  logging-enabled: " << settings->getLoggingEnabled()
-			<< "\n  verbose-indexer-logging-enabled: " << settings->getVerboseIndexerLoggingEnabled()
-			<< "\n  jvm-path: " << settings->getJavaPath().str()
-			<< "\n  maven-path: " << settings->getMavenPath().str();
+				  << "\n  indexer-threads: " << settings->getIndexerThreadCount()
+				  << "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
+				  << "\n  logging-enabled: " << settings->getLoggingEnabled()
+				  << "\n  verbose-indexer-logging-enabled: "
+				  << settings->getVerboseIndexerLoggingEnabled()
+				  << "\n  jvm-path: " << settings->getJavaPath().str()
+				  << "\n  maven-path: " << settings->getMavenPath().str();
 		printVector("global-header-search-paths", settings->getHeaderSearchPaths());
 		printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
 		printVector("jre-system-library-paths", settings->getJreSystemLibraryPaths());
 		return ReturnStatus::CMD_QUIT;
 	}
 
-	parseAndSetValue(&ApplicationSettings::setMultiProcessIndexingEnabled, "use-processes", settings, vm);
+	parseAndSetValue(
+		&ApplicationSettings::setMultiProcessIndexingEnabled, "use-processes", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setLoggingEnabled, "logging-enabled", settings, vm);
 	parseAndSetValue(
 		&ApplicationSettings::setVerboseIndexerLoggingEnabled,
 		"verbose-indexer-logging-enabled",
 		settings,
-		vm
-	);
+		vm);
 
 	parseAndSetValue(&ApplicationSettings::setIndexerThreadCount, "indexer-threads", settings, vm);
 
 	parseAndSetValue(&ApplicationSettings::setMavenPath, "maven-path", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setJavaPath, "jvm-path", settings, vm);
 
-	parseAndSetValue(&ApplicationSettings::setJreSystemLibraryPaths, "jre-system-library-paths", settings, vm);
-	parseAndSetValue(&ApplicationSettings::setHeaderSearchPaths, "global-header-search-paths", settings, vm);
-	parseAndSetValue(&ApplicationSettings::setFrameworkSearchPaths, "global-framework-search-paths", settings, vm);
+	parseAndSetValue(
+		&ApplicationSettings::setJreSystemLibraryPaths, "jre-system-library-paths", settings, vm);
+	parseAndSetValue(
+		&ApplicationSettings::setHeaderSearchPaths, "global-header-search-paths", settings, vm);
+	parseAndSetValue(
+		&ApplicationSettings::setFrameworkSearchPaths, "global-framework-search-paths", settings, vm);
 
 	settings->save();
 
 	return ReturnStatus::CMD_QUIT;
 }
 
-} // namespace cmd
+}	 // namespace commandline

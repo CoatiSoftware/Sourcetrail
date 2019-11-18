@@ -4,8 +4,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCxxPchOptions
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithCxxPchOptions: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithCxxPchOptions() = default;
@@ -34,4 +33,4 @@ private:
 	bool m_useCompilerFlags = true;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CXX_PCH_OPTIONS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CXX_PCH_OPTIONS_H

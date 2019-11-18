@@ -9,9 +9,7 @@ StatusBarController::StatusBarController(StorageAccess* storageAccess)
 {
 }
 
-StatusBarController::~StatusBarController()
-{
-}
+StatusBarController::~StatusBarController() {}
 
 StatusBarView* StatusBarController::getView()
 {

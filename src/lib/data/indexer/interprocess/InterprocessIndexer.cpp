@@ -1,11 +1,11 @@
 #include "InterprocessIndexer.h"
 
+#include "FileRegister.h"
 #include "IndexerCommand.h"
 #include "IndexerComposite.h"
-#include "FileRegister.h"
-#include "logging.h"
 #include "LanguagePackageManager.h"
 #include "ScopedFunctor.h"
+#include "logging.h"
 
 InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 	: m_interprocessIndexerCommandManager(uuid, processId, false)
@@ -27,8 +27,7 @@ void InterprocessIndexer::work()
 		LOG_INFO_STREAM(<< m_processId << " starting up indexer");
 		indexer = LanguagePackageManager::getInstance()->instantiateSupportedIndexers();
 
-		updaterThread = std::make_shared<std::thread>([&]()
-		{
+		updaterThread = std::make_shared<std::thread>([&]() {
 			while (updaterThreadRunning)
 			{
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -45,8 +44,7 @@ void InterprocessIndexer::work()
 			}
 		});
 
-		ScopedFunctor threadStopper([&]()
-		{
+		ScopedFunctor threadStopper([&]() {
 			updaterThreadRunning = false;
 			if (updaterThread)
 			{
@@ -55,14 +53,20 @@ void InterprocessIndexer::work()
 			}
 		});
 
-		while (std::shared_ptr<IndexerCommand> indexerCommand = m_interprocessIndexerCommandManager.popIndexerCommand())
+		while (std::shared_ptr<IndexerCommand> indexerCommand =
+				   m_interprocessIndexerCommandManager.popIndexerCommand())
 		{
-			LOG_INFO_STREAM(<< m_processId << " fetched indexer command for \"" << indexerCommand->getSourceFilePath().str() << "\"");
-			LOG_INFO_STREAM(<< m_processId << " indexer commands left: " << m_interprocessIndexerCommandManager.indexerCommandCount());
+			LOG_INFO_STREAM(
+				<< m_processId << " fetched indexer command for \""
+				<< indexerCommand->getSourceFilePath().str() << "\"");
+			LOG_INFO_STREAM(
+				<< m_processId << " indexer commands left: "
+				<< m_interprocessIndexerCommandManager.indexerCommandCount());
 
 			while (updaterThreadRunning)
 			{
-				const size_t storageCount = m_interprocessIntermediateStorageManager.getIntermediateStorageCount();
+				const size_t storageCount =
+					m_interprocessIntermediateStorageManager.getIntermediateStorageCount();
 				if (storageCount < 2)
 				{
 					break;
@@ -79,7 +83,8 @@ void InterprocessIndexer::work()
 			}
 
 			LOG_INFO_STREAM(<< m_processId << " updating indexer status with currently indexed filepath");
-			m_interprocessIndexingStatusManager.startIndexingSourceFile(indexerCommand->getSourceFilePath());
+			m_interprocessIndexingStatusManager.startIndexingSourceFile(
+				indexerCommand->getSourceFilePath());
 
 			LOG_INFO_STREAM(<< m_processId << " starting to index current file");
 			std::shared_ptr<IntermediateStorage> result = indexer->index(indexerCommand);

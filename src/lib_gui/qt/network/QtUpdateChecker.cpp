@@ -1,19 +1,19 @@
 #include "QtUpdateChecker.h"
 
 #include <QDesktopServices>
-#include <QMessageBox>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMessageBox>
 #include <QUrl>
 
 #include "ApplicationSettings.h"
-#include "logging.h"
 #include "MessageStatus.h"
 #include "QtRequest.h"
 #include "TimeStamp.h"
+#include "Version.h"
+#include "logging.h"
 #include "utilityApp.h"
 #include "utilityUuid.h"
-#include "Version.h"
 
 bool QtUpdateChecker::needsAutomaticCheck()
 {
@@ -44,7 +44,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	urlString += ("?os=" + osString).c_str();
 
 	// architecture
-	std::string platformString = (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64 ? "64" : "32");
+	std::string platformString =
+		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64 ? "64" : "32");
 	urlString += ("&platform=" + platformString + "bit").c_str();
 
 	// version
@@ -52,7 +53,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	urlString += ("&version=" + Version::getApplicationVersion().toDisplayString()).c_str();
 
 	// license
-	urlString += "&license=free"; // options: test, private, commercial
+	urlString += "&license=free";	 // options: test, private, commercial
 
 	// user token
 	std::string token = appSettings->getUserToken();
@@ -67,9 +68,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 
 	// send request
 	QtRequest* request = new QtRequest();
-	QObject::connect(request, &QtRequest::receivedData,
-		[force, callback, request](QByteArray bytes)
-		{
+	QObject::connect(
+		request, &QtRequest::receivedData, [force, callback, request](QByteArray bytes) {
 			Result result;
 
 			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
@@ -81,7 +81,9 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 				QJsonDocument doc = QJsonDocument::fromJson(bytes, &error);
 				if (doc.isNull() || !doc.isObject())
 				{
-					LOG_ERROR_STREAM(<< "Update response couldn't be parsed as JSON: " << error.errorString().toStdString());
+					LOG_ERROR_STREAM(
+						<< "Update response couldn't be parsed as JSON: "
+						<< error.errorString().toStdString());
 					break;
 				}
 
@@ -99,7 +101,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 				Version updateVersion = Version::fromString(version.toStdString());
 				if (!updateVersion.isValid())
 				{
-					LOG_ERROR_STREAM(<< "update version string is not valid: " << version.toStdString());
+					LOG_ERROR_STREAM(
+						<< "update version string is not valid: " << version.toStdString());
 					break;
 				}
 
@@ -107,7 +110,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 
 				if (updateVersion > Version::getApplicationVersion())
 				{
-					MessageStatus(L"Newest available version: " + updateVersion.toDisplayWString()).dispatch();
+					MessageStatus(L"Newest available version: " + updateVersion.toDisplayWString())
+						.dispatch();
 
 					result.version = updateVersion;
 					result.url = url;
@@ -124,7 +128,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 					QMessageBox msgBox;
 					msgBox.setText("Update Check");
 					msgBox.setInformativeText(
-						"Sourcetrail " + version + " is available for download: <a href=\"" + url + "\">" + url + "</a>");
+						"Sourcetrail " + version + " is available for download: <a href=\"" + url +
+						"\">" + url + "</a>");
 					msgBox.addButton("Close", QMessageBox::ButtonRole::NoRole);
 					msgBox.addButton("Skip this Version", QMessageBox::ButtonRole::NoRole);
 					QPushButton* but = msgBox.addButton("Download", QMessageBox::ButtonRole::YesRole);
@@ -145,8 +150,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 				{
 					MessageStatus(L"Sourcetrail is up-to-date").dispatch();
 				}
-			}
-			while (false);
+			} while (false);
 
 			if (saveAppSettings)
 			{
@@ -161,8 +165,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 			request->deleteLater();
 
 			callback(result);
-		}
-	);
+		});
 
 	request->sendRequest(urlString);
 	MessageStatus(L"Checking for new version", false, true).dispatch();
@@ -170,10 +173,5 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 
 void QtUpdateChecker::checkUpdate()
 {
-	m_onQtThread(
-		[]()
-		{
-			check(false, [](Result){});
-		}
-	);
+	m_onQtThread([]() { check(false, [](Result) {}); });
 }

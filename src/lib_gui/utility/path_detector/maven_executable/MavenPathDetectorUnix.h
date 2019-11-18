@@ -10,4 +10,4 @@ public:
 	std::vector<FilePath> getPaths() const override;
 };
 
-#endif // MAVEN_PATH_DETECTOR_UNIX_H
+#endif	  // MAVEN_PATH_DETECTOR_UNIX_H

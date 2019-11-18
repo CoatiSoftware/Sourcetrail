@@ -7,13 +7,14 @@
 class IncludeDirective;
 class QtPathListDialog;
 
-class QtProjectWizardContentPathsHeaderSearch
-	: public QtProjectWizardContentPaths
+class QtProjectWizardContentPathsHeaderSearch: public QtProjectWizardContentPaths
 {
 	Q_OBJECT
 public:
 	QtProjectWizardContentPathsHeaderSearch(
-		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window, bool indicateAsAdditional = false);
+		std::shared_ptr<SourceGroupSettings> settings,
+		QtProjectWizardWindow* window,
+		bool indicateAsAdditional = false);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -39,4 +40,4 @@ private:
 	const bool m_indicateAsAdditional;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATHS_HEADER_SEARCH_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATHS_HEADER_SEARCH_H

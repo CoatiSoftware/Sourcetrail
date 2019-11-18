@@ -3,30 +3,26 @@
 #include <cmath>
 
 #include <QHeaderView>
+#include <QLineEdit>
 #include <QResizeEvent>
 #include <QScrollBar>
 #include <QStyledItemDelegate>
-#include <QLineEdit>
 
 #include "ApplicationSettings.h"
 
 
-class SelectableCellDelegate : public QStyledItemDelegate
+class SelectableCellDelegate: public QStyledItemDelegate
 {
 public:
 	SelectableCellDelegate(QObject* parent = Q_NULLPTR);
-	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	QWidget* createEditor(
+		QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 };
 
-SelectableCellDelegate::SelectableCellDelegate(QObject* parent)
-	: QStyledItemDelegate(parent)
-{
-}
+SelectableCellDelegate::SelectableCellDelegate(QObject* parent): QStyledItemDelegate(parent) {}
 
 QWidget* SelectableCellDelegate::createEditor(
-	QWidget* parent,
-	const QStyleOptionViewItem &option,
-	const QModelIndex &index) const
+	QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	QWidget* editor = QStyledItemDelegate::createEditor(parent, option, index);
 	QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(editor);
@@ -37,9 +33,7 @@ QWidget* SelectableCellDelegate::createEditor(
 	return editor;
 }
 
-QtTable::QtTable(QWidget* parent)
-	: QTableView(parent)
-	, m_rowsToFill(0)
+QtTable::QtTable(QWidget* parent): QTableView(parent), m_rowsToFill(0)
 {
 	setAlternatingRowColors(true);
 	setShowGrid(false);
@@ -59,9 +53,7 @@ QtTable::QtTable(QWidget* parent)
 	connect(horizontalHeader(), &QHeaderView::sectionResized, this, &QtTable::columnResized);
 }
 
-QtTable::~QtTable()
-{
-}
+QtTable::~QtTable() {}
 
 void QtTable::updateRows()
 {
@@ -84,12 +76,14 @@ void QtTable::updateRows()
 	}
 
 	int rowCount = model()->rowCount() > m_rowsToFill ? model()->rowCount() : m_rowsToFill;
-	int width = ApplicationSettings::getInstance()->getFontSize() * 0.7 * int(1 + std::log10(rowCount));
+	int width = ApplicationSettings::getInstance()->getFontSize() * 0.7 *
+		int(1 + std::log10(rowCount));
 
 	verticalHeader()->setStyleSheet("::section { width: " + QString::number(width) + "px; }");
 	verticalHeader()->setDefaultSectionSize(ApplicationSettings::getInstance()->getFontSize() + 6);
 
-	if (this->selectionModel()->hasSelection() && selectionModel()->selection().indexes()[0].row() >= model()->rowCount() - 2)
+	if (this->selectionModel()->hasSelection() &&
+		selectionModel()->selection().indexes()[0].row() >= model()->rowCount() - 2)
 	{
 		clearSelection();
 	}

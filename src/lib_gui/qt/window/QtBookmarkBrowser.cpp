@@ -8,25 +8,23 @@
 
 #include "QtBookmark.h"
 #include "QtBookmarkCategory.h"
-#include "utilityQt.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
 QtBookmarkBrowser::QtBookmarkBrowser(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent)
-    : QtWindow(false, parent)
-    , m_controllerProxy(controllerProxy)
+	: QtWindow(false, parent), m_controllerProxy(controllerProxy)
 {
 }
 
-QtBookmarkBrowser::~QtBookmarkBrowser()
-{
-}
+QtBookmarkBrowser::~QtBookmarkBrowser() {}
 
 void QtBookmarkBrowser::setupBookmarkBrowser()
 {
-	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/bookmark_view.css"))
-	).c_str());
+	setStyleSheet(
+		(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
+		 utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/"
+																		L"bookmark_view.css")))
+			.c_str());
 
 	m_headerBackground = new QWidget(m_window);
 	m_headerBackground->setObjectName("header_background");
@@ -65,7 +63,11 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		m_filterComboBox->setObjectName("filter_box");
 		headerLayout->addWidget(m_filterComboBox);
 
-		connect(m_filterComboBox, QOverload<const QString&>::of(&QComboBox::currentIndexChanged), this, &QtBookmarkBrowser::filterOrOrderChanged);
+		connect(
+			m_filterComboBox,
+			QOverload<const QString&>::of(&QComboBox::currentIndexChanged),
+			this,
+			&QtBookmarkBrowser::filterOrOrderChanged);
 
 		headerLayout->addSpacing(40);
 
@@ -87,7 +89,11 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		m_orderComboBox->setObjectName("order_box");
 		headerLayout->addWidget(m_orderComboBox);
 
-		connect(m_orderComboBox, QOverload<const QString&>::of(&QComboBox::currentIndexChanged), this, &QtBookmarkBrowser::filterOrOrderChanged);
+		connect(
+			m_orderComboBox,
+			QOverload<const QString&>::of(&QComboBox::currentIndexChanged),
+			this,
+			&QtBookmarkBrowser::filterOrOrderChanged);
 	}
 
 	{
@@ -132,17 +138,17 @@ void QtBookmarkBrowser::setBookmarks(const std::vector<std::shared_ptr<Bookmark>
 	m_bookmarkTree->clear();
 
 	std::map<std::wstring, BookmarkCategory> categoryNamesOrdered;
-	for (const std::shared_ptr<Bookmark>& bookmark : bookmarks)
+	for (const std::shared_ptr<Bookmark>& bookmark: bookmarks)
 	{
 		categoryNamesOrdered.emplace(bookmark->getCategory().getName(), bookmark->getCategory());
 	}
 
-	for (const auto& p : categoryNamesOrdered)
+	for (const auto& p: categoryNamesOrdered)
 	{
 		findOrCreateTreeCategory(p.second);
 	}
 
-	for (const std::shared_ptr<Bookmark>& bookmark : bookmarks)
+	for (const std::shared_ptr<Bookmark>& bookmark: bookmarks)
 	{
 		QtBookmark* qtBookmark = new QtBookmark(m_controllerProxy);
 		qtBookmark->setBookmark(bookmark);
@@ -190,9 +196,10 @@ void QtBookmarkBrowser::filterOrOrderChanged(const QString& text)
 	m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::displayBookmarksFor, filter, order);
 }
 
-void  QtBookmarkBrowser::treeItemClicked(QTreeWidgetItem* item, int column)
+void QtBookmarkBrowser::treeItemClicked(QTreeWidgetItem* item, int column)
 {
-	QtBookmarkCategory* category = dynamic_cast<QtBookmarkCategory*>(m_bookmarkTree->itemWidget(item, 0));
+	QtBookmarkCategory* category = dynamic_cast<QtBookmarkCategory*>(
+		m_bookmarkTree->itemWidget(item, 0));
 	if (category != nullptr)
 	{
 		category->expandClicked();

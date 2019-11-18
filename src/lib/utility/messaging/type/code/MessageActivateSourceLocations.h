@@ -5,13 +5,11 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageActivateSourceLocations
-	: public Message<MessageActivateSourceLocations>
+class MessageActivateSourceLocations: public Message<MessageActivateSourceLocations>
 {
 public:
 	MessageActivateSourceLocations(const std::vector<Id>& locationIds, bool containsUnsolvedLocations)
-		: locationIds(locationIds)
-		, containsUnsolvedLocations(containsUnsolvedLocations)
+		: locationIds(locationIds), containsUnsolvedLocations(containsUnsolvedLocations)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -23,7 +21,7 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		for (const Id& id : locationIds)
+		for (const Id& id: locationIds)
 		{
 			os << id << L" ";
 		}
@@ -33,4 +31,4 @@ public:
 	const bool containsUnsolvedLocations;
 };
 
-#endif // MESSAGE_ACTIVATE_SOURCE_LOCATIONS_H
+#endif	  // MESSAGE_ACTIVATE_SOURCE_LOCATIONS_H

@@ -1,13 +1,12 @@
 #include "Application.h"
 
-#include "ApplicationSettings.h"
 #include "AppPath.h"
+#include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "DialogView.h"
 #include "FileSystem.h"
 #include "GraphViewStyle.h"
 #include "IDECommunicationController.h"
-#include "logging.h"
 #include "LogManager.h"
 #include "MainView.h"
 #include "MessageFilterErrorCountUpdate.h"
@@ -23,20 +22,21 @@
 #include "TabId.h"
 #include "TaskManager.h"
 #include "TaskScheduler.h"
-#include "tracing.h"
 #include "UpdateChecker.h"
 #include "UserPaths.h"
-#include "utilityString.h"
-#include "utilityUuid.h"
 #include "Version.h"
 #include "ViewFactory.h"
+#include "logging.h"
+#include "tracing.h"
+#include "utilityString.h"
+#include "utilityUuid.h"
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
 
 void Application::createInstance(
-	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
-){
+	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory)
+{
 	bool hasGui = (viewFactory != nullptr);
 
 	Version::setApplicationVersion(version);
@@ -70,8 +70,8 @@ void Application::createInstance(
 
 	if (networkFactory != nullptr)
 	{
-		s_instance->m_ideCommunicationController =
-			networkFactory->createIDECommunicationController(s_instance->m_storageCache.get());
+		s_instance->m_ideCommunicationController = networkFactory->createIDECommunicationController(
+			s_instance->m_storageCache.get());
 		s_instance->m_ideCommunicationController->startListening();
 
 		s_instance->m_updateChecker = networkFactory->createUpdateChecker();
@@ -122,10 +122,7 @@ void Application::loadStyle(const FilePath& colorSchemePath)
 	GraphViewStyle::loadStyleSettings();
 }
 
-Application::Application(bool withGUI)
-	: m_hasGUI(withGUI)
-{
-}
+Application::Application(bool withGUI): m_hasGUI(withGUI) {}
 
 Application::~Application()
 {
@@ -277,10 +274,14 @@ void Application::handleMessage(MessageLoadProject* message)
 			updateRecentProjects(projectSettingsFilePath);
 
 			m_storageCache->clear();
-			m_storageCache->setSubject(std::weak_ptr<StorageAccess>()); // TODO: check if this is really required.
+			m_storageCache->setSubject(
+				std::weak_ptr<StorageAccess>());	// TODO: check if this is really required.
 
 			m_project = std::make_shared<Project>(
-				std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get(), getUUID(), hasGUI());
+				std::make_shared<ProjectSettings>(projectSettingsFilePath),
+				m_storageCache.get(),
+				getUUID(),
+				hasGUI());
 
 			if (m_project)
 			{
@@ -289,7 +290,8 @@ void Application::handleMessage(MessageLoadProject* message)
 			else
 			{
 				LOG_ERROR_STREAM(<< "Failed to load project.");
-				MessageStatus(L"Failed to load project: " + projectSettingsFilePath.wstr(), true).dispatch();
+				MessageStatus(L"Failed to load project: " + projectSettingsFilePath.wstr(), true)
+					.dispatch();
 			}
 
 			updateTitle();
@@ -297,12 +299,19 @@ void Application::handleMessage(MessageLoadProject* message)
 		catch (std::exception& e)
 		{
 			LOG_ERROR_STREAM(<< "Failed to load project, exception thrown: " << e.what());
-			MessageStatus(L"Failed to load project, exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
+			MessageStatus(
+				L"Failed to load project, exception was thrown: " + projectSettingsFilePath.wstr(),
+				true)
+				.dispatch();
 		}
 		catch (...)
 		{
 			LOG_ERROR_STREAM(<< "Failed to load project, unknown exception thrown.");
-			MessageStatus(L"Failed to load project, unknown exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
+			MessageStatus(
+				L"Failed to load project, unknown exception was thrown: " +
+					projectSettingsFilePath.wstr(),
+				true)
+				.dispatch();
 		}
 
 		if (message->refreshMode != REFRESH_NONE)
@@ -421,7 +430,8 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 		std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
 		if (recentProjects.size())
 		{
-			std::vector<FilePath>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
+			std::vector<FilePath>::iterator it = std::find(
+				recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
 			if (it != recentProjects.end())
 			{
 				recentProjects.erase(it);
@@ -494,11 +504,17 @@ bool Application::checkSharedMemory()
 	std::wstring error = utility::decodeFromUtf8(SharedMemory::checkSharedMemory(getUUID()));
 	if (error.size())
 	{
-		MessageStatus(L"Error on accessing shared memory. Indexing not possible. "
-			"Please restart computer or run as admin: " + error, true).dispatch();
+		MessageStatus(
+			L"Error on accessing shared memory. Indexing not possible. "
+			"Please restart computer or run as admin: " +
+				error,
+			true)
+			.dispatch();
 		handleDialog(
-			L"There was an error accessing shared memory on your computer: " + error + L"\n\n"
-			"Project indexing is not possible. Please restart your computer or try running Sourcetrail as admin. If the "
+			L"There was an error accessing shared memory on your computer: " + error +
+			L"\n\n"
+			"Project indexing is not possible. Please restart your computer or try running "
+			"Sourcetrail as admin. If the "
 			"issue persists contact mail@sourcetrail.com");
 		return false;
 	}

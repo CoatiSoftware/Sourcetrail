@@ -1,15 +1,14 @@
 #ifndef QT_CONTEXT_MENU_H
 #define QT_CONTEXT_MENU_H
 
-#include <memory>
 #include <QAction>
 #include <QMenu>
 #include <QObject>
+#include <memory>
 
 #include "FilePath.h"
 
-class QtContextMenu
-	: public QObject
+class QtContextMenu: public QObject
 {
 	Q_OBJECT
 
@@ -53,4 +52,4 @@ private:
 	QPoint m_point;
 };
 
-#endif // QT_CONTEXT_MENU_H
+#endif	  // QT_CONTEXT_MENU_H

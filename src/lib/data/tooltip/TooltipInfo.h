@@ -31,4 +31,4 @@ struct TooltipInfo
 	Vec2i offset;
 };
 
-#endif // TOOLTIP_INFO_H
+#endif	  // TOOLTIP_INFO_H

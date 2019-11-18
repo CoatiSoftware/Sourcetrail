@@ -7,8 +7,7 @@
 
 struct SearchMatch;
 
-class TabsView
-	: public View
+class TabsView: public View
 {
 public:
 	TabsView(ViewLayout* viewLayout);
@@ -25,4 +24,4 @@ public:
 	virtual void updateTab(Id tabId, std::vector<SearchMatch> matches) = 0;
 };
 
-#endif // TABS_VIEW_H
+#endif	  // TABS_VIEW_H

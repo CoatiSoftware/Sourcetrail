@@ -1,16 +1,14 @@
 #include "CommentHandler.h"
 
 #include "CanonicalFilePathCache.h"
-#include "utilityClang.h"
 #include "ParseLocation.h"
 #include "ParserClient.h"
+#include "utilityClang.h"
 
 CommentHandler::CommentHandler(
 	std::shared_ptr<ParserClient> client,
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
-)
-	: m_client(client)
-	, m_canonicalFilePathCache(canonicalFilePathCache)
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
+	: m_client(client), m_canonicalFilePathCache(canonicalFilePathCache)
 {
 }
 
@@ -23,16 +21,17 @@ bool CommentHandler::HandleComment(clang::Preprocessor& preprocessor, clang::Sou
 
 	if (fileSymbolId && m_canonicalFilePathCache->isProjectFile(fileId, sourceManager))
 	{
-		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
-		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
+		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(
+			sourceRange.getBegin(), false);
+		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(
+			sourceRange.getEnd(), false);
 
 		m_client->recordComment(ParseLocation(
 			fileSymbolId,
 			presumedBegin.getLine(),
 			presumedBegin.getColumn(),
 			presumedEnd.getLine(),
-			presumedEnd.getColumn()
-		));
+			presumedEnd.getColumn()));
 	}
 
 	return false;

@@ -1,13 +1,12 @@
 #ifndef STATUS_BAR_VIEW_H
 #define STATUS_BAR_VIEW_H
 
-#include "View.h"
 #include "ErrorCountInfo.h"
+#include "View.h"
 
 class StatusBarController;
 
-class StatusBarView
-	: public View
+class StatusBarView: public View
 {
 public:
 	StatusBarView(ViewLayout* viewLayout);
@@ -26,4 +25,4 @@ protected:
 	StatusBarController* getController();
 };
 
-#endif //STATUS_BAR_VIEW_H
+#endif	  // STATUS_BAR_VIEW_H

@@ -4,64 +4,58 @@
 
 namespace
 {
-	class TestToken : public Token
+class TestToken: public Token
+{
+public:
+	TestToken(): Token(0) {}
+
+	TestToken(const TestToken& other): Token(other) {}
+
+	virtual bool isNode() const
 	{
-	public:
-		TestToken()
-			:Token(0)
-		{
-		}
+		return false;
+	}
 
-		TestToken(const TestToken& other)
-			: Token(other)
-		{
-		}
-
-		virtual bool isNode() const
-		{
-			return false;
-		}
-
-		virtual bool isEdge() const
-		{
-			return false;
-		}
-
-		void addComponent(std::shared_ptr<TokenComponent> component)
-		{
-			Token::addComponent(component);
-		}
-
-		template<typename ComponentType>
-		std::shared_ptr<ComponentType> removeComponent()
-		{
-			return Token::removeComponent<ComponentType>();
-		}
-
-		virtual std::wstring getReadableTypeString() const
-		{
-			return L"";
-		}
-	};
-
-	class TestComponent : public TokenComponent
+	virtual bool isEdge() const
 	{
-	public:
-		virtual std::shared_ptr<TokenComponent> copy() const
-		{
-			return std::make_shared<TestComponent>(*this);
-		}
-	};
+		return false;
+	}
 
-	class Test2Component : public TokenComponent
+	void addComponent(std::shared_ptr<TokenComponent> component)
 	{
-	public:
-		virtual std::shared_ptr<TokenComponent> copy() const
-		{
-			return std::make_shared<Test2Component>(*this);
-		}
-	};
-}
+		Token::addComponent(component);
+	}
+
+	template <typename ComponentType>
+	std::shared_ptr<ComponentType> removeComponent()
+	{
+		return Token::removeComponent<ComponentType>();
+	}
+
+	virtual std::wstring getReadableTypeString() const
+	{
+		return L"";
+	}
+};
+
+class TestComponent: public TokenComponent
+{
+public:
+	virtual std::shared_ptr<TokenComponent> copy() const
+	{
+		return std::make_shared<TestComponent>(*this);
+	}
+};
+
+class Test2Component: public TokenComponent
+{
+public:
+	virtual std::shared_ptr<TokenComponent> copy() const
+	{
+		return std::make_shared<Test2Component>(*this);
+	}
+};
+}	 // namespace
 
 TEST_CASE("tokens save location ids")
 {
@@ -148,7 +142,11 @@ TEST_CASE("token copies components when token is copied")
 
 TEST_CASE("nodes are nodes")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 
 	REQUIRE(a.isNode());
 	REQUIRE(!a.isEdge());
@@ -156,8 +154,16 @@ TEST_CASE("nodes are nodes")
 
 TEST_CASE("edges are edges")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node b(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 	REQUIRE(!e.isNode());
@@ -166,27 +172,43 @@ TEST_CASE("edges are edges")
 
 TEST_CASE("set type of node from constructor")
 {
-	Node n(1, NodeType(NodeType::NODE_FUNCTION), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node n(
+		1,
+		NodeType(NodeType::NODE_FUNCTION),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	REQUIRE(NodeType(NodeType::NODE_FUNCTION) == n.getType());
 }
 
 TEST_CASE("set type of node from non indexed")
 {
-	Node n(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node n(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	n.setType(NodeType(NodeType::NODE_CLASS));
 	REQUIRE(NodeType(NodeType::NODE_CLASS) == n.getType());
 }
 
 TEST_CASE("can not change type of node after it was set")
 {
-	Node n(3, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node n(
+		3,
+		NodeType(NodeType::NODE_NAMESPACE),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	n.setType(NodeType(NodeType::NODE_CLASS));
 	REQUIRE(NodeType(NodeType::NODE_CLASS) != n.getType());
 }
 
 TEST_CASE("node can be copied and keeps same id")
 {
-	Node n(4, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node n(
+		4,
+		NodeType(NodeType::NODE_NAMESPACE),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Node n2(n);
 
 	REQUIRE(&n != &n2);
@@ -197,15 +219,27 @@ TEST_CASE("node can be copied and keeps same id")
 
 TEST_CASE("node type bit masking")
 {
-	Node n(1, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node n(
+		1,
+		NodeType(NodeType::NODE_NAMESPACE),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	REQUIRE(n.isType(NodeType::NODE_FUNCTION | NodeType::NODE_NAMESPACE | NodeType::NODE_CLASS));
 	REQUIRE(!n.isType(NodeType::NODE_FUNCTION | NodeType::NODE_METHOD | NodeType::NODE_CLASS));
 }
 
 TEST_CASE("get type of edges")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node b(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 	REQUIRE(Edge::EDGE_USAGE == e.getType());
@@ -213,8 +247,16 @@ TEST_CASE("get type of edges")
 
 TEST_CASE("edge can be copied and keeps same id")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node b(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
 	Edge e2(e, &a, &b);
 
@@ -225,8 +267,16 @@ TEST_CASE("edge can be copied and keeps same id")
 
 TEST_CASE("edge type bit masking")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node b(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 	REQUIRE(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_USAGE));
@@ -235,18 +285,25 @@ TEST_CASE("edge type bit masking")
 
 TEST_CASE("node finds child node")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"C", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node b(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node c(
+		3,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"C", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 	Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
-	Node* x = a.findChildNode(
-		[](Node* n)
-		{
-			return n->getName() == L"C";
-		}
-	);
+	Node* x = a.findChildNode([](Node* n) { return n->getName() == L"C"; });
 
 	REQUIRE(x == &c);
 	REQUIRE(x != &b);
@@ -254,37 +311,51 @@ TEST_CASE("node finds child node")
 
 TEST_CASE("node can not find child node")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"C", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node b(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node c(
+		3,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"C", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 	Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
-	Node* x = a.findChildNode(
-		[](Node* n)
-		{
-			return n->getName() == L"D";
-		}
-	);
+	Node* x = a.findChildNode([](Node* n) { return n->getName() == L"D"; });
 
 	REQUIRE(!x);
 }
 
 TEST_CASE("node visits child nodes")
 {
-	Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"C", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node a(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node b(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node c(
+		3,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"C", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 	Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 	Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
 	std::vector<Node*> children;
-	a.forEachChildNode(
-		[&children](Node* n)
-		{
-			return children.push_back(n);
-		}
-	);
+	a.forEachChildNode([&children](Node* n) { return children.push_back(n); });
 
 	REQUIRE(children.size() == 2);
 	REQUIRE(children[0] == &b);
@@ -294,8 +365,16 @@ TEST_CASE("node visits child nodes")
 TEST_CASE("graph saves nodes")
 {
 	Graph graph;
-	Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node* b = graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node* a = graph.createNode(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node* b = graph.createNode(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 
 	REQUIRE(2 == graph.getNodeCount());
 	REQUIRE(0 == graph.getEdgeCount());
@@ -313,8 +392,16 @@ TEST_CASE("graph saves edges")
 {
 	Graph graph;
 
-	Node* a = graph.createNode(1, NodeType(NodeType::NODE_FUNCTION), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	Node* b = graph.createNode(2, NodeType(NodeType::NODE_FUNCTION), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node* a = graph.createNode(
+		1,
+		NodeType(NodeType::NODE_FUNCTION),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	Node* b = graph.createNode(
+		2,
+		NodeType(NodeType::NODE_FUNCTION),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 
 	Edge* e = graph.createEdge(3, Edge::EDGE_CALL, a, b);
 
@@ -329,8 +416,16 @@ TEST_CASE("graph removes nodes")
 {
 	Graph graph;
 
-	Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
-	graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), DEFINITION_EXPLICIT);
+	Node* a = graph.createNode(
+		1,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"A", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
+	graph.createNode(
+		2,
+		NodeType(NodeType::NODE_SYMBOL),
+		NameHierarchy(L"B", NAME_DELIMITER_CXX),
+		DEFINITION_EXPLICIT);
 
 	REQUIRE(2 == graph.getNodeCount());
 	REQUIRE(0 == graph.getEdgeCount());

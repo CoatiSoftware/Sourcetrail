@@ -1,12 +1,10 @@
 #include "Component.h"
 
-#include "View.h"
 #include "Controller.h"
+#include "View.h"
 
 Component::Component(std::shared_ptr<View> view, std::shared_ptr<Controller> controller)
-	: m_controller(controller)
-	, m_view(view)
-	, m_tabId(0)
+	: m_controller(controller), m_view(view), m_tabId(0)
 {
 	if (m_controller)
 	{

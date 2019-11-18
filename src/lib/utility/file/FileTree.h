@@ -1,8 +1,8 @@
 #ifndef FILE_TREE_H
 #define FILE_TREE_H
 
-#include <string>
 #include <set>
+#include <string>
 #include <unordered_map>
 
 #include "FilePath.h"
@@ -16,10 +16,11 @@ public:
 	std::vector<FilePath> getAbsoluteRootPathsForRelativeFilePath(const FilePath& relativeFilePath);
 
 private:
-	std::vector<FilePath> doGetAbsoluteRootPathsForRelativeFilePath(const FilePath& relativeFilePath, bool allowMultipleResults);
+	std::vector<FilePath> doGetAbsoluteRootPathsForRelativeFilePath(
+		const FilePath& relativeFilePath, bool allowMultipleResults);
 
 	FilePath m_rootPath;
 	std::unordered_map<std::wstring, std::set<FilePath>> m_files;
 };
 
-#endif // FILE_TREE_H
+#endif	  // FILE_TREE_H

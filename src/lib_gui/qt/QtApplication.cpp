@@ -3,15 +3,18 @@
 #include <QFileOpenEvent>
 
 #include "FilePath.h"
+#include "LogManager.h"
 #include "MessageLoadProject.h"
 #include "MessageWindowFocus.h"
-#include "LogManager.h"
 #include "utilityApp.h"
 
-QtApplication::QtApplication(int& argc, char** argv)
-	: QApplication(argc, argv)
+QtApplication::QtApplication(int& argc, char** argv): QApplication(argc, argv)
 {
-	connect(this, &QGuiApplication::applicationStateChanged, this, &QtApplication::onApplicationStateChanged);
+	connect(
+		this,
+		&QGuiApplication::applicationStateChanged,
+		this,
+		&QtApplication::onApplicationStateChanged);
 }
 
 int QtApplication::exec()
@@ -20,7 +23,7 @@ int QtApplication::exec()
 }
 
 // responds to FileOpenEvent specific for Mac
-bool QtApplication::event(QEvent *event)
+bool QtApplication::event(QEvent* event)
 {
 	if (event->type() == QEvent::FileOpen)
 	{

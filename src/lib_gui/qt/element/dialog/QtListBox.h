@@ -14,16 +14,12 @@ class QPushButton;
 class QtTextEditDialog;
 class QtListBoxItem;
 
-class QtListWidget
-	: public QListWidget
+class QtListWidget: public QListWidget
 {
 	Q_OBJECT
 
 public:
-	QtListWidget(QWidget* parent = nullptr)
-		: QListWidget(parent)
-	{
-	}
+	QtListWidget(QWidget* parent = nullptr): QListWidget(parent) {}
 
 protected:
 	void mouseDoubleClickEvent(QMouseEvent* event) override
@@ -33,13 +29,12 @@ protected:
 	}
 };
 
-class QtListBox
-	: public QFrame
+class QtListBox: public QFrame
 {
 	Q_OBJECT
 
 public:
-	QtListBox(QWidget *parent, const QString& listName);
+	QtListBox(QWidget* parent, const QString& listName);
 	virtual ~QtListBox() = default;
 
 	void clear();
@@ -77,4 +72,4 @@ private:
 	std::shared_ptr<QtTextEditDialog> m_editDialog;
 };
 
-#endif // QT_LIST_BOX_H
+#endif	  // QT_LIST_BOX_H

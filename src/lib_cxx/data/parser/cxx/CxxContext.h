@@ -12,8 +12,7 @@ public:
 };
 
 
-class CxxContextDecl
-	: public CxxContext
+class CxxContextDecl: public CxxContext
 {
 public:
 	CxxContextDecl(const clang::NamedDecl* decl);
@@ -24,8 +23,7 @@ private:
 };
 
 
-class CxxContextType
-	: public CxxContext
+class CxxContextType: public CxxContext
 {
 public:
 	CxxContextType(const clang::Type* type);
@@ -35,5 +33,4 @@ private:
 	const clang::Type* m_type;
 };
 
-#endif // CXX_CONTEXT_H
-
+#endif	  // CXX_CONTEXT_H

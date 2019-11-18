@@ -12,12 +12,7 @@ public:
 	struct SetActiveTokenMessage
 	{
 	public:
-		SetActiveTokenMessage()
-			: filePath(L"")
-			, row(0)
-			, column(0)
-			, valid(false)
-		{}
+		SetActiveTokenMessage(): filePath(L""), row(0), column(0), valid(false) {}
 
 		FilePath filePath;
 		unsigned int row;
@@ -32,11 +27,7 @@ public:
 	struct CreateCDBProjectMessage
 	{
 	public:
-		CreateCDBProjectMessage()
-			: cdbFileLocation(L"")
-			, ideId(L"")
-			, valid(false)
-		{}
+		CreateCDBProjectMessage(): cdbFileLocation(L""), ideId(L""), valid(false) {}
 
 		FilePath cdbFileLocation;
 		std::wstring ideId;
@@ -46,10 +37,7 @@ public:
 	struct PingMessage
 	{
 	public:
-		PingMessage()
-			: ideId(L"")
-			, valid(false)
-		{}
+		PingMessage(): ideId(L""), valid(false) {}
 
 		std::wstring ideId;
 		bool valid;
@@ -71,7 +59,8 @@ public:
 	static CreateCDBProjectMessage parseCreateCDBProjectMessage(const std::wstring& message);
 	static PingMessage parsePingMessage(const std::wstring& message);
 
-	static std::wstring buildSetIDECursorMessage(const FilePath& fileLocation, const unsigned int row, const unsigned int column);
+	static std::wstring buildSetIDECursorMessage(
+		const FilePath& fileLocation, const unsigned int row, const unsigned int column);
 	static std::wstring buildCreateCDBMessage();
 	static std::wstring buildPingMessage();
 
@@ -89,4 +78,4 @@ private:
 	static std::wstring s_pingPrefix;
 };
 
-#endif // NETWORK_PROTOCOL_HELPER_H
+#endif	  // NETWORK_PROTOCOL_HELPER_H

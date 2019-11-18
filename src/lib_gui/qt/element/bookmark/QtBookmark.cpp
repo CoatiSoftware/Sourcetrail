@@ -6,8 +6,8 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "utilityQt.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
 QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	: m_controllerProxy(controllerProxy)
@@ -55,7 +55,8 @@ QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	m_editButton->setToolTip("Edit bookmark");
 	m_editButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_editButton->setIconSize(QSize(20, 20));
-	m_editButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_edit_icon.png").wstr())));
+	m_editButton->setIcon(QPixmap(QString::fromStdWString(
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_edit_icon.png").wstr())));
 	utility::setWidgetRetainsSpaceWhenHidden(m_editButton);
 	m_editButton->hide();
 	buttonsLayout->addWidget(m_editButton);
@@ -65,7 +66,10 @@ QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	m_deleteButton->setToolTip("Delete bookmark");
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIconSize(QSize(20, 20));
-	m_deleteButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_delete_icon.png").wstr())));
+	m_deleteButton->setIcon(QPixmap(
+		QString::fromStdWString(ResourcePaths::getGuiPath()
+									.concatenate(L"bookmark_view/images/bookmark_delete_icon.png")
+									.wstr())));
 	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
 	m_deleteButton->hide();
 	buttonsLayout->addWidget(m_deleteButton);
@@ -84,9 +88,7 @@ QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	connect(m_toggleCommentButton, &QPushButton::clicked, this, &QtBookmark::commentToggled);
 }
 
-QtBookmark::~QtBookmark()
-{
-}
+QtBookmark::~QtBookmark() {}
 
 void QtBookmark::setBookmark(const std::shared_ptr<Bookmark> bookmark)
 {
@@ -179,7 +181,7 @@ void QtBookmark::showEvent(QShowEvent* event)
 	elideButtonText();
 }
 
-void QtBookmark::enterEvent(QEvent *event)
+void QtBookmark::enterEvent(QEvent* event)
 {
 	m_editButton->show();
 	m_deleteButton->show();
@@ -188,7 +190,7 @@ void QtBookmark::enterEvent(QEvent *event)
 	updateArrow();
 }
 
-void QtBookmark::leaveEvent(QEvent *event)
+void QtBookmark::leaveEvent(QEvent* event)
 {
 	m_editButton->hide();
 	m_deleteButton->hide();
@@ -217,22 +219,27 @@ void QtBookmark::deleteClicked()
 	msgBox.setIcon(QMessageBox::Icon::Question);
 	int ret = msgBox.exec();
 
-	if (ret == 0) // QMessageBox::Yes)
+	if (ret == 0)	 // QMessageBox::Yes)
 	{
-		m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::deleteBookmark, m_bookmark->getId());
+		m_controllerProxy->executeAsTaskWithArgs(
+			&BookmarkController::deleteBookmark, m_bookmark->getId());
 	}
 }
 
 void QtBookmark::elideButtonText()
 {
 	m_activateButton->setText(m_activateButton->fontMetrics().elidedText(
-		QString::fromStdWString(m_bookmark->getName()), Qt::ElideMiddle, m_activateButton->width() - 16));
+		QString::fromStdWString(m_bookmark->getName()),
+		Qt::ElideMiddle,
+		m_activateButton->width() - 16));
 }
 
 void QtBookmark::updateArrow()
 {
-	QPixmap pixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/" + m_arrowImageName).wstr()));
-	m_toggleCommentButton->setIcon(QIcon(utility::colorizePixmap(pixmap, m_hovered ? "#707070" : "black")));
+	QPixmap pixmap(QString::fromStdWString(
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/" + m_arrowImageName).wstr()));
+	m_toggleCommentButton->setIcon(
+		QIcon(utility::colorizePixmap(pixmap, m_hovered ? "#707070" : "black")));
 }
 
 std::string QtBookmark::getDateString() const
@@ -244,23 +251,23 @@ std::string QtBookmark::getDateString() const
 
 	size_t delta = now.deltaS(creationDate);
 
-	if (delta < 3600.0f) // less than an hour ago
+	if (delta < 3600.0f)	// less than an hour ago
 	{
 		result = std::to_string(int(delta / 60.0f)) + " minutes ago";
 	}
-	else if (delta < (3600.0f * 6.0f)) // less than 6 hours ago
+	else if (delta < (3600.0f * 6.0f))	  // less than 6 hours ago
 	{
 		result = std::to_string(int(delta / 3600.0f)) + " hours ago";
 	}
-	else if (creationDate.isSameDay(now)) // today
+	else if (creationDate.isSameDay(now))	 // today
 	{
 		result = "today";
 	}
-	else if (now.deltaDays(creationDate) == 1) // yesterday
+	else if (now.deltaDays(creationDate) == 1)	  // yesterday
 	{
 		result = "yesterday";
 	}
-	else // whenever
+	else	// whenever
 	{
 		result = creationDate.getDDMMYYYYString();
 	}

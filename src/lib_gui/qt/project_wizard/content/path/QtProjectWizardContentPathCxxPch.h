@@ -6,8 +6,7 @@
 
 class SourceGroupSettingsWithCxxPchOptions;
 
-class QtProjectWizardContentPathCxxPch
-	: public QtProjectWizardContentPath
+class QtProjectWizardContentPathCxxPch: public QtProjectWizardContentPath
 {
 	Q_OBJECT
 
@@ -31,4 +30,4 @@ private:
 	std::shared_ptr<SourceGroupSettingsWithCxxPchOptions> m_settingsCxxPch;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATH_CXX_PCH_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_CXX_PCH_H

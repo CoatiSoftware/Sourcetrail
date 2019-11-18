@@ -18,4 +18,4 @@ enum LocationType
 int locationTypeToInt(LocationType type);
 LocationType intToLocationType(int value);
 
-#endif // LOCATION_TYPE_H
+#endif	  // LOCATION_TYPE_H

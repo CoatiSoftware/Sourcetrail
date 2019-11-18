@@ -12,10 +12,10 @@ public:
 	typedef int LogLevelMask;
 	enum LogLevel : int
 	{
-		LOG_INFOS		= 0x1,
-		LOG_WARNINGS	= 0x2,
-		LOG_ERRORS		= 0x4,
-		LOG_ALL			= 0x7
+		LOG_INFOS = 0x1,
+		LOG_WARNINGS = 0x2,
+		LOG_ERRORS = 0x4,
+		LOG_ALL = 0x7
 	};
 
 	Logger(const std::string& type);
@@ -40,4 +40,4 @@ private:
 	LogLevelMask m_levelMask;
 };
 
-#endif // LOGGER_H
+#endif	  // LOGGER_H

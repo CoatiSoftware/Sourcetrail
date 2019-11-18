@@ -3,32 +3,33 @@
 #include <QHBoxLayout>
 #include <QTimer>
 
-#include "MessageHistoryUndo.h"
 #include "MessageHistoryRedo.h"
+#include "MessageHistoryUndo.h"
 #include "ResourcePaths.h"
 
+#include "QtContextMenu.h"
 #include "QtHistoryList.h"
 #include "QtSearchBarButton.h"
-#include "QtContextMenu.h"
 
 QtUndoRedo::QtUndoRedo()
-	: m_pressed(false)
-	, m_historyList(nullptr)
-	, m_historyHiddenAt(TimeStamp::now())
+	: m_pressed(false), m_historyList(nullptr), m_historyHiddenAt(TimeStamp::now())
 {
 	setObjectName("undo_redo_bar");
 
-	m_undoButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_left.png"));
+	m_undoButton = new QtSearchBarButton(
+		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_left.png"));
 	m_undoButton->setObjectName("undo_button");
 	m_undoButton->setToolTip("back");
 	m_undoButton->setEnabled(false);
 
-	m_historyButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/history.png"));
+	m_historyButton = new QtSearchBarButton(
+		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/history.png"));
 	m_historyButton->setObjectName("history_button");
 	m_historyButton->setToolTip("history");
 	m_historyButton->setEnabled(false);
 
-	m_redoButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_right.png"));
+	m_redoButton = new QtSearchBarButton(
+		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_right.png"));
 	m_redoButton->setObjectName("redo_button");
 	m_redoButton->setToolTip("forward");
 	m_redoButton->setEnabled(false);
@@ -51,9 +52,7 @@ QtUndoRedo::QtUndoRedo()
 	connect(m_historyButton, &QPushButton::released, this, &QtUndoRedo::showHistory);
 }
 
-QtUndoRedo::~QtUndoRedo()
-{
-}
+QtUndoRedo::~QtUndoRedo() {}
 
 void QtUndoRedo::setUndoButtonEnabled(bool enabled)
 {

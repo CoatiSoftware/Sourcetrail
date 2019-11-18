@@ -3,8 +3,7 @@
 
 #include "QtGraphNode.h"
 
-class QtGraphNodeText
-	: public QtGraphNode
+class QtGraphNodeText: public QtGraphNode
 {
 	Q_OBJECT
 public:
@@ -20,4 +19,4 @@ private:
 	int m_fontSizeDiff;
 };
 
-#endif // QT_GRAPH_NODE_TEXT_H
+#endif	  // QT_GRAPH_NODE_TEXT_H

@@ -8,8 +8,7 @@
 
 class QScrollBar;
 
-class QtScrollSpeedChangeListener
-	: public MessageListener<MessageScrollSpeedChange>
+class QtScrollSpeedChangeListener: public MessageListener<MessageScrollSpeedChange>
 {
 public:
 	QtScrollSpeedChangeListener();
@@ -27,4 +26,4 @@ private:
 	int m_singleStep;
 };
 
-#endif // QT_SCROLL_SPEED_CHANGE_LISTENER
+#endif	  // QT_SCROLL_SPEED_CHANGE_LISTENER

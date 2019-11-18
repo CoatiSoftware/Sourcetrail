@@ -4,8 +4,7 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageHistoryToPosition
-	: public Message<MessageHistoryToPosition>
+class MessageHistoryToPosition: public Message<MessageHistoryToPosition>
 {
 public:
 	static const std::string getStaticType()
@@ -13,8 +12,7 @@ public:
 		return "MessageHistoryToPosition";
 	}
 
-	MessageHistoryToPosition(size_t index)
-		: index(index)
+	MessageHistoryToPosition(size_t index): index(index)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -22,4 +20,4 @@ public:
 	const size_t index;
 };
 
-#endif // MESSAGE_HISTORY_TO_POSITION_H
+#endif	  // MESSAGE_HISTORY_TO_POSITION_H

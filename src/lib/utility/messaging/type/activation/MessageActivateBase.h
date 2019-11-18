@@ -11,4 +11,4 @@ public:
 	virtual std::vector<SearchMatch> getSearchMatches() const = 0;
 };
 
-#endif // MESSAGE_ACTIVATE_BASE_H
+#endif	  // MESSAGE_ACTIVATE_BASE_H

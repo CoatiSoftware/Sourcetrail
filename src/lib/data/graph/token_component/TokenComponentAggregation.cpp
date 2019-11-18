@@ -14,14 +14,9 @@ TokenComponentAggregation::Direction TokenComponentAggregation::opposite(Directi
 	return direction;
 }
 
-TokenComponentAggregation::TokenComponentAggregation()
-	: m_direction(DIRECTION_INVALID)
-{
-}
+TokenComponentAggregation::TokenComponentAggregation(): m_direction(DIRECTION_INVALID) {}
 
-TokenComponentAggregation::~TokenComponentAggregation()
-{
-}
+TokenComponentAggregation::~TokenComponentAggregation() {}
 
 std::shared_ptr<TokenComponent> TokenComponentAggregation::copy() const
 {
@@ -37,7 +32,7 @@ std::set<Id> TokenComponentAggregation::getAggregationIds() const
 {
 	std::set<Id> ids;
 
-	for (const std::pair<Id, Direction>& p : m_ids)
+	for (const std::pair<Id, Direction>& p: m_ids)
 	{
 		ids.insert(p.first);
 	}
@@ -68,7 +63,7 @@ TokenComponentAggregation::Direction TokenComponentAggregation::getDirection()
 
 	m_direction = DIRECTION_NONE;
 
-	for (const std::pair<Id, Direction>& p : m_ids)
+	for (const std::pair<Id, Direction>& p: m_ids)
 	{
 		if (m_direction == DIRECTION_NONE)
 		{

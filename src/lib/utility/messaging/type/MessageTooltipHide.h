@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageTooltipHide
-	: public Message<MessageTooltipHide>
+class MessageTooltipHide: public Message<MessageTooltipHide>
 {
 public:
 	MessageTooltipHide()
@@ -19,4 +18,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_TOOLTIP_HIDE_H
+#endif	  // MESSAGE_TOOLTIP_HIDE_H

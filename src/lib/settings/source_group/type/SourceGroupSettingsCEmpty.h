@@ -1,8 +1,8 @@
 #ifndef SOURCE_GROUP_SETTINGS_C_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_C_EMPTY_H
 
-#include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithCStandard.h"
+#include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
 #include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "SourceGroupSettingsWithCxxPchOptions.h"
@@ -12,13 +12,13 @@
 
 class SourceGroupSettingsCEmpty
 	: public SourceGroupSettingsWithComponents<
-		SourceGroupSettingsWithCStandard,
-		SourceGroupSettingsWithCxxCrossCompilationOptions,
-		SourceGroupSettingsWithCxxPathsAndFlags,
-		SourceGroupSettingsWithCxxPchOptions,
-		SourceGroupSettingsWithExcludeFilters,
-		SourceGroupSettingsWithSourceExtensionsC,
-		SourceGroupSettingsWithSourcePaths>
+		  SourceGroupSettingsWithCStandard,
+		  SourceGroupSettingsWithCxxCrossCompilationOptions,
+		  SourceGroupSettingsWithCxxPathsAndFlags,
+		  SourceGroupSettingsWithCxxPchOptions,
+		  SourceGroupSettingsWithExcludeFilters,
+		  SourceGroupSettingsWithSourceExtensionsC,
+		  SourceGroupSettingsWithSourcePaths>
 {
 public:
 	SourceGroupSettingsCEmpty(const std::string& id, const ProjectSettings* projectSettings)
@@ -32,4 +32,4 @@ public:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_C_EMPTY_H
+#endif	  // SOURCE_GROUP_SETTINGS_C_EMPTY_H

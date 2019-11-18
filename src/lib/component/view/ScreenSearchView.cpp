@@ -1,13 +1,8 @@
 #include "ScreenSearchView.h"
 
-ScreenSearchView::ScreenSearchView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+ScreenSearchView::ScreenSearchView(ViewLayout* viewLayout): View(viewLayout) {}
 
-ScreenSearchView::~ScreenSearchView()
-{
-}
+ScreenSearchView::~ScreenSearchView() {}
 
 std::string ScreenSearchView::getName() const
 {

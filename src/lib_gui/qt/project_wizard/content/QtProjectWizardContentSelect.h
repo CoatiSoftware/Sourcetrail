@@ -1,15 +1,14 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_SELECT_H
 #define QT_PROJECT_WIZARD_CONTENT_SELECT_H
 
-#include "QtProjectWizardContent.h"
 #include "LanguageType.h"
+#include "QtProjectWizardContent.h"
 #include "SourceGroupType.h"
 
 class QButtonGroup;
 class SolutionParserManager;
 
-class QtProjectWizardContentSelect
-	: public QtProjectWizardContent
+class QtProjectWizardContentSelect: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -40,4 +39,4 @@ private:
 	std::vector<std::string> m_solutionDescription;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_SELECT_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_SELECT_H

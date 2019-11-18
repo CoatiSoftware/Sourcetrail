@@ -7,91 +7,86 @@
 
 namespace Codeblocks
 {
-	std::string Unit::getXmlElementName()
+std::string Unit::getXmlElementName()
+{
+	return "Unit";
+}
+
+std::shared_ptr<Unit> Unit::create(const TiXmlElement* element)
+{
+	if (!element || element->Value() != getXmlElementName())
 	{
-		return "Unit";
+		return std::shared_ptr<Unit>();
 	}
 
-	std::shared_ptr<Unit> Unit::create(const TiXmlElement* element)
+	std::shared_ptr<Unit> unit(new Unit());
+
 	{
-		if (!element || element->Value() != getXmlElementName())
+		const char* value = element->Attribute("filename");
+		if (!value)
 		{
 			return std::shared_ptr<Unit>();
 		}
+		unit->m_filename = utility::decodeFromUtf8(value);
+	}
 
-		std::shared_ptr<Unit> unit(new Unit());
-
+	const TiXmlElement* optionElement = element->FirstChildElement("Option");
+	while (optionElement)
+	{
 		{
-			const char* value = element->Attribute("filename");
-			if (!value)
+			const char* value = optionElement->Attribute("compilerVar");
+			if (value)
 			{
-				return std::shared_ptr<Unit>();
+				unit->m_compilerVar = stringToCompilerVarType(value);
 			}
-			unit->m_filename = utility::decodeFromUtf8(value);
+		}
+		{
+			int value = 0;
+			if (optionElement->QueryIntAttribute("compile", &value) == TIXML_SUCCESS)
+			{
+				unit->m_compile = (value == 1);
+			}
+		}
+		{
+			const char* value = optionElement->Attribute("target");
+			if (value)
+			{
+				unit->m_targetNames.insert(utility::decodeFromUtf8(value));
+			}
 		}
 
-		const TiXmlElement* optionElement = element->FirstChildElement("Option");
-		while (optionElement)
-		{
-			{
-				const char* value = optionElement->Attribute("compilerVar");
-				if (value)
-				{
-					unit->m_compilerVar = stringToCompilerVarType(value);
-				}
-			}
-			{
-				int value = 0;
-				if (optionElement->QueryIntAttribute("compile", &value) == TIXML_SUCCESS)
-				{
-					unit->m_compile = (value == 1);
-				}
-			}
-			{
-				const char* value = optionElement->Attribute("target");
-				if (value)
-				{
-					unit->m_targetNames.insert(utility::decodeFromUtf8(value));
-				}
-			}
-
-			optionElement = optionElement->NextSiblingElement("Option");
-		}
-
-		return unit;
+		optionElement = optionElement->NextSiblingElement("Option");
 	}
 
-	FilePath Unit::getCanonicalFilePath(const FilePath& projectFileDirectory) const
-	{
-		FilePath path(m_filename);
-
-		if (!path.exists() || !path.isAbsolute())
-		{
-			path = projectFileDirectory.getConcatenated(path);
-		}
-
-		return path.makeCanonical();
-	}
-
-	CompilerVarType Unit::getCompilerVar() const
-	{
-		return m_compilerVar;
-	}
-
-	bool Unit::getCompile() const
-	{
-		return m_compile;
-	}
-
-	std::set<std::wstring> Unit::getTargetNames() const
-	{
-		return m_targetNames;
-	}
-
-	Unit::Unit()
-		: m_filename()
-		, m_compilerVar(COMPILER_VAR_CPP)
-		, m_compile(true)
-	{
-	}
+	return unit;
 }
+
+FilePath Unit::getCanonicalFilePath(const FilePath& projectFileDirectory) const
+{
+	FilePath path(m_filename);
+
+	if (!path.exists() || !path.isAbsolute())
+	{
+		path = projectFileDirectory.getConcatenated(path);
+	}
+
+	return path.makeCanonical();
+}
+
+CompilerVarType Unit::getCompilerVar() const
+{
+	return m_compilerVar;
+}
+
+bool Unit::getCompile() const
+{
+	return m_compile;
+}
+
+std::set<std::wstring> Unit::getTargetNames() const
+{
+	return m_targetNames;
+}
+
+Unit::Unit(): m_filename(), m_compilerVar(COMPILER_VAR_CPP), m_compile(true) {}
+}	 // namespace Codeblocks

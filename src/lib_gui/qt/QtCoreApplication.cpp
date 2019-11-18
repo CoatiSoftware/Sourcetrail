@@ -2,10 +2,7 @@
 
 #include <iostream>
 
-QtCoreApplication::QtCoreApplication(int argc, char **argv )
-	: QCoreApplication(argc, argv)
-{
-}
+QtCoreApplication::QtCoreApplication(int argc, char** argv): QCoreApplication(argc, argv) {}
 
 void QtCoreApplication::handleMessage(MessageQuitApplication* message)
 {
@@ -28,7 +25,7 @@ void QtCoreApplication::handleMessage(MessageStatus* message)
 		std::wcout << L"ERROR: ";
 	}
 
-	for (const std::wstring& status : message->stati())
+	for (const std::wstring& status: message->stati())
 	{
 		std::wcout << status << std::endl;
 	}

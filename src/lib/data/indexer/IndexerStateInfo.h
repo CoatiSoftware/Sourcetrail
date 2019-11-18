@@ -7,4 +7,4 @@ public:
 	bool indexingInterrupted;
 };
 
-#endif // INDEXER_STATE_INFO_H
+#endif	  // INDEXER_STATE_INFO_H

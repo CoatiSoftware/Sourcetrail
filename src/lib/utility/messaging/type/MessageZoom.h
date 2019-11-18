@@ -3,14 +3,10 @@
 
 #include "Message.h"
 
-class MessageZoom
-	: public Message<MessageZoom>
+class MessageZoom: public Message<MessageZoom>
 {
 public:
-	MessageZoom(bool zoomIn)
-		: zoomIn(zoomIn)
-	{
-	}
+	MessageZoom(bool zoomIn): zoomIn(zoomIn) {}
 
 	static const std::string getStaticType()
 	{
@@ -32,4 +28,4 @@ public:
 	const bool zoomIn;
 };
 
-#endif // MESSAGE_ZOOM_H
+#endif	  // MESSAGE_ZOOM_H

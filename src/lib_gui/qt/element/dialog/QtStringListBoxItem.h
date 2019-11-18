@@ -8,13 +8,12 @@ class QListWidgetItem;
 class QtListBox;
 class QtStringListBox;
 
-class QtStringListBoxItem
-	: public QtListBoxItem
+class QtStringListBoxItem: public QtListBoxItem
 {
 	Q_OBJECT
 
 public:
-	QtStringListBoxItem(QtStringListBox* listBox, QListWidgetItem* item, QWidget *parent = nullptr);
+	QtStringListBoxItem(QtStringListBox* listBox, QListWidgetItem* item, QWidget* parent = nullptr);
 
 protected:
 	virtual QtListBox* getListBox() override;
@@ -23,4 +22,4 @@ private:
 	QtStringListBox* m_listBox;
 };
 
-#endif // QT_STRING_LIST_BOX_ITEM_H
+#endif	  // QT_STRING_LIST_BOX_ITEM_H

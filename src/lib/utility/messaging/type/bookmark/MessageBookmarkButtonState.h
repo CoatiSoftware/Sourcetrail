@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageBookmarkButtonState:
-	public Message<MessageBookmarkButtonState>
+class MessageBookmarkButtonState: public Message<MessageBookmarkButtonState>
 {
 public:
 	enum ButtonState
@@ -19,8 +18,7 @@ public:
 		return "MessageBookmarkButtonState";
 	}
 
-	MessageBookmarkButtonState(Id schedulerId, ButtonState state)
-		: state(state)
+	MessageBookmarkButtonState(Id schedulerId, ButtonState state): state(state)
 	{
 		setSchedulerId(schedulerId);
 	}
@@ -28,4 +26,4 @@ public:
 	const ButtonState state;
 };
 
-#endif // MESSAGE_BOOKMARK_BUTTON_STATE_H
+#endif	  // MESSAGE_BOOKMARK_BUTTON_STATE_H

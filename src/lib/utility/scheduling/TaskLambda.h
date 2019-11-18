@@ -5,8 +5,7 @@
 
 #include "Task.h"
 
-class TaskLambda
-	: public Task
+class TaskLambda: public Task
 {
 public:
 	TaskLambda(std::function<void()> func);
@@ -20,4 +19,4 @@ private:
 	std::function<void()> m_func;
 };
 
-#endif // LAMBDA_TASK_H
+#endif	  // LAMBDA_TASK_H

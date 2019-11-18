@@ -1,13 +1,12 @@
 #ifndef INDEXER_COMMAND_CUSTOM_H
 #define INDEXER_COMMAND_CUSTOM_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "IndexerCommand.h"
 
-class IndexerCommandCustom
-	: public IndexerCommand
+class IndexerCommandCustom: public IndexerCommand
 {
 public:
 	static IndexerCommandType getStaticIndexerCommandType();
@@ -50,4 +49,4 @@ private:
 	bool m_runInParallel;
 };
 
-#endif // INDEXER_COMMAND_CXXL_H
+#endif	  // INDEXER_COMMAND_CXXL_H

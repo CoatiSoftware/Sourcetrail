@@ -9,23 +9,25 @@ const char* InterprocessIndexingStatusManager::s_indexingFilesKeyName = "indexin
 const char* InterprocessIndexingStatusManager::s_currentFilesKeyName = "current_files";
 const char* InterprocessIndexingStatusManager::s_crashedFilesKeyName = "crashed_files";
 const char* InterprocessIndexingStatusManager::s_finishedProcessIdsKeyName = "finished_process_ids";
-const char* InterprocessIndexingStatusManager::s_indexingInterruptedKeyName = "indexing_interrupted_flag";
+const char* InterprocessIndexingStatusManager::s_indexingInterruptedKeyName =
+	"indexing_interrupted_flag";
 
-InterprocessIndexingStatusManager::InterprocessIndexingStatusManager(const std::string& instanceUuid, Id processId, bool isOwner)
-	: BaseInterprocessDataManager(s_sharedMemoryNamePrefix + instanceUuid, 1048576 /* 1 MB */, instanceUuid, processId, isOwner)
+InterprocessIndexingStatusManager::InterprocessIndexingStatusManager(
+	const std::string& instanceUuid, Id processId, bool isOwner)
+	: BaseInterprocessDataManager(
+		  s_sharedMemoryNamePrefix + instanceUuid, 1048576 /* 1 MB */, instanceUuid, processId, isOwner)
 {
 }
 
-InterprocessIndexingStatusManager::~InterprocessIndexingStatusManager()
-{
-}
+InterprocessIndexingStatusManager::~InterprocessIndexingStatusManager() {}
 
 void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& filePath)
 {
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
 	SharedMemory::Queue<SharedMemory::String>* indexingFilesPtr =
-		access.accessValueWithAllocator<SharedMemory::Queue<SharedMemory::String>>(s_indexingFilesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Queue<SharedMemory::String>>(
+			s_indexingFilesKeyName);
 	if (indexingFilesPtr)
 	{
 		SharedMemory::String fileStr(access.getAllocator());
@@ -34,10 +36,12 @@ void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& 
 	}
 
 	SharedMemory::Map<Id, SharedMemory::String>* currentFilesPtr =
-		access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(s_currentFilesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(
+			s_currentFilesKeyName);
 	if (currentFilesPtr)
 	{
-		SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->find(getProcessId());
+		SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->find(
+			getProcessId());
 		if (it != currentFilesPtr->end())
 		{
 			const size_t overestimationMultiplier = 3;
@@ -50,12 +54,15 @@ void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& 
 			{
 				LOG_INFO_STREAM(
 					<< "grow memory - est: " << estimatedSize << " size: " << access.getMemorySize()
-					<< " free: " << access.getFreeMemorySize() << " alloc: " << (access.getMemorySize()));
+					<< " free: " << access.getFreeMemorySize()
+					<< " alloc: " << (access.getMemorySize()));
 				access.growMemory(access.getMemorySize());
 
 				LOG_INFO("growing memory succeeded");
 
-				currentFilesPtr = access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(s_currentFilesKeyName);
+				currentFilesPtr =
+					access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(
+						s_currentFilesKeyName);
 				if (!currentFilesPtr)
 				{
 					return;
@@ -63,7 +70,8 @@ void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& 
 			}
 
 			SharedMemory::Vector<SharedMemory::String>* crashedFilesPtr =
-				access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_crashedFilesKeyName);
+				access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(
+					s_crashedFilesKeyName);
 
 			if (crashedFilesPtr)
 			{
@@ -84,7 +92,8 @@ void InterprocessIndexingStatusManager::finishIndexingSourceFile()
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
 	SharedMemory::Map<Id, SharedMemory::String>* currentFilesPtr =
-		access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(s_currentFilesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(
+			s_currentFilesKeyName);
 	if (currentFilesPtr)
 	{
 		currentFilesPtr->erase(currentFilesPtr->find(getProcessId()), currentFilesPtr->end());
@@ -102,8 +111,7 @@ void InterprocessIndexingStatusManager::setIndexingInterrupted(bool interrupted)
 {
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
-	bool* indexingInterruptedPtr =
-		access.accessValue<bool>(s_indexingInterruptedKeyName);
+	bool* indexingInterruptedPtr = access.accessValue<bool>(s_indexingInterruptedKeyName);
 	if (indexingInterruptedPtr)
 	{
 		*indexingInterruptedPtr = interrupted;
@@ -114,8 +122,7 @@ bool InterprocessIndexingStatusManager::getIndexingInterrupted()
 {
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
-	bool* indexingInterruptedPtr =
-		access.accessValue<bool>(s_indexingInterruptedKeyName);
+	bool* indexingInterruptedPtr = access.accessValue<bool>(s_indexingInterruptedKeyName);
 	if (indexingInterruptedPtr)
 	{
 		return *indexingInterruptedPtr;
@@ -147,12 +154,14 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCurrentlyIndexedSour
 	std::vector<FilePath> indexingFiles;
 
 	SharedMemory::Queue<SharedMemory::String>* indexingFilesPtr =
-		access.accessValueWithAllocator<SharedMemory::Queue<SharedMemory::String>>(s_indexingFilesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Queue<SharedMemory::String>>(
+			s_indexingFilesKeyName);
 	if (indexingFilesPtr)
 	{
 		while (indexingFilesPtr->size())
 		{
-			indexingFiles.push_back(FilePath(utility::decodeFromUtf8(indexingFilesPtr->front().c_str())));
+			indexingFiles.push_back(
+				FilePath(utility::decodeFromUtf8(indexingFilesPtr->front().c_str())));
 			indexingFilesPtr->pop_front();
 		}
 	}
@@ -167,7 +176,8 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePat
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
 	SharedMemory::Vector<SharedMemory::String>* crashedFilesPtr =
-		access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_crashedFilesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(
+			s_crashedFilesKeyName);
 
 	if (crashedFilesPtr)
 	{
@@ -178,10 +188,13 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePat
 	}
 
 	SharedMemory::Map<Id, SharedMemory::String>* currentFilesPtr =
-		access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(s_currentFilesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(
+			s_currentFilesKeyName);
 	if (currentFilesPtr)
 	{
-		for (SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->begin(); it != currentFilesPtr->end(); it++)
+		for (SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->begin();
+			 it != currentFilesPtr->end();
+			 it++)
 		{
 			crashedFiles.push_back(FilePath(utility::decodeFromUtf8(it->second.c_str())));
 		}

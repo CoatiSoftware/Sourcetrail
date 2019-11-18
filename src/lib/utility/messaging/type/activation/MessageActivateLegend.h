@@ -22,8 +22,8 @@ public:
 
 	std::vector<SearchMatch> getSearchMatches() const override
 	{
-		return { SearchMatch::createCommand(SearchMatch::COMMAND_LEGEND) };
+		return {SearchMatch::createCommand(SearchMatch::COMMAND_LEGEND)};
 	}
 };
 
-#endif // MESSAGE_ACTIVATE_LEGEND_H
+#endif	  // MESSAGE_ACTIVATE_LEGEND_H

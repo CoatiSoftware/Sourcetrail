@@ -3,25 +3,23 @@
 
 #include "Message.h"
 
-#include "TooltipOrigin.h"
 #include "TooltipInfo.h"
+#include "TooltipOrigin.h"
 
-class MessageTooltipShow
-	: public Message<MessageTooltipShow>
+class MessageTooltipShow: public Message<MessageTooltipShow>
 {
 public:
-	MessageTooltipShow(TooltipInfo info, TooltipOrigin origin)
-		: tooltipInfo(info)
-		, origin(origin)
+	MessageTooltipShow(TooltipInfo info, TooltipOrigin origin): tooltipInfo(info), origin(origin)
 	{
 		setSendAsTask(false);
 		setIsLogged(false);
 	}
 
-	MessageTooltipShow(const std::vector<Id>& sourceLocationIds, const std::vector<Id>& localSymbolIds, TooltipOrigin origin)
-		: sourceLocationIds(sourceLocationIds)
-		, localSymbolIds(localSymbolIds)
-		, origin(origin)
+	MessageTooltipShow(
+		const std::vector<Id>& sourceLocationIds,
+		const std::vector<Id>& localSymbolIds,
+		TooltipOrigin origin)
+		: sourceLocationIds(sourceLocationIds), localSymbolIds(localSymbolIds), origin(origin)
 	{
 		setSendAsTask(false);
 		setIsLogged(false);
@@ -42,4 +40,4 @@ public:
 	bool force = false;
 };
 
-#endif // MESSAGE_TOOLTIP_SHOW_H
+#endif	  // MESSAGE_TOOLTIP_SHOW_H

@@ -5,15 +5,11 @@
 #include "QtGraphNode.h"
 
 QtGraphNodeComponentClickable::QtGraphNodeComponentClickable(QtGraphNode* graphNode)
-	: QtGraphNodeComponent(graphNode)
-	, m_mousePos(0.0f, 0.0f)
-	, m_mouseMoved(false)
+	: QtGraphNodeComponent(graphNode), m_mousePos(0.0f, 0.0f), m_mouseMoved(false)
 {
 }
 
-QtGraphNodeComponentClickable::~QtGraphNodeComponentClickable()
-{
-}
+QtGraphNodeComponentClickable::~QtGraphNodeComponentClickable() {}
 
 void QtGraphNodeComponentClickable::nodeMousePressEvent(QGraphicsSceneMouseEvent* event)
 {
@@ -54,7 +50,9 @@ void QtGraphNodeComponentClickable::nodeMouseReleaseEvent(QGraphicsSceneMouseEve
 		{
 			m_graphNode->onCollapseExpand();
 		}
-		else if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::AltModifier && event->button() == Qt::LeftButton)
+		else if (
+			event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::AltModifier &&
+			event->button() == Qt::LeftButton)
 		{
 			m_graphNode->onShowDefinition(false);
 		}

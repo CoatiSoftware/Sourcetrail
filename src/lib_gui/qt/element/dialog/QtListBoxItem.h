@@ -10,13 +10,12 @@ class QListWidgetItem;
 
 class QtListBox;
 
-class QtListBoxItem
-	: public QWidget
+class QtListBoxItem: public QWidget
 {
 	Q_OBJECT
 
 public:
-	QtListBoxItem(QListWidgetItem* item, QWidget *parent = nullptr);
+	QtListBoxItem(QListWidgetItem* item, QWidget* parent = nullptr);
 	virtual ~QtListBoxItem() = default;
 
 	virtual QString getText() const;
@@ -43,4 +42,4 @@ private:
 	bool m_readOnly;
 };
 
-#endif // QT_LIST_BOX_ITEM_H
+#endif	  // QT_LIST_BOX_ITEM_H

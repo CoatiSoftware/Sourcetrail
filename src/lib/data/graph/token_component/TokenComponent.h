@@ -10,4 +10,4 @@ public:
 	virtual std::shared_ptr<TokenComponent> copy() const = 0;
 };
 
-#endif // TOKEN_COMPONENT_H
+#endif	  // TOKEN_COMPONENT_H

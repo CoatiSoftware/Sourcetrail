@@ -3,16 +3,23 @@
 
 #include "QtIndexingDialog.h"
 
-class QtIndexingReportDialog
-	: public QtIndexingDialog
+class QtIndexingReportDialog: public QtIndexingDialog
 {
 	Q_OBJECT
 
-signals :
+signals:
 	void requestReindexing();
 
 public:
-	QtIndexingReportDialog(size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time, bool interrupted, bool shallow, QWidget* parent = 0);
+	QtIndexingReportDialog(
+		size_t indexedFileCount,
+		size_t totalIndexedFileCount,
+		size_t completedFileCount,
+		size_t totalFileCount,
+		float time,
+		bool interrupted,
+		bool shallow,
+		QWidget* parent = 0);
 	QSize sizeHint() const override;
 
 	void updateErrorCount(size_t errorCount, size_t fatalCount);
@@ -30,4 +37,4 @@ private:
 	bool m_interrupted;
 };
 
-#endif // QT_INDEXING_REPORT_DIALOG_H
+#endif	  // QT_INDEXING_REPORT_DIALOG_H

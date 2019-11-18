@@ -1,16 +1,15 @@
 #include "QtPathListBox.h"
 
-#include <QtGui/qevent.h>
 #include <QLabel>
 #include <QListWidget>
 #include <QMimeData>
+#include <QtGui/qevent.h>
 
 #include "QtPathListBoxItem.h"
 #include "utilityFile.h"
 
-QtPathListBox::QtPathListBox(QWidget *parent, const QString& listName, SelectionPolicyType selectionPolicy)
-	: QtListBox(parent, listName)
-	, m_selectionPolicy(selectionPolicy)
+QtPathListBox::QtPathListBox(QWidget* parent, const QString& listName, SelectionPolicyType selectionPolicy)
+	: QtListBox(parent, listName), m_selectionPolicy(selectionPolicy)
 {
 	QLabel* dropInfoText = new QLabel("Drop Files & Folders");
 	dropInfoText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -64,7 +63,7 @@ void QtPathListBox::setPaths(const std::vector<FilePath>& list, bool readOnly)
 
 void QtPathListBox::addPaths(const std::vector<FilePath>& list, bool readOnly)
 {
-	for (FilePath path : list)
+	for (FilePath path: list)
 	{
 		QtListBoxItem* item = addListBoxItemWithText(QString::fromStdWString(path.wstr()));
 		item->setReadOnly(readOnly);
@@ -84,9 +83,9 @@ void QtPathListBox::makeRelativeIfShorter(FilePath& path) const
 	path = utility::getAsRelativeIfShorter(path, m_relativeRootDirectory);
 }
 
-void QtPathListBox::dropEvent(QDropEvent *event)
+void QtPathListBox::dropEvent(QDropEvent* event)
 {
-	foreach(QUrl url, event->mimeData()->urls())
+	foreach (QUrl url, event->mimeData()->urls())
 	{
 		FilePath path(url.toLocalFile().toStdWString());
 		makeRelativeIfShorter(path);
@@ -94,7 +93,7 @@ void QtPathListBox::dropEvent(QDropEvent *event)
 	}
 }
 
-void QtPathListBox::dragEnterEvent(QDragEnterEvent *event)
+void QtPathListBox::dragEnterEvent(QDragEnterEvent* event)
 {
 	event->accept();
 }

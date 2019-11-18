@@ -20,7 +20,7 @@ std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
 
 	for (int i = 0; i < m_list->count(); i++)
 	{
-		if (m_list->item(i)->checkState() ==  Qt::Checked)
+		if (m_list->item(i)->checkState() == Qt::Checked)
 		{
 			checkedPaths.push_back(FilePath(m_list->item(i)->text().toStdWString()));
 		}
@@ -29,18 +29,21 @@ std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
 	return checkedPaths;
 }
 
-void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const std::vector<FilePath>& checkedPaths, const FilePath& rootPathForRelativePaths)
+void QtSelectPathsDialog::setPathsList(
+	const std::vector<FilePath>& paths,
+	const std::vector<FilePath>& checkedPaths,
+	const FilePath& rootPathForRelativePaths)
 {
 	std::set<FilePath> checked(checkedPaths.begin(), checkedPaths.end());
 
-	for (FilePath s : utility::unique(utility::concat(paths, checkedPaths)))
+	for (FilePath s: utility::unique(utility::concat(paths, checkedPaths)))
 	{
 		QListWidgetItem* item = new QListWidgetItem(QString::fromStdWString(s.wstr()), m_list);
-		item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
+		item->setFlags(item->flags() | Qt::ItemIsUserCheckable);	// set checkable flag
 
 		if (checked.find(s) == checked.end())
 		{
-			item->setCheckState(Qt::Unchecked); // AND initialize check state
+			item->setCheckState(Qt::Unchecked);	   // AND initialize check state
 		}
 		else
 		{
@@ -56,7 +59,7 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 		{
 			item->setTextColor(Qt::red);
 			item->setToolTip("Path does not exist");
-			item->setFlags( item->flags() & ~Qt::ItemIsEnabled );
+			item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
 			item->setCheckState(Qt::Unchecked);
 		}
 		else
@@ -68,9 +71,9 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 
 void QtSelectPathsDialog::checkSelected(bool checked)
 {
-	for (QListWidgetItem* item : m_list->selectedItems())
+	for (QListWidgetItem* item: m_list->selectedItems())
 	{
-		item->setCheckState( (checked ? Qt::Checked : Qt::Unchecked) );
+		item->setCheckState((checked ? Qt::Checked : Qt::Unchecked));
 	}
 }
 
@@ -96,42 +99,30 @@ void QtSelectPathsDialog::populateWindow(QWidget* widget)
 
 	QPushButton* checkAllButton = new QPushButton("check all");
 	checkAllButton->setObjectName("windowButton");
-	connect(checkAllButton, &QPushButton::clicked,
-		[=]()
-		{
-			m_list->selectAll();
-			checkSelected(true);
-			m_list->clearSelection();
-		});
+	connect(checkAllButton, &QPushButton::clicked, [=]() {
+		m_list->selectAll();
+		checkSelected(true);
+		m_list->clearSelection();
+	});
 	buttonLayout->addWidget(checkAllButton);
 
 	QPushButton* unCheckAllButton = new QPushButton("uncheck all");
 	unCheckAllButton->setObjectName("windowButton");
-	connect(unCheckAllButton, &QPushButton::clicked,
-		[=]()
-		{
-			m_list->selectAll();
-			checkSelected(false);
-			m_list->clearSelection();
-		});
+	connect(unCheckAllButton, &QPushButton::clicked, [=]() {
+		m_list->selectAll();
+		checkSelected(false);
+		m_list->clearSelection();
+	});
 	buttonLayout->addWidget(unCheckAllButton);
 
 	QPushButton* checkSelectedButton = new QPushButton("check selected");
 	checkSelectedButton->setObjectName("windowButton");
-	connect(checkSelectedButton, &QPushButton::clicked,
-		[=]()
-		{
-			checkSelected(true);
-		});
+	connect(checkSelectedButton, &QPushButton::clicked, [=]() { checkSelected(true); });
 	buttonLayout->addWidget(checkSelectedButton);
 
 	QPushButton* unCheckSelectedButton = new QPushButton("uncheck selected");
 	unCheckSelectedButton->setObjectName("windowButton");
-	connect(unCheckSelectedButton, &QPushButton::clicked,
-		[=]()
-		{
-			checkSelected(false);
-		});
+	connect(unCheckSelectedButton, &QPushButton::clicked, [=]() { checkSelected(false); });
 	buttonLayout->addWidget(unCheckSelectedButton);
 
 	layout->addLayout(buttonLayout);

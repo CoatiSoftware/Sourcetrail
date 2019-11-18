@@ -1,15 +1,12 @@
 #include "SearchController.h"
 
-#include "logging.h"
 #include "MessageTabState.h"
 #include "SearchView.h"
 #include "StorageAccess.h"
+#include "logging.h"
 #include "tracing.h"
 
-SearchController::SearchController(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
-{
-}
+SearchController::SearchController(StorageAccess* storageAccess): m_storageAccess(storageAccess) {}
 
 Id SearchController::getSchedulerId() const
 {
@@ -63,7 +60,8 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 	}
 
 	LOG_INFO(L"autocomplete string: \"" + message->query + L"\"");
-	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->acceptedNodeTypes, true));
+	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(
+		message->query, message->acceptedNodeTypes, true));
 }
 
 SearchView* SearchController::getView()

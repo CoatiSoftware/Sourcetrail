@@ -5,20 +5,16 @@
 #include "utilityQt.h"
 
 QtSelfRefreshIconButton::QtSelfRefreshIconButton(
-	const QString& text, const FilePath& iconPath, const std::string& buttonKey, QWidget* parent
-)
-	: QPushButton(text, parent)
-	, m_text(text)
-	, m_iconPath(iconPath)
-	, m_buttonKey(buttonKey)
+	const QString& text, const FilePath& iconPath, const std::string& buttonKey, QWidget* parent)
+	: QPushButton(text, parent), m_text(text), m_iconPath(iconPath), m_buttonKey(buttonKey)
 {
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	refresh();
 
 	m_updateTimer.setSingleShot(true);
 	m_blockTimer.setSingleShot(true);
-	connect(&m_updateTimer, &QTimer::timeout, [this](){ updateText(width()); });
-	connect(&m_blockTimer, &QTimer::timeout, [this](){ m_blockUpdate = false; });
+	connect(&m_updateTimer, &QTimer::timeout, [this]() { updateText(width()); });
+	connect(&m_blockTimer, &QTimer::timeout, [this]() { m_blockUpdate = false; });
 }
 
 void QtSelfRefreshIconButton::setText(const QString& text)
@@ -48,10 +44,7 @@ void QtSelfRefreshIconButton::setAutoElide(bool autoElide)
 
 void QtSelfRefreshIconButton::handleMessage(MessageRefreshUI* message)
 {
-	m_onQtThread([this]()
-	{
-		refresh();
-	});
+	m_onQtThread([this]() { refresh(); });
 }
 
 void QtSelfRefreshIconButton::refresh()
@@ -62,7 +55,7 @@ void QtSelfRefreshIconButton::refresh()
 	}
 }
 
-void QtSelfRefreshIconButton::resizeEvent(QResizeEvent *event)
+void QtSelfRefreshIconButton::resizeEvent(QResizeEvent* event)
 {
 	if (m_autoElide)
 	{

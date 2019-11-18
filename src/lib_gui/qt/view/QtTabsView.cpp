@@ -17,9 +17,7 @@
 #include "utilityQt.h"
 
 QtTabsView::QtTabsView(ViewLayout* viewLayout)
-	: TabsView(viewLayout)
-	, m_widget(nullptr)
-	, m_insertedTabCount(0)
+	: TabsView(viewLayout), m_widget(nullptr), m_insertedTabCount(0)
 {
 	m_widget = new QWidget();
 
@@ -65,16 +63,12 @@ void QtTabsView::createWidgetWrapper()
 
 void QtTabsView::refreshView()
 {
-	m_onQtThread([=]()
-	{
-		setStyleSheet();
-	});
+	m_onQtThread([=]() { setStyleSheet(); });
 }
 
 void QtTabsView::clear()
 {
-	m_onQtThread([=]()
-	{
+	m_onQtThread([=]() {
 		getController<TabsController>()->onClearTabs();
 
 		m_tabBar->blockSignals(true);
@@ -91,32 +85,22 @@ void QtTabsView::clear()
 
 void QtTabsView::openTab(bool showTab, SearchMatch match)
 {
-	m_onQtThread([=]()
-	{
-		insertTab(showTab, match);
-	});
+	m_onQtThread([=]() { insertTab(showTab, match); });
 }
 
 void QtTabsView::closeTab()
 {
-	m_onQtThread([=]()
-	{
-		removeTab(m_tabBar->currentIndex());
-	});
+	m_onQtThread([=]() { removeTab(m_tabBar->currentIndex()); });
 }
 
 void QtTabsView::destroyTab(Id tabId)
 {
-	m_onQtThread([=]()
-	{
-		getController<TabsController>()->destroyTab(tabId);
-	});
+	m_onQtThread([=]() { getController<TabsController>()->destroyTab(tabId); });
 }
 
 void QtTabsView::selectTab(bool next)
 {
-	m_onQtThread([=]()
-	{
+	m_onQtThread([=]() {
 		int idx = m_tabBar->currentIndex();
 		if (idx != -1)
 		{
@@ -128,8 +112,7 @@ void QtTabsView::selectTab(bool next)
 
 void QtTabsView::updateTab(Id tabId, std::vector<SearchMatch> matches)
 {
-	m_onQtThread([=]()
-	{
+	m_onQtThread([=]() {
 		for (int i = 0; i < m_tabBar->count(); i++)
 		{
 			if (m_tabBar->tabData(i).toInt() == int(tabId))
@@ -164,39 +147,35 @@ void QtTabsView::insertTab(bool showTab, SearchMatch match)
 	typeCircle->setObjectName("type_circle");
 	m_tabBar->setTabButton(idx, QTabBar::LeftSide, typeCircle);
 
-	connect(typeCircle, &QPushButton::clicked,
-		[tabId, this]()
+	connect(typeCircle, &QPushButton::clicked, [tabId, this]() {
+		for (int i = 0; i < m_tabBar->count(); i++)
 		{
-			for (int i = 0; i < m_tabBar->count(); i++)
+			if (m_tabBar->tabData(i).toInt() == tabId)
 			{
-				if (m_tabBar->tabData(i).toInt() == tabId)
-				{
-					m_tabBar->setCurrentIndex(i);
-					return;
-				}
+				m_tabBar->setCurrentIndex(i);
+				return;
 			}
 		}
-	);
+	});
 
 	QPushButton* closeButton = new QtSelfRefreshIconButton(
-		"", ResourcePaths::getGuiPath().concatenate(L"tabs_view/images/close.png"), "tab/bar/button");
+		"",
+		ResourcePaths::getGuiPath().concatenate(L"tabs_view/images/close.png"),
+		"tab/bar/button");
 	closeButton->setObjectName("close_button");
 	closeButton->setIconSize(QSize(10, 10));
 	m_tabBar->setTabButton(idx, QTabBar::RightSide, closeButton);
 
-	connect(closeButton, &QPushButton::clicked,
-		[tabId, this]()
+	connect(closeButton, &QPushButton::clicked, [tabId, this]() {
+		for (int i = 0; i < m_tabBar->count(); i++)
 		{
-			for (int i = 0; i < m_tabBar->count(); i++)
+			if (m_tabBar->tabData(i).toInt() == tabId)
 			{
-				if (m_tabBar->tabData(i).toInt() == tabId)
-				{
-					removeTab(i);
-					return;
-				}
+				removeTab(i);
+				return;
 			}
 		}
-	);
+	});
 
 	m_tabBar->blockSignals(false);
 
@@ -211,7 +190,7 @@ void QtTabsView::insertTab(bool showTab, SearchMatch match)
 		m_tabBar->setCurrentIndex(idx);
 	}
 
-	setTabState(idx, { });
+	setTabState(idx, {});
 }
 
 void QtTabsView::changedTab(int index)
@@ -256,12 +235,15 @@ void QtTabsView::setTabState(int idx, const std::vector<SearchMatch>& matches)
 		if (match.searchType == SearchMatch::SEARCH_TOKEN)
 		{
 			color = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), false).fill;
-			activeColor = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).fill;
+			activeColor =
+				GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).fill;
 		}
 		else
 		{
-			color = scheme->getSearchTypeColor(utility::encodeToUtf8(match.getSearchTypeName()), "fill");
-			activeColor = scheme->getSearchTypeColor(utility::encodeToUtf8(match.getSearchTypeName()), "fill", "hover");
+			color = scheme->getSearchTypeColor(
+				utility::encodeToUtf8(match.getSearchTypeName()), "fill");
+			activeColor = scheme->getSearchTypeColor(
+				utility::encodeToUtf8(match.getSearchTypeName()), "fill", "hover");
 		}
 	}
 	else
@@ -272,16 +254,20 @@ void QtTabsView::setTabState(int idx, const std::vector<SearchMatch>& matches)
 	}
 
 	m_tabBar->setTabText(idx, ' ' + QString::fromStdWString(name) + ' ');
-	m_tabBar->tabButton(idx, QTabBar::LeftSide)->setStyleSheet(
-		"#type_circle { background-color: " + QString::fromStdString(color) +  "; } "
-		"#type_circle[selected=true] { background-color: " + QString::fromStdString(activeColor) +  "; } "
-	);
+	m_tabBar->tabButton(idx, QTabBar::LeftSide)
+		->setStyleSheet(
+			"#type_circle { background-color: " + QString::fromStdString(color) +
+			"; } "
+			"#type_circle[selected=true] { background-color: " +
+			QString::fromStdString(activeColor) + "; } ");
 }
 
 void QtTabsView::setStyleSheet()
 {
-	const std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"tabs_view/tabs_view.css"));
+	const std::string css = utility::getStyleSheet(
+		ResourcePaths::getGuiPath().concatenate(L"tabs_view/tabs_view.css"));
 	m_widget->setStyleSheet(css.c_str());
 
-	utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("tab/bar/background"));
+	utility::setWidgetBackgroundColor(
+		m_widget, ColorScheme::getInstance()->getColor("tab/bar/background"));
 }

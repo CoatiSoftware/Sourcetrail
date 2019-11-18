@@ -5,8 +5,7 @@
 
 #include "QtRoundedRectItem.h"
 
-class QtCountCircleItem
-	: public QtRoundedRectItem
+class QtCountCircleItem: public QtRoundedRectItem
 {
 public:
 	QtCountCircleItem(QGraphicsItem* parent);
@@ -20,4 +19,4 @@ private:
 	QGraphicsSimpleTextItem* m_number;
 };
 
-#endif // QT_COUNT_CIRCLE_ITEM_H
+#endif	  // QT_COUNT_CIRCLE_ITEM_H

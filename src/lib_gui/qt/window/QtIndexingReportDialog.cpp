@@ -9,9 +9,15 @@
 #include "TimeStamp.h"
 
 QtIndexingReportDialog::QtIndexingReportDialog(
-	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time, bool interrupted, bool shallow, QWidget* parent)
-	: QtIndexingDialog(true, parent)
-	, m_interrupted(interrupted)
+	size_t indexedFileCount,
+	size_t totalIndexedFileCount,
+	size_t completedFileCount,
+	size_t totalFileCount,
+	float time,
+	bool interrupted,
+	bool shallow,
+	QWidget* parent)
+	: QtIndexingDialog(true, parent), m_interrupted(interrupted)
 {
 	setSizeGripStyle(false);
 
@@ -31,15 +37,16 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 	m_layout->addSpacing(5);
 
 	QtIndexingDialog::createMessageLabel(m_layout)->setText(
-		"Source files indexed:   " + QString::number(indexedFileCount) + "/" + QString::number(totalIndexedFileCount)
-	);
+		"Source files indexed:   " + QString::number(indexedFileCount) + "/" +
+		QString::number(totalIndexedFileCount));
 
 	QtIndexingDialog::createMessageLabel(m_layout)->setText(
-		"Total files completed:   " + QString::number(completedFileCount) + "/" + QString::number(totalFileCount)
-	);
+		"Total files completed:   " + QString::number(completedFileCount) + "/" +
+		QString::number(totalFileCount));
 
 	m_layout->addSpacing(12);
-	QtIndexingDialog::createMessageLabel(m_layout)->setText("Time:   " + QString::fromStdString(TimeStamp::secondsToString(time)));
+	QtIndexingDialog::createMessageLabel(m_layout)->setText(
+		"Time:   " + QString::fromStdString(TimeStamp::secondsToString(time)));
 
 	m_layout->addSpacing(12);
 	m_errorWidget = QtIndexingDialog::createErrorWidget(m_layout);
@@ -49,8 +56,8 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 	if (shallow)
 	{
 		createMessageLabel(m_layout)->setText(
-			"<i>You can now browse your project while running a second pass for in-depth indexing!</i>"
-		);
+			"<i>You can now browse your project while running a second pass for in-depth "
+			"indexing!</i>");
 		m_layout->addSpacing(12);
 	}
 
@@ -60,14 +67,19 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 		{
 			QPushButton* discardButton = new QPushButton("Discard");
 			discardButton->setObjectName("windowButton");
-			connect(discardButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onDiscardPressed);
+			connect(
+				discardButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onDiscardPressed);
 			buttons->addWidget(discardButton);
 		}
 		else if (shallow)
 		{
 			QPushButton* startInDepthButton = new QPushButton("Start In-Depth Indexing");
 			startInDepthButton->setObjectName("windowButton");
-			connect(startInDepthButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onStartInDepthPressed);
+			connect(
+				startInDepthButton,
+				&QPushButton::clicked,
+				this,
+				&QtIndexingReportDialog::onStartInDepthPressed);
 			buttons->addWidget(startInDepthButton);
 		}
 
@@ -76,7 +88,8 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 		QPushButton* confirmButton = new QPushButton(interrupted ? "Keep" : (shallow ? "Quit" : "OK"));
 		confirmButton->setObjectName("windowButton");
 		confirmButton->setDefault(true);
-		connect(confirmButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onConfirmPressed);
+		connect(
+			confirmButton, &QPushButton::clicked, this, &QtIndexingReportDialog::onConfirmPressed);
 		buttons->addWidget(confirmButton);
 
 		m_layout->addLayout(buttons);
@@ -124,7 +137,7 @@ void QtIndexingReportDialog::closeEvent(QCloseEvent* event)
 
 void QtIndexingReportDialog::keyPressEvent(QKeyEvent* event)
 {
-	if (!m_interrupted) // in this case we only show one button, so it is clear what to do
+	if (!m_interrupted)	   // in this case we only show one button, so it is clear what to do
 	{
 		switch (event->key())
 		{

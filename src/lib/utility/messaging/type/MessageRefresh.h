@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageRefresh
-	: public Message<MessageRefresh>
+class MessageRefresh: public Message<MessageRefresh>
 {
 public:
 	static const std::string getStaticType()
@@ -12,10 +11,7 @@ public:
 		return "MessageRefresh";
 	}
 
-	MessageRefresh()
-		: all(false)
-	{
-	}
+	MessageRefresh(): all(false) {}
 
 	MessageRefresh& refreshAll()
 	{
@@ -34,4 +30,4 @@ public:
 	bool all;
 };
 
-#endif // MESSAGE_REFRESH_H
+#endif	  // MESSAGE_REFRESH_H

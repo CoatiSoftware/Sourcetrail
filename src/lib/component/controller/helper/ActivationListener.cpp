@@ -42,10 +42,6 @@ void ActivationListener::handleMessageBase(const MessageActivateBase* message)
 	handleActivation(m_searchMatches);
 }
 
-void ActivationListener::handleActivation(const MessageActivateBase* message)
-{
-}
+void ActivationListener::handleActivation(const MessageActivateBase* message) {}
 
-void ActivationListener::handleActivation(const std::vector<SearchMatch>& searchMatches)
-{
-}
+void ActivationListener::handleActivation(const std::vector<SearchMatch>& searchMatches) {}

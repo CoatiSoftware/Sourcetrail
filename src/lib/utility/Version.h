@@ -38,4 +38,4 @@ private:
 	std::string m_commitHash;
 };
 
-#endif // VERSION_H
+#endif	  // VERSION_H

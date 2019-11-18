@@ -5,15 +5,14 @@
 #include <QListWidget>
 #include <QTreeWidget>
 
+#include "Bookmark.h"
 #include "BookmarkController.h"
 #include "ControllerProxy.h"
-#include "Bookmark.h"
 #include "QtWindow.h"
 
 class QtBookmark;
 
-class QtBookmarkBrowser
-	: public QtWindow
+class QtBookmarkBrowser: public QtWindow
 {
 	Q_OBJECT
 
@@ -51,4 +50,4 @@ private:
 	QWidget* m_headerBackground;
 };
 
-#endif // QT_BOOKMARK_BROWSER_H
+#endif	  // QT_BOOKMARK_BROWSER_H

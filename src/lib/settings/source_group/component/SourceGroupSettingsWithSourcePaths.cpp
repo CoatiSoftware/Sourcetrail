@@ -20,17 +20,16 @@ void SourceGroupSettingsWithSourcePaths::setSourcePaths(const std::vector<FilePa
 
 bool SourceGroupSettingsWithSourcePaths::equals(const SourceGroupSettingsBase* other) const
 {
-	const SourceGroupSettingsWithSourcePaths* otherPtr = dynamic_cast<const SourceGroupSettingsWithSourcePaths*>(other);
+	const SourceGroupSettingsWithSourcePaths* otherPtr =
+		dynamic_cast<const SourceGroupSettingsWithSourcePaths*>(other);
 
-	return (
-		otherPtr &&
-		utility::isPermutation(m_sourcePaths, otherPtr->m_sourcePaths)
-	);
+	return (otherPtr && utility::isPermutation(m_sourcePaths, otherPtr->m_sourcePaths));
 }
 
 void SourceGroupSettingsWithSourcePaths::load(const ConfigManager* config, const std::string& key)
 {
-	setSourcePaths(config->getValuesOrDefaults(key + "/source_paths/source_path", std::vector<FilePath>()));
+	setSourcePaths(
+		config->getValuesOrDefaults(key + "/source_paths/source_path", std::vector<FilePath>()));
 }
 
 void SourceGroupSettingsWithSourcePaths::save(ConfigManager* config, const std::string& key)

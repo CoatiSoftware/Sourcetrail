@@ -3,16 +3,13 @@
 
 #include "Message.h"
 #include "TabId.h"
-#include "types.h"
 #include "Vector2.h"
+#include "types.h"
 
-class MessageGraphNodeMove
-	: public Message<MessageGraphNodeMove>
+class MessageGraphNodeMove: public Message<MessageGraphNodeMove>
 {
 public:
-	MessageGraphNodeMove(Id tokenId, const Vec2i& delta)
-		: tokenId(tokenId)
-		, delta(delta)
+	MessageGraphNodeMove(Id tokenId, const Vec2i& delta): tokenId(tokenId), delta(delta)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -31,4 +28,4 @@ public:
 	const Vec2i delta;
 };
 
-#endif // MESSAGE_GRAPH_NODE_MOVE_H
+#endif	  // MESSAGE_GRAPH_NODE_MOVE_H

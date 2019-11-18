@@ -4,7 +4,5 @@
 
 std::vector<std::shared_ptr<IndexerBase>> LanguagePackageJava::instantiateSupportedIndexers() const
 {
-	return {
-		std::make_shared<IndexerJava>()
-	};
+	return {std::make_shared<IndexerJava>()};
 }

@@ -3,16 +3,15 @@
 
 #include <functional>
 
-#include "RefreshInfo.h"
 #include "QtIndexingDialog.h"
+#include "RefreshInfo.h"
 
 class QCheckBox;
 class QLabel;
 class QRadioButton;
 class QtProgressBar;
 
-class QtProgressBarDialog
-	: public QtIndexingDialog
+class QtProgressBarDialog: public QtIndexingDialog
 {
 	Q_OBJECT
 
@@ -39,4 +38,4 @@ private:
 	QLabel* m_messageLabel;
 };
 
-#endif // QT_PROGRESS_BAR_DIALOG_H
+#endif	  // QT_PROGRESS_BAR_DIALOG_H

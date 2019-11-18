@@ -6,8 +6,7 @@
 class QCheckBox;
 class SourceGroupSettingsJavaGradle;
 
-class QtProjectWizardContentPathSourceGradle
-	: public QtProjectWizardContentPath
+class QtProjectWizardContentPathSourceGradle: public QtProjectWizardContentPath
 {
 	Q_OBJECT
 
@@ -30,4 +29,4 @@ private:
 	QCheckBox* m_shouldIndexTests;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATH_SOURCE_GRADLE_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_SOURCE_GRADLE_H

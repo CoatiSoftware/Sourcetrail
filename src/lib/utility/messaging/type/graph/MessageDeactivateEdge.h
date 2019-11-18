@@ -4,12 +4,10 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageDeactivateEdge
-	: public Message<MessageDeactivateEdge>
+class MessageDeactivateEdge: public Message<MessageDeactivateEdge>
 {
 public:
-	MessageDeactivateEdge(bool scrollToDefinition)
-		: scrollToDefinition(scrollToDefinition)
+	MessageDeactivateEdge(bool scrollToDefinition): scrollToDefinition(scrollToDefinition)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -22,4 +20,4 @@ public:
 	bool scrollToDefinition;
 };
 
-#endif // MESSAGE_DEACTIVATE_EDGE_H
+#endif	  // MESSAGE_DEACTIVATE_EDGE_H

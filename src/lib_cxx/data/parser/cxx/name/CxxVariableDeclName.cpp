@@ -4,8 +4,7 @@ CxxVariableDeclName::CxxVariableDeclName(
 	std::wstring name,
 	std::vector<std::wstring> templateParameterNames,
 	std::unique_ptr<CxxTypeName> typeName,
-	bool isStatic
-)
+	bool isStatic)
 	: CxxDeclName(std::move(name), std::move(templateParameterNames))
 	, m_typeName(std::move(typeName))
 	, m_isStatic(isStatic)

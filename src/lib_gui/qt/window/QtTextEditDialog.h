@@ -5,8 +5,7 @@
 
 class QPlainTextEdit;
 
-class QtTextEditDialog
-	: public QtWindow
+class QtTextEditDialog: public QtWindow
 {
 	Q_OBJECT
 
@@ -31,4 +30,4 @@ private:
 	QPlainTextEdit* m_text;
 };
 
-#endif // QT_TEXT_EDIT_DIALOG_H
+#endif	  // QT_TEXT_EDIT_DIALOG_H

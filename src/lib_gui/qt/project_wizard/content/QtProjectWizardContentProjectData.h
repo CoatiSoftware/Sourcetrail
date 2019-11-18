@@ -6,8 +6,7 @@
 
 class ProjectSettings;
 
-class QtProjectWizardContentProjectData
-	: public QtProjectWizardContent
+class QtProjectWizardContentProjectData: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -35,4 +34,4 @@ private:
 	QtLocationPicker* m_projectFileLocation;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PROJECT_DATA_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PROJECT_DATA_H

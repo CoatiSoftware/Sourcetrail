@@ -27,10 +27,7 @@ bool SourceGroupSettingsWithCustomCommand::equals(const SourceGroupSettingsBase*
 	const SourceGroupSettingsWithCustomCommand* otherPtr =
 		dynamic_cast<const SourceGroupSettingsWithCustomCommand*>(other);
 
-	return (
-		otherPtr &&
-		m_customCommand == otherPtr->m_customCommand
-	);
+	return (otherPtr && m_customCommand == otherPtr->m_customCommand);
 }
 
 void SourceGroupSettingsWithCustomCommand::load(const ConfigManager* config, const std::string& key)

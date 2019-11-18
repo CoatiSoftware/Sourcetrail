@@ -21,9 +21,7 @@ private:
 
 template <typename KeyType, typename ValType, typename Hasher>
 UnorderedCache<KeyType, ValType, Hasher>::UnorderedCache(std::function<ValType(const KeyType&)> calculator)
-	: m_calculator(calculator)
-	, m_hitCount(0)
-	, m_missCount(0)
+	: m_calculator(calculator), m_hitCount(0), m_missCount(0)
 {
 }
 
@@ -42,4 +40,4 @@ ValType UnorderedCache<KeyType, ValType, Hasher>::getValue(const KeyType& key)
 	return val;
 }
 
-#endif // UNORDERED_CACHE_H
+#endif	  // UNORDERED_CACHE_H

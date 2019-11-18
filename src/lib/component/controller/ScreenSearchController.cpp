@@ -2,9 +2,7 @@
 
 #include "ScreenSearchView.h"
 
-void ScreenSearchController::clear()
-{
-}
+void ScreenSearchController::clear() {}
 
 void ScreenSearchController::foundMatches(ScreenSearchResponder* responder, size_t matchCount)
 {
@@ -62,7 +60,7 @@ void ScreenSearchController::search(const std::wstring& query, const std::set<st
 {
 	clearMatches();
 
-	for (ScreenSearchResponder* responder : m_responders)
+	for (ScreenSearchResponder* responder: m_responders)
 	{
 		if (!responder->isVisible())
 		{
@@ -129,7 +127,7 @@ void ScreenSearchController::clearMatches()
 
 	getView<ScreenSearchView>()->setMatchCount(0);
 
-	for (ScreenSearchResponder* responder : m_responders)
+	for (ScreenSearchResponder* responder: m_responders)
 	{
 		responder->clearMatches();
 	}

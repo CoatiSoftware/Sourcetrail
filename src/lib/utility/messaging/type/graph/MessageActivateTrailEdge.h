@@ -9,14 +9,14 @@
 #include "types.h"
 #include "utilityString.h"
 
-class MessageActivateTrailEdge
-	: public Message<MessageActivateTrailEdge>
+class MessageActivateTrailEdge: public Message<MessageActivateTrailEdge>
 {
 public:
 	MessageActivateTrailEdge(
-		const std::vector<Id>& edgeIds, Edge::EdgeType type,
-		const NameHierarchy& sourceNameHierarchy, const NameHierarchy& targetNameHierarchy
-	)
+		const std::vector<Id>& edgeIds,
+		Edge::EdgeType type,
+		const NameHierarchy& sourceNameHierarchy,
+		const NameHierarchy& targetNameHierarchy)
 		: edgeIds(edgeIds)
 		, type(type)
 		, sourceNameHierarchy(sourceNameHierarchy)
@@ -40,7 +40,7 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		for (Id edgeId : edgeIds)
+		for (Id edgeId: edgeIds)
 		{
 			os << edgeId << L",";
 		}
@@ -53,4 +53,4 @@ public:
 	const NameHierarchy targetNameHierarchy;
 };
 
-#endif // MESSAGE_ACTIVATE_TRAIL_EDGE_H
+#endif	  // MESSAGE_ACTIVATE_TRAIL_EDGE_H

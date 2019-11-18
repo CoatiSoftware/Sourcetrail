@@ -5,8 +5,7 @@
 
 class IntermediateStorage;
 
-class InterprocessIntermediateStorageManager
-	: public BaseInterprocessDataManager
+class InterprocessIntermediateStorageManager: public BaseInterprocessDataManager
 {
 public:
 	InterprocessIntermediateStorageManager(const std::string& instanceUuid, Id processId, bool isOwner);
@@ -24,4 +23,4 @@ private:
 	size_t m_insertsWithoutGrowth;
 };
 
-#endif // INTERPROCESS_INTERMEDIATE_STORAGE_MANAGER_H
+#endif	  // INTERPROCESS_INTERMEDIATE_STORAGE_MANAGER_H

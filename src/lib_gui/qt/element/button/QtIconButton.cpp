@@ -11,7 +11,7 @@ QtIconButton::QtIconButton(const FilePath& iconPath, const FilePath& hoveredIcon
 	, m_color(Qt::transparent)
 {
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 
 	if (!m_hoveredIconPath.empty())
 	{
@@ -27,7 +27,7 @@ void QtIconButton::setColor(QColor color)
 	leaveEvent(nullptr);
 }
 
-void QtIconButton::enterEvent(QEvent *event)
+void QtIconButton::enterEvent(QEvent* event)
 {
 	if (!m_hoveredIconPath.empty() && isEnabled())
 	{
@@ -35,7 +35,7 @@ void QtIconButton::enterEvent(QEvent *event)
 	}
 }
 
-void QtIconButton::leaveEvent(QEvent *event)
+void QtIconButton::leaveEvent(QEvent* event)
 {
 	if (!m_iconPath.empty())
 	{

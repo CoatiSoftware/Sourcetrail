@@ -15,7 +15,10 @@ class QtSelfRefreshIconButton
 {
 public:
 	QtSelfRefreshIconButton(
-		const QString& text, const FilePath& iconPath, const std::string& buttonKey, QWidget* parent = nullptr);
+		const QString& text,
+		const FilePath& iconPath,
+		const std::string& buttonKey,
+		QWidget* parent = nullptr);
 	~QtSelfRefreshIconButton() = default;
 
 	void setText(const QString& text);
@@ -28,7 +31,7 @@ protected:
 
 	virtual void refresh();
 
-	void resizeEvent(QResizeEvent *event) override;
+	void resizeEvent(QResizeEvent* event) override;
 
 private:
 	void updateText(int width);
@@ -45,4 +48,4 @@ private:
 	QTimer m_blockTimer;
 };
 
-#endif // QT_SELF_REFRESH_ICON_BUTTON_H
+#endif	  // QT_SELF_REFRESH_ICON_BUTTON_H

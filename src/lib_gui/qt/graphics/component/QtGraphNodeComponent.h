@@ -21,4 +21,4 @@ protected:
 	QtGraphNode* m_graphNode;
 };
 
-#endif // QT_GRAPH_NODE_COMPONENT_H
+#endif	  // QT_GRAPH_NODE_COMPONENT_H

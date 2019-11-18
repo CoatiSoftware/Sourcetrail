@@ -3,8 +3,8 @@
 
 #include "Controller.h"
 
-#include "MessageListener.h"
 #include "MessageClearStatusView.h"
+#include "MessageListener.h"
 #include "MessageShowStatus.h"
 #include "MessageStatus.h"
 #include "MessageStatusFilterChanged.h"
@@ -40,4 +40,4 @@ private:
 	StatusFilter m_statusFilter;
 };
 
-#endif // STATUS_CONTROLLER_H
+#endif	  // STATUS_CONTROLLER_H

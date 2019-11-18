@@ -3,15 +3,9 @@
 #include "QtWindow.h"
 
 
-QtWindowStackElement::QtWindowStackElement(QWidget* parent)
-	: QWidget(parent)
-{
-}
+QtWindowStackElement::QtWindowStackElement(QWidget* parent): QWidget(parent) {}
 
-QtWindowStack::QtWindowStack(QObject* parent)
-	: QObject(parent)
-{
-}
+QtWindowStack::QtWindowStack(QObject* parent): QObject(parent) {}
 
 QtWindowStackElement* QtWindowStack::getTopWindow() const
 {
@@ -75,22 +69,22 @@ void QtWindowStack::popWindow()
 
 void QtWindowStack::centerSubWindows()
 {
-    for (QtWindowStackElement* window : m_stack)
-    {
-        QtWindow* qtWindow = dynamic_cast<QtWindow*>(window);
-        if (qtWindow)
-        {
-            if (qtWindow->isSubWindow())
-            {
-                qtWindow->moveToCenter();
-            }
-        }
-    }
+	for (QtWindowStackElement* window: m_stack)
+	{
+		QtWindow* qtWindow = dynamic_cast<QtWindow*>(window);
+		if (qtWindow)
+		{
+			if (qtWindow->isSubWindow())
+			{
+				qtWindow->moveToCenter();
+			}
+		}
+	}
 }
 
 void QtWindowStack::clearWindows()
 {
-	for (QtWindowStackElement* window : m_stack)
+	for (QtWindowStackElement* window: m_stack)
 	{
 		window->hideWindow();
 		window->deleteLater();

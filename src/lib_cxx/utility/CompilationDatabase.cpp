@@ -2,16 +2,15 @@
 
 #include <set>
 
-#include <clang/Tooling/JSONCompilationDatabase.h>
 #include <clang/Tooling/CompilationDatabase.h>
+#include <clang/Tooling/JSONCompilationDatabase.h>
 
 #include "FilePath.h"
 #include "logging.h"
 #include "utility.h"
 #include "utilityString.h"
 
-utility::CompilationDatabase::CompilationDatabase(const FilePath& filePath)
-	: m_filePath(filePath)
+utility::CompilationDatabase::CompilationDatabase(const FilePath& filePath): m_filePath(filePath)
 {
 	init();
 }
@@ -42,12 +41,16 @@ void utility::CompilationDatabase::init()
 {
 	std::string error;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb(
-		clang::tooling::JSONCompilationDatabase::loadFromFile(utility::encodeToUtf8(m_filePath.wstr()), error, clang::tooling::JSONCommandLineSyntax::AutoDetect)
-	);
+		clang::tooling::JSONCompilationDatabase::loadFromFile(
+			utility::encodeToUtf8(m_filePath.wstr()),
+			error,
+			clang::tooling::JSONCommandLineSyntax::AutoDetect));
 
 	if (!cdb)
 	{
-		LOG_ERROR(L"Loading compilation database from file \"" + m_filePath.wstr() + L"\" failed with error: " + utility::decodeFromUtf8(error));
+		LOG_ERROR(
+			L"Loading compilation database from file \"" + m_filePath.wstr() +
+			L"\" failed with error: " + utility::decodeFromUtf8(error));
 		return;
 	}
 
@@ -61,32 +64,44 @@ void utility::CompilationDatabase::init()
 		const std::wstring systemIncludeFlag = L"-isystem";
 		const std::wstring quoteFlag = L"-iquote";
 		const std::wstring includeFlag = L"-I";
-		for (clang::tooling::CompileCommand& command : commands)
+		for (clang::tooling::CompileCommand& command: commands)
 		{
 			const std::wstring commandDirectory = utility::decodeFromUtf8(command.Directory);
 			for (size_t i = 0; i < command.CommandLine.size(); i++)
 			{
 				std::wstring argument = utility::decodeFromUtf8(command.CommandLine[i]);
-				if (i + 1 < command.CommandLine.size() && !utility::isPrefix<std::string>("-", command.CommandLine[i + 1]))
+				if (i + 1 < command.CommandLine.size() &&
+					!utility::isPrefix<std::string>("-", command.CommandLine[i + 1]))
 				{
 					argument += utility::decodeFromUtf8(command.CommandLine[++i]);
 				}
 
 				if (utility::isPrefix(frameworkIncludeFlag, argument))
 				{
-					frameworkHeaders.insert(FilePath(utility::trim(argument.substr(frameworkIncludeFlag.size())), commandDirectory).makeCanonical());
+					frameworkHeaders.insert(
+						FilePath(
+							utility::trim(argument.substr(frameworkIncludeFlag.size())),
+							commandDirectory)
+							.makeCanonical());
 				}
 				else if (utility::isPrefix(systemIncludeFlag, argument))
 				{
-					systemHeaders.insert(FilePath(utility::trim(argument.substr(systemIncludeFlag.size())), commandDirectory).makeCanonical());
+					systemHeaders.insert(FilePath(
+											 utility::trim(argument.substr(systemIncludeFlag.size())),
+											 commandDirectory)
+											 .makeCanonical());
 				}
 				else if (utility::isPrefix(quoteFlag, argument))
 				{
-					headers.insert(FilePath(utility::trim(argument.substr(quoteFlag.size())), commandDirectory).makeCanonical());
+					headers.insert(
+						FilePath(utility::trim(argument.substr(quoteFlag.size())), commandDirectory)
+							.makeCanonical());
 				}
 				else if (utility::isPrefix(includeFlag, argument))
 				{
-					headers.insert(FilePath(utility::trim(argument.substr(includeFlag.size())), commandDirectory).makeCanonical());
+					headers.insert(
+						FilePath(utility::trim(argument.substr(includeFlag.size())), commandDirectory)
+							.makeCanonical());
 				}
 			}
 		}

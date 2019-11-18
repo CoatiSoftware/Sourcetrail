@@ -8,8 +8,7 @@ CxxFunctionDeclName::CxxFunctionDeclName(
 	std::unique_ptr<CxxTypeName> returnTypeName,
 	std::vector<std::unique_ptr<CxxTypeName>> parameterTypeNames,
 	const bool isConst,
-	const bool isStatic
-)
+	const bool isStatic)
 	: CxxDeclName(std::move(name), std::move(templateParameterNames))
 	, m_returnTypeName(std::move(returnTypeName))
 	, m_parameterTypeNames(std::move(parameterTypeNames))

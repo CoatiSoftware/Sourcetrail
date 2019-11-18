@@ -3,14 +3,10 @@
 
 #include "Message.h"
 
-class MessageSwitchColorScheme
-	: public Message<MessageSwitchColorScheme>
+class MessageSwitchColorScheme: public Message<MessageSwitchColorScheme>
 {
 public:
-	MessageSwitchColorScheme(const FilePath& filePath)
-		: colorSchemePath(filePath)
-	{
-	}
+	MessageSwitchColorScheme(const FilePath& filePath): colorSchemePath(filePath) {}
 
 	static const std::string getStaticType()
 	{
@@ -25,4 +21,4 @@ public:
 	const FilePath colorSchemePath;
 };
 
-#endif // MESSAGE_SWITCH_COLOR_SCHEME_H
+#endif	  // MESSAGE_SWITCH_COLOR_SCHEME_H

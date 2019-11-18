@@ -6,8 +6,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCxxPathsAndFlags
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithCxxPathsAndFlags: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithCxxPathsAndFlags() = default;
@@ -35,4 +34,4 @@ private:
 	std::vector<std::wstring> m_compilerFlags;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CXX_PATHS_AND_FLAGS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CXX_PATHS_AND_FLAGS_H

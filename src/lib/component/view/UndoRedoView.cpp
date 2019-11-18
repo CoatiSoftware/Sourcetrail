@@ -2,14 +2,9 @@
 
 #include "UndoRedoController.h"
 
-UndoRedoView::UndoRedoView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+UndoRedoView::UndoRedoView(ViewLayout* viewLayout): View(viewLayout) {}
 
-UndoRedoView::~UndoRedoView()
-{
-}
+UndoRedoView::~UndoRedoView() {}
 
 std::string UndoRedoView::getName() const
 {

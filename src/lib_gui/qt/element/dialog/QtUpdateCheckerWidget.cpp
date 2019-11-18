@@ -6,13 +6,12 @@
 #include <QTimer>
 #include <QUrl>
 
-#include "QtUpdateChecker.h"
 #include "ApplicationSettings.h"
+#include "QtUpdateChecker.h"
 #include "TimeStamp.h"
 
 QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
-	: QWidget(parent)
-	, m_deleteCheck(std::make_shared<bool>(false))
+	: QWidget(parent), m_deleteCheck(std::make_shared<bool>(false))
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
@@ -34,17 +33,14 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 
 			std::shared_ptr<bool> deleteCheck = m_deleteCheck;
 
-			QTimer::singleShot(250,
-				[deleteCheck, this]()
+			QTimer::singleShot(250, [deleteCheck, this]() {
+				if (*deleteCheck.get())
 				{
-					if (*deleteCheck.get())
-					{
-						return;
-					}
-
-					checkUpdate(false);
+					return;
 				}
-			);
+
+				checkUpdate(false);
+			});
 		}
 		else
 		{
@@ -63,7 +59,7 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	}
 	else
 	{
-		connect(m_button, &QPushButton::clicked, [this](){ checkUpdate(true); });
+		connect(m_button, &QPushButton::clicked, [this]() { checkUpdate(true); });
 	}
 }
 
@@ -79,41 +75,35 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 
 	std::shared_ptr<bool> deleteCheck = m_deleteCheck;
 
-	QtUpdateChecker::check(force,
-		[deleteCheck, this](QtUpdateChecker::Result result)
+	QtUpdateChecker::check(force, [deleteCheck, this](QtUpdateChecker::Result result) {
+		if (*deleteCheck.get())
 		{
-			if (*deleteCheck.get())
-			{
-				return;
-			}
-
-			if (!result.success)
-			{
-				m_button->setText("update check failed");
-			}
-			else if (result.url.isEmpty())
-			{
-				m_button->setText("up-to-date");
-			}
-			else
-			{
-				setDownloadUrl(result.url);
-			}
-
-			emit updateReceived();
+			return;
 		}
-	);
+
+		if (!result.success)
+		{
+			m_button->setText("update check failed");
+		}
+		else if (result.url.isEmpty())
+		{
+			m_button->setText("up-to-date");
+		}
+		else
+		{
+			setDownloadUrl(result.url);
+		}
+
+		emit updateReceived();
+	});
 }
 
 void QtUpdateCheckerWidget::setDownloadUrl(QString url)
 {
 	m_button->setText("new version available");
 	m_button->disconnect();
-	connect(m_button, &QPushButton::clicked, this,
-		[url]()
-		{
-			QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
-		}
-	);
+	connect(m_button, &QPushButton::clicked, this, [url]() {
+		QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
+	});
 	m_button->setEnabled(true);
 }

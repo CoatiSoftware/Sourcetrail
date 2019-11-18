@@ -1,14 +1,13 @@
 #ifndef QT_INDEXING_START_DIALOG_H
 #define QT_INDEXING_START_DIALOG_H
 
-#include "RefreshInfo.h"
 #include "QtIndexingDialog.h"
+#include "RefreshInfo.h"
 
 class QLabel;
 class QRadioButton;
 
-class QtIndexingStartDialog
-	: public QtIndexingDialog
+class QtIndexingStartDialog: public QtIndexingDialog
 {
 	Q_OBJECT
 
@@ -18,7 +17,12 @@ signals:
 	void startIndexing(RefreshMode mode);
 
 public:
-	QtIndexingStartDialog(const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode, bool enabledShallowOption, bool initialShallowState, QWidget* parent = 0);
+	QtIndexingStartDialog(
+		const std::vector<RefreshMode>& enabledModes,
+		const RefreshMode initialMode,
+		bool enabledShallowOption,
+		bool initialShallowState,
+		QWidget* parent = 0);
 	QSize sizeHint() const override;
 
 	void updateRefreshInfo(const RefreshInfo& info);
@@ -37,4 +41,4 @@ private:
 	std::map<RefreshMode, QRadioButton*> m_refreshModeButtons;
 };
 
-#endif // QT_INDEXING_START_DIALOG_H
+#endif	  // QT_INDEXING_START_DIALOG_H

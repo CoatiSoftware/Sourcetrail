@@ -2,8 +2,8 @@
 
 #include <thread>
 
-#include "logging.h"
 #include "TimeStamp.h"
+#include "logging.h"
 #include "utilityApp.h"
 
 std::string SharedMemoryGarbageCollector::s_memoryNamePrefix = "grbg_cllctr_";
@@ -21,11 +21,14 @@ SharedMemoryGarbageCollector* SharedMemoryGarbageCollector::createInstance()
 	{
 		if (!s_instance)
 		{
-			s_instance = std::shared_ptr<SharedMemoryGarbageCollector>(new SharedMemoryGarbageCollector());
+			s_instance = std::shared_ptr<SharedMemoryGarbageCollector>(
+				new SharedMemoryGarbageCollector());
 
 			if (!s_instance->m_memory.checkSharedMutex())
 			{
-				LOG_ERROR_STREAM(<< "Shared memory mutex check failed. Shared memory garbage collection disabled.");
+				LOG_ERROR_STREAM(
+					<< "Shared memory mutex check failed. Shared memory garbage collection "
+					   "disabled.");
 				s_instance.reset();
 			}
 		}
@@ -49,9 +52,7 @@ SharedMemoryGarbageCollector::SharedMemoryGarbageCollector()
 {
 }
 
-SharedMemoryGarbageCollector::~SharedMemoryGarbageCollector()
-{
-}
+SharedMemoryGarbageCollector::~SharedMemoryGarbageCollector() {}
 
 void SharedMemoryGarbageCollector::run(const std::string& uuid)
 {
@@ -59,19 +60,16 @@ void SharedMemoryGarbageCollector::run(const std::string& uuid)
 
 	m_uuid = uuid;
 
-	m_thread = std::make_shared<std::thread>(
-		[this]()
+	m_thread = std::make_shared<std::thread>([this]() {
+		m_loopIsRunning = true;
+
+		while (m_loopIsRunning)
 		{
-			m_loopIsRunning = true;
+			update();
 
-			while (m_loopIsRunning)
-			{
-				update();
-
-				std::this_thread::sleep_for(std::chrono::seconds(s_updateIntervalSeconds));
-			}
+			std::this_thread::sleep_for(std::chrono::seconds(s_updateIntervalSeconds));
 		}
-	);
+	});
 }
 
 void SharedMemoryGarbageCollector::stop()
@@ -97,7 +95,8 @@ void SharedMemoryGarbageCollector::stop()
 	SharedMemory::ScopedAccess access(&m_memory);
 
 	SharedMemory::Map<SharedMemory::String, SharedMemory::String>* instances =
-		access.accessValueWithAllocator<SharedMemory::Map<SharedMemory::String, SharedMemory::String>>(s_instancesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Map<SharedMemory::String, SharedMemory::String>>(
+			s_instancesKeyName);
 
 	if (!instances)
 	{
@@ -115,8 +114,10 @@ void SharedMemoryGarbageCollector::stop()
 
 	bool otherRunningInstances = false;
 	TimeStamp now = TimeStamp::now();
-	for (SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = instances->begin();
-		it != instances->end(); it++)
+	for (SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it =
+			 instances->begin();
+		 it != instances->end();
+		 it++)
 	{
 		TimeStamp timestamp = TimeStamp(std::string(it->second.c_str()));
 		if (now.deltaS(timestamp) <= s_deleteThresholdSeconds)
@@ -160,7 +161,8 @@ void SharedMemoryGarbageCollector::unregisterSharedMemory(const std::string& sha
 
 std::string SharedMemoryGarbageCollector::getMemoryName()
 {
-	return s_memoryNamePrefix + (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64");
+	return s_memoryNamePrefix +
+		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64");
 }
 
 void SharedMemoryGarbageCollector::update()
@@ -181,7 +183,8 @@ void SharedMemoryGarbageCollector::update()
 	// update instances
 	{
 		SharedMemory::Map<SharedMemory::String, SharedMemory::String>* instances =
-			access.accessValueWithAllocator<SharedMemory::Map<SharedMemory::String, SharedMemory::String>>(s_instancesKeyName);
+			access.accessValueWithAllocator<SharedMemory::Map<SharedMemory::String, SharedMemory::String>>(
+				s_instancesKeyName);
 
 		if (!instances)
 		{
@@ -191,7 +194,8 @@ void SharedMemoryGarbageCollector::update()
 		SharedMemory::String i(access.getAllocator());
 		i = m_uuid.c_str();
 
-		SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = instances->find(i);
+		SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = instances->find(
+			i);
 		if (it != instances->end())
 		{
 			it->second = t;
@@ -205,7 +209,8 @@ void SharedMemoryGarbageCollector::update()
 	// update shared memories
 	{
 		SharedMemory::Map<SharedMemory::String, SharedMemory::String>* timeStamps =
-			access.accessValueWithAllocator<SharedMemory::Map<SharedMemory::String, SharedMemory::String>>(s_timeStampsKeyName);
+			access.accessValueWithAllocator<SharedMemory::Map<SharedMemory::String, SharedMemory::String>>(
+				s_timeStampsKeyName);
 
 		if (!timeStamps)
 		{
@@ -213,12 +218,13 @@ void SharedMemoryGarbageCollector::update()
 		}
 
 		// remove deleted shared memories
-		for (const std::string& name : m_removedSharedMemoryNames)
+		for (const std::string& name: m_removedSharedMemoryNames)
 		{
 			SharedMemory::String n(access.getAllocator());
 			n = name.c_str();
 
-			SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = timeStamps->find(n);
+			SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it =
+				timeStamps->find(n);
 			if (it != timeStamps->end())
 			{
 				timeStamps->erase(it);
@@ -227,12 +233,13 @@ void SharedMemoryGarbageCollector::update()
 		m_removedSharedMemoryNames.clear();
 
 		// add or update shared memories
-		for (const std::string& name : m_sharedMemoryNames)
+		for (const std::string& name: m_sharedMemoryNames)
 		{
 			SharedMemory::String n(access.getAllocator());
 			n = name.c_str();
 
-			SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = timeStamps->find(n);
+			SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it =
+				timeStamps->find(n);
 			if (it != timeStamps->end())
 			{
 				it->second = t;
@@ -245,8 +252,9 @@ void SharedMemoryGarbageCollector::update()
 
 		// delete old shared memories
 		TimeStamp now = TimeStamp::now();
-		for (SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = timeStamps->begin();
-			it != timeStamps->end();)
+		for (SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it =
+				 timeStamps->begin();
+			 it != timeStamps->end();)
 		{
 			TimeStamp timestamp = TimeStamp(std::string(it->second.c_str()));
 			if (now.deltaS(timestamp) > s_deleteThresholdSeconds)

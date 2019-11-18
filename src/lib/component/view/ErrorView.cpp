@@ -1,13 +1,8 @@
 #include "ErrorView.h"
 
-ErrorView::ErrorView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+ErrorView::ErrorView(ViewLayout* viewLayout): View(viewLayout) {}
 
-ErrorView::~ErrorView()
-{
-}
+ErrorView::~ErrorView() {}
 
 std::string ErrorView::getName() const
 {

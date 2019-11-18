@@ -30,4 +30,4 @@ public:
 	virtual void clearMatches() = 0;
 };
 
-#endif // SCREEN_SEARCH_INTERFACES_H
+#endif	  // SCREEN_SEARCH_INTERFACES_H

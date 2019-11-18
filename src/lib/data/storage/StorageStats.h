@@ -5,13 +5,9 @@
 
 struct StorageStats
 {
-	StorageStats()
-		: nodeCount(0)
-		, edgeCount(0)
-		, fileCount(0)
-		, completedFileCount(0)
-		, fileLOCCount(0)
-	{}
+	StorageStats(): nodeCount(0), edgeCount(0), fileCount(0), completedFileCount(0), fileLOCCount(0)
+	{
+	}
 
 	size_t nodeCount;
 	size_t edgeCount;
@@ -23,4 +19,4 @@ struct StorageStats
 	TimeStamp timestamp;
 };
 
-#endif // STORAGE_STATS_H
+#endif	  // STORAGE_STATS_H

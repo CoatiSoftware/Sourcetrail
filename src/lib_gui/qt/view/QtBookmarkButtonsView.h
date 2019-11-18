@@ -40,4 +40,4 @@ private:
 	MessageBookmarkButtonState::ButtonState m_createButtonState;
 };
 
-#endif // QT_BOOKMARK_BUTTONS_VIEW_H
+#endif	  // QT_BOOKMARK_BUTTONS_VIEW_H

@@ -9,13 +9,12 @@ class QListWidgetItem;
 class FilePath;
 class QtPathListBox;
 
-class QtPathListBoxItem
-	: public QtListBoxItem
+class QtPathListBoxItem: public QtListBoxItem
 {
 	Q_OBJECT
 
 public:
-	QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* item, QWidget *parent = nullptr);
+	QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* item, QWidget* parent = nullptr);
 
 protected:
 	virtual QtListBox* getListBox() override;
@@ -30,4 +29,4 @@ private:
 	QPushButton* m_button;
 };
 
-#endif // QT_PATH_LIST_BOX_ITEM_H
+#endif	  // QT_PATH_LIST_BOX_ITEM_H

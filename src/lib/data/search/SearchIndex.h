@@ -3,13 +3,13 @@
 
 #include <map>
 #include <memory>
-#include <vector>
 #include <set>
 #include <string>
+#include <vector>
 
-#include "types.h"
 #include "Node.h"
 #include "NodeTypeSet.h"
+#include "types.h"
 
 // SearchResult is only used as an internal type in the SearchIndex and the PersistentStorage
 struct SearchResult
@@ -45,16 +45,17 @@ public:
 
 	// maxResultCount == 0 means "no restriction".
 	std::vector<SearchResult> search(
-		const std::wstring& query, NodeTypeSet acceptedNodeTypes, size_t maxResultCount, size_t maxBestScoredResultsLength = 0) const;
+		const std::wstring& query,
+		NodeTypeSet acceptedNodeTypes,
+		size_t maxResultCount,
+		size_t maxBestScoredResultsLength = 0) const;
 
 private:
 	struct SearchEdge;
 
 	struct SearchNode
 	{
-		SearchNode(NodeTypeSet containedTypes)
-			: containedTypes(containedTypes)
-		{}
+		SearchNode(NodeTypeSet containedTypes): containedTypes(containedTypes) {}
 
 		std::map<Id, NodeType> elementIds;
 		NodeTypeSet containedTypes;
@@ -63,10 +64,7 @@ private:
 
 	struct SearchEdge
 	{
-		SearchEdge(SearchNode* target, std::wstring s)
-			: target(target)
-			, s(std::move(s))
-		{}
+		SearchEdge(SearchNode* target, std::wstring s): target(target), s(std::move(s)) {}
 
 		SearchNode* target;
 		std::wstring s;
@@ -76,9 +74,7 @@ private:
 	struct SearchPath
 	{
 		SearchPath(std::wstring text, std::vector<size_t> indices, SearchNode* node)
-			: text(std::move(text))
-			, indices(std::move(indices))
-			, node(node)
+			: text(std::move(text)), indices(std::move(indices)), node(node)
 		{
 		}
 
@@ -88,17 +84,28 @@ private:
 	};
 
 	void populateEdgeGate(SearchEdge* e);
-	void searchRecursive(const SearchPath& path, const std::wstring& remainingQuery, NodeTypeSet acceptedNodeTypes,
+	void searchRecursive(
+		const SearchPath& path,
+		const std::wstring& remainingQuery,
+		NodeTypeSet acceptedNodeTypes,
 		std::vector<SearchIndex::SearchPath>* results) const;
 
 	std::multiset<SearchResult> createScoredResults(
-		const std::vector<SearchPath>& paths, NodeTypeSet acceptedNodeTypes, size_t maxResultCount) const;
+		const std::vector<SearchPath>& paths,
+		NodeTypeSet acceptedNodeTypes,
+		size_t maxResultCount) const;
 
 	static SearchResult bestScoredResult(
-		SearchResult result, std::map<std::wstring, SearchResult>* scoresCache, size_t maxBestScoredResultsLength);
+		SearchResult result,
+		std::map<std::wstring, SearchResult>* scoresCache,
+		size_t maxBestScoredResultsLength);
 	static void bestScoredResultRecursive(
-		const std::wstring& lowerText, const std::vector<size_t>& indices, const size_t lastIndex, const size_t indicesPos,
-		std::map<std::wstring, SearchResult>* scoresCache, SearchResult* result);
+		const std::wstring& lowerText,
+		const std::vector<size_t>& indices,
+		const size_t lastIndex,
+		const size_t indicesPos,
+		std::map<std::wstring, SearchResult>* scoresCache,
+		SearchResult* result);
 	static int scoreText(const std::wstring& text, const std::vector<size_t>& indices);
 
 public:
@@ -117,4 +124,4 @@ private:
 	SearchNode* m_root;
 };
 
-#endif // SEARCH_INDEX_H
+#endif	  // SEARCH_INDEX_H

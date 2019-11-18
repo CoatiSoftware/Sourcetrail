@@ -1,9 +1,9 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <deque>
 #include <map>
 #include <memory>
-#include <deque>
 
 #include "Edge.h"
 #include "Node.h"
@@ -80,4 +80,4 @@ private:
 
 std::wostream& operator<<(std::wostream& ostream, const Graph& graph);
 
-#endif // GRAPH_H
+#endif	  // GRAPH_H

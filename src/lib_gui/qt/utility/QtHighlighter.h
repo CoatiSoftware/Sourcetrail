@@ -27,7 +27,7 @@ public:
 	static void loadHighlightingRules();
 	static void clearHighlightingRules();
 
-	QtHighlighter(QTextDocument *parent, const std::wstring& language);
+	QtHighlighter(QTextDocument* parent, const std::wstring& language);
 	~QtHighlighter() = default;
 
 	void highlightDocument();
@@ -43,7 +43,8 @@ private:
 	struct HighlightingRule
 	{
 		HighlightingRule();
-		HighlightingRule(HighlightType type, const QRegExp& regExp, bool priority, bool multiLine = false);
+		HighlightingRule(
+			HighlightType type, const QRegExp& regExp, bool priority, bool multiLine = false);
 
 		HighlightType type = HighlightType::TEXT;
 		QRegExp pattern;
@@ -55,16 +56,23 @@ private:
 	std::vector<std::tuple<HighlightType, int, int>> createMultiLineRanges(
 		QTextDocument* doc, std::vector<std::tuple<HighlightType, int, int>>* ranges);
 	std::vector<std::tuple<QtHighlighter::HighlightType, int, int>> createMultiLineRangesForRules(
-		QTextDocument* doc, std::vector<std::tuple<HighlightType, int, int>>* ranges,
-		const HighlightingRule* startRule, const HighlightingRule* endRule);
+		QTextDocument* doc,
+		std::vector<std::tuple<HighlightType, int, int>>* ranges,
+		const HighlightingRule* startRule,
+		const HighlightingRule* endRule);
 
 	bool isInRange(int index, const std::vector<std::tuple<HighlightType, int, int>>& ranges) const;
-	std::vector<std::tuple<HighlightType, int, int>> getRangesForRule(const QTextBlock& block, const HighlightingRule& rule) const;
+	std::vector<std::tuple<HighlightType, int, int>> getRangesForRule(
+		const QTextBlock& block, const HighlightingRule& rule) const;
 
 	void formatBlockForRule(
-		const QTextBlock& block, const HighlightingRule& rule, std::vector<std::tuple<HighlightType, int, int>>* ranges);
+		const QTextBlock& block,
+		const HighlightingRule& rule,
+		std::vector<std::tuple<HighlightType, int, int>>* ranges);
 	void formatBlockIfInRange(
-		const QTextBlock& block, HighlightType type, std::vector<std::tuple<HighlightType, int, int>>* ranges);
+		const QTextBlock& block,
+		HighlightType type,
+		std::vector<std::tuple<HighlightType, int, int>>* ranges);
 	void formatBlockIfInRange(
 		const QTextBlock& block, std::vector<std::tuple<HighlightType, int, int>>* ranges);
 
@@ -81,4 +89,4 @@ private:
 	std::vector<bool> m_highlightedLines;
 };
 
-#endif // QT_HIGHLIGHTER_H
+#endif	  // QT_HIGHLIGHTER_H

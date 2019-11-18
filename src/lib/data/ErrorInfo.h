@@ -15,7 +15,8 @@ struct ErrorInfo
 		, translationUnit(L"")
 		, fatal(0)
 		, indexed(0)
-	{}
+	{
+	}
 
 	ErrorInfo(
 		Id id,
@@ -25,8 +26,7 @@ struct ErrorInfo
 		size_t columnNumber,
 		std::wstring translationUnit,
 		bool fatal,
-		bool indexed
-	)
+		bool indexed)
 		: id(id)
 		, message(std::move(message))
 		, filePath(std::move(filePath))
@@ -35,7 +35,8 @@ struct ErrorInfo
 		, translationUnit(std::move(translationUnit))
 		, fatal(fatal)
 		, indexed(indexed)
-	{}
+	{
+	}
 
 	Id id;
 
@@ -50,4 +51,4 @@ struct ErrorInfo
 	bool indexed;
 };
 
-#endif // ERROR_INFO_H
+#endif	  // ERROR_INFO_H

@@ -18,9 +18,7 @@ public:
 	}
 
 	MessageActivateTokens(const MessageBase* other)
-		: isEdge(false)
-		, isAggregation(false)
-		, isFromSearch(false)
+		: isEdge(false), isAggregation(false), isFromSearch(false)
 	{
 		setIsParallel(true);
 		setKeepContent(other->keepContent());
@@ -29,14 +27,14 @@ public:
 
 	void print(std::wostream& os) const override
 	{
-		for (const Id& id : tokenIds)
+		for (const Id& id: tokenIds)
 		{
 			os << id << L" ";
 		}
 
-		for (const SearchMatch& match : searchMatches)
+		for (const SearchMatch& match: searchMatches)
 		{
-			for (const NameHierarchy& name : match.tokenNames)
+			for (const NameHierarchy& name: match.tokenNames)
 			{
 				os << name.getQualifiedName() << L" ";
 			}
@@ -48,10 +46,10 @@ public:
 		if (isAggregation)
 		{
 			SearchMatch match;
-			match.name = match.text = L"aggregation"; // TODO: show aggregation source and target
+			match.name = match.text = L"aggregation";	 // TODO: show aggregation source and target
 			match.searchType = SearchMatch::SEARCH_TOKEN;
 			match.nodeType = NodeType::NODE_TYPE;
-			return { match };
+			return {match};
 		}
 
 		return searchMatches;
@@ -65,4 +63,4 @@ public:
 	bool isFromSearch;
 };
 
-#endif // MESSAGE_ACTIVATE_TOKENS_H
+#endif	  // MESSAGE_ACTIVATE_TOKENS_H

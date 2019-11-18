@@ -8,15 +8,13 @@ class QCheckBox;
 class QLineEdit;
 class SourceGroupSettings;
 
-class QtProjectWizardContentSourceGroupData
-	: public QtProjectWizardContent
+class QtProjectWizardContentSourceGroupData: public QtProjectWizardContent
 {
 	Q_OBJECT
 
 public:
 	QtProjectWizardContentSourceGroupData(
-		std::shared_ptr<SourceGroupSettings> settings,
-		QtProjectWizardWindow* window);
+		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -40,4 +38,4 @@ private:
 	QCheckBox* m_status;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_SOURCE_GROUP_DATA_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_SOURCE_GROUP_DATA_H

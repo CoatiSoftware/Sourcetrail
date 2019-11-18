@@ -7,13 +7,12 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-#include "SearchMatch.h"
 #include "QtAutocompletionList.h"
+#include "SearchMatch.h"
 
 class NodeTypeSet;
 
-class QtSearchElement
-	: public QPushButton
+class QtSearchElement: public QPushButton
 {
 	Q_OBJECT
 
@@ -28,8 +27,7 @@ private slots:
 };
 
 
-class QtSmartSearchBox
-	: public QLineEdit
+class QtSmartSearchBox: public QLineEdit
 {
 	Q_OBJECT
 
@@ -56,7 +54,7 @@ public:
 	void refreshStyle();
 
 protected:
-	virtual bool event(QEvent *event);
+	virtual bool event(QEvent* event);
 	virtual void resizeEvent(QResizeEvent* event);
 	virtual void focusInEvent(QFocusEvent* event);
 
@@ -137,4 +135,4 @@ private:
 	int m_oldLayoutOffset = 0;
 };
 
-#endif // QT_SMART_SEARCH_BOX_H
+#endif	  // QT_SMART_SEARCH_BOX_H

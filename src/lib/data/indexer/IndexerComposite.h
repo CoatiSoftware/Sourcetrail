@@ -23,4 +23,4 @@ private:
 	std::map<IndexerCommandType, std::shared_ptr<IndexerBase>> m_indexers;
 };
 
-#endif // INDEXER_COMPOSITE_H
+#endif	  // INDEXER_COMPOSITE_H

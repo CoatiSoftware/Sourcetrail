@@ -3,8 +3,7 @@
 
 #include "QtListBox.h"
 
-class QtPathListBox
-	: public QtListBox
+class QtPathListBox: public QtListBox
 {
 public:
 	enum SelectionPolicyType
@@ -14,7 +13,7 @@ public:
 		SELECTION_POLICY_FILES_AND_DIRECTORIES
 	};
 
-	QtPathListBox(QWidget *parent, const QString& listName, SelectionPolicyType selectionPolicy);
+	QtPathListBox(QWidget* parent, const QString& listName, SelectionPolicyType selectionPolicy);
 
 	SelectionPolicyType getSelectionPolicy() const;
 
@@ -31,7 +30,7 @@ public:
 	void makeRelativeIfShorter(FilePath& path) const;
 
 protected:
-	void dropEvent(QDropEvent *event) override;
+	void dropEvent(QDropEvent* event) override;
 	void dragEnterEvent(QDragEnterEvent* event) override;
 
 private:
@@ -41,4 +40,4 @@ private:
 	FilePath m_relativeRootDirectory;
 };
 
-#endif // QT_PATH_LIST_BOX_H
+#endif	  // QT_PATH_LIST_BOX_H

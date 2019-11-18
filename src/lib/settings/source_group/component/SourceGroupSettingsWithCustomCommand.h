@@ -3,8 +3,7 @@
 
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCustomCommand
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithCustomCommand: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithCustomCommand() = default;
@@ -26,4 +25,4 @@ private:
 	bool m_runInParallel = false;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CUSTOM_COMMAND_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CUSTOM_COMMAND_H

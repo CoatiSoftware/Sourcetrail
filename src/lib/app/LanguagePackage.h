@@ -13,4 +13,4 @@ public:
 	virtual std::vector<std::shared_ptr<IndexerBase>> instantiateSupportedIndexers() const = 0;
 };
 
-#endif // LANGUAGE_PACKAGE_H
+#endif	  // LANGUAGE_PACKAGE_H

@@ -12,8 +12,8 @@
 #include "SqliteStorage.h"
 #include "StorageComponentAccess.h"
 #include "StorageEdge.h"
-#include "StorageError.h"
 #include "StorageElementComponent.h"
+#include "StorageError.h"
 #include "StorageFile.h"
 #include "StorageLocalSymbol.h"
 #include "StorageNode.h"
@@ -29,8 +29,7 @@ class Version;
 class SourceLocationCollection;
 class SourceLocationFile;
 
-class SqliteIndexStorage
-	: public SqliteStorage
+class SqliteIndexStorage: public SqliteStorage
 {
 public:
 	static size_t getStorageVersion();
@@ -75,7 +74,8 @@ public:
 	void removeOccurrence(const StorageOccurrence& occurrence);
 	void removeOccurrences(const std::vector<StorageOccurrence>& occurrences);
 	void removeElementsWithoutOccurrences(const std::vector<Id>& elementIds);
-	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback);
+	void removeElementsWithLocationInFiles(
+		const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback);
 
 	void removeAllErrors();
 
@@ -121,16 +121,19 @@ public:
 	std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const;
 
-	std::shared_ptr<SourceLocationCollection> getSourceLocationsForElementIds(const std::vector<Id>& elementIds) const;
+	std::shared_ptr<SourceLocationCollection> getSourceLocationsForElementIds(
+		const std::vector<Id>& elementIds) const;
 
 	std::vector<StorageOccurrence> getOccurrencesForLocationId(Id locationId) const;
 	std::vector<StorageOccurrence> getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const;
 	std::vector<StorageOccurrence> getOccurrencesForElementIds(const std::vector<Id>& elementIds) const;
 
 	StorageComponentAccess getComponentAccessByNodeId(Id nodeId) const;
-	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& nodeIds) const;
+	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(
+		const std::vector<Id>& nodeIds) const;
 
-	std::vector<StorageElementComponent> getElementComponentsByElementIds(const std::vector<Id>& elementIds) const;
+	std::vector<StorageElementComponent> getElementComponentsByElementIds(
+		const std::vector<Id>& elementIds) const;
 
 	std::vector<ErrorInfo> getAllErrorInfos() const;
 
@@ -155,7 +158,8 @@ public:
 	{
 		if (ids.size())
 		{
-			return doGetAll<ResultType>("WHERE id IN (" + utility::join(utility::toStrings(ids), ',') + ")");
+			return doGetAll<ResultType>(
+				"WHERE id IN (" + utility::join(utility::toStrings(ids), ',') + ")");
 		}
 		return std::vector<ResultType>();
 	}
@@ -194,13 +198,11 @@ private:
 
 	struct TempSourceLocation
 	{
-		TempSourceLocation(uint32_t startLine, uint16_t lineDiff, uint16_t startCol, uint16_t endCol, uint8_t type)
-			: startLine(startLine)
-			, lineDiff(lineDiff)
-			, startCol(startCol)
-			, endCol(endCol)
-			, type(type)
-		{}
+		TempSourceLocation(
+			uint32_t startLine, uint16_t lineDiff, uint16_t startCol, uint16_t endCol, uint8_t type)
+			: startLine(startLine), lineDiff(lineDiff), startCol(startCol), endCol(endCol), type(type)
+		{
+		}
 
 		bool operator<(const TempSourceLocation& other) const
 		{
@@ -244,12 +246,7 @@ private:
 	{
 		std::vector<ResultType> elements;
 		forEach<ResultType>(
-			query,
-			[&elements](ResultType&& element)
-			{
-				elements.emplace_back(element);
-			}
-		);
+			query, [&elements](ResultType&& element) { elements.emplace_back(element); });
 		return elements;
 	}
 
@@ -286,7 +283,8 @@ private:
 		{
 			m_bindValuesFunc = bindValuesFunc;
 
-			std::string valueStr = '(' + utility::join(std::vector<std::string>(valueCount, "?"), ',') + ')';
+			std::string valueStr = '(' +
+				utility::join(std::vector<std::string>(valueCount, "?"), ',') + ')';
 
 			const size_t MAX_VARIABLE_COUNT = 999;
 			size_t batchSize = MAX_VARIABLE_COUNT / valueCount;
@@ -306,7 +304,8 @@ private:
 				}
 				stmt << ';';
 
-				m_stmts.emplace_back(std::make_pair(batchSize, database.compileStatement(stmt.str().c_str())));
+				m_stmts.emplace_back(
+					std::make_pair(batchSize, database.compileStatement(stmt.str().c_str())));
 
 				if (batchSize == 1)
 				{
@@ -322,7 +321,7 @@ private:
 		bool execute(const std::vector<StorageType>& types, SqliteIndexStorage* storage)
 		{
 			size_t i = 0;
-			for (std::pair<size_t, CppSQLite3Statement>& p : m_stmts)
+			for (std::pair<size_t, CppSQLite3Statement>& p: m_stmts)
 			{
 				const size_t& batchSize = p.first;
 				CppSQLite3Statement& stmt = p.second;
@@ -370,24 +369,34 @@ private:
 };
 
 template <>
-void SqliteIndexStorage::forEach<StorageEdge>(const std::string& query, std::function<void(StorageEdge&&)> func) const;
+void SqliteIndexStorage::forEach<StorageEdge>(
+	const std::string& query, std::function<void(StorageEdge&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageNode>(const std::string& query, std::function<void(StorageNode&&)> func) const;
+void SqliteIndexStorage::forEach<StorageNode>(
+	const std::string& query, std::function<void(StorageNode&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageSymbol>(const std::string& query, std::function<void(StorageSymbol&&)> func) const;
+void SqliteIndexStorage::forEach<StorageSymbol>(
+	const std::string& query, std::function<void(StorageSymbol&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageFile>(const std::string& query, std::function<void(StorageFile&&)> func) const;
+void SqliteIndexStorage::forEach<StorageFile>(
+	const std::string& query, std::function<void(StorageFile&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageLocalSymbol>(const std::string& query, std::function<void(StorageLocalSymbol&&)> func) const;
+void SqliteIndexStorage::forEach<StorageLocalSymbol>(
+	const std::string& query, std::function<void(StorageLocalSymbol&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageSourceLocation>(const std::string& query, std::function<void(StorageSourceLocation&&)> func) const;
+void SqliteIndexStorage::forEach<StorageSourceLocation>(
+	const std::string& query, std::function<void(StorageSourceLocation&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageOccurrence>(const std::string& query, std::function<void(StorageOccurrence&&)> func) const;
+void SqliteIndexStorage::forEach<StorageOccurrence>(
+	const std::string& query, std::function<void(StorageOccurrence&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageComponentAccess>(const std::string& query, std::function<void(StorageComponentAccess&&)> func) const;
+void SqliteIndexStorage::forEach<StorageComponentAccess>(
+	const std::string& query, std::function<void(StorageComponentAccess&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageElementComponent>(const std::string& query, std::function<void(StorageElementComponent&&)> func) const;
+void SqliteIndexStorage::forEach<StorageElementComponent>(
+	const std::string& query, std::function<void(StorageElementComponent&&)> func) const;
 template <>
-void SqliteIndexStorage::forEach<StorageError>(const std::string& query, std::function<void(StorageError&&)> func) const;
+void SqliteIndexStorage::forEach<StorageError>(
+	const std::string& query, std::function<void(StorageError&&)> func) const;
 
-#endif // SQLITE_INDEX_STORAGE_H
+#endif	  // SQLITE_INDEX_STORAGE_H

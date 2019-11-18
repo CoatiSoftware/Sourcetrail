@@ -30,18 +30,18 @@ void SourceGroupSettingsWithClasspath::setUseJreSystemLibrary(bool useJreSystemL
 
 bool SourceGroupSettingsWithClasspath::equals(const SourceGroupSettingsBase* other) const
 {
-	const SourceGroupSettingsWithClasspath* otherPtr = dynamic_cast<const SourceGroupSettingsWithClasspath*>(other);
+	const SourceGroupSettingsWithClasspath* otherPtr =
+		dynamic_cast<const SourceGroupSettingsWithClasspath*>(other);
 
 	return (
-		otherPtr &&
-		(m_useJreSystemLibrary == otherPtr->m_useJreSystemLibrary) &&
-		utility::isPermutation(m_classpath, otherPtr->m_classpath)
-	);
+		otherPtr && (m_useJreSystemLibrary == otherPtr->m_useJreSystemLibrary) &&
+		utility::isPermutation(m_classpath, otherPtr->m_classpath));
 }
 
 void SourceGroupSettingsWithClasspath::load(const ConfigManager* config, const std::string& key)
 {
-	setClasspath(config->getValuesOrDefaults(key + "/class_paths/class_path", std::vector<FilePath>()));
+	setClasspath(
+		config->getValuesOrDefaults(key + "/class_paths/class_path", std::vector<FilePath>()));
 	setUseJreSystemLibrary(config->getValueOrDefault(key + "/use_jre_system_library", true));
 }
 

@@ -1,13 +1,8 @@
 #include "Blackboard.h"
 
-Blackboard::Blackboard()
-{
-}
+Blackboard::Blackboard() {}
 
-Blackboard::Blackboard(std::shared_ptr<Blackboard> parent)
-	: m_parent(parent)
-{
-}
+Blackboard::Blackboard(std::shared_ptr<Blackboard> parent): m_parent(parent) {}
 
 bool Blackboard::exists(const std::string& key)
 {

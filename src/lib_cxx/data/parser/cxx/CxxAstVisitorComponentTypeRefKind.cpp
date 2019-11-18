@@ -35,12 +35,14 @@ void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateDefaultArgumentLoc()
 	m_stateKindStack.pop_back();
 }
 
-void CxxAstVisitorComponentTypeRefKind::beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
+void CxxAstVisitorComponentTypeRefKind::beginTraverseTemplateArgumentLoc(
+	const clang::TemplateArgumentLoc& loc)
 {
 	m_stateKindStack.push_back(STATE_TEMPLATE_ARGUMENT);
 }
 
-void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
+void CxxAstVisitorComponentTypeRefKind::endTraverseTemplateArgumentLoc(
+	const clang::TemplateArgumentLoc& loc)
 {
 	m_stateKindStack.pop_back();
 }

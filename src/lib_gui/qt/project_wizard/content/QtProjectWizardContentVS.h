@@ -3,8 +3,7 @@
 
 #include "QtProjectWizardContent.h"
 
-class QtProjectWizardContentVS
-	: public QtProjectWizardContent
+class QtProjectWizardContentVS: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -17,4 +16,4 @@ private slots:
 	void handleVSCDBClicked();
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_VS_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_VS_H

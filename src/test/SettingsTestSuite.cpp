@@ -7,70 +7,70 @@
 
 namespace
 {
-	class TestSettings : public Settings
+class TestSettings: public Settings
+{
+public:
+	bool getBool() const
 	{
-	public:
-		bool getBool() const
-		{
-			return getValue<bool>("Bool", false);
-		}
+		return getValue<bool>("Bool", false);
+	}
 
-		bool setBool(bool value)
-		{
-			return setValue<bool>("Bool", value);
-		}
+	bool setBool(bool value)
+	{
+		return setValue<bool>("Bool", value);
+	}
 
-		int getInt() const
-		{
-			return getValue<int>("Int", -1);
-		}
+	int getInt() const
+	{
+		return getValue<int>("Int", -1);
+	}
 
-		bool setInt(int value)
-		{
-			return setValue<int>("Int", value);
-		}
+	bool setInt(int value)
+	{
+		return setValue<int>("Int", value);
+	}
 
-		float getFloat() const
-		{
-			return getValue<float>("Float", 0.01f);
-		}
+	float getFloat() const
+	{
+		return getValue<float>("Float", 0.01f);
+	}
 
-		bool setFloat(float value)
-		{
-			return setValue<float>("Float", value);
-		}
+	bool setFloat(float value)
+	{
+		return setValue<float>("Float", value);
+	}
 
-		std::string getString() const
-		{
-			return getValue<std::string>("String", "<empty>");
-		}
+	std::string getString() const
+	{
+		return getValue<std::string>("String", "<empty>");
+	}
 
-		bool setString(const std::string& value)
-		{
-			return setValue<std::string>("String", value);
-		}
+	bool setString(const std::string& value)
+	{
+		return setValue<std::string>("String", value);
+	}
 
-		std::wstring getWString() const
-		{
-			return getValue<std::wstring>("WString", L"<empty>");
-		}
+	std::wstring getWString() const
+	{
+		return getValue<std::wstring>("WString", L"<empty>");
+	}
 
-		bool setWString(const std::wstring& value)
-		{
-			return setValue<std::wstring>("WString", value);
-		}
+	bool setWString(const std::wstring& value)
+	{
+		return setValue<std::wstring>("WString", value);
+	}
 
-		bool getNewBool() const
-		{
-			return getValue<bool>("NewBool", false);
-		}
+	bool getNewBool() const
+	{
+		return getValue<bool>("NewBool", false);
+	}
 
-		bool setNewBool(bool value)
-		{
-			return setValue<bool>("NewBool", value);
-		}
-	};
-}
+	bool setNewBool(bool value)
+	{
+		return setValue<bool>("NewBool", value);
+	}
+};
+}	 // namespace
 
 TEST_CASE("settings get loaded from file")
 {
@@ -193,7 +193,8 @@ TEST_CASE("load source path from file")
 	ProjectSettings projectSettings;
 	projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
 	std::shared_ptr<SourceGroupSettingsWithSourcePaths> sourceGroupSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(projectSettings.getAllSourceGroupSettings().front());
+		std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(
+			projectSettings.getAllSourceGroupSettings().front());
 	std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
 
 	REQUIRE(paths.size() == 2);

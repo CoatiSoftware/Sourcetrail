@@ -9,6 +9,8 @@
 
 #include "language_packages.h"
 
+#include "MessageLoadProject.h"
+#include "MessageStatus.h"
 #include "QtProjectWizardContent.h"
 #include "QtProjectWizardContentCustomCommand.h"
 #include "QtProjectWizardContentExtensions.h"
@@ -23,11 +25,9 @@
 #include "QtProjectWizardContentSourceGroupInfoText.h"
 #include "QtProjectWizardContentUnloadable.h"
 #include "QtSourceGroupWizardPage.h"
+#include "ResourcePaths.h"
 #include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsUnloadable.h"
-#include "MessageLoadProject.h"
-#include "MessageStatus.h"
-#include "ResourcePaths.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityPathDetection.h"
@@ -37,432 +37,510 @@
 #include "Application.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
-#include "QtProjectWizardContentCppStandard.h"
-#include "QtProjectWizardContentCrossCompilationOptions.h"
-#include "QtProjectWizardContentCStandard.h"
-#include "QtProjectWizardContentCxxPchFlags.h"
-#include "QtProjectWizardContentFlags.h"
-#include "QtProjectWizardContentPathCDB.h"
-#include "QtProjectWizardContentPathCodeblocksProject.h"
-#include "QtProjectWizardContentPathCxxPch.h"
-#include "QtProjectWizardContentPathsFrameworkSearch.h"
-#include "QtProjectWizardContentPathsFrameworkSearchGlobal.h"
-#include "QtProjectWizardContentPathsHeaderSearch.h"
-#include "QtProjectWizardContentPathsHeaderSearchGlobal.h"
-#include "QtProjectWizardContentPathsIndexedHeaders.h"
-#include "QtProjectWizardContentVS.h"
-#include "SourceGroupSettingsCEmpty.h"
-#include "SourceGroupSettingsCppEmpty.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "SourceGroupSettingsCxxCdbVs.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#	include "QtProjectWizardContentCStandard.h"
+#	include "QtProjectWizardContentCppStandard.h"
+#	include "QtProjectWizardContentCrossCompilationOptions.h"
+#	include "QtProjectWizardContentCxxPchFlags.h"
+#	include "QtProjectWizardContentFlags.h"
+#	include "QtProjectWizardContentPathCDB.h"
+#	include "QtProjectWizardContentPathCodeblocksProject.h"
+#	include "QtProjectWizardContentPathCxxPch.h"
+#	include "QtProjectWizardContentPathsFrameworkSearch.h"
+#	include "QtProjectWizardContentPathsFrameworkSearchGlobal.h"
+#	include "QtProjectWizardContentPathsHeaderSearch.h"
+#	include "QtProjectWizardContentPathsHeaderSearchGlobal.h"
+#	include "QtProjectWizardContentPathsIndexedHeaders.h"
+#	include "QtProjectWizardContentVS.h"
+#	include "SourceGroupSettingsCEmpty.h"
+#	include "SourceGroupSettingsCppEmpty.h"
+#	include "SourceGroupSettingsCxxCdb.h"
+#	include "SourceGroupSettingsCxxCdbVs.h"
+#	include "SourceGroupSettingsCxxCodeblocks.h"
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
-#include "QtProjectWizardContentJavaStandard.h"
-#include "QtProjectWizardContentPathSourceGradle.h"
-#include "QtProjectWizardContentPathSourceMaven.h"
-#include "QtProjectWizardContentPathsClassJava.h"
-#include "SourceGroupSettingsJavaEmpty.h"
-#include "SourceGroupSettingsJavaGradle.h"
-#include "SourceGroupSettingsJavaMaven.h"
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#	include "QtProjectWizardContentJavaStandard.h"
+#	include "QtProjectWizardContentPathSourceGradle.h"
+#	include "QtProjectWizardContentPathSourceMaven.h"
+#	include "QtProjectWizardContentPathsClassJava.h"
+#	include "SourceGroupSettingsJavaEmpty.h"
+#	include "SourceGroupSettingsJavaGradle.h"
+#	include "SourceGroupSettingsJavaMaven.h"
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
-#include "QtProjectWizardContentPathPythonEnvironment.h"
-#include "SourceGroupSettingsPythonEmpty.h"
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#	include "QtProjectWizardContentPathPythonEnvironment.h"
+#	include "SourceGroupSettingsPythonEmpty.h"
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 namespace
 {
+#if BUILD_CXX_LANGUAGE_PACKAGE
+
+bool applicationSettingsContainVisualStudioHeaderSearchPaths()
+{
+	std::vector<FilePath> expandedPaths;
+	const std::shared_ptr<CombinedPathDetector> headerPathDetector =
+		utility::getCxxVsHeaderPathDetector();
+	for (const std::string& detectorName: headerPathDetector->getWorkingDetectorNames())
+	{
+		for (const FilePath& path: headerPathDetector->getPaths(detectorName))
+		{
+			utility::append(expandedPaths, path.expandEnvironmentVariables());
+		}
+	}
+
+	std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths =
+		ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
+	for (const FilePath& usedExpandedPath: usedExpandedGlobalHeaderSearchPaths)
+	{
+		for (const FilePath& expandedPath: expandedPaths)
+		{
+			if (expandedPath == usedExpandedPath)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+void addMsvcCompatibilityFlagsOnDemand(std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings)
+{
+	if (applicationSettingsContainVisualStudioHeaderSearchPaths())
+	{
+		std::vector<std::wstring> flags = settings->getCompilerFlags();
+		flags.push_back(L"-fms-extensions");
+		flags.push_back(L"-fms-compatibility");
+		flags.push_back(L"-fms-compatibility-version=19");
+		settings->setCompilerFlags(flags);
+	}
+}
+
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
+
+template <typename SettingsType>
+std::vector<QtSourceGroupWizardPage<SettingsType>> getSourceGroupWizardPages();
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 
-	bool applicationSettingsContainVisualStudioHeaderSearchPaths()
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCEmpty>> getSourceGroupWizardPages<
+	SourceGroupSettingsCEmpty>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCEmpty>> pages;
 	{
-		std::vector<FilePath> expandedPaths;
-		const std::shared_ptr<CombinedPathDetector> headerPathDetector = utility::getCxxVsHeaderPathDetector();
-		for (const std::string& detectorName : headerPathDetector->getWorkingDetectorNames())
-		{
-			for (const FilePath& path : headerPathDetector->getPaths(detectorName))
-			{
-				utility::append(expandedPaths, path.expandEnvironmentVariables());
-			}
-		}
-
-		std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths =
-			ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-		for (const FilePath& usedExpandedPath : usedExpandedGlobalHeaderSearchPaths)
-		{
-			for (const FilePath& expandedPath : expandedPaths)
-			{
-				if (expandedPath == usedExpandedPath)
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
+		QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Language Standard", 470, 460);
+		page.addContentCreatorWithSettings<QtProjectWizardContentCStandard>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentCrossCompilationOptions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Indexed Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Include Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	if (utility::getOsType() == OS_MAC)
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Framework Search Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Advanced (optional)");
+		page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreator(
+			WIZARD_CONTENT_CONTEXT_ALL,
+			[](std::shared_ptr<SourceGroupSettingsCEmpty> settings, QtProjectWizardWindow* window) {
+				return new QtProjectWizardContentPathCxxPch(settings, settings, window);
+			});
+		page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(
+			WIZARD_CONTENT_CONTEXT_ALL, false);
+		pages.push_back(page);
 	}
 
-	void addMsvcCompatibilityFlagsOnDemand(std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings)
+	return pages;
+}
+
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty>> getSourceGroupWizardPages<
+	SourceGroupSettingsCppEmpty>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty>> pages;
 	{
-		if (applicationSettingsContainVisualStudioHeaderSearchPaths())
-		{
-			std::vector<std::wstring> flags = settings->getCompilerFlags();
-			flags.push_back(L"-fms-extensions");
-			flags.push_back(L"-fms-compatibility");
-			flags.push_back(L"-fms-compatibility-version=19");
-			settings->setCompilerFlags(flags);
-		}
+		QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Language Standard", 470, 460);
+		page.addContentCreatorWithSettings<QtProjectWizardContentCppStandard>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentCrossCompilationOptions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Indexed Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Include Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	if (utility::getOsType() == OS_MAC)
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Framework Search Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Advanced (optional)");
+		page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreator(
+			WIZARD_CONTENT_CONTEXT_ALL,
+			[](std::shared_ptr<SourceGroupSettingsCppEmpty> settings, QtProjectWizardWindow* window) {
+				return new QtProjectWizardContentPathCxxPch(settings, settings, window);
+			});
+		page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(
+			WIZARD_CONTENT_CONTEXT_ALL, false);
+		pages.push_back(page);
 	}
 
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+	return pages;
+}
 
-	template <typename SettingsType>
-	std::vector<QtSourceGroupWizardPage<SettingsType>> getSourceGroupWizardPages();
-
-#if BUILD_CXX_LANGUAGE_PACKAGE
-
-	template <>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCEmpty>> getSourceGroupWizardPages<SourceGroupSettingsCEmpty>()
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb>> getSourceGroupWizardPages<
+	SourceGroupSettingsCxxCdb>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb>> pages;
 	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCEmpty>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Language Standard", 470, 460);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCrossCompilationOptions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Indexed Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Include Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		if (utility::getOsType() == OS_MAC)
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Framework Search Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCEmpty> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreator(
-				WIZARD_CONTENT_CONTEXT_ALL,
-				[](std::shared_ptr<SourceGroupSettingsCEmpty> settings, QtProjectWizardWindow* window)
-				{
-					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
-				}
-			);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(WIZARD_CONTENT_CONTEXT_ALL, false);
-			pages.push_back(page);
-		}
-
-		return pages;
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Compilation Database Path");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathCDB>(WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsIndexedHeaders>(
+			WIZARD_CONTENT_CONTEXT_ALL, "Compilation Database");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Include Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY);
+		pages.push_back(page);
+	}
+	if (utility::getOsType() == OS_MAC)
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Framework Search Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Advanced (optional)");
+		page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		page.addContentCreator(
+			WIZARD_CONTENT_CONTEXT_ALL,
+			[](std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizardWindow* window) {
+				return new QtProjectWizardContentPathCxxPch(settings, settings, window);
+			});
+		page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(
+			WIZARD_CONTENT_CONTEXT_ALL, true);
+		pages.push_back(page);
 	}
 
-	template <>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty>> getSourceGroupWizardPages<SourceGroupSettingsCppEmpty>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Language Standard", 470, 460);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCppStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCrossCompilationOptions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Indexed Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Include Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		if (utility::getOsType() == OS_MAC)
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Framework Search Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCppEmpty> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreator(
-				WIZARD_CONTENT_CONTEXT_ALL,
-				[](std::shared_ptr<SourceGroupSettingsCppEmpty> settings, QtProjectWizardWindow* window)
-				{
-					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
-				}
-			);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(WIZARD_CONTENT_CONTEXT_ALL, false);
-			pages.push_back(page);
-		}
+	return pages;
+}
 
-		return pages;
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks>> getSourceGroupWizardPages<
+	SourceGroupSettingsCxxCodeblocks>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks>> pages;
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Code::Blocks Project Path");
+		page.addContentCreatorWithSettings<QtProjectWizardContentCppStandard>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentCStandard>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathCodeblocksProject>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsIndexedHeaders>(
+			WIZARD_CONTENT_CONTEXT_ALL, std::string("Code::Blocks Project"));
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Include Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY);
+		pages.push_back(page);
+	}
+	if (utility::getOsType() == OS_MAC)
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Framework Search Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Advanced (optional)");
+		page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		pages.push_back(page);
 	}
 
-	template <>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb>> getSourceGroupWizardPages<SourceGroupSettingsCxxCdb>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Compilation Database Path");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathCDB>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsIndexedHeaders>(WIZARD_CONTENT_CONTEXT_ALL, "Compilation Database");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Include Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		if (utility::getOsType() == OS_MAC)
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Framework Search Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdb> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreator(
-				WIZARD_CONTENT_CONTEXT_ALL,
-				[](std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizardWindow* window)
-				{
-					return new QtProjectWizardContentPathCxxPch(settings, settings, window);
-				}
-			);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCxxPchFlags>(WIZARD_CONTENT_CONTEXT_ALL, true);
-			pages.push_back(page);
-		}
+	return pages;
+}
 
-		return pages;
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs>> getSourceGroupWizardPages<
+	SourceGroupSettingsCxxCdbVs>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs>> pages;
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("VS Solution");
+		page.addContentCreatorSimple<QtProjectWizardContentVS>(WIZARD_CONTENT_CONTEXT_SETUP);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathCDB>(WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsIndexedHeaders>(
+			WIZARD_CONTENT_CONTEXT_ALL, std::string("Compilation Database"));
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("Include Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY);
+		pages.push_back(page);
+	}
+	if (utility::getOsType() == OS_MAC)
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("Framework Search Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("Advanced (optional)");
+		page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, true);
+		pages.push_back(page);
 	}
 
-	template <>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks>> getSourceGroupWizardPages<SourceGroupSettingsCxxCodeblocks>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Code::Blocks Project Path");
-			page.addContentCreatorWithSettings<QtProjectWizardContentCppStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentCStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathCodeblocksProject>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsIndexedHeaders>(WIZARD_CONTENT_CONTEXT_ALL, std::string("Code::Blocks Project"));
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Include Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		if (utility::getOsType() == OS_MAC)
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Framework Search Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCodeblocks> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			pages.push_back(page);
-		}
+	return pages;
+}
 
-		return pages;
-	}
-
-	template <>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs>> getSourceGroupWizardPages<SourceGroupSettingsCxxCdbVs>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("VS Solution");
-			page.addContentCreatorSimple<QtProjectWizardContentVS>(WIZARD_CONTENT_CONTEXT_SETUP);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathCDB>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsIndexedHeaders>(WIZARD_CONTENT_CONTEXT_ALL, std::string("Compilation Database"));
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("Include Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsHeaderSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsHeaderSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		if (utility::getOsType() == OS_MAC)
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("Framework Search Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsFrameworkSearch>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			page.addContentCreatorSimple<QtProjectWizardContentPathsFrameworkSearchGlobal>(WIZARD_CONTENT_CONTEXT_SUMMARY);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCxxCdbVs> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentFlags>(WIZARD_CONTENT_CONTEXT_SUMMARY, true);
-			pages.push_back(page);
-		}
-
-		return pages;
-	}
-
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 
-	template<>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty>> getSourceGroupWizardPages<SourceGroupSettingsJavaEmpty>()
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty>> getSourceGroupWizardPages<
+	SourceGroupSettingsJavaEmpty>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty>> pages;
 	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty> page("Language Standard", 470, 230);
-			page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty> page("Indexed Paths", 750, 600);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty> page("Dependencies", 750, 600);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsClassJava>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-
-		return pages;
+		QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty> page("Language Standard", 470, 230);
+		page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty> page("Indexed Paths", 750, 600);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsJavaEmpty> page("Dependencies", 750, 600);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsClassJava>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
 	}
 
-	template<>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven>> getSourceGroupWizardPages<SourceGroupSettingsJavaMaven>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven> page("Indexed Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathSourceMaven>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
+	return pages;
+}
 
-		return pages;
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven>> getSourceGroupWizardPages<
+	SourceGroupSettingsJavaMaven>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven>> pages;
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven> page("Indexed Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathSourceMaven>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven> page("Advanced (optional)");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
 	}
 
-	template<>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle>> getSourceGroupWizardPages<SourceGroupSettingsJavaGradle>()
-	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle> page("Indexed Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathSourceGradle>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle> page("Advanced (optional)");
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
+	return pages;
+}
 
-		return pages;
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle>> getSourceGroupWizardPages<
+	SourceGroupSettingsJavaGradle>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle>> pages;
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle> page("Indexed Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathSourceGradle>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
+	}
+	{
+		QtSourceGroupWizardPage<SourceGroupSettingsJavaGradle> page("Advanced (optional)");
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
 	}
 
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+	return pages;
+}
+
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 
-	template<>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsPythonEmpty>> getSourceGroupWizardPages<SourceGroupSettingsPythonEmpty>()
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsPythonEmpty>> getSourceGroupWizardPages<
+	SourceGroupSettingsPythonEmpty>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsPythonEmpty>> pages;
 	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsPythonEmpty>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsPythonEmpty> page("Indexed Paths", 750, 600);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathPythonEnvironment>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-
-		return pages;
+		QtSourceGroupWizardPage<SourceGroupSettingsPythonEmpty> page("Indexed Paths", 750, 600);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathPythonEnvironment>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
 	}
 
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+	return pages;
+}
 
-	template<>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCustomCommand>> getSourceGroupWizardPages<SourceGroupSettingsCustomCommand>()
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
+
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCustomCommand>> getSourceGroupWizardPages<
+	SourceGroupSettingsCustomCommand>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCustomCommand>> pages;
 	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsCustomCommand>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsCustomCommand> page("Indexed Paths");
-			page.addContentCreatorWithSettings<QtProjectWizardContentCustomCommand>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(WIZARD_CONTENT_CONTEXT_ALL);
-			page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		return pages;
+		QtSourceGroupWizardPage<SourceGroupSettingsCustomCommand> page("Indexed Paths");
+		page.addContentCreatorWithSettings<QtProjectWizardContentCustomCommand>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsSource>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathsExclude>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentExtensions>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
 	}
+	return pages;
+}
 
-	template<>
-	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsUnloadable>> getSourceGroupWizardPages<SourceGroupSettingsUnloadable>()
+template <>
+std::vector<QtSourceGroupWizardPage<SourceGroupSettingsUnloadable>> getSourceGroupWizardPages<
+	SourceGroupSettingsUnloadable>()
+{
+	std::vector<QtSourceGroupWizardPage<SourceGroupSettingsUnloadable>> pages;
 	{
-		std::vector<QtSourceGroupWizardPage<SourceGroupSettingsUnloadable>> pages;
-		{
-			QtSourceGroupWizardPage<SourceGroupSettingsUnloadable> page("");
-			page.addContentCreatorWithSettings<QtProjectWizardContentUnloadable>(WIZARD_CONTENT_CONTEXT_ALL);
-			pages.push_back(page);
-		}
-		return pages;
+		QtSourceGroupWizardPage<SourceGroupSettingsUnloadable> page("");
+		page.addContentCreatorWithSettings<QtProjectWizardContentUnloadable>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		pages.push_back(page);
 	}
+	return pages;
+}
 
-	template <typename SettingsType>
-	void fillSummary(QtProjectWizardContentGroup* summary, std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window)
+template <typename SettingsType>
+void fillSummary(
+	QtProjectWizardContentGroup* summary,
+	std::shared_ptr<SettingsType> settings,
+	QtProjectWizardWindow* window)
+{
+	const std::vector<QtSourceGroupWizardPage<SettingsType>> pages =
+		getSourceGroupWizardPages<SettingsType>();
+
+	for (const QtSourceGroupWizardPage<SettingsType>& page: pages)
 	{
-		const std::vector<QtSourceGroupWizardPage<SettingsType>> pages = getSourceGroupWizardPages<SettingsType>();
-
-		for (const QtSourceGroupWizardPage<SettingsType>& page : pages)
+		QtProjectWizardContentGroup* contentGroup = page.createContentGroup(
+			WIZARD_CONTENT_CONTEXT_SUMMARY, settings, window);
+		if (contentGroup && contentGroup->hasContents())
 		{
-			QtProjectWizardContentGroup* contentGroup = page.createContentGroup(WIZARD_CONTENT_CONTEXT_SUMMARY, settings, window);
-			if (contentGroup && contentGroup->hasContents())
-			{
-				summary->addContent(contentGroup);
-				summary->addSpace();
-			}
+			summary->addContent(contentGroup);
+			summary->addSpace();
 		}
 	}
 }
+}	 // namespace
 
 QtProjectWizard::QtProjectWizard(QWidget* parent)
 	: QtProjectWizardWindow(parent, false)
@@ -504,7 +582,8 @@ void QtProjectWizard::newProjectFromCDB(const FilePath& filePath)
 
 	if (m_projectSettings->getProjectFilePath().empty())
 	{
-		m_projectSettings->setProjectFilePath(filePath.withoutExtension().fileName(), filePath.getParentDirectory());
+		m_projectSettings->setProjectFilePath(
+			filePath.withoutExtension().fileName(), filePath.getParentDirectory());
 	}
 
 	if (!m_contentWidget)
@@ -519,11 +598,12 @@ void QtProjectWizard::newProjectFromCDB(const FilePath& filePath)
 	cancelSourceGroup();
 
 	std::shared_ptr<SourceGroupSettingsCxxCdbVs> sourceGroupSettings =
-		std::make_shared<SourceGroupSettingsCxxCdbVs>(utility::getUuidString(), m_projectSettings.get());
+		std::make_shared<SourceGroupSettingsCxxCdbVs>(
+			utility::getUuidString(), m_projectSettings.get());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
 
 	executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(sourceGroupSettings);
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 }
 
 void QtProjectWizard::editProject(const FilePath& settingsPath)
@@ -569,7 +649,11 @@ void QtProjectWizard::populateWindow(QWidget* widget)
 
 		m_sourceGroupList = new QListWidget();
 		m_sourceGroupList->setAttribute(Qt::WA_MacShowFocusRect, 0);
-		connect(m_sourceGroupList, &QListWidget::currentRowChanged, this, &QtProjectWizard::selectedSourceGroupChanged);
+		connect(
+			m_sourceGroupList,
+			&QListWidget::currentRowChanged,
+			this,
+			&QtProjectWizard::selectedSourceGroupChanged);
 		menuLayout->addWidget(m_sourceGroupList);
 
 		QHBoxLayout* buttonsLayout = new QHBoxLayout();
@@ -578,18 +662,15 @@ void QtProjectWizard::populateWindow(QWidget* widget)
 
 		QPushButton* addButton = new QtIconButton(
 			ResourcePaths::getGuiPath().concatenate(L"window/source_group_add.png"),
-			ResourcePaths::getGuiPath().concatenate(L"window/source_group_add_hover.png")
-		);
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_add_hover.png"));
 
 		m_removeButton = new QtIconButton(
 			ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete.png"),
-			ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete_hover.png")
-		);
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete_hover.png"));
 
 		m_duplicateButton = new QtIconButton(
 			ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy.png"),
-			ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy_hover.png")
-		);
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy_hover.png"));
 
 		addButton->setIconSize(QSize(20, 20));
 		m_removeButton->setIconSize(QSize(20, 20));
@@ -607,8 +688,13 @@ void QtProjectWizard::populateWindow(QWidget* widget)
 		m_duplicateButton->setEnabled(false);
 
 		connect(addButton, &QPushButton::clicked, this, &QtProjectWizard::newSourceGroup);
-		connect(m_removeButton, &QPushButton::clicked, this, &QtProjectWizard::removeSelectedSourceGroup);
-		connect(m_duplicateButton, &QPushButton::clicked, this, &QtProjectWizard::duplicateSelectedSourceGroup);
+		connect(
+			m_removeButton, &QPushButton::clicked, this, &QtProjectWizard::removeSelectedSourceGroup);
+		connect(
+			m_duplicateButton,
+			&QPushButton::clicked,
+			this,
+			&QtProjectWizard::duplicateSelectedSourceGroup);
 
 		buttonsLayout->addWidget(addButton);
 		buttonsLayout->addWidget(m_removeButton);
@@ -682,13 +768,13 @@ void QtProjectWizard::handlePrevious()
 template <typename SettingsType>
 void QtProjectWizard::executeSourceGroupSetup(std::shared_ptr<SettingsType> settings)
 {
-	std::shared_ptr<QtSourceGroupWizard<SettingsType>> wizard = std::make_shared<QtSourceGroupWizard<SettingsType>>(
-		settings,
-		std::bind(&QtProjectWizard::cancelSourceGroup, this),
-		std::bind(&QtProjectWizard::createSourceGroup, this, std::placeholders::_1)
-	);
+	std::shared_ptr<QtSourceGroupWizard<SettingsType>> wizard =
+		std::make_shared<QtSourceGroupWizard<SettingsType>>(
+			settings,
+			std::bind(&QtProjectWizard::cancelSourceGroup, this),
+			std::bind(&QtProjectWizard::createSourceGroup, this, std::placeholders::_1));
 
-	for (const QtSourceGroupWizardPage<SettingsType>& page : getSourceGroupWizardPages<SettingsType>())
+	for (const QtSourceGroupWizardPage<SettingsType>& page: getSourceGroupWizardPages<SettingsType>())
 	{
 		wizard->addPage(page);
 	}
@@ -698,8 +784,8 @@ void QtProjectWizard::executeSourceGroupSetup(std::shared_ptr<SettingsType> sett
 }
 
 QtProjectWizardWindow* QtProjectWizard::createWindowWithContent(
-	std::function<QtProjectWizardContent*(QtProjectWizardWindow*)> func
-){
+	std::function<QtProjectWizardContent*(QtProjectWizardWindow*)> func)
+{
 	QtProjectWizardWindow* window = new QtProjectWizardWindow(parentWidget());
 
 	connect(window, &QtProjectWizardWindow::previous, &m_windowStack, &QtWindowStack::popWindow);
@@ -716,8 +802,8 @@ QtProjectWizardWindow* QtProjectWizard::createWindowWithContent(
 }
 
 QtProjectWizardWindow* QtProjectWizard::createWindowWithContentGroup(
-	std::function<void(QtProjectWizardWindow*, QtProjectWizardContentGroup*)> func
-){
+	std::function<void(QtProjectWizardWindow*, QtProjectWizardContentGroup*)> func)
+{
 	QtProjectWizardWindow* window = new QtProjectWizardWindow(parentWidget());
 
 	connect(window, &QtProjectWizardWindow::previous, &m_windowStack, &QtWindowStack::popWindow);
@@ -740,7 +826,7 @@ void QtProjectWizard::updateSourceGroupList()
 {
 	m_sourceGroupList->clear();
 
-	for (const std::shared_ptr<SourceGroupSettings>& group : m_allSourceGroupSettings)
+	for (const std::shared_ptr<SourceGroupSettings>& group: m_allSourceGroupSettings)
 	{
 		QString name = QString::fromStdString(group->getName());
 		if (group->getStatus() == SOURCE_GROUP_STATUS_DISABLED)
@@ -748,7 +834,7 @@ void QtProjectWizard::updateSourceGroupList()
 			name = "(" + name + ")";
 		}
 
-		QListWidgetItem *item = new QListWidgetItem(name);
+		QListWidgetItem* item = new QListWidgetItem(name);
 		m_sourceGroupList->addItem(item);
 	}
 }
@@ -777,7 +863,8 @@ void QtProjectWizard::generalButtonClicked()
 	}
 
 	QtProjectWizardContentGroup* contentGroup = new QtProjectWizardContentGroup(this);
-	contentGroup->addContent(new QtProjectWizardContentProjectData(m_projectSettings, this, m_editing));
+	contentGroup->addContent(
+		new QtProjectWizardContentProjectData(m_projectSettings, this, m_editing));
 
 	if (m_allSourceGroupSettings.empty())
 	{
@@ -827,61 +914,86 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	QtProjectWizardContentGroup* summary = new QtProjectWizardContentGroup(this);
 	summary->setIsForm(true);
 
-	QtProjectWizardContentSourceGroupData* content = new QtProjectWizardContentSourceGroupData(group, this);
-	connect(content, &QtProjectWizardContentSourceGroupData::nameUpdated, this, &QtProjectWizard::selectedSourceGroupNameChanged);
+	QtProjectWizardContentSourceGroupData* content = new QtProjectWizardContentSourceGroupData(
+		group, this);
+	connect(
+		content,
+		&QtProjectWizardContentSourceGroupData::nameUpdated,
+		this,
+		&QtProjectWizard::selectedSourceGroupNameChanged);
 	summary->addContent(content);
 	summary->addSpace();
 
-	if (std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(group))
+	if (std::shared_ptr<SourceGroupSettingsCustomCommand> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	if (std::shared_ptr<SourceGroupSettingsUnloadable> settings = std::dynamic_pointer_cast<SourceGroupSettingsUnloadable>(group))
+	if (std::shared_ptr<SourceGroupSettingsUnloadable> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsUnloadable>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
 #if BUILD_CXX_LANGUAGE_PACKAGE
-	else if (std::shared_ptr<SourceGroupSettingsCEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsCEmpty> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsCppEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsCxxCdb> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsCxxCdb> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdbVs>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdbVs>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
-	else if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsJavaEmpty> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsJavaMaven> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsJavaGradle> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
-	else if (std::shared_ptr<SourceGroupSettingsPythonEmpty> settings = std::dynamic_pointer_cast<SourceGroupSettingsPythonEmpty>(group))
+	else if (
+		std::shared_ptr<SourceGroupSettingsPythonEmpty> settings =
+			std::dynamic_pointer_cast<SourceGroupSettingsPythonEmpty>(group))
 	{
 		fillSummary(summary, settings, this);
 	}
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 	setContent(summary);
 
@@ -913,7 +1025,7 @@ void QtProjectWizard::removeSelectedSourceGroup()
 	msgBox.setIcon(QMessageBox::Icon::Question);
 	int ret = msgBox.exec();
 
-	if (ret == 0) // QMessageBox::Yes
+	if (ret == 0)	 // QMessageBox::Yes
 	{
 		int currentRow = m_sourceGroupList->currentRow();
 		m_allSourceGroupSettings.erase(m_allSourceGroupSettings.begin() + currentRow);
@@ -944,7 +1056,8 @@ void QtProjectWizard::duplicateSelectedSourceGroup()
 		return;
 	}
 
-	std::shared_ptr<const SourceGroupSettings> oldSourceGroup = m_allSourceGroupSettings[m_sourceGroupList->currentRow()];
+	std::shared_ptr<const SourceGroupSettings> oldSourceGroup =
+		m_allSourceGroupSettings[m_sourceGroupList->currentRow()];
 
 	std::shared_ptr<SourceGroupSettings> newSourceGroup = oldSourceGroup->createCopy();
 
@@ -961,7 +1074,7 @@ void QtProjectWizard::duplicateSelectedSourceGroup()
 			newName = newNameBase + (id > 0 ? " (" + std::to_string(id) + ")" : "");
 
 			bool nameAlreadyExists = false;
-			for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings : m_allSourceGroupSettings)
+			for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings: m_allSourceGroupSettings)
 			{
 				if (sourceGroupSettings && sourceGroupSettings->getName() == newName)
 				{
@@ -1031,18 +1144,17 @@ void QtProjectWizard::newSourceGroup()
 		return;
 	}
 
-	QtProjectWizardWindow* window = createWindowWithContent(
-		[](QtProjectWizardWindow* window)
-		{
-			window->setPreferredSize(QSize(560, 520));
-			return new QtProjectWizardContentSelect(window);
-		}
-	);
+	QtProjectWizardWindow* window = createWindowWithContent([](QtProjectWizardWindow* window) {
+		window->setPreferredSize(QSize(560, 520));
+		return new QtProjectWizardContentSelect(window);
+	});
 	window->resize(QSize(560, 520));
 
-	connect(dynamic_cast<QtProjectWizardContentSelect*>(window->content()),
+	connect(
+		dynamic_cast<QtProjectWizardContentSelect*>(window->content()),
 		&QtProjectWizardContentSelect::selected,
-		this, &QtProjectWizard::selectedProjectType);
+		this,
+		&QtProjectWizard::selectedProjectType);
 
 	window->show();
 	window->setNextEnabled(false);
@@ -1058,73 +1170,85 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 	{
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_C_EMPTY:
-		{
-			std::shared_ptr<SourceGroupSettingsCEmpty> settings = std::make_shared<SourceGroupSettingsCEmpty>(sourceGroupId, m_projectSettings.get());
-			addMsvcCompatibilityFlagsOnDemand(settings);
-			executeSourceGroupSetup<SourceGroupSettingsCEmpty>(settings);
-		}
-		break;
+	{
+		std::shared_ptr<SourceGroupSettingsCEmpty> settings =
+			std::make_shared<SourceGroupSettingsCEmpty>(sourceGroupId, m_projectSettings.get());
+		addMsvcCompatibilityFlagsOnDemand(settings);
+		executeSourceGroupSetup<SourceGroupSettingsCEmpty>(settings);
+	}
+	break;
 	case SOURCE_GROUP_CPP_EMPTY:
 	{
-		std::shared_ptr<SourceGroupSettingsCppEmpty> settings = std::make_shared<SourceGroupSettingsCppEmpty>(sourceGroupId, m_projectSettings.get());
+		std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
+			std::make_shared<SourceGroupSettingsCppEmpty>(sourceGroupId, m_projectSettings.get());
 		addMsvcCompatibilityFlagsOnDemand(settings);
 		executeSourceGroupSetup<SourceGroupSettingsCppEmpty>(settings);
 	}
-		break;
+	break;
 	case SOURCE_GROUP_CXX_CDB:
-		{
-			std::shared_ptr<SourceGroupSettingsCxxCdb> settings = std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
-			executeSourceGroupSetup<SourceGroupSettingsCxxCdb>(settings);
-		}
-		break;
+	{
+		std::shared_ptr<SourceGroupSettingsCxxCdb> settings =
+			std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
+		executeSourceGroupSetup<SourceGroupSettingsCxxCdb>(settings);
+	}
+	break;
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
-		{
-			std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings = std::make_shared<SourceGroupSettingsCxxCodeblocks>(sourceGroupId, m_projectSettings.get());
-			addMsvcCompatibilityFlagsOnDemand(settings);
-			executeSourceGroupSetup<SourceGroupSettingsCxxCodeblocks>(settings);
-		}
-		break;
+	{
+		std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings =
+			std::make_shared<SourceGroupSettingsCxxCodeblocks>(
+				sourceGroupId, m_projectSettings.get());
+		addMsvcCompatibilityFlagsOnDemand(settings);
+		executeSourceGroupSetup<SourceGroupSettingsCxxCodeblocks>(settings);
+	}
+	break;
 	case SOURCE_GROUP_CXX_VS:
-		{
-			std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings = std::make_shared<SourceGroupSettingsCxxCdbVs>(sourceGroupId, m_projectSettings.get());
-			executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(settings);
-		}
-		break;
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+	{
+		std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings =
+			std::make_shared<SourceGroupSettingsCxxCdbVs>(sourceGroupId, m_projectSettings.get());
+		executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(settings);
+	}
+	break;
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_JAVA_EMPTY:
-		{
-			std::shared_ptr<SourceGroupSettingsJavaEmpty> settings = std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
-			executeSourceGroupSetup<SourceGroupSettingsJavaEmpty>(settings);
-		}
-		break;
+	{
+		std::shared_ptr<SourceGroupSettingsJavaEmpty> settings =
+			std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
+		executeSourceGroupSetup<SourceGroupSettingsJavaEmpty>(settings);
+	}
+	break;
 	case SOURCE_GROUP_JAVA_MAVEN:
-		{
-			std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::make_shared<SourceGroupSettingsJavaMaven>(sourceGroupId, m_projectSettings.get());
-			executeSourceGroupSetup<SourceGroupSettingsJavaMaven>(settings);
-		}
-		break;
+	{
+		std::shared_ptr<SourceGroupSettingsJavaMaven> settings =
+			std::make_shared<SourceGroupSettingsJavaMaven>(sourceGroupId, m_projectSettings.get());
+		executeSourceGroupSetup<SourceGroupSettingsJavaMaven>(settings);
+	}
+	break;
 	case SOURCE_GROUP_JAVA_GRADLE:
-		{
-			std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
-			executeSourceGroupSetup<SourceGroupSettingsJavaGradle>(settings);
-		}
-		break;
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+	{
+		std::shared_ptr<SourceGroupSettingsJavaGradle> settings =
+			std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
+		executeSourceGroupSetup<SourceGroupSettingsJavaGradle>(settings);
+	}
+	break;
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_PYTHON_EMPTY:
 	{
-		std::shared_ptr<SourceGroupSettingsPythonEmpty> settings = std::make_shared<SourceGroupSettingsPythonEmpty>(sourceGroupId, m_projectSettings.get());
+		std::shared_ptr<SourceGroupSettingsPythonEmpty> settings =
+			std::make_shared<SourceGroupSettingsPythonEmpty>(sourceGroupId, m_projectSettings.get());
 		executeSourceGroupSetup<SourceGroupSettingsPythonEmpty>(settings);
 	}
 	break;
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_CUSTOM_COMMAND:
-		{
-			std::shared_ptr<SourceGroupSettingsCustomCommand> settings = std::make_shared<SourceGroupSettingsCustomCommand>(sourceGroupId, m_projectSettings.get());
-			executeSourceGroupSetup<SourceGroupSettingsCustomCommand>(settings);
-		}
-		break;
+	{
+		std::shared_ptr<SourceGroupSettingsCustomCommand> settings =
+			std::make_shared<SourceGroupSettingsCustomCommand>(
+				sourceGroupId, m_projectSettings.get());
+		executeSourceGroupSetup<SourceGroupSettingsCustomCommand>(settings);
+	}
+	break;
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}
@@ -1155,10 +1279,12 @@ void QtProjectWizard::createProject()
 	bool settingsChanged = false;
 	if (m_editing)
 	{
-		std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+		std::shared_ptr<const Project> currentProject =
+			Application::getInstance()->getCurrentProject();
 		if (currentProject)
 		{
-			settingsChanged = !(currentProject->settingsEqualExceptNameAndLocation(*(m_projectSettings.get())));
+			settingsChanged = !(
+				currentProject->settingsEqualExceptNameAndLocation(*(m_projectSettings.get())));
 		}
 
 		settingsChanged |= !(m_appSettings == *ApplicationSettings::getInstance().get());

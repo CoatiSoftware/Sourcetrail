@@ -1,14 +1,14 @@
 #include "QtCodeSnippet.h"
 
 #include <QBoxLayout>
-#include <qmenu.h>
 #include <QPushButton>
+#include <qmenu.h>
 
 #include "MessageShowScope.h"
 
-#include "SourceLocationFile.h"
-#include "QtCodeNavigator.h"
 #include "QtCodeFile.h"
+#include "QtCodeNavigator.h"
+#include "SourceLocationFile.h"
 
 QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file)
 	: QFrame(file)
@@ -33,7 +33,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	if (!m_titleString.empty() && !params.isOverview)
 	{
 		m_title = createScopeLine(layout);
-		if (m_titleId == 0) // title is a file path
+		if (m_titleId == 0)	   // title is a file path
 		{
 			m_title->setText(QString::fromStdWString(FilePath(m_titleString).fileName()));
 		}
@@ -44,13 +44,14 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		connect(m_title, &QPushButton::clicked, this, &QtCodeSnippet::clickedTitle);
 	}
 
-	m_codeArea = new QtCodeArea(params.startLineNumber, params.code, params.locationFile, navigator, !params.isOverview, this);
+	m_codeArea = new QtCodeArea(
+		params.startLineNumber, params.code, params.locationFile, navigator, !params.isOverview, this);
 	layout->addWidget(m_codeArea);
 
 	if (!m_footerString.empty())
 	{
 		m_footer = createScopeLine(layout);
-		if (m_footerId == 0) // footer is a file path
+		if (m_footerId == 0)	// footer is a file path
 		{
 			m_footer->setText(QString::fromStdWString(FilePath(m_footerString).fileName()));
 		}
@@ -62,9 +63,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	}
 }
 
-QtCodeSnippet::~QtCodeSnippet()
-{
-}
+QtCodeSnippet::~QtCodeSnippet() {}
 
 QtCodeFile* QtCodeSnippet::getFile() const
 {
@@ -146,7 +145,8 @@ std::string QtCodeSnippet::getCode() const
 	return m_codeArea->getCode();
 }
 
-void QtCodeSnippet::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeSnippet::findScreenMatches(
+	const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
 	m_codeArea->findScreenMatches(query, screenMatches);
 }
@@ -190,14 +190,14 @@ QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 
 	QPushButton* dots = new QPushButton(this);
 	dots->setObjectName("dots");
-	dots->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	dots->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 	lineLayout->addWidget(dots);
 	m_dots.push_back(dots);
 
 	QPushButton* line = new QPushButton(this);
 	line->setObjectName("scope_name");
-	line->minimumSizeHint(); // force font loading
-	line->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	line->minimumSizeHint();							// force font loading
+	line->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	lineLayout->addWidget(line);
 
@@ -206,7 +206,7 @@ QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 
 void QtCodeSnippet::updateDots()
 {
-	for (QPushButton* dots : m_dots)
+	for (QPushButton* dots: m_dots)
 	{
 		dots->setText(QString::fromStdString(std::string(lineNumberDigits(), '.')));
 		dots->setMinimumWidth(m_codeArea->lineNumberAreaWidth());

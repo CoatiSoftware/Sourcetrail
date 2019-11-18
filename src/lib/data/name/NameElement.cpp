@@ -3,15 +3,10 @@
 #include "logging.h"
 #include "utilityString.h"
 
-NameElement::Signature::Signature()
-	: m_prefix(L"")
-	, m_postfix(L"")
-{
-}
+NameElement::Signature::Signature(): m_prefix(L""), m_postfix(L"") {}
 
 NameElement::Signature::Signature(std::wstring prefix, std::wstring postfix)
-	: m_prefix(std::move(prefix))
-	, m_postfix(std::move(postfix))
+	: m_prefix(std::move(prefix)), m_postfix(std::move(postfix))
 {
 }
 
@@ -61,20 +56,14 @@ std::wstring NameElement::Signature::getParameterString() const
 	return m_postfix;
 }
 
-NameElement::NameElement(std::wstring name)
-	: m_name(std::move(name))
-{
-}
+NameElement::NameElement(std::wstring name): m_name(std::move(name)) {}
 
 NameElement::NameElement(std::wstring name, std::wstring prefix, std::wstring postfix)
-	: m_name(std::move(name))
-	, m_signature(std::move(prefix), std::move(postfix))
+	: m_name(std::move(name)), m_signature(std::move(prefix), std::move(postfix))
 {
 }
 
-NameElement::~NameElement()
-{
-}
+NameElement::~NameElement() {}
 
 const std::wstring& NameElement::getName() const
 {

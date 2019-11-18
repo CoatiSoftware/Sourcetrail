@@ -1,14 +1,13 @@
 #ifndef QT_TOOLTIP_VIEW
 #define QT_TOOLTIP_VIEW
 
-#include "TooltipView.h"
 #include "QtThreadedFunctor.h"
+#include "TooltipView.h"
 
 class QTimer;
 class QtTooltip;
 
-class QtTooltipView
-	: public TooltipView
+class QtTooltipView: public TooltipView
 {
 public:
 	QtTooltipView(ViewLayout* viewLayout);
@@ -30,4 +29,4 @@ private:
 	QtTooltip* m_widget;
 };
 
-#endif // QT_TOOLTIP_VIEW
+#endif	  // QT_TOOLTIP_VIEW

@@ -7,12 +7,10 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageFocusOut
-	: public Message<MessageFocusOut>
+class MessageFocusOut: public Message<MessageFocusOut>
 {
 public:
-	MessageFocusOut(const std::vector<Id>& tokenIds)
-		: tokenIds(tokenIds)
+	MessageFocusOut(const std::vector<Id>& tokenIds): tokenIds(tokenIds)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());
@@ -25,7 +23,7 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		for (const Id& id : tokenIds)
+		for (const Id& id: tokenIds)
 		{
 			os << id << L" ";
 		}
@@ -34,4 +32,4 @@ public:
 	const std::vector<Id> tokenIds;
 };
 
-#endif //MESSAGE_FOCUS_OUT_H
+#endif	  // MESSAGE_FOCUS_OUT_H

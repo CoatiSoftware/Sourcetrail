@@ -6,8 +6,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithClasspath
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithClasspath: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithClasspath() = default;
@@ -30,4 +29,4 @@ private:
 	bool m_useJreSystemLibrary = true;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CLASSPATH_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CLASSPATH_H

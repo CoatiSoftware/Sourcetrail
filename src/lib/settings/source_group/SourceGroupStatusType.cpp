@@ -11,8 +11,10 @@ std::string sourceGroupStatusTypeToString(SourceGroupStatusType v)
 	case SOURCE_GROUP_STATUS_DISABLED:
 		return "disabled";
 	}
-	LOG_WARNING("Trying to convert unknown Source Group status type to string, falling back to disabled status.");
-	return "disabled"; 
+	LOG_WARNING(
+		"Trying to convert unknown Source Group status type to string, falling back to disabled "
+		"status.");
+	return "disabled";
 }
 
 SourceGroupStatusType stringToSourceGroupStatusType(std::string v)
@@ -26,6 +28,8 @@ SourceGroupStatusType stringToSourceGroupStatusType(std::string v)
 		return SOURCE_GROUP_STATUS_DISABLED;
 	}
 
-	LOG_WARNING("Trying to convert unknown string to Source Group status type, falling back to disabled status.");
+	LOG_WARNING(
+		"Trying to convert unknown string to Source Group status type, falling back to disabled "
+		"status.");
 	return SOURCE_GROUP_STATUS_DISABLED;
 }

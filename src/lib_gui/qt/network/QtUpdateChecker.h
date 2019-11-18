@@ -5,8 +5,7 @@
 #include "UpdateChecker.h"
 #include "Version.h"
 
-class QtUpdateChecker
-	: public UpdateChecker
+class QtUpdateChecker: public UpdateChecker
 {
 public:
 	struct Result
@@ -25,4 +24,4 @@ private:
 	QtThreadedLambdaFunctor m_onQtThread;
 };
 
-#endif // QT_UPDATE_CHECKER_H
+#endif	  // QT_UPDATE_CHECKER_H

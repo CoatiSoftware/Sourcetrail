@@ -7,8 +7,7 @@
 
 class View;
 
-class QtViewWidgetWrapper
-	: public ViewWidgetWrapper
+class QtViewWidgetWrapper: public ViewWidgetWrapper
 {
 public:
 	static QWidget* getWidgetOfView(const View* view);
@@ -22,4 +21,4 @@ private:
 	QWidget* m_widget;
 };
 
-#endif // QT_VIEW_WIDGET_WRAPPER_H
+#endif	  // QT_VIEW_WIDGET_WRAPPER_H

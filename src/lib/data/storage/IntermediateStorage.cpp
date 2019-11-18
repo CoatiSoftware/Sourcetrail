@@ -3,10 +3,7 @@
 #include "LocationType.h"
 #include "utility.h"
 
-IntermediateStorage::IntermediateStorage()
-	: m_nextId(1)
-{
-}
+IntermediateStorage::IntermediateStorage(): m_nextId(1) {}
 
 void IntermediateStorage::clear()
 {
@@ -80,7 +77,7 @@ size_t IntermediateStorage::getSourceLocationCount() const
 
 bool IntermediateStorage::hasFatalErrors() const
 {
-	for (const StorageErrorData& error : m_errors)
+	for (const StorageErrorData& error: m_errors)
 	{
 		if (error.fatal)
 		{
@@ -93,7 +90,7 @@ bool IntermediateStorage::hasFatalErrors() const
 
 void IntermediateStorage::setAllFilesIncomplete()
 {
-	for (StorageFile& file : m_files)
+	for (StorageFile& file: m_files)
 	{
 		file.complete = false;
 	}
@@ -102,7 +99,7 @@ void IntermediateStorage::setAllFilesIncomplete()
 void IntermediateStorage::setFilesWithErrorsIncomplete()
 {
 	std::set<Id> errorFileIds;
-	for (const StorageSourceLocation& location : m_sourceLocations)
+	for (const StorageSourceLocation& location: m_sourceLocations)
 	{
 		if (location.type == locationTypeToInt(LOCATION_ERROR))
 		{
@@ -110,7 +107,7 @@ void IntermediateStorage::setFilesWithErrorsIncomplete()
 		}
 	}
 
-	for (StorageFile& file : m_files)
+	for (StorageFile& file: m_files)
 	{
 		if (errorFileIds.find(file.id) != errorFileIds.end())
 		{
@@ -143,7 +140,7 @@ std::vector<Id> IntermediateStorage::addNodes(const std::vector<StorageNode>& no
 {
 	std::vector<Id> nodeIds;
 	nodeIds.reserve(nodes.size());
-	for (const StorageNode& node : nodes)
+	for (const StorageNode& node: nodes)
 	{
 		nodeIds.emplace_back(addNode(node).first);
 	}
@@ -197,7 +194,6 @@ void IntermediateStorage::addFile(const StorageFile& file)
 		m_filesIdIndex.emplace(file.id, m_files.size());
 		m_files.emplace_back(file);
 	}
-
 }
 
 void IntermediateStorage::setFileLanguage(Id fileId, const std::wstring& languageIdentifier)
@@ -227,7 +223,7 @@ std::vector<Id> IntermediateStorage::addEdges(const std::vector<StorageEdge>& ed
 {
 	std::vector<Id> edgeIds;
 	edgeIds.reserve(edges.size());
-	for (const StorageEdge& edge : edges)
+	for (const StorageEdge& edge: edges)
 	{
 		edgeIds.emplace_back(addEdge(edge));
 	}
@@ -251,7 +247,7 @@ std::vector<Id> IntermediateStorage::addLocalSymbols(const std::set<StorageLocal
 {
 	std::vector<Id> symbolIds;
 	symbolIds.reserve(symbols.size());
-	for (const StorageLocalSymbol& symbol : symbols)
+	for (const StorageLocalSymbol& symbol: symbols)
 	{
 		symbolIds.emplace_back(addLocalSymbol(symbol));
 	}
@@ -275,7 +271,7 @@ std::vector<Id> IntermediateStorage::addSourceLocations(const std::vector<Storag
 {
 	std::vector<Id> locationIds;
 	locationIds.reserve(locations.size());
-	for (const StorageSourceLocation& location : locations)
+	for (const StorageSourceLocation& location: locations)
 	{
 		locationIds.emplace_back(addSourceLocation(location));
 	}

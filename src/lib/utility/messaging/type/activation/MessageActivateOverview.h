@@ -30,10 +30,10 @@ public:
 		{
 			return SearchMatch::createCommandsForNodeTypes(acceptedNodeTypes);
 		}
-		return { SearchMatch::createCommand(SearchMatch::COMMAND_ALL) };
+		return {SearchMatch::createCommand(SearchMatch::COMMAND_ALL)};
 	}
 
 	NodeTypeSet acceptedNodeTypes;
 };
 
-#endif // MESSAGE_ACTIVATE_ALL_H
+#endif	  // MESSAGE_ACTIVATE_ALL_H

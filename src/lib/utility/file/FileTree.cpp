@@ -2,14 +2,13 @@
 
 #include "FileSystem.h"
 
-FileTree::FileTree(const FilePath& rootPath)
-	: m_rootPath(rootPath.getAbsolute().makeCanonical())
+FileTree::FileTree(const FilePath& rootPath): m_rootPath(rootPath.getAbsolute().makeCanonical())
 {
 	if (m_rootPath.exists())
 	{
 		if (m_rootPath.isDirectory())
 		{
-			for (const FilePath& filePath : FileSystem::getFilePathsFromDirectory(m_rootPath))
+			for (const FilePath& filePath: FileSystem::getFilePathsFromDirectory(m_rootPath))
 			{
 				m_files[filePath.fileName()].insert(filePath);
 			}
@@ -23,7 +22,8 @@ FileTree::FileTree(const FilePath& rootPath)
 
 FilePath FileTree::getAbsoluteRootPathForRelativeFilePath(const FilePath& relativeFilePath)
 {
-	std::vector<FilePath> rootPaths = doGetAbsoluteRootPathsForRelativeFilePath(relativeFilePath, false);
+	std::vector<FilePath> rootPaths = doGetAbsoluteRootPathsForRelativeFilePath(
+		relativeFilePath, false);
 	if (!rootPaths.empty())
 	{
 		return rootPaths.front();
@@ -36,14 +36,16 @@ std::vector<FilePath> FileTree::getAbsoluteRootPathsForRelativeFilePath(const Fi
 	return doGetAbsoluteRootPathsForRelativeFilePath(relativeFilePath, true);
 }
 
-std::vector<FilePath> FileTree::doGetAbsoluteRootPathsForRelativeFilePath(const FilePath& relativeFilePath, bool allowMultipleResults)
+std::vector<FilePath> FileTree::doGetAbsoluteRootPathsForRelativeFilePath(
+	const FilePath& relativeFilePath, bool allowMultipleResults)
 {
 	std::vector<FilePath> rootPaths;
 
-	std::unordered_map<std::wstring, std::set<FilePath>>::const_iterator it = m_files.find(relativeFilePath.fileName());
+	std::unordered_map<std::wstring, std::set<FilePath>>::const_iterator it = m_files.find(
+		relativeFilePath.fileName());
 	if (it != m_files.end())
 	{
-		for (FilePath existingFilePath : it->second)
+		for (FilePath existingFilePath: it->second)
 		{
 			existingFilePath = existingFilePath.getParentDirectory();
 			bool ok = true;
@@ -53,7 +55,8 @@ std::vector<FilePath> FileTree::doGetAbsoluteRootPathsForRelativeFilePath(const 
 				{
 					if (temp.fileName() == L"..")
 					{
-						std::vector<FilePath> subDirectories = FileSystem::getDirectSubDirectories(existingFilePath);
+						std::vector<FilePath> subDirectories = FileSystem::getDirectSubDirectories(
+							existingFilePath);
 						if (!subDirectories.empty())
 						{
 							existingFilePath = subDirectories.front();
@@ -83,4 +86,3 @@ std::vector<FilePath> FileTree::doGetAbsoluteRootPathsForRelativeFilePath(const 
 	}
 	return rootPaths;
 }
-

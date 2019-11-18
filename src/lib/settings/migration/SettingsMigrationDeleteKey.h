@@ -16,4 +16,4 @@ private:
 	const std::string m_key;
 };
 
-#endif // SETTINGS_MIGRATION_DELETE_KEY_H
+#endif	  // SETTINGS_MIGRATION_DELETE_KEY_H

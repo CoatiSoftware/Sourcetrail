@@ -71,4 +71,4 @@ private:
 	DummyNode* m_activeParentNode = nullptr;
 };
 
-#endif // BUCKET_LAYOUTER_H
+#endif	  // BUCKET_LAYOUTER_H

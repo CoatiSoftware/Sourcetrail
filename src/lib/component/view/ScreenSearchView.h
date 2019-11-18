@@ -3,8 +3,7 @@
 
 #include "View.h"
 
-class ScreenSearchView
-	: public View
+class ScreenSearchView: public View
 {
 public:
 	ScreenSearchView(ViewLayout* viewLayout);
@@ -19,4 +18,4 @@ public:
 	virtual void addResponder(const std::string& name) = 0;
 };
 
-#endif // SCREEN_SEARCH_VIEW_H
+#endif	  // SCREEN_SEARCH_VIEW_H

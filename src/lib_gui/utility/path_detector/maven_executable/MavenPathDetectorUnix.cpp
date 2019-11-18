@@ -3,10 +3,7 @@
 #include "FilePath.h"
 #include "utilityApp.h"
 
-MavenPathDetectorUnix::MavenPathDetectorUnix()
-	: PathDetector("Maven for Unix")
-{
-}
+MavenPathDetectorUnix::MavenPathDetectorUnix(): PathDetector("Maven for Unix") {}
 
 std::vector<FilePath> MavenPathDetectorUnix::getPaths() const
 {

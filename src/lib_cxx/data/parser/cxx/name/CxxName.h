@@ -26,4 +26,4 @@ private:
 	std::shared_ptr<CxxName> m_parent;
 };
 
-#endif // CXX_NAME_H
+#endif	  // CXX_NAME_H

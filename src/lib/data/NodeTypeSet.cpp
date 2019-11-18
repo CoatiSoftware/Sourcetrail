@@ -20,10 +20,7 @@ NodeTypeSet::NodeTypeSet()
 	m_nodeTypeMask = 0;
 }
 
-NodeTypeSet::NodeTypeSet(const NodeType& type)
-	: m_nodeTypeMask(nodeTypeToMask(type))
-{
-}
+NodeTypeSet::NodeTypeSet(const NodeType& type): m_nodeTypeMask(nodeTypeToMask(type)) {}
 
 bool NodeTypeSet::operator==(const NodeTypeSet& other) const
 {
@@ -39,7 +36,7 @@ std::vector<NodeType> NodeTypeSet::getNodeTypes() const
 {
 	std::vector<NodeType> nodeTypes;
 
-	for (const NodeType& type : s_allNodeTypes)
+	for (const NodeType& type: s_allNodeTypes)
 	{
 		if (m_nodeTypeMask & nodeTypeToMask(type))
 		{
@@ -84,7 +81,7 @@ NodeTypeSet NodeTypeSet::getWithRemoved(const NodeTypeSet& typeSet) const
 
 void NodeTypeSet::keepMatching(const std::function<bool(const NodeType&)>& matcher)
 {
-	for (const NodeType& type : s_allNodeTypes)
+	for (const NodeType& type: s_allNodeTypes)
 	{
 		if (m_nodeTypeMask & nodeTypeToMask(type) && !matcher(type))
 		{
@@ -102,7 +99,7 @@ NodeTypeSet NodeTypeSet::getWithMatchingKept(const std::function<bool(const Node
 
 void NodeTypeSet::removeMatching(const std::function<bool(const NodeType&)>& matcher)
 {
-	for (const NodeType& type : s_allNodeTypes)
+	for (const NodeType& type: s_allNodeTypes)
 	{
 		if (m_nodeTypeMask & nodeTypeToMask(type) && matcher(type))
 		{
@@ -130,7 +127,7 @@ bool NodeTypeSet::contains(const NodeType& type) const
 
 bool NodeTypeSet::containsMatching(const std::function<bool(const NodeType&)>& matcher) const
 {
-	for (const NodeType& type : s_allNodeTypes)
+	for (const NodeType& type: s_allNodeTypes)
 	{
 		if (m_nodeTypeMask & nodeTypeToMask(type) && matcher(type))
 		{
@@ -160,10 +157,7 @@ std::vector<Id> NodeTypeSet::getNodeTypeIds() const
 	return ids;
 }
 
-NodeTypeSet::NodeTypeSet(NodeTypeSet::MaskType typeMask)
-	: m_nodeTypeMask(typeMask)
-{
-}
+NodeTypeSet::NodeTypeSet(NodeTypeSet::MaskType typeMask): m_nodeTypeMask(typeMask) {}
 
 NodeTypeSet::MaskType NodeTypeSet::nodeTypeToMask(const NodeType& nodeType)
 {
@@ -172,24 +166,13 @@ NodeTypeSet::MaskType NodeTypeSet::nodeTypeToMask(const NodeType& nodeType)
 }
 
 const std::vector<NodeType> NodeTypeSet::s_allNodeTypes = {
-	NodeType(NodeType::NODE_SYMBOL),
-	NodeType(NodeType::NODE_TYPE),
-	NodeType(NodeType::NODE_BUILTIN_TYPE),
-	NodeType(NodeType::NODE_MODULE),
-	NodeType(NodeType::NODE_NAMESPACE),
-	NodeType(NodeType::NODE_PACKAGE),
-	NodeType(NodeType::NODE_STRUCT),
-	NodeType(NodeType::NODE_CLASS),
-	NodeType(NodeType::NODE_INTERFACE),
-	NodeType(NodeType::NODE_GLOBAL_VARIABLE),
-	NodeType(NodeType::NODE_FIELD),
-	NodeType(NodeType::NODE_FUNCTION),
-	NodeType(NodeType::NODE_METHOD),
-	NodeType(NodeType::NODE_ENUM),
-	NodeType(NodeType::NODE_ENUM_CONSTANT),
-	NodeType(NodeType::NODE_TYPEDEF),
-	NodeType(NodeType::NODE_TYPE_PARAMETER),
-	NodeType(NodeType::NODE_FILE),
-	NodeType(NodeType::NODE_MACRO),
-	NodeType(NodeType::NODE_UNION)
-};
+	NodeType(NodeType::NODE_SYMBOL),		 NodeType(NodeType::NODE_TYPE),
+	NodeType(NodeType::NODE_BUILTIN_TYPE),	 NodeType(NodeType::NODE_MODULE),
+	NodeType(NodeType::NODE_NAMESPACE),		 NodeType(NodeType::NODE_PACKAGE),
+	NodeType(NodeType::NODE_STRUCT),		 NodeType(NodeType::NODE_CLASS),
+	NodeType(NodeType::NODE_INTERFACE),		 NodeType(NodeType::NODE_GLOBAL_VARIABLE),
+	NodeType(NodeType::NODE_FIELD),			 NodeType(NodeType::NODE_FUNCTION),
+	NodeType(NodeType::NODE_METHOD),		 NodeType(NodeType::NODE_ENUM),
+	NodeType(NodeType::NODE_ENUM_CONSTANT),	 NodeType(NodeType::NODE_TYPEDEF),
+	NodeType(NodeType::NODE_TYPE_PARAMETER), NodeType(NodeType::NODE_FILE),
+	NodeType(NodeType::NODE_MACRO),			 NodeType(NodeType::NODE_UNION)};

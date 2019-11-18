@@ -5,15 +5,12 @@
 
 struct StorageOccurrence
 {
-	StorageOccurrence()
-		: elementId(0)
-		, sourceLocationId(0)
-	{}
+	StorageOccurrence(): elementId(0), sourceLocationId(0) {}
 
 	StorageOccurrence(Id elementId, Id sourceLocationId)
-		: elementId(elementId)
-		, sourceLocationId(sourceLocationId)
-	{}
+		: elementId(elementId), sourceLocationId(sourceLocationId)
+	{
+	}
 
 	bool operator<(const StorageOccurrence& other) const
 	{
@@ -31,4 +28,4 @@ struct StorageOccurrence
 	Id sourceLocationId;
 };
 
-#endif // STORAGE_OCCURRENCE_H
+#endif	  // STORAGE_OCCURRENCE_H

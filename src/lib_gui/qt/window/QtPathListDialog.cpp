@@ -2,7 +2,11 @@
 
 #include <QLabel>
 
-QtPathListDialog::QtPathListDialog(const QString& title, const QString& description, QtPathListBox::SelectionPolicyType selectionPolicy, QWidget* parent)
+QtPathListDialog::QtPathListDialog(
+	const QString& title,
+	const QString& description,
+	QtPathListBox::SelectionPolicyType selectionPolicy,
+	QWidget* parent)
 	: QtWindow(false, parent)
 	, m_title(title)
 	, m_description(description)

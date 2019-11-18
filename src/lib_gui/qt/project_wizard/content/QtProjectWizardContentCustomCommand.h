@@ -7,15 +7,13 @@ class QCheckBox;
 class QLineEdit;
 class SourceGroupSettingsCustomCommand;
 
-class QtProjectWizardContentCustomCommand
-	: public QtProjectWizardContent
+class QtProjectWizardContentCustomCommand: public QtProjectWizardContent
 {
 	Q_OBJECT
 
 public:
 	QtProjectWizardContentCustomCommand(
-		std::shared_ptr<SourceGroupSettingsCustomCommand> settings,
-		QtProjectWizardWindow* window);
+		std::shared_ptr<SourceGroupSettingsCustomCommand> settings, QtProjectWizardWindow* window);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -31,4 +29,4 @@ private:
 	QCheckBox* m_runInParallel;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_CUSTOM_COMMAND_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_CUSTOM_COMMAND_H

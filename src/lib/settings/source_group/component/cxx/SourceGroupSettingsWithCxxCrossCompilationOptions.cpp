@@ -4,7 +4,7 @@
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableArchTypes()
 {
-	return{
+	return {
 		L"aarch64",
 		L"aarch64_be",
 		L"arm",
@@ -58,7 +58,7 @@ std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::get
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableVendorTypes()
 {
-	return{
+	return {
 		L"unknown",
 		L"apple",
 		L"pc",
@@ -73,50 +73,21 @@ std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::get
 		L"csr",
 		L"myriad",
 		L"amd",
-		L"mesa"
-	};
+		L"mesa"};
 }
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableOsTypes()
 {
-	return{
-		L"unknown",
-		L"cloudabi",
-		L"darwin",
-		L"dragonfly",
-		L"freebsd",
-		L"fuchsia",
-		L"ios",
-		L"kfreebsd",
-		L"linux",
-		L"lv2",
-		L"macosx",
-		L"netbsd",
-		L"openbsd",
-		L"solaris",
-		L"windows",
-		L"haiku",
-		L"minix",
-		L"rtems",
-		L"nacl",
-		L"cnk",
-		L"bitrig",
-		L"aix",
-		L"cuda",
-		L"nvcl",
-		L"amdhsa",
-		L"ps4",
-		L"elfiamcu",
-		L"tvos",
-		L"watchos",
-		L"mesa3d",
-		L"contiki"
-	};
+	return {L"unknown",	 L"cloudabi", L"darwin", L"dragonfly", L"freebsd", L"fuchsia",	L"ios",
+			L"kfreebsd", L"linux",	  L"lv2",	 L"macosx",	   L"netbsd",  L"openbsd",	L"solaris",
+			L"windows",	 L"haiku",	  L"minix",	 L"rtems",	   L"nacl",	   L"cnk",		L"bitrig",
+			L"aix",		 L"cuda",	  L"nvcl",	 L"amdhsa",	   L"ps4",	   L"elfiamcu", L"tvos",
+			L"watchos",	 L"mesa3d",	  L"contiki"};
 }
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableEnvironmentTypes()
 {
-	return{
+	return {
 		L"unknown",
 		L"gnu",
 		L"gnuabi64",
@@ -135,8 +106,7 @@ std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::get
 		L"cygnus",
 		L"amdopencl",
 		L"coreclr",
-		L"opencl"
-	};
+		L"opencl"};
 }
 
 bool SourceGroupSettingsWithCxxCrossCompilationOptions::getTargetOptionsEnabled() const
@@ -208,22 +178,26 @@ bool SourceGroupSettingsWithCxxCrossCompilationOptions::equals(const SourceGroup
 	const SourceGroupSettingsWithCxxCrossCompilationOptions* otherPtr =
 		dynamic_cast<const SourceGroupSettingsWithCxxCrossCompilationOptions*>(other);
 
-	return (
-		other &&
-		getTargetFlag() == otherPtr->getTargetFlag()
-	);
+	return (other && getTargetFlag() == otherPtr->getTargetFlag());
 }
 
-void SourceGroupSettingsWithCxxCrossCompilationOptions::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCxxCrossCompilationOptions::load(
+	const ConfigManager* config, const std::string& key)
 {
-	setTargetOptionsEnabled(config->getValueOrDefault<bool>(key + "/cross_compilation/target_options_enabled", false));
-	setTargetArch(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/arch", L""));
-	setTargetVendor(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/vendor", L""));
-	setTargetSys(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/sys", L""));
-	setTargetAbi(config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/abi", L""));
+	setTargetOptionsEnabled(
+		config->getValueOrDefault<bool>(key + "/cross_compilation/target_options_enabled", false));
+	setTargetArch(
+		config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/arch", L""));
+	setTargetVendor(
+		config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/vendor", L""));
+	setTargetSys(
+		config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/sys", L""));
+	setTargetAbi(
+		config->getValueOrDefault<std::wstring>(key + "/cross_compilation/target/abi", L""));
 }
 
-void SourceGroupSettingsWithCxxCrossCompilationOptions::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCxxCrossCompilationOptions::save(
+	ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/cross_compilation/target_options_enabled", getTargetOptionsEnabled());
 	config->setValue(key + "/cross_compilation/target/arch", getTargetArch());

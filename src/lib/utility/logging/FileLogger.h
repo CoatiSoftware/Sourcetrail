@@ -4,13 +4,14 @@
 #include <string>
 
 #include "FilePath.h"
-#include "Logger.h"
 #include "LogMessage.h"
+#include "Logger.h"
 
 class FileLogger: public Logger
 {
 public:
-	static std::wstring generateDatedFileName(const std::wstring& prefix = L"", const std::wstring& suffix = L"", int offsetDays = 0);
+	static std::wstring generateDatedFileName(
+		const std::wstring& prefix = L"", const std::wstring& suffix = L"", int offsetDays = 0);
 
 	FileLogger();
 
@@ -44,4 +45,4 @@ private:
 	unsigned int m_currentLogFileCount;
 };
 
-#endif // FILE_LOGGER_H
+#endif	  // FILE_LOGGER_H

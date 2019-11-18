@@ -3,8 +3,7 @@
 
 #include "ViewFactory.h"
 
-class QtViewFactory
-	: public ViewFactory
+class QtViewFactory: public ViewFactory
 {
 public:
 	QtViewFactory() = default;
@@ -12,8 +11,11 @@ public:
 
 	std::shared_ptr<MainView> createMainView(StorageAccess* storageAccess) const override;
 	std::shared_ptr<CompositeView> createCompositeView(
-		ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name) const override;
-	std::shared_ptr<TabbedView> createTabbedView(ViewLayout* viewLayout, const std::string& name) const override;
+		ViewLayout* viewLayout,
+		CompositeView::CompositeDirection direction,
+		const std::string& name) const override;
+	std::shared_ptr<TabbedView> createTabbedView(
+		ViewLayout* viewLayout, const std::string& name) const override;
 
 	std::shared_ptr<BookmarkButtonsView> createBookmarkButtonsView(ViewLayout* viewLayout) const override;
 	std::shared_ptr<BookmarkView> createBookmarkView(ViewLayout* viewLayout) const override;
@@ -31,9 +33,11 @@ public:
 	std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const override;
 
 	std::shared_ptr<DialogView> createDialogView(
-		ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const override;
+		ViewLayout* viewLayout,
+		DialogView::UseCase useCase,
+		StorageAccess* storageAccess) const override;
 
 	std::shared_ptr<GraphViewStyleImpl> createGraphStyleImpl() const override;
 };
 
-#endif // QT_VIEW_FACTORY_H
+#endif	  // QT_VIEW_FACTORY_H

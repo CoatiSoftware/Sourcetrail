@@ -22,10 +22,7 @@ QWidget* QtViewWidgetWrapper::getWidgetOfView(const View* view)
 	return widgetWrapper->getWidget();
 }
 
-QtViewWidgetWrapper::QtViewWidgetWrapper(QWidget* widget)
-	: m_widget(widget)
-{
-}
+QtViewWidgetWrapper::QtViewWidgetWrapper(QWidget* widget): m_widget(widget) {}
 
 QtViewWidgetWrapper::~QtViewWidgetWrapper()
 {

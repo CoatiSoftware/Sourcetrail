@@ -7,8 +7,7 @@
 #include "CxxDeclName.h"
 #include "CxxTypeName.h"
 
-class CxxFunctionDeclName
-	: public CxxDeclName
+class CxxFunctionDeclName: public CxxDeclName
 {
 public:
 	CxxFunctionDeclName(
@@ -17,8 +16,7 @@ public:
 		std::unique_ptr<CxxTypeName> returnTypeName,
 		std::vector<std::unique_ptr<CxxTypeName>> parameterTypeNames,
 		const bool isConst,
-		const bool isStatic
-	);
+		const bool isStatic);
 
 	NameHierarchy toNameHierarchy() const override;
 
@@ -29,4 +27,4 @@ private:
 	const bool m_isStatic;
 };
 
-#endif // CXX_FUNCTION_DECL_NAME_H
+#endif	  // CXX_FUNCTION_DECL_NAME_H

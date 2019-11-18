@@ -1,9 +1,9 @@
 #ifndef SUFFIX_ARRAY_H
 #define SUFFIX_ARRAY_H
 
-#include <vector>
-#include <string>
 #include <iostream>
+#include <string>
+#include <vector>
 
 class SuffixArray
 {
@@ -17,7 +17,7 @@ public:
 
 private:
 	template <typename T>
-	void printArr(std::vector<T>arr) const
+	void printArr(std::vector<T> arr) const
 	{
 		for (size_t i = 0; i < arr.size(); i++)
 		{
@@ -33,4 +33,4 @@ private:
 	std::wstring m_text;
 };
 
-#endif // SUFFIX_ARRAY_H
+#endif	  // SUFFIX_ARRAY_H

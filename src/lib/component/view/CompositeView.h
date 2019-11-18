@@ -43,4 +43,4 @@ private:
 	std::string m_name;
 };
 
-#endif // COMPOSITE_VIEW_H
+#endif	  // COMPOSITE_VIEW_H

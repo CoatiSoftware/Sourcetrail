@@ -20,7 +20,8 @@ QtSearchBar::QtSearchBar()
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	m_homeButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"search_view/images/home.png"));
+	m_homeButton = new QtSearchBarButton(
+		ResourcePaths::getGuiPath().concatenate(L"search_view/images/home.png"));
 	m_homeButton->setObjectName("home_button");
 	m_homeButton->setToolTip("to overview");
 	layout->addWidget(m_homeButton);
@@ -42,9 +43,11 @@ QtSearchBar::QtSearchBar()
 
 	connect(m_searchBox, &QtSmartSearchBox::autocomplete, this, &QtSearchBar::requestAutocomplete);
 	connect(m_searchBox, &QtSmartSearchBox::search, this, &QtSearchBar::requestSearch);
-	connect(m_searchBox, &QtSmartSearchBox::fullTextSearch, this, &QtSearchBar::requestFullTextSearch);
+	connect(
+		m_searchBox, &QtSmartSearchBox::fullTextSearch, this, &QtSearchBar::requestFullTextSearch);
 
-	m_searchButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"));
+	m_searchButton = new QtSearchBarButton(
+		ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"));
 	m_searchButton->setObjectName("search_button");
 	m_searchButton->setToolTip("search");
 	layout->addWidget(m_searchButton);
@@ -54,9 +57,7 @@ QtSearchBar::QtSearchBar()
 	refreshStyle();
 }
 
-QtSearchBar::~QtSearchBar()
-{
-}
+QtSearchBar::~QtSearchBar() {}
 
 QSize QtSearchBar::sizeHint() const
 {

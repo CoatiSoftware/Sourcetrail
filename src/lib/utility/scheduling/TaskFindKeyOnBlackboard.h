@@ -7,8 +7,7 @@
 
 class Blackboard;
 
-class TaskFindKeyOnBlackboard:
-	public Task
+class TaskFindKeyOnBlackboard: public Task
 {
 public:
 	TaskFindKeyOnBlackboard(const std::string& valueName);
@@ -22,4 +21,4 @@ private:
 	const std::string m_key;
 };
 
-#endif // TASK_FIND_KEY_ON_BLACKBOARD_H
+#endif	  // TASK_FIND_KEY_ON_BLACKBOARD_H

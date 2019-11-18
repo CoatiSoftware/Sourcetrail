@@ -18,10 +18,10 @@ class QtGraphNode
 	: public QObject
 	, public QGraphicsRectItem
 {
-    Q_OBJECT
-    Q_PROPERTY(QPointF pos READ pos WRITE setPos)
-    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
-    Q_PROPERTY(QSize size READ size WRITE setSize)
+	Q_OBJECT
+	Q_PROPERTY(QPointF pos READ pos WRITE setPos)
+	Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+	Q_PROPERTY(QSize size READ size WRITE setSize)
 
 public slots:
 	void blendIn();
@@ -147,4 +147,4 @@ private:
 	bool m_isActiveMatch = false;
 };
 
-#endif // QT_GRAPH_NODE_H
+#endif	  // QT_GRAPH_NODE_H

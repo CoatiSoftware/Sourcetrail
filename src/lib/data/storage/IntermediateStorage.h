@@ -1,14 +1,13 @@
 #ifndef INTERMEDIATE_STORAGE_H
 #define INTERMEDIATE_STORAGE_H
 
-#include <memory>
 #include <map>
+#include <memory>
 #include <set>
 
 #include "Storage.h"
 
-class IntermediateStorage
-	: public Storage
+class IntermediateStorage: public Storage
 {
 public:
 	IntermediateStorage();
@@ -73,7 +72,7 @@ private:
 	std::map<Id, size_t> m_nodeIdIndex;
 	std::vector<StorageNode> m_nodes;
 
-	std::map<StorageFile, size_t> m_filesIndex; // this is used to prevent duplicates (unique)
+	std::map<StorageFile, size_t> m_filesIndex;	   // this is used to prevent duplicates (unique)
 	std::map<Id, size_t> m_filesIdIndex;
 	std::vector<StorageFile> m_files;
 
@@ -91,10 +90,10 @@ private:
 	std::set<StorageComponentAccess> m_componentAccesses;
 	std::set<StorageElementComponent> m_elementComponents;
 
-	std::map<StorageErrorData, size_t> m_errorsIndex; // this is used to prevent duplicates (unique)
+	std::map<StorageErrorData, size_t> m_errorsIndex;	 // this is used to prevent duplicates (unique)
 	std::vector<StorageError> m_errors;
 
 	Id m_nextId;
 };
 
-#endif // INTERMEDIATE_STORAGE_H
+#endif	  // INTERMEDIATE_STORAGE_H

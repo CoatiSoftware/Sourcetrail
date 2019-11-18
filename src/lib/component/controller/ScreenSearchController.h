@@ -66,4 +66,4 @@ private:
 	std::mutex m_matchMutex;
 };
 
-#endif // SCREEN_SEARCH_CONTROLLER_H
+#endif	  // SCREEN_SEARCH_CONTROLLER_H

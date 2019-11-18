@@ -8,8 +8,7 @@ const size_t SourceGroupSettings::s_version = 1;
 const std::string SourceGroupSettings::s_keyPrefix = "source_groups/source_group_";
 
 SourceGroupSettings::SourceGroupSettings(
-	SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings
-)
+	SourceGroupType type, const std::string& id, const ProjectSettings* projectSettings)
 	: m_projectSettings(projectSettings)
 	, m_type(type)
 	, m_id(id)
@@ -25,9 +24,7 @@ bool SourceGroupSettings::equals(const SourceGroupSettingsBase* other) const
 	return (
 		m_id == otherPtr->m_id &&
 		// m_name == otherPtr->m_name && // Ignore name, since not significant regarding index state
-		m_type == otherPtr->m_type &&
-		m_status == otherPtr->m_status
-	);
+		m_type == otherPtr->m_type && m_status == otherPtr->m_status);
 }
 
 void SourceGroupSettings::load(const ConfigManager* config, const std::string& key)
@@ -38,8 +35,8 @@ void SourceGroupSettings::load(const ConfigManager* config, const std::string& k
 		setName(name);
 	}
 
-	setStatus(stringToSourceGroupStatusType(
-		config->getValueOrDefault(key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED))));
+	setStatus(stringToSourceGroupStatusType(config->getValueOrDefault(
+		key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED))));
 }
 
 void SourceGroupSettings::save(ConfigManager* config, const std::string& key)
@@ -95,7 +92,8 @@ const ProjectSettings* SourceGroupSettings::getProjectSettings() const
 
 FilePath SourceGroupSettings::getSourceGroupDependenciesDirectoryPath() const
 {
-	return getProjectSettings()->getDependenciesDirectoryPath().concatenate(utility::decodeFromUtf8(getId()));
+	return getProjectSettings()->getDependenciesDirectoryPath().concatenate(
+		utility::decodeFromUtf8(getId()));
 }
 
 FilePath SourceGroupSettings::getProjectDirectoryPath() const
@@ -103,7 +101,8 @@ FilePath SourceGroupSettings::getProjectDirectoryPath() const
 	return m_projectSettings->getProjectDirectoryPath();
 }
 
-std::vector<FilePath> SourceGroupSettings::makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const
+std::vector<FilePath> SourceGroupSettings::makePathsExpandedAndAbsolute(
+	const std::vector<FilePath>& paths) const
 {
 	return m_projectSettings->makePathsExpandedAndAbsolute(paths);
 }

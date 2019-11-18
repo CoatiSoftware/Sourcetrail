@@ -15,10 +15,12 @@ bool SourceGroupFactoryModuleCustom::supports(SourceGroupType type) const
 	return false;
 }
 
-std::shared_ptr<SourceGroup> SourceGroupFactoryModuleCustom::createSourceGroup(std::shared_ptr<SourceGroupSettings> settings) const
+std::shared_ptr<SourceGroup> SourceGroupFactoryModuleCustom::createSourceGroup(
+	std::shared_ptr<SourceGroupSettings> settings) const
 {
 	std::shared_ptr<SourceGroup> sourceGroup;
-	if (std::shared_ptr<SourceGroupSettingsCustomCommand> customSettings = std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(settings))
+	if (std::shared_ptr<SourceGroupSettingsCustomCommand> customSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCustomCommand>(settings))
 	{
 		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupCustomCommand(customSettings));
 	}

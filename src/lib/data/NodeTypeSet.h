@@ -54,4 +54,4 @@ private:
 	MaskType m_nodeTypeMask;
 };
 
-#endif // NODE_TYPE_SET_H
+#endif	  // NODE_TYPE_SET_H

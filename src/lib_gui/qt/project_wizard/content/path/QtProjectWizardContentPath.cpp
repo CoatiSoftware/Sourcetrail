@@ -6,8 +6,7 @@
 #include "utilityFile.h"
 
 QtProjectWizardContentPath::QtProjectWizardContentPath(QtProjectWizardWindow* window)
-	: QtProjectWizardContent(window)
-	, m_allowEmpty(false)
+	: QtProjectWizardContent(window), m_allowEmpty(false)
 {
 }
 
@@ -50,7 +49,9 @@ bool QtProjectWizardContentPath::check()
 			}
 		}
 
-		FilePath path = utility::getExpandedAndAbsolutePath(FilePath(m_picker->getText().toStdWString()), getSourceGroupSettings()->getProjectDirectoryPath());
+		FilePath path = utility::getExpandedAndAbsolutePath(
+			FilePath(m_picker->getText().toStdWString()),
+			getSourceGroupSettings()->getProjectDirectoryPath());
 
 		if (m_picker->pickDirectory())
 		{

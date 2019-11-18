@@ -7,8 +7,7 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageChangeFileView
-	: public Message<MessageChangeFileView>
+class MessageChangeFileView: public Message<MessageChangeFileView>
 {
 public:
 	enum FileState
@@ -30,8 +29,7 @@ public:
 		FileState state,
 		ViewMode viewMode,
 		CodeScrollParams scrollParams,
-		bool switchesViewMode = false
-	)
+		bool switchesViewMode = false)
 		: filePath(filePath)
 		, state(state)
 		, viewMode(viewMode)
@@ -52,16 +50,28 @@ public:
 
 		switch (state)
 		{
-		case FILE_MINIMIZED: os << L", minimize"; break;
-		case FILE_SNIPPETS: os << L", snippets"; break;
-		case FILE_MAXIMIZED: os << L", maximize"; break;
+		case FILE_MINIMIZED:
+			os << L", minimize";
+			break;
+		case FILE_SNIPPETS:
+			os << L", snippets";
+			break;
+		case FILE_MAXIMIZED:
+			os << L", maximize";
+			break;
 		}
 
 		switch (viewMode)
 		{
-		case VIEW_LIST: os << L", list"; break;
-		case VIEW_SINGLE: os << L", single"; break;
-		case VIEW_CURRENT: os << L", current"; break;
+		case VIEW_LIST:
+			os << L", list";
+			break;
+		case VIEW_SINGLE:
+			os << L", single";
+			break;
+		case VIEW_CURRENT:
+			os << L", current";
+			break;
 		}
 	}
 
@@ -72,4 +82,4 @@ public:
 	const bool switchesViewMode;
 };
 
-#endif // MESSAGE_CHANGE_FILE_VIEW_H
+#endif	  // MESSAGE_CHANGE_FILE_VIEW_H

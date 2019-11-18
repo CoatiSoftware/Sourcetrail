@@ -14,46 +14,51 @@
 
 namespace
 {
-	// copied from clang codebase
-	clang::driver::Driver *newDriver(
-		clang::DiagnosticsEngine *Diagnostics, const char *BinaryName,
-		clang::IntrusiveRefCntPtr<llvm::vfs::FileSystem> VFS) {
-		clang::driver::Driver *CompilerDriver =
-			new clang::driver::Driver(BinaryName, llvm::sys::getDefaultTargetTriple(),
-				*Diagnostics, std::move(VFS));
-		CompilerDriver->setTitle("clang_based_tool");
-		return CompilerDriver;
-	}
+// copied from clang codebase
+clang::driver::Driver* newDriver(
+	clang::DiagnosticsEngine* Diagnostics,
+	const char* BinaryName,
+	clang::IntrusiveRefCntPtr<llvm::vfs::FileSystem> VFS)
+{
+	clang::driver::Driver* CompilerDriver = new clang::driver::Driver(
+		BinaryName, llvm::sys::getDefaultTargetTriple(), *Diagnostics, std::move(VFS));
+	CompilerDriver->setTitle("clang_based_tool");
+	return CompilerDriver;
 }
+}	 // namespace
 
 // copied and stitched together from clang codebase
-ClangInvocationInfo ClangInvocationInfo::getClangInvocationString(const clang::tooling::CompilationDatabase* compilationDatabase)
+ClangInvocationInfo ClangInvocationInfo::getClangInvocationString(
+	const clang::tooling::CompilationDatabase* compilationDatabase)
 {
 	ClangInvocationInfo invocationInfo;
 
 	if (!compilationDatabase->getAllCompileCommands().empty())
 	{
-		std::vector<std::string> CommandLine = compilationDatabase->getAllCompileCommands().front().CommandLine;
+		std::vector<std::string> CommandLine =
+			compilationDatabase->getAllCompileCommands().front().CommandLine;
 
 		std::vector<const char*> Argv;
-		for (const std::string &Str : CommandLine)
+		for (const std::string& Str: CommandLine)
 			Argv.push_back(Str.c_str());
-		const char *const BinaryName = Argv[0];
+		const char* const BinaryName = Argv[0];
 		clang::IntrusiveRefCntPtr<clang::DiagnosticOptions> DiagOpts = new clang::DiagnosticOptions();
 		unsigned MissingArgIndex, MissingArgCount;
 		std::unique_ptr<llvm::opt::OptTable> Opts = clang::driver::createDriverOptTable();
 		llvm::opt::InputArgList ParsedArgs = Opts->ParseArgs(
-			clang::ArrayRef<const char *>(Argv).slice(1), MissingArgIndex, MissingArgCount);
+			clang::ArrayRef<const char*>(Argv).slice(1), MissingArgIndex, MissingArgCount);
 		clang::ParseDiagnosticArgs(*DiagOpts, ParsedArgs);
 
 		llvm::raw_string_ostream diagnosticsStream(invocationInfo.errors);
-		clang::TextDiagnosticPrinter DiagnosticPrinter(
-			diagnosticsStream, &*DiagOpts);
+		clang::TextDiagnosticPrinter DiagnosticPrinter(diagnosticsStream, &*DiagOpts);
 		clang::DiagnosticsEngine Diagnostics(
-			clang::IntrusiveRefCntPtr<clang::DiagnosticIDs>(new clang::DiagnosticIDs()), &*DiagOpts,
-			&DiagnosticPrinter, false);
+			clang::IntrusiveRefCntPtr<clang::DiagnosticIDs>(new clang::DiagnosticIDs()),
+			&*DiagOpts,
+			&DiagnosticPrinter,
+			false);
 
-		llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
+		llvm::IntrusiveRefCntPtr<clang::FileManager> Files(
+			new clang::FileManager(clang::FileSystemOptions()));
 
 		const std::unique_ptr<clang::driver::Driver> Driver(
 			newDriver(&Diagnostics, BinaryName, Files->getVirtualFileSystem()));

@@ -16,8 +16,7 @@ public:
 	}
 
 	MessageActivateFullTextSearch(const std::wstring& searchTerm, bool caseSensitive = false)
-		: searchTerm(searchTerm)
-		, caseSensitive(caseSensitive)
+		: searchTerm(searchTerm), caseSensitive(caseSensitive)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -32,11 +31,11 @@ public:
 		std::wstring prefix(caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
 		SearchMatch match(prefix + searchTerm);
 		match.searchType = SearchMatch::SEARCH_FULLTEXT;
-		return { match };
+		return {match};
 	}
 
 	const std::wstring searchTerm;
 	bool caseSensitive;
 };
 
-#endif // MESSAGE_ACTIVATE_FULLTEXT_SEARCH_H
+#endif	  // MESSAGE_ACTIVATE_FULLTEXT_SEARCH_H

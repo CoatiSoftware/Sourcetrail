@@ -25,8 +25,7 @@ TaskBuildIndex::TaskBuildIndex(
 	std::shared_ptr<StorageProvider> storageProvider,
 	std::shared_ptr<DialogView> dialogView,
 	const std::string& appUUID,
-	bool multiProcessIndexing
-)
+	bool multiProcessIndexing)
 	: m_storageProvider(storageProvider)
 	, m_dialogView(dialogView)
 	, m_appUUID(appUUID)
@@ -62,19 +61,20 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 			m_runningThreadCount++;
 		}
 
-		const int processId = i + 1; // 0 remains reserved for the main process
+		const int processId = i + 1;	// 0 remains reserved for the main process
 
 		m_interprocessIntermediateStorageManagers.push_back(
-			std::make_shared<InterprocessIntermediateStorageManager>(m_appUUID, processId, true)
-		);
+			std::make_shared<InterprocessIntermediateStorageManager>(m_appUUID, processId, true));
 
 		if (m_multiProcessIndexing)
 		{
-			m_processThreads.push_back(new std::thread(&TaskBuildIndex::runIndexerProcess, this, processId, logFilePath));
+			m_processThreads.push_back(
+				new std::thread(&TaskBuildIndex::runIndexerProcess, this, processId, logFilePath));
 		}
 		else
 		{
-			m_processThreads.push_back(new std::thread(&TaskBuildIndex::runIndexerThread, this, processId));
+			m_processThreads.push_back(
+				new std::thread(&TaskBuildIndex::runIndexerThread, this, processId));
 		}
 	}
 
@@ -91,7 +91,8 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 
 	blackboard->get<bool>("indexer_command_queue_stopped", m_indexerCommandQueueStopped);
 
-	const std::vector<FilePath> indexingFiles = m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
+	const std::vector<FilePath> indexingFiles =
+		m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
 	if (!indexingFiles.empty())
 	{
 		updateIndexingDialog(blackboard, indexingFiles);
@@ -121,7 +122,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 
 void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 {
-	for (auto processThread : m_processThreads)
+	for (auto processThread: m_processThreads)
 	{
 		processThread->join();
 		delete processThread;
@@ -130,23 +131,31 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 
 	if (!m_interrupted)
 	{
-		while (fetchIntermediateStorages(blackboard));
+		while (fetchIntermediateStorages(blackboard))
+			;
 	}
 
-	std::vector<FilePath> crashedFiles = m_interprocessIndexingStatusManager.getCrashedSourceFilePaths();
+	std::vector<FilePath> crashedFiles =
+		m_interprocessIndexingStatusManager.getCrashedSourceFilePaths();
 	if (!crashedFiles.empty())
 	{
 		std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
-		std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>(storage.get());
+		std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>(
+			storage.get());
 
-		for (const FilePath& path : crashedFiles)
+		for (const FilePath& path: crashedFiles)
 		{
 			Id fileId = parserClient->recordFile(path.getCanonical(), false);
 			parserClient->recordError(
-				L"The translation unit threw an exception during indexing. Please check if the source file "
-				"conforms to the specified language standard and all necessary options are defined within your project "
-				"setup.", true, true, path, ParseLocation(fileId, 1, 1)
-			);
+				L"The translation unit threw an exception during indexing. Please check if the "
+				L"source file "
+				"conforms to the specified language standard and all necessary options are defined "
+				"within your project "
+				"setup.",
+				true,
+				true,
+				path,
+				ParseLocation(fileId, 1, 1));
 			LOG_INFO(L"crashed translation unit: " + path.wstr());
 		}
 		m_storageProvider->insert(storage);
@@ -155,9 +164,7 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 	blackboard->set<bool>("indexer_threads_stopped", true);
 }
 
-void TaskBuildIndex::doReset(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskBuildIndex::doReset(std::shared_ptr<Blackboard> blackboard) {}
 
 void TaskBuildIndex::terminate()
 {
@@ -172,7 +179,8 @@ void TaskBuildIndex::handleMessage(MessageIndexingInterrupted* message)
 	m_interprocessIndexingStatusManager.setIndexingInterrupted(true);
 	m_interrupted = true;
 
-	m_dialogView->showUnknownProgressDialog(L"Interrupting Indexing", L"Waiting for indexer\nthreads to finish");
+	m_dialogView->showUnknownProgressDialog(
+		L"Interrupting Indexing", L"Waiting for indexer\nthreads to finish");
 }
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath)
@@ -181,7 +189,9 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 	if (!indexerProcessPath.exists())
 	{
 		m_interrupted = true;
-		LOG_ERROR(L"Cannot start indexer process because executable is missing at \"" + indexerProcessPath.wstr() + L"\"");
+		LOG_ERROR(
+			L"Cannot start indexer process because executable is missing at \"" +
+			indexerProcessPath.wstr() + L"\"");
 		return;
 	}
 
@@ -216,14 +226,14 @@ void TaskBuildIndex::runIndexerThread(int processId)
 	do
 	{
 		InterprocessIndexer indexer(m_appUUID, processId);
-		indexer.work(); // this will only return if there are no indexer commands left in the queue
+		indexer.work();	   // this will only return if there are no indexer commands left in the queue
 		if (!m_interrupted)
 		{
-			// sleeping if interrupted may result in a crash due to objects that are already destroyed after waking up again
+			// sleeping if interrupted may result in a crash due to objects that are already
+			// destroyed after waking up again
 			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		}
-	}
-	while (!m_indexerCommandQueueStopped && !m_interrupted);
+	} while (!m_indexerCommandQueueStopped && !m_interrupted);
 
 	{
 		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
@@ -249,7 +259,8 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 	do
 	{
 		Id finishedProcessId = m_interprocessIndexingStatusManager.getNextFinishedProcessId();
-		if (!finishedProcessId || finishedProcessId > m_interprocessIntermediateStorageManagers.size())
+		if (!finishedProcessId ||
+			finishedProcessId > m_interprocessIntermediateStorageManagers.size())
 		{
 			break;
 		}
@@ -266,12 +277,13 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 		LOG_INFO_STREAM(<< storageManager->getProcessId() << " - storage count: " << storageCount);
 		m_storageProvider->insert(storageManager->popIntermediateStorage());
 		poppedStorageCount++;
-	}
-	while (TimeStamp::now().deltaMS(t) < 500); // don't process all storages at once to allow for status updates in-between
+	} while (TimeStamp::now().deltaMS(t) <
+			 500);	  // don't process all storages at once to allow for status updates in-between
 
 	if (poppedStorageCount > 0)
 	{
-		blackboard->update<int>("indexed_source_file_count", [=](int count) { return count + poppedStorageCount; });
+		blackboard->update<int>(
+			"indexed_source_file_count", [=](int count) { return count + poppedStorageCount; });
 		return true;
 	}
 
@@ -289,7 +301,8 @@ void TaskBuildIndex::updateIndexingDialog(
 
 	m_indexingFileCount += sourcePaths.size();
 
-	m_dialogView->updateIndexingDialog(m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePaths);
+	m_dialogView->updateIndexingDialog(
+		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePaths);
 
 	int progress = 0;
 	if (sourceFileCount)

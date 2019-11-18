@@ -2,15 +2,15 @@
 #define ERROR_CONTROLLER_H
 
 #include "ActivationListener.h"
-#include "MessageListener.h"
 #include "MessageErrorCountClear.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageErrorsAll.h"
 #include "MessageErrorsForFile.h"
 #include "MessageErrorsHelpMessage.h"
-#include "MessageShowError.h"
 #include "MessageIndexingFinished.h"
 #include "MessageIndexingStarted.h"
+#include "MessageListener.h"
+#include "MessageShowError.h"
 
 #include "Controller.h"
 #include "ErrorView.h"
@@ -65,4 +65,4 @@ private:
 	bool m_newErrorsAdded = false;
 };
 
-#endif // ERROR_CONTROLLER_H
+#endif	  // ERROR_CONTROLLER_H

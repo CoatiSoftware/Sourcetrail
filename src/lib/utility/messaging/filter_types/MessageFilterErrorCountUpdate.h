@@ -1,11 +1,10 @@
 #ifndef MESSAGE_FILTER_ERROR_COUNT_UPDATE_H
 #define MESSAGE_FILTER_ERROR_COUNT_UPDATE_H
 
-#include "MessageFilter.h"
 #include "MessageErrorCountUpdate.h"
+#include "MessageFilter.h"
 
-class MessageFilterErrorCountUpdate
-	: public MessageFilter
+class MessageFilterErrorCountUpdate: public MessageFilter
 {
 	void filter(MessageQueue::MessageBufferType* messageBuffer) override
 	{
@@ -21,14 +20,15 @@ class MessageFilterErrorCountUpdate
 			{
 				if ((*it)->getType() == MessageErrorCountUpdate::getStaticType())
 				{
-					MessageErrorCountUpdate* frontErrorsMessage = dynamic_cast<MessageErrorCountUpdate*>(message);
-					MessageErrorCountUpdate* backErrorsMessage = dynamic_cast<MessageErrorCountUpdate*>(it->get());
+					MessageErrorCountUpdate* frontErrorsMessage =
+						dynamic_cast<MessageErrorCountUpdate*>(message);
+					MessageErrorCountUpdate* backErrorsMessage =
+						dynamic_cast<MessageErrorCountUpdate*>(it->get());
 
 					backErrorsMessage->newErrors.insert(
 						backErrorsMessage->newErrors.begin(),
 						frontErrorsMessage->newErrors.begin(),
-						frontErrorsMessage->newErrors.end()
-					);
+						frontErrorsMessage->newErrors.end());
 
 					messageBuffer->pop_front();
 					return;
@@ -38,4 +38,4 @@ class MessageFilterErrorCountUpdate
 	}
 };
 
-#endif // MESSAGE_FILTER_ERROR_COUNT_UPDATE_H
+#endif	  // MESSAGE_FILTER_ERROR_COUNT_UPDATE_H

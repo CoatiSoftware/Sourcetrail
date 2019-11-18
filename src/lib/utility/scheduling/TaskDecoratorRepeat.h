@@ -6,8 +6,7 @@
 #include "TaskDecorator.h"
 #include "TaskRunner.h"
 
-class TaskDecoratorRepeat
-	: public TaskDecorator
+class TaskDecoratorRepeat: public TaskDecorator
 {
 public:
 	enum ConditionType
@@ -28,4 +27,4 @@ private:
 	const size_t m_delayMS;
 };
 
-#endif // TASK_DECORATOR_REPEAT_H
+#endif	  // TASK_DECORATOR_REPEAT_H

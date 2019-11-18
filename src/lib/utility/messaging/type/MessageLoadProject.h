@@ -6,11 +6,11 @@
 #include "FilePath.h"
 #include "Message.h"
 
-class MessageLoadProject
-	: public Message<MessageLoadProject>
+class MessageLoadProject: public Message<MessageLoadProject>
 {
 public:
-	MessageLoadProject(const FilePath& filePath, bool settingsChanged = false, RefreshMode refreshMode = REFRESH_NONE)
+	MessageLoadProject(
+		const FilePath& filePath, bool settingsChanged = false, RefreshMode refreshMode = REFRESH_NONE)
 		: projectSettingsFilePath(filePath)
 		, settingsChanged(settingsChanged)
 		, refreshMode(refreshMode)
@@ -34,4 +34,4 @@ public:
 	const RefreshMode refreshMode;
 };
 
-#endif // MESSAGE_LOAD_PROJECT_H
+#endif	  // MESSAGE_LOAD_PROJECT_H

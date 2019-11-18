@@ -8,16 +8,14 @@
 class QtStringListBox;
 class SourceGroupSettingsWithSourceExtensions;
 
-class QtProjectWizardContentExtensions
-	: public QtProjectWizardContent
+class QtProjectWizardContentExtensions: public QtProjectWizardContent
 {
 	Q_OBJECT
 
 public:
 	QtProjectWizardContentExtensions(
 		std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settings,
-		QtProjectWizardWindow* window
-	);
+		QtProjectWizardWindow* window);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -31,4 +29,4 @@ private:
 	QtStringListBox* m_listBox;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_EXTENSIONS_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_EXTENSIONS_H

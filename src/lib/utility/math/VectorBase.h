@@ -6,16 +6,15 @@
 #include <stdexcept>
 #include <string>
 
-#define VECTOR_CHECK_INDEX(idx) \
-	do \
-	{ \
-		unsigned int i((idx)); \
-		checkIndexInRange(i, __FUNCTION__); \
-	} \
-	while (0) \
+#define VECTOR_CHECK_INDEX(idx)                                                                    \
+	do                                                                                             \
+	{                                                                                              \
+		unsigned int i((idx));                                                                     \
+		checkIndexInRange(i, __FUNCTION__);                                                        \
+	} while (0)
 
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 class VectorBase
 {
 public:
@@ -35,57 +34,57 @@ public:
 	VectorBase<T, N> normalize();
 	VectorBase<T, N> normalized() const;
 
-	template<class U>
+	template <class U>
 	void assign(const VectorBase<U, N>& other);
 
-	template<class U>
+	template <class U>
 	VectorBase<T, N>& add(const VectorBase<U, N>& other);
-	template<class U>
+	template <class U>
 	VectorBase<T, N>& subtract(const VectorBase<U, N>& other);
-	template<class U>
+	template <class U>
 	VectorBase<T, N>& scalarMultiplication(const U& scalar);
-	template<class U>
+	template <class U>
 	T dotProduct(const VectorBase<U, N>& other);
 
 	// Checks whether all values are the same.
-	template<class U>
+	template <class U>
 	bool isEqual(const VectorBase<U, N>& other) const;
 	// Checks whether it really is the same object (at one and the same memory address).
-	template<class U>
+	template <class U>
 	bool isSame(const VectorBase<U, N>& other) const;
 
 	bool isSame(const VectorBase<T, N>& other) const;
 
 	T operator[](const unsigned int index);
 
-	template<class U>
+	template <class U>
 	VectorBase<U, N>& operator=(const VectorBase<U, N>& other);
 
-	template<class U>
+	template <class U>
 	VectorBase<T, N> operator+(const VectorBase<U, N>& other) const;
-	template<class U>
+	template <class U>
 	VectorBase<T, N> operator-(const VectorBase<U, N>& other) const;
-	template<class U>
+	template <class U>
 	VectorBase<T, N> operator*(const U& scalar) const;
 	/*template<class U>
 	T operator*(const VectorBase<U, N>& other) const;*/
-	template<class U>
+	template <class U>
 	VectorBase<T, N> operator/(const U& scalar) const;
 
-	template<class U>
+	template <class U>
 	VectorBase<T, N>& operator+=(const VectorBase<U, N>& other);
-	template<class U>
+	template <class U>
 	VectorBase<T, N>& operator-=(const VectorBase<U, N>& other);
-	template<class U>
+	template <class U>
 	VectorBase<T, N>& operator*=(const U& scalar);
-	template<class U>
+	template <class U>
 	VectorBase<T, N>& operator/=(const U& scalar);
 
 	// Checks whether all values are the same.
-	template<class U>
+	template <class U>
 	bool operator==(const VectorBase<U, N>& other) const;
 	// Checks whether at least one value is different.
-	template<class U>
+	template <class U>
 	bool operator!=(const VectorBase<U, N>& other) const;
 
 	std::string toString() const;
@@ -115,28 +114,29 @@ private:
 };
 
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 VectorBase<T, N>::VectorBase()
-{}
+{
+}
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 VectorBase<T, N>::VectorBase(const T values[N])
 {
 	setValues(values);
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 VectorBase<T, N>::VectorBase(const VectorBase<T, N>& vector)
 {
 	setValues(vector.m_values);
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 VectorBase<T, N>::~VectorBase()
 {
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 T VectorBase<T, N>::getValue(const unsigned int index) const
 {
 	VECTOR_CHECK_INDEX(index);
@@ -144,7 +144,7 @@ T VectorBase<T, N>::getValue(const unsigned int index) const
 	return m_values[index];
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 void VectorBase<T, N>::setValue(const unsigned int index, const T& value)
 {
 	VECTOR_CHECK_INDEX(index);
@@ -152,13 +152,13 @@ void VectorBase<T, N>::setValue(const unsigned int index, const T& value)
 	m_values[index] = value;
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 unsigned int VectorBase<T, N>::getDimensions() const
 {
 	return N;
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 float VectorBase<T, N>::getLengthSquared() const
 {
 	float result = 0.0f;
@@ -171,13 +171,13 @@ float VectorBase<T, N>::getLengthSquared() const
 	return result;
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 float VectorBase<T, N>::getLength() const
 {
 	return std::sqrt(getLengthSquared());
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 VectorBase<T, N> VectorBase<T, N>::normalize()
 {
 	float length = getLength();
@@ -197,7 +197,7 @@ VectorBase<T, N> VectorBase<T, N>::normalize()
 	return *this;
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 VectorBase<T, N> VectorBase<T, N>::normalized() const
 {
 	float length = getLength();
@@ -222,8 +222,8 @@ VectorBase<T, N> VectorBase<T, N>::normalized() const
 	return VectorBase<T, N>(tmpValues);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 void VectorBase<T, N>::assign(const VectorBase<U, N>& other)
 {
 	if (isSame(other))
@@ -237,7 +237,7 @@ void VectorBase<T, N>::assign(const VectorBase<U, N>& other)
 	}
 
 	T values[N];
-	for(unsigned int i = 0; i < N; i++)
+	for (unsigned int i = 0; i < N; i++)
 	{
 		values[i] = other.getValue(i);
 	}
@@ -245,8 +245,8 @@ void VectorBase<T, N>::assign(const VectorBase<U, N>& other)
 	setValues(values);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N>& VectorBase<T, N>::add(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
@@ -260,8 +260,8 @@ VectorBase<T, N>& VectorBase<T, N>::add(const VectorBase<U, N>& other)
 	return *this;
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N>& VectorBase<T, N>::subtract(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
@@ -275,8 +275,8 @@ VectorBase<T, N>& VectorBase<T, N>::subtract(const VectorBase<U, N>& other)
 	return *this;
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N>& VectorBase<T, N>::scalarMultiplication(const U& scalar)
 {
 	T tmpValues[N];
@@ -290,8 +290,8 @@ VectorBase<T, N>& VectorBase<T, N>::scalarMultiplication(const U& scalar)
 	return *this;
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 T VectorBase<T, N>::dotProduct(const VectorBase<U, N>& other)
 {
 	T result = 0.0f;
@@ -302,8 +302,8 @@ T VectorBase<T, N>::dotProduct(const VectorBase<U, N>& other)
 	return result;
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 bool VectorBase<T, N>::isEqual(const VectorBase<U, N>& other) const
 {
 	for (unsigned int i = 0; i < N; i++)
@@ -317,20 +317,20 @@ bool VectorBase<T, N>::isEqual(const VectorBase<U, N>& other) const
 	return true;
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 bool VectorBase<T, N>::isSame(const VectorBase<T, N>& other) const
 {
 	return &other == this;
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 bool VectorBase<T, N>::isSame(const VectorBase<U, N>& other) const
 {
 	return false;
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 T VectorBase<T, N>::operator[](const unsigned int index)
 {
 	VECTOR_CHECK_INDEX(index);
@@ -338,96 +338,96 @@ T VectorBase<T, N>::operator[](const unsigned int index)
 	return m_values[index];
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<U, N>& VectorBase<T, N>::operator=(const VectorBase<U, N>& other)
 {
 	assign(other);
 	return *this;
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N> VectorBase<T, N>::operator+(const VectorBase<U, N>& other) const
 {
 	VectorBase<T, N> result(*this);
 	return result.add(other);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N> VectorBase<T, N>::operator-(const VectorBase<U, N>& other) const
 {
 	VectorBase<T, N> result(*this);
 	return result.subtract(other);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N> VectorBase<T, N>::operator*(const U& scalar) const
 {
 	VectorBase<T, N> result(*this);
 	return result.scalarMultiplication(scalar);
 }
 
-//template<class T, unsigned int N>
-//template<class U>
-//T VectorBase<T, N>::operator*(const VectorBase<U, N>& other) const
+// template<class T, unsigned int N>
+// template<class U>
+// T VectorBase<T, N>::operator*(const VectorBase<U, N>& other) const
 //{
 //	return dotProduct(other);
 //}
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N> VectorBase<T, N>::operator/(const U& scalar) const
 {
 	VectorBase<T, N> result(*this);
 	return result.scalarMultiplication(1.0f / scalar);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N>& VectorBase<T, N>::operator+=(const VectorBase<U, N>& other)
 {
 	return add(other);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N>& VectorBase<T, N>::operator-=(const VectorBase<U, N>& other)
 {
 	return subtract(other);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N>& VectorBase<T, N>::operator*=(const U& scalar)
 {
 	return scalarMultiplication(scalar);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 VectorBase<T, N>& VectorBase<T, N>::operator/=(const U& scalar)
 {
 	return scalarMultiplication(1.0f / scalar);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 bool VectorBase<T, N>::operator==(const VectorBase<U, N>& other) const
 {
 	return isEqual(other);
 }
 
-template<class T, unsigned int N>
-template<class U>
+template <class T, unsigned int N>
+template <class U>
 bool VectorBase<T, N>::operator!=(const VectorBase<U, N>& other) const
 {
 	return !isEqual(other);
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 std::string VectorBase<T, N>::toString() const
 {
 	std::stringstream result;
@@ -442,7 +442,7 @@ std::string VectorBase<T, N>::toString() const
 	return result.str();
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 std::wstring VectorBase<T, N>::toWString() const
 {
 	std::wstringstream result;
@@ -457,7 +457,7 @@ std::wstring VectorBase<T, N>::toWString() const
 	return result.str();
 }
 
-template<class T, unsigned int N>
+template <class T, unsigned int N>
 std::ostream& operator<<(std::ostream& ostream, const VectorBase<T, N>& vector)
 {
 	ostream << vector.toString();
@@ -465,4 +465,4 @@ std::ostream& operator<<(std::ostream& ostream, const VectorBase<T, N>& vector)
 	return ostream;
 }
 
-#endif // VECTOR_BASE_H
+#endif	  // VECTOR_BASE_H

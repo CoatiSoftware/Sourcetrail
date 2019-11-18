@@ -1,8 +1,8 @@
 #ifndef TEXT_CODEC_H
 #define TEXT_CODEC_H
 
-#include <string>
 #include <memory>
+#include <string>
 
 class QTextCodec;
 class QTextDecoder;
@@ -27,4 +27,4 @@ private:
 	std::shared_ptr<QTextEncoder> m_encoder;
 };
 
-#endif // TEXT_CODEC_H
+#endif	  // TEXT_CODEC_H

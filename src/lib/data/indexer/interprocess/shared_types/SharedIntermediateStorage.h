@@ -4,8 +4,8 @@
 #include <set>
 #include <vector>
 
-#include "SharedStorageTypes.h"
 #include "SharedMemory.h"
+#include "SharedStorageTypes.h"
 
 class SharedIntermediateStorage
 {
@@ -59,4 +59,4 @@ private:
 	int m_nextId;
 };
 
-#endif // SHARED_INTERMEDIATE_STORAGE_H
+#endif	  // SHARED_INTERMEDIATE_STORAGE_H

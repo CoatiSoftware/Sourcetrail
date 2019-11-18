@@ -57,8 +57,8 @@ public:
 /*
  * LowMemoryStringMap
  *
- * Map of string - value pairs, where equal suffixes of strings are used to build tree structure reducing memory
- * consumption.
+ * Map of string - value pairs, where equal suffixes of strings are used to build tree structure
+ * reducing memory consumption.
  *
  * - StringT: string type (supported: std::string, std::wstring)
  * - ValueT: value type
@@ -72,9 +72,7 @@ public:
 	typedef typename StringTraits<StringT>::CharT CharT;
 	typedef typename StringTraits<StringT>::StreamT StreamT;
 
-	LowMemoryStringMap()
-		: m_root(StringT())
-	{}
+	LowMemoryStringMap(): m_root(StringT()) {}
 
 	void clear()
 	{
@@ -133,8 +131,8 @@ private:
 	 * StringTypes
 	 *
 	 * These types are used to store strings of different lengths with as little memory as possible.
-	 * (std::string allocates a certain default capacity and has multiple members for storing size etc., which take up
-	 * more space than necessary if string length is already known.)
+	 * (std::string allocates a certain default capacity and has multiple members for storing size
+	 * etc., which take up more space than necessary if string length is already known.)
 	 */
 
 	/*
@@ -185,7 +183,7 @@ private:
 	 *
 	 * - Size: the number of characters
 	 */
-	template<size_t Size>
+	template <size_t Size>
 	class ShortString
 	{
 	public:
@@ -243,7 +241,8 @@ private:
 	/*
 	 * Nodes
 	 *
-	 * These types are used to build the tree structure. They are either branches or leafes and contain a StringType
+	 * These types are used to build the tree structure. They are either branches or leafes and
+	 * contain a StringType
 	 */
 
 	/*
@@ -278,13 +277,10 @@ private:
 	 *
 	 * Contains value.
 	 */
-	class Leaf
-		: public Node
+	class Leaf: public Node
 	{
 	public:
-		Leaf(const ValueT& val)
-			: m_value(val)
-		{}
+		Leaf(const ValueT& val): m_value(val) {}
 
 		ValueT getValue() const override
 		{
@@ -316,8 +312,8 @@ private:
 	/*
 	 * StringLeaf
 	 *
-	 * Combines Leaf and StringType to allow for creating leafes of different string lengths, that can still be stored
-	 * in a collection of Node types.
+	 * Combines Leaf and StringType to allow for creating leafes of different string lengths, that
+	 * can still be stored in a collection of Node types.
 	 */
 	template <typename StringType>
 	class StringLeaf
@@ -325,10 +321,7 @@ private:
 		, public StringType
 	{
 	public:
-		StringLeaf(const StringT& str, const ValueT& val)
-			: Leaf(val)
-			, StringType(str)
-		{}
+		StringLeaf(const StringT& str, const ValueT& val): Leaf(val), StringType(str) {}
 
 		StringT getString() const override
 		{
@@ -352,8 +345,7 @@ private:
 	 *
 	 * Has branches and leaves as children, each referenced by their first character.
 	 */
-	class Branch
-		: public Node
+	class Branch: public Node
 	{
 	public:
 		bool empty() const
@@ -417,7 +409,7 @@ private:
 		{
 			size_t s = m_children.size() * sizeof(std::pair<CharT, std::unique_ptr<Node>>);
 
-			for (const auto& p : m_children)
+			for (const auto& p: m_children)
 			{
 				s += p.second->getByteSize();
 			}
@@ -464,7 +456,7 @@ private:
 				depth += myStr.size();
 			}
 
-			for (const auto& p : m_children)
+			for (const auto& p: m_children)
 			{
 				os << StringT(depth, ' ') << '|' << p.first << '|' << std::endl;
 				p.second->print(os, depth + 3);
@@ -509,8 +501,8 @@ private:
 	/*
 	 * StringBranch
 	 *
-	 * Combines Branch and StringType to allow for creating branches of different string lengths, that can still be
-	 * stored in a collection of Node types.
+	 * Combines Branch and StringType to allow for creating branches of different string lengths,
+	 * that can still be stored in a collection of Node types.
 	 */
 	template <typename StringType>
 	class StringBranch
@@ -518,9 +510,7 @@ private:
 		, public StringType
 	{
 	public:
-		StringBranch(const StringT& str)
-			: StringType(str)
-		{}
+		StringBranch(const StringT& str): StringType(str) {}
 
 		StringT getString() const override
 		{
@@ -542,16 +532,26 @@ private:
 		{
 			switch (str.size())
 			{
-				case 0: return std::make_unique<StringBranch<EmptyString>>(str);
-				case 1: return std::make_unique<StringBranch<ShortString<1>>>(str);
-				case 2: return std::make_unique<StringBranch<ShortString<2>>>(str);
-				case 3: return std::make_unique<StringBranch<ShortString<3>>>(str);
-				case 4: return std::make_unique<StringBranch<ShortString<4>>>(str);
-				case 5: return std::make_unique<StringBranch<ShortString<5>>>(str);
-				case 6: return std::make_unique<StringBranch<ShortString<6>>>(str);
-				case 7: return std::make_unique<StringBranch<ShortString<7>>>(str);
-				case 8: return std::make_unique<StringBranch<ShortString<8>>>(str);
-				default: return std::make_unique<StringBranch<LongString>>(str);
+			case 0:
+				return std::make_unique<StringBranch<EmptyString>>(str);
+			case 1:
+				return std::make_unique<StringBranch<ShortString<1>>>(str);
+			case 2:
+				return std::make_unique<StringBranch<ShortString<2>>>(str);
+			case 3:
+				return std::make_unique<StringBranch<ShortString<3>>>(str);
+			case 4:
+				return std::make_unique<StringBranch<ShortString<4>>>(str);
+			case 5:
+				return std::make_unique<StringBranch<ShortString<5>>>(str);
+			case 6:
+				return std::make_unique<StringBranch<ShortString<6>>>(str);
+			case 7:
+				return std::make_unique<StringBranch<ShortString<7>>>(str);
+			case 8:
+				return std::make_unique<StringBranch<ShortString<8>>>(str);
+			default:
+				return std::make_unique<StringBranch<LongString>>(str);
 			}
 		}
 
@@ -559,16 +559,26 @@ private:
 		{
 			switch (str.size())
 			{
-				case 0: return std::make_unique<StringLeaf<EmptyString>>(str, val);
-				case 1: return std::make_unique<StringLeaf<ShortString<1>>>(str, val);
-				case 2: return std::make_unique<StringLeaf<ShortString<2>>>(str, val);
-				case 3: return std::make_unique<StringLeaf<ShortString<3>>>(str, val);
-				case 4: return std::make_unique<StringLeaf<ShortString<4>>>(str, val);
-				case 5: return std::make_unique<StringLeaf<ShortString<5>>>(str, val);
-				case 6: return std::make_unique<StringLeaf<ShortString<6>>>(str, val);
-				case 7: return std::make_unique<StringLeaf<ShortString<7>>>(str, val);
-				case 8: return std::make_unique<StringLeaf<ShortString<8>>>(str, val);
-				default: return std::make_unique<StringLeaf<LongString>>(str, val);
+			case 0:
+				return std::make_unique<StringLeaf<EmptyString>>(str, val);
+			case 1:
+				return std::make_unique<StringLeaf<ShortString<1>>>(str, val);
+			case 2:
+				return std::make_unique<StringLeaf<ShortString<2>>>(str, val);
+			case 3:
+				return std::make_unique<StringLeaf<ShortString<3>>>(str, val);
+			case 4:
+				return std::make_unique<StringLeaf<ShortString<4>>>(str, val);
+			case 5:
+				return std::make_unique<StringLeaf<ShortString<5>>>(str, val);
+			case 6:
+				return std::make_unique<StringLeaf<ShortString<6>>>(str, val);
+			case 7:
+				return std::make_unique<StringLeaf<ShortString<7>>>(str, val);
+			case 8:
+				return std::make_unique<StringLeaf<ShortString<8>>>(str, val);
+			default:
+				return std::make_unique<StringLeaf<LongString>>(str, val);
 			}
 		}
 	};
@@ -578,4 +588,4 @@ private:
 	size_t m_uncompressedByteSize = 0;
 };
 
-#endif // LOW_MEMORY_STRING_MAP_H
+#endif	  // LOW_MEMORY_STRING_MAP_H

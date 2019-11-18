@@ -6,20 +6,18 @@
 #include <clang/Basic/SourceManager.h>
 
 #include "CanonicalFilePathCache.h"
-#include "logging.h"
 #include "ParseLocation.h"
 #include "ParserClient.h"
 #include "ScopedSwitcher.h"
+#include "logging.h"
 
 CxxVerboseAstVisitor::CxxVerboseAstVisitor(
 	clang::ASTContext* context,
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-	std::shared_ptr<IndexerStateInfo> indexerStateInfo
-)
-	: base(context, preprocessor, client, canonicalFilePathCache, indexerStateInfo)
-	, m_indentation(0)
+	std::shared_ptr<IndexerStateInfo> indexerStateInfo)
+	: base(context, preprocessor, client, canonicalFilePathCache, indexerStateInfo), m_indentation(0)
 {
 }
 
@@ -29,21 +27,22 @@ bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl* d)
 	{
 		std::stringstream stream;
 		stream << getIndentString() << d->getDeclKindName() << "Decl";
-		if (clang::NamedDecl *namedDecl = clang::dyn_cast_or_null<clang::NamedDecl>(d))
+		if (clang::NamedDecl* namedDecl = clang::dyn_cast_or_null<clang::NamedDecl>(d))
 		{
 			stream << " [" << obfuscateName(namedDecl->getNameAsString()) << "]";
 		}
 
 		ParseLocation loc = getParseLocation(d->getSourceRange());
-		stream << " <" << loc.startLineNumber << ":" << loc.startColumnNumber << ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">";
+		stream << " <" << loc.startLineNumber << ":" << loc.startColumnNumber << ", "
+			   << loc.endLineNumber << ":" << loc.endColumnNumber << ">";
 
 		const clang::SourceManager& sm = m_astContext->getSourceManager();
-		FilePath currentFilePath =
-			getCanonicalFilePathCache()->getCanonicalFilePath(sm.getFileID(d->getSourceRange().getBegin()), sm);
+		FilePath currentFilePath = getCanonicalFilePathCache()->getCanonicalFilePath(
+			sm.getFileID(d->getSourceRange().getBegin()), sm);
 		if (m_currentFilePath != currentFilePath)
 		{
 			m_currentFilePath = currentFilePath;
-			LOG_INFO_BARE(L"Indexer - Traversing \"" + currentFilePath.wstr() + L"\"" );
+			LOG_INFO_BARE(L"Indexer - Traversing \"" + currentFilePath.wstr() + L"\"");
 		}
 
 		LOG_INFO_STREAM_BARE(<< "Indexer - " << stream.str());
@@ -62,11 +61,9 @@ bool CxxVerboseAstVisitor::TraverseStmt(clang::Stmt* stmt)
 	{
 		ParseLocation loc = getParseLocation(stmt->getSourceRange());
 		LOG_INFO_STREAM_BARE(
-			<< "Indexer - "
-			<< getIndentString() << stmt->getStmtClassName()
-			<< " <" << loc.startLineNumber << ":" << loc.startColumnNumber
-			<< ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">"
-		);
+			<< "Indexer - " << getIndentString() << stmt->getStmtClassName() << " <"
+			<< loc.startLineNumber << ":" << loc.startColumnNumber << ", " << loc.endLineNumber
+			<< ":" << loc.endColumnNumber << ">");
 		{
 			ScopedSwitcher<unsigned int> switcher(m_indentation, m_indentation + 1);
 			return base::TraverseStmt(stmt);
@@ -81,11 +78,9 @@ bool CxxVerboseAstVisitor::TraverseTypeLoc(clang::TypeLoc tl)
 	{
 		ParseLocation loc = getParseLocation(tl.getSourceRange());
 		LOG_INFO_STREAM_BARE(
-			<< "Indexer - "
-			<< getIndentString() << typeLocClassToString(tl)
-			<< "TypeLoc <" << loc.startLineNumber << ":" << loc.startColumnNumber
-			<< ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">"
-		);
+			<< "Indexer - " << getIndentString() << typeLocClassToString(tl) << "TypeLoc <"
+			<< loc.startLineNumber << ":" << loc.startColumnNumber << ", " << loc.endLineNumber
+			<< ":" << loc.endColumnNumber << ">");
 		{
 			ScopedSwitcher<unsigned int> switcher(m_indentation, m_indentation + 1);
 			return base::TraverseTypeLoc(tl);

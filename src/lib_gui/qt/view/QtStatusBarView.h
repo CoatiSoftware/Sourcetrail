@@ -4,13 +4,12 @@
 #include <memory>
 #include <string>
 
-#include "StatusBarView.h"
 #include "ErrorCountInfo.h"
 #include "QtStatusBar.h"
 #include "QtThreadedFunctor.h"
+#include "StatusBarView.h"
 
-class QtStatusBarView
-	: public StatusBarView
+class QtStatusBarView: public StatusBarView
 {
 public:
 	QtStatusBarView(ViewLayout* viewLayout);
@@ -35,4 +34,4 @@ private:
 	QtStatusBar* m_widget;
 };
 
-#endif // !QT_STATUS_BAR_VIEW_H
+#endif	  // !QT_STATUS_BAR_VIEW_H

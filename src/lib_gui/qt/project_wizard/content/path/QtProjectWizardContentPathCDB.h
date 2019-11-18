@@ -6,8 +6,7 @@
 
 class SourceGroupSettingsCxxCdb;
 
-class QtProjectWizardContentPathCDB
-	: public QtProjectWizardContentPath
+class QtProjectWizardContentPathCDB: public QtProjectWizardContentPath
 {
 	Q_OBJECT
 
@@ -37,4 +36,4 @@ private:
 	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATH_CDB_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_CDB_H

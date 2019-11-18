@@ -3,13 +3,10 @@
 
 #include "Message.h"
 
-class MessageClearStatusView:
-	public Message<MessageClearStatusView>
+class MessageClearStatusView: public Message<MessageClearStatusView>
 {
 public:
-	MessageClearStatusView()
-	{
-	}
+	MessageClearStatusView() {}
 
 	static const std::string getStaticType()
 	{
@@ -17,4 +14,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_CLEAR_STATUS_VIEW_H
+#endif	  // MESSAGE_CLEAR_STATUS_VIEW_H

@@ -1,22 +1,22 @@
 #include "InterprocessIntermediateStorageManager.h"
 
-#include "SharedIntermediateStorage.h"
 #include "IntermediateStorage.h"
+#include "SharedIntermediateStorage.h"
 #include "logging.h"
 
 const char* InterprocessIntermediateStorageManager::s_sharedMemoryNamePrefix = "iist_";
 
-const char* InterprocessIntermediateStorageManager::s_intermediatStoragesKeyName = "intermediate_storages";
+const char* InterprocessIntermediateStorageManager::s_intermediatStoragesKeyName =
+	"intermediate_storages";
 
 InterprocessIntermediateStorageManager::InterprocessIntermediateStorageManager(
-	const std::string& instanceUuid, Id processId, bool isOwner
-)
+	const std::string& instanceUuid, Id processId, bool isOwner)
 	: BaseInterprocessDataManager(
-		s_sharedMemoryNamePrefix + std::to_string(processId) + "_" + instanceUuid,
-        3 * 1048576 /* 3 MB */,
-		instanceUuid,
-		processId,
-		isOwner)
+		  s_sharedMemoryNamePrefix + std::to_string(processId) + "_" + instanceUuid,
+		  3 * 1048576 /* 3 MB */,
+		  instanceUuid,
+		  processId,
+		  isOwner)
 	, m_insertsWithoutGrowth(0)
 {
 }
@@ -26,9 +26,11 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 {
 	const size_t requiredInsertsToShrink = 10;
 
-    const size_t overestimationMultiplier = 2;
-    const size_t requiredSize = (intermediateStorage->getByteSize(sizeof(SharedMemory::String)) +
-		sizeof(SharedIntermediateStorage)) * overestimationMultiplier + 1048576/* 1 MB */;
+	const size_t overestimationMultiplier = 2;
+	const size_t requiredSize = (intermediateStorage->getByteSize(sizeof(SharedMemory::String)) +
+								 sizeof(SharedIntermediateStorage)) *
+			overestimationMultiplier +
+		1048576 /* 1 MB */;
 
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
@@ -53,7 +55,8 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	}
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =
-		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(s_intermediatStoragesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(
+			s_intermediatStoragesKeyName);
 	if (!queue)
 	{
 		return;
@@ -80,7 +83,9 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 
 		LOG_INFO("shrinking shared memory");
 		access.shrinkToFitMemory();
-		LOG_INFO_STREAM(<< "shrunk memory - size: " << access.getMemorySize() << " free: " << access.getFreeMemorySize());
+		LOG_INFO_STREAM(
+			<< "shrunk memory - size: " << access.getMemorySize()
+			<< " free: " << access.getFreeMemorySize());
 	}
 
 	LOG_INFO(access.logString());
@@ -91,7 +96,8 @@ std::shared_ptr<IntermediateStorage> InterprocessIntermediateStorageManager::pop
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =
-		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(s_intermediatStoragesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(
+			s_intermediatStoragesKeyName);
 	if (!queue || !queue->size())
 	{
 		return nullptr;
@@ -114,7 +120,7 @@ std::shared_ptr<IntermediateStorage> InterprocessIntermediateStorageManager::pop
 	storage->setNextId(sharedIntermediateStorage.getNextId());
 
 	queue->pop_front();
-    LOG_INFO(access.logString());
+	LOG_INFO(access.logString());
 
 	return storage;
 }
@@ -124,7 +130,8 @@ size_t InterprocessIntermediateStorageManager::getIntermediateStorageCount()
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =
-		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(s_intermediatStoragesKeyName);
+		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(
+			s_intermediatStoragesKeyName);
 	if (!queue)
 	{
 		return 0;

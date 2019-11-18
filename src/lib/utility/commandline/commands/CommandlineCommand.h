@@ -7,20 +7,22 @@
 
 namespace po = boost::program_options;
 
-namespace commandline {
-
+namespace commandline
+{
 class CommandLineParser;
 
 class CommandlineCommand
 {
 public:
-	enum class ReturnStatus {
+	enum class ReturnStatus
+	{
 		CMD_OK,
 		CMD_QUIT,
 		CMD_FAILURE
 	};
 
-	CommandlineCommand(const std::string& name, const std::string& description, CommandLineParser* parser);
+	CommandlineCommand(
+		const std::string& name, const std::string& description, CommandLineParser* parser);
 	virtual ~CommandlineCommand();
 
 	const std::string& name();
@@ -41,6 +43,6 @@ protected:
 	po::positional_options_description m_positional;
 };
 
-}
+}	 // namespace commandline
 
-#endif // COMMANDLINE_COMMAND_H
+#endif	  // COMMANDLINE_COMMAND_H

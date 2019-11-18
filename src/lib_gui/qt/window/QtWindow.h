@@ -6,15 +6,14 @@
 #include <QSizeGrip>
 #include <QWidget>
 
-#include "QtWindowStack.h"
 #include "QtWindowBase.h"
+#include "QtWindowStack.h"
 
 class QLabel;
 class QPushButton;
 class QVBoxLayout;
 
-class QtWindow
-	: public QtWindowBase
+class QtWindow: public QtWindowBase
 {
 	Q_OBJECT
 
@@ -90,4 +89,4 @@ private:
 	bool m_hasLogo;
 };
 
-#endif // QT_WINDOW_H
+#endif	  // QT_WINDOW_H

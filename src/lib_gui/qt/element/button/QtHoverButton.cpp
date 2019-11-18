@@ -1,13 +1,12 @@
 #include "QtHoverButton.h"
 
-QtHoverButton::QtHoverButton(QWidget* parent)
-	: QPushButton("", parent)
+QtHoverButton::QtHoverButton(QWidget* parent): QPushButton("", parent)
 {
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	setMouseTracking(true);
 }
 
-void QtHoverButton::enterEvent(QEvent *event)
+void QtHoverButton::enterEvent(QEvent* event)
 {
 	if (isEnabled())
 	{
@@ -15,7 +14,7 @@ void QtHoverButton::enterEvent(QEvent *event)
 	}
 }
 
-void QtHoverButton::leaveEvent(QEvent *event)
+void QtHoverButton::leaveEvent(QEvent* event)
 {
 	if (isEnabled())
 	{

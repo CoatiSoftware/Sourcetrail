@@ -3,8 +3,7 @@
 
 #include "QtWindow.h"
 
-class QtAbout
-	: public QtWindow
+class QtAbout: public QtWindow
 {
 	Q_OBJECT
 
@@ -15,4 +14,4 @@ public:
 	void setupAbout();
 };
 
-#endif // QT_ABOUT_H
+#endif	  // QT_ABOUT_H

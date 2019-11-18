@@ -42,4 +42,4 @@ private:
 	std::map<DialogView::UseCase, std::shared_ptr<DialogView>> m_dialogViews;
 };
 
-#endif // COMPONENT_MANAGER_H
+#endif	  // COMPONENT_MANAGER_H

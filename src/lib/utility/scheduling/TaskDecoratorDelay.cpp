@@ -2,9 +2,7 @@
 
 #include <thread>
 
-TaskDecoratorDelay::TaskDecoratorDelay(size_t delayMS)
-	: m_delayMS(delayMS)
-	, m_delayComplete(false)
+TaskDecoratorDelay::TaskDecoratorDelay(size_t delayMS): m_delayMS(delayMS), m_delayComplete(false)
 {
 }
 
@@ -28,9 +26,7 @@ Task::TaskState TaskDecoratorDelay::doUpdate(std::shared_ptr<Blackboard> blackbo
 	return Task::STATE_HOLD;
 }
 
-void TaskDecoratorDelay::doExit(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskDecoratorDelay::doExit(std::shared_ptr<Blackboard> blackboard) {}
 
 void TaskDecoratorDelay::doReset(std::shared_ptr<Blackboard> blackboard)
 {

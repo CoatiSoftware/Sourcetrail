@@ -14,4 +14,4 @@ Migration<MigratableType>::~Migration()
 {
 }
 
-#endif // MIGRATION_H
+#endif	  // MIGRATION_H

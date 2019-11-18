@@ -5,8 +5,7 @@
 
 #include "FilePath.h"
 
-class QtIconStateButton
-	: public QPushButton
+class QtIconStateButton: public QPushButton
 {
 	Q_OBJECT
 
@@ -36,9 +35,9 @@ signals:
 	void hoveredOut(QPushButton*);
 
 protected:
-	void changeEvent(QEvent *event);
-	void enterEvent(QEvent *event);
-	void leaveEvent(QEvent *event);
+	void changeEvent(QEvent* event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
 
 private:
 	void setState(State state);
@@ -46,4 +45,4 @@ private:
 	std::map<ButtonState, State> m_states;
 };
 
-#endif // QT_ICON_STATE_BUTTON_H
+#endif	  // QT_ICON_STATE_BUTTON_H

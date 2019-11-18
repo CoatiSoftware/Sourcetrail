@@ -5,15 +5,12 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-QtLineItemAngled::QtLineItemAngled(QGraphicsItem* parent)
-	: QtLineItemBase(parent)
+QtLineItemAngled::QtLineItemAngled(QGraphicsItem* parent): QtLineItemBase(parent)
 {
 	this->setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
 }
 
-QtLineItemAngled::~QtLineItemAngled()
-{
-}
+QtLineItemAngled::~QtLineItemAngled() {}
 
 QPainterPath QtLineItemAngled::shape() const
 {
@@ -92,19 +89,35 @@ void QtLineItemAngled::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 
 		switch (dir)
 		{
-		case 0: a.setY(a.y() + ar); break;
-		case 1: a.setX(a.x() - ar); break;
-		case 2: a.setY(a.y() - ar); break;
-		case 3: a.setX(a.x() + ar); break;
+		case 0:
+			a.setY(a.y() + ar);
+			break;
+		case 1:
+			a.setX(a.x() - ar);
+			break;
+		case 2:
+			a.setY(a.y() - ar);
+			break;
+		case 3:
+			a.setX(a.x() + ar);
+			break;
 		}
 
 		b = poly.at(i);
 		switch (newDir)
 		{
-		case 0: b.setY(b.y() - br); break;
-		case 1: b.setX(b.x() + br); break;
-		case 2: b.setY(b.y() + br); break;
-		case 3: b.setX(b.x() - br); break;
+		case 0:
+			b.setY(b.y() - br);
+			break;
+		case 1:
+			b.setX(b.x() + br);
+			break;
+		case 2:
+			b.setY(b.y() + br);
+			break;
+		case 3:
+			b.setX(b.x() - br);
+			break;
 		}
 
 		partRect = QRectF(poly.at(i + 1), poly.at(i)).adjusted(-1, -1, 1, 1);

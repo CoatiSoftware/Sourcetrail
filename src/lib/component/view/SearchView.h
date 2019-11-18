@@ -1,13 +1,12 @@
 #ifndef SEARCH_VIEW_H
 #define SEARCH_VIEW_H
 
-#include "View.h"
 #include "SearchMatch.h"
+#include "View.h"
 
 class SearchController;
 
-class SearchView
-	: public View
+class SearchView: public View
 {
 public:
 	SearchView(ViewLayout* viewLayout);
@@ -28,4 +27,4 @@ protected:
 	SearchController* getController();
 };
 
-#endif // SEARCH_VIEW_H
+#endif	  // SEARCH_VIEW_H

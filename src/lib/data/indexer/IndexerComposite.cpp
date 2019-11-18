@@ -1,12 +1,10 @@
 #include "IndexerComposite.h"
 
 #include "IndexerCommand.h"
-#include "logging.h"
 #include "IntermediateStorage.h"
+#include "logging.h"
 
-IndexerComposite::~IndexerComposite()
-{
-}
+IndexerComposite::~IndexerComposite() {}
 
 IndexerCommandType IndexerComposite::getSupportedIndexerCommandType() const
 {
@@ -26,7 +24,9 @@ std::shared_ptr<IntermediateStorage> IndexerComposite::index(std::shared_ptr<Ind
 		return it->second->index(indexerCommand);
 	}
 
-	LOG_ERROR("No indexer found that supports \"" + indexerCommandTypeToString(indexerCommand->getIndexerCommandType()) + "\".");
+	LOG_ERROR(
+		"No indexer found that supports \"" +
+		indexerCommandTypeToString(indexerCommand->getIndexerCommandType()) + "\".");
 	return std::shared_ptr<IntermediateStorage>();
 }
 

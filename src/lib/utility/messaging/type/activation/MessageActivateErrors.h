@@ -18,15 +18,14 @@ public:
 	}
 
 	MessageActivateErrors(const ErrorFilter& filter, const FilePath& file = FilePath())
-		: filter(filter)
-		, file(file)
+		: filter(filter), file(file)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
 
 	std::vector<SearchMatch> getSearchMatches() const override
 	{
-		std::vector<SearchMatch> matches = { SearchMatch::createCommand(SearchMatch::COMMAND_ERROR) };
+		std::vector<SearchMatch> matches = {SearchMatch::createCommand(SearchMatch::COMMAND_ERROR)};
 		if (!file.empty())
 		{
 			SearchMatch match;
@@ -42,4 +41,4 @@ public:
 	const FilePath file;
 };
 
-#endif // MESSAGE_ACTIVATE_ERRORS_H
+#endif	  // MESSAGE_ACTIVATE_ERRORS_H

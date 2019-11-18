@@ -8,8 +8,7 @@
 
 class SourceGroupSettingsCxxCodeblocks;
 
-class SourceGroupCxxCodeblocks
-	: public SourceGroup
+class SourceGroupCxxCodeblocks: public SourceGroup
 {
 public:
 	SourceGroupCxxCodeblocks(std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings);
@@ -17,7 +16,8 @@ public:
 	bool prepareIndexing() override;
 	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
 	std::set<FilePath> getAllSourceFilePaths() const override;
-	std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const RefreshInfo& info) const override;
+	std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(
+		const RefreshInfo& info) const override;
 	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const override;
 
 private:
@@ -27,4 +27,4 @@ private:
 	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> m_settings;
 };
 
-#endif // SOURCE_GROUP_CXX_CODEBLOCKS_H
+#endif	  // SOURCE_GROUP_CXX_CODEBLOCKS_H

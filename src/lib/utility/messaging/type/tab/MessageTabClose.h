@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageTabClose
-	: public Message<MessageTabClose>
+class MessageTabClose: public Message<MessageTabClose>
 {
 public:
 	static const std::string getStaticType()
@@ -13,4 +12,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_TAB_CLOSE_H
+#endif	  // MESSAGE_TAB_CLOSE_H

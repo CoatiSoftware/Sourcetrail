@@ -6,12 +6,11 @@
 #include "IndexerBase.h"
 #include "IndexerCommand.h"
 #include "IndexerStateInfo.h"
-#include "logging.h"
 #include "ParserClientImpl.h"
+#include "logging.h"
 
 template <typename T>
-class Indexer
-	: public IndexerBase
+class Indexer: public IndexerBase
 {
 public:
 	Indexer();
@@ -30,8 +29,7 @@ private:
 
 
 template <typename T>
-Indexer<T>::Indexer()
-	: m_indexerStateInfo(std::make_shared<IndexerStateInfo>())
+Indexer<T>::Indexer(): m_indexerStateInfo(std::make_shared<IndexerStateInfo>())
 {
 	m_indexerStateInfo->indexingInterrupted = false;
 }
@@ -54,8 +52,11 @@ std::shared_ptr<IntermediateStorage> Indexer<T>::index(std::shared_ptr<IndexerCo
 	std::shared_ptr<T> castCommand = std::dynamic_pointer_cast<T>(indexerCommand);
 	if (!castCommand)
 	{
-		LOG_ERROR("Trying to process " + indexerCommandTypeToString(indexerCommand->getIndexerCommandType()) +
-			" indexer command with indexer that supports \"" + indexerCommandTypeToString(getSupportedIndexerCommandType()) + "\".");
+		LOG_ERROR(
+			"Trying to process " +
+			indexerCommandTypeToString(indexerCommand->getIndexerCommandType()) +
+			" indexer command with indexer that supports \"" +
+			indexerCommandTypeToString(getSupportedIndexerCommandType()) + "\".");
 
 		return nullptr;
 	}
@@ -82,4 +83,4 @@ std::shared_ptr<IntermediateStorage> Indexer<T>::index(std::shared_ptr<IndexerCo
 	return storage;
 }
 
-#endif // INDEXER_H
+#endif	  // INDEXER_H

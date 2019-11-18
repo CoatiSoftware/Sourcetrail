@@ -4,14 +4,13 @@
 #include <memory>
 #include <vector>
 
-#include "SettingsMigrator.h"
 #include "LanguageType.h"
 #include "Settings.h"
+#include "SettingsMigrator.h"
 
 class SourceGroupSettings;
 
-class ProjectSettings
-	: public Settings
+class ProjectSettings: public Settings
 {
 public:
 	static const std::wstring PROJECT_FILE_EXTENSION;
@@ -56,4 +55,4 @@ private:
 	SettingsMigrator getMigrations() const;
 };
 
-#endif // PROJECT_SETTINGS_H
+#endif	  // PROJECT_SETTINGS_H

@@ -6,14 +6,13 @@
 #include "utilityFile.h"
 
 QtProjectWizardContentPathPythonEnvironment::QtProjectWizardContentPathPythonEnvironment(
-	std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizardWindow* window
-)
-	: QtProjectWizardContentPath(window)
-	, m_settings(settings)
+	std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizardWindow* window)
+	: QtProjectWizardContentPath(window), m_settings(settings)
 {
 	setTitleString("Python Environment");
 	setHelpString(
-		"Here you can specify the path to the directory or to the executable of the (virtual) Python environment that should be used to resolve "
+		"Here you can specify the path to the directory or to the executable of the (virtual) "
+		"Python environment that should be used to resolve "
 		"dependencies within the indexed source code. <br />"
 		"<br />"
 		"If you would run:<br />"
@@ -21,9 +20,10 @@ QtProjectWizardContentPathPythonEnvironment::QtProjectWizardContentPathPythonEnv
 		"$ cd C:\\dev\\python\\envs<br />"
 		"$ virtualenv py37<br />"
 		"<br />"
-		"you would set it to \"C:\\dev\\python\\envs\\py37\" or \"C:\\dev\\python\\envs\\py37\\Scripts\\python.exe\". <br />"
-		"Leave blank to use the default Python environment. You can make use of environment variables with ${ENV_VAR}."
-	);
+		"you would set it to \"C:\\dev\\python\\envs\\py37\" or "
+		"\"C:\\dev\\python\\envs\\py37\\Scripts\\python.exe\". <br />"
+		"Leave blank to use the default Python environment. You can make use of environment "
+		"variables with ${ENV_VAR}.");
 	setPlaceholderString("Use Default");
 	setAllowEmpty(true);
 }
@@ -32,9 +32,10 @@ void QtProjectWizardContentPathPythonEnvironment::populate(QGridLayout* layout, 
 {
 	QtProjectWizardContentPath::populate(layout, row);
 	connect(
-		m_picker, &QtLocationPicker::textChanged,
-		this, &QtProjectWizardContentPathPythonEnvironment::onTextChanged
-	);
+		m_picker,
+		&QtLocationPicker::textChanged,
+		this,
+		&QtProjectWizardContentPathPythonEnvironment::onTextChanged);
 
 	m_resultLabel = new QLabel();
 	m_resultLabel->setWordWrap(true);
@@ -63,24 +64,26 @@ void QtProjectWizardContentPathPythonEnvironment::onTextChanged(const QString& t
 		m_resultLabel->setText("Checking validity of Python environment...");
 		std::thread([=]() {
 			std::pair<int, std::string> out = utility::executeProcess(
-				"\"" + ResourcePaths::getPythonPath().str() + "SourcetrailPythonIndexer\" check-environment " +
-				"--environment-path \"" + utility::getExpandedAndAbsolutePath(FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath()).str() + "\"",
+				"\"" + ResourcePaths::getPythonPath().str() +
+					"SourcetrailPythonIndexer\" check-environment " + "--environment-path \"" +
+					utility::getExpandedAndAbsolutePath(
+						FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath())
+						.str() +
+					"\"",
 				FilePath(),
-				5000
-			);
-			m_onQtThread(
-				[=]()
+				5000);
+			m_onQtThread([=]() {
+				if (out.first == 0)
 				{
-					if (out.first == 0)
-					{
-						m_resultLabel->setText(QString::fromStdString(out.second));
-					}
-					else
-					{
-						m_resultLabel->setText("An error occurred while checking environment path. Unable to check validity.");
-					}
+					m_resultLabel->setText(QString::fromStdString(out.second));
 				}
-			);
+				else
+				{
+					m_resultLabel->setText(
+						"An error occurred while checking environment path. Unable to check "
+						"validity.");
+				}
+			});
 		}).detach();
 	}
 }

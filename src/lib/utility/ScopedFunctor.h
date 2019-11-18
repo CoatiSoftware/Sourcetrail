@@ -14,4 +14,4 @@ private:
 	std::function<void(void)> m_onDestroy;
 };
 
-#endif // SCOPED_FUNCTOR_H
+#endif	  // SCOPED_FUNCTOR_H

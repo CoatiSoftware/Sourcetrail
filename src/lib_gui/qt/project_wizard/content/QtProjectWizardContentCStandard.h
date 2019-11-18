@@ -6,8 +6,7 @@
 class QComboBox;
 class SourceGroupSettingsWithCStandard;
 
-class QtProjectWizardContentCStandard
-	: public QtProjectWizardContent
+class QtProjectWizardContentCStandard: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -28,4 +27,4 @@ private:
 	QComboBox* m_standard;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_C_STANDARD
+#endif	  // QT_PROJECT_WIZARD_CONTENT_C_STANDARD

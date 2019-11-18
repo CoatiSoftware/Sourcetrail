@@ -83,4 +83,4 @@ private:
 	QLabel* m_errorLabel;
 };
 
-#endif // QT_CUSTOM_TRAIL_VIEW_H
+#endif	  // QT_CUSTOM_TRAIL_VIEW_H

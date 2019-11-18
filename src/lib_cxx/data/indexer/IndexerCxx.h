@@ -4,8 +4,7 @@
 #include "Indexer.h"
 #include "IndexerCommandCxx.h"
 
-class IndexerCxx
-	: public Indexer<IndexerCommandCxx>
+class IndexerCxx: public Indexer<IndexerCommandCxx>
 {
 private:
 	void doIndex(
@@ -14,4 +13,4 @@ private:
 		std::shared_ptr<IndexerStateInfo> m_indexerStateInfo) override;
 };
 
-#endif // INDEXER_CXX_H
+#endif	  // INDEXER_CXX_H

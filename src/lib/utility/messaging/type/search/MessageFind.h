@@ -4,12 +4,10 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageFind
-	: public Message<MessageFind>
+class MessageFind: public Message<MessageFind>
 {
 public:
-	MessageFind(bool fulltext = false)
-		: findFulltext(fulltext)
+	MessageFind(bool fulltext = false): findFulltext(fulltext)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -22,4 +20,4 @@ public:
 	bool findFulltext;
 };
 
-#endif // MESSAGE_FIND_H
+#endif	  // MESSAGE_FIND_H

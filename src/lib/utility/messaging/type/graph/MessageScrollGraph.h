@@ -4,13 +4,10 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageScrollGraph
-	: public Message<MessageScrollGraph>
+class MessageScrollGraph: public Message<MessageScrollGraph>
 {
 public:
-	MessageScrollGraph(int xValue, int yValue)
-		: xValue(xValue)
-		, yValue(yValue)
+	MessageScrollGraph(int xValue, int yValue): xValue(xValue), yValue(yValue)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());
@@ -25,4 +22,4 @@ public:
 	int yValue;
 };
 
-#endif // MESSAGE_SCROLL_GRAPH_H
+#endif	  // MESSAGE_SCROLL_GRAPH_H

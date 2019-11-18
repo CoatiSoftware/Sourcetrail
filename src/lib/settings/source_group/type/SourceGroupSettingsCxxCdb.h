@@ -10,11 +10,11 @@
 
 class SourceGroupSettingsCxxCdb
 	: public SourceGroupSettingsWithComponents<
-		SourceGroupSettingsWithCxxCdbPath,
-		SourceGroupSettingsWithCxxPathsAndFlags,
-		SourceGroupSettingsWithCxxPchOptions,
-		SourceGroupSettingsWithExcludeFilters,
-		SourceGroupSettingsWithIndexedHeaderPaths>
+		  SourceGroupSettingsWithCxxCdbPath,
+		  SourceGroupSettingsWithCxxPathsAndFlags,
+		  SourceGroupSettingsWithCxxPchOptions,
+		  SourceGroupSettingsWithExcludeFilters,
+		  SourceGroupSettingsWithIndexedHeaderPaths>
 {
 public:
 	SourceGroupSettingsCxxCdb(const std::string& id, const ProjectSettings* projectSettings)
@@ -28,4 +28,4 @@ public:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_CXX_CDB_H
+#endif	  // SOURCE_GROUP_SETTINGS_CXX_CDB_H

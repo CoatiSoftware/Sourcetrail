@@ -3,11 +3,10 @@
 
 #include <string>
 
-#include "TokenComponent.h"
 #include "AccessKind.h"
+#include "TokenComponent.h"
 
-class TokenComponentAccess
-	: public TokenComponent
+class TokenComponentAccess: public TokenComponent
 {
 public:
 	static std::wstring getAccessString(AccessKind access);
@@ -24,4 +23,4 @@ private:
 	const AccessKind m_access;
 };
 
-#endif // TOKEN_COMPONENT_ACCESS_H
+#endif	  // TOKEN_COMPONENT_ACCESS_H

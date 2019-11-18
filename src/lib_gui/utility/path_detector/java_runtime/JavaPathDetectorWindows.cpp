@@ -22,7 +22,8 @@ std::vector<FilePath> JavaPathDetectorWindows::getPaths() const
 
 	key += ("JavaSoft\\Java Runtime Environment\\" + m_javaVersion).c_str();
 
-	QSettings expressKey(key, QSettings::NativeFormat); // NativeFormat means from Registry on Windows.
+	QSettings expressKey(
+		key, QSettings::NativeFormat);	  // NativeFormat means from Registry on Windows.
 	QString value = expressKey.value("RuntimeLib").toString();
 
 	FilePath path(value.toStdWString());

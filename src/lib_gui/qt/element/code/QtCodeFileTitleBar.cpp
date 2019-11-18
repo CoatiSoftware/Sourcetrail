@@ -16,7 +16,7 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 {
 	setObjectName("title_bar");
 	setProperty("hovering", isHovering);
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 
 	if (!isSingle)
 	{
@@ -31,21 +31,31 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 
 	FilePath imageDir = ResourcePaths::getGuiPath().concatenate(L"code_view/images/");
 
-	m_expandButton = new QtSelfRefreshIconButton("", imageDir.getConcatenated(L"snippet_arrow_right.png"), "code/file/title", this);
-	m_collapseButton = new QtSelfRefreshIconButton("", imageDir.getConcatenated(L"snippet_arrow_down.png"), "code/file/title", this);
+	m_expandButton = new QtSelfRefreshIconButton(
+		"", imageDir.getConcatenated(L"snippet_arrow_right.png"), "code/file/title", this);
+	m_collapseButton = new QtSelfRefreshIconButton(
+		"", imageDir.getConcatenated(L"snippet_arrow_down.png"), "code/file/title", this);
 
 	m_expandButton->setToolTip("expand");
 	m_collapseButton->setToolTip("collapse");
 
-	for (QtSelfRefreshIconButton* button : { m_expandButton, m_collapseButton })
+	for (QtSelfRefreshIconButton* button: {m_expandButton, m_collapseButton})
 	{
 		button->setIconSize(QSize(9, 9));
 		button->setObjectName("expand_button");
 		titleLayout->addWidget(button);
 	}
 
-	connect(m_expandButton, &QtSelfRefreshIconButton::clicked, this, &QtCodeFileTitleBar::clickedExpandButton);
-	connect(m_collapseButton, &QtSelfRefreshIconButton::clicked, this, &QtCodeFileTitleBar::clickedCollapseButton);
+	connect(
+		m_expandButton,
+		&QtSelfRefreshIconButton::clicked,
+		this,
+		&QtCodeFileTitleBar::clickedExpandButton);
+	connect(
+		m_collapseButton,
+		&QtSelfRefreshIconButton::clicked,
+		this,
+		&QtCodeFileTitleBar::clickedCollapseButton);
 
 	m_titleButton = new QtCodeFileTitleButton(this);
 	QSizePolicy policy = m_titleButton->sizePolicy();
@@ -65,32 +75,39 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	m_showErrorsButton = new QPushButton("show errors");
 	m_showErrorsButton->setObjectName("screen_button");
 	m_showErrorsButton->setToolTip("Show all errors causing this file to be incomplete");
-	m_showErrorsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_showErrorsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	m_showErrorsButton->hide();
 	titleLayout->addWidget(m_showErrorsButton);
 
-	connect(m_showErrorsButton, &QPushButton::clicked,
-		[this]()
-		{
-			MessageErrorsForFile(m_titleButton->getFilePath()).dispatch();
-		}
-	);
+	connect(m_showErrorsButton, &QPushButton::clicked, [this]() {
+		MessageErrorsForFile(m_titleButton->getFilePath()).dispatch();
+	});
 
 	QColor inactiveColor(0x5E, 0x5D, 0x5D);
 
 	m_snippetButton = new QtIconStateButton(this);
-	m_snippetButton->addState(QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"snippet_active.png"));
-	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, imageDir.getConcatenated(L"snippet_inactive.png"), inactiveColor);
-	m_snippetButton->addState(QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"snippet_inactive.png"));
+	m_snippetButton->addState(
+		QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"snippet_active.png"));
+	m_snippetButton->addState(
+		QtIconStateButton::STATE_HOVERED,
+		imageDir.getConcatenated(L"snippet_inactive.png"),
+		inactiveColor);
+	m_snippetButton->addState(
+		QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"snippet_inactive.png"));
 	m_snippetButton->setToolTip("show snippets");
 
 	m_maximizeButton = new QtIconStateButton(this);
-	m_maximizeButton->addState(QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"maximize_active.png"));
-	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, imageDir.getConcatenated(L"maximize_inactive.png"), inactiveColor);
-	m_maximizeButton->addState(QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"maximize_inactive.png"));
+	m_maximizeButton->addState(
+		QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"maximize_active.png"));
+	m_maximizeButton->addState(
+		QtIconStateButton::STATE_HOVERED,
+		imageDir.getConcatenated(L"maximize_inactive.png"),
+		inactiveColor);
+	m_maximizeButton->addState(
+		QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"maximize_inactive.png"));
 	m_maximizeButton->setToolTip("maximize");
 
-	for (QtIconStateButton* button : { m_snippetButton, m_maximizeButton })
+	for (QtIconStateButton* button: {m_snippetButton, m_maximizeButton})
 	{
 		button->setIconSize(QSize(16, 16));
 		button->setObjectName("file_button");
@@ -98,8 +115,10 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 		titleLayout->addWidget(button);
 	}
 
-	connect(m_snippetButton, &QtIconStateButton::clicked, this, &QtCodeFileTitleBar::clickedSnippetButton);
-	connect(m_maximizeButton, &QtIconStateButton::clicked, this, &QtCodeFileTitleBar::clickedMaximizeButton);
+	connect(
+		m_snippetButton, &QtIconStateButton::clicked, this, &QtCodeFileTitleBar::clickedSnippetButton);
+	connect(
+		m_maximizeButton, &QtIconStateButton::clicked, this, &QtCodeFileTitleBar::clickedMaximizeButton);
 
 	if (isSingle)
 	{

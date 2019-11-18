@@ -4,10 +4,10 @@
 #include <memory>
 
 #include "DialogView.h"
-#include "MessageListener.h"
-#include "MessageIndexingFinished.h"
 #include "MessageActivateWindow.h"
 #include "MessageCloseProject.h"
+#include "MessageIndexingFinished.h"
+#include "MessageListener.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
 #include "MessageRefreshUI.h"
@@ -35,7 +35,8 @@ class Application
 	, public MessageListener<MessageWindowFocus>
 {
 public:
-	static void createInstance(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
+	static void createInstance(
+		const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
 	static std::shared_ptr<Application> getInstance();
 	static void destroyInstance();
 
@@ -99,4 +100,4 @@ private:
 	std::shared_ptr<UpdateChecker> m_updateChecker;
 };
 
-#endif // APPLICATION_H
+#endif	  // APPLICATION_H

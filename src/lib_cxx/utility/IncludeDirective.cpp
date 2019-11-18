@@ -4,8 +4,7 @@ IncludeDirective::IncludeDirective(
 	const FilePath& includedFilePath,
 	const FilePath& includingFilePath,
 	unsigned int lineNumber,
-	bool usesBrackets
-)
+	bool usesBrackets)
 	: m_includedFilePath(includedFilePath)
 	, m_includingFilePath(includingFilePath)
 	, m_lineNumber(lineNumber)
@@ -25,7 +24,8 @@ FilePath IncludeDirective::getIncludingFile() const
 
 std::wstring IncludeDirective::getDirective() const
 {
-	return std::wstring(L"#include ") + (m_usesBrackets ? L"<" : L"\"") + m_includedFilePath.wstr() + (m_usesBrackets ? L">" : L"\"");
+	return std::wstring(L"#include ") + (m_usesBrackets ? L"<" : L"\"") +
+		m_includedFilePath.wstr() + (m_usesBrackets ? L">" : L"\"");
 }
 
 unsigned int IncludeDirective::getLineNumber() const

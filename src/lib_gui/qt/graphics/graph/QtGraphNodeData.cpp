@@ -11,7 +11,8 @@
 
 #include "TokenComponentFilePath.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier, bool isInteractive)
+QtGraphNodeData::QtGraphNodeData(
+	const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier, bool isInteractive)
 	: m_data(data)
 	, m_childVisible(childVisible)
 	, m_hasQualifier(hasQualifier)
@@ -21,9 +22,7 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, boo
 	this->setName(name);
 }
 
-QtGraphNodeData::~QtGraphNodeData()
-{
-}
+QtGraphNodeData::~QtGraphNodeData() {}
 
 const Node* QtGraphNodeData::getData() const
 {
@@ -75,7 +74,8 @@ void QtGraphNodeData::updateStyle()
 	TokenComponentFilePath* component = m_data->getComponent<TokenComponentFilePath>();
 	if (component && !component->isComplete())
 	{
-		style.iconPath = ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file_incomplete.png");
+		style.iconPath = ResourcePaths::getGuiPath().concatenate(
+			L"graph_view/images/file_incomplete.png");
 	}
 
 	setStyle(style);

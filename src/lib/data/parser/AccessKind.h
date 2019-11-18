@@ -4,7 +4,7 @@
 #include <string>
 
 enum AccessKind
-{ // these values need to be the same as AccessKind in Java code
+{	 // these values need to be the same as AccessKind in Java code
 	ACCESS_NONE = 0,
 	ACCESS_PUBLIC = 1,
 	ACCESS_PROTECTED = 2,
@@ -18,4 +18,4 @@ AccessKind intToAccessKind(int v);
 int accessKindToInt(AccessKind t);
 std::wstring accessKindToString(AccessKind t);
 
-#endif // ACCESS_KIND_H
+#endif	  // ACCESS_KIND_H

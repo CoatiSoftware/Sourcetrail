@@ -9,8 +9,7 @@
 TaskFillIndexerCommandsQueue::TaskFillIndexerCommandsQueue(
 	const std::string& appUUID,
 	std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
-	size_t maximumQueueSize
-)
+	size_t maximumQueueSize)
 	: m_indexerCommandProvider(std::move(indexerCommandProvider))
 	, m_indexerCommandManager(appUUID, 0, true)
 	, m_maximumQueueSize(maximumQueueSize)
@@ -21,7 +20,8 @@ void TaskFillIndexerCommandsQueue::doEnter(std::shared_ptr<Blackboard> blackboar
 {
 	{
 		std::lock_guard<std::mutex> lock(m_commandsMutex);
-		for (const FilePath& filePath : utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2))
+		for (const FilePath& filePath:
+			 utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2))
 		{
 			m_filePathQueue.emplace(filePath);
 		}
@@ -73,7 +73,11 @@ void TaskFillIndexerCommandsQueue::handleMessage(MessageIndexingInterrupted* mes
 {
 	std::lock_guard<std::mutex> lock(m_commandsMutex);
 
-	LOG_INFO("Discarding remaining " + std::to_string(m_indexerCommandProvider->size() + m_indexerCommandManager.indexerCommandCount()) + " indexer commands.");
+	LOG_INFO(
+		"Discarding remaining " +
+		std::to_string(
+			m_indexerCommandProvider->size() + m_indexerCommandManager.indexerCommandCount()) +
+		" indexer commands.");
 
 	std::queue<FilePath> empty;
 	std::swap(m_filePathQueue, empty);
@@ -81,7 +85,11 @@ void TaskFillIndexerCommandsQueue::handleMessage(MessageIndexingInterrupted* mes
 	m_indexerCommandProvider->clear();
 	m_indexerCommandManager.clearIndexerCommands();
 
-	LOG_INFO("Remaining: " + std::to_string(m_indexerCommandProvider->size() + m_indexerCommandManager.indexerCommandCount()) + ".");
+	LOG_INFO(
+		"Remaining: " +
+		std::to_string(
+			m_indexerCommandProvider->size() + m_indexerCommandManager.indexerCommandCount()) +
+		".");
 }
 
 bool TaskFillIndexerCommandsQueue::fillCommandQueue()
@@ -99,7 +107,8 @@ bool TaskFillIndexerCommandsQueue::fillCommandQueue()
 	{
 		if (!m_filePathQueue.empty())
 		{
-			commands.push_back(m_indexerCommandProvider->consumeCommandForSourceFilePath(m_filePathQueue.front()));
+			commands.push_back(
+				m_indexerCommandProvider->consumeCommandForSourceFilePath(m_filePathQueue.front()));
 			m_filePathQueue.pop();
 		}
 		else

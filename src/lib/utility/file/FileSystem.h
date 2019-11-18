@@ -17,7 +17,9 @@ public:
 	static FileInfo getFileInfoForPath(const FilePath& filePath);
 
 	static std::vector<FileInfo> getFileInfosFromPaths(
-		const std::vector<FilePath>& paths, const std::vector<std::wstring>& fileExtensions, bool followSymLinks = true);
+		const std::vector<FilePath>& paths,
+		const std::vector<std::wstring>& fileExtensions,
+		bool followSymLinks = true);
 
 	static std::set<FilePath> getSymLinkedDirectories(const FilePath& path);
 	static std::set<FilePath> getSymLinkedDirectories(const std::vector<FilePath>& paths);
@@ -37,4 +39,4 @@ public:
 	static std::vector<FilePath> getRecursiveSubDirectories(const FilePath& path);
 };
 
-#endif // FILE_SYSTEM_H
+#endif	  // FILE_SYSTEM_H

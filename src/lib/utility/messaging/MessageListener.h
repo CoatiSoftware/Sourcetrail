@@ -7,14 +7,11 @@
 #include "MessageListenerBase.h"
 #include "MessageQueue.h"
 
-template<typename MessageType>
-class MessageListener
-	: public MessageListenerBase
+template <typename MessageType>
+class MessageListener: public MessageListenerBase
 {
 public:
-	MessageListener()
-	{
-	}
+	MessageListener() {}
 
 private:
 	virtual std::string doGetType() const
@@ -35,4 +32,4 @@ private:
 	virtual void handleMessage(MessageType* message) = 0;
 };
 
-#endif // MESSAGE_LISTENER_H
+#endif	  // MESSAGE_LISTENER_H

@@ -41,7 +41,7 @@ struct CodeFileParams
 	bool isDefinition = false;
 
 	std::vector<CodeSnippetParams> snippetParams;
-	std::shared_ptr<CodeSnippetParams> fileParams; // TODO: replace with std::optional
+	std::shared_ptr<CodeSnippetParams> fileParams;	  // TODO: replace with std::optional
 };
 
-#endif // CODE_SNIPPET_PARAMS_H
+#endif	  // CODE_SNIPPET_PARAMS_H

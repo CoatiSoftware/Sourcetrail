@@ -3,9 +3,7 @@
 #include "ViewWidgetWrapper.h"
 
 View::View(ViewLayout* viewLayout)
-	: m_component(nullptr)
-	, m_viewLayout(viewLayout)
-	, m_widgetWrapper(nullptr)
+	: m_component(nullptr), m_viewLayout(viewLayout), m_widgetWrapper(nullptr)
 {
 }
 

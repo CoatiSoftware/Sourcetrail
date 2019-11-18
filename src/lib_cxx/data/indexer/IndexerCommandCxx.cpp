@@ -3,15 +3,15 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include <clang/Tooling/CompilationDatabase.h>
-#include <clang/Tooling/JSONCompilationDatabase.h>
-#include "logging.h"
 #include "MessageStatus.h"
 #include "OrderedCache.h"
 #include "ResourcePaths.h"
+#include "logging.h"
 #include "utility.h"
 #include "utilitySourceGroupCxx.h"
 #include "utilityString.h"
+#include <clang/Tooling/CompilationDatabase.h>
+#include <clang/Tooling/JSONCompilationDatabase.h>
 
 std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& cdbPath)
 {
@@ -20,7 +20,8 @@ std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& c
 
 	if (!error.empty())
 	{
-		const std::wstring message = L"Loading Clang compilation database failed with error: \"" + utility::decodeFromUtf8(error) + L"\"";
+		const std::wstring message = L"Loading Clang compilation database failed with error: \"" +
+			utility::decodeFromUtf8(error) + L"\"";
 		LOG_ERROR(message);
 		MessageStatus(message, true).dispatch();
 	}
@@ -34,30 +35,35 @@ std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(
 	std::vector<FilePath> filePaths;
 	if (cdb)
 	{
-		OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache([](const FilePath& path) { return path.getCanonical(); });
+		OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache(
+			[](const FilePath& path) { return path.getCanonical(); });
 
-		for (const std::string& fileString : cdb->getAllFiles())
+		for (const std::string& fileString: cdb->getAllFiles())
 		{
 			FilePath path = FilePath(utility::decodeFromUtf8(fileString));
 			if (!path.isAbsolute())
 			{
-				std::vector<clang::tooling::CompileCommand> commands = cdb->getCompileCommands(fileString);
+				std::vector<clang::tooling::CompileCommand> commands = cdb->getCompileCommands(
+					fileString);
 				if (!commands.empty())
 				{
-					path = FilePath(utility::decodeFromUtf8(commands.front().Directory + '/' + commands.front().Filename)).makeCanonical();
+					path = FilePath(utility::decodeFromUtf8(
+										commands.front().Directory + '/' + commands.front().Filename))
+							   .makeCanonical();
 				}
 			}
 			if (!path.isAbsolute())
 			{
 				path = cdbPath.getParentDirectory().getConcatenated(path).makeCanonical();
 			}
-			filePaths.push_back(canonicalDirectoryPathCache.getValue(path.getParentDirectory()).concatenate(path.fileName()));
+			filePaths.push_back(canonicalDirectoryPathCache.getValue(path.getParentDirectory())
+									.concatenate(path.fileName()));
 		}
 	}
 	return filePaths;
 }
 
-std::wstring IndexerCommandCxx::getCompilerFlagLanguageStandard(const std::wstring &languageStandard)
+std::wstring IndexerCommandCxx::getCompilerFlagLanguageStandard(const std::wstring& languageStandard)
 {
 	return L"-std=" + languageStandard;
 }
@@ -68,7 +74,7 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSear
 	std::vector<std::wstring> compilerFlags;
 	compilerFlags.reserve(systemHeaderSearchPaths.size() * 2);
 
-	for (const FilePath& path : systemHeaderSearchPaths)
+	for (const FilePath& path: systemHeaderSearchPaths)
 	{
 		compilerFlags.push_back(L"-isystem");
 		compilerFlags.push_back(path.wstr());
@@ -76,7 +82,8 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSear
 
 #ifdef _WIN32
 	// prepend clang system includes on windows
-	compilerFlags = utility::concat({ L"-isystem", ResourcePaths::getCxxCompilerHeaderPath().wstr() }, compilerFlags);
+	compilerFlags = utility::concat(
+		{L"-isystem", ResourcePaths::getCxxCompilerHeaderPath().wstr()}, compilerFlags);
 #else
 	// append otherwise
 	compilerFlags.push_back(L"-isystem");
@@ -86,11 +93,12 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSear
 	return compilerFlags;
 }
 
-std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
+std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(
+	const std::vector<FilePath>& frameworkSearchPaths)
 {
 	std::vector<std::wstring> compilerFlags;
 	compilerFlags.reserve(frameworkSearchPaths.size() * 2);
-	for (const FilePath& path : frameworkSearchPaths)
+	for (const FilePath& path: frameworkSearchPaths)
 	{
 		compilerFlags.push_back(L"-iframework");
 		compilerFlags.push_back(path.wstr());
@@ -101,7 +109,6 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForFrameworkSearchP
 IndexerCommandType IndexerCommandCxx::getStaticIndexerCommandType()
 {
 	return INDEXER_COMMAND_CXX;
-
 }
 IndexerCommandCxx::IndexerCommandCxx(
 	const FilePath& sourceFilePath,
@@ -109,8 +116,7 @@ IndexerCommandCxx::IndexerCommandCxx(
 	const std::set<FilePathFilter>& excludeFilters,
 	const std::set<FilePathFilter>& includeFilters,
 	const FilePath& workingDirectory,
-	const std::vector<std::wstring>& compilerFlags
-)
+	const std::vector<std::wstring>& compilerFlags)
 	: IndexerCommand(sourceFilePath)
 	, m_indexedPaths(indexedPaths)
 	, m_excludeFilters(excludeFilters)
@@ -129,22 +135,22 @@ size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 {
 	size_t size = IndexerCommand::getByteSize(stringSize);
 
-	for (const FilePath& path : m_indexedPaths)
+	for (const FilePath& path: m_indexedPaths)
 	{
 		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
 	}
 
-	for (const FilePathFilter& filter : m_excludeFilters)
+	for (const FilePathFilter& filter: m_excludeFilters)
 	{
 		size += stringSize + utility::encodeToUtf8(filter.wstr()).size();
 	}
 
-	for (const FilePathFilter& filter : m_includeFilters)
+	for (const FilePathFilter& filter: m_includeFilters)
 	{
 		size += stringSize + utility::encodeToUtf8(filter.wstr()).size();
 	}
 
-	for (const std::wstring& flag : m_compilerFlags)
+	for (const std::wstring& flag: m_compilerFlags)
 	{
 		size += stringSize + flag.size();
 	}
@@ -183,7 +189,7 @@ QJsonObject IndexerCommandCxx::doSerialize() const
 
 	{
 		QJsonArray indexedPathsArray;
-		for (const FilePath& indexedPath : m_indexedPaths)
+		for (const FilePath& indexedPath: m_indexedPaths)
 		{
 			indexedPathsArray.append(QString::fromStdWString(indexedPath.wstr()));
 		}
@@ -191,7 +197,7 @@ QJsonObject IndexerCommandCxx::doSerialize() const
 	}
 	{
 		QJsonArray excludeFiltersArray;
-		for (const FilePathFilter& excludeFilter : m_excludeFilters)
+		for (const FilePathFilter& excludeFilter: m_excludeFilters)
 		{
 			excludeFiltersArray.append(QString::fromStdWString(excludeFilter.wstr()));
 		}
@@ -199,7 +205,7 @@ QJsonObject IndexerCommandCxx::doSerialize() const
 	}
 	{
 		QJsonArray includeFiltersArray;
-		for (const FilePathFilter& includeFilter : m_includeFilters)
+		for (const FilePathFilter& includeFilter: m_includeFilters)
 		{
 			includeFiltersArray.append(QString::fromStdWString(includeFilter.wstr()));
 		}
@@ -210,7 +216,7 @@ QJsonObject IndexerCommandCxx::doSerialize() const
 	}
 	{
 		QJsonArray compilerFlagsArray;
-		for (const std::wstring& compilerFlag : m_compilerFlags)
+		for (const std::wstring& compilerFlag: m_compilerFlags)
 		{
 			compilerFlagsArray.append(QString::fromStdWString(compilerFlag));
 		}

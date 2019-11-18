@@ -23,4 +23,4 @@ private:
 	std::vector<std::shared_ptr<LanguagePackage>> m_packages;
 };
 
-#endif // LANGUAGE_PACKAGE_MANAGER_H
+#endif	  // LANGUAGE_PACKAGE_MANAGER_H

@@ -2,7 +2,8 @@
 
 SingleFrontendActionFactory::SingleFrontendActionFactory(clang::FrontendAction* action)
 	: m_action(action)
-{}
+{
+}
 
 clang::FrontendAction* SingleFrontendActionFactory::create()
 {

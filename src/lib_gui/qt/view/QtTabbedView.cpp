@@ -26,26 +26,24 @@ QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name)
 	m_widget = new QTabWidget(widget);
 	layout->addWidget(m_widget);
 
-	m_closeButton = new QtSelfRefreshIconButton("",
-		ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"), "screen_search/button", widget);
+	m_closeButton = new QtSelfRefreshIconButton(
+		"",
+		ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
+		"screen_search/button",
+		widget);
 	m_closeButton->setIconSize(QSize(15, 15));
 	m_closeButton->setStyleSheet("background: transparent; border: none;");
 
-	widget->connect(m_closeButton, &QPushButton::clicked, [this](){ hideView(this); });
+	widget->connect(m_closeButton, &QPushButton::clicked, [this]() { hideView(this); });
 	m_widget->tabBar()->installEventFilter(this);
 	widget->installEventFilter(this);
 }
 
-void QtTabbedView::createWidgetWrapper()
-{
-}
+void QtTabbedView::createWidgetWrapper() {}
 
 void QtTabbedView::refreshView()
 {
-	m_onQtThread([=]()
-	{
-		setStyleSheet();
-	});
+	m_onQtThread([=]() { setStyleSheet(); });
 }
 
 void QtTabbedView::addViewWidget(View* view)
@@ -67,18 +65,20 @@ void QtTabbedView::showView(View* view)
 void QtTabbedView::setStyleSheet()
 {
 	utility::setWidgetBackgroundColor(
-		QtViewWidgetWrapper::getWidgetOfView(this), ColorScheme::getInstance()->getColor("tab/background"));
+		QtViewWidgetWrapper::getWidgetOfView(this),
+		ColorScheme::getInstance()->getColor("tab/background"));
 
-	m_widget->setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"tabbed_view/tabbed_view.css")).c_str()
-	);
+	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+													   L"tabbed_view/tabbed_view.css"))
+								.c_str());
 }
 
 bool QtTabbedView::eventFilter(QObject* obj, QEvent* event)
 {
 	if (event->type() == QEvent::Resize)
 	{
-		m_closeButton->setGeometry(m_widget->width() - 23, (m_widget->tabBar()->height() - 15) / 2 + 1, 15, 15);
+		m_closeButton->setGeometry(
+			m_widget->width() - 23, (m_widget->tabBar()->height() - 15) / 2 + 1, 15, 15);
 		m_closeButton->show();
 	}
 	return QObject::eventFilter(obj, event);

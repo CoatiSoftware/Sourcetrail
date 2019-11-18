@@ -1,8 +1,6 @@
 #include "TaskGroupSequence.h"
 
-TaskGroupSequence::TaskGroupSequence()
-{
-}
+TaskGroupSequence::TaskGroupSequence() {}
 
 void TaskGroupSequence::addTask(std::shared_ptr<Task> task)
 {
@@ -43,9 +41,7 @@ Task::TaskState TaskGroupSequence::doUpdate(std::shared_ptr<Blackboard> blackboa
 	return STATE_RUNNING;
 }
 
-void TaskGroupSequence::doExit(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskGroupSequence::doExit(std::shared_ptr<Blackboard> blackboard) {}
 
 void TaskGroupSequence::doReset(std::shared_ptr<Blackboard> blackboard)
 {

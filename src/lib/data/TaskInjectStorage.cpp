@@ -4,17 +4,12 @@
 #include "StorageProvider.h"
 
 TaskInjectStorage::TaskInjectStorage(
-	std::shared_ptr<StorageProvider> storageProvider,
-	std::weak_ptr<Storage> target
-)
-	: m_storageProvider(storageProvider)
-	, m_target(target)
+	std::shared_ptr<StorageProvider> storageProvider, std::weak_ptr<Storage> target)
+	: m_storageProvider(storageProvider), m_target(target)
 {
 }
 
-void TaskInjectStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskInjectStorage::doEnter(std::shared_ptr<Blackboard> blackboard) {}
 
 Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
@@ -34,13 +29,9 @@ Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboa
 	return STATE_FAILURE;
 }
 
-void TaskInjectStorage::doExit(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskInjectStorage::doExit(std::shared_ptr<Blackboard> blackboard) {}
 
-void TaskInjectStorage::doReset(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskInjectStorage::doReset(std::shared_ptr<Blackboard> blackboard) {}
 
 void TaskInjectStorage::handleMessage(MessageIndexingInterrupted* message)
 {

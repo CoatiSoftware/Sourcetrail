@@ -4,19 +4,18 @@
 #include <clang/Tooling/Tooling.h>
 
 #include "CanonicalFilePathCache.h"
-#include "utilityClang.h"
 #include "ParseLocation.h"
 #include "ParserClient.h"
+#include "utilityClang.h"
 #include "utilityString.h"
 
 CxxDiagnosticConsumer::CxxDiagnosticConsumer(
-	clang::raw_ostream &os,
-	clang::DiagnosticOptions *diags,
+	clang::raw_ostream& os,
+	clang::DiagnosticOptions* diags,
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 	const FilePath& sourceFilePath,
-	bool useLogging
-)
+	bool useLogging)
 	: clang::TextDiagnosticPrinter(os, diags)
 	, m_client(client)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
@@ -25,7 +24,8 @@ CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 {
 }
 
-void CxxDiagnosticConsumer::BeginSourceFile(const clang::LangOptions& langOptions, const clang::Preprocessor* preProcessor)
+void CxxDiagnosticConsumer::BeginSourceFile(
+	const clang::LangOptions& langOptions, const clang::Preprocessor* preProcessor)
 {
 	if (m_useLogging)
 	{
@@ -41,7 +41,8 @@ void CxxDiagnosticConsumer::EndSourceFile()
 	}
 }
 
-void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level level, const clang::Diagnostic& info)
+void CxxDiagnosticConsumer::HandleDiagnostic(
+	clang::DiagnosticsEngine::Level level, const clang::Diagnostic& info)
 {
 	if (m_useLogging)
 	{
@@ -54,7 +55,9 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		info.FormatDiagnostic(messageStr);
 		std::string message = messageStr.str();
 
-		if (message == "MS-style inline assembly is not available: Unable to find target for this triple (no targets are registered)")
+		if (message ==
+			"MS-style inline assembly is not available: Unable to find target for this triple (no "
+			"targets are registered)")
 		{
 			return;
 		}
@@ -82,7 +85,8 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 
 			if (fileEntry != nullptr && fileEntry->isValid())
 			{
-				ParseLocation location = utility::getParseLocation(loc, sourceManager, nullptr, m_canonicalFilePathCache);
+				ParseLocation location = utility::getParseLocation(
+					loc, sourceManager, nullptr, m_canonicalFilePathCache);
 				fileId = location.fileId;
 				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileId);
 				lineNumber = location.startLineNumber;
@@ -94,7 +98,8 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 				if (fileEntry != nullptr && fileEntry->isValid())
 				{
 					filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-					fileId = m_client->recordFile(filePath, false /*keeps the "indexed" state if the file already exists*/);
+					fileId = m_client->recordFile(
+						filePath, false /*keeps the "indexed" state if the file already exists*/);
 					lineNumber = 1;
 					columnNumber = 1;
 				}
@@ -103,7 +108,8 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		else
 		{
 			filePath = m_sourceFilePath;
-			fileId = m_client->recordFile(filePath, false /*keeps the "indexed" state if the file already exists*/);
+			fileId = m_client->recordFile(
+				filePath, false /*keeps the "indexed" state if the file already exists*/);
 			lineNumber = 1;
 			columnNumber = 1;
 		}
@@ -115,8 +121,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 				level == clang::DiagnosticsEngine::Fatal,
 				m_canonicalFilePathCache->getFileRegister()->hasFilePath(filePath),
 				m_sourceFilePath,
-				ParseLocation(fileId, lineNumber, columnNumber)
-			);
+				ParseLocation(fileId, lineNumber, columnNumber));
 		}
 	}
 }

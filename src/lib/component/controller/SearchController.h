@@ -3,8 +3,8 @@
 
 #include "ActivationListener.h"
 #include "Controller.h"
-#include "MessageListener.h"
 #include "MessageFind.h"
+#include "MessageListener.h"
 #include "MessageSearchAutocomplete.h"
 
 class StorageAccess;
@@ -37,4 +37,4 @@ private:
 	StorageAccess* m_storageAccess;
 };
 
-#endif // SEARCH_CONTROLLER_H
+#endif	  // SEARCH_CONTROLLER_H

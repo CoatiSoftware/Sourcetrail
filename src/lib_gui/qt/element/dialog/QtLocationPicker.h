@@ -3,16 +3,15 @@
 
 #include <QPushButton>
 
-#include "QtLineEdit.h"
 #include "FilePath.h"
+#include "QtLineEdit.h"
 
-class QtLocationPicker
-	: public QWidget
+class QtLocationPicker: public QWidget
 {
 	Q_OBJECT
 
 public:
-	QtLocationPicker(QWidget *parent);
+	QtLocationPicker(QWidget* parent);
 
 	virtual void paintEvent(QPaintEvent*) override;
 
@@ -33,7 +32,7 @@ signals:
 	void textChanged(const QString& text);
 
 protected:
-	void changeEvent(QEvent *event) override;
+	void changeEvent(QEvent* event) override;
 
 private:
 	void onHandleButtonPressed();
@@ -47,4 +46,4 @@ private:
 	FilePath m_relativeRootDirectory;
 };
 
-#endif // QT_LOCATION_PICKER_H
+#endif	  // QT_LOCATION_PICKER_H

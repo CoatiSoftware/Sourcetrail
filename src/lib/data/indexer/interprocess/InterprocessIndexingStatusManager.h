@@ -3,11 +3,10 @@
 
 #include <set>
 
-#include "FilePath.h"
 #include "BaseInterprocessDataManager.h"
+#include "FilePath.h"
 
-class InterprocessIndexingStatusManager
-	: public BaseInterprocessDataManager
+class InterprocessIndexingStatusManager: public BaseInterprocessDataManager
 {
 public:
 	InterprocessIndexingStatusManager(const std::string& instanceUuid, Id processId, bool isOwner);
@@ -34,4 +33,4 @@ private:
 	static const char* s_indexingInterruptedKeyName;
 };
 
-#endif // INTERPROCESS_INDEXING_STATUS_MANAGER_H
+#endif	  // INTERPROCESS_INDEXING_STATUS_MANAGER_H

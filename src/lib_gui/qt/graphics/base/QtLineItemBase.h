@@ -7,8 +7,7 @@
 
 #include "GraphViewStyle.h"
 
-class QtLineItemBase
-	: public QGraphicsLineItem
+class QtLineItemBase: public QGraphicsLineItem
 {
 public:
 	enum Route
@@ -22,10 +21,13 @@ public:
 	virtual ~QtLineItemBase();
 
 	void updateLine(
-		Vec4i ownerRect, Vec4i targetRect,
-		Vec4i ownerParentRect, Vec4i targetParentRect,
+		Vec4i ownerRect,
+		Vec4i targetRect,
+		Vec4i ownerParentRect,
+		Vec4i targetParentRect,
 		GraphViewStyle::EdgeStyle style,
-		size_t weight, bool showArrow);
+		size_t weight,
+		bool showArrow);
 
 	void setRoute(Route route);
 
@@ -61,4 +63,4 @@ private:
 	mutable QPolygon m_polygon;
 };
 
-#endif // QT_LINE_ITEM_BASE_H
+#endif	  // QT_LINE_ITEM_BASE_H

@@ -4,10 +4,7 @@
 #include "Node.h"
 #include "ParseLocation.h"
 
-ParserClientImpl::ParserClientImpl(IntermediateStorage* const storage)
-	: m_storage(storage)
-{
-}
+ParserClientImpl::ParserClientImpl(IntermediateStorage* const storage): m_storage(storage) {}
 
 Id ParserClientImpl::recordFile(const FilePath& filePath, bool indexed)
 {
@@ -47,7 +44,8 @@ void ParserClientImpl::recordDefinitionKind(Id symbolId, DefinitionKind definiti
 	}
 }
 
-Id ParserClientImpl::recordReference(ReferenceKind referenceKind, Id referencedSymbolId, Id contextSymbolId, const ParseLocation& location)
+Id ParserClientImpl::recordReference(
+	ReferenceKind referenceKind, Id referencedSymbolId, Id contextSymbolId, const ParseLocation& location)
 {
 	Id edgeId = addEdge(referenceKindToEdgeType(referenceKind), contextSymbolId, referencedSymbolId);
 	if (edgeId)
@@ -81,22 +79,20 @@ void ParserClientImpl::recordComment(const ParseLocation& location)
 		location.startColumnNumber,
 		location.endLineNumber,
 		location.endColumnNumber,
-		locationTypeToInt(LOCATION_COMMENT)
-	));
+		locationTypeToInt(LOCATION_COMMENT)));
 }
 
 void ParserClientImpl::recordError(
-	const std::wstring& message, bool fatal, bool indexed,
-	const FilePath& translationUnit, const ParseLocation& location)
+	const std::wstring& message,
+	bool fatal,
+	bool indexed,
+	const FilePath& translationUnit,
+	const ParseLocation& location)
 {
 	if (location.fileId != 0)
 	{
-		Id errorId = m_storage->addError(StorageErrorData(
-			message,
-			translationUnit.wstr(),
-			fatal,
-			indexed
-		));
+		Id errorId = m_storage->addError(
+			StorageErrorData(message, translationUnit.wstr(), fatal, indexed));
 
 		addSourceLocation(errorId, location, LOCATION_ERROR);
 	}
@@ -211,8 +207,7 @@ Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy)
 	{
 		std::pair<Id, bool> ret = m_storage->addNode(StorageNodeData(
 			NodeType::typeToInt(NodeType::NODE_SYMBOL),
-			NameHierarchy::serializeRange(nameHierarchy, 0, i)
-		));
+			NameHierarchy::serializeRange(nameHierarchy, 0, i)));
 
 		if (!firstNodeId)
 		{
@@ -273,11 +268,7 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 		location.startColumnNumber,
 		location.endLineNumber,
 		location.endColumnNumber,
-		locationTypeToInt(type)
-	));
+		locationTypeToInt(type)));
 
-	m_storage->addOccurrence(StorageOccurrence(
-		elementId,
-		sourceLocationId
-	));
+	m_storage->addOccurrence(StorageOccurrence(elementId, sourceLocationId));
 }

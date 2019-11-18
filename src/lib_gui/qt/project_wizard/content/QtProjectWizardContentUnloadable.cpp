@@ -11,11 +11,8 @@
 #include "SqliteIndexStorage.h"
 
 QtProjectWizardContentUnloadable::QtProjectWizardContentUnloadable(
-	std::shared_ptr<SourceGroupSettingsUnloadable> settings,
-	QtProjectWizardWindow* window
-)
-	: QtProjectWizardContent(window)
-	, m_settings(settings)
+	std::shared_ptr<SourceGroupSettingsUnloadable> settings, QtProjectWizardWindow* window)
+	: QtProjectWizardContent(window), m_settings(settings)
 {
 }
 
@@ -24,16 +21,17 @@ void QtProjectWizardContentUnloadable::populate(QGridLayout* layout, int& row)
 	QHBoxLayout* layoutHorz = new QHBoxLayout();
 	layout->addLayout(
 		layoutHorz,
-		row, QtProjectWizardWindow::FRONT_COL,
-		1, 1 + QtProjectWizardWindow::BACK_COL - QtProjectWizardWindow::FRONT_COL,
-		Qt::AlignTop
-	);
+		row,
+		QtProjectWizardWindow::FRONT_COL,
+		1,
+		1 + QtProjectWizardWindow::BACK_COL - QtProjectWizardWindow::FRONT_COL,
+		Qt::AlignTop);
 
 	layoutHorz->addSpacing(60);
 
 	QLabel* infoLabel = new QLabel(
-		"<p>The selected item uses a Source Group type that is not supportetd by this version of Sourcetrail.</p>"
-	);
+		"<p>The selected item uses a Source Group type that is not supportetd by this version of "
+		"Sourcetrail.</p>");
 	infoLabel->setObjectName("info");
 	infoLabel->setWordWrap(true);
 	layoutHorz->addWidget(infoLabel);

@@ -5,8 +5,7 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageCodeShowDefinition
-	: public Message<MessageCodeShowDefinition>
+class MessageCodeShowDefinition: public Message<MessageCodeShowDefinition>
 {
 public:
 	static const std::string getStaticType()
@@ -14,9 +13,7 @@ public:
 		return "MessageCodeShowDefinition";
 	}
 
-	MessageCodeShowDefinition(Id nodeId, bool inIDE = false)
-		: nodeId(nodeId)
-		, inIDE(inIDE)
+	MessageCodeShowDefinition(Id nodeId, bool inIDE = false): nodeId(nodeId), inIDE(inIDE)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -30,4 +27,4 @@ public:
 	const bool inIDE;
 };
 
-#endif // MESSAGE_CODE_SHOW_DEFINITION_H
+#endif	  // MESSAGE_CODE_SHOW_DEFINITION_H

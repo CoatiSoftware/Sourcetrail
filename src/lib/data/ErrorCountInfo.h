@@ -5,21 +5,13 @@
 
 struct ErrorCountInfo
 {
-	ErrorCountInfo()
-		: total(0)
-		, fatal(0)
-	{}
+	ErrorCountInfo(): total(0), fatal(0) {}
 
-	ErrorCountInfo(size_t total, size_t fatal)
-		: total(total)
-		, fatal(fatal)
-	{}
+	ErrorCountInfo(size_t total, size_t fatal): total(total), fatal(fatal) {}
 
-	ErrorCountInfo(const std::vector<ErrorInfo>& errors)
-		: total(0)
-		, fatal(0)
+	ErrorCountInfo(const std::vector<ErrorInfo>& errors): total(0), fatal(0)
 	{
-		for (const ErrorInfo& error : errors)
+		for (const ErrorInfo& error: errors)
 		{
 			total++;
 
@@ -34,4 +26,4 @@ struct ErrorCountInfo
 	size_t fatal;
 };
 
-#endif // ERROR_COUNT_INFO_H
+#endif	  // ERROR_COUNT_INFO_H

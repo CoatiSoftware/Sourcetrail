@@ -1,17 +1,17 @@
 #ifndef FILE_PATH_H
 #define FILE_PATH_H
 
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace boost
 {
-	namespace filesystem
-	{
-		class path;
-	}
+namespace filesystem
+{
+class path;
 }
+}	 // namespace boost
 
 class FilePath
 {
@@ -76,4 +76,4 @@ private:
 	mutable bool m_canonicalized;
 };
 
-#endif // FILE_PATH_H
+#endif	  // FILE_PATH_H

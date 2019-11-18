@@ -5,8 +5,7 @@
 
 #include "FilePath.h"
 
-class QtIconButton
-	: public QPushButton
+class QtIconButton: public QPushButton
 {
 	Q_OBJECT
 public:
@@ -16,8 +15,8 @@ public:
 	void setColor(QColor color);
 
 protected:
-	void enterEvent(QEvent *event);
-	void leaveEvent(QEvent *event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
 
 private:
 	void setIconFromPath(const FilePath& path);
@@ -28,4 +27,4 @@ private:
 	QColor m_color;
 };
 
-#endif // QT_ICON_BUTTON_H
+#endif	  // QT_ICON_BUTTON_H

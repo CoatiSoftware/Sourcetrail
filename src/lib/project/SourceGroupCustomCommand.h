@@ -2,8 +2,8 @@
 #define SOURCE_GROUP_CUSTOM_COMMAND_H
 
 #include <memory>
-#include <vector>
 #include <set>
+#include <vector>
 
 #include "SourceGroup.h"
 
@@ -27,4 +27,4 @@ private:
 	std::shared_ptr<SourceGroupSettingsCustomCommand> m_settings;
 };
 
-#endif // SOURCE_GROUP_CUSTOM_COMMAND_H
+#endif	  // SOURCE_GROUP_CUSTOM_COMMAND_H

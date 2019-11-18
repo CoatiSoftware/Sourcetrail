@@ -3,13 +3,12 @@
 
 #include <vector>
 
-#include "View.h"
 #include "ErrorCountInfo.h"
 #include "ErrorFilter.h"
 #include "ErrorInfo.h"
+#include "View.h"
 
-class ErrorView
-	: public View
+class ErrorView: public View
 {
 public:
 	ErrorView(ViewLayout* viewLayout);
@@ -19,7 +18,8 @@ public:
 
 	virtual void clear() = 0;
 
-	virtual void addErrors(const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo) = 0;
+	virtual void addErrors(
+		const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo) = 0;
 	virtual void setErrorId(Id errorId) = 0;
 
 	virtual void showErrorHelpMessage() = 0;
@@ -28,4 +28,4 @@ public:
 	virtual void setErrorFilter(const ErrorFilter& filter) = 0;
 };
 
-#endif // ERROR_VIEW_H
+#endif	  // ERROR_VIEW_H

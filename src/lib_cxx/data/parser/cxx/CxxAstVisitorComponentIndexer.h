@@ -12,16 +12,17 @@ class CxxContext;
 class ParserClient;
 class NameHierarchy;
 
-// This CxxAstVisitorComponent is responsible for recording all symbols and relations throughout the visited AST.
-class CxxAstVisitorComponentIndexer
-	: public CxxAstVisitorComponent
+// This CxxAstVisitorComponent is responsible for recording all symbols and relations throughout the
+// visited AST.
+class CxxAstVisitorComponentIndexer: public CxxAstVisitorComponent
 {
 public:
-	CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client);
+	CxxAstVisitorComponentIndexer(
+		CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client);
 
 	void beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc& loc);
 	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
-	void beginTraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture);
+	void beginTraverseLambdaCapture(clang::LambdaExpr* lambdaExpr, const clang::LambdaCapture* capture);
 
 	void visitTagDecl(clang::TagDecl* d);
 	void visitClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl* d);
@@ -55,8 +56,7 @@ private:
 		const clang::MemberSpecializationInfo* memberSpecializationInfo,
 		Id contextId,
 		const ParseLocation& location,
-		SymbolKind symbolKind
-	);
+		SymbolKind symbolKind);
 
 	ParseLocation getSignatureLocation(clang::FunctionDecl* d);
 	ParseLocation getParseLocationOfTagDeclBody(clang::TagDecl* decl) const;
@@ -81,4 +81,4 @@ private:
 	std::map<const clang::Type*, Id> m_typeSymbolIds;
 };
 
-#endif // CXX_AST_VISITOR_COMPONENT_INDEXER_H
+#endif	  // CXX_AST_VISITOR_COMPONENT_INDEXER_H

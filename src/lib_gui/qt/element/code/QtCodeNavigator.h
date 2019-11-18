@@ -5,13 +5,13 @@
 
 #include "ErrorInfo.h"
 #include "LocationType.h"
+#include "MessageIndexingFinished.h"
+#include "MessageListener.h"
+#include "MessageSwitchColorScheme.h"
+#include "MessageWindowFocus.h"
 #include "QtCodeFileList.h"
 #include "QtCodeFileSingle.h"
 #include "QtThreadedFunctor.h"
-#include "MessageListener.h"
-#include "MessageIndexingFinished.h"
-#include "MessageSwitchColorScheme.h"
-#include "MessageWindowFocus.h"
 
 class QLabel;
 class QPushButton;
@@ -42,7 +42,10 @@ public:
 	bool addSingleFile(const CodeFileParams& params, bool useSingleFileCache);
 	void updateSourceLocations(const CodeSnippetParams& params);
 	void updateReferenceCount(
-		size_t referenceCount, size_t referenceIndex, size_t localReferenceCount, size_t localReferenceIndex);
+		size_t referenceCount,
+		size_t referenceIndex,
+		size_t localReferenceCount,
+		size_t localReferenceIndex);
 
 	void clear();
 	void clearSnippets();
@@ -157,4 +160,4 @@ private:
 	Id m_activeScreenMatchId = 0;
 };
 
-#endif // QT_CODE_NAVIGATOR_H
+#endif	  // QT_CODE_NAVIGATOR_H

@@ -3,10 +3,10 @@
 
 #include <QWidget>
 
-#include "ErrorController.h"
 #include "ControllerProxy.h"
-#include "ErrorView.h"
+#include "ErrorController.h"
 #include "ErrorFilter.h"
+#include "ErrorView.h"
 #include "QtThreadedFunctor.h"
 
 class QBoxLayout;
@@ -35,7 +35,8 @@ public:
 	// ErrorView implementation
 	void clear() override;
 
-	void addErrors(const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo) override;
+	void addErrors(
+		const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo) override;
 	void setErrorId(Id errorId) override;
 
 	void showErrorHelpMessage() override;
@@ -89,4 +90,4 @@ private:
 	QtTable* m_table;
 };
 
-#endif // QT_ERROR_VIEW_H
+#endif	  // QT_ERROR_VIEW_H

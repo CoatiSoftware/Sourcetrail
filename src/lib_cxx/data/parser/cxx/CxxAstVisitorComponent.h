@@ -6,52 +6,51 @@
 class CxxAstVisitor;
 
 // CxxAstVisitorComponent: This is the base class for all ast visitor components.
-// Each component can override it's begin-/endTraverse and visit methods in order to provide some functionality. The CxxAstVisitor
-// executes all of these methods of registered components while traversing the AST.
+// Each component can override it's begin-/endTraverse and visit methods in order to provide some
+// functionality. The CxxAstVisitor executes all of these methods of registered components while
+// traversing the AST.
 class CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponent(CxxAstVisitor* astVisitor);
 
-#define DEF_TRAVERSE_CUSTOM_TYPE_PTR(__NAME_TYPE__, __PARAM_TYPE__)				\
-	void beginTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__ *v) {}				\
-	void endTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__ *v) {}
+#define DEF_TRAVERSE_CUSTOM_TYPE_PTR(__NAME_TYPE__, __PARAM_TYPE__)                                \
+	void beginTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__* v) {}                                 \
+	void endTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__* v) {}
 
-#define DEF_TRAVERSE_CUSTOM_TYPE(__NAME_TYPE__, __PARAM_TYPE__)					\
-	void beginTraverse##__NAME_TYPE__(const clang::__PARAM_TYPE__ &v) {}		\
-	void endTraverse##__NAME_TYPE__(const clang::__PARAM_TYPE__ &v) {}
+#define DEF_TRAVERSE_CUSTOM_TYPE(__NAME_TYPE__, __PARAM_TYPE__)                                    \
+	void beginTraverse##__NAME_TYPE__(const clang::__PARAM_TYPE__& v) {}                           \
+	void endTraverse##__NAME_TYPE__(const clang::__PARAM_TYPE__& v) {}
 
-#define DEF_TRAVERSE_TYPE_PTR(__TYPE__)											\
-	DEF_TRAVERSE_CUSTOM_TYPE_PTR(__TYPE__, __TYPE__)
+#define DEF_TRAVERSE_TYPE_PTR(__TYPE__) DEF_TRAVERSE_CUSTOM_TYPE_PTR(__TYPE__, __TYPE__)
 
-#define DEF_TRAVERSE_TYPE(__TYPE__)												\
-	DEF_TRAVERSE_CUSTOM_TYPE(__TYPE__, __TYPE__)
+#define DEF_TRAVERSE_TYPE(__TYPE__) DEF_TRAVERSE_CUSTOM_TYPE(__TYPE__, __TYPE__)
 
-DEF_TRAVERSE_TYPE_PTR(Decl)
+	DEF_TRAVERSE_TYPE_PTR(Decl)
 
-DEF_TRAVERSE_TYPE_PTR(Stmt)
+	DEF_TRAVERSE_TYPE_PTR(Stmt)
 
-DEF_TRAVERSE_CUSTOM_TYPE(Type, QualType)
+	DEF_TRAVERSE_CUSTOM_TYPE(Type, QualType)
 
-DEF_TRAVERSE_TYPE(TypeLoc)
+	DEF_TRAVERSE_TYPE(TypeLoc)
 
-DEF_TRAVERSE_TYPE_PTR(FunctionDecl)
+	DEF_TRAVERSE_TYPE_PTR(FunctionDecl)
 
-DEF_TRAVERSE_TYPE_PTR(ClassTemplateSpecializationDecl)
+	DEF_TRAVERSE_TYPE_PTR(ClassTemplateSpecializationDecl)
 
-DEF_TRAVERSE_TYPE_PTR(ClassTemplatePartialSpecializationDecl)
+	DEF_TRAVERSE_TYPE_PTR(ClassTemplatePartialSpecializationDecl)
 
-DEF_TRAVERSE_TYPE(TemplateSpecializationTypeLoc)
+	DEF_TRAVERSE_TYPE(TemplateSpecializationTypeLoc)
 
-DEF_TRAVERSE_TYPE_PTR(LambdaExpr)
+	DEF_TRAVERSE_TYPE_PTR(LambdaExpr)
 
-DEF_TRAVERSE_TYPE_PTR(DeclRefExpr)
+	DEF_TRAVERSE_TYPE_PTR(DeclRefExpr)
 
-DEF_TRAVERSE_TYPE_PTR(CXXForRangeStmt)
+	DEF_TRAVERSE_TYPE_PTR(CXXForRangeStmt)
 
-DEF_TRAVERSE_TYPE_PTR(UnresolvedLookupExpr)
+	DEF_TRAVERSE_TYPE_PTR(UnresolvedLookupExpr)
 
-DEF_TRAVERSE_TYPE_PTR(UnresolvedMemberExpr)
+	DEF_TRAVERSE_TYPE_PTR(UnresolvedMemberExpr)
 
 	void beginTraverseCallCommonCallee() {}
 	void endTraverseCallCommonCallee() {}
@@ -77,17 +76,21 @@ DEF_TRAVERSE_TYPE_PTR(UnresolvedMemberExpr)
 	void beginTraverseTemplateDefaultArgumentLoc() {}
 	void endTraverseTemplateDefaultArgumentLoc() {}
 
-DEF_TRAVERSE_TYPE(NestedNameSpecifierLoc)
+	DEF_TRAVERSE_TYPE(NestedNameSpecifierLoc)
 
-DEF_TRAVERSE_CUSTOM_TYPE_PTR(ConstructorInitializer, CXXCtorInitializer)
+	DEF_TRAVERSE_CUSTOM_TYPE_PTR(ConstructorInitializer, CXXCtorInitializer)
 
-DEF_TRAVERSE_TYPE_PTR(CXXTemporaryObjectExpr)
+	DEF_TRAVERSE_TYPE_PTR(CXXTemporaryObjectExpr)
 
 	void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) {}
 	void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) {}
 
-	void beginTraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture) {}
-	void endTraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture) {}
+	void beginTraverseLambdaCapture(clang::LambdaExpr* lambdaExpr, const clang::LambdaCapture* capture)
+	{
+	}
+	void endTraverseLambdaCapture(clang::LambdaExpr* lambdaExpr, const clang::LambdaCapture* capture)
+	{
+	}
 
 	void visitTagDecl(clang::TagDecl* d) {}
 	void visitClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl* d) {}
@@ -138,4 +141,4 @@ private:
 	CxxAstVisitor* m_astVisitor;
 };
 
-#endif // CXX_AST_VISITOR_COMPONENT_H
+#endif	  // CXX_AST_VISITOR_COMPONENT_H

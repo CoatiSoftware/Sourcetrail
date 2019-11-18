@@ -5,8 +5,7 @@
 
 #include "Vector2.h"
 
-class QtGraphNodeComponentClickable
-	: public QtGraphNodeComponent
+class QtGraphNodeComponentClickable: public QtGraphNodeComponent
 {
 public:
 	QtGraphNodeComponentClickable(QtGraphNode* graphNode);
@@ -21,4 +20,4 @@ private:
 	bool m_mouseMoved;
 };
 
-#endif // QT_GRAPH_NODE_COMPONENT_CLICKABLE
+#endif	  // QT_GRAPH_NODE_COMPONENT_CLICKABLE

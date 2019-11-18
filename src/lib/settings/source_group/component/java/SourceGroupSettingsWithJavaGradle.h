@@ -4,8 +4,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithJavaGradle
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithJavaGradle: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithJavaGradle() = default;
@@ -30,4 +29,4 @@ private:
 	bool m_shouldIndexGradleTests = false;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_JAVA_GRADLE_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_JAVA_GRADLE_H

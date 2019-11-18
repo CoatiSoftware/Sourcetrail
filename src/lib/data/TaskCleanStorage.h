@@ -10,16 +10,14 @@ class DialogView;
 class FilePath;
 class PersistentStorage;
 
-class TaskCleanStorage
-	: public Task
+class TaskCleanStorage: public Task
 {
 public:
 	TaskCleanStorage(
 		std::weak_ptr<PersistentStorage> storage,
 		std::shared_ptr<DialogView> dialogView,
 		const std::vector<FilePath>& filePaths,
-		bool clearAllErrors
-	);
+		bool clearAllErrors);
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -35,4 +33,4 @@ private:
 	TimeStamp m_start;
 };
 
-#endif // TASK_CLEAN_STORAGE_H
+#endif	  // TASK_CLEAN_STORAGE_H

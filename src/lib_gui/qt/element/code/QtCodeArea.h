@@ -15,8 +15,7 @@ class QtCodeNavigator;
 class QWidget;
 class QtCodeArea;
 
-class MouseWheelOverScrollbarFilter
-	: public QObject
+class MouseWheelOverScrollbarFilter: public QObject
 {
 	Q_OBJECT
 
@@ -27,8 +26,7 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
-class QtLineNumberArea
-	: public QWidget
+class QtLineNumberArea: public QWidget
 {
 	Q_OBJECT
 public:
@@ -45,21 +43,18 @@ private:
 };
 
 
-class QtCodeArea
-	: public QtCodeField
+class QtCodeArea: public QtCodeField
 {
 	Q_OBJECT
 
 public:
-
 	QtCodeArea(
 		size_t startLineNumber,
 		const std::string& code,
 		std::shared_ptr<SourceLocationFile> locationFile,
 		QtCodeNavigator* navigator,
 		bool showLineNumbers,
-		QWidget* parent = nullptr
-	);
+		QWidget* parent = nullptr);
 	virtual ~QtCodeArea();
 
 	virtual QSize sizeHint() const override;
@@ -85,7 +80,8 @@ public:
 
 	QRectF getLineRectForLineNumber(size_t lineNumber) const;
 
-	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+	void findScreenMatches(
+		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 	void clearScreenMatches();
 
 	void ensureLocationIdVisible(Id locationId, int parentWidth, bool animated);
@@ -95,7 +91,7 @@ protected:
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
-	virtual void wheelEvent(QWheelEvent *event) override;
+	virtual void wheelEvent(QWheelEvent* event) override;
 
 	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
@@ -130,8 +126,8 @@ private:
 
 	QAction* m_copyAction;
 	QAction* m_setIDECursorPositionAction;
-	QPoint m_eventPosition; // is needed for IDE cursor control via context menu
-							// the position where the context menu is opened needs to be stored]
+	QPoint m_eventPosition;	   // is needed for IDE cursor control via context menu
+							   // the position where the context menu is opened needs to be stored]
 
 	bool m_isActiveFile;
 	bool m_showLineNumbers;
@@ -139,4 +135,4 @@ private:
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };
 
-#endif // QT_CODE_AREA_H
+#endif	  // QT_CODE_AREA_H

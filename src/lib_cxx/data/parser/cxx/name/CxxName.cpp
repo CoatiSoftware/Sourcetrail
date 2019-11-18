@@ -2,14 +2,9 @@
 
 #include "utilityString.h"
 
-CxxName::CxxName()
-{
-}
+CxxName::CxxName() {}
 
-CxxName::CxxName(std::shared_ptr<CxxName> parent)
-	: m_parent(parent)
-{
-}
+CxxName::CxxName(std::shared_ptr<CxxName> parent): m_parent(parent) {}
 
 void CxxName::setParent(std::shared_ptr<CxxName> parent)
 {

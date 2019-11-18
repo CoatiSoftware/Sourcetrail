@@ -6,7 +6,7 @@
 
 void FullTextSearchIndex::addFile(Id fileId, const std::wstring& fileContent)
 {
-	if(fileContent.empty())
+	if (fileContent.empty())
 	{
 		LOG_ERROR("empty file not added to fulltextsearch index");
 	}
@@ -31,7 +31,7 @@ std::vector<FullTextSearchResult> FullTextSearchIndex::searchForTerm(const std::
 	std::vector<FullTextSearchResult> ret;
 	{
 		std::lock_guard<std::mutex> lock(m_filesMutex);
-		for (auto& f : m_files)
+		for (auto& f: m_files)
 		{
 			FullTextSearchResult hit;
 			hit.fileId = f.fileId;
@@ -58,4 +58,3 @@ void FullTextSearchIndex::clear()
 	std::lock_guard<std::mutex> lock(m_filesMutex);
 	m_files.clear();
 }
-

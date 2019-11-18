@@ -10,8 +10,7 @@
 
 class StorageAccess;
 
-class QtIDECommunicationController
-	: public IDECommunicationController
+class QtIDECommunicationController: public IDECommunicationController
 {
 public:
 	QtIDECommunicationController(QObject* parent, StorageAccess* storageAccess);
@@ -30,4 +29,4 @@ private:
 	QtThreadedLambdaFunctor m_onQtThread;
 };
 
-#endif // QT_IDE_COMMUNICATION_CONTROLLER
+#endif	  // QT_IDE_COMMUNICATION_CONTROLLER

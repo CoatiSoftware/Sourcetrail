@@ -4,8 +4,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCxxCdbPath
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithCxxCdbPath: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithCxxCdbPath() = default;
@@ -24,4 +23,4 @@ private:
 	FilePath m_compilationDatabasePath;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CXX_CDB_PATH_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CXX_CDB_PATH_H

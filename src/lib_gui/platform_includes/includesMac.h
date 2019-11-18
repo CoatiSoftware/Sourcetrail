@@ -6,20 +6,21 @@
 #include <QDir>
 #include <QStandardPaths>
 
-#include "utilityQt.h"
 #include "AppPath.h"
 #include "FilePath.h"
 #include "ResourcePaths.h"
 #include "UserPaths.h"
+#include "utilityQt.h"
 
 
-void setupPlatform(int argc, char *argv[])
+void setupPlatform(int argc, char* argv[])
 {
 	UserPaths::setUserDataPath(FilePath(L"./user/").getAbsolute());
 
 	// ----------------------------------------------------------------------------
-	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
-	// source: http://stackoverflow.com/questions/516200/relative-paths-not-working-in-xcode-c
+	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder
+	// inside the .app bundle source:
+	// http://stackoverflow.com/questions/516200/relative-paths-not-working-in-xcode-c
 	CFBundleRef mainBundle = CFBundleGetMainBundle();
 	if (!mainBundle)
 	{
@@ -35,7 +36,7 @@ void setupPlatform(int argc, char *argv[])
 
 	CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
 	char path[PATH_MAX];
-	if (CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX))
+	if (CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8*)path, PATH_MAX))
 	{
 		chdir(path);
 	}
@@ -50,7 +51,8 @@ void setupPlatform(int argc, char *argv[])
 	if (dir.cd("../../PlugIns"))
 	{
 		QCoreApplication::setLibraryPaths(QStringList(dir.absolutePath()));
-		// printf("after change, libraryPaths=(%s)\n", QCoreApplication::libraryPaths().join(",").toUtf8().data());
+		// printf("after change, libraryPaths=(%s)\n",
+		// QCoreApplication::libraryPaths().join(",").toUtf8().data());
 	}
 	// ----------------------------------------------------------------------------
 
@@ -72,10 +74,10 @@ void setupPlatform(int argc, char *argv[])
 	UserPaths::setUserDataPath(FilePath(dataPath.toStdWString() + L"/").getAbsolute());
 }
 
-void setupApp(int argc, char *argv[])
+void setupApp(int argc, char* argv[])
 {
 	const FilePath path(QDir::currentPath().toStdWString() + L"/");
 	AppPath::setAppPath(path.getAbsolute());
 }
 
-#endif // INCLUDES_MAC_H
+#endif	  // INCLUDES_MAC_H

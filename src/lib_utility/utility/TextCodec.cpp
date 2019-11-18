@@ -2,8 +2,7 @@
 
 #include <QTextCodec>
 
-TextCodec::TextCodec(const std::string& name)
-	: m_name(name)
+TextCodec::TextCodec(const std::string& name): m_name(name)
 {
 	m_codec = QTextCodec::codecForName(m_name.c_str());
 	m_decoder = std::make_shared<QTextDecoder>(m_codec);

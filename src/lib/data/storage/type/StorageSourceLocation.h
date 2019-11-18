@@ -6,22 +6,20 @@
 struct StorageSourceLocationData
 {
 	StorageSourceLocationData()
-		: fileNodeId(0)
-		, startLine(-1)
-		, startCol(-1)
-		, endLine(-1)
-		, endCol(-1)
-		, type(0)
-	{}
+		: fileNodeId(0), startLine(-1), startCol(-1), endLine(-1), endCol(-1), type(0)
+	{
+	}
 
-	StorageSourceLocationData(Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
+	StorageSourceLocationData(
+		Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
 		: fileNodeId(fileNodeId)
 		, startLine(startLine)
 		, startCol(startCol)
 		, endLine(endLine)
 		, endCol(endCol)
 		, type(type)
-	{}
+	{
+	}
 
 	bool operator<(const StorageSourceLocationData& other) const
 	{
@@ -61,22 +59,20 @@ struct StorageSourceLocationData
 
 struct StorageSourceLocation: public StorageSourceLocationData
 {
-	StorageSourceLocation()
-		: StorageSourceLocationData()
-		, id(0)
-	{}
+	StorageSourceLocation(): StorageSourceLocationData(), id(0) {}
 
 	StorageSourceLocation(Id id, const StorageSourceLocationData& data)
-		: StorageSourceLocationData(data)
-		, id(id)
-	{}
+		: StorageSourceLocationData(data), id(id)
+	{
+	}
 
-	StorageSourceLocation(Id id, Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
-		: StorageSourceLocationData(fileNodeId, startLine, startCol, endLine, endCol, type)
-		, id(id)
-	{}
+	StorageSourceLocation(
+		Id id, Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
+		: StorageSourceLocationData(fileNodeId, startLine, startCol, endLine, endCol, type), id(id)
+	{
+	}
 
 	Id id;
 };
 
-#endif // STORAGE_SOURCE_LOCATION_H
+#endif	  // STORAGE_SOURCE_LOCATION_H

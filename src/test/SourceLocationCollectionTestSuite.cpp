@@ -7,7 +7,8 @@
 TEST_CASE("source locations get created with other end")
 {
 	SourceLocationCollection collection;
-	const SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
+	const SourceLocation* a = collection.addSourceLocation(
+		LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
 
 	REQUIRE(a);
 	REQUIRE(a->isStartLocation());
@@ -29,8 +30,10 @@ TEST_CASE("source locations get created with other end")
 TEST_CASE("source locations do not get created with wrong input")
 {
 	SourceLocationCollection collection;
-	SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 2, 1);
-	SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, FilePath(L"file.c"), 4, 1, 1, 10);
+	SourceLocation* a = collection.addSourceLocation(
+		LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 2, 1);
+	SourceLocation* b = collection.addSourceLocation(
+		LOCATION_TOKEN, 2, {1}, FilePath(L"file.c"), 4, 1, 1, 10);
 
 	REQUIRE(!a);
 	REQUIRE(!b);
@@ -39,9 +42,12 @@ TEST_CASE("source locations do not get created with wrong input")
 TEST_CASE("source locations get unique id but both ends have the same")
 {
 	SourceLocationCollection collection;
-	SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 1, 1, 1, 1);
-	SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {2}, FilePath(L"file.c"), 1, 1, 1, 1);
-	SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {3}, FilePath(L"file.c"), 1, 1, 1, 1);
+	SourceLocation* a = collection.addSourceLocation(
+		LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 1, 1, 1, 1);
+	SourceLocation* b = collection.addSourceLocation(
+		LOCATION_TOKEN, 2, {2}, FilePath(L"file.c"), 1, 1, 1, 1);
+	SourceLocation* c = collection.addSourceLocation(
+		LOCATION_TOKEN, 3, {3}, FilePath(L"file.c"), 1, 1, 1, 1);
 
 	REQUIRE(1 == collection.getSourceLocationFileCount());
 	REQUIRE(3 == collection.getSourceLocationCount());
@@ -62,7 +68,8 @@ TEST_CASE("source locations get unique id but both ends have the same")
 TEST_CASE("source locations have right file path line column and token id")
 {
 	SourceLocationCollection collection;
-	SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
+	SourceLocation* a = collection.addSourceLocation(
+		LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
 
 	REQUIRE(1 == a->getTokenIds()[0]);
 	REQUIRE(2 == a->getLineNumber());
@@ -75,8 +82,10 @@ TEST_CASE("source locations have right file path line column and token id")
 TEST_CASE("finding source locations by id")
 {
 	SourceLocationCollection collection;
-	SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
-	SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {6}, FilePath(L"file.c"), 7, 8, 9, 10);
+	SourceLocation* a = collection.addSourceLocation(
+		LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
+	SourceLocation* b = collection.addSourceLocation(
+		LOCATION_TOKEN, 2, {6}, FilePath(L"file.c"), 7, 8, 9, 10);
 
 	REQUIRE(a == collection.getSourceLocationById(a->getLocationId()));
 	REQUIRE(b == collection.getSourceLocationById(b->getLocationId()));
@@ -85,10 +94,14 @@ TEST_CASE("finding source locations by id")
 TEST_CASE("creating plain copy of all locations in line range")
 {
 	SourceLocationCollection collection;
-	SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
-	SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, FilePath(L"file.c"), 3, 3, 4, 5);
-	SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {1}, FilePath(L"file.c"), 1, 3, 5, 5);
-	SourceLocation* d = collection.addSourceLocation(LOCATION_TOKEN, 4, {1}, FilePath(L"file.c"), 1, 5, 4, 5);
+	SourceLocation* a = collection.addSourceLocation(
+		LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 2, 3, 4, 5);
+	SourceLocation* b = collection.addSourceLocation(
+		LOCATION_TOKEN, 2, {1}, FilePath(L"file.c"), 3, 3, 4, 5);
+	SourceLocation* c = collection.addSourceLocation(
+		LOCATION_TOKEN, 3, {1}, FilePath(L"file.c"), 1, 3, 5, 5);
+	SourceLocation* d = collection.addSourceLocation(
+		LOCATION_TOKEN, 4, {1}, FilePath(L"file.c"), 1, 5, 4, 5);
 
 	Id ida = a->getLocationId();
 	Id idb = b->getLocationId();
@@ -102,14 +115,12 @@ TEST_CASE("creating plain copy of all locations in line range")
 	SourceLocation* x = collection.getSourceLocationById(ida);
 
 	x->getSourceLocationFile()->forEachSourceLocation(
-		[&copy, fromLine, toLine](SourceLocation* location)
-		{
+		[&copy, fromLine, toLine](SourceLocation* location) {
 			if (location->getLineNumber() >= fromLine && location->getLineNumber() <= toLine)
 			{
 				copy.addSourceLocationCopy(location);
 			}
-		}
-	);
+		});
 
 	REQUIRE(1 == copy.getSourceLocationFileCount());
 	REQUIRE(3 == copy.getSourceLocationCount());
@@ -132,17 +143,25 @@ TEST_CASE("creating plain copy of all locations in line range")
 TEST_CASE("get source locations filtered by lines")
 {
 	SourceLocationCollection collection;
-	SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 1, 3, 1, 5);
-	SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, FilePath(L"file.c"), 1, 3, 2, 5);
-	SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {1}, FilePath(L"file.c"), 2, 3, 2, 5);
-	SourceLocation* d = collection.addSourceLocation(LOCATION_TOKEN, 4, {1}, FilePath(L"file.c"), 3, 3, 4, 5);
-	SourceLocation* e = collection.addSourceLocation(LOCATION_TOKEN, 5, {1}, FilePath(L"file.c"), 3, 5, 5, 5);
-	SourceLocation* f = collection.addSourceLocation(LOCATION_TOKEN, 6, {1}, FilePath(L"file.c"), 1, 5, 5, 5);
-	SourceLocation* g = collection.addSourceLocation(LOCATION_TOKEN, 7, {1}, FilePath(L"file.c"), 5, 5, 5, 5);
+	SourceLocation* a = collection.addSourceLocation(
+		LOCATION_TOKEN, 1, {1}, FilePath(L"file.c"), 1, 3, 1, 5);
+	SourceLocation* b = collection.addSourceLocation(
+		LOCATION_TOKEN, 2, {1}, FilePath(L"file.c"), 1, 3, 2, 5);
+	SourceLocation* c = collection.addSourceLocation(
+		LOCATION_TOKEN, 3, {1}, FilePath(L"file.c"), 2, 3, 2, 5);
+	SourceLocation* d = collection.addSourceLocation(
+		LOCATION_TOKEN, 4, {1}, FilePath(L"file.c"), 3, 3, 4, 5);
+	SourceLocation* e = collection.addSourceLocation(
+		LOCATION_TOKEN, 5, {1}, FilePath(L"file.c"), 3, 5, 5, 5);
+	SourceLocation* f = collection.addSourceLocation(
+		LOCATION_TOKEN, 6, {1}, FilePath(L"file.c"), 1, 5, 5, 5);
+	SourceLocation* g = collection.addSourceLocation(
+		LOCATION_TOKEN, 7, {1}, FilePath(L"file.c"), 5, 5, 5, 5);
 
 	SourceLocationCollection copy;
-	copy.addSourceLocationFile(
-		collection.getSourceLocationById(a->getLocationId())->getSourceLocationFile()->getFilteredByLines(2, 4));
+	copy.addSourceLocationFile(collection.getSourceLocationById(a->getLocationId())
+								   ->getSourceLocationFile()
+								   ->getFilteredByLines(2, 4));
 
 	REQUIRE(1 == copy.getSourceLocationFileCount());
 	REQUIRE(4 == copy.getSourceLocationCount());

@@ -38,7 +38,12 @@ public:
 	void updateSourceLocations(const CodeSnippetParams& params) override;
 	void updateFiles() override;
 
-	void scrollTo(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, CodeScrollParams::Target target)  override;
+	void scrollTo(
+		const FilePath& filePath,
+		size_t lineNumber,
+		Id locationId,
+		bool animated,
+		CodeScrollParams::Target target) override;
 
 	void onWindowFocus() override;
 
@@ -84,4 +89,4 @@ private:
 	std::shared_ptr<SourceLocationFile> m_lastLocationFile;
 };
 
-#endif // QT_CODE_FILE_SINGLE_H
+#endif	  // QT_CODE_FILE_SINGLE_H

@@ -2,7 +2,7 @@
 
 #ifdef WIN32
 
-#include <Windows.h>
+#	include <Windows.h>
 
 unsigned long utility::getLargestByteSizeOfAllocatableMemory()
 {
@@ -15,11 +15,13 @@ unsigned long utility::getLargestByteSizeOfAllocatableMemory()
 	while (true)
 	{
 		SIZE_T s = VirtualQuery((LPCVOID)start, &mbi, sizeof(mbi));
-		if (s != sizeof(mbi)) break;
+		if (s != sizeof(mbi))
+			break;
 
 		if (mbi.State == MEM_FREE)
 		{
-			if (!recording) freestart = start;
+			if (!recording)
+				freestart = start;
 
 			free += mbi.RegionSize;
 			recording = true;
@@ -43,4 +45,4 @@ unsigned long utility::getLargestByteSizeOfAllocatableMemory()
 	return largestFree;
 }
 
-#endif // WIN32
+#endif	  // WIN32

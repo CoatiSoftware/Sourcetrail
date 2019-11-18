@@ -19,8 +19,7 @@ private:
 
 template <typename ValType>
 SingleValueCache<ValType>::SingleValueCache(std::function<ValType()> calculator)
-	: m_calculator(calculator)
-	, m_hasValue(false)
+	: m_calculator(calculator), m_hasValue(false)
 {
 }
 
@@ -45,4 +44,4 @@ void SingleValueCache<ValType>::clear()
 	}
 }
 
-#endif // SINGLE_VALUE_CACHE_H
+#endif	  // SINGLE_VALUE_CACHE_H

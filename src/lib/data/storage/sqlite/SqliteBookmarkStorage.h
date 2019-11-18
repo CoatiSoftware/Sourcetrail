@@ -4,12 +4,11 @@
 #include "SqliteStorage.h"
 #include "StorageBookmark.h"
 #include "StorageBookmarkCategory.h"
-#include "StorageBookmarkedNode.h"
 #include "StorageBookmarkedEdge.h"
+#include "StorageBookmarkedNode.h"
 #include "types.h"
 
-class SqliteBookmarkStorage
-	: public SqliteStorage
+class SqliteBookmarkStorage: public SqliteStorage
 {
 public:
 	SqliteBookmarkStorage(const FilePath& dbFilePath);
@@ -30,7 +29,8 @@ public:
 	std::vector<StorageBookmarkedNode> getAllBookmarkedNodes() const;
 	std::vector<StorageBookmarkedEdge> getAllBookmarkedEdges() const;
 
-	void updateBookmark(const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const Id categoryId);
+	void updateBookmark(
+		const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const Id categoryId);
 
 	std::vector<StorageBookmarkCategory> getAllBookmarkCategories() const;
 	StorageBookmarkCategory getBookmarkCategoryByName(const std::wstring& name) const;
@@ -43,7 +43,7 @@ private:
 	virtual void setupTables();
 	virtual void setupPrecompiledStatements();
 
-	//void updateBookmarkMetaData(const BookmarkMetaData& metaData);
+	// void updateBookmarkMetaData(const BookmarkMetaData& metaData);
 
 	template <typename ResultType>
 	std::vector<ResultType> doGetAll(const std::string& query) const;
@@ -61,12 +61,16 @@ private:
 };
 
 template <>
-std::vector<StorageBookmarkCategory> SqliteBookmarkStorage::doGetAll<StorageBookmarkCategory>(const std::string& query) const;
+std::vector<StorageBookmarkCategory> SqliteBookmarkStorage::doGetAll<StorageBookmarkCategory>(
+	const std::string& query) const;
 template <>
-std::vector<StorageBookmark> SqliteBookmarkStorage::doGetAll<StorageBookmark>(const std::string& query) const;
+std::vector<StorageBookmark> SqliteBookmarkStorage::doGetAll<StorageBookmark>(
+	const std::string& query) const;
 template <>
-std::vector<StorageBookmarkedNode> SqliteBookmarkStorage::doGetAll<StorageBookmarkedNode>(const std::string& query) const;
+std::vector<StorageBookmarkedNode> SqliteBookmarkStorage::doGetAll<StorageBookmarkedNode>(
+	const std::string& query) const;
 template <>
-std::vector<StorageBookmarkedEdge> SqliteBookmarkStorage::doGetAll<StorageBookmarkedEdge>(const std::string& query) const;
+std::vector<StorageBookmarkedEdge> SqliteBookmarkStorage::doGetAll<StorageBookmarkedEdge>(
+	const std::string& query) const;
 
-#endif // SQLITE_BOOKMARK_STORAGE_H
+#endif	  // SQLITE_BOOKMARK_STORAGE_H

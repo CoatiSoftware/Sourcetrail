@@ -2,11 +2,11 @@
 #define CUSTOM_TRAIL_CONTROLLER_H
 
 #include "Controller.h"
+#include "MessageActivateTrail.h"
 #include "MessageCustomTrailShow.h"
+#include "MessageIndexingFinished.h"
 #include "MessageListener.h"
 #include "MessageWindowClosed.h"
-#include "MessageIndexingFinished.h"
-#include "MessageActivateTrail.h"
 
 class CustomTrailView;
 class StorageAccess;
@@ -37,4 +37,4 @@ private:
 	StorageAccess* m_storageAccess;
 };
 
-#endif // CUSTOM_TRAIL_CONTROLLER_H
+#endif	  // CUSTOM_TRAIL_CONTROLLER_H

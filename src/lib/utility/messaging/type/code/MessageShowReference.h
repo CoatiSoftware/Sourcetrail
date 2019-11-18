@@ -5,15 +5,11 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageShowReference
-	: public Message<MessageShowReference>
+class MessageShowReference: public Message<MessageShowReference>
 {
 public:
 	MessageShowReference(size_t refIndex, Id tokenId, Id locationId, bool fromUser)
-		: refIndex(refIndex)
-		, tokenId(tokenId)
-		, locationId(locationId)
-		, fromUser(fromUser)
+		: refIndex(refIndex), tokenId(tokenId), locationId(locationId), fromUser(fromUser)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -34,4 +30,4 @@ public:
 	const bool fromUser;
 };
 
-#endif // MESSAGE_SHOW_REFERENCE_H
+#endif	  // MESSAGE_SHOW_REFERENCE_H

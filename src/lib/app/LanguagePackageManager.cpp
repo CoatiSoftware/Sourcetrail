@@ -25,9 +25,9 @@ void LanguagePackageManager::addPackage(std::shared_ptr<LanguagePackage> package
 std::shared_ptr<IndexerComposite> LanguagePackageManager::instantiateSupportedIndexers()
 {
 	std::shared_ptr<IndexerComposite> composite = std::make_shared<IndexerComposite>();
-	for (std::shared_ptr<LanguagePackage> package : m_packages)
+	for (std::shared_ptr<LanguagePackage> package: m_packages)
 	{
-		for (std::shared_ptr<IndexerBase> indexer : package->instantiateSupportedIndexers())
+		for (std::shared_ptr<IndexerBase> indexer: package->instantiateSupportedIndexers())
 		{
 			composite->addIndexer(indexer);
 		}

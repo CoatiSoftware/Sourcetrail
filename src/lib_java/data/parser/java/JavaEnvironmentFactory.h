@@ -41,4 +41,4 @@ private:
 	std::mutex m_threadIdToEnvAndUserCountMutex;
 };
 
-#endif // JAVA_ENVIRONMENT_FACTORY_H
+#endif	  // JAVA_ENVIRONMENT_FACTORY_H

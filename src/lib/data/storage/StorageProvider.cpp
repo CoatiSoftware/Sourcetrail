@@ -73,6 +73,3 @@ void StorageProvider::logCurrentState() const
 	}
 	LOG_INFO(logString);
 }
-
-
-

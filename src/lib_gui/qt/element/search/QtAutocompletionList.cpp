@@ -3,21 +3,16 @@
 #include <QPainter>
 #include <QScrollBar>
 
-#include "GraphViewStyle.h"
-#include "QtDeviceScaledPixmap.h"
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
+#include "GraphViewStyle.h"
+#include "QtDeviceScaledPixmap.h"
 #include "ResourcePaths.h"
 #include "utilityString.h"
 
-QtAutocompletionModel::QtAutocompletionModel(QObject* parent)
-	: QAbstractTableModel(parent)
-{
-}
+QtAutocompletionModel::QtAutocompletionModel(QObject* parent): QAbstractTableModel(parent) {}
 
-QtAutocompletionModel::~QtAutocompletionModel()
-{
-}
+QtAutocompletionModel::~QtAutocompletionModel() {}
 
 void QtAutocompletionModel::setMatchList(const std::vector<SearchMatch>& matchList)
 {
@@ -26,21 +21,22 @@ void QtAutocompletionModel::setMatchList(const std::vector<SearchMatch>& matchLi
 	emit dataChanged(index(0, 0), index(rowCount - 1, 5));
 }
 
-int QtAutocompletionModel::rowCount(const QModelIndex &parent) const
+int QtAutocompletionModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
 	return m_matchList.size();
 }
 
-int QtAutocompletionModel::columnCount(const QModelIndex &parent) const
+int QtAutocompletionModel::columnCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
 	return 6;
 }
 
-QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
+QVariant QtAutocompletionModel::data(const QModelIndex& index, int role) const
 {
-	if (!index.isValid() || index.row() < 0 || index.row() >= int(m_matchList.size()) || role != Qt::DisplayRole)
+	if (!index.isValid() || index.row() < 0 || index.row() >= int(m_matchList.size()) ||
+		role != Qt::DisplayRole)
 	{
 		return QVariant();
 	}
@@ -58,14 +54,14 @@ QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
 	case 3:
 		return QString::fromStdWString(match.typeName);
 	case 4:
+	{
+		QList<QVariant> indices;
+		for (const size_t idx: match.indices)
 		{
-			QList<QVariant> indices;
-			for (const size_t idx : match.indices)
-			{
-				indices.push_back(quint64(idx));
-			}
-			return indices;
+			indices.push_back(quint64(idx));
 		}
+		return indices;
+	}
 	case 5:
 		return match.nodeType.getType();
 	default:
@@ -85,7 +81,7 @@ const SearchMatch* QtAutocompletionModel::getSearchMatchAt(int idx) const
 QString QtAutocompletionModel::longestText() const
 {
 	std::wstring str;
-	for (const SearchMatch& match : m_matchList)
+	for (const SearchMatch& match: m_matchList)
 	{
 		if (match.text.size() > str.size())
 		{
@@ -98,7 +94,7 @@ QString QtAutocompletionModel::longestText() const
 QString QtAutocompletionModel::longestSubText() const
 {
 	std::wstring str;
-	for (const SearchMatch& match : m_matchList)
+	for (const SearchMatch& match: m_matchList)
 	{
 		if (match.subtext.size() > str.size())
 		{
@@ -111,7 +107,7 @@ QString QtAutocompletionModel::longestSubText() const
 QString QtAutocompletionModel::longestType() const
 {
 	std::wstring str;
-	for (const SearchMatch& match : m_matchList)
+	for (const SearchMatch& match: m_matchList)
 	{
 		if (match.typeName.size() > str.size())
 		{
@@ -123,53 +119,64 @@ QString QtAutocompletionModel::longestType() const
 
 
 QtAutocompletionDelegate::QtAutocompletionDelegate(QtAutocompletionModel* model, QObject* parent)
-	: QStyledItemDelegate(parent)
-	, m_model(model)
+	: QStyledItemDelegate(parent), m_model(model)
 {
 	resetCharSizes();
 }
 
-QtAutocompletionDelegate::~QtAutocompletionDelegate()
-{
-}
+QtAutocompletionDelegate::~QtAutocompletionDelegate() {}
 
-void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void QtAutocompletionDelegate::paint(
+	QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    painter->save();
+	painter->save();
 
-    // get data
+	// get data
 	QString name = index.data().toString();
 	QString text = index.sibling(index.row(), index.column() + 1).data().toString();
 	QString subtext = index.sibling(index.row(), index.column() + 2).data().toString();
 	QString type = index.sibling(index.row(), index.column() + 3).data().toString();
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 4).data().toList();
-	NodeType nodeType = NodeType::intToType(index.sibling(index.row(), index.column() + 5).data().toInt());
+	NodeType nodeType = NodeType::intToType(
+		index.sibling(index.row(), index.column() + 5).data().toInt());
 
 	// define highlight colors
-    ColorScheme* scheme = ColorScheme::getInstance().get();
+	ColorScheme* scheme = ColorScheme::getInstance().get();
 	QColor fillColor(0xFF, 0xFF, 0xFF);
 	QColor textColor(0, 0, 0);
 
 	if (type.size() && type != "command" && type != "filter")
 	{
-		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(nodeType.getUnderscoredTypeString(), false);
+		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(
+			nodeType.getUnderscoredTypeString(), false);
 		fillColor = QColor(nodeColor.fill.c_str());
 		textColor = QColor(nodeColor.text.c_str());
 	}
 	else
 	{
-		fillColor = QColor(scheme->getSearchTypeColor(utility::encodeToUtf8(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)), "fill").c_str());
-		textColor = QColor(scheme->getSearchTypeColor(utility::encodeToUtf8(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)), "text").c_str());
+		fillColor = QColor(scheme
+							   ->getSearchTypeColor(
+								   utility::encodeToUtf8(
+									   SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)),
+								   "fill")
+							   .c_str());
+		textColor = QColor(scheme
+							   ->getSearchTypeColor(
+								   utility::encodeToUtf8(
+									   SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)),
+								   "text")
+							   .c_str());
 	}
 
 	int top1 = 6;
 	int top2 = m_charHeight1 + 3;
 
 	// draw background
-	QColor backgroundColor = option.palette.color((option.state & QStyle::State_Selected ? QPalette::Highlight : QPalette::Base));
+	QColor backgroundColor = option.palette.color(
+		(option.state & QStyle::State_Selected ? QPalette::Highlight : QPalette::Base));
 	painter->fillRect(option.rect, backgroundColor);
 
-    // draw highlights at indices
+	// draw highlights at indices
 	QString highlightText(text.size(), ' ');
 	if (!indices.empty())
 	{
@@ -185,8 +192,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 				option.rect.left() + m_charWidth1 * (idx + 1) + 2,
 				option.rect.top() + top1 - 1,
 				m_charWidth1 + 1,
-				m_charHeight1 - 1
-			);
+				m_charHeight1 - 1);
 			painter->fillRect(rect, fillColor);
 
 			highlightText[idx] = text.at(idx);
@@ -207,7 +213,8 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	QPen highlightPen = painter->pen();
 	highlightPen.setColor(textColor);
 	painter->setPen(highlightPen);
-	painter->drawText(option.rect.adjusted(m_charWidth1 + 2, top1 - 3, 0, 0), Qt::AlignLeft, highlightText);
+	painter->drawText(
+		option.rect.adjusted(m_charWidth1 + 2, top1 - 3, 0, 0), Qt::AlignLeft, highlightText);
 	painter->restore();
 
 	// draw subtext
@@ -217,8 +224,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		painter->drawPixmap(
 			option.rect.left() + m_charWidth2 * 2,
 			option.rect.top() + top2 + 1 + (m_charHeight2 - m_arrow.height()) / 2,
-			m_arrow.pixmap()
-		);
+			m_arrow.pixmap());
 
 		painter->setFont(m_font2);
 
@@ -237,8 +243,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 					option.rect.left() + m_charWidth2 * (idx + 3) + 2,
 					option.rect.top() + top2 + 1,
 					m_charWidth2 + 1,
-					m_charHeight2
-				);
+					m_charHeight2);
 				painter->fillRect(rect, fillColor);
 
 				highlightSubtext[idx] = subtext.at(idx);
@@ -251,14 +256,16 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		painter->setPen(typePen);
 
 		// draw subtext normal
-		painter->drawText(option.rect.adjusted((3 * m_charWidth2) + 2, top2, 0, 0), Qt::AlignLeft, subtext);
+		painter->drawText(
+			option.rect.adjusted((3 * m_charWidth2) + 2, top2, 0, 0), Qt::AlignLeft, subtext);
 
 		// draw subtext highlighted
 		painter->save();
 		QPen highlightPen = painter->pen();
 		highlightPen.setColor(textColor);
 		painter->setPen(highlightPen);
-		painter->drawText(option.rect.adjusted((3 * m_charWidth2) + 2, top2, 0, 0), Qt::AlignLeft, highlightSubtext);
+		painter->drawText(
+			option.rect.adjusted((3 * m_charWidth2) + 2, top2, 0, 0), Qt::AlignLeft, highlightSubtext);
 		painter->restore();
 	}
 
@@ -275,7 +282,8 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		int x = painter->viewport().right() - width - m_charWidth2;
 		int y = option.rect.top() + top2;
 
-		painter->fillRect(QRect(x - m_charWidth2, y, width + m_charWidth2 * 3, m_charHeight2 + 2), backgroundColor);
+		painter->fillRect(
+			QRect(x - m_charWidth2, y, width + m_charWidth2 * 3, m_charHeight2 + 2), backgroundColor);
 		painter->drawText(QRect(x, y, width + m_charWidth2, m_charHeight2), Qt::AlignRight, type);
 	}
 
@@ -296,8 +304,7 @@ QSize QtAutocompletionDelegate::sizeHint(const QStyleOptionViewItem& option, con
 
 	return QSize(
 		std::max((text.size() + 2) * m_charWidth1, (subtext.size() + type.size() + 6) * m_charWidth2),
-		m_charHeight1 * 2 + 3
-	);
+		m_charHeight1 * 2 + 3);
 }
 
 void QtAutocompletionDelegate::calculateCharSizes(QFont font)
@@ -311,12 +318,17 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 
 	QFontMetrics metrics1(font);
 	m_charWidth1 = metrics1.width(
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-		) / 500.0f;
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------") /
+		500.0f;
 	m_charHeight1 = metrics1.height();
 
 	font.setPixelSize(ApplicationSettings::getInstance()->getFontSize() - 3);
@@ -324,15 +336,21 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 
 	QFontMetrics metrics2(font);
 	m_charWidth2 = metrics2.width(
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-			"----------------------------------------------------------------------------------------------------"
-		) / 500.0f;
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------"
+					   "---------------------------------------------------------------------------"
+					   "-------------------------") /
+		500.0f;
 	m_charHeight2 = metrics2.height();
 
-	m_arrow = QtDeviceScaledPixmap(QString::fromStdString(ResourcePaths::getGuiPath().str() + "search_view/images/arrow.png"));
+	m_arrow = QtDeviceScaledPixmap(
+		QString::fromStdString(ResourcePaths::getGuiPath().str() + "search_view/images/arrow.png"));
 	m_arrow.scaleToWidth(m_charWidth2);
 	m_arrow.colorize(ColorScheme::getInstance()->getColor("search/popup/by_text").c_str());
 }
@@ -343,8 +361,7 @@ void QtAutocompletionDelegate::resetCharSizes()
 }
 
 
-QtAutocompletionList::QtAutocompletionList(QWidget* parent)
-	: QCompleter(parent)
+QtAutocompletionList::QtAutocompletionList(QWidget* parent): QCompleter(parent)
 {
 	m_model = std::make_shared<QtAutocompletionModel>(this);
 	setModel(m_model.get());
@@ -365,9 +382,7 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent)
 	setMaxVisibleItems(8);
 }
 
-QtAutocompletionList::~QtAutocompletionList()
-{
-}
+QtAutocompletionList::~QtAutocompletionList() {}
 
 void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList)
 {
@@ -382,7 +397,8 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 
 	if (!list->isVisible())
 	{
-		// this block fixes an issue where the autocompletion list becomes invisible after some time on Windows
+		// this block fixes an issue where the autocompletion list becomes invisible after some time
+		// on Windows
 		// TODO: try to find out which line actually fixes the issue
 		m_delegate = std::make_shared<QtAutocompletionDelegate>(m_model.get(), this);
 		list->setItemDelegateForColumn(0, m_delegate.get());
@@ -390,15 +406,22 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 		list->show();
 	}
 
-	disconnect(); // must be done because of a bug where signals are no longer received by QtSmartSearchBox
-	connect(this,
-			static_cast<void (QtAutocompletionList::*)(const QModelIndex&)>(&QtAutocompletionList::highlighted),
-			this,
-			&QtAutocompletionList::onHighlighted, Qt::DirectConnection);
-	connect(this,
-			static_cast<void (QtAutocompletionList::*)(const QModelIndex&)>(&QtAutocompletionList::activated),
-			this,
-			&QtAutocompletionList::onActivated, Qt::DirectConnection);
+	disconnect();	 // must be done because of a bug where signals are no longer received by
+					 // QtSmartSearchBox
+	connect(
+		this,
+		static_cast<void (QtAutocompletionList::*)(const QModelIndex&)>(
+			&QtAutocompletionList::highlighted),
+		this,
+		&QtAutocompletionList::onHighlighted,
+		Qt::DirectConnection);
+	connect(
+		this,
+		static_cast<void (QtAutocompletionList::*)(const QModelIndex&)>(
+			&QtAutocompletionList::activated),
+		this,
+		&QtAutocompletionList::onActivated,
+		Qt::DirectConnection);
 
 	complete(QRect(pos.x(), pos.y(), std::max(dynamic_cast<QWidget*>(parent())->width(), 400), 1));
 

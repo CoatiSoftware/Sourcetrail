@@ -8,7 +8,9 @@
 
 float QtGraphViewStyleImpl::getCharWidth(const std::string& fontName, size_t fontSize)
 {
-	return QFontMetrics(getFontForStyleType(fontName, fontSize)).width("QtGraphNode::QtGraphNode::QtGraphNode") / 37.0f;
+	return QFontMetrics(getFontForStyleType(fontName, fontSize))
+			   .width("QtGraphNode::QtGraphNode::QtGraphNode") /
+		37.0f;
 }
 
 float QtGraphViewStyleImpl::getCharHeight(const std::string& fontName, size_t fontSize)

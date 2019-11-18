@@ -3,15 +3,14 @@
 
 #include <set>
 
+#include "CombinedPathDetector.h"
 #include "QtPathListBox.h"
 #include "QtProjectWizardContent.h"
-#include "CombinedPathDetector.h"
 
 class QComboBox;
 class SourceGroupSettings;
 
-class QtProjectWizardContentPaths
-	: public QtProjectWizardContent
+class QtProjectWizardContentPaths: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -59,4 +58,4 @@ private:
 	QComboBox* m_detectorBox;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATHS_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATHS_H

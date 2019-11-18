@@ -9,9 +9,7 @@
 #include "QtCountCircleItem.h"
 
 QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::wstring name)
-	: QtGraphNode()
-	, m_tokenId(tokenId)
-	, m_type(type)
+	: QtGraphNode(), m_tokenId(tokenId), m_type(type)
 {
 	this->setName(name);
 
@@ -23,9 +21,7 @@ QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type
 	this->setToolTip("bundle");
 }
 
-QtGraphNodeBundle::~QtGraphNodeBundle()
-{
-}
+QtGraphNodeBundle::~QtGraphNodeBundle() {}
 
 bool QtGraphNodeBundle::isBundleNode() const
 {
@@ -41,9 +37,10 @@ void QtGraphNodeBundle::onClick()
 {
 	MessageGraphNodeBundleSplit(
 		m_tokenId,
-		(!m_type.isUnknownSymbol() || getName() == L"Symbols") && getName() != L"Anonymous Namespaces", // TODO: move to language package
-		!m_type.isUnknownSymbol() || getName() == L"Symbols"
-	).dispatch();
+		(!m_type.isUnknownSymbol() || getName() == L"Symbols") &&
+			getName() != L"Anonymous Namespaces",	 // TODO: move to language package
+		!m_type.isUnknownSymbol() || getName() == L"Symbols")
+		.dispatch();
 }
 
 void QtGraphNodeBundle::updateStyle()
@@ -71,8 +68,7 @@ void QtGraphNodeBundle::updateStyle()
 		accessStyle.color.fill.c_str(),
 		accessStyle.color.text.c_str(),
 		accessStyle.color.border.c_str(),
-		style.borderWidth
-	);
+		style.borderWidth);
 }
 
 

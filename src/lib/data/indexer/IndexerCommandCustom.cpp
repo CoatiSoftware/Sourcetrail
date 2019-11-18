@@ -16,8 +16,7 @@ IndexerCommandCustom::IndexerCommandCustom(
 	const FilePath& databaseFilePath,
 	const std::wstring& databaseVersion,
 	const FilePath& sourceFilePath,
-	bool runInParallel
-)
+	bool runInParallel)
 	: IndexerCommand(sourceFilePath)
 	, m_type(getStaticIndexerCommandType())
 	, m_customCommand(customCommand)
@@ -35,8 +34,7 @@ IndexerCommandCustom::IndexerCommandCustom(
 	const FilePath& databaseFilePath,
 	const std::wstring& databaseVersion,
 	const FilePath& sourceFilePath,
-	bool runInParallel
-)
+	bool runInParallel)
 	: IndexerCommand(sourceFilePath)
 	, m_type(type)
 	, m_customCommand(customCommand)
@@ -73,10 +71,13 @@ std::wstring IndexerCommandCustom::getCustomCommand() const
 {
 	std::wstring command = m_customCommand;
 
-	command = utility::replace(command, L"%{PROJECT_FILE_PATH}", L'\"' + m_projectFilePath.wstr() + L'\"');
-	command = utility::replace(command, L"%{DATABASE_FILE_PATH}", L'\"' + m_databaseFilePath.wstr() + L'\"');
+	command = utility::replace(
+		command, L"%{PROJECT_FILE_PATH}", L'\"' + m_projectFilePath.wstr() + L'\"');
+	command = utility::replace(
+		command, L"%{DATABASE_FILE_PATH}", L'\"' + m_databaseFilePath.wstr() + L'\"');
 	command = utility::replace(command, L"%{DATABASE_VERSION}", L'\"' + m_databaseVersion + L'\"');
-	command = utility::replace(command, L"%{SOURCE_FILE_PATH}", L'\"' + getSourceFilePath().wstr() + L'\"');
+	command = utility::replace(
+		command, L"%{SOURCE_FILE_PATH}", L'\"' + getSourceFilePath().wstr() + L'\"');
 
 	return command;
 }

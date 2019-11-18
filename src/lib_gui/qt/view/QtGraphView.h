@@ -6,8 +6,8 @@
 #include <QGraphicsView>
 #include <QPointF>
 
-#include "GraphView.h"
 #include "Graph.h"
+#include "GraphView.h"
 #include "QtScrollSpeedChangeListener.h"
 #include "QtThreadedFunctor.h"
 #include "types.h"
@@ -103,10 +103,19 @@ private:
 	QtGraphNode* findNodeRecursive(const std::list<QtGraphNode*>& nodes, Id tokenId);
 
 	QtGraphNode* createNodeRecursive(
-		QGraphicsView* view, QtGraphNode* parentNode, const DummyNode* node, bool multipleActive, bool interactive);
+		QGraphicsView* view,
+		QtGraphNode* parentNode,
+		const DummyNode* node,
+		bool multipleActive,
+		bool interactive);
 	QtGraphEdge* createEdge(
-		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode,
-		QPointF pathOffset, bool useBezier, bool interactive);
+		QGraphicsView* view,
+		const DummyEdge* edge,
+		std::set<Id>* visibleEdgeIds,
+		Graph::TrailMode trailMode,
+		QPointF pathOffset,
+		bool useBezier,
+		bool interactive);
 	QtGraphEdge* createAggregationEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, bool interactive);
 
@@ -169,4 +178,4 @@ private:
 	std::vector<QtGraphNode*> m_matchedNodes;
 };
 
-#endif // QT_GRAPH_VIEW_H
+#endif	  // QT_GRAPH_VIEW_H

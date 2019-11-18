@@ -1,10 +1,10 @@
 #include "GraphViewStyle.h"
 
-#include "GraphViewStyleImpl.h"
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
-#include "logging.h"
+#include "GraphViewStyleImpl.h"
 #include "ResourcePaths.h"
+#include "logging.h"
 #include "utilityString.h"
 
 int GraphViewStyle::s_gridCellSize = 5;
@@ -32,7 +32,7 @@ Vec2i GraphViewStyle::alignOnRaster(Vec2i position)
 		int t = position.x / rasterPosDivisor;
 		int r = position.x % rasterPosDivisor;
 
-		if (std::abs(r) > rasterPosDivisor/2)
+		if (std::abs(r) > rasterPosDivisor / 2)
 		{
 			if (t != 0)
 			{
@@ -52,13 +52,13 @@ Vec2i GraphViewStyle::alignOnRaster(Vec2i position)
 		int t = position.y / rasterPosDivisor;
 		int r = position.y % rasterPosDivisor;
 
-		if (std::abs(r) > rasterPosDivisor/2)
+		if (std::abs(r) > rasterPosDivisor / 2)
 		{
-			if(t != 0)
+			if (t != 0)
 			{
 				t += (t / std::abs(t));
 			}
-			else if(r != 0)
+			else if (r != 0)
 			{
 				t += (r / std::abs(r));
 			}
@@ -135,7 +135,8 @@ void GraphViewStyle::loadStyleSettings()
 	s_fontName = ApplicationSettings::getInstance()->getFontName();
 
 	float zoomDifference = getImpl()->getGraphViewZoomDifferenceForPlatform();
-	s_zoomFactor = (ApplicationSettings::getInstance()->getFontSize()) / float(s_fontSize) * zoomDifference;
+	s_zoomFactor = (ApplicationSettings::getInstance()->getFontSize()) / float(s_fontSize) *
+		zoomDifference;
 
 	s_charWidths.clear();
 	s_charHeights.clear();
@@ -219,7 +220,8 @@ std::string GraphViewStyle::getFontNameOfGroupNode()
 	return s_fontName + ", consolas, monospace, sans-serif";
 }
 
-GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForDataNode(NodeType::StyleType type, bool hasIcon, bool hasChildren)
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForDataNode(
+	NodeType::StyleType type, bool hasIcon, bool hasChildren)
 {
 	NodeMargins margins;
 	margins.spacingX = 6;
@@ -364,8 +366,8 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfGroupNode(GroupType type
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
-	NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier
-){
+	NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier)
+{
 	return getStyleForNodeType(
 		type.getNodeStyle(),
 		type.getUnderscoredTypeString(),
@@ -374,15 +376,19 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		isActive,
 		isFocused,
 		hasChildren,
-		hasQualifier
-	);
+		hasQualifier);
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
-	NodeType::StyleType type, const std::string& underscoredTypeString,
-	const FilePath& iconPath, bool defined, bool isActive, bool isFocused,
-	bool hasChildren, bool hasQualifier
-){
+	NodeType::StyleType type,
+	const std::string& underscoredTypeString,
+	const FilePath& iconPath,
+	bool defined,
+	bool isActive,
+	bool isFocused,
+	bool hasChildren,
+	bool hasQualifier)
+{
 	NodeStyle style;
 
 	style.color = getNodeColor(underscoredTypeString, isActive || isFocused);
@@ -533,8 +539,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 		false,
 		isFocused,
 		false,
-		false
-	);
+		false);
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfQualifier()
@@ -633,7 +638,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 	style.originOffset.y = 5;
 	style.targetOffset.y = -5;
 
-	style.color = getEdgeColor(utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)), isActive || isFocused);
+	style.color = getEdgeColor(
+		utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)), isActive || isFocused);
 
 	switch (type)
 	{
@@ -658,7 +664,9 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		{
 			style.width = 3;
 			style.color = ColorScheme::getInstance()->getColor(
-				"graph/edge/" + utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)) + "/trail_focus", style.color);
+				"graph/edge/" + utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)) +
+					"/trail_focus",
+				style.color);
 		}
 		break;
 
@@ -717,11 +725,13 @@ int GraphViewStyle::toGridOffset(int x)
 {
 	if (x > 0)
 	{
-		return std::ceil(x / double(s_gridCellPadding + s_gridCellSize)) * (s_gridCellPadding + s_gridCellSize);
+		return std::ceil(x / double(s_gridCellPadding + s_gridCellSize)) *
+			(s_gridCellPadding + s_gridCellSize);
 	}
 	else
 	{
-		return std::floor(x / double(s_gridCellPadding + s_gridCellSize)) * (s_gridCellPadding + s_gridCellSize);
+		return std::floor(x / double(s_gridCellPadding + s_gridCellSize)) *
+			(s_gridCellPadding + s_gridCellSize);
 	}
 }
 

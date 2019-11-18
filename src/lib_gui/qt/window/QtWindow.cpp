@@ -4,10 +4,10 @@
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "QtDeviceScaledPixmap.h"
-#include "utilityQt.h"
 #include "ApplicationSettings.h"
+#include "QtDeviceScaledPixmap.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
 QtWindow::QtWindow(bool isSubWindow, QWidget* parent)
 	: QtWindowBase(isSubWindow, parent)
@@ -24,7 +24,8 @@ QtWindow::QtWindow(bool isSubWindow, QWidget* parent)
 
 void QtWindow::setup()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")).c_str());
+	setStyleSheet(
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")).c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(10, 10, 10, 10);
@@ -93,7 +94,7 @@ void QtWindow::setScrollAble(bool scrollAble)
 
 bool QtWindow::isScrollAble() const
 {
-    return m_scrollAble;
+	return m_scrollAble;
 }
 
 void QtWindow::updateTitle(const QString& title)
@@ -267,13 +268,16 @@ void QtWindow::keyPressEvent(QKeyEvent* event)
 	}
 
 	std::vector<QPushButton*> buttons;
-	if (m_nextButton && m_nextButton->isVisible()) buttons.push_back(m_nextButton);
-	if (m_closeButton && m_closeButton->isVisible()) buttons.push_back(m_closeButton);
-	if (m_previousButton && m_previousButton->isVisible()) buttons.push_back(m_previousButton);
+	if (m_nextButton && m_nextButton->isVisible())
+		buttons.push_back(m_nextButton);
+	if (m_closeButton && m_closeButton->isVisible())
+		buttons.push_back(m_closeButton);
+	if (m_previousButton && m_previousButton->isVisible())
+		buttons.push_back(m_previousButton);
 
 	if (event->key() == Qt::Key_Return)
 	{
-		for (QPushButton* button : buttons)
+		for (QPushButton* button: buttons)
 		{
 			if (button->isDefault())
 			{
@@ -305,13 +309,9 @@ void QtWindow::keyPressEvent(QKeyEvent* event)
 	QWidget::keyPressEvent(event);
 }
 
-void QtWindow::populateWindow(QWidget* widget)
-{
-}
+void QtWindow::populateWindow(QWidget* widget) {}
 
-void QtWindow::windowReady()
-{
-}
+void QtWindow::windowReady() {}
 
 void QtWindow::handleNext()
 {
@@ -335,15 +335,18 @@ void QtWindow::setupDone()
 	QSize actualSize = m_window->sizeHint() + QSize(50, 50);
 	QSize preferredSize = sizeHint();
 
-	QSize size(qMax(actualSize.width(), preferredSize.width()), qMax(actualSize.height(), preferredSize.height()));
+	QSize size(
+		qMax(actualSize.width(), preferredSize.width()),
+		qMax(actualSize.height(), preferredSize.height()));
 	resize(size);
 
-    moveToCenter();
+	moveToCenter();
 }
 
 void QtWindow::addLogo()
 {
-	QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/logo.png").wstr()));
+	QtDeviceScaledPixmap sourcetrailLogo(
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/logo.png").wstr()));
 	sourcetrailLogo.scaleToWidth(240);
 
 	QLabel* sourcetrailLogoLabel = new QLabel(this);

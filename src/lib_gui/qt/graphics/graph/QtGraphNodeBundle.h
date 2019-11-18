@@ -6,8 +6,7 @@
 
 class QtCountCircleItem;
 
-class QtGraphNodeBundle
-	: public QtGraphNode
+class QtGraphNodeBundle: public QtGraphNode
 {
 	Q_OBJECT
 public:
@@ -31,4 +30,4 @@ private:
 	NodeType m_type;
 };
 
-#endif // QT_GRAPH_NODE_BUNDLE_H
+#endif	  // QT_GRAPH_NODE_BUNDLE_H

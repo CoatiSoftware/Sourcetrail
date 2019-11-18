@@ -4,8 +4,7 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageCodeReference
-	: public Message<MessageCodeReference>
+class MessageCodeReference: public Message<MessageCodeReference>
 {
 public:
 	enum ReferenceType
@@ -15,8 +14,7 @@ public:
 	};
 
 	MessageCodeReference(ReferenceType type, bool localReference)
-		: type(type)
-		, localReference(localReference)
+		: type(type), localReference(localReference)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -47,4 +45,4 @@ public:
 	bool localReference;
 };
 
-#endif // MESSAGE_CODE_REFERENCE_H
+#endif	  // MESSAGE_CODE_REFERENCE_H

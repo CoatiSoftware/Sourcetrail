@@ -27,8 +27,7 @@ public:
 	QtSourceGroupWizard(
 		std::shared_ptr<SettingsType> settings,
 		std::function<void()> onCancelClicked,
-		std::function<void(std::shared_ptr<SourceGroupSettings>)> onFinishedWizard
-	);
+		std::function<void(std::shared_ptr<SourceGroupSettings>)> onFinishedWizard);
 
 	void addPage(const QtSourceGroupWizardPage<SettingsType>& page);
 	void execute(QtWindowStack& windowStack) override;
@@ -48,11 +47,8 @@ template <typename SettingsType>
 QtSourceGroupWizard<SettingsType>::QtSourceGroupWizard(
 	std::shared_ptr<SettingsType> settings,
 	std::function<void()> onCancelClicked,
-	std::function<void(std::shared_ptr<SourceGroupSettings>)> onFinishedWizard
-)
-	: m_settings(settings)
-	, m_onCancelClicked(onCancelClicked)
-	, m_onFinishedWizard(onFinishedWizard)
+	std::function<void(std::shared_ptr<SourceGroupSettings>)> onFinishedWizard)
+	: m_settings(settings), m_onCancelClicked(onCancelClicked), m_onFinishedWizard(onFinishedWizard)
 {
 }
 
@@ -67,12 +63,14 @@ void QtSourceGroupWizard<SettingsType>::execute(QtWindowStack& windowStack)
 {
 	if (!m_pages.empty())
 	{
-		createWindowForPage(mapToPageIdWithContentForContext(0, WIZARD_CONTENT_CONTEXT_SETUP), windowStack);
+		createWindowForPage(
+			mapToPageIdWithContentForContext(0, WIZARD_CONTENT_CONTEXT_SETUP), windowStack);
 	}
 }
 
 template <typename SettingsType>
-bool QtSourceGroupWizard<SettingsType>::canProcessSettings(std::shared_ptr<const SourceGroupSettings> settings)
+bool QtSourceGroupWizard<SettingsType>::canProcessSettings(
+	std::shared_ptr<const SourceGroupSettings> settings)
 {
 	if (std::dynamic_pointer_cast<const SettingsType>(settings))
 	{
@@ -95,22 +93,24 @@ void QtSourceGroupWizard<SettingsType>::createWindowForPage(const size_t pageId,
 
 	QtProjectWizardWindow* window = new QtProjectWizardWindow(nullptr);
 
-	window->connect(window, &QtProjectWizardWindow::previous, &windowStack, &QtWindowStack::popWindow);
+	window->connect(
+		window, &QtProjectWizardWindow::previous, &windowStack, &QtWindowStack::popWindow);
 	window->connect(window, &QtProjectWizardWindow::canceled, m_onCancelClicked);
 
 	if (nextPageId > 0)
 	{
-		window->connect(
-			window, &QtProjectWizardWindow::next,
-			[this, nextPageId, &windowStack]() { this->createWindowForPage(nextPageId, windowStack); }
-		);
+		window->connect(window, &QtProjectWizardWindow::next, [this, nextPageId, &windowStack]() {
+			this->createWindowForPage(nextPageId, windowStack);
+		});
 	}
 	else
 	{
-		window->connect(window, &QtProjectWizardWindow::next, [&]() { m_onFinishedWizard(m_settings); });
+		window->connect(
+			window, &QtProjectWizardWindow::next, [&]() { m_onFinishedWizard(m_settings); });
 	}
 
-	QtProjectWizardContentGroup* contentGroup = page.createContentGroup(WIZARD_CONTENT_CONTEXT_SETUP, m_settings, window);
+	QtProjectWizardContentGroup* contentGroup = page.createContentGroup(
+		WIZARD_CONTENT_CONTEXT_SETUP, m_settings, window);
 
 	window->setPreferredSize(QSize(page.getPreferredWidth(), page.getPreferredHeight()));
 	window->setContent(contentGroup);
@@ -131,13 +131,15 @@ void QtSourceGroupWizard<SettingsType>::createWindowForPage(const size_t pageId,
 		}
 	}
 
-	window->updateSubTitle(QString::fromStdString(page.getTitle() + " - " + std::to_string(currentPage) + "/" + std::to_string(totalPages)));
+	window->updateSubTitle(QString::fromStdString(
+		page.getTitle() + " - " + std::to_string(currentPage) + "/" + std::to_string(totalPages)));
 
 	windowStack.pushWindow(window);
 }
 
 template <typename SettingsType>
-int QtSourceGroupWizard<SettingsType>::mapToPageIdWithContentForContext(size_t pageId, WizardContentContextType contextType) const
+int QtSourceGroupWizard<SettingsType>::mapToPageIdWithContentForContext(
+	size_t pageId, WizardContentContextType contextType) const
 {
 	while (pageId < m_pages.size())
 	{
@@ -151,4 +153,4 @@ int QtSourceGroupWizard<SettingsType>::mapToPageIdWithContentForContext(size_t p
 	return -1;
 }
 
-#endif // QT_SOURCE_GROUP_WIZARD_H
+#endif	  // QT_SOURCE_GROUP_WIZARD_H

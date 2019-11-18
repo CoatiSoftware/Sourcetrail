@@ -6,12 +6,12 @@
 
 class SourceGroupSettingsPythonEmpty;
 
-class QtProjectWizardContentPathPythonEnvironment
-	: public QtProjectWizardContentPath
+class QtProjectWizardContentPathPythonEnvironment: public QtProjectWizardContentPath
 {
 	Q_OBJECT
 public:
-	QtProjectWizardContentPathPythonEnvironment(std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizardWindow* window);
+	QtProjectWizardContentPathPythonEnvironment(
+		std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizardWindow* window);
 
 	// QtProjectWizardContent implementation
 	void populate(QGridLayout* layout, int& row) override;
@@ -27,4 +27,4 @@ private:
 	QLabel* m_resultLabel;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATH_PYTHON_ENVIRONMENT_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_PYTHON_ENVIRONMENT_H

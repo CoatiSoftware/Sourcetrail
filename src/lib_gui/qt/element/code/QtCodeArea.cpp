@@ -13,24 +13,22 @@
 #include <QTextBlock>
 #include <QToolTip>
 
-#include "SourceLocationFile.h"
-#include "QtCodeNavigator.h"
-#include "QtContextMenu.h"
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
-#include "MessageShowError.h"
 #include "MessageActivateLocalSymbols.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
 #include "MessageMoveIDECursor.h"
+#include "MessageShowError.h"
+#include "QtCodeNavigator.h"
+#include "QtContextMenu.h"
+#include "SourceLocationFile.h"
 #include "TextCodec.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityString.h"
 
-MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter()
-{
-}
+MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter() {}
 
 bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 {
@@ -41,8 +39,8 @@ bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 		QPoint globalMousePos = dynamic_cast<QWheelEvent*>(event)->globalPos();
 		QPoint localMousePos = scrollbar->mapFromGlobal(globalMousePos);
 
-		// instead of "scrollbar->underMouse()" we need this check implemented here because "underMouse()"
-		// does not work when the mouse enters the area without being moved
+		// instead of "scrollbar->underMouse()" we need this check implemented here because
+		// "underMouse()" does not work when the mouse enters the area without being moved
 		if (scrollbarArea.contains(localMousePos))
 		{
 			event->ignore();
@@ -52,23 +50,19 @@ bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 	return QObject::eventFilter(obj, event);
 }
 
-QtLineNumberArea::QtLineNumberArea(QtCodeArea *codeArea)
-	: QWidget(codeArea)
-	, m_codeArea(codeArea)
+QtLineNumberArea::QtLineNumberArea(QtCodeArea* codeArea): QWidget(codeArea), m_codeArea(codeArea)
 {
 	setObjectName("line_number_area");
 }
 
-QtLineNumberArea::~QtLineNumberArea()
-{
-}
+QtLineNumberArea::~QtLineNumberArea() {}
 
 QSize QtLineNumberArea::sizeHint() const
 {
 	return QSize(m_codeArea->lineNumberAreaWidth(), 0);
 }
 
-void QtLineNumberArea::paintEvent(QPaintEvent *event)
+void QtLineNumberArea::paintEvent(QPaintEvent* event)
 {
 	m_codeArea->lineNumberAreaPaintEvent(event);
 }
@@ -80,8 +74,7 @@ QtCodeArea::QtCodeArea(
 	std::shared_ptr<SourceLocationFile> locationFile,
 	QtCodeNavigator* navigator,
 	bool showLineNumbers,
-	QWidget* parent
-)
+	QWidget* parent)
 	: QtCodeField(startLineNumber, code, locationFile, parent)
 	, m_navigator(navigator)
 	, m_digits(0)
@@ -131,7 +124,8 @@ QSize QtCodeArea::sizeHint() const
 		width = std::max(rect.width(), width);
 	}
 
-	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() && utility::getOsType() != OS_MAC)
+	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() &&
+		utility::getOsType() != OS_MAC)
 	{
 		height += horizontalScrollBar()->height();
 	}
@@ -139,7 +133,7 @@ QSize QtCodeArea::sizeHint() const
 	return QSize(width + lineNumberAreaWidth() + 1, height + 5);
 }
 
-void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
+void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 {
 	QPainter painter(m_lineNumberArea);
 
@@ -154,7 +148,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	const std::set<Id>& activeSymbolIds = m_navigator->getActiveTokenIds();
 	const std::set<Id>& activeLocalTokenIds = m_navigator->getActiveLocalTokenIds();
 
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
 		bool focus = false;
 		bool active = false;
@@ -234,8 +228,8 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	int drawAreaTop = event->rect().top();
 	int drawAreaBottom = event->rect().bottom() + 1;
 
-	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() && utility::getOsType() != OS_MAC &&
-		drawAreaBottom > height() - horizontalScrollBar()->height())
+	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() &&
+		utility::getOsType() != OS_MAC && drawAreaBottom > height() - horizontalScrollBar()->height())
 	{
 		drawAreaBottom = height() - horizontalScrollBar()->height();
 	}
@@ -263,7 +257,8 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 			}
 
 			painter.setPen(p);
-			painter.drawText(0, top, m_lineNumberArea->width() - 16, height, Qt::AlignRight, QString::number(number));
+			painter.drawText(
+				0, top, m_lineNumberArea->width() - 16, height, Qt::AlignRight, QString::number(number));
 		}
 
 		block = block.next();
@@ -321,7 +316,7 @@ void QtCodeArea::setIsActiveFile(bool isActiveFile)
 
 size_t QtCodeArea::getLineNumberForLocationId(Id locationId) const
 {
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
 		if (annotation.locationId == locationId)
 		{
@@ -334,7 +329,7 @@ size_t QtCodeArea::getLineNumberForLocationId(Id locationId) const
 
 std::pair<size_t, size_t> QtCodeArea::getLineNumbersForLocationId(Id locationId) const
 {
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
 		if (annotation.locationId == locationId)
 		{
@@ -347,7 +342,7 @@ std::pair<size_t, size_t> QtCodeArea::getLineNumbersForLocationId(Id locationId)
 
 Id QtCodeArea::getLocationIdOfFirstActiveLocation(Id tokenId) const
 {
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
 		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive &&
 			(!tokenId || annotation.tokenIds.find(tokenId) != annotation.tokenIds.end()))
@@ -361,7 +356,7 @@ Id QtCodeArea::getLocationIdOfFirstActiveLocation(Id tokenId) const
 
 Id QtCodeArea::getLocationIdOfFirstActiveScopeLocation(Id tokenId) const
 {
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
 		if (annotation.locationType == LocationType::LOCATION_SCOPE && annotation.isActive &&
 			annotation.tokenIds.find(tokenId) != annotation.tokenIds.end())
@@ -375,7 +370,7 @@ Id QtCodeArea::getLocationIdOfFirstActiveScopeLocation(Id tokenId) const
 
 Id QtCodeArea::getLocationIdOfFirstHighlightedLocation() const
 {
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
 		if ((annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive) ||
 			annotation.locationType == LocationType::LOCATION_FULLTEXT_SEARCH ||
@@ -392,9 +387,10 @@ size_t QtCodeArea::getActiveLocationCount() const
 {
 	size_t count = 0;
 
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
-		if (annotation.locationType == LocationType::LOCATION_TOKEN && (annotation.isActive || annotation.isFocused))
+		if (annotation.locationType == LocationType::LOCATION_TOKEN &&
+			(annotation.isActive || annotation.isFocused))
 		{
 			count++;
 		}
@@ -402,7 +398,7 @@ size_t QtCodeArea::getActiveLocationCount() const
 
 	if (!count)
 	{
-		for (const Annotation& annotation : m_annotations)
+		for (const Annotation& annotation: m_annotations)
 		{
 			if (annotation.locationType == LocationType::LOCATION_FULLTEXT_SEARCH ||
 				annotation.locationType == LocationType::LOCATION_ERROR)
@@ -430,11 +426,13 @@ QRectF QtCodeArea::getLineRectForLineNumber(size_t lineNumber) const
 	return blockBoundingGeometry(block);
 }
 
-void QtCodeArea::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeArea::findScreenMatches(
+	const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
 	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
 	// remove carriage return
-	const std::wstring& code = utility::toLowerCase(codec.decode(utility::replace(getCode(), "\r", "")));
+	const std::wstring& code = utility::toLowerCase(
+		codec.decode(utility::replace(getCode(), "\r", "")));
 	size_t pos = 0;
 	while (pos != std::string::npos)
 	{
@@ -503,7 +501,7 @@ void QtCodeArea::ensureLocationIdVisible(Id locationId, int parentWidth, bool an
 	scrollBar->setValue(scrollBar->minimum());
 
 	const Annotation* annotationPtr = nullptr;
-	for (const Annotation& annotation : m_annotations)
+	for (const Annotation& annotation: m_annotations)
 	{
 		if (annotation.locationId == locationId)
 		{
@@ -519,7 +517,7 @@ void QtCodeArea::ensureLocationIdVisible(Id locationId, int parentWidth, bool an
 
 	std::vector<QRect> rects = getCursorRectsForAnnotation(*annotationPtr);
 	QRect boundingRect;
-	for (QRect rect : rects)
+	for (QRect rect: rects)
 	{
 		if (boundingRect.width())
 		{
@@ -553,7 +551,8 @@ void QtCodeArea::ensureLocationIdVisible(Id locationId, int parentWidth, bool an
 	}
 
 	const double percentTarget = double(targetWidth) / (totalWidth - visibleWidth);
-	const int newValue = (scrollBar->maximum() - scrollBar->minimum()) * percentTarget + scrollBar->minimum();
+	const int newValue = (scrollBar->maximum() - scrollBar->minimum()) * percentTarget +
+		scrollBar->minimum();
 
 	if (animated && ApplicationSettings::getInstance()->getUseAnimations())
 	{
@@ -570,7 +569,7 @@ void QtCodeArea::ensureLocationIdVisible(Id locationId, int parentWidth, bool an
 	}
 }
 
-void QtCodeArea::resizeEvent(QResizeEvent *e)
+void QtCodeArea::resizeEvent(QResizeEvent* e)
 {
 	QPlainTextEdit::resizeEvent(e);
 
@@ -614,7 +613,8 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 		viewport()->setCursor(Qt::ArrowCursor);
 
-		if (m_panningDistance < panningThreshold) // dont do anything if mouse is release to end some real panning action.
+		if (m_panningDistance < panningThreshold)	 // dont do anything if mouse is release to end
+													 // some real panning action.
 		{
 			if (Qt::KeyboardModifier::ControlModifier & QApplication::keyboardModifiers())
 			{
@@ -623,7 +623,8 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			}
 			else
 			{
-				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());
+				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(
+					event->pos());
 				if (annotations.size())
 				{
 					activateAnnotationsOrErrors(annotations);
@@ -682,14 +683,16 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 	{
 		if (m_navigator->hasErrors())
 		{
-			for (const Annotation* annotation : annotations)
+			for (const Annotation* annotation: annotations)
 			{
 				if (annotation->locationType == LOCATION_ERROR && annotation->tokenIds.size())
 				{
-					std::wstring errorMessage = m_navigator->getErrorMessageForId(*annotation->tokenIds.begin());
-					QToolTip::showText(event->globalPos(), QString::fromStdWString(errorMessage), this);
+					std::wstring errorMessage = m_navigator->getErrorMessageForId(
+						*annotation->tokenIds.begin());
+					QToolTip::showText(
+						event->globalPos(), QString::fromStdWString(errorMessage), this);
 
-					QtCodeField::focusTokenIds({ *annotation->tokenIds.begin() });
+					QtCodeField::focusTokenIds({*annotation->tokenIds.begin()});
 					viewport()->setCursor(Qt::PointingHandCursor);
 					return;
 				}
@@ -702,10 +705,12 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 	}
 }
 
-void QtCodeArea::wheelEvent(QWheelEvent *event)
+void QtCodeArea::wheelEvent(QWheelEvent* event)
 {
-	if ((event->angleDelta().x() != 0 && horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum()) ||
-		(event->angleDelta().y() != 0 && verticalScrollBar()->minimum() != verticalScrollBar()->maximum()))
+	if ((event->angleDelta().x() != 0 &&
+		 horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum()) ||
+		(event->angleDelta().y() != 0 &&
+		 verticalScrollBar()->minimum() != verticalScrollBar()->maximum()))
 	{
 		QPlainTextEdit::wheelEvent(event);
 	}
@@ -751,7 +756,7 @@ void QtCodeArea::updateLineNumberAreaWidth(int /* newBlockCount */)
 	setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
-void QtCodeArea::updateLineNumberArea(const QRect &rect, int dy)
+void QtCodeArea::updateLineNumberArea(const QRect& rect, int dy)
 {
 	if (dy)
 	{
@@ -772,7 +777,8 @@ void QtCodeArea::setIDECursorPosition()
 {
 	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
 
-	MessageMoveIDECursor(getSourceLocationFile()->getFilePath(), lineColumn.first, lineColumn.second).dispatch();
+	MessageMoveIDECursor(getSourceLocationFile()->getFilePath(), lineColumn.first, lineColumn.second)
+		.dispatch();
 }
 
 void QtCodeArea::setCopyAvailable(bool yes)
@@ -804,11 +810,12 @@ void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*
 	if (m_navigator->hasErrors())
 	{
 		std::vector<Id> errorIds;
-		for (const Annotation* annotation : annotations)
+		for (const Annotation* annotation: annotations)
 		{
 			if (annotation->locationType == LOCATION_ERROR && annotation->tokenIds.size())
 			{
-				errorIds.insert(errorIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
+				errorIds.insert(
+					errorIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
 			}
 		}
 
@@ -825,19 +832,20 @@ void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*
 void QtCodeArea::annotateText()
 {
 	const std::set<Id>& activeSymbolIds = m_navigator->getCurrentActiveTokenIds();
-	const std::set<Id>& activeLocationIds =
-		utility::concat(m_navigator->getCurrentActiveLocationIds(), m_navigator->getCurrentActiveLocalLocationIds());
+	const std::set<Id>& activeLocationIds = utility::concat(
+		m_navigator->getCurrentActiveLocationIds(), m_navigator->getCurrentActiveLocalLocationIds());
 
 	std::set<Id> focusedSymbolIds = m_navigator->getActiveTokenIds();
 	utility::append(focusedSymbolIds, m_navigator->getActiveLocalTokenIds());
 
-	for (Id currentActiveId : activeSymbolIds)
+	for (Id currentActiveId: activeSymbolIds)
 	{
 		focusedSymbolIds.erase(currentActiveId);
 	}
 	utility::append(focusedSymbolIds, m_navigator->getFocusedTokenIds());
 
-	bool needsUpdate = QtCodeField::annotateText(activeSymbolIds, activeLocationIds, focusedSymbolIds);
+	bool needsUpdate = QtCodeField::annotateText(
+		activeSymbolIds, activeLocationIds, focusedSymbolIds);
 	if (needsUpdate)
 	{
 		m_lineNumberArea->update();
@@ -858,5 +866,6 @@ void QtCodeArea::createActions()
 #endif
 	m_setIDECursorPositionAction->setStatusTip(tr("Set the IDE Cursor to this code position"));
 	m_setIDECursorPositionAction->setToolTip(tr("Set the IDE Cursor to this code position"));
-	connect(m_setIDECursorPositionAction, &QAction::triggered, this, &QtCodeArea::setIDECursorPosition);
+	connect(
+		m_setIDECursorPositionAction, &QAction::triggered, this, &QtCodeArea::setIDECursorPosition);
 }

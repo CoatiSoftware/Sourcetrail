@@ -5,12 +5,12 @@
 
 #include "Controller.h"
 
-#include "MessageListener.h"
 #include "MessageActivateEdge.h"
 #include "MessageActivateFile.h"
 #include "MessageActivateNodes.h"
-#include "MessageActivateTokenIds.h"
 #include "MessageActivateSourceLocations.h"
+#include "MessageActivateTokenIds.h"
+#include "MessageListener.h"
 #include "MessageResetZoom.h"
 #include "MessageSearch.h"
 #include "MessageZoom.h"
@@ -46,4 +46,4 @@ private:
 	StorageAccess* m_storageAccess;
 };
 
-#endif // ACTIVATION_CONTROLLER_H
+#endif	  // ACTIVATION_CONTROLLER_H

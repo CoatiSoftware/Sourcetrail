@@ -1,9 +1,6 @@
 #include "QtLineEdit.h"
 
-QtLineEdit::QtLineEdit(QWidget* parent)
-	: QLineEdit(parent)
-{
-}
+QtLineEdit::QtLineEdit(QWidget* parent): QLineEdit(parent) {}
 
 void QtLineEdit::focusInEvent(QFocusEvent* event)
 {

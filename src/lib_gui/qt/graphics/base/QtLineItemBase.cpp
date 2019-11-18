@@ -16,16 +16,17 @@ QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
 	this->setCursor(Qt::PointingHandCursor);
 }
 
-QtLineItemBase::~QtLineItemBase()
-{
-}
+QtLineItemBase::~QtLineItemBase() {}
 
 void QtLineItemBase::updateLine(
-	Vec4i ownerRect, Vec4i targetRect,
-	Vec4i ownerParentRect, Vec4i targetParentRect,
+	Vec4i ownerRect,
+	Vec4i targetRect,
+	Vec4i ownerParentRect,
+	Vec4i targetParentRect,
 	GraphViewStyle::EdgeStyle style,
-	size_t weight, bool showArrow
-){
+	size_t weight,
+	bool showArrow)
+{
 	prepareGeometryChange();
 	m_polygon.clear();
 
@@ -42,7 +43,8 @@ void QtLineItemBase::updateLine(
 	m_style = style;
 	m_showArrow = showArrow;
 
-	this->setPen(QPen(QBrush(style.color.c_str()), style.width + int(log10(weight)), Qt::SolidLine, Qt::RoundCap));
+	this->setPen(QPen(
+		QBrush(style.color.c_str()), style.width + int(log10(weight)), Qt::SolidLine, Qt::RoundCap));
 }
 
 void QtLineItemBase::setRoute(Route route)
@@ -151,18 +153,34 @@ QPolygon QtLineItemBase::getPath() const
 
 	switch (it)
 	{
-		case 0: b.setY(b.y() - tOff.x); break;
-		case 1: b.setX(b.x() + tOff.x); break;
-		case 2: b.setY(b.y() + tOff.x); break;
-		case 3: b.setX(b.x() - tOff.x); break;
+	case 0:
+		b.setY(b.y() - tOff.x);
+		break;
+	case 1:
+		b.setX(b.x() + tOff.x);
+		break;
+	case 2:
+		b.setY(b.y() + tOff.x);
+		break;
+	case 3:
+		b.setX(b.x() - tOff.x);
+		break;
 	}
 
 	switch (io)
 	{
-		case 0: c.setY(c.y() - oOff.x); break;
-		case 1: c.setX(c.x() + oOff.x); break;
-		case 2: c.setY(c.y() + oOff.x); break;
-		case 3: c.setX(c.x() - oOff.x); break;
+	case 0:
+		c.setY(c.y() - oOff.x);
+		break;
+	case 1:
+		c.setX(c.x() + oOff.x);
+		break;
+	case 2:
+		c.setY(c.y() + oOff.x);
+		break;
+	case 3:
+		c.setX(c.x() - oOff.x);
+		break;
 	}
 
 	// move one offsetted point
@@ -206,10 +224,18 @@ QPolygon QtLineItemBase::getPath() const
 
 				switch (it)
 				{
-					case 0: b.setY(b.y() - tOff.x); break;
-					case 1: b.setX(b.x() + tOff.x); break;
-					case 2: b.setY(b.y() + tOff.x); break;
-					case 3: b.setX(b.x() - tOff.x); break;
+				case 0:
+					b.setY(b.y() - tOff.x);
+					break;
+				case 1:
+					b.setX(b.x() + tOff.x);
+					break;
+				case 2:
+					b.setY(b.y() + tOff.x);
+					break;
+				case 3:
+					b.setX(b.x() - tOff.x);
+					break;
 				}
 			}
 			else
@@ -221,10 +247,18 @@ QPolygon QtLineItemBase::getPath() const
 
 				switch (io)
 				{
-					case 0: c.setY(c.y() - oOff.x); break;
-					case 1: c.setX(c.x() + oOff.x); break;
-					case 2: c.setY(c.y() + oOff.x); break;
-					case 3: c.setX(c.x() - oOff.x); break;
+				case 0:
+					c.setY(c.y() - oOff.x);
+					break;
+				case 1:
+					c.setX(c.x() + oOff.x);
+					break;
+				case 2:
+					c.setY(c.y() + oOff.x);
+					break;
+				case 3:
+					c.setX(c.x() - oOff.x);
+					break;
 				}
 			}
 		}
@@ -290,22 +324,22 @@ int QtLineItemBase::getDirection(const QPointF& a, const QPointF& b) const
 	{
 		if (a.x() < b.x())
 		{
-			return 1; // right
+			return 1;	 // right
 		}
 		else
 		{
-			return 3; // left
+			return 3;	 // left
 		}
 	}
 	else
 	{
 		if (a.y() < b.y())
 		{
-			return 2; // down
+			return 2;	 // down
 		}
 		else
 		{
-			return 0; // up
+			return 0;	 // up
 		}
 	}
 }
@@ -318,8 +352,7 @@ QRectF QtLineItemBase::getArrowBoundingRect(const QPolygon& poly) const
 		poly.at(0).x(),
 		poly.at(0).y(),
 		(dir % 2 == 1 ? m_style.arrowLength : m_style.arrowWidth),
-		(dir % 2 == 0 ? m_style.arrowLength : m_style.arrowWidth)
-	);
+		(dir % 2 == 0 ? m_style.arrowLength : m_style.arrowWidth));
 
 	switch (dir)
 	{
@@ -400,7 +433,8 @@ void QtLineItemBase::drawArrow(const QPolygon& poly, QPainterPath* path, QPainte
 	path->lineTo(tip);
 }
 
-void QtLineItemBase::getPivotPoints(Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const
+void QtLineItemBase::getPivotPoints(
+	Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const
 {
 	float f = 1 / 2.f;
 

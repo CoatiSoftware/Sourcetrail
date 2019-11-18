@@ -1,13 +1,8 @@
 #include "TaskLambda.h"
 
-TaskLambda::TaskLambda(std::function<void()> func)
-	: m_func(func)
-{
-}
+TaskLambda::TaskLambda(std::function<void()> func): m_func(func) {}
 
-void TaskLambda::doEnter(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskLambda::doEnter(std::shared_ptr<Blackboard> blackboard) {}
 
 Task::TaskState TaskLambda::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
@@ -15,10 +10,6 @@ Task::TaskState TaskLambda::doUpdate(std::shared_ptr<Blackboard> blackboard)
 	return STATE_SUCCESS;
 }
 
-void TaskLambda::doExit(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskLambda::doExit(std::shared_ptr<Blackboard> blackboard) {}
 
-void TaskLambda::doReset(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskLambda::doReset(std::shared_ptr<Blackboard> blackboard) {}

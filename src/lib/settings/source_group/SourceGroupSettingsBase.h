@@ -13,4 +13,4 @@ public:
 	virtual FilePath getSourceGroupDependenciesDirectoryPath() const = 0;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_BASE_H
+#endif	  // SOURCE_GROUP_SETTINGS_BASE_H

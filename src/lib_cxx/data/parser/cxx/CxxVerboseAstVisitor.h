@@ -17,8 +17,7 @@ public:
 		clang::Preprocessor* preprocessor,
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		std::shared_ptr<IndexerStateInfo> indexerStateInfo
-	);
+		std::shared_ptr<IndexerStateInfo> indexerStateInfo);
 
 private:
 	typedef CxxAstVisitor base;
@@ -32,13 +31,13 @@ private:
 
 	std::string typeLocClassToString(clang::TypeLoc tl) const
 	{
-		switch(tl.getTypeLocClass())
+		switch (tl.getTypeLocClass())
 		{
 #define STRINGIFY(X) #X
 #define ABSTRACT_TYPE(Class, Base)
-#define TYPE(Class, Base)				\
-		case clang::TypeLoc::Class:		\
-			return STRINGIFY(Class);
+#define TYPE(Class, Base)                                                                          \
+case clang::TypeLoc::Class:                                                                        \
+	return STRINGIFY(Class);
 #include <clang/AST/TypeNodes.def>
 		case clang::TypeLoc::TypeLocClass::Qualified:
 			return "Qualified";
@@ -50,4 +49,4 @@ private:
 	unsigned int m_indentation;
 };
 
-#endif // CXX_VERBOSE_AST_VISITOR_H
+#endif	  // CXX_VERBOSE_AST_VISITOR_H

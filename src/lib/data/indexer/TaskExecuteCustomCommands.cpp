@@ -24,8 +24,7 @@ TaskExecuteCustomCommands::TaskExecuteCustomCommands(
 	std::shared_ptr<PersistentStorage> storage,
 	std::shared_ptr<DialogView> dialogView,
 	size_t indexerThreadCount,
-	const FilePath& projectDirectory
-)
+	const FilePath& projectDirectory)
 	: m_indexerCommandProvider(std::move(indexerCommandProvider))
 	, m_storage(storage)
 	, m_dialogView(dialogView)
@@ -43,10 +42,12 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	if (m_indexerCommandProvider)
 	{
-		for (const FilePath& sourceFilePath : utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2))
+		for (const FilePath& sourceFilePath:
+			 utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2))
 		{
 			if (std::shared_ptr<IndexerCommandCustom> indexerCommand =
-				std::dynamic_pointer_cast<IndexerCommandCustom>(m_indexerCommandProvider->consumeCommandForSourceFilePath(sourceFilePath)))
+					std::dynamic_pointer_cast<IndexerCommandCustom>(
+						m_indexerCommandProvider->consumeCommandForSourceFilePath(sourceFilePath)))
 			{
 				if (m_targetDatabaseFilePath.empty())
 				{
@@ -57,7 +58,7 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> blackboard)
 				{
 					m_hasPythonCommands = true;
 				}
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 				if (indexerCommand->getRunInParallel())
 				{
@@ -87,7 +88,8 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 	std::vector<std::shared_ptr<std::thread>> indexerThreads;
 	for (size_t i = 1 /*this method is counting as the first thread*/; i < m_indexerThreadCount; i++)
 	{
-		indexerThreads.push_back(std::make_shared<std::thread>(&TaskExecuteCustomCommands::executeParallelIndexerCommands, this, i, blackboard));
+		indexerThreads.push_back(std::make_shared<std::thread>(
+			&TaskExecuteCustomCommands::executeParallelIndexerCommands, this, i, blackboard));
 	}
 
 	while (!m_interrupted && !m_serialCommands.empty())
@@ -99,7 +101,7 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 
 	executeParallelIndexerCommands(0, blackboard);
 
-	for (std::shared_ptr<std::thread> indexerThread : indexerThreads)
+	for (std::shared_ptr<std::thread> indexerThread: indexerThreads)
 	{
 		indexerThread->join();
 	}
@@ -110,7 +112,7 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 		targetStorage.setup();
 		targetStorage.setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
 		targetStorage.buildCaches();
-		for (const FilePath& sourceDatabaseFilePath : m_sourceDatabaseFilePaths)
+		for (const FilePath& sourceDatabaseFilePath: m_sourceDatabaseFilePaths)
 		{
 			{
 				PersistentStorage sourceStorage(sourceDatabaseFilePath, FilePath());
@@ -121,7 +123,8 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 			FileSystem::remove(sourceDatabaseFilePath);
 		}
 
-		if (m_hasPythonCommands && ApplicationSettings::getInstance()->getPythonPostProcessingEnabled())
+		if (m_hasPythonCommands &&
+			ApplicationSettings::getInstance()->getPythonPostProcessingEnabled())
 		{
 			targetStorage.clearCaches();
 			targetStorage.buildCaches();
@@ -136,12 +139,11 @@ void TaskExecuteCustomCommands::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 	m_storage.reset();
 	const float duration = TimeStamp::durationSeconds(m_start);
-	blackboard->update<float>("index_time", [duration](float currentDuration) { return currentDuration + duration; });
+	blackboard->update<float>(
+		"index_time", [duration](float currentDuration) { return currentDuration + duration; });
 }
 
-void TaskExecuteCustomCommands::doReset(std::shared_ptr<Blackboard> blackboard)
-{
-}
+void TaskExecuteCustomCommands::doReset(std::shared_ptr<Blackboard> blackboard) {}
 
 void TaskExecuteCustomCommands::handleMessage(MessageIndexingInterrupted* message)
 {
@@ -149,10 +151,12 @@ void TaskExecuteCustomCommands::handleMessage(MessageIndexingInterrupted* messag
 
 	m_interrupted = true;
 
-	m_dialogView->showUnknownProgressDialog(L"Interrupting Indexing", L"Waiting for running\ncommand to finish");
+	m_dialogView->showUnknownProgressDialog(
+		L"Interrupting Indexing", L"Waiting for running\ncommand to finish");
 }
 
-void TaskExecuteCustomCommands::executeParallelIndexerCommands(int threadId, std::shared_ptr<Blackboard> blackboard)
+void TaskExecuteCustomCommands::executeParallelIndexerCommands(
+	int threadId, std::shared_ptr<Blackboard> blackboard)
 {
 	while (!m_interrupted)
 	{
@@ -170,12 +174,14 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(int threadId, std
 		if (threadId != 0)
 		{
 			FilePath databaseFilePath = indexerCommand->getDatabaseFilePath();
-			databaseFilePath = databaseFilePath.getParentDirectory().concatenate(databaseFilePath.fileName() + L"_thread" + std::to_wstring(threadId));
+			databaseFilePath = databaseFilePath.getParentDirectory().concatenate(
+				databaseFilePath.fileName() + L"_thread" + std::to_wstring(threadId));
 
 			bool databaseFilePathKnown = true;
 			{
 				std::lock_guard<std::mutex> lock(m_sourceDatabaseFilePathsMutex);
-				if (m_sourceDatabaseFilePaths.find(databaseFilePath) == m_sourceDatabaseFilePaths.end())
+				if (m_sourceDatabaseFilePaths.find(databaseFilePath) ==
+					m_sourceDatabaseFilePaths.end())
 				{
 					m_sourceDatabaseFilePaths.insert(databaseFilePath);
 					databaseFilePathKnown = false;
@@ -186,7 +192,10 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(int threadId, std
 			{
 				if (databaseFilePath.exists())
 				{
-					LOG_WARNING(L"Temporary storage \"" + databaseFilePath.wstr() + L"\" already exists on file system. File will be removed to avoid conflicts.");
+					LOG_WARNING(
+						L"Temporary storage \"" + databaseFilePath.wstr() +
+						L"\" already exists on file system. File will be removed to avoid "
+						L"conflicts.");
 					FileSystem::remove(databaseFilePath);
 				}
 				PersistentStorage sourceStorage(databaseFilePath, FilePath());
@@ -202,7 +211,8 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(int threadId, std
 	}
 }
 
-void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard)
+void TaskExecuteCustomCommands::runIndexerCommand(
+	std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard)
 {
 	if (indexerCommand)
 	{
@@ -211,7 +221,8 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 
 		const FilePath sourcePath = indexerCommand->getSourceFilePath();
 
-		m_dialogView->updateCustomIndexingDialog(indexedSourceFileCount + 1, indexedSourceFileCount, m_indexerCommandCount, { sourcePath });
+		m_dialogView->updateCustomIndexingDialog(
+			indexedSourceFileCount + 1, indexedSourceFileCount, m_indexerCommandCount, {sourcePath});
 		MessageIndexingStatus(true, indexedSourceFileCount * 100 / m_indexerCommandCount).dispatch();
 
 		const std::wstring command = indexerCommand->getCustomCommand();
@@ -221,7 +232,8 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 		m_storage->beforeErrorRecording();
 
 		std::wstring errorMessage;
-		const int result = utility::executeProcessAndGetExitCode(command, {}, m_projectDirectory, -1, true, &errorMessage);
+		const int result = utility::executeProcessAndGetExitCode(
+			command, {}, m_projectDirectory, -1, true, &errorMessage);
 
 		m_storage->afterErrorRecording();
 
@@ -232,7 +244,8 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
 		}
 		else
 		{
-			std::wstring statusText = L"command \"" + indexerCommand->getCustomCommand() + L"\" returned";
+			std::wstring statusText = L"command \"" + indexerCommand->getCustomCommand() +
+				L"\" returned";
 			if (result != 0)
 			{
 				statusText += L" code \"" + std::to_wstring(result) + L"\"";
@@ -259,22 +272,26 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 	m_dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Run Python Post Processing");
 
 	std::vector<Id> unsolvedLocationIds;
-	for (const StorageSourceLocation location : storage.getStorageSourceLocations())
+	for (const StorageSourceLocation location: storage.getStorageSourceLocations())
 	{
-		if (intToLocationType(location.type) == LOCATION_UNSOLVED) // FIXME: this doesn't catch unsolved qualifiers -> convert Qualifier location type to qualifier edge
+		if (intToLocationType(location.type) ==
+			LOCATION_UNSOLVED)	  // FIXME: this doesn't catch unsolved qualifiers -> convert
+								  // Qualifier location type to qualifier edge
 		{
 			unsolvedLocationIds.push_back(location.id);
 		}
 	}
 
-	std::shared_ptr<SourceLocationCollection> locationCollection = storage.getSourceLocationsForLocationIds(unsolvedLocationIds);
+	std::shared_ptr<SourceLocationCollection> locationCollection =
+		storage.getSourceLocationsForLocationIds(unsolvedLocationIds);
 
 	std::map<std::wstring, std::vector<StorageNode>> nodeNameToStorageNodes;
 	if (locationCollection->getSourceLocationCount() > 0)
 	{
-		for (const StorageNode& node : storage.getStorageNodes())
+		for (const StorageNode& node: storage.getStorageNodes())
 		{
-			nodeNameToStorageNodes[NameHierarchy::deserialize(node.serializedName).back().getName()].push_back(node);
+			nodeNameToStorageNodes[NameHierarchy::deserialize(node.serializedName).back().getName()]
+				.push_back(node);
 		}
 	}
 
@@ -289,8 +306,8 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 	std::vector<DataToInsert> dataToInsert;
 	std::vector<StorageOccurrence> occurrencesToDelete;
 	locationCollection->forEachSourceLocationFile(
-		[&nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](std::shared_ptr<SourceLocationFile> locationFile)
-		{
+		[&nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](
+			std::shared_ptr<SourceLocationFile> locationFile) {
 			const FilePath filePath = locationFile->getFilePath();
 			if (filePath.empty())
 			{
@@ -306,8 +323,8 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 			if (textAccess)
 			{
 				locationFile->forEachStartSourceLocation(
-					[textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](const SourceLocation* startLoc)
-					{
+					[textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](
+						const SourceLocation* startLoc) {
 						if (!startLoc)
 						{
 							return;
@@ -318,37 +335,42 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 							return;
 						}
 
-						const std::wstring token = utility::decodeFromUtf8(textAccess->getLine(startLoc->getLineNumber()).substr(startLoc->getColumnNumber() - 1, endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
+						const std::wstring token = utility::decodeFromUtf8(
+							textAccess->getLine(startLoc->getLineNumber())
+								.substr(
+									startLoc->getColumnNumber() - 1,
+									endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
 
-						for (const Id elementId : startLoc->getTokenIds())
+						for (const Id elementId: startLoc->getTokenIds())
 						{
 							const StorageEdge edge = storage.getEdgeById(elementId);
 							if (edge.id != 0)
 							{
-								for (const StorageNode& targetNode : nodeNameToStorageNodes[token])
+								for (const StorageNode& targetNode: nodeNameToStorageNodes[token])
 								{
 									if (Edge::intToType(edge.type) == Edge::EDGE_INHERITANCE &&
 										NodeType::intToType(targetNode.type) != NodeType::NODE_CLASS)
 									{
 										continue;
 									}
-									dataToInsert.push_back({ StorageEdgeData(edge.type, edge.sourceNodeId, targetNode.id) , startLoc->getLocationId() });
-									occurrencesToDelete.push_back(StorageOccurrence(edge.id, startLoc->getLocationId()));
+									dataToInsert.push_back(
+										{StorageEdgeData(edge.type, edge.sourceNodeId, targetNode.id),
+										 startLoc->getLocationId()});
+									occurrencesToDelete.push_back(
+										StorageOccurrence(edge.id, startLoc->getLocationId()));
 								}
 							}
 						}
-					}
-				);
+					});
 			}
-		}
-	);
+		});
 
 	storage.setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
 
 	storage.startInjection();
 
 	std::vector<StorageEdge> edgesToInsert;
-	for (const DataToInsert& data : dataToInsert)
+	for (const DataToInsert& data: dataToInsert)
 	{
 		edgesToInsert.push_back(StorageEdge(0, data.edgeData));
 	}
@@ -358,14 +380,18 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 	{
 		for (size_t i = 0; i < ambiguousEdgeIds.size(); i++)
 		{
-			storage.addElementComponent(StorageElementComponent(ambiguousEdgeIds[i], elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS), L""));
-			storage.addOccurrence(StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
+			storage.addElementComponent(StorageElementComponent(
+				ambiguousEdgeIds[i],
+				elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS),
+				L""));
+			storage.addOccurrence(
+				StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
 		}
 		storage.setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
 
 		storage.removeOccurrences(occurrencesToDelete);
 		std::set<Id> edgeIds;
-		for (const StorageOccurrence& occurrence : occurrencesToDelete)
+		for (const StorageOccurrence& occurrence: occurrencesToDelete)
 		{
 			edgeIds.insert(occurrence.elementId);
 		}

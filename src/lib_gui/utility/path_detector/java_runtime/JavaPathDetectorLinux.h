@@ -3,8 +3,7 @@
 
 #include "JavaPathDetector.h"
 
-class JavaPathDetectorLinux
-	: public JavaPathDetector
+class JavaPathDetectorLinux: public JavaPathDetector
 {
 public:
 	JavaPathDetectorLinux(const std::string javaVersion);
@@ -19,4 +18,4 @@ private:
 	FilePath getFilePathRelativeToJavaExecutable(FilePath& javaExecutablePath) const;
 };
 
-#endif // JAVA_PATH_DETECTOR_LINUX_H
+#endif	  // JAVA_PATH_DETECTOR_LINUX_H

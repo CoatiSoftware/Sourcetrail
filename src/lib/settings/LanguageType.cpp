@@ -9,15 +9,15 @@ std::string languageTypeToString(LanguageType t)
 		return "C";
 	case LANGUAGE_CPP:
 		return "C++";
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	case LANGUAGE_JAVA:
 		return "Java";
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	case LANGUAGE_PYTHON:
 		return "Python";
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 	case LANGUAGE_CUSTOM:
 		return "Custom";
 	case LANGUAGE_UNKNOWN:
@@ -37,19 +37,19 @@ LanguageType stringToLanguageType(std::string s)
 	{
 		return LANGUAGE_CPP;
 	}
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	if (s == languageTypeToString(LANGUAGE_JAVA))
 	{
 		return LANGUAGE_JAVA;
 	}
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	if (s == languageTypeToString(LANGUAGE_PYTHON))
 	{
 		return LANGUAGE_PYTHON;
 	}
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 	if (s == languageTypeToString(LANGUAGE_CUSTOM))
 	{
 		return LANGUAGE_CUSTOM;
@@ -72,7 +72,7 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 		return LANGUAGE_CPP;
 	case SOURCE_GROUP_CXX_VS:
 		return LANGUAGE_CPP;
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_JAVA_EMPTY:
 		return LANGUAGE_JAVA;
@@ -80,11 +80,11 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 		return LANGUAGE_JAVA;
 	case SOURCE_GROUP_JAVA_GRADLE:
 		return LANGUAGE_JAVA;
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_PYTHON_EMPTY:
 		return LANGUAGE_PYTHON;
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_CUSTOM_COMMAND:
 		return LANGUAGE_CUSTOM;
 	default:
@@ -93,4 +93,3 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 
 	return LANGUAGE_UNKNOWN;
 }
-

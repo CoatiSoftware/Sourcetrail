@@ -6,8 +6,7 @@
 
 struct IndexerStateInfo;
 
-class IndexerJava
-	: public Indexer<IndexerCommandJava>
+class IndexerJava: public Indexer<IndexerCommandJava>
 {
 public:
 	virtual ~IndexerJava();
@@ -19,4 +18,4 @@ private:
 		std::shared_ptr<IndexerStateInfo> m_indexerStateInfo) override;
 };
 
-#endif // INDEXER_JAVA_H
+#endif	  // INDEXER_JAVA_H

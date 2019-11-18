@@ -8,8 +8,7 @@
 
 class QTimer;
 
-class QtProgressBar
-	: public QWidget
+class QtProgressBar: public QWidget
 {
 	Q_OBJECT
 
@@ -40,4 +39,4 @@ private:
 	QtDeviceScaledPixmap m_pixmap;
 };
 
-#endif // QT_PROGRESS_BAR_H
+#endif	  // QT_PROGRESS_BAR_H

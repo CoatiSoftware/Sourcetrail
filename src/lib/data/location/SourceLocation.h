@@ -14,8 +14,14 @@ class SourceLocationFile;
 class SourceLocation
 {
 public:
-	SourceLocation(SourceLocationFile* file, LocationType type, Id locationId, std::vector<Id> tokenIds,
-		size_t lineNumber, size_t columnNumber, bool isStart);
+	SourceLocation(
+		SourceLocationFile* file,
+		LocationType type,
+		Id locationId,
+		std::vector<Id> tokenIds,
+		size_t lineNumber,
+		size_t columnNumber,
+		bool isStart);
 	SourceLocation(SourceLocation* other, size_t lineNumber, size_t columnNumber);
 	SourceLocation(const SourceLocation* other, SourceLocationFile* file);
 	virtual ~SourceLocation();
@@ -65,4 +71,4 @@ private:
 
 std::wostream& operator<<(std::wostream& ostream, const SourceLocation& location);
 
-#endif // SOURCE_LOCATION_H
+#endif	  // SOURCE_LOCATION_H

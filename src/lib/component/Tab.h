@@ -14,7 +14,10 @@ class Tab
 	, public MessageListener<MessageRefreshUI>
 {
 public:
-	Tab(Id tabId, const ViewFactory* viewFactory, StorageAccess* storageAccess, ScreenSearchSender* screenSearchSender);
+	Tab(Id tabId,
+		const ViewFactory* viewFactory,
+		StorageAccess* storageAccess,
+		ScreenSearchSender* screenSearchSender);
 	virtual ~Tab();
 
 	void setParentLayout(ViewLayout* parentLayout);
@@ -40,4 +43,4 @@ private:
 	ScreenSearchSender* m_screenSearchSender;
 };
 
-#endif // TAB_H
+#endif	  // TAB_H

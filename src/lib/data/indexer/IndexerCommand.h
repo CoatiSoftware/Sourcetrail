@@ -4,16 +4,17 @@
 #include <set>
 #include <string>
 
-#include "IndexerCommandType.h"
 #include "FilePath.h"
 #include "FilePathFilter.h"
+#include "IndexerCommandType.h"
 
 class QJsonObject;
 
 class IndexerCommand
 {
 public:
-	static std::wstring serialize(std::shared_ptr<const IndexerCommand> indexerCommand, bool compact = true);
+	static std::wstring serialize(
+		std::shared_ptr<const IndexerCommand> indexerCommand, bool compact = true);
 
 	IndexerCommand(const FilePath& sourceFilePath);
 	virtual ~IndexerCommand() = default;
@@ -31,4 +32,4 @@ private:
 	FilePath m_sourceFilePath;
 };
 
-#endif // INDEXER_COMMAND_H
+#endif	  // INDEXER_COMMAND_H

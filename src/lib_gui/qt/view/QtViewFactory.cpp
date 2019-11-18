@@ -28,12 +28,13 @@ std::shared_ptr<MainView> QtViewFactory::createMainView(StorageAccess* storageAc
 }
 
 std::shared_ptr<CompositeView> QtViewFactory::createCompositeView(
-	ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name
-) const {
+	ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name) const
+{
 	return View::createAndAddToLayout<QtCompositeView>(viewLayout, direction, name);
 }
 
-std::shared_ptr<TabbedView> QtViewFactory::createTabbedView(ViewLayout* viewLayout, const std::string& name) const
+std::shared_ptr<TabbedView> QtViewFactory::createTabbedView(
+	ViewLayout* viewLayout, const std::string& name) const
 {
 	return View::createAndAddToLayout<QtTabbedView>(viewLayout, name);
 }
@@ -111,7 +112,8 @@ std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* view
 std::shared_ptr<DialogView> QtViewFactory::createDialogView(
 	ViewLayout* viewLayout, DialogView::UseCase useCase, StorageAccess* storageAccess) const
 {
-	return std::make_shared<QtDialogView>(utility::getMainWindowforMainView(viewLayout), useCase, storageAccess);
+	return std::make_shared<QtDialogView>(
+		utility::getMainWindowforMainView(viewLayout), useCase, storageAccess);
 }
 
 std::shared_ptr<GraphViewStyleImpl> QtViewFactory::createGraphStyleImpl() const

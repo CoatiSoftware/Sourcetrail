@@ -9,10 +9,10 @@
 
 class SourceGroupSettingsCustomCommand
 	: public SourceGroupSettingsWithComponents<
-		SourceGroupSettingsWithCustomCommand,
-		SourceGroupSettingsWithExcludeFilters,
-		SourceGroupSettingsWithSourceExtensionsEmpty,
-		SourceGroupSettingsWithSourcePaths>
+		  SourceGroupSettingsWithCustomCommand,
+		  SourceGroupSettingsWithExcludeFilters,
+		  SourceGroupSettingsWithSourceExtensionsEmpty,
+		  SourceGroupSettingsWithSourcePaths>
 {
 public:
 	SourceGroupSettingsCustomCommand(const std::string& id, const ProjectSettings* projectSettings)
@@ -26,4 +26,4 @@ public:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_CUSTOM_COMMAND_H
+#endif	  // SOURCE_GROUP_SETTINGS_CUSTOM_COMMAND_H

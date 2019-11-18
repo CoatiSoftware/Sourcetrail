@@ -3,8 +3,8 @@
 
 #include <queue>
 
-#include "MessageListener.h"
 #include "MessageIndexingInterrupted.h"
+#include "MessageListener.h"
 #include "Task.h"
 
 #include "InterprocessIndexerCommandManager.h"
@@ -19,8 +19,7 @@ public:
 	TaskFillIndexerCommandsQueue(
 		const std::string& appUUID,
 		std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
-		size_t maximumQueueSize
-	);
+		size_t maximumQueueSize);
 
 protected:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -45,4 +44,4 @@ private:
 	bool m_interrupted = false;
 };
 
-#endif // TASK_FILL_INDEXER_COMMAND_QUEUE_H
+#endif	  // TASK_FILL_INDEXER_COMMAND_QUEUE_H

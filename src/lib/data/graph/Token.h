@@ -42,7 +42,7 @@ protected:
 private:
 	void operator=(const Token&);
 
-	const Id m_id;	// own id
+	const Id m_id;	  // own id
 
 	std::vector<Id> m_locationIds;
 	std::vector<std::shared_ptr<TokenComponent>> m_components;
@@ -78,4 +78,4 @@ std::shared_ptr<ComponentType> Token::removeComponent()
 	return nullptr;
 }
 
-#endif // TOKEN_H
+#endif	  // TOKEN_H

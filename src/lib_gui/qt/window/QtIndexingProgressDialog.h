@@ -5,8 +5,7 @@
 
 class QLabel;
 
-class QtIndexingProgressDialog
-	: public QtProgressBarDialog
+class QtIndexingProgressDialog: public QtProgressBarDialog
 {
 	Q_OBJECT
 
@@ -30,4 +29,4 @@ private:
 	QString m_sourcePath;
 };
 
-#endif // QT_INDEXING_PROGRESS_DIALOG_H
+#endif	  // QT_INDEXING_PROGRESS_DIALOG_H

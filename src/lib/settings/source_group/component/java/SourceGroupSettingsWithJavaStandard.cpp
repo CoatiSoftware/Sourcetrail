@@ -28,12 +28,10 @@ std::vector<std::wstring> SourceGroupSettingsWithJavaStandard::getAvailableJavaS
 
 bool SourceGroupSettingsWithJavaStandard::equals(const SourceGroupSettingsBase* other) const
 {
-	const SourceGroupSettingsWithJavaStandard* otherPtr = dynamic_cast<const SourceGroupSettingsWithJavaStandard*>(other);
+	const SourceGroupSettingsWithJavaStandard* otherPtr =
+		dynamic_cast<const SourceGroupSettingsWithJavaStandard*>(other);
 
-	return (
-		otherPtr &&
-		m_javaStandard == otherPtr->m_javaStandard
-	);
+	return (otherPtr && m_javaStandard == otherPtr->m_javaStandard);
 }
 
 void SourceGroupSettingsWithJavaStandard::load(const ConfigManager* config, const std::string& key)

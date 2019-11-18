@@ -1,7 +1,6 @@
 #include "QtTabBar.h"
 
-QtTabBar::QtTabBar(QWidget* parent)
-	: QTabBar(parent)
+QtTabBar::QtTabBar(QWidget* parent): QTabBar(parent)
 {
 	setFocusPolicy(Qt::NoFocus);
 }

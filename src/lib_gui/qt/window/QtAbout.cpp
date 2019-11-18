@@ -8,14 +8,11 @@
 #include "QtDeviceScaledPixmap.h"
 #include "ResourcePaths.h"
 #include "SqliteIndexStorage.h"
+#include "Version.h"
 #include "utilityApp.h"
 #include "utilityQt.h"
-#include "Version.h"
 
-QtAbout::QtAbout(QWidget *parent)
-	: QtWindow(false, parent)
-{
-}
+QtAbout::QtAbout(QWidget* parent): QtWindow(false, parent) {}
 
 QSize QtAbout::sizeHint() const
 {
@@ -24,7 +21,8 @@ QSize QtAbout::sizeHint() const
 
 void QtAbout::setupAbout()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"about/about.css")).c_str());
+	setStyleSheet(
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"about/about.css")).c_str());
 
 	QVBoxLayout* windowLayout = new QVBoxLayout();
 	windowLayout->setContentsMargins(10, 10, 10, 0);
@@ -32,24 +30,28 @@ void QtAbout::setupAbout()
 	m_content->setLayout(windowLayout);
 
 	{
-		QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(ResourcePaths::getGuiPath().wstr() + L"about/logo_sourcetrail.png"));
+		QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(
+			ResourcePaths::getGuiPath().wstr() + L"about/logo_sourcetrail.png"));
 		sourcetrailLogo.scaleToHeight(150);
 		QLabel* sourcetrailLogoLabel = new QLabel(this);
 		sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
 		sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
-		windowLayout->addWidget(sourcetrailLogoLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
+		windowLayout->addWidget(
+			sourcetrailLogoLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
 	}
 
 	windowLayout->addSpacing(10);
 
 	{
 		QLabel* versionLabel = new QLabel(
-			(
-				"Version " + Version::getApplicationVersion().toDisplayString() + " - " +
-				std::string(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit"
-				).c_str(),
-			this
-		);
+			("Version " + Version::getApplicationVersion().toDisplayString() + " - " +
+			 std::string(
+				 utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32
+					 ? "32"
+					 : "64") +
+			 " bit")
+				.c_str(),
+			this);
 		windowLayout->addWidget(versionLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
 	}
 
@@ -71,7 +73,8 @@ void QtAbout::setupAbout()
 			"5020 Salzburg<br />"
 			"Austria<br />"
 			"<b>support@sourcetrail.com</b><br />"
-			"<b><a href=\"https://sourcetrail.com\" style=\"color: white;\">sourcetrail.com</a></b>");
+			"<b><a href=\"https://sourcetrail.com\" style=\"color: "
+			"white;\">sourcetrail.com</a></b>");
 		companyLabel->setOpenExternalLinks(true);
 		layoutHorz1->addWidget(companyLabel);
 
@@ -84,8 +87,7 @@ void QtAbout::setupAbout()
 			"Eberhard Gräther<br />"
 			"Malte Langkabel<br />"
 			"Viktoria Pfausler<br />"
-			"Andreas Stallinger<br />"
-		);
+			"Andreas Stallinger<br />");
 		developerLabel->setObjectName("small");
 		layoutHorz1->addWidget(developerLabel);
 	}
@@ -95,10 +97,12 @@ void QtAbout::setupAbout()
 	QLabel* acknowledgementsLabel = new QLabel(
 		"<b>Acknowledgements:</b><br />"
 		"Sourcetrail (aka Coati) 0.1 was created in the context of education at "
-		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University of Applied Sciences</a>.<br />"
-		"Coati Software KG is member of <a href=\"http://www.startup-salzburg.at/\" style=\"color: white;\">Startup Salzburg</a>.<br />"
-		"The development of Sourcetrail was funded by <a href=\"http://awsg.at\" style=\"color: white;\">aws</a>."
-	);
+		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University "
+		"of Applied Sciences</a>.<br />"
+		"Coati Software KG is member of <a href=\"http://www.startup-salzburg.at/\" style=\"color: "
+		"white;\">Startup Salzburg</a>.<br />"
+		"The development of Sourcetrail was funded by <a href=\"http://awsg.at\" style=\"color: "
+		"white;\">aws</a>.");
 	acknowledgementsLabel->setObjectName("small");
 	acknowledgementsLabel->setWordWrap(true);
 	acknowledgementsLabel->setOpenExternalLinks(true);

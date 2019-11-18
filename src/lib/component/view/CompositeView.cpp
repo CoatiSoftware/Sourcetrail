@@ -3,15 +3,11 @@
 #include <algorithm>
 
 CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
-	: View(viewLayout)
-	, m_direction(direction)
-	, m_name(name)
+	: View(viewLayout), m_direction(direction), m_name(name)
 {
 }
 
-CompositeView::~CompositeView()
-{
-}
+CompositeView::~CompositeView() {}
 
 CompositeView::CompositeDirection CompositeView::getDirection() const
 {
@@ -46,13 +42,9 @@ void CompositeView::removeView(View* view)
 	m_views.erase(it);
 }
 
-void CompositeView::showView(View* view)
-{
-}
+void CompositeView::showView(View* view) {}
 
-void CompositeView::hideView(View* view)
-{
-}
+void CompositeView::hideView(View* view) {}
 
 void CompositeView::setViewEnabled(View* view, bool enabled)
 {

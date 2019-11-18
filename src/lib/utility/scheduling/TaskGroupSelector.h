@@ -4,8 +4,7 @@
 #include "TaskGroup.h"
 #include "TaskRunner.h"
 
-class TaskGroupSelector
-	: public TaskGroup
+class TaskGroupSelector: public TaskGroup
 {
 public:
 	TaskGroupSelector();
@@ -23,4 +22,4 @@ private:
 	int m_taskIndex;
 };
 
-#endif // TASK_GROUP_SELECTOR_H
+#endif	  // TASK_GROUP_SELECTOR_H

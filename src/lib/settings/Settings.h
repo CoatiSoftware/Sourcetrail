@@ -1,8 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "ConfigManager.h"
@@ -34,18 +34,18 @@ protected:
 
 	void setFilePath(const FilePath& filePath);
 
-	template<typename T>
+	template <typename T>
 	T getValue(const std::string& key, T defaultValue) const;
 
-	template<typename T>
+	template <typename T>
 	std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues) const;
 
 	std::vector<FilePath> getPathValues(const std::string& key) const;
 
-	template<typename T>
+	template <typename T>
 	bool setValue(const std::string& key, T value);
 
-	template<typename T>
+	template <typename T>
 	bool setValues(const std::string& key, std::vector<T> values);
 
 	bool setPathValues(const std::string& key, const std::vector<FilePath>& paths);
@@ -66,7 +66,7 @@ private:
 	friend SettingsMigration;
 };
 
-template<typename T>
+template <typename T>
 T Settings::getValue(const std::string& key, T defaultValue) const
 {
 	if (m_config)
@@ -80,13 +80,13 @@ T Settings::getValue(const std::string& key, T defaultValue) const
 	return defaultValue;
 }
 
-template<typename T>
+template <typename T>
 std::vector<T> Settings::getValues(const std::string& key, std::vector<T> defaultValues) const
 {
-	if(m_config)
+	if (m_config)
 	{
 		std::vector<T> values;
-		if(m_config->getValues(key, values))
+		if (m_config->getValues(key, values))
 		{
 			return values;
 		}
@@ -94,7 +94,7 @@ std::vector<T> Settings::getValues(const std::string& key, std::vector<T> defaul
 	return defaultValues;
 }
 
-template<typename T>
+template <typename T>
 bool Settings::setValue(const std::string& key, T value)
 {
 	if (m_config)
@@ -105,7 +105,7 @@ bool Settings::setValue(const std::string& key, T value)
 	return false;
 }
 
-template<typename T>
+template <typename T>
 bool Settings::setValues(const std::string& key, std::vector<T> values)
 {
 	if (m_config)
@@ -116,4 +116,4 @@ bool Settings::setValues(const std::string& key, std::vector<T> values)
 	return false;
 }
 
-#endif // SETTINGS_H
+#endif	  // SETTINGS_H

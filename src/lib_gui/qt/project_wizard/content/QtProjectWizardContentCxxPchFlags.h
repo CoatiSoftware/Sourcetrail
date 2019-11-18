@@ -7,8 +7,7 @@ class QCheckBox;
 class QtStringListBox;
 class SourceGroupSettingsWithCxxPchOptions;
 
-class QtProjectWizardContentCxxPchFlags
-	: public QtProjectWizardContent
+class QtProjectWizardContentCxxPchFlags: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -16,8 +15,7 @@ public:
 	QtProjectWizardContentCxxPchFlags(
 		std::shared_ptr<SourceGroupSettingsWithCxxPchOptions> settings,
 		QtProjectWizardWindow* window,
-		bool isCDB
-	);
+		bool isCDB);
 
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -34,4 +32,4 @@ private:
 	QtStringListBox* m_list;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_CXX_PCH_FLAGS_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_CXX_PCH_FLAGS_H

@@ -17,4 +17,4 @@ private:
 	std::shared_ptr<JavaPathDetector> m_javaPathDetector;
 };
 
-#endif // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_H
+#endif	  // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_H

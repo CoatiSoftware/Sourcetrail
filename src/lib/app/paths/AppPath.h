@@ -13,4 +13,4 @@ private:
 	static FilePath m_appPath;
 };
 
-#endif // APP_PATH_H
+#endif	  // APP_PATH_H

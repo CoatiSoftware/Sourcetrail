@@ -1,7 +1,7 @@
 #include "QtMainView.h"
 
-#include "QtViewWidgetWrapper.h"
 #include "QtMainWindow.h"
+#include "QtViewWidgetWrapper.h"
 
 QtMainView::QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess)
 	: MainView(viewFactory, storageAccess)
@@ -46,33 +46,20 @@ void QtMainView::removeView(View* view)
 
 void QtMainView::showView(View* view)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->showView(view);
-		}
-	);
+	m_onQtThread([=]() { m_window->showView(view); });
 }
 
 void QtMainView::hideView(View* view)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->hideView(view);
-		}
-	);
+	m_onQtThread([=]() { m_window->hideView(view); });
 }
 
 void QtMainView::setViewEnabled(View* view, bool enabled)
 {
-	m_onQtThread(
-		[=]()
-		{
-			QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(view);
-			widget->setEnabled(enabled);
-		}
-	);
+	m_onQtThread([=]() {
+		QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(view);
+		widget->setEnabled(enabled);
+	});
 }
 
 View* QtMainView::findFloatingView(const std::string& name) const
@@ -82,7 +69,7 @@ View* QtMainView::findFloatingView(const std::string& name) const
 
 void QtMainView::showOriginalViews()
 {
-	for (View* view : m_views)
+	for (View* view: m_views)
 	{
 		m_window->overrideView(view);
 	}
@@ -100,22 +87,12 @@ void QtMainView::saveLayout()
 
 void QtMainView::loadWindow(bool showStartWindow)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->loadWindow(showStartWindow);
-		}
-	);
+	m_onQtThread([=]() { m_window->loadWindow(showStartWindow); });
 }
 
 void QtMainView::refreshView()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->refreshStyle();
-		}
-	);
+	m_onQtThread([=]() { m_window->refreshStyle(); });
 }
 
 QStatusBar* QtMainView::getStatusBar()
@@ -130,77 +107,45 @@ void QtMainView::setStatusBar(QStatusBar* statusbar)
 
 void QtMainView::hideStartScreen()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->hideStartScreen();
-		}
-	);
+	m_onQtThread([=]() { m_window->hideStartScreen(); });
 }
 
 void QtMainView::setTitle(const std::wstring& title)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->setWindowTitle(QString::fromStdWString(title));
-		}
-	);
+	m_onQtThread([=]() { m_window->setWindowTitle(QString::fromStdWString(title)); });
 }
 
 void QtMainView::activateWindow()
 {
-	m_onQtThread(
-		[=]()
-		{
-			// It's platform dependent which of these commands does the right thing, for now we just use them all at once.
-			m_window->activateWindow();
-			m_window->setEnabled(true);
-			m_window->raise();
-			m_window->setFocus(Qt::ActiveWindowFocusReason);
-			m_window->setWindowState(m_window->windowState() & ~Qt::WindowMinimized);
-		}
-	);
+	m_onQtThread([=]() {
+		// It's platform dependent which of these commands does the right thing, for now we just use
+		// them all at once.
+		m_window->activateWindow();
+		m_window->setEnabled(true);
+		m_window->raise();
+		m_window->setFocus(Qt::ActiveWindowFocusReason);
+		m_window->setWindowState(m_window->windowState() & ~Qt::WindowMinimized);
+	});
 }
 
 void QtMainView::updateRecentProjectMenu()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->updateRecentProjectMenu();
-		}
-	);
+	m_onQtThread([=]() { m_window->updateRecentProjectMenu(); });
 }
 
 void QtMainView::updateHistoryMenu(std::shared_ptr<MessageBase> message)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->updateHistoryMenu(message);
-		}
-	);
+	m_onQtThread([=]() { m_window->updateHistoryMenu(message); });
 }
 
 void QtMainView::clearHistoryMenu()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->clearHistoryMenu();
-		}
-	);
+	m_onQtThread([=]() { m_window->clearHistoryMenu(); });
 }
 
 void QtMainView::updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->updateBookmarksMenu(bookmarks);
-		}
-	);
+	m_onQtThread([=]() { m_window->updateBookmarksMenu(bookmarks); });
 }
 
 void QtMainView::clearBookmarksMenu()
@@ -210,22 +155,12 @@ void QtMainView::clearBookmarksMenu()
 
 void QtMainView::handleMessage(MessageProjectEdit* message)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_window->editProject();
-		}
-	);
+	m_onQtThread([=]() { m_window->editProject(); });
 }
 
 void QtMainView::handleMessage(MessageProjectNew* message)
 {
 	FilePath cdbPath = message->cdbPath;
 
-	m_onQtThread(
-		[=]()
-		{
-			m_window->newProjectFromCDB(cdbPath);
-		}
-	);
+	m_onQtThread([=]() { m_window->newProjectFromCDB(cdbPath); });
 }

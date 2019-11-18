@@ -11,4 +11,4 @@ public:
 	virtual void filter(MessageQueue::MessageBufferType* messageBuffer) = 0;
 };
 
-#endif // MESSAGE_FILTER_H
+#endif	  // MESSAGE_FILTER_H

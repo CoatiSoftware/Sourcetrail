@@ -10,8 +10,7 @@ class FileRegister;
 class PersistentStorage;
 class StorageAccess;
 
-class TaskFinishParsing
-	: public Task
+class TaskFinishParsing: public Task
 {
 public:
 	TaskFinishParsing(std::shared_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView);
@@ -28,4 +27,4 @@ private:
 	std::shared_ptr<DialogView> m_dialogView;
 };
 
-#endif // TASK_FINISH_PARSING_H
+#endif	  // TASK_FINISH_PARSING_H

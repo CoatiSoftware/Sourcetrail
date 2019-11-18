@@ -38,11 +38,17 @@ public:
 	void updateSourceLocations(const CodeSnippetParams& params) override;
 	void updateFiles() override;
 
-	void scrollTo(const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, CodeScrollParams::Target target) override;
+	void scrollTo(
+		const FilePath& filePath,
+		size_t lineNumber,
+		Id locationId,
+		bool animated,
+		CodeScrollParams::Target target) override;
 
 	void onWindowFocus() override;
 
-	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
+	void findScreenMatches(
+		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
 
 	void maximizeFirstFile();
 
@@ -79,4 +85,4 @@ private:
 	int m_styleSize = 0;
 };
 
-#endif // QT_CODE_FILE_LIST
+#endif	  // QT_CODE_FILE_LIST

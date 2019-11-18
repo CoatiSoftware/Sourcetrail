@@ -5,8 +5,7 @@
 #include "Node.h"
 #include "Settings.h"
 
-class ColorScheme
-	: public Settings
+class ColorScheme: public Settings
 {
 public:
 	enum ColorState
@@ -25,15 +24,20 @@ public:
 	std::string getColor(const std::string& key, const std::string& defaultColor) const;
 
 	std::string getNodeTypeColor(NodeType type, const std::string& key, ColorState state) const;
-	std::string getNodeTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const;
+	std::string getNodeTypeColor(
+		const std::string& typeStr, const std::string& key, ColorState state) const;
 
 	std::string getEdgeTypeColor(Edge::EdgeType type, ColorState state) const;
 	std::string getEdgeTypeColor(const std::string& typeStr, ColorState state) const;
 
-	std::string getSearchTypeColor(const std::string& searchTypeName, const std::string& key, const std::string& state = "normal") const;
+	std::string getSearchTypeColor(
+		const std::string& searchTypeName,
+		const std::string& key,
+		const std::string& state = "normal") const;
 	std::string getSyntaxColor(const std::string& key) const;
 
-	std::string getCodeAnnotationTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const;
+	std::string getCodeAnnotationTypeColor(
+		const std::string& typeStr, const std::string& key, ColorState state) const;
 
 protected:
 	ColorScheme();
@@ -45,4 +49,4 @@ protected:
 	static std::string stateToString(ColorState state);
 };
 
-#endif // COLOR_SCHEME_H
+#endif	  // COLOR_SCHEME_H

@@ -5,15 +5,12 @@
 #include "CanonicalFilePathCache.h"
 #include "CxxAstVisitor.h"
 #include "CxxAstVisitorComponentContext.h"
-#include "utilityClang.h"
 #include "ParserClient.h"
+#include "utilityClang.h"
 
 CxxAstVisitorComponentBraceRecorder::CxxAstVisitorComponentBraceRecorder(
-	CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client
-)
-	: CxxAstVisitorComponent(astVisitor)
-	, m_astContext(astContext)
-	, m_client(client)
+	CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client)
+	: CxxAstVisitorComponent(astVisitor), m_astContext(astContext), m_client(client)
 {
 }
 
@@ -22,16 +19,14 @@ void CxxAstVisitorComponentBraceRecorder::visitTagDecl(clang::TagDecl* d)
 	if (getAstVisitor()->shouldVisitDecl(d))
 	{
 		if (d->isThisDeclarationADefinition() &&
-			(
-				!clang::isa<clang::CXXRecordDecl>(d) ||
-				clang::dyn_cast<clang::CXXRecordDecl>(d)->getTemplateSpecializationKind() != clang::TSK_ImplicitInstantiation
-			))
+			(!clang::isa<clang::CXXRecordDecl>(d) ||
+			 clang::dyn_cast<clang::CXXRecordDecl>(d)->getTemplateSpecializationKind() !=
+				 clang::TSK_ImplicitInstantiation))
 		{
 			recordBraces(
 				getFilePath(d->getBraceRange().getBegin()),
 				getParseLocation(d->getBraceRange().getBegin()),
-				getParseLocation(d->getBraceRange().getEnd())
-			);
+				getParseLocation(d->getBraceRange().getEnd()));
 		}
 	}
 }
@@ -43,8 +38,7 @@ void CxxAstVisitorComponentBraceRecorder::visitNamespaceDecl(clang::NamespaceDec
 		recordBraces(
 			getFilePath(d->getBeginLoc()),
 			getParseLocation(getFirstLBraceLocation(d->getBeginLoc(), d->getEndLoc())),
-			getParseLocation(getLastRBraceLocation(d->getBeginLoc(), d->getEndLoc()))
-		);
+			getParseLocation(getLastRBraceLocation(d->getBeginLoc(), d->getEndLoc())));
 	}
 }
 
@@ -59,8 +53,7 @@ void CxxAstVisitorComponentBraceRecorder::visitCompoundStmt(clang::CompoundStmt*
 			recordBraces(
 				getFilePath(s->getLBracLoc()),
 				getParseLocation(s->getLBracLoc()),
-				getParseLocation(s->getRBracLoc())
-			);
+				getParseLocation(s->getRBracLoc()));
 		}
 	}
 }
@@ -97,8 +90,7 @@ void CxxAstVisitorComponentBraceRecorder::visitMSAsmStmt(clang::MSAsmStmt* s)
 				recordBraces(
 					getFilePath(s->getLBraceLoc()),
 					getParseLocation(s->getLBraceLoc()),
-					getParseLocation(getLastRBraceLocation(s->getBeginLoc(), s->getEndLoc()))
-				);
+					getParseLocation(getLastRBraceLocation(s->getBeginLoc(), s->getEndLoc())));
 			}
 		}
 	}
@@ -123,10 +115,8 @@ void CxxAstVisitorComponentBraceRecorder::recordBraces(
 		lbraceLoc.startLineNumber != rbraceLoc.startLineNumber ||
 		lbraceLoc.endLineNumber != rbraceLoc.endLineNumber)
 	{
-		std::wstring name =
-			filePath.fileName() + L"<" +
-			std::to_wstring(lbraceLoc.startLineNumber) + L":" +
-			std::to_wstring(lbraceLoc.startColumnNumber) + L">";
+		std::wstring name = filePath.fileName() + L"<" + std::to_wstring(lbraceLoc.startLineNumber) +
+			L":" + std::to_wstring(lbraceLoc.startColumnNumber) + L">";
 
 		if (lbraceLoc.startColumnNumber == lbraceLoc.endColumnNumber &&
 			lbraceLoc.startLineNumber == lbraceLoc.endLineNumber)
@@ -206,7 +196,8 @@ clang::SourceLocation CxxAstVisitorComponentBraceRecorder::getLastRBraceLocation
 	while (true)
 	{
 		clang::Token token;
-		if (clang::Lexer::getRawToken(searchEndLoc, token, sm, opts) && token.getKind() == clang::tok::r_brace)
+		if (clang::Lexer::getRawToken(searchEndLoc, token, sm, opts) &&
+			token.getKind() == clang::tok::r_brace)
 		{
 			return token.getLocation();
 		}

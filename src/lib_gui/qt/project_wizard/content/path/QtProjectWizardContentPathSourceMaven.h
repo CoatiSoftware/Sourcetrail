@@ -6,8 +6,7 @@
 class QCheckBox;
 class SourceGroupSettingsJavaMaven;
 
-class QtProjectWizardContentPathSourceMaven
-	: public QtProjectWizardContentPath
+class QtProjectWizardContentPathSourceMaven: public QtProjectWizardContentPath
 {
 	Q_OBJECT
 
@@ -30,4 +29,4 @@ private:
 	QCheckBox* m_shouldIndexTests;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATH_SOURCE_MAVEN_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_SOURCE_MAVEN_H

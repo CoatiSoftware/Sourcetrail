@@ -1,9 +1,9 @@
 #ifndef SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H
 #define SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H
 
+#include "SourceGroupSettingsWithCStandard.h"
 #include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithCppStandard.h"
-#include "SourceGroupSettingsWithCStandard.h"
 #include "SourceGroupSettingsWithCxxCodeblocksPath.h"
 #include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
@@ -12,13 +12,13 @@
 
 class SourceGroupSettingsCxxCodeblocks
 	: public SourceGroupSettingsWithComponents<
-		SourceGroupSettingsWithCppStandard,
-		SourceGroupSettingsWithCStandard,
-		SourceGroupSettingsWithCxxCodeblocksPath,
-		SourceGroupSettingsWithCxxPathsAndFlags,
-		SourceGroupSettingsWithExcludeFilters,
-		SourceGroupSettingsWithIndexedHeaderPaths,
-		SourceGroupSettingsWithSourceExtensionsCxx>
+		  SourceGroupSettingsWithCppStandard,
+		  SourceGroupSettingsWithCStandard,
+		  SourceGroupSettingsWithCxxCodeblocksPath,
+		  SourceGroupSettingsWithCxxPathsAndFlags,
+		  SourceGroupSettingsWithExcludeFilters,
+		  SourceGroupSettingsWithIndexedHeaderPaths,
+		  SourceGroupSettingsWithSourceExtensionsCxx>
 {
 public:
 	SourceGroupSettingsCxxCodeblocks(const std::string& id, const ProjectSettings* projectSettings)
@@ -32,4 +32,4 @@ public:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H
+#endif	  // SOURCE_GROUP_SETTINGS_CXX_CODEBLOCKS_H

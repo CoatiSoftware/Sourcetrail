@@ -2,12 +2,12 @@
 #define TOOLTIP_CONTROLLER_H
 
 #include "Controller.h"
-#include "MessageListener.h"
-#include "MessageActivateTokens.h"
 #include "MessageActivateLocalSymbols.h"
+#include "MessageActivateTokens.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
 #include "MessageGraphNodeExpand.h"
+#include "MessageListener.h"
 #include "MessageScrollCode.h"
 #include "MessageScrollGraph.h"
 #include "MessageTooltipHide.h"
@@ -18,17 +18,17 @@ class StorageAccess;
 class TooltipView;
 
 class TooltipController
-    : public Controller
+	: public Controller
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageFocusIn>
-    , public MessageListener<MessageFocusOut>
-    , public MessageListener<MessageGraphNodeExpand>
-    , public MessageListener<MessageScrollCode>
-    , public MessageListener<MessageScrollGraph>
-    , public MessageListener<MessageTooltipHide>
-    , public MessageListener<MessageTooltipShow>
-    , public MessageListener<MessageWindowFocus>
+	, public MessageListener<MessageFocusOut>
+	, public MessageListener<MessageGraphNodeExpand>
+	, public MessageListener<MessageScrollCode>
+	, public MessageListener<MessageScrollGraph>
+	, public MessageListener<MessageTooltipHide>
+	, public MessageListener<MessageTooltipShow>
+	, public MessageListener<MessageWindowFocus>
 {
 public:
 	TooltipController(StorageAccess* storageAccess);
@@ -74,4 +74,4 @@ private:
 	bool m_hideRequest;
 };
 
-#endif // TOOLTIP_CONTROLLER_H
+#endif	  // TOOLTIP_CONTROLLER_H

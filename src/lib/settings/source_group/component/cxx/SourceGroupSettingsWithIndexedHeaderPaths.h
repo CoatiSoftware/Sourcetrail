@@ -7,8 +7,7 @@
 
 class FilePath;
 
-class SourceGroupSettingsWithIndexedHeaderPaths
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithIndexedHeaderPaths: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithIndexedHeaderPaths() = default;
@@ -27,4 +26,4 @@ private:
 	std::vector<FilePath> m_indexedHeaderPaths;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_INDEXED_HEADER_PATHS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_INDEXED_HEADER_PATHS_H

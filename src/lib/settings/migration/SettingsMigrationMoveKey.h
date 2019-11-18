@@ -15,4 +15,4 @@ private:
 	const std::string m_newKey;
 };
 
-#endif // SETTINGS_MIGRATION_MOVE_KEY_H
+#endif	  // SETTINGS_MIGRATION_MOVE_KEY_H

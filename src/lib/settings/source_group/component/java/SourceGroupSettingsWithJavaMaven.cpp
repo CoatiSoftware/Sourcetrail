@@ -16,7 +16,8 @@ FilePath SourceGroupSettingsWithJavaMaven::getMavenProjectFilePath() const
 
 FilePath SourceGroupSettingsWithJavaMaven::getMavenProjectFilePathExpandedAndAbsolute() const
 {
-	return utility::getExpandedAndAbsolutePath(getMavenProjectFilePath(), getProjectSettings()->getProjectDirectoryPath());
+	return utility::getExpandedAndAbsolutePath(
+		getMavenProjectFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsWithJavaMaven::setMavenProjectFilePath(const FilePath& path)
@@ -36,18 +37,18 @@ void SourceGroupSettingsWithJavaMaven::setShouldIndexMavenTests(bool value)
 
 bool SourceGroupSettingsWithJavaMaven::equals(const SourceGroupSettingsBase* other) const
 {
-	const SourceGroupSettingsWithJavaMaven* otherPtr = dynamic_cast<const SourceGroupSettingsWithJavaMaven*>(other);
+	const SourceGroupSettingsWithJavaMaven* otherPtr =
+		dynamic_cast<const SourceGroupSettingsWithJavaMaven*>(other);
 
 	return (
-		otherPtr &&
-		m_mavenProjectFilePath == otherPtr->m_mavenProjectFilePath &&
-		m_shouldIndexMavenTests == otherPtr->m_shouldIndexMavenTests
-	);
+		otherPtr && m_mavenProjectFilePath == otherPtr->m_mavenProjectFilePath &&
+		m_shouldIndexMavenTests == otherPtr->m_shouldIndexMavenTests);
 }
 
 void SourceGroupSettingsWithJavaMaven::load(const ConfigManager* config, const std::string& key)
 {
-	setMavenProjectFilePath(config->getValueOrDefault(key + "/maven/project_file_path", FilePath(L"")));
+	setMavenProjectFilePath(
+		config->getValueOrDefault(key + "/maven/project_file_path", FilePath(L"")));
 	setShouldIndexMavenTests(config->getValueOrDefault(key + "/maven/should_index_tests", false));
 }
 

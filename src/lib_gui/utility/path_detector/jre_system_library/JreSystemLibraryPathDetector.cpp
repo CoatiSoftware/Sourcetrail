@@ -6,9 +6,9 @@
 #include "FilePath.h"
 #include "FileSystem.h"
 
-JreSystemLibraryPathDetector::JreSystemLibraryPathDetector(std::shared_ptr<JavaPathDetector> javaPathDetector)
-	: PathDetector("JRE System Library")
-	, m_javaPathDetector(javaPathDetector)
+JreSystemLibraryPathDetector::JreSystemLibraryPathDetector(
+	std::shared_ptr<JavaPathDetector> javaPathDetector)
+	: PathDetector("JRE System Library"), m_javaPathDetector(javaPathDetector)
 {
 }
 
@@ -17,8 +17,10 @@ std::vector<FilePath> JreSystemLibraryPathDetector::getPaths() const
 	std::vector<FilePath> paths;
 	for (const FilePath& jrePath: m_javaPathDetector->getPaths())
 	{
-		const FilePath javaRoot = jrePath.getParentDirectory().getParentDirectory().getParentDirectory();
-		for (const FilePath& jarPath : FileSystem::getFilePathsFromDirectory(javaRoot.getConcatenated(L"lib"), { L".jar" }))
+		const FilePath javaRoot =
+			jrePath.getParentDirectory().getParentDirectory().getParentDirectory();
+		for (const FilePath& jarPath:
+			 FileSystem::getFilePathsFromDirectory(javaRoot.getConcatenated(L"lib"), {L".jar"}))
 		{
 			paths.push_back(jarPath);
 		}

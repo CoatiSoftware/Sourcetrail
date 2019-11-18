@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageIndexingStatus
-	: public Message<MessageIndexingStatus>
+class MessageIndexingStatus: public Message<MessageIndexingStatus>
 {
 public:
 	static const std::string getStaticType()
@@ -13,8 +12,7 @@ public:
 	}
 
 	MessageIndexingStatus(bool showProgress, size_t progressPercent = 0)
-		: showProgress(showProgress)
-		, progressPercent(progressPercent)
+		: showProgress(showProgress), progressPercent(progressPercent)
 	{
 		setSendAsTask(false);
 	}
@@ -23,4 +21,4 @@ public:
 	const size_t progressPercent;
 };
 
-#endif // MESSAGE_INDEXING_STATUS_H
+#endif	  // MESSAGE_INDEXING_STATUS_H

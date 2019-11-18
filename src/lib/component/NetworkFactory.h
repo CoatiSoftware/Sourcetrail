@@ -13,8 +13,9 @@ public:
 	NetworkFactory();
 	virtual ~NetworkFactory();
 
-	virtual std::shared_ptr<IDECommunicationController> createIDECommunicationController(StorageAccess* storageAccess) const = 0;
+	virtual std::shared_ptr<IDECommunicationController> createIDECommunicationController(
+		StorageAccess* storageAccess) const = 0;
 	virtual std::shared_ptr<UpdateChecker> createUpdateChecker() const = 0;
 };
 
-#endif // NETWORK_FACTORY_H
+#endif	  // NETWORK_FACTORY_H

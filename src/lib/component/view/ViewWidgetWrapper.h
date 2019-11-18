@@ -8,4 +8,4 @@ public:
 	virtual ~ViewWidgetWrapper();
 };
 
-#endif // VIEW_WIDGET_WRAPPER_H
+#endif	  // VIEW_WIDGET_WRAPPER_H

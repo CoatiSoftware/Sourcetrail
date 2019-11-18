@@ -6,8 +6,7 @@
 
 class IndexerCommand;
 
-class InterprocessIndexerCommandManager
-	: public BaseInterprocessDataManager
+class InterprocessIndexerCommandManager: public BaseInterprocessDataManager
 {
 public:
 	InterprocessIndexerCommandManager(const std::string& instanceUuid, Id processId, bool isOwner);
@@ -24,4 +23,4 @@ private:
 	static const char* s_indexerCommandsKeyName;
 };
 
-#endif // INTERPROCESS_INDEXER_COMMAND_MANAGER_H
+#endif	  // INTERPROCESS_INDEXER_COMMAND_MANAGER_H

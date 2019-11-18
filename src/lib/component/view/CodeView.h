@@ -3,10 +3,10 @@
 
 #include <memory>
 
-#include "ErrorInfo.h"
-#include "LocationType.h"
 #include "CodeScrollParams.h"
 #include "CodeSnippetParams.h"
+#include "ErrorInfo.h"
+#include "LocationType.h"
 #include "ScreenSearchInterfaces.h"
 #include "View.h"
 
@@ -55,7 +55,9 @@ public:
 	virtual void clear() = 0;
 
 	virtual void showSnippets(
-		const std::vector<CodeFileParams> files, const CodeParams params, const CodeScrollParams scrollParams) = 0;
+		const std::vector<CodeFileParams> files,
+		const CodeParams params,
+		const CodeScrollParams scrollParams) = 0;
 
 	virtual void showSingleFile(
 		const CodeFileParams file, const CodeParams params, const CodeScrollParams scrollParams) = 0;
@@ -78,4 +80,4 @@ protected:
 	CodeController* getController();
 };
 
-#endif // CODE_VIEW_H
+#endif	  // CODE_VIEW_H

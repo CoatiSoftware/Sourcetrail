@@ -10,8 +10,7 @@ QtProjectWizardContentPaths::QtProjectWizardContentPaths(
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
 	QtPathListBox::SelectionPolicyType selectionPolicy,
-	bool checkMissingPaths
-)
+	bool checkMissingPaths)
 	: QtProjectWizardContent(window)
 	, m_settings(settings)
 	, m_makePathsRelativeToProjectFileLocation(true)
@@ -60,7 +59,7 @@ bool QtProjectWizardContentPaths::check()
 		QString missingPaths;
 		std::vector<FilePath> existingPaths;
 
-		for (const FilePath& path : m_list->getPathsAsDisplayed())
+		for (const FilePath& path: m_list->getPathsAsDisplayed())
 		{
 			std::vector<FilePath> expandedPaths(1, path);
 			if (m_settings)
@@ -69,7 +68,7 @@ bool QtProjectWizardContentPaths::check()
 			}
 
 			size_t existingCount = 0;
-			for (const FilePath& expandedPath : expandedPaths)
+			for (const FilePath& expandedPath: expandedPaths)
 			{
 				if (!expandedPath.exists())
 				{
@@ -90,15 +89,14 @@ bool QtProjectWizardContentPaths::check()
 		if (!missingPaths.isEmpty())
 		{
 			QMessageBox msgBox;
-			msgBox.setText(
-				QString(
-					"Some provided paths do not exist at \"%1\". Do you want to remove them before continuing?"
-				).arg(m_titleString)
-			);
+			msgBox.setText(QString("Some provided paths do not exist at \"%1\". Do you want to "
+								   "remove them before continuing?")
+							   .arg(m_titleString));
 			msgBox.setDetailedText(missingPaths);
 			QPushButton* removeButton = msgBox.addButton("Remove", QMessageBox::YesRole);
 			QPushButton* keepButton = msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
-			QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::RejectRole);
+			QPushButton* cancelButton = msgBox.addButton(
+				"Cancel", QMessageBox::ButtonRole::RejectRole);
 
 			msgBox.exec();
 
@@ -160,7 +158,8 @@ void QtProjectWizardContentPaths::addDetection(QGridLayout* layout, int row)
 	QWidget* detectionWidget = new QWidget();
 	detectionWidget->setLayout(hlayout);
 
-	layout->addWidget(detectionWidget, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+	layout->addWidget(
+		detectionWidget, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 }
 
 void QtProjectWizardContentPaths::detectionClicked()

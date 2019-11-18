@@ -1,10 +1,10 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include <string>
 #include <sstream>
+#include <string>
 
-template<class T>
+template <class T>
 class Color
 {
 public:
@@ -18,7 +18,7 @@ public:
 	T r, g, b, a;
 };
 
-template<class T>
+template <class T>
 Color<T> Color<T>::fromString(std::string str)
 {
 	Color<T> color;
@@ -28,23 +28,17 @@ Color<T> Color<T>::fromString(std::string str)
 	return color;
 }
 
-template<class T>
-Color<T>::Color()
-	: r(0)
-	, g(0)
-	, b(0)
-	, a(0)
-{}
+template <class T>
+Color<T>::Color(): r(0), g(0), b(0), a(0)
+{
+}
 
-template<class T>
-Color<T>::Color(T r, T g, T b, T a)
-	: r(r)
-	, g(g)
-	, b(b)
-	, a(a)
-{}
+template <class T>
+Color<T>::Color(T r, T g, T b, T a): r(r), g(g), b(b), a(a)
+{
+}
 
-template<class T>
+template <class T>
 std::string Color<T>::toString() const
 {
 	std::stringstream ss;
@@ -55,4 +49,4 @@ std::string Color<T>::toString() const
 typedef Color<float> Colorf;
 typedef Color<int> Colori;
 
-#endif // COLOR_H
+#endif	  // COLOR_H

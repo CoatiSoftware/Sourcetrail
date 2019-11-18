@@ -5,12 +5,10 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageGraphNodeHide
-	: public Message<MessageGraphNodeHide>
+class MessageGraphNodeHide: public Message<MessageGraphNodeHide>
 {
 public:
-	MessageGraphNodeHide(Id tokenId)
-		: tokenId(tokenId)
+	MessageGraphNodeHide(Id tokenId): tokenId(tokenId)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -28,4 +26,4 @@ public:
 	const Id tokenId;
 };
 
-#endif // MESSAGE_GRAPH_NODE_HIDE_H
+#endif	  // MESSAGE_GRAPH_NODE_HIDE_H

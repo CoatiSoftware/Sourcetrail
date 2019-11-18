@@ -13,12 +13,8 @@
 
 #include "QtRoundedRectItem.h"
 
-QtGraphNodeGroup::QtGraphNodeGroup(
-	Id tokenId, const std::wstring& name, GroupType type, bool interactive
-)
-	: m_tokenId(tokenId)
-	, m_type(type)
-	, m_interactive(interactive)
+QtGraphNodeGroup::QtGraphNodeGroup(Id tokenId, const std::wstring& name, GroupType type, bool interactive)
+	: m_tokenId(tokenId), m_type(type), m_interactive(interactive)
 {
 	if (interactive)
 	{
@@ -61,9 +57,7 @@ QtGraphNodeGroup::QtGraphNodeGroup(
 	m_background->setPolygon(path.toFillPolygon());
 }
 
-QtGraphNodeGroup::~QtGraphNodeGroup()
-{
-}
+QtGraphNodeGroup::~QtGraphNodeGroup() {}
 
 bool QtGraphNodeGroup::isGroupNode() const
 {
@@ -119,7 +113,7 @@ void QtGraphNodeGroup::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
 	if (m_type == GroupType::FILE || m_type == GroupType::NAMESPACE)
 	{
-		MessageFocusOut({ m_tokenId }).dispatch();
+		MessageFocusOut({m_tokenId}).dispatch();
 	}
 	else
 	{
@@ -135,7 +129,7 @@ void QtGraphNodeGroup::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 		{
 			if (m_type == GroupType::FILE || m_type == GroupType::NAMESPACE)
 			{
-				MessageFocusIn({ m_tokenId }, TOOLTIP_ORIGIN_GRAPH).dispatch();
+				MessageFocusIn({m_tokenId}, TOOLTIP_ORIGIN_GRAPH).dispatch();
 			}
 			else
 			{

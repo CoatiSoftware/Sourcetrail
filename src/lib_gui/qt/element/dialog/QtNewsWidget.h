@@ -6,8 +6,7 @@
 class QtTextEdit;
 class QJsonObject;
 
-class QtNewsWidget
-	: public QWidget
+class QtNewsWidget: public QWidget
 {
 	Q_OBJECT
 
@@ -30,4 +29,4 @@ private:
 	QtTextEdit* m_text;
 };
 
-#endif // QT_NEWS_WIDGET_H
+#endif	  // QT_NEWS_WIDGET_H

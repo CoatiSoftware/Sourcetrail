@@ -6,18 +6,19 @@
 #include "SourceGroupSettingsWithClasspath.h"
 
 QtProjectWizardContentPathsClassJava::QtProjectWizardContentPathsClassJava(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window
-)
-	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window)
+	: QtProjectWizardContentPaths(
+		  settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
 {
 	setTitleString("Class Path");
 	setHelpString(
-		"Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should "
-		"not be indexed, please add the root directory of those .java files here (the one where all the package names "
+		"Enter all the .jar files your project depends on. If your project depends on uncompiled "
+		"java code that should "
+		"not be indexed, please add the root directory of those .java files here (the one where "
+		"all the package names "
 		"are relative to).<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
-	);
+		"You can make use of environment variables with ${ENV_VAR}.");
 }
 
 void QtProjectWizardContentPathsClassJava::populate(QGridLayout* layout, int& row)

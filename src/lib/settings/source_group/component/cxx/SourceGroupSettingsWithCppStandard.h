@@ -5,8 +5,7 @@
 
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCppStandard
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithCppStandard: public SourceGroupSettingsComponent
 {
 public:
 	static std::wstring getDefaultCppStandardStatic();
@@ -30,4 +29,4 @@ private:
 	std::wstring m_cppStandard;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CPP_STANDARD_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CPP_STANDARD_H

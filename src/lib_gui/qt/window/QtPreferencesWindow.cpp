@@ -9,14 +9,13 @@
 
 #include "Application.h"
 #include "DialogView.h"
+#include "QtProjectWizardContentGroup.h"
 #include "QtProjectWizardContentPathsFrameworkSearchGlobal.h"
 #include "QtProjectWizardContentPathsHeaderSearchGlobal.h"
 #include "QtProjectWizardContentPreferences.h"
-#include "QtProjectWizardContentGroup.h"
 #include "utilityApp.h"
 
-QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
-	: QtProjectWizardWindow(parent)
+QtPreferencesWindow::QtPreferencesWindow(QWidget* parent): QtProjectWizardWindow(parent)
 {
 	// save old application settings so they can be compared later
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
@@ -40,16 +39,14 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	{
 		summary->addContent(new QtProjectWizardContentPathsFrameworkSearchGlobal(this));
 	}
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 	setPreferredSize(QSize(750, 500));
 	setContent(summary);
 	setScrollAble(content()->isScrollAble());
 }
 
-QtPreferencesWindow::~QtPreferencesWindow()
-{
-}
+QtPreferencesWindow::~QtPreferencesWindow() {}
 
 void QtPreferencesWindow::windowReady()
 {
@@ -74,17 +71,18 @@ void QtPreferencesWindow::handleNext()
 	Application* app = Application::getInstance().get();
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
-	bool needsRestart =
-		m_appSettings.getScreenAutoScaling() != appSettings->getScreenAutoScaling() ||
+	bool needsRestart = m_appSettings.getScreenAutoScaling() != appSettings->getScreenAutoScaling() ||
 		m_appSettings.getScreenScaleFactor() != appSettings->getScreenScaleFactor();
 
 	if (needsRestart)
 	{
-		app->getDialogView(DialogView::UseCase::PROJECT_SETUP)->confirm(
-			L"<p>Please restart the application for all changes to take effect.</p><p>Note: These changes may harm "
-			L"the execution of the application. In case the application is not useable anymore, please run the "
-			L"'resetPreferences.sh' script located in your install directory.</p>"
-		);
+		app->getDialogView(DialogView::UseCase::PROJECT_SETUP)
+			->confirm(
+				L"<p>Please restart the application for all changes to take effect.</p><p>Note: "
+				L"These changes may harm "
+				L"the execution of the application. In case the application is not useable "
+				L"anymore, please run the "
+				L"'resetPreferences.sh' script located in your install directory.</p>");
 	}
 
 
@@ -105,7 +103,8 @@ void QtPreferencesWindow::handleNext()
 
 	if (appSettingsChanged)
 	{
-		std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+		std::shared_ptr<const Project> currentProject =
+			Application::getInstance()->getCurrentProject();
 		if (currentProject)
 		{
 			MessageLoadProject(currentProject->getProjectSettingsFilePath(), true).dispatch();

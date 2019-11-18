@@ -10,8 +10,7 @@
 
 #include "NameHierarchy.h"
 
-QtGraphNodeQualifier::QtGraphNodeQualifier(const NameHierarchy& name)
-	: m_qualifierName(name)
+QtGraphNodeQualifier::QtGraphNodeQualifier(const NameHierarchy& name): m_qualifierName(name)
 {
 	this->setAcceptHoverEvents(true);
 
@@ -30,9 +29,7 @@ QtGraphNodeQualifier::QtGraphNodeQualifier(const NameHierarchy& name)
 	m_name->setText(QString::fromStdWString(name.getQualifiedName()));
 }
 
-QtGraphNodeQualifier::~QtGraphNodeQualifier()
-{
-}
+QtGraphNodeQualifier::~QtGraphNodeQualifier() {}
 
 bool QtGraphNodeQualifier::isQualifierNode() const
 {
@@ -48,7 +45,8 @@ bool QtGraphNodeQualifier::setPosition(const Vec2i& pos)
 	float smallFactor = 0.5f;
 	int arrowOffset = arrowWidth * smallFactor;
 
-	m_background->setRect(pos.x - width - arrowWidth + arrowOffset, pos.y - height / 2, width, height);
+	m_background->setRect(
+		pos.x - width - arrowWidth + arrowOffset, pos.y - height / 2, width, height);
 
 	m_name->setPos(pos.x - width - arrowWidth + arrowOffset + 6, pos.y - height / 2 + 1);
 	m_leftBorder->setRect(pos.x - width - arrowWidth + arrowOffset, pos.y - height / 2, 2, height);

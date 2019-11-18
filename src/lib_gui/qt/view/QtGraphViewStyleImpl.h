@@ -5,8 +5,7 @@
 
 class QFont;
 
-class QtGraphViewStyleImpl
-	: public GraphViewStyleImpl
+class QtGraphViewStyleImpl: public GraphViewStyleImpl
 {
 public:
 	~QtGraphViewStyleImpl() = default;
@@ -19,4 +18,4 @@ private:
 	QFont getFontForStyleType(const std::string& fontName, size_t fontSize) const;
 };
 
-#endif // QT_GRAPH_VIEW_STYLE_IMPL_H
+#endif	  // QT_GRAPH_VIEW_STYLE_IMPL_H

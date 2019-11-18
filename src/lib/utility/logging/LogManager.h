@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "Logger.h"
 #include "LogManagerImplementation.h"
+#include "Logger.h"
 
 class LogManager
 {
@@ -29,38 +29,32 @@ public:
 		const std::string& message,
 		const std::string& file,
 		const std::string& function,
-		const unsigned int line
-	);
+		const unsigned int line);
 	void logInfo(
 		const std::wstring& message,
 		const std::string& file,
 		const std::string& function,
-		const unsigned int line
-	);
+		const unsigned int line);
 	void logWarning(
 		const std::string& message,
 		const std::string& file,
 		const std::string& function,
-		const unsigned int line
-	);
+		const unsigned int line);
 	void logWarning(
 		const std::wstring& message,
 		const std::string& file,
 		const std::string& function,
-		const unsigned int line
-	);
+		const unsigned int line);
 	void logError(
 		const std::string& message,
 		const std::string& file,
 		const std::string& function,
-		const unsigned int line
-	);
+		const unsigned int line);
 	void logError(
 		const std::wstring& message,
 		const std::string& file,
 		const std::string& function,
-		const unsigned int line
-	);
+		const unsigned int line);
 
 private:
 	static std::shared_ptr<LogManager> s_instance;
@@ -73,4 +67,4 @@ private:
 	bool m_loggingEnabled;
 };
 
-#endif // LOG_MANAGER_H
+#endif	  // LOG_MANAGER_H

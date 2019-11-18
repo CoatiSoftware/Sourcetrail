@@ -3,8 +3,8 @@
 
 #include <thread>
 
-#include "MessageListener.h"
 #include "MessageIndexingInterrupted.h"
+#include "MessageListener.h"
 #include "Task.h"
 
 #include "InterprocessIndexerCommandManager.h"
@@ -25,8 +25,7 @@ public:
 		std::shared_ptr<StorageProvider> storageProvider,
 		std::shared_ptr<DialogView> dialogView,
 		const std::string& appUUID,
-		bool multiProcessIndexing
-	);
+		bool multiProcessIndexing);
 
 protected:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -40,7 +39,8 @@ protected:
 	void runIndexerProcess(int processId, const std::wstring& logFilePath);
 	void runIndexerThread(int processId);
 	bool fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard);
-	void updateIndexingDialog(std::shared_ptr<Blackboard> blackboard, const std::vector<FilePath>& sourcePaths);
+	void updateIndexingDialog(
+		std::shared_ptr<Blackboard> blackboard, const std::vector<FilePath>& sourcePaths);
 
 	static const std::wstring s_processName;
 
@@ -58,10 +58,11 @@ protected:
 
 	// store as plain pointers to avoid deallocation issues when closing app during indexing
 	std::vector<std::thread*> m_processThreads;
-	std::vector<std::shared_ptr<InterprocessIntermediateStorageManager>> m_interprocessIntermediateStorageManagers;
+	std::vector<std::shared_ptr<InterprocessIntermediateStorageManager>>
+		m_interprocessIntermediateStorageManagers;
 
 	size_t m_runningThreadCount;
 	std::mutex m_runningThreadCountMutex;
 };
 
-#endif // TASK_PARSE_H
+#endif	  // TASK_PARSE_H

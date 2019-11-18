@@ -2,16 +2,14 @@
 #define MESSAGE_SHOW_SCOPE_H
 
 #include "Message.h"
-#include "types.h"
 #include "TabId.h"
+#include "types.h"
 
-class MessageShowScope
-	: public Message<MessageShowScope>
+class MessageShowScope: public Message<MessageShowScope>
 {
 public:
 	MessageShowScope(Id scopeLocationId, bool showErrors)
-		: scopeLocationId(scopeLocationId)
-		, showErrors(showErrors)
+		: scopeLocationId(scopeLocationId), showErrors(showErrors)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -30,4 +28,4 @@ public:
 	const bool showErrors;
 };
 
-#endif // MESSAGE_SHOW_SCOPE_H
+#endif	  // MESSAGE_SHOW_SCOPE_H

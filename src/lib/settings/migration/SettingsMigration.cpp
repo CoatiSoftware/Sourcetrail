@@ -2,9 +2,7 @@
 
 #include "Settings.h"
 
-SettingsMigration::~SettingsMigration()
-{
-}
+SettingsMigration::~SettingsMigration() {}
 
 bool SettingsMigration::isValueDefinedInSettings(const Settings* settings, const std::string& key) const
 {

@@ -3,14 +3,14 @@
 #include <chrono>
 #include <thread>
 
-#include "logging.h"
 #include "MessageBase.h"
 #include "MessageFilter.h"
 #include "MessageListenerBase.h"
+#include "TabId.h"
 #include "TaskGroupParallel.h"
 #include "TaskGroupSequence.h"
 #include "TaskLambda.h"
-#include "TabId.h"
+#include "logging.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 {
@@ -46,8 +46,8 @@ void MessageQueue::unregisterListener(MessageListenerBase* listener)
 		{
 			m_listeners.erase(m_listeners.begin() + i);
 
-			// m_currentListenerIndex and m_listenersLength need to be updated in case this happens while a message is
-			// handled.
+			// m_currentListenerIndex and m_listenersLength need to be updated in case this happens
+			// while a message is handled.
 			if (i <= m_currentListenerIndex)
 			{
 				m_currentListenerIndex--;
@@ -216,7 +216,7 @@ void MessageQueue::processMessages()
 		{
 			std::lock_guard<std::mutex> lock(m_messageBufferMutex);
 
-			for (std::shared_ptr<MessageFilter> filter : m_filters)
+			for (std::shared_ptr<MessageFilter> filter: m_filters)
 			{
 				if (!m_messageBuffer.size())
 				{
@@ -243,19 +243,20 @@ void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
 {
 	std::lock_guard<std::mutex> lock(m_listenersMutex);
 
-	// m_listenersLength is saved, so that new listeners registered whithin message handling don't get the
-	// current message and the length can be reduced when a listener gets unregistered.
+	// m_listenersLength is saved, so that new listeners registered whithin message handling don't
+	// get the current message and the length can be reduced when a listener gets unregistered.
 	m_listenersLength = m_listeners.size();
 
-	// The currentListenerIndex holds the index of the current listener being handled, so it can be changed when a
-	// listener gets removed while message handling.
-	for (m_currentListenerIndex = 0; m_currentListenerIndex < m_listenersLength; m_currentListenerIndex++)
+	// The currentListenerIndex holds the index of the current listener being handled, so it can be
+	// changed when a listener gets removed while message handling.
+	for (m_currentListenerIndex = 0; m_currentListenerIndex < m_listenersLength;
+		 m_currentListenerIndex++)
 	{
 		MessageListenerBase* listener = m_listeners[m_currentListenerIndex];
 
 		if (listener->getType() == message->getType() &&
 			(message->getSchedulerId() == 0 || listener->getSchedulerId() == 0 ||
-			listener->getSchedulerId() == message->getSchedulerId()))
+			 listener->getSchedulerId() == message->getSchedulerId()))
 		{
 			// The listenersMutex gets unlocked so changes to listeners are possible while message handling.
 			m_listenersMutex.unlock();
@@ -285,19 +286,17 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 
 			if (listener->getType() == message->getType() &&
 				(message->getSchedulerId() == 0 || listener->getSchedulerId() == 0 ||
-				listener->getSchedulerId() == message->getSchedulerId()))
+				 listener->getSchedulerId() == message->getSchedulerId()))
 			{
 				Id listenerId = listener->getId();
-				taskGroup->addTask(std::make_shared<TaskLambda>(
-					[listenerId, message]()
+				taskGroup->addTask(std::make_shared<TaskLambda>([listenerId, message]() {
+					MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(
+						listenerId);
+					if (listener)
 					{
-						MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(listenerId);
-						if (listener)
-						{
-							listener->handleMessageBase(message.get());
-						}
+						listener->handleMessageBase(message.get());
 					}
-				));
+				}));
 			}
 		}
 	}

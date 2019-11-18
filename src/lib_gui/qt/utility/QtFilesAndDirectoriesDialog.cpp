@@ -1,14 +1,13 @@
 #include "QtFilesAndDirectoriesDialog.h"
 
+#include <QEvent>
 #include <QListView>
 #include <QPushButton>
-#include <QEvent>
 
 #include "FilePath.h"
 #include "utilityApp.h"
 
-QtFilesAndDirectoriesDialog::QtFilesAndDirectoriesDialog(QWidget* parent)
-	: QFileDialog(parent)
+QtFilesAndDirectoriesDialog::QtFilesAndDirectoriesDialog(QWidget* parent): QFileDialog(parent)
 {
 	setFileMode(QFileDialog::Directory);
 	setOption(QFileDialog::DontUseNativeDialog, true);
@@ -24,9 +23,7 @@ QtFilesAndDirectoriesDialog::QtFilesAndDirectoriesDialog(QWidget* parent)
 	}
 }
 
-QtFilesAndDirectoriesDialog::~QtFilesAndDirectoriesDialog()
-{
-}
+QtFilesAndDirectoriesDialog::~QtFilesAndDirectoriesDialog() {}
 
 void QtFilesAndDirectoriesDialog::chooseClicked()
 {

@@ -3,8 +3,7 @@
 
 #include <clang/Tooling/CompilationDatabase.h>
 
-class CxxCompilationDatabaseSingle
-	: public clang::tooling::CompilationDatabase
+class CxxCompilationDatabaseSingle: public clang::tooling::CompilationDatabase
 {
 public:
 	CxxCompilationDatabaseSingle(const clang::tooling::CompileCommand& command);
@@ -17,4 +16,4 @@ private:
 	clang::tooling::CompileCommand m_command;
 };
 
-#endif // CXX_COMPILATION_DATABASE_SINGLE_H
+#endif	  // CXX_COMPILATION_DATABASE_SINGLE_H

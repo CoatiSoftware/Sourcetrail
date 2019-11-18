@@ -6,136 +6,136 @@
 
 namespace
 {
-	class TestLogger : public Logger
-	{
-	public:
-		TestLogger();
+class TestLogger: public Logger
+{
+public:
+	TestLogger();
 
-		void reset();
-		int getMessageCount() const;
-		int getWarningCount() const;
-		int getErrorCount() const;
+	void reset();
+	int getMessageCount() const;
+	int getWarningCount() const;
+	int getErrorCount() const;
 
-		std::wstring getLastInfo() const;
-		std::wstring getLastWarning() const;
-		std::wstring getLastError() const;
+	std::wstring getLastInfo() const;
+	std::wstring getLastWarning() const;
+	std::wstring getLastError() const;
 
-	private:
-		void logInfo(const LogMessage& message) override;
-		void logWarning(const LogMessage& message) override;
-		void logError(const LogMessage& message) override;
+private:
+	void logInfo(const LogMessage& message) override;
+	void logWarning(const LogMessage& message) override;
+	void logError(const LogMessage& message) override;
 
-		int m_logMessageCount;
-		int m_logWarningCount;
-		int m_logErrorCount;
+	int m_logMessageCount;
+	int m_logWarningCount;
+	int m_logErrorCount;
 
-		std::wstring m_lastInfo;
-		std::wstring m_lastWarning;
-		std::wstring m_lastError;
-	};
+	std::wstring m_lastInfo;
+	std::wstring m_lastWarning;
+	std::wstring m_lastError;
+};
 
-	TestLogger::TestLogger()
-		: Logger("TestLogger")
-		, m_logMessageCount(0)
-		, m_logWarningCount(0)
-		, m_logErrorCount(0)
-		, m_lastInfo(L"")
-		, m_lastWarning(L"")
-		, m_lastError(L"")
-	{
-	}
+TestLogger::TestLogger()
+	: Logger("TestLogger")
+	, m_logMessageCount(0)
+	, m_logWarningCount(0)
+	, m_logErrorCount(0)
+	, m_lastInfo(L"")
+	, m_lastWarning(L"")
+	, m_lastError(L"")
+{
+}
 
-	void TestLogger::reset()
-	{
-		m_logMessageCount = 0;
-		m_logWarningCount = 0;
-		m_logErrorCount = 0;
-	}
+void TestLogger::reset()
+{
+	m_logMessageCount = 0;
+	m_logWarningCount = 0;
+	m_logErrorCount = 0;
+}
 
-	int TestLogger::getMessageCount() const
-	{
-		return m_logMessageCount;
-	}
+int TestLogger::getMessageCount() const
+{
+	return m_logMessageCount;
+}
 
-	int TestLogger::getWarningCount() const
-	{
-		return m_logWarningCount;
-	}
+int TestLogger::getWarningCount() const
+{
+	return m_logWarningCount;
+}
 
-	int TestLogger::getErrorCount() const
-	{
-		return m_logErrorCount;
-	}
+int TestLogger::getErrorCount() const
+{
+	return m_logErrorCount;
+}
 
-	std::wstring TestLogger::getLastInfo() const
-	{
-		return m_lastInfo;
-	}
+std::wstring TestLogger::getLastInfo() const
+{
+	return m_lastInfo;
+}
 
-	std::wstring TestLogger::getLastWarning() const
-	{
-		return m_lastWarning;
-	}
+std::wstring TestLogger::getLastWarning() const
+{
+	return m_lastWarning;
+}
 
-	std::wstring TestLogger::getLastError() const
-	{
-		return m_lastError;
-	}
+std::wstring TestLogger::getLastError() const
+{
+	return m_lastError;
+}
 
-	void TestLogger::logInfo(const LogMessage& message)
-	{
-		m_lastInfo = message.message;
-		m_logMessageCount++;
-	}
+void TestLogger::logInfo(const LogMessage& message)
+{
+	m_lastInfo = message.message;
+	m_logMessageCount++;
+}
 
-	void TestLogger::logWarning(const LogMessage& message)
-	{
-		m_lastWarning = message.message;
-		m_logWarningCount++;
-	}
+void TestLogger::logWarning(const LogMessage& message)
+{
+	m_lastWarning = message.message;
+	m_logWarningCount++;
+}
 
-	void TestLogger::logError(const LogMessage& message)
-	{
-		m_lastError = message.message;
-		m_logErrorCount++;
-	}
+void TestLogger::logError(const LogMessage& message)
+{
+	m_lastError = message.message;
+	m_logErrorCount++;
+}
 
 
-	void addTestLogger(LogManagerImplementation* logManagerImplementation, const unsigned int loggerCount)
-	{
-		for (unsigned int i = 0; i < loggerCount; i++)
-		{
-			std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
-			logManagerImplementation->addLogger(logger);
-		}
-	}
-
-	void removeTestLoggers(LogManagerImplementation* logManagerImplementation)
+void addTestLogger(LogManagerImplementation* logManagerImplementation, const unsigned int loggerCount)
+{
+	for (unsigned int i = 0; i < loggerCount; i++)
 	{
 		std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
-		logManagerImplementation->removeLoggersByType(logger->getType());
-	}
-
-	void addAndRemoveTestLogger(LogManagerImplementation* logManagerImplementation, const unsigned int loggerCount)
-	{
-		addTestLogger(logManagerImplementation, loggerCount);
-		removeTestLoggers(logManagerImplementation);
-	}
-
-	void logSomeMessages(
-		LogManagerImplementation* logManagerImplementation,
-		const std::wstring& message,
-		const unsigned int messageCount
-	)
-	{
-		for (unsigned int i = 0; i < messageCount; i++)
-		{
-			logManagerImplementation->logInfo(message, __FILE__, __FUNCTION__, __LINE__);
-			logManagerImplementation->logWarning(message, __FILE__, __FUNCTION__, __LINE__);
-			logManagerImplementation->logError(message, __FILE__, __FUNCTION__, __LINE__);
-		}
+		logManagerImplementation->addLogger(logger);
 	}
 }
+
+void removeTestLoggers(LogManagerImplementation* logManagerImplementation)
+{
+	std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
+	logManagerImplementation->removeLoggersByType(logger->getType());
+}
+
+void addAndRemoveTestLogger(
+	LogManagerImplementation* logManagerImplementation, const unsigned int loggerCount)
+{
+	addTestLogger(logManagerImplementation, loggerCount);
+	removeTestLoggers(logManagerImplementation);
+}
+
+void logSomeMessages(
+	LogManagerImplementation* logManagerImplementation,
+	const std::wstring& message,
+	const unsigned int messageCount)
+{
+	for (unsigned int i = 0; i < messageCount; i++)
+	{
+		logManagerImplementation->logInfo(message, __FILE__, __FUNCTION__, __LINE__);
+		logManagerImplementation->logWarning(message, __FILE__, __FUNCTION__, __LINE__);
+		logManagerImplementation->logError(message, __FILE__, __FUNCTION__, __LINE__);
+	}
+}
+}	 // namespace
 
 TEST_CASE("new logger can be added to manager")
 {
@@ -285,5 +285,7 @@ TEST_CASE("logger logs threaded")
 	thread1.join();
 
 	REQUIRE(logger->getLastError() == log);
-	REQUIRE(messageCount * 6 == logger->getErrorCount() + logger->getWarningCount() + logger->getMessageCount());
+	REQUIRE(
+		messageCount * 6 ==
+		logger->getErrorCount() + logger->getWarningCount() + logger->getMessageCount());
 }

@@ -7,8 +7,7 @@
 #include "SearchMatch.h"
 #include "TabId.h"
 
-class MessageSearch
-	: public Message<MessageSearch>
+class MessageSearch: public Message<MessageSearch>
 {
 public:
 	static const std::string getStaticType()
@@ -17,8 +16,7 @@ public:
 	}
 
 	MessageSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes)
-		: acceptedNodeTypes(acceptedNodeTypes)
-		, m_matches(matches)
+		: acceptedNodeTypes(acceptedNodeTypes), m_matches(matches)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -30,10 +28,10 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		for (const SearchMatch& match : m_matches)
+		for (const SearchMatch& match: m_matches)
 		{
 			os << " @" << match.name;
-			for (Id id : match.tokenIds)
+			for (Id id: match.tokenIds)
 			{
 				os << ' ' << id;
 			}
@@ -46,4 +44,4 @@ private:
 	const std::vector<SearchMatch> m_matches;
 };
 
-#endif // MESSAGE_SEARCH_H
+#endif	  // MESSAGE_SEARCH_H

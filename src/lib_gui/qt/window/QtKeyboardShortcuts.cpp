@@ -3,13 +3,10 @@
 #include <QHeaderView>
 #include <QLabel>
 
-#include "utilityQt.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 
-QtShortcutTable::QtShortcutTable(QWidget* parent)
-	: QTableWidget(parent)
-{
-}
+QtShortcutTable::QtShortcutTable(QWidget* parent): QTableWidget(parent) {}
 
 void QtShortcutTable::updateSize()
 {
@@ -18,21 +15,18 @@ void QtShortcutTable::updateSize()
 	setMaximumHeight(height);
 }
 
-void QtShortcutTable::wheelEvent(QWheelEvent *event)
+void QtShortcutTable::wheelEvent(QWheelEvent* event)
 {
 	event->ignore();
 }
 
 
-QtKeyboardShortcuts::QtKeyboardShortcuts(QWidget* parent)
-	: QtWindow(false, parent)
+QtKeyboardShortcuts::QtKeyboardShortcuts(QWidget* parent): QtWindow(false, parent)
 {
 	setScrollAble(true);
 }
 
-QtKeyboardShortcuts::~QtKeyboardShortcuts()
-{
-}
+QtKeyboardShortcuts::~QtKeyboardShortcuts() {}
 
 QSize QtKeyboardShortcuts::sizeHint() const
 {
@@ -70,7 +64,9 @@ void QtKeyboardShortcuts::populateWindow(QWidget* widget)
 
 	widget->setLayout(layout);
 
-	widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"keyboard_shortcuts/keyboard_shortcuts.css")).c_str());
+	widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+													 L"keyboard_shortcuts/keyboard_shortcuts.css"))
+							  .c_str());
 }
 
 void QtKeyboardShortcuts::windowReady()
@@ -165,11 +161,11 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(9, 1, new QTableWidgetItem("Ctrl + D | /"));
 	table->setItem(10, 1, new QTableWidgetItem("Ctrl + N"));
 	table->setItem(11, 1, new QTableWidgetItem("Ctrl + O"));
-	#if defined(Q_OS_WIN32)
+#	if defined(Q_OS_WIN32)
 	table->setItem(12, 1, new QTableWidgetItem("Alt + F4"));
-	#else
+#	else
 	table->setItem(12, 1, new QTableWidgetItem("Ctrl + W"));
-	#endif
+#	endif
 	table->setItem(13, 1, new QTableWidgetItem(""));
 	table->setItem(14, 1, new QTableWidgetItem("Ctrl + Home"));
 	table->setItem(15, 1, new QTableWidgetItem("Ctrl + ,"));

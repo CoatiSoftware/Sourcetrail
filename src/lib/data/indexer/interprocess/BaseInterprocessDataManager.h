@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "types.h"
 #include "SharedMemory.h"
+#include "types.h"
 
 class BaseInterprocessDataManager
 {
@@ -27,4 +27,4 @@ protected:
 	const Id m_processId;
 };
 
-#endif // BASE_INTERPROCESS_DATA_MANAGER_H
+#endif	  // BASE_INTERPROCESS_DATA_MANAGER_H

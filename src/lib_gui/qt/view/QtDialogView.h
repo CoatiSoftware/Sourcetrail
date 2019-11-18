@@ -6,9 +6,9 @@
 #include "QtThreadedFunctor.h"
 #include "QtWindowStack.h"
 
-#include "MessageListener.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageIndexingShowDialog.h"
+#include "MessageListener.h"
 #include "MessageWindowClosed.h"
 
 class QtMainWindow;
@@ -33,19 +33,37 @@ public:
 	void showUnknownProgressDialog(const std::wstring& title, const std::wstring& message) override;
 	void hideUnknownProgressDialog() override;
 
-	void showProgressDialog(const std::wstring& title, const std::wstring& message, size_t progress) override;
+	void showProgressDialog(
+		const std::wstring& title, const std::wstring& message, size_t progress) override;
 	void hideProgressDialog() override;
 
 	void startIndexingDialog(
-		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode, bool enabledShallowOption, bool initialShallowState,
-		std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing) override;
+		Project* project,
+		const std::vector<RefreshMode>& enabledModes,
+		const RefreshMode initialMode,
+		bool enabledShallowOption,
+		bool initialShallowState,
+		std::function<void(const RefreshInfo& info)> onStartIndexing,
+		std::function<void()> onCancelIndexing) override;
 	void updateIndexingDialog(
-		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths) override;
+		size_t startedFileCount,
+		size_t finishedFileCount,
+		size_t totalFileCount,
+		const std::vector<FilePath>& sourcePaths) override;
 	void updateCustomIndexingDialog(
-		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths) override;
+		size_t startedFileCount,
+		size_t finishedFileCount,
+		size_t totalFileCount,
+		const std::vector<FilePath>& sourcePaths) override;
 	DatabasePolicy finishedIndexingDialog(
-		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
-		float time, ErrorCountInfo errorInfo, bool interrupted, bool shallow) override;
+		size_t indexedFileCount,
+		size_t totalIndexedFileCount,
+		size_t completedFileCount,
+		size_t totalFileCount,
+		float time,
+		ErrorCountInfo errorInfo,
+		bool interrupted,
+		bool shallow) override;
 
 	int confirm(const std::wstring& message, const std::vector<std::wstring>& options) override;
 
@@ -85,4 +103,4 @@ private:
 	bool m_dialogsVisible = true;
 };
 
-#endif // QT_DIALOG_VIEW_H
+#endif	  // QT_DIALOG_VIEW_H

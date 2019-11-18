@@ -1,24 +1,22 @@
 #ifndef INCLUDES_WINDOWS_H
 #define INCLUDES_WINDOWS_H
 
-#include <string>
 #include <QDir>
+#include <string>
 #include <windows.h>
 
-#include "FileSystem.h"
 #include "AppPath.h"
 #include "Application.h"
-#include "logging.h"
+#include "FileSystem.h"
 #include "ResourcePaths.h"
 #include "UserPaths.h"
+#include "logging.h"
 #include "utility.h"
 #include "utilityApp.h"
 
-void setupPlatform(int argc, char *argv[])
-{
-}
+void setupPlatform(int argc, char* argv[]) {}
 
-void setupApp(int argc, char *argv[])
+void setupApp(int argc, char* argv[])
 {
 	{
 		HMODULE hModule = GetModuleHandleW(NULL);
@@ -65,7 +63,9 @@ void setupApp(int argc, char *argv[])
 			else
 			{
 				userDataPath = AppPath::getAppPath().concatenate(L"user_fallback/");
-				LOG_ERROR(L"The \"%LOCALAPPDATA%\" path could not be found. Falling back to \"" + userDataPath.wstr() + L"\" to store settings data.");
+				LOG_ERROR(
+					L"The \"%LOCALAPPDATA%\" path could not be found. Falling back to \"" +
+					userDataPath.wstr() + L"\" to store settings data.");
 				FileSystem::createDirectory(userDataPath);
 			}
 		}
@@ -74,8 +74,12 @@ void setupApp(int argc, char *argv[])
 	}
 
 	// This "copyFile" method does nothing if the copy destination already exist
-	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(L"ApplicationSettings.xml"), UserPaths::getAppSettingsPath());
-	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(L"window_settings.ini"), UserPaths::getWindowSettingsPath());
+	FileSystem::copyFile(
+		ResourcePaths::getFallbackPath().concatenate(L"ApplicationSettings.xml"),
+		UserPaths::getAppSettingsPath());
+	FileSystem::copyFile(
+		ResourcePaths::getFallbackPath().concatenate(L"window_settings.ini"),
+		UserPaths::getWindowSettingsPath());
 }
 
-#endif // INCLUDES_WINDOWS_H
+#endif	  // INCLUDES_WINDOWS_H

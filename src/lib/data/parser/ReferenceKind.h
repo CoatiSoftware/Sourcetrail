@@ -2,7 +2,7 @@
 #define REFERENCE_KIND_H
 
 enum ReferenceKind
-{ // these values need to be the same as ReferenceKind in Java code
+{	 // these values need to be the same as ReferenceKind in Java code
 	REFERENCE_UNDEFINED = 0,
 	REFERENCE_TYPE_USAGE = 1,
 	REFERENCE_USAGE = 2,
@@ -20,4 +20,4 @@ enum ReferenceKind
 ReferenceKind intToReferenceKind(int v);
 int referenceKindToInt(ReferenceKind t);
 
-#endif // REFERENCE_KIND_H
+#endif	  // REFERENCE_KIND_H

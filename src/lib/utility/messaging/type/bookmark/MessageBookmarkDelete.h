@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageBookmarkDelete:
-	public Message<MessageBookmarkDelete>
+class MessageBookmarkDelete: public Message<MessageBookmarkDelete>
 {
 public:
 	static const std::string getStaticType()
@@ -13,4 +12,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_BOOKMARK_DELETE_H
+#endif	  // MESSAGE_BOOKMARK_DELETE_H

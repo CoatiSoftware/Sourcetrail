@@ -1,21 +1,20 @@
 #include "PreprocessorCallbacks.h"
 
-#include <clang/Driver/Util.h>
 #include <clang/Basic/IdentifierTable.h>
+#include <clang/Driver/Util.h>
 #include <clang/Lex/MacroArgs.h>
 
 #include "CanonicalFilePathCache.h"
-#include "utilityClang.h"
-#include "ParserClient.h"
 #include "ParseLocation.h"
+#include "ParserClient.h"
+#include "utilityClang.h"
 
 #include "utilityString.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
 	clang::SourceManager& sourceManager,
 	std::shared_ptr<ParserClient> client,
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
-)
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
 	: m_sourceManager(sourceManager)
 	, m_client(client)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
@@ -23,10 +22,14 @@ PreprocessorCallbacks::PreprocessorCallbacks(
 }
 
 void PreprocessorCallbacks::FileChanged(
-	clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID prevID)
+	clang::SourceLocation location,
+	FileChangeReason reason,
+	clang::SrcMgr::CharacteristicKind,
+	clang::FileID prevID)
 {
 	const clang::FileID fileId = m_sourceManager.getFileID(location);
-	const FilePath currentPath = m_canonicalFilePathCache->getCanonicalFilePath(fileId, m_sourceManager);
+	const FilePath currentPath = m_canonicalFilePathCache->getCanonicalFilePath(
+		fileId, m_sourceManager);
 	m_currentPathIsProjectFile = false;
 
 	if (!currentPath.empty())
@@ -35,7 +38,8 @@ void PreprocessorCallbacks::FileChanged(
 
 		if (m_fileWasRecorded.find(fileId) == m_fileWasRecorded.end())
 		{
-			m_currentFileSymbolId = m_client->recordFile(currentPath, m_currentPathIsProjectFile); // todo: fix for tests
+			m_currentFileSymbolId = m_client->recordFile(
+				currentPath, m_currentPathIsProjectFile);	 // todo: fix for tests
 			m_client->recordFileLanguage(m_currentFileSymbolId, L"cpp");
 
 			m_canonicalFilePathCache->addFileSymbolId(fileId, currentPath, m_currentFileSymbolId);
@@ -49,10 +53,17 @@ void PreprocessorCallbacks::FileChanged(
 }
 
 void PreprocessorCallbacks::InclusionDirective(
-	clang::SourceLocation hashLocation, const clang::Token& includeToken, llvm::StringRef fileName, bool isAngled,
-	clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
-	llvm::StringRef relativePath, const clang::Module* imported, clang::SrcMgr::CharacteristicKind fileType
-){
+	clang::SourceLocation hashLocation,
+	const clang::Token& includeToken,
+	llvm::StringRef fileName,
+	bool isAngled,
+	clang::CharSourceRange fileNameRange,
+	const clang::FileEntry* fileEntry,
+	llvm::StringRef searchPath,
+	llvm::StringRef relativePath,
+	const clang::Module* imported,
+	clang::SrcMgr::CharacteristicKind fileType)
+{
 	if (m_currentFileSymbolId && fileEntry)
 	{
 		const FilePath includedFilePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
@@ -64,29 +75,33 @@ void PreprocessorCallbacks::InclusionDirective(
 			REFERENCE_INCLUDE,
 			includedFileSymbolId,
 			m_currentFileSymbolId,
-			getParseLocation(fileNameRange.getAsRange())
-		);
+			getParseLocation(fileNameRange.getAsRange()));
 	}
 }
 
-void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective)
+void PreprocessorCallbacks::MacroDefined(
+	const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective)
 {
 	if (m_currentPathIsProjectFile)
 	{
 		// ignore builtin macros
-		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
+		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation())
+				.printToString(m_sourceManager)[0] == '<')
 		{
 			return;
 		}
 
 		const NameHierarchy nameHierarchy(
-			utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
+			utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()),
+			NAME_DELIMITER_CXX);
 
 		Id symbolId = m_client->recordSymbol(nameHierarchy);
 		m_client->recordSymbolKind(symbolId, SYMBOL_MACRO);
 		m_client->recordDefinitionKind(symbolId, DEFINITION_EXPLICIT);
-		m_client->recordLocation(symbolId, getParseLocation(macroNameToken), ParseLocationType::TOKEN);
-		m_client->recordLocation(symbolId, getParseLocation(macroDirective->getMacroInfo()), ParseLocationType::SCOPE);
+		m_client->recordLocation(
+			symbolId, getParseLocation(macroNameToken), ParseLocationType::TOKEN);
+		m_client->recordLocation(
+			symbolId, getParseLocation(macroDirective->getMacroInfo()), ParseLocationType::SCOPE);
 	}
 }
 
@@ -99,26 +114,34 @@ void PreprocessorCallbacks::MacroUndefined(
 }
 
 void PreprocessorCallbacks::Defined(
-		const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition, clang::SourceRange range)
+	const clang::Token& macroNameToken,
+	const clang::MacroDefinition& macroDefinition,
+	clang::SourceRange range)
 {
 	onMacroUsage(macroNameToken);
 }
 
-void PreprocessorCallbacks::Ifdef(clang::SourceLocation location, const clang::Token& macroNameToken,
-		const clang::MacroDefinition& macroDefinition)
+void PreprocessorCallbacks::Ifdef(
+	clang::SourceLocation location,
+	const clang::Token& macroNameToken,
+	const clang::MacroDefinition& macroDefinition)
 {
 	onMacroUsage(macroNameToken);
 }
-void PreprocessorCallbacks::Ifndef(clang::SourceLocation location, const clang::Token& macroNameToken,
-		const clang::MacroDefinition& macroDefinition)
+void PreprocessorCallbacks::Ifndef(
+	clang::SourceLocation location,
+	const clang::Token& macroNameToken,
+	const clang::MacroDefinition& macroDefinition)
 {
 	onMacroUsage(macroNameToken);
 }
 
 void PreprocessorCallbacks::MacroExpands(
-	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDirective,
-	clang::SourceRange range, const clang::MacroArgs* args
-){
+	const clang::Token& macroNameToken,
+	const clang::MacroDefinition& macroDirective,
+	clang::SourceRange range,
+	const clang::MacroArgs* args)
+{
 	onMacroUsage(macroNameToken);
 }
 
@@ -129,21 +152,19 @@ void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 		const ParseLocation loc = getParseLocation(macroNameToken);
 
 		const NameHierarchy referencedNameHierarchy(
-			utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
+			utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()),
+			NAME_DELIMITER_CXX);
 
 		m_client->recordReference(
-			REFERENCE_MACRO_USAGE,
-			m_client->recordSymbol(referencedNameHierarchy),
-			loc.fileId,
-			loc
-		);
+			REFERENCE_MACRO_USAGE, m_client->recordSymbol(referencedNameHierarchy), loc.fileId, loc);
 	}
 }
 
 ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroNameTok) const
 {
 	const clang::SourceLocation& location = m_sourceManager.getSpellingLoc(macroNameTok.getLocation());
-	const clang::SourceLocation& endLocation = m_sourceManager.getSpellingLoc(macroNameTok.getEndLoc());
+	const clang::SourceLocation& endLocation = m_sourceManager.getSpellingLoc(
+		macroNameTok.getEndLoc());
 
 	Id fileSymbolId = m_canonicalFilePathCache->getFileSymbolId(m_sourceManager.getFileID(location));
 	if (fileSymbolId)
@@ -153,8 +174,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 			m_sourceManager.getSpellingLineNumber(location),
 			m_sourceManager.getSpellingColumnNumber(location),
 			m_sourceManager.getSpellingLineNumber(endLocation),
-			m_sourceManager.getSpellingColumnNumber(endLocation) - 1
-		);
+			m_sourceManager.getSpellingColumnNumber(endLocation) - 1);
 	}
 
 	return ParseLocation();
@@ -173,8 +193,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* ma
 			m_sourceManager.getSpellingLineNumber(location),
 			m_sourceManager.getSpellingColumnNumber(location),
 			m_sourceManager.getSpellingLineNumber(endLocation),
-			m_sourceManager.getSpellingColumnNumber(endLocation) - 1
-		);
+			m_sourceManager.getSpellingColumnNumber(endLocation) - 1);
 	}
 
 	return ParseLocation();
@@ -184,8 +203,10 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& 
 {
 	if (sourceRange.isValid())
 	{
-		const clang::PresumedLoc& presumedBegin = m_sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
-		const clang::PresumedLoc& presumedEnd = m_sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
+		const clang::PresumedLoc& presumedBegin = m_sourceManager.getPresumedLoc(
+			sourceRange.getBegin(), false);
+		const clang::PresumedLoc& presumedEnd = m_sourceManager.getPresumedLoc(
+			sourceRange.getEnd(), false);
 
 		Id fileSymbolId = m_canonicalFilePathCache->getFileSymbolId(
 			m_sourceManager.getFileID(sourceRange.getBegin()));
@@ -197,8 +218,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& 
 				presumedBegin.getLine(),
 				presumedBegin.getColumn(),
 				presumedEnd.getLine(),
-				presumedEnd.getColumn() - 1
-			);
+				presumedEnd.getColumn() - 1);
 		}
 	}
 	return ParseLocation();
@@ -213,5 +233,6 @@ bool PreprocessorCallbacks::isLocatedInProjectFile(const clang::SourceLocation l
 		return false;
 	}
 
-	return m_canonicalFilePathCache->isProjectFile(m_sourceManager.getFileID(spellingLoc), m_sourceManager);
+	return m_canonicalFilePathCache->isProjectFile(
+		m_sourceManager.getFileID(spellingLoc), m_sourceManager);
 }

@@ -27,9 +27,7 @@ Node::Node(const Node& other)
 {
 }
 
-Node::~Node()
-{
-}
+Node::~Node() {}
 
 NodeType Node::getType() const
 {
@@ -42,8 +40,7 @@ void Node::setType(NodeType type)
 	{
 		LOG_WARNING(
 			L"Cannot change NodeType after it was already set from " + getReadableTypeString() +
-			L" to " + type.getReadableTypeWString()
-		);
+			L" to " + type.getReadableTypeWString());
 		return;
 	}
 	m_type = type;
@@ -135,12 +132,7 @@ Node* Node::getLastParentNode()
 
 Edge* Node::getMemberEdge() const
 {
-	return findEdgeOfType(Edge::EDGE_MEMBER,
-		[this](Edge* e)
-		{
-			return e->getTo() == this;
-		}
-	);
+	return findEdgeOfType(Edge::EDGE_MEMBER, [this](Edge* e) { return e->getTo() == this; });
 }
 
 bool Node::isParentOf(const Node* node) const
@@ -157,12 +149,8 @@ bool Node::isParentOf(const Node* node) const
 
 Edge* Node::findEdge(std::function<bool(Edge*)> func) const
 {
-	auto it = find_if(m_edges.begin(), m_edges.end(),
-		[func](std::pair<Id, Edge*> p)
-		{
-			return func(p.second);
-		}
-	);
+	auto it = find_if(
+		m_edges.begin(), m_edges.end(), [func](std::pair<Id, Edge*> p) { return func(p.second); });
 
 	if (it != m_edges.end())
 	{
@@ -174,21 +162,18 @@ Edge* Node::findEdge(std::function<bool(Edge*)> func) const
 
 Edge* Node::findEdgeOfType(Edge::TypeMask mask) const
 {
-	return findEdgeOfType(mask, [](Edge* e){ return true; });
+	return findEdgeOfType(mask, [](Edge* e) { return true; });
 }
 
 Edge* Node::findEdgeOfType(Edge::TypeMask mask, std::function<bool(Edge*)> func) const
 {
-	auto it = find_if(m_edges.begin(), m_edges.end(),
-		[mask, func](std::pair<Id, Edge*> p)
+	auto it = find_if(m_edges.begin(), m_edges.end(), [mask, func](std::pair<Id, Edge*> p) {
+		if (p.second->isType(mask))
 		{
-			if (p.second->isType(mask))
-			{
-				return func(p.second);
-			}
-			return false;
+			return func(p.second);
 		}
-	);
+		return false;
+	});
 
 	if (it != m_edges.end())
 	{
@@ -200,16 +185,13 @@ Edge* Node::findEdgeOfType(Edge::TypeMask mask, std::function<bool(Edge*)> func)
 
 Node* Node::findChildNode(std::function<bool(Node*)> func) const
 {
-	auto it = find_if(m_edges.begin(), m_edges.end(),
-		[&func](std::pair<Id, Edge*> p)
+	auto it = find_if(m_edges.begin(), m_edges.end(), [&func](std::pair<Id, Edge*> p) {
+		if (p.second->getType() == Edge::EDGE_MEMBER)
 		{
-			if (p.second->getType() == Edge::EDGE_MEMBER)
-			{
-				return func(p.second->getTo());
-			}
-			return false;
+			return func(p.second->getTo());
 		}
-	);
+		return false;
+	});
 
 	if (it != m_edges.end())
 	{
@@ -221,53 +203,39 @@ Node* Node::findChildNode(std::function<bool(Node*)> func) const
 
 void Node::forEachEdge(std::function<void(Edge*)> func) const
 {
-	for_each(m_edges.begin(), m_edges.end(),
-		[func](std::pair<Id, Edge*> p)
-		{
-			func(p.second);
-		}
-	);
+	for_each(m_edges.begin(), m_edges.end(), [func](std::pair<Id, Edge*> p) { func(p.second); });
 }
 
 void Node::forEachEdgeOfType(Edge::TypeMask mask, std::function<void(Edge*)> func) const
 {
-	for_each(m_edges.begin(), m_edges.end(),
-		[mask, func](std::pair<Id, Edge*> p)
+	for_each(m_edges.begin(), m_edges.end(), [mask, func](std::pair<Id, Edge*> p) {
+		if (p.second->isType(mask))
 		{
-			if (p.second->isType(mask))
-			{
-				func(p.second);
-			}
+			func(p.second);
 		}
-	);
+	});
 }
 
 void Node::forEachChildNode(std::function<void(Node*)> func) const
 {
-	forEachEdgeOfType(Edge::EDGE_MEMBER,
-		[func, this](Edge* e)
+	forEachEdgeOfType(Edge::EDGE_MEMBER, [func, this](Edge* e) {
+		if (this != e->getTo())
 		{
-			if (this != e->getTo())
-			{
-				func(e->getTo());
-			}
+			func(e->getTo());
 		}
-	);
+	});
 }
 
 void Node::forEachNodeRecursive(std::function<void(const Node*)> func) const
 {
 	func(this);
 
-	forEachEdgeOfType(Edge::EDGE_MEMBER,
-		[func, this](Edge* e)
+	forEachEdgeOfType(Edge::EDGE_MEMBER, [func, this](Edge* e) {
+		if (this != e->getTo())
 		{
-			if (this != e->getTo())
-			{
-				e->getTo()->forEachNodeRecursive(func);
-			}
+			e->getTo()->forEachNodeRecursive(func);
 		}
-	);
+	});
 }
 
 bool Node::isNode() const
@@ -288,7 +256,8 @@ std::wstring Node::getReadableTypeString() const
 std::wstring Node::getAsString() const
 {
 	std::wstringstream str;
-	str << L"[" << getId() << L"] " << getReadableTypeString() << L": " << L"\"" << getName() << L"\"";
+	str << L"[" << getId() << L"] " << getReadableTypeString() << L": " << L"\"" << getName()
+		<< L"\"";
 
 	TokenComponentAccess* access = getComponent<TokenComponentAccess>();
 	if (access)

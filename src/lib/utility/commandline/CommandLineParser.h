@@ -7,20 +7,20 @@
 
 #include <boost/program_options.hpp>
 
-#include "RefreshInfo.h"
 #include "FilePath.h"
+#include "RefreshInfo.h"
 
 namespace po = boost::program_options;
 
-namespace commandline {
-
+namespace commandline
+{
 class CommandlineCommand;
 
 class CommandLineParser
 {
 public:
 	CommandLineParser(const std::string& version);
-    ~CommandLineParser();
+	~CommandLineParser();
 
 	void setup();
 
@@ -63,6 +63,6 @@ private:
 	std::wstring m_errorString;
 };
 
-} // namespace commmandline
+}	 // namespace commandline
 
-#endif // COMMAND_LINE_PARSER_H
+#endif	  // COMMAND_LINE_PARSER_H

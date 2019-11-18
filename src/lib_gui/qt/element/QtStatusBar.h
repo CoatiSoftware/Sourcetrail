@@ -4,16 +4,15 @@
 #include <memory>
 #include <string>
 
-#include <QPushButton>
 #include <QLabel>
+#include <QPushButton>
 #include <QStatusBar>
 
 #include "ErrorCountInfo.h"
 
 class QProgressBar;
 
-class QtStatusBar
-	: public QStatusBar
+class QtStatusBar: public QStatusBar
 {
 	Q_OBJECT
 
@@ -56,4 +55,4 @@ private:
 	QWidget* m_vlineIndexing;
 };
 
-#endif // QT_STATUS_BAR_H
+#endif	  // QT_STATUS_BAR_H

@@ -6,9 +6,9 @@
 
 #include "Vector2.h"
 
-#include "Node.h"
-#include "GroupType.h"
 #include "AccessKind.h"
+#include "GroupType.h"
+#include "Node.h"
 
 class GraphViewStyleImpl;
 
@@ -148,9 +148,14 @@ public:
 
 private:
 	static NodeStyle getStyleForNodeType(
-		NodeType::StyleType type, const std::string& underscoredTypeString,
-		const FilePath& iconPath, bool defined, bool isActive, bool isFocused,
-		bool hasChildren, bool hasQualifier);
+		NodeType::StyleType type,
+		const std::string& underscoredTypeString,
+		const FilePath& iconPath,
+		bool defined,
+		bool isActive,
+		bool isFocused,
+		bool hasChildren,
+		bool hasQualifier);
 
 	static float getCharWidth(NodeType::StyleType type);
 	static float getCharHeight(NodeType::StyleType type);
@@ -172,4 +177,4 @@ private:
 	static std::map<bool, NodeColor> s_screenMatchColors;
 };
 
-#endif // GRAPH_VIEW_STYLE_H
+#endif	  // GRAPH_VIEW_STYLE_H

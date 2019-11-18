@@ -1,15 +1,13 @@
 #include "QtTooltipView.h"
 
-#include "QtTooltip.h"
-#include "utilityQt.h"
 #include "QtMainView.h"
-#include "QtViewWidgetWrapper.h"
 #include "QtMainWindow.h"
+#include "QtTooltip.h"
+#include "QtViewWidgetWrapper.h"
 #include "ResourcePaths.h"
 #include "utilityQt.h"
 
-QtTooltipView::QtTooltipView(ViewLayout* viewLayout)
-	: TooltipView(viewLayout)
+QtTooltipView::QtTooltipView(ViewLayout* viewLayout): TooltipView(viewLayout)
 {
 	m_widget = new QtTooltip(utility::getMainWindowforMainView(viewLayout));
 }
@@ -21,18 +19,16 @@ void QtTooltipView::createWidgetWrapper()
 
 void QtTooltipView::refreshView()
 {
-	m_onQtThread([=]()
-	{
-		m_widget->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"tooltip_view/tooltip_view.css")).c_str()
-		);
+	m_onQtThread([=]() {
+		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+														   L"tooltip_view/tooltip_view.css"))
+									.c_str());
 	});
 }
 
 void QtTooltipView::showTooltip(TooltipInfo info, const View* parent)
 {
-	m_onQtThread([=]()
-	{
+	m_onQtThread([=]() {
 		if (m_widget->isHovered())
 		{
 			return;
@@ -52,10 +48,7 @@ void QtTooltipView::showTooltip(TooltipInfo info, const View* parent)
 
 void QtTooltipView::hideTooltip(bool force)
 {
-	m_onQtThread([=]()
-	{
-		m_widget->hide(force);
-	});
+	m_onQtThread([=]() { m_widget->hide(force); });
 }
 
 bool QtTooltipView::tooltipVisible() const

@@ -2,14 +2,9 @@
 
 const char* GraphView::VIEW_NAME = "Graph";
 
-GraphView::GraphView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+GraphView::GraphView(ViewLayout* viewLayout): View(viewLayout) {}
 
-GraphView::~GraphView()
-{
-}
+GraphView::~GraphView() {}
 
 std::string GraphView::getName() const
 {

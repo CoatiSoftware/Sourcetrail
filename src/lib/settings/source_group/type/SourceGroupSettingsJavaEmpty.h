@@ -1,8 +1,8 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 
-#include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithClasspath.h"
+#include "SourceGroupSettingsWithComponents.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
 #include "SourceGroupSettingsWithJavaStandard.h"
 #include "SourceGroupSettingsWithSourceExtensionsJava.h"
@@ -10,11 +10,11 @@
 
 class SourceGroupSettingsJavaEmpty
 	: public SourceGroupSettingsWithComponents<
-		SourceGroupSettingsWithClasspath,
-		SourceGroupSettingsWithExcludeFilters,
-		SourceGroupSettingsWithJavaStandard,
-		SourceGroupSettingsWithSourceExtensionsJava,
-		SourceGroupSettingsWithSourcePaths>
+		  SourceGroupSettingsWithClasspath,
+		  SourceGroupSettingsWithExcludeFilters,
+		  SourceGroupSettingsWithJavaStandard,
+		  SourceGroupSettingsWithSourceExtensionsJava,
+		  SourceGroupSettingsWithSourcePaths>
 {
 public:
 	SourceGroupSettingsJavaEmpty(const std::string& id, const ProjectSettings* projectSettings)
@@ -28,4 +28,4 @@ public:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
+#endif	  // SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H

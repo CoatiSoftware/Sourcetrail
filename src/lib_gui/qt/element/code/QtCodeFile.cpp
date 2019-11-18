@@ -1,20 +1,17 @@
 #include "QtCodeFile.h"
 
-#include <QVBoxLayout>
 #include <QStyle>
+#include <QVBoxLayout>
 
 #include "MessageChangeFileView.h"
 
-#include "SourceLocationFile.h"
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeNavigator.h"
 #include "QtCodeSnippet.h"
+#include "SourceLocationFile.h"
 
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, bool isFirst)
-	: QFrame()
-	, m_navigator(navigator)
-	, m_filePath(filePath)
-	, m_isWholeFile(false)
+	: QFrame(), m_navigator(navigator), m_filePath(filePath), m_isWholeFile(false)
 {
 	setObjectName("code_file");
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
@@ -46,9 +43,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, boo
 	update();
 }
 
-QtCodeFile::~QtCodeFile()
-{
-}
+QtCodeFile::~QtCodeFile() {}
 
 void QtCodeFile::setModificationTime(const TimeStamp modificationTime)
 {
@@ -94,7 +89,7 @@ void QtCodeFile::updateSourceLocations(const CodeSnippetParams& params)
 		return;
 	}
 
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		if (snippet->getStartLineNumber() == params.startLineNumber &&
 			snippet->getEndLineNumber() == params.endLineNumber)
@@ -113,7 +108,7 @@ std::vector<QtCodeSnippet*> QtCodeFile::getVisibleSnippets() const
 {
 	std::vector<QtCodeSnippet*> snippets;
 
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		if (snippet->isVisible())
 		{
@@ -126,7 +121,7 @@ std::vector<QtCodeSnippet*> QtCodeFile::getVisibleSnippets() const
 
 QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 {
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		if (snippet->getLineNumberForLocationId(locationId))
 		{
@@ -139,7 +134,7 @@ QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 
 QtCodeSnippet* QtCodeFile::getSnippetForLine(unsigned int line) const
 {
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		if (snippet->getStartLineNumber() <= line && line <= snippet->getEndLineNumber())
 		{
@@ -154,7 +149,7 @@ std::pair<QtCodeSnippet*, Id> QtCodeFile::getFirstSnippetWithActiveLocationId(Id
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		Id locationId = snippet->getFirstActiveLocationId(tokenId);
 		if (locationId != 0)
@@ -176,8 +171,7 @@ void QtCodeFile::requestWholeFileContent(size_t targetLineNumber)
 			m_filePath,
 			MessageChangeFileView::FILE_MAXIMIZED,
 			MessageChangeFileView::VIEW_LIST,
-			CodeScrollParams::toLine(m_filePath, targetLineNumber, CodeScrollParams::Target::VISIBLE)
-		);
+			CodeScrollParams::toLine(m_filePath, targetLineNumber, CodeScrollParams::Target::VISIBLE));
 		msg.setSchedulerId(m_navigator->getSchedulerId());
 		msg.dispatch();
 	}
@@ -191,7 +185,7 @@ void QtCodeFile::updateContent()
 {
 	updateSnippets();
 
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		snippet->updateContent();
 	}
@@ -216,7 +210,7 @@ void QtCodeFile::setIsIndexed(bool isIndexed)
 
 void QtCodeFile::setMinimized()
 {
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		snippet->hide();
 	}
@@ -226,7 +220,7 @@ void QtCodeFile::setMinimized()
 
 void QtCodeFile::setSnippets()
 {
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		snippet->show();
 	}
@@ -241,7 +235,7 @@ bool QtCodeFile::hasSnippets() const
 
 void QtCodeFile::clearSnippets()
 {
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		m_snippetLayout->removeWidget(snippet);
 		snippet->hide();
@@ -264,15 +258,15 @@ void QtCodeFile::updateSnippets()
 	}
 
 	int maxDigits = 1;
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
 	}
 
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		snippet->setProperty("first", snippet == m_snippets.front());
-		snippet->style()->polish(snippet); // recomputes style to make property take effect
+		snippet->style()->polish(snippet);	  // recomputes style to make property take effect
 		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
 	}
 }
@@ -282,9 +276,10 @@ void QtCodeFile::updateTitleBar()
 	m_titleBar->getTitleButton()->updateTexts();
 }
 
-void QtCodeFile::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeFile::findScreenMatches(
+	const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
-	for (QtCodeSnippet* snippet : m_snippets)
+	for (QtCodeSnippet* snippet: m_snippets)
 	{
 		if (snippet->isVisible())
 		{
@@ -299,8 +294,7 @@ void QtCodeFile::clickedMinimizeButton()
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
 		MessageChangeFileView::VIEW_LIST,
-		CodeScrollParams::toFile(m_filePath, CodeScrollParams::Target::VISIBLE)
-	);
+		CodeScrollParams::toFile(m_filePath, CodeScrollParams::Target::VISIBLE));
 	msg.setSchedulerId(m_navigator->getSchedulerId());
 	msg.dispatch();
 }
@@ -311,8 +305,7 @@ void QtCodeFile::clickedSnippetButton()
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
 		MessageChangeFileView::VIEW_LIST,
-		CodeScrollParams::toFile(m_filePath, CodeScrollParams::Target::VISIBLE)
-	);
+		CodeScrollParams::toFile(m_filePath, CodeScrollParams::Target::VISIBLE));
 	msg.setSchedulerId(m_navigator->getSchedulerId());
 	msg.dispatch();
 }
@@ -340,17 +333,16 @@ void QtCodeFile::clickedMaximizeButton()
 
 	m_navigator->setMode(QtCodeNavigator::MODE_SINGLE);
 
-	CodeScrollParams scrollParams = locationId ?
-		CodeScrollParams::toReference(m_filePath, locationId, CodeScrollParams::Target::CENTER) :
-		CodeScrollParams::toLine(m_filePath, lineNumber, CodeScrollParams::Target::CENTER);
+	CodeScrollParams scrollParams = locationId
+		? CodeScrollParams::toReference(m_filePath, locationId, CodeScrollParams::Target::CENTER)
+		: CodeScrollParams::toLine(m_filePath, lineNumber, CodeScrollParams::Target::CENTER);
 
 	MessageChangeFileView msg(
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
 		MessageChangeFileView::VIEW_SINGLE,
 		scrollParams,
-		true
-	);
+		true);
 	msg.setSchedulerId(m_navigator->getSchedulerId());
 	msg.dispatch();
 }

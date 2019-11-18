@@ -4,8 +4,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCxxCodeblocksPath
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithCxxCodeblocksPath: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithCxxCodeblocksPath() = default;
@@ -24,4 +23,4 @@ private:
 	FilePath m_codeblocksProjectPath;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_CXX_CODEBLOCKS_PATH_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_CXX_CODEBLOCKS_PATH_H

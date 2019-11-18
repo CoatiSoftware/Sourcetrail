@@ -7,28 +7,23 @@
 #include "utilityFile.h"
 
 QtProjectWizardContentPathCodeblocksProject::QtProjectWizardContentPathCodeblocksProject(
-	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings, QtProjectWizardWindow* window
-)
-	: QtProjectWizardContentPath(window)
-	, m_settings(settings)
-	, m_filePaths([&]()
-		{
-			return utility::getAsRelativeIfShorter(
-				utility::toVector(SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths()),
-				m_settings->getProjectDirectoryPath()
-			);
-		}
-	)
+	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings, QtProjectWizardWindow* window)
+	: QtProjectWizardContentPath(window), m_settings(settings), m_filePaths([&]() {
+		return utility::getAsRelativeIfShorter(
+			utility::toVector(SourceGroupCxxCodeblocks(m_settings).getAllSourceFilePaths()),
+			m_settings->getProjectDirectoryPath());
+	})
 {
 	setTitleString("Code::Blocks Project (.cbp)");
 	setHelpString(
-		"Select the Code::Blocks file for the project. Sourcetrail will index your project based on the settings "
-		"this file. It contains using all include paths and compiler flags required. The Sourcetrail project "
+		"Select the Code::Blocks file for the project. Sourcetrail will index your project based "
+		"on the settings "
+		"this file. It contains using all include paths and compiler flags required. The "
+		"Sourcetrail project "
 		"will stay up to date with changes in the Code::Blocks project on every refresh.<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
-	);
-	setFileEndings({ L".cbp" });
+		"You can make use of environment variables with ${ENV_VAR}.");
+	setFileEndings({L".cbp"});
 }
 
 void QtProjectWizardContentPathCodeblocksProject::populate(QGridLayout* layout, int& row)
@@ -36,10 +31,16 @@ void QtProjectWizardContentPathCodeblocksProject::populate(QGridLayout* layout, 
 	QtProjectWizardContentPath::populate(layout, row);
 	m_picker->setPickDirectory(false);
 	m_picker->setFileFilter("Code::Blocks Project (*.cbp)");
-	connect(m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizardContentPathCodeblocksProject::pickedPath);
+	connect(
+		m_picker,
+		&QtLocationPicker::locationPicked,
+		this,
+		&QtProjectWizardContentPathCodeblocksProject::pickedPath);
 
 	QLabel* description = new QLabel(
-		"Sourcetrail will use all settings from the Code::Blocks project and stay up-to-date with changes on refresh.", this);
+		"Sourcetrail will use all settings from the Code::Blocks project and stay up-to-date with "
+		"changes on refresh.",
+		this);
 	description->setObjectName("description");
 	description->setWordWrap(true);
 	layout->addWidget(description, row, QtProjectWizardWindow::BACK_COL);
@@ -66,7 +67,9 @@ void QtProjectWizardContentPathCodeblocksProject::load()
 
 	if (m_fileCountLabel)
 	{
-		m_fileCountLabel->setText("<b>" + QString::number(getFilePaths().size()) + "</b> source files were found in the Code::Blocks project.");
+		m_fileCountLabel->setText(
+			"<b>" + QString::number(getFilePaths().size()) +
+			"</b> source files were found in the Code::Blocks project.");
 	}
 }
 
@@ -97,11 +100,14 @@ void QtProjectWizardContentPathCodeblocksProject::pickedPath()
 	const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
 	std::set<FilePath> indexedHeaderPaths;
-	for (const FilePath& path : QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCodeblocksProject(m_settings))
+	for (const FilePath& path:
+		 QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCodeblocksProject(
+			 m_settings))
 	{
 		if (projectPath.contains(path))
 		{
-			indexedHeaderPaths.insert(path.getRelativeTo(projectPath)); // the relative path is always shorter than the  absolute path
+			indexedHeaderPaths.insert(path.getRelativeTo(
+				projectPath));	  // the relative path is always shorter than the  absolute path
 		}
 	}
 	m_settings->setIndexedHeaderPaths(utility::toVector(indexedHeaderPaths));

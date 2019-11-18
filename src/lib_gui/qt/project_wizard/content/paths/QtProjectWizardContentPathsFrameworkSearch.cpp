@@ -4,17 +4,19 @@
 #include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 
 QtProjectWizardContentPathsFrameworkSearch::QtProjectWizardContentPathsFrameworkSearch(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window, bool indicateAsAdditional
-)
+	std::shared_ptr<SourceGroupSettings> settings,
+	QtProjectWizardWindow* window,
+	bool indicateAsAdditional)
 	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
 {
-	setTitleString(indicateAsAdditional ? "Additional Framework Search Paths" : "Framework Search Paths");
+	setTitleString(
+		indicateAsAdditional ? "Additional Framework Search Paths" : "Framework Search Paths");
 	setHelpString(
-		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
+		"Framework Search Paths define where MacOS framework containers (.framework), that your "
+		"project depends on, are "
 		"found. These paths are usually passed to the compiler with the '-iframework' flag.<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
-	);
+		"You can make use of environment variables with ${ENV_VAR}.");
 }
 
 void QtProjectWizardContentPathsFrameworkSearch::load()

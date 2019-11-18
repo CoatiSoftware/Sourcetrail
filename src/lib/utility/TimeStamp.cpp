@@ -44,18 +44,11 @@ std::string TimeStamp::secondsToString(double secs)
 	return ss.str();
 }
 
-TimeStamp::TimeStamp()
-	: m_time(boost::posix_time::not_a_date_time)
-{
-}
+TimeStamp::TimeStamp(): m_time(boost::posix_time::not_a_date_time) {}
 
-TimeStamp::TimeStamp(boost::posix_time::ptime t)
-	: m_time(t)
-{
-}
+TimeStamp::TimeStamp(boost::posix_time::ptime t): m_time(t) {}
 
-TimeStamp::TimeStamp(std::string s)
-	: m_time(boost::posix_time::not_a_date_time)
+TimeStamp::TimeStamp(std::string s): m_time(boost::posix_time::not_a_date_time)
 {
 	if (s.size())
 	{
@@ -92,13 +85,20 @@ std::string TimeStamp::dayOfWeek() const
 {
 	switch (m_time.date().day_of_week())
 	{
-		case 0: return "Sunday";
-		case 1: return "Monday";
-		case 2: return "Tuesday";
-		case 3: return "Wednesday";
-		case 4: return "Thursday";
-		case 5: return "Friday";
-		case 6: return "Saturday";
+	case 0:
+		return "Sunday";
+	case 1:
+		return "Monday";
+	case 2:
+		return "Tuesday";
+	case 3:
+		return "Wednesday";
+	case 4:
+		return "Thursday";
+	case 5:
+		return "Friday";
+	case 6:
+		return "Saturday";
 	}
 	return "none";
 }

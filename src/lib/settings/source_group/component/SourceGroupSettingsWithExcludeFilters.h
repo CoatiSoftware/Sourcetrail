@@ -7,8 +7,7 @@
 
 class FilePathFilter;
 
-class SourceGroupSettingsWithExcludeFilters
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithExcludeFilters: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithExcludeFilters() = default;
@@ -24,9 +23,10 @@ protected:
 	void save(ConfigManager* config, const std::string& key) override;
 
 private:
-	std::vector<FilePathFilter> getFiltersExpandedAndAbsolute(const std::vector<std::wstring>& filterStrings) const;
+	std::vector<FilePathFilter> getFiltersExpandedAndAbsolute(
+		const std::vector<std::wstring>& filterStrings) const;
 
 	std::vector<std::wstring> m_excludeFilters;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_EXCLUDE_FILTERS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_EXCLUDE_FILTERS_H

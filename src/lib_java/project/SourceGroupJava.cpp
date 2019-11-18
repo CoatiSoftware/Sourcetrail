@@ -1,19 +1,19 @@
 #include "SourceGroupJava.h"
 
-#include "IndexerCommandJava.h"
 #include "FileManager.h"
-#include "logging.h"
+#include "IndexerCommandJava.h"
 #include "RefreshInfo.h"
 #include "SourceGroupSettings.h"
 #include "SourceGroupSettingsWithExcludeFilters.h"
 #include "SourceGroupSettingsWithJavaStandard.h"
 #include "SourceGroupSettingsWithSourceExtensions.h"
+#include "logging.h"
 
 std::set<FilePath> SourceGroupJava::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {
 	std::set<FilePath> containedFilePaths;
 	const std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
-	for (const FilePath& filePath : filePaths)
+	for (const FilePath& filePath: filePaths)
 	{
 		if (allSourceFilePaths.find(filePath) != allSourceFilePaths.end())
 		{
@@ -28,16 +28,19 @@ std::set<FilePath> SourceGroupJava::getAllSourceFilePaths() const
 	FileManager fileManager;
 	fileManager.update(
 		getAllSourcePaths(),
-		dynamic_cast<const SourceGroupSettingsWithExcludeFilters*>(getSourceGroupSettings().get())->getExcludeFiltersExpandedAndAbsolute(),
-		dynamic_cast<const SourceGroupSettingsWithSourceExtensions*>(getSourceGroupSettings().get())->getSourceExtensions()
-	);
+		dynamic_cast<const SourceGroupSettingsWithExcludeFilters*>(getSourceGroupSettings().get())
+			->getExcludeFiltersExpandedAndAbsolute(),
+		dynamic_cast<const SourceGroupSettingsWithSourceExtensions*>(getSourceGroupSettings().get())
+			->getSourceExtensions());
 	return fileManager.getAllSourceFilePaths();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const RefreshInfo& info) const
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(
+	const RefreshInfo& info) const
 {
-	const std::wstring languageStandard =
-		dynamic_cast<const SourceGroupSettingsWithJavaStandard*>(getSourceGroupSettings().get())->getJavaStandard();
+	const std::wstring languageStandard = dynamic_cast<const SourceGroupSettingsWithJavaStandard*>(
+											  getSourceGroupSettings().get())
+											  ->getJavaStandard();
 
 	std::vector<FilePath> classPath = getClassPath();
 
@@ -46,9 +49,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	{
 		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end())
 		{
-			indexerCommands.push_back(std::make_shared<IndexerCommandJava>(
-				sourcePath, languageStandard, classPath
-			));
+			indexerCommands.push_back(
+				std::make_shared<IndexerCommandJava>(sourcePath, languageStandard, classPath));
 		}
 	}
 

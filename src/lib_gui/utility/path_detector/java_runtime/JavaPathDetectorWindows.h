@@ -10,4 +10,4 @@ public:
 	virtual std::vector<FilePath> getPaths() const override;
 };
 
-#endif // JAVA_PATH_DETECTOR_WINDOWS_H
+#endif	  // JAVA_PATH_DETECTOR_WINDOWS_H

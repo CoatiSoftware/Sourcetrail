@@ -96,4 +96,4 @@ private:
 	std::vector<std::vector<TrailNode*>> m_nodesPerCol;
 };
 
-#endif // GRAPH_LAYOUTER_H
+#endif	  // GRAPH_LAYOUTER_H

@@ -2,11 +2,11 @@
 
 #include <algorithm>
 
-#include "logging.h"
 #include "MessageStatus.h"
+#include "Version.h"
+#include "logging.h"
 #include "utilityApp.h"
 #include "utilityString.h"
-#include "Version.h"
 
 std::shared_ptr<LogManager> LogManager::getInstance()
 {
@@ -22,9 +22,7 @@ void LogManager::destroyInstance()
 	s_instance.reset();
 }
 
-LogManager::~LogManager()
-{
-}
+LogManager::~LogManager() {}
 
 void LogManager::setLoggingEnabled(bool enabled)
 {
@@ -36,9 +34,10 @@ void LogManager::setLoggingEnabled(bool enabled)
 		{
 			LOG_INFO(
 				std::string("Enabled logging for Sourcetrail ") +
-				(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit, " +
-				"version " + Version::getApplicationVersion().toDisplayString()
-			);
+				(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32
+					 ? "32"
+					 : "64") +
+				" bit, " + "version " + Version::getApplicationVersion().toDisplayString());
 			MessageStatus(L"Enabled console and file logging.").dispatch();
 		}
 		else
@@ -93,8 +92,7 @@ void LogManager::logInfo(
 	const std::string& message,
 	const std::string& file,
 	const std::string& function,
-	const unsigned int line
-)
+	const unsigned int line)
 {
 	if (m_loggingEnabled)
 	{
@@ -106,8 +104,7 @@ void LogManager::logInfo(
 	const std::wstring& message,
 	const std::string& file,
 	const std::string& function,
-	const unsigned int line
-)
+	const unsigned int line)
 {
 	if (m_loggingEnabled)
 	{
@@ -119,8 +116,7 @@ void LogManager::logWarning(
 	const std::string& message,
 	const std::string& file,
 	const std::string& function,
-	const unsigned int line
-)
+	const unsigned int line)
 {
 	if (m_loggingEnabled)
 	{
@@ -132,8 +128,7 @@ void LogManager::logWarning(
 	const std::wstring& message,
 	const std::string& file,
 	const std::string& function,
-	const unsigned int line
-)
+	const unsigned int line)
 {
 	if (m_loggingEnabled)
 	{
@@ -145,8 +140,7 @@ void LogManager::logError(
 	const std::string& message,
 	const std::string& file,
 	const std::string& function,
-	const unsigned int line
-)
+	const unsigned int line)
 {
 	if (m_loggingEnabled)
 	{
@@ -158,8 +152,7 @@ void LogManager::logError(
 	const std::wstring& message,
 	const std::string& file,
 	const std::string& function,
-	const unsigned int line
-)
+	const unsigned int line)
 {
 	if (m_loggingEnabled)
 	{
@@ -169,7 +162,4 @@ void LogManager::logError(
 
 std::shared_ptr<LogManager> LogManager::s_instance;
 
-LogManager::LogManager()
-	: m_loggingEnabled(false)
-{
-}
+LogManager::LogManager(): m_loggingEnabled(false) {}

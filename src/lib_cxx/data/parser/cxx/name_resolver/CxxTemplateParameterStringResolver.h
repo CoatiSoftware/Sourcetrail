@@ -9,8 +9,7 @@
 
 class DataType;
 
-class CxxTemplateParameterStringResolver
-	: public CxxNameResolver
+class CxxTemplateParameterStringResolver: public CxxNameResolver
 {
 public:
 	CxxTemplateParameterStringResolver(CanonicalFilePathCache* canonicalFilePathCache);
@@ -22,4 +21,4 @@ public:
 	std::wstring getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter);
 };
 
-#endif // CXX_TEMPLATE_PARAMETER_STRING_RESOLVER_H
+#endif	  // CXX_TEMPLATE_PARAMETER_STRING_RESOLVER_H

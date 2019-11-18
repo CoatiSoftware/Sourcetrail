@@ -24,4 +24,4 @@ public:
 	virtual void showOriginalViews();
 };
 
-#endif // VIEW_LAYOUT_H
+#endif	  // VIEW_LAYOUT_H

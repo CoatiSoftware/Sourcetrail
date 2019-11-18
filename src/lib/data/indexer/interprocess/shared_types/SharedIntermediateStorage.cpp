@@ -15,9 +15,7 @@ SharedIntermediateStorage::SharedIntermediateStorage(SharedMemory::Allocator* al
 {
 }
 
-SharedIntermediateStorage::~SharedIntermediateStorage()
-{
-}
+SharedIntermediateStorage::~SharedIntermediateStorage() {}
 
 std::vector<StorageFile> SharedIntermediateStorage::getStorageFiles() const
 {
@@ -123,11 +121,12 @@ std::set<StorageLocalSymbol> SharedIntermediateStorage::getStorageLocalSymbols()
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageLocalSymbols(const std::set<StorageLocalSymbol>& storageLocalSymbols)
+void SharedIntermediateStorage::setStorageLocalSymbols(
+	const std::set<StorageLocalSymbol>& storageLocalSymbols)
 {
 	m_storageLocalSymbols.clear();
 
-	for (const StorageLocalSymbol& localSymbol : storageLocalSymbols)
+	for (const StorageLocalSymbol& localSymbol: storageLocalSymbols)
 	{
 		m_storageLocalSymbols.push_back(toShared(localSymbol, m_allocator));
 	}
@@ -145,11 +144,12 @@ std::set<StorageSourceLocation> SharedIntermediateStorage::getStorageSourceLocat
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageSourceLocations(const std::set<StorageSourceLocation>& storageSourceLocations)
+void SharedIntermediateStorage::setStorageSourceLocations(
+	const std::set<StorageSourceLocation>& storageSourceLocations)
 {
 	m_storageSourceLocations.clear();
 
-	for (const StorageSourceLocation& sourceLocation : storageSourceLocations)
+	for (const StorageSourceLocation& sourceLocation: storageSourceLocations)
 	{
 		m_storageSourceLocations.push_back(toShared(sourceLocation, m_allocator));
 	}
@@ -171,7 +171,7 @@ void SharedIntermediateStorage::setStorageOccurrences(const std::set<StorageOccu
 {
 	m_storageOccurrences.clear();
 
-	for (const StorageOccurrence& occurrence : storageOccurences)
+	for (const StorageOccurrence& occurrence: storageOccurences)
 	{
 		m_storageOccurrences.push_back(toShared(occurrence, m_allocator));
 	}
@@ -189,11 +189,12 @@ std::set<StorageComponentAccess> SharedIntermediateStorage::getStorageComponentA
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageComponentAccesses(const std::set<StorageComponentAccess>& storageComponentAccesses)
+void SharedIntermediateStorage::setStorageComponentAccesses(
+	const std::set<StorageComponentAccess>& storageComponentAccesses)
 {
 	m_storageComponentAccesses.clear();
 
-	for (const StorageComponentAccess& componentAccess : storageComponentAccesses)
+	for (const StorageComponentAccess& componentAccess: storageComponentAccesses)
 	{
 		m_storageComponentAccesses.push_back(toShared(componentAccess, m_allocator));
 	}

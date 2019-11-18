@@ -1,14 +1,8 @@
 #include "CxxQualifierFlags.h"
 
-CxxQualifierFlags::CxxQualifierFlags()
-	: m_flags(QUALIFIER_NONE)
-{
-}
+CxxQualifierFlags::CxxQualifierFlags(): m_flags(QUALIFIER_NONE) {}
 
-CxxQualifierFlags::CxxQualifierFlags(const char flags)
-	: m_flags(flags)
-{
-}
+CxxQualifierFlags::CxxQualifierFlags(const char flags): m_flags(flags) {}
 
 void CxxQualifierFlags::addQualifier(QualifierType qualifier)
 {

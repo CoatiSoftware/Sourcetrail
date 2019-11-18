@@ -13,8 +13,7 @@ class QtGraphEdge;
 class QtGraphNode;
 class QtSelfRefreshIconButton;
 
-class QtGraphicsView
-	: public QGraphicsView
+class QtGraphicsView: public QGraphicsView
 {
 	Q_OBJECT
 
@@ -129,4 +128,4 @@ private:
 	float m_zoomOutButtonSpeed;
 };
 
-#endif // QT_GRAPHICS_VIEW_H
+#endif	  // QT_GRAPHICS_VIEW_H

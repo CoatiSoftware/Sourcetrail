@@ -2,8 +2,8 @@
 
 #include <regex>
 
-#include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 
 #include "logging.h"
 #include "utilityString.h"
@@ -68,9 +68,7 @@ FilePath::FilePath(const std::wstring& filePath, const std::wstring& base)
 {
 }
 
-FilePath::~FilePath()
-{
-}
+FilePath::~FilePath() {}
 
 boost::filesystem::path FilePath::getPath() const
 {
@@ -160,7 +158,7 @@ FilePath& FilePath::makeCanonical()
 	boost::filesystem::path abs_p = boost::filesystem::absolute(getPath());
 
 	boost::filesystem::path::iterator it = abs_p.begin();
-	
+
 	// add first element before loop because this won't be recognized as absolute path yet
 	canonicalPath /= *it;
 	it++;
@@ -184,10 +182,11 @@ FilePath& FilePath::makeCanonical()
 				boost::filesystem::path symlink = boost::filesystem::read_symlink(canonicalPath);
 				if (!symlink.empty())
 				{
-					// on Windows the read_symlink function discards the drive letter (this is a boost bug). Therefore
-					// we need to make the path absolute again. We also have to discard the trailing \0 characters so
-					// that we can continue appending to the path.
-					canonicalPath = utility::substrBeforeFirst(boost::filesystem::absolute(symlink).string(), '\0');
+					// on Windows the read_symlink function discards the drive letter (this is a boost
+					// bug). Therefore we need to make the path absolute again. We also have to discard
+					// the trailing \0 characters so that we can continue appending to the path.
+					canonicalPath = utility::substrBeforeFirst(
+						boost::filesystem::absolute(symlink).string(), '\0');
 				}
 			}
 		}
@@ -220,11 +219,12 @@ std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 	std::vector<FilePath> paths;
 	std::string text = str();
 
-	static std::regex env("\\$\\{([^}]+)\\}|%([^%]+)%"); // ${VARIABLE_NAME} or %VARIABLE_NAME%
+	static std::regex env("\\$\\{([^}]+)\\}|%([^%]+)%");	// ${VARIABLE_NAME} or %VARIABLE_NAME%
 	std::smatch match;
 	while (std::regex_search(text, match, env))
 	{
-		const char * s = match[1].matched ? getenv(match[1].str().c_str()) : getenv(match[2].str().c_str());
+		const char* s = match[1].matched ? getenv(match[1].str().c_str())
+										 : getenv(match[2].str().c_str());
 		if (s == nullptr)
 		{
 			LOG_ERROR_STREAM(<< match[1].str() << " is not an environment variable in: " << text);
@@ -239,7 +239,7 @@ std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 	environmentVariablePathSeparator = ';';
 #endif
 
-	for (const std::string& str : utility::splitToVector(text, environmentVariablePathSeparator))
+	for (const std::string& str: utility::splitToVector(text, environmentVariablePathSeparator))
 	{
 		if (str.size())
 		{
@@ -429,7 +429,7 @@ FilePath FilePath::replaceExtension(const std::wstring& extension) const
 bool FilePath::hasExtension(const std::vector<std::wstring>& extensions) const
 {
 	const std::wstring e = extension();
-	for (const std::wstring& ext : extensions)
+	for (const std::wstring& ext: extensions)
 	{
 		if (e == ext)
 		{

@@ -29,7 +29,8 @@ Migrator<MigratableType>::~Migrator()
 }
 
 template <typename MigratableType>
-void Migrator<MigratableType>::addMigration(size_t targetVersion, std::shared_ptr<Migration<MigratableType>> migration)
+void Migrator<MigratableType>::addMigration(
+	size_t targetVersion, std::shared_ptr<Migration<MigratableType>> migration)
 {
 	if (migration)
 	{
@@ -84,4 +85,4 @@ bool Migrator<MigratableType>::migrate(MigratableType* migratable, size_t target
 	return false;
 }
 
-#endif // MIGRATOR_H
+#endif	  // MIGRATOR_H

@@ -7,8 +7,8 @@
 
 #include <QApplication>
 #include <QClipboard>
-#include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
 #include <QSvgGenerator>
 
 #include "ApplicationSettings.h"
@@ -117,21 +117,30 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_zoomState->hide();
 
 	m_zoomInButton = new QtSelfRefreshIconButton(
-		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_in.png"), "search/button", this);
+		"",
+		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_in.png"),
+		"search/button",
+		this);
 	m_zoomInButton->setObjectName("zoom_in_button");
 	m_zoomInButton->setAutoRepeat(true);
 	m_zoomInButton->setToolTip("zoom in (" + modifierName + " + Mousewheel forward)");
 	connect(m_zoomInButton, &QPushButton::pressed, this, &QtGraphicsView::zoomInPressed);
 
 	m_zoomOutButton = new QtSelfRefreshIconButton(
-		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_out.png"), "search/button", this);
+		"",
+		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_out.png"),
+		"search/button",
+		this);
 	m_zoomOutButton->setObjectName("zoom_out_button");
 	m_zoomOutButton->setAutoRepeat(true);
 	m_zoomOutButton->setToolTip("zoom out (" + modifierName + " + Mousewheel back)");
 	connect(m_zoomOutButton, &QPushButton::pressed, this, &QtGraphicsView::zoomOutPressed);
 
 	m_legendButton = new QtSelfRefreshIconButton(
-		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/legend.png"), "search/button", this);
+		"",
+		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/legend.png"),
+		"search/button",
+		this);
 	m_legendButton->setObjectName("legend_button");
 	m_legendButton->setToolTip("show legend");
 	connect(m_legendButton, &QPushButton::clicked, this, &QtGraphicsView::legendClicked);
@@ -235,7 +244,8 @@ void QtGraphicsView::resizeEvent(QResizeEvent* event)
 	m_zoomState->setGeometry(QRect(31, event->size().height() - 27, 65, 19));
 	m_zoomInButton->setGeometry(QRect(8, event->size().height() - 50, 19, 19));
 	m_zoomOutButton->setGeometry(QRect(8, event->size().height() - 27, 18, 19));
-	m_legendButton->setGeometry(QRect(event->size().width() - 24, event->size().height() - 24, 18, 18));
+	m_legendButton->setGeometry(
+		QRect(event->size().width() - 24, event->size().height() - 24, 18, 18));
 
 	m_zoomInButton->setIconSize(QSize(15, 15));
 	m_zoomOutButton->setIconSize(QSize(15, 15));
@@ -244,7 +254,7 @@ void QtGraphicsView::resizeEvent(QResizeEvent* event)
 	emit resized();
 }
 
-void QtGraphicsView::mousePressEvent(QMouseEvent *event)
+void QtGraphicsView::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton && !itemAt(event->pos()))
 	{
@@ -254,13 +264,13 @@ void QtGraphicsView::mousePressEvent(QMouseEvent *event)
 	QGraphicsView::mousePressEvent(event);
 }
 
-void QtGraphicsView::mouseMoveEvent(QMouseEvent *event)
+void QtGraphicsView::mouseMoveEvent(QMouseEvent* event)
 {
 	QtGraphEdge::unfocusBezierEdge();
 	QGraphicsView::mouseMoveEvent(event);
 }
 
-void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
+void QtGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton && !itemAt(event->pos()) && event->pos() == m_last)
 	{
@@ -283,28 +293,28 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 
 	switch (event->key())
 	{
-		case Qt::Key_W:
-			m_up = true;
-			break;
-		case Qt::Key_A:
-			m_left = true;
-			break;
-		case Qt::Key_S:
-			m_down = true;
-			break;
-		case Qt::Key_D:
-			m_right = true;
-			break;
-		case Qt::Key_0:
-			setZoomFactor(1.0f);
-			updateTransform();
-			break;
-		case Qt::Key_Shift:
-			m_shift = true;
-			break;
-		default:
-			QGraphicsView::keyPressEvent(event);
-			return;
+	case Qt::Key_W:
+		m_up = true;
+		break;
+	case Qt::Key_A:
+		m_left = true;
+		break;
+	case Qt::Key_S:
+		m_down = true;
+		break;
+	case Qt::Key_D:
+		m_right = true;
+		break;
+	case Qt::Key_0:
+		setZoomFactor(1.0f);
+		updateTransform();
+		break;
+	case Qt::Key_Shift:
+		m_shift = true;
+		break;
+	default:
+		QGraphicsView::keyPressEvent(event);
+		return;
 	}
 
 	if (!moved && moves())
@@ -319,23 +329,23 @@ void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
 {
 	switch (event->key())
 	{
-		case Qt::Key_W:
-			m_up = false;
-			break;
-		case Qt::Key_A:
-			m_left = false;
-			break;
-		case Qt::Key_S:
-			m_down = false;
-			break;
-		case Qt::Key_D:
-			m_right = false;
-			break;
-		case Qt::Key_Shift:
-			m_shift = false;
-			break;
-		default:
-			return;
+	case Qt::Key_W:
+		m_up = false;
+		break;
+	case Qt::Key_A:
+		m_left = false;
+		break;
+	case Qt::Key_S:
+		m_down = false;
+		break;
+	case Qt::Key_D:
+		m_right = false;
+		break;
+	case Qt::Key_Shift:
+		m_shift = false;
+		break;
+	default:
+		return;
 	}
 
 	if (!moves())
@@ -402,7 +412,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
 			if (!m_collapseNodeId && !m_expandNodeId)
 			{
-				for (auto subNode : node->getSubNodes())
+				for (auto subNode: node->getSubNodes())
 				{
 					if (subNode->isExpandToggleNode())
 					{
@@ -547,8 +557,11 @@ void QtGraphicsView::exportGraph()
 	const int margin = 10;
 
 	FilePath filePath(QtFileDialog::showSaveFileDialog(
-		nullptr, "Save image", FilePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)"
-	).toStdWString());
+						  nullptr,
+						  "Save image",
+						  FilePath(),
+						  "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)")
+						  .toStdWString());
 
 
 	if (filePath.extension() == L".svg")
@@ -571,11 +584,14 @@ void QtGraphicsView::exportGraph()
 		{
 			QRect boundingRect;
 			painter.drawText(
-				QRect(margin, margin, svgGen.size().width() - 2 * margin, svgGen.size().height() - 2 * margin),
+				QRect(
+					margin,
+					margin,
+					svgGen.size().width() - 2 * margin,
+					svgGen.size().height() - 2 * margin),
 				Qt::AlignBottom | Qt::AlignHCenter,
 				exportNotice + ' ' + QChar(0x00AE),
-				&boundingRect
-			);
+				&boundingRect);
 		}
 	}
 	else if (!filePath.empty())
@@ -598,8 +614,7 @@ void QtGraphicsView::exportGraph()
 				QRect(margin, margin, image.size().width() - 2 * margin, image.size().height() - 2 * margin),
 				Qt::AlignBottom | Qt::AlignHCenter,
 				exportNotice,
-				&boundingRect
-			);
+				&boundingRect);
 
 			{
 				QFont font = painter.font();
@@ -610,8 +625,7 @@ void QtGraphicsView::exportGraph()
 			painter.drawText(
 				boundingRect.right() + boundingRect.height() / 5,
 				boundingRect.top() + boundingRect.height() / 2,
-				QChar(0x00AE)
-			);
+				QChar(0x00AE));
 		}
 
 		image.save(QString::fromStdWString(filePath.wstr()));

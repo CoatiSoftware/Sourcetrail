@@ -9,8 +9,7 @@
 class QFrame;
 class QtBookmarkBrowser;
 
-class QtBookmarkView
-	: public BookmarkView
+class QtBookmarkView: public BookmarkView
 {
 public:
 	QtBookmarkView(ViewLayout* viewLayout);
@@ -22,7 +21,9 @@ public:
 
 	// BookmarkView implementation
 	void displayBookmarkCreator(
-		const std::vector<std::wstring>& names, const std::vector<BookmarkCategory>& categories, Id nodeId) override;
+		const std::vector<std::wstring>& names,
+		const std::vector<BookmarkCategory>& categories,
+		Id nodeId) override;
 	void displayBookmarkEditor(
 		std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories) override;
 
@@ -36,4 +37,4 @@ private:
 	QtBookmarkBrowser* m_bookmarkBrowser;
 };
 
-#endif // QT_BOOKMARK_VIEW_H
+#endif	  // QT_BOOKMARK_VIEW_H

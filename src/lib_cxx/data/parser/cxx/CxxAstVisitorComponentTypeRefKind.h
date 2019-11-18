@@ -6,11 +6,10 @@
 #include "CxxAstVisitorComponent.h"
 #include "ReferenceKind.h"
 
-// This CxxAstVisitorComponent is responsible for recording and providing the context based ReferenceKind for each reference to a type encountered while traversing the AST.
-// Example: class Foo: public Bar {};
-// For this snippet the type "Bar" is used in the context of an inheritence.
-class CxxAstVisitorComponentTypeRefKind
-	: public CxxAstVisitorComponent
+// This CxxAstVisitorComponent is responsible for recording and providing the context based
+// ReferenceKind for each reference to a type encountered while traversing the AST. Example: class
+// Foo: public Bar {}; For this snippet the type "Bar" is used in the context of an inheritence.
+class CxxAstVisitorComponentTypeRefKind: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentTypeRefKind(CxxAstVisitor* astVisitor);
@@ -38,4 +37,4 @@ private:
 	std::vector<StateKind> m_stateKindStack;
 };
 
-#endif // CXX_AST_VISITOR_COMPONENT_TYPE_REF_KIND_H
+#endif	  // CXX_AST_VISITOR_COMPONENT_TYPE_REF_KIND_H

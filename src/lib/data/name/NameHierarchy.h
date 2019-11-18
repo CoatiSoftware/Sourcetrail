@@ -59,4 +59,4 @@ private:
 	std::wstring m_delimiter;
 };
 
-#endif // NAME_ELEMENT_H
+#endif	  // NAME_ELEMENT_H

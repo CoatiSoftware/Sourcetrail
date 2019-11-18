@@ -4,8 +4,7 @@
 #include "MessageFilter.h"
 #include "MessageSearchAutocomplete.h"
 
-class MessageFilterSearchAutocomplete
-	: public MessageFilter
+class MessageFilterSearchAutocomplete: public MessageFilter
 {
 	void filter(MessageQueue::MessageBufferType* messageBuffer) override
 	{
@@ -29,4 +28,4 @@ class MessageFilterSearchAutocomplete
 	}
 };
 
-#endif // MESSAGE_FILTER_SEARCH_AUTOCOMPLETE_H
+#endif	  // MESSAGE_FILTER_SEARCH_AUTOCOMPLETE_H

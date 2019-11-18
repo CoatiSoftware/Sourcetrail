@@ -3,11 +3,10 @@
 
 #include <vector>
 
-#include "View.h"
 #include "Status.h"
+#include "View.h"
 
-class StatusView
-	: public View
+class StatusView: public View
 {
 public:
 	StatusView(ViewLayout* viewLayout);
@@ -19,4 +18,4 @@ public:
 	virtual void clear() = 0;
 };
 
-#endif // STATUS_VIEW_H
+#endif	  // STATUS_VIEW_H

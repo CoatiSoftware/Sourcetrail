@@ -33,10 +33,14 @@ public:
 
 	virtual std::shared_ptr<MainView> createMainView(StorageAccess* storageAccess) const = 0;
 	virtual std::shared_ptr<CompositeView> createCompositeView(
-			ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name) const = 0;
-	virtual std::shared_ptr<TabbedView> createTabbedView(ViewLayout* viewLayout, const std::string& name) const = 0;
+		ViewLayout* viewLayout,
+		CompositeView::CompositeDirection direction,
+		const std::string& name) const = 0;
+	virtual std::shared_ptr<TabbedView> createTabbedView(
+		ViewLayout* viewLayout, const std::string& name) const = 0;
 
-	virtual std::shared_ptr<BookmarkButtonsView> createBookmarkButtonsView(ViewLayout* viewLayout) const = 0;
+	virtual std::shared_ptr<BookmarkButtonsView> createBookmarkButtonsView(
+		ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<BookmarkView> createBookmarkView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<CustomTrailView> createCustomTrailView(ViewLayout* viewLayout) const = 0;
@@ -57,4 +61,4 @@ public:
 	virtual std::shared_ptr<GraphViewStyleImpl> createGraphStyleImpl() const = 0;
 };
 
-#endif // VIEW_FACTORY_H
+#endif	  // VIEW_FACTORY_H

@@ -4,8 +4,7 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageHistoryRedo
-	: public Message<MessageHistoryRedo>
+class MessageHistoryRedo: public Message<MessageHistoryRedo>
 {
 public:
 	static const std::string getStaticType()
@@ -19,4 +18,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_HISTORY_REDO_H
+#endif	  // MESSAGE_HISTORY_REDO_H

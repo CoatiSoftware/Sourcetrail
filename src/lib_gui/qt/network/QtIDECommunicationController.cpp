@@ -5,39 +5,29 @@
 #include "ApplicationSettings.h"
 
 QtIDECommunicationController::QtIDECommunicationController(QObject* parent, StorageAccess* storageAccess)
-	: IDECommunicationController(storageAccess)
-	, m_tcpWrapper(parent)
+	: IDECommunicationController(storageAccess), m_tcpWrapper(parent)
 {
-	m_tcpWrapper.setReadCallback(std::bind(&QtIDECommunicationController::handleIncomingMessage, this, std::placeholders::_1));
+	m_tcpWrapper.setReadCallback(std::bind(
+		&QtIDECommunicationController::handleIncomingMessage, this, std::placeholders::_1));
 }
 
-QtIDECommunicationController::~QtIDECommunicationController()
-{}
+QtIDECommunicationController::~QtIDECommunicationController() {}
 
 void QtIDECommunicationController::startListening()
 {
-	m_onQtThread(
-		[=]()
-		{
-			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-			m_tcpWrapper.setServerPort(appSettings->getSourcetrailPort());
-			m_tcpWrapper.setClientPort(appSettings->getPluginPort());
-			m_tcpWrapper.startListening();
+	m_onQtThread([=]() {
+		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+		m_tcpWrapper.setServerPort(appSettings->getSourcetrailPort());
+		m_tcpWrapper.setClientPort(appSettings->getPluginPort());
+		m_tcpWrapper.startListening();
 
-			sendUpdatePing();
-		}
-	);
-
+		sendUpdatePing();
+	});
 }
 
 void QtIDECommunicationController::stopListening()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_tcpWrapper.stopListening();
-		}
-	);
+	m_onQtThread([=]() { m_tcpWrapper.stopListening(); });
 }
 
 bool QtIDECommunicationController::isListening() const

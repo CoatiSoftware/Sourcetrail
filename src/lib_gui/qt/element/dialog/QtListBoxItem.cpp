@@ -4,28 +4,26 @@
 #include <QListWidget>
 #include <QPushButton>
 
+#include "QtFileDialog.h"
+#include "QtIconButton.h"
 #include "QtLineEdit.h"
 #include "QtListBox.h"
-#include "QtIconButton.h"
-#include "QtFileDialog.h"
 #include "ResourcePaths.h"
 
-QtListBoxItem::QtListBoxItem(QListWidgetItem* item, QWidget *parent)
-	: QWidget(parent)
-	, m_item(item)
-	, m_readOnly(false)
+QtListBoxItem::QtListBoxItem(QListWidgetItem* item, QWidget* parent)
+	: QWidget(parent), m_item(item), m_readOnly(false)
 {
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(3);
 	layout->setContentsMargins(0, 0, 0, 0);
-	layout->setAlignment(Qt::AlignTop); 
+	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
 	m_data = new QtLineEdit(this);
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
-	m_data->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_data->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	m_data->setObjectName("field");
-    m_data->setAcceptDrops(false);
+	m_data->setAcceptDrops(false);
 	layout->addWidget(m_data);
 
 	connect(m_data, &QtLineEdit::focus, this, &QtListBoxItem::handleFocus);
@@ -70,7 +68,7 @@ void QtListBoxItem::setReadOnly(bool readOnly)
 
 void QtListBoxItem::setFocus()
 {
-    m_data->setFocus(Qt::OtherFocusReason);
+	m_data->setFocus(Qt::OtherFocusReason);
 }
 
 void QtListBoxItem::selectItem()
@@ -83,6 +81,4 @@ void QtListBoxItem::handleFocus()
 	selectItem();
 }
 
-void QtListBoxItem::onReadOnlyChanged()
-{
-}
+void QtListBoxItem::onReadOnlyChanged() {}

@@ -14,8 +14,7 @@ class MessageBase;
 class StorageAccess;
 class ViewFactory;
 
-class MainView
-	: public ViewLayout
+class MainView: public ViewLayout
 {
 public:
 	MainView(const ViewFactory* viewFactory, StorageAccess* storageAccess);
@@ -50,4 +49,4 @@ protected:
 	ComponentManager m_componentManager;
 };
 
-#endif // MAIN_VIEW_H
+#endif	  // MAIN_VIEW_H

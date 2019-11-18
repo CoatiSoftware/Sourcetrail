@@ -3,12 +3,15 @@
 
 #include "Bookmark.h"
 
-class EdgeBookmark
-	: public Bookmark
+class EdgeBookmark: public Bookmark
 {
 public:
-	EdgeBookmark(const Id id, const std::wstring& name, const std::wstring& comment,
-		const TimeStamp& timeStamp, const BookmarkCategory& category);
+	EdgeBookmark(
+		const Id id,
+		const std::wstring& name,
+		const std::wstring& comment,
+		const TimeStamp& timeStamp,
+		const BookmarkCategory& category);
 	virtual ~EdgeBookmark();
 
 	void addEdgeId(const Id edgeId);
@@ -23,4 +26,4 @@ private:
 	Id m_activeNodeId;
 };
 
-#endif // EDGE_BOOKMARK_H
+#endif	  // EDGE_BOOKMARK_H

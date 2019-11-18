@@ -78,4 +78,4 @@ struct SearchMatch
 };
 
 
-#endif // SEARCH_MATCH_H
+#endif	  // SEARCH_MATCH_H

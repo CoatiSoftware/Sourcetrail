@@ -3,13 +3,10 @@
 
 #include "Message.h"
 
-class MessagePluginPortChange
-	: public Message<MessagePluginPortChange>
+class MessagePluginPortChange: public Message<MessagePluginPortChange>
 {
 public:
-	MessagePluginPortChange()
-	{
-	}
+	MessagePluginPortChange() {}
 
 	static const std::string getStaticType()
 	{
@@ -17,4 +14,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_PLUGIN_PORT_CHANGE_H
+#endif	  // MESSAGE_PLUGIN_PORT_CHANGE_H

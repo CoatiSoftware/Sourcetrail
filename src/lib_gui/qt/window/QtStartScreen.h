@@ -3,11 +3,10 @@
 
 #include <QPushButton>
 
-#include "QtWindow.h"
 #include "FilePath.h"
+#include "QtWindow.h"
 
-class QtRecentProjectButton
-	: public QPushButton
+class QtRecentProjectButton: public QPushButton
 {
 	Q_OBJECT
 
@@ -19,14 +18,14 @@ public slots:
 	void handleButtonClick();
 signals:
 	void updateButtons();
+
 private:
 	bool m_projectExists;
 	FilePath m_projectFilePath;
 };
 
 
-class QtStartScreen
-	: public QtWindow
+class QtStartScreen: public QtWindow
 {
 	Q_OBJECT
 
@@ -57,4 +56,4 @@ private:
 	const QIcon m_patreonIcon;
 };
 
-#endif // QT_START_SCREEN_H
+#endif	  // QT_START_SCREEN_H

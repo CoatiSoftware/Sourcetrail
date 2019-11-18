@@ -21,8 +21,8 @@ std::shared_ptr<TraceEvent> Tracer::startEvent(const std::string& eventName)
 
 	const std::thread::id id = std::this_thread::get_id();
 
-	std::shared_ptr<TraceEvent> event =
-		std::make_shared<TraceEvent>(eventName, s_nextTraceId++, m_startedEvents[id].size());
+	std::shared_ptr<TraceEvent> event = std::make_shared<TraceEvent>(
+		eventName, s_nextTraceId++, m_startedEvents[id].size());
 
 	m_events[id].push_back(event);
 	m_startedEvents[id].push(event.get());
@@ -44,7 +44,7 @@ void Tracer::printTraces()
 	std::lock_guard<std::mutex> lock(m_mutex);
 
 	size_t unfinishEvents = 0;
-	for (auto& p : m_startedEvents)
+	for (auto& p: m_startedEvents)
 	{
 		unfinishEvents += p.second.size();
 	}
@@ -69,11 +69,11 @@ void Tracer::printTraces()
 	std::cout << "-----------------------------------------------------------------";
 	std::cout << "------------------------------------------------------------\n";
 
-	for (auto& p : m_events)
+	for (auto& p: m_events)
 	{
 		std::cout << "thread: " << p.first << std::endl;
 
-		for (const std::shared_ptr<TraceEvent>& event : p.second)
+		for (const std::shared_ptr<TraceEvent>& event: p.second)
 		{
 			std::cout.width(8 + 2 * event->depth);
 			std::cout << std::right << std::setprecision(3) << std::fixed << event->time;
@@ -106,9 +106,9 @@ void Tracer::printTraces()
 
 	std::map<std::string, AccumulatedTraceEvent> accumulatedEvents;
 
-	for (auto& p : m_events)
+	for (auto& p: m_events)
 	{
-		for (const std::shared_ptr<TraceEvent>& event : p.second)
+		for (const std::shared_ptr<TraceEvent>& event: p.second)
 		{
 			const std::string name = event->eventName + event->functionName + event->locationName;
 
@@ -130,20 +130,19 @@ void Tracer::printTraces()
 		}
 	}
 
-	std::multiset<AccumulatedTraceEvent,
-		std::function<bool(const AccumulatedTraceEvent&, const AccumulatedTraceEvent&)>> sortedEvents(
-			[](const AccumulatedTraceEvent& a, const AccumulatedTraceEvent& b)
-	{
-		return a.time > b.time;
-	}
-	);
+	std::multiset<
+		AccumulatedTraceEvent,
+		std::function<bool(const AccumulatedTraceEvent&, const AccumulatedTraceEvent&)>>
+		sortedEvents([](const AccumulatedTraceEvent& a, const AccumulatedTraceEvent& b) {
+			return a.time > b.time;
+		});
 
-	for (const std::pair<std::string, AccumulatedTraceEvent>& p : accumulatedEvents)
+	for (const std::pair<std::string, AccumulatedTraceEvent>& p: accumulatedEvents)
 	{
 		sortedEvents.insert(p.second);
 	}
 
-	for (const AccumulatedTraceEvent& acc : sortedEvents)
+	for (const AccumulatedTraceEvent& acc: sortedEvents)
 	{
 		std::cout.width(8);
 		std::cout << std::right << std::setprecision(3) << std::fixed << acc.time;
@@ -163,9 +162,7 @@ void Tracer::printTraces()
 	m_events.clear();
 }
 
-Tracer::Tracer()
-{
-}
+Tracer::Tracer() {}
 
 
 std::shared_ptr<AccumulatingTracer> AccumulatingTracer::s_instance;
@@ -187,8 +184,8 @@ std::shared_ptr<TraceEvent> AccumulatingTracer::startEvent(const std::string& ev
 
 	const std::thread::id id = std::this_thread::get_id();
 
-	std::shared_ptr<TraceEvent> event =
-		std::make_shared<TraceEvent>(eventName, s_nextTraceId++, m_startedEvents[id].size());
+	std::shared_ptr<TraceEvent> event = std::make_shared<TraceEvent>(
+		eventName, s_nextTraceId++, m_startedEvents[id].size());
 
 	m_startedEvents[id].push(event.get());
 
@@ -226,7 +223,7 @@ void AccumulatingTracer::printTraces()
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
 
-	for (auto& p : m_startedEvents)
+	for (auto& p: m_startedEvents)
 	{
 		if (!p.second.empty())
 		{
@@ -240,20 +237,19 @@ void AccumulatingTracer::printTraces()
 	std::cout << "-----------------------------------------------------------------";
 	std::cout << "------------------------------------------------------------\n";
 
-	std::multiset<AccumulatedTraceEvent,
-			std::function<bool (const AccumulatedTraceEvent&, const AccumulatedTraceEvent&)>> sortedEvents(
-		[](const AccumulatedTraceEvent& a, const AccumulatedTraceEvent& b)
-		{
+	std::multiset<
+		AccumulatedTraceEvent,
+		std::function<bool(const AccumulatedTraceEvent&, const AccumulatedTraceEvent&)>>
+		sortedEvents([](const AccumulatedTraceEvent& a, const AccumulatedTraceEvent& b) {
 			return a.time > b.time;
-		}
-	);
+		});
 
-	for (const std::pair<std::string, AccumulatedTraceEvent>& p : m_accumulatedEvents)
+	for (const std::pair<std::string, AccumulatedTraceEvent>& p: m_accumulatedEvents)
 	{
 		sortedEvents.insert(p.second);
 	}
 
-	for (const AccumulatedTraceEvent& acc : sortedEvents)
+	for (const AccumulatedTraceEvent& acc: sortedEvents)
 	{
 		std::cout.width(8);
 		std::cout << std::right << std::setprecision(3) << std::fixed << acc.time;
@@ -273,6 +269,4 @@ void AccumulatingTracer::printTraces()
 	m_accumulatedEvents.clear();
 }
 
-AccumulatingTracer::AccumulatingTracer()
-{
-}
+AccumulatingTracer::AccumulatingTracer() {}

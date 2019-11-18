@@ -15,10 +15,12 @@ bool SourceGroupFactoryModulePython::supports(SourceGroupType type) const
 	return false;
 }
 
-std::shared_ptr<SourceGroup> SourceGroupFactoryModulePython::createSourceGroup(std::shared_ptr<SourceGroupSettings> settings) const
+std::shared_ptr<SourceGroup> SourceGroupFactoryModulePython::createSourceGroup(
+	std::shared_ptr<SourceGroupSettings> settings) const
 {
 	std::shared_ptr<SourceGroup> sourceGroup;
-	if (std::shared_ptr<SourceGroupSettingsPythonEmpty> pythonSettings = std::dynamic_pointer_cast<SourceGroupSettingsPythonEmpty>(settings))
+	if (std::shared_ptr<SourceGroupSettingsPythonEmpty> pythonSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsPythonEmpty>(settings))
 	{
 		sourceGroup = std::shared_ptr<SourceGroup>(new SourceGroupPythonEmpty(pythonSettings));
 	}

@@ -3,8 +3,7 @@
 #include <algorithm>
 
 TabbedView::TabbedView(ViewLayout* viewLayout, const std::string& name)
-	: View(viewLayout)
-	, m_name(name)
+	: View(viewLayout), m_name(name)
 {
 }
 

@@ -3,9 +3,9 @@
 
 #include <QObject>
 
+#include "QtThreadedFunctor.h"
 #include "TabsController.h"
 #include "TabsView.h"
-#include "QtThreadedFunctor.h"
 
 class QtTabBar;
 
@@ -50,4 +50,4 @@ private:
 	size_t m_insertedTabCount;
 };
 
-#endif // QT_TABS_VIEW_H
+#endif	  // QT_TABS_VIEW_H

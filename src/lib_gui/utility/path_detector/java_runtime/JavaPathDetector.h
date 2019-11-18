@@ -12,4 +12,4 @@ protected:
 	const std::string m_javaVersion;
 };
 
-#endif // JAVA_PATH_DETECTOR_H
+#endif	  // JAVA_PATH_DETECTOR_H

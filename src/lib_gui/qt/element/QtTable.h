@@ -3,8 +3,7 @@
 
 #include <QTableView>
 
-class QtTable
-	: public QTableView
+class QtTable: public QTableView
 {
 	Q_OBJECT
 
@@ -36,4 +35,4 @@ private:
 	int m_lastPos = -1;
 };
 
-#endif // QT_TABLE_H
+#endif	  // QT_TABLE_H

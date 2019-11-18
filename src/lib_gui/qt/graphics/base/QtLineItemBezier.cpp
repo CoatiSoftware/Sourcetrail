@@ -2,14 +2,9 @@
 
 #include <QPainter>
 
-QtLineItemBezier::QtLineItemBezier(QGraphicsItem* parent)
-	: QtLineItemBase(parent)
-{
-}
+QtLineItemBezier::QtLineItemBezier(QGraphicsItem* parent): QtLineItemBase(parent) {}
 
-QtLineItemBezier::~QtLineItemBezier()
-{
-}
+QtLineItemBezier::~QtLineItemBezier() {}
 
 QPainterPath QtLineItemBezier::shape() const
 {
@@ -127,11 +122,7 @@ QPainterPath QtLineItemBezier::getCurve() const
 
 	QPainterPath path;
 	path.moveTo(poly.at(3));
-	path.cubicTo(
-		poly.at(2),
-		poly.at(1),
-		poly.at(0)
-	);
+	path.cubicTo(poly.at(2), poly.at(1), poly.at(0));
 
 	// QPainterPath path;
 	// path.moveTo(poly.at(3));

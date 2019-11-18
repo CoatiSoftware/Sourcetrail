@@ -1,12 +1,11 @@
 #include "SqliteStorage.h"
 
 #include "FileSystem.h"
-#include "logging.h"
 #include "TimeStamp.h"
+#include "logging.h"
 #include "utilityString.h"
 
-SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
-	: m_dbFilePath(dbFilePath.getCanonical())
+SqliteStorage::SqliteStorage(const FilePath& dbFilePath): m_dbFilePath(dbFilePath.getCanonical())
 {
 	if (!m_dbFilePath.getParentDirectory().empty() && !m_dbFilePath.getParentDirectory().exists())
 	{
@@ -130,12 +129,11 @@ void SqliteStorage::setupMetaTable()
 	{
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS meta("
-				"id INTEGER, "
-				"key TEXT, "
-				"value TEXT, "
-				"PRIMARY KEY(id)"
-			");"
-		);
+			"id INTEGER, "
+			"key TEXT, "
+			"value TEXT, "
+			"PRIMARY KEY(id)"
+			");");
 	}
 	catch (CppSQLite3Exception& e)
 	{
@@ -211,11 +209,7 @@ int SqliteStorage::executeStatementScalar(CppSQLite3Statement& statement, const 
 		if (q.eof() || q.numFields() < 1)
 		{
 			char error[] = "Invalid scalar query";
-			throw CppSQLite3Exception(
-				CPPSQLITE_ERROR,
-				error,
-				false
-			);
+			throw CppSQLite3Exception(CPPSQLITE_ERROR, error, false);
 		}
 
 		ret = q.getIntField(0, nullValue);
@@ -257,8 +251,7 @@ CppSQLite3Query SqliteStorage::executeQuery(CppSQLite3Statement& statement) cons
 bool SqliteStorage::hasTable(const std::string& tableName) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "';"
-	);
+		"SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "';");
 
 	if (!q.eof())
 	{
@@ -285,11 +278,11 @@ std::string SqliteStorage::getMetaValue(const std::string& key) const
 
 void SqliteStorage::insertOrUpdateMetaValue(const std::string& key, const std::string& value)
 {
-	CppSQLite3Statement stmt = m_database.compileStatement(std::string(
-		"INSERT OR REPLACE INTO meta(id, key, value) VALUES("
-			"(SELECT id FROM meta WHERE key = ?), ?, ?"
-		");"
-	).c_str());
+	CppSQLite3Statement stmt = m_database.compileStatement(
+		std::string("INSERT OR REPLACE INTO meta(id, key, value) VALUES("
+					"(SELECT id FROM meta WHERE key = ?), ?, ?"
+					");")
+			.c_str());
 
 	stmt.bind(1, key.c_str());
 	stmt.bind(2, key.c_str());

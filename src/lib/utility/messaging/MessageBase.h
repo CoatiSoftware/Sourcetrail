@@ -128,4 +128,4 @@ private:
 	bool m_isLogged;
 };
 
-#endif // MESSAGE_BASE_H
+#endif	  // MESSAGE_BASE_H

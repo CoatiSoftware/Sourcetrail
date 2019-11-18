@@ -4,13 +4,11 @@
 #include "Message.h"
 #include "SearchMatch.h"
 
-class MessageTabState
-	: public Message<MessageTabState>
+class MessageTabState: public Message<MessageTabState>
 {
 public:
 	MessageTabState(Id tabId, const std::vector<SearchMatch>& searchMatches)
-		: tabId(tabId)
-		, searchMatches(searchMatches)
+		: tabId(tabId), searchMatches(searchMatches)
 	{
 	}
 
@@ -23,4 +21,4 @@ public:
 	const std::vector<SearchMatch> searchMatches;
 };
 
-#endif // MESSAGE_TAB_STATE_H
+#endif	  // MESSAGE_TAB_STATE_H

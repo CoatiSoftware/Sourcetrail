@@ -13,8 +13,7 @@ class QtHighlighter;
 class SourceLocation;
 class SourceLocationFile;
 
-class QtCodeField
-	: public QPlainTextEdit
+class QtCodeField: public QPlainTextEdit
 {
 	Q_OBJECT
 
@@ -84,7 +83,9 @@ protected:
 	};
 
 	bool annotateText(
-		const std::set<Id>& activeSymbolIds, const std::set<Id>& activeLocationIds, const std::set<Id>& focusedSymbolIds);
+		const std::set<Id>& activeSymbolIds,
+		const std::set<Id>& activeLocationIds,
+		const std::set<Id>& focusedSymbolIds);
 
 	void createAnnotations(std::shared_ptr<SourceLocationFile> locationFile);
 	void activateAnnotations(const std::vector<const Annotation*>& annotations);
@@ -137,4 +138,4 @@ private:
 	Id m_openInTabLocationId;
 };
 
-#endif // QT_CODE_FIELD_H
+#endif	  // QT_CODE_FIELD_H

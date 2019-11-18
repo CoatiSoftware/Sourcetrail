@@ -6,9 +6,9 @@
 #include "Vector2.h"
 #include "types.h"
 
+#include "GroupType.h"
 #include "ScreenSearchInterfaces.h"
 #include "View.h"
-#include "GroupType.h"
 
 struct DummyEdge;
 struct DummyNode;
@@ -56,4 +56,4 @@ public:
 	virtual void activateEdge(Id edgeId) = 0;
 };
 
-#endif // GRAPH_VIEW_H
+#endif	  // GRAPH_VIEW_H

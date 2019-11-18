@@ -1,10 +1,10 @@
 #ifndef CXX_VS_10_TO_14_HEADER_PATH_DETECTOR_H
 #define CXX_VS_10_TO_14_HEADER_PATH_DETECTOR_H
 
-#include "PathDetector.h"
 #include "ApplicationArchitectureType.h"
+#include "PathDetector.h"
 
-class CxxVs10To14HeaderPathDetector : public PathDetector
+class CxxVs10To14HeaderPathDetector: public PathDetector
 {
 public:
 	enum VisualStudioType
@@ -15,7 +15,8 @@ public:
 		VISUAL_STUDIO_2015
 	};
 
-	CxxVs10To14HeaderPathDetector(VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture);
+	CxxVs10To14HeaderPathDetector(
+		VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture);
 	std::vector<FilePath> getPaths() const override;
 
 private:
@@ -29,4 +30,4 @@ private:
 	const ApplicationArchitectureType m_architecture;
 };
 
-#endif // CXX_VS_10_TO_14_HEADER_PATH_DETECTOR_H
+#endif	  // CXX_VS_10_TO_14_HEADER_PATH_DETECTOR_H

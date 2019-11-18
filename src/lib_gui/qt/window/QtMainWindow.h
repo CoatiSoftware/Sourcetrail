@@ -7,22 +7,21 @@
 
 #include <QMainWindow>
 
-#include "SearchMatch.h"
-#include "QtWindowsTaskbarButton.h"
 #include "QtWindowStack.h"
+#include "QtWindowsTaskbarButton.h"
+#include "SearchMatch.h"
 
 class Bookmark;
 class MessageBase;
 class QDockWidget;
 class View;
 
-class QtViewToggle
-	: public QWidget
+class QtViewToggle: public QWidget
 {
 	Q_OBJECT
 
 public:
-	QtViewToggle(View* view, QWidget *parent = nullptr);
+	QtViewToggle(View* view, QWidget* parent = nullptr);
 	void clear();
 
 public slots:
@@ -34,8 +33,7 @@ private:
 };
 
 
-class MouseReleaseFilter
-	: public QObject
+class MouseReleaseFilter: public QObject
 {
 	Q_OBJECT
 
@@ -51,8 +49,7 @@ private:
 };
 
 
-class QtMainWindow
-	: public QMainWindow
+class QtMainWindow: public QMainWindow
 {
 	Q_OBJECT
 
@@ -170,7 +167,7 @@ private:
 		QtViewToggle* toggle;
 	};
 
-    void setupEditMenu();
+	void setupEditMenu();
 	void setupProjectMenu();
 	void setupViewMenu();
 	void setupHistoryMenu();
@@ -181,8 +178,8 @@ private:
 
 	void setShowDockWidgetTitleBars(bool showTitleBars);
 
-	template<typename T>
-		T* createWindow();
+	template <typename T>
+	T* createWindow();
 
 	std::vector<DockWidget> m_dockWidgets;
 
@@ -205,4 +202,4 @@ private:
 	QtWindowsTaskbarButton m_windowsTaskbarButton;
 };
 
-#endif // QT_MAIN_WINDOW_H
+#endif	  // QT_MAIN_WINDOW_H

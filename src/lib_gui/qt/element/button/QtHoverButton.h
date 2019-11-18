@@ -3,8 +3,7 @@
 
 #include <QPushButton>
 
-class QtHoverButton
-	: public QPushButton
+class QtHoverButton: public QPushButton
 {
 	Q_OBJECT
 
@@ -16,8 +15,8 @@ signals:
 	void hoveredOut(QPushButton*);
 
 protected:
-	void enterEvent(QEvent *event);
-	void leaveEvent(QEvent *event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
 };
 
-#endif // QT_HOVER_BUTTON_H
+#endif	  // QT_HOVER_BUTTON_H

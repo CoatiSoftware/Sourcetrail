@@ -14,15 +14,15 @@ public:
 		const std::string& functionName,
 		const unsigned int line,
 		const std::tm& time,
-		const std::thread::id& threadId
-	)
+		const std::thread::id& threadId)
 		: message(message)
 		, filePath(filePath)
 		, functionName(functionName)
 		, line(line)
 		, time(time)
 		, threadId(threadId)
-	{}
+	{
+	}
 
 	std::string getTimeString(const std::string& format) const
 	{
@@ -44,4 +44,4 @@ public:
 	const std::thread::id threadId;
 };
 
-#endif // LOG_MESSAGE_H
+#endif	  // LOG_MESSAGE_H

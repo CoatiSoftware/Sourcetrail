@@ -6,8 +6,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithSourcePaths
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithSourcePaths: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithSourcePaths() = default;
@@ -26,4 +25,4 @@ private:
 	std::vector<FilePath> m_sourcePaths;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_SOURCE_PATHS_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_SOURCE_PATHS_H

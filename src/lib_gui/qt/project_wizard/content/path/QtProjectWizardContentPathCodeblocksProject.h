@@ -6,15 +6,13 @@
 
 class SourceGroupSettingsCxxCodeblocks;
 
-class QtProjectWizardContentPathCodeblocksProject
-	: public QtProjectWizardContentPath
+class QtProjectWizardContentPathCodeblocksProject: public QtProjectWizardContentPath
 {
 	Q_OBJECT
 
 public:
 	QtProjectWizardContentPathCodeblocksProject(
-		std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings,
-		QtProjectWizardWindow* window);
+		std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings, QtProjectWizardWindow* window);
 
 	// QtProjectWizardContent implementation
 	void populate(QGridLayout* layout, int& row) override;
@@ -37,4 +35,4 @@ private:
 	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATH_CODE_BLOCKS_PROJECT_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_CODE_BLOCKS_PROJECT_H

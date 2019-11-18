@@ -16,4 +16,4 @@ private:
 	std::function<void(const SettingsMigration*, Settings*)> m_lambda;
 };
 
-#endif // SETTINGS_MIGRATION_LAMBDA_H
+#endif	  // SETTINGS_MIGRATION_LAMBDA_H

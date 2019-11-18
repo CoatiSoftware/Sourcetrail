@@ -2,13 +2,14 @@
 
 #include <sstream>
 
-#include <clang/AST/PrettyPrinter.h>
 #include <clang/AST/DeclTemplate.h>
+#include <clang/AST/PrettyPrinter.h>
 
 #include "CxxTypeNameResolver.h"
 #include "utilityString.h"
 
-CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(CanonicalFilePathCache* canonicalFilePathCache)
+CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(
+	CanonicalFilePathCache* canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache)
 {
 }
@@ -18,7 +19,8 @@ CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(const Cxx
 {
 }
 
-std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
+std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(
+	const clang::NamedDecl* parameter)
 {
 	std::wstring templateParameterTypeString;
 
@@ -28,13 +30,16 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(cons
 		switch (templateParameterKind)
 		{
 		case clang::Decl::NonTypeTemplateParm:
-			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter));
+			templateParameterTypeString = getTemplateParameterTypeString(
+				clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter));
 			break;
 		case clang::Decl::TemplateTypeParm:
-			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter));
+			templateParameterTypeString = getTemplateParameterTypeString(
+				clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter));
 			break;
 		case clang::Decl::TemplateTemplateParm:
-			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
+			templateParameterTypeString = getTemplateParameterTypeString(
+				clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
 			break;
 		default:
 			// LOG_ERROR("Unhandled kind of template parameter.");
@@ -50,10 +55,12 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(cons
 	return templateParameterTypeString;
 }
 
-std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter)
+std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
+	const clang::NonTypeTemplateParmDecl* parameter)
 {
-	std::wstring typeString =
-		CxxTypeName::makeUnsolvedIfNull(CxxTypeNameResolver(this).getName(parameter->getType()))->toString();
+	std::wstring typeString = CxxTypeName::makeUnsolvedIfNull(
+								  CxxTypeNameResolver(this).getName(parameter->getType()))
+								  ->toString();
 
 	if (parameter->isTemplateParameterPack())
 	{
@@ -63,7 +70,8 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
 	return typeString;
 }
 
-std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter)
+std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
+	const clang::TemplateTypeParmDecl* parameter)
 {
 	std::wstring typeString = (parameter->wasDeclaredWithTypename() ? L"typename" : L"class");
 
@@ -75,7 +83,8 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
 	return typeString;
 }
 
-std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter)
+std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
+	const clang::TemplateTemplateParmDecl* parameter)
 {
 	std::wstringstream ss;
 	ss << L"template<";
@@ -92,7 +101,7 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
 
 		ss << parameterStringResolver.getTemplateParameterString(parameterList->getParam(i));
 	}
-	ss << L"> typename"; // TODO: what if template template parameter is defined with class keyword?
+	ss << L"> typename";	// TODO: what if template template parameter is defined with class keyword?
 
 	if (parameter->isTemplateParameterPack())
 	{

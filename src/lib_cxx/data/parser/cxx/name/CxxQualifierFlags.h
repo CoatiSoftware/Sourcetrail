@@ -25,4 +25,4 @@ private:
 	char m_flags;
 };
 
-#endif // CXX_QUALIFIER_FLAGS_H
+#endif	  // CXX_QUALIFIER_FLAGS_H

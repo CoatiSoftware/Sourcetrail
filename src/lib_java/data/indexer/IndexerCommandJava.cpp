@@ -13,11 +13,8 @@ IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
 IndexerCommandJava::IndexerCommandJava(
 	const FilePath& sourceFilePath,
 	const std::wstring& languageStandard,
-	const std::vector<FilePath>& classPath
-)
-	: IndexerCommand(sourceFilePath)
-	, m_languageStandard(languageStandard)
-	, m_classPath(classPath)
+	const std::vector<FilePath>& classPath)
+	: IndexerCommand(sourceFilePath), m_languageStandard(languageStandard), m_classPath(classPath)
 {
 }
 
@@ -30,7 +27,7 @@ size_t IndexerCommandJava::getByteSize(size_t stringSize) const
 {
 	size_t size = IndexerCommand::getByteSize(stringSize);
 
-	for (const FilePath& i : m_classPath)
+	for (const FilePath& i: m_classPath)
 	{
 		size += stringSize + utility::encodeToUtf8(i.wstr()).size();
 	}
@@ -59,7 +56,7 @@ QJsonObject IndexerCommandJava::doSerialize() const
 
 	{
 		QJsonArray classPathArray;
-		for (const FilePath& classPath : m_classPath)
+		for (const FilePath& classPath: m_classPath)
 		{
 			classPathArray.append(QString::fromStdWString(classPath.wstr()));
 		}

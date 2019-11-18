@@ -6,14 +6,13 @@
 
 #include <QAbstractTableModel>
 #include <QCompleter>
-#include <QStyledItemDelegate>
 #include <QListView>
+#include <QStyledItemDelegate>
 
-#include "SearchMatch.h"
 #include "QtDeviceScaledPixmap.h"
+#include "SearchMatch.h"
 
-class QtAutocompletionModel
-	: public QAbstractTableModel
+class QtAutocompletionModel: public QAbstractTableModel
 {
 	Q_OBJECT
 
@@ -39,15 +38,15 @@ private:
 };
 
 
-class QtAutocompletionDelegate
-	: public QStyledItemDelegate
+class QtAutocompletionDelegate: public QStyledItemDelegate
 {
 	Q_OBJECT
 public:
 	explicit QtAutocompletionDelegate(QtAutocompletionModel* model, QObject* parent = 0);
 	virtual ~QtAutocompletionDelegate();
 
-	virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+	virtual void paint(
+		QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 	virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
 	void calculateCharSizes(QFont font);
@@ -68,8 +67,7 @@ private:
 };
 
 
-class QtAutocompletionList
-	: public QCompleter
+class QtAutocompletionList: public QCompleter
 {
 	Q_OBJECT
 
@@ -94,4 +92,4 @@ private:
 	std::shared_ptr<QtAutocompletionDelegate> m_delegate;
 };
 
-#endif // QT_AUTOCOMPLETION_LIST
+#endif	  // QT_AUTOCOMPLETION_LIST

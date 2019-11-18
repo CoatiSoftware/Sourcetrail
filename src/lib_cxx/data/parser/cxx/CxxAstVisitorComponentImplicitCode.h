@@ -3,9 +3,9 @@
 
 #include "CxxAstVisitorComponent.h"
 
-// This CxxAstVisitorComponent is responsible for deciding if the AstVisitor should visit implicit code in the current context.
-class CxxAstVisitorComponentImplicitCode
-	: public CxxAstVisitorComponent
+// This CxxAstVisitorComponent is responsible for deciding if the AstVisitor should visit implicit
+// code in the current context.
+class CxxAstVisitorComponentImplicitCode: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentImplicitCode(CxxAstVisitor* astVisitor);
@@ -22,4 +22,4 @@ private:
 	std::vector<bool> m_stack;
 };
 
-#endif // CXX_AST_VISITOR_COMPONENT_IMPLICIT_CODE_H
+#endif	  // CXX_AST_VISITOR_COMPONENT_IMPLICIT_CODE_H

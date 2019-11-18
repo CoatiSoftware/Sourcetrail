@@ -18,4 +18,4 @@ struct FileInfo
 	TimeStamp lastWriteTime;
 };
 
-#endif // FILE_INFO_H
+#endif	  // FILE_INFO_H

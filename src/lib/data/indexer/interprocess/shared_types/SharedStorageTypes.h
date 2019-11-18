@@ -1,6 +1,7 @@
 #ifndef SHARED_STORAGE_TYPES_H
 #define SHARED_STORAGE_TYPES_H
 
+#include "SharedMemory.h"
 #include "StorageComponentAccess.h"
 #include "StorageEdge.h"
 #include "StorageError.h"
@@ -11,40 +12,40 @@
 #include "StorageSourceLocation.h"
 #include "StorageSymbol.h"
 #include "types.h"
-#include "SharedMemory.h"
 #include "utilityString.h"
 
 // macro creating SharedStorageType from StorageType
 // - arguments: StorageType & SharedStorageType
 // - defines: conversion functions toShared() & fromShared()
 
-#define CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(__type__, __shared_type__) \
-	typedef __type__ __shared_type__; \
-\
-	inline const __shared_type__& toShared(const __type__& instance, SharedMemory::Allocator* allocator) \
-	{ \
-		return instance; \
-	} \
-\
-	inline const __type__& fromShared(const __shared_type__& instance) \
-	{ \
-		return instance; \
+#define CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(__type__, __shared_type__)                             \
+	typedef __type__ __shared_type__;                                                              \
+                                                                                                   \
+	inline const __shared_type__& toShared(                                                        \
+		const __type__& instance, SharedMemory::Allocator* allocator)                              \
+	{                                                                                              \
+		return instance;                                                                           \
+	}                                                                                              \
+                                                                                                   \
+	inline const __type__& fromShared(const __shared_type__& instance)                             \
+	{                                                                                              \
+		return instance;                                                                           \
 	}
 
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageEdge,				SharedStorageEdge )
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSymbol,				SharedStorageSymbol )
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSourceLocation,		SharedStorageSourceLocation )
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageOccurrence,			SharedStorageOccurrence )
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageComponentAccess,		SharedStorageComponentAccess)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(StorageEdge, SharedStorageEdge)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(StorageSymbol, SharedStorageSymbol)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(StorageSourceLocation, SharedStorageSourceLocation)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(StorageOccurrence, SharedStorageOccurrence)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(StorageComponentAccess, SharedStorageComponentAccess)
 
 
 struct SharedStorageNode
 {
-	SharedStorageNode(Id id, int type, const std::string& serializedName, SharedMemory::Allocator* allocator)
-		: id(id)
-		, type(type)
-		, serializedName(serializedName.c_str(), allocator)
-	{}
+	SharedStorageNode(
+		Id id, int type, const std::string& serializedName, SharedMemory::Allocator* allocator)
+		: id(id), type(type), serializedName(serializedName.c_str(), allocator)
+	{
+	}
 
 	Id id;
 	int type;
@@ -53,7 +54,8 @@ struct SharedStorageNode
 
 inline SharedStorageNode toShared(const StorageNode& node, SharedMemory::Allocator* allocator)
 {
-	return SharedStorageNode(node.id, node.type, utility::encodeToUtf8(node.serializedName), allocator);
+	return SharedStorageNode(
+		node.id, node.type, utility::encodeToUtf8(node.serializedName), allocator);
 }
 
 inline StorageNode fromShared(const SharedStorageNode& node)
@@ -65,14 +67,19 @@ inline StorageNode fromShared(const SharedStorageNode& node)
 struct SharedStorageFile
 {
 	SharedStorageFile(
-		Id id, const std::string& filePath, const std::string& languageIdentifier, bool indexed, bool complete, SharedMemory::Allocator* allocator
-	)
+		Id id,
+		const std::string& filePath,
+		const std::string& languageIdentifier,
+		bool indexed,
+		bool complete,
+		SharedMemory::Allocator* allocator)
 		: id(id)
 		, filePath(filePath.c_str(), allocator)
 		, languageIdentifier(languageIdentifier.c_str(), allocator)
 		, indexed(indexed)
 		, complete(complete)
-	{}
+	{
+	}
 
 	Id id;
 	SharedMemory::String filePath;
@@ -83,27 +90,40 @@ struct SharedStorageFile
 
 inline SharedStorageFile toShared(const StorageFile& file, SharedMemory::Allocator* allocator)
 {
-	return SharedStorageFile(file.id, utility::encodeToUtf8(file.filePath), utility::encodeToUtf8(file.languageIdentifier), file.indexed, file.complete, allocator);
+	return SharedStorageFile(
+		file.id,
+		utility::encodeToUtf8(file.filePath),
+		utility::encodeToUtf8(file.languageIdentifier),
+		file.indexed,
+		file.complete,
+		allocator);
 }
 
 inline StorageFile fromShared(const SharedStorageFile& file)
 {
-	return StorageFile(file.id, utility::decodeFromUtf8(file.filePath.c_str()), utility::decodeFromUtf8(file.languageIdentifier.c_str()), "", file.indexed, file.complete);
+	return StorageFile(
+		file.id,
+		utility::decodeFromUtf8(file.filePath.c_str()),
+		utility::decodeFromUtf8(file.languageIdentifier.c_str()),
+		"",
+		file.indexed,
+		file.complete);
 }
 
 
 struct SharedStorageLocalSymbol
 {
 	SharedStorageLocalSymbol(Id id, const std::string& name, SharedMemory::Allocator* allocator)
-		: id(id)
-		, name(name.c_str(), allocator)
-	{}
+		: id(id), name(name.c_str(), allocator)
+	{
+	}
 
 	Id id;
 	SharedMemory::String name;
 };
 
-inline SharedStorageLocalSymbol toShared(const StorageLocalSymbol& symbol, SharedMemory::Allocator* allocator)
+inline SharedStorageLocalSymbol toShared(
+	const StorageLocalSymbol& symbol, SharedMemory::Allocator* allocator)
 {
 	return SharedStorageLocalSymbol(symbol.id, utility::encodeToUtf8(symbol.name), allocator);
 }
@@ -122,14 +142,14 @@ struct SharedStorageError
 		const std::string& translationUnit,
 		bool fatal,
 		bool indexed,
-		SharedMemory::Allocator* allocator
-	)
+		SharedMemory::Allocator* allocator)
 		: id(id)
 		, message(message.c_str(), allocator)
 		, translationUnit(translationUnit.c_str(), allocator)
 		, fatal(fatal)
 		, indexed(indexed)
-	{}
+	{
+	}
 
 	Id id;
 	SharedMemory::String message;
@@ -145,8 +165,8 @@ inline SharedStorageError toShared(const StorageError& error, SharedMemory::Allo
 		utility::encodeToUtf8(error.message),
 		utility::encodeToUtf8(error.translationUnit),
 		error.fatal,
-		error.indexed, allocator
-	);
+		error.indexed,
+		allocator);
 }
 
 inline StorageError fromShared(const SharedStorageError& error)
@@ -156,8 +176,7 @@ inline StorageError fromShared(const SharedStorageError& error)
 		utility::decodeFromUtf8(error.message.c_str()),
 		utility::decodeFromUtf8(error.translationUnit.c_str()),
 		error.fatal,
-		error.indexed
-	);
+		error.indexed);
 }
 
-#endif // SHARED_STORAGE_TYPES_H
+#endif	  // SHARED_STORAGE_TYPES_H

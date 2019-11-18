@@ -4,12 +4,11 @@
 #include <memory>
 #include <string>
 
-#include "UndoRedoView.h"
-#include "QtUndoRedo.h"
 #include "QtThreadedFunctor.h"
+#include "QtUndoRedo.h"
+#include "UndoRedoView.h"
 
-class QtUndoRedoView
-	: public UndoRedoView
+class QtUndoRedoView: public UndoRedoView
 {
 public:
 	QtUndoRedoView(ViewLayout* viewLayout);
@@ -31,4 +30,4 @@ private:
 	QtUndoRedo* m_widget;
 };
 
-#endif // QT_UNDO_REDO_VIEW_H
+#endif	  // QT_UNDO_REDO_VIEW_H

@@ -31,15 +31,19 @@ public:
 
 	virtual std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const = 0;
 	virtual std::set<FilePath> getAllSourceFilePaths() const = 0;
-	virtual std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(const RefreshInfo& info) const;
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const = 0;
+	virtual std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(
+		const RefreshInfo& info) const;
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
+		const RefreshInfo& info) const = 0;
 	virtual std::shared_ptr<Task> getPreIndexTask(
-		std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView) const;
+		std::shared_ptr<StorageProvider> storageProvider,
+		std::shared_ptr<DialogView> dialogView) const;
 
 	SourceGroupType getType() const;
 	LanguageType getLanguage() const;
 	SourceGroupStatusType getStatus() const;
-	std::set<FilePath> filterToContainedSourceFilePath(const std::set<FilePath>& staticSourceFilePaths) const;
+	std::set<FilePath> filterToContainedSourceFilePath(
+		const std::set<FilePath>& staticSourceFilePaths) const;
 	bool containsSourceFilePath(const FilePath& sourceFilePath) const;
 
 protected:
@@ -53,4 +57,4 @@ protected:
 		const std::vector<FilePathFilter>& excludeFilters) const;
 };
 
-#endif // SOURCE_GROUP_H
+#endif	  // SOURCE_GROUP_H

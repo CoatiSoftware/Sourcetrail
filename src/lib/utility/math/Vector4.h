@@ -1,13 +1,13 @@
 #ifndef VECTOR_4_H
 #define VECTOR_4_H
 
-#include "logging.h"
 #include "Property.h"
+#include "logging.h"
 
 #include "VectorBase.h"
 
-template<class T>
-class Vector4 : public VectorBase<T, 4>
+template <class T>
+class Vector4: public VectorBase<T, 4>
 {
 public:
 	Vector4();
@@ -29,7 +29,7 @@ public:
 	Vector4<T> normalize();
 	Vector4<T> normalized() const;
 
-	template<class U>
+	template <class U>
 	void operator=(const Vector4<U>& other);
 
 protected:
@@ -39,7 +39,7 @@ protected:
 	static const unsigned int m_wIndex = 3;
 };
 
-template<class T>
+template <class T>
 Vector4<T>::Vector4()
 	: VectorBase<T, 4>()
 	, x(&VectorBase<T, 4>::m_values[m_xIndex])
@@ -47,13 +47,13 @@ Vector4<T>::Vector4()
 	, z(&VectorBase<T, 4>::m_values[m_zIndex])
 	, w(&VectorBase<T, 4>::m_values[m_wIndex])
 {
-		setValue(m_xIndex, 0);
-		setValue(m_yIndex, 0);
-		setValue(m_zIndex, 0);
-		setValue(m_wIndex, 0);
+	setValue(m_xIndex, 0);
+	setValue(m_yIndex, 0);
+	setValue(m_zIndex, 0);
+	setValue(m_wIndex, 0);
 }
 
-template<class T>
+template <class T>
 Vector4<T>::Vector4(const T& x, const T& y, const T& z, const T& w)
 	: VectorBase<T, 4>()
 	, x(&VectorBase<T, 4>::m_values[m_xIndex])
@@ -67,7 +67,7 @@ Vector4<T>::Vector4(const T& x, const T& y, const T& z, const T& w)
 	setValue(m_wIndex, w);
 }
 
-template<class T>
+template <class T>
 Vector4<T>::Vector4(const VectorBase<T, 4>& vector)
 	: VectorBase<T, 4>(vector)
 	, x(&VectorBase<T, 4>::m_values[m_xIndex])
@@ -77,7 +77,7 @@ Vector4<T>::Vector4(const VectorBase<T, 4>& vector)
 {
 }
 
-template<class T>
+template <class T>
 Vector4<T>::Vector4(const Vector4<T>& vector)
 	: VectorBase<T, 4>(vector)
 	, x(&VectorBase<T, 4>::m_values[m_xIndex])
@@ -87,12 +87,12 @@ Vector4<T>::Vector4(const Vector4<T>& vector)
 {
 }
 
-template<class T>
+template <class T>
 Vector4<T>::~Vector4()
 {
 }
 
-template<class T>
+template <class T>
 T Vector4<T>::getValue(const unsigned int index) const
 {
 	try
@@ -106,7 +106,7 @@ T Vector4<T>::getValue(const unsigned int index) const
 	}
 }
 
-template<class T>
+template <class T>
 void Vector4<T>::setValue(const unsigned int index, const T& value)
 {
 	try
@@ -119,7 +119,7 @@ void Vector4<T>::setValue(const unsigned int index, const T& value)
 	}
 }
 
-template<class T>
+template <class T>
 T& Vector4<T>::operator[](const unsigned int index)
 {
 	try
@@ -133,27 +133,27 @@ T& Vector4<T>::operator[](const unsigned int index)
 	}
 }
 
-template<class T>
+template <class T>
 Vector4<T> Vector4<T>::normalize()
 {
 	return VectorBase<T, 4>::normalize();
 }
 
-template<class T>
+template <class T>
 Vector4<T> Vector4<T>::normalized() const
 {
 	return VectorBase<T, 4>::normalized();
 }
 
-//template<class T>
-//template<class U>
-//void Vector4<T>::operator=(Vector4<U>& other)
+// template<class T>
+// template<class U>
+// void Vector4<T>::operator=(Vector4<U>& other)
 //{
 //	this->assign(other);
 //}
 
-template<class T>
-template<class U>
+template <class T>
+template <class U>
 void Vector4<T>::operator=(const Vector4<U>& other)
 {
 	this->assign(other);
@@ -162,4 +162,4 @@ void Vector4<T>::operator=(const Vector4<U>& other)
 typedef Vector4<float> Vec4f;
 typedef Vector4<int> Vec4i;
 
-#endif // VECTOR_4_H
+#endif	  // VECTOR_4_H

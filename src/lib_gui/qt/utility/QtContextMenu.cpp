@@ -6,9 +6,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#include "logging.h"
 #include "MessageHistoryRedo.h"
 #include "MessageHistoryUndo.h"
+#include "logging.h"
 
 QtContextMenu* QtContextMenu::s_instance;
 
@@ -21,8 +21,7 @@ QAction* QtContextMenu::s_openContainingFolderAction;
 FilePath QtContextMenu::s_filePath;
 
 QtContextMenu::QtContextMenu(QContextMenuEvent* event, QWidget* origin)
-	: m_menu(origin)
-	, m_point(event->globalPos())
+	: m_menu(origin), m_point(event->globalPos())
 {
 	getInstance();
 }
@@ -78,12 +77,20 @@ QtContextMenu* QtContextMenu::getInstance()
 		s_copyFullPathAction = new QAction(tr("Copy Full Path"), s_instance);
 		s_copyFullPathAction->setStatusTip(tr("Copies the path of this file to the clipboard"));
 		s_copyFullPathAction->setToolTip(tr("Copies the path of this file to the clipboard"));
-		connect(s_copyFullPathAction, &QAction::triggered, s_instance, &QtContextMenu::copyFullPathActionTriggered);
+		connect(
+			s_copyFullPathAction,
+			&QAction::triggered,
+			s_instance,
+			&QtContextMenu::copyFullPathActionTriggered);
 
 		s_openContainingFolderAction = new QAction(tr("Open Containing Folder"), s_instance);
 		s_openContainingFolderAction->setStatusTip(tr("Opens the folder that contains this file"));
 		s_openContainingFolderAction->setToolTip(tr("Opens the folder that contains this file"));
-		connect(s_openContainingFolderAction, &QAction::triggered, s_instance, &QtContextMenu::openContainingFolderActionTriggered);
+		connect(
+			s_openContainingFolderAction,
+			&QAction::triggered,
+			s_instance,
+			&QtContextMenu::openContainingFolderActionTriggered);
 	}
 
 	return s_instance;
@@ -111,7 +118,9 @@ void QtContextMenu::redoActionTriggered()
 
 void QtContextMenu::copyFullPathActionTriggered()
 {
-	const std::wstring pathString = (QSysInfo::windowsVersion() != QSysInfo::WV_None) ? s_filePath.getBackslashedWString() : s_filePath.wstr();
+	const std::wstring pathString = (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+		? s_filePath.getBackslashedWString()
+		: s_filePath.wstr();
 	QApplication::clipboard()->setText(QString::fromStdWString(pathString));
 }
 
@@ -120,7 +129,8 @@ void QtContextMenu::openContainingFolderActionTriggered()
 	FilePath dir = s_filePath.getParentDirectory();
 	if (dir.exists())
 	{
-		QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + dir.wstr()), QUrl::TolerantMode));
+		QDesktopServices::openUrl(
+			QUrl(QString::fromStdWString(L"file:///" + dir.wstr()), QUrl::TolerantMode));
 	}
 	else
 	{
@@ -128,6 +138,4 @@ void QtContextMenu::openContainingFolderActionTriggered()
 	}
 }
 
-QtContextMenu::QtContextMenu()
-{
-}
+QtContextMenu::QtContextMenu() {}

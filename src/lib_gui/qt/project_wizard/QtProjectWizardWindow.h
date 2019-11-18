@@ -5,8 +5,7 @@
 
 class QtProjectWizardContent;
 
-class QtProjectWizardWindow
-	: public QtWindow
+class QtProjectWizardWindow: public QtWindow
 {
 	Q_OBJECT
 
@@ -41,4 +40,4 @@ private:
 	bool m_showSeparator;
 };
 
-#endif // QT_PROJECT_WIZARD_WINDOW_H
+#endif	  // QT_PROJECT_WIZARD_WINDOW_H

@@ -6,12 +6,14 @@
 
 #include "ApplicationSettings.h"
 
-QtCodeNavigateable::~QtCodeNavigateable()
-{
-}
+QtCodeNavigateable::~QtCodeNavigateable() {}
 
 void QtCodeNavigateable::ensureWidgetVisibleAnimated(
-	const QWidget* parentWidget, const QWidget *childWidget, QRectF rect, bool animated, CodeScrollParams::Target target)
+	const QWidget* parentWidget,
+	const QWidget* childWidget,
+	QRectF rect,
+	bool animated,
+	CodeScrollParams::Target target)
 {
 	QAbstractScrollArea* area = getScrollArea();
 	if (!area || !parentWidget->isAncestorOf(childWidget))
@@ -24,7 +26,8 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 
 	if (rect.height() > 0)
 	{
-		focusRect = QRect(childWidget->mapTo(parentWidget, rect.topLeft().toPoint()), rect.size().toSize());
+		focusRect = QRect(
+			childWidget->mapTo(parentWidget, rect.topLeft().toPoint()), rect.size().toSize());
 
 		if (focusRect.height() < 100)
 		{
@@ -166,10 +169,12 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(
 	}
 }
 
-QRect QtCodeNavigateable::getFocusRectForWidget(const QWidget* childWidget, const QWidget* parentWidget) const
+QRect QtCodeNavigateable::getFocusRectForWidget(
+	const QWidget* childWidget, const QWidget* parentWidget) const
 {
 	const QRect microFocus = childWidget->inputMethodQuery(Qt::ImCursorRectangle).toRect();
-	const QRect defaultMicroFocus = childWidget->QWidget::inputMethodQuery(Qt::ImCursorRectangle).toRect();
+	const QRect defaultMicroFocus =
+		childWidget->QWidget::inputMethodQuery(Qt::ImCursorRectangle).toRect();
 
 	if (microFocus != defaultMicroFocus)
 	{
@@ -180,4 +185,3 @@ QRect QtCodeNavigateable::getFocusRectForWidget(const QWidget* childWidget, cons
 		return QRect(childWidget->mapTo(parentWidget, QPoint(0, 0)), childWidget->size());
 	}
 }
-

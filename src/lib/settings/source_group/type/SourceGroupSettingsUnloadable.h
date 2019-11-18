@@ -3,7 +3,7 @@
 
 #include "SourceGroupSettings.h"
 
-class SourceGroupSettingsUnloadable : public SourceGroupSettings
+class SourceGroupSettingsUnloadable: public SourceGroupSettings
 {
 public:
 	SourceGroupSettingsUnloadable(const std::string& id, const ProjectSettings* projectSettings)
@@ -25,15 +25,16 @@ public:
 
 		m_content.clear();
 
-		std::vector<std::string> unprocessedKeys = { key };
+		std::vector<std::string> unprocessedKeys = {key};
 
 		while (!unprocessedKeys.empty())
 		{
 			const std::string unprocessedKey = unprocessedKeys.back();
 			unprocessedKeys.pop_back();
-			for (const std::string& memberKey : config->getSublevelKeys(unprocessedKey))
+			for (const std::string& memberKey: config->getSublevelKeys(unprocessedKey))
 			{
-				const std::vector<std::string> values = config->getValuesOrDefaults<std::string>(memberKey, {});
+				const std::vector<std::string> values = config->getValuesOrDefaults<std::string>(
+					memberKey, {});
 				if (!values.empty())
 				{
 					m_content[memberKey] = values;
@@ -48,7 +49,7 @@ public:
 
 	void saveSettings(ConfigManager* config) override
 	{
-		for (auto it : m_content)
+		for (auto it: m_content)
 		{
 			config->setValues(it.first, it.second);
 		}
@@ -60,14 +61,13 @@ public:
 		{
 			return false;
 		}
-		 //compare values
+		// compare values
 
 		return true;
 	}
 
 private:
 	std::map<std::string, std::vector<std::string>> m_content;
-
 };
 
-#endif // SOURCE_GROUP_SETTINGS_UNLOADABLE_H
+#endif	  // SOURCE_GROUP_SETTINGS_UNLOADABLE_H

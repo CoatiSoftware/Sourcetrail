@@ -44,11 +44,12 @@ NetworkProtocolHelper::MESSAGE_TYPE NetworkProtocolHelper::getMessageType(const 
 			return MESSAGE_TYPE::UNKNOWN;
 		}
 	}
-	
+
 	return MESSAGE_TYPE::UNKNOWN;
 }
 
-NetworkProtocolHelper::SetActiveTokenMessage NetworkProtocolHelper::parseSetActiveTokenMessage(const std::wstring& message)
+NetworkProtocolHelper::SetActiveTokenMessage NetworkProtocolHelper::parseSetActiveTokenMessage(
+	const std::wstring& message)
 {
 	std::vector<std::wstring> subMessages = divideMessage(message);
 
@@ -68,13 +69,9 @@ NetworkProtocolHelper::SetActiveTokenMessage NetworkProtocolHelper::parseSetActi
 				const std::wstring row = subMessages[2];
 				const std::wstring column = subMessages[3];
 
-				if(
-					!filePath.empty()
-					&& !row.empty()
-					&& !column.empty()
-					&& isDigits(row)
-					&& isDigits(column)
-				){
+				if (!filePath.empty() && !row.empty() && !column.empty() && isDigits(row) &&
+					isDigits(column))
+				{
 					networkMessage.filePath = FilePath(filePath);
 					networkMessage.row = std::stoi(row);
 					networkMessage.column = std::stoi(column);
@@ -84,14 +81,17 @@ NetworkProtocolHelper::SetActiveTokenMessage NetworkProtocolHelper::parseSetActi
 		}
 		else
 		{
-			LOG_ERROR(L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " + s_setActiveTokenPrefix);
+			LOG_ERROR(
+				L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " +
+				s_setActiveTokenPrefix);
 		}
 	}
 
 	return networkMessage;
 }
 
-NetworkProtocolHelper::CreateProjectMessage NetworkProtocolHelper::parseCreateProjectMessage(const std::wstring& message)
+NetworkProtocolHelper::CreateProjectMessage NetworkProtocolHelper::parseCreateProjectMessage(
+	const std::wstring& message)
 {
 	std::vector<std::wstring> subMessages = divideMessage(message);
 
@@ -108,14 +108,17 @@ NetworkProtocolHelper::CreateProjectMessage NetworkProtocolHelper::parseCreatePr
 		}
 		else
 		{
-			LOG_ERROR(L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " + s_createProjectPrefix);
+			LOG_ERROR(
+				L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " +
+				s_createProjectPrefix);
 		}
 	}
 
 	return networkMessage;
 }
 
-NetworkProtocolHelper::CreateCDBProjectMessage NetworkProtocolHelper::parseCreateCDBProjectMessage(const std::wstring& message)
+NetworkProtocolHelper::CreateCDBProjectMessage NetworkProtocolHelper::parseCreateCDBProjectMessage(
+	const std::wstring& message)
 {
 	std::vector<std::wstring> subMessages = divideMessage(message);
 
@@ -164,7 +167,9 @@ NetworkProtocolHelper::CreateCDBProjectMessage NetworkProtocolHelper::parseCreat
 		}
 		else
 		{
-			LOG_ERROR(L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " + s_createCDBProjectPrefix);
+			LOG_ERROR(
+				L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " +
+				s_createCDBProjectPrefix);
 		}
 	}
 
@@ -206,14 +211,17 @@ NetworkProtocolHelper::PingMessage NetworkProtocolHelper::parsePingMessage(const
 		}
 		else
 		{
-			LOG_ERROR(L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " + s_pingPrefix);
+			LOG_ERROR(
+				L"Failed to parse message, invalid type token: " + subMessages[0] + L". Expected " +
+				s_pingPrefix);
 		}
 	}
 
 	return pingMessage;
 }
 
-std::wstring NetworkProtocolHelper::buildSetIDECursorMessage(const FilePath& fileLocation, const unsigned int row, const unsigned int column)
+std::wstring NetworkProtocolHelper::buildSetIDECursorMessage(
+	const FilePath& fileLocation, const unsigned int row, const unsigned int column)
 {
 	std::wstringstream messageStream;
 

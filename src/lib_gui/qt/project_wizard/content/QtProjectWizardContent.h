@@ -6,15 +6,14 @@
 #include <QToolButton>
 #include <QWidget>
 
-#include "QtHelpButton.h"
-#include "QtThreadedFunctor.h"
-#include "QtProjectWizardWindow.h"
 #include "FilePath.h"
+#include "QtHelpButton.h"
+#include "QtProjectWizardWindow.h"
+#include "QtThreadedFunctor.h"
 
 class QtTextEditDialog;
 
-class QtProjectWizardContent
-	: public QWidget
+class QtProjectWizardContent: public QWidget
 {
 	Q_OBJECT
 
@@ -42,7 +41,8 @@ protected:
 	QLabel* createFormTitle(QString name) const;
 	QToolButton* createSourceGroupButton(QString name, QString iconPath) const;
 
-	QtHelpButton* addHelpButton(const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const;
+	QtHelpButton* addHelpButton(
+		const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const;
 	QPushButton* addFilesButton(QString name, QGridLayout* layout, int row) const;
 	QFrame* addSeparator(QGridLayout* layout, int row) const;
 
@@ -61,4 +61,4 @@ private:
 	QtThreadedFunctor<const std::vector<FilePath>&> m_showFilesFunctor;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_H

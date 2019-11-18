@@ -1,13 +1,13 @@
 #ifndef ACTIVATION_LISTENER_H
 #define ACTIVATION_LISTENER_H
 
-#include "MessageListener.h"
 #include "MessageActivateErrors.h"
 #include "MessageActivateFullTextSearch.h"
 #include "MessageActivateLegend.h"
 #include "MessageActivateOverview.h"
 #include "MessageActivateTokens.h"
 #include "MessageActivateTrail.h"
+#include "MessageListener.h"
 
 class ActivationListener
 	: public MessageListener<MessageActivateErrors>
@@ -36,4 +36,4 @@ private:
 	std::vector<SearchMatch> m_searchMatches;
 };
 
-#endif // ACTIVATION_LISTENER_H
+#endif	  // ACTIVATION_LISTENER_H

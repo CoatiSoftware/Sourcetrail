@@ -100,12 +100,14 @@ void CxxAstVisitorComponentDeclRefKind::beginTraverseAssignCommonRhs()
 	m_childRefKind = REFERENCE_USAGE;
 }
 
-void CxxAstVisitorComponentDeclRefKind::beginTraverseConstructorInitializer(clang::CXXCtorInitializer* init)
+void CxxAstVisitorComponentDeclRefKind::beginTraverseConstructorInitializer(
+	clang::CXXCtorInitializer* init)
 {
 	m_childRefKind = REFERENCE_USAGE;
 }
 
-void CxxAstVisitorComponentDeclRefKind::beginTraverseCXXTemporaryObjectExpr(clang::CXXTemporaryObjectExpr* s)
+void CxxAstVisitorComponentDeclRefKind::beginTraverseCXXTemporaryObjectExpr(
+	clang::CXXTemporaryObjectExpr* s)
 {
 	m_thisRefKind = REFERENCE_CALL;
 	m_childRefKind = REFERENCE_USAGE;
@@ -164,7 +166,8 @@ void CxxAstVisitorComponentDeclRefKind::visitMemberExpr(clang::MemberExpr* s)
 	m_childRefKind = REFERENCE_USAGE;
 }
 
-void CxxAstVisitorComponentDeclRefKind::visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s)
+void CxxAstVisitorComponentDeclRefKind::visitCXXDependentScopeMemberExpr(
+	clang::CXXDependentScopeMemberExpr* s)
 {
 	m_childRefKind = REFERENCE_USAGE;
 }

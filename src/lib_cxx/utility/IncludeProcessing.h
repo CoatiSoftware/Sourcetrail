@@ -19,15 +19,15 @@ public:
 		const std::set<FilePath>& sourceFilePaths,
 		const std::set<FilePath>& indexedPaths,
 		const std::set<FilePath>& headerSearchDirectories,
-		size_t quantileCount, std::function<void(float)> progress
-	);
+		size_t quantileCount,
+		std::function<void(float)> progress);
 
 	static std::set<FilePath> getHeaderSearchDirectories(
 		const std::set<FilePath>& sourceFilePaths,
 		const std::set<FilePath>& searchedPaths,
 		const std::set<FilePath>& currentHeaderSearchDirectories,
-		const size_t desiredQuantileCount, std::function<void(float)> progress
-	);
+		const size_t desiredQuantileCount,
+		std::function<void(float)> progress);
 
 	static std::vector<IncludeDirective> getIncludeDirectives(const FilePath& filePath);
 
@@ -38,15 +38,12 @@ private:
 		std::set<FilePath> filePathsToProcess,
 		std::unordered_set<std::wstring>& processedFilePaths,
 		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePath>& headerSearchDirectories
-	);
+		const std::set<FilePath>& headerSearchDirectories);
 
 	static FilePath resolveIncludeDirective(
-		const IncludeDirective& includeDirective,
-		const std::set<FilePath>& headerSearchDirectories
-	);
+		const IncludeDirective& includeDirective, const std::set<FilePath>& headerSearchDirectories);
 
 	IncludeProcessing() = delete;
 };
 
-#endif // INCLUDE_PROCESSING_H
+#endif	  // INCLUDE_PROCESSING_H

@@ -13,8 +13,7 @@ class MessageActivateTrail
 {
 public:
 	MessageActivateTrail(
-		Id originId, Id targetId, Edge::TypeMask edgeTypes, size_t depth, bool horizontalLayout
-	)
+		Id originId, Id targetId, Edge::TypeMask edgeTypes, size_t depth, bool horizontalLayout)
 		: originId(originId)
 		, targetId(targetId)
 		, nodeTypes(0)
@@ -34,8 +33,7 @@ public:
 		Edge::TypeMask edgeTypes,
 		bool nodeNonIndexed,
 		size_t depth,
-		bool horizontalLayout
-	)
+		bool horizontalLayout)
 		: originId(originId)
 		, targetId(targetId)
 		, nodeTypes(nodeTypes)
@@ -70,4 +68,4 @@ public:
 	const bool custom;
 };
 
-#endif // MESSAGE_ACTIVATE_TRAIL_H
+#endif	  // MESSAGE_ACTIVATE_TRAIL_H

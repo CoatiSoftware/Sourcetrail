@@ -3,8 +3,7 @@
 
 #include "QtProjectWizardContentPaths.h"
 
-class QtProjectWizardContentPathsFrameworkSearchGlobal
-	: public QtProjectWizardContentPaths
+class QtProjectWizardContentPathsFrameworkSearchGlobal: public QtProjectWizardContentPaths
 {
 	Q_OBJECT
 public:
@@ -15,4 +14,4 @@ public:
 	virtual void save() override;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATHS_FRAMEWORK_SEARCH_GLOBAL_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATHS_FRAMEWORK_SEARCH_GLOBAL_H

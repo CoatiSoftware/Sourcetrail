@@ -7,4 +7,4 @@ class SqliteStorage;
 
 typedef Migrator<SqliteStorage> SqliteStorageMigrator;
 
-#endif // SQLITE_STORAGE_MIGRATOR_H
+#endif	  // SQLITE_STORAGE_MIGRATOR_H

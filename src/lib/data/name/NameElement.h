@@ -45,4 +45,4 @@ private:
 	Signature m_signature;
 };
 
-#endif // NAME_ELEMENT_H
+#endif	  // NAME_ELEMENT_H

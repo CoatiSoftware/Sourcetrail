@@ -1,7 +1,6 @@
 #include "QtTextEdit.h"
 
-QtTextEdit::QtTextEdit(QWidget* parent)
-	: QTextBrowser(parent)
+QtTextEdit::QtTextEdit(QWidget* parent): QTextBrowser(parent)
 {
 	document()->setDefaultStyleSheet("a { color: #007AC2; }");
 }

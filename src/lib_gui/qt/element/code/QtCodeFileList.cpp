@@ -1,21 +1,21 @@
 #include "QtCodeFileList.h"
 
 #include <QScrollBar>
-#include <QVBoxLayout>
 #include <QTimer>
+#include <QVBoxLayout>
 
 #include "FilePath.h"
 #include "ResourcePaths.h"
-#include "utilityApp.h"
 #include "utility.h"
+#include "utilityApp.h"
 
-#include "SourceLocationFile.h"
+#include "ColorScheme.h"
 #include "QtCodeFile.h"
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeNavigator.h"
 #include "QtCodeSnippet.h"
+#include "SourceLocationFile.h"
 #include "utilityQt.h"
-#include "ColorScheme.h"
 
 QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	: QFrame()
@@ -47,7 +47,8 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	{
 		// set style on scrollbar because it always has bright background by default
 		m_lastSnippetScrollBar->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/scrollbar.css")).c_str());
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/scrollbar.css"))
+				.c_str());
 		m_styleSize = m_lastSnippetScrollBar->styleSheet().size();
 	}
 	else
@@ -56,7 +57,8 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	}
 
 	m_lastSnippetScrollBar->hide();
-	connect(m_lastSnippetScrollBar, &QScrollBar::valueChanged, this, &QtCodeFileList::scrollLastSnippet);
+	connect(
+		m_lastSnippetScrollBar, &QScrollBar::valueChanged, this, &QtCodeFileList::scrollLastSnippet);
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setSpacing(0);
@@ -66,13 +68,21 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 
 	m_scrollSpeedChangeListener.setScrollBar(m_scrollArea->verticalScrollBar());
 
-	connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &QtCodeFileList::updateSnippetTitleAndScrollBar);
-	connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, m_navigator, &QtCodeNavigator::scrolled);
+	connect(
+		m_scrollArea->verticalScrollBar(),
+		&QScrollBar::valueChanged,
+		this,
+		&QtCodeFileList::updateSnippetTitleAndScrollBar);
+	connect(
+		m_scrollArea->verticalScrollBar(),
+		&QScrollBar::valueChanged,
+		m_navigator,
+		&QtCodeNavigator::scrolled);
 }
 
 void QtCodeFileList::clear()
 {
-	for (QtCodeFile* file : m_files)
+	for (QtCodeFile* file: m_files)
 	{
 		file->hide();
 		file->deleteLater();
@@ -94,7 +104,7 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 {
 	QtCodeFile* file = nullptr;
 
-	for (QtCodeFile* filePtr : m_files)
+	for (QtCodeFile* filePtr: m_files)
 	{
 		if (filePtr->getFilePath() == filePath)
 		{
@@ -152,7 +162,7 @@ void QtCodeFileList::addFile(const CodeFileParams& params)
 		{
 			file->clearSnippets();
 
-			for (const CodeSnippetParams& snippetParams : params.snippetParams)
+			for (const CodeSnippetParams& snippetParams: params.snippetParams)
 			{
 				file->addCodeSnippet(snippetParams);
 			}
@@ -178,7 +188,7 @@ void QtCodeFileList::updateSourceLocations(const CodeSnippetParams& params)
 
 void QtCodeFileList::updateFiles()
 {
-	for (QtCodeFile* file : m_files)
+	for (QtCodeFile* file: m_files)
 	{
 		file->setProperty("last", file == m_files.back());
 		file->updateContent();
@@ -191,7 +201,11 @@ void QtCodeFileList::updateFiles()
 }
 
 void QtCodeFileList::scrollTo(
-	const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, CodeScrollParams::Target target)
+	const FilePath& filePath,
+	size_t lineNumber,
+	Id locationId,
+	bool animated,
+	CodeScrollParams::Target target)
 {
 	QtCodeFile* file = getFile(filePath);
 	if (!file)
@@ -253,7 +267,7 @@ void QtCodeFileList::scrollTo(
 
 void QtCodeFileList::onWindowFocus()
 {
-	for (QtCodeFile* file : m_files)
+	for (QtCodeFile* file: m_files)
 	{
 		file->updateTitleBar();
 	}
@@ -264,9 +278,10 @@ void QtCodeFileList::onWindowFocus()
 	}
 }
 
-void QtCodeFileList::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeFileList::findScreenMatches(
+	const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
-	for (QtCodeFile* file : m_files)
+	for (QtCodeFile* file: m_files)
 	{
 		file->findScreenMatches(query, screenMatches);
 	}
@@ -282,7 +297,7 @@ void QtCodeFileList::maximizeFirstFile()
 
 std::pair<QtCodeFile*, Id> QtCodeFileList::getFirstFileWithActiveLocationId() const
 {
-	for (QtCodeFile* file : m_files)
+	for (QtCodeFile* file: m_files)
 	{
 		std::pair<QtCodeSnippet*, Id> snippet = file->getFirstSnippetWithActiveLocationId(0);
 		if (snippet.first != nullptr)
@@ -298,7 +313,7 @@ std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationI
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (QtCodeFile* file : m_files)
+	for (QtCodeFile* file: m_files)
 	{
 		result = file->getFirstSnippetWithActiveLocationId(tokenId);
 		if (result.first != nullptr)
@@ -329,21 +344,21 @@ void QtCodeFileList::updateSnippetTitleAndScrollBar(int value)
 
 	const QRect visibleRect(-m_filesArea->pos(), m_scrollArea->viewport()->size());
 
-	for (QtCodeFile* file : m_files)
+	for (QtCodeFile* file: m_files)
 	{
 		QRect fileRect = getFocusRectForWidget(file, m_filesArea);
 
 		if (!firstFile && visibleRect.top() > fileRect.top() &&
-			visibleRect.top() < fileRect.bottom() + 1 &&
-			file->getVisibleSnippets().size())
+			visibleRect.top() < fileRect.bottom() + 1 && file->getVisibleSnippets().size())
 		{
 			firstFile = file;
-			fileTitleBarOffset = std::min(0, fileRect.bottom() + 1 - (visibleRect.top() + m_firstSnippetTitleBar->height()));
+			fileTitleBarOffset = std::min(
+				0, fileRect.bottom() + 1 - (visibleRect.top() + m_firstSnippetTitleBar->height()));
 		}
 
 		if (visibleRect.bottom() > fileRect.top() && fileRect.bottom() > visibleRect.bottom())
 		{
-			for (QtCodeSnippet* snippet : file->getVisibleSnippets())
+			for (QtCodeSnippet* snippet: file->getVisibleSnippets())
 			{
 				QScrollBar* scrollbar = snippet->getArea()->horizontalScrollBar();
 				if (!scrollbar || scrollbar->minimum() == scrollbar->maximum())
@@ -398,22 +413,33 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 		{
 			m_firstSnippetTitleBar->updateFromOther(mirroredTitleBar);
 
-			connect(m_firstSnippetTitleBar, &QtCodeFileTitleBar::minimize, file, &QtCodeFile::clickedMinimizeButton);
-			connect(m_firstSnippetTitleBar, &QtCodeFileTitleBar::snippet, file, &QtCodeFile::clickedSnippetButton);
-			connect(m_firstSnippetTitleBar, &QtCodeFileTitleBar::maximize, file, &QtCodeFile::clickedMaximizeButton);
+			connect(
+				m_firstSnippetTitleBar,
+				&QtCodeFileTitleBar::minimize,
+				file,
+				&QtCodeFile::clickedMinimizeButton);
+			connect(
+				m_firstSnippetTitleBar,
+				&QtCodeFileTitleBar::snippet,
+				file,
+				&QtCodeFile::clickedSnippetButton);
+			connect(
+				m_firstSnippetTitleBar,
+				&QtCodeFileTitleBar::maximize,
+				file,
+				&QtCodeFile::clickedMaximizeButton);
 
 			m_firstSnippetTitleBar->setGeometry(
 				file->pos().x() + mirroredTitleBar->pos().x(),
 				0,
 				mirroredTitleBar->width(),
-				mirroredTitleBar->height()
-			);
+				mirroredTitleBar->height());
 			m_firstSnippetTitleBar->show();
 		}
 		else
 		{
-			// Forces the title button icon to get reloaded next time, which fixes a color change issue when changing
-			// color scheme
+			// Forces the title button icon to get reloaded next time, which fixes a color change
+			// issue when changing color scheme
 			m_firstSnippetTitleBar->getTitleButton()->setFilePath(FilePath());
 			m_firstSnippetTitleBar->hide();
 		}
@@ -446,7 +472,11 @@ void QtCodeFileList::updateLastSnippetScrollBar(QScrollBar* mirroredScrollBar)
 
 		if (mirroredScrollBar)
 		{
-			connect(mirroredScrollBar, &QScrollBar::valueChanged, this, &QtCodeFileList::scrollLastSnippetScrollBar);
+			connect(
+				mirroredScrollBar,
+				&QScrollBar::valueChanged,
+				this,
+				&QtCodeFileList::scrollLastSnippetScrollBar);
 
 			m_lastSnippetScrollBar->setMinimum(mirroredScrollBar->minimum());
 			m_lastSnippetScrollBar->setMaximum(mirroredScrollBar->maximum());
@@ -458,8 +488,7 @@ void QtCodeFileList::updateLastSnippetScrollBar(QScrollBar* mirroredScrollBar)
 				mirroredScrollBar->mapTo(m_scrollArea, mirroredScrollBar->pos()).x(),
 				m_scrollArea->viewport()->size().height() - mirroredScrollBar->height(),
 				mirroredScrollBar->width(),
-				mirroredScrollBar->height()
-			);
+				mirroredScrollBar->height());
 			m_lastSnippetScrollBar->show();
 
 			if (utility::getOsType() == OS_MAC)
@@ -467,9 +496,11 @@ void QtCodeFileList::updateLastSnippetScrollBar(QScrollBar* mirroredScrollBar)
 				// set style on scrollbar because it always has bright background by default
 				QString style = m_lastSnippetScrollBar->styleSheet();
 				style.resize(m_styleSize);
-				m_lastSnippetScrollBar->setStyleSheet(style + (
-					"\nQScrollBar:horizontal { background: " + ColorScheme::getInstance()->getColor("code/snippet/background") + "; }"
-				).c_str());
+				m_lastSnippetScrollBar->setStyleSheet(
+					style +
+					("\nQScrollBar:horizontal { background: " +
+					 ColorScheme::getInstance()->getColor("code/snippet/background") + "; }")
+						.c_str());
 			}
 		}
 		else

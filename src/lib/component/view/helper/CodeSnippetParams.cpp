@@ -11,21 +11,17 @@ CodeSnippetParams CodeSnippetParams::merge(const CodeSnippetParams& a, const Cod
 	SourceLocationFile* bFile = b.locationFile.get();
 
 	std::shared_ptr<SourceLocationFile> locationFile = std::make_shared<SourceLocationFile>(
-		aFile->getFilePath(), aFile->getLanguage(), aFile->isWhole(), aFile->isComplete(), aFile->isIndexed());
+		aFile->getFilePath(),
+		aFile->getLanguage(),
+		aFile->isWhole(),
+		aFile->isComplete(),
+		aFile->isIndexed());
 
 	aFile->forEachSourceLocation(
-		[&locationFile](SourceLocation* loc)
-		{
-			locationFile->addSourceLocationCopy(loc);
-		}
-	);
+		[&locationFile](SourceLocation* loc) { locationFile->addSourceLocationCopy(loc); });
 
 	bFile->forEachSourceLocation(
-		[&locationFile](SourceLocation* loc)
-		{
-			locationFile->addSourceLocationCopy(loc);
-		}
-	);
+		[&locationFile](SourceLocation* loc) { locationFile->addSourceLocationCopy(loc); });
 
 	std::string code = first->code;
 

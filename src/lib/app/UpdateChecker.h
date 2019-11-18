@@ -8,4 +8,4 @@ public:
 	virtual void checkUpdate() = 0;
 };
 
-#endif // UPDATE_CHECKER_H
+#endif	  // UPDATE_CHECKER_H

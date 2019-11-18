@@ -5,8 +5,7 @@
 
 class RefreshController;
 
-class RefreshView
-	: public View
+class RefreshView: public View
 {
 public:
 	RefreshView(ViewLayout* viewLayout);
@@ -18,4 +17,4 @@ private:
 	RefreshController* getController();
 };
 
-#endif // REFRESH_VIEW_H
+#endif	  // REFRESH_VIEW_H

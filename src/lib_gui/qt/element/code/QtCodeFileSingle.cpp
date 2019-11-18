@@ -7,18 +7,17 @@
 #include <QVBoxLayout>
 
 #include "FilePath.h"
-#include "logging.h"
 #include "MessageChangeFileView.h"
-#include "SourceLocationFile.h"
 #include "QtCodeArea.h"
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeFileTitleButton.h"
 #include "QtCodeNavigator.h"
+#include "SourceLocationFile.h"
+#include "logging.h"
 #include "utilityQt.h"
 
 QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
-	: m_navigator(navigator)
-	, m_area(nullptr)
+	: m_navigator(navigator), m_area(nullptr)
 {
 	setObjectName("code_container");
 
@@ -34,7 +33,8 @@ QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 
 	m_areaWrapper = new QWidget();
 	m_areaWrapper->setObjectName("code_file_single");
-	m_areaWrapper->setSizePolicy(m_areaWrapper->sizePolicy().horizontalPolicy(), QSizePolicy::Expanding);
+	m_areaWrapper->setSizePolicy(
+		m_areaWrapper->sizePolicy().horizontalPolicy(), QSizePolicy::Expanding);
 	m_areaWrapper->setLayout(new QVBoxLayout());
 	m_areaWrapper->layout()->setMargin(0);
 	m_areaWrapper->layout()->setSpacing(0);
@@ -50,7 +50,7 @@ void QtCodeFileSingle::clearCache()
 {
 	clearFile();
 
-	for (auto& p : m_fileDatas)
+	for (auto& p: m_fileDatas)
 	{
 		p.second.area->deleteLater();
 	}
@@ -106,8 +106,13 @@ bool QtCodeFileSingle::addFile(const CodeFileParams& params, bool useSingleFileC
 		file.title = params.fileParams->title;
 	}
 
-	file.area = new QtCodeArea(1, params.fileParams->code, locationFile, m_navigator, !params.fileParams->isOverview, this);
-	connect(file.area->verticalScrollBar(), &QScrollBar::valueChanged, m_navigator, &QtCodeNavigator::scrolled);
+	file.area = new QtCodeArea(
+		1, params.fileParams->code, locationFile, m_navigator, !params.fileParams->isOverview, this);
+	connect(
+		file.area->verticalScrollBar(),
+		&QScrollBar::valueChanged,
+		m_navigator,
+		&QtCodeNavigator::scrolled);
 
 	setFileData(file);
 	updateRefCount(params.referenceCount);
@@ -161,7 +166,11 @@ void QtCodeFileSingle::updateFiles()
 }
 
 void QtCodeFileSingle::scrollTo(
-	const FilePath& filePath, size_t lineNumber, Id locationId, bool animated, CodeScrollParams::Target target)
+	const FilePath& filePath,
+	size_t lineNumber,
+	Id locationId,
+	bool animated,
+	CodeScrollParams::Target target)
 {
 	if (m_currentFilePath != filePath)
 	{
@@ -200,7 +209,8 @@ void QtCodeFileSingle::onWindowFocus()
 	m_titleBar->getTitleButton()->updateTexts();
 }
 
-void QtCodeFileSingle::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeFileSingle::findScreenMatches(
+	const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
 	if (m_area)
 	{
@@ -243,8 +253,8 @@ void QtCodeFileSingle::clickedSnippetButton()
 		MessageChangeFileView::FILE_SNIPPETS,
 		MessageChangeFileView::VIEW_LIST,
 		CodeScrollParams::toFile(m_currentFilePath, CodeScrollParams::Target::TOP),
-		true
-	).dispatch();
+		true)
+		.dispatch();
 }
 
 QtCodeFileSingle::FileData QtCodeFileSingle::getFileData(const FilePath& filePath) const
@@ -319,7 +329,8 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 void QtCodeFileSingle::updateRefCount(int refCount)
 {
 	bool hasErrors = m_navigator->hasErrors();
-	size_t fatalErrorCount = hasErrors ? m_navigator->getFatalErrorCountForFile(m_currentFilePath) : 0;
+	size_t fatalErrorCount = hasErrors ? m_navigator->getFatalErrorCountForFile(m_currentFilePath)
+									   : 0;
 
 	m_titleBar->updateRefCount(refCount, hasErrors, fatalErrorCount);
 }

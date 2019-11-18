@@ -1,15 +1,11 @@
 #include "TaskRunner.h"
 
 #include "Blackboard.h"
-#include "logging.h"
 #include "TaskManager.h"
 #include "TaskScheduler.h"
+#include "logging.h"
 
-TaskRunner::TaskRunner(std::shared_ptr<Task> task)
-	: m_task(task)
-	, m_reset(false)
-{
-}
+TaskRunner::TaskRunner(std::shared_ptr<Task> task): m_task(task), m_reset(false) {}
 
 Task::TaskState TaskRunner::update(Id schedulerId)
 {

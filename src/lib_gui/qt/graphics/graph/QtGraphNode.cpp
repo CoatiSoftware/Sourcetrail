@@ -7,17 +7,17 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
-#include "QtRoundedRectItem.h"
-#include "QtDeviceScaledPixmap.h"
-#include "utilityQt.h"
-#include "QtGraphNodeComponent.h"
-#include "QtGraphEdge.h"
-#include "QtGraphNodeExpandToggle.h"
 #include "MessageCodeShowDefinition.h"
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
 #include "MessageGraphNodeMove.h"
+#include "QtDeviceScaledPixmap.h"
+#include "QtGraphEdge.h"
+#include "QtGraphNodeComponent.h"
+#include "QtGraphNodeExpandToggle.h"
+#include "QtRoundedRectItem.h"
 #include "ResourcePaths.h"
+#include "utilityQt.h"
 #include "utilityString.h"
 
 void QtGraphNode::blendIn()
@@ -51,9 +51,7 @@ QtGraphNode::QtGraphNode()
 	m_undefinedRect->hide();
 }
 
-QtGraphNode::~QtGraphNode()
-{
-}
+QtGraphNode::~QtGraphNode() {}
 
 QtGraphNode* QtGraphNode::getParent() const
 {
@@ -199,7 +197,7 @@ bool QtGraphNode::hasActiveChild() const
 		return true;
 	}
 
-	for (auto subNode : m_subNodes)
+	for (auto subNode: m_subNodes)
 	{
 		if (subNode->hasActiveChild())
 		{
@@ -240,15 +238,12 @@ void QtGraphNode::focusIn()
 {
 	m_isHovering = true;
 
-	forEachEdge(
-		[](QtGraphEdge* edge)
+	forEachEdge([](QtGraphEdge* edge) {
+		if (edge->isTrailEdge())
 		{
-			if (edge->isTrailEdge())
-			{
-				edge->focusIn();
-			}
+			edge->focusIn();
 		}
-	);
+	});
 
 	updateStyle();
 }
@@ -257,15 +252,12 @@ void QtGraphNode::focusOut()
 {
 	m_isHovering = false;
 
-	forEachEdge(
-		[](QtGraphEdge* edge)
+	forEachEdge([](QtGraphEdge* edge) {
+		if (edge->isTrailEdge())
 		{
-			if (edge->isTrailEdge())
-			{
-				edge->focusOut();
-			}
+			edge->focusOut();
 		}
-	);
+	});
 
 	updateStyle();
 }
@@ -275,7 +267,7 @@ void QtGraphNode::showNodeRecursive()
 	blendIn();
 	showNode();
 
-	for (auto subNode : m_subNodes)
+	for (auto subNode: m_subNodes)
 	{
 		subNode->showNodeRecursive();
 	}
@@ -285,7 +277,7 @@ void QtGraphNode::matchNameRecursive(const std::wstring& query, std::vector<QtGr
 {
 	matchName(query, matchedNodes);
 
-	for (auto subNode : m_subNodes)
+	for (auto subNode: m_subNodes)
 	{
 		subNode->matchNameRecursive(query, matchedNodes);
 	}
@@ -380,13 +372,9 @@ void QtGraphNode::moved(const Vec2i& oldPosition)
 	}
 }
 
-void QtGraphNode::onClick()
-{
-}
+void QtGraphNode::onClick() {}
 
-void QtGraphNode::onMiddleClick()
-{
-}
+void QtGraphNode::onMiddleClick() {}
 
 void QtGraphNode::onHide()
 {
@@ -404,11 +392,13 @@ void QtGraphNode::onHide()
 
 void QtGraphNode::onCollapseExpand()
 {
-	for (auto subNode : getSubNodes())
+	for (auto subNode: getSubNodes())
 	{
 		if (subNode->isExpandToggleNode())
 		{
-			MessageGraphNodeExpand(getTokenId(), !dynamic_cast<QtGraphNodeExpandToggle*>(subNode)->isExpanded()).dispatch();
+			MessageGraphNodeExpand(
+				getTokenId(), !dynamic_cast<QtGraphNodeExpandToggle*>(subNode)->isExpanded())
+				.dispatch();
 			return;
 		}
 	}
@@ -437,7 +427,7 @@ void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 	event->ignore();
 
-	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
+	for (std::shared_ptr<QtGraphNodeComponent> component: m_components)
 	{
 		component->nodeMousePressEvent(event);
 	}
@@ -456,7 +446,7 @@ void QtGraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
 	event->ignore();
 
-	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
+	for (std::shared_ptr<QtGraphNodeComponent> component: m_components)
 	{
 		component->nodeMouseMoveEvent(event);
 	}
@@ -475,7 +465,7 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	event->ignore();
 
-	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
+	for (std::shared_ptr<QtGraphNodeComponent> component: m_components)
 	{
 		component->nodeMouseReleaseEvent(event);
 	}
@@ -492,12 +482,12 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphNode::forEachEdge(std::function<void(QtGraphEdge*)> func)
 {
-	for (QtGraphEdge* edge : m_outEdges)
+	for (QtGraphEdge* edge: m_outEdges)
 	{
 		func(edge);
 	}
 
-	for (QtGraphEdge* edge : m_inEdges)
+	for (QtGraphEdge* edge: m_inEdges)
 	{
 		func(edge);
 	}
@@ -505,15 +495,12 @@ void QtGraphNode::forEachEdge(std::function<void(QtGraphEdge*)> func)
 
 void QtGraphNode::notifyEdgesAfterMove()
 {
-	forEachEdge(
-		[](QtGraphEdge* edge)
-		{
-			edge->clearPath();
-			edge->updateLine();
-		}
-	);
+	forEachEdge([](QtGraphEdge* edge) {
+		edge->clearPath();
+		edge->updateLine();
+	});
 
-	for (QtGraphNode* node : m_subNodes)
+	for (QtGraphNode* node: m_subNodes)
 	{
 		node->notifyEdgesAfterMove();
 	}
@@ -574,7 +561,8 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 
 	if (style.hasHatching)
 	{
-		QtDeviceScaledPixmap pattern(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/pattern.png").wstr()));
+		QtDeviceScaledPixmap pattern(QString::fromStdWString(
+			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/pattern.png").wstr()));
 		pattern.scaleToHeight(12);
 		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.color.hatching.c_str());
 
@@ -592,7 +580,8 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		QtDeviceScaledPixmap pixmap(QString::fromStdWString(style.iconPath.wstr()));
 		pixmap.scaleToHeight(style.iconSize);
 
-		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.color.icon.c_str()), this);
+		m_icon = new QGraphicsPixmapItem(
+			utility::colorizePixmap(pixmap.pixmap(), style.color.icon.c_str()), this);
 		m_icon->setTransformationMode(Qt::SmoothTransformation);
 		m_icon->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
 		m_icon->setPos(style.iconOffset.x, style.iconOffset.y);
@@ -615,7 +604,8 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 
 		m_matchText->setFont(font);
 		m_matchText->setBrush(QBrush(color.text.c_str()));
-		m_matchText->setPos(style.iconOffset.x + style.iconSize + style.textOffset.x, style.textOffset.y);
+		m_matchText->setPos(
+			style.iconOffset.x + style.iconSize + style.textOffset.x, style.textOffset.y);
 
 		float charWidth = QFontMetrics(font).width("QtGraphNode::QtGraphNode::QtGraphNode") / 37.0f;
 		float charHeight = QFontMetrics(font).height();
@@ -623,8 +613,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 			style.iconOffset.x + style.iconSize + style.textOffset.x + m_matchPos * charWidth,
 			style.textOffset.y,
 			m_matchLength * charWidth,
-			charHeight
-		);
+			charHeight);
 		m_matchRect->setPen(QPen(color.border.c_str()));
 		m_matchRect->setBrush(QBrush(color.fill.c_str()));
 		m_matchRect->setRadius(3);

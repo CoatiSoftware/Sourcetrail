@@ -11,8 +11,7 @@
 class QtSearchBarButton;
 class QtSmartSearchBox;
 
-class QtSearchBar
-	: public QFrame
+class QtSearchBar: public QFrame
 {
 	Q_OBJECT
 
@@ -41,7 +40,7 @@ private slots:
 	void requestFullTextSearch(const std::wstring& query, bool caseSensitive);
 
 private:
-	QWidget* m_searchBoxContainer; // used for correct clipping inside the search box
+	QWidget* m_searchBoxContainer;	  // used for correct clipping inside the search box
 
 	QtSmartSearchBox* m_searchBox;
 
@@ -49,4 +48,4 @@ private:
 	QtSearchBarButton* m_homeButton;
 };
 
-#endif // QT_SEARCH_BAR_H
+#endif	  // QT_SEARCH_BAR_H

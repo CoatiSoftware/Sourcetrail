@@ -4,7 +4,7 @@
 
 #include "QtStringListBoxItem.h"
 
-QtStringListBox::QtStringListBox(QWidget *parent, const QString& listName)
+QtStringListBox::QtStringListBox(QWidget* parent, const QString& listName)
 	: QtListBox(parent, listName)
 {
 }
@@ -24,7 +24,7 @@ void QtStringListBox::setStrings(const std::vector<std::wstring>& strings, bool 
 {
 	clear();
 
-	for (const std::wstring& str : strings)
+	for (const std::wstring& str: strings)
 	{
 		QtListBoxItem* itemWidget = addListBoxItemWithText(QString::fromStdWString(str));
 		itemWidget->setReadOnly(readOnly);

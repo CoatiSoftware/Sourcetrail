@@ -7,4 +7,4 @@ enum TooltipOrigin
 	TOOLTIP_ORIGIN_CODE
 };
 
-#endif // TOOLTIP_ORIGIN_H
+#endif	  // TOOLTIP_ORIGIN_H

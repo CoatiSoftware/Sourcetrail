@@ -8,8 +8,7 @@
 
 class SourceGroupSettingsJavaEmpty;
 
-class SourceGroupJavaEmpty
-	: public SourceGroupJava
+class SourceGroupJavaEmpty: public SourceGroupJava
 {
 public:
 	SourceGroupJavaEmpty(std::shared_ptr<SourceGroupSettingsJavaEmpty> settings);
@@ -24,4 +23,4 @@ private:
 	std::shared_ptr<SourceGroupSettingsJavaEmpty> m_settings;
 };
 
-#endif // SOURCE_GROUP_JAVA_EMPTY_H
+#endif	  // SOURCE_GROUP_JAVA_EMPTY_H

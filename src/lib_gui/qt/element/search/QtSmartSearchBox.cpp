@@ -8,14 +8,13 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
+#include "ColorScheme.h"
 #include "GraphViewStyle.h"
 #include "NodeTypeSet.h"
-#include "ColorScheme.h"
 #include "utility.h"
 #include "utilityString.h"
 
-QtSearchElement::QtSearchElement(const QString& text, QWidget* parent)
-	: QPushButton(text, parent)
+QtSearchElement::QtSearchElement(const QString& text, QWidget* parent): QPushButton(text, parent)
 {
 	show();
 	setCheckable(true);
@@ -50,7 +49,8 @@ void QtSmartSearchBox::startSearch()
 			else
 			{
 				QString text = QString::fromStdWString(match.name);
-				if (m_supportsFullTextSearch && !text.startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
+				if (m_supportsFullTextSearch &&
+					!text.startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 				{
 					text = QChar(SearchMatch::FULLTEXT_SEARCH_CHARACTER) + text;
 				}
@@ -79,7 +79,7 @@ QtSmartSearchBox::QtSmartSearchBox(const QString& placeholder, bool supportsFull
 	, m_ignoreNextMousePress(false)
 {
 	setObjectName("search_box");
-	setAttribute(Qt::WA_MacShowFocusRect, 0); // remove blue focus box on Mac
+	setAttribute(Qt::WA_MacShowFocusRect, 0);	 // remove blue focus box on Mac
 
 	m_highlightRect = new QWidget(this);
 	m_highlightRect->setGeometry(0, 0, 0, 0);
@@ -94,9 +94,7 @@ QtSmartSearchBox::QtSmartSearchBox(const QString& placeholder, bool supportsFull
 	updatePlaceholder();
 }
 
-QtSmartSearchBox::~QtSmartSearchBox()
-{
-}
+QtSmartSearchBox::~QtSmartSearchBox() {}
 
 QCompleter* QtSmartSearchBox::getCompleter() const
 {
@@ -110,7 +108,8 @@ std::vector<SearchMatch> QtSmartSearchBox::getMatches() const
 
 void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
-	// Save the cursor position, because after activating the completer the cursor gets set to the end position.
+	// Save the cursor position, because after activating the completer the cursor gets set to the
+	// end position.
 	int cursor = cursorPosition();
 
 	QtAutocompletionList* completer = m_completer;
@@ -118,8 +117,18 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& aut
 
 	setCursorPosition(cursor);
 
-	connect(completer, &QtAutocompletionList::matchHighlighted, this, &QtSmartSearchBox::onAutocompletionHighlighted, Qt::DirectConnection);
-	connect(completer, &QtAutocompletionList::matchActivated, this, &QtSmartSearchBox::onAutocompletionActivated, Qt::DirectConnection);
+	connect(
+		completer,
+		&QtAutocompletionList::matchHighlighted,
+		this,
+		&QtSmartSearchBox::onAutocompletionHighlighted,
+		Qt::DirectConnection);
+	connect(
+		completer,
+		&QtAutocompletionList::matchActivated,
+		this,
+		&QtSmartSearchBox::onAutocompletionActivated,
+		Qt::DirectConnection);
 
 	if (!autocompletionList.empty())
 	{
@@ -129,7 +138,8 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& aut
 
 void QtSmartSearchBox::setMatches(const std::vector<SearchMatch>& matches)
 {
-	if (SearchMatch::searchMatchesToString(matches) == SearchMatch::searchMatchesToString(utility::toVector(m_matches)))
+	if (SearchMatch::searchMatchesToString(matches) ==
+		SearchMatch::searchMatchesToString(utility::toVector(m_matches)))
 	{
 		return;
 	}
@@ -168,11 +178,11 @@ void QtSmartSearchBox::refreshStyle()
 	updateElements();
 }
 
-bool QtSmartSearchBox::event(QEvent *event)
+bool QtSmartSearchBox::event(QEvent* event)
 {
 	if (event->type() == QEvent::KeyPress)
 	{
-		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
 		if (keyEvent->key() == Qt::Key_Tab)
 		{
 			if (m_completer->popup()->isVisible())
@@ -184,7 +194,8 @@ bool QtSmartSearchBox::event(QEvent *event)
 				else if (m_highlightedMatch.hasChildren && m_highlightedMatch.tokenNames.size())
 				{
 					setEditText(QString::fromStdWString(
-						m_highlightedMatch.getFullName() + m_highlightedMatch.tokenNames[0].getDelimiter()));
+						m_highlightedMatch.getFullName() +
+						m_highlightedMatch.tokenNames[0].getDelimiter()));
 					requestAutoCompletions();
 				}
 				else
@@ -283,7 +294,9 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			deleteSelectedElements();
 			return;
 		}
-		else if (!hasSelectedText() && cursorPosition() == text().size() && m_cursorIndex < m_elements.size())
+		else if (
+			!hasSelectedText() && cursorPosition() == text().size() &&
+			m_cursorIndex < m_elements.size())
 		{
 			editElement(m_elements[m_cursorIndex]);
 			setCursorPosition(0);
@@ -795,7 +808,7 @@ SearchMatch QtSmartSearchBox::editElement(QtSearchElement* element)
 
 void QtSmartSearchBox::updateElements()
 {
-	for (auto e : m_elements)
+	for (auto e: m_elements)
 	{
 		e->hide();
 		e->deleteLater();
@@ -805,7 +818,7 @@ void QtSmartSearchBox::updateElements()
 	ColorScheme* scheme = ColorScheme::getInstance().get();
 	std::string searchTextColor = scheme->getColor("search/field/text");
 
-	for (const SearchMatch& match : m_matches)
+	for (const SearchMatch& match: m_matches)
 	{
 		std::wstring name = match.getFullName();
 		name = utility::replace(name, L"&", L"&&");
@@ -825,23 +838,31 @@ void QtSmartSearchBox::updateElements()
 		if (match.searchType == SearchMatch::SEARCH_TOKEN)
 		{
 			color = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), false).fill;
-			hoverColor = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).fill;
-			textColor = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), false).text;
-			textHoverColor = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).text;
+			hoverColor =
+				GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).fill;
+			textColor =
+				GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), false).text;
+			textHoverColor =
+				GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).text;
 		}
 		else
 		{
 			const std::wstring typeName = match.getSearchTypeName();
 
 			color = scheme->getSearchTypeColor(utility::encodeToUtf8(typeName), "fill");
-			hoverColor = scheme->getSearchTypeColor(utility::encodeToUtf8(typeName), "fill", "hover");
+			hoverColor = scheme->getSearchTypeColor(
+				utility::encodeToUtf8(typeName), "fill", "hover");
 			textColor = scheme->getSearchTypeColor(utility::encodeToUtf8(typeName), "text");
-			textHoverColor = scheme->getSearchTypeColor(utility::encodeToUtf8(typeName), "text", "hover");;
+			textHoverColor = scheme->getSearchTypeColor(
+				utility::encodeToUtf8(typeName), "text", "hover");
+			;
 		}
 
 		std::stringstream css;
-		css << "QPushButton { border: none; padding: 0px 4px; background-color:" << color << "; color:" << textColor << ";} ";
-		css << "QPushButton:hover { background-color:" << hoverColor << "; color:" << textHoverColor << ";} ";
+		css << "QPushButton { border: none; padding: 0px 4px; background-color:" << color
+			<< "; color:" << textColor << ";} ";
+		css << "QPushButton:hover { background-color:" << hoverColor << "; color:" << textHoverColor
+			<< ";} ";
 
 		element->setStyleSheet(css.str().c_str());
 
@@ -924,7 +945,8 @@ void QtSmartSearchBox::layoutElements()
 
 	if (hasSelected)
 	{
-		m_highlightRect->setGeometry(highlightBegin + offsetX, 0, highlightEnd - highlightBegin, height());
+		m_highlightRect->setGeometry(
+			highlightBegin + offsetX, 0, highlightEnd - highlightBegin, height());
 	}
 	else
 	{
@@ -934,7 +956,7 @@ void QtSmartSearchBox::layoutElements()
 
 bool QtSmartSearchBox::hasSelectedElements() const
 {
-	for (const QtSearchElement* element : m_elements)
+	for (const QtSearchElement* element: m_elements)
 	{
 		if (element->isChecked())
 		{
@@ -959,7 +981,7 @@ std::wstring QtSmartSearchBox::getSelectedString() const
 
 void QtSmartSearchBox::selectAllElementsWith(bool selected)
 {
-	for (QtSearchElement* element : m_elements)
+	for (QtSearchElement* element: m_elements)
 	{
 		element->setChecked(selected);
 	}
@@ -1091,7 +1113,7 @@ NodeTypeSet QtSmartSearchBox::getMatchAcceptedNodeTypes() const
 {
 	NodeTypeSet acceptedTypes;
 
-	for (const SearchMatch& match : m_matches)
+	for (const SearchMatch& match: m_matches)
 	{
 		if (match.isFilterCommand())
 		{

@@ -5,14 +5,11 @@
 #include "QtGraphNode.h"
 
 QtGraphNodeComponentMoveable::QtGraphNodeComponentMoveable(QtGraphNode* graphNode)
-	: QtGraphNodeComponent(graphNode)
-	, m_mouseOffset(0.0f, 0.0f)
+	: QtGraphNodeComponent(graphNode), m_mouseOffset(0.0f, 0.0f)
 {
 }
 
-QtGraphNodeComponentMoveable::~QtGraphNodeComponentMoveable()
-{
-}
+QtGraphNodeComponentMoveable::~QtGraphNodeComponentMoveable() {}
 
 void QtGraphNodeComponentMoveable::nodeMousePressEvent(QGraphicsSceneMouseEvent* event)
 {
@@ -30,7 +27,8 @@ void QtGraphNodeComponentMoveable::nodeMousePressEvent(QGraphicsSceneMouseEvent*
 
 void QtGraphNodeComponentMoveable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-	m_graphNode->setPosition(Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
+	m_graphNode->setPosition(
+		Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
 	event->accept();
 }
 

@@ -8,8 +8,7 @@
 #include "TaskGroup.h"
 #include "TaskRunner.h"
 
-class TaskGroupParallel
-	: public TaskGroup
+class TaskGroupParallel: public TaskGroup
 {
 public:
 	TaskGroupParallel();
@@ -19,10 +18,7 @@ public:
 private:
 	struct TaskInfo
 	{
-		TaskInfo(std::shared_ptr<TaskRunner> taskRunner)
-			: taskRunner(taskRunner)
-			, active(false)
-		{}
+		TaskInfo(std::shared_ptr<TaskRunner> taskRunner): taskRunner(taskRunner), active(false) {}
 		std::shared_ptr<TaskRunner> taskRunner;
 		std::shared_ptr<std::thread> thread;
 		volatile bool active;
@@ -48,4 +44,4 @@ private:
 	mutable std::shared_ptr<std::mutex> m_activeTaskCountMutex;
 };
 
-#endif // TASK_GROUP_PARALLEL_H
+#endif	  // TASK_GROUP_PARALLEL_H

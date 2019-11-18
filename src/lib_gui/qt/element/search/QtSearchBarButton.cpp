@@ -3,8 +3,7 @@
 #include "ApplicationSettings.h"
 
 QtSearchBarButton::QtSearchBarButton(const FilePath& iconPath, bool small, QWidget* parent)
-	: QtSelfRefreshIconButton("", iconPath, "search/button", parent)
-	, m_small(small)
+	: QtSelfRefreshIconButton("", iconPath, "search/button", parent), m_small(small)
 {
 	refresh();
 }

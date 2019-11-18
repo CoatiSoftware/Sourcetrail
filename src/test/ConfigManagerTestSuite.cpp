@@ -5,28 +5,28 @@
 
 namespace
 {
-	std::shared_ptr<TextAccess> getConfigTextAccess()
-	{
-		std::string text =
-			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
-			"<config>\n"
-			"	<path>\n"
-			"		<to>\n"
-			"			<bool_that_is_false>0</bool_that_is_false>\n"
-			"			<bool_that_is_true>1</bool_that_is_true>\n"
-			"			<single_value>42</single_value>\n"
-			"		</to>\n"
-			"	</path>\n"
-			"	<paths>\n"
-			"		<nopath>4</nopath>\n"
-			"		<path>2</path>\n"
-			"		<path>5</path>\n"
-			"		<path>8</path>\n"
-			"	</paths>\n"
-			"</config>\n";
-		return TextAccess::createFromString(text);
-	}
+std::shared_ptr<TextAccess> getConfigTextAccess()
+{
+	std::string text =
+		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
+		"<config>\n"
+		"	<path>\n"
+		"		<to>\n"
+		"			<bool_that_is_false>0</bool_that_is_false>\n"
+		"			<bool_that_is_true>1</bool_that_is_true>\n"
+		"			<single_value>42</single_value>\n"
+		"		</to>\n"
+		"	</path>\n"
+		"	<paths>\n"
+		"		<nopath>4</nopath>\n"
+		"		<path>2</path>\n"
+		"		<path>5</path>\n"
+		"		<path>8</path>\n"
+		"	</paths>\n"
+		"</config>\n";
+	return TextAccess::createFromString(text);
 }
+}	 // namespace
 
 TEST_CASE("config manager returns true when key is found")
 {
@@ -140,21 +140,22 @@ TEST_CASE("config manager save and load configuration and compare")
 
 	std::shared_ptr<ConfigManager> config = ConfigManager::createAndLoad(getConfigTextAccess());
 	config->save(path.str());
-	std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(TextAccess::createFromFile(path));
+	std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(
+		TextAccess::createFromFile(path));
 	REQUIRE(config->toString() == config2->toString());
 }
 
 TEST_CASE("config manager loads special character")
 {
 	std::shared_ptr<ConfigManager> config = ConfigManager::createAndLoad(
-		TextAccess::createFromFile(FilePath(L"data/ConfigManagerTestSuite/test_data.xml"))
-	);
+		TextAccess::createFromFile(FilePath(L"data/ConfigManagerTestSuite/test_data.xml")));
 	std::wstring loadedSpecialCharacter;
 	config->getValue("path/to/special_character", loadedSpecialCharacter);
 
 	REQUIRE(loadedSpecialCharacter.size() == 1);
-	REQUIRE(loadedSpecialCharacter[0] == wchar_t(252));;	// special character needs to be encoded as ASCII code because
-																	// otherwise python and cxx compiler may be complaining
+	REQUIRE(loadedSpecialCharacter[0] == wchar_t(252));
+	;	 // special character needs to be encoded as ASCII code because
+		 // otherwise python and cxx compiler may be complaining
 }
 
 TEST_CASE("config manager save and load special character and compare")
@@ -167,6 +168,7 @@ TEST_CASE("config manager save and load special character and compare")
 	config->setValue("path/to/special_character", specialCharacter);
 	config->save(path.str());
 
-	std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(TextAccess::createFromFile(path));
+	std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(
+		TextAccess::createFromFile(path));
 	REQUIRE(config->toString() == config2->toString());
 }

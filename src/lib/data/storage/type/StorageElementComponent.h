@@ -7,17 +7,12 @@
 
 struct StorageElementComponent
 {
-	StorageElementComponent()
-		: elementId(0)
-		, type(0)
-		, data(L"")
-	{}
+	StorageElementComponent(): elementId(0), type(0), data(L"") {}
 
 	StorageElementComponent(Id elementId, int type, std::wstring data)
-		: elementId(elementId)
-		, type(type)
-		, data(std::move(data))
-	{}
+		: elementId(elementId), type(type), data(std::move(data))
+	{
+	}
 
 	bool operator<(const StorageElementComponent& other) const
 	{
@@ -40,4 +35,4 @@ struct StorageElementComponent
 	std::wstring data;
 };
 
-#endif // STORAGE_ELEMENT_COMPONENT_H
+#endif	  // STORAGE_ELEMENT_COMPONENT_H

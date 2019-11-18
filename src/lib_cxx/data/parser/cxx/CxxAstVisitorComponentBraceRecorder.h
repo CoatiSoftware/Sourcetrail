@@ -6,9 +6,9 @@
 
 class ParserClient;
 
-// This CxxAstVisitorComponent is responsible for recording all matching braces ["{", "}"] throughout the visited AST.
-class CxxAstVisitorComponentBraceRecorder
-	: public CxxAstVisitorComponent
+// This CxxAstVisitorComponent is responsible for recording all matching braces ["{", "}"]
+// throughout the visited AST.
+class CxxAstVisitorComponentBraceRecorder: public CxxAstVisitorComponent
 {
 public:
 	CxxAstVisitorComponentBraceRecorder(
@@ -24,7 +24,8 @@ private:
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
 	FilePath getFilePath(const clang::SourceLocation& loc);
 
-	void recordBraces(const FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
+	void recordBraces(
+		const FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
 	clang::SourceLocation getFirstLBraceLocation(
 		clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const;
 	clang::SourceLocation getLastRBraceLocation(
@@ -34,4 +35,4 @@ private:
 	std::shared_ptr<ParserClient> m_client;
 };
 
-#endif // CXX_AST_VISITOR_COMPONENT_BRACE_RECORDER_H
+#endif	  // CXX_AST_VISITOR_COMPONENT_BRACE_RECORDER_H

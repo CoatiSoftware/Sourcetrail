@@ -11,22 +11,15 @@
 
 struct BlackboardItemBase
 {
-	virtual ~BlackboardItemBase()
-	{
-	}
+	virtual ~BlackboardItemBase() {}
 };
 
 template <typename T>
 struct BlackboardItem: public BlackboardItemBase
 {
-	BlackboardItem(const T &v)
-		: value(v)
-	{
-	}
+	BlackboardItem(const T& v): value(v) {}
 
-	virtual ~BlackboardItem()
-	{
-	}
+	virtual ~BlackboardItem() {}
 
 	T value;
 };
@@ -78,7 +71,8 @@ bool Blackboard::get(const std::string& key, T& value)
 	ItemMap::const_iterator it = m_items.find(key);
 	if (it != m_items.end())
 	{
-		if (std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(it->second))
+		if (std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(
+				it->second))
 		{
 			value = item->value;
 			return true;
@@ -101,7 +95,8 @@ bool Blackboard::update(const std::string& key, std::function<T(const T&)> updat
 	ItemMap::const_iterator it = m_items.find(key);
 	if (it != m_items.end())
 	{
-		if (std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(it->second))
+		if (std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(
+				it->second))
 		{
 			item->value = updater(item->value);
 			return true;
@@ -112,4 +107,4 @@ bool Blackboard::update(const std::string& key, std::function<T(const T&)> updat
 	return false;
 }
 
-#endif // BLACKBOARD_H
+#endif	  // BLACKBOARD_H

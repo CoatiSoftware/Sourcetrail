@@ -7,8 +7,7 @@
 
 class QLabel;
 
-class QtHistoryItem
-	: public QWidget
+class QtHistoryItem: public QWidget
 {
 	Q_OBJECT
 
@@ -23,8 +22,8 @@ public:
 
 protected:
 	// because changing font-weight within the stylesheet does not work for some reason
-	void enterEvent(QEvent *event);
-	void leaveEvent(QEvent *event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
 
 private:
 	QLabel* m_name;
@@ -37,8 +36,7 @@ private:
 };
 
 
-class QtHistoryListWidget
-	: public QListWidget
+class QtHistoryListWidget: public QListWidget
 {
 public:
 	QtHistoryListWidget(QWidget* parent = nullptr);
@@ -48,8 +46,7 @@ protected:
 };
 
 
-class QtHistoryList
-	: public QWidget
+class QtHistoryList: public QWidget
 {
 	Q_OBJECT
 
@@ -65,11 +62,11 @@ protected:
 	void closeEvent(QCloseEvent* event);
 
 private slots:
-	void onItemClicked(QListWidgetItem *item);
+	void onItemClicked(QListWidgetItem* item);
 
 private:
 	QtHistoryListWidget* m_list;
 	size_t m_currentIndex;
 };
 
-#endif // QT_HISTORY_LIST_H
+#endif	  // QT_HISTORY_LIST_H

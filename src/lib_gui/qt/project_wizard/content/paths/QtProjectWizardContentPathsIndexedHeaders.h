@@ -6,17 +6,20 @@
 class SourceGroupSettingsCxxCdb;
 class SourceGroupSettingsCxxCodeblocks;
 
-class QtProjectWizardContentPathsIndexedHeaders
-	: public QtProjectWizardContentPaths
+class QtProjectWizardContentPathsIndexedHeaders: public QtProjectWizardContentPaths
 {
 	Q_OBJECT
 
 public:
-	static std::vector<FilePath> getIndexedPathsDerivedFromCodeblocksProject(std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> settings);
-	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(std::shared_ptr<const SourceGroupSettingsCxxCdb> settings);
+	static std::vector<FilePath> getIndexedPathsDerivedFromCodeblocksProject(
+		std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> settings);
+	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(
+		std::shared_ptr<const SourceGroupSettingsCxxCdb> settings);
 
 	QtProjectWizardContentPathsIndexedHeaders(
-		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window, std::string projectKindName);
+		std::shared_ptr<SourceGroupSettings> settings,
+		QtProjectWizardWindow* window,
+		std::string projectKindName);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 
@@ -34,4 +37,4 @@ private:
 	const std::string m_projectKindName;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PATHS_INDEXED_HEADER_PATHS_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PATHS_INDEXED_HEADER_PATHS_H

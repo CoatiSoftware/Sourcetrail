@@ -5,12 +5,12 @@
 
 #include "Controller.h"
 
-#include "MessageListener.h"
 #include "MessageErrorCountClear.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageIndexingFinished.h"
 #include "MessageIndexingStarted.h"
 #include "MessageIndexingStatus.h"
+#include "MessageListener.h"
 #include "MessagePingReceived.h"
 #include "MessageRefresh.h"
 #include "MessageStatus.h"
@@ -52,4 +52,4 @@ private:
 	StorageAccess* m_storageAccess;
 };
 
-#endif // STATUS_BAR_CONTROLLER_H
+#endif	  // STATUS_BAR_CONTROLLER_H

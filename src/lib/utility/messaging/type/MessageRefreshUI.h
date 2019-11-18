@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageRefreshUI
-	: public Message<MessageRefreshUI>
+class MessageRefreshUI: public Message<MessageRefreshUI>
 {
 public:
 	static const std::string getStaticType()
@@ -12,11 +11,7 @@ public:
 		return "MessageRefreshUI";
 	}
 
-	MessageRefreshUI()
-		: loadStyle(true)
-		, isAfterIndexing(false)
-	{
-	}
+	MessageRefreshUI(): loadStyle(true), isAfterIndexing(false) {}
 
 	MessageRefreshUI& noStyleReload()
 	{
@@ -42,4 +37,4 @@ public:
 	bool isAfterIndexing;
 };
 
-#endif // MESSAGE_REFRESH_UI_H
+#endif	  // MESSAGE_REFRESH_UI_H

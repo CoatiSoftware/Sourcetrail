@@ -14,7 +14,8 @@ public:
 	TaskGroup();
 	std::shared_ptr<TaskGroup> addChildTasks(std::shared_ptr<Task> child1);
 	std::shared_ptr<TaskGroup> addChildTasks(std::shared_ptr<Task> child1, std::shared_ptr<Task> child2);
-	std::shared_ptr<TaskGroup> addChildTasks(std::shared_ptr<Task> child1, std::shared_ptr<Task> child2, std::shared_ptr<Task> child3);
+	std::shared_ptr<TaskGroup> addChildTasks(
+		std::shared_ptr<Task> child1, std::shared_ptr<Task> child2, std::shared_ptr<Task> child3);
 
 	virtual void addTask(std::shared_ptr<Task> task) = 0;
 	void terminate() override;
@@ -24,5 +25,4 @@ private:
 };
 
 
-
-#endif // TASK_GROUP_H
+#endif	  // TASK_GROUP_H

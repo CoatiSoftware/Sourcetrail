@@ -23,7 +23,7 @@ bool CxxNameResolver::ignoresContext(const clang::Decl* decl) const
 {
 	if (decl)
 	{
-		for (const clang::Decl* ignoredDecl : m_ignoredContextDecls)
+		for (const clang::Decl* ignoredDecl: m_ignoredContextDecls)
 		{
 			if (decl == ignoredDecl)
 			{

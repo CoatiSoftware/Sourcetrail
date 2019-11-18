@@ -5,12 +5,16 @@
 
 class FilePath;
 
-class QtGraphNodeData
-	: public QtGraphNode
+class QtGraphNodeData: public QtGraphNode
 {
 	Q_OBJECT
 public:
-	QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier, bool isInteractive);
+	QtGraphNodeData(
+		const Node* data,
+		const std::wstring& name,
+		bool childVisible,
+		bool hasQualifier,
+		bool isInteractive);
 	virtual ~QtGraphNodeData();
 
 	const Node* getData() const;
@@ -36,4 +40,4 @@ private:
 	bool m_isInteractive;
 };
 
-#endif // QT_GRAPH_NODE_DATA_H
+#endif	  // QT_GRAPH_NODE_DATA_H

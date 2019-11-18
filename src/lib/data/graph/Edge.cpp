@@ -48,26 +48,20 @@ Edge::EdgeType Edge::intToType(int value)
 }
 
 Edge::Edge(Id id, EdgeType type, Node* from, Node* to)
-	: Token(id)
-	, m_type(type)
-	, m_from(from)
-	, m_to(to)
+	: Token(id), m_type(type), m_from(from), m_to(to)
 {
 	m_from->addEdge(this);
 	m_to->addEdge(this);
 }
 
 Edge::Edge(const Edge& other, Node* from, Node* to)
-	: Token(other)
-	, m_type(other.m_type)
-	, m_from(from)
-	, m_to(to)
+	: Token(other), m_type(other.m_type), m_from(from), m_to(to)
 {
 	m_from->addEdge(this);
 	m_to->addEdge(this);
 
-	if (m_from == other.m_from || m_to == other.m_to ||
-		m_from->getId() != other.m_from->getId() || m_to->getId() != other.m_to->getId())
+	if (m_from == other.m_from || m_to == other.m_to || m_from->getId() != other.m_from->getId() ||
+		m_to->getId() != other.m_to->getId())
 	{
 		LOG_ERROR("Nodes are not plain copies.");
 	}

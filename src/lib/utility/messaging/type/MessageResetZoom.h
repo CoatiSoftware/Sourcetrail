@@ -3,13 +3,10 @@
 
 #include "Message.h"
 
-class MessageResetZoom
-	: public Message<MessageResetZoom>
+class MessageResetZoom: public Message<MessageResetZoom>
 {
 public:
-	MessageResetZoom()
-	{
-	}
+	MessageResetZoom() {}
 
 	static const std::string getStaticType()
 	{
@@ -17,4 +14,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_RESET_ZOOM_H
+#endif	  // MESSAGE_RESET_ZOOM_H

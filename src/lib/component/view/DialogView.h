@@ -42,19 +42,37 @@ public:
 	virtual void showUnknownProgressDialog(const std::wstring& title, const std::wstring& message);
 	virtual void hideUnknownProgressDialog();
 
-	virtual void showProgressDialog(const std::wstring& title, const std::wstring& message, size_t progress);
+	virtual void showProgressDialog(
+		const std::wstring& title, const std::wstring& message, size_t progress);
 	virtual void hideProgressDialog();
 
 	virtual void startIndexingDialog(
-		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshMode initialMode, bool enabledShallowOption, bool shallow,
-		std::function<void(const RefreshInfo& info)> onStartIndexing, std::function<void()> onCancelIndexing);
+		Project* project,
+		const std::vector<RefreshMode>& enabledModes,
+		const RefreshMode initialMode,
+		bool enabledShallowOption,
+		bool shallow,
+		std::function<void(const RefreshInfo& info)> onStartIndexing,
+		std::function<void()> onCancelIndexing);
 	virtual void updateIndexingDialog(
-		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths);
+		size_t startedFileCount,
+		size_t finishedFileCount,
+		size_t totalFileCount,
+		const std::vector<FilePath>& sourcePaths);
 	virtual void updateCustomIndexingDialog(
-		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const std::vector<FilePath>& sourcePaths);
+		size_t startedFileCount,
+		size_t finishedFileCount,
+		size_t totalFileCount,
+		const std::vector<FilePath>& sourcePaths);
 	virtual DatabasePolicy finishedIndexingDialog(
-		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
-		float time, ErrorCountInfo errorInfo, bool interrupted, bool shallow);
+		size_t indexedFileCount,
+		size_t totalIndexedFileCount,
+		size_t completedFileCount,
+		size_t totalFileCount,
+		float time,
+		ErrorCountInfo errorInfo,
+		bool interrupted,
+		bool shallow);
 
 	int confirm(const std::wstring& message);
 	virtual int confirm(const std::wstring& message, const std::vector<std::wstring>& options);
@@ -66,4 +84,4 @@ protected:
 	bool m_dialogsHideable = false;
 };
 
-#endif // DIALOG_VIEW_H
+#endif	  // DIALOG_VIEW_H

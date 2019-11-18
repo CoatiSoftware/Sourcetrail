@@ -5,8 +5,8 @@
 #include <clang/Lex/Preprocessor.h>
 
 #include "CanonicalFilePathCache.h"
-#include "ParseLocation.h"
 #include "FilePath.h"
+#include "ParseLocation.h"
 #include "utilityString.h"
 
 bool utility::isImplicit(const clang::Decl* d)
@@ -27,7 +27,9 @@ bool utility::isImplicit(const clang::Decl* d)
 		}
 		return true;
 	}
-	else if (const clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
+	else if (
+		const clang::ClassTemplateSpecializationDecl* ctsd =
+			clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
 	{
 		if (!ctsd->isExplicitSpecialization())
 		{
@@ -36,15 +38,16 @@ bool utility::isImplicit(const clang::Decl* d)
 	}
 	else if (const clang::FunctionDecl* fd = clang::dyn_cast_or_null<clang::FunctionDecl>(d))
 	{
-		if (
-			fd->isTemplateInstantiation() &&
-			fd->getTemplateSpecializationKind() != clang::TSK_ExplicitSpecialization) // or undefined??
+		if (fd->isTemplateInstantiation() &&
+			fd->getTemplateSpecializationKind() !=
+				clang::TSK_ExplicitSpecialization)	  // or undefined??
 		{
 			return true;
 		}
 		else if (
 			fd->getMemberSpecializationInfo() &&
-			fd->getMemberSpecializationInfo()->getTemplateSpecializationKind() == clang::TSK_ExplicitSpecialization)
+			fd->getMemberSpecializationInfo()->getTemplateSpecializationKind() ==
+				clang::TSK_ExplicitSpecialization)
 		{
 			return false;
 		}
@@ -131,7 +134,9 @@ std::wstring utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 		else
 		{
 			fileName = FilePath(utility::decodeFromUtf8(entry->getName().str()))
-				.getParentDirectory().concatenate(FilePath(fileName).fileName()).wstr();
+						   .getParentDirectory()
+						   .concatenate(FilePath(fileName).fileName())
+						   .wstr();
 		}
 	}
 	return fileName;
@@ -172,16 +177,14 @@ ParseLocation utility::getParseLocation(
 				sourceManager.getLineNumber(fileId, startOffset),
 				sourceManager.getColumnNumber(fileId, startOffset),
 				sourceManager.getLineNumber(fileId, endOffset),
-				sourceManager.getColumnNumber(fileId, endOffset) - 1
-			);
+				sourceManager.getColumnNumber(fileId, endOffset) - 1);
 		}
 		else
 		{
 			return ParseLocation(
 				canonicalFilePathCache->getFileSymbolId(fileId),
 				sourceManager.getLineNumber(fileId, startOffset),
-				sourceManager.getColumnNumber(fileId, startOffset)
-			);
+				sourceManager.getColumnNumber(fileId, startOffset));
 		}
 	}
 
@@ -199,16 +202,11 @@ ParseLocation utility::getParseLocation(
 		clang::SourceRange range = sourceRange;
 		clang::SourceLocation endLoc = preprocessor->getLocForEndOfToken(range.getEnd());
 
-		if (
-			(
-				sourceManager.isMacroArgExpansion(range.getBegin()) ||
-				sourceManager.isMacroBodyExpansion(range.getBegin())
-			) &&
-			(
-				sourceManager.isMacroArgExpansion(range.getEnd()) ||
-				sourceManager.isMacroBodyExpansion(range.getEnd())
-			)
-		){
+		if ((sourceManager.isMacroArgExpansion(range.getBegin()) ||
+			 sourceManager.isMacroBodyExpansion(range.getBegin())) &&
+			(sourceManager.isMacroArgExpansion(range.getEnd()) ||
+			 sourceManager.isMacroBodyExpansion(range.getEnd())))
+		{
 			range = sourceManager.getExpansionRange(sourceRange).getAsRange();
 			if (range.isValid())
 			{
@@ -223,12 +221,14 @@ ParseLocation utility::getParseLocation(
 		const clang::SourceLocation beginLoc = range.getBegin();
 
 		const clang::PresumedLoc presumedBegin = sourceManager.getPresumedLoc(beginLoc, false);
-		const clang::PresumedLoc presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : range.getEnd(), false);
+		const clang::PresumedLoc presumedEnd = sourceManager.getPresumedLoc(
+			endLoc.isValid() ? endLoc : range.getEnd(), false);
 
 		Id fileSymbolId = canonicalFilePathCache->getFileSymbolId(sourceManager.getFileID(beginLoc));
 		if (!fileSymbolId)
 		{
-			fileSymbolId = canonicalFilePathCache->getFileSymbolId(utility::decodeFromUtf8(presumedBegin.getFilename()));
+			fileSymbolId = canonicalFilePathCache->getFileSymbolId(
+				utility::decodeFromUtf8(presumedBegin.getFilename()));
 		}
 
 		return ParseLocation(
@@ -236,8 +236,7 @@ ParseLocation utility::getParseLocation(
 			presumedBegin.getLine(),
 			presumedBegin.getColumn(),
 			presumedEnd.getLine(),
-			presumedEnd.getColumn() - (endLoc.isValid() ? 1 : 0)
-		);
+			presumedEnd.getColumn() - (endLoc.isValid() ? 1 : 0));
 	}
 
 	return ParseLocation();

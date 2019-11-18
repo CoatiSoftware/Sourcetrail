@@ -7,4 +7,4 @@ class Settings;
 
 typedef Migrator<Settings> SettingsMigrator;
 
-#endif // SETTINGS_MIGRATOR_H
+#endif	  // SETTINGS_MIGRATOR_H

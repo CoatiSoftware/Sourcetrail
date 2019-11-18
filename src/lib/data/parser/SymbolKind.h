@@ -2,7 +2,7 @@
 #define SYMBOL_KIND_H
 
 enum SymbolKind
-{ // these values need to be the same as SymbolKind in Java code
+{	 // these values need to be the same as SymbolKind in Java code
 	SYMBOL_ANNOTATION = 1,
 	SYMBOL_BUILTIN_TYPE = 2,
 	SYMBOL_CLASS = 3,
@@ -27,4 +27,4 @@ enum SymbolKind
 SymbolKind intToSymbolKind(int v);
 int symbolKindToInt(SymbolKind t);
 
-#endif // SYMBOL_KIND_H
+#endif	  // SYMBOL_KIND_H

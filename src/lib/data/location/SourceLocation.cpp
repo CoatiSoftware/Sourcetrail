@@ -9,8 +9,7 @@ SourceLocation::SourceLocation(
 	std::vector<Id> tokenIds,
 	size_t lineNumber,
 	size_t columnNumber,
-	bool isStart
-)
+	bool isStart)
 	: m_file(file)
 	, m_type(type)
 	, m_locationId(locationId)
@@ -47,18 +46,13 @@ SourceLocation::SourceLocation(const SourceLocation* other, SourceLocationFile* 
 {
 }
 
-SourceLocation::~SourceLocation()
-{
-}
+SourceLocation::~SourceLocation() {}
 
 bool SourceLocation::operator==(const SourceLocation& rhs) const
 {
 	return (
-		getLineNumber() == rhs.getLineNumber() &&
-		getColumnNumber() == rhs.getColumnNumber() &&
-		getLocationId() == rhs.getLocationId() &&
-		getType() == rhs.getType()
-	);
+		getLineNumber() == rhs.getLineNumber() && getColumnNumber() == rhs.getColumnNumber() &&
+		getLocationId() == rhs.getLocationId() && getType() == rhs.getType());
 }
 
 bool SourceLocation::operator<(const SourceLocation& rhs) const
@@ -221,7 +215,7 @@ std::wostream& operator<<(std::wostream& ostream, const SourceLocation& location
 	}
 
 	ostream << location.getColumnNumber() << L":[ ";
-	for (Id tokenId : location.getTokenIds())
+	for (Id tokenId: location.getTokenIds())
 	{
 		ostream << L'\b' << tokenId << L' ';
 	}

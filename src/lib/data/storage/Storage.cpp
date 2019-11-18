@@ -3,9 +3,7 @@
 #include "logging.h"
 #include "tracing.h"
 
-Storage::Storage()
-{
-}
+Storage::Storage() {}
 
 void Storage::inject(Storage* injected)
 {
@@ -20,7 +18,7 @@ void Storage::inject(Storage* injected)
 	{
 		// TRACE("inject errors");
 
-		for (const StorageError& error : injected->getErrors())
+		for (const StorageError& error: injected->getErrors())
 		{
 			Id errorId = addError(error);
 			injectedIdToOwnElementId.emplace(error.id, errorId);
@@ -46,7 +44,7 @@ void Storage::inject(Storage* injected)
 	{
 		// TRACE("inject files");
 
-		for (const StorageFile& file : injected->getStorageFiles())
+		for (const StorageFile& file: injected->getStorageFiles())
 		{
 			auto it = injectedIdToOwnElementId.find(file.id);
 			if (it != injectedIdToOwnElementId.end())
@@ -57,8 +55,7 @@ void Storage::inject(Storage* injected)
 					file.languageIdentifier,
 					file.modificationTime,
 					file.indexed,
-					file.complete
-				));
+					file.complete));
 			}
 		}
 	}
@@ -158,7 +155,7 @@ void Storage::inject(Storage* injected)
 		std::vector<StorageSourceLocation> locations;
 		locations.reserve(oldLocations.size());
 
-		for (const StorageSourceLocation& location : oldLocations)
+		for (const StorageSourceLocation& location: oldLocations)
 		{
 			auto it = injectedIdToOwnElementId.find(location.fileNodeId);
 			if (it != injectedIdToOwnElementId.end())
@@ -171,8 +168,7 @@ void Storage::inject(Storage* injected)
 					location.startCol,
 					location.endLine,
 					location.endCol,
-					location.type
-				);
+					location.type);
 			}
 		}
 
@@ -202,7 +198,7 @@ void Storage::inject(Storage* injected)
 		std::vector<StorageOccurrence> occurrences;
 		occurrences.reserve(oldOccurences.size());
 
-		for (const StorageOccurrence& occurrence : oldOccurences)
+		for (const StorageOccurrence& occurrence: oldOccurences)
 		{
 			Id elementId = 0;
 			Id sourceLocationId = 0;
@@ -243,7 +239,7 @@ void Storage::inject(Storage* injected)
 		std::vector<StorageElementComponent> components;
 		components.reserve(oldComponents.size());
 
-		for (const StorageElementComponent& component : oldComponents)
+		for (const StorageElementComponent& component: oldComponents)
 		{
 			auto it = injectedIdToOwnElementId.find(component.elementId);
 			if (it != injectedIdToOwnElementId.end())
@@ -262,7 +258,7 @@ void Storage::inject(Storage* injected)
 		std::vector<StorageComponentAccess> accesses;
 		accesses.reserve(oldAccesses.size());
 
-		for (const StorageComponentAccess& access : oldAccesses)
+		for (const StorageComponentAccess& access: oldAccesses)
 		{
 			auto it = injectedIdToOwnElementId.find(access.nodeId);
 			if (it != injectedIdToOwnElementId.end())

@@ -18,8 +18,7 @@ public:
 	void update(
 		const std::vector<FilePath>& sourcePaths,
 		const std::vector<FilePathFilter>& excludeFilters,
-		const std::vector<std::wstring>& sourceExtensions
-	);
+		const std::vector<std::wstring>& sourceExtensions);
 
 	// returns a list of source paths (can be directories) specified in the project settings
 	std::vector<FilePath> getSourcePaths() const;
@@ -40,4 +39,4 @@ private:
 	std::set<FilePath> m_allSourceFilePaths;
 };
 
-#endif // FILE_MANAGER_H
+#endif	  // FILE_MANAGER_H

@@ -20,8 +20,7 @@ std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
 		NodeType(NodeType::NODE_GLOBAL_VARIABLE),
 		NodeType(NodeType::NODE_TYPE),
 		NodeType(NodeType::NODE_TYPEDEF),
-		NodeType(NodeType::NODE_ENUM)
-	};
+		NodeType(NodeType::NODE_ENUM)};
 }
 
 int NodeType::typeToInt(NodeType::Type type)
@@ -149,10 +148,7 @@ NodeType::Type NodeType::getTypeForReadableTypeString(const std::wstring& str)
 	return NodeType::NODE_SYMBOL;
 }
 
-NodeType::NodeType(Type type)
-	: m_type(type)
-{
-}
+NodeType::NodeType(Type type): m_type(type) {}
 
 bool NodeType::operator==(const NodeType& o) const
 {
@@ -182,8 +178,7 @@ Id NodeType::getId() const
 
 bool NodeType::isFile() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_FILE;
+	const NodeType::TypeMask mask = NodeType::NODE_FILE;
 	return ((m_type & mask) > 0);
 }
 
@@ -195,20 +190,15 @@ bool NodeType::isBuiltin() const
 
 bool NodeType::isUnknownSymbol() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_SYMBOL;
+	const NodeType::TypeMask mask = NodeType::NODE_SYMBOL;
 	return ((m_type & mask) > 0);
 }
 
 bool NodeType::isInheritable() const
 {
 	// what about java enums?
-	const NodeType::TypeMask mask =
-		NodeType::NODE_SYMBOL |
-		NodeType::NODE_BUILTIN_TYPE |
-		NodeType::NODE_TYPE |
-		NodeType::NODE_STRUCT |
-		NodeType::NODE_CLASS |
+	const NodeType::TypeMask mask = NodeType::NODE_SYMBOL | NodeType::NODE_BUILTIN_TYPE |
+		NodeType::NODE_TYPE | NodeType::NODE_STRUCT | NodeType::NODE_CLASS |
 		NodeType::NODE_INTERFACE;
 
 	return ((m_type & mask) > 0);
@@ -216,73 +206,46 @@ bool NodeType::isInheritable() const
 
 bool NodeType::isPackage() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_MODULE |
-		NodeType::NODE_NAMESPACE |
+	const NodeType::TypeMask mask = NodeType::NODE_MODULE | NodeType::NODE_NAMESPACE |
 		NodeType::NODE_PACKAGE;
 	return ((m_type & mask) > 0);
 }
 
 bool NodeType::isCallable() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_FUNCTION |
-		NodeType::NODE_METHOD;
+	const NodeType::TypeMask mask = NodeType::NODE_FUNCTION | NodeType::NODE_METHOD;
 	return ((m_type & mask) > 0);
 }
 
 bool NodeType::isVariable() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_GLOBAL_VARIABLE |
-		NodeType::NODE_FIELD;
+	const NodeType::TypeMask mask = NodeType::NODE_GLOBAL_VARIABLE | NodeType::NODE_FIELD;
 	return ((m_type & mask) > 0);
 }
 
 bool NodeType::isUsable() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_SYMBOL |
-		NodeType::NODE_BUILTIN_TYPE |
-		NodeType::NODE_STRUCT |
-		NodeType::NODE_CLASS |
-		NodeType::NODE_ENUM |
-		NodeType::NODE_UNION |
-		NodeType::NODE_INTERFACE |
-		NodeType::NODE_ANNOTATION |
-		NodeType::NODE_TYPEDEF;
+	const NodeType::TypeMask mask = NodeType::NODE_SYMBOL | NodeType::NODE_BUILTIN_TYPE |
+		NodeType::NODE_STRUCT | NodeType::NODE_CLASS | NodeType::NODE_ENUM | NodeType::NODE_UNION |
+		NodeType::NODE_INTERFACE | NodeType::NODE_ANNOTATION | NodeType::NODE_TYPEDEF;
 	return ((m_type & mask) > 0);
 }
 
 bool NodeType::isPotentialMember() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_METHOD |
-		NodeType::NODE_FIELD |
-		NodeType::NODE_CLASS |
-		NodeType::NODE_INTERFACE |
-		NodeType::NODE_ANNOTATION |
-		NodeType::NODE_STRUCT |
-		NodeType::NODE_UNION |
-		NodeType::NODE_TYPEDEF |
-		NodeType::NODE_ENUM;
+	const NodeType::TypeMask mask = NodeType::NODE_METHOD | NodeType::NODE_FIELD |
+		NodeType::NODE_CLASS | NodeType::NODE_INTERFACE | NodeType::NODE_ANNOTATION |
+		NodeType::NODE_STRUCT | NodeType::NODE_UNION | NodeType::NODE_TYPEDEF | NodeType::NODE_ENUM;
 
 	return ((m_type & mask) > 0);
 }
 
 bool NodeType::isCollapsible() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_SYMBOL |
-		NodeType::NODE_TYPE |
-		NodeType::NODE_BUILTIN_TYPE |
-		NodeType::NODE_STRUCT |
-		NodeType::NODE_CLASS |
-		NodeType::NODE_INTERFACE |
-		NodeType::NODE_ANNOTATION |
-		NodeType::NODE_ENUM |
-		NodeType::NODE_UNION |
-		NodeType::NODE_FILE;
+	const NodeType::TypeMask mask = NodeType::NODE_SYMBOL | NodeType::NODE_TYPE |
+		NodeType::NODE_BUILTIN_TYPE | NodeType::NODE_STRUCT | NodeType::NODE_CLASS |
+		NodeType::NODE_INTERFACE | NodeType::NODE_ANNOTATION | NodeType::NODE_ENUM |
+		NodeType::NODE_UNION | NodeType::NODE_FILE;
 	return ((m_type & mask) > 0);
 }
 
@@ -293,25 +256,12 @@ bool NodeType::isVisibleAsParentInGraph() const
 
 bool NodeType::hasSearchFilter() const
 {
-	const NodeType::TypeMask mask =
-		NodeType::NODE_BUILTIN_TYPE |
-		NodeType::NODE_MODULE |
-		NodeType::NODE_NAMESPACE |
-		NodeType::NODE_PACKAGE |
-		NodeType::NODE_STRUCT |
-		NodeType::NODE_CLASS |
-		NodeType::NODE_INTERFACE |
-		NodeType::NODE_ANNOTATION |
-		NodeType::NODE_GLOBAL_VARIABLE |
-		NodeType::NODE_FIELD |
-		NodeType::NODE_FUNCTION |
-		NodeType::NODE_METHOD |
-		NodeType::NODE_ENUM |
-		NodeType::NODE_ENUM_CONSTANT |
-		NodeType::NODE_TYPEDEF |
-		NodeType::NODE_FILE |
-		NodeType::NODE_MACRO |
-		NodeType::NODE_UNION;
+	const NodeType::TypeMask mask = NodeType::NODE_BUILTIN_TYPE | NodeType::NODE_MODULE |
+		NodeType::NODE_NAMESPACE | NodeType::NODE_PACKAGE | NodeType::NODE_STRUCT |
+		NodeType::NODE_CLASS | NodeType::NODE_INTERFACE | NodeType::NODE_ANNOTATION |
+		NodeType::NODE_GLOBAL_VARIABLE | NodeType::NODE_FIELD | NodeType::NODE_FUNCTION |
+		NodeType::NODE_METHOD | NodeType::NODE_ENUM | NodeType::NODE_ENUM_CONSTANT |
+		NodeType::NODE_TYPEDEF | NodeType::NODE_FILE | NodeType::NODE_MACRO | NodeType::NODE_UNION;
 	return ((m_type & mask) > 0);
 }
 
@@ -324,17 +274,15 @@ Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 	case NodeType::NODE_MACRO:
 		return Tree<BundleInfo>(BundleInfo(L"Macros"));
 	case NodeType::NODE_NAMESPACE:
-		{
-			Tree<BundleInfo> tree(BundleInfo(L"Namespaces"));
-			tree.children.push_back(Tree<BundleInfo>(BundleInfo(
-				[](const std::wstring& nodeName)
-				{
-					return nodeName.find(L"anonymous namespace") != std::wstring::npos;
-				},
-				L"Anonymous Namespaces")
-			));
-			return tree;
-		}
+	{
+		Tree<BundleInfo> tree(BundleInfo(L"Namespaces"));
+		tree.children.push_back(Tree<BundleInfo>(BundleInfo(
+			[](const std::wstring& nodeName) {
+				return nodeName.find(L"anonymous namespace") != std::wstring::npos;
+			},
+			L"Anonymous Namespaces")));
+		return tree;
+	}
 	case NodeType::NODE_MODULE:
 		return Tree<BundleInfo>(BundleInfo(L"Modules"));
 	case NodeType::NODE_PACKAGE:
@@ -398,12 +346,8 @@ bool NodeType::hasIcon() const
 		return true;
 	}
 
-	const NodeType::TypeMask mask =
-		NODE_ANNOTATION |
-		NodeType::NODE_ENUM |
-		NodeType::NODE_TYPEDEF |
-		NodeType::NODE_FILE |
-		NodeType::NODE_MACRO;
+	const NodeType::TypeMask mask = NODE_ANNOTATION | NodeType::NODE_ENUM | NodeType::NODE_TYPEDEF |
+		NodeType::NODE_FILE | NodeType::NODE_MACRO;
 	return ((m_type & mask) > 0);
 }
 

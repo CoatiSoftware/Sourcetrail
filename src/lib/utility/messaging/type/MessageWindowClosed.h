@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageWindowClosed
-	: public Message<MessageWindowClosed>
+class MessageWindowClosed: public Message<MessageWindowClosed>
 {
 public:
 	MessageWindowClosed()
@@ -18,4 +17,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_WINDOW_CLOSED_H
+#endif	  // MESSAGE_WINDOW_CLOSED_H

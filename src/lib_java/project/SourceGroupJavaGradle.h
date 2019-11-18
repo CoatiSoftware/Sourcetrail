@@ -9,8 +9,7 @@
 
 class SourceGroupSettingsJavaGradle;
 
-class SourceGroupJavaGradle
-	: public SourceGroupJava
+class SourceGroupJavaGradle: public SourceGroupJava
 {
 public:
 	SourceGroupJavaGradle(std::shared_ptr<SourceGroupSettingsJavaGradle> settings);
@@ -28,4 +27,4 @@ private:
 	mutable SingleValueCache<std::vector<FilePath>> m_allSourcePathsCache;
 };
 
-#endif // SOURCE_GROUP_JAVA_GRADLE_H
+#endif	  // SOURCE_GROUP_JAVA_GRADLE_H

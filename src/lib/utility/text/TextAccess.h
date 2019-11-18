@@ -11,8 +11,10 @@ class TextAccess
 {
 public:
 	static std::shared_ptr<TextAccess> createFromFile(const FilePath& filePath);
-	static std::shared_ptr<TextAccess> createFromString(const std::string& text, const FilePath& filePath = FilePath());
-	static std::shared_ptr<TextAccess> createFromLines(const std::vector<std::string>& lines, const FilePath& filePath = FilePath());
+	static std::shared_ptr<TextAccess> createFromString(
+		const std::string& text, const FilePath& filePath = FilePath());
+	static std::shared_ptr<TextAccess> createFromLines(
+		const std::vector<std::string>& lines, const FilePath& filePath = FilePath());
 
 	virtual ~TextAccess();
 
@@ -29,7 +31,8 @@ public:
 	 * @param firstLineNumber: starts with 1
 	 * @param lastLineNumber: starts with 1
 	 */
-	std::vector<std::string> getLines(const unsigned int firstLineNumber, const unsigned int lastLineNumber);
+	std::vector<std::string> getLines(
+		const unsigned int firstLineNumber, const unsigned int lastLineNumber);
 	const std::vector<std::string>& getAllLines() const;
 	std::string getText() const;
 
@@ -48,4 +51,4 @@ private:
 	std::vector<std::string> m_lines;
 };
 
-#endif // TEXT_ACCESS_H
+#endif	  // TEXT_ACCESS_H

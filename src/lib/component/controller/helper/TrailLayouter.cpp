@@ -2,11 +2,7 @@
 
 #include <iostream>
 
-TrailLayouter::TrailLayouter(LayoutDirection dir)
-	: m_direction(dir)
-	, m_rootNode(nullptr)
-{
-}
+TrailLayouter::TrailLayouter(LayoutDirection dir): m_direction(dir), m_rootNode(nullptr) {}
 
 void TrailLayouter::layoutGraph(
 	std::vector<std::shared_ptr<DummyNode>>& dummyNodes,
@@ -42,7 +38,7 @@ void TrailLayouter::buildGraph(
 	const std::vector<std::shared_ptr<DummyEdge>>& dummyEdges,
 	const std::map<Id, Id>& topLevelAncestorIds)
 {
-	for (const std::shared_ptr<DummyNode>& dummyNode : dummyNodes)
+	for (const std::shared_ptr<DummyNode>& dummyNode: dummyNodes)
 	{
 		if (dummyNode->visible)
 		{
@@ -50,7 +46,7 @@ void TrailLayouter::buildGraph(
 		}
 	}
 
-	for (const std::shared_ptr<DummyEdge>& dummyEdge : dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& dummyEdge: dummyEdges)
 	{
 		dummyEdge->path.clear();
 
@@ -80,7 +76,7 @@ void TrailLayouter::removeDeadEnds()
 		{
 			predecessors.insert(node);
 
-			for (TrailEdge* edge : node->outgoingEdges)
+			for (TrailEdge* edge: node->outgoingEdges)
 			{
 				if (predecessors.find(edge->target) == predecessors.end())
 				{
@@ -88,7 +84,7 @@ void TrailLayouter::removeDeadEnds()
 				}
 			}
 
-			for (TrailEdge* edge : node->incomingEdges)
+			for (TrailEdge* edge: node->incomingEdges)
 			{
 				if (predecessors.find(edge->origin) == predecessors.end())
 				{
@@ -102,14 +98,15 @@ void TrailLayouter::removeDeadEnds()
 			}
 		}
 
-		while (!nodes.size() && (deadEnds.size() || loseEnds.size()) && predecessors.size() < m_allNodes.size())
+		while (!nodes.size() && (deadEnds.size() || loseEnds.size()) &&
+			   predecessors.size() < m_allNodes.size())
 		{
 			if (deadEnds.size())
 			{
 				TrailNode* deadEnd = *deadEnds.begin();
 				deadEnds.erase(deadEnds.begin());
 
-				for (TrailEdge* edge : deadEnd->incomingEdges)
+				for (TrailEdge* edge: deadEnd->incomingEdges)
 				{
 					if (predecessors.find(edge->origin) == predecessors.end())
 					{
@@ -126,7 +123,7 @@ void TrailLayouter::removeDeadEnds()
 
 				if (predecessors.find(loseEnd) == predecessors.end())
 				{
-					for (TrailEdge* edge : loseEnd->outgoingEdges)
+					for (TrailEdge* edge: loseEnd->outgoingEdges)
 					{
 						if (predecessors.find(edge->target) != predecessors.end())
 						{
@@ -146,7 +143,7 @@ void TrailLayouter::makeAcyclicRecursive(TrailNode* node, std::set<TrailNode*> p
 	predecessors.insert(node);
 
 	std::set<TrailEdge*> edgesToSwitch;
-	for (TrailEdge* edge : node->outgoingEdges)
+	for (TrailEdge* edge: node->outgoingEdges)
 	{
 		if (predecessors.find(edge->target) != predecessors.end())
 		{
@@ -158,7 +155,7 @@ void TrailLayouter::makeAcyclicRecursive(TrailNode* node, std::set<TrailNode*> p
 		}
 	}
 
-	for (TrailEdge* edge : edgesToSwitch)
+	for (TrailEdge* edge: edgesToSwitch)
 	{
 		switchEdge(edge);
 	}
@@ -177,9 +174,9 @@ void TrailLayouter::assignLongestPathLevels()
 	{
 		std::set<TrailNode*> newNodes;
 
-		for (TrailNode* node : nodes)
+		for (TrailNode* node: nodes)
 		{
-			for (TrailEdge* edge : node->outgoingEdges)
+			for (TrailEdge* edge: node->outgoingEdges)
 			{
 				newNodes.insert(edge->target);
 				predecessorNodes[edge->target] = node;
@@ -199,7 +196,7 @@ void TrailLayouter::assignLongestPathLevels()
 	{
 		std::set<TrailNode*> newNodes;
 
-		for (TrailNode* node : nodes)
+		for (TrailNode* node: nodes)
 		{
 			node->level = level;
 
@@ -226,11 +223,11 @@ void TrailLayouter::assignRemainingLevels()
 	{
 		std::multimap<int, TrailNode*> newNodes;
 
-		for (std::pair<int, TrailNode*> p : nodes)
+		for (std::pair<int, TrailNode*> p: nodes)
 		{
 			TrailNode* node = p.second;
 
-			for (TrailEdge* edge : node->outgoingEdges)
+			for (TrailEdge* edge: node->outgoingEdges)
 			{
 				if (allNodes.insert(edge->target).second)
 				{
@@ -242,7 +239,7 @@ void TrailLayouter::assignRemainingLevels()
 			{
 				int level = -1;
 
-				for (TrailEdge* edge : node->incomingEdges)
+				for (TrailEdge* edge: node->incomingEdges)
 				{
 					if (edge->origin->level == -1)
 					{
@@ -273,7 +270,7 @@ void TrailLayouter::addVirtualNodes()
 {
 	std::vector<std::shared_ptr<TrailEdge>> newEdges;
 
-	for (const std::shared_ptr<TrailEdge>& edge : m_allEdges)
+	for (const std::shared_ptr<TrailEdge>& edge: m_allEdges)
 	{
 		for (int i = edge->origin->level + 1; i < edge->target->level; i++)
 		{
@@ -310,7 +307,7 @@ void TrailLayouter::addVirtualNodes()
 
 void TrailLayouter::buildColumns()
 {
-	for (const std::shared_ptr<TrailNode>& node : m_allNodes)
+	for (const std::shared_ptr<TrailNode>& node: m_allNodes)
 	{
 		int level = node->level + 1;
 		for (int i = m_nodesPerCol.size(); i <= level; i++)
@@ -353,7 +350,7 @@ void TrailLayouter::reduceEdgeCrossings()
 
 			if (usePredecessors)
 			{
-				for (TrailEdge* edge : node->incomingEdges)
+				for (TrailEdge* edge: node->incomingEdges)
 				{
 					sum += neighborIndices[edge->origin];
 					count++;
@@ -361,7 +358,7 @@ void TrailLayouter::reduceEdgeCrossings()
 			}
 			else
 			{
-				for (TrailEdge* edge : node->outgoingEdges)
+				for (TrailEdge* edge: node->outgoingEdges)
 				{
 					sum += neighborIndices[edge->target];
 					count++;
@@ -377,7 +374,7 @@ void TrailLayouter::reduceEdgeCrossings()
 		}
 
 		nodes.clear();
-		for (std::pair<float, TrailNode*> p : newOrder)
+		for (std::pair<float, TrailNode*> p: newOrder)
 		{
 			nodes.push_back(p.second);
 		}
@@ -404,7 +401,7 @@ void TrailLayouter::layout()
 		int width = 0;
 		int height = -30;
 
-		for (TrailNode* node : nodes)
+		for (TrailNode* node: nodes)
 		{
 			height += node->size.getValue(yIdx) + 30;
 			width = std::max(width, node->size.getValue(xIdx));
@@ -427,7 +424,7 @@ void TrailLayouter::layout()
 		std::vector<TrailNode*>& nodes = m_nodesPerCol[i];
 		int y = -heightsPerCol[i] / 2;
 
-		for (TrailNode* node : nodes)
+		for (TrailNode* node: nodes)
 		{
 			node->pos = horizontalLayout() ? Vec2i(x, y) : Vec2i(y, x);
 			y += node->size.getValue(yIdx) + 30;
@@ -473,14 +470,14 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 	unsigned int yIdx = horizontalLayout() ? 1 : 0;
 
 	std::map<int, std::vector<TrailNode*>> averagePositions;
-	for (TrailNode* node : nodes)
+	for (TrailNode* node: nodes)
 	{
 		int sum = 0;
 		int count = 0;
 
 		if ((forward && node->incomingEdges.size()) || (!forward && !node->outgoingEdges.size()))
 		{
-			for (TrailEdge* edge : node->incomingEdges)
+			for (TrailEdge* edge: node->incomingEdges)
 			{
 				sum += edge->origin->pos.getValue(yIdx) + edge->origin->size.getValue(yIdx) / 2;
 				count++;
@@ -488,7 +485,7 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 		}
 		else
 		{
-			for (TrailEdge* edge : node->outgoingEdges)
+			for (TrailEdge* edge: node->outgoingEdges)
 			{
 				sum += edge->target->pos.getValue(yIdx) + edge->target->size.getValue(yIdx) / 2;
 				count++;
@@ -507,7 +504,7 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 	}
 
 	int averagePosition = 0;
-	for (const std::pair<int, std::vector<TrailNode*>>& p : averagePositions)
+	for (const std::pair<int, std::vector<TrailNode*>>& p: averagePositions)
 	{
 		averagePosition += p.first;
 	}
@@ -515,7 +512,7 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 
 
 	std::multimap<int, int> distanceFromAveragePosition;
-	for (std::pair<int, std::vector<TrailNode*>> p : averagePositions)
+	for (std::pair<int, std::vector<TrailNode*>> p: averagePositions)
 	{
 		distanceFromAveragePosition.emplace(std::abs(averagePosition - p.first), p.first);
 	}
@@ -523,13 +520,13 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 	int currentTop = averagePosition;
 	int currentBottom = averagePosition;
 
-	for (std::pair<int, int> p : distanceFromAveragePosition)
+	for (std::pair<int, int> p: distanceFromAveragePosition)
 	{
 		int groupAveragePosition = p.second;
 		std::vector<TrailNode*> nodeGroup = averagePositions.find(groupAveragePosition)->second;
 
 		int size = -30;
-		for (TrailNode* node : nodeGroup)
+		for (TrailNode* node: nodeGroup)
 		{
 			size += node->size.getValue(yIdx) + 30;
 		}
@@ -566,7 +563,7 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 
 		int y = top;
 
-		for (TrailNode* node : nodeGroup)
+		for (TrailNode* node: nodeGroup)
 		{
 			node->pos.setValue(yIdx, y);
 			y += node->size.getValue(yIdx) + 30;
@@ -590,7 +587,7 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 
 void TrailLayouter::retrievePositions(const std::map<Id, Id>& topLevelAncestorIds)
 {
-	for (std::shared_ptr<TrailNode>& node : m_allNodes)
+	for (std::shared_ptr<TrailNode>& node: m_allNodes)
 	{
 		if (node->dummyNode)
 		{
@@ -605,18 +602,23 @@ void TrailLayouter::retrievePositions(const std::map<Id, Id>& topLevelAncestorId
 		}
 	}
 
-	for (std::shared_ptr<TrailEdge>& edge : m_allEdges)
+	for (std::shared_ptr<TrailEdge>& edge: m_allEdges)
 	{
 		if (edge->virtualNodes.size())
 		{
-			for (DummyEdge* dummyEdge : edge->dummyEdges)
+			for (DummyEdge* dummyEdge: edge->dummyEdges)
 			{
-				bool forward = edge->target->id == topLevelAncestorIds.find(dummyEdge->targetId)->second;
+				bool forward = edge->target->id ==
+					topLevelAncestorIds.find(dummyEdge->targetId)->second;
 				for (size_t i = 0; i < edge->virtualNodes.size(); i++)
 				{
-					TrailNode* node = edge->virtualNodes[forward ? i : edge->virtualNodes.size() - 1 - i];
-					dummyEdge->path.push_back(
-						Vec4i(node->pos.x, node->pos.y, node->pos.x + node->size.x, node->pos.y + node->size.y));
+					TrailNode* node =
+						edge->virtualNodes[forward ? i : edge->virtualNodes.size() - 1 - i];
+					dummyEdge->path.push_back(Vec4i(
+						node->pos.x,
+						node->pos.y,
+						node->pos.x + node->size.x,
+						node->pos.y + node->size.y));
 				}
 			}
 		}
@@ -626,7 +628,7 @@ void TrailLayouter::retrievePositions(const std::map<Id, Id>& topLevelAncestorId
 void TrailLayouter::print()
 {
 	std::cout << "graph: " << std::endl;
-	for (std::shared_ptr<TrailNode>& node : m_allNodes)
+	for (std::shared_ptr<TrailNode>& node: m_allNodes)
 	{
 		if (node->id)
 		{
@@ -637,11 +639,12 @@ void TrailLayouter::print()
 	}
 	std::cout << std::endl;
 
-	for (std::shared_ptr<TrailEdge>& edge : m_allEdges)
+	for (std::shared_ptr<TrailEdge>& edge: m_allEdges)
 	{
 		if (edge->origin->id || edge->target->id)
 		{
-			std::wcout << edge->id << L"\t" << edge->origin->name << L"\t" << edge->target->name << std::endl;
+			std::wcout << edge->id << L"\t" << edge->origin->name << L"\t" << edge->target->name
+					   << std::endl;
 		}
 	}
 	std::cout << std::endl;
@@ -670,7 +673,8 @@ void TrailLayouter::addNode(const std::shared_ptr<DummyNode>& dummyNode)
 	}
 }
 
-void TrailLayouter::addEdge(const std::shared_ptr<DummyEdge> dummyEdge, const std::map<Id, Id>& topLevelAncestorIds)
+void TrailLayouter::addEdge(
+	const std::shared_ptr<DummyEdge> dummyEdge, const std::map<Id, Id>& topLevelAncestorIds)
 {
 	std::shared_ptr<TrailEdge> edge = std::make_shared<TrailEdge>();
 	if (!dummyEdge->data)
@@ -699,7 +703,7 @@ void TrailLayouter::addEdge(const std::shared_ptr<DummyEdge> dummyEdge, const st
 	edge->origin = origin->second;
 	edge->target = target->second;
 
-	for (std::shared_ptr<TrailEdge>& e : m_allEdges)
+	for (std::shared_ptr<TrailEdge>& e: m_allEdges)
 	{
 		if ((e->origin == edge->origin && e->target == edge->target) ||
 			(e->origin == edge->target && e->target == edge->origin))

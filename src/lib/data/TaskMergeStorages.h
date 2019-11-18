@@ -7,13 +7,10 @@
 
 class StorageProvider;
 
-class TaskMergeStorages
-	: public Task
+class TaskMergeStorages: public Task
 {
 public:
-	TaskMergeStorages(
-		std::shared_ptr<StorageProvider> storageProvider
-	);
+	TaskMergeStorages(std::shared_ptr<StorageProvider> storageProvider);
 
 private:
 	void doEnter(std::shared_ptr<Blackboard> blackboard) override;
@@ -24,4 +21,4 @@ private:
 	std::shared_ptr<StorageProvider> m_storageProvider;
 };
 
-#endif // TASK_MERGE_STORAGES_H
+#endif	  // TASK_MERGE_STORAGES_H

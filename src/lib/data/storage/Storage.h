@@ -8,8 +8,8 @@
 
 #include "StorageComponentAccess.h"
 #include "StorageEdge.h"
-#include "StorageError.h"
 #include "StorageElementComponent.h"
+#include "StorageError.h"
 #include "StorageFile.h"
 #include "StorageLocalSymbol.h"
 #include "StorageNode.h"
@@ -63,4 +63,4 @@ private:
 	std::mutex m_dataMutex;
 };
 
-#endif // STORAGE_H
+#endif	  // STORAGE_H

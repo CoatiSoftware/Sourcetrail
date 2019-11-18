@@ -1,13 +1,9 @@
 #include "SnippetMerger.h"
 
-#include <algorithm>
 #include "ApplicationSettings.h"
+#include <algorithm>
 
-SnippetMerger::SnippetMerger(int startRow, int endRow)
-	: m_start(startRow)
-	, m_end(endRow)
-{
-}
+SnippetMerger::SnippetMerger(int startRow, int endRow): m_start(startRow), m_end(endRow) {}
 
 void SnippetMerger::addChild(std::shared_ptr<SnippetMerger> child)
 {
@@ -29,31 +25,29 @@ std::deque<SnippetMerger::Range> SnippetMerger::merge(std::vector<SnippetMerger:
 			std::deque<Range> mergedFromChild = m_children[i]->merge(atomicRanges);
 			for (size_t j = 0; j < mergedFromChild.size(); j++)
 			{
-				merged.push_back(getExpandedRegardingAtomicRanges(mergedFromChild[j], snippetExpandRange, atomicRanges));
+				merged.push_back(getExpandedRegardingAtomicRanges(
+					mergedFromChild[j], snippetExpandRange, atomicRanges));
 			}
 		}
-		std::sort(merged.begin(), merged.end(),
-			[](const Range& a, const Range& b)
-			{
-				return a.start.row < b.start.row;
-			}
-		);
+		std::sort(merged.begin(), merged.end(), [](const Range& a, const Range& b) {
+			return a.start.row < b.start.row;
+		});
 
 		// merge children
-		const int snippetMergeRange = 2 * snippetExpandRange + 1;	// +1 since snippets that end/start with consequtive 
-																	// lines should be merged as well.
+		const int snippetMergeRange = 2 * snippetExpandRange +
+			1;	  // +1 since snippets that end/start with consequtive
+				  // lines should be merged as well.
 		merged = Range::mergeAdjacent(merged, snippetMergeRange);
 
 		// snap to own borders
 		const int snippetSnapRange = ApplicationSettings::getInstance()->getCodeSnippetSnapRange();
-		if ((m_start < merged.front().start.row) && 
+		if ((m_start < merged.front().start.row) &&
 			(merged.front().start.row <= m_start + snippetSnapRange))
 		{
 			merged.front().start.row = m_start;
 			merged.front().start.strong = false;
 		}
-		if ((m_end - snippetSnapRange <= merged.back().end.row) && 
-			(merged.back().end.row < m_end))
+		if ((m_end - snippetSnapRange <= merged.back().end.row) && (merged.back().end.row < m_end))
 		{
 			merged.back().end.row = m_end;
 			merged.back().end.strong = false;
@@ -63,22 +57,19 @@ std::deque<SnippetMerger::Range> SnippetMerger::merge(std::vector<SnippetMerger:
 }
 
 SnippetMerger::Range SnippetMerger::getExpandedRegardingAtomicRanges(
-	Range range, const int snippetExpandRange, const std::vector<Range>& atomicRanges
-) const
+	Range range, const int snippetExpandRange, const std::vector<Range>& atomicRanges) const
 {
 	const int rangeStartThreshold = range.start.row - snippetExpandRange;
 	const int rangeEndThreshold = range.end.row + snippetExpandRange;
 	for (size_t i = 0; i < atomicRanges.size(); i++)
 	{
-		if ((!range.start.strong) &&
-			(atomicRanges[i].end.row >= rangeStartThreshold) &&
+		if ((!range.start.strong) && (atomicRanges[i].end.row >= rangeStartThreshold) &&
 			(atomicRanges[i].start.row < rangeStartThreshold))
 		{
 			range.start.row = std::min(range.start.row, atomicRanges[i].start.row);
 			range.start.strong = true;
 		}
-		if ((!range.end.strong) &&
-			(atomicRanges[i].start.row <= rangeEndThreshold) &&
+		if ((!range.end.strong) && (atomicRanges[i].start.row <= rangeEndThreshold) &&
 			(atomicRanges[i].end.row > rangeEndThreshold))
 		{
 			range.end.row = std::max(range.end.row, atomicRanges[i].end.row);
@@ -87,4 +78,3 @@ SnippetMerger::Range SnippetMerger::getExpandedRegardingAtomicRanges(
 	}
 	return range;
 }
-

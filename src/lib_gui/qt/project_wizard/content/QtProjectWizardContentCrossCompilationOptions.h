@@ -8,8 +8,7 @@ class QComboBox;
 class QLabel;
 class SourceGroupSettingsWithCxxCrossCompilationOptions;
 
-class QtProjectWizardContentCrossCompilationOptions
-	: public QtProjectWizardContent
+class QtProjectWizardContentCrossCompilationOptions: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -38,4 +37,4 @@ private:
 	QComboBox* m_abi;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_CROSS_COMPILATION_OPTIONS
+#endif	  // QT_PROJECT_WIZARD_CONTENT_CROSS_COMPILATION_OPTIONS

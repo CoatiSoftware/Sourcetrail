@@ -16,4 +16,4 @@ private:
 	static bool prefillCxxFrameworkPaths(ApplicationSettings* settings);
 };
 
-#endif // APPLICATION_SETTINGS_PREFILLER_H
+#endif	  // APPLICATION_SETTINGS_PREFILLER_H

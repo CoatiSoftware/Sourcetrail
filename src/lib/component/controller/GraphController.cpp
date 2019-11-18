@@ -10,21 +10,20 @@
 #include "GraphView.h"
 #include "GraphViewStyle.h"
 #include "ListLayouter.h"
-#include "logging.h"
 #include "MessageActivateNodes.h"
 #include "MessageStatus.h"
 #include "StorageAccess.h"
 #include "TokenComponentAccess.h"
 #include "TokenComponentFilePath.h"
 #include "TokenComponentInheritanceChain.h"
-#include "tracing.h"
 #include "TrailLayouter.h"
+#include "logging.h"
+#include "tracing.h"
 #include "utility.h"
 #include "utilityString.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
-	, m_useBezierEdges(false)
+	: m_storageAccess(storageAccess), m_useBezierEdges(false)
 {
 }
 
@@ -67,8 +66,9 @@ void GraphController::handleMessage(MessageActivateOverview* message)
 	if (message->acceptedNodeTypes != NodeTypeSet::all())
 	{
 		createDummyGraphAndSetActiveAndVisibility(
-			std::vector<Id>(), m_storageAccess->getGraphForNodeTypes(message->acceptedNodeTypes), false
-		);
+			std::vector<Id>(),
+			m_storageAccess->getGraphForNodeTypes(message->acceptedNodeTypes),
+			false);
 
 		addCharacterIndex();
 		layoutNesting();
@@ -76,7 +76,8 @@ void GraphController::handleMessage(MessageActivateOverview* message)
 	}
 	else
 	{
-		createDummyGraphAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll(), false);
+		createDummyGraphAndSetActiveAndVisibility(
+			std::vector<Id>(), m_storageAccess->getGraphForAll(), false);
 
 		bundleNodesByType();
 
@@ -97,7 +98,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	if (message->isEdge || message->keepContent())
 	{
 		m_activeEdgeIds = message->tokenIds;
-		if (message->isAggregation) // only on redo
+		if (message->isAggregation)	   // only on redo
 		{
 			m_activeEdgeIds.clear();
 		}
@@ -138,7 +139,8 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
 
 	bool isNamespace = false;
-	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds, getExpandedNodeIds(), &isNamespace);
+	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(
+		tokenIds, getExpandedNodeIds(), &isNamespace);
 
 	createDummyGraphAndSetActiveAndVisibility(tokenIds, graph, !message->isFromSearch);
 
@@ -167,7 +169,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		else if (message->isAggregation)
 		{
 			bool isInheritanceChain = true;
-			for (const auto& edge : m_dummyEdges)
+			for (const auto& edge: m_dummyEdges)
 			{
 				if (!edge->data->isType(Edge::EDGE_INHERITANCE))
 				{
@@ -178,7 +180,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 			if (isInheritanceChain)
 			{
-				for (auto& node : m_dummyNodes)
+				for (auto& node: m_dummyNodes)
 				{
 					node->bundleInfo.layoutVertical = true;
 				}
@@ -186,7 +188,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 			m_useBezierEdges = !isInheritanceChain;
 
-			for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+			for (const std::shared_ptr<DummyEdge>& edge: m_dummyEdges)
 			{
 				edge->active = false;
 			}
@@ -214,7 +216,12 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	m_activeEdgeIds.clear();
 
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForTrail(
-		message->originId, message->targetId, message->nodeTypes, message->edgeTypes, message->nodeNonIndexed, message->depth,
+		message->originId,
+		message->targetId,
+		message->nodeTypes,
+		message->edgeTypes,
+		message->nodeNonIndexed,
+		message->depth,
 		true /* !message->custom || (message->originId && message->targetId) */);
 
 	// remove non-indexed files from include graph if indexed file is origin
@@ -224,17 +231,14 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 		if (fileNode && fileNode->isDefined())
 		{
 			std::vector<Node*> nodesToRemove;
-			graph->forEachNode(
-				[&nodesToRemove](Node* node)
+			graph->forEachNode([&nodesToRemove](Node* node) {
+				if (!node->isDefined())
 				{
-					if (!node->isDefined())
-					{
-						nodesToRemove.push_back(node);
-					}
+					nodesToRemove.push_back(node);
 				}
-			);
+			});
 
-			for (Node* node : nodesToRemove)
+			for (Node* node: nodesToRemove)
 			{
 				graph->removeNode(node);
 			}
@@ -246,19 +250,20 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 		MessageStatus(L"No trail graph found.", true).dispatch();
 
 		Application::getInstance()->handleDialog(
-			L"No custom trail was found between the specified symbols with the specified parameters.",
-			{ L"Ok" }
-		);
+			L"No custom trail was found between the specified symbols with the specified "
+			L"parameters.",
+			{L"Ok"});
 	}
 	else if (graph->getNodeCount() > 1000)
 	{
 		int r = Application::getInstance()->handleDialog(
-			L"Warning!\n\nThe graph will contain " + std::to_wstring(graph->getNodeCount()) + " nodes. "
-			L"Layouting and drawing might take a while and the resulting graph could look confusing. Please "
-			L"consider reducing graph depth with the slider on the left.\n\n"
-			L"Do you want to proceed?",
-			{ L"Yes", L"No" }
-		);
+			L"Warning!\n\nThe graph will contain " + std::to_wstring(graph->getNodeCount()) +
+				" nodes. "
+				L"Layouting and drawing might take a while and the resulting graph could look "
+				L"confusing. Please "
+				L"consider reducing graph depth with the slider on the left.\n\n"
+				L"Do you want to proceed?",
+			{L"Yes", L"No"});
 
 		if (r == 1)
 		{
@@ -271,7 +276,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	m_graph->setTrailMode(message->horizontalLayout ? Graph::TRAIL_HORIZONTAL : Graph::TRAIL_VERTICAL);
 	m_graph->setHasTrailOrigin(message->originId);
 
-	m_activeNodeIds = { message->originId ? message->originId : message->targetId };
+	m_activeNodeIds = {message->originId ? message->originId : message->targetId};
 	setActive(m_activeNodeIds, true);
 	setVisibility(true);
 
@@ -332,7 +337,7 @@ void GraphController::handleMessage(MessageFocusIn* message)
 	getView()->focusTokenIds(message->tokenIds);
 }
 
-void GraphController::handleMessage(MessageFocusOut *message)
+void GraphController::handleMessage(MessageFocusOut* message)
 {
 	getView()->defocusTokenIds(message->tokenIds);
 }
@@ -360,14 +365,15 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 			std::vector<std::shared_ptr<DummyNode>> nodes;
 			if (node->isBundleNode())
 			{
-				nodes = std::vector<std::shared_ptr<DummyNode>>(node->bundledNodes.begin(), node->bundledNodes.end());
+				nodes = std::vector<std::shared_ptr<DummyNode>>(
+					node->bundledNodes.begin(), node->bundledNodes.end());
 			}
 			else if (node->isGroupNode())
 			{
 				nodes = node->subNodes;
 				std::set<Id> hiddenEdgeIds(node->hiddenEdgeIds.begin(), node->hiddenEdgeIds.end());
 
-				for (std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+				for (std::shared_ptr<DummyEdge>& edge: m_dummyEdges)
 				{
 					if (edge->ownerId == node->tokenId || edge->targetId == node->tokenId ||
 						(edge->data && hiddenEdgeIds.find(edge->data->getId()) != hiddenEdgeIds.end()))
@@ -377,7 +383,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 				}
 
 				m_topLevelAncestorIds.erase(node->tokenId);
-				for (const std::shared_ptr<DummyNode>& subNode : nodes)
+				for (const std::shared_ptr<DummyNode>& subNode: nodes)
 				{
 					m_topLevelAncestorIds[subNode->tokenId] = subNode->tokenId;
 				}
@@ -438,15 +444,12 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 		{
 			std::shared_ptr<Graph> childGraph = m_storageAccess->getGraphForChildrenOfNodeId(nodeId);
 
-			childGraph->getNodeById(nodeId)->forEachEdgeOfType(Edge::EDGE_MEMBER,
-				[this](Edge* edge)
-				{
-					m_graph->addEdgeAsPlainCopy(edge);
-				}
-			);
+			childGraph->getNodeById(nodeId)->forEachEdgeOfType(
+				Edge::EDGE_MEMBER, [this](Edge* edge) { m_graph->addEdgeAsPlainCopy(edge); });
 
 			Node* node = m_graph->getNodeById(nodeId);
-			std::vector<std::shared_ptr<DummyNode>> newDummyNodes = createDummyNodeTopDown(node, node->getLastParentNode()->getId());
+			std::vector<std::shared_ptr<DummyNode>> newDummyNodes = createDummyNodeTopDown(
+				node, node->getLastParentNode()->getId());
 			if (newDummyNodes.size() != 1)
 			{
 				LOG_ERROR("Wrong amount of dummy nodes created");
@@ -454,7 +457,8 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 			}
 			std::shared_ptr<DummyNode> newDummyNode = newDummyNodes[0];
 
-			// replace newer dummy graph nodes with the old ones. Nodes will have the correct sorting after that.
+			// replace newer dummy graph nodes with the old ones. Nodes will have the correct
+			// sorting after that.
 			newDummyNode->replaceSubGraphNodes(dummyNode->getSubGraphNodes());
 
 			// move all newer and older dummy graph nodes into the old dummy node
@@ -470,8 +474,8 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 					if (edge && edge->data && edge->data->isType(Edge::EDGE_AGGREGATION) &&
 						(edge->targetId == dummyNode->tokenId || edge->ownerId == dummyNode->tokenId))
 					{
-						std::vector<Id> aggregationIds =
-							utility::toVector<Id>(edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds());
+						std::vector<Id> aggregationIds = utility::toVector<Id>(
+							edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds());
 
 						if (m_graph->getEdgeById(aggregationIds[0]) != nullptr)
 						{
@@ -479,18 +483,18 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 						}
 
 						std::shared_ptr<Graph> aggregationGraph =
-							m_storageAccess->getGraphForActiveTokenIds(aggregationIds, std::vector<Id>());
+							m_storageAccess->getGraphForActiveTokenIds(
+								aggregationIds, std::vector<Id>());
 
-						aggregationGraph->forEachEdge(
-							[this](Edge* e)
+						aggregationGraph->forEachEdge([this](Edge* e) {
+							if (!e->isType(Edge::EDGE_MEMBER))
 							{
-								if (!e->isType(Edge::EDGE_MEMBER))
-								{
-									m_dummyEdges.push_back(std::make_shared<DummyEdge>(
-										e->getFrom()->getId(), e->getTo()->getId(), m_graph->addEdgeAsPlainCopy(e)));
-								}
+								m_dummyEdges.push_back(std::make_shared<DummyEdge>(
+									e->getFrom()->getId(),
+									e->getTo()->getId(),
+									m_graph->addEdgeAsPlainCopy(e)));
 							}
-						);
+						});
 					}
 				}
 			}
@@ -558,7 +562,7 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 		if (m_graph->getTrailMode() != Graph::TRAIL_NONE)
 		{
 			std::set<Id> childNodeIds;
-			for (const std::pair<Id, Id>& p : m_topLevelAncestorIds)
+			for (const std::pair<Id, Id>& p: m_topLevelAncestorIds)
 			{
 				if (p.second == message->tokenId)
 				{
@@ -566,7 +570,7 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 				}
 			}
 
-			for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
+			for (std::shared_ptr<DummyEdge> edge: m_dummyEdges)
 			{
 				if (childNodeIds.find(edge->ownerId) != childNodeIds.end() ||
 					childNodeIds.find(edge->targetId) != childNodeIds.end())
@@ -643,32 +647,27 @@ void GraphController::createDummyGraph(const std::shared_ptr<Graph> graph)
 	std::set<Id> addedNodes;
 	std::vector<std::shared_ptr<DummyNode>> dummyNodes;
 
-	graph->forEachNode(
-		[&addedNodes, &dummyNodes, this](Node* node)
+	graph->forEachNode([&addedNodes, &dummyNodes, this](Node* node) {
+		Node* parent = node->getLastParentNode();
+		Id parentId = parent->getId();
+		if (addedNodes.find(parentId) != addedNodes.end())
 		{
-			Node* parent = node->getLastParentNode();
-			Id parentId = parent->getId();
-			if (addedNodes.find(parentId) != addedNodes.end())
-			{
-				return;
-			}
-			addedNodes.insert(parentId);
-
-			utility::append(dummyNodes, createDummyNodeTopDown(parent, parentId));
+			return;
 		}
-	);
+		addedNodes.insert(parentId);
+
+		utility::append(dummyNodes, createDummyNodeTopDown(parent, parentId));
+	});
 
 	std::set<Id> addedEdges;
-	graph->forEachEdge(
-		[&addedEdges, this](Edge* edge)
+	graph->forEachEdge([&addedEdges, this](Edge* edge) {
+		if (!edge->isType(Edge::EDGE_MEMBER) && addedEdges.find(edge->getId()) == addedEdges.end())
 		{
-			if (!edge->isType(Edge::EDGE_MEMBER) && addedEdges.find(edge->getId()) == addedEdges.end())
-			{
-				m_dummyEdges.push_back(std::make_shared<DummyEdge>(edge->getFrom()->getId(), edge->getTo()->getId(), edge));
-				addedEdges.insert(edge->getId());
-			}
+			m_dummyEdges.push_back(std::make_shared<DummyEdge>(
+				edge->getFrom()->getId(), edge->getTo()->getId(), edge));
+			addedEdges.insert(edge->getId());
 		}
-	);
+	});
 
 	updateDummyNodeNamesAndAddQualifiers(dummyNodes);
 
@@ -680,8 +679,8 @@ void GraphController::createDummyGraph(const std::shared_ptr<Graph> graph)
 }
 
 void GraphController::createDummyGraphAndSetActiveAndVisibility(
-	const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph, bool keepExpandedNodesExpanded
-){
+	const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph, bool keepExpandedNodesExpanded)
+{
 	std::vector<Id> expandedNodeIds;
 
 	if (keepExpandedNodesExpanded)
@@ -721,48 +720,43 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 
 	if (node->getType().isPackage())
 	{
-		node->forEachChildNode(
-			[&nodes, &ancestorId, this](Node* child)
-			{
-				utility::append(nodes, createDummyNodeTopDown(child, ancestorId));
-			}
-		);
+		node->forEachChildNode([&nodes, &ancestorId, this](Node* child) {
+			utility::append(nodes, createDummyNodeTopDown(child, ancestorId));
+		});
 
 		return nodes;
 	}
 
-	node->forEachChildNode(
-		[&result, &ancestorId, this](Node* child)
+	node->forEachChildNode([&result, &ancestorId, this](Node* child) {
+		DummyNode* parent = nullptr;
+		AccessKind accessKind = ACCESS_NONE;
+
+		TokenComponentAccess* access = child->getComponent<TokenComponentAccess>();
+		if (access)
 		{
-			DummyNode* parent = nullptr;
-			AccessKind accessKind = ACCESS_NONE;
-
-			TokenComponentAccess* access = child->getComponent<TokenComponentAccess>();
-			if (access)
-			{
-				accessKind = access->getAccess();
-			}
-
-			for (const std::shared_ptr<DummyNode>& dummy : result->subNodes)
-			{
-				if (dummy->accessKind == accessKind)
-				{
-					parent = dummy.get();
-					break;
-				}
-			}
-
-			if (!parent)
-			{
-				std::shared_ptr<DummyNode> accessNode = std::make_shared<DummyNode>(DummyNode::DUMMY_ACCESS);
-				accessNode->accessKind = accessKind;
-				result->subNodes.push_back(accessNode);
-				parent = accessNode.get();
-			}
-
-			utility::append(parent->subNodes, createDummyNodeTopDown(child, ancestorId));
+			accessKind = access->getAccess();
 		}
-	);
+
+		for (const std::shared_ptr<DummyNode>& dummy: result->subNodes)
+		{
+			if (dummy->accessKind == accessKind)
+			{
+				parent = dummy.get();
+				break;
+			}
+		}
+
+		if (!parent)
+		{
+			std::shared_ptr<DummyNode> accessNode = std::make_shared<DummyNode>(
+				DummyNode::DUMMY_ACCESS);
+			accessNode->accessKind = accessKind;
+			result->subNodes.push_back(accessNode);
+			parent = accessNode.get();
+		}
+
+		utility::append(parent->subNodes, createDummyNodeTopDown(child, ancestorId));
+	});
 
 	return nodes;
 }
@@ -770,7 +764,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 void GraphController::updateDummyNodeNamesAndAddQualifiers(
 	const std::vector<std::shared_ptr<DummyNode>>& dummyNodes)
 {
-	for (const std::shared_ptr<DummyNode>& node : dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: dummyNodes)
 	{
 		if (node->isGroupNode() || !node->data || node->data->getType().isFile())
 		{
@@ -789,7 +783,8 @@ void GraphController::updateDummyNodeNamesAndAddQualifiers(
 
 			if (qualifier.size())
 			{
-				std::shared_ptr<DummyNode> qualifierNode = std::make_shared<DummyNode>(DummyNode::DUMMY_QUALIFIER);
+				std::shared_ptr<DummyNode> qualifierNode = std::make_shared<DummyNode>(
+					DummyNode::DUMMY_QUALIFIER);
 				qualifierNode->qualifierName = qualifier;
 				qualifierNode->visible = true;
 
@@ -803,7 +798,7 @@ void GraphController::updateDummyNodeNamesAndAddQualifiers(
 std::vector<Id> GraphController::getExpandedNodeIds() const
 {
 	std::vector<Id> nodeIds;
-	for (const std::pair<Id, std::shared_ptr<DummyNode>>& p : m_dummyGraphNodes)
+	for (const std::pair<Id, std::shared_ptr<DummyNode>>& p: m_dummyGraphNodes)
 	{
 		DummyNode* oldNode = p.second.get();
 		if (oldNode->expanded && !oldNode->autoExpanded && oldNode->isGraphNode() &&
@@ -817,7 +812,7 @@ std::vector<Id> GraphController::getExpandedNodeIds() const
 
 void GraphController::setExpandedNodeIds(const std::vector<Id>& nodeIds)
 {
-	for (Id id : nodeIds)
+	for (Id id: nodeIds)
 	{
 		DummyNode* node = getDummyGraphNodeById(id).get();
 		if (node)
@@ -851,7 +846,7 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 	if (activeTokenIds.size() > 0)
 	{
 		noActive = true;
-		for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+		for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 		{
 			if (setNodeActiveRecursive(node.get(), activeTokenIds))
 			{
@@ -861,7 +856,7 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 	}
 
 	bool noActiveFinal = noActive;
-	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& edge: m_dummyEdges)
 	{
 		if (!edge->data)
 		{
@@ -869,7 +864,8 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 		}
 
 		edge->active = false;
-		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge->data->getId()) != activeTokenIds.end())
+		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge->data->getId()) !=
+			activeTokenIds.end())
 		{
 			edge->active = true;
 			noActiveFinal = false;
@@ -881,7 +877,8 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 		bool isInheritance = edge->data->isType(Edge::EDGE_INHERITANCE);
 		if (from && to && !edge->hidden &&
 			(showAllEdges || noActive || from->active || to->active || edge->active || isInheritance) &&
-			!(to->active && edge->data->isType(Edge::EDGE_TYPE_USAGE) && to->data->isParentOf(from->data))) // Don't show type use edges to active parent
+			!(to->active && edge->data->isType(Edge::EDGE_TYPE_USAGE) &&
+			  to->data->isParentOf(from->data)))	// Don't show type use edges to active parent
 		{
 			edge->visible = true;
 			from->connected = true;
@@ -900,7 +897,7 @@ void GraphController::setVisibility(bool noActive)
 {
 	TRACE();
 
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		setNodeVisibilityRecursiveBottomUp(node.get(), noActive);
 	}
@@ -920,7 +917,8 @@ bool GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<
 
 	if (node->isGraphNode())
 	{
-		node->active = find(activeTokenIds.begin(), activeTokenIds.end(), node->data->getId()) != activeTokenIds.end();
+		node->active = find(activeTokenIds.begin(), activeTokenIds.end(), node->data->getId()) !=
+			activeTokenIds.end();
 
 		if (node->active)
 		{
@@ -928,7 +926,7 @@ bool GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<
 		}
 	}
 
-	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 	{
 		if (setNodeActiveRecursive(subNode.get(), activeTokenIds))
 		{
@@ -964,7 +962,7 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool n
 		return false;
 	}
 
-	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 	{
 		if (setNodeVisibilityRecursiveBottomUp(subNode.get(), noActive))
 		{
@@ -986,7 +984,8 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool n
 
 void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool parentExpanded) const
 {
-	if (node->isGraphNode() && node->data->getType().getType() == NodeType::NODE_ENUM && !node->isExpanded())
+	if (node->isGraphNode() && node->data->getType().getType() == NodeType::NODE_ENUM &&
+		!node->isExpanded())
 	{
 		node->visible = true;
 		return;
@@ -995,7 +994,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 	if ((node->isGraphNode() && node->isExpanded()) ||
 		(node->isAccessNode() && (node->accessKind == ACCESS_NONE || parentExpanded)))
 	{
-		for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 		{
 			if (!subNode->isQualifierNode() && !subNode->isExpandToggleNode() && !subNode->hidden)
 			{
@@ -1013,12 +1012,13 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 
 void GraphController::hideBuiltinTypes()
 {
-	if (ApplicationSettings::getInstance()->getShowBuiltinTypesInGraph() || m_activeNodeIds.size() != 1)
+	if (ApplicationSettings::getInstance()->getShowBuiltinTypesInGraph() ||
+		m_activeNodeIds.size() != 1)
 	{
 		return;
 	}
 
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		if (node->isGraphNode() && !node->active && node->data->getType().isBuiltin())
 		{
@@ -1033,7 +1033,7 @@ void GraphController::bundleNodes()
 	TRACE();
 
 	// evaluate top level nodes
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		if (!node->isGraphNode() || !node->visible)
 		{
@@ -1043,71 +1043,66 @@ void GraphController::bundleNodes()
 		DummyNode::BundleInfo* bundleInfo = &node->bundleInfo;
 		bundleInfo->isActive = node->hasActiveSubNode();
 
-		node->data->forEachNodeRecursive(
-			[&bundleInfo](const Node* n)
+		node->data->forEachNodeRecursive([&bundleInfo](const Node* n) {
+			if (n->isDefined())
 			{
-				if (n->isDefined())
-				{
-					bundleInfo->isDefined = true;
-				}
+				bundleInfo->isDefined = true;
+			}
 
+			if (bundleInfo->layoutVertical)
+			{
+				return;
+			}
+
+			n->forEachEdgeOfType(~Edge::EDGE_MEMBER, [&bundleInfo, &n](Edge* e) {
 				if (bundleInfo->layoutVertical)
 				{
 					return;
 				}
 
-				n->forEachEdgeOfType(
-					~Edge::EDGE_MEMBER,
-					[&bundleInfo, &n](Edge* e)
+				if (e->isType(Edge::LAYOUT_VERTICAL))
+				{
+					bundleInfo->layoutVertical = true;
+					bundleInfo->isReferenced = false;
+					bundleInfo->isReferencing = false;
+				}
+
+				if (e->isType(Edge::EDGE_AGGREGATION))
+				{
+					TokenComponentAggregation::Direction dir =
+						e->getComponent<TokenComponentAggregation>()->getDirection();
+
+					if (dir == TokenComponentAggregation::DIRECTION_NONE)
 					{
-						if (bundleInfo->layoutVertical)
-						{
-							return;
-						}
-
-						if (e->isType(Edge::LAYOUT_VERTICAL))
-						{
-							bundleInfo->layoutVertical = true;
-							bundleInfo->isReferenced = false;
-							bundleInfo->isReferencing = false;
-						}
-
-						if (e->isType(Edge::EDGE_AGGREGATION))
-						{
-							TokenComponentAggregation::Direction dir =
-								e->getComponent<TokenComponentAggregation>()->getDirection();
-
-							if (dir == TokenComponentAggregation::DIRECTION_NONE)
-							{
-								bundleInfo->isReferenced = true;
-								bundleInfo->isReferencing = true;
-							}
-							else if ((dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getFrom() == n) ||
-								(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getTo() == n))
-							{
-								bundleInfo->isReferencing = true;
-							}
-							else if ((dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getTo() == n) ||
-								(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getFrom() == n))
-							{
-								bundleInfo->isReferenced = true;
-							}
-						}
-						else
-						{
-							if (e->getTo() == n)
-							{
-								bundleInfo->isReferenced = true;
-							}
-							else if (e->getFrom() == n)
-							{
-								bundleInfo->isReferencing = true;
-							}
-						}
+						bundleInfo->isReferenced = true;
+						bundleInfo->isReferencing = true;
 					}
-				);
-			}
-		);
+					else if (
+						(dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getFrom() == n) ||
+						(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getTo() == n))
+					{
+						bundleInfo->isReferencing = true;
+					}
+					else if (
+						(dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getTo() == n) ||
+						(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getFrom() == n))
+					{
+						bundleInfo->isReferenced = true;
+					}
+				}
+				else
+				{
+					if (e->getTo() == n)
+					{
+						bundleInfo->isReferenced = true;
+					}
+					else if (e->getFrom() == n)
+					{
+						bundleInfo->isReferencing = true;
+					}
+				}
+			});
+		});
 
 		if (bundleInfo->isReferenced && bundleInfo->isReferencing)
 		{
@@ -1134,11 +1129,11 @@ void GraphController::bundleNodes()
 
 	// bundle
 	bool fileOrMacroActive = false;
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
-		if (node->bundleInfo.isActive && (
-			node->data->isType(NodeType::NODE_FILE | NodeType::NODE_MACRO) ||
-			node->data->findEdgeOfType(Edge::EDGE_INCLUDE | Edge::EDGE_MACRO_USAGE) != nullptr))
+		if (node->bundleInfo.isActive &&
+			(node->data->isType(NodeType::NODE_FILE | NodeType::NODE_MACRO) ||
+			 node->data->findEdgeOfType(Edge::EDGE_INCLUDE | Edge::EDGE_MACRO_USAGE) != nullptr))
 		{
 			fileOrMacroActive = true;
 			break;
@@ -1151,103 +1146,87 @@ void GraphController::bundleNodes()
 	}
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
+		[](const DummyNode::BundleInfo& info, const Node* data) {
 			return data->getType().isFile() && data->findEdgeOfType(Edge::EDGE_IMPORT);
 		},
 		1,
 		false,
-		L"Importing Files"
-	);
+		L"Importing Files");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
+		[](const DummyNode::BundleInfo& info, const Node* data) {
 			return !info.isDefined && info.isReferencing && !info.layoutVertical;
 		},
 		2,
 		true,
-		L"Non-indexed Symbols"
-	);
+		L"Non-indexed Symbols");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
+		[](const DummyNode::BundleInfo& info, const Node* data) {
 			return !info.isDefined && info.isReferenced && !info.layoutVertical;
 		},
 		2,
 		true,
-		L"Non-indexed Symbols"
-	);
+		L"Non-indexed Symbols");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
+		[](const DummyNode::BundleInfo& info, const Node* data) {
 			return info.isDefined && info.isReferenced && data->getType().isBuiltin();
 		},
 		3,
 		false,
-		L"Built-in Types"
-	);
+		L"Built-in Types");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
+		[](const DummyNode::BundleInfo& info, const Node* data) {
 			return info.isDefined && info.isReferencing && !info.layoutVertical;
 		},
 		10,
 		false,
-		L"Referencing Symbols"
-	);
+		L"Referencing Symbols");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
+		[](const DummyNode::BundleInfo& info, const Node* data) {
 			return info.isDefined && info.isReferenced && !info.layoutVertical;
 		},
 		10,
 		false,
-		L"Referenced Symbols"
-	);
+		L"Referenced Symbols");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
-			return info.isReferencing && info.layoutVertical && data->findEdgeOfType(Edge::EDGE_TEMPLATE_SPECIALIZATION);
+		[](const DummyNode::BundleInfo& info, const Node* data) {
+			return info.isReferencing && info.layoutVertical &&
+				data->findEdgeOfType(Edge::EDGE_TEMPLATE_SPECIALIZATION);
 		},
 		5,
 		false,
-		L"Specializing Symbols"
-	);
+		L"Specializing Symbols");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
-			return info.isReferencing && info.layoutVertical && data->findEdgeOfType(Edge::EDGE_INHERITANCE);
+		[](const DummyNode::BundleInfo& info, const Node* data) {
+			return info.isReferencing && info.layoutVertical &&
+				data->findEdgeOfType(Edge::EDGE_INHERITANCE);
 		},
 		5,
 		false,
-		L"Derived Symbols"
-	);
+		L"Derived Symbols");
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info, const Node* data)
-		{
-			return info.isReferenced && info.layoutVertical && data->findEdgeOfType(Edge::EDGE_INHERITANCE);
+		[](const DummyNode::BundleInfo& info, const Node* data) {
+			return info.isReferenced && info.layoutVertical &&
+				data->findEdgeOfType(Edge::EDGE_INHERITANCE);
 		},
 		5,
 		false,
-		L"Base Symbols"
-	);
+		L"Base Symbols");
 }
 
 void GraphController::bundleNodesAndEdgesMatching(
-	std::function<bool(const DummyNode::BundleInfo&,
-	const Node* data)> matcher,
+	std::function<bool(const DummyNode::BundleInfo&, const Node* data)> matcher,
 	size_t count,
 	bool countConnectedNodes,
-	const std::wstring& name
-){
+	const std::wstring& name)
+{
 	std::vector<size_t> matchedNodeIndices;
 	size_t connectedNodeCount = 0;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
@@ -1270,7 +1249,8 @@ void GraphController::bundleNodesAndEdgesMatching(
 	}
 
 	size_t matchedNodeCount = countConnectedNodes ? connectedNodeCount : matchedNodeIndices.size();
-	if (!matchedNodeIndices.size() || matchedNodeCount < count || matchedNodeIndices.size() == m_dummyNodes.size())
+	if (!matchedNodeIndices.size() || matchedNodeCount < count ||
+		matchedNodeIndices.size() == m_dummyNodes.size())
 	{
 		return;
 	}
@@ -1311,9 +1291,9 @@ void GraphController::bundleNodesAndEdgesMatching(
 
 	std::vector<std::shared_ptr<DummyEdge>> bundleEdges;
 	std::vector<const DummyNode*> bundledNodes = bundleNode->getAllBundledNodes();
-	for (const DummyNode* node : bundledNodes)
+	for (const DummyNode* node: bundledNodes)
 	{
-		for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+		for (const std::shared_ptr<DummyEdge>& edge: m_dummyEdges)
 		{
 			bool owner = (edge->ownerId == node->data->getId());
 			bool target = (edge->targetId == node->data->getId());
@@ -1324,7 +1304,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 			}
 
 			DummyEdge* bundleEdgePtr = nullptr;
-			for (const std::shared_ptr<DummyEdge>& bundleEdge : bundleEdges)
+			for (const std::shared_ptr<DummyEdge>& bundleEdge: bundleEdges)
 			{
 				if ((owner && bundleEdge->ownerId == edge->targetId) ||
 					(target && bundleEdge->ownerId == edge->ownerId))
@@ -1354,8 +1334,10 @@ void GraphController::bundleNodesAndEdgesMatching(
 }
 
 std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
-	std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::wstring& name
-){
+	std::list<std::shared_ptr<DummyNode>>& nodes,
+	std::function<bool(const DummyNode*)> matcher,
+	const std::wstring& name)
+{
 	std::vector<std::list<std::shared_ptr<DummyNode>>::iterator> matchedNodes;
 	for (std::list<std::shared_ptr<DummyNode>>::iterator it = nodes.begin(); it != nodes.end(); it++)
 	{
@@ -1396,16 +1378,11 @@ std::shared_ptr<DummyNode> GraphController::bundleByType(
 {
 	std::shared_ptr<DummyNode> bundleNode = bundleNodesMatching(
 		nodes,
-		[&](const DummyNode* node)
-		{
-			return
-				(considerInvisibleNodes || node->visible) &&
-				node->isGraphNode() &&
-				node->data->getType() == type &&
-				bundleInfoTree.data.nameMatcher(node->name);
+		[&](const DummyNode* node) {
+			return (considerInvisibleNodes || node->visible) && node->isGraphNode() &&
+				node->data->getType() == type && bundleInfoTree.data.nameMatcher(node->name);
 		},
-		bundleInfoTree.data.bundleName
-	);
+		bundleInfoTree.data.bundleName);
 
 	if (bundleNode)
 	{
@@ -1419,9 +1396,10 @@ std::shared_ptr<DummyNode> GraphController::bundleByType(
 			bundleNode->bundledNodes.clear();
 
 			// crate a sub-bundle for anonymous namespaces
-			for (const Tree<NodeType::BundleInfo>& childBundleInfoTree : bundleInfoTree.children)
+			for (const Tree<NodeType::BundleInfo>& childBundleInfoTree: bundleInfoTree.children)
 			{
-				std::shared_ptr<DummyNode> childBundle = bundleByType(bundledNodes, type, childBundleInfoTree, true);
+				std::shared_ptr<DummyNode> childBundle = bundleByType(
+					bundledNodes, type, childBundleInfoTree, true);
 				if (childBundle)
 				{
 					bundleNode->bundledNodes.insert(childBundle);
@@ -1445,12 +1423,13 @@ void GraphController::bundleNodesByType()
 
 	bool hasNonFileBundle = false;
 
-	for (const NodeType& nodeType : NodeType::getOverviewBundleNodeTypesOrdered())
+	for (const NodeType& nodeType: NodeType::getOverviewBundleNodeTypesOrdered())
 	{
 		Tree<NodeType::BundleInfo> bundleInfoTree = nodeType.getOverviewBundleTree();
 		if (bundleInfoTree.data.isValid())
 		{
-			std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, nodeType, bundleInfoTree, false);
+			std::shared_ptr<DummyNode> bundleNode = bundleByType(
+				nodes, nodeType, bundleInfoTree, false);
 			if (bundleNode)
 			{
 				m_dummyNodes.push_back(bundleNode);
@@ -1466,7 +1445,8 @@ void GraphController::bundleNodesByType()
 	if (nodes.size() && !hasNonFileBundle)
 	{
 		Tree<NodeType::BundleInfo> bundleInfoTree(NodeType::BundleInfo(L"Symbols"));
-		std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, NodeType::NODE_SYMBOL, bundleInfoTree, false);
+		std::shared_ptr<DummyNode> bundleNode = bundleByType(
+			nodes, NodeType::NODE_SYMBOL, bundleInfoTree, false);
 		if (bundleNode)
 		{
 			m_dummyNodes.push_back(bundleNode);
@@ -1483,7 +1463,7 @@ void GraphController::addCharacterIndex()
 {
 	// Remove index characters from last time
 	DummyNode::BundledNodesSet newNodes;
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		if (!node->isTextNode())
 		{
@@ -1517,7 +1497,7 @@ void GraphController::addCharacterIndex()
 
 bool GraphController::hasCharacterIndex() const
 {
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		if (node->isTextNode())
 		{
@@ -1543,7 +1523,7 @@ void GraphController::groupNodesByParents(GroupType groupType)
 	if (groupType == GroupType::FILE)
 	{
 		std::vector<Id> nodeIds;
-		for (const std::shared_ptr<DummyNode>& dummyNode : m_dummyNodes)
+		for (const std::shared_ptr<DummyNode>& dummyNode: m_dummyNodes)
 		{
 			if (dummyNode->isGraphNode())
 			{
@@ -1555,7 +1535,7 @@ void GraphController::groupNodesByParents(GroupType groupType)
 	}
 
 	std::map<std::wstring, Id> qualifierNameToIdMap;
-	for (const std::shared_ptr<DummyNode>& dummyNode : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& dummyNode: m_dummyNodes)
 	{
 		if (dummyNode->isGroupNode())
 		{
@@ -1588,20 +1568,22 @@ void GraphController::groupNodesByParents(GroupType groupType)
 					}
 					else
 					{
-						qualifierId = m_storageAccess->getNodeIdForNameHierarchy(qualifierNode->qualifierName);
+						qualifierId = m_storageAccess->getNodeIdForNameHierarchy(
+							qualifierNode->qualifierName);
 						qualifierNameToIdMap.emplace(qualifierName, qualifierId);
 					}
 
 					nodesToGroup[qualifierName].push_back(dummyNode);
 					nodeIdtoParentMap.emplace(
-						dummyNode->tokenId, std::make_pair(qualifierId, qualifierNode->qualifierName));
+						dummyNode->tokenId,
+						std::make_pair(qualifierId, qualifierNode->qualifierName));
 				}
 			}
 		}
 	}
 
 	std::set<Id> groupedNodeIds;
-	for (const std::pair<std::wstring, std::vector<std::shared_ptr<DummyNode>>>& p : nodesToGroup)
+	for (const std::pair<std::wstring, std::vector<std::shared_ptr<DummyNode>>>& p: nodesToGroup)
 	{
 		std::shared_ptr<DummyNode> groupNode;
 
@@ -1633,7 +1615,7 @@ void GraphController::groupNodesByParents(GroupType groupType)
 			m_dummyNodes.push_back(groupNode);
 		}
 
-		for (std::shared_ptr<DummyNode> dummyNode : p.second)
+		for (std::shared_ptr<DummyNode> dummyNode: p.second)
 		{
 			if (dummyNode->hasActiveSubNode())
 			{
@@ -1675,7 +1657,7 @@ DummyNode* GraphController::groupAllNodes(GroupType groupType, Id groupNodeId)
 	groupNode->tokenId = groupNodeId;
 	m_topLevelAncestorIds[groupNode->tokenId] = groupNode->tokenId;
 
-	for (std::shared_ptr<DummyNode> dummyNode : m_dummyNodes)
+	for (std::shared_ptr<DummyNode> dummyNode: m_dummyNodes)
 	{
 		groupNode->subNodes.push_back(dummyNode);
 		m_topLevelAncestorIds[dummyNode->tokenId] = groupNode->tokenId;
@@ -1683,7 +1665,7 @@ DummyNode* GraphController::groupAllNodes(GroupType groupType, Id groupNodeId)
 
 	if (groupNode->subNodes.size())
 	{
-		m_dummyNodes = { groupNode };
+		m_dummyNodes = {groupNode};
 	}
 
 	return groupNode.get();
@@ -1704,10 +1686,11 @@ void GraphController::groupTrailNodes(GroupType groupType)
 	};
 
 	std::set<Id> possibleNodeIds;
-	for (auto dummyNode : m_dummyNodes)
+	for (auto dummyNode: m_dummyNodes)
 	{
 		if (dummyNode->visible && dummyNode->tokenId &&
-			(!dummyNode->subNodes.size() || (dummyNode->subNodes.size() == 1 && dummyNode->subNodes[0]->isQualifierNode())))
+			(!dummyNode->subNodes.size() ||
+			 (dummyNode->subNodes.size() == 1 && dummyNode->subNodes[0]->isQualifierNode())))
 		{
 			possibleNodeIds.insert(dummyNode->tokenId);
 		}
@@ -1715,10 +1698,9 @@ void GraphController::groupTrailNodes(GroupType groupType)
 
 	std::map<Id, TrailNode> nodes;
 
-	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& edge: m_dummyEdges)
 	{
-		if (edge->visible &&
-			possibleNodeIds.find(edge->ownerId) != possibleNodeIds.end() &&
+		if (edge->visible && possibleNodeIds.find(edge->ownerId) != possibleNodeIds.end() &&
 			possibleNodeIds.find(edge->targetId) != possibleNodeIds.end())
 		{
 			TrailNode& fromNode = nodes[edge->ownerId];
@@ -1778,7 +1760,7 @@ void GraphController::groupTrailNodes(GroupType groupType)
 
 		std::vector<Id> hiddenEdgeIds;
 
-		for (TrailNode& node : group)
+		for (TrailNode& node: group)
 		{
 			std::shared_ptr<DummyNode> dummyNode = getDummyGraphNodeById(node.nodeId);
 			if (!dummyNode)
@@ -1791,7 +1773,7 @@ void GraphController::groupTrailNodes(GroupType groupType)
 
 			m_topLevelAncestorIds[node.nodeId] = groupNode->tokenId;
 
-			for (DummyEdge* edge : node.targetEdges)
+			for (DummyEdge* edge: node.targetEdges)
 			{
 				if (!targetEdge->visible)
 				{
@@ -1809,7 +1791,7 @@ void GraphController::groupTrailNodes(GroupType groupType)
 				}
 			}
 
-			for (DummyEdge* edge : node.originEdges)
+			for (DummyEdge* edge: node.originEdges)
 			{
 				if (!originEdge->visible)
 				{
@@ -1858,12 +1840,12 @@ void GraphController::layoutNesting()
 
 	extendEqualFunctionNames(m_dummyNodes);
 
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		layoutNestingRecursive(node.get());
 	}
 
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		layoutToGrid(node.get());
 	}
@@ -1872,15 +1854,16 @@ void GraphController::layoutNesting()
 void GraphController::extendEqualFunctionNames(const std::vector<std::shared_ptr<DummyNode>>& nodes) const
 {
 	std::multimap<std::wstring, std::shared_ptr<DummyNode>> functionNames;
-	for (auto& node : nodes)
+	for (auto& node: nodes)
 	{
-		if (node->visible && node->isGraphNode() && node->data->isType(NodeType::NODE_FUNCTION | NodeType::NODE_METHOD))
+		if (node->visible && node->isGraphNode() &&
+			node->data->isType(NodeType::NODE_FUNCTION | NodeType::NODE_METHOD))
 		{
 			functionNames.emplace(node->name, node);
 		}
 	}
 
-	for (auto it : functionNames)
+	for (auto it: functionNames)
 	{
 		if (functionNames.count(it.first) < 2)
 		{
@@ -1890,11 +1873,12 @@ void GraphController::extendEqualFunctionNames(const std::vector<std::shared_ptr
 		auto ret = functionNames.equal_range(it.first);
 		for (auto it2 = ret.first; it2 != ret.second; it2++)
 		{
-			it2->second->name = it2->second->data->getNameHierarchy().getRawNameWithSignatureParameters();
+			it2->second->name =
+				it2->second->data->getNameHierarchy().getRawNameWithSignatureParameters();
 		}
 	}
 
-	for (auto& node : nodes)
+	for (auto& node: nodes)
 	{
 		if (node->subNodes.size())
 		{
@@ -1980,7 +1964,7 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 		int maxAccessWidth = 0;
 		std::shared_ptr<const DummyNode> maxWidthAccessNode;
 
-		for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 		{
 			if (!subNode->visible)
 			{
@@ -2008,7 +1992,7 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 
 		if (maxAccessWidth > 0)
 		{
-			for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+			for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 			{
 				if (subNode->visible && subNode->isAccessNode() && subNode != maxWidthAccessNode)
 				{
@@ -2027,12 +2011,13 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 			switch (node->groupLayout)
 			{
 			case GroupLayout::LIST:
-				viewSize.x = viewSize.x - 150; // prevent horizontal scroll
+				viewSize.x = viewSize.x - 150;	  // prevent horizontal scroll
 				ListLayouter::layoutMultiColumn(viewSize, &node->subNodes);
 				break;
 
 			case GroupLayout::SKEWED:
-				ListLayouter::layoutSkewed(&node->subNodes, margins.spacingX, margins.spacingY, viewSize.x() * 1.5);
+				ListLayouter::layoutSkewed(
+					&node->subNodes, margins.spacingX, margins.spacingY, viewSize.x() * 1.5);
 				break;
 
 			case GroupLayout::BUCKET:
@@ -2073,7 +2058,7 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 	node->size.x = margins.left + width + margins.right;
 	node->size.y = margins.top + margins.charHeight + margins.spacingA + height + margins.bottom;
 
-	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 	{
 		if (!subNode->visible)
 		{
@@ -2096,7 +2081,8 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 
 void GraphController::addExpandToggleNode(DummyNode* node) const
 {
-	std::shared_ptr<DummyNode> expandNode = std::make_shared<DummyNode>(DummyNode::DUMMY_EXPAND_TOGGLE);
+	std::shared_ptr<DummyNode> expandNode = std::make_shared<DummyNode>(
+		DummyNode::DUMMY_EXPAND_TOGGLE);
 	expandNode->expanded = node->expanded;
 	expandNode->visible = true;
 
@@ -2117,10 +2103,11 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 			continue;
 		}
 
-		for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
+		for (const std::shared_ptr<DummyNode>& subSubNode: subNode->subNodes)
 		{
 			if ((subSubNode->visible || subSubNode->hidden) &&
-				(!subSubNode->isGraphNode() || !subSubNode->data->isImplicit() || node->data->isImplicit()))
+				(!subSubNode->isGraphNode() || !subSubNode->data->isImplicit() ||
+				 node->data->isImplicit()))
 			{
 				visibleSubNodeCount++;
 			}
@@ -2152,7 +2139,7 @@ void GraphController::layoutToGrid(DummyNode* node) const
 	DummyNode* lastAccessNode = nullptr;
 	DummyNode* expandToggleNode = nullptr;
 
-	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 	{
 		if (!subNode->visible)
 		{
@@ -2167,7 +2154,6 @@ void GraphController::layoutToGrid(DummyNode* node) const
 		else if (subNode->isExpandToggleNode())
 		{
 			expandToggleNode = subNode.get();
-
 		}
 	}
 
@@ -2190,7 +2176,7 @@ void GraphController::layoutGraph(bool getSortedNodes)
 	TRACE();
 
 	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
-	for (auto node : m_dummyNodes)
+	for (auto node: m_dummyNodes)
 	{
 		if (node->visible)
 		{
@@ -2242,7 +2228,7 @@ void GraphController::layoutTrail(bool horizontal, bool hasOrigin)
 	}
 
 	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
-	for (auto node : m_dummyNodes)
+	for (auto node: m_dummyNodes)
 	{
 		if (node->visible)
 		{
@@ -2271,7 +2257,7 @@ std::shared_ptr<DummyNode> GraphController::getDummyGraphNodeById(Id tokenId) co
 		return it->second;
 	}
 
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		if (node->tokenId == tokenId)
 		{
@@ -2284,7 +2270,7 @@ std::shared_ptr<DummyNode> GraphController::getDummyGraphNodeById(Id tokenId) co
 
 DummyEdge* GraphController::getDummyGraphEdgeById(Id tokenId) const
 {
-	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& edge: m_dummyEdges)
 	{
 		if (edge->data && edge->data->getId() == tokenId)
 		{
@@ -2296,7 +2282,10 @@ DummyEdge* GraphController::getDummyGraphEdgeById(Id tokenId) const
 }
 
 void GraphController::relayoutGraph(
-	MessageBase* message, GraphView::GraphParams params, bool withCharacterIndex, const std::wstring& groupName)
+	MessageBase* message,
+	GraphView::GraphParams params,
+	bool withCharacterIndex,
+	const std::wstring& groupName)
 {
 	bool showsTrail = m_graph->getTrailMode() != Graph::TRAIL_NONE;
 
@@ -2331,7 +2320,8 @@ void GraphController::relayoutGraph(
 
 		if (showsTrail)
 		{
-			layoutTrail(m_graph->getTrailMode() == Graph::TRAIL_HORIZONTAL, m_graph->hasTrailOrigin());
+			layoutTrail(
+				m_graph->getTrailMode() == Graph::TRAIL_HORIZONTAL, m_graph->hasTrailOrigin());
 		}
 		else
 		{
@@ -2342,8 +2332,7 @@ void GraphController::relayoutGraph(
 	buildGraph(message, params);
 }
 
-void GraphController::buildGraph(
-	MessageBase* message, GraphView::GraphParams params)
+void GraphController::buildGraph(MessageBase* message, GraphView::GraphParams params)
 {
 	if (!message->isReplayed())
 	{
@@ -2357,7 +2346,7 @@ void GraphController::buildGraph(
 
 void GraphController::forEachDummyNodeRecursive(std::function<void(DummyNode*)> func)
 {
-	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node: m_dummyNodes)
 	{
 		node->forEachDummyNodeRecursive(func);
 	}
@@ -2365,7 +2354,7 @@ void GraphController::forEachDummyNodeRecursive(std::function<void(DummyNode*)> 
 
 void GraphController::forEachDummyEdge(std::function<void(DummyEdge*)> func)
 {
-	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& edge: m_dummyEdges)
 	{
 		func(edge.get());
 	}
@@ -2377,8 +2366,7 @@ void GraphController::createLegendGraph()
 	std::map<Id, Vec2i> nodePositions;
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	auto addText = [this](std::wstring text, int fontSizeDiff, Vec2i position)
-	{
+	auto addText = [this](std::wstring text, int fontSizeDiff, Vec2i position) {
 		std::shared_ptr<DummyNode> node = std::make_shared<DummyNode>(DummyNode::DUMMY_TEXT);
 		node->name = text;
 		node->visible = true;
@@ -2389,19 +2377,19 @@ void GraphController::createLegendGraph()
 	};
 
 	auto addNode = [&id, &graph, &nodePositions](
-		NodeType::Type type, const std::wstring& name, Vec2i position, DefinitionKind defKind = DEFINITION_EXPLICIT)
-	{
+					   NodeType::Type type,
+					   const std::wstring& name,
+					   Vec2i position,
+					   DefinitionKind defKind = DEFINITION_EXPLICIT) {
 		nodePositions.emplace(++id, position);
 		return graph->createNode(id, type, NameHierarchy(name, NAME_DELIMITER_UNKNOWN), defKind);
 	};
 
-	auto addEdge = [&id, &graph](Edge::EdgeType type, Node* from, Node* to)
-	{
+	auto addEdge = [&id, &graph](Edge::EdgeType type, Node* from, Node* to) {
 		return graph->createEdge(++id, type, from, to);
 	};
 
-	auto addMember = [&id, &graph](Node* from, Node* to, AccessKind access = ACCESS_NONE)
-	{
+	auto addMember = [&id, &graph](Node* from, Node* to, AccessKind access = ACCESS_NONE) {
 		if (access != ACCESS_NONE)
 		{
 			to->addComponent(std::make_shared<TokenComponentAccess>(access));
@@ -2432,7 +2420,8 @@ void GraphController::createLegendGraph()
 
 		{
 			Edge* edge = addEdge(Edge::EDGE_AGGREGATION, user, main);
-			std::shared_ptr<TokenComponentAggregation> aggregationComp = std::make_shared<TokenComponentAggregation>();
+			std::shared_ptr<TokenComponentAggregation> aggregationComp =
+				std::make_shared<TokenComponentAggregation>();
 			for (size_t i = 0; i < 10; i++)
 			{
 				aggregationComp->addAggregationId(++id, true);
@@ -2442,7 +2431,8 @@ void GraphController::createLegendGraph()
 
 		{
 			Edge* edge = addEdge(Edge::EDGE_AGGREGATION, main, usee);
-			std::shared_ptr<TokenComponentAggregation> aggregationComp = std::make_shared<TokenComponentAggregation>();
+			std::shared_ptr<TokenComponentAggregation> aggregationComp =
+				std::make_shared<TokenComponentAggregation>();
 			for (size_t i = 0; i < 10; i++)
 			{
 				aggregationComp->addAggregationId(++id, true);
@@ -2461,7 +2451,8 @@ void GraphController::createLegendGraph()
 
 		Node* func = addNode(NodeType::NODE_FUNCTION, L"function", Vec2i(x + 220, y));
 		Node* caller = addNode(NodeType::NODE_FUNCTION, L"calling function", Vec2i(x, y));
-		Node* var = addNode(NodeType::NODE_GLOBAL_VARIABLE, L"accessed variable", Vec2i(x + 410, y - 50));
+		Node* var = addNode(
+			NodeType::NODE_GLOBAL_VARIABLE, L"accessed variable", Vec2i(x + 410, y - 50));
 		Node* called = addNode(NodeType::NODE_FUNCTION, L"called function", Vec2i(x + 410, y - 10));
 		Node* type = addNode(NodeType::NODE_TYPE, L"Referenced Type", Vec2i(x + 410, y + 30));
 
@@ -2483,7 +2474,8 @@ void GraphController::createLegendGraph()
 
 		addNode(NodeType::NODE_FILE, L"File", Vec2i(x, y + dy * ++i));
 		addNode(NodeType::NODE_FILE, L"Non-Indexed File", Vec2i(x, y + dy * ++i), DEFINITION_NONE);
-		Node* incompleteFile = addNode(NodeType::NODE_FILE, L"Incomplete File", Vec2i(x, y + dy * ++i));
+		Node* incompleteFile = addNode(
+			NodeType::NODE_FILE, L"Incomplete File", Vec2i(x, y + dy * ++i));
 		incompleteFile->addComponent(std::make_shared<TokenComponentFilePath>(FilePath(), false));
 
 		addNode(NodeType::NODE_MACRO, L"Macro", Vec2i(x, y + dy * ++i));
@@ -2501,12 +2493,17 @@ void GraphController::createLegendGraph()
 
 		addNode(NodeType::NODE_GLOBAL_VARIABLE, L"variable", Vec2i(x, y + dy * ++i));
 		y -= 15;
-		addNode(NodeType::NODE_GLOBAL_VARIABLE, L"non-indexed variable", Vec2i(x, y + dy * ++i), DEFINITION_NONE);
+		addNode(
+			NodeType::NODE_GLOBAL_VARIABLE,
+			L"non-indexed variable",
+			Vec2i(x, y + dy * ++i),
+			DEFINITION_NONE);
 		y -= 15;
 
 		addNode(NodeType::NODE_FUNCTION, L"function", Vec2i(x, y + dy * ++i));
 		y -= 15;
-		addNode(NodeType::NODE_FUNCTION, L"non-indexed function", Vec2i(x, y + dy * ++i), DEFINITION_NONE);
+		addNode(
+			NodeType::NODE_FUNCTION, L"non-indexed function", Vec2i(x, y + dy * ++i), DEFINITION_NONE);
 		y -= 15;
 
 		Node* typeNode = addNode(NodeType::NODE_TYPE, L"Type with Members", Vec2i(x, y + dy * ++i));
@@ -2544,8 +2541,10 @@ void GraphController::createLegendGraph()
 		y += 10;
 		i += 1;
 
-		Node* genericNode = addNode(NodeType::NODE_TYPE, L"JavaGenericType<ParameterType>", Vec2i(x, y + dy * ++i));
-		Node* genericParameterNode = addNode(NodeType::NODE_TYPE_PARAMETER, L"ParameterType", Vec2i());
+		Node* genericNode = addNode(
+			NodeType::NODE_TYPE, L"JavaGenericType<ParameterType>", Vec2i(x, y + dy * ++i));
+		Node* genericParameterNode = addNode(
+			NodeType::NODE_TYPE_PARAMETER, L"ParameterType", Vec2i());
 		addMember(genericNode, genericParameterNode, ACCESS_TYPE_PARAMETER);
 		i += 2;
 
@@ -2598,7 +2597,8 @@ void GraphController::createLegendGraph()
 		{
 			addText(L"annotation use", 0, Vec2i(x, y + dy * ++i));
 			Node* type = addNode(NodeType::NODE_TYPE, L"Type", Vec2i(x, y + dy * ++i));
-			Node* macro = addNode(NodeType::NODE_ANNOTATION, L"Annotation", Vec2i(x + dx, y + dy * i));
+			Node* macro = addNode(
+				NodeType::NODE_ANNOTATION, L"Annotation", Vec2i(x + dx, y + dy * i));
 			addEdge(Edge::EDGE_ANNOTATION_USAGE, type, macro);
 		}
 
@@ -2607,7 +2607,8 @@ void GraphController::createLegendGraph()
 			Node* typeA = addNode(NodeType::NODE_TYPE, L"Type A", Vec2i(x, y + dy * ++i));
 			Node* typeB = addNode(NodeType::NODE_TYPE, L"Type B", Vec2i(x + dx, y + dy * i));
 			Edge* edge = addEdge(Edge::EDGE_AGGREGATION, typeA, typeB);
-			std::shared_ptr<TokenComponentAggregation> aggregationComp = std::make_shared<TokenComponentAggregation>();
+			std::shared_ptr<TokenComponentAggregation> aggregationComp =
+				std::make_shared<TokenComponentAggregation>();
 			for (size_t i = 0; i < 10; i++)
 			{
 				aggregationComp->addAggregationId(++id, true);
@@ -2625,32 +2626,38 @@ void GraphController::createLegendGraph()
 		{
 			addText(L"function call", 0, Vec2i(x, y + dy * ++i));
 			Node* function = addNode(NodeType::NODE_FUNCTION, L"function", Vec2i(x, y + dy * ++i));
-			Node* functionB = addNode(NodeType::NODE_FUNCTION, L"function", Vec2i(x + dx, y + dy * i));
+			Node* functionB = addNode(
+				NodeType::NODE_FUNCTION, L"function", Vec2i(x + dx, y + dy * i));
 			addEdge(Edge::EDGE_CALL, function, functionB);
 		}
 
 		{
 			addText(L"variable access", 0, Vec2i(x, y + dy * ++i));
 			Node* function = addNode(NodeType::NODE_FUNCTION, L"function", Vec2i(x, y + dy * ++i));
-			Node* variable = addNode(NodeType::NODE_GLOBAL_VARIABLE, L"variable", Vec2i(x + dx, y + dy * i));
+			Node* variable = addNode(
+				NodeType::NODE_GLOBAL_VARIABLE, L"variable", Vec2i(x + dx, y + dy * i));
 			addEdge(Edge::EDGE_USAGE, function, variable);
 		}
 
 		{
 			addText(L"class inheritance", 0, Vec2i(x, y + dy * ++i));
 			Node* base = addNode(NodeType::NODE_CLASS, L"Base Class", Vec2i(x, y + dy * (i + 1)));
-			Node* derived = addNode(NodeType::NODE_CLASS, L"Derived Class", Vec2i(x, y + dy * (i + 3)));
+			Node* derived = addNode(
+				NodeType::NODE_CLASS, L"Derived Class", Vec2i(x, y + dy * (i + 3)));
 			addEdge(Edge::EDGE_INHERITANCE, derived, base);
 
-			Node* base2 = addNode(NodeType::NODE_CLASS, L"Base Class", Vec2i(x + 180, y + dy * (i + 1)));
-			Node* derived2 = addNode(NodeType::NODE_CLASS, L"Derived Derived Class", Vec2i(x + 180, y + dy * (i + 3)));
+			Node* base2 = addNode(
+				NodeType::NODE_CLASS, L"Base Class", Vec2i(x + 180, y + dy * (i + 1)));
+			Node* derived2 = addNode(
+				NodeType::NODE_CLASS, L"Derived Derived Class", Vec2i(x + 180, y + dy * (i + 3)));
 			Edge* edge = addEdge(Edge::EDGE_INHERITANCE, derived2, base2);
-			edge->addComponent(std::make_shared<TokenComponentInheritanceChain>(std::vector<Id>({ 1, 2 })));
+			edge->addComponent(
+				std::make_shared<TokenComponentInheritanceChain>(std::vector<Id>({1, 2})));
 			i += 3;
 		}
 
 		{
-			addText(L"method override", 0, Vec2i(x , y + dy * ++i));
+			addText(L"method override", 0, Vec2i(x, y + dy * ++i));
 			Node* base = addNode(NodeType::NODE_CLASS, L"Base Class", Vec2i(x, y + dy * ++i));
 			i += 3;
 			Node* derived = addNode(NodeType::NODE_CLASS, L"Derived Class", Vec2i(x, y + dy * i));
@@ -2664,31 +2671,56 @@ void GraphController::createLegendGraph()
 
 		{
 			addText(L"template specialization", 0, Vec2i(x, y + dy * ++i));
-			Node* templateFunctionNode = addNode(NodeType::NODE_FUNCTION, L"template_function<typename ParameterType>", Vec2i(x, y + dy * ++i));
+			Node* templateFunctionNode = addNode(
+				NodeType::NODE_FUNCTION,
+				L"template_function<typename ParameterType>",
+				Vec2i(x, y + dy * ++i));
 			y += 20;
-			Node* templateFunctionSpecializationNode = addNode(NodeType::NODE_FUNCTION, L"template_function<ArgumentType>", Vec2i(x, y + dy * ++i), DEFINITION_IMPLICIT);
-			addEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION, templateFunctionSpecializationNode, templateFunctionNode);
+			Node* templateFunctionSpecializationNode = addNode(
+				NodeType::NODE_FUNCTION,
+				L"template_function<ArgumentType>",
+				Vec2i(x, y + dy * ++i),
+				DEFINITION_IMPLICIT);
+			addEdge(
+				Edge::EDGE_TEMPLATE_SPECIALIZATION,
+				templateFunctionSpecializationNode,
+				templateFunctionNode);
 
-			Node* templateNode = addNode(NodeType::NODE_TYPE, L"TemplateType<typename ParameterType>", Vec2i(x , y + dy * ++i));
+			Node* templateNode = addNode(
+				NodeType::NODE_TYPE, L"TemplateType<typename ParameterType>", Vec2i(x, y + dy * ++i));
 			y += 30;
-			Node* templateSpecializationNode = addNode(NodeType::NODE_TYPE, L"TemplateType<ArgumentType>", Vec2i(x, y + dy * ++i), DEFINITION_IMPLICIT);
-			Node* argumentNode = addNode(NodeType::NODE_TYPE, L"ArgumentType", Vec2i(x + 270, y + dy * i));
+			Node* templateSpecializationNode = addNode(
+				NodeType::NODE_TYPE,
+				L"TemplateType<ArgumentType>",
+				Vec2i(x, y + dy * ++i),
+				DEFINITION_IMPLICIT);
+			Node* argumentNode = addNode(
+				NodeType::NODE_TYPE, L"ArgumentType", Vec2i(x + 270, y + dy * i));
 			addEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION, templateSpecializationNode, templateNode);
 			addEdge(Edge::EDGE_TYPE_USAGE, templateSpecializationNode, argumentNode);
 		}
 
 		{
 			addText(L"template member specialization", 0, Vec2i(x, y + dy * ++i));
-			Node* templateNode = addNode(NodeType::NODE_TYPE, L"TemplateType<typename ParameterType>", Vec2i(x, y + dy * ++i));
+			Node* templateNode = addNode(
+				NodeType::NODE_TYPE, L"TemplateType<typename ParameterType>", Vec2i(x, y + dy * ++i));
 			Node* templateMethodNode = addNode(NodeType::NODE_METHOD, L"method", Vec2i());
 			addMember(templateNode, templateMethodNode);
 
 			i += 1;
 
-			Node* templateSpecializationNode = addNode(NodeType::NODE_TYPE, L"TemplateType<ArgumentType>", Vec2i(x, y + dy * ++i + 20), DEFINITION_IMPLICIT);
-			Node* templateSpecializationMethodNode = addNode(NodeType::NODE_METHOD, L"method", Vec2i(), DEFINITION_IMPLICIT);
+			Node* templateSpecializationNode = addNode(
+				NodeType::NODE_TYPE,
+				L"TemplateType<ArgumentType>",
+				Vec2i(x, y + dy * ++i + 20),
+				DEFINITION_IMPLICIT);
+			Node* templateSpecializationMethodNode = addNode(
+				NodeType::NODE_METHOD, L"method", Vec2i(), DEFINITION_IMPLICIT);
 			addMember(templateSpecializationNode, templateSpecializationMethodNode);
-			addEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION, templateSpecializationMethodNode, templateMethodNode);
+			addEdge(
+				Edge::EDGE_TEMPLATE_SPECIALIZATION,
+				templateSpecializationMethodNode,
+				templateMethodNode);
 		}
 	}
 
@@ -2696,7 +2728,7 @@ void GraphController::createLegendGraph()
 	createDummyGraphAndSetActiveAndVisibility({}, graph, false);
 	m_dummyNodes = utility::concat(nodes, m_dummyNodes);
 
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (std::shared_ptr<DummyNode> node: m_dummyNodes)
 	{
 		if (node->tokenId)
 		{

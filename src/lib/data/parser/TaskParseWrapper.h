@@ -4,16 +4,15 @@
 #include <memory>
 
 #include "Task.h"
-#include "TaskRunner.h"
 #include "TaskDecorator.h"
+#include "TaskRunner.h"
 #include "TimeStamp.h"
 
 class DialogView;
 class FileRegister;
 class PersistentStorage;
 
-class TaskParseWrapper
-	: public TaskDecorator
+class TaskParseWrapper: public TaskDecorator
 {
 public:
 	TaskParseWrapper(std::weak_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView);
@@ -30,4 +29,4 @@ private:
 	TimeStamp m_start;
 };
 
-#endif // TASK_PARSE_WRAPPER_H
+#endif	  // TASK_PARSE_WRAPPER_H

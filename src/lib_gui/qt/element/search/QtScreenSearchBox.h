@@ -14,8 +14,7 @@ class QtSelfRefreshIconButton;
 class QTimer;
 
 
-class QtFocusInFilter
-	: public QObject
+class QtFocusInFilter: public QObject
 {
 	Q_OBJECT
 
@@ -30,13 +29,13 @@ protected:
 };
 
 
-class QtScreenSearchBox
-	: public QFrame
+class QtScreenSearchBox: public QFrame
 {
 	Q_OBJECT
 
 public:
-	QtScreenSearchBox(ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent = nullptr);
+	QtScreenSearchBox(
+		ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent = nullptr);
 	virtual ~QtScreenSearchBox();
 
 	void setMatchCount(size_t matchCount);
@@ -82,4 +81,4 @@ private:
 	QTimer* m_timer;
 };
 
-#endif // QT_SCREEN_SEARCH_BOX_H
+#endif	  // QT_SCREEN_SEARCH_BOX_H

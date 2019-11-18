@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageIndexingInterrupted
-	: public Message<MessageIndexingInterrupted>
+class MessageIndexingInterrupted: public Message<MessageIndexingInterrupted>
 {
 public:
 	static const std::string getStaticType()
@@ -18,4 +17,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_INDEXING_INTERRUPTED_H
+#endif	  // MESSAGE_INDEXING_INTERRUPTED_H

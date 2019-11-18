@@ -3,14 +3,10 @@
 
 #include "Message.h"
 
-class MessagePingReceived
-	: public Message<MessagePingReceived>
+class MessagePingReceived: public Message<MessagePingReceived>
 {
 public:
-	MessagePingReceived()
-		: ideName(L"")
-	{
-	}
+	MessagePingReceived(): ideName(L"") {}
 
 	static const std::string getStaticType()
 	{
@@ -20,4 +16,4 @@ public:
 	std::wstring ideName;
 };
 
-#endif // MESSAGE_PING_RECEIVED_H
+#endif	  // MESSAGE_PING_RECEIVED_H

@@ -5,13 +5,13 @@
 #include "Bookmark.h"
 #include "Controller.h"
 #include "EdgeBookmark.h"
-#include "MessageListener.h"
 #include "MessageBookmarkActivate.h"
 #include "MessageBookmarkBrowse.h"
 #include "MessageBookmarkCreate.h"
 #include "MessageBookmarkDelete.h"
 #include "MessageBookmarkEdit.h"
 #include "MessageIndexingFinished.h"
+#include "MessageListener.h"
 #include "NodeBookmark.h"
 
 class StorageAccess;
@@ -35,8 +35,13 @@ public:
 	void displayBookmarks();
 	void displayBookmarksFor(Bookmark::BookmarkFilter filter, Bookmark::BookmarkOrder order);
 
-	void createBookmark(const std::wstring& name, const std::wstring& comment, const std::wstring& category, Id nodeId);
-	void editBookmark(Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& category);
+	void createBookmark(
+		const std::wstring& name, const std::wstring& comment, const std::wstring& category, Id nodeId);
+	void editBookmark(
+		Id bookmarkId,
+		const std::wstring& name,
+		const std::wstring& comment,
+		const std::wstring& category);
 
 	void deleteBookmark(Id bookmarkId);
 	void deleteBookmarkCategory(Id categoryId);
@@ -97,7 +102,8 @@ private:
 	std::wstring getNodeDisplayName(const Id id) const;
 
 	std::vector<std::shared_ptr<Bookmark>> getFilteredBookmarks(
-		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, Bookmark::BookmarkFilter filter) const;
+		const std::vector<std::shared_ptr<Bookmark>>& bookmarks,
+		Bookmark::BookmarkFilter filter) const;
 	std::vector<std::shared_ptr<Bookmark>> getOrderedBookmarks(
 		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, Bookmark::BookmarkOrder order) const;
 	std::vector<std::shared_ptr<Bookmark>> getDateOrderedBookmarks(
@@ -107,8 +113,10 @@ private:
 
 	void cleanBookmarkCategories();
 
-	static bool bookmarkDateCompare(const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
-	static bool bookmarkNameCompare(const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
+	static bool bookmarkDateCompare(
+		const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
+	static bool bookmarkNameCompare(
+		const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
 
 	void update();
 
@@ -125,4 +133,4 @@ private:
 	Bookmark::BookmarkOrder m_order;
 };
 
-#endif // BOOKMARK_CONTROLLER_H
+#endif	  // BOOKMARK_CONTROLLER_H

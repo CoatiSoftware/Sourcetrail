@@ -43,14 +43,7 @@ struct CodeScrollParams
 	}
 
 	CodeScrollParams(
-		Type type,
-		Target target,
-		FilePath filePath,
-		Id locationId,
-		size_t line,
-		size_t value,
-		bool inListMode
-	)
+		Type type, Target target, FilePath filePath, Id locationId, size_t line, size_t value, bool inListMode)
 		: type(type)
 		, target(target)
 		, filePath(filePath)
@@ -58,16 +51,13 @@ struct CodeScrollParams
 		, line(line)
 		, value(value)
 		, inListMode(inListMode)
-	{}
+	{
+	}
 
 	CodeScrollParams()
-		: type(Type::NONE)
-		, target(Target::VISIBLE)
-		, locationId(0)
-		, line(0)
-		, value(0)
-		, inListMode(false)
-	{}
+		: type(Type::NONE), target(Target::VISIBLE), locationId(0), line(0), value(0), inListMode(false)
+	{
+	}
 
 
 	Type type;
@@ -86,4 +76,4 @@ struct CodeScrollParams
 	bool inListMode = false;
 };
 
-#endif // CODE_SCROLL_PARAMS_H
+#endif	  // CODE_SCROLL_PARAMS_H

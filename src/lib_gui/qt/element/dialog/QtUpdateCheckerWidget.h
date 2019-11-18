@@ -7,8 +7,7 @@
 
 class QPushButton;
 
-class QtUpdateCheckerWidget
-	: public QWidget
+class QtUpdateCheckerWidget: public QWidget
 {
 	Q_OBJECT
 
@@ -28,4 +27,4 @@ private:
 	std::shared_ptr<bool> m_deleteCheck;
 };
 
-#endif // QT_UPDATE_CHECKER_WIDGET_H
+#endif	  // QT_UPDATE_CHECKER_WIDGET_H

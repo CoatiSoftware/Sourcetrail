@@ -19,4 +19,4 @@ private:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
-#endif // QT_FILES_AND_DIRECTORIES_DIALOG
+#endif	  // QT_FILES_AND_DIRECTORIES_DIALOG

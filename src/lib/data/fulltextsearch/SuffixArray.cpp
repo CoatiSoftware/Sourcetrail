@@ -1,7 +1,7 @@
 #include "SuffixArray.h"
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
 struct suffix
 {
@@ -11,11 +11,11 @@ struct suffix
 
 int SuffixArray::cmp(const struct suffix& a, const struct suffix& b)
 {
-	return (a.rank[0] == b.rank[0]) ? (a.rank[1] < b.rank[1] ? 1 : 0) : (a.rank[0] < b.rank[0] ? 1 : 0);
+	return (a.rank[0] == b.rank[0]) ? (a.rank[1] < b.rank[1] ? 1 : 0)
+									: (a.rank[0] < b.rank[0] ? 1 : 0);
 }
 
-SuffixArray::SuffixArray(const std::wstring& text)
-	: m_text(text)
+SuffixArray::SuffixArray(const std::wstring& text): m_text(text)
 {
 	std::transform(m_text.begin(), m_text.end(), m_text.begin(), ::towlower);
 	m_array = buildSuffixArray();
@@ -51,31 +51,31 @@ std::vector<int> SuffixArray::buildLCP()
 	std::vector<int> lcp(n, 0);
 	std::vector<int> invSuff(n, 0);
 
-	for (int i=0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		invSuff[m_array[i]] = i;
 	}
 
 	int k = 0;
 
-	for (int i=0; i<n; i++)
+	for (int i = 0; i < n; i++)
 	{
-		if (invSuff[i] == n-1)
+		if (invSuff[i] == n - 1)
 		{
 			k = 0;
 			continue;
 		}
 
-		int j = m_array[invSuff[i]+1];
+		int j = m_array[invSuff[i] + 1];
 
-		while (i+k<n && j+k<n && m_text[i+k]==m_text[j+k])
+		while (i + k < n && j + k < n && m_text[i + k] == m_text[j + k])
 		{
 			k++;
 		}
 
 		lcp[invSuff[i]] = k;
 
-		if (k>0)
+		if (k > 0)
 		{
 			k--;
 		}
@@ -101,7 +101,7 @@ std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) cons
 	{
 		m = (l + r + 1) / 2;
 		compareResult = term.compare(m_text.substr(m_array[m], termLength));
-		if( compareResult < 0)
+		if (compareResult < 0)
 		{
 			r = m;
 		}
@@ -112,11 +112,11 @@ std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) cons
 		else
 		{
 			matches.push_back(m_array[m]);
-			for (int lower = m-1; lower >= 0 && m_lcp[lower] >= termLength; lower--)
+			for (int lower = m - 1; lower >= 0 && m_lcp[lower] >= termLength; lower--)
 			{
 				matches.push_back(m_array[lower]);
 			}
-			for (int higher = m+1; higher < textLength && m_lcp[higher-1] >= termLength; higher++)
+			for (int higher = m + 1; higher < textLength && m_lcp[higher - 1] >= termLength; higher++)
 			{
 				matches.push_back(m_array[higher]);
 			}
@@ -146,7 +146,7 @@ std::vector<int> SuffixArray::buildSuffixArray()
 
 	std::sort(suffixes.begin(), suffixes.end(), SuffixArray::cmp);
 
-	std::vector<int> ind (n,0);
+	std::vector<int> ind(n, 0);
 	for (int k = 4; k < 2 * n; k = k * 2)
 	{
 		int rank = 0;
@@ -156,8 +156,7 @@ std::vector<int> SuffixArray::buildSuffixArray()
 
 		for (int i = 1; i < n; i++)
 		{
-			if (suffixes[i].rank[0] == prev_rank &&
-					suffixes[i].rank[1] == suffixes[i-1].rank[1])
+			if (suffixes[i].rank[0] == prev_rank && suffixes[i].rank[1] == suffixes[i - 1].rank[1])
 			{
 				prev_rank = suffixes[i].rank[0];
 				suffixes[i].rank[0] = rank;
@@ -172,19 +171,18 @@ std::vector<int> SuffixArray::buildSuffixArray()
 
 		for (int i = 0; i < n; i++)
 		{
-			int nextindex = suffixes[i].index + k/2;
-			suffixes[i].rank[1] = (nextindex < n)?
-				suffixes[ind[nextindex]].rank[0]: -1;
+			int nextindex = suffixes[i].index + k / 2;
+			suffixes[i].rank[1] = (nextindex < n) ? suffixes[ind[nextindex]].rank[0] : -1;
 		}
 
 		std::sort(suffixes.begin(), suffixes.end(), cmp);
 	}
 
-	std::vector<int>suffixArr;
+	std::vector<int> suffixArr;
 	for (int i = 0; i < n; i++)
 	{
 		suffixArr.push_back(suffixes[i].index);
 	}
 
-	return  suffixArr;
+	return suffixArr;
 }

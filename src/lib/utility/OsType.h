@@ -9,4 +9,4 @@ enum OsType
 	OS_WINDOWS
 };
 
-#endif // OS_TYPE
+#endif	  // OS_TYPE

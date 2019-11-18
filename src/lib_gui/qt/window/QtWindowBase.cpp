@@ -46,7 +46,7 @@ QtWindowBase::QtWindowBase(bool isSubWindow, QWidget* parent)
 			"}";
 		m_window->setStyleSheet(frameStyle.c_str());
 
-		QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+		QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
 		effect->setBlurRadius(15);
 		effect->setXOffset(0);
 		effect->setYOffset(5);
@@ -72,8 +72,7 @@ QSize QtWindowBase::sizeHint() const
 {
 	return QSize(
 		ApplicationSettings::getInstance()->getWindowBaseWidth(),
-		ApplicationSettings::getInstance()->getWindowBaseHeight()
-	);
+		ApplicationSettings::getInstance()->getWindowBaseHeight());
 }
 
 void QtWindowBase::setSizeGripStyle(bool isBlack)
@@ -89,9 +88,10 @@ void QtWindowBase::setSizeGripStyle(bool isBlack)
 		L"QSizeGrip {"
 		"	max-height: 16px;"
 		"	max-width: 16px;"
-		"	border-image: url(" + ResourcePaths::getGuiPath().wstr() + L"window/" + path + L");"
-		"}"
-	));
+		"	border-image: url(" +
+		ResourcePaths::getGuiPath().wstr() + L"window/" + path +
+		L");"
+		"}"));
 }
 
 bool QtWindowBase::isSubWindow() const
@@ -107,15 +107,13 @@ void QtWindowBase::moveToCenter()
 		{
 			move(
 				parentWidget()->width() / 2 - sizeHint().width() / 2,
-				parentWidget()->height() / 2 - sizeHint().height() / 2
-			);
+				parentWidget()->height() / 2 - sizeHint().height() / 2);
 		}
 		else
 		{
 			move(
 				parentWidget()->pos().x() + parentWidget()->width() / 2 - sizeHint().width() / 2,
-				parentWidget()->pos().y() + parentWidget()->height() / 2 - sizeHint().height() / 2
-			);
+				parentWidget()->pos().y() + parentWidget()->height() / 2 - sizeHint().height() / 2);
 		}
 	}
 }

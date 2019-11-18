@@ -3,12 +3,10 @@
 
 #include "Message.h"
 
-class MessageIDECreateCDB : public Message<MessageIDECreateCDB>
+class MessageIDECreateCDB: public Message<MessageIDECreateCDB>
 {
 public:
-	MessageIDECreateCDB()
-	{
-	}
+	MessageIDECreateCDB() {}
 
 	static const std::string getStaticType()
 	{
@@ -21,4 +19,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_IDE_CREATE_CDB_H
+#endif	  // MESSAGE_IDE_CREATE_CDB_H

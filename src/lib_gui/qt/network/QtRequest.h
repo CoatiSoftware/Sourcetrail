@@ -7,8 +7,7 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class QtRequest
-	: public QObject
+class QtRequest: public QObject
 {
 	Q_OBJECT
 
@@ -26,4 +25,4 @@ private:
 	QNetworkAccessManager* m_networkManager;
 };
 
-#endif // QT_REQUEST_H
+#endif	  // QT_REQUEST_H

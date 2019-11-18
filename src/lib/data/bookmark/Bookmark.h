@@ -1,8 +1,8 @@
 #ifndef BOOKMARK_H
 #define BOOKMARK_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "TimeStamp.h"
 #include "types.h"
@@ -29,7 +29,12 @@ public:
 		ORDER_NAME_DESCENDING
 	};
 
-	Bookmark(const Id id, const std::wstring& name, const std::wstring& comment, const TimeStamp& timeStamp, const BookmarkCategory& category);
+	Bookmark(
+		const Id id,
+		const std::wstring& name,
+		const std::wstring& comment,
+		const TimeStamp& timeStamp,
+		const BookmarkCategory& category);
 	virtual ~Bookmark();
 
 	Id getId() const;
@@ -59,4 +64,4 @@ private:
 	bool m_isValid;
 };
 
-#endif // BOOKMARK_H
+#endif	  // BOOKMARK_H

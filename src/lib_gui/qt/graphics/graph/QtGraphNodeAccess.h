@@ -5,8 +5,7 @@
 
 #include "AccessKind.h"
 
-class QtGraphNodeAccess
-	: public QtGraphNode
+class QtGraphNodeAccess: public QtGraphNode
 {
 	Q_OBJECT
 public:
@@ -24,7 +23,9 @@ public:
 	void hideLabel();
 
 protected:
-	virtual void matchName(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes) override {}
+	virtual void matchName(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes) override
+	{
+	}
 
 private:
 	AccessKind m_accessKind;
@@ -33,4 +34,4 @@ private:
 	int m_accessIconSize;
 };
 
-#endif // QT_GRAPH_NODE_ACCESS_H
+#endif	  // QT_GRAPH_NODE_ACCESS_H

@@ -5,8 +5,7 @@
 
 #include <QWidget>
 
-class QtWindowStackElement
-	: public QWidget
+class QtWindowStackElement: public QWidget
 {
 	Q_OBJECT
 public:
@@ -17,8 +16,7 @@ public:
 };
 
 
-class QtWindowStack
-	: public QObject
+class QtWindowStack: public QObject
 {
 	Q_OBJECT
 
@@ -33,9 +31,9 @@ public:
 	QtWindowStackElement* getTopWindow() const;
 	QtWindowStackElement* getBottomWindow() const;
 
-    size_t getWindowCount() const;
+	size_t getWindowCount() const;
 
-    void centerSubWindows();
+	void centerSubWindows();
 
 public slots:
 	void pushWindow(QtWindowStackElement* window);
@@ -46,4 +44,4 @@ private:
 	std::vector<QtWindowStackElement*> m_stack;
 };
 
-#endif // QT_WINDOW_STACK
+#endif	  // QT_WINDOW_STACK

@@ -7,24 +7,16 @@
 
 struct StorageBookmarkData
 {
-	StorageBookmarkData()
-		: name(L"")
-		, comment(L"")
-		, timestamp("")
-		, categoryId(0)
-	{}
+	StorageBookmarkData(): name(L""), comment(L""), timestamp(""), categoryId(0) {}
 
 	StorageBookmarkData(
 		const std::wstring& name,
 		const std::wstring& comment,
 		const std::string& timestamp,
-		const Id categoryId
-	)
-		: name(name)
-		, comment(comment)
-		, timestamp(timestamp)
-		, categoryId(categoryId)
-	{}
+		const Id categoryId)
+		: name(name), comment(comment), timestamp(timestamp), categoryId(categoryId)
+	{
+	}
 
 	std::wstring name;
 	std::wstring comment;
@@ -34,28 +26,21 @@ struct StorageBookmarkData
 
 struct StorageBookmark: public StorageBookmarkData
 {
-	StorageBookmark()
-		: StorageBookmarkData()
-		, id(0)
-	{}
+	StorageBookmark(): StorageBookmarkData(), id(0) {}
 
-	StorageBookmark(Id id, const StorageBookmarkData& data)
-		: StorageBookmarkData(data)
-		, id(id)
-	{}
+	StorageBookmark(Id id, const StorageBookmarkData& data): StorageBookmarkData(data), id(id) {}
 
 	StorageBookmark(
 		Id id,
 		const std::wstring& name,
 		const std::wstring& comment,
 		const std::string& timestamp,
-		const Id categoryId
-	)
-		: StorageBookmarkData(name, comment, timestamp, categoryId)
-		, id(id)
-	{}
+		const Id categoryId)
+		: StorageBookmarkData(name, comment, timestamp, categoryId), id(id)
+	{
+	}
 
 	Id id;
 };
 
-#endif // STORAGE_BOOKMARK_H
+#endif	  // STORAGE_BOOKMARK_H

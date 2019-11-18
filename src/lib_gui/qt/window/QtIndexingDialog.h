@@ -6,15 +6,14 @@
 #include <QSizeGrip>
 #include <QWidget>
 
-#include "QtWindowStack.h"
 #include "QtWindowBase.h"
+#include "QtWindowStack.h"
 
 class QLabel;
 class QPushButton;
 class QVBoxLayout;
 
-class QtIndexingDialog
-	: public QtWindowBase
+class QtIndexingDialog: public QtWindowBase
 {
 	Q_OBJECT
 
@@ -42,4 +41,4 @@ protected:
 	QVBoxLayout* m_layout;
 };
 
-#endif // QT_INDEXING_DIALOG_H
+#endif	  // QT_INDEXING_DIALOG_H

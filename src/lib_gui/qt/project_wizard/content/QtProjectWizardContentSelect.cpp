@@ -3,21 +3,19 @@
 #include <regex>
 
 #include <QButtonGroup>
-#include <QMessageBox>
 #include <QLabel>
+#include <QMessageBox>
 #include <QPushButton>
 
 #include "LanguageType.h"
-#include "QtProjectWizardWindow.h"
 #include "QtFlowLayout.h"
+#include "QtProjectWizardWindow.h"
 #include "ResourcePaths.h"
 #include "SqliteIndexStorage.h"
-#include "utilityString.h"
 #include "utilityApp.h"
+#include "utilityString.h"
 
-QtProjectWizardContentSelect::QtProjectWizardContentSelect(
-	QtProjectWizardWindow* window
-)
+QtProjectWizardContentSelect::QtProjectWizardContentSelect(QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window)
 {
 }
@@ -26,8 +24,14 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 {
 	std::string pythonIndexerVersion = " ";
 	{
-		std::string str = utility::executeProcess("\"" + ResourcePaths::getPythonPath().str() + "SourcetrailPythonIndexer\" --version", FilePath(), 5000).second;
-		std::regex regex("v\\d*\\.db\\d*\\.p\\d*"); // "\\d" matches any digit; "\\." matches the "." character
+		std::string str = utility::executeProcess(
+							  "\"" + ResourcePaths::getPythonPath().str() +
+								  "SourcetrailPythonIndexer\" --version",
+							  FilePath(),
+							  5000)
+							  .second;
+		std::regex regex(
+			"v\\d*\\.db\\d*\\.p\\d*");	  // "\\d" matches any digit; "\\." matches the "." character
 		std::smatch matches;
 		std::regex_search(str, matches, regex);
 		if (!matches.empty())
@@ -39,16 +43,16 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 	struct SourceGroupInfo
 	{
 		SourceGroupInfo(SourceGroupType type, bool recommended = false)
-			: type(type)
-			, recommended(recommended)
-		{}
+			: type(type), recommended(recommended)
+		{
+		}
 		const SourceGroupType type;
 		const bool recommended;
 	};
 
 	// define which kind of source groups are available for each language
 	std::map<LanguageType, std::vector<SourceGroupInfo>> sourceGroupInfos;
-#if	BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CDB, true));
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
 	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CODEBLOCKS));
@@ -57,69 +61,88 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CODEBLOCKS));
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CPP_EMPTY));
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
-#if	BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_MAVEN));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_GRADLE));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_EMPTY));
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
-#if	BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
 	sourceGroupInfos[LANGUAGE_PYTHON].push_back(SourceGroupInfo(SOURCE_GROUP_PYTHON_EMPTY));
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 	sourceGroupInfos[LANGUAGE_CUSTOM].push_back(SourceGroupInfo(SOURCE_GROUP_CUSTOM_COMMAND));
 
 	// define which icons should be used for which kind of source group
-#if	BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_CXX_LANGUAGE_PACKAGE
 	m_sourceGroupTypeIconName[SOURCE_GROUP_C_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CPP_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CDB] = L"cdb_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = L"vs_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CODEBLOCKS] = L"cbp_icon";
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
-#if	BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = L"empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = L"mvn_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = L"gradle_icon";
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
-#if	BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
 	m_sourceGroupTypeIconName[SOURCE_GROUP_PYTHON_EMPTY] = L"empty_icon";
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CUSTOM_COMMAND] = L"empty_icon";
 
 	// define descriptions for each kind of Source Group
-#if	BUILD_CXX_LANGUAGE_PACKAGE
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Source Group by defining which C files will be indexed.";
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Source Group by defining which C++ files will be indexed.";
+#if BUILD_CXX_LANGUAGE_PACKAGE
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] =
+		"Create a new Source Group by defining which C files will be indexed.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] =
+		"Create a new Source Group by defining which C++ files will be indexed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CDB] =
 		"Create a Source Group from an existing Compilation Database file (compile_commands.json). "
-		"It can be exported from CMake<br />(-DCMAKE_EXPORT_COMPILE_COMMANDS=1) and Make projects or from the Qt Creator since version 4.8. Have a look at the "
+		"It can be exported from CMake<br />(-DCMAKE_EXPORT_COMPILE_COMMANDS=1) and Make projects "
+		"or from the Qt Creator since version 4.8. Have a look at the "
 		"<a href=\"https://sourcetrail.com/documentation/#CreateAProjectFromCompilationDatabase\">"
 		"documentation</a>.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_VS] =
 		"<p>Create a new Source Group from an existing Visual Studio Solution file.</p>"
 		"<p><b>Note</b>: Requires a running Visual Studio instance with the "
-		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Sourcetrail Visual Studio Extension</a> installed.</p>";
+		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Sourcetrail "
+		"Visual Studio Extension</a> installed.</p>";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CODEBLOCKS] =
 		"<p>Create a new Source Group from an existing Code::Blocks project file.</p>"
-		"<p><b>Note</b>: A \".cbp\" file will also get generated by the <b>Qt Creator</b> if a CMakeLists file is imported.</p>";
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
-#if	BUILD_JAVA_LANGUAGE_PACKAGE
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Source Group by defining which Java files will be indexed.";
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project.";
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project.";
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
-#if	BUILD_PYTHON_LANGUAGE_PACKAGE
+		"<p><b>Note</b>: A \".cbp\" file will also get generated by the <b>Qt Creator</b> if a "
+		"CMakeLists file is imported.</p>";
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
+#if BUILD_JAVA_LANGUAGE_PACKAGE
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] =
+		"Create a new Source Group by defining which Java files will be indexed.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] =
+		"Create a new Source Group from an existing Maven project.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] =
+		"Create a new Source Group from an existing Gradle project.";
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_PYTHON_EMPTY] =
-		"<p>Create a new Source Group by defining which Python files will be indexed. This Source Group type uses the "
-		"<a href=\"https://github.com/CoatiSoftware/SourcetrailPythonIndexer\">SourcetrailPythonIndexer</a> " + pythonIndexerVersion + "in the "
+		"<p>Create a new Source Group by defining which Python files will be indexed. This Source "
+		"Group type uses the "
+		"<a "
+		"href=\"https://github.com/CoatiSoftware/"
+		"SourcetrailPythonIndexer\">SourcetrailPythonIndexer</a> " +
+		pythonIndexerVersion +
+		"in the "
 		"background.</p>"
-		"<p><b>Note</b>: Python support is still in its <b>beta</b> phase. If you want to update the version of the SourcetrailPythonIndexer which is used "
-		"by Sourcetrail, download the latest release package for your operating system from the linked repository and completely replace the contents of your "
+		"<p><b>Note</b>: Python support is still in its <b>beta</b> phase. If you want to update "
+		"the version of the SourcetrailPythonIndexer which is used "
+		"by Sourcetrail, download the latest release package for your operating system from the "
+		"linked repository and completely replace the contents of your "
 		"\"Sourcetrail/data/python\" folder with the contents of the downloaded package.</p>";
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CUSTOM_COMMAND] = "Create a new Source Group executing a custom command on each source file. "
-		"This Source Group type can be used on <a href=\"https://github.com/CoatiSoftware/SourcetrailDB\">SourcetrailDB</a> binaries that add "
-		"custom language support to Sourcetrail.<br /><br />Current Database Version: " + std::to_string(SqliteIndexStorage::getStorageVersion());
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CUSTOM_COMMAND] =
+		"Create a new Source Group executing a custom command on each source file. "
+		"This Source Group type can be used on <a "
+		"href=\"https://github.com/CoatiSoftware/SourcetrailDB\">SourcetrailDB</a> binaries that "
+		"add "
+		"custom language support to Sourcetrail.<br /><br />Current Database Version: " +
+		std::to_string(SqliteIndexStorage::getStorageVersion());
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 10, 0, 0);
@@ -139,9 +162,10 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 	vlayout->addStretch();
 	layout->addLayout(vlayout, 0, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 
-	connect(m_languages, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
-		[this](QAbstractButton* button)
-		{
+	connect(
+		m_languages,
+		static_cast<void (QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
+		[this](QAbstractButton* button) {
 			LanguageType selectedLanguage = LANGUAGE_UNKNOWN;
 			bool ok = false;
 			int languageTypeInt = button->property("language_type").toInt(&ok);
@@ -154,7 +178,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 			for (auto& it: m_buttons)
 			{
 				it.second->setExclusive(false);
-				for (QAbstractButton* button : it.second->buttons())
+				for (QAbstractButton* button: it.second->buttons())
 				{
 					button->setChecked(false);
 					button->setVisible(it.first == selectedLanguage);
@@ -171,8 +195,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 			m_title->setText("Source Group Types - " + m_languages->checkedButton()->text());
 
 			m_description->setText(hasRecommeded ? "<b>* recommended</b>" : "");
-		}
-	);
+		});
 
 	QtFlowLayout* flayout = new QtFlowLayout(10, 0, 0);
 
@@ -190,8 +213,10 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 
 			QToolButton* b = createSourceGroupButton(
 				utility::insertLineBreaksAtBlankSpaces(name, 15).c_str(),
-				QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/" + m_sourceGroupTypeIconName[sourceGroupIt.type] + L".png").wstr())
-			);
+				QString::fromStdWString(
+					ResourcePaths::getGuiPath()
+						.concatenate(L"icon/" + m_sourceGroupTypeIconName[sourceGroupIt.type] + L".png")
+						.wstr()));
 
 			if (sourceGroupIt.recommended)
 			{
@@ -209,9 +234,10 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 
 	for (auto& it: m_buttons)
 	{
-		connect(it.second, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
-			[this](QAbstractButton* button)
-			{
+		connect(
+			it.second,
+			static_cast<void (QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
+			[this](QAbstractButton* button) {
 				SourceGroupType selectedType = SOURCE_GROUP_UNKNOWN;
 				bool ok = false;
 				int selectedTypeInt = button->property("source_group_type").toInt(&ok);
@@ -223,8 +249,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 				m_description->setText(m_sourceGroupTypeDescriptions[selectedType].c_str());
 
 				m_window->setNextEnabled(true);
-			}
-		);
+			});
 	}
 
 	QWidget* container = new QWidget();

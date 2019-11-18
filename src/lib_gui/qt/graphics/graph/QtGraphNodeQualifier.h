@@ -6,8 +6,7 @@
 
 #include "QtGraphNode.h"
 
-class QtGraphNodeQualifier
-	: public QtGraphNode
+class QtGraphNodeQualifier: public QtGraphNode
 {
 	Q_OBJECT
 public:
@@ -40,4 +39,4 @@ private:
 	Vec2i m_pos;
 };
 
-#endif // QT_GRAPH_NODE_QUALIFIER_H
+#endif	  // QT_GRAPH_NODE_QUALIFIER_H

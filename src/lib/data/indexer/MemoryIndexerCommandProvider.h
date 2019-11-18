@@ -5,7 +5,7 @@
 
 #include "IndexerCommandProvider.h"
 
-class MemoryIndexerCommandProvider : public IndexerCommandProvider
+class MemoryIndexerCommandProvider: public IndexerCommandProvider
 {
 public:
 	MemoryIndexerCommandProvider(const std::vector<std::shared_ptr<IndexerCommand>>& commands);
@@ -20,4 +20,4 @@ private:
 	std::map<FilePath, std::shared_ptr<IndexerCommand>> m_commands;
 };
 
-#endif // MEMORY_INDEXER_COMMAND_PROVIDER_H
+#endif	  // MEMORY_INDEXER_COMMAND_PROVIDER_H

@@ -2,8 +2,8 @@
 #define PROJECT_H
 
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "RefreshInfo.h"
@@ -19,7 +19,11 @@ class StorageCache;
 class Project
 {
 public:
-	Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, const std::string& appUUID, bool hasGUI);
+	Project(
+		std::shared_ptr<ProjectSettings> settings,
+		StorageCache* storageCache,
+		const std::string& appUUID,
+		bool hasGUI);
 	virtual ~Project();
 
 	FilePath getProjectSettingsFilePath() const;
@@ -61,7 +65,10 @@ private:
 	Project(const Project&);
 
 	void swapToTempStorage(std::shared_ptr<DialogView> dialogView);
-	bool swapToTempStorageFile(const FilePath& indexDbFilePath, const FilePath& tempIndexDbFilePath, std::shared_ptr<DialogView> dialogView);
+	bool swapToTempStorageFile(
+		const FilePath& indexDbFilePath,
+		const FilePath& tempIndexDbFilePath,
+		std::shared_ptr<DialogView> dialogView);
 	void discardTempStorage();
 
 	bool hasCxxSourceGroup() const;
@@ -79,4 +86,4 @@ private:
 	bool m_hasGUI;
 };
 
-#endif // PROJECT_H
+#endif	  // PROJECT_H

@@ -2,8 +2,8 @@
 
 #include <QApplication>
 #include <QDesktopServices>
-#include <QDockWidget>
 #include <QDir>
+#include <QDockWidget>
 #include <QMenuBar>
 #include <QSettings>
 #include <QTimer>
@@ -11,26 +11,10 @@
 #include <QToolTip>
 
 #include "Application.h"
-#include "CompositeView.h"
-#include "TabbedView.h"
-#include "View.h"
-#include "Bookmark.h"
-#include "QtContextMenu.h"
-#include "QtFileDialog.h"
-#include "utilityQt.h"
-#include "QtViewWidgetWrapper.h"
-#include "QtProjectWizard.h"
-#include "QtAbout.h"
-#include "QtKeyboardShortcuts.h"
-#include "QtLicenseWindow.h"
-#include "QtPreferencesWindow.h"
-#include "QtStartScreen.h"
 #include "ApplicationSettings.h"
+#include "Bookmark.h"
+#include "CompositeView.h"
 #include "FileSystem.h"
-#include "logging.h"
-#include "MessageErrorsHelpMessage.h"
-#include "MessageHistoryRedo.h"
-#include "MessageHistoryUndo.h"
 #include "MessageActivateBase.h"
 #include "MessageActivateOverview.h"
 #include "MessageBookmarkActivate.h"
@@ -39,7 +23,10 @@
 #include "MessageCloseProject.h"
 #include "MessageCodeReference.h"
 #include "MessageCustomTrailShow.h"
+#include "MessageErrorsHelpMessage.h"
 #include "MessageFind.h"
+#include "MessageHistoryRedo.h"
+#include "MessageHistoryUndo.h"
 #include "MessageIndexingShowDialog.h"
 #include "MessageLoadProject.h"
 #include "MessageRefresh.h"
@@ -50,18 +37,27 @@
 #include "MessageTabSelect.h"
 #include "MessageWindowClosed.h"
 #include "MessageZoom.h"
+#include "QtAbout.h"
+#include "QtContextMenu.h"
+#include "QtFileDialog.h"
+#include "QtKeyboardShortcuts.h"
+#include "QtLicenseWindow.h"
+#include "QtPreferencesWindow.h"
+#include "QtProjectWizard.h"
+#include "QtStartScreen.h"
+#include "QtViewWidgetWrapper.h"
 #include "ResourcePaths.h"
-#include "tracing.h"
+#include "TabbedView.h"
 #include "UserPaths.h"
+#include "View.h"
+#include "logging.h"
+#include "tracing.h"
 #include "utilityApp.h"
+#include "utilityQt.h"
 #include "utilityString.h"
 
 
-QtViewToggle::QtViewToggle(View* view, QWidget *parent)
-	: QWidget(parent)
-	, m_view(view)
-{
-}
+QtViewToggle::QtViewToggle(View* view, QWidget* parent): QWidget(parent), m_view(view) {}
 
 void QtViewToggle::clear()
 {
@@ -85,8 +81,7 @@ void QtViewToggle::toggledByUI()
 }
 
 
-MouseReleaseFilter::MouseReleaseFilter(QObject* parent)
-	: QObject(parent)
+MouseReleaseFilter::MouseReleaseFilter(QObject* parent): QObject(parent)
 {
 	m_backButton = ApplicationSettings::getInstance()->getControlsMouseBackButton();
 	m_forwardButton = ApplicationSettings::getInstance()->getControlsMouseForwardButton();
@@ -124,7 +119,8 @@ QtMainWindow::QtMainWindow()
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
 
-	setWindowIcon(QIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/logo_1024_1024.png").wstr())));
+	setWindowIcon(QIcon(QString::fromStdWString(
+		ResourcePaths::getGuiPath().concatenate(L"icon/logo_1024_1024.png").wstr())));
 	setWindowFlags(Qt::Widget);
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
@@ -136,10 +132,12 @@ QtMainWindow::QtMainWindow()
 	{
 		// can only be done once, because resetting the style on the QCoreApplication causes crash
 		app->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/scrollbar.css")).c_str());
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/scrollbar.css"))
+				.c_str());
 	}
 
-	m_recentProjectAction = new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
+	m_recentProjectAction =
+		new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
 
 	setupProjectMenu();
 	setupEditMenu();
@@ -157,10 +155,10 @@ QtMainWindow::~QtMainWindow()
 {
 	if (m_recentProjectAction)
 	{
-		delete [] m_recentProjectAction;
+		delete[] m_recentProjectAction;
 	}
 
-	for (DockWidget& dockWidget : m_dockWidgets)
+	for (DockWidget& dockWidget: m_dockWidgets)
 	{
 		dockWidget.toggle->clear();
 	}
@@ -230,7 +228,7 @@ void QtMainWindow::overrideView(View* view)
 	}
 
 	QDockWidget* dock = nullptr;
-	for (const DockWidget& dockWidget : m_dockWidgets)
+	for (const DockWidget& dockWidget: m_dockWidgets)
 	{
 		if (dockWidget.widget->windowTitle() == name)
 		{
@@ -286,7 +284,8 @@ View* QtMainWindow::findFloatingView(const std::string& name) const
 {
 	for (size_t i = 0; i < m_dockWidgets.size(); i++)
 	{
-		if (std::string(m_dockWidgets[i].view->getName()) == name && m_dockWidgets[i].widget->isFloating())
+		if (std::string(m_dockWidgets[i].view->getName()) == name &&
+			m_dockWidgets[i].widget->isFloating())
 		{
 			return m_dockWidgets[i].view;
 		}
@@ -297,7 +296,8 @@ View* QtMainWindow::findFloatingView(const std::string& name) const
 
 void QtMainWindow::loadLayout()
 {
-	QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
+	QSettings settings(
+		QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	resize(settings.value("size", QSize(600, 400)).toSize());
@@ -313,10 +313,11 @@ void QtMainWindow::loadLayout()
 
 void QtMainWindow::loadDockWidgetLayout()
 {
-	QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
+	QSettings settings(
+		QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
 	this->restoreState(settings.value("DOCK_LOCATIONS").toByteArray());
 
-	for (DockWidget dock : m_dockWidgets)
+	for (DockWidget dock: m_dockWidgets)
 	{
 		dock.action->setChecked(!dock.widget->isHidden());
 	}
@@ -332,7 +333,8 @@ void QtMainWindow::loadWindow(bool showStartWindow)
 
 void QtMainWindow::saveLayout()
 {
-	QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
+	QSettings settings(
+		QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	settings.setValue("maximized", isMaximized());
@@ -353,15 +355,18 @@ void QtMainWindow::updateHistoryMenu(std::shared_ptr<MessageBase> message)
 
 	if (message && dynamic_cast<MessageActivateBase*>(message.get()))
 	{
-		std::vector<SearchMatch> matches = dynamic_cast<MessageActivateBase*>(message.get())->getSearchMatches();
+		std::vector<SearchMatch> matches =
+			dynamic_cast<MessageActivateBase*>(message.get())->getSearchMatches();
 		if (matches.size() && !matches[0].text.empty())
 		{
-			std::vector<std::shared_ptr<MessageBase>> history = { message };
-			std::set<SearchMatch> uniqueMatches = { matches[0] };
+			std::vector<std::shared_ptr<MessageBase>> history = {message};
+			std::set<SearchMatch> uniqueMatches = {matches[0]};
 
-			for (std::shared_ptr<MessageBase> m : m_history)
+			for (std::shared_ptr<MessageBase> m: m_history)
 			{
-				if (uniqueMatches.insert(dynamic_cast<MessageActivateBase*>(m.get())->getSearchMatches()[0]).second)
+				if (uniqueMatches
+						.insert(dynamic_cast<MessageActivateBase*>(m.get())->getSearchMatches()[0])
+						.second)
 				{
 					history.push_back(m);
 
@@ -393,12 +398,12 @@ void QtMainWindow::updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmar
 
 void QtMainWindow::setContentEnabled(bool enabled)
 {
-	foreach (QAction *action, menuBar()->actions())
+	foreach (QAction* action, menuBar()->actions())
 	{
 		action->setEnabled(enabled);
 	}
 
-	for (DockWidget& dock : m_dockWidgets)
+	for (DockWidget& dock: m_dockWidgets)
 	{
 		dock.widget->setEnabled(enabled);
 	}
@@ -406,7 +411,8 @@ void QtMainWindow::setContentEnabled(bool enabled)
 
 void QtMainWindow::refreshStyle()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/main.css")).c_str());
+	setStyleSheet(
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/main.css")).c_str());
 
 	QFont tooltipFont = QToolTip::font();
 	tooltipFont.setPixelSize(ApplicationSettings::getInstance()->getFontSize());
@@ -432,37 +438,37 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 {
 	switch (event->key())
 	{
-		case Qt::Key_Backspace:
-			MessageHistoryUndo().dispatch();
-			break;
+	case Qt::Key_Backspace:
+		MessageHistoryUndo().dispatch();
+		break;
 
-		case Qt::Key_Escape:
-			emit hideScreenSearch();
-			emit hideIndexingDialog();
-			break;
+	case Qt::Key_Escape:
+		emit hideScreenSearch();
+		emit hideIndexingDialog();
+		break;
 
-		case Qt::Key_Slash:
-		case Qt::Key_Question:
-			emit showScreenSearch();
-			break;
+	case Qt::Key_Slash:
+	case Qt::Key_Question:
+		emit showScreenSearch();
+		break;
 
-		case Qt::Key_R:
-			if (event->modifiers() & (Qt::ControlModifier | Qt::AltModifier))
-			{
-				MessageRefreshUI().dispatch();
-			}
-			break;
+	case Qt::Key_R:
+		if (event->modifiers() & (Qt::ControlModifier | Qt::AltModifier))
+		{
+			MessageRefreshUI().dispatch();
+		}
+		break;
 
-		case Qt::Key_F4:
-			if (utility::getOsType() == OS_WINDOWS && event->modifiers() & Qt::ControlModifier)
-			{
-				closeTab();
-			}
-			break;
+	case Qt::Key_F4:
+		if (utility::getOsType() == OS_WINDOWS && event->modifiers() & Qt::ControlModifier)
+		{
+			closeTab();
+		}
+		break;
 
-		case Qt::Key_Space:
-			PRINT_TRACES();
-			break;
+	case Qt::Key_Space:
+		PRINT_TRACES();
+		break;
 	}
 }
 
@@ -478,7 +484,7 @@ void QtMainWindow::closeEvent(QCloseEvent* event)
 	MessageWindowClosed().dispatchImmediately();
 }
 
-void QtMainWindow::resizeEvent(QResizeEvent *event)
+void QtMainWindow::resizeEvent(QResizeEvent* event)
 {
 	m_windowStack.centerSubWindows();
 	QMainWindow::resizeEvent(event);
@@ -514,7 +520,8 @@ void QtMainWindow::showErrorHelpMessage()
 
 void QtMainWindow::showChangelog()
 {
-	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/Sourcetrail/blob/master/CHANGELOG.md"));
+	QDesktopServices::openUrl(
+		QUrl("https://github.com/CoatiSoftware/Sourcetrail/blob/master/CHANGELOG.md"));
 }
 
 void QtMainWindow::showBugtracker()
@@ -530,12 +537,16 @@ void QtMainWindow::showLicenses()
 
 void QtMainWindow::showDataFolder()
 {
-	QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + UserPaths::getUserDataPath().makeCanonical().wstr()), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(
+		QString::fromStdWString(L"file:///" + UserPaths::getUserDataPath().makeCanonical().wstr()),
+		QUrl::TolerantMode));
 }
 
 void QtMainWindow::showLogFolder()
 {
-	QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + UserPaths::getLogPath().makeCanonical().wstr()), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(
+		QString::fromStdWString(L"file:///" + UserPaths::getLogPath().makeCanonical().wstr()),
+		QUrl::TolerantMode));
 }
 
 void QtMainWindow::openTab()
@@ -724,14 +735,13 @@ void QtMainWindow::resetWindowLayout()
 	FileSystem::remove(UserPaths::getWindowSettingsPath());
 	FileSystem::copyFile(
 		ResourcePaths::getFallbackPath().concatenate(L"window_settings.ini"),
-		UserPaths::getWindowSettingsPath()
-	);
+		UserPaths::getWindowSettingsPath());
 	loadDockWidgetLayout();
 }
 
 void QtMainWindow::openRecentProject()
 {
-	QAction *action = qobject_cast<QAction*>(sender());
+	QAction* action = qobject_cast<QAction*>(sender());
 	if (action)
 	{
 		MessageLoadProject(FilePath(action->data().toString().toStdWString())).dispatch();
@@ -811,21 +821,21 @@ void QtMainWindow::activateBookmarkAction()
 
 void QtMainWindow::setupProjectMenu()
 {
-	QMenu *menu = new QMenu(tr("&Project"), this);
+	QMenu* menu = new QMenu(tr("&Project"), this);
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("&New Project..."), this, &QtMainWindow::newProject, QKeySequence::New);
 	menu->addAction(tr("&Open Project..."), this, &QtMainWindow::openProject, QKeySequence::Open);
 
-	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
+	QMenu* recentProjectMenu = new QMenu(tr("Recent Projects"));
 	menu->addMenu(recentProjectMenu);
 
 	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); ++i)
 	{
 		m_recentProjectAction[i] = new QAction(this);
 		m_recentProjectAction[i]->setVisible(false);
-		connect(m_recentProjectAction[i], &QAction::triggered,
-			this, &QtMainWindow::openRecentProject);
+		connect(
+			m_recentProjectAction[i], &QAction::triggered, this, &QtMainWindow::openRecentProject);
 		recentProjectMenu->addAction(m_recentProjectAction[i]);
 	}
 	updateRecentProjectMenu();
@@ -838,71 +848,115 @@ void QtMainWindow::setupProjectMenu()
 	menu->addSeparator();
 
 	menu->addAction(tr("Close Project"), this, &QtMainWindow::closeProject);
-	menu->addAction(tr("E&xit"), QCoreApplication::instance(), &QCoreApplication::quit, QKeySequence::Quit);
+	menu->addAction(
+		tr("E&xit"), QCoreApplication::instance(), &QCoreApplication::quit, QKeySequence::Quit);
 }
 
 void QtMainWindow::setupEditMenu()
 {
-	QMenu *menu = new QMenu(tr("&Edit"), this);
+	QMenu* menu = new QMenu(tr("&Edit"), this);
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("&Refresh"), this, &QtMainWindow::refresh, QKeySequence::Refresh);
 	if (utility::getOsType() == OS_WINDOWS)
 	{
-		menu->addAction(tr("&Full Refresh"), this, &QtMainWindow::forceRefresh, QKeySequence(Qt::SHIFT + Qt::Key_F5));
+		menu->addAction(
+			tr("&Full Refresh"),
+			this,
+			&QtMainWindow::forceRefresh,
+			QKeySequence(Qt::SHIFT + Qt::Key_F5));
 	}
 	else
 	{
-		menu->addAction(tr("&Full Refresh"), this, &QtMainWindow::forceRefresh, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R));
+		menu->addAction(
+			tr("&Full Refresh"),
+			this,
+			&QtMainWindow::forceRefresh,
+			QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R));
 	}
 
 	menu->addSeparator();
 
 	menu->addAction(tr("&Find Symbol"), this, &QtMainWindow::find, QKeySequence::Find);
-	menu->addAction(tr("&Find Text"), this, &QtMainWindow::findFulltext, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
-	menu->addAction(tr("&Find On-Screen"), this, &QtMainWindow::findOnScreen, QKeySequence(Qt::CTRL + Qt::Key_D));
+	menu->addAction(
+		tr("&Find Text"),
+		this,
+		&QtMainWindow::findFulltext,
+		QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
+	menu->addAction(
+		tr("&Find On-Screen"), this, &QtMainWindow::findOnScreen, QKeySequence(Qt::CTRL + Qt::Key_D));
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Next Reference"), this, &QtMainWindow::codeReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_G));
-	menu->addAction(tr("Previous Reference"), this,
-		&QtMainWindow::codeReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
+	menu->addAction(
+		tr("Next Reference"),
+		this,
+		&QtMainWindow::codeReferenceNext,
+		QKeySequence(Qt::CTRL + Qt::Key_G));
+	menu->addAction(
+		tr("Previous Reference"),
+		this,
+		&QtMainWindow::codeReferencePrevious,
+		QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
 
-	menu->addAction(tr("Next Local Reference"), this,
-		&QtMainWindow::codeLocalReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_E));
-	menu->addAction(tr("Previous Local Reference"), this,
-		&QtMainWindow::codeLocalReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_E));
+	menu->addAction(
+		tr("Next Local Reference"),
+		this,
+		&QtMainWindow::codeLocalReferenceNext,
+		QKeySequence(Qt::CTRL + Qt::Key_E));
+	menu->addAction(
+		tr("Previous Local Reference"),
+		this,
+		&QtMainWindow::codeLocalReferencePrevious,
+		QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_E));
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Custom Trail..."), this, &QtMainWindow::customTrail, QKeySequence(Qt::CTRL + Qt::Key_L));
+	menu->addAction(
+		tr("Custom Trail..."), this, &QtMainWindow::customTrail, QKeySequence(Qt::CTRL + Qt::Key_L));
 
 	menu->addSeparator();
 
-	menu->addAction(tr("&To overview"), this, &QtMainWindow::overview, QKeySequence::MoveToStartOfDocument);
+	menu->addAction(
+		tr("&To overview"), this, &QtMainWindow::overview, QKeySequence::MoveToStartOfDocument);
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Preferences..."), this, &QtMainWindow::openSettings, QKeySequence(Qt::CTRL + Qt::Key_Comma));
+	menu->addAction(
+		tr("Preferences..."),
+		this,
+		&QtMainWindow::openSettings,
+		QKeySequence(Qt::CTRL + Qt::Key_Comma));
 }
 
 void QtMainWindow::setupViewMenu()
 {
-	QMenu *menu = new QMenu(tr("&View"), this);
+	QMenu* menu = new QMenu(tr("&View"), this);
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("New Tab"), this, &QtMainWindow::openTab, QKeySequence::AddTab);
-	menu->addAction(tr("Close Tab"), this, &QtMainWindow::closeTab, QKeySequence(Qt::CTRL + Qt::Key_W));
+	menu->addAction(
+		tr("Close Tab"), this, &QtMainWindow::closeTab, QKeySequence(Qt::CTRL + Qt::Key_W));
 
 	if (utility::getOsType() == OS_MAC)
 	{
-		menu->addAction(tr("Select Next Tab"), this, &QtMainWindow::nextTab, QKeySequence(Qt::META + Qt::Key_Tab));
-		menu->addAction(tr("Select Previous Tab"), this, &QtMainWindow::previousTab, QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_Tab));
+		menu->addAction(
+			tr("Select Next Tab"), this, &QtMainWindow::nextTab, QKeySequence(Qt::META + Qt::Key_Tab));
+		menu->addAction(
+			tr("Select Previous Tab"),
+			this,
+			&QtMainWindow::previousTab,
+			QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_Tab));
 	}
 	else
 	{
-		menu->addAction(tr("Select Next Tab"), this, &QtMainWindow::nextTab, QKeySequence(Qt::CTRL + Qt::Key_Tab));
-		menu->addAction(tr("Select Previous Tab"), this, &QtMainWindow::previousTab, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_Tab));
+		menu->addAction(
+			tr("Select Next Tab"), this, &QtMainWindow::nextTab, QKeySequence(Qt::CTRL + Qt::Key_Tab));
+		menu->addAction(
+			tr("Select Previous Tab"),
+			this,
+			&QtMainWindow::previousTab,
+			QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_Tab));
 	}
 
 	menu->addSeparator();
@@ -912,7 +966,8 @@ void QtMainWindow::setupViewMenu()
 	m_showTitleBarsAction = new QAction("Show Title Bars", this);
 	m_showTitleBarsAction->setCheckable(true);
 	m_showTitleBarsAction->setChecked(m_showDockWidgetTitleBars);
-	connect(m_showTitleBarsAction, &QAction::triggered, this, &QtMainWindow::toggleShowDockWidgetTitleBars);
+	connect(
+		m_showTitleBarsAction, &QAction::triggered, this, &QtMainWindow::toggleShowDockWidgetTitleBars);
 	menu->addAction(m_showTitleBarsAction);
 	menu->addAction(tr("Reset Window Layout"), this, &QtMainWindow::resetWindowLayout);
 
@@ -922,7 +977,8 @@ void QtMainWindow::setupViewMenu()
 
 	menu->addAction(tr("Larger Font"), this, &QtMainWindow::zoomIn, QKeySequence::ZoomIn);
 	menu->addAction(tr("Smaller Font"), this, &QtMainWindow::zoomOut, QKeySequence::ZoomOut);
-	menu->addAction(tr("Reset Font Size"), this, &QtMainWindow::resetZoom, QKeySequence(Qt::CTRL + Qt::Key_0));
+	menu->addAction(
+		tr("Reset Font Size"), this, &QtMainWindow::resetZoom, QKeySequence(Qt::CTRL + Qt::Key_0));
 
 	m_viewMenu = menu;
 }
@@ -980,9 +1036,13 @@ void QtMainWindow::setupBookmarksMenu()
 		m_bookmarksMenu->clear();
 	}
 
-	m_bookmarksMenu->addAction(tr("Bookmark Active Symbol..."), this, &QtMainWindow::showBookmarkCreator, QKeySequence::Save);
-	m_bookmarksMenu->addAction(tr("Bookmark Manager"), this,
-		&QtMainWindow::showBookmarkBrowser, QKeySequence(Qt::CTRL + Qt::Key_B));
+	m_bookmarksMenu->addAction(
+		tr("Bookmark Active Symbol..."), this, &QtMainWindow::showBookmarkCreator, QKeySequence::Save);
+	m_bookmarksMenu->addAction(
+		tr("Bookmark Manager"),
+		this,
+		&QtMainWindow::showBookmarkBrowser,
+		QKeySequence(Qt::CTRL + Qt::Key_B));
 
 	m_bookmarksMenu->addSeparator();
 
@@ -1006,7 +1066,7 @@ void QtMainWindow::setupBookmarksMenu()
 
 void QtMainWindow::setupHelpMenu()
 {
-	QMenu *menu = new QMenu(tr("&Help"), this);
+	QMenu* menu = new QMenu(tr("&Help"), this);
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("Keyboard Shortcuts"), this, &QtMainWindow::showKeyboardShortcuts);
@@ -1028,7 +1088,7 @@ void QtMainWindow::setupHelpMenu()
 
 QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
 {
-	for (DockWidget& dock : m_dockWidgets)
+	for (DockWidget& dock: m_dockWidgets)
 	{
 		if (dock.view == view)
 		{
@@ -1038,7 +1098,7 @@ QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
 		const CompositeView* compositeView = dynamic_cast<const CompositeView*>(dock.view);
 		if (compositeView)
 		{
-			for (const View* v : compositeView->getViews())
+			for (const View* v: compositeView->getViews())
 			{
 				if (v == view)
 				{
@@ -1050,7 +1110,7 @@ QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
 		const TabbedView* tabbedView = dynamic_cast<const TabbedView*>(dock.view);
 		if (tabbedView)
 		{
-			for (const View* v : tabbedView->getViews())
+			for (const View* v: tabbedView->getViews())
 			{
 				if (v == view)
 				{
@@ -1073,7 +1133,7 @@ void QtMainWindow::setShowDockWidgetTitleBars(bool showTitleBars)
 		m_showTitleBarsAction->setChecked(showTitleBars);
 	}
 
-	for (DockWidget& dock : m_dockWidgets)
+	for (DockWidget& dock: m_dockWidgets)
 	{
 		if (showTitleBars)
 		{
@@ -1088,8 +1148,8 @@ void QtMainWindow::setShowDockWidgetTitleBars(bool showTitleBars)
 	}
 }
 
-template<typename T>
-	T* QtMainWindow::createWindow()
+template <typename T>
+T* QtMainWindow::createWindow()
 {
 	T* window = new T(this);
 

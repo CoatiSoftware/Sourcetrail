@@ -2,8 +2,8 @@
 
 #include <clang/AST/ASTContext.h>
 
-#include "utilityString.h"
 #include "utilityClang.h"
+#include "utilityString.h"
 
 CanonicalFilePathCache::CanonicalFilePathCache(std::shared_ptr<FileRegister> fileRegister)
 	: m_fileRegister(fileRegister)
@@ -15,7 +15,8 @@ std::shared_ptr<FileRegister> CanonicalFilePathCache::getFileRegister() const
 	return m_fileRegister;
 }
 
-FilePath CanonicalFilePathCache::getCanonicalFilePath(const clang::FileID& fileId, const clang::SourceManager& sourceManager)
+FilePath CanonicalFilePathCache::getCanonicalFilePath(
+	const clang::FileID& fileId, const clang::SourceManager& sourceManager)
 {
 	if (!fileId.isValid())
 	{
@@ -130,10 +131,13 @@ std::wstring CanonicalFilePathCache::getDeclarationFileName(const clang::Decl* d
 		return getCanonicalFilePath(fileId, sourceManager).fileName();
 	}
 	return getCanonicalFilePath(
-		utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getBeginLoc()).getFilename())).fileName();
+			   utility::decodeFromUtf8(
+				   sourceManager.getPresumedLoc(declaration->getBeginLoc()).getFilename()))
+		.fileName();
 }
 
-bool CanonicalFilePathCache::isProjectFile(const clang::FileID& fileId, const clang::SourceManager& sourceManager)
+bool CanonicalFilePathCache::isProjectFile(
+	const clang::FileID& fileId, const clang::SourceManager& sourceManager)
 {
 	if (!fileId.isValid())
 	{

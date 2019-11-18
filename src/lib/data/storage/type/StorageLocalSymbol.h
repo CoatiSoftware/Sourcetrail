@@ -7,13 +7,9 @@
 
 struct StorageLocalSymbolData
 {
-	StorageLocalSymbolData()
-		: name(L"")
-	{}
+	StorageLocalSymbolData(): name(L"") {}
 
-	StorageLocalSymbolData(std::wstring name)
-		: name(std::move(name))
-	{}
+	StorageLocalSymbolData(std::wstring name): name(std::move(name)) {}
 
 	bool operator<(const StorageLocalSymbolData& other) const
 	{
@@ -25,22 +21,16 @@ struct StorageLocalSymbolData
 
 struct StorageLocalSymbol: public StorageLocalSymbolData
 {
-	StorageLocalSymbol()
-		: StorageLocalSymbolData()
-		, id(0)
-	{}
+	StorageLocalSymbol(): StorageLocalSymbolData(), id(0) {}
 
 	StorageLocalSymbol(Id id, const StorageLocalSymbolData& data)
-		: StorageLocalSymbolData(data)
-		, id(id)
-	{}
+		: StorageLocalSymbolData(data), id(id)
+	{
+	}
 
-	StorageLocalSymbol(Id id, std::wstring name)
-		: StorageLocalSymbolData(std::move(name))
-		, id(id)
-	{}
+	StorageLocalSymbol(Id id, std::wstring name): StorageLocalSymbolData(std::move(name)), id(id) {}
 
 	Id id;
 };
 
-#endif // STORAGE_LOCAL_SYMBOL_H
+#endif	  // STORAGE_LOCAL_SYMBOL_H

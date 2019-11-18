@@ -6,18 +6,12 @@
 
 struct StorageSymbol
 {
-	StorageSymbol()
-		: id(0)
-		, definitionKind(definitionKindToInt(DEFINITION_NONE))
-	{}
+	StorageSymbol(): id(0), definitionKind(definitionKindToInt(DEFINITION_NONE)) {}
 
-	StorageSymbol(Id id, int definitionKind)
-		: id(id)
-		, definitionKind(definitionKind)
-	{}
+	StorageSymbol(Id id, int definitionKind): id(id), definitionKind(definitionKind) {}
 
 	Id id;
 	int definitionKind;
 };
 
-#endif // STORAGE_SYMBOL_H
+#endif	  // STORAGE_SYMBOL_H

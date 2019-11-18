@@ -10,18 +10,15 @@
 #include "utilityFile.h"
 
 QtProjectWizardContentPathSourceGradle::QtProjectWizardContentPathSourceGradle(
-	std::shared_ptr<SourceGroupSettingsJavaGradle> settings, QtProjectWizardWindow* window
-)
-	: QtProjectWizardContentPath(window)
-	, m_settings(settings)
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings, QtProjectWizardWindow* window)
+	: QtProjectWizardContentPath(window), m_settings(settings)
 {
 	setTitleString("Gradle Project File (build.gradle)");
 	setHelpString(
 		"Enter the path to the main build.gradle file of your Gradle project.<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
-	);
-	setFileEndings({ L".gradle" });
+		"You can make use of environment variables with ${ENV_VAR}.");
+	setFileEndings({L".gradle"});
 }
 
 void QtProjectWizardContentPathSourceGradle::populate(QGridLayout* layout, int& row)
@@ -63,8 +60,7 @@ std::vector<FilePath> QtProjectWizardContentPathSourceGradle::getFilePaths() con
 
 	return utility::getAsRelativeIfShorter(
 		utility::toVector(SourceGroupJavaGradle(m_settings).getAllSourceFilePaths()),
-		m_settings->getProjectDirectoryPath()
-	);
+		m_settings->getProjectDirectoryPath());
 }
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathSourceGradle::getSourceGroupSettings()

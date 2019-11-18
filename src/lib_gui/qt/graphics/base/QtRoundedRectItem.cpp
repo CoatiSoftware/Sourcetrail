@@ -4,17 +4,14 @@
 #include <QPainter>
 
 QtRoundedRectItem::QtRoundedRectItem(QGraphicsItem* parent)
-	: QGraphicsRectItem(parent)
-	, m_radius(0.0f)
+	: QGraphicsRectItem(parent), m_radius(0.0f)
 {
 	this->setZValue(-1.0f);
 }
 
-QtRoundedRectItem::~QtRoundedRectItem()
-{
-}
+QtRoundedRectItem::~QtRoundedRectItem() {}
 
-void QtRoundedRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
+void QtRoundedRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
 {
 	painter->setPen(pen());
 	painter->setBrush(brush());

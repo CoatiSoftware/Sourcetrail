@@ -10,4 +10,4 @@ enum class ElementComponentKind
 int elementComponentKindToInt(ElementComponentKind type);
 ElementComponentKind intToElementComponentKind(int value);
 
-#endif // ELEMENT_COMPONENT_KIND_H
+#endif	  // ELEMENT_COMPONENT_KIND_H

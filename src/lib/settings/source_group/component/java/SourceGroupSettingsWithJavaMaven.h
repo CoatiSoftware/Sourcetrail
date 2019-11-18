@@ -4,8 +4,7 @@
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithJavaMaven
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithJavaMaven: public SourceGroupSettingsComponent
 {
 public:
 	virtual ~SourceGroupSettingsWithJavaMaven() = default;
@@ -30,4 +29,4 @@ private:
 	bool m_shouldIndexMavenTests = false;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_JAVA_MAVEN_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_JAVA_MAVEN_H

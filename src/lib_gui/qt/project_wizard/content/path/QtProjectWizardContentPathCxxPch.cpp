@@ -12,21 +12,21 @@
 QtProjectWizardContentPathCxxPch::QtProjectWizardContentPathCxxPch(
 	std::shared_ptr<SourceGroupSettings> settings,
 	std::shared_ptr<SourceGroupSettingsWithCxxPchOptions> settingsCxxPch,
-	QtProjectWizardWindow* window
-)
-	: QtProjectWizardContentPath(window)
-	, m_settings(settings)
-	, m_settingsCxxPch(settingsCxxPch)
+	QtProjectWizardWindow* window)
+	: QtProjectWizardContentPath(window), m_settings(settings), m_settingsCxxPch(settingsCxxPch)
 {
 	setTitleString("Precompiled Header File");
 	setHelpString(
-		"Specify the path to the input header file that should be used to generate a precompiled header before indexing.<br />"
-		"If the indexed source code is usually built using precompiled headers, using this option will speed up your indexing performance.<br />"
+		"Specify the path to the input header file that should be used to generate a precompiled "
+		"header before indexing.<br />"
+		"If the indexed source code is usually built using precompiled headers, using this option "
+		"will speed up your indexing performance.<br />"
 		"<br />"
-		"If your source files use precompiled headers via \"#include &lt;pch.h&gt;\", specify \"path/to/pch.h\".<br />"
+		"If your source files use precompiled headers via \"#include &lt;pch.h&gt;\", specify "
+		"\"path/to/pch.h\".<br />"
 		"<br />"
-		"Leave blank to disable the use of precompiled headers. You can make use of environment variables with ${ENV_VAR}."
-	);
+		"Leave blank to disable the use of precompiled headers. You can make use of environment "
+		"variables with ${ENV_VAR}.");
 	setAllowEmpty(true);
 	setPlaceholderString("Not Using Precompiled Header");
 }
@@ -50,7 +50,8 @@ void QtProjectWizardContentPathCxxPch::save()
 
 bool QtProjectWizardContentPathCxxPch::check()
 {
-	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
+	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
 		const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = utility::loadCDB(cdbPath);
@@ -68,11 +69,14 @@ bool QtProjectWizardContentPathCxxPch::check()
 			{
 				QMessageBox msgBox;
 				msgBox.setText(
-					"The provided compilation database file uses precompiled headers. If you want to make use of "
-					"precompiled headers to speed up your indexer, please specify an input at Precompiled Header File."
-				);
-				QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::RejectRole);
-				QPushButton* continueButton = msgBox.addButton("Continue", QMessageBox::ButtonRole::AcceptRole);
+					"The provided compilation database file uses precompiled headers. If you want "
+					"to make use of "
+					"precompiled headers to speed up your indexer, please specify an input at "
+					"Precompiled Header File.");
+				QPushButton* cancelButton = msgBox.addButton(
+					"Cancel", QMessageBox::ButtonRole::RejectRole);
+				QPushButton* continueButton = msgBox.addButton(
+					"Continue", QMessageBox::ButtonRole::AcceptRole);
 				msgBox.exec();
 				if (msgBox.clickedButton() == cancelButton)
 				{
@@ -87,11 +91,13 @@ bool QtProjectWizardContentPathCxxPch::check()
 			{
 				QMessageBox msgBox;
 				msgBox.setText(
-					"The provided compilation database file does not use precompiled headers. The specified input file at "
-					"Precompiled Header File will not be used."
-				);
-				QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::RejectRole);
-				QPushButton* continueButton = msgBox.addButton("Continue", QMessageBox::ButtonRole::AcceptRole);
+					"The provided compilation database file does not use precompiled headers. The "
+					"specified input file at "
+					"Precompiled Header File will not be used.");
+				QPushButton* cancelButton = msgBox.addButton(
+					"Cancel", QMessageBox::ButtonRole::RejectRole);
+				QPushButton* continueButton = msgBox.addButton(
+					"Continue", QMessageBox::ButtonRole::AcceptRole);
 				msgBox.exec();
 				if (msgBox.clickedButton() == cancelButton)
 				{

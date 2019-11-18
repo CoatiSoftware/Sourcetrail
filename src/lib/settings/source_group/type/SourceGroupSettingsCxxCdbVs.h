@@ -3,10 +3,9 @@
 
 #include "SourceGroupSettingsCxxCdb.h"
 
-class SourceGroupSettingsCxxCdbVs
-	: public SourceGroupSettingsCxxCdb
+class SourceGroupSettingsCxxCdbVs: public SourceGroupSettingsCxxCdb
 {
 	using SourceGroupSettingsCxxCdb::SourceGroupSettingsCxxCdb;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_CXX_CDB_VS_H
+#endif	  // SOURCE_GROUP_SETTINGS_CXX_CDB_VS_H

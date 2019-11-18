@@ -26,7 +26,7 @@ public:
 	bool getValue(const std::string& key, bool& value) const;
 	bool getValue(const std::string& key, FilePath& value) const;
 
-	template<typename T>
+	template <typename T>
 	T getValueOrDefault(const std::string& key, T defaultValue) const;
 
 	bool getValues(const std::string& key, std::vector<std::string>& values) const;
@@ -36,7 +36,7 @@ public:
 	bool getValues(const std::string& key, std::vector<bool>& values) const;
 	bool getValues(const std::string& key, std::vector<FilePath>& values) const;
 
-	template<typename T>
+	template <typename T>
 	std::vector<T> getValuesOrDefaults(const std::string& key, std::vector<T> defaultValues) const;
 
 	void setValue(const std::string& key, const std::string& value);
@@ -76,7 +76,7 @@ private:
 	mutable bool m_warnOnEmptyKey;
 };
 
-template<typename T>
+template <typename T>
 T ConfigManager::getValueOrDefault(const std::string& key, T defaultValue) const
 {
 	T value;
@@ -87,7 +87,7 @@ T ConfigManager::getValueOrDefault(const std::string& key, T defaultValue) const
 	return defaultValue;
 }
 
-template<typename T>
+template <typename T>
 std::vector<T> ConfigManager::getValuesOrDefaults(const std::string& key, std::vector<T> defaultValues) const
 {
 	std::vector<T> values;
@@ -98,4 +98,4 @@ std::vector<T> ConfigManager::getValuesOrDefaults(const std::string& key, std::v
 	return defaultValues;
 }
 
-#endif // CONFIG_MANAGER_H
+#endif	  // CONFIG_MANAGER_H

@@ -3,8 +3,7 @@
 
 #include "QtSelfRefreshIconButton.h"
 
-class QtSearchBarButton
-	: public QtSelfRefreshIconButton
+class QtSearchBarButton: public QtSelfRefreshIconButton
 {
 public:
 	QtSearchBarButton(const FilePath& iconPath, bool small = false, QWidget* parent = nullptr);
@@ -16,4 +15,4 @@ private:
 	bool m_small;
 };
 
-#endif // QT_SEARCH_BAR_BUTTON_H
+#endif	  // QT_SEARCH_BAR_BUTTON_H

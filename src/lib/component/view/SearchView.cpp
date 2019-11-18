@@ -2,14 +2,9 @@
 
 #include "SearchController.h"
 
-SearchView::SearchView(ViewLayout* viewLayout)
-	: View(viewLayout)
-{
-}
+SearchView::SearchView(ViewLayout* viewLayout): View(viewLayout) {}
 
-SearchView::~SearchView()
-{
-}
+SearchView::~SearchView() {}
 
 std::string SearchView::getName() const
 {

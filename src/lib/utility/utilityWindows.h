@@ -5,9 +5,9 @@
 
 namespace utility
 {
-	unsigned long getLargestByteSizeOfAllocatableMemory();
+unsigned long getLargestByteSizeOfAllocatableMemory();
 }
 
-#endif // WIN32
+#endif	  // WIN32
 
-#endif // UTILITY_WINDOWS_H
+#endif	  // UTILITY_WINDOWS_H

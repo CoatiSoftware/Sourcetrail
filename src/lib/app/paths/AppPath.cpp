@@ -9,7 +9,7 @@ FilePath AppPath::getAppPath()
 
 bool AppPath::setAppPath(const FilePath& path)
 {
-	if(!path.empty())
+	if (!path.empty())
 	{
 		m_appPath = path;
 		return true;

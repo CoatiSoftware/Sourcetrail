@@ -6,22 +6,17 @@
 #include "FilePath.h"
 #include "Message.h"
 
-class MessageCloseProject
-	: public Message<MessageCloseProject>
+class MessageCloseProject: public Message<MessageCloseProject>
 {
 public:
-	MessageCloseProject()
-	{
-	}
+	MessageCloseProject() {}
 
 	static const std::string getStaticType()
 	{
 		return "MessageCloseProject";
 	}
 
-	virtual void print(std::wostream& os) const
-	{
-	}
+	virtual void print(std::wostream& os) const {}
 };
 
-#endif // MESSAGE_CLOSE_PROJECT_H
+#endif	  // MESSAGE_CLOSE_PROJECT_H

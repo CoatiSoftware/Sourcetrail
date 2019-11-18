@@ -3,14 +3,10 @@
 
 #include "Message.h"
 
-class MessageScrollSpeedChange
-	: public Message<MessageScrollSpeedChange>
+class MessageScrollSpeedChange: public Message<MessageScrollSpeedChange>
 {
 public:
-	MessageScrollSpeedChange(float scrollSpeed)
-		: scrollSpeed(scrollSpeed)
-	{
-	}
+	MessageScrollSpeedChange(float scrollSpeed): scrollSpeed(scrollSpeed) {}
 
 	static const std::string getStaticType()
 	{
@@ -25,4 +21,4 @@ public:
 	const float scrollSpeed;
 };
 
-#endif // MESSAGE_SCROLL_SPEED_CHANGE_H
+#endif	  // MESSAGE_SCROLL_SPEED_CHANGE_H

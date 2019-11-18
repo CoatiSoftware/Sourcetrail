@@ -1,18 +1,16 @@
 #ifndef MESSAGE_SEARCH_AUTOCOMPLETE_H
 #define MESSAGE_SEARCH_AUTOCOMPLETE_H
 
+#include "Message.h"
 #include "Node.h"
 #include "NodeTypeSet.h"
-#include "Message.h"
 #include "TabId.h"
 
-class MessageSearchAutocomplete
-	: public Message<MessageSearchAutocomplete>
+class MessageSearchAutocomplete: public Message<MessageSearchAutocomplete>
 {
 public:
 	MessageSearchAutocomplete(const std::wstring& query, NodeTypeSet acceptedNodeTypes)
-		: query(query)
-		, acceptedNodeTypes(acceptedNodeTypes)
+		: query(query), acceptedNodeTypes(acceptedNodeTypes)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -41,4 +39,4 @@ public:
 	const NodeTypeSet acceptedNodeTypes;
 };
 
-#endif // MESSAGE_SEARCH_AUTOCOMPLETE_H
+#endif	  // MESSAGE_SEARCH_AUTOCOMPLETE_H

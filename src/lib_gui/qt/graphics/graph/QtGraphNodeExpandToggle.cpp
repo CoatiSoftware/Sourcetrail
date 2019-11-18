@@ -2,17 +2,16 @@
 
 #include <QFontMetrics>
 
-#include "QtRoundedRectItem.h"
 #include "QtDeviceScaledPixmap.h"
+#include "QtRoundedRectItem.h"
 #include "utilityQt.h"
 
-#include "logging.h"
 #include "MessageGraphNodeExpand.h"
 #include "ResourcePaths.h"
+#include "logging.h"
 
 QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount)
-	: m_invisibleSubNodeCount(invisibleSubNodeCount)
-	, m_expanded(expanded)
+	: m_invisibleSubNodeCount(invisibleSubNodeCount), m_expanded(expanded)
 {
 	if (!expanded && !invisibleSubNodeCount)
 	{
@@ -25,7 +24,8 @@ QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSub
 	m_icon->setTransformationMode(Qt::SmoothTransformation);
 	m_icon->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
 
-	QtDeviceScaledPixmap pixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/arrow.png").wstr()));
+	QtDeviceScaledPixmap pixmap(QString::fromStdWString(
+		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/arrow.png").wstr()));
 	pixmap.scaleToHeight(iconHeight);
 
 	if (invisibleSubNodeCount)
@@ -41,9 +41,7 @@ QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSub
 	m_icon->setPixmap(pixmap.pixmap());
 }
 
-QtGraphNodeExpandToggle::~QtGraphNodeExpandToggle()
-{
-}
+QtGraphNodeExpandToggle::~QtGraphNodeExpandToggle() {}
 
 bool QtGraphNodeExpandToggle::isExpandToggleNode() const
 {
@@ -70,7 +68,8 @@ void QtGraphNodeExpandToggle::updateStyle()
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfExpandToggleNode();
 	setStyle(style);
 
-	float textX = (m_rect->rect().width() / 2) - (QFontMetrics(m_text->font()).width(m_text->text()) / 2);
+	float textX = (m_rect->rect().width() / 2) -
+		(QFontMetrics(m_text->font()).width(m_text->text()) / 2);
 	float textY = m_rect->rect().height() / 2 - QFontMetrics(m_text->font()).height() / 1.8f;
 
 	// move the text to the nearest integer x pos, instead of the next lower int pos
@@ -83,9 +82,10 @@ void QtGraphNodeExpandToggle::updateStyle()
 	m_text->setPos(textX, textY);
 
 	m_icon->setPos(
-		(m_rect->rect().width() - m_icon->pixmap().width() / QtDeviceScaledPixmap::devicePixelRatio()) / 2,
-		(m_invisibleSubNodeCount == 0 ? m_rect->rect().height() / 2 - 2 : m_rect->rect().height() - 7)
-	);
+		(m_rect->rect().width() - m_icon->pixmap().width() / QtDeviceScaledPixmap::devicePixelRatio()) /
+			2,
+		(m_invisibleSubNodeCount == 0 ? m_rect->rect().height() / 2 - 2
+									  : m_rect->rect().height() - 7));
 
 	m_icon->setPixmap(utility::colorizePixmap(m_icon->pixmap(), style.color.icon.c_str()));
 }

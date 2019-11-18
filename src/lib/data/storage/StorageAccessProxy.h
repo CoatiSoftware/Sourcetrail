@@ -5,8 +5,7 @@
 
 #include "StorageAccess.h"
 
-class StorageAccessProxy
-	: public StorageAccess
+class StorageAccessProxy: public StorageAccess
 {
 public:
 	StorageAccessProxy() = default;
@@ -16,27 +15,39 @@ public:
 	// StorageAccess implementation
 	Id getNodeIdForFileNode(const FilePath& filePath) const override;
 	Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const override;
-	std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const override;
+	std::vector<Id> getNodeIdsForNameHierarchies(
+		const std::vector<NameHierarchy> nameHierarchies) const override;
 
 	NameHierarchy getNameHierarchyForNodeId(Id id) const override;
 	std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const override;
-	std::map<Id, std::pair<Id, NameHierarchy>> getNodeIdToParentFileMap(const std::vector<Id>& nodeIds) const override;
+	std::map<Id, std::pair<Id, NameHierarchy>> getNodeIdToParentFileMap(
+		const std::vector<Id>& nodeIds) const override;
 
 	NodeType getNodeTypeForNodeWithId(Id id) const override;
 
 	StorageEdge getEdgeById(Id edgeId) const override;
 
 	std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
-			const std::wstring& searchTerm, bool caseSensitive) const override;
-	std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes, bool acceptCommands) const override;
+		const std::wstring& searchTerm, bool caseSensitive) const override;
+	std::vector<SearchMatch> getAutocompletionMatches(
+		const std::wstring& query, NodeTypeSet acceptedNodeTypes, bool acceptCommands) const override;
 	std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const override;
 
 	std::shared_ptr<Graph> getGraphForAll() const override;
 	std::shared_ptr<Graph> getGraphForNodeTypes(NodeTypeSet nodeTypes) const override;
 	std::shared_ptr<Graph> getGraphForActiveTokenIds(
-		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const override;
+		const std::vector<Id>& tokenIds,
+		const std::vector<Id>& expandedNodeIds,
+		bool* isActiveNamespace = nullptr) const override;
 	std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const override;
-	std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, NodeType::TypeMask nodeTypes, Edge::TypeMask edgeTypes, bool nodeNonIndexed, size_t depth, bool directed) const override;
+	std::shared_ptr<Graph> getGraphForTrail(
+		Id originId,
+		Id targetId,
+		NodeType::TypeMask nodeTypes,
+		Edge::TypeMask edgeTypes,
+		bool nodeNonIndexed,
+		size_t depth,
+		bool directed) const override;
 
 	NodeType::TypeMask getAvailableNodeTypes() const override;
 	Edge::TypeMask getAvailableEdgeTypes() const override;
@@ -45,11 +56,9 @@ public:
 	std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const override;
 
 	std::shared_ptr<SourceLocationCollection> getSourceLocationsForTokenIds(
-			const std::vector<Id>& tokenIds
-	) const override;
+		const std::vector<Id>& tokenIds) const override;
 	std::shared_ptr<SourceLocationCollection> getSourceLocationsForLocationIds(
-			const std::vector<Id>& locationIds
-	) const override;
+		const std::vector<Id>& locationIds) const override;
 
 	std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const override;
 	std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
@@ -79,7 +88,10 @@ public:
 	Id addBookmarkCategory(const std::wstring& categoryName) override;
 
 	void updateBookmark(
-		const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName) override;
+		const Id bookmarkId,
+		const std::wstring& name,
+		const std::wstring& comment,
+		const std::wstring& categoryName) override;
 	void removeBookmark(const Id id) override;
 	void removeBookmarkCategory(const Id id) override;
 	// END TODO
@@ -88,7 +100,8 @@ public:
 	std::vector<EdgeBookmark> getAllEdgeBookmarks() const override;
 	std::vector<BookmarkCategory> getAllBookmarkCategories() const override;
 
-	TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const override;
+	TooltipInfo getTooltipInfoForTokenIds(
+		const std::vector<Id>& tokenIds, TooltipOrigin origin) const override;
 	TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const override;
 
@@ -96,4 +109,4 @@ private:
 	std::weak_ptr<StorageAccess> m_subject;
 };
 
-#endif // STORAGE_ACCESS_PROXY_H
+#endif	  // STORAGE_ACCESS_PROXY_H

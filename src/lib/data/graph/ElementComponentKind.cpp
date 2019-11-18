@@ -7,11 +7,9 @@ int elementComponentKindToInt(ElementComponentKind kind)
 
 ElementComponentKind intToElementComponentKind(int value)
 {
-	const ElementComponentKind kinds[] = {
-		ElementComponentKind::IS_AMBIGUOUS
-	};
+	const ElementComponentKind kinds[] = {ElementComponentKind::IS_AMBIGUOUS};
 
-	for (ElementComponentKind kind : kinds)
+	for (ElementComponentKind kind: kinds)
 	{
 		if (value == elementComponentKindToInt(kind))
 		{

@@ -7,14 +7,9 @@
 #include "StorageAccess.h"
 #include "TabId.h"
 
-ErrorController::ErrorController(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
-{
-}
+ErrorController::ErrorController(StorageAccess* storageAccess): m_storageAccess(storageAccess) {}
 
-ErrorController::~ErrorController()
-{
-}
+ErrorController::~ErrorController() {}
 
 void ErrorController::errorFilterChanged(const ErrorFilter& filter)
 {
@@ -83,7 +78,7 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message)
 		filter.limit = 0;
 		std::vector<ErrorInfo> errors;
 
-		for (const ErrorInfo& error : message->newErrors)
+		for (const ErrorInfo& error: message->newErrors)
 		{
 			if (filter.filter(error))
 			{
@@ -118,8 +113,7 @@ void ErrorController::handleMessage(MessageErrorsForFile* message)
 	if (project && project->isIndexing())
 	{
 		Application::getInstance()->handleDialog(
-			L"Showing errors for a file is not possible while indexing."
-		);
+			L"Showing errors for a file is not possible while indexing.");
 		return;
 	}
 
@@ -197,7 +191,8 @@ bool ErrorController::showErrors(const ErrorFilter& filter, bool scrollTo)
 	}
 	else
 	{
-		errors = m_storageAccess->getErrorsForFileLimited(filter, m_tabActiveFilePath[TabId::currentTab()]);
+		errors = m_storageAccess->getErrorsForFileLimited(
+			filter, m_tabActiveFilePath[TabId::currentTab()]);
 	}
 
 	ErrorCountInfo errorCount(errors);

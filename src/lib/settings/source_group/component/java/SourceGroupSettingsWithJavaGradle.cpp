@@ -16,7 +16,8 @@ FilePath SourceGroupSettingsWithJavaGradle::getGradleProjectFilePath() const
 
 FilePath SourceGroupSettingsWithJavaGradle::getGradleProjectFilePathExpandedAndAbsolute() const
 {
-	return utility::getExpandedAndAbsolutePath(getGradleProjectFilePath(), getProjectSettings()->getProjectDirectoryPath());
+	return utility::getExpandedAndAbsolutePath(
+		getGradleProjectFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsWithJavaGradle::setGradleProjectFilePath(const FilePath& path)
@@ -36,18 +37,18 @@ void SourceGroupSettingsWithJavaGradle::setShouldIndexGradleTests(bool value)
 
 bool SourceGroupSettingsWithJavaGradle::equals(const SourceGroupSettingsBase* other) const
 {
-	const SourceGroupSettingsWithJavaGradle* otherPtr = dynamic_cast<const SourceGroupSettingsWithJavaGradle*>(other);
+	const SourceGroupSettingsWithJavaGradle* otherPtr =
+		dynamic_cast<const SourceGroupSettingsWithJavaGradle*>(other);
 
 	return (
-		otherPtr &&
-		m_gradleProjectFilePath == otherPtr->m_gradleProjectFilePath &&
-		m_shouldIndexGradleTests == otherPtr->m_shouldIndexGradleTests
-	);
+		otherPtr && m_gradleProjectFilePath == otherPtr->m_gradleProjectFilePath &&
+		m_shouldIndexGradleTests == otherPtr->m_shouldIndexGradleTests);
 }
 
 void SourceGroupSettingsWithJavaGradle::load(const ConfigManager* config, const std::string& key)
 {
-	setGradleProjectFilePath(config->getValueOrDefault(key + "/gradle/project_file_path", FilePath(L"")));
+	setGradleProjectFilePath(
+		config->getValueOrDefault(key + "/gradle/project_file_path", FilePath(L"")));
 	setShouldIndexGradleTests(config->getValueOrDefault(key + "/gradle/should_index_tests", false));
 }
 

@@ -3,14 +3,10 @@
 
 #include "Message.h"
 
-class MessageBookmarkCreate
-	: public Message<MessageBookmarkCreate>
+class MessageBookmarkCreate: public Message<MessageBookmarkCreate>
 {
 public:
-	MessageBookmarkCreate(Id nodeId = 0)
-		: nodeId(nodeId)
-	{
-	}
+	MessageBookmarkCreate(Id nodeId = 0): nodeId(nodeId) {}
 
 	static const std::string getStaticType()
 	{
@@ -20,4 +16,4 @@ public:
 	const Id nodeId;
 };
 
-#endif // MESSAGE_BOOKMARK_CREATE_H
+#endif	  // MESSAGE_BOOKMARK_CREATE_H

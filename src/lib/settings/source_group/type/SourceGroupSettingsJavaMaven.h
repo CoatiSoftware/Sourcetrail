@@ -9,10 +9,10 @@
 
 class SourceGroupSettingsJavaMaven
 	: public SourceGroupSettingsWithComponents<
-		SourceGroupSettingsWithExcludeFilters,
-		SourceGroupSettingsWithJavaMaven,
-		SourceGroupSettingsWithJavaStandard,
-		SourceGroupSettingsWithSourceExtensionsJava>
+		  SourceGroupSettingsWithExcludeFilters,
+		  SourceGroupSettingsWithJavaMaven,
+		  SourceGroupSettingsWithJavaStandard,
+		  SourceGroupSettingsWithSourceExtensionsJava>
 {
 public:
 	SourceGroupSettingsJavaMaven(const std::string& id, const ProjectSettings* projectSettings)
@@ -26,4 +26,4 @@ public:
 	}
 };
 
-#endif // SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H
+#endif	  // SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H

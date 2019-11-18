@@ -3,8 +3,7 @@
 
 #include <QTextBrowser>
 
-class QtTextEdit
-	: public QTextBrowser
+class QtTextEdit: public QTextBrowser
 {
 	Q_OBJECT
 
@@ -20,4 +19,4 @@ protected:
 	void focusInEvent(QFocusEvent* event);
 };
 
-#endif // QT_TEXT_EDIT_H
+#endif	  // QT_TEXT_EDIT_H

@@ -7,18 +7,16 @@
 
 QtProjectWizardContentCppStandard::QtProjectWizardContentCppStandard(
 	std::shared_ptr<SourceGroupSettingsWithCppStandard> sourceGroupSettings,
-	QtProjectWizardWindow* window
-)
-	: QtProjectWizardContent(window)
-	, m_sourceGroupSettings(sourceGroupSettings)
-	, m_standard(nullptr)
+	QtProjectWizardWindow* window)
+	: QtProjectWizardContent(window), m_sourceGroupSettings(sourceGroupSettings), m_standard(nullptr)
 {
 }
 
 void QtProjectWizardContentCppStandard::populate(QGridLayout* layout, int& row)
 {
 	m_standard = new QComboBox();
-	layout->addWidget(createFormLabel("C++ Standard"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(
+		createFormLabel("C++ Standard"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_standard, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft);
 	row++;
 }

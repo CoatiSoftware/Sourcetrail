@@ -4,13 +4,11 @@
 #include "FilePath.h"
 #include "Message.h"
 
-class MessageMoveIDECursor : public Message<MessageMoveIDECursor>
+class MessageMoveIDECursor: public Message<MessageMoveIDECursor>
 {
 public:
 	MessageMoveIDECursor(const FilePath& filePath, const unsigned int row, const unsigned int column)
-		: filePath(filePath)
-		, row(row)
-		, column(column)
+		: filePath(filePath), row(row), column(column)
 	{
 	}
 
@@ -29,4 +27,4 @@ public:
 	const unsigned int column;
 };
 
-#endif // MESSAGE_MOVE_IDE_CURSOR_H
+#endif	  // MESSAGE_MOVE_IDE_CURSOR_H

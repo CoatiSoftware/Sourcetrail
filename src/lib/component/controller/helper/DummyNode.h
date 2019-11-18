@@ -7,10 +7,10 @@
 #include "utility.h"
 #include "utilityString.h"
 
-#include "Node.h"
+#include "AccessKind.h"
 #include "GroupType.h"
 #include "NameHierarchy.h"
-#include "AccessKind.h"
+#include "Node.h"
 
 // temporary data structure for (visual) graph creation process
 struct DummyNode
@@ -54,7 +54,8 @@ public:
 			, layoutVertical(false)
 			, isReferenced(false)
 			, isReferencing(false)
-		{}
+		{
+		}
 
 		static BundleInfo averageBundleInfo(const std::vector<DummyNode::BundleInfo>& bundleInfos)
 		{
@@ -64,21 +65,31 @@ public:
 			size_t referencedCount = 0;
 			size_t referencingCount = 0;
 
-			for (const BundleInfo& info : bundleInfos)
+			for (const BundleInfo& info: bundleInfos)
 			{
-				if (info.isActive) activeCount++;
-				if (info.isDefined) definedCount++;
-				if (info.layoutVertical) verticalLayoutCount++;
-				if (info.isReferenced) referencedCount++;
-				if (info.isReferencing) referencingCount++;
+				if (info.isActive)
+					activeCount++;
+				if (info.isDefined)
+					definedCount++;
+				if (info.layoutVertical)
+					verticalLayoutCount++;
+				if (info.isReferenced)
+					referencedCount++;
+				if (info.isReferencing)
+					referencingCount++;
 			}
 
 			BundleInfo info;
-			if (activeCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isActive = true;
-			if (definedCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isDefined = true;
-			if (verticalLayoutCount >= std::ceil(bundleInfos.size() / 2.0f)) info.layoutVertical = true;
-			if (referencedCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isReferenced = true;
-			if (referencingCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isReferencing = true;
+			if (activeCount >= std::ceil(bundleInfos.size() / 2.0f))
+				info.isActive = true;
+			if (definedCount >= std::ceil(bundleInfos.size() / 2.0f))
+				info.isDefined = true;
+			if (verticalLayoutCount >= std::ceil(bundleInfos.size() / 2.0f))
+				info.layoutVertical = true;
+			if (referencedCount >= std::ceil(bundleInfos.size() / 2.0f))
+				info.isReferenced = true;
+			if (referencingCount >= std::ceil(bundleInfos.size() / 2.0f))
+				info.isReferencing = true;
 			return info;
 		}
 
@@ -156,7 +167,7 @@ public:
 
 	bool hasVisibleSubNode() const
 	{
-		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node: subNodes)
 		{
 			if (node->visible)
 			{
@@ -174,7 +185,7 @@ public:
 			return true;
 		}
 
-		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node: subNodes)
 		{
 			if (node->hasActiveSubNode())
 			{
@@ -194,7 +205,7 @@ public:
 			return Vec4i(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
 		}
 
-		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node: subNodes)
 		{
 			Vec4i rect = node->getActiveSubNodeRect(pos);
 			if (rect.w() > 0)
@@ -215,7 +226,7 @@ public:
 			count += 1;
 		}
 
-		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node: subNodes)
 		{
 			count += node->getActiveSubNodeCount();
 		}
@@ -230,7 +241,7 @@ public:
 			return true;
 		}
 
-		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node: subNodes)
 		{
 			if (node->hasConnectedSubNode())
 			{
@@ -250,7 +261,7 @@ public:
 			nodes.push_back(this);
 		}
 
-		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node: subNodes)
 		{
 			utility::append(nodes, node->getConnectedSubNodes());
 		}
@@ -261,7 +272,7 @@ public:
 	std::vector<const DummyNode*> getAllBundledNodes() const
 	{
 		std::vector<const DummyNode*> nodes;
-		for (const std::shared_ptr<DummyNode>& node : bundledNodes)
+		for (const std::shared_ptr<DummyNode>& node: bundledNodes)
 		{
 			utility::append(nodes, node->getConnectedSubNodes());
 		}
@@ -282,7 +293,7 @@ public:
 	{
 		func(this);
 
-		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node: subNodes)
 		{
 			node->forEachDummyNodeRecursive(func);
 		}
@@ -297,7 +308,7 @@ public:
 
 		this->bundleId = bundleId;
 
-		for (const std::shared_ptr<DummyNode>& node : bundledNodes)
+		for (const std::shared_ptr<DummyNode>& node: bundledNodes)
 		{
 			bundleId = node->setBundleIdRecursive(bundleId);
 		}
@@ -316,11 +327,11 @@ public:
 		}
 
 		size_t subNodeCount = 0;
-		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: subNodes)
 		{
 			if (subNode->isAccessNode())
 			{
-				for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
+				for (const std::shared_ptr<DummyNode>& subSubNode: subNode->subNodes)
 				{
 					if (subSubNode->isGraphNode() && (implicit || !subSubNode->data->isImplicit()))
 					{
@@ -337,11 +348,11 @@ public:
 	{
 		std::map<Id, std::shared_ptr<DummyNode>> subGraphNodes;
 
-		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: subNodes)
 		{
 			if (subNode->isAccessNode())
 			{
-				for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
+				for (const std::shared_ptr<DummyNode>& subSubNode: subNode->subNodes)
 				{
 					if (subSubNode->isGraphNode())
 					{
@@ -356,7 +367,7 @@ public:
 
 	void replaceSubGraphNodes(std::map<Id, std::shared_ptr<DummyNode>> subGraphNodes) const
 	{
-		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: subNodes)
 		{
 			if (subNode->isAccessNode())
 			{
@@ -382,7 +393,7 @@ public:
 	std::vector<std::shared_ptr<DummyNode>> getAccessNodes() const
 	{
 		std::vector<std::shared_ptr<DummyNode>> accessNodes;
-		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: subNodes)
 		{
 			if (subNode->isAccessNode())
 			{
@@ -407,12 +418,12 @@ public:
 
 	void sortSubNodesByName()
 	{
-		std::sort(subNodes.begin(), subNodes.end(),
-			[](const std::shared_ptr<DummyNode>& a, const std::shared_ptr<DummyNode>& b) -> bool
-			{
-			    return a->name < b->name;
-			}
-		);
+		std::sort(
+			subNodes.begin(),
+			subNodes.end(),
+			[](const std::shared_ptr<DummyNode>& a, const std::shared_ptr<DummyNode>& b) -> bool {
+				return a->name < b->name;
+			});
 	}
 
 	bool getsLayouted() const
@@ -422,7 +433,7 @@ public:
 
 	const DummyNode* getQualifierNode() const
 	{
-		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: subNodes)
 		{
 			if (subNode->isQualifierNode())
 			{
@@ -435,7 +446,7 @@ public:
 	std::vector<BundleInfo> getBundleInfos() const
 	{
 		std::vector<BundleInfo> bundleInfos;
-		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode: subNodes)
 		{
 			bundleInfos.push_back(subNode->bundleInfo);
 		}
@@ -496,4 +507,4 @@ public:
 	int fontSizeDiff;
 };
 
-#endif // DUMMY_NODE_H
+#endif	  // DUMMY_NODE_H

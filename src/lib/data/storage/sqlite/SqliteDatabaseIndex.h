@@ -1,8 +1,8 @@
 #ifndef SQLITE_DATABASE_INDEX_H
 #define SQLITE_DATABASE_INDEX_H
 
-#include <string>
 #include "CppSQLite3.h"
+#include <string>
 
 class SqliteDatabaseIndex
 {
@@ -19,4 +19,4 @@ private:
 	std::string m_indexTarget;
 };
 
-#endif // SQLITE_DATABASE_INDEX_H
+#endif	  // SQLITE_DATABASE_INDEX_H

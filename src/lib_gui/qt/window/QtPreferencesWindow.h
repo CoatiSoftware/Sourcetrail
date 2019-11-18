@@ -5,8 +5,7 @@
 
 #include "ApplicationSettings.h"
 
-class QtPreferencesWindow
-	: public QtProjectWizardWindow
+class QtPreferencesWindow: public QtProjectWizardWindow
 {
 	Q_OBJECT
 
@@ -22,4 +21,4 @@ private:
 	ApplicationSettings m_appSettings;
 };
 
-#endif // QT_PREFERENCES_WINDOW_H
+#endif	  // QT_PREFERENCES_WINDOW_H

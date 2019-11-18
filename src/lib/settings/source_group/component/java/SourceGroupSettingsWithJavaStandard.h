@@ -5,8 +5,7 @@
 
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithJavaStandard
-	: public SourceGroupSettingsComponent
+class SourceGroupSettingsWithJavaStandard: public SourceGroupSettingsComponent
 {
 public:
 	static std::wstring getDefaultJavaStandardStatic();
@@ -30,4 +29,4 @@ private:
 	std::wstring m_javaStandard;
 };
 
-#endif // SOURCE_GROUP_SETTINGS_WITH_JAVA_STANDARD_H
+#endif	  // SOURCE_GROUP_SETTINGS_WITH_JAVA_STANDARD_H

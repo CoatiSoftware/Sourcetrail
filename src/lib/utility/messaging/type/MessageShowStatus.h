@@ -3,13 +3,10 @@
 
 #include "Message.h"
 
-class MessageShowStatus
-	: public Message<MessageShowStatus>
+class MessageShowStatus: public Message<MessageShowStatus>
 {
 public:
-	MessageShowStatus()
-	{
-	}
+	MessageShowStatus() {}
 
 	static const std::string getStaticType()
 	{
@@ -17,4 +14,4 @@ public:
 	}
 };
 
-#endif // MESSAGE_SHOW_STATUS_H
+#endif	  // MESSAGE_SHOW_STATUS_H

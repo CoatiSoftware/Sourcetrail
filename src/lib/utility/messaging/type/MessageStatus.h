@@ -6,12 +6,19 @@
 
 #include "Message.h"
 
-class MessageStatus
-	: public Message<MessageStatus>
+class MessageStatus: public Message<MessageStatus>
 {
 public:
-	MessageStatus(const std::wstring& status, bool isError = false, bool showLoader = false, bool showInStatusBar = true);
-	MessageStatus(const std::vector<std::wstring>& stati, bool isError = false, bool showLoader = false, bool showInStatusBar = true);
+	MessageStatus(
+		const std::wstring& status,
+		bool isError = false,
+		bool showLoader = false,
+		bool showInStatusBar = true);
+	MessageStatus(
+		const std::vector<std::wstring>& stati,
+		bool isError = false,
+		bool showLoader = false,
+		bool showInStatusBar = true);
 
 	static const std::string getStaticType();
 
@@ -27,4 +34,4 @@ private:
 	std::vector<std::wstring> m_stati;
 };
 
-#endif // MESSAGE_STATUS_H
+#endif	  // MESSAGE_STATUS_H

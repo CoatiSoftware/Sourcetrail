@@ -13,8 +13,7 @@ void CustomTrailController::clear()
 {
 	getView()->clearView();
 	getView()->setAvailableNodeAndEdgeTypes(
-		m_storageAccess->getAvailableNodeTypes(), m_storageAccess->getAvailableEdgeTypes()
-	);
+		m_storageAccess->getAvailableNodeTypes(), m_storageAccess->getAvailableEdgeTypes());
 }
 
 void CustomTrailController::autocomplete(const std::wstring query, bool from)
@@ -24,13 +23,14 @@ void CustomTrailController::autocomplete(const std::wstring query, bool from)
 	nodeTypes.remove(NodeType(NodeType::NODE_NAMESPACE));
 	nodeTypes.remove(NodeType(NodeType::NODE_PACKAGE));
 
-	getView()->showAutocompletions(m_storageAccess->getAutocompletionMatches(query, nodeTypes, false), from);
+	getView()->showAutocompletions(
+		m_storageAccess->getAutocompletionMatches(query, nodeTypes, false), from);
 }
 
 void CustomTrailController::activateTrail(MessageActivateTrail message)
 {
 	Id nodeId = message.originId ? message.originId : message.targetId;
-	message.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({ nodeId });
+	message.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({nodeId});
 	message.dispatch();
 }
 

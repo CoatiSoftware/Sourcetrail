@@ -3,8 +3,7 @@
 
 #include <QTabBar>
 
-class QtTabBar
-	: public QTabBar
+class QtTabBar: public QTabBar
 {
 public:
 	QtTabBar(QWidget* parent = nullptr);
@@ -16,4 +15,4 @@ protected:
 	QSize minimumTabSizeHint(int index) const override;
 };
 
-#endif // QT_TAB_BAR_H
+#endif	  // QT_TAB_BAR_H

@@ -39,18 +39,15 @@ std::vector<std::wstring> SourceGroupSettingsWithCppStandard::getAvailableCppSta
 		L"c++03",
 		L"gnu++03",
 		L"c++98",
-		L"gnu++98"
-	};
+		L"gnu++98"};
 }
 
 bool SourceGroupSettingsWithCppStandard::equals(const SourceGroupSettingsBase* other) const
 {
-	const SourceGroupSettingsWithCppStandard* otherPtr = dynamic_cast<const SourceGroupSettingsWithCppStandard*>(other);
+	const SourceGroupSettingsWithCppStandard* otherPtr =
+		dynamic_cast<const SourceGroupSettingsWithCppStandard*>(other);
 
-	return (
-		otherPtr &&
-		m_cppStandard == otherPtr->m_cppStandard
-	);
+	return (otherPtr && m_cppStandard == otherPtr->m_cppStandard);
 }
 
 void SourceGroupSettingsWithCppStandard::load(const ConfigManager* config, const std::string& key)

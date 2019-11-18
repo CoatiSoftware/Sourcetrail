@@ -3,8 +3,7 @@
 
 #include "Message.h"
 
-class MessageIndexingFinished
-	: public Message<MessageIndexingFinished>
+class MessageIndexingFinished: public Message<MessageIndexingFinished>
 {
 public:
 	static const std::string getStaticType()
@@ -12,9 +11,7 @@ public:
 		return "MessageIndexingFinished";
 	}
 
-	MessageIndexingFinished()
-	{
-	}
+	MessageIndexingFinished() {}
 };
 
-#endif // MESSAGE_INDEXING_FINISHED_H
+#endif	  // MESSAGE_INDEXING_FINISHED_H

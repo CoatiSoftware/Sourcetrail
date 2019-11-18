@@ -5,8 +5,7 @@
 
 #include "TokenComponent.h"
 
-class TokenComponentFilePath
-	: public TokenComponent
+class TokenComponentFilePath: public TokenComponent
 {
 public:
 	TokenComponentFilePath(const FilePath& path, bool complete);
@@ -22,4 +21,4 @@ private:
 	const bool m_complete;
 };
 
-#endif // TOKEN_COMPONENT_FILE_PATH_H
+#endif	  // TOKEN_COMPONENT_FILE_PATH_H

@@ -45,4 +45,3 @@ void QtUnknownProgressDialog::onHidePressed()
 {
 	emit visibleChanged(false);
 }
-

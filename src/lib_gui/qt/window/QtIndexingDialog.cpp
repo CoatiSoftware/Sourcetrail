@@ -42,7 +42,7 @@ QWidget* QtIndexingDialog::createErrorWidget(QBoxLayout* layout)
 
 	QPushButton* errorCount = new QPushButton();
 	errorCount->setObjectName("errorCount");
-	errorCount->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	errorCount->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 
 	errorCount->setIcon(QPixmap(QString::fromStdWString(
 		ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr())));
@@ -52,12 +52,7 @@ QWidget* QtIndexingDialog::createErrorWidget(QBoxLayout* layout)
 	helpButton->setColor(Qt::white);
 
 	helpButton->disconnect();
-	connect(helpButton, &QtHelpButton::clicked,
-		[]()
-		{
-			MessageErrorsHelpMessage(true).dispatch();
-		}
-	);
+	connect(helpButton, &QtHelpButton::clicked, []() { MessageErrorsHelpMessage(true).dispatch(); });
 
 	errorLayout->addWidget(helpButton);
 
@@ -82,7 +77,6 @@ QLabel* QtIndexingDialog::createFlagLabel(QWidget* parent)
 }
 
 
-
 QtIndexingDialog::QtIndexingDialog(bool isSubWindow, QWidget* parent)
 	: QtWindowBase(isSubWindow, parent)
 {
@@ -91,13 +85,13 @@ QtIndexingDialog::QtIndexingDialog(bool isSubWindow, QWidget* parent)
 		"#window { "
 		"background: #2E3C86;"
 		"border: none;"
-		"}"
-	);
+		"}");
 
-	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/indexing_dialog.css"))
-	).c_str());
+	setStyleSheet(
+		(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
+		 utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/"
+																		L"indexing_dialog.css")))
+			.c_str());
 
 	m_layout = new QVBoxLayout(this);
 	m_layout->setContentsMargins(20, 20, 20, 0);
@@ -141,8 +135,10 @@ void QtIndexingDialog::setupDone()
 	QSize actualSize = m_window->sizeHint() + QSize(50, 50);
 	QSize preferredSize = sizeHint();
 
-	QSize size(qMax(actualSize.width(), preferredSize.width()), qMax(actualSize.height(), preferredSize.height()));
+	QSize size(
+		qMax(actualSize.width(), preferredSize.width()),
+		qMax(actualSize.height(), preferredSize.height()));
 	resize(size);
 
-    moveToCenter();
+	moveToCenter();
 }

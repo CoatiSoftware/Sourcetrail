@@ -20,15 +20,12 @@ private:
 
 
 template <typename T>
-Optional<T>::Optional()
-	: m_isPresent(false)
+Optional<T>::Optional(): m_isPresent(false)
 {
 }
 
 template <typename T>
-Optional<T>::Optional(const T& value)
-	: m_isPresent(false)
-	, m_value(value)
+Optional<T>::Optional(const T& value): m_isPresent(false), m_value(value)
 {
 }
 
@@ -50,4 +47,4 @@ bool Optional<T>::isPresent() const
 	return m_isPresent;
 }
 
-#endif // OPTIONAL_H
+#endif	  // OPTIONAL_H

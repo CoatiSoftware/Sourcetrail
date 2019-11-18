@@ -3,8 +3,7 @@
 
 #include "QtWindow.h"
 
-class QtLicenseWindow
-	: public QtWindow
+class QtLicenseWindow: public QtWindow
 {
 	Q_OBJECT
 public:
@@ -17,4 +16,4 @@ protected:
 	virtual void windowReady() override;
 };
 
-#endif // QT_LICENSE_WINDOW_H
+#endif	  // QT_LICENSE_WINDOW_H

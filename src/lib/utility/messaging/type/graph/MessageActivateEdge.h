@@ -5,15 +5,18 @@
 #include "NameHierarchy.h"
 
 #include "Message.h"
+#include "TabId.h"
 #include "types.h"
 #include "utilityString.h"
-#include "TabId.h"
 
-class MessageActivateEdge
-	: public Message<MessageActivateEdge>
+class MessageActivateEdge: public Message<MessageActivateEdge>
 {
 public:
-	MessageActivateEdge(Id tokenId, Edge::EdgeType type, const NameHierarchy& sourceNameHierarchy, const NameHierarchy& targetNameHierarchy)
+	MessageActivateEdge(
+		Id tokenId,
+		Edge::EdgeType type,
+		const NameHierarchy& sourceNameHierarchy,
+		const NameHierarchy& targetNameHierarchy)
 		: tokenId(tokenId)
 		, type(type)
 		, sourceNameHierarchy(sourceNameHierarchy)
@@ -58,4 +61,4 @@ public:
 	std::vector<Id> aggregationIds;
 };
 
-#endif // MESSAGE_ACTIVATE_EDGE_H
+#endif	  // MESSAGE_ACTIVATE_EDGE_H

@@ -1,40 +1,39 @@
 #include "catch.hpp"
 
 #include "Settings.h"
-#include "SettingsMigrator.h"
 #include "SettingsMigrationLambda.h"
 #include "SettingsMigrationMoveKey.h"
+#include "SettingsMigrator.h"
 #include "TextAccess.h"
 
 namespace
 {
-	class TestSettings
-		: public Settings
+class TestSettings: public Settings
+{
+public:
+	static TestSettings createFromText(const std::shared_ptr<TextAccess> textAccess)
 	{
-	public:
-		static TestSettings createFromText(const std::shared_ptr<TextAccess> textAccess)
-		{
-			TestSettings settings;
-			settings.m_config = ConfigManager::createAndLoad(textAccess);
-			return settings;
-		}
-
-		std::string getAsText() const
-		{
-			if (m_config)
-			{
-				return m_config->toString();
-			}
-
-			return "";
-		}
-	};
-
-	TestSettings createSettings(const std::string& text)
-	{
-		return TestSettings::createFromText(TextAccess::createFromString(text));
+		TestSettings settings;
+		settings.m_config = ConfigManager::createAndLoad(textAccess);
+		return settings;
 	}
+
+	std::string getAsText() const
+	{
+		if (m_config)
+		{
+			return m_config->toString();
+		}
+
+		return "";
+	}
+};
+
+TestSettings createSettings(const std::string& text)
+{
+	return TestSettings::createFromText(TextAccess::createFromString(text));
 }
+}	 // namespace
 
 TEST_CASE("migrator changes nothing without migrations except version")
 {
@@ -42,16 +41,14 @@ TEST_CASE("migrator changes nothing without migrations except version")
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.migrate(&settingsBefore, 1);
@@ -65,16 +62,14 @@ TEST_CASE("migrator changes name")
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <int>2</int>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("value", "int"));
@@ -89,8 +84,7 @@ TEST_CASE("migrator changes path")
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
@@ -99,8 +93,7 @@ TEST_CASE("migrator changes path")
 		"        <int>2</int>\n"
 		"    </sub>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("value", "sub/int"));
@@ -119,8 +112,7 @@ TEST_CASE("migrator changes group name")
 		"        <value>3</value>\n"
 		"        <value>4</value>\n"
 		"    </values>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
@@ -131,11 +123,11 @@ TEST_CASE("migrator changes group name")
 		"        <value>4</value>\n"
 		"    </vals>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
-	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("values/value", "vals/value"));
+	migrator.addMigration(
+		1, std::make_shared<SettingsMigrationMoveKey>("values/value", "vals/value"));
 	migrator.migrate(&settingsBefore, 1);
 
 	REQUIRE(settingsBefore.getAsText() == settingsAfter.getAsText());
@@ -151,8 +143,7 @@ TEST_CASE("migrator changes group element name")
 		"        <value>3</value>\n"
 		"        <value>4</value>\n"
 		"    </values>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
@@ -163,11 +154,11 @@ TEST_CASE("migrator changes group element name")
 		"        <val>4</val>\n"
 		"    </values>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
-	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("values/value", "values/val"));
+	migrator.addMigration(
+		1, std::make_shared<SettingsMigrationMoveKey>("values/value", "values/val"));
 	migrator.migrate(&settingsBefore, 1);
 
 	REQUIRE(settingsBefore.getAsText() == settingsAfter.getAsText());
@@ -179,16 +170,14 @@ TEST_CASE("migrator changes only up specified version")
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <int>2</int>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("value", "int"));
@@ -205,16 +194,14 @@ TEST_CASE("migrator changes only from specified version")
 		"<config>\n"
 		"    <int>2</int>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <val>2</val>\n"
 		"    <version>2</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("value", "int"));
@@ -230,16 +217,14 @@ TEST_CASE("migrator changes for multiple versions")
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <val>2</val>\n"
 		"    <version>2</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("value", "int"));
@@ -256,8 +241,7 @@ TEST_CASE("migrator changes for multiple migrations")
 		"<config>\n"
 		"    <value>2</value>\n"
 		"    <element>hi there</element>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
@@ -265,8 +249,7 @@ TEST_CASE("migrator changes for multiple migrations")
 		"    <val>2</val>\n"
 		"    <ele>hi there</ele>\n"
 		"    <version>2</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("value", "val"));
@@ -285,8 +268,7 @@ TEST_CASE("migrator changes for multiple versions and migrations")
 		"    <element>two</element>\n"
 		"    <element>three</element>\n"
 		"    <element>four</element>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
@@ -298,8 +280,7 @@ TEST_CASE("migrator changes for multiple versions and migrations")
 		"        <element>four</element>\n"
 		"    </elements>\n"
 		"    <version>3</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>("value", "int/val"));
@@ -317,25 +298,23 @@ TEST_CASE("migrator with lambda")
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>4</value>\n"
 		"    <version>1</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(
-		1, std::make_shared<SettingsMigrationLambda>(
-		[](const SettingsMigration* migration, Settings* settings)
-		{
-			migration->setValueInSettings<int>(settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) * 2);
-		}
-	));
+		1,
+		std::make_shared<SettingsMigrationLambda>([](const SettingsMigration* migration,
+													 Settings* settings) {
+			migration->setValueInSettings<int>(
+				settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) * 2);
+		}));
 	migrator.migrate(&settingsBefore, 1);
 
 	REQUIRE(settingsBefore.getAsText() == settingsAfter.getAsText());
@@ -347,34 +326,30 @@ TEST_CASE("migrator with multiple lambdas")
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	TestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>3</value>\n"
 		"    <version>2</version>\n"
-		"</config>\n"
-	);
+		"</config>\n");
 
 	SettingsMigrator migrator;
 	migrator.addMigration(
-		1, std::make_shared<SettingsMigrationLambda>(
-			[](const SettingsMigration* migration, Settings* settings)
-			{
-				migration->setValueInSettings<int>(settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) * 2);
-			}
-		)
-	);
+		1,
+		std::make_shared<SettingsMigrationLambda>([](const SettingsMigration* migration,
+													 Settings* settings) {
+			migration->setValueInSettings<int>(
+				settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) * 2);
+		}));
 	migrator.addMigration(
-		2, std::make_shared<SettingsMigrationLambda>(
-			[](const SettingsMigration* migration, Settings* settings)
-			{
-				migration->setValueInSettings<int>(settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) - 1);
-			}
-		)
-	);
+		2,
+		std::make_shared<SettingsMigrationLambda>([](const SettingsMigration* migration,
+													 Settings* settings) {
+			migration->setValueInSettings<int>(
+				settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) - 1);
+		}));
 	migrator.migrate(&settingsBefore, 2);
 
 	REQUIRE(settingsBefore.getAsText() == settingsAfter.getAsText());

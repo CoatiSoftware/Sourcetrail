@@ -1,13 +1,13 @@
 #ifndef VECTOR_2_H
 #define VECTOR_2_H
 
-#include "logging.h"
 #include "Property.h"
+#include "logging.h"
 
 #include "VectorBase.h"
 
-template<class T>
-class Vector2 : public VectorBase<T, 2>
+template <class T>
+class Vector2: public VectorBase<T, 2>
 {
 public:
 	Vector2();
@@ -27,7 +27,7 @@ public:
 	Vector2<T> normalize();
 	Vector2<T> normalized() const;
 
-	template<class U>
+	template <class U>
 	void operator=(const Vector2<U>& other);
 
 protected:
@@ -35,7 +35,7 @@ protected:
 	static const unsigned int m_yIndex = 1;
 };
 
-template<class T>
+template <class T>
 Vector2<T>::Vector2()
 	: VectorBase<T, 2>()
 	, x(&VectorBase<T, 2>::m_values[m_xIndex])
@@ -45,7 +45,7 @@ Vector2<T>::Vector2()
 	setValue(m_yIndex, 0);
 }
 
-template<class T>
+template <class T>
 Vector2<T>::Vector2(const T& x, const T& y)
 	: VectorBase<T, 2>()
 	, x(&VectorBase<T, 2>::m_values[m_xIndex])
@@ -55,7 +55,7 @@ Vector2<T>::Vector2(const T& x, const T& y)
 	setValue(m_yIndex, y);
 }
 
-template<class T>
+template <class T>
 Vector2<T>::Vector2(const VectorBase<T, 2>& vector)
 	: VectorBase<T, 2>(vector)
 	, x(&VectorBase<T, 2>::m_values[m_xIndex])
@@ -63,7 +63,7 @@ Vector2<T>::Vector2(const VectorBase<T, 2>& vector)
 {
 }
 
-template<class T>
+template <class T>
 Vector2<T>::Vector2(const Vector2<T>& vector)
 	: VectorBase<T, 2>(vector)
 	, x(&VectorBase<T, 2>::m_values[m_xIndex])
@@ -71,12 +71,12 @@ Vector2<T>::Vector2(const Vector2<T>& vector)
 {
 }
 
-template<class T>
+template <class T>
 Vector2<T>::~Vector2()
 {
 }
 
-template<class T>
+template <class T>
 T Vector2<T>::getValue(const unsigned int index) const
 {
 	try
@@ -90,7 +90,7 @@ T Vector2<T>::getValue(const unsigned int index) const
 	}
 }
 
-template<class T>
+template <class T>
 void Vector2<T>::setValue(const unsigned int index, const T& value)
 {
 	try
@@ -103,7 +103,7 @@ void Vector2<T>::setValue(const unsigned int index, const T& value)
 	}
 }
 
-template<class T>
+template <class T>
 T Vector2<T>::operator[](const unsigned int index)
 {
 	try
@@ -117,20 +117,20 @@ T Vector2<T>::operator[](const unsigned int index)
 	}
 }
 
-template<class T>
+template <class T>
 Vector2<T> Vector2<T>::normalize()
 {
 	return VectorBase<T, 2>::normalize();
 }
 
-template<class T>
+template <class T>
 Vector2<T> Vector2<T>::normalized() const
 {
 	return VectorBase<T, 2>::normalized();
 }
 
-template<class T>
-template<class U>
+template <class T>
+template <class U>
 void Vector2<T>::operator=(const Vector2<U>& other)
 {
 	this->assign(other);
@@ -141,4 +141,4 @@ void Vector2<T>::operator=(const Vector2<U>& other)
 typedef Vector2<float> Vec2f;
 typedef Vector2<int> Vec2i;
 
-#endif // VECTOR_2_H
+#endif	  // VECTOR_2_H

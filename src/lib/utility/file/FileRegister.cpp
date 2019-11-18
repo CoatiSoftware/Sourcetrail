@@ -6,65 +6,59 @@
 FileRegister::FileRegister(
 	const FilePath& currentPath,
 	const std::set<FilePath>& indexedPaths,
-	const std::set<FilePathFilter>& excludeFilters
-)
+	const std::set<FilePathFilter>& excludeFilters)
 	: m_currentPath(currentPath)
 	, m_indexedPaths(indexedPaths)
 	, m_excludeFilters(excludeFilters)
-	, m_hasFilePathCache(
-		[&](const std::wstring& f)
+	, m_hasFilePathCache([&](const std::wstring& f) {
+		const FilePath filePath(f);
+		bool ret = false;
+
+		if (filePath == m_currentPath)
 		{
-			const FilePath filePath(f);
-			bool ret = false;
+			ret = true;
+		}
 
-			if (filePath == m_currentPath)
+		if (!ret)
+		{
+			for (const FilePath& indexedPath: m_indexedPaths)
 			{
-				ret = true;
-			}
-
-			if (!ret)
-			{
-				for (const FilePath& indexedPath: m_indexedPaths)
+				if (indexedPath.isDirectory())
 				{
-					if (indexedPath.isDirectory())
+					if (indexedPath.contains(filePath))
 					{
-						if (indexedPath.contains(filePath))
-						{
-							ret = true;
-							break;
-						}
-					}
-					else
-					{
-						if (indexedPath == filePath)
-						{
-							ret = true;
-							break;
-						}
+						ret = true;
+						break;
 					}
 				}
-			}
-
-			if (ret)
-			{
-				for (const FilePathFilter& excludeFilter: m_excludeFilters)
+				else
 				{
-					if (excludeFilter.isMatching(filePath))
+					if (indexedPath == filePath)
 					{
-						ret = false;
+						ret = true;
 						break;
 					}
 				}
 			}
-			return ret;
 		}
-	)
+
+		if (ret)
+		{
+			for (const FilePathFilter& excludeFilter: m_excludeFilters)
+			{
+				if (excludeFilter.isMatching(filePath))
+				{
+					ret = false;
+					break;
+				}
+			}
+		}
+		return ret;
+	})
 {
 }
 
-FileRegister::~FileRegister()
-{
-}
+FileRegister::~FileRegister() {}
 
 bool FileRegister::hasFilePath(const FilePath& filePath) const
 {

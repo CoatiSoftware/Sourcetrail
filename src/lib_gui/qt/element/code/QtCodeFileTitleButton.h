@@ -5,8 +5,7 @@
 #include "QtSelfRefreshIconButton.h"
 #include "TimeStamp.h"
 
-class QtCodeFileTitleButton
-	: public QtSelfRefreshIconButton
+class QtCodeFileTitleButton: public QtSelfRefreshIconButton
 {
 	Q_OBJECT
 
@@ -51,4 +50,4 @@ private:
 	QAction* m_openInTabAction;
 };
 
-#endif // QT_CODE_FILE_TITLE_BUTTON_H
+#endif	  // QT_CODE_FILE_TITLE_BUTTON_H

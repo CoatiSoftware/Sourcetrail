@@ -3,10 +3,10 @@
 
 #include <QComboBox>
 
+#include "CombinedPathDetector.h"
 #include "QtLocationPicker.h"
 #include "QtPathListBox.h"
 #include "QtProjectWizardContent.h"
-#include "CombinedPathDetector.h"
 
 class QCheckBox;
 class QFontComboBox;
@@ -14,8 +14,7 @@ class QLabel;
 class QLineEdit;
 
 
-class QtComboBoxPlaceHolder
-	: public QComboBox
+class QtComboBoxPlaceHolder: public QComboBox
 {
 	Q_OBJECT
 
@@ -30,8 +29,7 @@ public:
 };
 
 
-class QtProjectWizardContentPreferences
-	: public QtProjectWizardContent
+class QtProjectWizardContentPreferences: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -63,18 +61,30 @@ private:
 
 	void addTitle(QString title, QGridLayout* layout, int& row);
 	void addLabel(QString label, QGridLayout* layout, int row);
-	void addWidget(QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment = Qt::Alignment());
+	void addWidget(
+		QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment = Qt::Alignment());
 	void addLabelAndWidget(
-		QString label, QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment = Qt::Alignment());
+		QString label,
+		QWidget* widget,
+		QGridLayout* layout,
+		int row,
+		Qt::Alignment widgetAlignment = Qt::Alignment());
 	void addGap(QGridLayout* layout, int& row);
 
 	QCheckBox* addCheckBox(QString label, QString text, QString helpText, QGridLayout* layout, int& row);
 	QComboBox* addComboBox(QString label, QString helpText, QGridLayout* layout, int& row);
 	QComboBox* addComboBoxWithWidgets(
 		QString label, QString helpText, std::vector<QWidget*> widgets, QGridLayout* layout, int& row);
-	QComboBox* addComboBox(QString label, int min, int max, QString helpText, QGridLayout* layout, int& row);
+	QComboBox* addComboBox(
+		QString label, int min, int max, QString helpText, QGridLayout* layout, int& row);
 	QComboBox* addComboBoxWithWidgets(
-		QString label, int min, int max, QString helpText, std::vector<QWidget*> widgets, QGridLayout* layout, int& row);
+		QString label,
+		int min,
+		int max,
+		QString helpText,
+		std::vector<QWidget*> widgets,
+		QGridLayout* layout,
+		int& row);
 	QLineEdit* addLineEdit(QString label, QString helpText, QGridLayout* layout, int& row);
 
 	QFontComboBox* m_fontFace;
@@ -129,4 +139,4 @@ private:
 	QCheckBox* m_pythonPostProcessing;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_PREFERENCES_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_PREFERENCES_H

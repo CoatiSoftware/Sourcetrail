@@ -8,15 +8,12 @@
 #include "ResourcePaths.h"
 
 #include "GraphViewStyle.h"
-#include "TokenComponentAccess.h"
 #include "QtDeviceScaledPixmap.h"
+#include "TokenComponentAccess.h"
 #include "utilityQt.h"
 
 QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
-	: QtGraphNode()
-	, m_accessKind(accessKind)
-	, m_accessIcon(nullptr)
-	, m_accessIconSize(16)
+	: QtGraphNode(), m_accessKind(accessKind), m_accessIcon(nullptr), m_accessIconSize(16)
 {
 	std::wstring accessString = TokenComponentAccess::getAccessString(m_accessKind);
 	this->setName(accessString);
@@ -49,7 +46,9 @@ QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 	if (iconFileName.size() > 0)
 	{
 		QtDeviceScaledPixmap pixmap(
-			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + iconFileName + L".png").wstr()));
+			QString::fromStdWString(ResourcePaths::getGuiPath()
+										.concatenate(L"graph_view/images/" + iconFileName + L".png")
+										.wstr()));
 		pixmap.scaleToHeight(m_accessIconSize);
 
 		m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);
@@ -58,9 +57,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 	}
 }
 
-QtGraphNodeAccess::~QtGraphNodeAccess()
-{
-}
+QtGraphNodeAccess::~QtGraphNodeAccess() {}
 
 AccessKind QtGraphNodeAccess::getAccessKind() const
 {
@@ -89,14 +86,18 @@ void QtGraphNodeAccess::updateStyle()
 
 	if (m_accessIcon)
 	{
-		m_text->setPos(style.textOffset.x + m_accessIconSize + 3, style.textOffset.y + m_accessIconSize - style.fontSize);
+		m_text->setPos(
+			style.textOffset.x + m_accessIconSize + 3,
+			style.textOffset.y + m_accessIconSize - style.fontSize);
 		m_accessIcon->setPos(style.textOffset.x, style.textOffset.y);
 
-		m_accessIcon->setPixmap(utility::colorizePixmap(m_accessIcon->pixmap(), style.color.icon.c_str()));
+		m_accessIcon->setPixmap(
+			utility::colorizePixmap(m_accessIcon->pixmap(), style.color.icon.c_str()));
 	}
 	else
 	{
-		m_text->setPos(style.textOffset.x, style.textOffset.y + m_accessIconSize + 2 - style.fontSize);
+		m_text->setPos(
+			style.textOffset.x, style.textOffset.y + m_accessIconSize + 2 - style.fontSize);
 	}
 }
 

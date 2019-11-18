@@ -23,4 +23,4 @@ private:
 	std::wstring m_name;
 };
 
-#endif // BOOKMARK_CATEGORY_H
+#endif	  // BOOKMARK_CATEGORY_H

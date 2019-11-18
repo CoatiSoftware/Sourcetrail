@@ -46,4 +46,3 @@ std::wstring accessKindToString(AccessKind t)
 	}
 	return L"";
 }
-

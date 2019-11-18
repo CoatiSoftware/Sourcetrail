@@ -6,14 +6,14 @@
 
 QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QWidget* parent)
 	: QtIconButton(
-		ResourcePaths::getGuiPath().concatenate(L"window/help.png"),
-		ResourcePaths::getGuiPath().concatenate(L"window/help_hover.png"),
-		parent)
+		  ResourcePaths::getGuiPath().concatenate(L"window/help.png"),
+		  ResourcePaths::getGuiPath().concatenate(L"window/help_hover.png"),
+		  parent)
 	, m_helpTitle(helpTitle)
 	, m_helpText(helpText)
 {
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	setMouseTracking(true);
 
 	setToolTip("help");

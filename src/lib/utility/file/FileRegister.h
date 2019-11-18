@@ -14,8 +14,7 @@ public:
 	FileRegister(
 		const FilePath& currentPath,
 		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePathFilter>& excludeFilters
-	);
+		const std::set<FilePathFilter>& excludeFilters);
 	virtual ~FileRegister();
 
 	virtual bool hasFilePath(const FilePath& filePath) const;
@@ -27,4 +26,4 @@ private:
 	mutable UnorderedCache<std::wstring, bool> m_hasFilePathCache;
 };
 
-#endif // FILE_REGISTER_H
+#endif	  // FILE_REGISTER_H

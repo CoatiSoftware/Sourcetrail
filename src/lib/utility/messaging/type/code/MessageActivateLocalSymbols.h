@@ -2,11 +2,10 @@
 #define MESSAGE_ACTIVATE_LOCAL_SYMBOLS_H
 
 #include "Message.h"
-#include "types.h"
 #include "TabId.h"
+#include "types.h"
 
-class MessageActivateLocalSymbols
-	: public Message<MessageActivateLocalSymbols>
+class MessageActivateLocalSymbols: public Message<MessageActivateLocalSymbols>
 {
 public:
 	MessageActivateLocalSymbols()
@@ -14,8 +13,7 @@ public:
 		setSchedulerId(TabId::currentTab());
 	}
 
-	MessageActivateLocalSymbols(const std::vector<Id>& symbolIds)
-		: symbolIds(symbolIds)
+	MessageActivateLocalSymbols(const std::vector<Id>& symbolIds): symbolIds(symbolIds)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
@@ -32,7 +30,7 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		for (const Id& symbolId : symbolIds)
+		for (const Id& symbolId: symbolIds)
 		{
 			os << symbolId << L" ";
 		}
@@ -41,4 +39,4 @@ public:
 	std::vector<Id> symbolIds;
 };
 
-#endif // MESSAGE_ACTIVATE_LOCAL_SYMBOLS_H
+#endif	  // MESSAGE_ACTIVATE_LOCAL_SYMBOLS_H

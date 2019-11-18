@@ -11,106 +11,105 @@
 
 namespace
 {
-	void executeTask(Task& task)
+void executeTask(Task& task)
+{
+	std::shared_ptr<Blackboard> blakboard = std::make_shared<Blackboard>();
+	while (true)
 	{
-		std::shared_ptr<Blackboard> blakboard = std::make_shared<Blackboard>();
-		while (true)
+		if (task.update(blakboard) != Task::STATE_RUNNING)
 		{
-			if (task.update(blakboard) != Task::STATE_RUNNING)
-			{
-				return;
-			}
+			return;
 		}
-	}
-
-	class TestTask : public Task
-	{
-	public:
-		TestTask(int* orderCountPtr, int updateCount, TaskState returnState = STATE_SUCCESS)
-			: orderCount(*orderCountPtr)
-			, updateCount(updateCount)
-			, returnState(returnState)
-			, enterCallOrder(0)
-			, updateCallOrder(0)
-			, exitCallOrder(0)
-			, resetCallOrder(0)
-		{
-		}
-
-		virtual void doEnter(std::shared_ptr<Blackboard> blakboard)
-		{
-			enterCallOrder = ++orderCount;
-		}
-
-		virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
-		{
-			updateCallOrder = ++orderCount;
-
-			if (updateCount < 0)
-			{
-				std::this_thread::sleep_for(std::chrono::milliseconds(10));
-				return Task::STATE_RUNNING;
-			}
-
-			updateCount--;
-			if (updateCount)
-			{
-				return Task::STATE_RUNNING;
-			}
-
-			return returnState;
-		}
-
-		virtual void doExit(std::shared_ptr<Blackboard> blakboard)
-		{
-			exitCallOrder = ++orderCount;
-		}
-
-		virtual void doReset(std::shared_ptr<Blackboard> blakboard)
-		{
-			resetCallOrder = ++orderCount;
-		}
-
-		int& orderCount;
-		int updateCount;
-		TaskState returnState;
-
-		int enterCallOrder;
-		int updateCallOrder;
-		int exitCallOrder;
-		int resetCallOrder;
-	};
-
-	class TestTaskDispatch : public TestTask
-	{
-	public:
-		TestTaskDispatch(int* orderCountPtr, int updateCount, TaskScheduler* scheduler)
-			: TestTask(orderCountPtr, updateCount)
-			, scheduler(scheduler)
-		{
-		}
-
-		virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
-		{
-			subTask = std::make_shared<TestTask>(&orderCount, 1);
-			scheduler->pushTask(subTask);
-
-			return TestTask::doUpdate(blakboard);
-		}
-
-		TaskScheduler* scheduler;
-		std::shared_ptr<TestTask> subTask;
-	};
-
-	void waitForThread(TaskScheduler& scheduler)
-	{
-		static const int THREAD_WAIT_TIME_MS = 20;
-		do
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_WAIT_TIME_MS));
-		} while (scheduler.hasTasksQueued());
 	}
 }
+
+class TestTask: public Task
+{
+public:
+	TestTask(int* orderCountPtr, int updateCount, TaskState returnState = STATE_SUCCESS)
+		: orderCount(*orderCountPtr)
+		, updateCount(updateCount)
+		, returnState(returnState)
+		, enterCallOrder(0)
+		, updateCallOrder(0)
+		, exitCallOrder(0)
+		, resetCallOrder(0)
+	{
+	}
+
+	virtual void doEnter(std::shared_ptr<Blackboard> blakboard)
+	{
+		enterCallOrder = ++orderCount;
+	}
+
+	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
+	{
+		updateCallOrder = ++orderCount;
+
+		if (updateCount < 0)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			return Task::STATE_RUNNING;
+		}
+
+		updateCount--;
+		if (updateCount)
+		{
+			return Task::STATE_RUNNING;
+		}
+
+		return returnState;
+	}
+
+	virtual void doExit(std::shared_ptr<Blackboard> blakboard)
+	{
+		exitCallOrder = ++orderCount;
+	}
+
+	virtual void doReset(std::shared_ptr<Blackboard> blakboard)
+	{
+		resetCallOrder = ++orderCount;
+	}
+
+	int& orderCount;
+	int updateCount;
+	TaskState returnState;
+
+	int enterCallOrder;
+	int updateCallOrder;
+	int exitCallOrder;
+	int resetCallOrder;
+};
+
+class TestTaskDispatch: public TestTask
+{
+public:
+	TestTaskDispatch(int* orderCountPtr, int updateCount, TaskScheduler* scheduler)
+		: TestTask(orderCountPtr, updateCount), scheduler(scheduler)
+	{
+	}
+
+	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
+	{
+		subTask = std::make_shared<TestTask>(&orderCount, 1);
+		scheduler->pushTask(subTask);
+
+		return TestTask::doUpdate(blakboard);
+	}
+
+	TaskScheduler* scheduler;
+	std::shared_ptr<TestTask> subTask;
+};
+
+void waitForThread(TaskScheduler& scheduler)
+{
+	static const int THREAD_WAIT_TIME_MS = 20;
+	do
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_WAIT_TIME_MS));
+	} while (scheduler.hasTasksQueued());
+}
+}	 // namespace
 
 TEST_CASE("scheduler loop starts and stops")
 {
@@ -263,7 +262,8 @@ TEST_CASE("task scheduling within task processing")
 	scheduler.startSchedulerLoopThreaded();
 
 	int order = 0;
-	std::shared_ptr<TestTaskDispatch> task = std::make_shared<TestTaskDispatch>(&order, 1, &scheduler);
+	std::shared_ptr<TestTaskDispatch> task = std::make_shared<TestTaskDispatch>(
+		&order, 1, &scheduler);
 
 	scheduler.pushTask(task);
 

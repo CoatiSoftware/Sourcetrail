@@ -8,10 +8,12 @@
 #include <QObject>
 #include <QSemaphore>
 
-#include "MessageWindowClosed.h"
 #include "MessageListener.h"
+#include "MessageWindowClosed.h"
 
-class QtThreadedFunctorHelper: public QObject, public MessageListener<MessageWindowClosed>
+class QtThreadedFunctorHelper
+	: public QObject
+	, public MessageListener<MessageWindowClosed>
 {
 	Q_OBJECT
 
@@ -26,10 +28,10 @@ private slots:
 	}
 
 public:
-	QtThreadedFunctorHelper()
-		: m_freeCallbacks(1)
+	QtThreadedFunctorHelper(): m_freeCallbacks(1)
 	{
-		QObject::connect(this, &QtThreadedFunctorHelper::signalExecution, this, &QtThreadedFunctorHelper::execute);
+		QObject::connect(
+			this, &QtThreadedFunctorHelper::signalExecution, this, &QtThreadedFunctorHelper::execute);
 	}
 
 	void operator()(std::function<void(void)> callback)
@@ -56,7 +58,7 @@ template <typename T1 = void, typename T2 = void, typename T3 = void, typename T
 class QtThreadedFunctor
 {
 public:
-	QtThreadedFunctor(std::function<void(T1, T2, T3, T4)> callback) : m_callback(callback) {}
+	QtThreadedFunctor(std::function<void(T1, T2, T3, T4)> callback): m_callback(callback) {}
 
 	void operator()(T1 p1, T2 p2, T3 p3, T4 p4)
 	{
@@ -72,7 +74,7 @@ template <typename T1, typename T2, typename T3>
 class QtThreadedFunctor<T1, T2, T3, void>
 {
 public:
-	QtThreadedFunctor(std::function<void(T1, T2, T3)> callback) : m_callback(callback) {}
+	QtThreadedFunctor(std::function<void(T1, T2, T3)> callback): m_callback(callback) {}
 
 	void operator()(T1 p1, T2 p2, T3 p3)
 	{
@@ -88,7 +90,7 @@ template <typename T1, typename T2>
 class QtThreadedFunctor<T1, T2, void, void>
 {
 public:
-	QtThreadedFunctor(std::function<void(T1, T2)> callback) : m_callback(callback) {}
+	QtThreadedFunctor(std::function<void(T1, T2)> callback): m_callback(callback) {}
 
 	void operator()(T1 p1, T2 p2)
 	{
@@ -104,7 +106,7 @@ template <typename T1>
 class QtThreadedFunctor<T1, void, void, void>
 {
 public:
-	QtThreadedFunctor(std::function<void(T1)> callback) : m_callback(callback) {}
+	QtThreadedFunctor(std::function<void(T1)> callback): m_callback(callback) {}
 
 	void operator()(T1 p1)
 	{
@@ -120,7 +122,7 @@ template <>
 class QtThreadedFunctor<void, void, void, void>
 {
 public:
-	QtThreadedFunctor(std::function<void(void)> callback) : m_callback(callback) {}
+	QtThreadedFunctor(std::function<void(void)> callback): m_callback(callback) {}
 
 	void operator()()
 	{
@@ -145,4 +147,4 @@ private:
 	QtThreadedFunctorHelper m_helper;
 };
 
-#endif // QT_THREADED_FUCTOR_H
+#endif	  // QT_THREADED_FUCTOR_H

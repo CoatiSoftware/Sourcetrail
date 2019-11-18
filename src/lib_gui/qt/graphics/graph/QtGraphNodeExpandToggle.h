@@ -5,8 +5,7 @@
 
 #include "QtGraphNode.h"
 
-class QtGraphNodeExpandToggle
-	: public QtGraphNode
+class QtGraphNodeExpandToggle: public QtGraphNode
 {
 	Q_OBJECT
 public:
@@ -30,4 +29,4 @@ private:
 	bool m_expanded;
 };
 
-#endif // QT_EXPAND_TOGGLE_H
+#endif	  // QT_EXPAND_TOGGLE_H

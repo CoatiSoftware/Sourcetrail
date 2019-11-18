@@ -24,8 +24,8 @@ public:
 
 	using Allocator = boost::interprocess::managed_shared_memory::segment_manager;
 
-	using String = boost::interprocess::basic_string<char, std::char_traits<char>,
-		boost::interprocess::allocator<char, Allocator>>;
+	using String = boost::interprocess::
+		basic_string<char, std::char_traits<char>, boost::interprocess::allocator<char, Allocator>>;
 
 	template <typename T>
 	using Vector = boost::interprocess::vector<T, boost::interprocess::allocator<T, Allocator>>;
@@ -34,11 +34,12 @@ public:
 	using Queue = boost::interprocess::deque<T, boost::interprocess::allocator<T, Allocator>>;
 
 	template <typename T, typename T2>
-	using Map = boost::interprocess::map<T, T2, std::less<T>,
-		boost::interprocess::allocator<std::pair<const T, T2>, Allocator>>;
+	using Map = boost::interprocess::
+		map<T, T2, std::less<T>, boost::interprocess::allocator<std::pair<const T, T2>, Allocator>>;
 
 	template <typename T>
-	using Set = boost::interprocess::set<T, std::less<T>, boost::interprocess::allocator<T, Allocator>>;
+	using Set =
+		boost::interprocess::set<T, std::less<T>, boost::interprocess::allocator<T, Allocator>>;
 
 	// Names addressing shared memory objects longer than 29 characters can throw an exception
 	static std::string checkName(const std::string& name);
@@ -48,8 +49,7 @@ public:
 	SharedMemory(const std::string& name, size_t initialMemorySize, AccessMode mode);
 	~SharedMemory();
 
-	class ScopedAccess
-		: public boost::interprocess::scoped_lock<boost::interprocess::named_mutex>
+	class ScopedAccess: public boost::interprocess::scoped_lock<boost::interprocess::named_mutex>
 	{
 	public:
 		ScopedAccess(SharedMemory* memory);
@@ -122,4 +122,4 @@ private:
 	size_t m_initialMemorySize;
 };
 
-#endif // SHARED_MEMORY_H
+#endif	  // SHARED_MEMORY_H

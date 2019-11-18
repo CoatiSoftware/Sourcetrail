@@ -7,8 +7,7 @@
 #include "TaskRunner.h"
 #include "TimeStamp.h"
 
-class TaskDecoratorDelay
-	: public TaskDecorator
+class TaskDecoratorDelay: public TaskDecorator
 {
 public:
 	TaskDecoratorDelay(size_t delayMS);
@@ -26,4 +25,4 @@ private:
 	bool m_delayComplete;
 };
 
-#endif // TASK_DECORATOR_DELAY_H
+#endif	  // TASK_DECORATOR_DELAY_H

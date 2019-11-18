@@ -4,20 +4,18 @@
 #include <QListWidget>
 #include <QPushButton>
 
+#include "QtFileDialog.h"
+#include "QtIconButton.h"
 #include "QtLineEdit.h"
 #include "QtPathListBox.h"
-#include "QtIconButton.h"
-#include "QtFileDialog.h"
 #include "ResourcePaths.h"
 
-QtPathListBoxItem::QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* item, QWidget *parent)
-	: QtListBoxItem(item, parent)
-	, m_listBox(listBox)
+QtPathListBoxItem::QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* item, QWidget* parent)
+	: QtListBoxItem(item, parent), m_listBox(listBox)
 {
 	m_button = new QtIconButton(
 		ResourcePaths::getGuiPath().concatenate(L"window/dots.png"),
-		ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png")
-	);
+		ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png"));
 	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName("dotsButton");
 	layout()->addWidget(m_button);

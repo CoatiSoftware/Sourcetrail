@@ -9,121 +9,114 @@
 
 namespace
 {
-	class TestMessage : public Message<TestMessage>
+class TestMessage: public Message<TestMessage>
+{
+public:
+	static const std::string getStaticType()
 	{
-	public:
-		static const std::string getStaticType()
-		{
-			return "TestMessage";
-		}
-	};
+		return "TestMessage";
+	}
+};
 
-	class Test2Message : public Message<Test2Message>
+class Test2Message: public Message<Test2Message>
+{
+public:
+	static const std::string getStaticType()
 	{
-	public:
-		static const std::string getStaticType()
-		{
-			return "TestMessage2";
-		}
-	};
+		return "TestMessage2";
+	}
+};
 
-	class TestMessageListener : public MessageListener<TestMessage>
+class TestMessageListener: public MessageListener<TestMessage>
+{
+public:
+	TestMessageListener(): m_messageCount(0) {}
+
+	int m_messageCount;
+
+private:
+	virtual void handleMessage(TestMessage* message)
 	{
-	public:
-		TestMessageListener()
-			: m_messageCount(0)
-		{
-		}
+		m_messageCount++;
+	}
+};
 
-		int m_messageCount;
+class Test2MessageListener: public MessageListener<Test2Message>
+{
+public:
+	Test2MessageListener(): m_messageCount(0) {}
 
-	private:
-		virtual void handleMessage(TestMessage* message)
-		{
-			m_messageCount++;
-		}
-	};
+	int m_messageCount;
 
-	class Test2MessageListener : public MessageListener<Test2Message>
+private:
+	virtual void handleMessage(Test2Message* message)
 	{
-	public:
-		Test2MessageListener()
-			: m_messageCount(0)
-		{
-		}
+		m_messageCount++;
+		TestMessage().dispatch();
+	}
+};
 
-		int m_messageCount;
+class Test3MessageListener: public MessageListener<Test2Message>
+{
+public:
+	std::shared_ptr<TestMessageListener> m_listener;
 
-	private:
-		virtual void handleMessage(Test2Message* message)
-		{
-			m_messageCount++;
-			TestMessage().dispatch();
-		}
-	};
-
-	class Test3MessageListener : public MessageListener<Test2Message>
+private:
+	virtual void handleMessage(Test2Message* message)
 	{
-	public:
-		std::shared_ptr<TestMessageListener> m_listener;
+		m_listener = std::make_shared<TestMessageListener>();
+	}
+};
 
-	private:
-		virtual void handleMessage(Test2Message* message)
+class Test4MessageListener
+	: public MessageListener<TestMessage>
+	, public MessageListener<Test2Message>
+{
+public:
+	std::shared_ptr<TestMessageListener> m_listener;
+
+private:
+	virtual void handleMessage(TestMessage* message)
+	{
+		if (!m_listener)
 		{
 			m_listener = std::make_shared<TestMessageListener>();
 		}
-	};
-
-	class Test4MessageListener :
-		public MessageListener<TestMessage>,
-		public MessageListener<Test2Message>
-	{
-	public:
-		std::shared_ptr<TestMessageListener> m_listener;
-
-	private:
-		virtual void handleMessage(TestMessage* message)
-		{
-			if (!m_listener)
-			{
-				m_listener = std::make_shared<TestMessageListener>();
-			}
-		}
-
-		virtual void handleMessage(Test2Message* message)
-		{
-			m_listener.reset();
-		}
-	};
-
-	class Test5MessageListener :
-		public MessageListener<TestMessage>
-	{
-	public:
-		std::vector<std::shared_ptr<TestMessageListener>> m_listeners;
-
-	private:
-		virtual void handleMessage(TestMessage* message)
-		{
-			if (!m_listeners.size())
-			{
-				for (size_t i = 0; i < 5; i++)
-				{
-					m_listeners.push_back(std::make_shared<TestMessageListener>());
-				}
-			}
-		}
-	};
-
-	void waitForThread()
-	{
-		static const int THREAD_WAIT_TIME_MS = 20;
-		do
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_WAIT_TIME_MS));
-		} while (MessageQueue::getInstance()->hasMessagesQueued());
 	}
+
+	virtual void handleMessage(Test2Message* message)
+	{
+		m_listener.reset();
+	}
+};
+
+class Test5MessageListener: public MessageListener<TestMessage>
+{
+public:
+	std::vector<std::shared_ptr<TestMessageListener>> m_listeners;
+
+private:
+	virtual void handleMessage(TestMessage* message)
+	{
+		if (!m_listeners.size())
+		{
+			for (size_t i = 0; i < 5; i++)
+			{
+				m_listeners.push_back(std::make_shared<TestMessageListener>());
+			}
+		}
+	}
+};
+
+void waitForThread()
+{
+	static const int THREAD_WAIT_TIME_MS = 20;
+	do
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_WAIT_TIME_MS));
+	} while (MessageQueue::getInstance()->hasMessagesQueued());
 }
+}	 // namespace
 
 TEST_CASE("message loop starts and stops")
 {

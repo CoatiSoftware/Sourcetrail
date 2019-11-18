@@ -9,8 +9,7 @@
 class QtSearchBarButton;
 class QtHistoryList;
 
-class QtUndoRedo
-	: public QFrame
+class QtUndoRedo: public QFrame
 {
 	Q_OBJECT
 
@@ -46,4 +45,4 @@ private:
 	TimeStamp m_historyHiddenAt;
 };
 
-#endif // QT_UNDO_REDO_H
+#endif	  // QT_UNDO_REDO_H

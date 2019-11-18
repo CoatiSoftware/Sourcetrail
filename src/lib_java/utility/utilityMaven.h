@@ -8,11 +8,16 @@ class FilePath;
 
 namespace utility
 {
-	std::wstring mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath);
-	bool mavenCopyDependencies(
-		const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath);
-	std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
-		const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath, bool addTestDirectories);
-}
+std::wstring mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath);
+bool mavenCopyDependencies(
+	const FilePath& mavenPath,
+	const FilePath& projectDirectoryPath,
+	const FilePath& outputDirectoryPath);
+std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
+	const FilePath& mavenPath,
+	const FilePath& projectDirectoryPath,
+	const FilePath& outputDirectoryPath,
+	bool addTestDirectories);
+}	 // namespace utility
 
-#endif // UTILITY_MAVEN_H
+#endif	  // UTILITY_MAVEN_H

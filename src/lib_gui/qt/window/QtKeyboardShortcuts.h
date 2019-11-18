@@ -6,8 +6,7 @@
 
 #include "QtWindow.h"
 
-class QtShortcutTable
-	: public QTableWidget
+class QtShortcutTable: public QTableWidget
 {
 	Q_OBJECT
 public:
@@ -15,11 +14,10 @@ public:
 	void updateSize();
 
 protected:
-	virtual void wheelEvent(QWheelEvent *event) override;
+	virtual void wheelEvent(QWheelEvent* event) override;
 };
 
-class QtKeyboardShortcuts
-	: public QtWindow
+class QtKeyboardShortcuts: public QtWindow
 {
 	Q_OBJECT
 public:
@@ -39,4 +37,4 @@ private:
 	QTableWidget* createGraphViewShortcutsTable();
 };
 
-#endif // QT_KEYBOARD_SHORTCUTS_H
+#endif	  // QT_KEYBOARD_SHORTCUTS_H

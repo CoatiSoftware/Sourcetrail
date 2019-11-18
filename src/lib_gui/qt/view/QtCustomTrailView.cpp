@@ -13,8 +13,8 @@
 #include "ColorScheme.h"
 #include "MessageActivateTrail.h"
 #include "NodeTypeSet.h"
-#include "QtSmartSearchBox.h"
 #include "QtMainWindow.h"
+#include "QtSmartSearchBox.h"
 #include "ResourcePaths.h"
 #include "TabId.h"
 #include "utilityQt.h"
@@ -75,11 +75,12 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 
 		m_optionTo = new QRadioButton(QString::fromUtf8("\xe2\x86\x92") + " To:");
 		m_optionReferenced = new QRadioButton(QString::fromUtf8("\xe2\x86\x92") + " All Referenced");
-		m_optionReferencing = new QRadioButton(QString::fromUtf8("\xe2\x86\x90") + " All Referencing");
+		m_optionReferencing = new QRadioButton(
+			QString::fromUtf8("\xe2\x86\x90") + " All Referencing");
 
-		m_optionTo->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_optionReferenced->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_optionReferencing->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_optionTo->setAttribute(Qt::WA_LayoutUsesWidgetRect);			   // fixes layouting on Mac
+		m_optionReferenced->setAttribute(Qt::WA_LayoutUsesWidgetRect);	   // fixes layouting on Mac
+		m_optionReferencing->setAttribute(Qt::WA_LayoutUsesWidgetRect);	   // fixes layouting on Mac
 
 		m_optionTo->setChecked(true);
 
@@ -99,26 +100,28 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		optionsLayout->addSpacing(7);
 		optionsLayout->addWidget(m_optionReferencing);
 
-		connect(options, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
-			[this, searchBoxToContainer](QAbstractButton* button)
-			{
+		connect(
+			options,
+			QOverload<QAbstractButton*>::of(&QButtonGroup::buttonClicked),
+			[this, searchBoxToContainer](QAbstractButton* button) {
 				searchBoxToContainer->setEnabled(button == m_optionTo);
-			}
-		);
+			});
 
-		connect(m_searchBoxFrom, &QtSmartSearchBox::autocomplete,
-			[this](const std::wstring& query, NodeTypeSet acceptedNodeTypes)
-			{
-				m_controllerProxy.executeAsTaskWithArgs(&CustomTrailController::autocomplete, query, true);
-			}
-		);
+		connect(
+			m_searchBoxFrom,
+			&QtSmartSearchBox::autocomplete,
+			[this](const std::wstring& query, NodeTypeSet acceptedNodeTypes) {
+				m_controllerProxy.executeAsTaskWithArgs(
+					&CustomTrailController::autocomplete, query, true);
+			});
 
-		connect(m_searchBoxTo, &QtSmartSearchBox::autocomplete,
-			[this](const std::wstring& query, NodeTypeSet acceptedNodeTypes)
-			{
-				m_controllerProxy.executeAsTaskWithArgs(&CustomTrailController::autocomplete, query, false);
-			}
-		);
+		connect(
+			m_searchBoxTo,
+			&QtSmartSearchBox::autocomplete,
+			[this](const std::wstring& query, NodeTypeSet acceptedNodeTypes) {
+				m_controllerProxy.executeAsTaskWithArgs(
+					&CustomTrailController::autocomplete, query, false);
+			});
 	}
 
 	// depth slider
@@ -143,19 +146,16 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		valueLabel->setMinimumWidth(20);
 		hLayout->addWidget(valueLabel);
 
-		connect(m_slider, &QSlider::valueChanged,
-			[this, valueLabel](int)
+		connect(m_slider, &QSlider::valueChanged, [this, valueLabel](int) {
+			if (m_slider->value() == m_slider->maximum())
 			{
-				if (m_slider->value() == m_slider->maximum())
-				{
-					valueLabel->setText("inf");
-				}
-				else
-				{
-					valueLabel->setText(QString::number(m_slider->value()));
-				}
+				valueLabel->setText("inf");
 			}
-		);
+			else
+			{
+				valueLabel->setText(QString::number(m_slider->value()));
+			}
+		});
 
 		hLayout->addStretch();
 	}
@@ -190,34 +190,33 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		std::vector<QString> nodeFilters;
 		std::vector<QColor> nodeColors;
 
-		std::vector<NodeType::Type> nodeTypes = {
-			// NodeType::NODE_SYMBOL,
-			NodeType::NODE_TYPE,
-			NodeType::NODE_BUILTIN_TYPE,
-			// NodeType::NODE_MODULE,
-			// NodeType::NODE_NAMESPACE,
-			// NodeType::NODE_PACKAGE,
-			NodeType::NODE_CLASS,
-			NodeType::NODE_STRUCT,
-			NodeType::NODE_UNION,
-			NodeType::NODE_INTERFACE,
-			NodeType::NODE_TYPEDEF,
-			NodeType::NODE_TYPE_PARAMETER,
-			NodeType::NODE_ENUM,
-			NodeType::NODE_ENUM_CONSTANT,
-			NodeType::NODE_GLOBAL_VARIABLE,
-			NodeType::NODE_FIELD,
-			NodeType::NODE_FUNCTION,
-			NodeType::NODE_METHOD,
-			NodeType::NODE_FILE,
-			NodeType::NODE_MACRO,
-			NodeType::NODE_ANNOTATION
-		};
+		std::vector<NodeType::Type> nodeTypes = {// NodeType::NODE_SYMBOL,
+												 NodeType::NODE_TYPE,
+												 NodeType::NODE_BUILTIN_TYPE,
+												 // NodeType::NODE_MODULE,
+												 // NodeType::NODE_NAMESPACE,
+												 // NodeType::NODE_PACKAGE,
+												 NodeType::NODE_CLASS,
+												 NodeType::NODE_STRUCT,
+												 NodeType::NODE_UNION,
+												 NodeType::NODE_INTERFACE,
+												 NodeType::NODE_TYPEDEF,
+												 NodeType::NODE_TYPE_PARAMETER,
+												 NodeType::NODE_ENUM,
+												 NodeType::NODE_ENUM_CONSTANT,
+												 NodeType::NODE_GLOBAL_VARIABLE,
+												 NodeType::NODE_FIELD,
+												 NodeType::NODE_FUNCTION,
+												 NodeType::NODE_METHOD,
+												 NodeType::NODE_FILE,
+												 NodeType::NODE_MACRO,
+												 NodeType::NODE_ANNOTATION};
 
-		for (NodeType::Type t : nodeTypes)
+		for (NodeType::Type t: nodeTypes)
 		{
 			nodeFilters.push_back(QString::fromStdString(NodeType::getReadableTypeString(t)));
-			nodeColors.push_back(QColor(scheme->getNodeTypeColor(t, "fill", ColorScheme::FOCUS).c_str()));
+			nodeColors.push_back(
+				QColor(scheme->getNodeTypeColor(t, "fill", ColorScheme::FOCUS).c_str()));
 		}
 
 		QVBoxLayout* filterLayout = addFilters("Nodes:", nodeFilters, nodeColors, &m_nodeFilters, 11);
@@ -250,7 +249,7 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 			// Edge::EDGE_MEMBER // has separate checkbox
 		};
 
-		for (Edge::EdgeType t : edgeTypes)
+		for (Edge::EdgeType t: edgeTypes)
 		{
 			edgeFilters.push_back(QString::fromStdWString(Edge::getReadableTypeString(t)));
 			edgeColors.push_back(QColor(scheme->getEdgeTypeColor(t, ColorScheme::FOCUS).c_str()));
@@ -269,8 +268,8 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		cancelButton->setObjectName("button");
 		searchButton->setObjectName("button");
 
-		cancelButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		searchButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		cancelButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
+		searchButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 
 		m_errorLabel = new QLabel();
 		m_errorLabel->setObjectName("error");
@@ -284,86 +283,75 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		hLayout->addWidget(searchButton);
 		panelD->setLayout(hLayout);
 
-		connect(cancelButton, &QPushButton::clicked,
-			[this]()
+		connect(cancelButton, &QPushButton::clicked, [this]() { hide(); });
+
+		connect(searchButton, &QPushButton::clicked, [this]() {
+			if (m_searchBoxFrom->getMatches().size() == 0 ||
+				m_searchBoxFrom->getMatches().front().tokenIds.size() == 0)
 			{
-				hide();
+				setError("No 'Start Symbol' symbol found.");
+				return;
 			}
-		);
 
-		connect(searchButton, &QPushButton::clicked,
-			[this]()
+			Id startId = m_searchBoxFrom->getMatches().front().tokenIds.front();
+			Id endId = 0;
+
+			if (m_optionReferencing->isChecked())
 			{
-				if (m_searchBoxFrom->getMatches().size() == 0 ||
-					m_searchBoxFrom->getMatches().front().tokenIds.size() == 0)
-				{
-					setError("No 'Start Symbol' symbol found.");
-					return;
-				}
-
-				Id startId = m_searchBoxFrom->getMatches().front().tokenIds.front();
-				Id endId = 0;
-
-				if (m_optionReferencing->isChecked())
-				{
-					std::swap(startId, endId);
-				}
-				else if (m_optionTo->isChecked())
-				{
-					if (m_searchBoxTo->getMatches().size() && m_searchBoxTo->getMatches().front().tokenIds.size())
-					{
-						endId = m_searchBoxTo->getMatches().front().tokenIds.front();
-					}
-					else
-					{
-						setError("No 'Target Symbol' symbol found.");
-						return;
-					}
-				}
-
-				NodeType::TypeMask nodeTypes = getCheckedNodeTypes();
-				Edge::TypeMask edgeTypes = getCheckedEdgeTypes();
-
-				if (!nodeTypes)
-				{
-					setError("No 'Nodes' selected.");
-					return;
-				}
-
-				if (!edgeTypes)
-				{
-					setError("No 'Edges' selected.");
-					return;
-				}
-
-				MessageActivateTrail message(
-					startId,
-					endId,
-					nodeTypes,
-					edgeTypes,
-					m_nodeNonIndexed->isChecked(),
-					m_slider->value() == m_slider->maximum() ? 0 : m_slider->value(),
-					m_horizontalButton->isChecked()
-				);
-
-				m_controllerProxy.executeAsTaskWithArgs(&CustomTrailController::activateTrail, message);
-
-				setError("");
-
-				hide();
+				std::swap(startId, endId);
 			}
-		);
+			else if (m_optionTo->isChecked())
+			{
+				if (m_searchBoxTo->getMatches().size() &&
+					m_searchBoxTo->getMatches().front().tokenIds.size())
+				{
+					endId = m_searchBoxTo->getMatches().front().tokenIds.front();
+				}
+				else
+				{
+					setError("No 'Target Symbol' symbol found.");
+					return;
+				}
+			}
+
+			NodeType::TypeMask nodeTypes = getCheckedNodeTypes();
+			Edge::TypeMask edgeTypes = getCheckedEdgeTypes();
+
+			if (!nodeTypes)
+			{
+				setError("No 'Nodes' selected.");
+				return;
+			}
+
+			if (!edgeTypes)
+			{
+				setError("No 'Edges' selected.");
+				return;
+			}
+
+			MessageActivateTrail message(
+				startId,
+				endId,
+				nodeTypes,
+				edgeTypes,
+				m_nodeNonIndexed->isChecked(),
+				m_slider->value() == m_slider->maximum() ? 0 : m_slider->value(),
+				m_horizontalButton->isChecked());
+
+			m_controllerProxy.executeAsTaskWithArgs(&CustomTrailController::activateTrail, message);
+
+			setError("");
+
+			hide();
+		});
 	}
 }
 
-void QtCustomTrailView::createWidgetWrapper()
-{
-}
+void QtCustomTrailView::createWidgetWrapper() {}
 
 void QtCustomTrailView::refreshView()
 {
-	m_onQtThread([this]()
-	{
+	m_onQtThread([this]() {
 		updateStyleSheet();
 		m_searchBoxFrom->refreshStyle();
 		m_searchBoxTo->refreshStyle();
@@ -372,8 +360,7 @@ void QtCustomTrailView::refreshView()
 
 void QtCustomTrailView::clearView()
 {
-	m_onQtThread([this]()
-	{
+	m_onQtThread([this]() {
 		m_searchBoxFrom->setMatches({});
 		m_searchBoxTo->setMatches({});
 	});
@@ -381,21 +368,21 @@ void QtCustomTrailView::clearView()
 
 void QtCustomTrailView::setAvailableNodeAndEdgeTypes(NodeType::TypeMask nodeTypes, Edge::TypeMask edgeTypes)
 {
-	m_onQtThread([this, nodeTypes, edgeTypes]()
-	{
-		for (QCheckBox* filter : m_nodeFilters)
+	m_onQtThread([this, nodeTypes, edgeTypes]() {
+		for (QCheckBox* filter: m_nodeFilters)
 		{
 			if (filter == m_nodeNonIndexed)
 			{
 				continue;
 			}
 
-			bool enabled = nodeTypes & NodeType::getTypeForReadableTypeString(filter->text().toStdWString());
+			bool enabled = nodeTypes &
+				NodeType::getTypeForReadableTypeString(filter->text().toStdWString());
 			filter->setEnabled(enabled);
 			filter->setVisible(enabled);
 		}
 
-		for (QCheckBox* filter : m_edgeFilters)
+		for (QCheckBox* filter: m_edgeFilters)
 		{
 			bool enabled = false;
 			if (filter == m_edgeMember)
@@ -404,7 +391,8 @@ void QtCustomTrailView::setAvailableNodeAndEdgeTypes(NodeType::TypeMask nodeType
 			}
 			else
 			{
-				enabled = edgeTypes & Edge::getTypeForReadableTypeString(filter->text().toStdWString());
+				enabled = edgeTypes &
+					Edge::getTypeForReadableTypeString(filter->text().toStdWString());
 			}
 
 			filter->setEnabled(enabled);
@@ -415,8 +403,7 @@ void QtCustomTrailView::setAvailableNodeAndEdgeTypes(NodeType::TypeMask nodeType
 
 void QtCustomTrailView::showView()
 {
-	m_onQtThread([this]()
-	{
+	m_onQtThread([this]() {
 		show();
 		raise();
 	});
@@ -424,16 +411,12 @@ void QtCustomTrailView::showView()
 
 void QtCustomTrailView::hideView()
 {
-	m_onQtThread([this]()
-	{
-		hide();
-	});
+	m_onQtThread([this]() { hide(); });
 }
 
 void QtCustomTrailView::showAutocompletions(const std::vector<SearchMatch>& autocompletions, bool from)
 {
-	m_onQtThread([this, autocompletions, from]()
-	{
+	m_onQtThread([this, autocompletions, from]() {
 		if (from)
 		{
 			m_searchBoxFrom->setAutocompletionList(autocompletions);
@@ -458,8 +441,10 @@ void QtCustomTrailView::keyPressEvent(QKeyEvent* event)
 
 void QtCustomTrailView::updateStyleSheet()
 {
-	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"search_view/search_view.css"));
-	css += utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"custom_trail_view/custom_trail_view.css"));
+	std::string css = utility::getStyleSheet(
+		ResourcePaths::getGuiPath().concatenate(L"search_view/search_view.css"));
+	css += utility::getStyleSheet(
+		ResourcePaths::getGuiPath().concatenate(L"custom_trail_view/custom_trail_view.css"));
 
 	setStyleSheet(css.c_str());
 
@@ -510,7 +495,8 @@ QVBoxLayout* QtCustomTrailView::addFilters(
 	mainLayout->addLayout(filterALayout);
 	mainLayout->addLayout(filterBLayout);
 
-	QPixmap pixmap(QString::fromStdString(ResourcePaths::getGuiPath().concatenate(L"custom_trail_view/images/circle.png").str()));
+	QPixmap pixmap(QString::fromStdString(
+		ResourcePaths::getGuiPath().concatenate(L"custom_trail_view/images/circle.png").str()));
 	for (size_t i = 0; i < filters.size(); i++)
 	{
 		QCheckBox* checkBox = new QCheckBox(filters[i]);
@@ -570,28 +556,22 @@ QHBoxLayout* QtCustomTrailView::addCheckButtons(const std::vector<QCheckBox*>& c
 	buttonLayout->addWidget(uncheckButton);
 	buttonLayout->addStretch();
 
-	connect(checkButton, &QPushButton::clicked,
-		[&checkBoxes]()
+	connect(checkButton, &QPushButton::clicked, [&checkBoxes]() {
+		for (QCheckBox* box: checkBoxes)
 		{
-			for (QCheckBox* box : checkBoxes)
+			if (box->isEnabled())
 			{
-				if (box->isEnabled())
-				{
-					box->setChecked(true);
-				}
+				box->setChecked(true);
 			}
 		}
-	);
+	});
 
-	connect(uncheckButton, &QPushButton::clicked,
-		[&checkBoxes]()
+	connect(uncheckButton, &QPushButton::clicked, [&checkBoxes]() {
+		for (QCheckBox* box: checkBoxes)
 		{
-			for (QCheckBox* box : checkBoxes)
-			{
-				box->setChecked(false);
-			}
+			box->setChecked(false);
 		}
-	);
+	});
 
 	return buttonLayout;
 }
@@ -599,7 +579,7 @@ QHBoxLayout* QtCustomTrailView::addCheckButtons(const std::vector<QCheckBox*>& c
 NodeType::TypeMask QtCustomTrailView::getCheckedNodeTypes() const
 {
 	NodeType::TypeMask nodeTypes = 0;
-	for (const QCheckBox* filter : m_nodeFilters)
+	for (const QCheckBox* filter: m_nodeFilters)
 	{
 		if (filter->isEnabled() && filter->isChecked() && filter != m_nodeNonIndexed)
 		{
@@ -612,7 +592,7 @@ NodeType::TypeMask QtCustomTrailView::getCheckedNodeTypes() const
 Edge::TypeMask QtCustomTrailView::getCheckedEdgeTypes() const
 {
 	Edge::TypeMask edgeTypes = 0;
-	for (const QCheckBox* filter : m_edgeFilters)
+	for (const QCheckBox* filter: m_edgeFilters)
 	{
 		if (filter->isEnabled() && filter->isChecked() && filter != m_edgeMember)
 		{

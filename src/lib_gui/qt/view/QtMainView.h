@@ -74,4 +74,4 @@ private:
 	QtThreadedLambdaFunctor m_onQtThread;
 };
 
-#endif // QT_MAIN_VIEW_H
+#endif	  // QT_MAIN_VIEW_H

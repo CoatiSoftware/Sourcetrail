@@ -5,8 +5,7 @@
 
 class QCheckBox;
 
-class QtProjectWizardContentGroup
-	: public QtProjectWizardContent
+class QtProjectWizardContentGroup: public QtProjectWizardContent
 {
 	Q_OBJECT
 
@@ -35,4 +34,4 @@ private:
 	bool m_isForm;
 };
 
-#endif // QT_PROJECT_WIZARD_CONTENT_GROUP_H
+#endif	  // QT_PROJECT_WIZARD_CONTENT_GROUP_H

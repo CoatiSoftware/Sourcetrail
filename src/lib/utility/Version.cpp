@@ -1,27 +1,27 @@
 #include "Version.h"
 
-#include <vector>
 #include <sstream>
+#include <vector>
 
-namespace {
-	template <typename ContainerType>
-	ContainerType split(const std::string& str, const std::string& delimiter)
+namespace
+{
+template <typename ContainerType>
+ContainerType split(const std::string& str, const std::string& delimiter)
+{
+	size_t pos = 0;
+	size_t oldPos = 0;
+	ContainerType c;
+
+	do
 	{
-		size_t pos = 0;
-		size_t oldPos = 0;
-		ContainerType c;
+		pos = str.find(delimiter, oldPos);
+		c.push_back(str.substr(oldPos, pos - oldPos));
+		oldPos = pos + delimiter.size();
+	} while (pos != std::string::npos);
 
-		do
-		{
-			pos = str.find(delimiter, oldPos);
-			c.push_back(str.substr(oldPos, pos - oldPos));
-			oldPos = pos + delimiter.size();
-		}
-		while (pos != std::string::npos);
-
-		return c;
-	}
+	return c;
 }
+}	 // namespace
 
 
 Version Version::s_version;
@@ -78,10 +78,7 @@ const Version& Version::getApplicationVersion()
 }
 
 Version::Version(int year, int minor, int commit, const std::string& hash)
-	: m_year(year)
-	, m_minorNumber(minor)
-	, m_commitNumber(commit)
-	, m_commitHash(hash)
+	: m_year(year), m_minorNumber(minor), m_commitNumber(commit), m_commitHash(hash)
 {
 }
 
@@ -116,12 +113,14 @@ std::string Version::toString() const
 
 std::string Version::toDisplayString() const
 {
-	return std::to_string(m_year) + '.' + std::to_string(m_minorNumber) + '.' + std::to_string(m_commitNumber);
+	return std::to_string(m_year) + '.' + std::to_string(m_minorNumber) + '.' +
+		std::to_string(m_commitNumber);
 }
 
 std::wstring Version::toDisplayWString() const
 {
-	return std::to_wstring(m_year) + L'.' + std::to_wstring(m_minorNumber) + L'.' + std::to_wstring(m_commitNumber);
+	return std::to_wstring(m_year) + L'.' + std::to_wstring(m_minorNumber) + L'.' +
+		std::to_wstring(m_commitNumber);
 }
 
 bool Version::operator<(const Version& other) const
@@ -158,13 +157,14 @@ bool Version::operator>(const Version& other) const
 
 bool Version::operator==(const Version& other) const
 {
-	return m_year == other.m_year && m_minorNumber == other.m_minorNumber && m_commitNumber == other.m_commitNumber;
+	return m_year == other.m_year && m_minorNumber == other.m_minorNumber &&
+		m_commitNumber == other.m_commitNumber;
 }
 
 Version& Version::operator+=(const int& number)
 {
 	int minor = this->m_minorNumber - 1 + number;
-	this->m_year += minor/4;
-	this->m_minorNumber = (minor%4) + 1;
+	this->m_year += minor / 4;
+	this->m_minorNumber = (minor % 4) + 1;
 	return *this;
 }

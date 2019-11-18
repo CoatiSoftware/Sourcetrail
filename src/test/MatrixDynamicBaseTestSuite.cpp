@@ -1,29 +1,29 @@
 #include "catch.hpp"
 
-#include "logging.h"
 #include "MatrixDynamicBase.h"
+#include "logging.h"
 
 namespace
 {
-	std::vector<std::vector<int>> getTestValues(const unsigned int numColumns, const unsigned int numRows)
+std::vector<std::vector<int>> getTestValues(const unsigned int numColumns, const unsigned int numRows)
+{
+	std::vector<std::vector<int>> testValues;
+
+	for (unsigned int x = 0; x < numColumns; x++)
 	{
-		std::vector<std::vector<int>> testValues;
+		std::vector<int> row;
 
-		for (unsigned int x = 0; x < numColumns; x++)
+		for (unsigned int y = 0; y < numRows; y++)
 		{
-			std::vector<int> row;
-
-			for (unsigned int y = 0; y < numRows; y++)
-			{
-				row.push_back(x + y);
-			}
-
-			testValues.push_back(row);
+			row.push_back(x + y);
 		}
 
-		return testValues;
+		testValues.push_back(row);
 	}
+
+	return testValues;
 }
+}	 // namespace
 
 TEST_CASE("matrixDynamicBase constructors")
 {
