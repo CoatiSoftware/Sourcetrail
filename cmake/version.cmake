@@ -24,7 +24,7 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     )
 
     execute_process(
-        COMMAND ${GIT_EXECUTABLE} describe --long --match "[0-9]*" HEAD
+        COMMAND ${GIT_EXECUTABLE} describe --long --tags --match "[0-9]*" HEAD
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         OUTPUT_VARIABLE GIT_VERSION_NUMBER
         OUTPUT_STRIP_TRAILING_WHITESPACE
