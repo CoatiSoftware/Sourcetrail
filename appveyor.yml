@@ -1,0 +1,35 @@
+version: 0.0.0.{build}
+image: Visual Studio 2017
+
+
+environment:
+    matrix:
+        - MBITS: 64
+          MSVC_VERSION: 15
+
+
+install:
+    - ps: |
+        if ($env:MBITS -eq "32") {
+            echo "Architecture set to 32 bit."
+            $env:CMAKE_GENERATOR="Visual Studio $env:MSVC_VERSION"
+        } elseif ($env:MBITS -eq "64") {
+            echo "Architecture set to 64 bit."
+            $env:CMAKE_GENERATOR="Visual Studio $env:MSVC_VERSION Win64"
+        } else {
+            echo "No architecture set. Build will be canceled."
+        }
+        
+        
+before_build:
+    - mkdir build
+    - cd build
+    - cmake -G "%CMAKE_GENERATOR%" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5> ../
+    - cd ../
+
+
+build_script:
+    - cd build
+    - msbuild /p:configuration=Release /v:m ALL_BUILD.vcxproj
+    - cd ../
+
