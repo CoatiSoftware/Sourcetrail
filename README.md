@@ -23,7 +23,7 @@ Sourcetrail is:
 
 ## Support Sourcetrail via Patreon
 
-The ongoing development and regular software releases are made possible entirely by the support of [these awesome patrons](SPONSORS.md)! If you'd like to join them, please consider [becoming a patron](https://www.patreon.com/sourcetrail) of Souretrail.
+The ongoing development and regular software releases are made possible entirely by the support of [these awesome patrons](SPONSORS.md)! If you'd like to join them, please consider [becoming a patron](https://www.patreon.com/sourcetrail) of Sourcetrail.
 
 ## Using Sourcetrail
 
