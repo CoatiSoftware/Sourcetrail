@@ -36,14 +36,11 @@ std::unique_ptr<clang::ASTConsumer> GeneratePCHAction::CreateASTConsumer(
 	const auto& FrontendOpts = CI.getFrontendOpts();
 	auto Buffer = std::make_shared<clang::PCHBuffer>();
 	std::vector<std::unique_ptr<clang::ASTConsumer>> Consumers;
-	Consumers.push_back(llvm::make_unique<clang::PCHGenerator>(
-		CI.getPreprocessor(),
-		OutputFile,
-		Sysroot,
-		Buffer,
+	Consumers.push_back(std::make_unique<clang::PCHGenerator>(
+		CI.getPreprocessor(), CI.getModuleCache(), OutputFile, Sysroot, Buffer,
 		FrontendOpts.ModuleFileExtensions,
 		true,
-		FrontendOpts.IncludeTimestamps));
+		FrontendOpts.IncludeTimestamps, +CI.getLangOpts().CacheGeneratedPCH));
 	Consumers.push_back(CI.getPCHContainerWriter().CreatePCHContainerGenerator(
 		CI, InFile, OutputFile, std::move(OS), Buffer));
 
