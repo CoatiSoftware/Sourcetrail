@@ -440,6 +440,7 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 		return RefreshInfoGenerator::getRefreshInfoForIncompleteFiles(m_sourceGroups, m_storage);
 
 	case REFRESH_ALL_FILES:
+	default:
 		return RefreshInfoGenerator::getRefreshInfoForAllFiles(m_sourceGroups);
 	}
 }
