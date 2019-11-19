@@ -24,7 +24,7 @@ install:
 before_build:
     - mkdir build
     - cd build
-    - cmake -G "%CMAKE_GENERATOR%" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5> ../
+    - cmake -G "%CMAKE_GENERATOR%" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5 ../
     - cd ../
 
 
