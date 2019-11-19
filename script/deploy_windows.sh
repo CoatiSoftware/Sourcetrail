@@ -1,9 +1,13 @@
 # FLAGS
 CLEAN_AND_SETUP=true
 REBUILD=true
+RUN_CODE_SIGNING=false
 UPDATE_DATABASES=true
-CREATE_INSTALLER_ZIP=true
-CREATE_PORTABLE_ZIP=true
+CREATE_WIX_INSTALLER=true
+CREATE_PORTABLE_PACKAGE=true
+
+RUN_32_BIT_PIPELINE=true
+RUN_64_BIT_PIPELINE=true
 
 
 # USEFUL VARIABLES
@@ -14,6 +18,7 @@ INFO="\033[33mInfo:\033[00m"
 ORIGINAL_PATH_TO_SCRIPT="${0}"
 CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
 BASE_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
+OUTPUT_FOLDER="release"
 
 
 cd $BASE_DIR/..
@@ -28,18 +33,33 @@ if [ $REBUILD = false ]; then
 	read -p "Press [Enter] key to continue"
 fi
 
+if [ $RUN_CODE_SIGNING = false ]; then
+	echo -e "$INFO RUN_CODE_SIGNING flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
+
 if [ $UPDATE_DATABASES = false ]; then
 	echo -e "$INFO UPDATE_DATABASES flag is set to false. Do you want to proceed?"
 	read -p "Press [Enter] key to continue"
 fi
 
-if [ $CREATE_INSTALLER_ZIP = false ]; then
-	echo -e "$INFO CREATE_INSTALLER_ZIP flag is set to false. Do you want to proceed?"
+if [ $CREATE_WIX_INSTALLER = false ]; then
+	echo -e "$INFO CREATE_WIX_INSTALLER flag is set to false. Do you want to proceed?"
 	read -p "Press [Enter] key to continue"
 fi
 
-if [ $CREATE_PORTABLE_ZIP = false ]; then
-	echo -e "$INFO CREATE_PORTABLE_ZIP flag is set to false. Do you want to proceed?"
+if [ $CREATE_PORTABLE_PACKAGE = false ]; then
+	echo -e "$INFO CREATE_PORTABLE_PACKAGE flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
+
+if [ $RUN_32_BIT_PIPELINE = false ]; then
+	echo -e "$INFO RUN_32_BIT_PIPELINE flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
+
+if [ $RUN_64_BIT_PIPELINE = false ]; then
+	echo -e "$INFO RUN_64_BIT_PIPELINE flag is set to false. Do you want to proceed?"
 	read -p "Press [Enter] key to continue"
 fi
 
@@ -51,29 +71,48 @@ VERSION_STRING="${VERSION_STRING%_*}"
 DOTTED_VERSION_STRING="${VERSION_STRING//_/.}"
 
 
+if [ $RUN_CODE_SIGNING = true ]; then
+	echo -e "$INFO Code signing is enabled. provide the key file path >"
+	read CODE_SIGNING_KEY_FILE
+fi
+
+if [ $RUN_CODE_SIGNING = true ]; then
+	echo -e "$INFO Code signing is enabled. Please enter your password >"
+	read CODE_SIGNING_PASSWORD
+fi
+
+
 if [ $CLEAN_AND_SETUP = true ]; then
 	echo -e "$INFO Cleaning the project"
 	script/clean.sh
 	
-	echo -e $INFO "$INFO Running cmake with 32 bit configuration"
-	mkdir -p build/win32
-	cd build/win32
-	cmake -G "Visual Studio 14 2015" -DBUILD_CXX_LANGUAGE_PACKAGE=ON -DBUILD_JAVA_LANGUAGE_PACKAGE=ON -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ../..
-	cd ../..
+	if [ $RUN_32_BIT_PIPELINE = true ]; then
+		echo -e $INFO "$INFO Running cmake with 32 bit configuration"
+		mkdir -p build/win32
+		cd build/win32
+		cmake -G "Visual Studio 15 2017" -DBOOST_ROOT=${BOOST_ROOT} -DQt5_DIR=${Qt5_DIR} -DClang_DIR=${Clang_DIR} -DBUILD_CXX_LANGUAGE_PACKAGE=ON -DBUILD_JAVA_LANGUAGE_PACKAGE=ON -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ../..
+		cd ../..
+	fi
 	
-	echo -e $INFO "$INFO Running cmake with 64 bit configuration"
-	mkdir -p build/win64
-	cd build/win64
-	cmake -G "Visual Studio 14 2015 Win64" -DBUILD_CXX_LANGUAGE_PACKAGE=ON -DBUILD_JAVA_LANGUAGE_PACKAGE=ON -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ../..
-	cd ../..
+	if [ $RUN_64_BIT_PIPELINE = true ]; then
+		echo -e $INFO "$INFO Running cmake with 64 bit configuration"
+		mkdir -p build/win64
+		cd build/win64
+		cmake -G "Visual Studio 15 2017 Win64" -DBOOST_ROOT=${BOOST_ROOT} -DQt5_DIR=${Qt5_64_DIR} -DClang_DIR=${Clang_64_DIR} -DBUILD_CXX_LANGUAGE_PACKAGE=ON -DBUILD_JAVA_LANGUAGE_PACKAGE=ON -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ../..
+		cd ../..
+	fi
 fi
 
 
 # CLEANING THE SOLUTIONS
 if [ $REBUILD = true ]; then
 	echo -e "$INFO Cleaning the solution"
-	"devenv.com" build/win32/Sourcetrail.sln //clean Release
-	"devenv.com" build/win64/Sourcetrail.sln //clean Release
+	if [ $RUN_32_BIT_PIPELINE = true ]; then
+		"devenv.com" build/win32/Sourcetrail.sln //clean Release
+	fi
+	if [ $RUN_64_BIT_PIPELINE = true ]; then
+		"devenv.com" build/win64/Sourcetrail.sln //clean Release
+	fi
 fi
 
 
@@ -82,15 +121,67 @@ build_executable() # Parameters: bit {32, 64}
 {
 	echo -e "$INFO Building the app (${1} bit)"
 	"devenv.com" build/win${1}/Sourcetrail.sln //build Release //project build/win${1}/Sourcetrail.vcxproj
+	
+	if [ $RUN_CODE_SIGNING = true ]; then
+		echo -e "$INFO Signing the app (${1} bit)"
+		signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/win${1}/Release/app/Sourcetrail.exe
+		
+		echo -e "$INFO Signing the indexer (${1} bit)"
+		signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Indexer ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/win${1}/Release/app/sourcetrail_indexer.exe
+	fi
 }
-build_executable "32"
-build_executable "64"
+
+if [ $RUN_32_BIT_PIPELINE = true ]; then
+	build_executable "32"
+fi
+if [ $RUN_64_BIT_PIPELINE = true ]; then
+	build_executable "64"
+fi
+
+
+if [ $RUN_CODE_SIGNING = true ]; then
+	echo -e "$INFO Signing the Python indexer"
+	signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Python Indexer" //du "https://github.com/CoatiSoftware/SourcetrailPythonIndexer" //v bin/app/data/python/SourcetrailPythonIndexer.exe
+fi
+
+
+rm -rf ./$OUTPUT_FOLDER
+mkdir ./$OUTPUT_FOLDER
+
+# STORING PDB FILES
+store_pdb() # Parameters: bit {32, 64}
+{
+	echo -e "$INFO storing pdb file for win$1"
+	mkdir ./$OUTPUT_FOLDER/PDB_${1}bit
+	cp -u -r ./build/win$1/Release/app/Sourcetrail.pdb ./$OUTPUT_FOLDER/PDB_${1}bit/
+}
+
+if [ $RUN_32_BIT_PIPELINE = true ]; then
+	store_pdb "32"
+fi
+if [ $RUN_64_BIT_PIPELINE = true ]; then
+	store_pdb "64"
+fi
+	
+
+# FIXME: we should do this right at the start
+BIT=""
+if [ $RUN_64_BIT_PIPELINE = true ]; then
+	BIT="64"
+elif [ $RUN_32_BIT_PIPELINE = true ]; then
+	BIT="32"
+fi
+
+if [ $BIT == "" ]; then
+	echo -e "$INFO No configuration has been built, aborting now."
+	exit
+fi
 
 
 # CREATING DATABASES
 if [ $UPDATE_DATABASES = true ]; then
 	echo -e "$INFO creating databases"
-
+	
 	rm bin/app/user/projects/tutorial/tutorial.srctrldb
 	rm bin/app/user/projects/tictactoe_cpp/tictactoe_cpp.srctrldb
 	rm bin/app/user/projects/tictactoe_py/tictactoe_py.srctrldb
@@ -101,19 +192,19 @@ if [ $UPDATE_DATABASES = true ]; then
 	cd temp
 
 	echo -e "$INFO configuring application"
-	../build/win32/Release/app/Sourcetrail.exe config -t 8
+	../build/win$BIT/Release/app/Sourcetrail.exe config -t 8
 
 	echo -e "$INFO creating database for tutorial"
-	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tutorial/tutorial.srctrlprj
+	../build/win$BIT/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tutorial/tutorial.srctrlprj
 
 	echo -e "$INFO creating database for tictactoe_cpp"
-	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_cpp/tictactoe_cpp.srctrlprj
+	../build/win$BIT/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_cpp/tictactoe_cpp.srctrlprj
 	
 	echo -e "$INFO creating database for tictactoe_py"
-	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_py/tictactoe_py.srctrlprj
+	../build/win$BIT/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_py/tictactoe_py.srctrlprj
 
 	echo -e "$INFO creating database for javaparser"
-	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/javaparser/javaparser.srctrlprj
+	../build/win$BIT/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/javaparser/javaparser.srctrlprj
 
 	cd ..
 	rm -rf temp
@@ -122,19 +213,35 @@ fi
 
 # BUILDING THE INSTALLER
 cd deployment/windows/wixSetup
-sh build_win32.sh
-sh build_win64.sh
+if [ $RUN_32_BIT_PIPELINE = true ]; then
+	sh build_win32.sh
+fi
+if [ $RUN_64_BIT_PIPELINE = true ]; then
+	sh build_win64.sh
+fi
 cd ../../..
 
 
+if [ $RUN_CODE_SIGNING = true ]; then
+	if [ $RUN_32_BIT_PIPELINE = true ]; then
+		echo -e "$INFO Signing the 32 bit windows installer"
+		signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/win32/sourcetrail.msi
+	fi
+	if [ $RUN_64_BIT_PIPELINE = true ]; then
+		echo -e "$INFO Signing the 64 bit windows installer"
+		signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/win64/sourcetrail.msi
+	fi
+fi
+
+
 # CREATING THE INSTALLER ZIP FILES
-if [ $CREATE_INSTALLER_ZIP = true ]; then
+if [ $CREATE_WIX_INSTALLER = true ]; then
 	create_installer_zip() # Parameters: bit {32, 64}
 	{
 		# CREATING INSTALLER PACKAGE FOLDER
 		echo -e "$INFO creating installer package folder for win$1"
 		local INSTALLER_PACKAGE_NAME=Sourcetrail_${VERSION_STRING}_${1}bit_Installer
-		local INSTALLER_PACKAGE_DIR=release/$INSTALLER_PACKAGE_NAME
+		local INSTALLER_PACKAGE_DIR=$OUTPUT_FOLDER/$INSTALLER_PACKAGE_NAME
 		local INSTALLER_PACKAGE_PLUGINS_DIR=$INSTALLER_PACKAGE_DIR/plugins
 
 		rm -rf $INSTALLER_PACKAGE_DIR
@@ -162,16 +269,11 @@ if [ $CREATE_INSTALLER_ZIP = true ]; then
 		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/visual_studio/
 		cp -u -r ide_plugins/visual_studio/* $INSTALLER_PACKAGE_PLUGINS_DIR/visual_studio/
 
-		cd ./release/
+		cd ./$OUTPUT_FOLDER/
 
 		# PACKAGING SOURCETRAIL
 		echo -e "$INFO packaging sourcetrail installer for win$1"
 		winrar a -afzip Sourcetrail_${VERSION_STRING}_Windows_${1}bit_Installer.zip $INSTALLER_PACKAGE_NAME
-
-		# STORING PDB FILES
-		echo -e "$INFO storing pdb file for win$1"
-		mkdir PDB_${INSTALLER_PACKAGE_NAME}
-		cp -u -r ../build/win$1/Release/app/Sourcetrail.pdb PDB_${INSTALLER_PACKAGE_NAME}/
 
 		cd ../
 
@@ -180,19 +282,23 @@ if [ $CREATE_INSTALLER_ZIP = true ]; then
 		rm -rf $INSTALLER_PACKAGE_DIR
 	}
 
-	create_installer_zip "32"
-	create_installer_zip "64"
+	if [ $RUN_32_BIT_PIPELINE = true ]; then
+		create_installer_zip "32"
+	fi
+	if [ $RUN_64_BIT_PIPELINE = true ]; then
+		create_installer_zip "64"
+	fi
 fi
 
 
 # CREATING THE PORTABLE ZIP FILES
-if [ $CREATE_PORTABLE_ZIP = true ]; then
+if [ $CREATE_PORTABLE_PACKAGE = true ]; then
 	create_portable_zip() # Parameters: bit {32, 64}
 	{
 		# CREATING PORTABLE PACKAGE FOLDER
 		echo -e "$INFO creating portable package folder for win$1"
 		local PORTABLE_PACKAGE_NAME=Sourcetrail_${VERSION_STRING}_${1}bit_Portable
-		local PORTABLE_PACKAGE_DIR=release/$PORTABLE_PACKAGE_NAME
+		local PORTABLE_PACKAGE_DIR=$OUTPUT_FOLDER/$PORTABLE_PACKAGE_NAME
 		local PORTABLE_PACKAGE_APP_DIR=$PORTABLE_PACKAGE_DIR/Sourcetrail_${VERSION_STRING}_${1}bit
 		local PORTABLE_PACKAGE_PLUGINS_DIR=$PORTABLE_PACKAGE_DIR/plugins
 
@@ -264,7 +370,7 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/visual_studio/
 		cp -u -r ide_plugins/visual_studio/* $PORTABLE_PACKAGE_PLUGINS_DIR/visual_studio/
 
-		cd ./release/
+		cd ./$OUTPUT_FOLDER/
 
 		# PACKAGING SOURCETRAIL
 		echo -e "$INFO packaging sourcetrail portable for win$1"
@@ -277,8 +383,12 @@ if [ $CREATE_PORTABLE_ZIP = true ]; then
 		rm -rf $PORTABLE_PACKAGE_DIR
 	}
 
-	create_portable_zip "32"
-	create_portable_zip "64"
+	if [ $RUN_32_BIT_PIPELINE = true ]; then
+		create_portable_zip "32"
+	fi
+	if [ $RUN_64_BIT_PIPELINE = true ]; then
+		create_portable_zip "64"
+	fi
 fi
 
 

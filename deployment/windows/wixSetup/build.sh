@@ -21,7 +21,7 @@ VERSION_STRING="${VERSION_STRING//_/.}"
 VERSION_STRING="${VERSION_STRING:2}"
 echo "installer version is $VERSION_STRING"
 
-PRODUCT_GUID=$(cmd.exe /c "VsDevCmd.bat & uuidgen")
+PRODUCT_GUID=$(cmd.exe /c "uuidgen")
 echo "$WIN_ARCH product guid is $PRODUCT_GUID"
 
 rm -rf build

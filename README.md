@@ -189,7 +189,11 @@ Run CMake with these additional options:
 
 #### Required Tools
 
+##### Visual Studio
+
 ##### Wix 3.11
+
+##### Wix extension for Visual Studio
 
 ##### WinRAR
 

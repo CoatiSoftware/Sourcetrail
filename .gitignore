@@ -67,5 +67,6 @@ CMakeLists.txt.user*
 /deployment/windows/wixSetup/build
 /deployment/windows/wixSetup/CustomActions/UninstallRemoveLogFolder/bin
 /deployment/windows/wixSetup/CustomActions/UninstallRemoveLogFolder/obj
+/deployment/windows/wixSetup/CustomActions/.vs
 /deployment/windows/wixSetup/Setup/build/Setup/Release
 /deployment/windows/wixSetup/Setup/build/Setup/x64
