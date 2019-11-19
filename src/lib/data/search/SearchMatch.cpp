@@ -33,6 +33,8 @@ std::wstring SearchMatch::getSearchTypeName(SearchType type)
 	case SEARCH_FULLTEXT:
 		return L"fulltext";
 	}
+
+	return L"none";
 }
 
 std::wstring SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& matches)
