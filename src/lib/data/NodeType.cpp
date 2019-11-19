@@ -378,6 +378,7 @@ NodeType::StyleType NodeType::getNodeStyle() const
 	case NodeType::NODE_GLOBAL_VARIABLE:
 	case NodeType::NODE_FIELD:
 	case NodeType::NODE_ENUM_CONSTANT:
+	default:
 		return STYLE_SMALL_NODE;
 	}
 }
