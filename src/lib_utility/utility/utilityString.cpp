@@ -580,6 +580,8 @@ std::string elide(const std::string& str, ElideMode mode, size_t size)
 	case ELIDE_RIGHT:
 		return str.substr(0, size - 3) + "...";
 	}
+
+	return "";
 }
 
 std::wstring elide(const std::wstring& str, ElideMode mode, size_t size)
@@ -599,6 +601,8 @@ std::wstring elide(const std::wstring& str, ElideMode mode, size_t size)
 	case ELIDE_RIGHT:
 		return str.substr(0, size - 3) + L"...";
 	}
+
+	return "";
 }
 
 std::wstring convertWhiteSpacesToSingleSpaces(const std::wstring& str)
