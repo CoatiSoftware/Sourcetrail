@@ -99,7 +99,7 @@ endif()
 # Boost ------------------------------------------------------------------------
 
 set(Boost_USE_MULTITHREAD ON)
-set(Boost_USE_STATIC_LIBS ON CACHE BOOL)
+set(Boost_USE_STATIC_LIBS ON CACHE BOOL "Set to ON to force the use of the static libraries.")
 set(Boost_USE_STATIC_RUNTIME OFF)
 
 find_package(Boost 1.68 COMPONENTS system program_options filesystem date_time REQUIRED)

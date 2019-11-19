@@ -602,7 +602,7 @@ std::wstring elide(const std::wstring& str, ElideMode mode, size_t size)
 		return str.substr(0, size - 3) + L"...";
 	}
 
-	return "";
+	return L"";
 }
 
 std::wstring convertWhiteSpacesToSingleSpaces(const std::wstring& str)
