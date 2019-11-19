@@ -29,17 +29,20 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
         OUTPUT_VARIABLE GIT_VERSION_NUMBER
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
+    string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_YEAR "${GIT_VERSION_NUMBER}")
+    string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${GIT_VERSION_NUMBER}")
+    string(REGEX REPLACE "^[0-9]+\\.[0-9]+-([0-9]+).*" "\\1" VERSION_COMMIT "${GIT_VERSION_NUMBER}")
+
 else(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     set(GIT_BRANCH "")
     set(GIT_COMMIT_HASH "")
     set(GIT_VERSION_NUMBER "")
+    set(VERSION_YEAR "0")
+    set(VERSION_MINOR "0")
+    set(VERSION_COMMIT "0")
     set(BUILD_TYPE "")
 
 endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-
-string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_YEAR "${GIT_VERSION_NUMBER}")
-string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${GIT_VERSION_NUMBER}")
-string(REGEX REPLACE "^[0-9]+\\.[0-9]+-([0-9]+).*" "\\1" VERSION_COMMIT "${GIT_VERSION_NUMBER}")
 
 set(VERSION_STRING "${VERSION_YEAR}.${VERSION_MINOR}.${VERSION_COMMIT}")
 
