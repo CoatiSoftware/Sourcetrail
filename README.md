@@ -8,7 +8,7 @@ Links
 * [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE)
 * [Documentation](https://www.sourcetrail.com/documentation)
 * [Changelog](CHANGELOG.md)
-* [Slack Channel](https://join.slack.com/t/sourcetrail/shared_invite/enQtNDc3MjcyOTk5MTc0LTc3NjJiMzI1NDFiOTE2NDZmOWIwMDQzZjA3N2RhOTZlOGMxYmRjOTA1ZGQ3ZDdlNjliZWQ5MDIwOWU1YWZmYzg)
+* [Slack Channel](https://join.slack.com/t/sourcetrail/shared_invite/enQtNDc3MjcyOTk5MTc0LTNhOWZhZjAxZmU1NTM0YjhhMzRhZWE1NTQ2NjQyYjc1ODE2MzViOTliMWUwODBjN2NlMjkwMDc0MjAxMzJkY2E)
 * [Mailing List](https://coati.us12.list-manage.com/subscribe/post?u=3dabab4e475b5ed577d1dcd0f&id=cf7301fc53)
 * [Patreon](https://www.patreon.com/sourcetrail)
 
