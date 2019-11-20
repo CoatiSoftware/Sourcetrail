@@ -37,7 +37,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	appSettings->setUpdateDownloadUrl("");
 	appSettings->save();
 
-	QString urlString = "https://staging.sourcetrail.com/api/v2/versions/latest";
+	QString urlString = "https://www.sourcetrail.com/api/v2/versions/latest";
 
 	// OS
 	std::string osString = utility::getOsTypeString();
