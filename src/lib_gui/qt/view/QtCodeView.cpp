@@ -33,8 +33,6 @@ void QtCodeView::refreshView()
 
 		setStyleSheet();
 
-		m_widget->clearCache();
-
 		QtCodeArea::clearAnnotationColors();
 		QtHighlighter::clearHighlightingRules();
 	});
