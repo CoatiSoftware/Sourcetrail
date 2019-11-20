@@ -51,7 +51,7 @@ If you want to support a certain feature request or you have the same bug that a
 
 ## How to Contribute
 
-Please read and follow the steps in [CONTRIBUTING.md](CONTRIBUTING.md) file.
+Please read and follow the steps in [CONTRIBUTING.md](CONTRIBUTING.md) file. You may want to look out for issues labeled [good first issue](https://github.com/CoatiSoftware/Sourcetrail/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) to find some initial tasks to tackle.
 
 
 # How to Build
