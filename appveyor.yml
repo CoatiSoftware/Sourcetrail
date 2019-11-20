@@ -1,0 +1,23 @@
+version: 0.0.0.{build}
+image: Visual Studio 2017
+
+
+before_build:
+    - mkdir build
+    - cd build
+    - mkdir win64
+    - cd win64
+    - cmake -G "Visual Studio 15 Win64" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5 ../../
+    - cd ../../
+
+
+build_script:
+    - cd build/win64
+    - msbuild /p:configuration=Release /v:m ALL_BUILD.vcxproj
+    - cd ../../
+
+
+test_script:
+    - cd bin/test
+    - ..\..\build\win64\Release\test\Sourcetrail_test.exe
+    - cd ../../
