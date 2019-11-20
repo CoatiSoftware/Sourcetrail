@@ -19,5 +19,5 @@ build_script:
 
 test_script:
     - cd bin/test
-    - ../../build/win64/Release/test/Sourcetrail_test.exe
+    - "../../build/win64/Release/test/Sourcetrail_test.exe"
     - cd ../../
