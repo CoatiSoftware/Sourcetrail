@@ -98,7 +98,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 		"Create a new Source Group by defining which C++ files will be indexed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CDB] =
 		"Create a Source Group from an existing Compilation Database file (compile_commands.json). "
-		"It can be exported from CMake<br />(-DCMAKE_EXPORT_COMPILE_COMMANDS=1) and Make projects "
+		"It can be exported from CMake<br />(-DCMAKE_EXPORT_COMPILE_COMMANDS=ON) and Make projects "
 		"or from the Qt Creator since version 4.8. Have a look at the "
 		"<a href=\"https://sourcetrail.com/documentation/#CreateAProjectFromCompilationDatabase\">"
 		"documentation</a>.";
