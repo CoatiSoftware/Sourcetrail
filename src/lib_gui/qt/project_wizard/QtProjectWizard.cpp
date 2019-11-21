@@ -24,7 +24,6 @@
 #include "QtProjectWizardContentSourceGroupData.h"
 #include "QtProjectWizardContentSourceGroupInfoText.h"
 #include "QtProjectWizardContentUnloadable.h"
-#include "QtSourceGroupWizardPage.h"
 #include "ResourcePaths.h"
 #include "SourceGroupSettingsCustomCommand.h"
 #include "SourceGroupSettingsUnloadable.h"

@@ -179,8 +179,6 @@ add_files(
 	qt/project_wizard/QtProjectWizard.h
 	qt/project_wizard/QtProjectWizardWindow.cpp
 	qt/project_wizard/QtProjectWizardWindow.h
-	qt/project_wizard/QtSourceGroupWizard.h
-	qt/project_wizard/QtSourceGroupWizardPage.h
 
 	qt/utility/QtContextMenu.cpp
 	qt/utility/QtContextMenu.h
