@@ -707,7 +707,7 @@ QtProjectWizardWindow* QtProjectWizard::createWindowWithContent(
 
 	window->setPreferredSize(QSize(580, 340));
 	window->setContent(func(window));
-	window->setScrollAble(window->content()->isScrollAble());
+	window->setScrollAble(true);
 	window->setup();
 
 	m_windowStack.pushWindow(window);

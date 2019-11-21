@@ -27,11 +27,6 @@ bool QtProjectWizardContent::check()
 	return true;
 }
 
-bool QtProjectWizardContent::isScrollAble() const
-{
-	return false;
-}
-
 std::vector<FilePath> QtProjectWizardContent::getFilePaths() const
 {
 	return {};

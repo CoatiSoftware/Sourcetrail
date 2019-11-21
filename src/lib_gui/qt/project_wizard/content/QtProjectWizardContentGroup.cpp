@@ -82,8 +82,3 @@ bool QtProjectWizardContentGroup::check()
 
 	return true;
 }
-
-bool QtProjectWizardContentGroup::isScrollAble() const
-{
-	return true;
-}

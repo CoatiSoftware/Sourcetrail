@@ -27,8 +27,6 @@ public:
 	virtual void save();
 	virtual bool check();
 
-	virtual bool isScrollAble() const;
-
 	virtual std::vector<FilePath> getFilePaths() const;
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;

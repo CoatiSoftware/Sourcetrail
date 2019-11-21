@@ -329,8 +329,3 @@ bool QtProjectWizardContentSelect::check()
 
 	return true;
 }
-
-bool QtProjectWizardContentSelect::isScrollAble() const
-{
-	return true;
-}

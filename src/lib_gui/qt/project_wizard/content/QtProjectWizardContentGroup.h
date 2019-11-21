@@ -25,8 +25,6 @@ protected:
 	virtual void save() override;
 	virtual bool check() override;
 
-	virtual bool isScrollAble() const override;
-
 private:
 	std::vector<QtProjectWizardContent*> m_contents;
 	bool m_isForm;

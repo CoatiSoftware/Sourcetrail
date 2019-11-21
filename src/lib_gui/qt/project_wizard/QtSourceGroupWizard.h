@@ -111,7 +111,7 @@ void QtSourceGroupWizard<SettingsType>::createWindowForPage(const size_t pageId,
 
 	window->setPreferredSize(QSize(page.getPreferredWidth(), page.getPreferredHeight()));
 	window->setContent(contentGroup);
-	window->setScrollAble(window->content()->isScrollAble());
+	window->setScrollAble(true);
 	window->setup();
 
 	size_t currentPage = 0;

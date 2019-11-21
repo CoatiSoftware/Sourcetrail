@@ -42,7 +42,7 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent): QtProjectWizardWindow
 
 	setPreferredSize(QSize(750, 500));
 	setContent(summary);
-	setScrollAble(content()->isScrollAble());
+	setScrollAble(true);
 }
 
 QtPreferencesWindow::~QtPreferencesWindow() {}

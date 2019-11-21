@@ -38,8 +38,3 @@ void QtProjectWizardContentPathsFrameworkSearch::save()
 		cxxSettings->setFrameworkSearchPaths(m_list->getPathsAsDisplayed());
 	}
 }
-
-bool QtProjectWizardContentPathsFrameworkSearch::isScrollAble() const
-{
-	return true;
-}

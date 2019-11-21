@@ -109,11 +109,6 @@ void QtProjectWizardContentPathsHeaderSearch::save()
 	}
 }
 
-bool QtProjectWizardContentPathsHeaderSearch::isScrollAble() const
-{
-	return true;
-}
-
 void QtProjectWizardContentPathsHeaderSearch::detectIncludesButtonClicked()
 {
 	m_window->saveContent();
