@@ -534,7 +534,7 @@ void QtProjectWizard::newProjectFromCDB(const FilePath& filePath)
 			utility::getUuidString(), m_projectSettings.get());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
 
-	executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(sourceGroupSettings);
+	createSourceGroup(sourceGroupSettings);
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 }
 
@@ -697,24 +697,6 @@ void QtProjectWizard::handlePrevious()
 	QtWindow::handlePrevious();
 }
 
-template <typename SettingsType>
-void QtProjectWizard::executeSourceGroupSetup(std::shared_ptr<SettingsType> settings)
-{
-	std::shared_ptr<QtSourceGroupWizard<SettingsType>> wizard =
-		std::make_shared<QtSourceGroupWizard<SettingsType>>(
-			settings,
-			std::bind(&QtProjectWizard::cancelSourceGroup, this),
-			std::bind(&QtProjectWizard::createSourceGroup, this, std::placeholders::_1));
-
-	for (const QtSourceGroupWizardPage<SettingsType>& page: getSourceGroupWizardPages<SettingsType>())
-	{
-		wizard->addPage(page);
-	}
-
-	m_sourceGroupWizard = wizard;
-	m_sourceGroupWizard->execute(m_windowStack);
-}
-
 QtProjectWizardWindow* QtProjectWizard::createWindowWithContent(
 	std::function<QtProjectWizardContent*(QtProjectWizardWindow*)> func)
 {
@@ -726,27 +708,6 @@ QtProjectWizardWindow* QtProjectWizard::createWindowWithContent(
 	window->setPreferredSize(QSize(580, 340));
 	window->setContent(func(window));
 	window->setScrollAble(window->content()->isScrollAble());
-	window->setup();
-
-	m_windowStack.pushWindow(window);
-
-	return window;
-}
-
-QtProjectWizardWindow* QtProjectWizard::createWindowWithContentGroup(
-	std::function<void(QtProjectWizardWindow*, QtProjectWizardContentGroup*)> func)
-{
-	QtProjectWizardWindow* window = new QtProjectWizardWindow(parentWidget());
-
-	connect(window, &QtProjectWizardWindow::previous, &m_windowStack, &QtWindowStack::popWindow);
-	connect(window, &QtProjectWizardWindow::canceled, this, &QtProjectWizard::cancelSourceGroup);
-
-	QtProjectWizardContentGroup* contentGroup = new QtProjectWizardContentGroup(window);
-
-	window->setPreferredSize(QSize(750, 600));
-	window->setContent(contentGroup);
-	window->setScrollAble(window->content()->isScrollAble());
-	func(window, contentGroup);
 	window->setup();
 
 	m_windowStack.pushWindow(window);
@@ -1098,92 +1059,71 @@ void QtProjectWizard::newSourceGroup()
 void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 {
 	const std::string sourceGroupId = utility::getUuidString();
+	std::shared_ptr<SourceGroupSettings> settings;
 
 	switch (sourceGroupType)
 	{
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_C_EMPTY:
 	{
-		std::shared_ptr<SourceGroupSettingsCEmpty> settings =
+		std::shared_ptr<SourceGroupSettingsCEmpty> cxxSettings =
 			std::make_shared<SourceGroupSettingsCEmpty>(sourceGroupId, m_projectSettings.get());
-		addMsvcCompatibilityFlagsOnDemand(settings);
-		executeSourceGroupSetup<SourceGroupSettingsCEmpty>(settings);
+		addMsvcCompatibilityFlagsOnDemand(cxxSettings);
+		settings = cxxSettings;
 	}
 	break;
 	case SOURCE_GROUP_CPP_EMPTY:
 	{
-		std::shared_ptr<SourceGroupSettingsCppEmpty> settings =
+		std::shared_ptr<SourceGroupSettingsCppEmpty> cxxSettings =
 			std::make_shared<SourceGroupSettingsCppEmpty>(sourceGroupId, m_projectSettings.get());
-		addMsvcCompatibilityFlagsOnDemand(settings);
-		executeSourceGroupSetup<SourceGroupSettingsCppEmpty>(settings);
+		addMsvcCompatibilityFlagsOnDemand(cxxSettings);
+		settings = cxxSettings;
 	}
 	break;
 	case SOURCE_GROUP_CXX_CDB:
-	{
-		std::shared_ptr<SourceGroupSettingsCxxCdb> settings =
-			std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
-		executeSourceGroupSetup<SourceGroupSettingsCxxCdb>(settings);
-	}
-	break;
+		settings = std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
+		break;
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
 	{
-		std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings =
-			std::make_shared<SourceGroupSettingsCxxCodeblocks>(
-				sourceGroupId, m_projectSettings.get());
-		addMsvcCompatibilityFlagsOnDemand(settings);
-		executeSourceGroupSetup<SourceGroupSettingsCxxCodeblocks>(settings);
+		std::shared_ptr<SourceGroupSettingsCxxCodeblocks> cxxSettings =
+			std::make_shared<SourceGroupSettingsCxxCodeblocks>(sourceGroupId, m_projectSettings.get());
+		addMsvcCompatibilityFlagsOnDemand(cxxSettings);
+		settings = cxxSettings;
 	}
 	break;
 	case SOURCE_GROUP_CXX_VS:
-	{
-		std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings =
-			std::make_shared<SourceGroupSettingsCxxCdbVs>(sourceGroupId, m_projectSettings.get());
-		executeSourceGroupSetup<SourceGroupSettingsCxxCdbVs>(settings);
-	}
-	break;
+		settings = std::make_shared<SourceGroupSettingsCxxCdbVs>(sourceGroupId, m_projectSettings.get());
+		break;
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
+
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_JAVA_EMPTY:
-	{
-		std::shared_ptr<SourceGroupSettingsJavaEmpty> settings =
-			std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
-		executeSourceGroupSetup<SourceGroupSettingsJavaEmpty>(settings);
-	}
-	break;
+		settings = std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
+		break;
 	case SOURCE_GROUP_JAVA_MAVEN:
-	{
-		std::shared_ptr<SourceGroupSettingsJavaMaven> settings =
-			std::make_shared<SourceGroupSettingsJavaMaven>(sourceGroupId, m_projectSettings.get());
-		executeSourceGroupSetup<SourceGroupSettingsJavaMaven>(settings);
-	}
-	break;
+		settings = std::make_shared<SourceGroupSettingsJavaMaven>(sourceGroupId, m_projectSettings.get());
+		break;
 	case SOURCE_GROUP_JAVA_GRADLE:
-	{
-		std::shared_ptr<SourceGroupSettingsJavaGradle> settings =
-			std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
-		executeSourceGroupSetup<SourceGroupSettingsJavaGradle>(settings);
-	}
-	break;
+		settings = std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
+		break;
 #endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
+
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_PYTHON_EMPTY:
-	{
-		std::shared_ptr<SourceGroupSettingsPythonEmpty> settings =
-			std::make_shared<SourceGroupSettingsPythonEmpty>(sourceGroupId, m_projectSettings.get());
-		executeSourceGroupSetup<SourceGroupSettingsPythonEmpty>(settings);
-	}
-	break;
+		settings = std::make_shared<SourceGroupSettingsPythonEmpty>(sourceGroupId, m_projectSettings.get());
+		break;
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
+
 	case SOURCE_GROUP_CUSTOM_COMMAND:
-	{
-		std::shared_ptr<SourceGroupSettingsCustomCommand> settings =
-			std::make_shared<SourceGroupSettingsCustomCommand>(
-				sourceGroupId, m_projectSettings.get());
-		executeSourceGroupSetup<SourceGroupSettingsCustomCommand>(settings);
-	}
-	break;
+		settings = std::make_shared<SourceGroupSettingsCustomCommand>(sourceGroupId, m_projectSettings.get());
+		break;
 	case SOURCE_GROUP_UNKNOWN:
 		break;
+	}
+
+	if (settings)
+	{
+		createSourceGroup(settings);
 	}
 }
 

@@ -8,7 +8,6 @@
 #include "ApplicationSettings.h"
 #include "ProjectSettings.h"
 #include "QtProjectWizardWindow.h"
-#include "QtSourceGroupWizard.h"
 #include "QtWindow.h"
 
 class QListWidget;
@@ -40,14 +39,8 @@ protected:
 	virtual void handlePrevious() override;
 
 private:
-	template <typename SettingsType>
-	void executeSourceGroupSetup(std::shared_ptr<SettingsType> settings);
-
 	QtProjectWizardWindow* createWindowWithContent(
 		std::function<QtProjectWizardContent*(QtProjectWizardWindow*)> func);
-
-	QtProjectWizardWindow* createWindowWithContentGroup(
-		std::function<void(QtProjectWizardWindow*, QtProjectWizardContentGroup*)> func);
 
 	void updateSourceGroupList();
 	bool canExitContent();
@@ -56,7 +49,6 @@ private:
 
 	std::shared_ptr<ProjectSettings> m_projectSettings;
 	std::vector<std::shared_ptr<SourceGroupSettings>> m_allSourceGroupSettings;
-	std::shared_ptr<QtSourceGroupWizardBase> m_sourceGroupWizard;
 	ApplicationSettings m_appSettings;
 
 	bool m_editing;
