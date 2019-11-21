@@ -7,13 +7,6 @@
 
 class QtProjectWizardWindow;
 
-enum WizardContentContextType
-{
-	WIZARD_CONTENT_CONTEXT_SETUP = 1,
-	WIZARD_CONTENT_CONTEXT_SUMMARY = 2,
-	WIZARD_CONTENT_CONTEXT_ALL = 3
-};
-
 template <typename SettingsType>
 class QtSourceGroupWizardPage
 {
@@ -25,24 +18,21 @@ public:
 	QtSourceGroupWizardPage(
 		const std::string& title, int preferredWidth = 750, int preferredHeight = 600);
 
-	void addContentCreator(WizardContentContextType contextType, ContentCreator contentCreator);
+	void addContentCreator(ContentCreator contentCreator);
 
 	template <typename ContentType>
-	void addContentCreatorSimple(WizardContentContextType contextType);
+	void addContentCreatorSimple();
 
 	template <typename ContentType>
-	void addContentCreatorWithSettings(WizardContentContextType contextType);
+	void addContentCreatorWithSettings();
 
 	template <typename ContentType, typename... ParamTypes>
-	void addContentCreatorWithSettings(WizardContentContextType contextType, ParamTypes... params);
-
-	bool hasContentForContext(WizardContentContextType contextType) const;
+	void addContentCreatorWithSettings(ParamTypes... params);
 
 	std::string getTitle() const;
 	int getPreferredWidth() const;
 	int getPreferredHeight() const;
 	QtProjectWizardContentGroup* createContentGroup(
-		WizardContentContextType contextType,
 		std::shared_ptr<SettingsType> settings,
 		QtProjectWizardWindow* window) const;
 
@@ -50,7 +40,7 @@ private:
 	const std::string m_title;
 	const int m_preferredWidth;
 	const int m_preferredHeight;
-	std::vector<std::pair<WizardContentContextType, ContentCreator>> m_contentCreators;
+	std::vector<ContentCreator> m_contentCreators;
 };
 
 template <typename SettingsType>
@@ -61,29 +51,27 @@ QtSourceGroupWizardPage<SettingsType>::QtSourceGroupWizardPage(
 }
 
 template <typename SettingsType>
-void QtSourceGroupWizardPage<SettingsType>::addContentCreator(
-	WizardContentContextType contextType, ContentCreator contentCreator)
+void QtSourceGroupWizardPage<SettingsType>::addContentCreator(ContentCreator contentCreator)
 {
-	m_contentCreators.push_back(std::make_pair(contextType, contentCreator));
+	m_contentCreators.push_back(contentCreator);
 }
 
 template <typename SettingsType>
 template <typename ContentType>
-void QtSourceGroupWizardPage<SettingsType>::addContentCreatorSimple(WizardContentContextType contextType)
+void QtSourceGroupWizardPage<SettingsType>::addContentCreatorSimple()
 {
 	addContentCreator(
-		contextType, [](std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window) {
+		[](std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window) {
 			return new ContentType(window);
 		});
 }
 
 template <typename SettingsType>
 template <typename ContentType>
-void QtSourceGroupWizardPage<SettingsType>::addContentCreatorWithSettings(
-	WizardContentContextType contextType)
+void QtSourceGroupWizardPage<SettingsType>::addContentCreatorWithSettings()
 {
 	addContentCreator(
-		contextType, [](std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window) {
+		[](std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window) {
 			return new ContentType(settings, window);
 		});
 }
@@ -91,10 +79,10 @@ void QtSourceGroupWizardPage<SettingsType>::addContentCreatorWithSettings(
 template <typename SettingsType>
 template <typename ContentType, typename... ParamTypes>
 void QtSourceGroupWizardPage<SettingsType>::addContentCreatorWithSettings(
-	WizardContentContextType contextType, ParamTypes... params)
+	ParamTypes... params)
 {
 	addContentCreator(
-		contextType, [=](std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window) {
+		[=](std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window) {
 			return new ContentType(settings, window, params...);
 		});
 }
@@ -118,38 +106,21 @@ int QtSourceGroupWizardPage<SettingsType>::getPreferredHeight() const
 }
 
 template <typename SettingsType>
-bool QtSourceGroupWizardPage<SettingsType>::hasContentForContext(WizardContentContextType contextType) const
-{
-	for (const std::pair<WizardContentContextType, ContentCreator>& contentCreator: m_contentCreators)
-	{
-		if (contentCreator.first & contextType)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-template <typename SettingsType>
 QtProjectWizardContentGroup* QtSourceGroupWizardPage<SettingsType>::createContentGroup(
-	WizardContentContextType contextType,
 	std::shared_ptr<SettingsType> settings,
 	QtProjectWizardWindow* window) const
 {
 	QtProjectWizardContentGroup* contentGroup = new QtProjectWizardContentGroup(window);
 
 	bool firstContentAdded = false;
-	for (const std::pair<WizardContentContextType, ContentCreator>& contentCreator: m_contentCreators)
+	for (const ContentCreator& contentCreator: m_contentCreators)
 	{
-		if (contentCreator.first & contextType)
+		if (firstContentAdded)
 		{
-			if (firstContentAdded)
-			{
-				contentGroup->addSpace();
-			}
-			contentGroup->addContent(contentCreator.second(settings, window));
-			firstContentAdded = true;
+			contentGroup->addSpace();
 		}
+		contentGroup->addContent(contentCreator(settings, window));
+		firstContentAdded = true;
 	}
 
 	return contentGroup;

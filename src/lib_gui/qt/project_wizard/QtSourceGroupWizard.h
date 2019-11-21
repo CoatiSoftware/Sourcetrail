@@ -35,7 +35,6 @@ public:
 
 private:
 	void createWindowForPage(const size_t pageId, QtWindowStack& windowStack);
-	int mapToPageIdWithContentForContext(size_t pageId, WizardContentContextType contextType) const;
 
 	std::shared_ptr<SettingsType> m_settings;
 	std::function<void()> m_onCancelClicked;
@@ -63,8 +62,7 @@ void QtSourceGroupWizard<SettingsType>::execute(QtWindowStack& windowStack)
 {
 	if (!m_pages.empty())
 	{
-		createWindowForPage(
-			mapToPageIdWithContentForContext(0, WIZARD_CONTENT_CONTEXT_SETUP), windowStack);
+		createWindowForPage(0, windowStack);
 	}
 }
 
@@ -89,7 +87,7 @@ void QtSourceGroupWizard<SettingsType>::createWindowForPage(const size_t pageId,
 	}
 
 	const QtSourceGroupWizardPage<SettingsType>& page = m_pages.at(pageId);
-	const int nextPageId = mapToPageIdWithContentForContext(pageId + 1, WIZARD_CONTENT_CONTEXT_SETUP);
+	const int nextPageId = pageId + 1;
 
 	QtProjectWizardWindow* window = new QtProjectWizardWindow(nullptr);
 
@@ -109,8 +107,7 @@ void QtSourceGroupWizard<SettingsType>::createWindowForPage(const size_t pageId,
 			window, &QtProjectWizardWindow::next, [&]() { m_onFinishedWizard(m_settings); });
 	}
 
-	QtProjectWizardContentGroup* contentGroup = page.createContentGroup(
-		WIZARD_CONTENT_CONTEXT_SETUP, m_settings, window);
+	QtProjectWizardContentGroup* contentGroup = page.createContentGroup(m_settings, window);
 
 	window->setPreferredSize(QSize(page.getPreferredWidth(), page.getPreferredHeight()));
 	window->setContent(contentGroup);
@@ -121,36 +118,17 @@ void QtSourceGroupWizard<SettingsType>::createWindowForPage(const size_t pageId,
 	size_t totalPages = 0;
 	for (size_t i = 0; i < m_pages.size(); i++)
 	{
-		if (m_pages[i].hasContentForContext(WIZARD_CONTENT_CONTEXT_SETUP))
+		if (i <= pageId)
 		{
-			if (i <= pageId)
-			{
-				currentPage++;
-			}
-			totalPages++;
+			currentPage++;
 		}
+		totalPages++;
 	}
 
 	window->updateSubTitle(QString::fromStdString(
 		page.getTitle() + " - " + std::to_string(currentPage) + "/" + std::to_string(totalPages)));
 
 	windowStack.pushWindow(window);
-}
-
-template <typename SettingsType>
-int QtSourceGroupWizard<SettingsType>::mapToPageIdWithContentForContext(
-	size_t pageId, WizardContentContextType contextType) const
-{
-	while (pageId < m_pages.size())
-	{
-		const QtSourceGroupWizardPage<SettingsType>& page = m_pages.at(pageId);
-		if (page.hasContentForContext(contextType))
-		{
-			return pageId;
-		}
-		pageId++;
-	}
-	return -1;
 }
 
 #endif	  // QT_SOURCE_GROUP_WIZARD_H
