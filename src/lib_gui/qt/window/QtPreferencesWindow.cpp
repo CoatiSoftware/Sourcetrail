@@ -30,7 +30,6 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent): QtProjectWizardWindow
 
 
 	QtProjectWizardContentGroup* summary = new QtProjectWizardContentGroup(this);
-	summary->setIsForm(true);
 	summary->addContent(new QtProjectWizardContentPreferences(this));
 
 #if BUILD_CXX_LANGUAGE_PACKAGE

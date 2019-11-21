@@ -15,13 +15,11 @@ public:
 	void addContent(QtProjectWizardContent* content);
 	void addSpace();
 
-	void setIsForm(bool isForm);
 	bool hasContents() const;
 
 protected:
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
-	void populateForm(QGridLayout* layout, int& row);
 
 	virtual void load() override;
 	virtual void save() override;

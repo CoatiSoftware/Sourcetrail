@@ -9,7 +9,6 @@
 QtProjectWizardContent::QtProjectWizardContent(QtProjectWizardWindow* window)
 	: QWidget(window)
 	, m_window(window)
-	, m_isInForm(false)
 	, m_showFilesFunctor(
 		  std::bind(&QtProjectWizardContent::showFilesDialog, this, std::placeholders::_1))
 {
@@ -46,16 +45,6 @@ QString QtProjectWizardContent::getFileNamesTitle() const
 QString QtProjectWizardContent::getFileNamesDescription() const
 {
 	return QStringLiteral("files");
-}
-
-bool QtProjectWizardContent::isInForm() const
-{
-	return m_isInForm;
-}
-
-void QtProjectWizardContent::setIsInForm(bool isInForm)
-{
-	m_isInForm = isInForm;
 }
 
 QLabel* QtProjectWizardContent::createFormLabel(QString name) const

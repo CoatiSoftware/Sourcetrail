@@ -18,12 +18,6 @@ QtProjectWizardContentCustomCommand::QtProjectWizardContentCustomCommand(
 
 void QtProjectWizardContentCustomCommand::populate(QGridLayout* layout, int& row)
 {
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		row++;
-	}
-
 	QLabel* nameLabel = createFormLabel(QStringLiteral("Custom Command"));
 	addHelpButton(
 		QStringLiteral("Custom Command"),
@@ -59,12 +53,6 @@ void QtProjectWizardContentCustomCommand::populate(QGridLayout* layout, int& row
 
 	layout->addWidget(m_runInParallel, row, QtProjectWizardWindow::BACK_COL);
 	row++;
-
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		layout->setRowStretch(row, 1);
-	}
 }
 
 void QtProjectWizardContentCustomCommand::load()

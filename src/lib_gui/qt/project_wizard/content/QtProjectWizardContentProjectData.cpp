@@ -21,12 +21,6 @@ QtProjectWizardContentProjectData::QtProjectWizardContentProjectData(
 
 void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 {
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		row++;
-	}
-
 	QLabel* nameLabel = createFormLabel(QStringLiteral("Sourcetrail Project Name"));
 	m_projectName = new QLineEdit();
 	m_projectName->setObjectName(QStringLiteral("name"));
@@ -57,12 +51,6 @@ void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 		row);
 	layout->setRowMinimumHeight(row, 30);
 	row++;
-
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		layout->setRowStretch(row, 1);
-	}
 }
 
 void QtProjectWizardContentProjectData::load()

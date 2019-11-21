@@ -33,9 +33,6 @@ public:
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;
 
-	bool isInForm() const;
-	void setIsInForm(bool isInForm);
-
 protected:
 	QLabel* createFormLabel(QString name) const;
 	QLabel* createFormTitle(QString name) const;
@@ -57,7 +54,6 @@ protected slots:
 private:
 	void showFilesDialog(const std::vector<FilePath>& filePaths);
 
-	bool m_isInForm;
 	QtThreadedFunctor<const std::vector<FilePath>&> m_showFilesFunctor;
 };
 
