@@ -677,8 +677,8 @@ if (APPLE)
 	string(REPLACE ";" " " MACOS_QT_FRAMEWORKS "${MACOS_QT_FRAMEWORKS}")
 
 	set(MACOS_BOOST_DIR "${Boost_INCLUDE_DIR}")
-	STRING(REGEX REPLACE "/lib/cmake/clang" "" MACOS_CLANG_DIR ${Clang_DIR})
-	STRING(REGEX REPLACE "/lib/cmake/Qt5" "" MACOS_QT_DIR ${Qt5_DIR})
+	STRING(REGEX REPLACE "/lib/cmake/clang" "" MACOS_CLANG_DIR "${Clang_DIR}")
+	STRING(REGEX REPLACE "/lib/cmake/Qt5" "" MACOS_QT_DIR "${Qt5_DIR}")
 
 	configure_file(
 		${PROJECT_SOURCE_DIR}/setup/macOS/bundle_install.sh.in
