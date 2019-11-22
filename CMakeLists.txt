@@ -203,6 +203,8 @@ add_subdirectory(src/test)
 
 # Lib Utility ------------------------------------------------------------------
 
+find_package(Threads REQUIRED)
+
 add_library(${LIB_UTILITY_PROJECT_NAME} ${LIB_UTILITY_FILES})
 
 create_source_groups(${LIB_UTILITY_FILES})
@@ -218,7 +220,7 @@ target_include_directories(${LIB_UTILITY_PROJECT_NAME} SYSTEM
 )
 
 if(UNIX)
-	target_link_libraries(${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES} Qt5::Widgets Qt5::Network)
+	target_link_libraries(${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES} Qt5::Widgets Qt5::Network ${CMAKE_DL_LIBS} rt ${CMAKE_THREAD_LIBS_INIT})
 else()
 	target_link_libraries(${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES} Qt5::Widgets Qt5::Network Qt5::WinExtras)
 endif()
