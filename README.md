@@ -2,7 +2,10 @@
 
 [Sourcetrail](https://www.sourcetrail.com/) is a free and open-source cross-platform source explorer that helps you get productive on unfamiliar source code.
 
-Links
+[![Build status](https://ci.appveyor.com/api/projects/status/0c258a2opn3loyc2/branch/master?svg=true)](https://ci.appveyor.com/project/mlangkabel/sourcetrail/branch/master)
+
+
+__Links__
 * [Website](https://www.sourcetrail.com/)
 * [Download](https://www.sourcetrail.com/downloads)
 * [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE)
