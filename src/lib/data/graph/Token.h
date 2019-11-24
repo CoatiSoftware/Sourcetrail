@@ -3,6 +3,7 @@
 
 #include <typeinfo>
 #include <vector>
+#include <string>
 
 #include "TokenComponent.h"
 #include "types.h"
