@@ -15,6 +15,16 @@
 #include "ViewFactory.h"
 #include "logging.h"
 
+namespace
+{
+template <class Container>
+void reverseErase(Container & container)
+{
+	while(!container.empty())
+		container.pop_back();
+}
+}	 // namespace
+
 ComponentManager::ComponentManager(const ViewFactory* viewFactory, StorageAccess* storageAccess)
 	: m_componentFactory(viewFactory, storageAccess)
 {
@@ -23,8 +33,8 @@ ComponentManager::ComponentManager(const ViewFactory* viewFactory, StorageAccess
 void ComponentManager::clear()
 {
 	m_dialogViews.clear();
-	m_components.clear();
-	m_singleViews.clear();
+	reverseErase(m_components);
+	reverseErase(m_singleViews);
 }
 
 void ComponentManager::setupMain(ViewLayout* viewLayout, Id appId)
