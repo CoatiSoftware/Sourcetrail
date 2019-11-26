@@ -3,6 +3,7 @@
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/Frontend/MultiplexConsumer.h>
 #include <clang/Serialization/ASTWriter.h>
+#include <clang/Lex/PreprocessorOptions.h>
 
 #include "PreprocessorCallbacks.h"
 
@@ -36,14 +37,16 @@ std::unique_ptr<clang::ASTConsumer> GeneratePCHAction::CreateASTConsumer(
 	const auto& FrontendOpts = CI.getFrontendOpts();
 	auto Buffer = std::make_shared<clang::PCHBuffer>();
 	std::vector<std::unique_ptr<clang::ASTConsumer>> Consumers;
-	Consumers.push_back(llvm::make_unique<clang::PCHGenerator>(
+	Consumers.push_back(std::make_unique<clang::PCHGenerator>(
 		CI.getPreprocessor(),
+		CI.getModuleCache(),
 		OutputFile,
 		Sysroot,
 		Buffer,
 		FrontendOpts.ModuleFileExtensions,
-		true,
-		FrontendOpts.IncludeTimestamps));
+		true, // always allow errors in the PCH
+		FrontendOpts.IncludeTimestamps,
+		+CI.getLangOpts().CacheGeneratedPCH));
 	Consumers.push_back(CI.getPCHContainerWriter().CreatePCHContainerGenerator(
 		CI, InFile, OutputFile, std::move(OS), Buffer));
 

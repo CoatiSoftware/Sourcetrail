@@ -61,7 +61,7 @@ ClangInvocationInfo ClangInvocationInfo::getClangInvocationString(
 			new clang::FileManager(clang::FileSystemOptions()));
 
 		const std::unique_ptr<clang::driver::Driver> Driver(
-			newDriver(&Diagnostics, BinaryName, Files->getVirtualFileSystem()));
+			newDriver(&Diagnostics, BinaryName, &Files->getVirtualFileSystem()));
 		// Since the input might only be virtual, don't check whether it exists.
 		Driver->setCheckInputsExist(false);
 		const std::unique_ptr<clang::driver::Compilation> Compilation(

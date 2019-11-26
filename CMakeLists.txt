@@ -301,6 +301,7 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 		msp430asmparser msp430codegen
 		nvptxcodegen
 		powerpcasmparser powerpccodegen
+		riscvasmparser riscvcodegen
 		sparcasmparser sparccodegen
 		systemzasmparser systemzcodegen
 		webassemblyasmparser webassemblycodegen
