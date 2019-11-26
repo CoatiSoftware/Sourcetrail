@@ -29,23 +29,20 @@ INFO="\033[33mInfo:\033[00m"
 
 if [ $PLATFORM == "windows" ]; then
 	SCRIPT=`realpath $0`
-	echo "SCRIPT: \"${SCRIPT}\""
 	if [ "$SCRIPT" == "" ]; then
 	
 		ORIGINAL_PATH_TO_SCRIPT="${0}"
-		echo "ORIGINAL_PATH_TO_SCRIPT: $ORIGINAL_PATH_TO_SCRIPT"
 		CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
-		echo "CLEANED_PATH_TO_SCRIPT: $CLEANED_PATH_TO_SCRIPT"
 		SCRIPT_DIR=${CLEANED_PATH_TO_SCRIPT%/*}
 	else
 		ORIGINAL_PATH_TO_SCRIPT=`dirname $SCRIPT`
-		echo "ORIGINAL_PATH_TO_SCRIPT: $ORIGINAL_PATH_TO_SCRIPT"
 		SCRIPT_DIR="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
 	fi
-	echo "SCRIPT_DIR: $SCRIPT_DIR"
 else
 	SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 fi
+
+echo "This script is running in: $SCRIPT_DIR"
 
 
 # Enter main directory
@@ -57,12 +54,8 @@ if [ -e "$TARGET_PATH/SourcetrailPythonIndexer.exe" ]; then
     echo "SourcetrailPythonIndexer already exists, checking version..."
 	
 	INSTALLED_VERSION="$($TARGET_PATH/SourcetrailPythonIndexer.exe --version)"
-	echo "INSTALLED_VERSION version is: $INSTALLED_VERSION"
 	INSTALLED_VERSION=${INSTALLED_VERSION#* }
-	echo "INSTALLED_VERSION version is: $INSTALLED_VERSION"
-	
 	INSTALLED_VERSION="${INSTALLED_VERSION//./$'_'}"
-	echo "SourcetrailPythonIndexer version is: $INSTALLED_VERSION"
 	
 	if [ "$INSTALLED_VERSION" == "$SOURCETRAIL_PYTHON_INDEXER_VERSION" ]; then
 		echo "Nothing to update. Target version of SourcetrailPythonIndexer is already installed."
@@ -70,7 +63,7 @@ if [ -e "$TARGET_PATH/SourcetrailPythonIndexer.exe" ]; then
 	fi
 fi
 
-mkdir -p "build/temp"
+mkdir -p $TEMP_PATH
 
 echo -e $INFO "starting to download $PACKAGE_FILE_NAME"
 
@@ -92,6 +85,7 @@ elif [ $PLATFORM == "osx" ]; then
 elif [ $PLATFORM == "windows" ]; then
 	winrar x $TEMP_PATH/$PACKAGE_FILE_NAME $TEMP_PATH
 fi
+
 
 echo -e $INFO "clearing $TARGET_PATH"
 rm -rf $TARGET_PATH
