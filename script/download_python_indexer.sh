@@ -30,7 +30,7 @@ INFO="\033[33mInfo:\033[00m"
 if [ $PLATFORM == "windows" ]; then
 	SCRIPT=`realpath $0`
 	if [ "$SCRIPT" == "" ]; then
-	
+
 		ORIGINAL_PATH_TO_SCRIPT="${0}"
 		CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
 		SCRIPT_DIR=${CLEANED_PATH_TO_SCRIPT%/*}
@@ -49,16 +49,20 @@ echo "This script is running in: $SCRIPT_DIR"
 cd $SCRIPT_DIR/
 cd ..
 
+BINARY_PATH="$TARGET_PATH/SourcetrailPythonIndexer"
+if [ $PLATFORM == "windows" ]; then
+	BINARY_PATH="${BINARY_PATH}.exe"
+fi
 
-if [ -e "$TARGET_PATH/SourcetrailPythonIndexer.exe" ]; then
-    echo "SourcetrailPythonIndexer already exists, checking version..."
-	
-	INSTALLED_VERSION="$($TARGET_PATH/SourcetrailPythonIndexer.exe --version)"
+if [ -e "${BINARY_PATH}" ]; then
+    echo -e $INFO "SourcetrailPythonIndexer already exists, checking version..."
+
+	INSTALLED_VERSION="$(${BINARY_PATH} --version)"
 	INSTALLED_VERSION=${INSTALLED_VERSION#* }
 	INSTALLED_VERSION="${INSTALLED_VERSION//./$'_'}"
-	
+
 	if [ "$INSTALLED_VERSION" == "$SOURCETRAIL_PYTHON_INDEXER_VERSION" ]; then
-		echo "Nothing to update. Target version of SourcetrailPythonIndexer is already installed."
+		echo -e $INFO "Nothing to update. Target version of SourcetrailPythonIndexer is already installed."
 		exit
 	fi
 fi
