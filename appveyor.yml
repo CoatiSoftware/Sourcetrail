@@ -3,13 +3,20 @@ image: Visual Studio 2017
 
 
 before_build:
+    - choco install winrar -y
+    - SET "PATH=%PATH%;C:\Program Files\WinRAR"
     - mkdir build
+    - cd build
+    - mkdir temp
+    - cd ../
+    - cd script
+    - cmd: "\"C:/Program Files/Git/usr/bin/bash.exe\" download_python_indexer.sh" 
+    - cd ../
     - cd build
     - mkdir win64
     - cd win64
-    - cmake -G "Visual Studio 15 Win64" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5 ../../
+    - cmake -G "Visual Studio 15 Win64" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5 -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ../../
     - cd ../../
-
 
 build_script:
     - cd build/win64

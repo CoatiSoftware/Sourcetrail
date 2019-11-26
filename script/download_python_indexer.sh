@@ -10,6 +10,10 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	PLATFORM='linux'
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	PLATFORM='windows'
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+	PLATFORM='windows'
+elif [ "$OSTYPE" == "msys" ]; then
+	PLATFORM='windows'
 fi
 
 PACKAGE_NAME="SourcetrailPythonIndexer_${SOURCETRAIL_PYTHON_INDEXER_VERSION}-${PLATFORM}"
@@ -24,30 +28,41 @@ SUCCESS="\033[32mSuccess:\033[00m"
 INFO="\033[33mInfo:\033[00m"
 
 if [ $PLATFORM == "windows" ]; then
-	ORIGINAL_PATH_TO_SCRIPT="${0}"
-	CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
-	ROOT_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
+	SCRIPT=`realpath $0`
+	if [ "$SCRIPT" == "" ]; then
+
+		ORIGINAL_PATH_TO_SCRIPT="${0}"
+		CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
+		SCRIPT_DIR=${CLEANED_PATH_TO_SCRIPT%/*}
+	else
+		ORIGINAL_PATH_TO_SCRIPT=`dirname $SCRIPT`
+		SCRIPT_DIR="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
+	fi
 else
-	ROOT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+	SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 fi
 
-ROOT_DIR=$ROOT_DIR/..
+echo "This script is running in: $SCRIPT_DIR"
+
 
 # Enter main directory
-cd $ROOT_DIR/
+cd $SCRIPT_DIR/
+cd ..
 
+BINARY_PATH="$TARGET_PATH/SourcetrailPythonIndexer"
+if [ $PLATFORM == "windows" ]; then
+	BINARY_PATH="${BINARY_PATH}.exe"
+fi
 
-if [ -e "$TARGET_PATH/SourcetrailPythonIndexer.exe" ]; then
-    echo "SourcetrailPythonIndexer already exists, checking version..."
-	
-	INSTALLED_VERSION="$($TARGET_PATH/SourcetrailPythonIndexer.exe --version)"
-	INSTALLED_VERSION="$(sed -e 's#.* \(\)#\1#' <<< $INSTALLED_VERSION)"
-	echo "SourcetrailPythonIndexer version is: $INSTALLED_VERSION"
-	
-	INSTALLED_VERSION="$(echo $INSTALLED_VERSION | tr . _)"
-	
-	if [ $INSTALLED_VERSION == $SOURCETRAIL_PYTHON_INDEXER_VERSION ]; then
-		echo "Nothing to update. Target version of SourcetrailPythonIndexer is already installed."
+if [ -e "${BINARY_PATH}" ]; then
+    echo -e $INFO "SourcetrailPythonIndexer already exists, checking version..."
+
+	INSTALLED_VERSION="$(${BINARY_PATH} --version)"
+	INSTALLED_VERSION=${INSTALLED_VERSION#* }
+	INSTALLED_VERSION="${INSTALLED_VERSION//./$'_'}"
+
+	if [ "$INSTALLED_VERSION" == "$SOURCETRAIL_PYTHON_INDEXER_VERSION" ]; then
+		echo -e $INFO "Nothing to update. Target version of SourcetrailPythonIndexer is already installed."
 		exit
 	fi
 fi
