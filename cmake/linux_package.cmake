@@ -55,10 +55,12 @@ function(AddSharedToComponent)
 		PATTERN "python/SourcetrailPythonIndexer" EXCLUDE
 	)
 
-	INSTALL(PROGRAMS
-		${CMAKE_SOURCE_DIR}/bin/app/data/python/SourcetrailPythonIndexer
-		DESTINATION Sourcetrail/data/python
-	)
+	if (BUILD_PYTHON_LANGUAGE_PACKAGE)
+		INSTALL(PROGRAMS
+			${CMAKE_SOURCE_DIR}/bin/app/data/python/SourcetrailPythonIndexer
+			DESTINATION Sourcetrail/data/python
+		)
+	endif()
 
     InstallQt(5)
 
