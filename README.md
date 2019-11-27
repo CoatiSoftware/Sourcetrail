@@ -88,7 +88,7 @@ This is optionally used to speed up rebuilds if found in `PATH`.
 
 ### Required dependencies
 
-#### Boost 1.68
+#### Boost 1.67
 For the __msvc__ compiler pre-built binaries can be downloaded from [sourceforge.net/projects/boost/files/boost-binaries](https://sourceforge.net/projects/boost/files/boost-binaries/)
 
 For building on Unix:
