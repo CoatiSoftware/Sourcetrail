@@ -604,41 +604,40 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 
 void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 {
-	const int panningThreshold = 5;
-
-	if (event->button() == Qt::LeftButton)
-	{
-		m_isSelecting = false;
-		m_isPanning = false;
-
-		viewport()->setCursor(Qt::ArrowCursor);
-
-		if (m_panningDistance < panningThreshold)	 // dont do anything if mouse is release to end
-													 // some real panning action.
-		{
-			if (Qt::KeyboardModifier::ControlModifier & QApplication::keyboardModifiers())
-			{
-				m_eventPosition = event->pos();
-				setIDECursorPosition();
-			}
-			else
-			{
-				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(
-					event->pos());
-				if (annotations.size())
-				{
-					activateAnnotationsOrErrors(annotations);
-				}
-				else if (m_navigator->getActiveLocalTokenIds().size())
-				{
-					MessageActivateLocalSymbols(std::vector<Id>()).dispatch();
-				}
-			}
-		}
-	}
-	else
+	if (event->button() != Qt::LeftButton)
 	{
 		QtCodeField::mouseReleaseEvent(event);
+		return;
+	}
+
+	m_isSelecting = false;
+	m_isPanning = false;
+	{
+
+	viewport()->setCursor(Qt::ArrowCursor);
+
+	const int panningThreshold = 5;
+	if (m_panningDistance < panningThreshold)	 // dont do anything if mouse is release to end
+												 // some real panning action.
+	{
+		if (Qt::KeyboardModifier::ControlModifier & QApplication::keyboardModifiers())
+		{
+			m_eventPosition = event->pos();
+			setIDECursorPosition();
+		}
+		else
+		{
+			std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(
+				event->pos());
+			if (annotations.size())
+			{
+				activateAnnotationsOrErrors(annotations);
+			}
+			else if (m_navigator->getActiveLocalTokenIds().size())
+			{
+				MessageActivateLocalSymbols(std::vector<Id>()).dispatch();
+			}
+		}
 	}
 }
 
