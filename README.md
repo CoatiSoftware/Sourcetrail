@@ -135,10 +135,10 @@ Run Sourcetrail from within the build directory. During execution Sourcetrail ne
 
 ### Required dependencies
 
-#### LLVM/Clang 8.0.1
+#### LLVM/Clang 9.0.0
 
 ##### Windows
-For the __msvc__ compiler, follow [these steps](https://clang.llvm.org/get_started.html) to build the project and make sure that you run the cmake command exactly as described.
+For the __msvc__ compiler, follow [these steps](https://clang.llvm.org/get_started.html) to build the project. Make sure to check out the correct tag and to run the cmake command exactly as described.
 
 ##### Unix
 For Unix, follow this [installation guide](http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
