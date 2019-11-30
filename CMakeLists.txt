@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 
+if (WIN32 AND (CMAKE_GENERATOR STREQUAL "Ninja"))
+	set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
+endif()
 set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the Sourcetrail indexer.")
 set(BUILD_JAVA_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
