@@ -3,14 +3,17 @@
 #include <algorithm>
 
 #include <QApplication>
+#include <QDrag>
 #include <QFont>
 #include <QHBoxLayout>
 #include <QMenu>
+#include <QMimeData>
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QTextBlock>
+#include <QTextDocumentFragment>
 #include <QToolTip>
 
 #include "ApplicationSettings.h"
@@ -80,6 +83,7 @@ QtCodeArea::QtCodeArea(
 	, m_digits(0)
 	, m_isSelecting(false)
 	, m_isPanning(false)
+	, m_isDragging(false)
 	, m_setIDECursorPositionAction(nullptr)
 	, m_eventPosition(0, 0)
 	, m_isActiveFile(false)
@@ -581,23 +585,31 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		clearSelection();
-
-		m_oldMousePosition = event->pos();
-		m_panningDistance = 0;
-
-		if (Qt::KeyboardModifier::ShiftModifier & QApplication::keyboardModifiers())
+		const QPoint clickPosition(event->pos());
+		m_oldMousePosition = clickPosition;
+		if (isSelectionPosition(clickPosition))
 		{
-			m_isPanning = true;
-			viewport()->setCursor(Qt::ClosedHandCursor);
+			m_isDragging = true;
 		}
 		else
 		{
-			m_isSelecting = true;
-			QTextCursor cursor = this->cursorForPosition(event->pos());
-			setNewTextCursor(cursor);
+			clearSelection();
 
-			viewport()->setCursor(Qt::IBeamCursor);
+			m_panningDistance = 0;
+
+			if (Qt::KeyboardModifier::ShiftModifier & QApplication::keyboardModifiers())
+			{
+				m_isPanning = true;
+				viewport()->setCursor(Qt::ClosedHandCursor);
+			}
+			else
+			{
+				m_isSelecting = true;
+				QTextCursor cursor = this->cursorForPosition(event->pos());
+				setNewTextCursor(cursor);
+
+				viewport()->setCursor(Qt::IBeamCursor);
+			}
 		}
 	}
 }
@@ -612,7 +624,18 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 	m_isSelecting = false;
 	m_isPanning = false;
+
+	if (m_isDragging)
 	{
+		const int distance = (event->pos() - m_oldMousePosition).manhattanLength();
+		if (distance < QApplication::startDragDistance())
+		{
+			clearSelection();
+		}
+
+		m_isDragging = false;
+		return;
+	}
 
 	viewport()->setCursor(Qt::ArrowCursor);
 
@@ -644,6 +667,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 {
 	const QPoint currentMousePosition = event->pos();
+	const int delta = (currentMousePosition - m_oldMousePosition).manhattanLength();
 	const int deltaX = currentMousePosition.x() - m_oldMousePosition.x();
 	const int deltaY = currentMousePosition.y() - m_oldMousePosition.y();
 	m_oldMousePosition = currentMousePosition;
@@ -661,6 +685,14 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		int visibleContentWidth = width() - lineNumberAreaWidth();
 		float deltaPosRatio = float(deltaX) / (visibleContentWidth);
 		scrollbar->setValue(scrollbar->value() - std::round(deltaPosRatio * scrollbar->pageStep()));
+	}
+	else if (m_isDragging)
+	{
+		if (delta >= QApplication::startDragDistance())
+		{
+			dragSelectedText();
+			m_isDragging = false;
+		}
 	}
 
 	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(event->pos());
@@ -802,6 +834,27 @@ void QtCodeArea::setNewTextCursor(const QTextCursor& cursor)
 
 	horizontalScrollBar()->setValue(horizontalValue);
 	verticalScrollBar()->setValue(verticalValue);
+}
+
+void QtCodeArea::dragSelectedText()
+{
+	QMimeData* mimeData = new QMimeData;
+	const QString text = textCursor().selection().toPlainText();
+	mimeData->setText(text);
+
+	QDrag* drag = new QDrag(this);
+	drag->setMimeData(mimeData);
+	drag->exec(Qt::CopyAction);
+}
+
+bool QtCodeArea::isSelectionPosition(const QPoint positionPoint) const
+{
+	const QTextCursor textCursor = QtCodeArea::textCursor();
+	const int selectionStart = textCursor.selectionStart();
+	const int selectionEnd = textCursor.selectionEnd();
+	const QTextCursor positionCursor = this->cursorForPosition(positionPoint);
+	const int position = positionCursor.position();
+	return selectionStart != selectionEnd && selectionStart <= position && position <= selectionEnd;
 }
 
 void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations)
