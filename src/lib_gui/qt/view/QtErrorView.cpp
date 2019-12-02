@@ -293,7 +293,7 @@ void QtErrorView::setStyleSheet() const
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 	utility::setWidgetBackgroundColor(
-		widget, ColorScheme::getInstance()->getColor("error/background"));
+		widget, ColorScheme::getInstance()->getColor("window/background"));
 
 	QPalette palette(m_showErrors->palette());
 	palette.setColor(
