@@ -107,6 +107,8 @@ private slots:
 private:
 	void clearSelection();
 	void setNewTextCursor(const QTextCursor& cursor);
+	void dragSelectedText();
+	bool isSelectionPosition(QPoint positionPoint) const;
 
 	void activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations);
 
@@ -121,6 +123,7 @@ private:
 
 	bool m_isSelecting;
 	bool m_isPanning;
+	bool m_isDragging;
 	QPoint m_oldMousePosition;
 	int m_panningDistance;
 
