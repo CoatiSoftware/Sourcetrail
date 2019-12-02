@@ -1,6 +1,15 @@
 version: 0.0.0.{build}
 image: Visual Studio 2017
 
+install:
+  ############################################################################
+  # Install Ninja
+  ############################################################################
+  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip"
+  - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
+  - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+  - set PATH=C:\projects\deps\ninja;%PATH%
+  - ninja --version
 
 before_build:
     - choco install winrar -y
@@ -15,14 +24,14 @@ before_build:
     - cd build
     - mkdir win64
     - cd win64
-    - cmake -G "Visual Studio 15 Win64" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5 -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ../../
+    - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+    - cmake -G "Ninja" -DBOOST_ROOT=C:/Libraries/boost_1_69_0 -DQt5_DIR=C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5 -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ../../
     - cd ../../
 
 build_script:
     - cd build/win64
-    - msbuild /p:configuration=Release /v:m ALL_BUILD.vcxproj
+    - ninja
     - cd ../../
-
 
 test_script:
     - cd bin/test
