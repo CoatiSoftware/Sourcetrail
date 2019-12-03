@@ -75,7 +75,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(
 
 			if (symbolKind != SYMBOL_KIND_MAX)
 			{
-				Id symbolId = getOrCreateSymbolId(recordDecl);
+				const Id symbolId = getOrCreateSymbolId(recordDecl);
 				m_client->recordSymbolKind(symbolId, symbolKind);
 				m_client->recordLocation(
 					symbolId, getParseLocation(loc.getLocalBeginLoc()), ParseLocationType::QUALIFIER);
@@ -83,9 +83,22 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(
 		}
 		else if (const clang::Type* type = loc.getNestedNameSpecifier()->getAsType())
 		{
-			Id symbolId = getOrCreateSymbolId(type);
-			m_client->recordLocation(
-				symbolId, getParseLocation(loc.getLocalBeginLoc()), ParseLocationType::QUALIFIER);
+			const ParseLocation parseLocation = getParseLocation(loc.getLocalBeginLoc());
+
+			if (const clang::TemplateTypeParmType* tpt =
+					clang::dyn_cast_or_null<clang::TemplateTypeParmType>(type))
+			{
+				clang::TemplateTypeParmDecl* d = tpt->getDecl();
+				if (d)
+				{
+					m_client->recordLocalSymbol(getLocalSymbolName(d->getLocation()), parseLocation);
+				}
+			}
+			else
+			{
+				const Id symbolId = getOrCreateSymbolId(type);
+				m_client->recordLocation(symbolId, parseLocation, ParseLocationType::QUALIFIER);
+			}
 		}
 	}
 }
@@ -104,10 +117,16 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(
 			const ParseLocation parseLocation = getParseLocation(loc.getLocation());
 			if (templateTemplateArgumentName.isDependent())
 			{
-				m_client->recordLocalSymbol(
-					getLocalSymbolName(
-						templateTemplateArgumentName.getAsTemplateDecl()->getLocation()),
-					parseLocation);
+				clang::SourceLocation declLocation;
+				if (templateTemplateArgumentName.getAsTemplateDecl())
+				{
+					declLocation = templateTemplateArgumentName.getAsTemplateDecl()->getLocation();
+				}
+				else
+				{
+					declLocation = loc.getLocation();
+				}
+				m_client->recordLocalSymbol(getLocalSymbolName(declLocation), parseLocation);
 			}
 			else
 			{
@@ -343,8 +362,9 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 					 ->isExplicitSpecialization())
 			{
 				// record edge from Foo<int>::bar<float>() to Foo<T>::bar<U>() instead of recording
-				// an edge from Foo<int>::bar<float>() to Foo<int>::bar<U>() because there is not "written"
-				// code for Foo<int>::bar<U>() if Foo<int> is an implicit template specialization.
+				// an edge from Foo<int>::bar<float>() to Foo<int>::bar<U>() because there is not
+				// "written" code for Foo<int>::bar<U>() if Foo<int> is an implicit template
+				// specialization.
 				if (clang::CXXRecordDecl* declaringRecordDecl =
 						clang::dyn_cast_or_null<clang::CXXRecordDecl>(d->getParent()))
 				{
