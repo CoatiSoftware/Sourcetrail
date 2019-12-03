@@ -75,7 +75,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(
 
 			if (symbolKind != SYMBOL_KIND_MAX)
 			{
-				Id symbolId = getOrCreateSymbolId(recordDecl);
+				const Id symbolId = getOrCreateSymbolId(recordDecl);
 				m_client->recordSymbolKind(symbolId, symbolKind);
 				m_client->recordLocation(
 					symbolId, getParseLocation(loc.getLocalBeginLoc()), ParseLocationType::QUALIFIER);
@@ -83,9 +83,22 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(
 		}
 		else if (const clang::Type* type = loc.getNestedNameSpecifier()->getAsType())
 		{
-			Id symbolId = getOrCreateSymbolId(type);
-			m_client->recordLocation(
-				symbolId, getParseLocation(loc.getLocalBeginLoc()), ParseLocationType::QUALIFIER);
+			const ParseLocation parseLocation = getParseLocation(loc.getLocalBeginLoc());
+
+			if (const clang::TemplateTypeParmType* tpt = clang::dyn_cast_or_null<clang::TemplateTypeParmType>(type))
+			{
+				clang::TemplateTypeParmDecl* d = tpt->getDecl();
+				if (d)
+				{
+					m_client->recordLocalSymbol(getLocalSymbolName(d->getLocation()), parseLocation);
+				}
+			}
+			else
+			{
+				const Id symbolId = getOrCreateSymbolId(type);
+				m_client->recordLocation(
+					symbolId, parseLocation, ParseLocationType::QUALIFIER);
+			}
 		}
 	}
 }
@@ -104,9 +117,17 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(
 			const ParseLocation parseLocation = getParseLocation(loc.getLocation());
 			if (templateTemplateArgumentName.isDependent())
 			{
+				clang::SourceLocation declLocation;
+				if (templateTemplateArgumentName.getAsTemplateDecl())
+				{
+					declLocation = templateTemplateArgumentName.getAsTemplateDecl()->getLocation();
+				}
+				else
+				{
+					declLocation = loc.getLocation();
+				}
 				m_client->recordLocalSymbol(
-					getLocalSymbolName(
-						templateTemplateArgumentName.getAsTemplateDecl()->getLocation()),
+					getLocalSymbolName(declLocation),
 					parseLocation);
 			}
 			else
