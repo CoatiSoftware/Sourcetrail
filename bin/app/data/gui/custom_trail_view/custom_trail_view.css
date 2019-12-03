@@ -53,12 +53,6 @@
 	color: <color:custom_trail/button/hover/text>;
 }
 
-#button:disabled, #button_small:disabled {
-	background: <color:custom_trail/button/disabled/background>;
-	border-color: <color:custom_trail/button/disabled/border>;
-	color: <color:custom_trail/button/disabled/text>;
-}
-
 #error {
 	color: red;
 }

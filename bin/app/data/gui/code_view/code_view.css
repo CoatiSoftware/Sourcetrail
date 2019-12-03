@@ -228,7 +228,7 @@
 
 #code_area {
 	background-color: <color:code/snippet/background>;
-	color: <color:code/snippet/syntax/normal>;
+	color: <color:code/snippet/syntax/text>;
 	selection-color: <color:code/snippet/selection/text>;
 	selection-background-color: <color:code/snippet/selection/background>;
 }

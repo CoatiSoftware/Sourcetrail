@@ -41,7 +41,7 @@ std::string ColorScheme::getNodeTypeColor(
 {
 	disableWarnings();
 
-	std::string type = getValue<std::string>("graph/node/" + typeStr + "/like", typeStr);
+	const std::string type = getValue<std::string>("graph/node/" + typeStr + "/like", typeStr);
 	std::string color = getValue<std::string>(
 		"graph/node/" + type + "/" + key + "/" + stateToString(state), "");
 

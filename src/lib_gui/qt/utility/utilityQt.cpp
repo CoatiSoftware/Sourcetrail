@@ -91,7 +91,7 @@ std::string getStyleSheet(const FilePath& path)
 			return "";
 		}
 
-		std::string key = seq.front();
+		const std::string key = seq.front();
 		std::string val = seq.back();
 
 		if (key == "setting")
@@ -168,6 +168,10 @@ std::string getStyleSheet(const FilePath& path)
 		}
 		else if (key == "color")
 		{
+			if (!ColorScheme::getInstance()->hasColor(val))
+			{
+				LOG_WARNING("Color scheme does not provide value for key \"" + val + "\" requested by style \"" + path.str() + "\".");
+			}
 			val = ColorScheme::getInstance()->getColor(val);
 		}
 		else if (key == "platform_wml")
