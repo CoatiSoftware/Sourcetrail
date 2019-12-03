@@ -22,8 +22,6 @@ public:
 	CommandLineParser(const std::string& version);
 	~CommandLineParser();
 
-	void setup();
-
 	void preparse(int argc, char** argv);
 	void preparse(std::vector<std::string>& args);
 	void parse();
@@ -36,14 +34,15 @@ public:
 
 	void fullRefresh();
 	void incompleteRefresh();
+	void setShallowIndexingRequested(bool enabled = true);
 
 	const FilePath& getProjectFilePath() const;
 	void setProjectFile(const FilePath& filepath);
 
 	RefreshMode getRefreshMode() const;
+	bool getShallowIndexingRequested() const;
 
 private:
-	void addCommand(std::unique_ptr<CommandlineCommand> command);
 	void processProjectfile();
 	void printHelp() const;
 
@@ -56,6 +55,7 @@ private:
 	const std::string m_version;
 	FilePath m_projectFile;
 	RefreshMode m_refreshMode = REFRESH_UPDATED_FILES;
+	bool m_shallowIndexingRequested = false;
 
 	bool m_quit = false;
 	bool m_withoutGUI = false;

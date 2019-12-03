@@ -169,7 +169,8 @@ int main(int argc, char *argv[])
 			MessageLoadProject(
 				commandLineParser.getProjectFilePath(),
 				false,
-				commandLineParser.getRefreshMode()
+				commandLineParser.getRefreshMode(),
+				commandLineParser.getShallowIndexingRequested()
 			).dispatch();
 		}
 
