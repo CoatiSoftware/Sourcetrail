@@ -85,7 +85,8 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(
 		{
 			const ParseLocation parseLocation = getParseLocation(loc.getLocalBeginLoc());
 
-			if (const clang::TemplateTypeParmType* tpt = clang::dyn_cast_or_null<clang::TemplateTypeParmType>(type))
+			if (const clang::TemplateTypeParmType* tpt =
+					clang::dyn_cast_or_null<clang::TemplateTypeParmType>(type))
 			{
 				clang::TemplateTypeParmDecl* d = tpt->getDecl();
 				if (d)
@@ -96,8 +97,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(
 			else
 			{
 				const Id symbolId = getOrCreateSymbolId(type);
-				m_client->recordLocation(
-					symbolId, parseLocation, ParseLocationType::QUALIFIER);
+				m_client->recordLocation(symbolId, parseLocation, ParseLocationType::QUALIFIER);
 			}
 		}
 	}
@@ -126,9 +126,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(
 				{
 					declLocation = loc.getLocation();
 				}
-				m_client->recordLocalSymbol(
-					getLocalSymbolName(declLocation),
-					parseLocation);
+				m_client->recordLocalSymbol(getLocalSymbolName(declLocation), parseLocation);
 			}
 			else
 			{
@@ -364,8 +362,9 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 					 ->isExplicitSpecialization())
 			{
 				// record edge from Foo<int>::bar<float>() to Foo<T>::bar<U>() instead of recording
-				// an edge from Foo<int>::bar<float>() to Foo<int>::bar<U>() because there is not "written"
-				// code for Foo<int>::bar<U>() if Foo<int> is an implicit template specialization.
+				// an edge from Foo<int>::bar<float>() to Foo<int>::bar<U>() because there is not
+				// "written" code for Foo<int>::bar<U>() if Foo<int> is an implicit template
+				// specialization.
 				if (clang::CXXRecordDecl* declaringRecordDecl =
 						clang::dyn_cast_or_null<clang::CXXRecordDecl>(d->getParent()))
 				{
