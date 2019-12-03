@@ -18,29 +18,25 @@ namespace commandline
 {
 CommandLineParser::CommandLineParser(const std::string& version): m_version(version)
 {
-	setup();
-}
-
-CommandLineParser::~CommandLineParser() {}
-
-void CommandLineParser::setup()
-{
 	po::options_description options("Options");
-	options.add_options()("help,h", "Print this help message")(
-		"version,v", "Version of Sourcetrail")(
-		"project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)");
+	options.add_options()
+		("help,h", "Print this help message")
+		("version,v", "Version of Sourcetrail")
+		("project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)");
 
 	m_options.add(options);
 	m_positional.add("project-file", 1);
 
-	addCommand(std::make_unique<commandline::CommandlineCommandConfig>(this));
-	addCommand(std::make_unique<commandline::CommandlineCommandIndex>(this));
+	m_commands.push_back(std::make_unique<commandline::CommandlineCommandConfig>(this));
+	m_commands.push_back(std::make_unique<commandline::CommandlineCommandIndex>(this));
 
-	for (auto& command: m_commands)
+	for (auto& command : m_commands)
 	{
 		command->setup();
 	}
 }
+
+CommandLineParser::~CommandLineParser() {}
 
 void CommandLineParser::preparse(int argc, char** argv)
 {
@@ -148,11 +144,6 @@ void CommandLineParser::setProjectFile(const FilePath& filepath)
 	processProjectfile();
 }
 
-void CommandLineParser::addCommand(std::unique_ptr<CommandlineCommand> command)
-{
-	m_commands.push_back(std::move(command));
-}
-
 void CommandLineParser::printHelp() const
 {
 	std::cout << "Usage:\n  Sourcetrail [command] [option...] [positional arguments]\n\n";
@@ -240,6 +231,11 @@ void CommandLineParser::incompleteRefresh()
 	m_refreshMode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
 }
 
+void CommandLineParser::setShallowIndexingRequested(bool enabled)
+{
+	m_shallowIndexingRequested = enabled;
+}
+
 const FilePath& CommandLineParser::getProjectFilePath() const
 {
 	return m_projectFile;
@@ -248,6 +244,11 @@ const FilePath& CommandLineParser::getProjectFilePath() const
 RefreshMode CommandLineParser::getRefreshMode() const
 {
 	return m_refreshMode;
+}
+
+bool CommandLineParser::getShallowIndexingRequested() const
+{
+	return m_shallowIndexingRequested;
 }
 
 }	 // namespace commandline

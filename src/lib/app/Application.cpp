@@ -255,7 +255,7 @@ void Application::handleMessage(MessageLoadProject* message)
 		if (message->settingsChanged && m_hasGUI)
 		{
 			m_project->setStateOutdated();
-			refreshProject(REFRESH_ALL_FILES);
+			refreshProject(REFRESH_ALL_FILES, message->shallowIndexingRequested);
 		}
 	}
 	else
@@ -316,7 +316,7 @@ void Application::handleMessage(MessageLoadProject* message)
 
 		if (message->refreshMode != REFRESH_NONE)
 		{
-			refreshProject(message->refreshMode);
+			refreshProject(message->refreshMode, message->shallowIndexingRequested);
 		}
 	}
 }
@@ -325,7 +325,8 @@ void Application::handleMessage(MessageRefresh* message)
 {
 	TRACE("app refresh");
 
-	refreshProject(message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES);
+	refreshProject(
+		message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES, false);
 }
 
 void Application::handleMessage(MessageRefreshUI* message)
@@ -409,11 +410,11 @@ void Application::loadWindow(bool showStartWindow)
 	}
 }
 
-void Application::refreshProject(RefreshMode refreshMode)
+void Application::refreshProject(RefreshMode refreshMode, bool shallowIndexingRequested)
 {
 	if (m_project && checkSharedMemory())
 	{
-		m_project->refresh(refreshMode, getDialogView(DialogView::UseCase::INDEXING));
+		m_project->refresh(getDialogView(DialogView::UseCase::INDEXING), refreshMode, shallowIndexingRequested);
 
 		if (!m_hasGUI && !m_project->isIndexing())
 		{

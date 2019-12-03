@@ -20,7 +20,7 @@ struct RefreshInfo
 	std::set<FilePath> nonIndexedFilesToClear;
 
 	RefreshMode mode = REFRESH_NONE;
-	bool shallow = true;
+	bool shallow = false;
 };
 
 #endif	  // REFRESH_INFO_H

@@ -10,10 +10,11 @@ class MessageLoadProject: public Message<MessageLoadProject>
 {
 public:
 	MessageLoadProject(
-		const FilePath& filePath, bool settingsChanged = false, RefreshMode refreshMode = REFRESH_NONE)
+		const FilePath& filePath, bool settingsChanged = false, RefreshMode refreshMode = REFRESH_NONE, bool shallowIndexingRequested = false)
 		: projectSettingsFilePath(filePath)
 		, settingsChanged(settingsChanged)
 		, refreshMode(refreshMode)
+		, shallowIndexingRequested(shallowIndexingRequested)
 	{
 	}
 
@@ -32,6 +33,7 @@ public:
 	const FilePath projectSettingsFilePath;
 	const bool settingsChanged;
 	const RefreshMode refreshMode;
+	const bool shallowIndexingRequested;
 };
 
 #endif	  // MESSAGE_LOAD_PROJECT_H
