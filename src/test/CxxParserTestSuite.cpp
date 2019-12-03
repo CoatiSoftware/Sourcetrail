@@ -844,8 +844,8 @@ TEST_CASE("cxx parser finds template argument of dependent non type template par
 //	);
 
 //	TS_ASSERT(utility::containsElement<std::wstring>(
-//		client->typeUses, // TODO: record edge between vector<int, Alloc<int>> and Alloc<int> (this is
-//an issue because we dont have any typeloc for this edge -.-
+//		client->typeUses, // TODO: record edge between vector<int, Alloc<int>> and Alloc<int> (this
+//is an issue because we dont have any typeloc for this edge -.-
 //	));
 //}
 
@@ -2619,6 +2619,23 @@ TEST_CASE("cxx parser finds typedef in other class that depends on own template 
 		client->typeUses, L"B<int>::type -> A<int>::type <11:25 11:28>"));
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->typeUses, L"B<int>::type f -> B<int>::type <13:9 13:12>"));
+}
+
+TEST_CASE("cxx parser finds usage of template parameter in qualifier of other symbol")
+{
+	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+		"template <typename T>\n"
+		"struct find_if_impl;\n"
+		"\n"
+		"template <typename R, typename S>\n"
+		"struct find_if\n"
+		"{\n"
+		"	template <typename... Ts>\n"
+		"	using f = typename find_if_impl<S>::template f<R::template f, Ts...>;\n"
+		"};\n");
+
+	REQUIRE(utility::containsElement<std::wstring>(
+		client->localSymbols, L"input.cc<4:20> <8:49 8:49>"));
 }
 
 TEST_CASE("cxx parser finds use of dependent template specialization type")
