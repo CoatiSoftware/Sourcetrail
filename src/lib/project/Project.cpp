@@ -421,7 +421,9 @@ void Project::refresh(std::shared_ptr<DialogView> dialogView, RefreshMode refres
 	}
 	else
 	{
-		buildIndex(getRefreshInfo(refreshMode), dialogView);
+		RefreshInfo info = getRefreshInfo(refreshMode);
+		info.shallow = useShallowIndexing;
+		buildIndex(info, dialogView);
 	}
 }
 
