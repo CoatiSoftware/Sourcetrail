@@ -272,7 +272,7 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 	}
 }
 
-void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialogView)
+void Project::refresh(std::shared_ptr<DialogView> dialogView, RefreshMode refreshMode, bool shallowIndexingRequested)
 {
 	if (m_refreshStage != RefreshStageType::NONE)
 	{
@@ -399,8 +399,7 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 		}
 	}
 
-	const bool useShallowIndexing = allowsShallowIndexing &&
-		(!isLoaded() || m_state == PROJECT_STATE_EMPTY);
+	const bool useShallowIndexing = allowsShallowIndexing && shallowIndexingRequested;
 
 	if (m_hasGUI)
 	{
@@ -422,7 +421,9 @@ void Project::refresh(RefreshMode refreshMode, std::shared_ptr<DialogView> dialo
 	}
 	else
 	{
-		buildIndex(getRefreshInfo(refreshMode), dialogView);
+		RefreshInfo info = getRefreshInfo(refreshMode);
+		info.shallow = useShallowIndexing;
+		buildIndex(info, dialogView);
 	}
 }
 
