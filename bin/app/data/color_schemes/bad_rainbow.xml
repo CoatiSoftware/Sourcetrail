@@ -2,6 +2,7 @@
 
 <config>
 	<window>
+		<background>#494949</background>
 		<separator>#CCCCCC</separator>
 		<scrollbar>
 			<background>transparent</background>
@@ -284,9 +285,6 @@
 			<typedef>
 				<like>type</like>
 			</typedef>
-			<template_parameter>
-				<like>type</like>
-			</template_parameter>
 			<type_parameter>
 				<like>type</like>
 			</type_parameter>
@@ -483,6 +481,14 @@
 				<normal>#797979</normal>
 			</default>
 
+			<type_use>
+				<like>default</like>
+			</type_use>
+
+			<inheritance>
+				<like>default</like>
+			</inheritance>
+
 			<override>
 				<normal>#BA5ECC</normal>
 			</override>
@@ -496,33 +502,24 @@
 				<normal>#00A0B6</normal>
 			</use>
 
-			<template_argument>
-				<normal>#D93D5F</normal>
-			</template_argument>
 			<type_argument>
-				<like>template_argument</like>
+				<normal>#D93D5F</normal>
 			</type_argument>
-			<template_default_argument>
-				<like>template_argument</like>
-			</template_default_argument>
 			<template_specialization>
-				<like>template_argument</like>
+				<like>type_argument</like>
 			</template_specialization>
-			<template_member_specialization>
-				<like>template_argument</like>
-			</template_member_specialization>
 
 			<include>
 				<normal>#4E82F6</normal>
 			</include>
 			<import>
-				<normal>#4E82F6</normal>
+				<like>include</like>
 			</import>
 			<macro_use>
-				<normal>#4E82F6</normal>
+				<like>include</like>
 			</macro_use>
 			<annotation_use>
-				<normal>#4E82F6</normal>
+				<like>include</like>
 			</annotation_use>
 
 			<aggregation>
