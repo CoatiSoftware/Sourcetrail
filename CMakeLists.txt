@@ -116,7 +116,6 @@ find_package(Qt5 COMPONENTS Widgets PrintSupport Network Svg REQUIRED)
 
 if (WIN32)
 	find_package(Qt5 COMPONENTS WinExtras REQUIRED)
-	message(STATUS "Windows ---------------")
 endif()
 
 if(Qt5Widgets_FOUND)
@@ -231,7 +230,7 @@ if (UNIX AND NOT APPLE)
 endif()
 
 if (WIN32)
-	target_link_libraries(${LIB_UTILITY_PROJECT_NAME} Qt::WinExtras)
+	target_link_libraries(${LIB_UTILITY_PROJECT_NAME} Qt5::WinExtras)
 endif()
 
 
