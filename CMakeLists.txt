@@ -116,6 +116,7 @@ find_package(Qt5 COMPONENTS Widgets PrintSupport Network Svg REQUIRED)
 
 if (WIN32)
 	find_package(Qt5 COMPONENTS WinExtras REQUIRED)
+	message(STATUS "Windows ---------------")
 endif()
 
 if(Qt5Widgets_FOUND)
