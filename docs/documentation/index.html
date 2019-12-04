@@ -122,13 +122,6 @@
 					<h1>Getting Started</h1>
 
 					<p>This short introduction will briefly guide you through the project setup and the user interface of Sourcetrail. The bullet point lists will provide you with the next steps to take:</p>
-					
-					<!-- <div class="callout callout-info">
-						<strong>Tasks:</strong>
-						<ul>
-							<li>Continue reading.</li>
-						</ul>
-					</div> -->
 
 					<h2>Starting Up Sourcetrail</h2>
 					
@@ -140,8 +133,6 @@
 							<li>Launch Sourcetrail.</li>
 						</ul>
 					</div>
-
-					<!-- <h4>Start Window</h4> -->
 
 					<p>After launching Sourcetrail you will see the <a href="#StartWindow">Start Window</a>. From here you can create your own project or choose a pre-indexed one.</p>
 
@@ -164,9 +155,6 @@
 					
 					<p>When creating a new Sourcetrail project you will use the <a href="#ProjectSetupWizard"> Project Setup Wizard </a>. This wizard splits the setup process into several subsequent steps. Depending on your project's structure and the used build system, there are different types for project setup. Choosing the correct setup method is important and can make the setup process a lot easier.</p>
 
-					<!-- <p>In the first step of the project setup, you will just need to specify name and location of your Sourcetrail project.</p> -->
-
-
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
@@ -183,8 +171,9 @@
 
 					<h3>Add Source Group</h3>
 
-					<p>Sourcetrail projects consist of multiple <b>Source Groups</b>. Each Source Group uses a certain language, a set of files and all configurations to index these files. There are different types of Source Groups for each supported programming language. Scroll past the image for detailed instructions on setting this up. </p>
+					<p>Sourcetrail projects consist of multiple <b>Source Groups</b>. Each Source Group uses a certain language, a set of files, and all configurations to index these files. There are different types of Source Groups for each supported programming language. In addition, creating a single Source Group is sufficient for most projects.</p>
 
+					<p> Scroll past the image for detailed instructions on setting this up. </p>
 
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
@@ -240,7 +229,7 @@
 
 					<strong>Create Empty</strong>
 
-					<p>If either of the above options apply to your project, please continue at <a href="#CreateAnEmptyCXXProject">Create an empty C/C++ Source Group</a> and come back here as soon as the project is created.</p>
+					<p>If neither of the above options apply to your project, please continue at <a href="#CreateAnEmptyCXXProject">to create an empty C/C++ Source Group</a> and return here once the project is created.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -3153,7 +3142,7 @@
 							<h3 class="panel-title">Can I use Sourcetrail on confidental source code?</h3>
 						</div>
 						<div class="panel-body">
-							Yes. Sourcetrail works completely offline and establishes no connection to the internet whatsoever. All data stays on your computer.
+							Yes. Sourcetrail keeps the data completely offline and unless disabled, will only establish a connection to the internet to check if a more recent version is available.
 						</div>
 					</div>
 
@@ -3164,8 +3153,11 @@
 						<div class="panel-body">
 							<p>Sourcetrail does two things with the data collected during indexing:</p>
 							<ol>
-								<li>The data is stored in the <code>.srctrldb</code> file in the same directory as the <code>.srctrlprj</code> file. This database file is used by Sourcetrail to serve its purpose of letting you navigate your source code. And it allows Sourcetrail to reopen the project without reindexing the source code every time.</li>
-								<li>If logging is enabled, some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We might ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
+								<li>The data is stored in the <code>.srctrldb</code> file which is in the same directory as the <code>.srctrlprj</code> file. This database file is used by Sourcetrail to serve its purpose of letting you navigate your source code and also allowing Sourcetrail to re-open the project without re-indexing the source code each time.
+								<p><b> Note:</b> The <code> .srctrldb </code> file is actualy a <code> .sqlite </code> database file and can be inspected using the <a href="http://https://sqlitebrowser.org/">DB Browser for SQLite</a>.</p>
+								</li>
+
+								<li>If logging is enabled, some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We may ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
 							</ol>
 						</div>
 					</div>
