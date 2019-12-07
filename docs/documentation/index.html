@@ -81,21 +81,17 @@
 
 					<div class="row" style="height:20px;"></div>
 
-					<h1>QUICK START GUIDE</h1>
-					<p>This short introduction will briefly guide you through the project setup and the user interface of Sourcetrail. The bullet point lists will tell you what to do:</p>
-					<div class="callout callout-info">
-						<strong>Tasks:</strong>
-						<ul>
-							<li>Keep on reading</li>
-						</ul>
-					</div>
+					<h1>Welcome</h1>
 
+					<p>This document is the official documentation of Sourcetrail and explains everything you need to know about working with the software.</p>
+					<p>For questions you may have that are not answered by this document, please send us an e-mail at: <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>.</p>
 
-					<h2>Short description</h2>
-					<p>Sourcetrail is an interactive source explorer that simplifies navigation in existing source code. Sourcetrail's aim is to give answers to all your questions about your source code. Sourcetrail first indexes your code and gathers data about its structure and then provides you a simple interface consisting of three interactive views, each playing a key role in getting information:</p>
+					<h2> Overview </h2>
+					<p>Sourcetrail is an interactive source explorer that simplifies navigation in existing source code by indexing your code and gathering data about its structure. Sourcetrail then provides a simple interface consisting of three interactive views, each playing a key role in helping you obtain the information you need:</p>
+
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/concept.png" style="width:100%;">
+							<img src="img/concept.png" style="width:60%;">
 						</div>
 					</div>
 					<ul>
@@ -103,56 +99,88 @@
 						<li><strong>Graph:</strong> The graph displays the structure of your source code. It focuses on the currently selected symbol and directly shows all incoming and outgoing dependencies to other symbols.</li>
 						<li><strong>Code:</strong> The Code view displays all source locations of the currently selected symbol in a list of code snippets. Clicking on a different source location allows you to change the selection and dig deeper.</li>
 					</ul>
-					<p>Sourcetrail currently supports the languages C/C++ and Java. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at <a href="#SupportedLanguages">supported languages</a>.</p>
+
+					<p>Note: Sourcetrail currently supports the languages C/C++ and Java. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at <a href="#SupportedLanguages">supported languages</a>.</p>
 
 
-					<h2>Starting up Sourcetrail</h2>
-					<p>Once you <a href="#INSTALLATION">installed</a> Sourcetrail successfully you are ready to run the application.</p>
+					<h2>Supported Languages</h2>
+					<h3>C</h3>
+					<p>C support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 8.0.1</a>. For issues loading C code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
+
+					<h3>C++</h3>
+					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 8.0.1</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. For issues loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
+
+					<h3>Java</h3>
+					<p>Sourcetrail includes support for Java 10 and lower which is powered by <a href="https://github.com/eclipse/eclipse.jdt.core" target="_blank">Eclipse JDT</a>. If you encounter any issues while using Sourcetrail on a Java project, please let us know by providing a minimal example in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
+
+					<h3>Python</h3>
+					<p>Sourcetrail includes beta support for Python 2 and Python 3 which is powered by our open-source <a href="https://github.com/CoatiSoftware/SourcetrailPythonIndexer" target="_blank">SourcetrailPythonIndexer</a>. If you encounter any issues while using Sourcetrail on a Python project, please let us know by providing a minimal example in our <a href="https://github.com/CoatiSoftware/SourcetrailPythonIndexer/issues">bug tracker</a>.</p>
+
+
+					<div class="row" style="height:80px;"></div>
+
+					<h1>Getting Started</h1>
+
+					<p>This short introduction will briefly guide you through the project setup and the user interface of Sourcetrail. The bullet point lists will provide you with the next steps to take:</p>
+
+					<h2>Starting Up Sourcetrail</h2>
+					
+					<p>Once you've <a href="https://github.com/CoatiSoftware/Sourcetrail/releases">downloaded</a> Sourcetrail successfully you are ready to run the application. For assistance wth installation, visit the <a href="#Installation">installation</a> section.</p>
+
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Run Sourcetrail</li>
+							<li>Launch Sourcetrail.</li>
 						</ul>
 					</div>
 
-					<h4>Start Window</h4>
-					<p>After launching Sourcetrail you will see the <a href="#StartWindow">Start Window</a>. Now you can create your own project or choose a pre-indexed one.</p>
+					<p>After launching Sourcetrail you will see the <a href="#StartWindow">Start Window</a>. From here you can create your own project or choose a pre-indexed one.</p>
+
+						<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Click <b>New Project</b> to create a new project.</li>
+							<li>or select one from the <b> Recent Projects </b> <i> (ex: TicTacToe) </i> and continue with the <a href="#UIIntro">UI Intro</a>.</li>
+						</ul>
+					</div>
+
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/start_window.png" style="width:100%;">
 						</div>
 					</div>
+
+
+					<h2>Creating a New Project</h2>
+					
+					<p>When creating a new Sourcetrail project you will use the <a href="#ProjectSetupWizard"> Project Setup Wizard </a>. This wizard splits the setup process into several subsequent steps. Depending on your project's structure and the used build system, there are different types for project setup. Choosing the correct setup method is important and can make the setup process a lot easier.</p>
+
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Press <var>New Project</var> to continue creating a new project.</li>
-							<li>or select the included recent project <var>TicTacToe</var> and continue with the <a href="#UIIntro">UI Intro</a>.</li>
+							<li>Give your project a <b>Name</b> and select a <b>Location</b> for your Sourcetrail project to live.</li>
+							<li>Click <b>Add Source Group</b> to add source files to the project.</li>
 						</ul>
 					</div>
-
-
-					<h2>Creating a Project</h2>
-					<p>When creating a new Sourcetrail project you will use the <a href="#ProjectSetupWizard">Project Setup Wizard</a>. This wizard splits the setup process into several subsequent steps. Depending on your project's structure and the used build system there are different types for project setup. Choosing the right setup method is important and can make the setup process a lot easier.</p>
-
-					<p>In the first step of the project setup you will just need to specify name and location of your Sourcetrail project.</p>
 
 					<div class="row">
 						<div class="col-sm-12">
 							<img src="img/project_setup_wizard_start.png" style="width:100%;">
-						</div>
+						</div> 
 					</div>
+
+					<h3>Add Source Group</h3>
+
+					<p>Sourcetrail projects consist of multiple <b>Source Groups</b>. Each Source Group uses a certain language, a set of files, and all configurations to index these files. There are different types of Source Groups for each supported programming language. In addition, creating a single Source Group is sufficient for most projects.</p>
+
+					<p> Scroll past the image for detailed instructions on setting this up. </p>
 
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Fill in <var>Name</var> and <var>Location</var> of your Sourcetrail project.</li>
-							<li>Press <var>Add Source Group</var> to continue adding source files to the project.</li>
+							<li>Select your chosen <b> Source Group</b> setup type and come back here as soon as the project is created.</li>
 						</ul>
 					</div>
-
-					<h3>Choosing the right project setup</h3>
-
-					<p>Sourcetrail projects consist of multiple <b>Source Groups</b>. Each Source Group uses a certain language, a set of files and all configurations to index these files. There are different types of Source Groups for each supported programming language. Creating a single Source Group is sufficient for most projects.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -162,7 +190,8 @@
 
 					<div class="row" style="height:10px;"></div>
 
-					<h4>Source Group setup for C/C++</h4>
+					<h4>Source Group Setup for C/C++</h4>
+
 					<p>The Source Group setup types for C & C++ are the same.</p>
 					<p>This video gives you a detailed look into project setup for C++, including best practices and strategies on how to fix errors:</p>
 
@@ -198,9 +227,9 @@
 						</div>
 					</div>
 
-					<strong>Create empty</strong>
+					<strong>Create Empty</strong>
 
-					<p>If none of the above options apply to your project, please continue at <a href="#CreateAnEmptyCXXProject">Create an empty C/C++ Source Group</a> and come back here as soon as the project is created.</p>
+					<p>If neither of the above options apply to your project, please continue at <a href="#CreateAnEmptyCXXProject">create an empty C/C++ Source Group</a> and return here once the project is created.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -210,7 +239,7 @@
 
 					<div class="row" style="height:10px;"></div>
 
-					<h4>Source Group setup for Java</h4>
+					<h4>Source Group Setup for Java</h4>
 
 					<strong>Are you using Gradle?</strong>
 
@@ -232,7 +261,7 @@
 						</div>
 					</div>
 
-					<strong>Create empty</strong>
+					<strong>Create Empty</strong>
 
 					<p>If you do not have your project configured using Gradle or Maven, please continue at <a href="#CreateAnEmptyJavaProject">Create an Empty Java Source Group</a> and come back here as soon as the project is created.</p>
 
@@ -242,7 +271,7 @@
 						</div>
 					</div>
 
-					<h4>Source Group setup for Python</h4>
+					<h4>Source Group Setup for Python</h4>
 
 					<strong>Create empty</strong>
 
@@ -254,74 +283,83 @@
 						</div>
 					</div>
 
+					<h2>Source Indexing</h2>
+
+					<p>After the project is created, Sourcetrail will ask you whether you want to start indexing. Click <b>Start</b> and wait for the indexing to complete. This may take a bit of time. The <a href="#IndexingDialogs">Indexing Dialog</a> and the <a href="#StatusBar">Status Bar</a> will give you information about the progress. Otherwise the UI will be empty. Sourcetrail indexes all named symbols and their relationships throughout the provided source files.</p>
+
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Continue with your chosen Source Group setup type and come back here as soon as the project is created.</li>
+							<li>Click <b>Start</b> when asked whether to start indexing.</li>
+							<li>Wait until the indexing of your source files has finished.</li>
+							<li>or Click <b>Stop</b> or press ESC to stop indexing (Sourcetrail will provide all information gathered so far and the indexing can be continued later by <a href="#Refresh">refreshing</a>).</li>
 						</ul>
 					</div>
 
-					<h2>Source Indexing</h2>
-					<p>After the project is created, Sourcetrail will ask you whether you want to start indexing. Click <var>Start</var> and wait for the indexing to finish, which might take a little while. The <a href="#IndexingDialogs">Indexing Dialog</a> and the <a href="#StatusBar">Status Bar</a> will give you information about the progress. Otherwise the UI will be empty. Sourcetrail indexes all named symbols and their relationships throughout the provided source files.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/indexing.png" style="width:100%;">
 						</div>
 					</div>
+
+					<p>After indexing is completed, Sourcetrail will show an overview of all indexed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>.</p>
+
+					<h4>Troubleshooting Errors</h4>
+
+					<p>If the indexing yields errors, the status view will be shown with a list of errors. You can click on the errors label on the right side of the status bar or on one of the errors in the table to see their location.</p>
+
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Click <var>Start</var> when asked whether to start indexing.</li>
-							<li>Wait until the indexing of your source files has finished.</li>
-							<li>or Click <var>Stop</var> or press ESC to stop indexing (Sourcetrail will provide all information gathered so far and the indexing can be continued later by <a href="#Refresh">refreshing</a>).</li>
+							<li>Fix your errors and <a href="#Refresh">refresh</a> to re-index the files with errors (Open Issue: As long as there was no change in the specific file, Sourcetrail won't reindex it, use the <strong>Force Refresh</strong> option from the <a href="#Edit">Edit Menu</a>).</li>
+							<li>or ignore them and continue with an incomplete index.</li>
 						</ul>
 					</div>
-					<p>After indexing has finished, Sourcetrail will show an overview of all indexed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>.</p>
 
-					<p>If the indexing yields errors, the status view will be shown with a list of errors. You can click on the errors label on the right side of the status bar or on one of the errors in the table to see their location.</p>
 					<div class="row">
 						<div class="col-sm-12">
 							<img src="img/error_view.png" style="width:100%;">
 						</div>
 					</div>
-					<div class="callout callout-info">
-						<strong>Tasks:</strong>
-						<ul>
-							<li>Fix your errors and <a href="#Refresh">refresh</a> to reindex the files with errors (Open Issue: As long as there was no change in the specific file, Sourcetrail won't reindex it, use the <strong>Force Refresh</strong> option from the <a href="#Edit">Edit Menu</a>).</li>
-							<li>or ignore them and continue with an incomplete index.</li>
-						</ul>
-					</div>
 
+					<h2>User Interface </h2>
 
-					<h2>UI Intro</h2>
-					<p>As already mentioned Sourcetrail's user interface is split into three main views. Their arrangement can be changed however you wish, you can even detach them from the main window and put them on different screens (see <a href="#WidgetWindows">Window Widgets</a>).</p>
+					<p>As mentioned earlier, Sourcetrail's user interface is split into three main views. Their arrangement can be adjusted as preferred and can also be detached from the main window and split into different screens (see <a href="#WidgetWindows">Window Widgets</a>).</p>
+
+					<p>All three views display information about the currently selected symbol: </p><!-- The search field provides the name, the graph visualization shows its relationships to other symbols and the code view displays all locations the symbol gets referenced throughout the codebase.</p> -->
+
 					<div class="row">
 						<div class="col-sm-12">
 							<img src="img/main_screen.png" style="width:100%;">
 						</div>
 					</div>
-					<p>The three views show information about the currently selected symbol. The search field provides the name, the graph visualization shows its relationships to other symbols and the code view displays all locations the symbol gets referenced throughout the codebase.</p>
 
-					<h3>Search Field</h3>
-					<p>The <a href="#Searchbar">search field</a> allows for easy access to all indexed symbols. Use it to find all the classes and functions you wish to investigate. Apart from that is also holds the UI buttons for navigating <a href="#Back&Forward">back & forward</a> as well as <a href="#Refresh">refreshing</a>.</p>
+					<h3>1. Search Field</h3>
+					<p>The <a href="#Searchbar">Search Field</a> allows for easy access to all indexed symbols. Use it to find all classes and functions you wish to investigate. In addition, it also holds the UI buttons for navigating <a href="#Back&Forward">back & forward</a> as well as <a href="#Refresh">refreshing</a>.</p>
+
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/search_view.png" style="width:100%;">
 						</div>
 					</div>
-					<p>When entering a search query the <a href="#AutocompletionPopup">autocompletion popup</a> will provide you with a concise list of all matching symbols. Note that Sourcetrail uses a fuzzy matching algorithm, that allows you to skip characters while entering a query.</p>
+
+					<p>When entering a search query, the <a href="#AutocompletionPopup">autocompletion popup</a> will provide you with a concise list of all matching symbols. Note that Sourcetrail uses a fuzzy matching algorithm, that allows you to skip characters while entering a query.</p>
+
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/search_view_completion.png" style="width:100%;">
 						</div>
 					</div>
 
-					<h3>Graph Visualization</h3>
-					<p>The <a href="#GraphView">graph visualization</a> displays the currently selected symbol in an active state and all other symbols it shares relationships with. The visualization is made up of nodes and edges.</p>
+					<h3>2. Graph Visualization</h3>
+
+					<p>The <a href="#GraphView">graph visualization</a> displays the currently selected symbol in an active state and all the other symbols it shares a relationship with. The visualization is made up of nodes and edges.</p>
+
 					<ul>
 						<li><strong>Nodes:</strong> All named symbols in your source code will be displayed as different <a href="#Nodes">nodes</a>, such as <var>functions</var>, <var>classes</var> or <var>files</var>. Nodes with members (like <var>classes</var>) can be expanded to show all their contents, the number at the expansion arrow shows how many members are hidden. Clicking a node will activate it and update all the views to the new selection. Dragging a node can be used to change its position.</li>
 						<li><strong>Edges:</strong> The relationships between the symbols are displayed as different <a href="#Edges">edges</a>, such as <var>type use</var>, <var>function call</var> or <var>file include</var>. Sometimes edges get bundled together and are displayed as an <var>aggregation</var> edge that shows a number of how many edges it contains. Clicking an edge will highlight its source location in the code view.</li>
 					</ul>
+
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/graph_view_graph.png" style="width:100%;">
@@ -352,7 +390,8 @@
 					<h4>Legend:</h4>
 					<p>For a full list on all existing nodes and edges take a look at the integrated <a href="#GraphLegend">Graph Legend</a> by clicking the <code>?</code>-button in the bottom right corner of the <a href="#GraphView">Graph View</a>.
 
-					<h3>Code View</h3>
+					<h3>3. Code View</h3>
+
 					<p>The <a href="#CodeView">code view</a> displays all locations of the currently active symbol within the indexed source files. It does not allow for editing the source code. Syntax highlighting is used to increase readability. Source locations that are surrounded by a box when hovered can be clicked to activate the respective symbol. Active source locations are highlighted.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -388,72 +427,28 @@
 							</div>
 						</li>
 					</ul>
-					<p>For more information please have a look at <a href="#Files">Code View Files</a>.</p>
+					<p>For more information, please visit the <a href="#Files">Code View Files</a> section.</p>
 
 
-					<h2>Start exploring!</h2>
-					<p>After reading this quick guide, you know the basics of Sourcetrail's user interface and you are able to start exploring your codebase. Sourcetrail will allow you to see your source code from a whole new perspective, by giving you a concise overview of its parts and a faster way of drilling down to its internals, while always maintaining the connection to the implementation details of the actual source code.</p>
-					<p>For more detailed information please have a look at the much more extensive instruction manual below.</p>
-					<p>If you have feedback for us, please don't hesitate and let us know by writing to <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>, we'd be glad to hear from you.</p>
+					<h2>Start Exploring!</h2>
+					<p> At this point, you should have an understanding of the basics of Sourcetrail's user interface and can begin exploring your codebase. Sourcetrail will allow you to see your source code from a whole new perspective, by giving you a concise overview of its parts and a faster way of drilling down to its internals, while always maintaining the connection to the implementation details of the actual source code.</p>
+
+					<p>Please take look at the much more extensive instruction manual below for detailed information.</p>
+					<p>If you would like to provide feedback, please do not hesitate to reach out to us via email: <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>, we'd love to hear from you!</p>
+
 					<p>The Sourcetrail team wishes you a good start with our product, lots of saved time, increased productivity and much cleaner code.</p>
+
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Start exploring & have fun!</li>
+							<li>Start exploring and have fun!</li>
 						</ul>
 					</div>
 
 
 					<div class="row" style="height:80px;"></div>
 
-					<h1>INTRODUCTION</h1>
-
-					<h2>About this document</h2>
-					<p>This document is the official documentation of Sourcetrail and explains everything you need to know about working with it.</p>
-					<p>If you have questions not answered by this document, please write us an e-mail to <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>.</p>
-
-
-					<h2>Supported Languages</h2>
-					<h3>C</h3>
-					<p>C support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 8.0.1</a>. If you have a problem loading C code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
-
-					<h3>C++</h3>
-					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 8.0.1</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
-
-					<h3>Java</h3>
-					<p>Sourcetrail includes support for Java 10 and lower which is powered by <a href="https://github.com/eclipse/eclipse.jdt.core" target="_blank">Eclipse JDT</a>. If you encounter any issues while using Sourcetrail on a Java project, please let us know by providing a minimal example at our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
-
-					<h3>Python</h3>
-					<p>Sourcetrail includes beta support for Python 2 and Python 3 which is powered by our open-source <a href="https://github.com/CoatiSoftware/SourcetrailPythonIndexer" target="_blank">SourcetrailPythonIndexer</a>. If you encounter any issues while using Sourcetrail on a Python project, please let us know by providing a minimal example at our <a href="https://github.com/CoatiSoftware/SourcetrailPythonIndexer/issues">bug tracker</a>.</p>
-
-					<h2>FAQ</h2>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Can I use Sourcetrail on confidental source code?</h3>
-						</div>
-						<div class="panel-body">
-							Yes. Sourcetrail works completely offline and establishes no connection to the internet whatsoever. All data stays on your computer.
-						</div>
-					</div>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">What happens to the indexed data?</h3>
-						</div>
-						<div class="panel-body">
-							<p>Sourcetrail does two things with the data collected during indexing:</p>
-							<ol>
-								<li>The data is stored in the <code>.srctrldb</code> file in the same directory as the <code>.srctrlprj</code> file. This database file is used by Sourcetrail to serve its purpose of letting you navigate your source code. And it allows Sourcetrail to reopen the project without reindexing the source code every time.</li>
-								<li>If logging is enabled, some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We might ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
-							</ol>
-						</div>
-					</div>
-
-
-					<div class="row" style="height:80px;"></div>
-
-					<h1>INSTALLATION</h1>
+					<h1>Installation</h1>
 
 					<h2>On Windows</h2>
 					<p>Download and open the zip file and extract its contents into a temporary folder of your choice. Run the <var><code>setup.exe</code></var> and go through the wizard. You can now launch Sourcetrail from your start menu.</p>
@@ -532,7 +527,7 @@
 
 					<div class="row" style="height:80px;"></div>
 
-					<h1>USER INTERFACE</h1>
+					<h1>Interface</h1>
 
 					<h2>Main Window</h2>
 
@@ -1890,7 +1885,7 @@
 
 					<div class="row" style="height:40px;"></div>
 
-					<h1>PROJECT SETUP</h1>
+					<h1>Project Setup</h1>
 					<p>Project Setup in Sourcetrail is done via the <a href="#ProjectSetupWizard">Project Setup Wizard</a>, which can be accessed on the <a href="#StartWindow">Start Window</a> by clicking <code>New Project</code> or from the <a href="#Project">Project Menu</a> with the <code>New Project</code> action.</p>
 
 					<p>The Project Setup Wizard lets you create a new Sourcetrail project. It allows for defining name and location of your Sourcetrail project and adding several <b>Source Groups</b>, that define which source files will be indexed. There are several ways to create Source Groups. It is sufficient to add only one Source Group for most projects.</p>
@@ -2667,7 +2662,7 @@
 					<div class="row" style="height:20px;"></div>
 
 
-					<h1>COMMANDLINE</h1>
+					<h1>Command Line</h1>
 
 					<p>Currently you can use the command line to configue Sourcetrail or index a Sourcetrail project.</p>
 
@@ -2733,7 +2728,7 @@
 
 					<div class="row" style="height:40px;"></div>
 
-					<h1>CODE EDITOR PLUGINS</h1>
+					<h1>Code Editor Plugins</h1>
 					<p>In order to make Sourcetrail the perfect partner for your development workflow you can connect Sourcetrail with different code editors. You can find more information on the plugins in Sourcetrail's download package located in the folder <code>/ide_plugins</code>. Have a look at the following list of supported code editors to find out what editors are currently supported.</p>
 					<p>We are eager to expand the range of supported editors, so if you can't find a plugin for the code editor you are using, please let us know by writing to <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>.</p>
 					<p>The plugins are Opensource and available on <a href="https://github.com/CoatiSoftware/">github</a>.</p>
@@ -3139,6 +3134,36 @@
 					</table>
 
 					<div class="row" style="height:40px;"></div>
+
+					<h1>Frequently Asked Questions</h1>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Can I use Sourcetrail on confidental source code?</h3>
+						</div>
+						<div class="panel-body">
+							Yes. Sourcetrail keeps the data completely offline and unless disabled, will only establish a connection to the internet to check if a more recent version is available.
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">What happens to the indexed data?</h3>
+						</div>
+						<div class="panel-body">
+							<p>Sourcetrail does two things with the data collected during indexing:</p>
+							<ol>
+								<li>The data is stored in the <code>.srctrldb</code> file which is in the same directory as the <code>.srctrlprj</code> file. This database file is used by Sourcetrail to serve its purpose of letting you navigate your source code and also allowing Sourcetrail to re-open the project without re-indexing the source code each time.
+								<p><b> Note:</b> The <code> .srctrldb </code> file is actualy a <code> .sqlite </code> database file and can be inspected using the <a href="http://https://sqlitebrowser.org/">DB Browser for SQLite</a>.</p>
+								</li>
+
+								<li>If logging is enabled, some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We may ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
+							</ol>
+						</div>
+					</div>
+
+					<div class="row" style="height:40px;"></div>
+
 					<address>
 						<strong>Coati Software OG</strong><br>
 						Jakob-Haringer-Straße 1/127<br>
