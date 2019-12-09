@@ -316,6 +316,16 @@ void GraphController::handleMessage(MessageActivateTrailEdge* message)
 	getView()->activateEdge(message->edgeIds.back());
 }
 
+void GraphController::handleMessage(MessageDeactivateEdge* message)
+{
+	TRACE("edge deactivate");
+
+	m_activeEdgeIds.clear();
+	setActive(utility::concat(m_activeNodeIds, m_activeEdgeIds), false);
+
+	getView()->activateEdge(0);
+}
+
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
 	GraphView::GraphParams params;

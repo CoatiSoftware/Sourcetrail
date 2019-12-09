@@ -214,18 +214,6 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		return;
 	}
 
-	if (message->keepContent())	   // deactivating an edge
-	{
-		m_codeParams.activeTokenIds = params.activeTokenIds;
-		m_codeParams.activeLocationIds.clear();
-		m_codeParams.activeLocalSymbolIds.clear();
-		m_codeParams.currentActiveLocalLocationIds.clear();
-		clearLocalReferences();
-
-		showFiles(m_codeParams, CodeScrollParams(), !message->isReplayed());
-		return;
-	}
-
 	m_collection = m_storageAccess->getSourceLocationsForTokenIds(params.activeTokenIds);
 
 	m_files = getFilesForActiveSourceLocations(m_collection.get(), declarationId);
@@ -414,19 +402,19 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message)
 
 void CodeController::handleMessage(MessageDeactivateEdge* message)
 {
+	CodeScrollParams scrollParams;
+	m_codeParams.activeLocationIds.clear();
+	m_codeParams.activeLocalSymbolIds.clear();
+	m_codeParams.currentActiveLocalLocationIds.clear();
+	m_referenceIndex = -1;
+	clearLocalReferences();
+
 	if (message->scrollToDefinition)
 	{
-		CodeScrollParams scrollParams = definitionReferenceScrollParams(m_codeParams.activeTokenIds);
-
-		if (message->isReplayed())
-		{
-			m_scrollParams = scrollParams;
-		}
-		else
-		{
-			getView()->scrollTo(scrollParams, true);
-		}
+		scrollParams = definitionReferenceScrollParams(m_codeParams.activeTokenIds);
 	}
+
+	showFiles(m_codeParams, scrollParams, !message->isReplayed());
 }
 
 void CodeController::handleMessage(MessageErrorCountClear* message)

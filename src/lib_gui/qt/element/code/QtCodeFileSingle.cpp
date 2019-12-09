@@ -174,7 +174,14 @@ void QtCodeFileSingle::scrollTo(
 {
 	if (m_currentFilePath != filePath)
 	{
-		return;
+		FileData file = getFileData(filePath);
+		if (!file.area)
+		{
+			return;
+		}
+
+		setFileData(file);
+		animated = false;
 	}
 
 	size_t endLineNumber = 0;
