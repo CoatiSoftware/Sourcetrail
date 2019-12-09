@@ -172,25 +172,14 @@ void UndoRedoController::handleMessage(MessageCodeShowDefinition* message)
 
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 {
-	if (m_iterator == m_list.begin())
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageDeactivateEdge*>(lastMessage())->scrollToDefinition == message->scrollToDefinition)
 	{
 		return;
 	}
 
-	std::list<Command>::iterator it = m_iterator;
-	do
-	{
-		std::advance(it, -1);
-	} while (it != m_list.begin() && it->order != Command::ORDER_ACTIVATE);
-
-	MessageBase* m = it->message.get();
-	bool keepContent = m->keepContent();
-
-	m->setIsReplayed(false);
-	m->setKeepContent(true);
-	m->dispatch();
-
-	m->setKeepContent(keepContent);
+	Command command(std::make_shared<MessageDeactivateEdge>(*message), Command::ORDER_ADAPT);
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageGraphNodeBundleSplit* message)

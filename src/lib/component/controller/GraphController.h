@@ -11,6 +11,7 @@
 #include "MessageActivateTokens.h"
 #include "MessageActivateTrail.h"
 #include "MessageActivateTrailEdge.h"
+#include "MessageDeactivateEdge.h"
 #include "MessageFlushUpdates.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
@@ -40,6 +41,7 @@ class GraphController
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
+	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -64,6 +66,7 @@ private:
 	void handleMessage(MessageActivateTokens* message) override;
 	void handleMessage(MessageActivateTrail* message) override;
 	void handleMessage(MessageActivateTrailEdge* message) override;
+	void handleMessage(MessageDeactivateEdge* message) override;
 	void handleMessage(MessageFlushUpdates* message) override;
 	void handleMessage(MessageFocusIn* message) override;
 	void handleMessage(MessageFocusOut* message) override;
