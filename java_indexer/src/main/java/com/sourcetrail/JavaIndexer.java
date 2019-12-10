@@ -41,9 +41,9 @@ public class JavaIndexer
 			
 			Path path = Paths.get(filePath);
 		
-			ASTParser parser = ASTParser.newParser(AST.JLS10);
+			ASTParser parser = ASTParser.newParser(AST.JLS12);
 			
-			parser.setResolveBindings(true); // solve "bindings" like the declatarion of the type used in a var decl
+			parser.setResolveBindings(true); // solve "bindings" like the declaration of the type used in a var decl
 			parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
 			parser.setBindingsRecovery(true); // also return bindings that are not resolved completely
 			parser.setStatementsRecovery(true);
@@ -136,7 +136,7 @@ public class JavaIndexer
 	{
 		String packageName = "";
 		
-		ASTParser parser = ASTParser.newParser(AST.JLS10);
+		ASTParser parser = ASTParser.newParser(AST.JLS12);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
 		parser.setSource(fileContent.toCharArray());
 		CompilationUnit cu = (CompilationUnit) parser.createAST(null);
@@ -176,8 +176,12 @@ public class JavaIndexer
         case "9":
     		return JavaCore.VERSION_9;
         case "10":
-    	default:
     		return JavaCore.VERSION_10;
+        case "11":
+    		return JavaCore.VERSION_11;
+        case "12":
+    	default:
+    		return JavaCore.VERSION_12;
         }
 	}
 	

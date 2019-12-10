@@ -351,7 +351,7 @@ LOCAL_SYMBOL: ReflectionFactory.java<95:59> [ReflectionFactory.java <95:59 95:59
 LOCAL_SYMBOL: ReflectionFactory.java<95:59> [ReflectionFactory.java <100:13 100:13>]
 LOCAL_SYMBOL: ReflectionFactory.java<96:63> [ReflectionFactory.java <96:63 96:63>]
 LOCAL_SYMBOL: ReflectionFactory.java<96:63> [ReflectionFactory.java <98:17 98:17>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<9> [ReflectionFactory.java <64:55 64:56>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<8> [ReflectionFactory.java <64:55 64:56>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel<0> [ReflectionFactory.java <107:57 107:65>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel<0> [ReflectionFactory.java <108:31 108:39>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel<0> [ReflectionFactory.java <110:41 110:49>]

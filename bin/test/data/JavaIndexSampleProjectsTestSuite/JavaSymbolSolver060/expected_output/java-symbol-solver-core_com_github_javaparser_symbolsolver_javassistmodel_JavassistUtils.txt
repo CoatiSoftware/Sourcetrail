@@ -626,7 +626,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.t
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<2> [JavassistUtils.java <167:107 167:124>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<2> [JavassistUtils.java <169:105 169:122>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<2> [JavassistUtils.java <174:81 174:98>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<14> [JavassistUtils.java <59:101 59:102>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<13> [JavassistUtils.java <59:101 59:102>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<6> [JavassistUtils.java <124:154 124:155>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<6> [JavassistUtils.java <124:179 124:180>]
 COMMENT: comment [JavassistUtils.java <1:1 15:3>]
