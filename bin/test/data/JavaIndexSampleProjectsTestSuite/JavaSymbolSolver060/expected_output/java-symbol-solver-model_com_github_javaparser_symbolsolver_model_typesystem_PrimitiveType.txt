@@ -19,8 +19,6 @@ QUALIFIER: com.google [PrimitiveType.java <19:12 19:17>]
 SYMBOL_PACKAGE: com.google
 QUALIFIER: java.util [PrimitiveType.java <21:13 21:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [PrimitiveType.java <21:8 21:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <51:9 51:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <52:9 52:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <53:9 53:12>]

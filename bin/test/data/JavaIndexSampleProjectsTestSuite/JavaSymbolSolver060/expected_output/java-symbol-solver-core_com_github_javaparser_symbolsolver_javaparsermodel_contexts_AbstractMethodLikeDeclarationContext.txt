@@ -137,9 +137,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [AbstractMethodLikeDeclarationContext.java <20:13 20:16>]
 QUALIFIER: java.util [AbstractMethodLikeDeclarationContext.java <21:13 21:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [AbstractMethodLikeDeclarationContext.java <20:8 20:11>]
-QUALIFIER: java [AbstractMethodLikeDeclarationContext.java <21:8 21:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T> [AbstractMethodLikeDeclarationContext.java <26:1 <26:23 26:58> 101:1>]
 SYMBOL_TYPE_PARAMETER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractMethodLikeDeclarationContext<T>.T [AbstractMethodLikeDeclarationContext.java <27:10 27:10>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N> [AbstractMethodLikeDeclarationContext.java <53:16 53:20>]

@@ -35,9 +35,6 @@ QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistTypeDeclarationAdapte
 QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistTypeDeclarationAdapter.java <75:24 75:41>]
 QUALIFIER: java.util [JavassistTypeDeclarationAdapter.java <25:13 25:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [JavassistTypeDeclarationAdapter.java <24:8 24:11>]
-QUALIFIER: java [JavassistTypeDeclarationAdapter.java <25:8 25:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [JavassistTypeDeclarationAdapter.java <42:74 42:83>]
 QUALIFIER: java.util.stream.Collectors [JavassistTypeDeclarationAdapter.java <47:79 47:88>]
 QUALIFIER: java.util.stream.Collectors [JavassistTypeDeclarationAdapter.java <77:22 77:31>]
@@ -249,8 +246,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDec
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDeclarationAdapter.getTypeParameters<0> [JavassistTypeDeclarationAdapter.java <75:64 75:77>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDeclarationAdapter.getTypeParameters<3> [JavassistTypeDeclarationAdapter.java <78:28 78:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeDeclarationAdapter.getTypeParameters<3> [JavassistTypeDeclarationAdapter.java <79:36 79:46>]
-LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<3> [JavassistTypeDeclarationAdapter.java <59:20 59:20>]
-LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<3> [JavassistTypeDeclarationAdapter.java <59:70 59:70>]
+LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<2> [JavassistTypeDeclarationAdapter.java <59:20 59:20>]
+LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<2> [JavassistTypeDeclarationAdapter.java <59:70 59:70>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<1> [JavassistTypeDeclarationAdapter.java <42:14 42:14>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<1> [JavassistTypeDeclarationAdapter.java <42:50 42:50>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<1> [JavassistTypeDeclarationAdapter.java <47:14 47:14>]

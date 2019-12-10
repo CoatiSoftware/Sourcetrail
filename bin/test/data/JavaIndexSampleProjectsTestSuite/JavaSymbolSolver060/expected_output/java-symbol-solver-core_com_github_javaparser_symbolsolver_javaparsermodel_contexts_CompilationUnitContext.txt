@@ -222,8 +222,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.resolution [CompilationUnitContext
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [CompilationUnitContext.java <37:13 37:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [CompilationUnitContext.java <37:8 37:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext [CompilationUnitContext.java <72:107 72:110>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext [CompilationUnitContext.java <167:13 167:16>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext [CompilationUnitContext.java <168:28 168:31>]
@@ -938,8 +936,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.Compil
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext.toSimpleName<1> [CompilationUnitContext.java <213:18 213:22>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext.toSimpleName<1> [CompilationUnitContext.java <214:16 214:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext.toSimpleName<1> [CompilationUnitContext.java <214:22 214:26>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<8> [CompilationUnitContext.java <235:78 235:79>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<8> [CompilationUnitContext.java <235:84 235:85>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<7> [CompilationUnitContext.java <235:78 235:79>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<7> [CompilationUnitContext.java <235:84 235:85>]
 COMMENT: comment [CompilationUnitContext.java <1:1 15:3>]
 COMMENT: comment [CompilationUnitContext.java <39:1 41:3>]
 COMMENT: comment [CompilationUnitContext.java <44:5 44:7>]

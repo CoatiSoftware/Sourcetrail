@@ -17,7 +17,7 @@
 	</description>
     <source_groups>
         <source_group_7a9e75fc-2cad-42d5-8c5b-c86d02f7b4e4>
-            <java_standard>8</java_standard>
+            <java_standard>12</java_standard>
             <name>Javaparser Source Group</name>
             <source_extensions>
                 <source_extension>.java</source_extension>

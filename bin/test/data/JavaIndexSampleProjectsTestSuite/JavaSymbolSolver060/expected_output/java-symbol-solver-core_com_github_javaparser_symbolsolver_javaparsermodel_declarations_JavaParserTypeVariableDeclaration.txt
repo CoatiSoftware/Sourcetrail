@@ -99,12 +99,6 @@ QUALIFIER: java.util [JavaParserTypeVariableDeclaration.java <35:13 35:16>]
 QUALIFIER: java.util [JavaParserTypeVariableDeclaration.java <36:13 36:16>]
 QUALIFIER: java.util [JavaParserTypeVariableDeclaration.java <37:13 37:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [JavaParserTypeVariableDeclaration.java <33:8 33:11>]
-QUALIFIER: java [JavaParserTypeVariableDeclaration.java <34:8 34:11>]
-QUALIFIER: java [JavaParserTypeVariableDeclaration.java <35:8 35:11>]
-QUALIFIER: java [JavaParserTypeVariableDeclaration.java <36:8 36:11>]
-QUALIFIER: java [JavaParserTypeVariableDeclaration.java <37:8 37:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.Collections [JavaParserTypeVariableDeclaration.java <127:16 127:26>]
 QUALIFIER: java.util.Collections [JavaParserTypeVariableDeclaration.java <167:16 167:26>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration [JavaParserTypeVariableDeclaration.java <48:9 48:12>]

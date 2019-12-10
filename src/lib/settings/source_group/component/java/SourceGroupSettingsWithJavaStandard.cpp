@@ -4,7 +4,7 @@
 
 std::wstring SourceGroupSettingsWithJavaStandard::getDefaultJavaStandardStatic()
 {
-	return L"8";
+	return L"12";
 }
 
 std::wstring SourceGroupSettingsWithJavaStandard::getJavaStandard() const
@@ -23,7 +23,7 @@ void SourceGroupSettingsWithJavaStandard::setJavaStandard(const std::wstring& st
 
 std::vector<std::wstring> SourceGroupSettingsWithJavaStandard::getAvailableJavaStandards() const
 {
-	return {L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9", L"10"};
+	return {L"12", L"11", L"10", L"9", L"8", L"7", L"6", L"5", L"4", L"3", L"2", L"1"};
 }
 
 bool SourceGroupSettingsWithJavaStandard::equals(const SourceGroupSettingsBase* other) const

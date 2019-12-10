@@ -20,9 +20,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: java.util [Type.java <21:13 21:16>]
 QUALIFIER: java.util [Type.java <22:13 22:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [Type.java <21:8 21:11>]
-QUALIFIER: java [Type.java <22:8 22:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Type [Type.java <49:24 49:27>]
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.typesystem.Type [Type.java <34:1 <34:18 34:21> 168:1>]
 SYMBOL_METHOD: default boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [Type.java <43:1 <43:1 <43:21 43:27> 43:29> 45:5>]

@@ -32,8 +32,6 @@ SYMBOL_PACKAGE: com
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [TypeParametersMap.java <19:49 19:60>]
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [TypeParametersMap.java <23:8 23:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [TypeParametersMap.java <92:9 92:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [TypeParametersMap.java <93:9 93:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametersMap [TypeParametersMap.java <94:9 94:12>]

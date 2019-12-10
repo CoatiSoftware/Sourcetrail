@@ -51,14 +51,6 @@ SYMBOL_PACKAGE: javassist
 QUALIFIER: java.io [JarTypeSolver.java <26:13 26:14>]
 QUALIFIER: java.io [JarTypeSolver.java <27:13 27:14>]
 SYMBOL_PACKAGE: java.io
-QUALIFIER: java [JarTypeSolver.java <26:8 26:11>]
-QUALIFIER: java [JarTypeSolver.java <27:8 27:11>]
-QUALIFIER: java [JarTypeSolver.java <28:8 28:11>]
-QUALIFIER: java [JarTypeSolver.java <29:8 29:11>]
-QUALIFIER: java [JarTypeSolver.java <30:8 30:11>]
-QUALIFIER: java [JarTypeSolver.java <31:8 31:11>]
-QUALIFIER: java [JarTypeSolver.java <32:8 32:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util [JarTypeSolver.java <28:13 28:16>]
 QUALIFIER: java.util [JarTypeSolver.java <29:13 29:16>]
 QUALIFIER: java.util [JarTypeSolver.java <30:13 30:16>]

@@ -60,12 +60,6 @@ QUALIFIER: java.util [ConstructorResolutionLogic.java <27:13 27:16>]
 QUALIFIER: java.util [ConstructorResolutionLogic.java <28:13 28:16>]
 QUALIFIER: java.util [ConstructorResolutionLogic.java <29:13 29:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [ConstructorResolutionLogic.java <25:8 25:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <26:8 26:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <27:8 27:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <28:8 28:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <29:8 29:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [ConstructorResolutionLogic.java <157:171 157:180>]
 QUALIFIER: java.util.stream [ConstructorResolutionLogic.java <29:18 29:23>]
 SYMBOL_PACKAGE: java.util.stream
@@ -676,8 +670,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.ConstructorResolutio
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.ConstructorResolutionLogic.isMoreSpecific<6> [ConstructorResolutionLogic.java <214:36 214:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.ConstructorResolutionLogic.isMoreSpecific<6> [ConstructorResolutionLogic.java <214:45 214:47>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.ConstructorResolutionLogic.isMoreSpecific<6> [ConstructorResolutionLogic.java <219:83 219:85>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<6> [ConstructorResolutionLogic.java <157:93 157:93>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<6> [ConstructorResolutionLogic.java <157:112 157:112>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<5> [ConstructorResolutionLogic.java <157:93 157:93>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<5> [ConstructorResolutionLogic.java <157:112 157:112>]
 COMMENT: comment [ConstructorResolutionLogic.java <1:1 13:3>]
 COMMENT: comment [ConstructorResolutionLogic.java <31:1 33:3>]
 COMMENT: comment [ConstructorResolutionLogic.java <41:13 41:101>]

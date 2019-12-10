@@ -79,8 +79,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionEnumDe
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionEnumDeclaration.java <27:49 27:58>]
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [ReflectionEnumDeclaration.java <29:8 29:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <64:5 64:8>]
 QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <65:5 65:8>]
 QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <66:5 66:8>]
