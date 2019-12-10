@@ -18,6 +18,10 @@ public:
 	bool getShouldIndexMavenTests() const;
 	void setShouldIndexMavenTests(bool value);
 
+	FilePath getMavenSettingsFilePath() const;
+	FilePath getMavenSettingsFilePathExpandedAndAbsolute() const;
+	void setMavenSettingsFilePath(const FilePath& path);
+
 protected:
 	bool equals(const SourceGroupSettingsBase* other) const override;
 
@@ -27,6 +31,7 @@ protected:
 private:
 	FilePath m_mavenProjectFilePath;
 	bool m_shouldIndexMavenTests = false;
+	FilePath m_mavenSettingsFilePath;
 };
 
 #endif	  // SOURCE_GROUP_SETTINGS_WITH_JAVA_MAVEN_H

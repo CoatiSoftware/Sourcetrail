@@ -356,6 +356,8 @@ if (BUILD_JAVA_LANGUAGE_PACKAGE)
 	add_files(
 		LIB_GUI
 
+		qt/project_wizard/content/path/QtProjectWizardContentPathSettingsMaven.cpp
+		qt/project_wizard/content/path/QtProjectWizardContentPathSettingsMaven.h
 		qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.cpp
 		qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.h
 		qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.cpp
