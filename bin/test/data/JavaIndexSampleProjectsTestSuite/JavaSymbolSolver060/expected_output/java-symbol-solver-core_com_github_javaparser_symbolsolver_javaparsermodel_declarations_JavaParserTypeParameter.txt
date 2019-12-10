@@ -159,13 +159,6 @@ QUALIFIER: java.util [JavaParserTypeParameter.java <35:13 35:16>]
 QUALIFIER: java.util [JavaParserTypeParameter.java <36:13 36:16>]
 QUALIFIER: java.util [JavaParserTypeParameter.java <37:13 37:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [JavaParserTypeParameter.java <32:8 32:11>]
-QUALIFIER: java [JavaParserTypeParameter.java <33:8 33:11>]
-QUALIFIER: java [JavaParserTypeParameter.java <34:8 34:11>]
-QUALIFIER: java [JavaParserTypeParameter.java <35:8 35:11>]
-QUALIFIER: java [JavaParserTypeParameter.java <36:8 36:11>]
-QUALIFIER: java [JavaParserTypeParameter.java <37:8 37:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.Collections [JavaParserTypeParameter.java <56:16 56:26>]
 QUALIFIER: java.util.Collections [JavaParserTypeParameter.java <199:16 199:26>]
 QUALIFIER: java.util.stream.Collectors [JavaParserTypeParameter.java <145:101 145:110>]

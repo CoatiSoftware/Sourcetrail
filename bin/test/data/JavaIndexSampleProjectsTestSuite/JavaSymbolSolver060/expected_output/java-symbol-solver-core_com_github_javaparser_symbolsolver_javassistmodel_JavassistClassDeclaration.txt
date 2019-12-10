@@ -114,11 +114,6 @@ QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistClassDeclaration.java
 QUALIFIER: javassist.bytecode.SyntheticAttribute [JavassistClassDeclaration.java <177:71 177:88>]
 QUALIFIER: java.lang [JavassistClassDeclaration.java <41:13 41:16>]
 SYMBOL_PACKAGE: java.lang
-QUALIFIER: java [JavassistClassDeclaration.java <41:8 41:11>]
-QUALIFIER: java [JavassistClassDeclaration.java <42:8 42:11>]
-QUALIFIER: java [JavassistClassDeclaration.java <43:8 43:11>]
-QUALIFIER: java [JavassistClassDeclaration.java <44:8 44:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect.Modifier [JavassistClassDeclaration.java <175:82 175:89>]
 QUALIFIER: java.lang.reflect [JavassistClassDeclaration.java <41:18 41:24>]
 SYMBOL_PACKAGE: java.lang.reflect
@@ -1091,10 +1086,10 @@ LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<3> [JavassistClassDeclarat
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<3> [JavassistClassDeclaration.java <305:57 305:57>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<6> [JavassistClassDeclaration.java <310:30 310:30>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<6> [JavassistClassDeclaration.java <310:70 310:70>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [JavassistClassDeclaration.java <381:55 381:55>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [JavassistClassDeclaration.java <381:60 381:60>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [JavassistClassDeclaration.java <370:54 370:54>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [JavassistClassDeclaration.java <370:59 370:59>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [JavassistClassDeclaration.java <381:55 381:55>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [JavassistClassDeclaration.java <381:60 381:60>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [JavassistClassDeclaration.java <370:54 370:54>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [JavassistClassDeclaration.java <370:59 370:59>]
 LOCAL_SYMBOL: java.util.function.Predicate<T>.test<5> [JavassistClassDeclaration.java <175:47 175:47>]
 LOCAL_SYMBOL: java.util.function.Predicate<T>.test<5> [JavassistClassDeclaration.java <175:100 175:100>]
 COMMENT: comment [JavassistClassDeclaration.java <1:1 15:3>]

@@ -12,9 +12,6 @@ QUALIFIER: com [MethodComparator.java <1:9 1:11>]
 SYMBOL_PACKAGE: com
 QUALIFIER: java.lang [MethodComparator.java <3:13 3:16>]
 SYMBOL_PACKAGE: java.lang
-QUALIFIER: java [MethodComparator.java <3:8 3:11>]
-QUALIFIER: java [MethodComparator.java <4:8 4:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [MethodComparator.java <3:18 3:24>]
 SYMBOL_PACKAGE: java.lang.reflect
 QUALIFIER: java.util [MethodComparator.java <4:13 4:16>]

@@ -35,8 +35,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypePar
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypeParameterValueProvider.java <39:24 39:31>]
 QUALIFIER: java.util [TypeParameterValueProvider.java <7:13 7:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [TypeParameterValueProvider.java <7:8 7:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider [TypeParameterValueProvider.java <12:1 <12:18 12:43> 51:1>]
 SYMBOL_METHOD: default java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.typeParamValue(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) [TypeParameterValueProvider.java <18:1 <18:1 <18:20 18:33> 18:84> 18:85>]
 SYMBOL_METHOD: default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeParameterValueProvider.java <24:1 <24:1 <24:18 24:52> 24:63> 48:5>]
@@ -116,8 +114,8 @@ LOCAL_SYMBOL: TypeParameterValueProvider.java<38:20> [TypeParameterValueProvider
 LOCAL_SYMBOL: TypeParameterValueProvider.java<38:20> [TypeParameterValueProvider.java <40:13 40:13>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<43:37> [TypeParameterValueProvider.java <43:37 43:37>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<43:37> [TypeParameterValueProvider.java <45:9 45:9>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<4> [TypeParameterValueProvider.java <44:67 44:68>]
-LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<4> [TypeParameterValueProvider.java <44:109 44:110>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<3> [TypeParameterValueProvider.java <44:67 44:68>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<3> [TypeParameterValueProvider.java <44:109 44:110>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.getGenericParameterByName<0> [TypeParameterValueProvider.java <50:53 50:56>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.typeParamValue<0> [TypeParameterValueProvider.java <18:60 18:83>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType<0> [TypeParameterValueProvider.java <24:59 24:62>]

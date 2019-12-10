@@ -12,8 +12,6 @@ QUALIFIER: com [ClassComparator.java <1:9 1:11>]
 SYMBOL_PACKAGE: com
 QUALIFIER: java.util [ClassComparator.java <3:13 3:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [ClassComparator.java <3:8 3:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator [ClassComparator.java <8:1 <8:14 8:28> 25:1>]
 SYMBOL_PACKAGE: java.lang
 SYMBOL_METHOD: public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) [ClassComparator.java <10:5 <10:5 <11:16 11:22> 11:48> 24:5>]

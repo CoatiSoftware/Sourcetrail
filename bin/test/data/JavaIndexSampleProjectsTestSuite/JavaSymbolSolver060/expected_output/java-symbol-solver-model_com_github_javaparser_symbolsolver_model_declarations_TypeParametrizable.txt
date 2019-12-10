@@ -13,9 +13,6 @@ SYMBOL_PACKAGE: com
 QUALIFIER: java.util [TypeParametrizable.java <19:13 19:16>]
 QUALIFIER: java.util [TypeParametrizable.java <20:13 20:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [TypeParametrizable.java <19:8 19:11>]
-QUALIFIER: java [TypeParametrizable.java <20:8 20:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [TypeParametrizable.java <27:1 <27:18 27:35> 40:1>]
 SYMBOL_METHOD: default java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() [TypeParametrizable.java <32:1 <32:1 <32:36 32:52> 32:54> 32:55>]
 SYMBOL_METHOD: default java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) [TypeParametrizable.java <38:1 <38:1 <38:40 38:56> 38:69> 38:70>]

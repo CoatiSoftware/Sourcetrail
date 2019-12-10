@@ -32,9 +32,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [AbstractClassDeclaration.java <23:13 23:16>]
 QUALIFIER: java.util [AbstractClassDeclaration.java <24:13 24:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [AbstractClassDeclaration.java <23:8 23:11>]
-QUALIFIER: java [AbstractClassDeclaration.java <24:8 24:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration [AbstractClassDeclaration.java <64:36 64:39>]
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration [AbstractClassDeclaration.java <31:1 <31:23 31:46> 85:1>]
 SYMBOL_METHOD: public boolean com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.hasName() [AbstractClassDeclaration.java <37:5 <37:5 <38:20 38:26> 38:28> 40:5>]
@@ -155,8 +152,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllSuperClasses<1> [AbstractClassDeclaration.java <46:13 46:22>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllSuperClasses<1> [AbstractClassDeclaration.java <47:30 47:39>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllSuperClasses<1> [AbstractClassDeclaration.java <48:33 48:42>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [AbstractClassDeclaration.java <51:35 51:35>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [AbstractClassDeclaration.java <51:40 51:40>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [AbstractClassDeclaration.java <51:35 51:35>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [AbstractClassDeclaration.java <51:40 51:40>]
 COMMENT: comment [AbstractClassDeclaration.java <1:1 15:3>]
 COMMENT: comment [AbstractClassDeclaration.java <26:1 30:3>]
 COMMENT: comment [AbstractClassDeclaration.java <33:5 33:7>]

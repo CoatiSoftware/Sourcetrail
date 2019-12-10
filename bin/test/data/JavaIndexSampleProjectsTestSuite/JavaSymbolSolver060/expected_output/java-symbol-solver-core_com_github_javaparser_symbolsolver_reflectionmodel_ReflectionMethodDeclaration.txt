@@ -55,12 +55,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.lang [ReflectionMethodDeclaration.java <26:13 26:16>]
 QUALIFIER: java.lang [ReflectionMethodDeclaration.java <27:13 27:16>]
 SYMBOL_PACKAGE: java.lang
-QUALIFIER: java [ReflectionMethodDeclaration.java <26:8 26:11>]
-QUALIFIER: java [ReflectionMethodDeclaration.java <27:8 27:11>]
-QUALIFIER: java [ReflectionMethodDeclaration.java <28:8 28:11>]
-QUALIFIER: java [ReflectionMethodDeclaration.java <29:8 29:11>]
-QUALIFIER: java [ReflectionMethodDeclaration.java <30:8 30:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [ReflectionMethodDeclaration.java <26:18 26:24>]
 QUALIFIER: java.lang.reflect [ReflectionMethodDeclaration.java <27:18 27:24>]
 SYMBOL_PACKAGE: java.lang.reflect

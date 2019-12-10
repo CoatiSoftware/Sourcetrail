@@ -15,7 +15,7 @@
 
 #	include "TestIntermediateStorage.h"
 
-#	define REQUIRE_MESSAGE(msg, cond)                                                             \
+#	define REQUIRE_MESSAGE(msg, cond)                                                              \
 		do                                                                                         \
 		{                                                                                          \
 			INFO(msg);                                                                             \
@@ -62,7 +62,7 @@ std::shared_ptr<TestIntermediateStorage> parseCode(std::string code, bool logErr
 	std::shared_ptr<TestIntermediateStorage> storage = std::make_shared<TestIntermediateStorage>();
 	JavaParser parser(
 		std::make_shared<ParserClientImpl>(storage.get()), std::make_shared<IndexerStateInfo>());
-	parser.buildIndex(FilePath(L"input.cc"), TextAccess::createFromString(code));
+	parser.buildIndex(FilePath(L"input.java"), TextAccess::createFromString(code));
 
 	storage->generateStringLists();
 
@@ -243,7 +243,7 @@ TEST_CASE("java parser finds anonymous class declaration")
 		"}\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
-		client->classes, L"foo.A.bar.anonymous class (input.cc<7:17>) <7:17 <7:17 7:17> 7:19>"));
+		client->classes, L"foo.A.bar.anonymous class (input.java<7:17>) <7:17 <7:17 7:17> 7:19>"));
 }
 
 TEST_CASE("java parser finds method declaration in anonymous class")
@@ -266,7 +266,7 @@ TEST_CASE("java parser finds method declaration in anonymous class")
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->methods,
-		L"public void foo.A.bar.anonymous class (input.cc<10:3>).foo() <11:4 <11:4 <11:16 11:18> "
+		L"public void foo.A.bar.anonymous class (input.java<10:3>).foo() <11:4 <11:4 <11:16 11:18> "
 		L"11:20> 11:23>"));
 }
 
@@ -863,7 +863,7 @@ TEST_CASE("java parser finds inheritance of anonymous class declaration")
 		"}\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
-		client->inheritances, L"A.foo.anonymous class (input.cc<10:3>) -> A.Base <9:16 9:19>"));
+		client->inheritances, L"A.foo.anonymous class (input.java<10:3>) -> A.Base <9:16 9:19>"));
 }
 
 TEST_CASE("java parser finds usage of string for var type")
@@ -1257,8 +1257,8 @@ TEST_CASE("java parser finds invocation of method of anonymous class")
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->calls,
-		L"void Main.anonymous class (input.cc<6:40>).foo() -> void Main.anonymous class "
-		L"(input.cc<6:40>).bar() <8:4 8:6>"));
+		L"void Main.anonymous class (input.java<6:40>).foo() -> void Main.anonymous class "
+		L"(input.java<6:40>).bar() <8:4 8:6>"));
 }
 
 TEST_CASE("java parser finds overridden method with same signature")
@@ -1484,9 +1484,9 @@ TEST_CASE("java parser finds scope of class declaration")
 		"}\n");
 
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<2:1> <2:1 2:1>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<2:1> <2:1 2:1>"));
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<2:1> <3:1 3:1>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<2:1> <3:1 3:1>"));
 }
 
 TEST_CASE("java parser finds scope of enum declaration")
@@ -1497,9 +1497,9 @@ TEST_CASE("java parser finds scope of enum declaration")
 		"}\n");
 
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<2:1> <2:1 2:1>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<2:1> <2:1 2:1>"));
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<2:1> <3:1 3:1>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<2:1> <3:1 3:1>"));
 }
 
 TEST_CASE("java parser finds scope of constructor declaration")
@@ -1513,9 +1513,9 @@ TEST_CASE("java parser finds scope of constructor declaration")
 		"}\n");
 
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<4:2> <4:2 4:2>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<4:2> <4:2 4:2>"));
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<4:2> <5:2 5:2>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<4:2> <5:2 5:2>"));
 }
 
 TEST_CASE("java parser finds scope of method declaration")
@@ -1529,9 +1529,9 @@ TEST_CASE("java parser finds scope of method declaration")
 		"}\n");
 
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<4:2> <4:2 4:2>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<4:2> <4:2 4:2>"));
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<4:2> <5:2 5:2>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<4:2> <5:2 5:2>"));
 }
 
 TEST_CASE("java parser finds scope of switch statement")
@@ -1550,9 +1550,9 @@ TEST_CASE("java parser finds scope of switch statement")
 		"}\n");
 
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<6:3> <6:3 6:3>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<6:3> <6:3 6:3>"));
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<6:3> <9:3 9:3>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<6:3> <9:3 9:3>"));
 }
 
 TEST_CASE("java parser finds scope of block statement")
@@ -1568,9 +1568,9 @@ TEST_CASE("java parser finds scope of block statement")
 		"}\n");
 
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<5:3> <5:3 5:3>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<5:3> <5:3 5:3>"));
 	REQUIRE(
-		utility::containsElement<std::wstring>(client->localSymbols, L"input.cc<5:3> <6:3 6:3>"));
+		utility::containsElement<std::wstring>(client->localSymbols, L"input.java<5:3> <6:3 6:3>"));
 }
 
 TEST_CASE("java parser finds scope of array initialization list")
@@ -1582,9 +1582,9 @@ TEST_CASE("java parser finds scope of array initialization list")
 		"}\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
-		client->localSymbols, L"input.cc<3:24> <3:24 3:24>"));
+		client->localSymbols, L"input.java<3:24> <3:24 3:24>"));
 	REQUIRE(utility::containsElement<std::wstring>(
-		client->localSymbols, L"input.cc<3:24> <3:29 3:29>"));
+		client->localSymbols, L"input.java<3:24> <3:29 3:29>"));
 }
 
 TEST_CASE("java parser finds scope of anonymous class declaration")
@@ -1605,9 +1605,9 @@ TEST_CASE("java parser finds scope of anonymous class declaration")
 		"}\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
-		client->localSymbols, L"input.cc<10:3> <10:3 10:3>"));
+		client->localSymbols, L"input.java<10:3> <10:3 10:3>"));
 	REQUIRE(utility::containsElement<std::wstring>(
-		client->localSymbols, L"input.cc<10:3> <11:3 11:3>"));
+		client->localSymbols, L"input.java<10:3> <11:3 11:3>"));
 }
 
 TEST_CASE("java parser finds usage of type parameter of class")
@@ -1656,5 +1656,29 @@ TEST_CASE("java parser finds bound type of type parameter")
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->typeUses, L"A<T>.T -> java.lang.Void <1:27 1:30>"));
 }
+
+TEST_CASE("java parsersupports java 12 switch expression")
+{
+	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+		"package foo;\n"
+		"\n"
+		"public class Foo {\n"
+		"		enum FruitType {\n"
+		"		PEAR, \n"
+		"		APPLE\n"
+		"	}\n"
+		"	\n"
+		"	public void foo() {\n"
+		"		FruitType fruit = FruitType.APPLE; \n"
+		"		int numberOfLetters2 = switch (fruit) {\n"
+		"			case PEAR -> 4; \n"
+		"			case APPLE -> 5; \n"
+		"		}; \n"
+		"	}\n"
+		"}\n");
+
+	REQUIRE(utility::containsElement<std::wstring>(client->usages, L"void foo.Foo.foo() -> foo.Foo.FruitType.PEAR <12:9 12:12>"));
+}
+
 
 #endif	  // BUILD_JAVA_LANGUAGE_PACKAGE

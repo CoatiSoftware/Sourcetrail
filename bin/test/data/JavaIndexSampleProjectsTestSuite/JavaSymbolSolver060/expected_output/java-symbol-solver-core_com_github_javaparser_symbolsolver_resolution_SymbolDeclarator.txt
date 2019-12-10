@@ -18,8 +18,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.model [SymbolDeclarator.java <19:4
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model
 QUALIFIER: java.util [SymbolDeclarator.java <21:13 21:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [SymbolDeclarator.java <21:8 21:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [SymbolDeclarator.java <26:1 <26:18 26:33> 30:1>]
 SYMBOL_METHOD: default java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [SymbolDeclarator.java <28:5 <28:5 <28:28 28:48> 28:50> 28:51>]
 REFERENCE_IMPORT: SymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [SymbolDeclarator.java <19:62 19:77>]

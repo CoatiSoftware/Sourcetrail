@@ -54,8 +54,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.parametrization [
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.parametrization [MethodUsage.java <24:60 24:74>]
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem.parametrization
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [MethodUsage.java <26:8 26:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.methods.MethodUsage [MethodUsage.java <41:9 41:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.methods.MethodUsage [MethodUsage.java <42:9 42:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.methods.MethodUsage [MethodUsage.java <54:9 54:12>]

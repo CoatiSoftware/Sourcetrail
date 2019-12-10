@@ -19,8 +19,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ArrayType.java
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: java.util [ArrayType.java <21:13 21:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [ArrayType.java <21:8 21:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ArrayType [ArrayType.java <33:9 33:12>]
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.model.typesystem.ArrayType [ArrayType.java <28:1 <28:14 28:22> 108:1>]
 SYMBOL_FIELD: private com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ArrayType.baseType [ArrayType.java <30:18 30:25>]

@@ -41,19 +41,23 @@ public class JavaIndexer
 			
 			Path path = Paths.get(filePath);
 		
-			ASTParser parser = ASTParser.newParser(AST.JLS10);
+			ASTParser parser = ASTParser.newParser(AST.JLS12);
 			
-			parser.setResolveBindings(true); // solve "bindings" like the declatarion of the type used in a var decl
+			parser.setResolveBindings(true); // solve "bindings" like the declaration of the type used in a var decl
 			parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
 			parser.setBindingsRecovery(true); // also return bindings that are not resolved completely
 			parser.setStatementsRecovery(true);
 
 			{
-				Hashtable<String, String> options = JavaCore.getOptions();
-				
 				String convertedLanguageStandard = convertLanguageStandard(languageStandard);
 				astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
-				JavaCore.setComplianceOptions(convertedLanguageStandard, options);
+				
+				Hashtable<String, String> options = JavaCore.getOptions();
+			    options.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, JavaCore.ENABLED);
+			    options.put(JavaCore.COMPILER_PB_REPORT_PREVIEW_FEATURES, JavaCore.IGNORE);
+			    options.put(JavaCore.COMPILER_SOURCE, convertedLanguageStandard);
+			    options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, convertedLanguageStandard);
+			    options.put(JavaCore.COMPILER_COMPLIANCE, convertedLanguageStandard);
 				parser.setCompilerOptions(options);
 			}
 			
@@ -136,7 +140,7 @@ public class JavaIndexer
 	{
 		String packageName = "";
 		
-		ASTParser parser = ASTParser.newParser(AST.JLS10);
+		ASTParser parser = ASTParser.newParser(AST.JLS12);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
 		parser.setSource(fileContent.toCharArray());
 		CompilationUnit cu = (CompilationUnit) parser.createAST(null);
@@ -176,8 +180,12 @@ public class JavaIndexer
         case "9":
     		return JavaCore.VERSION_9;
         case "10":
-    	default:
     		return JavaCore.VERSION_10;
+        case "11":
+    		return JavaCore.VERSION_11;
+        case "12":
+    	default:
+    		return JavaCore.VERSION_12;
         }
 	}
 	

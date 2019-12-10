@@ -40,8 +40,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel [ReflectionTypeSol
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.reflectionmodel
 QUALIFIER: java.util [ReflectionTypeSolver.java <24:13 24:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [ReflectionTypeSolver.java <24:8 24:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <34:9 34:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <50:9 50:12>]
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <29:1 <29:14 29:33> 94:1>]
@@ -226,8 +224,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.Reflecti
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<8> [ReflectionTypeSolver.java <77:60 77:69>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<8> [ReflectionTypeSolver.java <79:29 79:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<8> [ReflectionTypeSolver.java <80:59 80:68>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<10> [ReflectionTypeSolver.java <78:50 78:51>]
-LOCAL_SYMBOL: java.util.function.Predicate<T>.test<10> [ReflectionTypeSolver.java <78:56 78:57>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<9> [ReflectionTypeSolver.java <78:50 78:51>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<9> [ReflectionTypeSolver.java <78:56 78:57>]
 COMMENT: comment [ReflectionTypeSolver.java <1:1 15:3>]
 COMMENT: comment [ReflectionTypeSolver.java <26:1 28:3>]
 COMMENT: comment [ReflectionTypeSolver.java <59:17 59:117>]

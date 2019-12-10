@@ -158,8 +158,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: javaslang [LambdaExprContext.java <41:8 41:16>]
 SYMBOL_PACKAGE: javaslang
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [LambdaExprContext.java <43:8 43:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_METHOD: static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [LambdaExprContext.java <45:61 45:69>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [LambdaExprContext.java <45:50 45:59>]
