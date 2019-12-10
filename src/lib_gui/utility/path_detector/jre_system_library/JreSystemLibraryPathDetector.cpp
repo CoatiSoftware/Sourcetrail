@@ -8,7 +8,7 @@
 
 JreSystemLibraryPathDetector::JreSystemLibraryPathDetector(
 	std::shared_ptr<JavaPathDetector> javaPathDetector)
-	: PathDetector("JRE System Library"), m_javaPathDetector(javaPathDetector)
+	: PathDetector(javaPathDetector->getName() + " System Library"), m_javaPathDetector(javaPathDetector)
 {
 }
 

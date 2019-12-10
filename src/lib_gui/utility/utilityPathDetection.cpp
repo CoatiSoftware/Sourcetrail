@@ -32,6 +32,7 @@ std::shared_ptr<CombinedPathDetector> utility::getJavaRuntimePathDetector()
 	{
 	case OS_WINDOWS:
 		combinedDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8"));
+		combinedDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("9"));
 		break;
 	case OS_MAC:
 		combinedDetector->addDetector(std::make_shared<JavaPathDetectorMac>("1.8"));
@@ -57,6 +58,7 @@ std::shared_ptr<CombinedPathDetector> utility::getJreSystemLibraryPathsDetector(
 	{
 	case OS_WINDOWS:
 		combinedDetector->addDetector(std::make_shared<JreSystemLibraryPathDetectorWindows>("1.8"));
+		combinedDetector->addDetector(std::make_shared<JreSystemLibraryPathDetectorWindows>("9"));
 		break;
 	case OS_MAC:
 		combinedDetector->addDetector(std::make_shared<JreSystemLibraryPathDetectorMac>("1.8"));
