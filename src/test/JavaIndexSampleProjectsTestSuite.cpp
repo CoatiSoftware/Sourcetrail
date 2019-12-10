@@ -21,7 +21,7 @@
 #	include "utilityPathDetection.h"
 #	include "utilityString.h"
 
-#	define REQUIRE_MESSAGE(msg, cond)                                                             \
+#	define REQUIRE_MESSAGE(msg, cond)                                                              \
 		do                                                                                         \
 		{                                                                                          \
 			INFO(msg);                                                                             \
