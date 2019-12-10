@@ -70,7 +70,7 @@ std::shared_ptr<TextAccess> parseCode(
 	JavaParser parser(
 		std::make_shared<ParserClientImpl>(&storage), std::make_shared<IndexerStateInfo>());
 	std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(
-		sourceFilePath, L"8", classpath);
+		sourceFilePath, L"12", classpath);
 
 	TimeStamp startTime = TimeStamp::now();
 	parser.buildIndex(command);
