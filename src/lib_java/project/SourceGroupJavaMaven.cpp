@@ -84,7 +84,8 @@ bool SourceGroupJavaMaven::prepareMavenData()
 
 		ScopedFunctor dialogHider([&dialogView]() { dialogView->hideUnknownProgressDialog(); });
 
-		const std::wstring errorMessage = utility::mavenGenerateSources(mavenPath, mavenSettingsPath, projectRootPath);
+		const std::wstring errorMessage = utility::mavenGenerateSources(
+			mavenPath, mavenSettingsPath, projectRootPath);
 		if (!errorMessage.empty())
 		{
 			MessageStatus(errorMessage, true, false).dispatch();
@@ -96,7 +97,10 @@ bool SourceGroupJavaMaven::prepareMavenData()
 			L"Preparing Project", L"Maven\nExporting Dependencies");
 
 		bool success = utility::mavenCopyDependencies(
-			mavenPath, mavenSettingsPath, projectRootPath, m_settings->getMavenDependenciesDirectoryPath());
+			mavenPath,
+			mavenSettingsPath,
+			projectRootPath,
+			m_settings->getMavenDependenciesDirectoryPath());
 
 		return success;
 	}
