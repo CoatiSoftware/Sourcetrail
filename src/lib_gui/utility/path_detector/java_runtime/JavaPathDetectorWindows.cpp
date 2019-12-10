@@ -5,6 +5,7 @@
 
 #include "FilePath.h"
 #include "utilityApp.h"
+#include "utilityString.h"
 
 JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion)
 	: JavaPathDetector("Java " + javaVersion + " for Windows", javaVersion)
@@ -20,7 +21,16 @@ std::vector<FilePath> JavaPathDetectorWindows::getPaths() const
 		key += "Wow6432Node\\";
 	}
 
-	key += ("JavaSoft\\Java Runtime Environment\\" + m_javaVersion).c_str();
+	key += "JavaSoft\\";
+
+	if (utility::isPrefix(std::string("1."), m_javaVersion))
+	{
+		key += ("Java Runtime Environment\\" + m_javaVersion).c_str();
+	}
+	else
+	{
+		key += ("JRE\\" + m_javaVersion).c_str();
+	}
 
 	QSettings expressKey(
 		key, QSettings::NativeFormat);	  // NativeFormat means from Registry on Windows.
