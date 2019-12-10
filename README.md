@@ -166,13 +166,21 @@ JAVA_HOME=.../Java/jdk1.x.x_xxx
 
 Also make sure `<jdk_root>/bin` is available in your `PATH` environmen variable.
 
+#### Maven
+Install Maven and make sure both `M2_HOME` and `MAVEN_HOME` environment variables are set:
+```
+M2_HOME=.../apache-maven-x.x.x
+MAVEN_HOME=.../apache-maven-x.x.x
+```
+
+Also make sure `.../apache-maven-x.x.x/bin` is available in your `PATH` environmen variable.
+
 ### Building
 
 Run CMake with these additional options:
 ```
 -DBUILD_JAVA_LANGUAGE_PACKAGE=ON
 ```
-
 
 ## Enable Python Language Support
 
