@@ -29,6 +29,9 @@ cd $ROOT_DIR/
 
 cd java_indexer
 
+# exit when any command fails
+set -e 
+
 echo -e $INFO "cleaning and building java_indexer.jar"
 mvn clean package
 
