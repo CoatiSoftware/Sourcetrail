@@ -121,12 +121,6 @@ QUALIFIER: java.io [SourceFileInfoExtractor.java <38:13 38:14>]
 QUALIFIER: java.io [SourceFileInfoExtractor.java <39:13 39:14>]
 QUALIFIER: java.io [SourceFileInfoExtractor.java <40:13 40:14>]
 SYMBOL_PACKAGE: java.io
-QUALIFIER: java [SourceFileInfoExtractor.java <38:8 38:11>]
-QUALIFIER: java [SourceFileInfoExtractor.java <39:8 39:11>]
-QUALIFIER: java [SourceFileInfoExtractor.java <40:8 40:11>]
-QUALIFIER: java [SourceFileInfoExtractor.java <41:8 41:11>]
-QUALIFIER: java [SourceFileInfoExtractor.java <42:8 42:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util [SourceFileInfoExtractor.java <41:13 41:16>]
 QUALIFIER: java.util [SourceFileInfoExtractor.java <42:13 42:16>]
 SYMBOL_PACKAGE: java.util

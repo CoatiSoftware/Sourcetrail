@@ -114,11 +114,6 @@ QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistClassDeclaration.java
 QUALIFIER: javassist.bytecode.SyntheticAttribute [JavassistClassDeclaration.java <177:71 177:88>]
 QUALIFIER: java.lang [JavassistClassDeclaration.java <41:13 41:16>]
 SYMBOL_PACKAGE: java.lang
-QUALIFIER: java [JavassistClassDeclaration.java <41:8 41:11>]
-QUALIFIER: java [JavassistClassDeclaration.java <42:8 42:11>]
-QUALIFIER: java [JavassistClassDeclaration.java <43:8 43:11>]
-QUALIFIER: java [JavassistClassDeclaration.java <44:8 44:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect.Modifier [JavassistClassDeclaration.java <175:82 175:89>]
 QUALIFIER: java.lang.reflect [JavassistClassDeclaration.java <41:18 41:24>]
 SYMBOL_PACKAGE: java.lang.reflect

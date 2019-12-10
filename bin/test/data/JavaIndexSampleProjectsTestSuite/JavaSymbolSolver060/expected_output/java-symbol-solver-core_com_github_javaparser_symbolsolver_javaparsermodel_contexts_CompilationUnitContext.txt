@@ -222,8 +222,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.resolution [CompilationUnitContext
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [CompilationUnitContext.java <37:13 37:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [CompilationUnitContext.java <37:8 37:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext [CompilationUnitContext.java <72:107 72:110>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext [CompilationUnitContext.java <167:13 167:16>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CompilationUnitContext [CompilationUnitContext.java <168:28 168:31>]

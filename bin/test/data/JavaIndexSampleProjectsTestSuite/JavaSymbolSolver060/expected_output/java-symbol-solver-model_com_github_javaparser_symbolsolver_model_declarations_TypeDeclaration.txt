@@ -20,9 +20,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: java.util [TypeDeclaration.java <21:13 21:16>]
 QUALIFIER: java.util [TypeDeclaration.java <22:13 22:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [TypeDeclaration.java <21:8 21:11>]
-QUALIFIER: java [TypeDeclaration.java <22:8 22:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [TypeDeclaration.java <40:86 40:89>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [TypeDeclaration.java <49:17 49:20>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [TypeDeclaration.java <59:16 59:19>]

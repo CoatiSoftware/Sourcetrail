@@ -194,9 +194,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.resolution [JavaParserEnumDeclarat
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.io [JavaParserEnumDeclaration.java <41:13 41:14>]
 SYMBOL_PACKAGE: java.io
-QUALIFIER: java [JavaParserEnumDeclaration.java <41:8 41:11>]
-QUALIFIER: java [JavaParserEnumDeclaration.java <42:8 42:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_PACKAGE: java.util
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration [JavaParserEnumDeclaration.java <54:9 54:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration [JavaParserEnumDeclaration.java <55:9 55:12>]

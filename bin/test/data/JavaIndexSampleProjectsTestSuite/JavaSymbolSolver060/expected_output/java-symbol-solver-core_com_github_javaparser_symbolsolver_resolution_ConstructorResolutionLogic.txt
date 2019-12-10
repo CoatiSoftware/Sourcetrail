@@ -60,12 +60,6 @@ QUALIFIER: java.util [ConstructorResolutionLogic.java <27:13 27:16>]
 QUALIFIER: java.util [ConstructorResolutionLogic.java <28:13 28:16>]
 QUALIFIER: java.util [ConstructorResolutionLogic.java <29:13 29:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [ConstructorResolutionLogic.java <25:8 25:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <26:8 26:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <27:8 27:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <28:8 28:11>]
-QUALIFIER: java [ConstructorResolutionLogic.java <29:8 29:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [ConstructorResolutionLogic.java <157:171 157:180>]
 QUALIFIER: java.util.stream [ConstructorResolutionLogic.java <29:18 29:23>]
 SYMBOL_PACKAGE: java.util.stream

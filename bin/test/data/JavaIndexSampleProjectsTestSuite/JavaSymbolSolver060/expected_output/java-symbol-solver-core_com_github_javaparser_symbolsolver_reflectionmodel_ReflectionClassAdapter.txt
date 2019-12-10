@@ -73,15 +73,8 @@ QUALIFIER: java.lang [ReflectionClassAdapter.java <16:13 16:16>]
 QUALIFIER: java.lang [ReflectionClassAdapter.java <39:14 39:17>]
 QUALIFIER: java.lang [ReflectionClassAdapter.java <52:19 52:22>]
 SYMBOL_PACKAGE: java.lang
-QUALIFIER: java [ReflectionClassAdapter.java <13:8 13:11>]
-QUALIFIER: java [ReflectionClassAdapter.java <14:8 14:11>]
-QUALIFIER: java [ReflectionClassAdapter.java <15:8 15:11>]
-QUALIFIER: java [ReflectionClassAdapter.java <16:8 16:11>]
-QUALIFIER: java [ReflectionClassAdapter.java <17:8 17:11>]
-QUALIFIER: java [ReflectionClassAdapter.java <18:8 18:11>]
 QUALIFIER: java [ReflectionClassAdapter.java <39:9 39:12>]
 QUALIFIER: java [ReflectionClassAdapter.java <52:14 52:17>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.annotation [ReflectionClassAdapter.java <13:18 13:27>]
 SYMBOL_PACKAGE: java.lang.annotation
 QUALIFIER: java.lang.reflect [ReflectionClassAdapter.java <14:18 14:24>]

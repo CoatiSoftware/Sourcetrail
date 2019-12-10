@@ -140,9 +140,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.resolution.MethodResolutionLogic [
 QUALIFIER: java.util [JavaParserTypeDeclarationAdapter.java <19:13 19:16>]
 QUALIFIER: java.util [JavaParserTypeDeclarationAdapter.java <20:13 20:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [JavaParserTypeDeclarationAdapter.java <19:8 19:11>]
-QUALIFIER: java [JavaParserTypeDeclarationAdapter.java <20:8 20:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [JavaParserTypeDeclarationAdapter.java <90:26 90:35>]
 QUALIFIER: java.util.stream [JavaParserTypeDeclarationAdapter.java <20:18 20:23>]
 SYMBOL_PACKAGE: java.util.stream

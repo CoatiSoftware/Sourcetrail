@@ -45,9 +45,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.lang [ReflectionFieldDeclaration.java <25:13 25:16>]
 QUALIFIER: java.lang [ReflectionFieldDeclaration.java <26:13 26:16>]
 SYMBOL_PACKAGE: java.lang
-QUALIFIER: java [ReflectionFieldDeclaration.java <25:8 25:11>]
-QUALIFIER: java [ReflectionFieldDeclaration.java <26:8 26:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [ReflectionFieldDeclaration.java <25:18 25:24>]
 QUALIFIER: java.lang.reflect [ReflectionFieldDeclaration.java <26:18 26:24>]
 SYMBOL_PACKAGE: java.lang.reflect

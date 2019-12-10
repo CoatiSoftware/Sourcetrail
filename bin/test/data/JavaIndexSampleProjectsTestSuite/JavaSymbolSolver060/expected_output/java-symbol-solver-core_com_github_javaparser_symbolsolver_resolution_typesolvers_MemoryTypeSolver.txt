@@ -34,9 +34,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: java.util [MemoryTypeSolver.java <23:13 23:16>]
 QUALIFIER: java.util [MemoryTypeSolver.java <24:13 24:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [MemoryTypeSolver.java <23:8 23:11>]
-QUALIFIER: java [MemoryTypeSolver.java <24:8 24:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver [MemoryTypeSolver.java <70:9 70:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver [MemoryTypeSolver.java <74:9 74:12>]
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver [MemoryTypeSolver.java <31:1 <31:14 31:29> 86:1>]

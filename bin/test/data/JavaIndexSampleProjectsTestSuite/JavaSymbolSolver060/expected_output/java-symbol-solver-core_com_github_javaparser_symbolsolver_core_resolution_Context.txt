@@ -54,9 +54,6 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [Context.java <26:13 26:16>]
 QUALIFIER: java.util [Context.java <27:13 27:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [Context.java <26:8 26:11>]
-QUALIFIER: java [Context.java <27:8 27:11>]
-SYMBOL_PACKAGE: java
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.core.resolution.Context [Context.java <35:1 <35:18 35:24> 98:1>]
 SYMBOL_METHOD: default com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.core.resolution.Context.getParent() [Context.java <37:5 <37:5 <37:13 37:21> 37:23> 37:24>]
 SYMBOL_METHOD: default java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.core.resolution.Context.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [Context.java <41:5 <41:5 <41:28 41:43> 41:79> 43:5>]

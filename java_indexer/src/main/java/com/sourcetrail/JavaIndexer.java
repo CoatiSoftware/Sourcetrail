@@ -49,11 +49,15 @@ public class JavaIndexer
 			parser.setStatementsRecovery(true);
 
 			{
-				Hashtable<String, String> options = JavaCore.getOptions();
-				
 				String convertedLanguageStandard = convertLanguageStandard(languageStandard);
 				astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
-				JavaCore.setComplianceOptions(convertedLanguageStandard, options);
+				
+				Hashtable<String, String> options = JavaCore.getOptions();
+			    options.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, JavaCore.ENABLED);
+			    options.put(JavaCore.COMPILER_PB_REPORT_PREVIEW_FEATURES, JavaCore.IGNORE);
+			    options.put(JavaCore.COMPILER_SOURCE, convertedLanguageStandard);
+			    options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, convertedLanguageStandard);
+			    options.put(JavaCore.COMPILER_COMPLIANCE, convertedLanguageStandard);
 				parser.setCompilerOptions(options);
 			}
 			

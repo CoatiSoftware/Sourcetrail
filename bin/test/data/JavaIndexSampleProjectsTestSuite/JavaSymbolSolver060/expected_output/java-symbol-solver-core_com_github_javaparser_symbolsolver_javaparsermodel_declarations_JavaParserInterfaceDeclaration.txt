@@ -163,9 +163,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.resolution [JavaParserInterfaceDec
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [JavaParserInterfaceDeclaration.java <40:13 40:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [JavaParserInterfaceDeclaration.java <39:8 39:11>]
-QUALIFIER: java [JavaParserInterfaceDeclaration.java <40:8 40:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [JavaParserInterfaceDeclaration.java <259:23 259:32>]
 QUALIFIER: java.util.stream.Collectors [JavaParserInterfaceDeclaration.java <316:26 316:35>]
 QUALIFIER: java.util.stream [JavaParserInterfaceDeclaration.java <40:18 40:23>]

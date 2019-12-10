@@ -152,12 +152,6 @@ QUALIFIER: java.util [JavaParserAnonymousClassDeclaration.java <25:13 25:16>]
 QUALIFIER: java.util [JavaParserAnonymousClassDeclaration.java <26:13 26:16>]
 QUALIFIER: java.util [JavaParserAnonymousClassDeclaration.java <27:13 27:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [JavaParserAnonymousClassDeclaration.java <23:8 23:11>]
-QUALIFIER: java [JavaParserAnonymousClassDeclaration.java <24:8 24:11>]
-QUALIFIER: java [JavaParserAnonymousClassDeclaration.java <25:8 25:11>]
-QUALIFIER: java [JavaParserAnonymousClassDeclaration.java <26:8 26:11>]
-QUALIFIER: java [JavaParserAnonymousClassDeclaration.java <27:8 27:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.UUID [JavaParserAnonymousClassDeclaration.java <37:46 37:49>]
 QUALIFIER: java.util.stream.Collectors [JavaParserAnonymousClassDeclaration.java <60:18 60:27>]
 QUALIFIER: java.util.stream.Collectors [JavaParserAnonymousClassDeclaration.java <80:22 80:31>]

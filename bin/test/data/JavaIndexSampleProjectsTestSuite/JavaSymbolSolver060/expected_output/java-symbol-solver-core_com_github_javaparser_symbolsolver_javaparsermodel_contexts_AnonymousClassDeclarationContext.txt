@@ -140,10 +140,6 @@ QUALIFIER: java.util [AnonymousClassDeclarationContext.java <23:13 23:16>]
 QUALIFIER: java.util [AnonymousClassDeclarationContext.java <24:13 24:16>]
 QUALIFIER: java.util [AnonymousClassDeclarationContext.java <25:13 25:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [AnonymousClassDeclarationContext.java <23:8 23:11>]
-QUALIFIER: java [AnonymousClassDeclarationContext.java <24:8 24:11>]
-QUALIFIER: java [AnonymousClassDeclarationContext.java <25:8 25:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [AnonymousClassDeclarationContext.java <51:22 51:31>]
 QUALIFIER: java.util.stream [AnonymousClassDeclarationContext.java <25:18 25:23>]
 SYMBOL_PACKAGE: java.util.stream

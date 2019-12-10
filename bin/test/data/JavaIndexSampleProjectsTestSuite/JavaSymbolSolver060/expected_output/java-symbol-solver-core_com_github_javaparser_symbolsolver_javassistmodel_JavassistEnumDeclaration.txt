@@ -88,11 +88,6 @@ SYMBOL_PACKAGE: javassist.bytecode
 QUALIFIER: javassist.bytecode.SyntheticAttribute [JavassistEnumDeclaration.java <172:71 172:88>]
 QUALIFIER: java.lang [JavassistEnumDeclaration.java <35:13 35:16>]
 SYMBOL_PACKAGE: java.lang
-QUALIFIER: java [JavassistEnumDeclaration.java <35:8 35:11>]
-QUALIFIER: java [JavassistEnumDeclaration.java <36:8 36:11>]
-QUALIFIER: java [JavassistEnumDeclaration.java <37:8 37:11>]
-QUALIFIER: java [JavassistEnumDeclaration.java <38:8 38:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect.Modifier [JavassistEnumDeclaration.java <170:82 170:89>]
 QUALIFIER: java.lang.reflect [JavassistEnumDeclaration.java <35:18 35:24>]
 SYMBOL_PACKAGE: java.lang.reflect

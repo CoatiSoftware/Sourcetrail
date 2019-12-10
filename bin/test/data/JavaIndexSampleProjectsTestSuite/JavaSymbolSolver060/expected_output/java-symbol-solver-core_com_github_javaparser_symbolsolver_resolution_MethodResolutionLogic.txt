@@ -110,9 +110,6 @@ QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel [MethodResolutionL
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.reflectionmodel
 QUALIFIER: java.util [MethodResolutionLogic.java <37:13 37:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [MethodResolutionLogic.java <36:8 36:11>]
-QUALIFIER: java [MethodResolutionLogic.java <37:8 37:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [MethodResolutionLogic.java <382:191 382:200>]
 QUALIFIER: java.util.stream.Collectors [MethodResolutionLogic.java <525:137 525:146>]
 QUALIFIER: java.util.stream [MethodResolutionLogic.java <37:18 37:23>]

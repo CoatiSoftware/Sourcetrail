@@ -12,8 +12,6 @@ QUALIFIER: com [MethodLikeDeclaration.java <17:9 17:11>]
 SYMBOL_PACKAGE: com
 QUALIFIER: java.util [MethodLikeDeclaration.java <19:13 19:16>]
 SYMBOL_PACKAGE: java.util
-QUALIFIER: java [MethodLikeDeclaration.java <19:8 19:11>]
-SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [MethodLikeDeclaration.java <46:59 46:62>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [MethodLikeDeclaration.java <71:48 71:51>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [MethodLikeDeclaration.java <115:44 115:47>]
