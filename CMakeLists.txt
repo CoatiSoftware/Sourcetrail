@@ -84,8 +84,9 @@ endif()
 
 if (TREAT_WARNINGS_AS_ERRORS)
 	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+		# Warning 4003: not enough actual parameters for macro 'identifier'
 		# Warning 4250: 'class1' inherits 'class2::member' via dominance
-		set(WARNINGS_LIST "/wd4250")
+		set(WARNINGS_LIST "/wd4003 /wd4250")
 		set(CMAKE_CXX_WARNINGS_FLAGS "/experimental:external /external:anglebrackets /external:W0 /WX")
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_WARNINGS_FLAGS} ${WARNINGS_LIST}")
 		message(STATUS "'Treat warnings as errors' policy is enabled")
