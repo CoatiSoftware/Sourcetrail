@@ -82,6 +82,16 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	ADD_COMPILE_OPTIONS(/MP)
 endif()
 
+if (TREAT_WARNINGS_AS_ERRORS)
+	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+		set(CMAKE_CXX_WARNINGS_FLAGS "/experimental:external /external:anglebrackets /external:W0 /WX")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_WARNINGS_FLAGS}")
+		message(STATUS "'Treat warnings as errors' policy is enabled")
+	else()
+		message(STATUS "'Treat warnings as errors' policy is disabled")
+	endif()
+endif()
+
 # For debugging the release build on linux
 #if (UNIX AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 	#add_definitions(-fno-omit-frame-pointer)

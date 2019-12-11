@@ -1,5 +1,5 @@
 #include "QtTcpWrapper.h"
-#include "qdatastream.h"
+#include <qdatastream.h>
 
 #include "logging.h"
 
