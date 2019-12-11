@@ -64,6 +64,13 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getLanguageStandard(),
 			indexerCommand.getClassPaths());
 #endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+	case PYTHON:
+		LOG_ERROR(
+			L"Cannot convert shared IndexerCommand for file: " +
+			indexerCommand.getSourceFilePath().wstr() + L". The type is unknown.");
+		break;
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 	default:
 		LOG_ERROR(
 			L"Cannot convert shared IndexerCommand for file: " +
