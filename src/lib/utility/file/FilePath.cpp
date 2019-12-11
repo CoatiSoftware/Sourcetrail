@@ -223,8 +223,11 @@ std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 	std::smatch match;
 	while (std::regex_search(text, match, env))
 	{
+#pragma warning(push)
+#pragma warning(disable : 4996)
 		const char* s = match[1].matched ? getenv(match[1].str().c_str())
 										 : getenv(match[2].str().c_str());
+#pragma warning(pop)
 		if (s == nullptr)
 		{
 			LOG_ERROR_STREAM(<< match[1].str() << " is not an environment variable in: " << text);
