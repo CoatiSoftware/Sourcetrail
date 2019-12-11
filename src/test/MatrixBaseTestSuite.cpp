@@ -197,6 +197,8 @@ TEST_CASE("matrixBase multiplyDivideScalar")
 {
 	MatrixBase<int, 3, 5> matrix0 = getTestMatrix3x5();
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
 	matrix0.scalarMultiplication(2.0f);	   // float is on porpoise (so is porpoise, womp womp)
 
 	REQUIRE(0 == matrix0.getValue(0, 0));
@@ -220,6 +222,7 @@ TEST_CASE("matrixBase multiplyDivideScalar")
 	REQUIRE(0 == matrix0.getValue(0, 0));
 	REQUIRE(0 == matrix0.getValue(1, 1));
 	REQUIRE(1 == matrix0.getValue(2, 2));
+#pragma warning(pop)
 }
 
 TEST_CASE("matrixBase multiplyMatrix")
