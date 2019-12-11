@@ -6,6 +6,7 @@ endif()
 set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the Sourcetrail indexer.")
 set(BUILD_JAVA_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
+set(TREAT_WARNINGS_AS_ERRORS ON CACHE BOOL "Treat compiler warnings as errors")
 
 #set (CMAKE_VERBOSE_MAKEFILE ON)
 
