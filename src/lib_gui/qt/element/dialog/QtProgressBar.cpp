@@ -56,7 +56,7 @@ void QtProgressBar::paintEvent(QPaintEvent* event)
 	}
 	else
 	{
-		painter.fillRect(0, 2, geometry().width() * m_percent / 100, 6, "white");
+		painter.fillRect(0, 2, static_cast<int>(geometry().width() * m_percent / 100), 6, "white");
 	}
 }
 

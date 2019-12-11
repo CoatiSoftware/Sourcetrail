@@ -43,7 +43,7 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPart
 
 	const clang::TemplateArgumentList& templateArgumentList =
 		partialSpecializationDecl->getTemplateArgs();
-	for (int i = 0; i < templateArgumentList.size(); i++)
+	for (unsigned i = 0; i < templateArgumentList.size(); i++)
 	{
 		const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
 		const clang::TemplateArgument::ArgKind argKind = templateArgument.getKind();

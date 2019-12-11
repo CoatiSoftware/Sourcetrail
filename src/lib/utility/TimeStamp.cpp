@@ -23,7 +23,7 @@ std::string TimeStamp::secondsToString(double secs)
 	int seconds = int(secs);
 	secs -= seconds;
 
-	int milliSeconds = secs * 1000;
+	const int milliSeconds = static_cast<int>(secs * 1000);
 
 	if (hours > 9)
 	{

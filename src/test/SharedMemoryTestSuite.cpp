@@ -38,7 +38,7 @@ TEST_CASE("shared memory")
 
 			SharedMemory::Vector<int>* nums =
 				access.accessValueWithAllocator<SharedMemory::Vector<int>>("nums");
-			nums->push_back(nums->size());
+			nums->push_back(static_cast<int>(nums->size()));
 
 			SharedMemory::Vector<SharedMemory::String>* strings =
 				access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(
@@ -47,7 +47,8 @@ TEST_CASE("shared memory")
 
 			SharedMemory::Map<int, int>* vals =
 				access.accessValueWithAllocator<SharedMemory::Map<int, int>>("vals");
-			vals->emplace(vals->size(), vals->size() * vals->size());
+			vals->emplace(
+				static_cast<int>(vals->size()), static_cast<int>(vals->size() * vals->size()));
 		}));
 	}
 

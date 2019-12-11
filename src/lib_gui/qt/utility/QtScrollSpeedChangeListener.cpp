@@ -31,6 +31,6 @@ void QtScrollSpeedChangeListener::doChangeScrollSpeed(float scrollSpeed)
 {
 	if (m_scrollBar)
 	{
-		m_scrollBar->setSingleStep(std::ceil(m_singleStep * scrollSpeed));
+		m_scrollBar->setSingleStep(static_cast<int>(std::ceil(m_singleStep * scrollSpeed)));
 	}
 }

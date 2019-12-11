@@ -134,7 +134,7 @@ NetworkProtocolHelper::CreateCDBProjectMessage NetworkProtocolHelper::parseCreat
 			}
 			else
 			{
-				const int subMessageCount = subMessages.size();
+				const size_t subMessageCount = subMessages.size();
 
 				const std::wstring cdbPath = subMessages[1];
 				if (!cdbPath.empty())

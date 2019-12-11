@@ -134,12 +134,13 @@ void QtTabsView::addTab()
 
 void QtTabsView::insertTab(bool showTab, SearchMatch match)
 {
-	int tabId = TabId::nextTab();
+	int tabId = static_cast<int>(TabId::nextTab());
 
 	m_tabBar->blockSignals(true);
 
 	m_insertedTabCount++;
-	int idx = match.isValid() ? m_tabBar->currentIndex() + m_insertedTabCount : m_tabBar->count() + 1;
+	int idx = match.isValid() ? static_cast<int>(m_tabBar->currentIndex() + m_insertedTabCount)
+							  : m_tabBar->count() + 1;
 	idx = m_tabBar->insertTab(idx, " Empty Tab ");
 	m_tabBar->setTabData(idx, QVariant(tabId));
 

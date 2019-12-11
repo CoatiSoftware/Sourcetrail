@@ -84,7 +84,8 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
 	{
 		m_colorSchemes->insertItem(
-			i, QString::fromStdWString(m_colorSchemePaths[i].withoutExtension().fileName()));
+			static_cast<int>(i),
+			QString::fromStdWString(m_colorSchemePaths[i].withoutExtension().fileName()));
 	}
 	connect(
 		m_colorSchemes,
@@ -454,7 +455,7 @@ void QtProjectWizardContentPreferences::load()
 	m_textEncoding->setCurrentText(QString::fromStdString(appSettings->getTextEncoding()));
 
 	FilePath colorSchemePath = appSettings->getColorSchemePath();
-	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
+	for (int i = 0; i < static_cast<int>(m_colorSchemePaths.size()); i++)
 	{
 		if (colorSchemePath == m_colorSchemePaths[i])
 		{
@@ -541,7 +542,7 @@ void QtProjectWizardContentPreferences::save()
 
 	if (m_screenScaleFactor)
 	{
-		appSettings->setScreenScaleFactor(m_screenScaleFactor->currentData().toDouble());
+		appSettings->setScreenScaleFactor(m_screenScaleFactor->currentData().toFloat());
 	}
 
 	float scrollSpeed = m_scrollSpeed->text().toFloat();

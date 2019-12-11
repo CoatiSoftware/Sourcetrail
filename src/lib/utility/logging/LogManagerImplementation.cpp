@@ -79,7 +79,7 @@ void LogManagerImplementation::clearLoggers()
 int LogManagerImplementation::getLoggerCount() const
 {
 	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
-	return m_loggers.size();
+	return static_cast<int>(m_loggers.size());
 }
 
 void LogManagerImplementation::logInfo(

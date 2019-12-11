@@ -129,7 +129,7 @@ QSize QtCodeField::sizeHint() const
 		width = std::max(blockWidth, width);
 	}
 
-	return QSize(width + 1, height + 5);
+	return QSize(width + 1, static_cast<int>(height + 5));
 }
 
 size_t QtCodeField::getStartLineNumber() const
@@ -144,7 +144,7 @@ size_t QtCodeField::getEndLineNumber() const
 
 int QtCodeField::totalLineHeight() const
 {
-	return blockBoundingRect(firstVisibleBlock()).height() * blockCount();
+	return static_cast<int>(blockBoundingRect(firstVisibleBlock()).height() * blockCount());
 }
 
 std::string QtCodeField::getCode() const
@@ -167,9 +167,9 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 	QPainter painter(viewport());
 
 	QTextBlock block = firstVisibleBlock();
-	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
-	int bottom = top + blockBoundingRect(block).height();
-	int blockHeight = blockBoundingRect(block).height();
+	int top = static_cast<int>(blockBoundingGeometry(block).translated(contentOffset()).top());
+	int bottom = static_cast<int>(top + blockBoundingRect(block).height());
+	int blockHeight = static_cast<int>(blockBoundingRect(block).height());
 
 	int firstVisibleLine = -1;
 	int lastVisibleLine = -1;
@@ -195,8 +195,8 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 	// TODO: this causes another paint event if lines get rehighlighted
 	m_highlighter->highlightRange(firstVisibleLine, lastVisibleLine);
 
-	firstVisibleLine += m_startLineNumber;
-	lastVisibleLine += m_startLineNumber;
+	firstVisibleLine += static_cast<int>(m_startLineNumber);
+	lastVisibleLine += static_cast<int>(m_startLineNumber);
 
 	int borderRadius = 3;
 
@@ -234,7 +234,7 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 		{
 			painter.drawRoundedRect(
 				0,
-				top + (annotation.startLine - m_startLineNumber) * blockHeight,
+				static_cast<int>(top + (annotation.startLine - m_startLineNumber) * blockHeight),
 				width(),
 				(annotation.endLine - annotation.startLine + 1) * blockHeight,
 				borderRadius,
@@ -369,7 +369,7 @@ bool QtCodeField::annotateText(
 
 		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
 		{
-			m_linesToRehighlight.push_back(annotation.startLine - m_startLineNumber);
+			m_linesToRehighlight.push_back(static_cast<int>(annotation.startLine - m_startLineNumber));
 		}
 	}
 
@@ -406,14 +406,14 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 		if (!startLocation || startLocation->getLineNumber() < m_startLineNumber)
 		{
 			annotation.start = startTextEditPosition();
-			annotation.startLine = m_startLineNumber;
+			annotation.startLine = static_cast<int>(m_startLineNumber);
 			annotation.startCol = 0;
 		}
 		else if (startLocation->getLineNumber() <= endLineNumber)
 		{
-			const int startLine = startLocation->getLineNumber();
+			const int startLine = static_cast<int>(startLocation->getLineNumber());
 			const int startCol = getColumnCorrectedForMultibyteCharacters(
-				startLine, startLocation->getColumnNumber() - 1);
+				startLine, static_cast<int>(startLocation->getColumnNumber() - 1));
 
 			annotation.start = toTextEditPosition(startLine, startCol);
 			annotation.startLine = startLine;
@@ -428,14 +428,14 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 		if (!endLocation || endLocation->getLineNumber() > endLineNumber)
 		{
 			annotation.end = endTextEditPosition();
-			annotation.endLine = endLineNumber;
+			annotation.endLine = static_cast<int>(endLineNumber);
 			annotation.endCol = m_lineLengths[document()->blockCount() - 1];
 		}
 		else if (endLocation->getLineNumber() >= m_startLineNumber)
 		{
-			const int endLine = endLocation->getLineNumber();
+			const int endLine = static_cast<int>(endLocation->getLineNumber());
 			const int endCol = getColumnCorrectedForMultibyteCharacters(
-				endLine, endLocation->getColumnNumber());
+				endLine, static_cast<int>(endLocation->getColumnNumber()));
 
 			annotation.end = toTextEditPosition(endLine, endCol);
 			annotation.endLine = endLine;
@@ -517,7 +517,7 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 
 int QtCodeField::toTextEditPosition(int lineNumber, int columnNumber) const
 {
-	lineNumber -= m_startLineNumber - 1;
+	lineNumber -= static_cast<int>(m_startLineNumber - 1);
 	int position = 0;
 
 	for (int i = 0; i < lineNumber - 1; i++)
@@ -531,7 +531,7 @@ int QtCodeField::toTextEditPosition(int lineNumber, int columnNumber) const
 
 std::pair<int, int> QtCodeField::toLineColumn(int textEditPosition) const
 {
-	int lineNumber = m_startLineNumber;
+	int lineNumber = static_cast<int>(m_startLineNumber);
 	for (int i = 0; i < document()->lineCount(); i++)
 	{
 		int nextTextEditPosition = textEditPosition - m_lineLengths[i];

@@ -119,12 +119,12 @@ void Tracer::printTraces()
 			if (p.second)
 			{
 				acc->event = event.get();
-				acc->time = event->time;
+				acc->time = static_cast<float>(event->time);
 				acc->count = 1;
 			}
 			else
 			{
-				acc->time += event->time;
+				acc->time += static_cast<float>(event->time);
 				acc->count++;
 			}
 		}

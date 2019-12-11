@@ -41,9 +41,9 @@ Array3x5<int> getTestValues3x5_b()
 {
 	Array3x5<int> result;
 
-	for (unsigned int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		for (unsigned int j = 0; j < 5; j++)
+		for (int j = 0; j < 5; j++)
 		{
 			result.array[i][j] = -i - j;
 		}

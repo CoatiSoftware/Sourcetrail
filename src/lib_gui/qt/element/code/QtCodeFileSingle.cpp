@@ -115,7 +115,7 @@ bool QtCodeFileSingle::addFile(const CodeFileParams& params, bool useSingleFileC
 		&QtCodeNavigator::scrolled);
 
 	setFileData(file);
-	updateRefCount(params.referenceCount);
+	updateRefCount(static_cast<int>(params.referenceCount));
 
 	if (useSingleFileCache)
 	{
@@ -316,7 +316,7 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 			m_titleBar->setIsIndexed(file.isIndexed);
 		}
 
-		updateRefCount(m_area->getActiveLocationCount());
+		updateRefCount(static_cast<int>(m_area->getActiveLocationCount()));
 
 		titleButton->updateTexts();
 		titleButton->show();

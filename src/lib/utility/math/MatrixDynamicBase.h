@@ -70,7 +70,7 @@ void MatrixDynamicBase<T>::setValue(
 template <class T>
 unsigned int MatrixDynamicBase<T>::getColumnsCount() const
 {
-	return m_values.size();
+	return static_cast<unsigned int>(m_values.size());
 }
 
 template <class T>
@@ -78,7 +78,7 @@ unsigned int MatrixDynamicBase<T>::getRowsCount() const
 {
 	if (m_values.size() > 0)
 	{
-		return m_values[0].size();
+		return static_cast<unsigned int>(m_values[0].size());
 	}
 
 	return 0;

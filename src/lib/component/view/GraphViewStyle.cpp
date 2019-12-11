@@ -145,7 +145,7 @@ void GraphViewStyle::loadStyleSettings()
 	s_edgeColors.clear();
 	s_screenMatchColors.clear();
 
-	s_gridCellPadding = getCharHeight(NodeType::STYLE_BIG_NODE) - 8;
+	s_gridCellPadding = static_cast<int>(getCharHeight(NodeType::STYLE_BIG_NODE) - 8);
 	s_gridCellSize = s_gridCellPadding / 2;
 }
 
@@ -316,7 +316,8 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
 	NodeMargins margins;
 
 	margins.left = margins.right = margins.top = margins.bottom = 6;
-	margins.minWidth = margins.charHeight = getFontSizeOfExpandToggleNode();
+	margins.charHeight = static_cast<float>(getFontSizeOfExpandToggleNode());
+	margins.minWidth = static_cast<int>(margins.charHeight);
 
 	return margins;
 }
@@ -332,7 +333,8 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfTextNode(int fontSizeDif
 
 	margins.left = margins.right = 0;
 	margins.top = margins.bottom = 6;
-	margins.minWidth = margins.charHeight = getFontSizeOfTextNode(fontSizeDiff);
+	margins.charHeight = static_cast<float>(getFontSizeOfTextNode(fontSizeDiff));
+	margins.minWidth = static_cast<int>(margins.charHeight);
 
 	margins.charWidth = getCharWidth(getFontNameOfTextNode(), getFontSizeOfTextNode(fontSizeDiff));
 
@@ -357,7 +359,8 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfGroupNode(GroupType type
 
 	if (hasName)
 	{
-		margins.minWidth = margins.charHeight = getFontSizeOfGroupNode();
+		margins.charHeight = static_cast<float>(getFontSizeOfGroupNode());
+		margins.minWidth = static_cast<int>(margins.charHeight);
 	}
 
 	margins.charWidth = getCharWidth(NodeType::STYLE_GROUP);
@@ -618,7 +621,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 {
 	EdgeStyle style;
 
-	style.width = isActive ? 4 : 2;
+	style.width = isActive ? 4.0f : 2.0f;
 	style.zValue = isActive ? 5 : 2;
 
 	if (isTrailEdge)
@@ -688,7 +691,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.verticalOffset = 0;
 		style.cornerRadius = 7;
 		style.zValue = isActive ? 2 : -3;
-		style.width = isActive ? 3 : 2;
+		style.width = isActive ? 3.0f : 2.0f;
 
 		if (isTrailEdge)
 		{
@@ -725,13 +728,15 @@ int GraphViewStyle::toGridOffset(int x)
 {
 	if (x > 0)
 	{
-		return std::ceil(x / double(s_gridCellPadding + s_gridCellSize)) *
-			(s_gridCellPadding + s_gridCellSize);
+		return static_cast<int>(
+			std::ceil(x / double(s_gridCellPadding + s_gridCellSize)) *
+			(s_gridCellPadding + s_gridCellSize));
 	}
 	else
 	{
-		return std::floor(x / double(s_gridCellPadding + s_gridCellSize)) *
-			(s_gridCellPadding + s_gridCellSize);
+		return static_cast<int>(
+			std::floor(x / double(s_gridCellPadding + s_gridCellSize)) *
+			(s_gridCellPadding + s_gridCellSize));
 	}
 }
 

@@ -35,7 +35,8 @@ void QtAbout::setupAbout()
 		sourcetrailLogo.scaleToHeight(150);
 		QLabel* sourcetrailLogoLabel = new QLabel(this);
 		sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
-		sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
+		sourcetrailLogoLabel->resize(
+			static_cast<int>(sourcetrailLogo.width()), static_cast<int>(sourcetrailLogo.height()));
 		windowLayout->addWidget(
 			sourcetrailLogoLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
 	}

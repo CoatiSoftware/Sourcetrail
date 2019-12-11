@@ -160,7 +160,7 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 					resolver.ignoreContextDecl(templateSpecializationType->getTemplateName()
 												   .getAsTemplateDecl()
 												   ->getTemplatedDecl());
-					for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
+					for (unsigned i = 0; i < templateSpecializationType->getNumArgs(); i++)
 					{
 						if (templateSpecializationType->getArg(i).isDependent())
 						{
@@ -218,7 +218,7 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 
 			std::vector<std::wstring> templateArguments;
 			CxxTemplateArgumentNameResolver resolver(this);
-			for (size_t i = 0; i < dependentType->getNumArgs(); i++)
+			for (unsigned i = 0; i < dependentType->getNumArgs(); i++)
 			{
 				templateArguments.push_back(
 					resolver.getTemplateArgumentName(dependentType->getArg(i)));
@@ -255,7 +255,7 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			std::wstring nameString =
 				CxxTypeName::makeUnsolvedIfNull(getName(protoType->getReturnType()))->toString();
 			nameString += L"(";
-			for (size_t i = 0; i < protoType->getNumParams(); i++)
+			for (unsigned i = 0; i < protoType->getNumParams(); i++)
 			{
 				if (i != 0)
 				{

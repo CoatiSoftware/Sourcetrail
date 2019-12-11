@@ -1268,7 +1268,7 @@ void QtProjectWizard::createSourceGroup(std::shared_ptr<SourceGroupSettings> set
 
 	m_previouslySelectedIndex = -1;
 
-	m_sourceGroupList->setCurrentRow(m_allSourceGroupSettings.size() - 1);
+	m_sourceGroupList->setCurrentRow(static_cast<int>(m_allSourceGroupSettings.size() - 1));
 }
 
 void QtProjectWizard::createProject()

@@ -232,11 +232,11 @@ void QtGraphicsView::updateZoom(float delta)
 
 	if (factor <= 0.0f)
 	{
-		factor = 0.000001;
+		factor = 0.000001f;
 	}
 
 	double newZoom = m_zoomFactor * factor;
-	setZoomFactor(qBound(0.1, newZoom, 100.0));
+	setZoomFactor(static_cast<float>(qBound(0.1, newZoom, 100.0)));
 }
 
 void QtGraphicsView::resizeEvent(QResizeEvent* event)
@@ -364,7 +364,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 	{
 		if (event->delta() != 0.0f)
 		{
-			updateZoom(event->delta());
+			updateZoom(static_cast<float>(event->delta()));
 		}
 	}
 	else
@@ -527,12 +527,12 @@ void QtGraphicsView::updateTimer()
 
 	if (x != 0)
 	{
-		horizontalScrollBar()->setValue(horizontalScrollBar()->value() + x);
+		horizontalScrollBar()->setValue(static_cast<int>(horizontalScrollBar()->value() + x));
 	}
 
 	if (y != 0)
 	{
-		verticalScrollBar()->setValue(verticalScrollBar()->value() + y);
+		verticalScrollBar()->setValue(static_cast<int>(verticalScrollBar()->value() + y));
 	}
 
 	if (z != 0)

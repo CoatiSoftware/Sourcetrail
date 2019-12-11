@@ -146,7 +146,7 @@ int QtSourceGroupWizard<SettingsType>::mapToPageIdWithContentForContext(
 		const QtSourceGroupWizardPage<SettingsType>& page = m_pages.at(pageId);
 		if (page.hasContentForContext(contextType))
 		{
-			return pageId;
+			return static_cast<int>(pageId);
 		}
 		pageId++;
 	}

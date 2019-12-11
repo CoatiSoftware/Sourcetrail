@@ -36,13 +36,15 @@ qreal QtDeviceScaledPixmap::height() const
 
 void QtDeviceScaledPixmap::scaleToWidth(int width)
 {
-	m_pixmap = m_pixmap.scaledToWidth(width * devicePixelRatio(), Qt::SmoothTransformation);
+	m_pixmap = m_pixmap.scaledToWidth(
+		static_cast<int>(width * devicePixelRatio()), Qt::SmoothTransformation);
 	m_pixmap.setDevicePixelRatio(devicePixelRatio());
 }
 
 void QtDeviceScaledPixmap::scaleToHeight(int height)
 {
-	m_pixmap = m_pixmap.scaledToHeight(height * devicePixelRatio(), Qt::SmoothTransformation);
+	m_pixmap = m_pixmap.scaledToHeight(
+		static_cast<int>(height * devicePixelRatio()), Qt::SmoothTransformation);
 	m_pixmap.setDevicePixelRatio(devicePixelRatio());
 }
 

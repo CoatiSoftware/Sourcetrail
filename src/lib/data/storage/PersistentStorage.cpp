@@ -625,7 +625,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 				 /*no ref here!*/ fileResults,
 				 &collection,
 				 &collectionMutex]() {
-					const int termLength = searchTerm.length();
+					const int termLength = static_cast<int>(searchTerm.length());
 					for (const FullTextSearchResult& fileResult: fileResults)
 					{
 						const FilePath filePath = getFileNodePath(fileResult.fileId);
@@ -639,7 +639,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 						{
 							while (charsTotal + (int)line.length() <= pos)
 							{
-								charsTotal += line.length();
+								charsTotal += static_cast<int>(line.length());
 								lineNumber++;
 								line = codec.decode(fileContent->getLine(lineNumber));
 							}
@@ -655,7 +655,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 							}
 							while ((charsTotal + (int)line.length()) < pos + termLength)
 							{
-								charsTotal += line.length();
+								charsTotal += static_cast<int>(line.length());
 								lineNumber++;
 								line = codec.decode(fileContent->getLine(lineNumber));
 							}
@@ -709,7 +709,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(
 	TRACE();
 
 	// search in indices
-	const size_t maxResultsCount = std::pow(3, query.size() + 3);
+	const size_t maxResultsCount = static_cast<size_t>(std::pow(3, query.size() + 3));
 	const size_t maxBestScoredResultsLength = 100;
 	const size_t maxMatchesReturned = 1000;
 
@@ -2279,7 +2279,9 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			std::vector<Annotation> annotations;
 			std::vector<std::string> lines =
 				getFileContent(sigLoc->getFilePath(), false)
-					->getLines(sigLoc->getLineNumber(), sigLoc->getEndLocation()->getLineNumber());
+					->getLines(
+						static_cast<unsigned int>(sigLoc->getLineNumber()),
+						static_cast<unsigned int>(sigLoc->getEndLocation()->getLineNumber()));
 
 			// check if signature location refers to correct locations in the code
 			// wrongly recorded signature locations of implicit template methods in C++ caused crashes

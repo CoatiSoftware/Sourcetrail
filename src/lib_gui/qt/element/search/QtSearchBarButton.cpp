@@ -12,14 +12,16 @@ void QtSearchBarButton::refresh()
 {
 	QtSelfRefreshIconButton::refresh();
 
-	int size = m_small ? 10 : 16;
+	const int size = m_small ? 10 : 16;
 
-	float height = std::max(ApplicationSettings::getInstance()->getFontSize() + size, size + 14);
-	setFixedHeight(height);
+	const float height = std::max(
+		static_cast<float>(ApplicationSettings::getInstance()->getFontSize() + size),
+		static_cast<float>(size + 14));
+	setFixedHeight(static_cast<int>(height));
 
 	if (!m_small)
 	{
-		int iconSize = int(height / 4) * 2 + 2;
+		const int iconSize = int(height / 4) * 2 + 2;
 		setIconSize(QSize(iconSize, iconSize));
 	}
 }

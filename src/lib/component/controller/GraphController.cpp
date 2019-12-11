@@ -1269,7 +1269,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 	bundleNode->name = name;
 	bundleNode->visible = true;
 
-	for (int i = matchedNodeIndices.size() - 1; i >= 0; i--)
+	for (int i = static_cast<int>(matchedNodeIndices.size()) - 1; i >= 0; i--)
 	{
 		std::shared_ptr<DummyNode> node = m_dummyNodes[matchedNodeIndices[i]];
 		node->visible = false;
@@ -1366,7 +1366,7 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 	bundleNode->name = name;
 	bundleNode->visible = true;
 
-	for (int i = matchedNodes.size() - 1; i >= 0; i--)
+	for (int i = static_cast<int>(matchedNodes.size()) - 1; i >= 0; i--)
 	{
 		std::shared_ptr<DummyNode> node = *matchedNodes[i];
 		node->visible = false;
@@ -1494,7 +1494,7 @@ void GraphController::addCharacterIndex()
 
 		if (towupper(m_dummyNodes[i]->name[0]) != character)
 		{
-			character = towupper(m_dummyNodes[i]->name[0]);
+			character = static_cast<char>(towupper(m_dummyNodes[i]->name[0]));
 
 			std::shared_ptr<DummyNode> textNode = std::make_shared<DummyNode>(DummyNode::DUMMY_TEXT);
 			textNode->name = character;
@@ -1950,7 +1950,7 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 	if (node->isGraphNode())
 	{
 		node->name = utility::elide(node->name, utility::ELIDE_RIGHT, node->active ? 100 : 50);
-		width = margins.charWidth * node->name.size();
+		width = static_cast<int>(margins.charWidth * node->name.size());
 
 		if (node->data->getType().isCollapsible() && node->data->getChildCount() > 0)
 		{
@@ -1959,11 +1959,11 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 	}
 	else if (node->isBundleNode() || node->isTextNode())
 	{
-		width = margins.charWidth * node->name.size();
+		width = static_cast<int>(margins.charWidth * node->name.size());
 	}
 	else if (node->isGroupNode())
 	{
-		width = margins.charWidth * node->name.size() + 5;
+		width = static_cast<int>(margins.charWidth * node->name.size() + 5);
 	}
 
 	width += margins.iconWidth;
@@ -1982,7 +1982,7 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 			}
 			else if (subNode->isQualifierNode())
 			{
-				subNode->position.y = margins.top + margins.charHeight / 2;
+				subNode->position.y = static_cast<int>(margins.top + margins.charHeight / 2);
 				width += 5;
 				continue;
 			}
@@ -2027,7 +2027,10 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 
 			case GroupLayout::SKEWED:
 				ListLayouter::layoutSkewed(
-					&node->subNodes, margins.spacingX, margins.spacingY, viewSize.x() * 1.5);
+					&node->subNodes,
+					margins.spacingX,
+					margins.spacingY,
+					static_cast<int>(viewSize.x() * 1.5));
 				break;
 
 			case GroupLayout::BUCKET:
@@ -2060,13 +2063,16 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 	}
 
 	Vec2i size = ListLayouter::offsetNodes(
-		node->subNodes, margins.top + margins.charHeight + margins.spacingA, margins.left);
+		node->subNodes,
+		static_cast<int>(margins.top + margins.charHeight + margins.spacingA),
+		margins.left);
 
 	width = std::max(size.x(), width);
 	height = size.y();
 
 	node->size.x = margins.left + width + margins.right;
-	node->size.y = margins.top + margins.charHeight + margins.spacingA + height + margins.bottom;
+	node->size.y = static_cast<int>(
+		margins.top + margins.charHeight + margins.spacingA + height + margins.bottom);
 
 	for (const std::shared_ptr<DummyNode>& subNode: node->subNodes)
 	{
@@ -2158,7 +2164,7 @@ void GraphController::layoutToGrid(DummyNode* node) const
 
 		if (subNode->isAccessNode())
 		{
-			subNode->size.x = subNode->size.x + incX;
+			subNode->size.x = static_cast<int>(subNode->size.x + incX);
 			lastAccessNode = subNode.get();
 		}
 		else if (subNode->isExpandToggleNode())
@@ -2169,15 +2175,15 @@ void GraphController::layoutToGrid(DummyNode* node) const
 
 	if (lastAccessNode)
 	{
-		lastAccessNode->size.y = lastAccessNode->size.y + incY;
+		lastAccessNode->size.y = static_cast<int>(lastAccessNode->size.y + incY);
 
 		if (expandToggleNode)
 		{
-			expandToggleNode->position.x = expandToggleNode->position.x + incX;
+			expandToggleNode->position.x = static_cast<int>(expandToggleNode->position.x + incX);
 		}
 
-		node->size.x = width;
-		node->size.y = height;
+		node->size.x = static_cast<int>(width);
+		node->size.y = static_cast<int>(height);
 	}
 }
 
@@ -2409,8 +2415,8 @@ void GraphController::createLegendGraph()
 
 	addText(L"Legend", 6, Vec2i(0, 0));
 
-	size_t y = 50;
-	size_t x = 0;
+	int y = 50;
+	int x = 0;
 
 	// Layout
 	{
@@ -2474,12 +2480,12 @@ void GraphController::createLegendGraph()
 
 	x = 0;
 	y = 610;
-	size_t dx = 200;
-	size_t dy = 50;
+	int dx = 200;
+	int dy = 50;
 
 	// Nodes
 	{
-		size_t i = 0;
+		int i = 0;
 		addText(L"Nodes", 3, Vec2i(x, y));
 
 		addNode(NodeType::NODE_FILE, L"File", Vec2i(x, y + dy * ++i));
@@ -2581,7 +2587,7 @@ void GraphController::createLegendGraph()
 	// Edges
 	{
 		addText(L"Edges", 3, Vec2i(x, y));
-		size_t i = 0;
+		int i = 0;
 
 		{
 			addText(L"file include", 0, Vec2i(x, y + dy * ++i));

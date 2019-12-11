@@ -33,7 +33,7 @@ void IntermediateStorage::clear()
 
 size_t IntermediateStorage::getByteSize(size_t stringSize) const
 {
-	unsigned int byteSize = 0;
+	size_t byteSize = 0;
 
 	for (const StorageFile& storageFile: getStorageFiles())
 	{

@@ -69,7 +69,7 @@ QLabel* QtIndexingDialog::createFlagLabel(QWidget* parent)
 
 	QLabel* flagLabel = new QLabel(parent);
 	flagLabel->setPixmap(flag.pixmap());
-	flagLabel->resize(flag.width(), flag.height());
+	flagLabel->resize(static_cast<int>(flag.width()), static_cast<int>(flag.height()));
 	flagLabel->move(15, 75);
 	flagLabel->show();
 
