@@ -73,6 +73,7 @@ bool SourceGroupJavaMaven::prepareMavenData()
 	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
 	{
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
+		const FilePath mavenSettingsPath = m_settings->getMavenSettingsFilePathExpandedAndAbsolute();
 		const FilePath projectRootPath =
 			m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
@@ -83,7 +84,8 @@ bool SourceGroupJavaMaven::prepareMavenData()
 
 		ScopedFunctor dialogHider([&dialogView]() { dialogView->hideUnknownProgressDialog(); });
 
-		const std::wstring errorMessage = utility::mavenGenerateSources(mavenPath, projectRootPath);
+		const std::wstring errorMessage = utility::mavenGenerateSources(
+			mavenPath, mavenSettingsPath, projectRootPath);
 		if (!errorMessage.empty())
 		{
 			MessageStatus(errorMessage, true, false).dispatch();
@@ -95,7 +97,10 @@ bool SourceGroupJavaMaven::prepareMavenData()
 			L"Preparing Project", L"Maven\nExporting Dependencies");
 
 		bool success = utility::mavenCopyDependencies(
-			mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryPath());
+			mavenPath,
+			mavenSettingsPath,
+			projectRootPath,
+			m_settings->getMavenDependenciesDirectoryPath());
 
 		return success;
 	}
@@ -114,11 +119,13 @@ std::vector<FilePath> SourceGroupJavaMaven::doGetAllSourcePaths() const
 			L"Preparing Project", L"Maven\nFetching Source Directories");
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
+		const FilePath mavenSettingsPath = m_settings->getMavenSettingsFilePathExpandedAndAbsolute();
 		const FilePath projectRootPath =
 			m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPath,
+			mavenSettingsPath,
 			projectRootPath,
 			m_settings->getMavenDependenciesDirectoryPath(),
 			m_settings->getShouldIndexMavenTests());

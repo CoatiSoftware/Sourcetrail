@@ -61,6 +61,7 @@ std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() cons
 {
 	{
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
+		const FilePath mavenSettingsPath = m_settings->getMavenSettingsFilePathExpandedAndAbsolute();
 		const FilePath mavenProjectRoot =
 			m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
@@ -80,7 +81,8 @@ std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() cons
 		dialogView->showUnknownProgressDialog(
 			L"Preparing Project", L"Maven\nGenerating Source Files");
 
-		const std::wstring errorMessage = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
+		const std::wstring errorMessage = utility::mavenGenerateSources(
+			mavenPath, mavenSettingsPath, mavenProjectRoot);
 		if (!errorMessage.empty())
 		{
 			MessageStatus(errorMessage, true, false).dispatch();

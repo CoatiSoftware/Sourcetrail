@@ -60,6 +60,7 @@
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 #	include "QtProjectWizardContentJavaStandard.h"
+#	include "QtProjectWizardContentPathSettingsMaven.h"
 #	include "QtProjectWizardContentPathSourceGradle.h"
 #	include "QtProjectWizardContentPathSourceMaven.h"
 #	include "QtProjectWizardContentPathsClassJava.h"
@@ -420,6 +421,8 @@ std::vector<QtSourceGroupWizardPage<SourceGroupSettingsJavaMaven>> getSourceGrou
 		page.addContentCreatorWithSettings<QtProjectWizardContentJavaStandard>(
 			WIZARD_CONTENT_CONTEXT_ALL);
 		page.addContentCreatorWithSettings<QtProjectWizardContentPathSourceMaven>(
+			WIZARD_CONTENT_CONTEXT_ALL);
+		page.addContentCreatorWithSettings<QtProjectWizardContentPathSettingsMaven>(
 			WIZARD_CONTENT_CONTEXT_ALL);
 		pages.push_back(page);
 	}
