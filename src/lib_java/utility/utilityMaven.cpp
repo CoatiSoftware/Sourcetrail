@@ -81,17 +81,37 @@ std::wstring getErrorMessageFromMavenOutput(std::shared_ptr<const TextAccess> ma
 
 	return errorMessage;
 }
+
+std::string getMavenArgsString(const FilePath& settingsFilePath)
+{
+	std::vector<std::string> args;
+	if (!settingsFilePath.empty() && settingsFilePath.exists())
+	{
+		args.push_back("--settings \"" + settingsFilePath.str() + "\"");
+	}
+	std::string ret = "";
+	for (const std::string& arg: args)
+	{
+		ret += arg + " ";
+	}
+
+	return ret;
+}
+
 }	 // namespace
 
 namespace utility
 {
-std::wstring mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath)
+std::wstring mavenGenerateSources(
+	const FilePath& mavenPath, const FilePath& settingsFilePath, const FilePath& projectDirectoryPath)
 {
 	utility::setJavaHomeVariableIfNotExists();
 
 	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(
 		utility::executeProcessUntilNoOutput(
-			"\"" + mavenPath.str() + "\" generate-sources", projectDirectoryPath, 60000));
+			"\"" + mavenPath.str() + "\" " + getMavenArgsString(settingsFilePath) + "generate-sources",
+			projectDirectoryPath,
+			60000));
 
 	if (outputAccess->isEmpty())
 	{
@@ -103,14 +123,17 @@ std::wstring mavenGenerateSources(const FilePath& mavenPath, const FilePath& pro
 }
 
 bool mavenCopyDependencies(
-	const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath)
+	const FilePath& mavenPath,
+	const FilePath& settingsFilePath,
+	const FilePath& projectDirectoryPath,
+	const FilePath& outputDirectoryPath)
 {
 	utility::setJavaHomeVariableIfNotExists();
 
 	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(
 		utility::executeProcessUntilNoOutput(
-			"\"" + mavenPath.str() +
-				"\" dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
+			"\"" + mavenPath.str() + "\" " + getMavenArgsString(settingsFilePath) +
+				"dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
 			projectDirectoryPath,
 			60000));
 
@@ -127,6 +150,7 @@ bool mavenCopyDependencies(
 
 std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 	const FilePath& mavenPath,
+	const FilePath& settingsFilePath,
 	const FilePath& projectDirectoryPath,
 	const FilePath& outputDirectoryPath,
 	bool addTestDirectories)
@@ -137,7 +161,8 @@ std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 
 	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(
 		utility::executeProcessUntilNoOutput(
-			"\"" + mavenPath.str() + "\" help:effective-pom -Doutput=\"" + outputPath.str(),
+			"\"" + mavenPath.str() + "\" " + getMavenArgsString(settingsFilePath) +
+				"help:effective-pom -Doutput=\"" + outputPath.str(),
 			projectDirectoryPath,
 			60000));
 
