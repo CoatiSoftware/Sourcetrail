@@ -131,7 +131,7 @@ std::vector<Id> SqliteIndexStorage::addNodes(const std::vector<StorageNode>& nod
 			else
 			{
 				executeStatement(m_insertElementStmt);
-				Id id = m_database.lastRowId();
+				const Id id = static_cast<Id>(m_database.lastRowId());
 
 				nodesToInsert.emplace_back(id, data);
 				nodeIds[i] = id;
@@ -242,7 +242,7 @@ std::vector<Id> SqliteIndexStorage::addEdges(const std::vector<StorageEdge>& edg
 		else
 		{
 			executeStatement(m_insertElementStmt);
-			Id id = m_database.lastRowId();
+			const Id id = static_cast<Id>(m_database.lastRowId());
 
 			edgeIds[i] = id;
 			edgesToInsert.emplace_back(id, data);
@@ -302,7 +302,7 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 		if (!symbolIds[i])
 		{
 			executeStatement(m_insertElementStmt);
-			const Id id = m_database.lastRowId();
+			const Id id = static_cast<Id>(m_database.lastRowId());
 
 			symbolIds[i] = id;
 			symbolsToInsert.emplace_back(id, data);
@@ -444,7 +444,7 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 	if (id == 0)
 	{
 		executeStatement(m_insertElementStmt);
-		id = m_database.lastRowId();
+		id = static_cast<Id>(m_database.lastRowId());
 
 		m_insertErrorStmt.bind(1, int(id));
 		m_insertErrorStmt.bind(2, utility::encodeToUtf8(sanitizedMessage).c_str());
@@ -455,7 +455,7 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 		const bool success = executeStatement(m_insertErrorStmt);
 		if (success)
 		{
-			id = m_database.lastRowId();
+			id = static_cast<Id>(m_database.lastRowId());
 		}
 	}
 

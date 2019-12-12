@@ -28,7 +28,7 @@ std::vector<FilePath> utility::partitionFilePathsBySize(std::vector<FilePath> fi
 		sourceFileSizesToCommands.end(),
 		[](const PairType& p, const PairType& q) { return p.first > q.first; });
 
-	if (0 < partitionCount && partitionCount < sourceFileSizesToCommands.size())
+	if (0 < partitionCount && partitionCount < static_cast<int>(sourceFileSizesToCommands.size()))
 	{
 		for (int i = 0; i < partitionCount; i++)
 		{

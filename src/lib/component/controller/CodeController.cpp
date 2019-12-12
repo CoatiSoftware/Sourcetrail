@@ -473,10 +473,10 @@ void CodeController::handleMessage(MessageShowError* message)
 
 void CodeController::handleMessage(MessageShowReference* message)
 {
-	m_referenceIndex = static_cast<unsigned int>(message->refIndex);
+	m_referenceIndex = static_cast<int>(message->refIndex);
 	bool replayed = message->isReplayed();
 
-	if (m_referenceIndex >= 0 && m_referenceIndex < m_references.size())
+	if (m_referenceIndex >= 0 && m_referenceIndex < static_cast<int>(m_references.size()))
 	{
 		const Reference& ref = m_references[m_referenceIndex];
 		m_codeParams.activeLocationIds = {ref.locationId};

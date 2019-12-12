@@ -309,8 +309,8 @@ void TrailLayouter::buildColumns()
 {
 	for (const std::shared_ptr<TrailNode>& node: m_allNodes)
 	{
-		int level = node->level + 1;
-		for (size_t i = m_nodesPerCol.size(); i <= level; i++)
+		const int level = node->level + 1;
+		for (int i = static_cast<int>(m_nodesPerCol.size()); i <= level; i++)
 		{
 			m_nodesPerCol.push_back(std::vector<TrailNode*>());
 		}
