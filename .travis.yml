@@ -2,13 +2,6 @@ language: bash
 
 services: docker
 
-before_install:
-  - git fetch --tags
-  - docker version
-
-install:
-  - chmod 777 entrypoint.sh
-  - docker build -t coatisoftware/local .
-
 script:
-  - docker run --name builder coatisoftware/local
+  - COMMIT_HASH=$(git rev-parse HEAD)
+  - echo ${COMMIT_HASH}

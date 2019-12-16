@@ -1,5 +1,5 @@
 FROM coatisoftware/centos7_64_qt_llvm:qt5126-llvm900
 
-COPY . /home/builder
+COPY entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/home/builder/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
