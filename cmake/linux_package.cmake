@@ -1,6 +1,6 @@
 
 function(InstallQtModule module qtversion)
-	get_filename_component(realpath $ENV{QT_DIR}/lib/libQt5${module}.so.${qtversion} REALPATH)
+	get_filename_component(realpath $ENV{Qt5_DIR}/lib/libQt5${module}.so.${qtversion} REALPATH)
 	INSTALL(FILES
 		${realpath}
 		DESTINATION Sourcetrail/lib
@@ -99,7 +99,7 @@ function(AddSharedToComponent)
 	GetAndInstallLibrary(libcrypto.so 1)
 
 	INSTALL(DIRECTORY
-		$ENV{QT_DIR}/plugins/platforms
+		$ENV{Qt5_DIR}/plugins/platforms
 		DESTINATION Sourcetrail/lib
 	)
 
