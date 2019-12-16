@@ -27,6 +27,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [TypeParameterDeclaration.java <22:13 22:16>]
 QUALIFIER: java.util [TypeParameterDeclaration.java <23:13 23:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [TypeParameterDeclaration.java <22:8 22:11>]
+QUALIFIER: java [TypeParameterDeclaration.java <23:8 23:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParameterDeclaration.java <36:1 <36:18 36:41> 222:1>]
 SYMBOL_METHOD: default static com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.onType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound>) [TypeParameterDeclaration.java <41:1 <41:1 <41:37 41:42> 41:100> 93:5>]
 SYMBOL_PACKAGE: java.lang

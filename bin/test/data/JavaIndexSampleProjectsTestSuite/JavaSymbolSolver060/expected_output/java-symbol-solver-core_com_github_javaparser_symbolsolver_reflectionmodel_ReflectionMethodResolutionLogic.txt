@@ -96,6 +96,14 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.lang [ReflectionMethodResolutionLogic.java <32:13 32:16>]
 QUALIFIER: java.lang [ReflectionMethodResolutionLogic.java <33:13 33:16>]
 SYMBOL_PACKAGE: java.lang
+QUALIFIER: java [ReflectionMethodResolutionLogic.java <32:8 32:11>]
+QUALIFIER: java [ReflectionMethodResolutionLogic.java <33:8 33:11>]
+QUALIFIER: java [ReflectionMethodResolutionLogic.java <34:8 34:11>]
+QUALIFIER: java [ReflectionMethodResolutionLogic.java <35:8 35:11>]
+QUALIFIER: java [ReflectionMethodResolutionLogic.java <36:8 36:11>]
+QUALIFIER: java [ReflectionMethodResolutionLogic.java <37:8 37:11>]
+QUALIFIER: java [ReflectionMethodResolutionLogic.java <38:8 38:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [ReflectionMethodResolutionLogic.java <32:18 32:24>]
 QUALIFIER: java.lang.reflect [ReflectionMethodResolutionLogic.java <33:18 33:24>]
 SYMBOL_PACKAGE: java.lang.reflect

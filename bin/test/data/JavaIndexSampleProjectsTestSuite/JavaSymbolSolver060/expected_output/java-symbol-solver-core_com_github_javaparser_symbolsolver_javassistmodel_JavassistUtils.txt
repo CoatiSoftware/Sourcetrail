@@ -90,6 +90,9 @@ QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <149:50 14
 QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <162:44 162:61>]
 QUALIFIER: java.util [JavassistUtils.java <35:13 35:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [JavassistUtils.java <34:8 34:11>]
+QUALIFIER: java [JavassistUtils.java <35:8 35:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [JavassistUtils.java <124:224 124:233>]
 QUALIFIER: java.util.stream [JavassistUtils.java <35:18 35:23>]
 SYMBOL_PACKAGE: java.util.stream

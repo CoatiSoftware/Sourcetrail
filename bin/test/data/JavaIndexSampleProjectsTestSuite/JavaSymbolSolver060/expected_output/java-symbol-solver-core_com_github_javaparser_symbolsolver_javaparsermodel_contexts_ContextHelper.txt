@@ -101,6 +101,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.reflectionmodel
 QUALIFIER: java.util [ContextHelper.java <34:13 34:16>]
 QUALIFIER: java.util [ContextHelper.java <35:13 35:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ContextHelper.java <34:8 34:11>]
+QUALIFIER: java [ContextHelper.java <35:8 35:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.ContextHelper [ContextHelper.java <40:1 <40:14 40:26> 71:1>]
 SYMBOL_METHOD: private com.github.javaparser.symbolsolver.javaparsermodel.contexts.ContextHelper.ContextHelper() [ContextHelper.java <42:5 <42:5 <42:13 42:25> 42:27> 44:5>]
 SYMBOL_METHOD: public static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ContextHelper.solveMethodAsUsage(com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) [ContextHelper.java <46:5 <46:5 <46:41 46:58> 48:112> 69:5>]

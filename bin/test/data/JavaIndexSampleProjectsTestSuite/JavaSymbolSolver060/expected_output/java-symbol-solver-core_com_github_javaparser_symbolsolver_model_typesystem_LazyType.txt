@@ -20,6 +20,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: java.util [LazyType.java <5:13 5:16>]
 QUALIFIER: java.util [LazyType.java <6:13 6:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [LazyType.java <5:8 5:11>]
+QUALIFIER: java [LazyType.java <6:8 6:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.function [LazyType.java <6:18 6:25>]
 SYMBOL_PACKAGE: java.util.function
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.LazyType [LazyType.java <13:9 13:12>]

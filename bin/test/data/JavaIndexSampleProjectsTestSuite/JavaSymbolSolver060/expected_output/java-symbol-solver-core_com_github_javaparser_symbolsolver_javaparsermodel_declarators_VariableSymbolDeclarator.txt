@@ -54,6 +54,10 @@ QUALIFIER: java.util [VariableSymbolDeclarator.java <25:13 25:16>]
 QUALIFIER: java.util [VariableSymbolDeclarator.java <26:13 26:16>]
 QUALIFIER: java.util [VariableSymbolDeclarator.java <27:13 27:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [VariableSymbolDeclarator.java <25:8 25:11>]
+QUALIFIER: java [VariableSymbolDeclarator.java <26:8 26:11>]
+QUALIFIER: java [VariableSymbolDeclarator.java <27:8 27:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [VariableSymbolDeclarator.java <48:17 48:26>]
 QUALIFIER: java.util.stream [VariableSymbolDeclarator.java <27:18 27:23>]
 SYMBOL_PACKAGE: java.util.stream

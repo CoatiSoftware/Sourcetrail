@@ -12,6 +12,9 @@ QUALIFIER: com [ParameterComparator.java <1:9 1:11>]
 SYMBOL_PACKAGE: com
 QUALIFIER: java.lang [ParameterComparator.java <3:13 3:16>]
 SYMBOL_PACKAGE: java.lang
+QUALIFIER: java [ParameterComparator.java <3:8 3:11>]
+QUALIFIER: java [ParameterComparator.java <4:8 4:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [ParameterComparator.java <3:18 3:24>]
 SYMBOL_PACKAGE: java.lang.reflect
 QUALIFIER: java.util [ParameterComparator.java <4:13 4:16>]

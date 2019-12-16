@@ -53,6 +53,10 @@ QUALIFIER: java.util [Navigator.java <28:13 28:16>]
 QUALIFIER: java.util [Navigator.java <29:13 29:16>]
 QUALIFIER: java.util [Navigator.java <30:13 30:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [Navigator.java <28:8 28:11>]
+QUALIFIER: java [Navigator.java <29:8 29:11>]
+QUALIFIER: java [Navigator.java <30:8 30:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparser.Navigator [Navigator.java <37:1 <37:20 37:28> 295:1>]
 SYMBOL_METHOD: private com.github.javaparser.symbolsolver.javaparser.Navigator.Navigator() [Navigator.java <39:5 <39:5 <39:13 39:21> 39:23> 41:5>]
 SYMBOL_METHOD: public static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Navigator.java <43:5 <43:5 <43:24 43:36> 43:47> 46:5>]

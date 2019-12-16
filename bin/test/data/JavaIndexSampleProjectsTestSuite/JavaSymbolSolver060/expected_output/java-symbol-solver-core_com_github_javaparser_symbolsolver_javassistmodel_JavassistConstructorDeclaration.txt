@@ -42,6 +42,11 @@ QUALIFIER: java.util [JavassistConstructorDeclaration.java <27:13 27:16>]
 QUALIFIER: java.util [JavassistConstructorDeclaration.java <28:13 28:16>]
 QUALIFIER: java.util [JavassistConstructorDeclaration.java <29:13 29:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [JavassistConstructorDeclaration.java <26:8 26:11>]
+QUALIFIER: java [JavassistConstructorDeclaration.java <27:8 27:11>]
+QUALIFIER: java [JavassistConstructorDeclaration.java <28:8 28:11>]
+QUALIFIER: java [JavassistConstructorDeclaration.java <29:8 29:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.Collections [JavassistConstructorDeclaration.java <109:24 109:34>]
 QUALIFIER: java.util.stream.Collectors [JavassistConstructorDeclaration.java <112:147 112:156>]
 QUALIFIER: java.util.stream [JavassistConstructorDeclaration.java <29:18 29:23>]

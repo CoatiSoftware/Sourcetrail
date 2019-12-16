@@ -95,6 +95,11 @@ SYMBOL_PACKAGE: javassist.bytecode
 QUALIFIER: javassist.bytecode.SyntheticAttribute [JavassistInterfaceDeclaration.java <109:71 109:88>]
 QUALIFIER: java.lang [JavassistInterfaceDeclaration.java <37:13 37:16>]
 SYMBOL_PACKAGE: java.lang
+QUALIFIER: java [JavassistInterfaceDeclaration.java <37:8 37:11>]
+QUALIFIER: java [JavassistInterfaceDeclaration.java <38:8 38:11>]
+QUALIFIER: java [JavassistInterfaceDeclaration.java <39:8 39:11>]
+QUALIFIER: java [JavassistInterfaceDeclaration.java <40:8 40:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect.Modifier [JavassistInterfaceDeclaration.java <107:82 107:89>]
 QUALIFIER: java.lang.reflect [JavassistInterfaceDeclaration.java <37:18 37:24>]
 SYMBOL_PACKAGE: java.lang.reflect

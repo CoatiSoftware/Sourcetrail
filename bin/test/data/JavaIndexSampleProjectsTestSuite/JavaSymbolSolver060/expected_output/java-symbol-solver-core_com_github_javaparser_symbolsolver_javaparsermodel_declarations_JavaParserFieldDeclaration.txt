@@ -129,6 +129,8 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [JavaParserFieldD
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [JavaParserFieldDeclaration.java <31:13 31:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [JavaParserFieldDeclaration.java <31:8 31:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_METHOD: static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration [JavaParserFieldDeclaration.java <49:9 49:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration [JavaParserFieldDeclaration.java <50:9 50:12>]

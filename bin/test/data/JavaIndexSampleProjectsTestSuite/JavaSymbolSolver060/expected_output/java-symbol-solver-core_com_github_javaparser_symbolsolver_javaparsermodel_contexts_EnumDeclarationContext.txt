@@ -83,6 +83,8 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [EnumDeclarationC
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [EnumDeclarationContext.java <29:13 29:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [EnumDeclarationContext.java <29:8 29:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.EnumDeclarationContext [EnumDeclarationContext.java <40:9 40:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.EnumDeclarationContext [EnumDeclarationContext.java <55:13 55:16>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.EnumDeclarationContext [EnumDeclarationContext.java <56:43 56:46>]

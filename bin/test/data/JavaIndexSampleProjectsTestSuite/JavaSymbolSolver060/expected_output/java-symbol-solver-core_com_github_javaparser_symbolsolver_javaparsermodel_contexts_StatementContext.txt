@@ -127,6 +127,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [StatementContext.java <34:13 34:16>]
 QUALIFIER: java.util [StatementContext.java <35:13 35:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [StatementContext.java <34:8 34:11>]
+QUALIFIER: java [StatementContext.java <35:8 35:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_METHOD: static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [StatementContext.java <37:61 37:69>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [StatementContext.java <37:50 37:59>]

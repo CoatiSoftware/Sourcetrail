@@ -48,6 +48,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: java.util [FieldSymbolDeclarator.java <25:13 25:16>]
 QUALIFIER: java.util [FieldSymbolDeclarator.java <26:13 26:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [FieldSymbolDeclarator.java <25:8 25:11>]
+QUALIFIER: java [FieldSymbolDeclarator.java <26:8 26:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator [FieldSymbolDeclarator.java <31:1 <31:14 31:34> 46:1>]
 SYMBOL_METHOD: public com.github.javaparser.symbolsolver.javaparsermodel.declarators.FieldSymbolDeclarator.FieldSymbolDeclarator(com.github.javaparser.ast.body.FieldDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [FieldSymbolDeclarator.java <33:5 <33:5 <33:12 33:32> 33:85> 35:5>]
 SYMBOL_METHOD: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
