@@ -27,6 +27,8 @@ void SourceGroupSettingsWithCppStandard::setCppStandard(const std::wstring& stan
 
 std::vector<std::wstring> SourceGroupSettingsWithCppStandard::getAvailableCppStandards() const
 {
+	// as defined in clang/include/clang/Frontend/LangStandards.def
+
 	return {
 		L"c++2a",
 		L"gnu++2a",
