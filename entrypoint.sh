@@ -1,12 +1,6 @@
 #!/bin/sh -l
 
-echo "whoami"
-whoami
-
-echo "ls -la"
-ls -la
-
-echo "hash: $1"
+echo "building commit: $1"
 
 git clone https://github.com/CoatiSoftware/Sourcetrail.git
 
