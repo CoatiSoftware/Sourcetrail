@@ -4,11 +4,15 @@
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableArchTypes()
 {
+	// as defined in llvm/lib/Support/Triple.cpp
+
 	return {
 		L"aarch64",
 		L"aarch64_be",
+		L"aarch64_32",
 		L"arm",
 		L"armeb",
+		L"arc",
 		L"avr",
 		L"bpfel",
 		L"bpfeb",
@@ -73,16 +77,51 @@ std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::get
 		L"csr",
 		L"myriad",
 		L"amd",
-		L"mesa"};
+		L"mesa",
+		L"suse",
+		L"oe",
+	};
 }
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableOsTypes()
 {
-	return {L"unknown",	 L"cloudabi", L"darwin", L"dragonfly", L"freebsd", L"fuchsia",	L"ios",
-			L"kfreebsd", L"linux",	  L"lv2",	 L"macosx",	   L"netbsd",  L"openbsd",	L"solaris",
-			L"windows",	 L"haiku",	  L"minix",	 L"rtems",	   L"nacl",	   L"cnk",		L"bitrig",
-			L"aix",		 L"cuda",	  L"nvcl",	 L"amdhsa",	   L"ps4",	   L"elfiamcu", L"tvos",
-			L"watchos",	 L"mesa3d",	  L"contiki"};
+	return {
+		L"unknown",	 
+		L"cloudabi", 
+		L"darwin", 
+		L"dragonfly", 
+		L"freebsd", 
+		L"fuchsia",	
+		L"ios",
+		L"kfreebsd", 
+		L"linux",	  
+		L"lv2",	 
+		L"macosx",	  
+		L"netbsd",  
+		L"openbsd",	
+		L"solaris",
+		L"windows",	
+		L"haiku",	 
+		L"minix",	 
+		L"rtems",	   
+		L"nacl",	   
+		L"cnk",
+		L"aix",		
+		L"cuda",	 
+		L"nvcl",	 
+		L"amdhsa",	  
+		L"ps4",	   
+		L"elfiamcu",
+		L"tvos",
+		L"watchos",	
+		L"mesa3d",	
+		L"contiki",
+		L"amdpal",
+		L"hermit",
+		L"hurd",
+		L"wasi",
+		L"emscripten",
+	};
 }
 
 std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::getAvailableEnvironmentTypes()
@@ -90,6 +129,7 @@ std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::get
 	return {
 		L"unknown",
 		L"gnu",
+		L"gnuabin32",
 		L"gnuabi64",
 		L"gnueabihf",
 		L"gnueabi",
@@ -97,6 +137,8 @@ std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::get
 		L"code16",
 		L"eabi",
 		L"eabihf",
+		L"elfv1",
+		L"elfv2",
 		L"android",
 		L"musl",
 		L"musleabi",
@@ -104,9 +146,10 @@ std::vector<std::wstring> SourceGroupSettingsWithCxxCrossCompilationOptions::get
 		L"msvc",
 		L"itanium",
 		L"cygnus",
-		L"amdopencl",
 		L"coreclr",
-		L"opencl"};
+		L"simulator",
+		L"macabi",
+	};
 }
 
 bool SourceGroupSettingsWithCxxCrossCompilationOptions::getTargetOptionsEnabled() const
