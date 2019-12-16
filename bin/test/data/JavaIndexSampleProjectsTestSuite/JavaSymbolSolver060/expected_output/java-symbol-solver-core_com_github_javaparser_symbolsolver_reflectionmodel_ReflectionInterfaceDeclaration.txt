@@ -97,6 +97,10 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionInterf
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.lang [ReflectionInterfaceDeclaration.java <34:13 34:16>]
 SYMBOL_PACKAGE: java.lang
+QUALIFIER: java [ReflectionInterfaceDeclaration.java <34:8 34:11>]
+QUALIFIER: java [ReflectionInterfaceDeclaration.java <35:8 35:11>]
+QUALIFIER: java [ReflectionInterfaceDeclaration.java <36:8 36:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [ReflectionInterfaceDeclaration.java <34:18 34:24>]
 SYMBOL_PACKAGE: java.lang.reflect
 QUALIFIER: java.util [ReflectionInterfaceDeclaration.java <36:13 36:16>]

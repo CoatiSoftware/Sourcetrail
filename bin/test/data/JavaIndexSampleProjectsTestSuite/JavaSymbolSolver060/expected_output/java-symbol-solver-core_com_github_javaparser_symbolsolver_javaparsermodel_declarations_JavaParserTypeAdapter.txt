@@ -151,6 +151,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [JavaParserTypeAdapter.java <20:13 20:16>]
 QUALIFIER: java.util [JavaParserTypeAdapter.java <21:13 21:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [JavaParserTypeAdapter.java <20:8 20:11>]
+QUALIFIER: java [JavaParserTypeAdapter.java <21:8 21:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_METHOD: static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserTypeAdapter.java <23:61 23:69>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserTypeAdapter.java <23:50 23:59>]

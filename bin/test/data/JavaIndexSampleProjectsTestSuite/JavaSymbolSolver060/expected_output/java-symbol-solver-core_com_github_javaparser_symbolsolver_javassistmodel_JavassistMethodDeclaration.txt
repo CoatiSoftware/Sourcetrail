@@ -73,6 +73,12 @@ QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.jav
 QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <154:66 154:83>]
 QUALIFIER: java.lang [JavassistMethodDeclaration.java <31:13 31:16>]
 SYMBOL_PACKAGE: java.lang
+QUALIFIER: java [JavassistMethodDeclaration.java <31:8 31:11>]
+QUALIFIER: java [JavassistMethodDeclaration.java <32:8 32:11>]
+QUALIFIER: java [JavassistMethodDeclaration.java <33:8 33:11>]
+QUALIFIER: java [JavassistMethodDeclaration.java <34:8 34:11>]
+QUALIFIER: java [JavassistMethodDeclaration.java <35:8 35:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect.Modifier [JavassistMethodDeclaration.java <56:16 56:23>]
 QUALIFIER: java.lang.reflect.Modifier [JavassistMethodDeclaration.java <145:16 145:23>]
 QUALIFIER: java.lang.reflect [JavassistMethodDeclaration.java <31:18 31:24>]

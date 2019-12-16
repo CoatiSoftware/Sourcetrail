@@ -21,6 +21,9 @@ QUALIFIER: java.util.Collections [DefaultConstructorDeclaration.java <62:16 62:2
 QUALIFIER: java.util [DefaultConstructorDeclaration.java <21:13 21:16>]
 QUALIFIER: java.util [DefaultConstructorDeclaration.java <22:13 22:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [DefaultConstructorDeclaration.java <21:8 21:11>]
+QUALIFIER: java [DefaultConstructorDeclaration.java <22:8 22:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.DefaultConstructorDeclaration [DefaultConstructorDeclaration.java <32:9 32:12>]
 SYMBOL_CLASS: default com.github.javaparser.symbolsolver.javaparsermodel.declarations.DefaultConstructorDeclaration [DefaultConstructorDeclaration.java <27:1 <27:7 27:35> 64:1>]
 SYMBOL_FIELD: private com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.DefaultConstructorDeclaration.classDeclaration [DefaultConstructorDeclaration.java <29:30 29:45>]

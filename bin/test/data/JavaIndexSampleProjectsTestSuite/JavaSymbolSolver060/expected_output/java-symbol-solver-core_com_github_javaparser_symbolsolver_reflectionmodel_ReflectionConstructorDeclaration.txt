@@ -24,6 +24,11 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReflectionConstr
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: java.lang [ReflectionConstructorDeclaration.java <22:13 22:16>]
 SYMBOL_PACKAGE: java.lang
+QUALIFIER: java [ReflectionConstructorDeclaration.java <22:8 22:11>]
+QUALIFIER: java [ReflectionConstructorDeclaration.java <23:8 23:11>]
+QUALIFIER: java [ReflectionConstructorDeclaration.java <24:8 24:11>]
+QUALIFIER: java [ReflectionConstructorDeclaration.java <25:8 25:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [ReflectionConstructorDeclaration.java <22:18 22:24>]
 SYMBOL_PACKAGE: java.lang.reflect
 QUALIFIER: java.util.Arrays [ReflectionConstructorDeclaration.java <75:16 75:21>]

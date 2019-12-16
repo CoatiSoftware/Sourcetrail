@@ -33,6 +33,14 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.lang [FunctionalInterfaceLogic.java <23:13 23:16>]
 QUALIFIER: java.lang [FunctionalInterfaceLogic.java <24:13 24:16>]
 SYMBOL_PACKAGE: java.lang
+QUALIFIER: java [FunctionalInterfaceLogic.java <23:8 23:11>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <24:8 24:11>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <25:8 25:11>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <26:8 26:11>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <27:8 27:11>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <28:8 28:11>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <29:8 29:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.lang.reflect [FunctionalInterfaceLogic.java <23:18 23:24>]
 QUALIFIER: java.lang.reflect [FunctionalInterfaceLogic.java <24:18 24:24>]
 SYMBOL_PACKAGE: java.lang.reflect

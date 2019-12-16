@@ -93,6 +93,8 @@ QUALIFIER: com.github.javaparser.symbolsolver.resolution [AbstractJavaParserCont
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [AbstractJavaParserContext.java <32:13 32:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [AbstractJavaParserContext.java <32:8 32:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_METHOD: static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [AbstractJavaParserContext.java <34:61 34:69>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparser [AbstractJavaParserContext.java <34:50 34:59>]

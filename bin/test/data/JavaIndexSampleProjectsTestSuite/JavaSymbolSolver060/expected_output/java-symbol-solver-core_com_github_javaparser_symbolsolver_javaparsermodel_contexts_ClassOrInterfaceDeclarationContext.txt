@@ -77,6 +77,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [ClassOrInterfaceDeclarationContext.java <29:13 29:16>]
 QUALIFIER: java.util [ClassOrInterfaceDeclarationContext.java <30:13 30:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ClassOrInterfaceDeclarationContext.java <29:8 29:11>]
+QUALIFIER: java [ClassOrInterfaceDeclarationContext.java <30:8 30:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <45:9 45:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <57:13 57:16>]
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <58:43 58:46>]

@@ -40,6 +40,8 @@ QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel [ReflectionTypeSol
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.reflectionmodel
 QUALIFIER: java.util [ReflectionTypeSolver.java <24:13 24:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ReflectionTypeSolver.java <24:8 24:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <34:9 34:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <50:9 50:12>]
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <29:1 <29:14 29:33> 94:1>]

@@ -73,6 +73,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.resolution
 QUALIFIER: java.util [CatchClauseContext.java <13:13 13:16>]
 QUALIFIER: java.util [CatchClauseContext.java <14:13 14:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [CatchClauseContext.java <13:8 13:11>]
+QUALIFIER: java [CatchClauseContext.java <14:8 14:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext [CatchClauseContext.java <19:1 <19:14 19:31> 54:1>]
 SYMBOL_METHOD: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.CatchClauseContext(com.github.javaparser.ast.stmt.CatchClause, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [CatchClauseContext.java <21:5 <21:5 <21:12 21:29> 21:77> 23:5>]
 SYMBOL_METHOD: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)

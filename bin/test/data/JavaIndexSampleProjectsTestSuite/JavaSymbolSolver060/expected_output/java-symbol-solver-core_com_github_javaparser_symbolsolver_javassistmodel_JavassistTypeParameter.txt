@@ -53,6 +53,10 @@ QUALIFIER: java.util [JavassistTypeParameter.java <27:13 27:16>]
 QUALIFIER: java.util [JavassistTypeParameter.java <28:13 28:16>]
 QUALIFIER: java.util [JavassistTypeParameter.java <29:13 29:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [JavassistTypeParameter.java <27:8 27:11>]
+QUALIFIER: java [JavassistTypeParameter.java <28:8 28:11>]
+QUALIFIER: java [JavassistTypeParameter.java <29:8 29:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter [JavassistTypeParameter.java <41:9 41:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter [JavassistTypeParameter.java <42:9 42:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter [JavassistTypeParameter.java <43:9 43:12>]

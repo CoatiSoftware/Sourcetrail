@@ -169,6 +169,12 @@ QUALIFIER: java.util [MethodCallExprContext.java <44:13 44:16>]
 QUALIFIER: java.util [MethodCallExprContext.java <45:13 45:16>]
 QUALIFIER: java.util [MethodCallExprContext.java <46:13 46:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [MethodCallExprContext.java <42:8 42:11>]
+QUALIFIER: java [MethodCallExprContext.java <43:8 43:11>]
+QUALIFIER: java [MethodCallExprContext.java <44:8 44:11>]
+QUALIFIER: java [MethodCallExprContext.java <45:8 45:11>]
+QUALIFIER: java [MethodCallExprContext.java <46:8 46:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodCallExprContext [MethodCallExprContext.java <163:68 163:71>]
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodCallExprContext [MethodCallExprContext.java <48:1 <48:14 48:34> 476:1>]
 SYMBOL_METHOD: public com.github.javaparser.symbolsolver.javaparsermodel.contexts.MethodCallExprContext.MethodCallExprContext(com.github.javaparser.ast.expr.MethodCallExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [MethodCallExprContext.java <54:5 <54:5 <54:12 54:32> 54:83> 56:5>]
