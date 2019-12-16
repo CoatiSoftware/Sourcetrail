@@ -2,29 +2,12 @@ language: bash
 
 services: docker
 
-env:
-  global:
-    - DOCKER_TAG=qt5126-llvm900
-    
 before_install:
-  - git status
   - git fetch --tags
-  - git tag -l
   - docker version
-  
+
 install:
-  - docker image ls --all
   - docker build -t coatisoftware/local .
-  - docker image ls --all
 
 script:
   - docker run --name builder coatisoftware/local
-  - docker image ls --all
-  - docker container ls --all
-  - pwd
-  - mkdir deploy
-  - docker cp builder:/home/builder/deploy/README.md ./deploy/
-  - cd deploy
-  - ls
-  
-  
