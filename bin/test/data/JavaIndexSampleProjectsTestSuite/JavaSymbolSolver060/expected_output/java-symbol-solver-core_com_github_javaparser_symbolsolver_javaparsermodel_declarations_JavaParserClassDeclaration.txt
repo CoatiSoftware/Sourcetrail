@@ -213,6 +213,9 @@ QUALIFIER: com.google [JavaParserClassDeclaration.java <40:12 40:17>]
 SYMBOL_PACKAGE: com.google
 QUALIFIER: java.util [JavaParserClassDeclaration.java <43:13 43:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [JavaParserClassDeclaration.java <42:8 42:11>]
+QUALIFIER: java [JavaParserClassDeclaration.java <43:8 43:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [JavaParserClassDeclaration.java <310:19 310:28>]
 QUALIFIER: java.util.stream.Collectors [JavaParserClassDeclaration.java <378:26 378:35>]
 QUALIFIER: java.util.stream [JavaParserClassDeclaration.java <43:18 43:23>]

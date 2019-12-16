@@ -97,6 +97,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [JavaParserMethodDeclaration.java <30:13 30:16>]
 QUALIFIER: java.util [JavaParserMethodDeclaration.java <31:13 31:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [JavaParserMethodDeclaration.java <30:8 30:11>]
+QUALIFIER: java [JavaParserMethodDeclaration.java <31:8 31:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [JavaParserMethodDeclaration.java <123:133 123:142>]
 QUALIFIER: java.util.stream [JavaParserMethodDeclaration.java <31:18 31:23>]
 SYMBOL_PACKAGE: java.util.stream

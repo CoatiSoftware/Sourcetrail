@@ -28,6 +28,12 @@ QUALIFIER: java.util [InferenceContext.java <24:13 24:16>]
 QUALIFIER: java.util [InferenceContext.java <25:13 25:16>]
 QUALIFIER: java.util [InferenceContext.java <26:13 26:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [InferenceContext.java <22:8 22:11>]
+QUALIFIER: java [InferenceContext.java <23:8 23:11>]
+QUALIFIER: java [InferenceContext.java <24:8 24:11>]
+QUALIFIER: java [InferenceContext.java <25:8 25:11>]
+QUALIFIER: java [InferenceContext.java <26:8 26:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [InferenceContext.java <76:146 76:155>]
 QUALIFIER: java.util.stream.Collectors [InferenceContext.java <80:148 80:157>]
 QUALIFIER: java.util.stream [InferenceContext.java <26:18 26:23>]

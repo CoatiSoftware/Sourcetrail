@@ -35,6 +35,8 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypePar
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypeParameterValueProvider.java <39:24 39:31>]
 QUALIFIER: java.util [TypeParameterValueProvider.java <7:13 7:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [TypeParameterValueProvider.java <7:8 7:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider [TypeParameterValueProvider.java <12:1 <12:18 12:43> 51:1>]
 SYMBOL_METHOD: default java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.typeParamValue(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) [TypeParameterValueProvider.java <18:1 <18:1 <18:20 18:33> 18:84> 18:85>]
 SYMBOL_METHOD: default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeParameterValueProvider.java <24:1 <24:1 <24:18 24:52> 24:63> 48:5>]

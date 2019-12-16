@@ -24,6 +24,7 @@ TEST_CASE("maven wrapper detects source directories of simple projects")
 	{
 		std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPathDetector->getPaths().front(),
+			FilePath(),
 			FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"),
 			FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(),
 			false);
@@ -47,6 +48,7 @@ TEST_CASE("maven wrapper detects source and test directories of simple projects"
 	{
 		std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPathDetector->getPaths().front(),
+			FilePath(),
 			FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"),
 			FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(),
 			true);
@@ -70,6 +72,7 @@ TEST_CASE("maven wrapper detects source directories of nested modules")
 	{
 		std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPathDetector->getPaths().front(),
+			FilePath(),
 			FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"),
 			FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(),
 			false);
@@ -105,6 +108,7 @@ TEST_CASE("maven wrapper detects source and test directories of nested modules")
 	{
 		std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPathDetector->getPaths().front(),
+			FilePath(),
 			FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"),
 			FilePath(L"data/UtilityMavenTestSuite").makeAbsolute(),
 			true);

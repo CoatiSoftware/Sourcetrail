@@ -72,6 +72,9 @@ QUALIFIER: javaslang [ReferenceType.java <27:8 27:16>]
 SYMBOL_PACKAGE: javaslang
 QUALIFIER: java.util [ReferenceType.java <30:13 30:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ReferenceType.java <29:8 29:11>]
+QUALIFIER: java [ReferenceType.java <30:8 30:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [ReferenceType.java <141:30 141:39>]
 QUALIFIER: java.util.stream.Collectors [ReferenceType.java <237:26 237:35>]
 QUALIFIER: java.util.stream.Collectors [ReferenceType.java <250:26 250:35>]

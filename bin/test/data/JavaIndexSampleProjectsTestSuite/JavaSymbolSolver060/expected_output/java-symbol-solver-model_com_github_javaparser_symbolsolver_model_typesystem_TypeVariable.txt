@@ -19,6 +19,8 @@ QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [TypeVariable.j
 SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.declarations
 QUALIFIER: java.util [TypeVariable.java <21:13 21:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [TypeVariable.java <21:8 21:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <34:9 34:12>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <43:16 43:19>]
 QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <77:44 77:47>]

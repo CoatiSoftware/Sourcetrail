@@ -1,6 +1,6 @@
 variables:
     MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-    IMAGE_64: coatisoftware/centos6_64_qt_llvm:qt5101-llvm800
+    IMAGE_64: coatisoftware/centos7_64_qt_llvm:qt5126-llvm900
     IMAGE_32: coatisoftware/centos6_32_qt_llvm:qt5101-llvm800
 
 ## Templates ##

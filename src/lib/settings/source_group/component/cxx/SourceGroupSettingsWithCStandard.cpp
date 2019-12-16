@@ -5,9 +5,9 @@
 std::wstring SourceGroupSettingsWithCStandard::getDefaultCStandardStatic()
 {
 #ifdef __linux__
-	return L"gnu11";
+	return L"gnu17";
 #else
-	return L"c11";
+	return L"c17";
 #endif
 }
 
@@ -27,7 +27,14 @@ void SourceGroupSettingsWithCStandard::setCStandard(const std::wstring& standard
 
 std::vector<std::wstring> SourceGroupSettingsWithCStandard::getAvailableCStandards() const
 {
+	// as defined in clang/include/clang/Frontend/LangStandards.def
+
 	return {
+		L"c2x",
+		L"gnu2x",
+		L"c17",
+		L"gnu17",
+		L"iso9899:2017",
 		L"c11",
 		L"gnu11",
 		L"iso9899:2011",

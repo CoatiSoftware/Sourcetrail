@@ -20,6 +20,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.typesystem
 QUALIFIER: java.util [InterfaceDeclaration.java <21:13 21:16>]
 QUALIFIER: java.util [InterfaceDeclaration.java <22:13 22:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [InterfaceDeclaration.java <21:8 21:11>]
+QUALIFIER: java [InterfaceDeclaration.java <22:8 22:11>]
+SYMBOL_PACKAGE: java
 SYMBOL_INTERFACE: public com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration [InterfaceDeclaration.java <29:1 <29:18 29:37> 52:1>]
 SYMBOL_METHOD: default boolean com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration.isInterface() [InterfaceDeclaration.java <31:5 <31:5 <32:21 32:31> 32:33> 34:5>]
 SYMBOL_METHOD: boolean com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.isInterface()

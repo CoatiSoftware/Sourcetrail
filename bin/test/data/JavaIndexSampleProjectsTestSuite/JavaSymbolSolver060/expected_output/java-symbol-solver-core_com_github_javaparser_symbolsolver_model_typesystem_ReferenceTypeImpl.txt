@@ -74,6 +74,11 @@ QUALIFIER: java.util [ReferenceTypeImpl.java <30:13 30:16>]
 QUALIFIER: java.util [ReferenceTypeImpl.java <31:13 31:16>]
 QUALIFIER: java.util [ReferenceTypeImpl.java <32:13 32:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ReferenceTypeImpl.java <29:8 29:11>]
+QUALIFIER: java [ReferenceTypeImpl.java <30:8 30:11>]
+QUALIFIER: java [ReferenceTypeImpl.java <31:8 31:11>]
+QUALIFIER: java [ReferenceTypeImpl.java <32:8 32:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [ReferenceTypeImpl.java <44:19 44:28>]
 QUALIFIER: java.util.stream [ReferenceTypeImpl.java <32:18 32:23>]
 SYMBOL_PACKAGE: java.util.stream

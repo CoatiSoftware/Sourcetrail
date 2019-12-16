@@ -153,6 +153,9 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.reflectionmodel
 QUALIFIER: java.util [SymbolSolver.java <41:13 41:16>]
 QUALIFIER: java.util [SymbolSolver.java <42:13 42:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [SymbolSolver.java <41:8 41:11>]
+QUALIFIER: java [SymbolSolver.java <42:8 42:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: com.github.javaparser.symbolsolver.resolution.SymbolSolver [SymbolSolver.java <54:9 54:12>]
 SYMBOL_CLASS: public com.github.javaparser.symbolsolver.resolution.SymbolSolver [SymbolSolver.java <47:1 <47:14 47:25> 164:1>]
 SYMBOL_FIELD: private com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.SymbolSolver.typeSolver [SymbolSolver.java <49:24 49:33>]

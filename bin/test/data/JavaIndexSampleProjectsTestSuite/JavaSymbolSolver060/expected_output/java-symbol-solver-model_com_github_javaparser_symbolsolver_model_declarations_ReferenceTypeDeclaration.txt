@@ -43,6 +43,12 @@ QUALIFIER: java.util [ReferenceTypeDeclaration.java <10:13 10:16>]
 QUALIFIER: java.util [ReferenceTypeDeclaration.java <11:13 11:16>]
 QUALIFIER: java.util [ReferenceTypeDeclaration.java <12:13 12:16>]
 SYMBOL_PACKAGE: java.util
+QUALIFIER: java [ReferenceTypeDeclaration.java <8:8 8:11>]
+QUALIFIER: java [ReferenceTypeDeclaration.java <9:8 9:11>]
+QUALIFIER: java [ReferenceTypeDeclaration.java <10:8 10:11>]
+QUALIFIER: java [ReferenceTypeDeclaration.java <11:8 11:11>]
+QUALIFIER: java [ReferenceTypeDeclaration.java <12:8 12:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util.stream.Collectors [ReferenceTypeDeclaration.java <121:26 121:35>]
 QUALIFIER: java.util.stream.Collectors [ReferenceTypeDeclaration.java <128:77 128:86>]
 QUALIFIER: java.util.stream.Collectors [ReferenceTypeDeclaration.java <135:76 135:85>]

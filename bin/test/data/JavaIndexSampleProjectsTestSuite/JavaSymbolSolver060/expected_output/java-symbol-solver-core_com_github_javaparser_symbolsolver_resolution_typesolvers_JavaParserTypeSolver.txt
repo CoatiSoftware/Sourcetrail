@@ -67,6 +67,14 @@ SYMBOL_PACKAGE: com.github.javaparser.symbolsolver.model.resolution
 QUALIFIER: java.io [JavaParserTypeSolver.java <27:13 27:14>]
 QUALIFIER: java.io [JavaParserTypeSolver.java <28:13 28:14>]
 SYMBOL_PACKAGE: java.io
+QUALIFIER: java [JavaParserTypeSolver.java <27:8 27:11>]
+QUALIFIER: java [JavaParserTypeSolver.java <28:8 28:11>]
+QUALIFIER: java [JavaParserTypeSolver.java <29:8 29:11>]
+QUALIFIER: java [JavaParserTypeSolver.java <30:8 30:11>]
+QUALIFIER: java [JavaParserTypeSolver.java <31:8 31:11>]
+QUALIFIER: java [JavaParserTypeSolver.java <32:8 32:11>]
+QUALIFIER: java [JavaParserTypeSolver.java <33:8 33:11>]
+SYMBOL_PACKAGE: java
 QUALIFIER: java.util [JavaParserTypeSolver.java <29:13 29:16>]
 QUALIFIER: java.util [JavaParserTypeSolver.java <30:13 30:16>]
 QUALIFIER: java.util [JavaParserTypeSolver.java <31:13 31:16>]
