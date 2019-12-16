@@ -11,15 +11,14 @@
 std::wstring FileLogger::generateDatedFileName(
 	const std::wstring& prefix, const std::wstring& suffix, int offsetDays)
 {
-	tm t{};
 	time_t time;
 	std::time(&time);
-	localtime_s(&t, &time);
+	tm t = *std::localtime(&time);
 
 	if (offsetDays != 0)
 	{
 		time = mktime(&t) + offsetDays * 24 * 60 * 60;
-		localtime_s(&t, &time);
+		t = *std::localtime(&time);
 	}
 
 	std::wstringstream filename;

@@ -126,11 +126,9 @@ void LogManagerImplementation::logError(
 
 tm LogManagerImplementation::getTime()
 {
-	tm result{};
-
 	time_t time;
 	std::time(&time);
-	localtime_s(&result , &time);
-
+	tm result = *std::localtime(&time);	   // this is done because localtime returns a pointer to a
+										   // statically allocated object
 	return result;
 }
