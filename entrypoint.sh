@@ -6,9 +6,12 @@ whoami
 echo "ls -la"
 ls -la
 
-for var in "$@"
-do
-	echo $var
-done
+echo "hash: $1"
+
+git clone https://github.com/CoatiSoftware/Sourcetrail.git
+
+cd Sourcetrail
+
+git checkout $1
 
 ./script/buildonly.sh all
