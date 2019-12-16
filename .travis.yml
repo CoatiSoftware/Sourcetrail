@@ -7,6 +7,7 @@ before_install:
   - docker version
 
 install:
+  - chmod 777 entrypoint.sh
   - docker build -t coatisoftware/local .
 
 script:
