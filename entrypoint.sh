@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-who
+whoami
 
 ls -la
 
