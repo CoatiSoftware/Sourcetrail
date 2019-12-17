@@ -1,0 +1,12 @@
+language: bash
+
+services: docker
+
+install:
+  - chmod 777 deployment/dockerfiles/linux/travis_ci/entrypoint.sh
+  - docker build -t coatisoftware/local deployment/dockerfiles/linux/travis_ci
+
+script:
+  - COMMIT_HASH=$(git rev-parse HEAD)
+  - docker run --name builder coatisoftware/local ${COMMIT_HASH}
+
