@@ -1484,7 +1484,7 @@ void GraphController::addCharacterIndex()
 	m_dummyNodes.insert(m_dummyNodes.end(), newNodes.begin(), newNodes.end());
 
 	// Add index characters
-	char character = 0;
+	wchar_t character = 0;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		if (!m_dummyNodes[i]->visible || !m_dummyNodes[i]->name.size())
@@ -1494,7 +1494,7 @@ void GraphController::addCharacterIndex()
 
 		if (towupper(m_dummyNodes[i]->name[0]) != character)
 		{
-			character = static_cast<char>(towupper(m_dummyNodes[i]->name[0]));
+			character = towupper(m_dummyNodes[i]->name[0]);
 
 			std::shared_ptr<DummyNode> textNode = std::make_shared<DummyNode>(DummyNode::DUMMY_TEXT);
 			textNode->name = character;
