@@ -5,7 +5,6 @@
 
 enum AccessKind
 {	 // these values need to be the same as AccessKind in Java code
-	ACCESS_UNKNOWN = -1,
 	ACCESS_NONE = 0,
 	ACCESS_PUBLIC = 1,
 	ACCESS_PROTECTED = 2,

@@ -1,5 +1,4 @@
 #include "utilityWindows.h"
-#include <cassert>
 
 #ifdef WIN32
 

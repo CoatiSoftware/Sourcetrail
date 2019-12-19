@@ -3,7 +3,6 @@
 
 enum SymbolKind
 {	 // these values need to be the same as SymbolKind in Java code
-	SYMBOL_UNKNOWN = -1,
 	SYMBOL_ANNOTATION = 1,
 	SYMBOL_BUILTIN_TYPE = 2,
 	SYMBOL_CLASS = 3,
