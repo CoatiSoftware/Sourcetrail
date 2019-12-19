@@ -98,6 +98,13 @@ if (TREAT_WARNINGS_AS_ERRORS)
 			set(WARNINGS_LIST "/wd4003 /wd4250")
 			set(CMAKE_CXX_WARNINGS_FLAGS "/experimental:external /external:anglebrackets /external:W0 /WX")
 			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_WARNINGS_FLAGS} ${WARNINGS_LIST}")
+
+			# Treat linker warnings as errors
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
+			set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /WX")
+			set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
+			set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
+
 			message(STATUS "'Treat warnings as errors' policy is enabled")
 		else()
 			message(STATUS "'Treat warnings as errors' policy is disabled")
