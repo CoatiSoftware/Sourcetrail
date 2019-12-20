@@ -1,5 +1,21 @@
 ### Changelog
 
+#### 2019.4.102
+released 2019-12-20
+
+* C/C++: Update selectable C and C++ language standards and cross-compilation flags ([#835](https://github.com/CoatiSoftware/Sourcetrail/issues/835))
+* Java: Allow to specify custom Maven settings.xml file in project settings ([#794](https://github.com/CoatiSoftware/Sourcetrail/issues/794))
+* Python: Accept python.exe located in the root directory of the environment ([#771](https://github.com/CoatiSoftware/Sourcetrail/issues/771))
+* Java: Extend language support to Java 12 ([#752](https://github.com/CoatiSoftware/Sourcetrail/issues/752))
+* Graph: Show active symbol definition in code when clicking on active node ([#836](https://github.com/CoatiSoftware/Sourcetrail/issues/836))
+* C++: Fix recording template parameter as local symbol instead of qualifier ([#824](https://github.com/CoatiSoftware/Sourcetrail/issues/826))
+* Python: Always perform deep index as default and added '--shallow' command line option ([#823](https://github.com/CoatiSoftware/Sourcetrail/issues/823))
+* Code: Drag and drop selected source code from code view into other applications ([#707](https://github.com/CoatiSoftware/Sourcetrail/issues/707))
+* Python: Allow using "unsafe" Python environment if explicitly specified by user ([#697](https://github.com/CoatiSoftware/Sourcetrail/issues/697), [#747](https://github.com/CoatiSoftware/Sourcetrail/issues/747))
+* C/C++: Updated to LLVM/Clang 9.0.0 ([#799](https://github.com/CoatiSoftware/Sourcetrail/issues/799))
+* Fix crash on application exit ([#789](https://github.com/CoatiSoftware/Sourcetrail/issues/789))
+* Code: Fixed view cleared in single file mode when ui refresh is triggered ([#772](https://github.com/CoatiSoftware/Sourcetrail/issues/772))
+
 #### 2019.4.61
 released 2019-11-18
 
