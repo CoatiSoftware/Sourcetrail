@@ -4,6 +4,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 
 ## Legendary Coatis
 
+* David Manouchehri
 * Timothee Besset
 
 ## Super Coatis
