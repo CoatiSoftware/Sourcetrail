@@ -85,7 +85,8 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 
 		buttons->addStretch();
 
-		QPushButton* confirmButton = new QPushButton(interrupted ? "Keep" : (shallow ? "Quit" : "OK"));
+		QPushButton* confirmButton = new QPushButton(
+			interrupted ? "Keep" : (shallow ? "Later" : "OK"));
 		confirmButton->setObjectName("windowButton");
 		confirmButton->setDefault(true);
 		connect(
