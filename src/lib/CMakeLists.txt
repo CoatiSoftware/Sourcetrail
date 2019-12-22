@@ -354,6 +354,7 @@ add_files(
 	settings/source_group/component/SourceGroupSettingsWithSourcePaths.cpp
 	settings/source_group/component/SourceGroupSettingsWithSourcePaths.h
 
+	settings/source_group/type/SourceGroupSettingsUnloadable.cpp
 	settings/source_group/type/SourceGroupSettingsUnloadable.h
 
 	settings/source_group/SourceGroupSettings.cpp
