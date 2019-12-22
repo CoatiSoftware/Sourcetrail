@@ -7,7 +7,7 @@
 
 #include "FileSystem.h"
 #include "ProjectSettings.h"
-#include "SourceGroupSettingsCustomCommand.h"
+#include "SourceGroupSettingsUnloadable.h"
 #include "SqliteIndexStorage.h"
 
 QtProjectWizardContentUnloadable::QtProjectWizardContentUnloadable(
@@ -29,9 +29,9 @@ void QtProjectWizardContentUnloadable::populate(QGridLayout* layout, int& row)
 
 	layoutHorz->addSpacing(60);
 
-	QLabel* infoLabel = new QLabel(
-		"<p>The selected item uses a Source Group type that is not supportetd by this version of "
-		"Sourcetrail.</p>");
+	QLabel* infoLabel = new QLabel(QString::fromStdString(
+		"<p>The type \"" + m_settings->getTypeString() +
+		"\" of the selected Source Group is not supportetd by this version of Sourcetrail.</p>"));
 	infoLabel->setObjectName("info");
 	infoLabel->setWordWrap(true);
 	layoutHorz->addWidget(infoLabel);
