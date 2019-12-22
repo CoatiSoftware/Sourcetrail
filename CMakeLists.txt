@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.8)
 
 if (WIN32 AND (CMAKE_GENERATOR STREQUAL "Ninja"))
 	set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
@@ -746,6 +746,10 @@ set_property(
 
 if (WIN32)
 	set_target_properties(${TEST_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/bigobj")
+	set_property(
+		TARGET ${TEST_PROJECT_NAME} 
+			PROPERTY VS_DEBUGGER_WORKING_DIRECTORY 
+			"${CMAKE_SOURCE_DIR}/bin/test")
 endif ()
 
 
