@@ -845,7 +845,7 @@ TEST_CASE("cxx parser finds template argument of dependent non type template par
 
 //	TS_ASSERT(utility::containsElement<std::wstring>(
 //		client->typeUses, // TODO: record edge between vector<int, Alloc<int>> and Alloc<int> (this
-//is an issue because we dont have any typeloc for this edge -.-
+// is an issue because we dont have any typeloc for this edge -.-
 //	));
 //}
 
@@ -2011,6 +2011,43 @@ TEST_CASE("cxx parser finds explicit constructor call")
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->calls, L"int main() -> void App::App() <8:2 8:4>"));
+}
+
+TEST_CASE("cxx parser finds call of explicitly defined destructor at delete keyword")
+{
+	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+		"class Foo\n"
+		"{\n"
+		"public:\n"
+		"	Foo() {}\n"
+		"	~Foo() {}\n"
+		"}; \n"
+		"\n"
+		"void foo()\n"
+		"{\n"
+		"	Foo* f = new Foo(); \n"
+		"	delete f; \n"
+		"}\n");
+
+	REQUIRE(utility::containsElement<std::wstring>(
+		client->calls, L"void foo() -> void Foo::~Foo() <11:2 11:7>"));
+}
+
+TEST_CASE("cxx parser finds call of implicitly defined destructor at delete keyword")
+{
+	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+		"class Foo\n"
+		"{\n"
+		"}; \n"
+		"\n"
+		"void foo()\n"
+		"{\n"
+		"	Foo* f = new Foo(); \n"
+		"	delete f; \n"
+		"}\n");
+
+	REQUIRE(utility::containsElement<std::wstring>(
+		client->calls, L"void foo() -> void Foo::~Foo() <8:2 8:7>"));
 }
 
 TEST_CASE("cxx parser finds explicit constructor call of field")

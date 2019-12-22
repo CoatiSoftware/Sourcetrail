@@ -98,12 +98,19 @@ public:
 		return TraverseAssignCommon(s);                                                            \
 	}
 	OPERATOR(Mul)
-	OPERATOR(Div) OPERATOR(Rem) OPERATOR(Add) OPERATOR(Sub) OPERATOR(Shl) OPERATOR(Shr)
-		OPERATOR(And) OPERATOR(Or) OPERATOR(Xor)
+	OPERATOR(Div)
+	OPERATOR(Rem)
+	OPERATOR(Add)
+	OPERATOR(Sub)
+	OPERATOR(Shl)
+	OPERATOR(Shr)
+	OPERATOR(And)
+	OPERATOR(Or)
+	OPERATOR(Xor)
 #undef OPERATOR
 
 
-			void traverseDeclContextHelper(clang::DeclContext* d);
+	void traverseDeclContextHelper(clang::DeclContext* d);
 	bool TraverseCallCommon(clang::CallExpr* s);
 	bool TraverseAssignCommon(clang::BinaryOperator* s);
 
@@ -142,6 +149,7 @@ public:
 	virtual bool VisitMemberExpr(clang::MemberExpr* s);
 	virtual bool VisitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s);
 	virtual bool VisitCXXConstructExpr(clang::CXXConstructExpr* s);
+	virtual bool VisitCXXDeleteExpr(clang::CXXDeleteExpr* s);
 	virtual bool VisitLambdaExpr(clang::LambdaExpr* s);
 	virtual bool VisitMSAsmStmt(clang::MSAsmStmt* s);
 	virtual bool VisitConstructorInitializer(clang::CXXCtorInitializer* init);

@@ -123,6 +123,7 @@ public:
 	void visitMemberExpr(clang::MemberExpr* s) {}
 	void visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s) {}
 	void visitCXXConstructExpr(clang::CXXConstructExpr* s) {}
+	void visitCXXDeleteExpr(clang::CXXDeleteExpr* s) {}
 	void visitLambdaExpr(clang::LambdaExpr* s) {}
 	void visitMSAsmStmt(clang::MSAsmStmt* s) {}
 

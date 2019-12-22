@@ -783,7 +783,7 @@ void CxxAstVisitorComponentIndexer::visitCXXConstructExpr(clang::CXXConstructExp
 		loc = clang::Lexer::GetBeginningOfToken(
 			loc, m_astContext->getSourceManager(), m_astContext->getLangOpts());
 
-		Id symbolId = getOrCreateSymbolId(s->getConstructor());
+		const Id symbolId = getOrCreateSymbolId(s->getConstructor());
 
 		const ReferenceKind refKind = consumeDeclRefContextKind();
 		if (refKind == REFERENCE_CALL)
@@ -797,6 +797,27 @@ void CxxAstVisitorComponentIndexer::visitCXXConstructExpr(clang::CXXConstructExp
 			getOrCreateSymbolId(
 				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
 			getParseLocation(loc));
+	}
+}
+
+void CxxAstVisitorComponentIndexer::visitCXXDeleteExpr(clang::CXXDeleteExpr* s)
+{
+	if (!s->isArrayForm() && getAstVisitor()->shouldVisitReference(s->getBeginLoc()))
+	{
+		if (clang::CXXRecordDecl* recordDecl = s->getDestroyedType()->getAsCXXRecordDecl())
+		{
+			if (clang::CXXDestructorDecl* destructorDecl = recordDecl->getDestructor())
+			{
+				const Id symbolId = getOrCreateSymbolId(destructorDecl);
+
+				m_client->recordReference(
+					REFERENCE_CALL,
+					symbolId,
+					getOrCreateSymbolId(
+						getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
+					getParseLocation(s->getBeginLoc()));
+			}
+		}
 	}
 }
 
