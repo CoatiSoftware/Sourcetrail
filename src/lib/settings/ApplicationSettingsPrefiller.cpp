@@ -23,7 +23,7 @@ void ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings* settings)
 
 bool ApplicationSettingsPrefiller::prefillJavaRuntimePath(ApplicationSettings* settings)
 {
-	if (settings->getHasPrefilledJavaPath())
+	if (settings->getHasPrefilledJavaPath() && !settings->getJavaPath().empty())
 	{
 		return false;
 	}
@@ -49,7 +49,7 @@ bool ApplicationSettingsPrefiller::prefillJavaRuntimePath(ApplicationSettings* s
 
 bool ApplicationSettingsPrefiller::prefillJreSystemLibraryPaths(ApplicationSettings* settings)
 {
-	if (settings->getHasPrefilledJreSystemLibraryPaths())
+	if (settings->getHasPrefilledJreSystemLibraryPaths())	 // allow empty
 	{
 		return false;
 	}
@@ -76,7 +76,7 @@ bool ApplicationSettingsPrefiller::prefillJreSystemLibraryPaths(ApplicationSetti
 
 bool ApplicationSettingsPrefiller::prefillMavenExecutablePath(ApplicationSettings* settings)
 {
-	if (settings->getHasPrefilledMavenPath())
+	if (settings->getHasPrefilledMavenPath() && !settings->getMavenPath().empty())
 	{
 		return false;
 	}
@@ -102,7 +102,7 @@ bool ApplicationSettingsPrefiller::prefillMavenExecutablePath(ApplicationSetting
 
 bool ApplicationSettingsPrefiller::prefillCxxHeaderPaths(ApplicationSettings* settings)
 {
-	if (settings->getHasPrefilledHeaderSearchPaths())
+	if (settings->getHasPrefilledHeaderSearchPaths())	 // allow empty
 	{
 		return false;
 	}
@@ -126,7 +126,7 @@ bool ApplicationSettingsPrefiller::prefillCxxHeaderPaths(ApplicationSettings* se
 
 bool ApplicationSettingsPrefiller::prefillCxxFrameworkPaths(ApplicationSettings* settings)
 {
-	if (settings->getHasPrefilledFrameworkSearchPaths())
+	if (settings->getHasPrefilledFrameworkSearchPaths())	// allow empty
 	{
 		return false;
 	}
