@@ -47,6 +47,7 @@ public:
 	void visitDeclRefExpr(clang::DeclRefExpr* s);
 	void visitMemberExpr(clang::MemberExpr* s);
 	void visitCXXConstructExpr(clang::CXXConstructExpr* s);
+	void visitCXXDeleteExpr(clang::CXXDeleteExpr* s);
 	void visitLambdaExpr(clang::LambdaExpr* s);
 
 	void visitConstructorInitializer(clang::CXXCtorInitializer* init);
