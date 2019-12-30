@@ -762,22 +762,13 @@ if (UNIX)
 		"${CMAKE_BINARY_DIR}/app/data")
 	execute_process(
 		COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app"
-		COMMAND "${CMAKE_COMMAND}"
-		"-E" "create_symlink"
-		"${CMAKE_SOURCE_DIR}/bin/app/data"
-		"${CMAKE_BINARY_DIR}/app/data"
-		COMMAND ${CMAKE_COMMAND}
-		"-E" "make_directory"
-		"${CMAKE_BINARY_DIR}/test"
-		COMMAND "${CMAKE_COMMAND}"
-		"-E" "create_symlink"
-		"${CMAKE_SOURCE_DIR}/bin/test/data"
-		"${CMAKE_BINARY_DIR}/test/data"
-		COMMAND "${CMAKE_COMMAND}"
-		"-E" "create_symlink"
-		"${CMAKE_SOURCE_DIR}/bin/app/user"
-		"${CMAKE_BINARY_DIR}/app/user"
-	)
+		COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/test"
+		)
+	execute_process(
+		COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
+		COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user"
+		COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/test/data" "${CMAKE_BINARY_DIR}/test/data"
+	        )
 
 	if (UNIX AND NOT APPLE)
 		# Create different sized icons
