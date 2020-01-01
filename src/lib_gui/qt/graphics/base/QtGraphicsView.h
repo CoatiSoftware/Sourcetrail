@@ -32,6 +32,9 @@ public:
 
 	void updateZoom(float delta);
 
+public slots:
+    void closeTabsToRight(int tabNum);
+
 protected:
 	void resizeEvent(QResizeEvent* event);
 
@@ -75,6 +78,7 @@ private slots:
 	void hideZoomLabel();
 
 	void legendClicked();
+
 
 private:
 	bool moves() const;
