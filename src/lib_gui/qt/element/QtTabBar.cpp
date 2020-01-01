@@ -1,6 +1,7 @@
 #include "QtTabBar.h"
 #include <QtContextMenu.h>
 #include <QtGraphicsView.h>
+#include <logging.h>
 
 QtTabBar::QtTabBar(QWidget* parent): QTabBar(parent)
 {
@@ -23,9 +24,10 @@ QSize QtTabBar::minimumTabSizeHint(int index) const
 	return QSize(45, QTabBar::minimumTabSizeHint(index).height());
 }
 
-void QtTabBar::closeTabsToRight(int tabNum)
+void QtTabBar::handleCloseTabsToRight()
 {
-    tabNum = 42;
+    int tabNum = 42;
+    LOG_INFO("Handling closeTabs...");
     emit signalCloseTabsToRight(tabNum);
 }
 
@@ -33,7 +35,7 @@ void QtTabBar::contextMenuEvent(QContextMenuEvent* event)
 {
     QtContextMenu menu(event, this);
 	menu.addAction(m_closeTabsToRight);
-    connect(m_closeTabsToRight, &QtTabBar::closeTabsToRight, this, &QtGraphicsView::closeTabsToRight);
+    connect(m_closeTabsToRight, &QAction::triggered, this, &QtTabBar::handleCloseTabsToRight);
     menu.show();
     return;
 }

@@ -714,8 +714,3 @@ void QtGraphicsView::updateTransform()
 	float zoomFactor = m_appZoomFactor * m_zoomFactor;
 	setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
 }
-
-void QtGraphicsView::closeTabsToRight(int tabNum)
-{
-    LOG_INFO("Closing tabs to the right of" + std::to_string(tabNum));
-}

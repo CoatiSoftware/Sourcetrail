@@ -32,9 +32,6 @@ public:
 
 	void updateZoom(float delta);
 
-public slots:
-    void closeTabsToRight(int tabNum);
-
 protected:
 	void resizeEvent(QResizeEvent* event);
 

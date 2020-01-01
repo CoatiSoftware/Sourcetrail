@@ -54,6 +54,7 @@ QtTabsView::QtTabsView(ViewLayout* viewLayout)
 	layout->addWidget(back);
 
 	connect(addButton, &QPushButton::clicked, this, &QtTabsView::addTab);
+    connect(m_tabBar, &QtTabBar::signalCloseTabsToRight, this, &QtTabsView::closeTabsToRight);
 }
 
 void QtTabsView::createWidgetWrapper()
@@ -271,3 +272,9 @@ void QtTabsView::setStyleSheet()
 	utility::setWidgetBackgroundColor(
 		m_widget, ColorScheme::getInstance()->getColor("tab/bar/background"));
 }
+
+void QtTabsView::closeTabsToRight(int tabNum)
+{
+    LOG_INFO("Closing tabs to the right of" + std::to_string(tabNum));
+}
+
