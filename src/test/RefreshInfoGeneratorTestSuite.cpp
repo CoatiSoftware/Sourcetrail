@@ -1,5 +1,7 @@
 #include "catch.hpp"
 
+#include <QDateTime>
+
 #include "FileSystem.h"
 #include "PersistentStorage.h"
 #include "ProjectSettings.h"
@@ -145,13 +147,23 @@ Id addFileToStorage(
 Id addVeryOldFileToStorage(
 	const FilePath& filePath, bool indexed, bool complete, std::shared_ptr<PersistentStorage> storage)
 {
-	return addFileToStorage(filePath, "2000-01-01 10:10:10", indexed, complete, storage);
+	return addFileToStorage(
+		filePath,
+		QDateTime::currentDateTime().addDays(-1).toString("yyyy-MM-dd hh:mm:ss").toStdString(),
+		indexed,
+		complete,
+		storage);
 }
 
 Id addVeryNewFileToStorage(
 	const FilePath& filePath, bool indexed, bool complete, std::shared_ptr<PersistentStorage> storage)
 {
-	return addFileToStorage(filePath, "2020-01-01 10:10:10", indexed, complete, storage);
+	return addFileToStorage(
+		filePath,
+		QDateTime::currentDateTime().addDays(1).toString("yyyy-MM-dd hh:mm:ss").toStdString(),
+		indexed,
+		complete,
+		storage);
 }
 }	 // namespace
 
@@ -570,8 +582,7 @@ TEST_CASE("nonindexed changed headerfile that is toindex")
 	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
-	REQUIRE(0 == refreshInfo.filesToIndex.size());
-	;	 // the header file will only be indexed on demand
+	REQUIRE(0 == refreshInfo.filesToIndex.size());	  // the header file will only be indexed on demand
 }
 
 TEST_CASE("indexed unchanged sourcefile that is nottoindex")
@@ -644,8 +655,7 @@ TEST_CASE("indexed changed headerfile that is toindex")
 	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToClear.size());
-	REQUIRE(0 == refreshInfo.filesToIndex.size());
-	;	 // the header file will only be indexed on demand
+	REQUIRE(0 == refreshInfo.filesToIndex.size());	  // the header file will only be indexed on demand
 }
 
 // Now we test some referencing stuff
