@@ -2,11 +2,11 @@
 #include <QtContextMenu.h>
 #include <QtGraphicsView.h>
 #include <logging.h>
+#include <QContextMenuEvent>
 
 QtTabBar::QtTabBar(QWidget* parent): QTabBar(parent)
 {
 	setFocusPolicy(Qt::NoFocus);
-    m_closeTabsToRight = new QAction("Close tabs to the right", this);
 }
 
 QSize QtTabBar::minimumSizeHint() const
@@ -24,18 +24,21 @@ QSize QtTabBar::minimumTabSizeHint(int index) const
 	return QSize(45, QTabBar::minimumTabSizeHint(index).height());
 }
 
-void QtTabBar::handleCloseTabsToRight()
-{
-    int tabNum = 42;
-    LOG_INFO("Handling closeTabs...");
-    emit signalCloseTabsToRight(tabNum);
-}
-
 void QtTabBar::contextMenuEvent(QContextMenuEvent* event)
 {
     QtContextMenu menu(event, this);
-	menu.addAction(m_closeTabsToRight);
-    connect(m_closeTabsToRight, &QAction::triggered, this, &QtTabBar::handleCloseTabsToRight);
+    QAction * m_closeTabsToRight = new QAction("Close tabs to the right", this);
+    menu.addAction(m_closeTabsToRight);
+
+    connect(m_closeTabsToRight, &QAction::triggered, this, [&]()
+    {
+        // We dont want to close tabs right of the current active tab. 
+        // No, our intend is to close tabs right of the currently hovered tab.
+        auto tabNum = tabAt(event->pos());
+        LOG_INFO("Handling closeTabs... emitting signal to close tabs right of tab nr. " + std::to_string(tabNum));
+        emit signalCloseTabsToRight(tabNum);
+    });
+    
     menu.show();
     return;
 }

@@ -18,14 +18,10 @@ protected:
 
 	QSize tabSizeHint(int index) const override;
 	QSize minimumTabSizeHint(int index) const override;
-    void contextMenuEvent(QContextMenuEvent* event) override;
-
-    QAction * m_closeTabsToRight;
-
-private slots:
-    void handleCloseTabsToRight();
-
     
+    // New ContextMenu that lets the user close all tabs to the 
+    // right of current mouse position.
+    void contextMenuEvent(QContextMenuEvent* event) override;
 };
 
 #endif	  // QT_TAB_BAR_H

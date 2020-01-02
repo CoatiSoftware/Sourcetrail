@@ -275,6 +275,13 @@ void QtTabsView::setStyleSheet()
 
 void QtTabsView::closeTabsToRight(int tabNum)
 {
-    LOG_INFO("Closing tabs to the right of" + std::to_string(tabNum));
+    LOG_INFO("Closing tabs to the right of tab nr. " + std::to_string(tabNum));
+    // We are closing tabs to the right, hence the increase.
+    tabNum++;  
+    // Now close tabs at position tabNum until count has decreased low enough.
+    while(tabNum < m_tabBar->count() )
+    {
+        m_tabBar->removeTab(tabNum);
+    }
 }
 
