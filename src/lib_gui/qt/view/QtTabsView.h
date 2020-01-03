@@ -36,7 +36,7 @@ private slots:
 	void insertTab(bool showTab, SearchMatch match);
 	void changedTab(int index);
 	void removeTab(int index);
-    void closeTabsToRight(int index);
+	void closeTabsToRight(int index);
 
 private:
 	void setTabState(int idx, const std::vector<SearchMatch>& matches);

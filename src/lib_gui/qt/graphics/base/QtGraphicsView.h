@@ -76,7 +76,6 @@ private slots:
 
 	void legendClicked();
 
-
 private:
 	bool moves() const;
 
