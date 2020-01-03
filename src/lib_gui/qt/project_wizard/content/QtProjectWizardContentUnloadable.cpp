@@ -1,5 +1,7 @@
 #include "QtProjectWizardContentUnloadable.h"
 
+#include "SourceGroupSettingsUnloadable.h"
+
 QtProjectWizardContentUnloadable::QtProjectWizardContentUnloadable(
 	std::shared_ptr<SourceGroupSettingsUnloadable> settings, QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window), m_settings(settings)
