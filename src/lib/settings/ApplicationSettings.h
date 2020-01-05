@@ -148,6 +148,9 @@ public:
 	void setCodeViewModeSingle(bool enabled);
 
 	// user
+	FilePath getLastOpenedProjectPath() const;
+	void setLastOpenedProjectPath(const FilePath& path);
+
 	std::vector<FilePath> getRecentProjects() const;
 	bool setRecentProjects(const std::vector<FilePath>& recentProjects);
 

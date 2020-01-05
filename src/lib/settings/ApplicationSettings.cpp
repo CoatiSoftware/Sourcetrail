@@ -565,6 +565,16 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 	return recentProjects;
 }
 
+FilePath ApplicationSettings::getLastOpenedProjectPath() const
+{
+	return FilePath(getValue<std::wstring>("user/last_opened_path", L""));
+}
+
+void ApplicationSettings::setLastOpenedProjectPath(const FilePath& path)
+{
+	setValue<std::wstring>("user/last_opened_path", path.wstr());
+}
+
 bool ApplicationSettings::setRecentProjects(const std::vector<FilePath>& recentProjects)
 {
 	return setPathValues("user/recent_projects/recent_project", recentProjects);

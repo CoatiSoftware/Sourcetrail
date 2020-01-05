@@ -607,13 +607,20 @@ void QtMainWindow::newProjectFromCDB(const FilePath& filePath)
 
 void QtMainWindow::openProject()
 {
+	// load last used filepath.
+	auto lastUsedPath = ApplicationSettings::getInstance()->getLastOpenedProjectPath();
+	LOG_INFO("Opening Dialog with last opend project path, if set: " + lastUsedPath.str());
 	QString fileName = QtFileDialog::getOpenFileName(
-		this, tr("Open File"), FilePath(), "Sourcetrail Project Files (*.srctrlprj)");
+		this, tr("Open File"), FilePath(lastUsedPath), "Sourcetrail Project Files (*.srctrlprj)");
 
 	if (!fileName.isEmpty())
 	{
 		MessageLoadProject(FilePath(fileName.toStdWString())).dispatch();
 		m_windowStack.clearWindows();
+
+		FilePath p = FilePath(fileName.toStdString()).getParentDirectory();
+		auto settings = ApplicationSettings::getInstance();
+		settings->setLastOpenedProjectPath(p);
 	}
 }
 
