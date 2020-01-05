@@ -3,7 +3,7 @@
 #include "ResourcePaths.h"
 #include "utilityString.h"
 
-std::array<NodeType, 15> const NodeType::overviewBundleNodeTypesOrdered = 
+std::vector<NodeType> const NodeType::overviewBundleNodeTypesOrdered = 
 {
 	NodeType(NodeType::NODE_FILE),
 	NodeType(NodeType::NODE_MACRO),
