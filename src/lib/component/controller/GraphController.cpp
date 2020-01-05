@@ -1433,7 +1433,7 @@ void GraphController::bundleNodesByType()
 
 	bool hasNonFileBundle = false;
 
-	for (const NodeType& nodeType: NodeType::getOverviewBundleNodeTypesOrdered())
+	for (const NodeType& nodeType: NodeType::overviewBundleNodeTypesOrdered)
 	{
 		Tree<NodeType::BundleInfo> bundleInfoTree = nodeType.getOverviewBundleTree();
 		if (bundleInfoTree.data.isValid())

@@ -6,6 +6,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <array>
 
 #include "FilePath.h"
 #include "Tree.h"
@@ -118,6 +119,7 @@ public:
 	std::wstring getUnderscoredTypeWString() const;
 	std::wstring getReadableTypeWString() const;
 
+	static std::array<NodeType, 15> const overviewBundleNodeTypesOrdered;
 private:
 	Type m_type;
 };
