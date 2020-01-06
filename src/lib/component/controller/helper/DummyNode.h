@@ -40,7 +40,7 @@ public:
 				return a->isBundleNode();
 			}
 
-			return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
+			return utility::caseInsensitiveLess(a->name, b->name);
 		}
 	};
 
