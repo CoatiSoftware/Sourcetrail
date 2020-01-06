@@ -622,4 +622,27 @@ std::wstring convertWhiteSpacesToSingleSpaces(const std::wstring& str)
 
 	return join<std::deque<std::wstring>>(parts, L" ");
 }
+
+bool caseInsensitiveLess(const std::wstring& s1, const std::wstring& s2)
+{
+	size_t s1_size = s1.size();
+	size_t s2_size = s2.size();
+	bool res_cmp = s1_size < s2_size; 
+	size_t lesser_size = s2_size ^ ((s1_size ^ s2_size) & -res_cmp);
+	for (size_t i = 0; i < lesser_size; ++i)
+	{
+		wchar_t s1_wchr = s1[i];
+		wchar_t s2_wchr = s2[i];
+		if (s1_wchr != s2_wchr)
+		{
+			s1_wchr = towlower(s1_wchr);
+			s2_wchr = towlower(s2_wchr);
+			if (s1_wchr != s2_wchr)
+			{
+				return s1_wchr < s2_wchr;
+			}
+		}
+	}
+	return res_cmp;
+}
 }	 // namespace utility
