@@ -3,25 +3,24 @@
 #include "ResourcePaths.h"
 #include "utilityString.h"
 
-std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
+std::vector<NodeType> const NodeType::overviewBundleNodeTypesOrdered = 
 {
-	return {
-		NodeType(NodeType::NODE_FILE),
-		NodeType(NodeType::NODE_MACRO),
-		NodeType(NodeType::NODE_ANNOTATION),
-		NodeType(NodeType::NODE_MODULE),
-		NodeType(NodeType::NODE_NAMESPACE),
-		NodeType(NodeType::NODE_PACKAGE),
-		NodeType(NodeType::NODE_CLASS),
-		NodeType(NodeType::NODE_INTERFACE),
-		NodeType(NodeType::NODE_STRUCT),
-		NodeType(NodeType::NODE_UNION),
-		NodeType(NodeType::NODE_FUNCTION),
-		NodeType(NodeType::NODE_GLOBAL_VARIABLE),
-		NodeType(NodeType::NODE_TYPE),
-		NodeType(NodeType::NODE_TYPEDEF),
-		NodeType(NodeType::NODE_ENUM)};
-}
+	NodeType(NodeType::NODE_FILE),
+	NodeType(NodeType::NODE_MACRO),
+	NodeType(NodeType::NODE_ANNOTATION),
+	NodeType(NodeType::NODE_MODULE),
+	NodeType(NodeType::NODE_NAMESPACE),
+	NodeType(NodeType::NODE_PACKAGE),
+	NodeType(NodeType::NODE_CLASS),
+	NodeType(NodeType::NODE_INTERFACE),
+	NodeType(NodeType::NODE_STRUCT),
+	NodeType(NodeType::NODE_UNION),
+	NodeType(NodeType::NODE_FUNCTION),
+	NodeType(NodeType::NODE_GLOBAL_VARIABLE),
+	NodeType(NodeType::NODE_TYPE),
+	NodeType(NodeType::NODE_TYPEDEF),
+	NodeType(NodeType::NODE_ENUM)
+};
 
 int NodeType::typeToInt(NodeType::Type type)
 {

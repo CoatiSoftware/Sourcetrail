@@ -118,6 +118,7 @@ public:
 	std::wstring getUnderscoredTypeWString() const;
 	std::wstring getReadableTypeWString() const;
 
+	static std::vector<NodeType> const overviewBundleNodeTypesOrdered;
 private:
 	Type m_type;
 };
