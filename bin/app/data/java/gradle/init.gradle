@@ -41,7 +41,7 @@ allprojects { pp ->
 						from pp.configurations.optional
 						eachFile { println "copying file \"" + it.file.name + "\" to \"" + destination + "\"" }
 				}
-            }
+            		}
 		}
 	}
 	
