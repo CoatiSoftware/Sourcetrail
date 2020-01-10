@@ -99,6 +99,8 @@ std::wstring elide(const std::wstring& str, ElideMode mode, size_t size);
 
 std::wstring convertWhiteSpacesToSingleSpaces(const std::wstring& str);
 
+bool caseInsensitiveLess(const std::wstring& s1, const std::wstring& s2);
+
 template <typename ContainerType>
 ContainerType split(const std::string& str, const std::string& delimiter)
 {
