@@ -1024,35 +1024,69 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 {
 	TRACE();
 
-	std::vector<Id> tokenIds;
-
-	m_sqliteIndexStorage.forEach<StorageNode>([&](StorageNode&& node) {
-		bool showNode = true;
-		if (m_symbolDefinitionKinds.size())
-		{
-			auto it = m_symbolDefinitionKinds.find(node.id);
-			showNode = (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT);
-		}
-
-		if (showNode &&
-			(NodeType(NodeType::intToType(node.type)).isPackage() ||
-			 !m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)))
-		{
-			tokenIds.push_back(node.id);
-		}
-	});
-
-	for (const auto& p: m_fileNodeIndexed)
-	{
-		if (p.second)
-		{
-			tokenIds.push_back(p.first);
-		}
-	}
-
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
-	addNodesToGraph(tokenIds, graph.get(), false);
+	if (m_symbolDefinitionKinds.size()) {
+		m_sqliteIndexStorage.forEach<StorageNode>([&](StorageNode&& storageNode) {
+			const NodeType type(NodeType::intToType(storageNode.type));
+			if (type.isFile())
+			{
+				NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
+				const FilePath filePath(nameHierarchy.getRawName());
 
+				bool complete = getFileNodeComplete(storageNode.id);
+				bool indexed = getFileNodeIndexed(storageNode.id);
+
+				Node* node = graph->createNode(
+					storageNode.id,
+					type,
+					NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
+					indexed ? DEFINITION_EXPLICIT : DEFINITION_NONE
+				);
+				node->addComponent(std::make_shared<TokenComponentFilePath>(filePath, complete));
+			}
+			else
+			{
+				auto sdk_it = m_symbolDefinitionKinds.find(storageNode.id);
+				bool showNode = (sdk_it != m_symbolDefinitionKinds.end() && sdk_it->second == DEFINITION_EXPLICIT);
+				if (showNode && (
+					type.isPackage() || 
+					!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(storageNode.id)
+					)
+				)
+				{
+					NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
+					graph->createNode(storageNode.id, type, std::move(nameHierarchy), DEFINITION_EXPLICIT);
+				}
+			}
+		});
+	}
+	else 
+	{
+		m_sqliteIndexStorage.forEach<StorageNode>([&](StorageNode&& storageNode) {
+			const NodeType type(NodeType::intToType(storageNode.type));
+			if (type.isFile())
+			{
+				NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
+				const FilePath filePath(nameHierarchy.getRawName());
+
+				bool complete = getFileNodeComplete(storageNode.id);
+				bool indexed = getFileNodeIndexed(storageNode.id);
+
+				Node* node = graph->createNode(
+					storageNode.id,
+					type,
+					NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
+					indexed ? DEFINITION_EXPLICIT : DEFINITION_NONE
+				);
+				node->addComponent(std::make_shared<TokenComponentFilePath>(filePath, complete));
+			}
+			else if (type.isPackage() || !m_hierarchyCache.isChildOfVisibleNodeOrInvisible(storageNode.id))
+			{
+				NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
+				graph->createNode(storageNode.id, type, std::move(nameHierarchy), DEFINITION_EXPLICIT);
+			}
+		});
+	}
 	return graph;
 }
 

@@ -279,7 +279,7 @@ private:
 	std::map<Id, bool> m_fileNodeIndexed;
 	std::map<Id, std::wstring> m_fileNodeLanguage;
 
-	std::map<Id, DefinitionKind> m_symbolDefinitionKinds;
+	std::unordered_map<Id, DefinitionKind> m_symbolDefinitionKinds;
 	std::map<Id, Id> m_memberEdgeIdOrderMap;
 
 	HierarchyCache m_hierarchyCache;
