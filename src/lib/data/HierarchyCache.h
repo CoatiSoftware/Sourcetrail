@@ -69,7 +69,7 @@ private:
 
 		void addInheritanceEdgesRecursive(
 			Id startId,
-			std::vector<Id> inheritanceEdgeIds,
+			const std::set<Id>& inheritanceEdgeIds,
 			const std::set<Id>& nodeIds,
 			std::vector<std::tuple<Id, Id, std::vector<Id>>>* inheritanceEdges);
 

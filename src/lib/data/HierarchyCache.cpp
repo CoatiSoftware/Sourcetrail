@@ -1,5 +1,7 @@
 #include "HierarchyCache.h"
 
+#include "utility.h"
+
 HierarchyCache::HierarchyNode::HierarchyNode(Id nodeId)
 	: m_nodeId(nodeId), m_edgeId(0), m_parent(nullptr), m_isVisible(true), m_isImplicit(false)
 {
@@ -114,26 +116,26 @@ void HierarchyCache::HierarchyNode::setIsImplicit(bool isImplicit)
 
 void HierarchyCache::HierarchyNode::addInheritanceEdgesRecursive(
 	Id startId,
-	std::vector<Id> inheritanceEdgeIds,
+	const std::set<Id>& inheritanceEdgeIds,
 	const std::set<Id>& nodeIds,
 	std::vector<std::tuple<Id, Id, std::vector<Id>>>* inheritanceEdges)
 {
 	for (size_t i = 0; i < m_bases.size(); i++)
 	{
+		if (inheritanceEdgeIds.find(m_baseEdgeIds[i]) != inheritanceEdgeIds.end())
+		{
+			continue;
+		}
+
 		HierarchyNode* base = m_bases[i];
 		Id baseId = base->getNodeId();
 
-		std::vector<Id> inheritanceEdgeIds2 = inheritanceEdgeIds;
-		inheritanceEdgeIds2.push_back(m_baseEdgeIds[i]);
+		std::set<Id> inheritanceEdgeIds2 = inheritanceEdgeIds;
+		inheritanceEdgeIds2.insert(m_baseEdgeIds[i]);
 
 		if (nodeIds.find(baseId) != nodeIds.end())
 		{
-			std::vector<Id> inheritanceEdgeIds3 = inheritanceEdgeIds2;
-
-			inheritanceEdges->push_back(std::make_tuple<Id, Id, std::vector<Id>>(
-				std::forward<Id>(startId),
-				std::forward<Id>(baseId),
-				std::forward<std::vector<Id>>(inheritanceEdgeIds3)));
+			inheritanceEdges->push_back({startId, baseId, utility::toVector(inheritanceEdgeIds2)});
 		}
 
 		base->addInheritanceEdgesRecursive(startId, inheritanceEdgeIds2, nodeIds, inheritanceEdges);
@@ -346,9 +348,7 @@ std::vector<std::tuple<Id, Id, std::vector<Id>>> HierarchyCache::getInheritanceE
 	HierarchyNode* node = getNode(nodeId);
 	if (node)
 	{
-		std::vector<Id> inheritanceEdgeIds;
-		node->addInheritanceEdgesRecursive(
-			node->getNodeId(), inheritanceEdgeIds, nodeIds, &inheritanceEdges);
+		node->addInheritanceEdgesRecursive(node->getNodeId(), {}, nodeIds, &inheritanceEdges);
 	}
 
 	return inheritanceEdges;
