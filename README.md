@@ -32,7 +32,11 @@ The ongoing development and regular software releases are made possible entirely
 
 ## Using Sourcetrail
 
-Download the respective build for your operating system from our list of [Releases](https://www.sourcetrail.com/downloads) and install it on your machine. After that follow our [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE) to get to know Sourcetrail.
+To setup Sourcetrail on your machine, you can either download the respective build for your operating system from our list of [Releases](https://www.sourcetrail.com/downloads) and install it on your machine, or use one of the following package managers:
+
+* Use the [Chocolatey package](https://chocolatey.org/packages/sourcetrail) with `choco install sourcetrail`
+
+After your installation is complete, follow our [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE) to get to know Sourcetrail.
 
 ## How to Report Issues
 
