@@ -37,6 +37,7 @@ add_files(
 	StorageTestSuite.cpp
 	TaskSchedulerTestSuite.cpp
 	TextAccessTestSuite.cpp
+	UtilityGradleTestSuite.cpp
 	UtilityMavenTestSuite.cpp
 	UtilityStringTestSuite.cpp
 	UtilityTestSuite.cpp
