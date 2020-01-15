@@ -241,6 +241,7 @@ private:
 		const std::vector<Id>& edgeIds,
 		Graph* graphh,
 		bool addChildCount) const;
+	inline void addFileNodeToGraph(const StorageNode& storageNode, Graph* const graph) const;
 
 	void addAggregationEdgesToGraph(
 		Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
