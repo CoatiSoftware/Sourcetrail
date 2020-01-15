@@ -3,7 +3,7 @@
 #include "language_packages.h"
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
-#	ifndef __linux__
+#	ifdef WIN32
 
 #		include "FilePath.h"
 #		include "utility.h"
@@ -37,5 +37,5 @@ TEST_CASE("gradle wrapper detects source and test directories of simple projects
 		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/test/java").makeAbsolute()));
 }
 
-#	endif	  // __linux__
+#	endif	  // WIN32
 #endif		  // BUILD_JAVA_LANGUAGE_PACKAGE
