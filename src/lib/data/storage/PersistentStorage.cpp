@@ -1025,44 +1025,35 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	TRACE();
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
-	if (m_symbolDefinitionKinds.size()) {
-		m_sqliteIndexStorage.forEach<StorageNode>([&](StorageNode&& storageNode) {
-			const NodeType type(NodeType::intToType(storageNode.type));
-			if (type.isFile())
+	const size_t sdk_size = m_symbolDefinitionKinds.size();
+	m_sqliteIndexStorage.forEach<StorageNode>([&, sdk_size](StorageNode&& storageNode) {
+		const NodeType type(NodeType::intToType(storageNode.type));
+		if (type.isFile())
+		{
+			auto fn_it = m_fileNodeIndexed.find(storageNode.id);
+			if (fn_it != m_fileNodeIndexed.end() && fn_it->second)
 			{
 				addFileNodeToGraph(storageNode, graph.get());
 			}
-			else
+		}
+		else
+		{
+			bool showNode = true;
+			if (sdk_size)
 			{
-				auto sdk_it = m_symbolDefinitionKinds.find(storageNode.id);
-				bool showNode = (sdk_it != m_symbolDefinitionKinds.end() && sdk_it->second == DEFINITION_EXPLICIT);
-				if (showNode && (
-					type.isPackage() ||
-					!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(storageNode.id)
+				auto it = m_symbolDefinitionKinds.find(storageNode.id);
+				showNode = (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT);
+			}
+			if (showNode && (
+						type.isPackage() ||
+						!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(storageNode.id)
 					)
-				)
-				{
-					NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
-					graph->createNode(storageNode.id, type, std::move(nameHierarchy), DEFINITION_EXPLICIT);
-				}
-			}
-		});
-	}
-	else 
-	{
-		m_sqliteIndexStorage.forEach<StorageNode>([&](StorageNode&& storageNode) {
-			const NodeType type(NodeType::intToType(storageNode.type));
-			if (type.isFile())
+			)
 			{
-				addFileNodeToGraph(storageNode, graph.get());
+				addNodeToGraph(storageNode, type, graph.get(), false);
 			}
-			else if (type.isPackage() || !m_hierarchyCache.isChildOfVisibleNodeOrInvisible(storageNode.id))
-			{
-				NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
-				graph->createNode(storageNode.id, type, std::move(nameHierarchy), DEFINITION_EXPLICIT);
-			}
-		});
-	}
+		}
+	});
 	return graph;
 }
 
@@ -2860,20 +2851,7 @@ void PersistentStorage::addNodesToGraph(
 		}
 		else
 		{
-			NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
-			DefinitionKind defKind = DEFINITION_NONE;
-			auto it = m_symbolDefinitionKinds.find(storageNode.id);
-			if (it != m_symbolDefinitionKinds.end())
-			{
-				defKind = it->second;
-			}
-
-			Node* node = graph->createNode(storageNode.id, type, std::move(nameHierarchy), defKind);
-
-			if (addChildCount)
-			{
-				node->setChildCount(m_hierarchyCache.getFirstChildIdsCountForNodeId(storageNode.id));
-			}
+			addNodeToGraph(storageNode, type, graph, addChildCount);
 		}
 	}
 }
@@ -2892,6 +2870,24 @@ void PersistentStorage::addFileNodeToGraph(const StorageNode& storageNode, Graph
 			NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
 			indexed ? DEFINITION_EXPLICIT : DEFINITION_NONE);
 	node->addComponent(std::make_shared<TokenComponentFilePath>(filePath, complete));
+}
+
+void PersistentStorage::addNodeToGraph(const StorageNode& newNode, const NodeType& type, Graph* graph, bool addChildCount) const
+{
+	NameHierarchy nameHierarchy = NameHierarchy::deserialize(newNode.serializedName);
+	DefinitionKind defKind = DEFINITION_NONE;
+	auto it = m_symbolDefinitionKinds.find(newNode.id);
+	if (it != m_symbolDefinitionKinds.end())
+	{
+		defKind = it->second;
+	}
+
+	Node* node = graph->createNode(newNode.id, type, std::move(nameHierarchy), defKind);
+
+	if (addChildCount)
+	{
+		node->setChildCount(m_hierarchyCache.getFirstChildIdsCountForNodeId(newNode.id));
+	}
 }
 
 void PersistentStorage::addEdgesToGraph(const std::vector<Id>& newEdgeIds, Graph* graph) const
