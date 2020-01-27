@@ -61,7 +61,7 @@ void setupLogging()
 	logManager->addLogger(consoleLogger);
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
-	fileLogger->setLogDirectory(UserPaths::getLogPath().getAbsolute());
+	fileLogger->setLogDirectory(ApplicationSettings::getInstance()->getLogDirectoryPath());
 	fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
 	fileLogger->setLogLevel(Logger::LOG_ALL);
 	fileLogger->deleteLogFiles(FileLogger::generateDatedFileName(L"log", L"", -30));

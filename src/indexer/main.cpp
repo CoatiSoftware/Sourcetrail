@@ -87,6 +87,11 @@ int main(int argc, char *argv[])
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 	appSettings->load(FilePath(UserPaths::getAppSettingsPath()));
 	LogManager::getInstance()->setLoggingEnabled(appSettings->getLoggingEnabled());
+    Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
+    if (logger)
+    {
+        dynamic_cast<FileLogger*>(logger)->setLogDirectory(appSettings->getLogDirectoryPath());
+    }
 
 	LOG_INFO(L"appPath: " + AppPath::getAppPath().wstr());
 	LOG_INFO(L"userDataPath: " + UserPaths::getUserDataPath().wstr());

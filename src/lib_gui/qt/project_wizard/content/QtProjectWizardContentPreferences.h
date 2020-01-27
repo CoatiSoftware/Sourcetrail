@@ -114,6 +114,7 @@ private:
 
 	QCheckBox* m_loggingEnabled;
 	QCheckBox* m_verboseIndexerLoggingEnabled;
+	QtLocationPicker* m_logPath;
 
 	QCheckBox* m_automaticUpdateCheck;
 

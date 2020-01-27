@@ -238,6 +238,15 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		layout,
 		row);
 
+    m_logPath = new QtLocationPicker(this);
+    m_logPath->setPickDirectory(true);
+    addLabelAndWidget(QStringLiteral("Log Directory Path "), m_logPath, layout, row);
+    addHelpButton(
+        QStringLiteral("Log Directory Path"),
+        QStringLiteral("<p>Log file will be saved to this path.</p>"),
+        layout,
+        row);
+
 	addGap(layout, row);
 
 	// Network
@@ -489,6 +498,10 @@ void QtProjectWizardContentPreferences::load()
 	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setChecked(appSettings->getVerboseIndexerLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setEnabled(m_loggingEnabled->isChecked());
+    if (m_logPath)
+    {
+        m_logPath->setText(QString::fromStdWString(appSettings->getLogDirectoryPath().wstr()));
+    }
 
 	m_automaticUpdateCheck->setChecked(appSettings->getAutomaticUpdateCheck());
 
@@ -552,6 +565,10 @@ void QtProjectWizardContentPreferences::save()
 
 	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
 	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());
+    if (m_logPath)
+    {
+        appSettings->setLogDirectoryPath(FilePath(m_logPath->getText().toStdWString()));
+    }
 
 	appSettings->setAutomaticUpdateCheck(m_automaticUpdateCheck->isChecked());
 
