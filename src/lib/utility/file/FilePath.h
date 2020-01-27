@@ -31,6 +31,7 @@ public:
 	bool recheckExists() const;
 	bool isDirectory() const;
 	bool isAbsolute() const;
+	bool isValid() const;
 
 	FilePath getParentDirectory() const;
 
