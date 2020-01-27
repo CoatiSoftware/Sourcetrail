@@ -113,6 +113,43 @@ bool FilePath::isAbsolute() const
 	return m_path->is_absolute();
 }
 
+bool FilePath::isValid() const
+{
+	if (!isDirectory())
+	{
+		if (!boost::filesystem::portable_file_name(m_path->filename().generic_string()))
+		{
+			return false;
+		}
+	}
+
+	boost::filesystem::path::iterator it = m_path->begin();
+
+#if WIN32
+	if (isAbsolute() && m_path->has_root_path())
+	{
+		std::string root = m_path->root_path().string();
+		std::string current = "";
+		while (current.size() < root.size())
+		{
+			current += it->string();
+			it++;
+		}
+	}
+#endif
+
+	for (; it != m_path->end(); ++it)
+	{
+		std::string ss = it->string();
+		if (!boost::filesystem::portable_directory_name(ss))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 FilePath FilePath::getParentDirectory() const
 {
 	FilePath parentDirectory(m_path->parent_path().wstring());
@@ -182,9 +219,10 @@ FilePath& FilePath::makeCanonical()
 				boost::filesystem::path symlink = boost::filesystem::read_symlink(canonicalPath);
 				if (!symlink.empty())
 				{
-					// on Windows the read_symlink function discards the drive letter (this is a boost
-					// bug). Therefore we need to make the path absolute again. We also have to discard
-					// the trailing \0 characters so that we can continue appending to the path.
+					// on Windows the read_symlink function discards the drive letter (this is a
+					// boost bug). Therefore we need to make the path absolute again. We also have
+					// to discard the trailing \0 characters so that we can continue appending to
+					// the path.
 					canonicalPath = utility::substrBeforeFirst(
 						boost::filesystem::absolute(symlink).string(), '\0');
 				}

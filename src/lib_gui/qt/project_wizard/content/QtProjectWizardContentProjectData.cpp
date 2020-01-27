@@ -109,11 +109,30 @@ bool QtProjectWizardContentProjectData::check()
 
 	std::vector<FilePath> paths =
 		FilePath(m_projectFileLocation->getText().toStdWString()).expandEnvironmentVariables();
-	if (paths.size() != 1 || !paths[0].isAbsolute())
+	if (paths.size() != 1)
 	{
 		QMessageBox msgBox;
 		msgBox.setText(
-			"The specified location is invalid. Please enter an absolute directory path.");
+			"The specified location seems to be invalid. Please make sure that the used "
+			"environment variables are unambiguous.");
+		msgBox.exec();
+		return false;
+	}
+	else if (!paths.front().isAbsolute())
+	{
+		QMessageBox msgBox;
+		msgBox.setText(
+			"The specified location seems to be invalid. Please specify an absolute directory "
+			"path.");
+		msgBox.exec();
+		return false;
+	}
+	else if (!paths.front().isValid())
+	{
+		QMessageBox msgBox;
+		msgBox.setText(
+			"The specified location seems to be invalid. Please check the characters used in the "
+			"path.");
 		msgBox.exec();
 		return false;
 	}
