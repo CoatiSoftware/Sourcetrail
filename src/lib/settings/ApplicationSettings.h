@@ -82,8 +82,8 @@ public:
 	bool getVerboseIndexerLoggingEnabled() const;
 	void setVerboseIndexerLoggingEnabled(bool loggingEnabled);
 
-    FilePath getLogDirectoryPath() const;
-    void setLogDirectoryPath(const FilePath& path);
+	FilePath getLogDirectoryPath() const;
+	void setLogDirectoryPath(const FilePath& path);
 
 	int getLogFilter() const;
 	void setLogFilter(int mask);
