@@ -19,7 +19,7 @@ class QtIndexingDialog: public QtWindowBase
 
 protected:
 	static QBoxLayout* createLayout(QWidget* parent);
-	static QLabel* createTitleLabel(QString title, QBoxLayout* layout);
+	static QLabel* createTitleLabel(const QString &title, QBoxLayout* layout);
 	static QLabel* createMessageLabel(QBoxLayout* layout);
 	static QWidget* createErrorWidget(QBoxLayout* layout);
 	static QLabel* createFlagLabel(QWidget* parent);

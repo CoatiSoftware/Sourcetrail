@@ -19,20 +19,20 @@
 QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	: m_navigator(navigator), m_area(nullptr)
 {
-	setObjectName("code_container");
+	setObjectName(QStringLiteral("code_container"));
 
 	setLayout(new QVBoxLayout(this));
 	layout()->setContentsMargins(0, 0, 0, 0);
 	layout()->setSpacing(0);
 
 	m_titleBar = new QtCodeFileTitleBar(this, false, true);
-	m_titleBar->setObjectName("title_bar_single");
+	m_titleBar->setObjectName(QStringLiteral("title_bar_single"));
 	layout()->addWidget(m_titleBar);
 
 	connect(m_titleBar, &QtCodeFileTitleBar::snippet, this, &QtCodeFileSingle::clickedSnippetButton);
 
 	m_areaWrapper = new QWidget();
-	m_areaWrapper->setObjectName("code_file_single");
+	m_areaWrapper->setObjectName(QStringLiteral("code_file_single"));
 	m_areaWrapper->setSizePolicy(
 		m_areaWrapper->sizePolicy().horizontalPolicy(), QSizePolicy::Expanding);
 	m_areaWrapper->setLayout(new QVBoxLayout());

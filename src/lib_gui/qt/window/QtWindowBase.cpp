@@ -28,7 +28,7 @@ QtWindowBase::QtWindowBase(bool isSubWindow, QWidget* parent)
 	}
 
 	m_window = new QWidget(this);
-	m_window->setObjectName("window");
+	m_window->setObjectName(QStringLiteral("window"));
 
 	QVBoxLayout* layout = new QVBoxLayout(m_window);
 	layout->setSpacing(0);

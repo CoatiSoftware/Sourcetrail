@@ -2,7 +2,7 @@
 
 QtTextEdit::QtTextEdit(QWidget* parent): QTextBrowser(parent)
 {
-	document()->setDefaultStyleSheet("a { color: #007AC2; }");
+	document()->setDefaultStyleSheet(QStringLiteral("a { color: #007AC2; }"));
 }
 
 void QtTextEdit::setViewportMargins(int left, int top, int right, int bottom)

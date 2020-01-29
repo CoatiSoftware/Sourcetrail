@@ -13,12 +13,12 @@ QtProjectWizardContentExtensions::QtProjectWizardContentExtensions(
 
 void QtProjectWizardContentExtensions::populate(QGridLayout* layout, int& row)
 {
-	QLabel* sourceLabel = createFormLabel("Source File Extensions");
+	QLabel* sourceLabel = createFormLabel(QStringLiteral("Source File Extensions"));
 	layout->addWidget(sourceLabel, row, QtProjectWizardWindow::FRONT_COL, Qt::AlignTop);
 
 	addHelpButton(
-		"Source File Extensions",
-		"Define extensions for source files including the dot (e.g. .cpp or .java)",
+		QStringLiteral("Source File Extensions"),
+		QStringLiteral("Define extensions for source files including the dot (e.g. .cpp or .java)"),
 		layout,
 		row);
 

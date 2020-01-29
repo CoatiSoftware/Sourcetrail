@@ -1,6 +1,6 @@
 #include "QtHoverButton.h"
 
-QtHoverButton::QtHoverButton(QWidget* parent): QPushButton("", parent)
+QtHoverButton::QtHoverButton(QWidget* parent): QPushButton(QLatin1String(""), parent)
 {
 	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	setMouseTracking(true);

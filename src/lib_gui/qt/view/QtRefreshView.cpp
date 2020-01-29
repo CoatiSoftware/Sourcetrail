@@ -14,7 +14,7 @@
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout): RefreshView(viewLayout)
 {
 	m_widget = new QFrame();
-	m_widget->setObjectName("refresh_bar");
+	m_widget->setObjectName(QStringLiteral("refresh_bar"));
 
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
@@ -23,8 +23,8 @@ QtRefreshView::QtRefreshView(ViewLayout* viewLayout): RefreshView(viewLayout)
 
 	QtSearchBarButton* refreshButton = new QtSearchBarButton(
 		ResourcePaths::getGuiPath().concatenate(L"refresh_view/images/refresh.png"));
-	refreshButton->setObjectName("refresh_button");
-	refreshButton->setToolTip("refresh");
+	refreshButton->setObjectName(QStringLiteral("refresh_button"));
+	refreshButton->setToolTip(QStringLiteral("refresh"));
 	m_widget->connect(refreshButton, &QPushButton::clicked, []() {
 		MessageIndexingShowDialog().dispatch();
 		MessageRefresh().dispatch();

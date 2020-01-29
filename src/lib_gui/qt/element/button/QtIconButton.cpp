@@ -5,7 +5,7 @@
 #include "utilityQt.h"
 
 QtIconButton::QtIconButton(const FilePath& iconPath, const FilePath& hoveredIconPath, QWidget* parent)
-	: QPushButton("", parent)
+	: QPushButton(QLatin1String(""), parent)
 	, m_iconPath(iconPath)
 	, m_hoveredIconPath(hoveredIconPath)
 	, m_color(Qt::transparent)

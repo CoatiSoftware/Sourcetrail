@@ -29,11 +29,11 @@ void QtTextEditDialog::setReadOnly(bool readOnly)
 
 	if (readOnly)
 	{
-		updateNextButton("OK");
+		updateNextButton(QStringLiteral("OK"));
 	}
 	else
 	{
-		updateNextButton("Save");
+		updateNextButton(QStringLiteral("Save"));
 	}
 }
 
@@ -43,12 +43,12 @@ void QtTextEditDialog::populateWindow(QWidget* widget)
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	QLabel* description = new QLabel(m_description);
-	description->setObjectName("description");
+	description->setObjectName(QStringLiteral("description"));
 	description->setWordWrap(true);
 	layout->addWidget(description);
 
 	m_text = new QPlainTextEdit();
-	m_text->setObjectName("textField");
+	m_text->setObjectName(QStringLiteral("textField"));
 	m_text->setLineWrapMode(QPlainTextEdit::NoWrap);
 	m_text->setTabStopWidth(8 * m_text->fontMetrics().width('9'));
 	layout->addWidget(m_text);
@@ -58,8 +58,8 @@ void QtTextEditDialog::populateWindow(QWidget* widget)
 
 void QtTextEditDialog::windowReady()
 {
-	updateNextButton("Save");
-	updateCloseButton("Cancel");
+	updateNextButton(QStringLiteral("Save"));
+	updateCloseButton(QStringLiteral("Cancel"));
 
 	setPreviousVisible(false);
 

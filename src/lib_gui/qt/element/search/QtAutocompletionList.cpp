@@ -145,7 +145,7 @@ void QtAutocompletionDelegate::paint(
 	QColor fillColor(0xFF, 0xFF, 0xFF);
 	QColor textColor(0, 0, 0);
 
-	if (type.size() && type != "command" && type != "filter")
+	if (type.size() && type != QLatin1String("command") && type != QLatin1String("filter"))
 	{
 		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(
 			nodeType.getUnderscoredTypeString(), false);
@@ -177,7 +177,7 @@ void QtAutocompletionDelegate::paint(
 	painter->fillRect(option.rect, backgroundColor);
 
 	// draw highlights at indices
-	QString highlightText(text.size(), ' ');
+	QString highlightText(text.size(), QChar(' '));
 	if (!indices.empty())
 	{
 		for (int i = 0; i < indices.size(); i++)
@@ -196,7 +196,7 @@ void QtAutocompletionDelegate::paint(
 			painter->fillRect(rect, fillColor);
 
 			highlightText[idx] = text.at(idx);
-			text[idx] = ' ';
+			text[idx] = QChar(' ');
 		}
 	}
 	else
@@ -228,7 +228,7 @@ void QtAutocompletionDelegate::paint(
 
 		painter->setFont(m_font2);
 
-		QString highlightSubtext(subtext.size(), ' ');
+		QString highlightSubtext(subtext.size(), QChar(' '));
 		if (indices.size())
 		{
 			for (int i = 0; i < indices.size(); i++)
@@ -247,7 +247,7 @@ void QtAutocompletionDelegate::paint(
 				painter->fillRect(rect, fillColor);
 
 				highlightSubtext[idx] = subtext.at(idx);
-				subtext[idx] = ' ';
+				subtext[idx] = QChar(' ');
 			}
 		}
 
@@ -317,7 +317,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 	m_font1 = font;
 
 	QFontMetrics metrics1(font);
-	m_charWidth1 = metrics1.width(
+	m_charWidth1 = metrics1.width(QStringLiteral(
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
@@ -327,7 +327,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
-					   "-------------------------") /
+					   "-------------------------")) /
 		500.0f;
 	m_charHeight1 = metrics1.height();
 
@@ -335,7 +335,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 	m_font2 = font;
 
 	QFontMetrics metrics2(font);
-	m_charWidth2 = metrics2.width(
+	m_charWidth2 = metrics2.width(QStringLiteral(
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
@@ -345,7 +345,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
-					   "-------------------------") /
+					   "-------------------------")) /
 		500.0f;
 	m_charHeight2 = metrics2.height();
 
@@ -370,7 +370,7 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent): QCompleter(parent)
 
 	QListView* list = new QListView(parent);
 	list->setItemDelegateForColumn(0, m_delegate.get());
-	list->setObjectName("search_box_popup");
+	list->setObjectName(QStringLiteral("search_box_popup"));
 	list->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 	list->setUniformItemSizes(true);
 	setPopup(list);
@@ -378,7 +378,7 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent): QCompleter(parent)
 	setCaseSensitivity(Qt::CaseInsensitive);
 	setCompletionMode(QCompleter::UnfilteredPopupCompletion);
 	setModelSorting(QCompleter::UnsortedModel);
-	setCompletionPrefix("");
+	setCompletionPrefix(QLatin1String(""));
 	setMaxVisibleItems(8);
 }
 

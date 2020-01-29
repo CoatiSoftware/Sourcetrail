@@ -70,7 +70,8 @@ std::pair<int, std::string> utility::executeProcess(
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	QStringList envlist = env.toStringList();
 	envlist.replaceInStrings(
-		QRegularExpression("^(?i)PATH=(.*)"), "PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1");
+		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
+		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
 	process.setEnvironment(envlist);
 
 	{
@@ -108,7 +109,8 @@ std::string utility::executeProcessUntilNoOutput(
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	QStringList envlist = env.toStringList();
 	envlist.replaceInStrings(
-		QRegularExpression("^(?i)PATH=(.*)"), "PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1");
+		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
+		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
 	process.setEnvironment(envlist);
 
 	{
@@ -209,7 +211,8 @@ int utility::executeProcessAndGetExitCode(
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	QStringList envlist = env.toStringList();
 	envlist.replaceInStrings(
-		QRegularExpression("^(?i)PATH=(.*)"), "PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1");
+		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
+		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
 	process.setEnvironment(envlist);
 
 	{

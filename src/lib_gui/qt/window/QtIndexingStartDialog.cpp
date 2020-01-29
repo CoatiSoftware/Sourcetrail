@@ -17,7 +17,7 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 {
 	setSizeGripStyle(false);
 
-	QtIndexingDialog::createTitleLabel("Start Indexing", m_layout);
+	QtIndexingDialog::createTitleLabel(QStringLiteral("Start Indexing"), m_layout);
 	m_layout->addSpacing(5);
 
 	m_clearLabel = QtIndexingDialog::createMessageLabel(m_layout);
@@ -38,11 +38,11 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 	modeTitleLayout->setSpacing(7);
 
 	QLabel* modeLabel = QtIndexingDialog::createMessageLabel(modeTitleLayout);
-	modeLabel->setText("Mode:");
+	modeLabel->setText(QStringLiteral("Mode:"));
 	modeLabel->setAlignment(Qt::AlignLeft);
 
 	QtHelpButton* helpButton = new QtHelpButton(
-		"Indexing Modes",
+		QStringLiteral("Indexing Modes"),
 		QString("<b>Updated files:</b> Reindexes all files that were modified since the last "
 				"indexing, all new files and all files depending "
 				"on those.<br /><br />"
@@ -67,10 +67,10 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 	modeLayout->addLayout(modeTitleLayout);
 	modeLayout->addSpacing(5);
 
-	m_refreshModeButtons.emplace(REFRESH_UPDATED_FILES, new QRadioButton("Updated files"));
+	m_refreshModeButtons.emplace(REFRESH_UPDATED_FILES, new QRadioButton(QStringLiteral("Updated files")));
 	m_refreshModeButtons.emplace(
-		REFRESH_UPDATED_AND_INCOMPLETE_FILES, new QRadioButton("Incomplete && updated files"));
-	m_refreshModeButtons.emplace(REFRESH_ALL_FILES, new QRadioButton("All files"));
+		REFRESH_UPDATED_AND_INCOMPLETE_FILES, new QRadioButton(QStringLiteral("Incomplete && updated files")));
+	m_refreshModeButtons.emplace(REFRESH_ALL_FILES, new QRadioButton(QStringLiteral("All files")));
 
 	std::function<void(bool)> func = [=](bool checked) {
 		if (!checked)
@@ -91,7 +91,7 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 	for (auto p: m_refreshModeButtons)
 	{
 		QRadioButton* button = p.second;
-		button->setObjectName("option");
+		button->setObjectName(QStringLiteral("option"));
 		button->setEnabled(false);
 		if (p.first == initialMode)
 		{
@@ -108,7 +108,7 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 
 	if (enabledShallowOption)
 	{
-		QCheckBox* shallowIndexingCheckBox = new QCheckBox("Shallow Python Indexing");
+		QCheckBox* shallowIndexingCheckBox = new QCheckBox(QStringLiteral("Shallow Python Indexing"));
 		connect(shallowIndexingCheckBox, &QCheckBox::toggled, [=]() {
 			emit setShallowIndexing(shallowIndexingCheckBox->isChecked());
 		});
@@ -123,15 +123,15 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 
 	{
 		QHBoxLayout* buttons = new QHBoxLayout();
-		QPushButton* cancelButton = new QPushButton("Cancel");
-		cancelButton->setObjectName("windowButton");
+		QPushButton* cancelButton = new QPushButton(QStringLiteral("Cancel"));
+		cancelButton->setObjectName(QStringLiteral("windowButton"));
 		connect(cancelButton, &QPushButton::clicked, this, &QtIndexingStartDialog::onCancelPressed);
 		buttons->addWidget(cancelButton);
 
 		buttons->addStretch();
 
-		QPushButton* startButton = new QPushButton("Start");
-		startButton->setObjectName("windowButton");
+		QPushButton* startButton = new QPushButton(QStringLiteral("Start"));
+		startButton->setObjectName(QStringLiteral("windowButton"));
 		startButton->setDefault(true);
 		connect(startButton, &QPushButton::clicked, this, &QtIndexingStartDialog::onStartPressed);
 		buttons->addWidget(startButton);

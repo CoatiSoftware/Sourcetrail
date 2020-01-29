@@ -4,13 +4,13 @@
 
 #include "utilityQt.h"
 
-QtIconStateButton::QtIconStateButton(QWidget* parent): QPushButton("", parent)
+QtIconStateButton::QtIconStateButton(QWidget* parent): QPushButton(QLatin1String(""), parent)
 {
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	setMouseTracking(true);
 
-	setObjectName("iconStateButton");
+	setObjectName(QStringLiteral("iconStateButton"));
 
 	leaveEvent(nullptr);
 }

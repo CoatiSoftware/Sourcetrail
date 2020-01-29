@@ -35,13 +35,13 @@ void QtWindow::setup()
 		hlayout->setContentsMargins(0, 0, 0, 0);
 
 		m_title = new QLabel();
-		m_title->setObjectName("title");
+		m_title->setObjectName(QStringLiteral("title"));
 		hlayout->addWidget(m_title);
 
 		hlayout->addStretch();
 
 		m_subTitle = new QLabel();
-		m_subTitle->setObjectName("subTitle");
+		m_subTitle->setObjectName(QStringLiteral("subTitle"));
 		hlayout->addWidget(m_subTitle);
 
 		layout->addLayout(hlayout);
@@ -50,13 +50,13 @@ void QtWindow::setup()
 	layout->addSpacing(10);
 
 	QWidget* contentWidget = new QWidget();
-	contentWidget->setObjectName("form");
+	contentWidget->setObjectName(QStringLiteral("form"));
 
 	populateWindow(contentWidget);
 
 	QScrollArea* scrollArea = new QScrollArea();
 	scrollArea->setFrameShadow(QFrame::Plain);
-	scrollArea->setObjectName("formArea");
+	scrollArea->setObjectName(QStringLiteral("formArea"));
 	scrollArea->setWidgetResizable(true);
 
 	scrollArea->setWidget(contentWidget);
@@ -69,7 +69,7 @@ void QtWindow::setup()
 	}
 	else
 	{
-		scrollArea->setObjectName("scrollArea");
+		scrollArea->setObjectName(QStringLiteral("scrollArea"));
 	}
 
 	QHBoxLayout* buttonLayout = createButtons();
@@ -361,16 +361,16 @@ void QtWindow::addLogo()
 
 QHBoxLayout* QtWindow::createButtons()
 {
-	m_nextButton = new QPushButton("Next");
-	m_nextButton->setObjectName("windowButton");
+	m_nextButton = new QPushButton(QStringLiteral("Next"));
+	m_nextButton->setObjectName(QStringLiteral("windowButton"));
 	connect(m_nextButton, &QPushButton::clicked, this, &QtWindow::handleNextPress);
 
-	m_previousButton = new QPushButton("Previous");
-	m_previousButton->setObjectName("windowButton");
+	m_previousButton = new QPushButton(QStringLiteral("Previous"));
+	m_previousButton->setObjectName(QStringLiteral("windowButton"));
 	connect(m_previousButton, &QPushButton::clicked, this, &QtWindow::handlePreviousPress);
 
-	m_closeButton = new QPushButton("Cancel");
-	m_closeButton->setObjectName("windowButton");
+	m_closeButton = new QPushButton(QStringLiteral("Cancel"));
+	m_closeButton->setObjectName(QStringLiteral("windowButton"));
 	connect(m_closeButton, &QPushButton::clicked, this, &QtWindow::handleClosePress);
 
 	QHBoxLayout* buttons = new QHBoxLayout();

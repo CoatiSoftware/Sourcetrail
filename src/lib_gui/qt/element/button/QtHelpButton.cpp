@@ -16,9 +16,9 @@ QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QW
 	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	setMouseTracking(true);
 
-	setToolTip("help");
+	setToolTip(QStringLiteral("help"));
 	setIconSize(QSize(16, 16));
-	setObjectName("helpButton");
+	setObjectName(QStringLiteral("helpButton"));
 
 	leaveEvent(nullptr);
 
@@ -28,7 +28,7 @@ QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QW
 void QtHelpButton::handleHelpPress()
 {
 	QMessageBox msgBox;
-	msgBox.setWindowTitle("Sourcetrail");
+	msgBox.setWindowTitle(QStringLiteral("Sourcetrail"));
 	msgBox.setIcon(QMessageBox::Information);
 	msgBox.setText("<b>" + m_helpTitle + "</b>");
 	msgBox.setInformativeText(m_helpText);

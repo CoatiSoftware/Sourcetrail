@@ -46,11 +46,11 @@ void QtLicenseWindow::populateWindow(QWidget* widget)
 
 	layout->addSpacing(30);
 
-	QLabel* header3rdParties = new QLabel(
+	QLabel* header3rdParties = new QLabel(QStringLiteral(
 		"<b>Copyrights and Licenses for Third Party Software Distributed with Sourcetrail:</b><br "
 		"/>"
 		"Sourcetaril contains code written by the following third parties that have <br />"
-		"additional or alternate copyrights, licenses, and/or restrictions:");
+		"additional or alternate copyrights, licenses, and/or restrictions:"));
 	layout->addWidget(header3rdParties);
 
 	layout->addSpacing(30);
@@ -87,8 +87,8 @@ void QtLicenseWindow::populateWindow(QWidget* widget)
 
 void QtLicenseWindow::windowReady()
 {
-	updateTitle("License");
-	updateCloseButton("Close");
+	updateTitle(QStringLiteral("License"));
+	updateCloseButton(QStringLiteral("Close"));
 
 	setNextVisible(false);
 	setPreviousVisible(false);

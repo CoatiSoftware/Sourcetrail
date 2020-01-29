@@ -119,11 +119,11 @@ void QtHighlighter::loadHighlightingRules()
 			QJsonObject ruleObj = value.toObject();
 
 			HighlightType type = highlightTypeFromString(
-				ruleObj.value("type").toString().toStdString());
+				ruleObj.value(QStringLiteral("type")).toString().toStdString());
 
-			bool priority = ruleObj.value("priority").toBool();
+			bool priority = ruleObj.value(QStringLiteral("priority")).toBool();
 
-			QJsonArray patterns = ruleObj.value("patterns").toArray();
+			QJsonArray patterns = ruleObj.value(QStringLiteral("patterns")).toArray();
 			for (QJsonValueRef pattern: patterns)
 			{
 				if (pattern.isString())
@@ -132,7 +132,7 @@ void QtHighlighter::loadHighlightingRules()
 				}
 			}
 
-			QJsonObject range = ruleObj.value("range").toObject();
+			QJsonObject range = ruleObj.value(QStringLiteral("range")).toObject();
 			if (!range.empty())
 			{
 				rules.push_back(HighlightingRule(

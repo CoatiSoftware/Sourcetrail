@@ -22,7 +22,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	, m_footer(nullptr)
 	, m_codeArea(nullptr)
 {
-	setObjectName("code_snippet");
+	setObjectName(QStringLiteral("code_snippet"));
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	layout->setMargin(0);
@@ -189,13 +189,13 @@ QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 	layout->addLayout(lineLayout);
 
 	QPushButton* dots = new QPushButton(this);
-	dots->setObjectName("dots");
+	dots->setObjectName(QStringLiteral("dots"));
 	dots->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 	lineLayout->addWidget(dots);
 	m_dots.push_back(dots);
 
 	QPushButton* line = new QPushButton(this);
-	line->setObjectName("scope_name");
+	line->setObjectName(QStringLiteral("scope_name"));
 	line->minimumSizeHint();							// force font loading
 	line->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);

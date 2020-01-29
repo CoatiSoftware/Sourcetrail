@@ -19,7 +19,7 @@ QtListBox::QtListBox(QWidget* parent, const QString& listName): QFrame(parent), 
 	layout->setAlignment(Qt::AlignTop);
 
 	m_list = new QtListWidget(this);
-	m_list->setObjectName("list");
+	m_list->setObjectName(QStringLiteral("list"));
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	connect(m_list, &QListWidget::doubleClicked, this, &QtListBox::doubleClicked);
 
@@ -28,7 +28,7 @@ QtListBox::QtListBox(QWidget* parent, const QString& listName): QFrame(parent), 
 	layout->addWidget(m_list, 5);
 
 	QWidget* buttonContainer = new QWidget(this);
-	buttonContainer->setObjectName("bar");
+	buttonContainer->setObjectName(QStringLiteral("bar"));
 
 	QHBoxLayout* barLayout = new QHBoxLayout();
 	barLayout->setContentsMargins(8, 4, 8, 2);
@@ -38,16 +38,16 @@ QtListBox::QtListBox(QWidget* parent, const QString& listName): QFrame(parent), 
 		ResourcePaths::getGuiPath().concatenate(L"window/plus.png"),
 		ResourcePaths::getGuiPath().concatenate(L"window/plus_hover.png"));
 	m_addButton->setIconSize(QSize(16, 16));
-	m_addButton->setObjectName("plusButton");
-	m_addButton->setToolTip("add line");
+	m_addButton->setObjectName(QStringLiteral("plusButton"));
+	m_addButton->setToolTip(QStringLiteral("add line"));
 	barLayout->addWidget(m_addButton);
 
 	m_removeButton = new QtIconButton(
 		ResourcePaths::getGuiPath().concatenate(L"window/minus.png"),
 		ResourcePaths::getGuiPath().concatenate(L"window/minus_hover.png"));
 	m_removeButton->setIconSize(QSize(16, 16));
-	m_removeButton->setObjectName("minusButton");
-	m_removeButton->setToolTip("remove line");
+	m_removeButton->setObjectName(QStringLiteral("minusButton"));
+	m_removeButton->setToolTip(QStringLiteral("remove line"));
 	barLayout->addWidget(m_removeButton);
 
 	barLayout->addStretch();
@@ -58,8 +58,8 @@ QtListBox::QtListBox(QWidget* parent, const QString& listName): QFrame(parent), 
 	QPushButton* editButton = new QtIconButton(
 		ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"), FilePath());
 	editButton->setIconSize(QSize(16, 16));
-	editButton->setObjectName("editButton");
-	editButton->setToolTip("edit plain text");
+	editButton->setObjectName(QStringLiteral("editButton"));
+	editButton->setToolTip(QStringLiteral("edit plain text"));
 	barLayout->addWidget(editButton);
 
 	buttonContainer->setLayout(barLayout);

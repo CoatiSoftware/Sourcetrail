@@ -7,7 +7,7 @@ QtKnownProgressDialog::QtKnownProgressDialog(bool hideable, QWidget* parent)
 {
 	setSizeGripStyle(false);
 
-	updateTitle("Progress");
+	updateTitle(QStringLiteral("Progress"));
 
 	m_layout->addStretch();
 
@@ -16,8 +16,8 @@ QtKnownProgressDialog::QtKnownProgressDialog(bool hideable, QWidget* parent)
 		QHBoxLayout* buttons = new QHBoxLayout();
 		buttons->addStretch();
 
-		QPushButton* hideButton = new QPushButton("Hide");
-		hideButton->setObjectName("windowButton");
+		QPushButton* hideButton = new QPushButton(QStringLiteral("Hide"));
+		hideButton->setObjectName(QStringLiteral("windowButton"));
 		hideButton->setDefault(true);
 		connect(hideButton, &QPushButton::clicked, this, &QtKnownProgressDialog::onHidePressed);
 		buttons->addWidget(hideButton);

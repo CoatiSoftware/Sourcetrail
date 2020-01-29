@@ -95,14 +95,14 @@ void addLanguagePackages()
 
 int main(int argc, char *argv[])
 {
-	QCoreApplication::addLibraryPath(".");
+	QCoreApplication::addLibraryPath(QStringLiteral("."));
 
 	if (utility::getOsType() == OS_LINUX && std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
 	{
 		std::cout << "ERROR: Please run Sourcetrail via the Sourcetrail.sh script!" << std::endl;
 	}
 
-	QApplication::setApplicationName("Sourcetrail");
+	QApplication::setApplicationName(QStringLiteral("Sourcetrail"));
 
 	if (utility::getOsType() != OS_LINUX)
 	{

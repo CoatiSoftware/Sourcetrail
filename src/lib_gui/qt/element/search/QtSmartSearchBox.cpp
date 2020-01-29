@@ -78,12 +78,12 @@ QtSmartSearchBox::QtSmartSearchBox(const QString& placeholder, bool supportsFull
 	, m_mousePressed(false)
 	, m_ignoreNextMousePress(false)
 {
-	setObjectName("search_box");
+	setObjectName(QStringLiteral("search_box"));
 	setAttribute(Qt::WA_MacShowFocusRect, 0);	 // remove blue focus box on Mac
 
 	m_highlightRect = new QWidget(this);
 	m_highlightRect->setGeometry(0, 0, 0, 0);
-	m_highlightRect->setObjectName("search_box_highlight");
+	m_highlightRect->setObjectName(QStringLiteral("search_box_highlight"));
 
 	connect(this, &QtSmartSearchBox::textEdited, this, &QtSmartSearchBox::onTextEdited);
 	connect(this, &QtSmartSearchBox::textChanged, this, &QtSmartSearchBox::onTextChanged);
@@ -232,7 +232,7 @@ void QtSmartSearchBox::focusInEvent(QFocusEvent* event)
 
 	if (text().size() == 1 && text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 	{
-		setEditText("");
+		setEditText(QLatin1String(""));
 	}
 	else
 	{
@@ -1044,13 +1044,13 @@ void QtSmartSearchBox::updatePlaceholder()
 	}
 	else
 	{
-		setPlaceholderText("");
+		setPlaceholderText(QLatin1String(""));
 	}
 }
 
 void QtSmartSearchBox::clearLineEdit()
 {
-	setEditText("");
+	setEditText(QLatin1String(""));
 	hideAutoCompletions();
 }
 

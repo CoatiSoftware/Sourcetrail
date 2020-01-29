@@ -13,7 +13,7 @@ QtFilesAndDirectoriesDialog::QtFilesAndDirectoriesDialog(QWidget* parent): QFile
 	setOption(QFileDialog::DontUseNativeDialog, true);
 	for (QPushButton* button: findChildren<QPushButton*>())
 	{
-		if (button->text().toLower().contains("open") || button->text().toLower().contains("choose"))
+		if (button->text().toLower().contains(QLatin1String("open")) || button->text().toLower().contains(QLatin1String("choose")))
 		{
 			button->installEventFilter(this);
 			button->disconnect(SIGNAL(clicked()));

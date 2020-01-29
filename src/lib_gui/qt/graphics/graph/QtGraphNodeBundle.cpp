@@ -18,7 +18,7 @@ QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type
 
 	this->setAcceptHoverEvents(true);
 
-	this->setToolTip("bundle");
+	this->setToolTip(QStringLiteral("bundle"));
 }
 
 QtGraphNodeBundle::~QtGraphNodeBundle() {}

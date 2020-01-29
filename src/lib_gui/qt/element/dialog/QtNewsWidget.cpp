@@ -20,17 +20,17 @@ QtNewsWidget::QtNewsWidget(QWidget* parent): QWidget(parent)
 	layout->setSpacing(0);
 
 	m_text = new QtTextEdit();
-	m_text->setObjectName("textField");
+	m_text->setObjectName(QStringLiteral("textField"));
 	m_text->setReadOnly(true);
 	m_text->setTabStopWidth(8 * m_text->fontMetrics().width('9'));
 	m_text->setViewportMargins(6, 4, 16, 4);
 	m_text->setOpenExternalLinks(true);
 	layout->addWidget(m_text);
 
-	QString placeholder = "No news available";
+	QString placeholder = QStringLiteral("No news available");
 	if (!ApplicationSettings::getInstance()->getAutomaticUpdateCheck())
 	{
-		placeholder += "\n(Enable update check to fetch)";
+		placeholder += QLatin1String("\n(Enable update check to fetch)");
 	}
 	m_text->setPlaceholderText(placeholder);
 
@@ -73,14 +73,14 @@ void QtNewsWidget::updateNews()
 	std::string newsRaw = appSettings->getUpdateNews();
 	if (!newsRaw.size())
 	{
-		setNews("");
+		setNews(QLatin1String(""));
 		return;
 	}
 
 	if (TimeStamp::now().deltaHours(appSettings->getLastUpdateCheck()) >= 120)
 	{
 		LOG_INFO_STREAM(<< "Ignore news string, because older than 5 days.");
-		setNews("");
+		setNews(QLatin1String(""));
 		return;
 	}
 
@@ -93,7 +93,7 @@ void QtNewsWidget::updateNews()
 		LOG_ERROR_STREAM(
 			<< "News string couldn't be parsed as JSON: " << error.errorString().toStdString()
 			<< "\nJSON: " << newsRaw);
-		setNews("");
+		setNews(QLatin1String(""));
 		return;
 	}
 
@@ -108,25 +108,25 @@ void QtNewsWidget::updateNews()
 		itemNum++;
 		QJsonObject newsItem = value.toObject();
 
-		int version = newsItem.value("version").toInt();
+		int version = newsItem.value(QStringLiteral("version")).toInt();
 		if (version > supportedNewsItemVersion)
 		{
 			LOG_INFO_STREAM(<< "News item " << itemNum << " version " << version << " is not supported.");
 			continue;
 		}
 
-		if (!checkConditions(newsItem.value("conditions").toObject()))
+		if (!checkConditions(newsItem.value(QStringLiteral("conditions")).toObject()))
 		{
 			LOG_INFO_STREAM(<< "News item " << itemNum << " conditions failed.");
 			continue;
 		}
 
-		processFlags(newsItem.value("flags").toObject());
-		setNews(newsItem.value("content").toString());
+		processFlags(newsItem.value(QStringLiteral("flags")).toObject());
+		setNews(newsItem.value(QStringLiteral("content")).toString());
 		return;
 	}
 
-	setNews("");
+	setNews(QLatin1String(""));
 }
 
 void QtNewsWidget::resetFlags()
@@ -155,7 +155,7 @@ bool QtNewsWidget::checkConditions(const QJsonObject& conditions) const
 
 	// min_version
 	{
-		QString minVersionString = conditions.value("min_version").toString();
+		QString minVersionString = conditions.value(QStringLiteral("min_version")).toString();
 		if (!minVersionString.isEmpty())
 		{
 			Version minVersion = Version::fromString(minVersionString.toStdString());
@@ -169,7 +169,7 @@ bool QtNewsWidget::checkConditions(const QJsonObject& conditions) const
 
 	// max_version
 	{
-		QString maxVersionString = conditions.value("max_version").toString();
+		QString maxVersionString = conditions.value(QStringLiteral("max_version")).toString();
 		if (!maxVersionString.isEmpty())
 		{
 			Version maxVersion = Version::fromString(maxVersionString.toStdString());
@@ -183,7 +183,7 @@ bool QtNewsWidget::checkConditions(const QJsonObject& conditions) const
 
 	// OS
 	{
-		QJsonArray osStrings = conditions.value("os").toArray();
+		QJsonArray osStrings = conditions.value(QStringLiteral("os")).toArray();
 		if (!osStrings.isEmpty())
 		{
 			QString osString = QString::fromStdString(utility::getOsTypeString());
@@ -197,7 +197,7 @@ bool QtNewsWidget::checkConditions(const QJsonObject& conditions) const
 
 	// weekday
 	{
-		QJsonArray weekdayStrings = conditions.value("weekday").toArray();
+		QJsonArray weekdayStrings = conditions.value(QStringLiteral("weekday")).toArray();
 		if (!weekdayStrings.isEmpty())
 		{
 			QString weekdayString = QString::fromStdString(TimeStamp::now().dayOfWeekShort());
@@ -221,7 +221,7 @@ void QtNewsWidget::processFlags(const QJsonObject& flags)
 
 	// important
 	{
-		bool important = flags.value("important").toBool();
+		bool important = flags.value(QStringLiteral("important")).toBool();
 		if (important)
 		{
 			LOG_INFO_STREAM(<< "Flag important enabled.");

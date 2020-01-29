@@ -25,11 +25,11 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 {
 	m_scrollArea = new QScrollArea();
 
-	m_scrollArea->setObjectName("code_container");
+	m_scrollArea->setObjectName(QStringLiteral("code_container"));
 	m_scrollArea->setWidgetResizable(true);
 
 	m_filesArea = new QFrame();
-	m_filesArea->setObjectName("code_file_list");
+	m_filesArea->setObjectName(QStringLiteral("code_file_list"));
 
 	QVBoxLayout* innerLayout = new QVBoxLayout();
 	innerLayout->setSpacing(0);
@@ -53,7 +53,7 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	}
 	else
 	{
-		m_lastSnippetScrollBar->setObjectName("last_scroll_bar");
+		m_lastSnippetScrollBar->setObjectName(QStringLiteral("last_scroll_bar"));
 	}
 
 	m_lastSnippetScrollBar->hide();

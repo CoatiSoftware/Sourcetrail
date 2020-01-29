@@ -13,7 +13,7 @@
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, bool isFirst)
 	: QFrame(), m_navigator(navigator), m_filePath(filePath), m_isWholeFile(false)
 {
-	setObjectName("code_file");
+	setObjectName(QStringLiteral("code_file"));
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
 	QVBoxLayout* layout = new QVBoxLayout(this);

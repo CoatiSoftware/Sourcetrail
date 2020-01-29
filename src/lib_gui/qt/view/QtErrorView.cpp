@@ -57,13 +57,13 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	m_table->setColumnHidden(Column::ID, true);
 
 	QStringList headers;
-	headers << "ID"
-			<< "Type"
-			<< "Message"
-			<< "File"
-			<< "Line"
-			<< "Indexed"
-			<< "Translation Unit";
+	headers << QStringLiteral("ID")
+			<< QStringLiteral("Type")
+			<< QStringLiteral("Message")
+			<< QStringLiteral("File")
+			<< QStringLiteral("Line")
+			<< QStringLiteral("Indexed")
+			<< QStringLiteral("Translation Unit");
 	m_model->setHorizontalHeaderLabels(headers);
 
 	connect(m_table, &QTableView::clicked, [=](const QModelIndex& index) {
@@ -88,16 +88,16 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	checkboxes->setSpacing(0);
 
 	{
-		m_showFatals = createFilterCheckbox("Fatals", m_errorFilter.fatal, checkboxes);
-		m_showErrors = createFilterCheckbox("Errors", m_errorFilter.error, checkboxes);
+		m_showFatals = createFilterCheckbox(QStringLiteral("Fatals"), m_errorFilter.fatal, checkboxes);
+		m_showErrors = createFilterCheckbox(QStringLiteral("Errors"), m_errorFilter.error, checkboxes);
 		m_showNonIndexedFatals = createFilterCheckbox(
-			"Fatals in non-indexed files", m_errorFilter.unindexedFatal, checkboxes);
+			QStringLiteral("Fatals in non-indexed files"), m_errorFilter.unindexedFatal, checkboxes);
 		m_showNonIndexedErrors = createFilterCheckbox(
-			"Errors in non-indexed files", m_errorFilter.unindexedError, checkboxes);
+			QStringLiteral("Errors in non-indexed files"), m_errorFilter.unindexedError, checkboxes);
 
 		m_helpButton = new QtHelpButton(
-			"Fixing Errors",
-			"Please read this if your project is showing errors after indexing.<br />"
+			QStringLiteral("Fixing Errors"),
+			QStringLiteral("Please read this if your project is showing errors after indexing.<br />"
 			"There are different types of errors:"
 			"<ul>"
 			"<li><b>Fatals</b> cause the indexer to stop. All or big parts of indexed information "
@@ -121,22 +121,22 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 			"</ul>"
 			"You should be able to find information about errors you are not familiar with online. "
 			"<b>Double click</b> "
-			"an error message in the table to select it for <b>copying</b>.<br />");
-		m_helpButton->setObjectName("help_button");
+			"an error message in the table to select it for <b>copying</b>.<br />"));
+		m_helpButton->setObjectName(QStringLiteral("help_button"));
 		checkboxes->addWidget(m_helpButton);
 	}
 
 	checkboxes->addStretch();
 
 	{
-		m_allLabel = new QLabel("");
+		m_allLabel = new QLabel(QLatin1String(""));
 		checkboxes->addWidget(m_allLabel);
 		m_allLabel->hide();
 
 		checkboxes->addSpacing(5);
 
-		m_allButton = new QPushButton("");
-		m_allButton->setObjectName("screen_button");
+		m_allButton = new QPushButton(QLatin1String(""));
+		m_allButton->setObjectName(QStringLiteral("screen_button"));
 		connect(m_allButton, &QPushButton::clicked, [=]() {
 			m_errorFilter.limit = 0;
 			errorFilterChanged();
@@ -144,7 +144,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 		checkboxes->addWidget(m_allButton);
 		m_allButton->hide();
 
-		m_errorLabel = new QLabel("");
+		m_errorLabel = new QLabel(QLatin1String(""));
 		checkboxes->addWidget(m_errorLabel);
 	}
 
@@ -152,11 +152,11 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 
 	{
 		m_editButton = new QtSelfRefreshIconButton(
-			"Edit Project",
+			QStringLiteral("Edit Project"),
 			ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"),
 			"window/button");
-		m_editButton->setObjectName("screen_button");
-		m_editButton->setToolTip("edit project");
+		m_editButton->setObjectName(QStringLiteral("screen_button"));
+		m_editButton->setToolTip(QStringLiteral("edit project"));
 		connect(m_editButton, &QPushButton::clicked, []() { MessageProjectEdit().dispatch(); });
 
 		checkboxes->addWidget(m_editButton);
@@ -222,7 +222,7 @@ void QtErrorView::addErrors(
 		m_errorLabel->setText(
 			"<b>displaying " + QString::number(errorCount.total) + " error" +
 			(errorCount.total != 1 ? "s" : "") +
-			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : "") +
+			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : QLatin1String("")) +
 			"</b>");
 	});
 }
@@ -279,6 +279,7 @@ void QtErrorView::setErrorFilter(const ErrorFilter& filter)
 
 void QtErrorView::errorFilterChanged(int i)
 {
+	Q_UNUSED(i)
 	m_table->selectionModel()->clearSelection();
 
 	m_errorFilter.error = m_showErrors->isChecked();
@@ -327,7 +328,8 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	item->setData(QVariant(qlonglong(error.id)), Qt::DisplayRole);
 	m_model->setItem(rowNumber, Column::ID, item);
 
-	m_model->setItem(rowNumber, Column::TYPE, new QStandardItem(error.fatal ? "FATAL" : "ERROR"));
+	m_model->setItem(rowNumber, Column::TYPE, new QStandardItem(error.fatal ?
+												QStringLiteral("FATAL") : QStringLiteral("ERROR")));
 	if (error.fatal)
 	{
 		m_model->item(rowNumber, Column::TYPE)->setForeground(QBrush(Qt::red));
@@ -345,7 +347,8 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	item->setData(QVariant(qlonglong(error.lineNumber)), Qt::DisplayRole);
 	m_model->setItem(rowNumber, Column::LINE, item);
 
-	m_model->setItem(rowNumber, Column::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
+	m_model->setItem(rowNumber, Column::INDEXED, new QStandardItem(error.indexed ?
+													QStringLiteral("yes") : QStringLiteral("no")));
 
 	m_model->setItem(
 		rowNumber,

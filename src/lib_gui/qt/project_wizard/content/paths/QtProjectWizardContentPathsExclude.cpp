@@ -10,7 +10,7 @@ QtProjectWizardContentPathsExclude::QtProjectWizardContentPathsExclude(
 	: QtProjectWizardContentPaths(
 		  settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES, false)
 {
-	setTitleString("Excluded Files & Directories");
+	setTitleString(QStringLiteral("Excluded Files & Directories"));
 	setHelpString(
 		"<p>These paths define the files and directories that will be left out from indexing.</p>"
 		"<p>Hints:"

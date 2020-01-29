@@ -13,7 +13,7 @@
 
 QtLocationPicker::QtLocationPicker(QWidget* parent): QWidget(parent), m_pickDirectory(false)
 {
-	setObjectName("picker");
+	setObjectName(QStringLiteral("picker"));
 
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
@@ -22,7 +22,7 @@ QtLocationPicker::QtLocationPicker(QWidget* parent): QWidget(parent), m_pickDire
 
 	m_data = new QtLineEdit(this);
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
-	m_data->setObjectName("locationField");
+	m_data->setObjectName(QStringLiteral("locationField"));
 	connect(m_data, &QtLineEdit::textChanged, this, &QtLocationPicker::onDataTextChanged);
 	layout->addWidget(m_data);
 
@@ -30,8 +30,8 @@ QtLocationPicker::QtLocationPicker(QWidget* parent): QWidget(parent), m_pickDire
 		ResourcePaths::getGuiPath().concatenate(L"window/dots.png"),
 		ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png"));
 	m_button->setIconSize(QSize(16, 16));
-	m_button->setObjectName("dotsButton");
-	m_button->setToolTip("pick file");
+	m_button->setObjectName(QStringLiteral("dotsButton"));
+	m_button->setToolTip(QStringLiteral("pick file"));
 	connect(m_button, &QPushButton::clicked, this, &QtLocationPicker::onHandleButtonPressed);
 	layout->addWidget(m_button);
 

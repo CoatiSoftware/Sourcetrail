@@ -40,7 +40,7 @@ void QtPathListDialog::populateWindow(QWidget* widget)
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	QLabel* description = new QLabel(m_description);
-	description->setObjectName("description");
+	description->setObjectName(QStringLiteral("description"));
 	description->setWordWrap(true);
 	layout->addWidget(description);
 
@@ -55,8 +55,8 @@ void QtPathListDialog::populateWindow(QWidget* widget)
 
 void QtPathListDialog::windowReady()
 {
-	updateNextButton("Save");
-	updateCloseButton("Cancel");
+	updateNextButton(QStringLiteral("Save"));
+	updateCloseButton(QStringLiteral("Cancel"));
 
 	setPreviousVisible(false);
 

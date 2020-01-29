@@ -30,7 +30,7 @@ void QtProjectWizardContentSourceGroupInfoText::populate(QGridLayout* layout, in
 		"<p><b>Hint</b>: If your project contains source code for multiple build targets, you can "
 		"add all of those source "
 		"files with one single source group as long as they all share the same parameters.</p>");
-	infoLabel->setObjectName("info");
+	infoLabel->setObjectName(QStringLiteral("info"));
 	infoLabel->setWordWrap(true);
 	layoutHorz->addWidget(infoLabel);
 

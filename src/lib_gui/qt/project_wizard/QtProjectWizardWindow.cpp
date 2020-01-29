@@ -80,7 +80,7 @@ void QtProjectWizardWindow::populateWindow(QWidget* widget)
 
 void QtProjectWizardWindow::windowReady()
 {
-	updateTitle("NEW SOURCE GROUP");
+	updateTitle(QStringLiteral("NEW SOURCE GROUP"));
 
 	m_content->windowReady();
 }

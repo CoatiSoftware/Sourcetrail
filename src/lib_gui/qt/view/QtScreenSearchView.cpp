@@ -16,7 +16,7 @@ QtScreenSearchView::QtScreenSearchView(ViewLayout* viewLayout)
 	m_widget = new QtScreenSearchBox(&m_controllerProxy);
 
 	m_bar = new QToolBar();
-	m_bar->setObjectName("screen_search_bar");
+	m_bar->setObjectName(QStringLiteral("screen_search_bar"));
 	m_bar->setMovable(false);
 	m_bar->addWidget(m_widget);
 

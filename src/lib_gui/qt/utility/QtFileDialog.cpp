@@ -22,7 +22,7 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 		dialog->setDirectory(dir);
 	}
 
-	QListView* l = dialog->findChild<QListView*>("listView");
+	QListView* l = dialog->findChild<QListView*>(QStringLiteral("listView"));
 	if (l)
 	{
 		l->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -73,8 +73,8 @@ QString QtFileDialog::showSaveFileDialog(
 		dialog.setWindowModality(Qt::WindowModal);
 	}
 
-	QRegExp filter_regex(QLatin1String("(?:^\\*\\.(?!.*\\()|\\(\\*\\.)(\\w+)"));
-	QStringList filters = filter.split(QLatin1String(";;"));
+	QRegExp filter_regex(QStringLiteral("(?:^\\*\\.(?!.*\\()|\\(\\*\\.)(\\w+)"));
+	QStringList filters = filter.split(QStringLiteral(";;"));
 
 	if (!filters.isEmpty())
 	{
@@ -93,7 +93,7 @@ QString QtFileDialog::showSaveFileDialog(
 			if (filter_regex.indexIn(dialog.selectedNameFilter()) != -1)
 			{
 				QString extension = filter_regex.cap(1);
-				file_name += QLatin1String(".") + extension;
+				file_name += QStringLiteral(".") + extension;
 			}
 		}
 		return file_name;

@@ -19,8 +19,8 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
 
-	m_button = new QPushButton("check for new version");
-	m_button->setObjectName("updateButton");
+	m_button = new QPushButton(QStringLiteral("check for new version"));
+	m_button->setObjectName(QStringLiteral("updateButton"));
 	m_button->setCursor(Qt::PointingHandCursor);
 	layout->addWidget(m_button);
 
@@ -28,7 +28,7 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	{
 		if (QtUpdateChecker::needsAutomaticCheck())
 		{
-			m_button->setText("checking for update...");
+			m_button->setText(QStringLiteral("checking for update..."));
 			m_button->setEnabled(false);
 
 			std::shared_ptr<bool> deleteCheck = m_deleteCheck;
@@ -52,7 +52,7 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 			}
 			else
 			{
-				m_button->setText("up-to-date");
+				m_button->setText(QStringLiteral("up-to-date"));
 				m_button->setEnabled(false);
 			}
 		}
@@ -70,7 +70,7 @@ QtUpdateCheckerWidget::~QtUpdateCheckerWidget()
 
 void QtUpdateCheckerWidget::checkUpdate(bool force)
 {
-	m_button->setText("checking for update...");
+	m_button->setText(QStringLiteral("checking for update..."));
 	m_button->setEnabled(false);
 
 	std::shared_ptr<bool> deleteCheck = m_deleteCheck;
@@ -83,11 +83,11 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 
 		if (!result.success)
 		{
-			m_button->setText("update check failed");
+			m_button->setText(QStringLiteral("update check failed"));
 		}
 		else if (result.url.isEmpty())
 		{
-			m_button->setText("up-to-date");
+			m_button->setText(QStringLiteral("up-to-date"));
 		}
 		else
 		{
@@ -100,7 +100,7 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 
 void QtUpdateCheckerWidget::setDownloadUrl(QString url)
 {
-	m_button->setText("new version available");
+	m_button->setText(QStringLiteral("new version available"));
 	m_button->disconnect();
 	connect(m_button, &QPushButton::clicked, this, [url]() {
 		QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));

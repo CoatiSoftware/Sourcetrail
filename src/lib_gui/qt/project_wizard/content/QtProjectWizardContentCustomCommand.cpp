@@ -24,9 +24,9 @@ void QtProjectWizardContentCustomCommand::populate(QGridLayout* layout, int& row
 		row++;
 	}
 
-	QLabel* nameLabel = createFormLabel("Custom Command");
+	QLabel* nameLabel = createFormLabel(QStringLiteral("Custom Command"));
 	addHelpButton(
-		"Custom Command",
+		QStringLiteral("Custom Command"),
 		"<p>Specify the commandline call that will be executed for each source file in this Source "
 		"Group. "
 		"You can use the following variables, %{SOURCE_FILE_PATH} is mandatory.</p>"
@@ -47,9 +47,9 @@ void QtProjectWizardContentCustomCommand::populate(QGridLayout* layout, int& row
 		row);
 
 	m_customCommand = new QLineEdit();
-	m_customCommand->setObjectName("name");
+	m_customCommand->setObjectName(QStringLiteral("name"));
 	m_customCommand->setAttribute(Qt::WA_MacShowFocusRect, 0);
-	m_runInParallel = new QCheckBox("Run in Parallel");
+	m_runInParallel = new QCheckBox(QStringLiteral("Run in Parallel"));
 
 	layout->setRowMinimumHeight(row, 30);
 
@@ -84,7 +84,7 @@ bool QtProjectWizardContentCustomCommand::check()
 	if (m_customCommand->text().isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please enter a custom command.");
+		msgBox.setText(QStringLiteral("Please enter a custom command."));
 		msgBox.exec();
 		return false;
 	}
@@ -92,7 +92,7 @@ bool QtProjectWizardContentCustomCommand::check()
 	if (m_customCommand->text().toStdWString().find(L"%{SOURCE_FILE_PATH}") == std::wstring::npos)
 	{
 		QMessageBox msgBox;
-		msgBox.setText("The variable %{SOURCE_FILE_PATH} is missing in the custom command.");
+		msgBox.setText(QStringLiteral("The variable %{SOURCE_FILE_PATH} is missing in the custom command."));
 		msgBox.exec();
 		return false;
 	}

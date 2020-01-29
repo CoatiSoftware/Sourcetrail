@@ -22,7 +22,7 @@ QtListBoxItem::QtListBoxItem(QListWidgetItem* item, QWidget* parent)
 	m_data = new QtLineEdit(this);
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_data->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
-	m_data->setObjectName("field");
+	m_data->setObjectName(QStringLiteral("field"));
 	m_data->setAcceptDrops(false);
 	layout->addWidget(m_data);
 
