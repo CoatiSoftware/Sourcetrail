@@ -32,7 +32,7 @@ QtScreenSearchBox::QtScreenSearchBox(
 	ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent)
 	: QFrame(parent), m_controllerProxy(controllerProxy)
 {
-	setObjectName("screen_search_box");
+	setObjectName(QStringLiteral("screen_search_box"));
 
 	QHBoxLayout* layout = new QHBoxLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -42,17 +42,17 @@ QtScreenSearchBox::QtScreenSearchBox(
 	// search field
 	{
 		m_searchButton = new QtSelfRefreshIconButton(
-			"",
+			QLatin1String(""),
 			ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"),
 			"screen_search/button");
-		m_searchButton->setObjectName("search_button");
+		m_searchButton->setObjectName(QStringLiteral("search_button"));
 		m_searchButton->setIconSize(QSize(12, 12));
 		layout->addWidget(m_searchButton);
 
 		connect(m_searchButton, &QPushButton::clicked, this, &QtScreenSearchBox::setFocus);
 
 		m_searchBox = new QLineEdit(this);
-		m_searchBox->setObjectName("search_box");
+		m_searchBox->setObjectName(QStringLiteral("search_box"));
 		m_searchBox->setAttribute(Qt::WA_MacShowFocusRect, 0);	  // remove blue focus box on Mac
 		layout->addWidget(m_searchBox);
 
@@ -68,7 +68,7 @@ QtScreenSearchBox::QtScreenSearchBox(
 	{
 		m_matchLabel = new QPushButton();
 		m_matchLabel->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
-		m_matchLabel->setObjectName("match_label");
+		m_matchLabel->setObjectName(QStringLiteral("match_label"));
 		layout->addWidget(m_matchLabel);
 
 		connect(m_matchLabel, &QPushButton::clicked, this, &QtScreenSearchBox::setFocus);
@@ -77,16 +77,16 @@ QtScreenSearchBox::QtScreenSearchBox(
 	// buttons
 	{
 		m_prevButton = new QtSelfRefreshIconButton(
-			"",
+			QLatin1String(""),
 			ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"),
 			"screen_search/button");
 		m_nextButton = new QtSelfRefreshIconButton(
-			"",
+			QLatin1String(""),
 			ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"),
 			"screen_search/button");
 
-		m_prevButton->setObjectName("prev_button");
-		m_nextButton->setObjectName("next_button");
+		m_prevButton->setObjectName(QStringLiteral("prev_button"));
+		m_nextButton->setObjectName(QStringLiteral("next_button"));
 
 		m_prevButton->setIconSize(QSize(12, 12));
 		m_nextButton->setIconSize(QSize(12, 12));
@@ -108,10 +108,10 @@ QtScreenSearchBox::QtScreenSearchBox(
 	// buttons
 	{
 		m_closeButton = new QtSelfRefreshIconButton(
-			"",
+			QLatin1String(""),
 			ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
 			"screen_search/button");
-		m_closeButton->setObjectName("close_button");
+		m_closeButton->setObjectName(QStringLiteral("close_button"));
 		m_closeButton->setIconSize(QSize(15, 15));
 		layout->addWidget(m_closeButton);
 
@@ -151,7 +151,7 @@ void QtScreenSearchBox::addResponder(const std::string& name)
 	}
 
 	QCheckBox* box = new QCheckBox(name.c_str());
-	box->setObjectName("filter_checkbox");
+	box->setObjectName(QStringLiteral("filter_checkbox"));
 	box->setChecked(true);
 	m_checkBoxes.emplace(name, box);
 	m_checkboxLayout->addWidget(box);
@@ -231,7 +231,7 @@ void QtScreenSearchBox::updateMatchLabel()
 	text += QString::number(m_matchCount) + " match";
 	if (m_matchCount != 1)
 	{
-		text += "es";
+		text += QLatin1String("es");
 	}
 
 	m_matchLabel->setText(text);

@@ -8,7 +8,7 @@ QtProgressBarDialog::QtProgressBarDialog(float topRatio, bool hideable, QWidget*
 	: QtIndexingDialog(true, parent), m_title(nullptr), m_topRatio(topRatio)
 {
 	m_top = new QWidget(m_window);
-	m_top->setObjectName("topHalf");
+	m_top->setObjectName(QStringLiteral("topHalf"));
 	m_top->setGeometry(0, 0, 0, 0);
 	m_top->show();
 	m_top->lower();
@@ -16,13 +16,13 @@ QtProgressBarDialog::QtProgressBarDialog(float topRatio, bool hideable, QWidget*
 	m_progressBar = new QtProgressBar(m_window);
 	m_progressBar->setGeometry(0, 0, 0, 0);
 
-	m_title = new QLabel("", this);
-	m_title->setObjectName("title");
+	m_title = new QLabel(QLatin1String(""), this);
+	m_title->setObjectName(QStringLiteral("title"));
 	m_title->setAlignment(Qt::AlignRight | Qt::AlignBottom);
 	m_title->show();
 
-	m_percentLabel = new QLabel("0% Progress");
-	m_percentLabel->setObjectName("percent");
+	m_percentLabel = new QLabel(QStringLiteral("0% Progress"));
+	m_percentLabel->setObjectName(QStringLiteral("percent"));
 	m_layout->addWidget(m_percentLabel, 0, Qt::AlignRight);
 
 	m_messageLabel = QtIndexingDialog::createMessageLabel(m_layout);

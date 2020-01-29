@@ -27,9 +27,9 @@ void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 		row++;
 	}
 
-	QLabel* nameLabel = createFormLabel("Sourcetrail Project Name");
+	QLabel* nameLabel = createFormLabel(QStringLiteral("Sourcetrail Project Name"));
 	m_projectName = new QLineEdit();
-	m_projectName->setObjectName("name");
+	m_projectName->setObjectName(QStringLiteral("name"));
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_projectName->setEnabled(!m_disableNameEditing);
 	connect(
@@ -43,7 +43,7 @@ void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 	layout->setRowMinimumHeight(row, 30);
 	row++;
 
-	QLabel* locationLabel = createFormLabel("Sourcetrail Project Location");
+	QLabel* locationLabel = createFormLabel(QStringLiteral("Sourcetrail Project Location"));
 	m_projectFileLocation = new QtLocationPicker(this);
 	m_projectFileLocation->setPickDirectory(true);
 	m_projectFileLocation->setEnabled(!m_disableNameEditing);
@@ -51,8 +51,8 @@ void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 	layout->addWidget(locationLabel, row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectFileLocation, row, QtProjectWizardWindow::BACK_COL, Qt::AlignTop);
 	addHelpButton(
-		"Sourcetrail Project Location",
-		"The directory the Sourcetrail project file (.srctrlprj) will be saved to.",
+		QStringLiteral("Sourcetrail Project Location"),
+		QStringLiteral("The directory the Sourcetrail project file (.srctrlprj) will be saved to."),
 		layout,
 		row);
 	layout->setRowMinimumHeight(row, 30);
@@ -84,7 +84,7 @@ bool QtProjectWizardContentProjectData::check()
 	if (m_projectName->text().isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please enter a project name.");
+		msgBox.setText(QStringLiteral("Please enter a project name."));
 		msgBox.exec();
 		return false;
 	}
@@ -102,7 +102,7 @@ bool QtProjectWizardContentProjectData::check()
 	if (m_projectFileLocation->getText().isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please define the location for the Sourcetrail project file.");
+		msgBox.setText(QStringLiteral("Please define the location for the Sourcetrail project file."));
 		msgBox.exec();
 		return false;
 	}
@@ -140,9 +140,9 @@ bool QtProjectWizardContentProjectData::check()
 	{
 		QMessageBox msgBox;
 		msgBox.setText(
-			"The specified location does not exist. Do you want to create the directory?");
-		msgBox.addButton("Abort", QMessageBox::ButtonRole::NoRole);
-		QPushButton* createButton = msgBox.addButton("Create", QMessageBox::ButtonRole::YesRole);
+			QStringLiteral("The specified location does not exist. Do you want to create the directory?"));
+		msgBox.addButton(QStringLiteral("Abort"), QMessageBox::ButtonRole::NoRole);
+		QPushButton* createButton = msgBox.addButton(QStringLiteral("Create"), QMessageBox::ButtonRole::YesRole);
 		msgBox.setDefaultButton(createButton);
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();
@@ -163,8 +163,8 @@ void QtProjectWizardContentProjectData::onProjectNameEdited(QString text)
 {
 	const int cursorPosition = m_projectName->cursorPosition();
 
-	QRegularExpression regex("[^A-Za-z0-9_.-]");
-	text.replace(regex, "_");
+	QRegularExpression regex(QStringLiteral("[^A-Za-z0-9_.-]"));
+	text.replace(regex, QStringLiteral("_"));
 
 	m_projectName->setText(text);
 	m_projectName->setCursorPosition(cursorPosition);

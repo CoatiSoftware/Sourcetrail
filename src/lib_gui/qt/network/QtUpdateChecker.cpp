@@ -37,7 +37,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	appSettings->setUpdateDownloadUrl("");
 	appSettings->save();
 
-	QString urlString = "https://www.sourcetrail.com/api/v2/versions/latest";
+	QString urlString = QStringLiteral("https://www.sourcetrail.com/api/v2/versions/latest");
 
 	// OS
 	std::string osString = utility::getOsTypeString();
@@ -53,7 +53,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	urlString += ("&version=" + Version::getApplicationVersion().toDisplayString()).c_str();
 
 	// license
-	urlString += "&license=free";	 // options: test, private, commercial
+	urlString += QLatin1String("&license=free");	 // options: test, private, commercial
 
 	// user token
 	std::string token = appSettings->getUserToken();
@@ -87,7 +87,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 					break;
 				}
 
-				QString news = doc.object().find("news")->toString();
+				QString news = doc.object().find(QStringLiteral("news"))->toString();
 				if (news.toStdString() != appSettings->getUpdateNews())
 				{
 					appSettings->setUpdateNews(news.toStdString());
@@ -95,8 +95,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 				}
 
 
-				QString version = doc.object().find("version")->toString();
-				QString url = doc.object().find("url")->toString();
+				QString version = doc.object().find(QStringLiteral("version"))->toString();
+				QString url = doc.object().find(QStringLiteral("url"))->toString();
 
 				Version updateVersion = Version::fromString(version.toStdString());
 				if (!updateVersion.isValid())
@@ -126,13 +126,13 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 					}
 
 					QMessageBox msgBox;
-					msgBox.setText("Update Check");
+					msgBox.setText(QStringLiteral("Update Check"));
 					msgBox.setInformativeText(
 						"Sourcetrail " + version + " is available for download: <a href=\"" + url +
 						"\">" + url + "</a>");
-					msgBox.addButton("Close", QMessageBox::ButtonRole::NoRole);
-					msgBox.addButton("Skip this Version", QMessageBox::ButtonRole::NoRole);
-					QPushButton* but = msgBox.addButton("Download", QMessageBox::ButtonRole::YesRole);
+					msgBox.addButton(QStringLiteral("Close"), QMessageBox::ButtonRole::NoRole);
+					msgBox.addButton(QStringLiteral("Skip this Version"), QMessageBox::ButtonRole::NoRole);
+					QPushButton* but = msgBox.addButton(QStringLiteral("Download"), QMessageBox::ButtonRole::YesRole);
 					msgBox.setDefaultButton(but);
 
 					int val = msgBox.exec();

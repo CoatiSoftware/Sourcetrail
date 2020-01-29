@@ -633,7 +633,7 @@ void QtProjectWizard::populateWindow(QWidget* widget)
 
 	{
 		QWidget* menu = new QWidget();
-		menu->setObjectName("project_menu");
+		menu->setObjectName(QStringLiteral("project_menu"));
 		menu->setFixedWidth(200);
 		layout->addWidget(menu);
 
@@ -641,13 +641,13 @@ void QtProjectWizard::populateWindow(QWidget* widget)
 		menuLayout->setContentsMargins(0, 0, 0, 0);
 		menuLayout->setSpacing(0);
 
-		m_generalButton = new QPushButton("General");
-		m_generalButton->setObjectName("general_button");
+		m_generalButton = new QPushButton(QStringLiteral("General"));
+		m_generalButton->setObjectName(QStringLiteral("general_button"));
 		m_generalButton->setCheckable(true);
 		connect(m_generalButton, &QPushButton::clicked, this, &QtProjectWizard::generalButtonClicked);
 		menuLayout->addWidget(m_generalButton);
 
-		QLabel* sourceGroupLabel = new QLabel("Source Groups:");
+		QLabel* sourceGroupLabel = new QLabel(QStringLiteral("Source Groups:"));
 		menuLayout->addWidget(sourceGroupLabel);
 
 		m_sourceGroupList = new QListWidget();
@@ -679,13 +679,13 @@ void QtProjectWizard::populateWindow(QWidget* widget)
 		m_removeButton->setIconSize(QSize(20, 20));
 		m_duplicateButton->setIconSize(QSize(20, 20));
 
-		addButton->setToolTip("Add Source Group");
-		m_removeButton->setToolTip("Remove Source Group");
-		m_duplicateButton->setToolTip("Copy Source Group");
+		addButton->setToolTip(QStringLiteral("Add Source Group"));
+		m_removeButton->setToolTip(QStringLiteral("Remove Source Group"));
+		m_duplicateButton->setToolTip(QStringLiteral("Copy Source Group"));
 
-		addButton->setObjectName("action_button");
-		m_removeButton->setObjectName("action_button");
-		m_duplicateButton->setObjectName("action_button");
+		addButton->setObjectName(QStringLiteral("action_button"));
+		m_removeButton->setObjectName(QStringLiteral("action_button"));
+		m_duplicateButton->setObjectName(QStringLiteral("action_button"));
 
 		m_removeButton->setEnabled(false);
 		m_duplicateButton->setEnabled(false);
@@ -718,11 +718,11 @@ void QtProjectWizard::populateWindow(QWidget* widget)
 	layout->addSpacing(10);
 
 	m_contentWidget = new QWidget();
-	m_contentWidget->setObjectName("form");
+	m_contentWidget->setObjectName(QStringLiteral("form"));
 
 	QScrollArea* scrollArea = new QScrollArea();
 	scrollArea->setFrameShadow(QFrame::Plain);
-	scrollArea->setObjectName("formArea");
+	scrollArea->setObjectName(QStringLiteral("formArea"));
 	scrollArea->setWidgetResizable(true);
 
 	scrollArea->setWidget(m_contentWidget);
@@ -735,18 +735,18 @@ void QtProjectWizard::windowReady()
 {
 	if (m_editing)
 	{
-		updateTitle("Edit Project");
-		updateNextButton("Save");
+		updateTitle(QStringLiteral("Edit Project"));
+		updateNextButton(QStringLiteral("Save"));
 	}
 	else
 	{
-		updateTitle("New Project");
-		updateNextButton("Create");
+		updateTitle(QStringLiteral("New Project"));
+		updateNextButton(QStringLiteral("Create"));
 		setNextEnabled(false);
 	}
 
-	updateSubTitle("Overview");
-	updatePreviousButton("Add Source Group");
+	updateSubTitle(QStringLiteral("Overview"));
+	updatePreviousButton(QStringLiteral("Add Source Group"));
 
 	connect(this, &QtProjectWizard::previous, this, &QtProjectWizard::newSourceGroup);
 	connect(this, &QtProjectWizard::next, this, &QtProjectWizard::createProject);
@@ -1021,10 +1021,10 @@ void QtProjectWizard::removeSelectedSourceGroup()
 	}
 
 	QMessageBox msgBox;
-	msgBox.setText("Remove Source Group");
-	msgBox.setInformativeText("Do you really want to remove this source group from the project?");
-	msgBox.addButton("Yes", QMessageBox::ButtonRole::YesRole);
-	msgBox.addButton("No", QMessageBox::ButtonRole::NoRole);
+	msgBox.setText(QStringLiteral("Remove Source Group"));
+	msgBox.setInformativeText(QStringLiteral("Do you really want to remove this source group from the project?"));
+	msgBox.addButton(QStringLiteral("Yes"), QMessageBox::ButtonRole::YesRole);
+	msgBox.addButton(QStringLiteral("No"), QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
 	int ret = msgBox.exec();
 
@@ -1162,7 +1162,7 @@ void QtProjectWizard::newSourceGroup()
 	window->show();
 	window->setNextEnabled(false);
 	window->setPreviousEnabled(false);
-	window->updateSubTitle("Type Selection");
+	window->updateSubTitle(QStringLiteral("Type Selection"));
 }
 
 void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)

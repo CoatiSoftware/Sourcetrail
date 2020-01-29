@@ -27,12 +27,12 @@ QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name)
 	layout->addWidget(m_widget);
 
 	m_closeButton = new QtSelfRefreshIconButton(
-		"",
+		QLatin1String(""),
 		ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
 		"screen_search/button",
 		widget);
 	m_closeButton->setIconSize(QSize(15, 15));
-	m_closeButton->setStyleSheet("background: transparent; border: none;");
+	m_closeButton->setStyleSheet(QStringLiteral("background: transparent; border: none;"));
 
 	widget->connect(m_closeButton, &QPushButton::clicked, [this]() { hideView(this); });
 	m_widget->tabBar()->installEventFilter(this);
@@ -49,7 +49,7 @@ void QtTabbedView::refreshView()
 void QtTabbedView::addViewWidget(View* view)
 {
 	QWidget* tabWidget = QtViewWidgetWrapper::getWidgetOfView(view);
-	tabWidget->setObjectName("tab_content");
+	tabWidget->setObjectName(QStringLiteral("tab_content"));
 	m_widget->addTab(tabWidget, view->getName().c_str());
 
 	setStyleSheet();

@@ -249,7 +249,7 @@ void QtDialogView::updateCustomIndexingDialog(
 			m_windowStack.getTopWindow());
 		if (window)
 		{
-			window->updateTitle("Executing Commands");
+			window->updateTitle(QStringLiteral("Executing Commands"));
 		}
 	});
 }

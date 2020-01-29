@@ -12,7 +12,7 @@
 QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* controllerProxy)
 	: m_controllerProxy(controllerProxy), m_id(0)
 {
-	setObjectName("bookmark_category");
+	setObjectName(QStringLiteral("bookmark_category"));
 
 	QHBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
@@ -21,8 +21,8 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 	setLayout(layout);
 
 	m_expandButton = new QPushButton();
-	m_expandButton->setObjectName("category_expand_button");
-	m_expandButton->setToolTip("Show/Hide bookmarks in this category");
+	m_expandButton->setObjectName(QStringLiteral("category_expand_button"));
+	m_expandButton->setToolTip(QStringLiteral("Show/Hide bookmarks in this category"));
 	m_expandButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_expandButton->setIcon(QPixmap(QString::fromStdWString(
 		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr())));
@@ -32,14 +32,14 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 	connect(m_expandButton, &QPushButton::clicked, this, &QtBookmarkCategory::expandClicked);
 
 	m_name = new QLabel();
-	m_name->setObjectName("category_name");
+	m_name->setObjectName(QStringLiteral("category_name"));
 	layout->addWidget(m_name);
 
 	layout->addStretch();
 
 	m_deleteButton = new QPushButton();
-	m_deleteButton->setObjectName("category_delete_button");
-	m_deleteButton->setToolTip("Delete this Bookmark Category and the containing Bookmarks");
+	m_deleteButton->setObjectName(QStringLiteral("category_delete_button"));
+	m_deleteButton->setToolTip(QStringLiteral("Delete this Bookmark Category and the containing Bookmarks"));
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIconSize(QSize(20, 20));
 	m_deleteButton->setIcon(QPixmap(
@@ -121,11 +121,11 @@ void QtBookmarkCategory::leaveEvent(QEvent* event)
 void QtBookmarkCategory::deleteClicked()
 {
 	QMessageBox msgBox;
-	msgBox.setText("Delete Category");
+	msgBox.setText(QStringLiteral("Delete Category"));
 	msgBox.setInformativeText(
-		"Do you really want to delete this category AND all containing bookmarks?");
-	msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
-	msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
+		QStringLiteral("Do you really want to delete this category AND all containing bookmarks?"));
+	msgBox.addButton(QStringLiteral("Delete"), QMessageBox::ButtonRole::YesRole);
+	msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
 	int ret = msgBox.exec();
 

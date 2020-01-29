@@ -80,11 +80,11 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 
 		{
 			m_expandButton = new QtSelfRefreshIconButton(
-				"",
+				QLatin1String(""),
 				ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph.png"),
 				"search/button");
-			m_expandButton->setObjectName("expand_button");
-			m_expandButton->setToolTip("show trail controls");
+			m_expandButton->setObjectName(QStringLiteral("expand_button"));
+			m_expandButton->setToolTip(QStringLiteral("show trail controls"));
 			m_expandButton->setIconSize(QSize(16, 16));
 			m_expandButton->setGeometry(0, 0, 26, 26);
 			connect(m_expandButton, &QPushButton::clicked, this, &QtGraphView::clickedExpand);
@@ -97,44 +97,44 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 			stack->addWidget(ui);
 
 			m_collapseButton = new QtSelfRefreshIconButton(
-				"",
+				QLatin1String(""),
 				ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph_arrow.png"),
 				"search/button",
 				ui);
-			m_collapseButton->setObjectName("collapse_button");
-			m_collapseButton->setToolTip("hide trail controls");
+			m_collapseButton->setObjectName(QStringLiteral("collapse_button"));
+			m_collapseButton->setToolTip(QStringLiteral("hide trail controls"));
 			m_collapseButton->setIconSize(QSize(16, 16));
 			connect(m_collapseButton, &QPushButton::clicked, this, &QtGraphView::clickedCollapse);
 
-			m_customTrailButton = new QtSelfRefreshIconButton("", FilePath(), "search/button", ui);
-			m_customTrailButton->setObjectName("trail_button");
+			m_customTrailButton = new QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "search/button", ui);
+			m_customTrailButton->setObjectName(QStringLiteral("trail_button"));
 			m_customTrailButton->setIconSize(QSize(16, 16));
-			m_customTrailButton->setToolTip("custom trail");
+			m_customTrailButton->setToolTip(QStringLiteral("custom trail"));
 			m_customTrailButton->setIconPath(
 				ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph_custom.png"));
 			connect(
 				m_customTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedCustomTrail);
 
-			m_forwardTrailButton = new QtSelfRefreshIconButton("", FilePath(), "search/button", ui);
-			m_forwardTrailButton->setObjectName("trail_button");
+			m_forwardTrailButton = new QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "search/button", ui);
+			m_forwardTrailButton->setObjectName(QStringLiteral("trail_button"));
 			m_forwardTrailButton->setIconSize(QSize(16, 16));
 			connect(
 				m_forwardTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedForwardTrail);
 
-			m_backwardTrailButton = new QtSelfRefreshIconButton("", FilePath(), "search/button", ui);
-			m_backwardTrailButton->setObjectName("trail_button");
+			m_backwardTrailButton = new QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "search/button", ui);
+			m_backwardTrailButton->setObjectName(QStringLiteral("trail_button"));
 			m_backwardTrailButton->setIconSize(QSize(16, 16));
 			connect(
 				m_backwardTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedBackwardTrail);
 
 			m_trailDepthLabel = new QLabel(ui);
-			m_trailDepthLabel->setObjectName("depth_label");
-			m_trailDepthLabel->setToolTip("adjust trail depth");
+			m_trailDepthLabel->setObjectName(QStringLiteral("depth_label"));
+			m_trailDepthLabel->setToolTip(QStringLiteral("adjust trail depth"));
 			m_trailDepthLabel->setAlignment(Qt::AlignCenter);
 
 			m_trailDepthSlider = new QSlider(Qt::Vertical, ui);
-			m_trailDepthSlider->setObjectName("depth_slider");
-			m_trailDepthSlider->setToolTip("adjust trail depth");
+			m_trailDepthSlider->setObjectName(QStringLiteral("depth_slider"));
+			m_trailDepthSlider->setToolTip(QStringLiteral("adjust trail depth"));
 			m_trailDepthSlider->setMinimum(1);
 			m_trailDepthSlider->setMaximum(26);
 			m_trailDepthSlider->setValue(5);
@@ -171,19 +171,19 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	// group controls
 	{
 		m_groupFileButton = new QtSelfRefreshIconButton(
-			"",
+			QLatin1String(""),
 			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file.png"),
 			"search/button");
 		m_groupNamespaceButton = new QtSelfRefreshIconButton(
-			"",
+			QLatin1String(""),
 			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/group_namespace.png"),
 			"search/button");
 
-		m_groupFileButton->setObjectName("group_right_button");
-		m_groupNamespaceButton->setObjectName("group_left_button");
+		m_groupFileButton->setObjectName(QStringLiteral("group_right_button"));
+		m_groupNamespaceButton->setObjectName(QStringLiteral("group_left_button"));
 
-		m_groupFileButton->setToolTip("group by file");
-		m_groupNamespaceButton->setToolTip("group by package/namespace/module");
+		m_groupFileButton->setToolTip(QStringLiteral("group by file"));
+		m_groupNamespaceButton->setToolTip(QStringLiteral("group by package/namespace/module"));
 
 		m_groupFileButton->setCheckable(true);
 		m_groupNamespaceButton->setCheckable(true);
@@ -702,7 +702,7 @@ void QtGraphView::trailDepthChanged(int)
 {
 	if (m_trailDepthSlider->value() == m_trailDepthSlider->maximum())
 	{
-		m_trailDepthLabel->setText("inf");
+		m_trailDepthLabel->setText(QStringLiteral("inf"));
 	}
 	else
 	{
@@ -849,26 +849,26 @@ void QtGraphView::updateTrailButtons()
 
 	if (message.edgeTypes & Edge::EDGE_CALL)
 	{
-		m_backwardTrailButton->setToolTip("show caller graph");
-		m_forwardTrailButton->setToolTip("show callee graph");
+		m_backwardTrailButton->setToolTip(QStringLiteral("show caller graph"));
+		m_forwardTrailButton->setToolTip(QStringLiteral("show callee graph"));
 	}
 	else if (message.edgeTypes & Edge::EDGE_INHERITANCE)
 	{
-		m_backwardTrailButton->setToolTip("show base hierarchy");
-		m_forwardTrailButton->setToolTip("show derived hierarchy");
+		m_backwardTrailButton->setToolTip(QStringLiteral("show base hierarchy"));
+		m_forwardTrailButton->setToolTip(QStringLiteral("show derived hierarchy"));
 
 		backwardImagePath = L"graph_up.png";
 		forwardImagePath = L"graph_down.png";
 	}
 	else if (message.edgeTypes & Edge::EDGE_INCLUDE)
 	{
-		m_backwardTrailButton->setToolTip("show including files hierarchy");
-		m_forwardTrailButton->setToolTip("show included files hierarchy");
+		m_backwardTrailButton->setToolTip(QStringLiteral("show including files hierarchy"));
+		m_forwardTrailButton->setToolTip(QStringLiteral("show included files hierarchy"));
 	}
 	else
 	{
-		m_backwardTrailButton->setToolTip("no trail for active symbol");
-		m_forwardTrailButton->setToolTip("no trail for active symbol");
+		m_backwardTrailButton->setToolTip(QStringLiteral("no trail for active symbol"));
+		m_forwardTrailButton->setToolTip(QStringLiteral("no trail for active symbol"));
 	}
 
 	m_forwardTrailButton->setIconPath(
@@ -945,7 +945,7 @@ QtGraphicsView* QtGraphView::getView() const
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
-	QtGraphicsView* view = widget->findChild<QtGraphicsView*>("");
+	QtGraphicsView* view = widget->findChild<QtGraphicsView*>(QLatin1String(""));
 
 	if (!view)
 	{
@@ -1308,7 +1308,7 @@ void QtGraphView::createTransition()
 
 		for (QtGraphNode* node: vanishingNodes)
 		{
-			QPropertyAnimation* anim = new QPropertyAnimation(node, "opacity");
+			QPropertyAnimation* anim = new QPropertyAnimation(node, QByteArrayLiteral("opacity"));
 			anim->setDuration(300);
 			anim->setStartValue(1.0f);
 			anim->setEndValue(0.0f);
@@ -1318,7 +1318,7 @@ void QtGraphView::createTransition()
 
 		for (QtGraphEdge* edge: m_oldEdges)
 		{
-			QPropertyAnimation* anim = new QPropertyAnimation(edge, "opacity");
+			QPropertyAnimation* anim = new QPropertyAnimation(edge, QByteArrayLiteral("opacity"));
 			anim->setDuration(150);
 			anim->setStartValue(1.0f);
 			anim->setEndValue(0.0f);
@@ -1338,7 +1338,7 @@ void QtGraphView::createTransition()
 			QtGraphNode* newNode = p.first;
 			QtGraphNode* oldNode = p.second;
 
-			QPropertyAnimation* anim = new QPropertyAnimation(oldNode, "pos");
+			QPropertyAnimation* anim = new QPropertyAnimation(oldNode, QByteArrayLiteral("pos"));
 			anim->setDuration(300);
 			anim->setStartValue(oldNode->pos());
 			anim->setEndValue(newNode->pos());
@@ -1349,7 +1349,7 @@ void QtGraphView::createTransition()
 			connect(anim, &QPropertyAnimation::finished, oldNode, &QtGraphNode::hideNode);
 			newNode->hide();
 
-			anim = new QPropertyAnimation(oldNode, "size");
+			anim = new QPropertyAnimation(oldNode, QByteArrayLiteral("size"));
 			anim->setDuration(300);
 			anim->setStartValue(oldNode->size());
 			anim->setEndValue(newNode->size());
@@ -1363,7 +1363,7 @@ void QtGraphView::createTransition()
 			}
 		}
 
-		QPropertyAnimation* anim = new QPropertyAnimation(view, "sceneRect");
+		QPropertyAnimation* anim = new QPropertyAnimation(view, QByteArrayLiteral("sceneRect"));
 		anim->setStartValue(view->sceneRect());
 		anim->setEndValue(getSceneRect(m_nodes));
 

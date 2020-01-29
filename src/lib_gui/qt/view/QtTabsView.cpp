@@ -27,7 +27,7 @@ QtTabsView::QtTabsView(ViewLayout* viewLayout)
 
 	QWidget* front = new QWidget();
 	front->setMinimumWidth(5);
-	front->setObjectName("side_area");
+	front->setObjectName(QStringLiteral("side_area"));
 	layout->addWidget(front);
 
 	m_tabBar = new QtTabBar();
@@ -40,12 +40,12 @@ QtTabsView::QtTabsView(ViewLayout* viewLayout)
 	connect(m_tabBar, &QTabBar::currentChanged, this, &QtTabsView::changedTab);
 
 	QPushButton* addButton = new QtSelfRefreshIconButton(
-		"", ResourcePaths::getGuiPath().concatenate(L"tabs_view/images/add.png"), "tab/bar/button");
-	addButton->setObjectName("add_button");
+		QLatin1String(""), ResourcePaths::getGuiPath().concatenate(L"tabs_view/images/add.png"), "tab/bar/button");
+	addButton->setObjectName(QStringLiteral("add_button"));
 	addButton->setIconSize(QSize(14, 14));
 
 	QWidget* back = new QWidget();
-	back->setObjectName("side_area");
+	back->setObjectName(QStringLiteral("side_area"));
 	QHBoxLayout* backLayout = new QHBoxLayout(back);
 	backLayout->setContentsMargins(3, 0, 5, 0);
 	backLayout->setSpacing(0);
@@ -141,11 +141,11 @@ void QtTabsView::insertTab(bool showTab, SearchMatch match)
 
 	m_insertedTabCount++;
 	int idx = match.isValid() ? m_tabBar->currentIndex() + m_insertedTabCount : m_tabBar->count() + 1;
-	idx = m_tabBar->insertTab(idx, " Empty Tab ");
+	idx = m_tabBar->insertTab(idx, QStringLiteral(" Empty Tab "));
 	m_tabBar->setTabData(idx, QVariant(tabId));
 
 	QPushButton* typeCircle = new QPushButton();
-	typeCircle->setObjectName("type_circle");
+	typeCircle->setObjectName(QStringLiteral("type_circle"));
 	m_tabBar->setTabButton(idx, QTabBar::LeftSide, typeCircle);
 
 	connect(typeCircle, &QPushButton::clicked, [tabId, this]() {
@@ -160,10 +160,10 @@ void QtTabsView::insertTab(bool showTab, SearchMatch match)
 	});
 
 	QPushButton* closeButton = new QtSelfRefreshIconButton(
-		"",
+		QLatin1String(""),
 		ResourcePaths::getGuiPath().concatenate(L"tabs_view/images/close.png"),
 		"tab/bar/button");
-	closeButton->setObjectName("close_button");
+	closeButton->setObjectName(QStringLiteral("close_button"));
 	closeButton->setIconSize(QSize(10, 10));
 	m_tabBar->setTabButton(idx, QTabBar::RightSide, closeButton);
 
@@ -257,10 +257,10 @@ void QtTabsView::setTabState(int idx, const std::vector<SearchMatch>& matches)
 	m_tabBar->setTabText(idx, ' ' + QString::fromStdWString(name) + ' ');
 	m_tabBar->tabButton(idx, QTabBar::LeftSide)
 		->setStyleSheet(
-			"#type_circle { background-color: " + QString::fromStdString(color) +
-			"; } "
-			"#type_circle[selected=true] { background-color: " +
-			QString::fromStdString(activeColor) + "; } ");
+			QStringLiteral("#type_circle { background-color: ") + QString::fromStdString(color) +
+			QStringLiteral("; } "
+			"#type_circle[selected=true] { background-color: ") +
+			QString::fromStdString(activeColor) + QStringLiteral("; } "));
 }
 
 void QtTabsView::setStyleSheet()

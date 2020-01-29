@@ -35,7 +35,7 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
 	{
 		QWidget* navigation = new QWidget();
-		navigation->setObjectName("code_navigation");
+		navigation->setObjectName(QStringLiteral("code_navigation"));
 
 		QHBoxLayout* navLayout = new QHBoxLayout();
 		navLayout->setSpacing(2);
@@ -47,11 +47,11 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 			m_nextReferenceButton = new QtSearchBarButton(
 				ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
-			m_prevReferenceButton->setObjectName("reference_button_previous");
-			m_nextReferenceButton->setObjectName("reference_button_next");
+			m_prevReferenceButton->setObjectName(QStringLiteral("reference_button_previous"));
+			m_nextReferenceButton->setObjectName(QStringLiteral("reference_button_next"));
 
-			m_prevReferenceButton->setToolTip("previous reference");
-			m_nextReferenceButton->setToolTip("next reference");
+			m_prevReferenceButton->setToolTip(QStringLiteral("previous reference"));
+			m_nextReferenceButton->setToolTip(QStringLiteral("next reference"));
 
 			m_prevReferenceButton->setIconSize(QSize(12, 12));
 			m_nextReferenceButton->setIconSize(QSize(12, 12));
@@ -65,8 +65,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 				m_nextReferenceButton, &QPushButton::clicked, this, &QtCodeNavigator::nextReference);
 
 			// m_refLabel = new QLabel("0 files  |  0 references");
-			m_refLabel = new QLabel("0 references");
-			m_refLabel->setObjectName("references_label");
+			m_refLabel = new QLabel(QStringLiteral("0 references"));
+			m_refLabel->setObjectName(QStringLiteral("references_label"));
 			navLayout->addWidget(m_refLabel);
 
 			navLayout->addStretch();
@@ -78,11 +78,11 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 			m_nextLocalReferenceButton = new QtSearchBarButton(
 				ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
-			m_prevLocalReferenceButton->setObjectName("local_reference_button_previous");
-			m_nextLocalReferenceButton->setObjectName("local_reference_button_next");
+			m_prevLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_previous"));
+			m_nextLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_next"));
 
-			m_prevLocalReferenceButton->setToolTip("previous local reference");
-			m_nextLocalReferenceButton->setToolTip("next local reference");
+			m_prevLocalReferenceButton->setToolTip(QStringLiteral("previous local reference"));
+			m_nextLocalReferenceButton->setToolTip(QStringLiteral("next local reference"));
 
 			m_prevLocalReferenceButton->setIconSize(QSize(12, 12));
 			m_nextLocalReferenceButton->setIconSize(QSize(12, 12));
@@ -101,8 +101,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 				this,
 				&QtCodeNavigator::nextLocalReference);
 
-			m_localRefLabel = new QLabel("0/0 local references");
-			m_localRefLabel->setObjectName("references_label");
+			m_localRefLabel = new QLabel(QStringLiteral("0/0 local references"));
+			m_localRefLabel->setObjectName(QStringLiteral("references_label"));
 			navLayout->addWidget(m_localRefLabel);
 
 			navLayout->addStretch();
@@ -121,11 +121,11 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		m_fileButton = new QtSearchBarButton(
 			ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"), true);
 
-		m_listButton->setObjectName("mode_button_list");
-		m_fileButton->setObjectName("mode_button_single");
+		m_listButton->setObjectName(QStringLiteral("mode_button_list"));
+		m_fileButton->setObjectName(QStringLiteral("mode_button_single"));
 
-		m_listButton->setToolTip("snippet list mode");
-		m_fileButton->setToolTip("single file mode");
+		m_listButton->setToolTip(QStringLiteral("snippet list mode"));
+		m_fileButton->setToolTip(QStringLiteral("single file mode"));
 
 		m_listButton->setCheckable(true);
 		m_fileButton->setCheckable(true);
@@ -149,7 +149,7 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		m_separatorLine = new QFrame();
 		m_separatorLine->setFrameShape(QFrame::HLine);
 		m_separatorLine->setFrameShadow(QFrame::Plain);
-		m_separatorLine->setObjectName("separator_line");
+		m_separatorLine->setObjectName(QStringLiteral("separator_line"));
 		m_separatorLine->setFixedHeight(1);
 		m_separatorLine->hide();
 		layout->addWidget(m_separatorLine);

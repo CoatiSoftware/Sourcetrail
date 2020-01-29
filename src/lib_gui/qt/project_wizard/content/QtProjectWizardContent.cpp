@@ -40,12 +40,12 @@ std::vector<FilePath> QtProjectWizardContent::getFilePaths() const
 
 QString QtProjectWizardContent::getFileNamesTitle() const
 {
-	return "File List";
+	return QStringLiteral("File List");
 }
 
 QString QtProjectWizardContent::getFileNamesDescription() const
 {
-	return "files";
+	return QStringLiteral("files");
 }
 
 bool QtProjectWizardContent::isInForm() const
@@ -62,7 +62,7 @@ QLabel* QtProjectWizardContent::createFormLabel(QString name) const
 {
 	QLabel* label = new QLabel(name);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-	label->setObjectName("label");
+	label->setObjectName(QStringLiteral("label"));
 	label->setWordWrap(true);
 	return label;
 }
@@ -70,7 +70,7 @@ QLabel* QtProjectWizardContent::createFormLabel(QString name) const
 QLabel* QtProjectWizardContent::createFormTitle(QString name) const
 {
 	QLabel* label = new QLabel(name);
-	label->setObjectName("titleLabel");
+	label->setObjectName(QStringLiteral("titleLabel"));
 	label->setWordWrap(true);
 	return label;
 }
@@ -78,7 +78,7 @@ QLabel* QtProjectWizardContent::createFormTitle(QString name) const
 QToolButton* QtProjectWizardContent::createSourceGroupButton(QString name, QString iconPath) const
 {
 	QToolButton* button = new QToolButton();
-	button->setObjectName("sourceGroupButton");
+	button->setObjectName(QStringLiteral("sourceGroupButton"));
 	button->setText(name);
 	button->setIcon(QPixmap(iconPath));
 	button->setIconSize(QSize(64, 64));
@@ -98,7 +98,7 @@ QtHelpButton* QtProjectWizardContent::addHelpButton(
 QPushButton* QtProjectWizardContent::addFilesButton(QString name, QGridLayout* layout, int row) const
 {
 	QPushButton* button = new QPushButton(name);
-	button->setObjectName("windowButton");
+	button->setObjectName(QStringLiteral("windowButton"));
 	button->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	if (layout)
 	{

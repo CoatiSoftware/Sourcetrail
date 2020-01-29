@@ -55,7 +55,7 @@ bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 
 QtLineNumberArea::QtLineNumberArea(QtCodeArea* codeArea): QWidget(codeArea), m_codeArea(codeArea)
 {
-	setObjectName("line_number_area");
+	setObjectName(QStringLiteral("line_number_area"));
 }
 
 QtLineNumberArea::~QtLineNumberArea() {}

@@ -29,8 +29,9 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 	{
 		// title
-		QLabel* title = new QLabel(m_editBookmarkId ? "Edit Bookmark" : "Create Bookmark");
-		title->setObjectName("creator_title_label");
+		QLabel* title = new QLabel(m_editBookmarkId ?
+								QStringLiteral("Edit Bookmark") : QStringLiteral("Create Bookmark"));
+		title->setObjectName(QStringLiteral("creator_title_label"));
 		mainLayout->addWidget(title);
 	}
 
@@ -39,13 +40,13 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 	{
 		// name
-		QLabel* nameLabel = new QLabel("Name");
-		nameLabel->setObjectName("creator_label");
+		QLabel* nameLabel = new QLabel(QStringLiteral("Name"));
+		nameLabel->setObjectName(QStringLiteral("creator_label"));
 		layout->addWidget(nameLabel);
 
 		m_displayName = new QLineEdit();
-		m_displayName->setObjectName("creator_name_edit");
-		m_displayName->setPlaceholderText("Name");
+		m_displayName->setObjectName(QStringLiteral("creator_name_edit"));
+		m_displayName->setPlaceholderText(QStringLiteral("Name"));
 		m_displayName->setAttribute(Qt::WA_MacShowFocusRect, 0);
 		layout->addWidget(m_displayName);
 
@@ -56,13 +57,13 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 	{
 		// comment
-		QLabel* commentLabel = new QLabel("Comment");
-		commentLabel->setObjectName("creator_label");
+		QLabel* commentLabel = new QLabel(QStringLiteral("Comment"));
+		commentLabel->setObjectName(QStringLiteral("creator_label"));
 		layout->addWidget(commentLabel);
 
 		m_commentBox = new QTextEdit();
-		m_commentBox->setObjectName("creator_comment_box");
-		m_commentBox->setPlaceholderText("Comment");
+		m_commentBox->setObjectName(QStringLiteral("creator_comment_box"));
+		m_commentBox->setPlaceholderText(QStringLiteral("Comment"));
 		layout->addWidget(m_commentBox);
 
 		layout->addSpacing(15);
@@ -70,15 +71,15 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 	{
 		// category
-		QLabel* categoryLabel = new QLabel("Choose or Create Category");
-		categoryLabel->setObjectName("creator_label");
+		QLabel* categoryLabel = new QLabel(QStringLiteral("Choose or Create Category"));
+		categoryLabel->setObjectName(QStringLiteral("creator_label"));
 		layout->addWidget(categoryLabel);
 
 		m_categoryBox = new QComboBox();
-		m_categoryBox->setObjectName("creator_category_box");
-		m_categoryBox->addItem("");
+		m_categoryBox->setObjectName(QStringLiteral("creator_category_box"));
+		m_categoryBox->addItem(QLatin1String(""));
 		m_categoryBox->setEditable(true);
-		m_categoryBox->lineEdit()->setPlaceholderText("Category");
+		m_categoryBox->lineEdit()->setPlaceholderText(QStringLiteral("Category"));
 		m_categoryBox->setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
 		layout->addWidget(m_categoryBox);
 
@@ -88,7 +89,7 @@ void QtBookmarkCreator::setupBookmarkCreator()
 	{
 		layout->addLayout(createButtons());
 		setPreviousVisible(false);
-		updateNextButton(m_editBookmarkId ? "Save" : "Create");
+		updateNextButton(m_editBookmarkId ? QStringLiteral("Save") : QStringLiteral("Create"));
 	}
 
 	mainLayout->addLayout(layout);

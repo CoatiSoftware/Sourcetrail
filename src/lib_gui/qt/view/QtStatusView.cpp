@@ -34,8 +34,8 @@ QtStatusView::QtStatusView(ViewLayout* viewLayout): StatusView(viewLayout)
 	// m_table->setColumnWidth(STATUSVIEW_COLUMN::STATUS, 150);
 
 	QStringList headers;
-	headers << "Type"
-			<< "Message";
+	headers << QStringLiteral("Type")
+			<< QStringLiteral("Message");
 	m_model->setHorizontalHeaderLabels(headers);
 
 	layout->addWidget(m_table);
@@ -46,13 +46,13 @@ QtStatusView::QtStatusView(ViewLayout* viewLayout): StatusView(viewLayout)
 	filters->setSpacing(25);
 
 	const StatusFilter filter = ApplicationSettings::getInstance()->getStatusFilter();
-	m_showInfo = createFilterCheckbox("Info", filters, filter & StatusType::STATUS_INFO);
-	m_showErrors = createFilterCheckbox("Error", filters, filter & StatusType::STATUS_ERROR);
+	m_showInfo = createFilterCheckbox(QStringLiteral("Info"), filters, filter & StatusType::STATUS_INFO);
+	m_showErrors = createFilterCheckbox(QStringLiteral("Error"), filters, filter & StatusType::STATUS_ERROR);
 
 	filters->addStretch();
 
-	QPushButton* clearButton = new QPushButton("Clear Table");
-	clearButton->setObjectName("screen_button");
+	QPushButton* clearButton = new QPushButton(QStringLiteral("Clear Table"));
+	clearButton->setObjectName(QStringLiteral("screen_button"));
 	connect(clearButton, &QPushButton::clicked, [=]() { MessageClearStatusView().dispatch(); });
 
 	filters->addWidget(clearButton);
@@ -107,7 +107,8 @@ void QtStatusView::addStatus(const std::vector<Status>& status)
 				m_model->insertRow(rowNumber);
 			}
 
-			QString statusType = (s.type == StatusType::STATUS_ERROR ? "ERROR" : "INFO");
+			QString statusType = (s.type == StatusType::STATUS_ERROR ?
+									  QStringLiteral("ERROR") : QStringLiteral("INFO"));
 			m_model->setItem(rowNumber, STATUSVIEW_COLUMN::TYPE, new QStandardItem(statusType));
 			m_model->setItem(
 				rowNumber,

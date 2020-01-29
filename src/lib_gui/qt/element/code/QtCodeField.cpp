@@ -40,7 +40,7 @@ QtCodeField::QtCodeField(
 {
 	TRACE();
 
-	setObjectName("code_area");
+	setObjectName(QStringLiteral("code_area"));
 	setReadOnly(true);
 	setFrameStyle(QFrame::NoFrame);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
@@ -96,9 +96,9 @@ QtCodeField::QtCodeField(
 	setFont(font);
 	setTabStopWidth(appSettings->getCodeTabWidth() * fontMetrics().width('9'));
 
-	m_openInTabAction = new QAction("Open in New Tab", this);
-	m_openInTabAction->setStatusTip("Opens the node in a new tab");
-	m_openInTabAction->setToolTip("Opens the node in a new tab");
+	m_openInTabAction = new QAction(QStringLiteral("Open in New Tab"), this);
+	m_openInTabAction->setStatusTip(QStringLiteral("Opens the node in a new tab"));
+	m_openInTabAction->setToolTip(QStringLiteral("Opens the node in a new tab"));
 	m_openInTabAction->setEnabled(false);
 	connect(m_openInTabAction, &QAction::triggered, this, &QtCodeField::openInTab);
 }
@@ -771,7 +771,7 @@ void QtCodeField::createMultibyteCharacterLocationCache(const QString& code)
 	QTextCodec* codec = QTextCodec::codecForName(
 		ApplicationSettings::getInstance()->getTextEncoding().c_str());
 
-	for (const QString& line: code.split("\n"))
+	for (const QString& line: code.split(QStringLiteral("\n")))
 	{
 		std::vector<std::pair<int, int>> columnsToOffsets;
 		for (int i = 0; i < line.size(); i++)

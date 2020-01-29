@@ -68,42 +68,42 @@ void QtAbout::setupAbout()
 		windowLayout->addLayout(layoutHorz1);
 
 		QLabel* companyLabel = new QLabel(
-			"<b>Coati Software KG</b><br />"
+			QStringLiteral("<b>Coati Software KG</b><br />"
 			"Jakob-Haringer-Straße 1/127<br />"
 			"5020 Salzburg<br />"
 			"Austria<br />"
 			"<b>support@sourcetrail.com</b><br />"
 			"<b><a href=\"https://sourcetrail.com\" style=\"color: "
-			"white;\">sourcetrail.com</a></b>");
+			"white;\">sourcetrail.com</a></b>"));
 		companyLabel->setOpenExternalLinks(true);
 		layoutHorz1->addWidget(companyLabel);
 
 		layoutHorz1->addSpacing(120);
 
 		QLabel* developerLabel = new QLabel(
-			"<br /><br />"
+			QStringLiteral("<br /><br />"
 			"<b>Team:</b><br />"
 			"Manuel Dobusch<br />"
 			"Eberhard Gräther<br />"
 			"Malte Langkabel<br />"
 			"Viktoria Pfausler<br />"
-			"Andreas Stallinger<br />");
-		developerLabel->setObjectName("small");
+			"Andreas Stallinger<br />"));
+		developerLabel->setObjectName(QStringLiteral("small"));
 		layoutHorz1->addWidget(developerLabel);
 	}
 
 	windowLayout->addStretch();
 
 	QLabel* acknowledgementsLabel = new QLabel(
-		"<b>Acknowledgements:</b><br />"
+		QStringLiteral("<b>Acknowledgements:</b><br />"
 		"Sourcetrail (aka Coati) 0.1 was created in the context of education at "
 		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University "
 		"of Applied Sciences</a>.<br />"
 		"Coati Software KG is member of <a href=\"http://www.startup-salzburg.at/\" style=\"color: "
 		"white;\">Startup Salzburg</a>.<br />"
 		"The development of Sourcetrail was funded by <a href=\"http://awsg.at\" style=\"color: "
-		"white;\">aws</a>.");
-	acknowledgementsLabel->setObjectName("small");
+		"white;\">aws</a>."));
+	acknowledgementsLabel->setObjectName(QStringLiteral("small"));
 	acknowledgementsLabel->setWordWrap(true);
 	acknowledgementsLabel->setOpenExternalLinks(true);
 	windowLayout->addWidget(acknowledgementsLabel);

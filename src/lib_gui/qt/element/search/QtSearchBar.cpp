@@ -12,7 +12,7 @@
 
 QtSearchBar::QtSearchBar()
 {
-	setObjectName("search_bar");
+	setObjectName(QStringLiteral("search_bar"));
 
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
@@ -22,13 +22,13 @@ QtSearchBar::QtSearchBar()
 
 	m_homeButton = new QtSearchBarButton(
 		ResourcePaths::getGuiPath().concatenate(L"search_view/images/home.png"));
-	m_homeButton->setObjectName("home_button");
-	m_homeButton->setToolTip("to overview");
+	m_homeButton->setObjectName(QStringLiteral("home_button"));
+	m_homeButton->setToolTip(QStringLiteral("to overview"));
 	layout->addWidget(m_homeButton);
 	connect(m_homeButton, &QPushButton::clicked, this, &QtSearchBar::homeButtonClicked);
 
 	m_searchBoxContainer = new QWidget(this);
-	m_searchBoxContainer->setObjectName("search_box_container");
+	m_searchBoxContainer->setObjectName(QStringLiteral("search_box_container"));
 	m_searchBoxContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	layout->addWidget(m_searchBoxContainer);
 
@@ -36,7 +36,7 @@ QtSearchBar::QtSearchBar()
 	innerLayout->setContentsMargins(12, 3, 5, 2);
 	m_searchBoxContainer->setLayout(innerLayout);
 
-	m_searchBox = new QtSmartSearchBox("Search", true, m_searchBoxContainer);
+	m_searchBox = new QtSmartSearchBox(QStringLiteral("Search"), true, m_searchBoxContainer);
 	m_searchBox->setMinimumWidth(100);
 	m_searchBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	innerLayout->addWidget(m_searchBox);
@@ -48,8 +48,8 @@ QtSearchBar::QtSearchBar()
 
 	m_searchButton = new QtSearchBarButton(
 		ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"));
-	m_searchButton->setObjectName("search_button");
-	m_searchButton->setToolTip("search");
+	m_searchButton->setObjectName(QStringLiteral("search_button"));
+	m_searchButton->setToolTip(QStringLiteral("search"));
 	layout->addWidget(m_searchButton);
 
 	connect(m_searchButton, &QPushButton::clicked, m_searchBox, &QtSmartSearchBox::startSearch);

@@ -10,10 +10,10 @@ QtIndexingProgressDialog::QtIndexingProgressDialog(bool hideable, QWidget* paren
 {
 	setSizeGripStyle(false);
 
-	updateTitle("Indexing Files");
+	updateTitle(QStringLiteral("Indexing Files"));
 
 	m_filePathLabel = new QLabel();
-	m_filePathLabel->setObjectName("filePath");
+	m_filePathLabel->setObjectName(QStringLiteral("filePath"));
 	m_filePathLabel->setAlignment(Qt::AlignRight);
 	m_layout->addWidget(m_filePathLabel);
 
@@ -25,15 +25,15 @@ QtIndexingProgressDialog::QtIndexingProgressDialog(bool hideable, QWidget* paren
 	{
 		QHBoxLayout* buttons = new QHBoxLayout();
 
-		QPushButton* stopButton = new QPushButton("Stop");
-		stopButton->setObjectName("windowButton");
+		QPushButton* stopButton = new QPushButton(QStringLiteral("Stop"));
+		stopButton->setObjectName(QStringLiteral("windowButton"));
 		connect(stopButton, &QPushButton::clicked, this, &QtIndexingProgressDialog::onStopPressed);
 		buttons->addWidget(stopButton);
 
 		buttons->addStretch();
 
-		QPushButton* hideButton = new QPushButton("Hide");
-		hideButton->setObjectName("windowButton");
+		QPushButton* hideButton = new QPushButton(QStringLiteral("Hide"));
+		hideButton->setObjectName(QStringLiteral("windowButton"));
 		hideButton->setDefault(true);
 		connect(hideButton, &QPushButton::clicked, this, &QtIndexingProgressDialog::onHidePressed);
 		buttons->addWidget(hideButton);
@@ -78,7 +78,7 @@ void QtIndexingProgressDialog::updateErrorCount(size_t errorCount, size_t fatalC
 		QString str = QString::number(errorCount) + " Error";
 		if (errorCount > 1)
 		{
-			str += "s";
+			str += QLatin1String("s");
 		}
 
 		if (fatalCount)
@@ -86,7 +86,7 @@ void QtIndexingProgressDialog::updateErrorCount(size_t errorCount, size_t fatalC
 			str += " (" + QString::number(fatalCount) + " Fatal)";
 		}
 
-		QPushButton* errorCount = m_errorWidget->findChild<QPushButton*>("errorCount");
+		QPushButton* errorCount = m_errorWidget->findChild<QPushButton*>(QStringLiteral("errorCount"));
 		errorCount->setText(str);
 
 		m_errorWidget->show();

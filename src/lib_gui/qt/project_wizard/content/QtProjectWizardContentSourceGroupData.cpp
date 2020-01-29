@@ -15,24 +15,24 @@ QtProjectWizardContentSourceGroupData::QtProjectWizardContentSourceGroupData(
 void QtProjectWizardContentSourceGroupData::populate(QGridLayout* layout, int& row)
 {
 	m_name = new QLineEdit();
-	m_name->setObjectName("name");
+	m_name->setObjectName(QStringLiteral("name"));
 	m_name->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	connect(m_name, &QLineEdit::textEdited, this, &QtProjectWizardContentSourceGroupData::editedName);
 
 	layout->addWidget(
-		createFormLabel("Source Group Name"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+		createFormLabel(QStringLiteral("Source Group Name")), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_name, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
-	m_status = new QCheckBox("active");
+	m_status = new QCheckBox(QStringLiteral("active"));
 	connect(
 		m_status, &QCheckBox::toggled, this, &QtProjectWizardContentSourceGroupData::changedStatus);
 	layout->addWidget(
-		createFormLabel("Status"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+		createFormLabel(QStringLiteral("Status")), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_status, row, QtProjectWizardWindow::BACK_COL);
 
 	addHelpButton(
-		"Status",
+		QStringLiteral("Status"),
 		"<p>Only source files of active Source Groups will be processed during indexing. "
 		"Inactive Source Groups will be ignored or cleared from the index.</p><p>Use this setting "
 		"to temporarily "
@@ -63,7 +63,7 @@ bool QtProjectWizardContentSourceGroupData::check()
 	if (m_name->text().isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please enter a source group name.");
+		msgBox.setText(QStringLiteral("Please enter a source group name."));
 		msgBox.exec();
 		return false;
 	}

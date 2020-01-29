@@ -28,10 +28,10 @@ QtProjectWizardContentPathsSource::QtProjectWizardContentPathsSource(
 	: QtProjectWizardContentPaths(
 		  settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
 {
-	m_showFilesString = "show files";
+	m_showFilesString = QStringLiteral("show files");
 
-	setTitleString("Files & Directories to Index");
-	setHelpString(
+	setTitleString(QStringLiteral("Files & Directories to Index"));
+	setHelpString(QStringLiteral(
 		"These paths define the files and directories that will be indexed by Sourcetrail. Provide "
 		"a directory to recursively "
 		"add all contained source and header files.<br />"
@@ -40,7 +40,7 @@ QtProjectWizardContentPathsSource::QtProjectWizardContentPathsSource(
 		"kept at a different location, "
 		"you will also need to add that directory.<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}.");
+		"You can make use of environment variables with ${ENV_VAR}."));
 }
 
 void QtProjectWizardContentPathsSource::load()
@@ -102,10 +102,10 @@ std::vector<FilePath> QtProjectWizardContentPathsSource::getFilePaths() const
 
 QString QtProjectWizardContentPathsSource::getFileNamesTitle() const
 {
-	return "Indexed Files";
+	return QStringLiteral("Indexed Files");
 }
 
 QString QtProjectWizardContentPathsSource::getFileNamesDescription() const
 {
-	return " files will be indexed.";
+	return QStringLiteral(" files will be indexed.");
 }

@@ -14,7 +14,7 @@
 QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool isSingle)
 	: QtHoverButton(parent)
 {
-	setObjectName("title_bar");
+	setObjectName(QStringLiteral("title_bar"));
 	setProperty("hovering", isHovering);
 	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 
@@ -32,17 +32,17 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	FilePath imageDir = ResourcePaths::getGuiPath().concatenate(L"code_view/images/");
 
 	m_expandButton = new QtSelfRefreshIconButton(
-		"", imageDir.getConcatenated(L"snippet_arrow_right.png"), "code/file/title", this);
+		QLatin1String(""), imageDir.getConcatenated(L"snippet_arrow_right.png"), "code/file/title", this);
 	m_collapseButton = new QtSelfRefreshIconButton(
-		"", imageDir.getConcatenated(L"snippet_arrow_down.png"), "code/file/title", this);
+		QLatin1String(""), imageDir.getConcatenated(L"snippet_arrow_down.png"), "code/file/title", this);
 
-	m_expandButton->setToolTip("expand");
-	m_collapseButton->setToolTip("collapse");
+	m_expandButton->setToolTip(QStringLiteral("expand"));
+	m_collapseButton->setToolTip(QStringLiteral("collapse"));
 
 	for (QtSelfRefreshIconButton* button: {m_expandButton, m_collapseButton})
 	{
 		button->setIconSize(QSize(9, 9));
-		button->setObjectName("expand_button");
+		button->setObjectName(QStringLiteral("expand_button"));
 		titleLayout->addWidget(button);
 	}
 
@@ -66,15 +66,15 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	setMinimumHeight(m_titleButton->height() + 4);
 
 	m_referenceCount = new QLabel(this);
-	m_referenceCount->setObjectName("references_label");
+	m_referenceCount->setObjectName(QStringLiteral("references_label"));
 	m_referenceCount->hide();
 	titleLayout->addWidget(m_referenceCount);
 
 	titleLayout->addStretch(3);
 
-	m_showErrorsButton = new QPushButton("show errors");
-	m_showErrorsButton->setObjectName("screen_button");
-	m_showErrorsButton->setToolTip("Show all errors causing this file to be incomplete");
+	m_showErrorsButton = new QPushButton(QStringLiteral("show errors"));
+	m_showErrorsButton->setObjectName(QStringLiteral("screen_button"));
+	m_showErrorsButton->setToolTip(QStringLiteral("Show all errors causing this file to be incomplete"));
 	m_showErrorsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	m_showErrorsButton->hide();
 	titleLayout->addWidget(m_showErrorsButton);
@@ -94,7 +94,7 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 		inactiveColor);
 	m_snippetButton->addState(
 		QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"snippet_inactive.png"));
-	m_snippetButton->setToolTip("show snippets");
+	m_snippetButton->setToolTip(QStringLiteral("show snippets"));
 
 	m_maximizeButton = new QtIconStateButton(this);
 	m_maximizeButton->addState(
@@ -105,12 +105,12 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 		inactiveColor);
 	m_maximizeButton->addState(
 		QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"maximize_inactive.png"));
-	m_maximizeButton->setToolTip("maximize");
+	m_maximizeButton->setToolTip(QStringLiteral("maximize"));
 
 	for (QtIconStateButton* button: {m_snippetButton, m_maximizeButton})
 	{
 		button->setIconSize(QSize(16, 16));
-		button->setObjectName("file_button");
+		button->setObjectName(QStringLiteral("file_button"));
 		button->setEnabled(false);
 		titleLayout->addWidget(button);
 	}
@@ -160,18 +160,18 @@ void QtCodeFileTitleBar::updateRefCount(int refCount, bool hasErrors, size_t fat
 {
 	if (refCount > 0)
 	{
-		QString label = hasErrors ? "error" : "reference";
+		QString label = hasErrors ? QStringLiteral("error") : QStringLiteral("reference");
 		if (refCount > 1)
 		{
-			label += "s";
+			label += QChar('s');
 		}
 
 		if (fatalErrorCount > 0)
 		{
-			label += " (" + QString::number(fatalErrorCount) + " fatal)";
+			label += QStringLiteral(" (") + QString::number(fatalErrorCount) + QStringLiteral(" fatal)");
 		}
 
-		QString text = QString::number(refCount) + " " + label;
+		QString text = QString::number(refCount) + QChar(' ') + label;
 		if (text != m_referenceCount->text())
 		{
 			m_referenceCount->setText(text);

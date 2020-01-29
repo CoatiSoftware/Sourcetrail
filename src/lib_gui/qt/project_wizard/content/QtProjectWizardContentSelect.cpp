@@ -152,7 +152,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 	for (auto& it: sourceGroupInfos)
 	{
 		QPushButton* b = new QPushButton(languageTypeToString(it.first).c_str(), this);
-		b->setObjectName("menuButton");
+		b->setObjectName(QStringLiteral("menuButton"));
 		b->setCheckable(true);
 		b->setProperty("language_type", it.first);
 		m_languages->addButton(b);
@@ -194,7 +194,8 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 			m_window->setNextEnabled(false);
 			m_title->setText("Source Group Types - " + m_languages->checkedButton()->text());
 
-			m_description->setText(hasRecommeded ? "<b>* recommended</b>" : "");
+			m_description->setText(hasRecommeded ?
+									   QStringLiteral("<b>* recommended</b>") : QLatin1String(""));
 		});
 
 	QtFlowLayout* flayout = new QtFlowLayout(10, 0, 0);
@@ -220,7 +221,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 
 			if (sourceGroupIt.recommended)
 			{
-				b->setStyleSheet("font-weight: bold");
+				b->setStyleSheet(QStringLiteral("font-weight: bold"));
 			}
 
 			b->setProperty("source_group_type", int(sourceGroupIt.type));
@@ -257,14 +258,14 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 	containerLayout->setContentsMargins(0, 0, 0, 0);
 
 	QFrame* groupContainer = new QFrame();
-	groupContainer->setObjectName("sourceGroupContainer");
+	groupContainer->setObjectName(QStringLiteral("sourceGroupContainer"));
 	groupContainer->setLayout(flayout);
 	containerLayout->addWidget(groupContainer, 0);
 
-	m_description = new QLabel(" \n \n");
+	m_description = new QLabel(QStringLiteral(" \n \n"));
 	m_description->setWordWrap(true);
 	m_description->setOpenExternalLinks(true);
-	m_description->setObjectName("sourceGroupDescription");
+	m_description->setObjectName(QStringLiteral("sourceGroupDescription"));
 	m_description->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
 	m_description->setMinimumHeight(80);
 	containerLayout->addWidget(m_description, 0);
@@ -272,8 +273,8 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 	container->setLayout(containerLayout);
 	layout->addWidget(container, 0, QtProjectWizardWindow::BACK_COL);
 
-	m_title = new QLabel("Source Group Types");
-	m_title->setObjectName("sourceGroupTitle");
+	m_title = new QLabel(QStringLiteral("Source Group Types"));
+	m_title->setObjectName(QStringLiteral("sourceGroupTitle"));
 
 	layout->addWidget(m_title, 0, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 
@@ -321,7 +322,7 @@ bool QtProjectWizardContentSelect::check()
 	if (!sourceGroupChosen)
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please choose a method of creating a new Source Group.");
+		msgBox.setText(QStringLiteral("Please choose a method of creating a new Source Group."));
 		msgBox.exec();
 		return false;
 	}
