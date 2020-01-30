@@ -116,7 +116,9 @@ void Application::loadSettings()
 	Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
 	if (logger)
 	{
-		dynamic_cast<FileLogger*>(logger)->setLogDirectory(settings->getLogDirectoryPath());
+		const auto fileLogger = dynamic_cast<FileLogger*>(logger);
+		fileLogger->setLogDirectory(settings->getLogDirectoryPath());
+		fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
 	}
 
 	loadStyle(settings->getColorSchemePath());

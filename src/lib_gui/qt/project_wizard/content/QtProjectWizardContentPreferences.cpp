@@ -241,7 +241,7 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	m_logPath = new QtLocationPicker(this);
 	m_logPath->setPickDirectory(true);
-	addLabelAndWidget(QStringLiteral("Log Directory Path "), m_logPath, layout, row);
+	addLabelAndWidget(QStringLiteral("Log Directory Path"), m_logPath, layout, row);
 	addHelpButton(
 		QStringLiteral("Log Directory Path"),
 		QStringLiteral("<p>Log file will be saved to this path.</p>"),
@@ -567,12 +567,16 @@ void QtProjectWizardContentPreferences::save()
 
 	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
 	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());
-	if (m_logPath &&
-			m_logPath->getText().toStdWString() != appSettings->getLogDirectoryPath().wstr()) {
-		appSettings->setLogDirectoryPath(FilePath(m_logPath->getText().toStdWString()));
+	if (m_logPath && m_logPath->getText().toStdWString() != appSettings->getLogDirectoryPath().wstr())
+	{
+		appSettings->setLogDirectoryPath(FilePath((m_logPath->getText() + '/').toStdWString()));
 		Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
 		if (logger)
-			dynamic_cast<FileLogger*>(logger)->setLogDirectory(appSettings->getLogDirectoryPath());
+		{
+			const auto fileLogger = dynamic_cast<FileLogger*>(logger);
+			fileLogger->setLogDirectory(appSettings->getLogDirectoryPath());
+			fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
+		}
 	}
 
 	appSettings->setAutomaticUpdateCheck(m_automaticUpdateCheck->isChecked());
