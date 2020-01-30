@@ -545,8 +545,8 @@ void QtMainWindow::showDataFolder()
 void QtMainWindow::showLogFolder()
 {
 	QDesktopServices::openUrl(QUrl(
-		QString::fromStdWString(L"file:///" +
-								ApplicationSettings::getInstance()->getLogDirectoryPath().wstr()),
+		QString::fromStdWString(
+			L"file:///" + ApplicationSettings::getInstance()->getLogDirectoryPath().wstr()),
 		QUrl::TolerantMode));
 }
 
