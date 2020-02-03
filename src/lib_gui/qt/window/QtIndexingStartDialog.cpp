@@ -41,7 +41,7 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 	modeLabel->setText(QStringLiteral("Mode:"));
 	modeLabel->setAlignment(Qt::AlignLeft);
 
-	QtHelpButton* helpButton = new QtHelpButton(
+	QtHelpButton* helpButton = new QtHelpButton(QtHelpButtonInfo(
 		QStringLiteral("Indexing Modes"),
 		QString("<b>Updated files:</b> Reindexes all files that were modified since the last "
 				"indexing, all new files and all files depending "
@@ -58,7 +58,7 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 				   "<i>Hint: Use this option for a quick first indexing pass and start browsing "
 				   "the code base "
 				   "while running a second pass for in-depth indexing.<br /><br />"
-				 : ""));
+				 : "")));
 	helpButton->setColor(Qt::white);
 	modeTitleLayout->addWidget(helpButton);
 
@@ -67,9 +67,11 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 	modeLayout->addLayout(modeTitleLayout);
 	modeLayout->addSpacing(5);
 
-	m_refreshModeButtons.emplace(REFRESH_UPDATED_FILES, new QRadioButton(QStringLiteral("Updated files")));
 	m_refreshModeButtons.emplace(
-		REFRESH_UPDATED_AND_INCOMPLETE_FILES, new QRadioButton(QStringLiteral("Incomplete && updated files")));
+		REFRESH_UPDATED_FILES, new QRadioButton(QStringLiteral("Updated files")));
+	m_refreshModeButtons.emplace(
+		REFRESH_UPDATED_AND_INCOMPLETE_FILES,
+		new QRadioButton(QStringLiteral("Incomplete && updated files")));
 	m_refreshModeButtons.emplace(REFRESH_ALL_FILES, new QRadioButton(QStringLiteral("All files")));
 
 	std::function<void(bool)> func = [=](bool checked) {
@@ -108,7 +110,8 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 
 	if (enabledShallowOption)
 	{
-		QCheckBox* shallowIndexingCheckBox = new QCheckBox(QStringLiteral("Shallow Python Indexing"));
+		QCheckBox* shallowIndexingCheckBox = new QCheckBox(
+			QStringLiteral("Shallow Python Indexing"));
 		connect(shallowIndexingCheckBox, &QCheckBox::toggled, [=]() {
 			emit setShallowIndexing(shallowIndexingCheckBox->isChecked());
 		});

@@ -39,8 +39,6 @@ public:
 		const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo) override;
 	void setErrorId(Id errorId) override;
 
-	void showErrorHelpMessage() override;
-
 	ErrorFilter getErrorFilter() const override;
 	void setErrorFilter(const ErrorFilter& filter) override;
 

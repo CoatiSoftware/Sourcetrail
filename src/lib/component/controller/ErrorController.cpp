@@ -4,6 +4,7 @@
 #include "ApplicationSettings.h"
 #include "DialogView.h"
 #include "Project.h"
+#include "QtHelpButtonInfo.h"
 #include "StorageAccess.h"
 #include "TabId.h"
 
@@ -140,7 +141,7 @@ void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
 	appSettings->setSeenErrorHelpMessage(true);
 	appSettings->save();
 
-	getView()->showErrorHelpMessage();
+	m_onQtThread([=]() { createErrorHelpButtonInfo().displayMessage(); });
 }
 
 void ErrorController::handleMessage(MessageIndexingFinished* message)

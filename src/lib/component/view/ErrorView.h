@@ -22,8 +22,6 @@ public:
 		const std::vector<ErrorInfo>& errors, const ErrorCountInfo& errorCount, bool scrollTo) = 0;
 	virtual void setErrorId(Id errorId) = 0;
 
-	virtual void showErrorHelpMessage() = 0;
-
 	virtual ErrorFilter getErrorFilter() const = 0;
 	virtual void setErrorFilter(const ErrorFilter& filter) = 0;
 };
