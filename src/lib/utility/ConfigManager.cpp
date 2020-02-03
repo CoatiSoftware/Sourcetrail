@@ -375,10 +375,10 @@ bool ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 	return true;
 }
 
-void ConfigManager::save(const std::string filepath)
+bool ConfigManager::save(const std::string filepath)
 {
 	std::string output("");
-	createXmlDocument(true, filepath, output);
+	return createXmlDocument(true, filepath, output);
 }
 
 void ConfigManager::setWarnOnEmptyKey(bool warnOnEmptyKey) const
