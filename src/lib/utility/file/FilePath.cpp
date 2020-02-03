@@ -115,12 +115,15 @@ bool FilePath::isAbsolute() const
 
 bool FilePath::isValid() const
 {
+	boost::filesystem::path::iterator end = m_path->end();
+
 	if (!isDirectory())
 	{
 		if (!boost::filesystem::portable_file_name(m_path->filename().generic_string()))
 		{
 			return false;
 		}
+		end--;
 	}
 
 	boost::filesystem::path::iterator it = m_path->begin();
@@ -137,13 +140,12 @@ bool FilePath::isValid() const
 		}
 	}
 #else
-	return true; // FIXME: hot fix for issue #907
+	return true;	// FIXME: hot fix for issue #907
 #endif
 
-	for (; it != m_path->end(); ++it)
+	for (; it != end; ++it)
 	{
-		std::string ss = it->string();
-		if (!boost::filesystem::portable_directory_name(ss))
+		if (!boost::filesystem::portable_directory_name(it->string()))
 		{
 			return false;
 		}
