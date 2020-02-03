@@ -30,6 +30,7 @@
 #include "tracing.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
+#include "FileLogger.h"
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
@@ -112,6 +113,13 @@ void Application::loadSettings()
 	settings->load(UserPaths::getAppSettingsPath());
 
 	LogManager::getInstance()->setLoggingEnabled(settings->getLoggingEnabled());
+	Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
+	if (logger)
+	{
+		const auto fileLogger = dynamic_cast<FileLogger*>(logger);
+		fileLogger->setLogDirectory(settings->getLogDirectoryPath());
+		fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
+	}
 
 	loadStyle(settings->getColorSchemePath());
 }

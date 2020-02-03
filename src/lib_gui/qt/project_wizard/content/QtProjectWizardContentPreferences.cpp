@@ -13,6 +13,7 @@
 #include "MessageSwitchColorScheme.h"
 #include "ResourcePaths.h"
 #include "logging.h"
+#include "FileLogger.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityPathDetection.h"
@@ -237,6 +238,16 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		"<p><b>Warning</b>: This slows down indexing performance a lot.</p>"),
 		layout,
 		row);
+
+	m_logPath = new QtLocationPicker(this);
+	m_logPath->setPickDirectory(true);
+	addLabelAndWidget(QStringLiteral("Log Directory Path"), m_logPath, layout, row);
+	addHelpButton(
+		QStringLiteral("Log Directory Path"),
+		QStringLiteral("<p>Log file will be saved to this path.</p>"),
+		layout,
+		row);
+	row++;
 
 	addGap(layout, row);
 
@@ -488,6 +499,10 @@ void QtProjectWizardContentPreferences::load()
 	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setChecked(appSettings->getVerboseIndexerLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setEnabled(m_loggingEnabled->isChecked());
+	if (m_logPath)
+	{
+		m_logPath->setText(QString::fromStdWString(appSettings->getLogDirectoryPath().wstr()));
+	}
 
 	m_automaticUpdateCheck->setChecked(appSettings->getAutomaticUpdateCheck());
 
@@ -551,6 +566,17 @@ void QtProjectWizardContentPreferences::save()
 
 	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
 	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());
+	if (m_logPath && m_logPath->getText().toStdWString() != appSettings->getLogDirectoryPath().wstr())
+	{
+		appSettings->setLogDirectoryPath(FilePath((m_logPath->getText() + '/').toStdWString()));
+		Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
+		if (logger)
+		{
+			const auto fileLogger = dynamic_cast<FileLogger*>(logger);
+			fileLogger->setLogDirectory(appSettings->getLogDirectoryPath());
+			fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
+		}
+	}
 
 	appSettings->setAutomaticUpdateCheck(m_automaticUpdateCheck->isChecked());
 

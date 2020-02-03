@@ -1,4 +1,5 @@
 /build/
+build-*
 /distr/
 /deps/
 
