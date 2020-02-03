@@ -136,6 +136,8 @@ bool FilePath::isValid() const
 			it++;
 		}
 	}
+#else
+	return true; // FIXME: hot fix for issue #907
 #endif
 
 	for (; it != m_path->end(); ++it)
