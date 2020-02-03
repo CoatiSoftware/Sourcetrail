@@ -4,13 +4,12 @@
 
 #include "ResourcePaths.h"
 
-QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QWidget* parent)
+QtHelpButton::QtHelpButton(const QtHelpButtonInfo& info, QWidget* parent)
 	: QtIconButton(
 		  ResourcePaths::getGuiPath().concatenate(L"window/help.png"),
 		  ResourcePaths::getGuiPath().concatenate(L"window/help_hover.png"),
 		  parent)
-	, m_helpTitle(helpTitle)
-	, m_helpText(helpText)
+	, m_info(info)
 {
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
@@ -27,12 +26,5 @@ QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QW
 
 void QtHelpButton::handleHelpPress()
 {
-	QMessageBox msgBox;
-	msgBox.setWindowTitle(QStringLiteral("Sourcetrail"));
-	msgBox.setIcon(QMessageBox::Information);
-	msgBox.setText("<b>" + m_helpTitle + "</b>");
-	msgBox.setInformativeText(m_helpText);
-	msgBox.setStandardButtons(QMessageBox::Ok);
-	msgBox.setDefaultButton(QMessageBox::Ok);
-	msgBox.exec();
+	m_info.displayMessage();
 }

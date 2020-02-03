@@ -90,7 +90,7 @@ QToolButton* QtProjectWizardContent::createSourceGroupButton(QString name, QStri
 QtHelpButton* QtProjectWizardContent::addHelpButton(
 	const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const
 {
-	QtHelpButton* button = new QtHelpButton(helpTitle, helpText);
+	QtHelpButton* button = new QtHelpButton(QtHelpButtonInfo(helpTitle, helpText));
 	layout->addWidget(button, row, QtProjectWizardWindow::HELP_COL, Qt::AlignTop);
 	return button;
 }

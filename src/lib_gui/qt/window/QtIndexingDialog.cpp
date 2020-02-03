@@ -9,7 +9,7 @@
 #include "ResourcePaths.h"
 #include "utilityQt.h"
 
-QLabel* QtIndexingDialog::createTitleLabel(const QString &title, QBoxLayout* layout)
+QLabel* QtIndexingDialog::createTitleLabel(const QString& title, QBoxLayout* layout)
 {
 	QLabel* label = new QLabel(title);
 	label->setObjectName(QStringLiteral("title"));
@@ -48,12 +48,8 @@ QWidget* QtIndexingDialog::createErrorWidget(QBoxLayout* layout)
 		ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr())));
 	errorLayout->addWidget(errorCount);
 
-	QtHelpButton* helpButton = new QtHelpButton(QStringLiteral("aaa"), QStringLiteral("bbb"));
+	QtHelpButton* helpButton = new QtHelpButton(QtHelpButtonInfo(createErrorHelpButtonInfo()));
 	helpButton->setColor(Qt::white);
-
-	helpButton->disconnect();
-	connect(helpButton, &QtHelpButton::clicked, []() { MessageErrorsHelpMessage(true).dispatch(); });
-
 	errorLayout->addWidget(helpButton);
 
 	layout->addWidget(errorWidget, 0, Qt::AlignRight);
@@ -83,9 +79,9 @@ QtIndexingDialog::QtIndexingDialog(bool isSubWindow, QWidget* parent)
 	m_window->setStyleSheet(
 		m_window->styleSheet() +
 		QStringLiteral("#window { "
-		"background: #2E3C86;"
-		"border: none;"
-		"}"));
+					   "background: #2E3C86;"
+					   "border: none;"
+					   "}"));
 
 	setStyleSheet(
 		(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
