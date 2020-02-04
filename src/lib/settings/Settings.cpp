@@ -50,28 +50,32 @@ bool Settings::loadFromString(const std::string& text, bool readOnly)
 	return true;
 }
 
-void Settings::save()
+bool Settings::save()
 {
 	if (m_readOnly)
 	{
-		return;
+		return false;
 	}
 
+	bool success = false;
 	if (m_config.get() && !m_filePath.empty())
 	{
-		m_config->save(m_filePath.str());
+		success = m_config->save(m_filePath.str());
 	}
-	else
+
+	if (!success)
 	{
 		LOG_WARNING(L"Settings were not saved: " + m_filePath.wstr());
 	}
+
+	return success;
 }
 
-void Settings::save(const FilePath& filePath)
+bool Settings::save(const FilePath& filePath)
 {
 	setFilePath(filePath);
 
-	save();
+	return save();
 }
 
 void Settings::clear()

@@ -1022,7 +1022,8 @@ void QtProjectWizard::removeSelectedSourceGroup()
 
 	QMessageBox msgBox;
 	msgBox.setText(QStringLiteral("Remove Source Group"));
-	msgBox.setInformativeText(QStringLiteral("Do you really want to remove this source group from the project?"));
+	msgBox.setInformativeText(
+		QStringLiteral("Do you really want to remove this source group from the project?"));
 	msgBox.addButton(QStringLiteral("Yes"), QMessageBox::ButtonRole::YesRole);
 	msgBox.addButton(QStringLiteral("No"), QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
@@ -1277,7 +1278,20 @@ void QtProjectWizard::createProject()
 
 	m_projectSettings->setVersion(ProjectSettings::VERSION);
 	m_projectSettings->setAllSourceGroupSettings(m_allSourceGroupSettings);
-	m_projectSettings->save(path);
+	if (!m_projectSettings->save(path))
+	{
+		MessageStatus(L"Unable to save project to location: " + path.wstr()).dispatch();
+
+		QMessageBox msgBox;
+		msgBox.setText("Could not create Project");
+		msgBox.setInformativeText(QString::fromStdWString(
+			L"<p>Sourcetrail was unable to save the project to the specified path. Please pick a "
+			L"different project location.</p>"));
+		msgBox.addButton("Ok", QMessageBox::ButtonRole::AcceptRole);
+		msgBox.exec();
+
+		return;
+	}
 
 	bool settingsChanged = false;
 	if (m_editing)

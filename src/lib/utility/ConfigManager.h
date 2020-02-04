@@ -59,7 +59,7 @@ public:
 	std::vector<std::string> getSublevelKeys(const std::string& key) const;
 
 	bool load(const std::shared_ptr<TextAccess> textAccess);
-	void save(const std::string filepath);
+	bool save(const std::string filepath);
 	std::string toString();
 
 	void setWarnOnEmptyKey(bool warnOnEmptyKey) const;
