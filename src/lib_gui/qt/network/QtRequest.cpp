@@ -2,6 +2,7 @@
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <qsslconfiguration.h>
 
 #include "logging.h"
 

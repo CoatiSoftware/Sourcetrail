@@ -1,5 +1,5 @@
-SourceFilePath: "src/Test.cpp"
-	IndexedPath: "src/Test.cpp"
+SourceFilePath: "src/test.cpp"
+	IndexedPath: "src/test.cpp"
 	IndexedPath: "test/indexed/header/path"
 	CompilerFlag: "clang-tool"
 	CompilerFlag: "-fms-extensions"

@@ -7,6 +7,7 @@ set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the Sour
 set(BUILD_JAVA_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
 set(DOCKER_BUILD OFF CACHE BOOL "Build runs in Docker")
+set(CONFIGURE_WINDOWS_DEBUG ON CACHE BOOL "Configure Debug Build for Windows")
 
 #set (CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -137,9 +138,6 @@ endif()
 # Setup ---------------------------------------------------------------------------
 
 if (WIN32)
-	get_filename_component(QT_BINARY_DIR "${QT_MOC_EXECUTABLE}" PATH)
-	set(QT_PLUGINS_DIR "${QT_BINARY_DIR}/../plugins")
-
 	function(COPY_QT_BINARIES IS_DEBUG IS_APP)
 		set(SUFFIX "")
 		if (IS_DEBUG)
@@ -168,33 +166,70 @@ if (WIN32)
 
 		endif()
 
-		configure_file("${QT_BINARY_DIR}/Qt5Core${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Core${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_BINARY_DIR}/Qt5Gui${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Gui${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_BINARY_DIR}/Qt5Network${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Network${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_BINARY_DIR}/Qt5Svg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Svg${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_BINARY_DIR}/Qt5Widgets${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Widgets${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_BINARY_DIR}/Qt5WinExtras${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5WinExtras${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Core_install_prefix}/bin/Qt5Core${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Core${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Gui_install_prefix}/bin/Qt5Gui${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Gui${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Network_install_prefix}/bin/Qt5Network${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Network${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Svg_install_prefix}/bin/Qt5Svg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Svg${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Widgets_install_prefix}/bin/Qt5Widgets${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Widgets${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5WinExtras_install_prefix}/bin/Qt5WinExtras${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5WinExtras${SUFFIX}.dll" COPYONLY)
 
-		configure_file("${QT_PLUGINS_DIR}/platforms/qwindows${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/platforms/qwindows${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Core_install_prefix}/plugins/platforms/qwindows${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/platforms/qwindows${SUFFIX}.dll" COPYONLY)
 
-		configure_file("${QT_PLUGINS_DIR}/styles/qwindowsvistastyle${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/styles/qwindowsvistastyle${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Core_install_prefix}/plugins/styles/qwindowsvistastyle${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/styles/qwindowsvistastyle${SUFFIX}.dll" COPYONLY)
 
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qgif${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qgif${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qicns${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qicns${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qico${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qico${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qjpeg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qjpeg${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qsvg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qsvg${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qtga${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtga${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qtiff${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtiff${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qwbmp${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwbmp${SUFFIX}.dll" COPYONLY)
-		configure_file("${QT_PLUGINS_DIR}/imageformats/qwebp${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwebp${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Core_install_prefix}/plugins/imageformats/qgif${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qgif${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Core_install_prefix}/plugins/imageformats/qico${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qico${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Core_install_prefix}/plugins/imageformats/qjpeg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qjpeg${SUFFIX}.dll" COPYONLY)
+		configure_file("${_qt5Svg_install_prefix}/plugins/imageformats/qsvg${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qsvg${SUFFIX}.dll" COPYONLY)
+		
+		
+		if (EXISTS "${_qt5Core_install_prefix}/plugins/imageformats/qtga${SUFFIX}.dll")
+			SET(QT_IMAGEFORMATS_PREFIX "${_qt5Core_install_prefix}/plugins/imageformats")
+		else()
+			SET(QT_IMAGEFORMATS_PREFIX "${_qt5Core_install_prefix}/../qtimageformats/plugins/imageformats")
+		endif()
+		
+		configure_file("${QT_IMAGEFORMATS_PREFIX}/qicns${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qicns${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_IMAGEFORMATS_PREFIX}/qtga${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtga${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_IMAGEFORMATS_PREFIX}/qtiff${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtiff${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_IMAGEFORMATS_PREFIX}/qwbmp${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwbmp${SUFFIX}.dll" COPYONLY)
+		configure_file("${QT_IMAGEFORMATS_PREFIX}/qwebp${SUFFIX}.dll" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwebp${SUFFIX}.dll" COPYONLY)
 	endfunction(COPY_QT_BINARIES)
 
-	COPY_QT_BINARIES(True True)
-	COPY_QT_BINARIES(True False)
+	if (CONFIGURE_WINDOWS_DEBUG)
+		COPY_QT_BINARIES(True True)
+		COPY_QT_BINARIES(True False)
+	endif()
 	COPY_QT_BINARIES(False True)
 	COPY_QT_BINARIES(False False)
+	
+	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+	
+	EXECUTE_PROCESS(
+		COMMAND "cmd.exe" "/K" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\data" "&" "exit"
+		COMMAND "cmd.exe" "/K" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\user" "&" "exit"
+		COMMAND "cmd.exe" "/K" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\test\\data" "&" "exit"
+	)
+	EXECUTE_PROCESS(
+		COMMAND "cmd.exe" "/K" "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data" "&" "exit"
+		COMMAND "cmd.exe" "/K" "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user" "&" "exit"
+		COMMAND "cmd.exe" "/K" "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\test\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\test\\data" "&" "exit"
+	)
 
+	if (CONFIGURE_WINDOWS_DEBUG)
+		EXECUTE_PROCESS(
+			COMMAND "cmd.exe" "/K" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\data" "&" "exit" 
+			COMMAND "cmd.exe" "/K" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\user" "&" "exit"
+			COMMAND "cmd.exe" "/K" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\test\\data" "&" "exit" 
+		)
+		EXECUTE_PROCESS(
+			COMMAND "cmd.exe" "/K" "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data" "&" "exit"
+			COMMAND "cmd.exe" "/K" "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user" "&" "exit"
+			COMMAND "cmd.exe" "/K" "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\test\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\test\\data" "&" "exit"
+		)
+	endif()
+	
 	configure_file("${CMAKE_SOURCE_DIR}/setup/icon/windows/sourcetrail.ico" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/sourcetrail.ico" COPYONLY)
 
 endif()
@@ -596,19 +631,6 @@ if (WIN32)
 
 	# generate pdb for release build
 	set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
-
-	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
-	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
-
-	add_custom_command(
-		TARGET ${APP_PROJECT_NAME}
-		POST_BUILD
-		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\data" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data"
-		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\user" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Debug\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user"
-		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\data" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data"
-		COMMAND  rmdir "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\user" & mklink /d /j "${BACKSLASHED_CMAKE_BINARY_DIR}\\Release\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user"
-		COMMENT "create symbolic links for data"
-	)
 else ()
 	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
 endif ()
