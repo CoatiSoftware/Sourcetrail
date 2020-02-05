@@ -8,7 +8,11 @@ services: docker
 
 install:
   - echo "$TRAVIS_OS_NAME" 
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then docker build -t coatisoftware/local deployment/dockerfiles/windows/travis_ci; fi
 
+script:
+  - COMMIT_HASH=$(git rev-parse HEAD)
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then docker run --name builder coatisoftware/local ${COMMIT_HASH}; fi
 
 
 
