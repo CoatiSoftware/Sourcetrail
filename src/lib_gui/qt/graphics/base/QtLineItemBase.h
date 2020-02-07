@@ -37,7 +37,7 @@ public:
 
 protected:
 	QPolygon getPath() const;
-	int getDirection(const QPointF& a, const QPointF& b) const;
+	int getDirection(QPointF a, QPointF b) const;
 
 	QRectF getArrowBoundingRect(const QPolygon& poly) const;
 	void drawArrow(const QPolygon& poly, QPainterPath* path, QPainterPath* arrowPath = nullptr) const;

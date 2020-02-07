@@ -79,7 +79,7 @@ public:
 	QtAutocompletionList(QWidget* parent = 0);
 	virtual ~QtAutocompletionList();
 
-	void completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList);
+	void completeAt(QPoint pos, const std::vector<SearchMatch>& autocompletionList);
 
 	const SearchMatch* getSearchMatchAt(int idx) const;
 

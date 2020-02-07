@@ -318,7 +318,7 @@ QPolygon QtLineItemBase::getPath() const
 	return poly;
 }
 
-int QtLineItemBase::getDirection(const QPointF& a, const QPointF& b) const
+int QtLineItemBase::getDirection(QPointF a, QPointF b) const
 {
 	if (a.x() != b.x())
 	{

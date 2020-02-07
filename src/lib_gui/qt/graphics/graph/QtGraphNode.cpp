@@ -143,7 +143,7 @@ QSize QtGraphNode::size() const
 	return QSize(m_size.x, m_size.y);
 }
 
-void QtGraphNode::setSize(const QSize& size)
+void QtGraphNode::setSize(QSize size)
 {
 	setSize(Vec2i(size.width(), size.height()));
 }
