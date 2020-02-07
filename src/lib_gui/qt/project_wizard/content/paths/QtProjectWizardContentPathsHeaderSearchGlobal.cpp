@@ -15,7 +15,7 @@ QtProjectWizardContentPathsHeaderSearchGlobal::QtProjectWizardContentPathsHeader
 		  QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY,
 		  true)
 {
-	setTitleString("Global Include Paths");
+	setTitleString(QStringLiteral("Global Include Paths"));
 	setHelpString(
 		"The Global Include Paths will be used in all your projects in addition to the project "
 		"specific Include Paths. "
@@ -74,7 +74,7 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 	if (compilerHeaderPaths.size())
 	{
 		QMessageBox msgBox(m_window);
-		msgBox.setText("Multiple Compiler Headers");
+		msgBox.setText(QStringLiteral("Multiple Compiler Headers"));
 		msgBox.setInformativeText(
 			"Your Global Include Paths contain other paths that hold C/C++ compiler headers, "
 			"probably those of your local C/C++ compiler. They are possibly in conflict with the "
@@ -83,8 +83,8 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 			"you want to remove "
 			"these paths?");
 		msgBox.setDetailedText(compilerHeaderPaths);
-		msgBox.addButton("Remove", QMessageBox::ButtonRole::YesRole);
-		msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
+		msgBox.addButton(QStringLiteral("Remove"), QMessageBox::ButtonRole::YesRole);
+		msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();
 

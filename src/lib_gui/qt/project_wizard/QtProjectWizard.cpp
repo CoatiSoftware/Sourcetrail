@@ -1012,12 +1012,12 @@ void QtProjectWizard::createProject()
 	{
 		MessageStatus(L"Unable to save project to location: " + path.wstr()).dispatch();
 
-		QMessageBox msgBox(this);
-		msgBox.setText("Could not create Project");
+		QMessageBox msgBox;
+		msgBox.setText(QStringLiteral("Could not create Project"));
 		msgBox.setInformativeText(QString::fromStdWString(
 			L"<p>Sourcetrail was unable to save the project to the specified path. Please pick a "
 			L"different project location.</p>"));
-		msgBox.addButton("Ok", QMessageBox::ButtonRole::AcceptRole);
+		msgBox.addButton(QStringLiteral("Ok"), QMessageBox::ButtonRole::AcceptRole);
 		msgBox.exec();
 
 		return;

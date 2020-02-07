@@ -17,7 +17,7 @@
 QtTooltip::QtTooltip(QWidget* parent): QFrame(parent), m_parentView(nullptr), m_isHovered(false)
 {
 	QWidget::setWindowFlags(Qt::ToolTip);
-	setObjectName("tooltip");
+	setObjectName(QStringLiteral("tooltip"));
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -147,14 +147,14 @@ void QtTooltip::addTitle(QString title, int count, QString countText)
 	titleLayout->setSpacing(0);
 
 	QLabel* titleLabel = new QLabel(title);
-	titleLabel->setObjectName("tooltip_title");
+	titleLabel->setObjectName(QStringLiteral("tooltip_title"));
 	titleLayout->addWidget(titleLabel);
 
 	if (count >= 0)
 	{
 		QLabel* referenceLabel = new QLabel(
 			QString::number(count) + " " + countText + (count != 1 ? "s" : ""));
-		referenceLabel->setObjectName("tooltip_references");
+		referenceLabel->setObjectName(QStringLiteral("tooltip_references"));
 
 		titleLayout->addWidget(referenceLabel, 0, Qt::AlignRight);
 	}
@@ -168,7 +168,7 @@ void QtTooltip::addTitle(QString title, int count, QString countText)
 
 void QtTooltip::addWidget(QWidget* widget)
 {
-	widget->setObjectName("tooltip_widget");
+	widget->setObjectName(QStringLiteral("tooltip_widget"));
 	layout()->addWidget(widget);
 }
 

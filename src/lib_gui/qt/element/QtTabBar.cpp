@@ -30,7 +30,7 @@ QSize QtTabBar::minimumTabSizeHint(int index) const
 void QtTabBar::contextMenuEvent(QContextMenuEvent* event)
 {
 	QtContextMenu menu(event, this);
-	QAction * m_closeTabsToRight = new QAction("Close tabs to the right", this);
+	QAction * m_closeTabsToRight = new QAction(QStringLiteral("Close tabs to the right"), this);
 	menu.addAction(m_closeTabsToRight);
 
 	connect(m_closeTabsToRight, &QAction::triggered, this, [&]()
