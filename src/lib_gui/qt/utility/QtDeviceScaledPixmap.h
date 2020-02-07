@@ -9,7 +9,7 @@ public:
 	static qreal devicePixelRatio();
 
 	QtDeviceScaledPixmap();
-	QtDeviceScaledPixmap(QString filePath);
+	QtDeviceScaledPixmap(const QString& filePath);
 	virtual ~QtDeviceScaledPixmap();
 
 	const QPixmap& pixmap() const;

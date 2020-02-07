@@ -10,7 +10,8 @@ QtLineItemStraight::QtLineItemStraight(QGraphicsItem* parent): QGraphicsLineItem
 
 QtLineItemStraight::~QtLineItemStraight() {}
 
-void QtLineItemStraight::updateLine(Vec2i origin, Vec2i target, GraphViewStyle::EdgeStyle style)
+void QtLineItemStraight::updateLine(
+	const Vec2i& origin, const Vec2i& target, const GraphViewStyle::EdgeStyle& style)
 {
 	prepareGeometryChange();
 

@@ -13,7 +13,7 @@ class QtRequest: public QObject
 
 public:
 	QtRequest();
-	void sendRequest(QString url);
+	void sendRequest(const QString& url);
 
 signals:
 	void receivedData(QByteArray bytes);

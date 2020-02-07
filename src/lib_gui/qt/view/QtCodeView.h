@@ -27,18 +27,18 @@ public:
 	void clear() override;
 
 	void showSnippets(
-		const std::vector<CodeFileParams> files,
-		const CodeParams params,
-		const CodeScrollParams scrollParams) override;
+		const std::vector<CodeFileParams>& files,
+		const CodeParams& params,
+		const CodeScrollParams& scrollParams) override;
 
 	void showSingleFile(
-		const CodeFileParams file,
-		const CodeParams params,
-		const CodeScrollParams scrollParams) override;
+		const CodeFileParams& file,
+		const CodeParams& params,
+		const CodeScrollParams& scrollParams) override;
 
-	void updateSourceLocations(const std::vector<CodeFileParams> files) override;
+	void updateSourceLocations(const std::vector<CodeFileParams>& files) override;
 
-	void scrollTo(const CodeScrollParams params, bool animated) override;
+	void scrollTo(const CodeScrollParams& params, bool animated) override;
 
 	bool showsErrors() const override;
 

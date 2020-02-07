@@ -27,7 +27,7 @@ QtTooltip::QtTooltip(QWidget* parent): QFrame(parent), m_parentView(nullptr), m_
 
 QtTooltip::~QtTooltip() {}
 
-void QtTooltip::setTooltipInfo(TooltipInfo info)
+void QtTooltip::setTooltipInfo(const TooltipInfo& info)
 {
 	int maxWidth = 600;
 	QWidget* parent = m_parentView ? m_parentView : parentWidget();
@@ -140,7 +140,7 @@ void QtTooltip::enterEvent(QEvent* event)
 	m_isHovered = true;
 }
 
-void QtTooltip::addTitle(QString title, int count, QString countText)
+void QtTooltip::addTitle(const QString& title, int count, const QString& countText)
 {
 	QHBoxLayout* titleLayout = new QHBoxLayout();
 	titleLayout->setContentsMargins(0, 0, 0, 0);

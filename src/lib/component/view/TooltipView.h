@@ -17,7 +17,7 @@ public:
 	// View implementation
 	virtual std::string getName() const;
 
-	virtual void showTooltip(TooltipInfo info, const View* parent) = 0;
+	virtual void showTooltip(const TooltipInfo& info, const View* parent) = 0;
 	virtual void hideTooltip(bool force) = 0;
 
 	virtual bool tooltipVisible() const = 0;

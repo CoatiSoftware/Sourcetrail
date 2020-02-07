@@ -75,7 +75,8 @@ void QtProjectWizardContentPathsHeaderSearch::populate(QGridLayout* layout, int&
 				detectionButton, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 		}
 		{
-			QPushButton* validateionButton = new QPushButton(QStringLiteral("validate include directives"));
+			QPushButton* validateionButton = new QPushButton(
+				QStringLiteral("validate include directives"));
 			validateionButton->setObjectName(QStringLiteral("windowButton"));
 			connect(
 				validateionButton,

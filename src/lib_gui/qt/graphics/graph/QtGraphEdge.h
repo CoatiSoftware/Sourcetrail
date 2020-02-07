@@ -57,7 +57,7 @@ public:
 	void setDirection(TokenComponentAggregation::Direction direction);
 
 	bool isTrailEdge() const;
-	void setIsTrailEdge(std::vector<Vec4i> path, bool horizontal);
+	void setIsTrailEdge(const std::vector<Vec4i>& path, bool horizontal);
 
 	void setUseBezier(bool useBezier);
 	void clearPath();

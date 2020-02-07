@@ -69,7 +69,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	// send request
 	QtRequest* request = new QtRequest();
 	QObject::connect(
-		request, &QtRequest::receivedData, [force, callback, request](QByteArray bytes) {
+		request, &QtRequest::receivedData, [force, callback, request](const QByteArray& bytes) {
 			Result result;
 
 			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();

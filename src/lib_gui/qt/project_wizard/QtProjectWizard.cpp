@@ -734,7 +734,7 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	m_previouslySelectedIndex = index;
 }
 
-void QtProjectWizard::selectedSourceGroupNameChanged(QString name)
+void QtProjectWizard::selectedSourceGroupNameChanged(const QString& name)
 {
 	m_sourceGroupList->item(m_sourceGroupList->currentRow())->setText(name);
 }
@@ -806,7 +806,8 @@ void QtProjectWizard::duplicateSelectedSourceGroup()
 			newName = newNameBase + (id > 0 ? " (" + std::to_string(id) + ")" : "");
 
 			bool nameAlreadyExists = false;
-			for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings: m_allSourceGroupSettings)
+			for (const std::shared_ptr<SourceGroupSettings>& sourceGroupSettings:
+				 m_allSourceGroupSettings)
 			{
 				if (sourceGroupSettings && sourceGroupSettings->getName() == newName)
 				{

@@ -11,7 +11,7 @@ public:
 	QtLineItemStraight(QGraphicsItem* parent);
 	virtual ~QtLineItemStraight();
 
-	void updateLine(Vec2i origin, Vec2i target, GraphViewStyle::EdgeStyle style);
+	void updateLine(const Vec2i& origin, const Vec2i& target, const GraphViewStyle::EdgeStyle& style);
 
 	virtual QPainterPath shape() const;
 };

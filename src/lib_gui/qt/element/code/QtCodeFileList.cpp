@@ -100,7 +100,7 @@ void QtCodeFileList::clearSnippetTitleAndScrollBar()
 	updateLastSnippetScrollBar(nullptr);
 }
 
-QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
+QtCodeFile* QtCodeFileList::getFile(const FilePath& filePath)
 {
 	QtCodeFile* file = nullptr;
 

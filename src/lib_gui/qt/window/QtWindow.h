@@ -29,11 +29,11 @@ public:
 
 	void updateTitle(const QString& title);
 	std::wstring getTitle() const;
-	void updateSubTitle(QString subTitle);
+	void updateSubTitle(const QString& subTitle);
 
-	void updateNextButton(QString text);
-	void updatePreviousButton(QString text);
-	void updateCloseButton(QString text);
+	void updateNextButton(const QString& text);
+	void updatePreviousButton(const QString& text);
+	void updateCloseButton(const QString& text);
 
 	void setNextEnabled(bool enabled);
 	void setPreviousEnabled(bool enabled);

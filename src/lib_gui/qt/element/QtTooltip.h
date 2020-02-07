@@ -13,7 +13,7 @@ public:
 	QtTooltip(QWidget* parent = nullptr);
 	virtual ~QtTooltip();
 
-	void setTooltipInfo(TooltipInfo info);
+	void setTooltipInfo(const TooltipInfo& info);
 
 	void setParentView(QWidget* parentView);
 
@@ -28,7 +28,7 @@ protected:
 	virtual void enterEvent(QEvent* event);
 
 private:
-	void addTitle(QString title, int count, QString countText);
+	void addTitle(const QString& title, int count, const QString& countText);
 	void addWidget(QWidget* widget);
 
 	void clearLayout(QLayout* layout);

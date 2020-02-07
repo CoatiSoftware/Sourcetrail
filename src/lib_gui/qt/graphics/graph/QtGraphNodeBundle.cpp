@@ -8,7 +8,7 @@
 #include "GraphViewStyle.h"
 #include "QtCountCircleItem.h"
 
-QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::wstring name)
+QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, const std::wstring& name)
 	: QtGraphNode(), m_tokenId(tokenId), m_type(type)
 {
 	this->setName(name);

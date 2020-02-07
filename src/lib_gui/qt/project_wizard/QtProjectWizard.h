@@ -63,7 +63,7 @@ private:
 private slots:
 	void generalButtonClicked();
 	void selectedSourceGroupChanged(int index);
-	void selectedSourceGroupNameChanged(QString name);
+	void selectedSourceGroupNameChanged(const QString& name);
 	void removeSelectedSourceGroup();
 	void duplicateSelectedSourceGroup();
 

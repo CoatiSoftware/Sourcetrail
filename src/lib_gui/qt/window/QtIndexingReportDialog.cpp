@@ -73,7 +73,8 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 		}
 		else if (shallow)
 		{
-			QPushButton* startInDepthButton = new QPushButton(QStringLiteral("Start In-Depth Indexing"));
+			QPushButton* startInDepthButton = new QPushButton(
+				QStringLiteral("Start In-Depth Indexing"));
 			startInDepthButton->setObjectName(QStringLiteral("windowButton"));
 			connect(
 				startInDepthButton,
@@ -86,8 +87,8 @@ QtIndexingReportDialog::QtIndexingReportDialog(
 		buttons->addStretch();
 
 		QPushButton* confirmButton = new QPushButton(
-			interrupted ? QStringLiteral("Keep") :
-						  (shallow ? QStringLiteral("Later") : QStringLiteral("OK")));
+			interrupted ? QStringLiteral("Keep")
+						: (shallow ? QStringLiteral("Later") : QStringLiteral("OK")));
 		confirmButton->setObjectName(QStringLiteral("windowButton"));
 		confirmButton->setDefault(true);
 		connect(
@@ -125,7 +126,8 @@ void QtIndexingReportDialog::updateErrorCount(size_t errorCount, size_t fatalCou
 			str += QStringLiteral(" (") + QString::number(fatalCount) + QStringLiteral(" Fatal)");
 		}
 
-		QPushButton* errorCount = m_errorWidget->findChild<QPushButton*>(QStringLiteral("errorCount"));
+		QPushButton* errorCount = m_errorWidget->findChild<QPushButton*>(
+			QStringLiteral("errorCount"));
 		errorCount->setText(str);
 
 		m_errorWidget->show();

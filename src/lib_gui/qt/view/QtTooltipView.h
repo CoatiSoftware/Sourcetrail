@@ -18,7 +18,7 @@ public:
 	void refreshView() override;
 
 	// TooltipView implementation
-	void showTooltip(TooltipInfo info, const View* parent) override;
+	void showTooltip(const TooltipInfo& info, const View* parent) override;
 	void hideTooltip(bool force) override;
 
 	bool tooltipVisible() const override;

@@ -518,7 +518,7 @@ bool QtGraphEdge::isTrailEdge() const
 	return m_isTrailEdge;
 }
 
-void QtGraphEdge::setIsTrailEdge(std::vector<Vec4i> path, bool horizontal)
+void QtGraphEdge::setIsTrailEdge(const std::vector<Vec4i>& path, bool horizontal)
 {
 	m_path = path;
 	m_isTrailEdge = true;

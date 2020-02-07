@@ -84,9 +84,9 @@ bool QtCodeView::showsErrors() const
 }
 
 void QtCodeView::showSnippets(
-	const std::vector<CodeFileParams> files,
-	const CodeParams params,
-	const CodeScrollParams scrollParams)
+	const std::vector<CodeFileParams>& files,
+	const CodeParams& params,
+	const CodeScrollParams& scrollParams)
 {
 	m_onQtThread([=]() {
 		TRACE("show snippets");
@@ -112,7 +112,7 @@ void QtCodeView::showSnippets(
 }
 
 void QtCodeView::showSingleFile(
-	const CodeFileParams file, const CodeParams params, const CodeScrollParams scrollParams)
+	const CodeFileParams& file, const CodeParams& params, const CodeScrollParams& scrollParams)
 {
 	m_onQtThread([=]() {
 		TRACE("show single file");
@@ -145,7 +145,7 @@ void QtCodeView::showSingleFile(
 	});
 }
 
-void QtCodeView::updateSourceLocations(const std::vector<CodeFileParams> files)
+void QtCodeView::updateSourceLocations(const std::vector<CodeFileParams>& files)
 {
 	m_onQtThread([=]() {
 		TRACE("update source locations");
@@ -168,7 +168,7 @@ void QtCodeView::updateSourceLocations(const std::vector<CodeFileParams> files)
 	});
 }
 
-void QtCodeView::scrollTo(const CodeScrollParams params, bool animated)
+void QtCodeView::scrollTo(const CodeScrollParams& params, bool animated)
 {
 	m_onQtThread([=]() { m_widget->scrollTo(params, animated); });
 }

@@ -37,8 +37,8 @@ void QtProjectWizardContentVS::populate(QGridLayout* layout, int& row)
 	layout->addWidget(button, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
-	QLabel* skipLabel = createFormLabel(
-		QStringLiteral("*Skip this step if you already have a Compilation Database for your Solution."));
+	QLabel* skipLabel = createFormLabel(QStringLiteral(
+		"*Skip this step if you already have a Compilation Database for your Solution."));
 	skipLabel->setObjectName(QStringLiteral("description"));
 	skipLabel->setAlignment(Qt::AlignmentFlag::AlignLeft);
 	layout->addWidget(skipLabel, row, QtProjectWizardWindow::BACK_COL);

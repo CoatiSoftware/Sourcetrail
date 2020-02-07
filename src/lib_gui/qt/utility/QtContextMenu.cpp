@@ -47,7 +47,7 @@ void QtContextMenu::addUndoActions()
 	addAction(s_redoAction);
 }
 
-void QtContextMenu::addFileActions(FilePath filePath)
+void QtContextMenu::addFileActions(const FilePath& filePath)
 {
 	s_filePath = filePath;
 

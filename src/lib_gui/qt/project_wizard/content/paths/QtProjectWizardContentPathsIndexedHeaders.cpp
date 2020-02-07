@@ -103,7 +103,7 @@ std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPaths
 QtProjectWizardContentPathsIndexedHeaders::QtProjectWizardContentPathsIndexedHeaders(
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
-	std::string projectKindName)
+	const std::string& projectKindName)
 	: QtProjectWizardContentPaths(
 		  settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES, true)
 	, m_projectKindName(projectKindName)

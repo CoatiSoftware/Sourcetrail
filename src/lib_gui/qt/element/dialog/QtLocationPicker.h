@@ -15,9 +15,9 @@ public:
 
 	virtual void paintEvent(QPaintEvent*) override;
 
-	void setPlaceholderText(QString text);
+	void setPlaceholderText(const QString& text);
 	QString getText();
-	void setText(QString text);
+	void setText(const QString& text);
 	void clearText();
 
 	bool pickDirectory() const;

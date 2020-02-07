@@ -72,7 +72,8 @@ QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this)
 		m_indexingStatus = new QPushButton(this);
 		m_indexingStatus->setFlat(true);
 		m_indexingStatus->setMinimumWidth(150);
-		m_indexingStatus->setStyleSheet(QStringLiteral("QPushButton { margin-right: 0; spacing: none; }"));
+		m_indexingStatus->setStyleSheet(
+			QStringLiteral("QPushButton { margin-right: 0; spacing: none; }"));
 		m_indexingStatus->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 		m_indexingStatus->setCursor(Qt::PointingHandCursor);
 
@@ -100,12 +101,13 @@ void QtStatusBar::setText(const std::wstring& text, bool isError, bool showLoade
 {
 	if (isError)
 	{
-		m_text.setStyleSheet(
-			QStringLiteral("QPushButton { color: #D00000; margin-right: 0; spacing: none; text-align: left; }"));
+		m_text.setStyleSheet(QStringLiteral(
+			"QPushButton { color: #D00000; margin-right: 0; spacing: none; text-align: left; }"));
 	}
 	else
 	{
-		m_text.setStyleSheet(QStringLiteral("QPushButton { margin-right: 0; spacing: none; text-align: left; }"));
+		m_text.setStyleSheet(
+			QStringLiteral("QPushButton { margin-right: 0; spacing: none; text-align: left; }"));
 	}
 
 	if (showLoader)
@@ -128,7 +130,8 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 	{
 		m_errorButton.setText(
 			QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
-			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : QLatin1String("")));
+			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)"
+								  : QLatin1String("")));
 
 		m_errorButton.setMinimumWidth(
 			m_errorButton.fontMetrics().width(QString(m_errorButton.text().size(), 'a')));
@@ -140,7 +143,8 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 		}
 		else
 		{
-			m_errorButton.setStyleSheet(QStringLiteral("QPushButton { margin-right: 0; spacing: none; }"));
+			m_errorButton.setStyleSheet(
+				QStringLiteral("QPushButton { margin-right: 0; spacing: none; }"));
 		}
 
 		m_errorButton.show();

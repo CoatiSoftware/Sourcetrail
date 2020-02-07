@@ -93,8 +93,10 @@ bool QtProjectWizardContentPaths::check()
 								   "remove them before continuing?")
 							   .arg(m_titleString));
 			msgBox.setDetailedText(missingPaths);
-			QPushButton* removeButton = msgBox.addButton(QStringLiteral("Remove"), QMessageBox::YesRole);
-			QPushButton* keepButton = msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
+			QPushButton* removeButton = msgBox.addButton(
+				QStringLiteral("Remove"), QMessageBox::YesRole);
+			QPushButton* keepButton = msgBox.addButton(
+				QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
 			QPushButton* cancelButton = msgBox.addButton(
 				QStringLiteral("Cancel"), QMessageBox::ButtonRole::RejectRole);
 

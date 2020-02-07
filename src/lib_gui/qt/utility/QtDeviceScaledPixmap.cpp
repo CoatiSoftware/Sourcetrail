@@ -12,7 +12,7 @@ qreal QtDeviceScaledPixmap::devicePixelRatio()
 
 QtDeviceScaledPixmap::QtDeviceScaledPixmap() {}
 
-QtDeviceScaledPixmap::QtDeviceScaledPixmap(QString filePath): m_pixmap(filePath)
+QtDeviceScaledPixmap::QtDeviceScaledPixmap(const QString& filePath): m_pixmap(filePath)
 {
 	m_pixmap.setDevicePixelRatio(devicePixelRatio());
 }

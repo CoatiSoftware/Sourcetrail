@@ -19,11 +19,11 @@ QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
 QtLineItemBase::~QtLineItemBase() {}
 
 void QtLineItemBase::updateLine(
-	Vec4i ownerRect,
-	Vec4i targetRect,
-	Vec4i ownerParentRect,
-	Vec4i targetParentRect,
-	GraphViewStyle::EdgeStyle style,
+	const Vec4i& ownerRect,
+	const Vec4i& targetRect,
+	const Vec4i& ownerParentRect,
+	const Vec4i& targetParentRect,
+	const GraphViewStyle::EdgeStyle& style,
 	size_t weight,
 	bool showArrow)
 {

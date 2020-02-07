@@ -11,7 +11,7 @@ QtCodeNavigateable::~QtCodeNavigateable() {}
 void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	const QWidget* parentWidget,
 	const QWidget* childWidget,
-	QRectF rect,
+	const QRectF& rect,
 	bool animated,
 	CodeScrollParams::Target target)
 {

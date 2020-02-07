@@ -860,12 +860,12 @@ void QtProjectWizardContentPreferences::addMavenPathDetection(QGridLayout* layou
 	row++;
 }
 
-void QtProjectWizardContentPreferences::addTitle(QString title, QGridLayout* layout, int& row)
+void QtProjectWizardContentPreferences::addTitle(const QString& title, QGridLayout* layout, int& row)
 {
 	layout->addWidget(createFormTitle(title), row++, QtProjectWizardWindow::FRONT_COL, Qt::AlignLeft);
 }
 
-void QtProjectWizardContentPreferences::addLabel(QString label, QGridLayout* layout, int row)
+void QtProjectWizardContentPreferences::addLabel(const QString& label, QGridLayout* layout, int row)
 {
 	layout->addWidget(createFormLabel(label), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 }
@@ -877,7 +877,7 @@ void QtProjectWizardContentPreferences::addWidget(
 }
 
 void QtProjectWizardContentPreferences::addLabelAndWidget(
-	QString label, QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment)
+	const QString& label, QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment)
 {
 	addLabel(label, layout, row);
 	addWidget(widget, layout, row, widgetAlignment);
@@ -889,7 +889,7 @@ void QtProjectWizardContentPreferences::addGap(QGridLayout* layout, int& row)
 }
 
 QCheckBox* QtProjectWizardContentPreferences::addCheckBox(
-	QString label, QString text, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, const QString& text, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QCheckBox* checkBox = new QCheckBox(text, this);
 	addLabelAndWidget(label, checkBox, layout, row, Qt::AlignLeft);
@@ -905,7 +905,7 @@ QCheckBox* QtProjectWizardContentPreferences::addCheckBox(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBox(
-	QString label, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QComboBox* comboBox = new QComboBox(this);
 	addLabelAndWidget(label, comboBox, layout, row, Qt::AlignLeft);
@@ -921,7 +921,11 @@ QComboBox* QtProjectWizardContentPreferences::addComboBox(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
-	QString label, QString helpText, std::vector<QWidget*> widgets, QGridLayout* layout, int& row)
+	const QString& label,
+	const QString& helpText,
+	std::vector<QWidget*> widgets,
+	QGridLayout* layout,
+	int& row)
 {
 	QComboBox* comboBox = new QComboBox(this);
 
@@ -950,7 +954,7 @@ QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBox(
-	QString label, int min, int max, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, int min, int max, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QComboBox* comboBox = addComboBox(label, helpText, layout, row);
 
@@ -966,10 +970,10 @@ QComboBox* QtProjectWizardContentPreferences::addComboBox(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
-	QString label,
+	const QString& label,
 	int min,
 	int max,
-	QString helpText,
+	const QString& helpText,
 	std::vector<QWidget*> widgets,
 	QGridLayout* layout,
 	int& row)
@@ -988,7 +992,7 @@ QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
 }
 
 QLineEdit* QtProjectWizardContentPreferences::addLineEdit(
-	QString label, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QLineEdit* lineEdit = new QLineEdit(this);
 	lineEdit->setObjectName(QStringLiteral("name"));

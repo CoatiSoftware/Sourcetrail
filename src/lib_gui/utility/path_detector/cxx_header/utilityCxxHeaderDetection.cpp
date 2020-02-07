@@ -49,7 +49,7 @@ std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType
 			if (sdkIncludePath.exists())
 			{
 				bool usingSubdirectories = false;
-				for (const std::wstring subDirectory: {L"shared", L"um", L"winrt"})
+				for (const std::wstring& subDirectory: {L"shared", L"um", L"winrt"})
 				{
 					const FilePath sdkSubdirectory = sdkIncludePath.getConcatenated(subDirectory);
 					if (sdkSubdirectory.exists())
