@@ -1,25 +1,32 @@
 * Run "1_setup.sh"
+
 * Start up Sourcetrail
+
 * Click "New Project"
 * Enter a project name
 * Set "./working_copy" as project location
+
 * Click "Add Source Group"
 * Select "C++" -> Empty C++ Source Group"
 * Click "Next"
-* Click "Next"
+
 * Add "./src" to "Files & Directories to Index"
+* Click "show files" button
+* Validate "Source Files" list contains "src/main.cpp"
+
 * Add "**/Foo.h" to "Excluded Files & Directories"
-* Click "Next"
-* Click "Next"
-* Click "Next"
 * Add "-DCOMPILER_FLAG" to "Compiler Flags"
 * Add "./src/pch.h" to "Precompiled Header File"
 * Add "-DPCH_FLAG" to "Precompiled Header Flags"
-* Click "Next"
+
 * Click "Create"
+
 * Validate "All files" is the only option selectable
 * Click "Start"
+
 * Validate Project indexed without error
 * Click "OK"
+
 * Close Sourcetrail
+
 * Run "2_teardown.sh"

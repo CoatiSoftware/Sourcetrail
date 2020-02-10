@@ -2,17 +2,7 @@
 
 #include <QCheckBox>
 
-//#include "Application.h"
-//#include "ApplicationSettings.h"
-//#include "MessageStatus.h"
-//#include "QtDialogView.h"
-//#include "ScopedFunctor.h"
-//#include "SourceGroupJavaMaven.h"
 #include "SourceGroupSettingsJavaMaven.h"
-//#include "logging.h"
-//#include "utility.h"
-//#include "utilityFile.h"
-//#include "utilityMaven.h"
 
 QtProjectWizardContentPathSettingsMaven::QtProjectWizardContentPathSettingsMaven(
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizardWindow* window)

@@ -1,67 +1,98 @@
 * Run "1_setup.sh"
+
 * Download the SourcetrailPythonIndexer project from https://github.com/CoatiSoftware/SourcetrailPythonIndexer
 * Extract the archive to "./working_copy/SourcetrailPythonIndexer"
+
 * Fetch the SourcetrailDB release for your OS from https://github.com/CoatiSoftware/SourcetrailDB/releases
 * Extract the archive to "./working_copy/SourcetrailPythonIndexer"
+
 * Start up Sourcetrail
+
 * Click "New Project"
 * Enter a project name
 * Set "./working_copy" as project location
+
 * Click "Add Source Group"
 * Select "Custom" -> "Custom Command Source Group"
 * Click "Next"
+
 * Add "python <path/to/working_copy>/SourcetrailPythonIndexer/run.py index --source-file-path=%{SOURCE_FILE_PATH} --database-file-path=%{DATABASE_FILE_PATH}" to "Custom Command"
 * Add "./src" to "Files & Directories to Index"
 * Add "**main*" to "Excluded Files & Directories"
 * Add ".py" to "Source File Extensions"
-* Click "Next"
+
+* Click "show files" button
+* Validate "Source Files" list contains "src/bar.py" and "src/foo.py"
+
 * Click "Create"
+
 * Validate "All files" is the only option selectable
 * Validate "source files to index" shows "2"
+
 * Click "Start"
 * Validate Project indexed without error
 * Click "OK"
+
 * Enter "print" in the search bar and press "Enter"
 * Validate the search bar shows "foo.Foo.print"
 * Validate the graph shows some nodes and edges
 * Validate the code view shows some code with syntax highlighting
+
 * Press "Refresh" button
 * Validate "Updated files" is selected
 * Validate "source files to index" shows "0"
 * Click "Cancel"
+
 * Click "Edit Project"
 * Clear the "Excluded Files & Directories" list
 * Click "Save"
+
 * Validate a project-file-was-changed-notification appears
 * Click "Reindex"
 * Validate "All files" is selected
 * Validate "source files to index" shows "3"
+
 * Click "Updated files"
 * Validate "source files to index" shows "1"
+
 * Click Start
+
 * Validate Project indexed without error
 * Click "OK"
+
 * Validate content of code and graph view changed and display calls from "main"
+
 * Run "2_update.sh"
+
 * Click "Refresh" button
 * Validate "Updated files" is selected
 * Validate "files to clear" shows "1"
 * Validate "source files to index" shows "1"
+
 * Click Start
 * Validate a dialog appears that states that the project cannot be partially cleared
-* Click "Fill Re-Index"
+
+* Click "Full Re-Index"
+
 * Validate Project indexed without error
 * Click "OK"
+
 * Click "Edit Project"
 * In "Custom Command" replace "python" with "pyt"
 * In "Custom Command" replace "%{SOURCE_FILE_PATH}" with "foo"
 * Click "Save"
+
 * Validate "Warning appears that %{SOURCE_FILE_PATH} is not defined in command"
 * In "Custom Command" replace "foo" with "%{SOURCE_FILE_PATH}"
 * Click "Save"
+
 * Validate a project-file-was-changed-notification appears
 * Click "Reindex"
+
 * Click "Start"
+
 * Validate "Log View appears showing errors that command execution failed".
+
 * Close Sourcetrail
+
 * Run "3_teardown.sh"

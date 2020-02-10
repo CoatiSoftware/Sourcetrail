@@ -1,32 +1,47 @@
 * Run "1_setup.sh"
+
 * Start up Sourcetrail
+
 * Click "New Project"
 * Enter a project name
 * Set "./working_copy" as project location
+
 * Click "Add Source Group"
 * Select "Python" -> Empty Python Source Group"
 * Click "Next"
+
 * Add "./src" to "Files & Directories to Index"
 * Add "**/foo.py" to "Excluded Files & Directories"
-* Click "Next"
+
+* Click "show files" button
+* Validate "Source Files" list contains "src/bar.py", "src/baz.py", "src/main.py"
+
 * Click "Create"
+
 * Validate "All files" is the only option selectable
 * Click "Start"
+
 * Validate Project indexed without error
 * Click "OK"
+
 * Press "Refresh" button
 * Validate "Updated files" is selected
 * Validate "source files to index" shows "0"
 * Click "Cancel"
+
 * Run "2_update.sh"
+
 * Press "Refresh" button
 * Validate "Files to clear" shows "1"
 * Validate "source files to index" shows "1"
+
 * Click "Start"
 * Validate dialog shows up that informs that only full re-indexing is possible
+
 * Click "Full Re-Index"
 * Validate Project indexed without error
 * Click "OK"
+
 * Close Sourcetrail
+
 * Run "3_teardown.sh"
- 

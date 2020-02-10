@@ -20,7 +20,6 @@ public:
 	virtual void populate(QGridLayout* layout, int& row) override;
 	virtual void load() override;
 	virtual void save() override;
-	virtual bool isScrollAble() const override;
 
 private slots:
 	void detectIncludesButtonClicked();

@@ -1,32 +1,41 @@
 * Run "1_setup.sh"
+
 * Start up Sourcetrail
+
 * Click "New Project"
 * Enter a project name
 * Set "./working_copy" as project location
+
 * Click "Add Source Group"
 * Select "Java" -> Empty Java Source Group"
 * Click "Next"
-* Click "Next"
+
 * Add "./src" to "Files & Directories to Index"
 * Add "**/Foo.java" to "Excluded Files & Directories"
-* Click "Next"
-* Click "Next"
+
 * Click "Create"
+
 * Validate "All files" is the only option selectable
 * Click "Start"
+
 * Validate Project indexed without error
 * Click "OK"
+
 * Press "Refresh" button
 * Validate "Updated files" is selected
 * Validate "source files to index" shows "0"
 * Click "Cancel"
+
 * Run "2_update.sh"
+
 * Press "Refresh" button
 * Validate "Files to clear" shows "1"
 * Validate "source files to index" shows "1"
+
 * Click "Start"
 * Validate Project indexed without error
 * Click "OK"
+
 * Close Sourcetrail
+
 * Run "3_teardown.sh"
- 

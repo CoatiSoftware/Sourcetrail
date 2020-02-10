@@ -22,12 +22,6 @@ QtProjectWizardContentCrossCompilationOptions::QtProjectWizardContentCrossCompil
 
 void QtProjectWizardContentCrossCompilationOptions::populate(QGridLayout* layout, int& row)
 {
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		row++;
-	}
-
 	layout->addWidget(
 		createFormLabel("Cross-Compilation"), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	addHelpButton(
@@ -132,12 +126,6 @@ void QtProjectWizardContentCrossCompilationOptions::populate(QGridLayout* layout
 
 	layout->addLayout(
 		gridLayout, row++, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
-
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		layout->setRowStretch(row, 1);
-	}
 }
 
 void QtProjectWizardContentCrossCompilationOptions::load()

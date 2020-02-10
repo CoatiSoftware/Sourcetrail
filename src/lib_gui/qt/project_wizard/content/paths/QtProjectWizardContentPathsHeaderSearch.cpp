@@ -25,7 +25,7 @@ QtProjectWizardContentPathsHeaderSearch::QtProjectWizardContentPathsHeaderSearch
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
 	bool indicateAsAdditional)
-	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
+	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY, true)
 	, m_showDetectedIncludesResultFunctor(std::bind(
 		  &QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult,
 		  this,
@@ -107,11 +107,6 @@ void QtProjectWizardContentPathsHeaderSearch::save()
 	{
 		cxxSettings->setHeaderSearchPaths(m_list->getPathsAsDisplayed());
 	}
-}
-
-bool QtProjectWizardContentPathsHeaderSearch::isScrollAble() const
-{
-	return true;
 }
 
 void QtProjectWizardContentPathsHeaderSearch::detectIncludesButtonClicked()
@@ -348,7 +343,7 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 
 	if (additionalHeaderSearchPaths.empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"<p>No additional include paths have been detected while searching the provided "
 			"paths.</p>");
@@ -395,7 +390,7 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 {
 	if (unresolvedIncludes.empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"<p>All include directives throughout the indexed files have been resolved.</p>");
 		msgBox.exec();

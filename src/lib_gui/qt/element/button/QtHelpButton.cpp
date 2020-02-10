@@ -22,7 +22,12 @@ QtHelpButton::QtHelpButton(const QtHelpButtonInfo& info, QWidget* parent)
 	connect(this, &QtHelpButton::clicked, this, &QtHelpButton::handleHelpPress);
 }
 
+void QtHelpButton::setMessageBoxParent(QWidget* messageBoxParent)
+{
+	m_messageBoxParent = messageBoxParent;
+}
+
 void QtHelpButton::handleHelpPress()
 {
-	m_info.displayMessage();
+	m_info.displayMessage(m_messageBoxParent);
 }

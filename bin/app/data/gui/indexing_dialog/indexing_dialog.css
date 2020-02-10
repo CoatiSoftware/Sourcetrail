@@ -1,8 +1,10 @@
-QLabel, QCheckBox, QRadioButton {
+#window QLabel,
+#window QCheckBox,
+#window QRadioButton {
 	color: white;
 }
 
-QRadioButton::indicator {
+#window QRadioButton::indicator {
 	background: white;
 	border-radius: 6px;
 	border: 3px solid white;
@@ -11,7 +13,7 @@ QRadioButton::indicator {
 	margin-right: 5px;
 }
 
-QRadioButton::indicator:checked {
+#window QRadioButton::indicator:checked {
 	background: #444;
 }
 

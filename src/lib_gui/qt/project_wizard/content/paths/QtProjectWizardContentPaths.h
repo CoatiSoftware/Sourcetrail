@@ -22,7 +22,7 @@ public:
 		std::shared_ptr<SourceGroupSettings> settings,
 		QtProjectWizardWindow* window,
 		QtPathListBox::SelectionPolicyType selectionPolicy,
-		bool checkMissingPaths = true);
+		bool checkMissingPaths);
 
 	// QtSettingsWindow implementation
 	virtual void populate(QGridLayout* layout, int& row) override;

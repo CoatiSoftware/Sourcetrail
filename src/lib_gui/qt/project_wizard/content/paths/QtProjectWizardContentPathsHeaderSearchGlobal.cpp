@@ -12,7 +12,8 @@ QtProjectWizardContentPathsHeaderSearchGlobal::QtProjectWizardContentPathsHeader
 	: QtProjectWizardContentPaths(
 		  std::shared_ptr<SourceGroupSettings>(),
 		  window,
-		  QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
+		  QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY,
+		  true)
 {
 	setTitleString("Global Include Paths");
 	setHelpString(
@@ -72,7 +73,7 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 
 	if (compilerHeaderPaths.size())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText("Multiple Compiler Headers");
 		msgBox.setInformativeText(
 			"Your Global Include Paths contain other paths that hold C/C++ compiler headers, "
@@ -112,6 +113,33 @@ void QtProjectWizardContentPathsHeaderSearchGlobal::detectedPaths(const std::vec
 
 void QtProjectWizardContentPathsHeaderSearchGlobal::setPaths(const std::vector<FilePath>& paths)
 {
+	// check data change to avoid UI update that messes with the scroll position
+	{
+		std::vector<FilePath> currentPaths = m_list->getPathsAsDisplayed();
+		if (currentPaths.size())
+		{
+			currentPaths.erase(currentPaths.begin());
+		}
+
+		if (currentPaths.size() == paths.size())
+		{
+			bool same = true;
+			for (size_t i = 0; i < paths.size(); ++i)
+			{
+				if (currentPaths[i] != paths[i])
+				{
+					same = false;
+					break;
+				}
+			}
+
+			if (same)
+			{
+				return;
+			}
+		}
+	}
+
 	m_list->setPaths({});
 	m_list->addPaths({ResourcePaths::getCxxCompilerHeaderPath()}, true);
 	m_list->addPaths(paths);

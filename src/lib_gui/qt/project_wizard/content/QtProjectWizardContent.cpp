@@ -9,7 +9,6 @@
 QtProjectWizardContent::QtProjectWizardContent(QtProjectWizardWindow* window)
 	: QWidget(window)
 	, m_window(window)
-	, m_isInForm(false)
 	, m_showFilesFunctor(
 		  std::bind(&QtProjectWizardContent::showFilesDialog, this, std::placeholders::_1))
 {
@@ -28,11 +27,6 @@ bool QtProjectWizardContent::check()
 	return true;
 }
 
-bool QtProjectWizardContent::isScrollAble() const
-{
-	return false;
-}
-
 std::vector<FilePath> QtProjectWizardContent::getFilePaths() const
 {
 	return {};
@@ -46,16 +40,6 @@ QString QtProjectWizardContent::getFileNamesTitle() const
 QString QtProjectWizardContent::getFileNamesDescription() const
 {
 	return QStringLiteral("files");
-}
-
-bool QtProjectWizardContent::isInForm() const
-{
-	return m_isInForm;
-}
-
-void QtProjectWizardContent::setIsInForm(bool isInForm)
-{
-	m_isInForm = isInForm;
 }
 
 QLabel* QtProjectWizardContent::createFormLabel(QString name) const
@@ -91,6 +75,7 @@ QtHelpButton* QtProjectWizardContent::addHelpButton(
 	const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const
 {
 	QtHelpButton* button = new QtHelpButton(QtHelpButtonInfo(helpTitle, helpText));
+	button->setMessageBoxParent(m_window);
 	layout->addWidget(button, row, QtProjectWizardWindow::HELP_COL, Qt::AlignTop);
 	return button;
 }
@@ -126,7 +111,6 @@ QFrame* QtProjectWizardContent::addSeparator(QGridLayout* layout, int row) const
 void QtProjectWizardContent::filesButtonClicked()
 {
 	m_window->saveContent();
-	m_window->loadContent();
 
 	std::thread([&]() {
 		const std::vector<FilePath> filePaths = getFilePaths();

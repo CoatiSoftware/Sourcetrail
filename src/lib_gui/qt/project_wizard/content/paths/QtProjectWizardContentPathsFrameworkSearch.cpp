@@ -7,7 +7,7 @@ QtProjectWizardContentPathsFrameworkSearch::QtProjectWizardContentPathsFramework
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
 	bool indicateAsAdditional)
-	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
+	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY, true)
 {
 	setTitleString(
 		indicateAsAdditional ? "Additional Framework Search Paths" : "Framework Search Paths");
@@ -37,9 +37,4 @@ void QtProjectWizardContentPathsFrameworkSearch::save()
 	{
 		cxxSettings->setFrameworkSearchPaths(m_list->getPathsAsDisplayed());
 	}
-}
-
-bool QtProjectWizardContentPathsFrameworkSearch::isScrollAble() const
-{
-	return true;
 }
