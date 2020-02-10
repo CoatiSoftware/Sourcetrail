@@ -8,7 +8,7 @@
 QtProjectWizardContentPathsClassJava::QtProjectWizardContentPathsClassJava(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window)
 	: QtProjectWizardContentPaths(
-		  settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
+		  settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES, true)
 {
 	setTitleString("Class Path");
 	setHelpString(

@@ -12,7 +12,8 @@ QtProjectWizardContentPathsHeaderSearchGlobal::QtProjectWizardContentPathsHeader
 	: QtProjectWizardContentPaths(
 		  std::shared_ptr<SourceGroupSettings>(),
 		  window,
-		  QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
+		  QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY,
+		  true)
 {
 	setTitleString("Global Include Paths");
 	setHelpString(
