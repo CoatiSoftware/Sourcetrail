@@ -23,6 +23,7 @@ protected:
 
 	virtual void load() override;
 	virtual void save() override;
+	virtual void refresh() override;
 	virtual bool check() override;
 
 private:

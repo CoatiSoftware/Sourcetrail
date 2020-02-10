@@ -47,6 +47,11 @@ void QtProjectWizardWindow::loadContent()
 	m_content->load();
 }
 
+void QtProjectWizardWindow::refreshContent()
+{
+	m_content->refresh();
+}
+
 void QtProjectWizardWindow::populateWindow(QWidget* widget)
 {
 	QGridLayout* layout = new QGridLayout();

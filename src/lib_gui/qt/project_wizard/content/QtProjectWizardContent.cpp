@@ -22,6 +22,8 @@ void QtProjectWizardContent::load() {}
 
 void QtProjectWizardContent::save() {}
 
+void QtProjectWizardContent::refresh() {}
+
 bool QtProjectWizardContent::check()
 {
 	return true;
@@ -131,6 +133,7 @@ QFrame* QtProjectWizardContent::addSeparator(QGridLayout* layout, int row) const
 void QtProjectWizardContent::filesButtonClicked()
 {
 	m_window->saveContent();
+	m_window->refreshContent();
 
 	std::thread([&]() {
 		const std::vector<FilePath> filePaths = getFilePaths();
@@ -142,8 +145,8 @@ void QtProjectWizardContent::showFilesDialog(const std::vector<FilePath>& filePa
 {
 	if (!m_filesDialog)
 	{
-		m_filesDialog = std::make_shared<QtTextEditDialog>(
-			getFileNamesTitle(), QString::number(filePaths.size()) + " " + getFileNamesDescription());
+		m_filesDialog = new QtTextEditDialog(
+			getFileNamesTitle(), QString::number(filePaths.size()) + " " + getFileNamesDescription(), m_window);
 		m_filesDialog->setup();
 
 		m_filesDialog->setText(utility::join(utility::toWStrings(filePaths), L"\n"));
@@ -151,12 +154,12 @@ void QtProjectWizardContent::showFilesDialog(const std::vector<FilePath>& filePa
 		m_filesDialog->setReadOnly(true);
 
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::finished,
 			this,
 			&QtProjectWizardContent::closedFilesDialog);
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::canceled,
 			this,
 			&QtProjectWizardContent::closedFilesDialog);
@@ -169,7 +172,8 @@ void QtProjectWizardContent::showFilesDialog(const std::vector<FilePath>& filePa
 void QtProjectWizardContent::closedFilesDialog()
 {
 	m_filesDialog->hide();
-	m_filesDialog.reset();
+	m_filesDialog->deleteLater();
+	m_filesDialog = nullptr;
 
 	window()->raise();
 }

@@ -25,6 +25,7 @@ public:
 
 	virtual void load();
 	virtual void save();
+	virtual void refresh();
 	virtual bool check();
 
 	virtual std::vector<FilePath> getFilePaths() const;
@@ -47,7 +48,7 @@ protected:
 
 	QtProjectWizardWindow* m_window;
 
-	std::shared_ptr<QtTextEditDialog> m_filesDialog;
+	QtTextEditDialog* m_filesDialog = nullptr;
 
 protected slots:
 	void filesButtonClicked();

@@ -357,12 +357,12 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 			detailedText += path.wstr() + L"\n";
 		}
 
-		m_filesDialog = std::make_shared<QtTextEditDialog>(
+		m_filesDialog = new QtTextEditDialog(
 			"Detected Include Paths",
 			("<p>The following <b>" + std::to_string(additionalHeaderSearchPaths.size()) +
 			 "</b> include paths have been "
 			 "detected and will be added to the include paths of this Source Group.<b>")
-				.c_str());
+				.c_str(), m_window);
 
 		m_filesDialog->setup();
 		m_filesDialog->setReadOnly(true);
@@ -373,12 +373,12 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 		m_filesDialog->showWindow();
 
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::finished,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog);
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::canceled,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::closedFilesDialog);
@@ -417,7 +417,7 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 			detailedText += L"\n";
 		}
 
-		m_filesDialog = std::make_shared<QtTextEditDialog>(
+		m_filesDialog = new QtTextEditDialog(
 			"Unresolved Include Directives",
 			("<p>The indexed files contain <b>" + std::to_string(unresolvedIncludes.size()) +
 			 "</b> include directive" + (unresolvedIncludes.size() == 1 ? "" : "s") +
@@ -427,7 +427,7 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 			 "conditional preprocessor "
 			 "directives. This means that some of the unresolved includes may actually not be "
 			 "required by the indexer.</p>")
-				.c_str());
+				.c_str(), m_window);
 
 		m_filesDialog->setup();
 		m_filesDialog->setCloseVisible(false);
@@ -437,12 +437,12 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 		m_filesDialog->showWindow();
 
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::finished,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::closedFilesDialog);
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::canceled,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::closedFilesDialog);

@@ -645,7 +645,6 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 		settings/source_group/type/SourceGroupSettingsCppEmpty.h
 		settings/source_group/type/SourceGroupSettingsCustomCommand.h
 		settings/source_group/type/SourceGroupSettingsCxxCdb.h
-		settings/source_group/type/SourceGroupSettingsCxxCdbVs.h
 		settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h
 	)
 endif()

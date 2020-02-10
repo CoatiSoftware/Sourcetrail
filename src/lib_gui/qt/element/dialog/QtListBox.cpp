@@ -11,6 +11,29 @@
 #include "utilityQt.h"
 #include "utilityString.h"
 
+void QtListWidget::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	QModelIndex index;
+	emit doubleClicked(index);
+}
+
+void QtListWidget::wheelEvent(QWheelEvent* event)
+{
+	QScrollBar* bar = verticalScrollBar();
+	bool down = event->angleDelta().y() < 0;
+
+	if (bar->minimum() == bar->maximum() ||
+		(down && bar->value() == bar->maximum()) ||
+		(!down && bar->value() == bar->minimum()))
+	{
+		event->ignore();
+	}
+	else
+	{
+		QListWidget::wheelEvent(event);
+	}
+}
+
 QtListBox::QtListBox(QWidget* parent, const QString& listName): QFrame(parent), m_listName(listName)
 {
 	QBoxLayout* layout = new QVBoxLayout();
@@ -85,29 +108,6 @@ void QtListBox::addWidgetToBar(QWidget* widget)
 	{
 		m_innerBarLayout->addWidget(widget);
 	}
-}
-
-bool QtListBox::event(QEvent* event)
-{
-	// Prevent nested ScrollAreas from scrolling at the same time;
-	if (event->type() == QEvent::Wheel)
-	{
-		QRect rect = m_list->viewport()->rect();
-		QPoint pos = m_list->mapFromGlobal(dynamic_cast<QWheelEvent*>(event)->globalPos());
-		QScrollBar* bar = m_list->verticalScrollBar();
-
-		if (bar->minimum() != bar->maximum() && rect.contains(pos))
-		{
-			bool down = dynamic_cast<QWheelEvent*>(event)->angleDelta().y() < 0;
-
-			if ((down && bar->value() != bar->maximum()) || (!down && bar->value() != bar->minimum()))
-			{
-				return true;
-			}
-		}
-	}
-
-	return QFrame::event(event);
 }
 
 QtListBoxItem* QtListBox::addListBoxItemWithText(const QString& text)

@@ -52,7 +52,6 @@
 #	include "SourceGroupSettingsCEmpty.h"
 #	include "SourceGroupSettingsCppEmpty.h"
 #	include "SourceGroupSettingsCxxCdb.h"
-#	include "SourceGroupSettingsCxxCdbVs.h"
 #	include "SourceGroupSettingsCxxCodeblocks.h"
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
@@ -237,32 +236,6 @@ void addSourceGroupContents<SourceGroupSettingsCxxCodeblocks>(
 	group->addContent(new QtProjectWizardContentFlags(settings, window, true));
 }
 
-template <>
-void addSourceGroupContents<SourceGroupSettingsCxxCdbVs>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings, QtProjectWizardWindow* window)
-{
-	group->addContent(new QtProjectWizardContentVS(window)); // TODO make separate window
-	group->addSpace();
-
-	group->addContent(new QtProjectWizardContentPathCDB(settings, window));
-	group->addContent(new QtProjectWizardContentPathsIndexedHeaders(settings, window, "Compilation Database"));
-	group->addContent(new QtProjectWizardContentPathsExclude(settings, window));
-	group->addSpace();
-
-	group->addContent(new QtProjectWizardContentPathsHeaderSearch(settings, window, true));
-	group->addContent(new QtProjectWizardContentPathsHeaderSearchGlobal(window));
-	group->addSpace();
-
-	if (utility::getOsType() == OS_MAC)
-	{
-		group->addContent(new QtProjectWizardContentPathsFrameworkSearch(settings, window, true));
-		group->addContent(new QtProjectWizardContentPathsFrameworkSearchGlobal(window));
-		group->addSpace();
-	}
-
-	group->addContent(new QtProjectWizardContentFlags(settings, window, true));
-}
-
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
@@ -391,8 +364,8 @@ void QtProjectWizard::newProjectFromCDB(const FilePath& filePath)
 
 	cancelSourceGroup();
 
-	std::shared_ptr<SourceGroupSettingsCxxCdbVs> sourceGroupSettings =
-		std::make_shared<SourceGroupSettingsCxxCdbVs>(
+	std::shared_ptr<SourceGroupSettingsCxxCdb> sourceGroupSettings =
+		std::make_shared<SourceGroupSettingsCxxCdb>(
 			utility::getUuidString(), m_projectSettings.get());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
 
@@ -718,12 +691,6 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	{
 		addSourceGroupContents(summary, settings, this);
 	}
-	else if (
-		std::shared_ptr<SourceGroupSettingsCxxCdbVs> settings =
-			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdbVs>(group))
-	{
-		addSourceGroupContents(summary, settings, this);
-	}
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	else if (
@@ -928,6 +895,28 @@ void QtProjectWizard::newSourceGroup()
 	window->updateSubTitle(QStringLiteral("Type Selection"));
 }
 
+void QtProjectWizard::newSourceGroupFromVS()
+{
+#if BUILD_CXX_LANGUAGE_PACKAGE
+	QtProjectWizardWindow* window = createWindowWithContent([](QtProjectWizardWindow* window) {
+		window->setPreferredSize(QSize(560, 320));
+		return new QtProjectWizardContentVS(window);
+	});
+	window->resize(QSize(560, 320));
+
+	connect(window, &QtProjectWizardWindow::next,
+		[this](){
+			selectedProjectType(SOURCE_GROUP_CXX_CDB);
+		}
+	);
+
+	window->show();
+	window->setNextEnabled(true);
+	window->setPreviousEnabled(true);
+	window->updateSubTitle(QStringLiteral("C/C++ from Visual Studio"));
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
+}
+
 void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 {
 	const std::string sourceGroupId = utility::getUuidString();
@@ -964,8 +953,8 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 	}
 	break;
 	case SOURCE_GROUP_CXX_VS:
-		settings = std::make_shared<SourceGroupSettingsCxxCdbVs>(sourceGroupId, m_projectSettings.get());
-		break;
+		newSourceGroupFromVS();
+		return;
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
@@ -1010,7 +999,7 @@ void QtProjectWizard::createSourceGroup(std::shared_ptr<SourceGroupSettings> set
 
 	m_previouslySelectedIndex = -1;
 
-	m_sourceGroupList->setCurrentRow(m_allSourceGroupSettings.size() - 1);
+	m_sourceGroupList->setCurrentRow(int(m_allSourceGroupSettings.size()) - 1);
 }
 
 void QtProjectWizard::createProject()
