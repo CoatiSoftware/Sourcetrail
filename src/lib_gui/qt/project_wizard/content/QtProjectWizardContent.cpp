@@ -22,6 +22,8 @@ void QtProjectWizardContent::load() {}
 
 void QtProjectWizardContent::save() {}
 
+void QtProjectWizardContent::refresh() {}
+
 bool QtProjectWizardContent::check()
 {
 	return true;
@@ -131,6 +133,7 @@ QFrame* QtProjectWizardContent::addSeparator(QGridLayout* layout, int row) const
 void QtProjectWizardContent::filesButtonClicked()
 {
 	m_window->saveContent();
+	m_window->refreshContent();
 
 	std::thread([&]() {
 		const std::vector<FilePath> filePaths = getFilePaths();

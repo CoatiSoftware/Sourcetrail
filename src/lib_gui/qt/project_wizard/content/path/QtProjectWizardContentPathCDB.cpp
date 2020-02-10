@@ -68,6 +68,16 @@ void QtProjectWizardContentPathCDB::load()
 {
 	m_picker->setText(QString::fromStdWString(m_settings->getCompilationDatabasePath().wstr()));
 
+	refresh();
+}
+
+void QtProjectWizardContentPathCDB::save()
+{
+	m_settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdWString()));
+}
+
+void QtProjectWizardContentPathCDB::refresh()
+{
 	m_filePaths.clear();
 
 	if (m_fileCountLabel)
@@ -76,11 +86,6 @@ void QtProjectWizardContentPathCDB::load()
 			"<b>" + QString::number(getFilePaths().size()) +
 			"</b> source files were found in the compilation database.");
 	}
-}
-
-void QtProjectWizardContentPathCDB::save()
-{
-	m_settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdWString()));
 }
 
 std::vector<FilePath> QtProjectWizardContentPathCDB::getFilePaths() const

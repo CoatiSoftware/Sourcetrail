@@ -20,6 +20,7 @@ public:
 
 	void saveContent();
 	void loadContent();
+	void refreshContent();
 
 	static const int FRONT_COL = 0;
 	static const int HELP_COL = 1;

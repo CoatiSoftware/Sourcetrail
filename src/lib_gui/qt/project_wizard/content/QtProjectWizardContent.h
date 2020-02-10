@@ -25,6 +25,7 @@ public:
 
 	virtual void load();
 	virtual void save();
+	virtual void refresh();
 	virtual bool check();
 
 	virtual std::vector<FilePath> getFilePaths() const;

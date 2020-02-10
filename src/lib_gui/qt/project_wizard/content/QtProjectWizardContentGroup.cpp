@@ -70,6 +70,17 @@ void QtProjectWizardContentGroup::save()
 	}
 }
 
+void QtProjectWizardContentGroup::refresh()
+{
+	for (QtProjectWizardContent* content: m_contents)
+	{
+		if (content)
+		{
+			content->refresh();
+		}
+	}
+}
+
 bool QtProjectWizardContentGroup::check()
 {
 	for (QtProjectWizardContent* content: m_contents)
