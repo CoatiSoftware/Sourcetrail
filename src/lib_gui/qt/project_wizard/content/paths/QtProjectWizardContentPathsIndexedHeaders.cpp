@@ -170,14 +170,17 @@ bool QtProjectWizardContentPathsIndexedHeaders::check()
 		msgBox.setInformativeText(QString::fromStdString(
 			"Sourcetrail will only index the source files listed in the " + m_projectKindName +
 			" file and none of the included header files."));
-		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-		msgBox.setDefaultButton(QMessageBox::Ok);
-		return msgBox.exec() == QMessageBox::Ok;
+		QPushButton* yesButton = msgBox.addButton(QStringLiteral("Continue"), QMessageBox::ButtonRole::YesRole);
+		msgBox.addButton(QStringLiteral("Cancel"), QMessageBox::ButtonRole::NoRole);
+		msgBox.setDefaultButton(yesButton);
+
+		if (msgBox.exec() != 0)
+		{
+			return false;
+		}
 	}
-	else
-	{
-		return QtProjectWizardContentPaths::check();
-	}
+
+	return QtProjectWizardContentPaths::check();
 }
 
 void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
