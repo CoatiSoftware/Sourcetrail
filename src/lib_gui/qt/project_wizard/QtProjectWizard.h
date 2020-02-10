@@ -75,6 +75,7 @@ private slots:
 	void windowStackChanged();
 
 	void newSourceGroup();
+	void newSourceGroupFromVS();
 	void selectedProjectType(SourceGroupType sourceGroupType);
 
 	void createSourceGroup(std::shared_ptr<SourceGroupSettings> settings);

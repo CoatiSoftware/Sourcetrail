@@ -9,6 +9,8 @@ QtProjectWizardContentVS::QtProjectWizardContentVS(QtProjectWizardWindow* window
 
 void QtProjectWizardContentVS::populate(QGridLayout* layout, int& row)
 {
+	layout->setRowMinimumHeight(row++, 10);
+
 	QLabel* nameLabel = createFormLabel("Create Compilation Database");
 	layout->addWidget(nameLabel, row, QtProjectWizardWindow::FRONT_COL);
 
@@ -26,6 +28,7 @@ void QtProjectWizardContentVS::populate(QGridLayout* layout, int& row)
 		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Sourcetrail Visual Studio "
 		"Extension</a>).");
 	descriptionLabel->setObjectName("description");
+	descriptionLabel->setOpenExternalLinks(true);
 	descriptionLabel->setAlignment(Qt::AlignmentFlag::AlignLeft);
 	layout->addWidget(descriptionLabel, row, QtProjectWizardWindow::BACK_COL);
 	row++;
@@ -42,7 +45,8 @@ void QtProjectWizardContentVS::populate(QGridLayout* layout, int& row)
 	layout->addWidget(skipLabel, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
-	addSeparator(layout, row++);
+	layout->setRowMinimumHeight(row, 10);
+	layout->setRowStretch(row, 1);
 
 	connect(button, &QPushButton::clicked, this, &QtProjectWizardContentVS::handleVSCDBClicked);
 }
