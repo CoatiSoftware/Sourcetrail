@@ -8,10 +8,35 @@ const char* SharedMemory::s_mutexNamePrefix = "srctrlmtx_";
 
 SharedMemory::ScopedAccess::ScopedAccess(SharedMemory* memory)
 	: boost::interprocess::scoped_lock<boost::interprocess::named_mutex>(memory->getMutex())
-	, m_memory(boost::interprocess::open_only, memory->getMemoryName().c_str())
+	//, m_memory(boost::interprocess::open_only, memory->getMemoryName().c_str())
 	, m_memoryName(memory->getMemoryName())
 	, m_minimumMemorySize(memory->getInitialMemorySize())
 {
+	try
+	{
+		m_memory = boost::interprocess::managed_shared_memory(boost::interprocess::open_only, memory->getMemoryName().c_str());
+	}
+	catch (boost::interprocess::interprocess_exception& e)
+	{
+		LOG_ERROR_STREAM(
+			<< "boost exception thrown at ScopeAccess constructor - " << memory->getMemoryName() << ": "
+			<< e.what());
+
+		// Behaves the same as the initializer construction, with the error printed out
+		//throw e;
+
+		// Let's create then?
+		boost::interprocess::permissions permissions;
+		permissions.set_unrestricted();
+		m_memory = boost::interprocess::managed_shared_memory(
+			boost::interprocess::open_or_create,
+			memory->getMemoryName().c_str(),
+			memory->getInitialMemorySize(),
+			0,
+			permissions
+		);
+	}
+
 }
 
 SharedMemory::ScopedAccess::~ScopedAccess() {}
@@ -195,7 +220,10 @@ SharedMemory::~SharedMemory()
 		LOG_ERROR_STREAM(
 			<< "boost exception thrown at shared memory destruction - " << getMemoryName() << ": "
 			<< e.what());
-		throw e;
+		// Not actually hitting this code path, but the compiler warns that destructors are noexcept - this will result in an immediate terminate .. why not continue instead?
+		// NOTE: Instead of this, I tried making the destructor noexcept(false), but doing this requires several other classes to adopt noexcept(false),
+		//   that didn't seem like a good idea
+		//throw e;
 	}
 }
 
