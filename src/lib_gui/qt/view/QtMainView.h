@@ -51,6 +51,7 @@ public:
 	void loadWindow(bool showStartWindow) override;
 
 	void refreshView() override;
+	void refreshUIState(bool isAfterIndexing) override;
 
 	void hideStartScreen() override;
 	void setTitle(const std::wstring& title) override;

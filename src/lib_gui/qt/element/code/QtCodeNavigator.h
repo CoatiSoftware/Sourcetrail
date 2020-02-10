@@ -5,9 +5,7 @@
 
 #include "ErrorInfo.h"
 #include "LocationType.h"
-#include "MessageIndexingFinished.h"
 #include "MessageListener.h"
-#include "MessageSwitchColorScheme.h"
 #include "MessageWindowFocus.h"
 #include "QtCodeFileList.h"
 #include "QtCodeFileSingle.h"
@@ -21,8 +19,6 @@ class SourceLocationFile;
 
 class QtCodeNavigator
 	: public QWidget
-	, public MessageListener<MessageIndexingFinished>
-	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageWindowFocus>
 {
 	Q_OBJECT
@@ -117,8 +113,6 @@ private slots:
 	void setModeSingle();
 
 private:
-	void handleMessage(MessageIndexingFinished* message) override;
-	void handleMessage(MessageSwitchColorScheme* message) override;
 	void handleMessage(MessageWindowFocus* message) override;
 
 	QtThreadedLambdaFunctor m_onQtThread;

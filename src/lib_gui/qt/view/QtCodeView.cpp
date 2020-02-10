@@ -35,6 +35,8 @@ void QtCodeView::refreshView()
 
 		QtCodeArea::clearAnnotationColors();
 		QtHighlighter::clearHighlightingRules();
+
+		m_widget->clearCache();
 	});
 }
 

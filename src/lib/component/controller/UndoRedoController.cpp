@@ -350,7 +350,7 @@ void UndoRedoController::handleMessage(MessageIndexingFinished* message)
 	m_iterator = m_list.end();
 }
 
-void UndoRedoController::handleMessage(MessageRefreshUI* message)
+void UndoRedoController::handleMessage(MessageRefreshUIState* message)
 {
 	std::list<Command>::iterator startIterator = m_iterator;
 	do

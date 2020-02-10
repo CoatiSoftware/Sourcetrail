@@ -351,6 +351,8 @@ void Application::handleMessage(MessageRefreshUI* message)
 		}
 
 		m_mainView->refreshViews();
+
+		m_mainView->refreshUIState(message->isAfterIndexing);
 	}
 }
 

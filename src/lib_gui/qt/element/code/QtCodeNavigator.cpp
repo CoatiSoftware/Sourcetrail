@@ -632,16 +632,6 @@ void QtCodeNavigator::setModeSingle()
 	}
 }
 
-void QtCodeNavigator::handleMessage(MessageIndexingFinished* message)
-{
-	m_onQtThread([=]() { clearCache(); });
-}
-
-void QtCodeNavigator::handleMessage(MessageSwitchColorScheme* message)
-{
-	m_onQtThread([=]() { clearCache(); });
-}
-
 void QtCodeNavigator::handleMessage(MessageWindowFocus* message)
 {
 	if (message->focusIn)

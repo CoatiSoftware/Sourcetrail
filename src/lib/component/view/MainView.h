@@ -30,6 +30,7 @@ public:
 	virtual void saveLayout() = 0;
 
 	virtual void refreshView() = 0;
+	virtual void refreshUIState(bool isAfterIndexing) = 0;
 
 	virtual void loadWindow(bool showStartWindow) = 0;
 

@@ -1,5 +1,6 @@
 #include "QtMainView.h"
 
+#include "MessageRefreshUIState.h"
 #include "QtMainWindow.h"
 #include "QtViewWidgetWrapper.h"
 
@@ -93,6 +94,11 @@ void QtMainView::loadWindow(bool showStartWindow)
 void QtMainView::refreshView()
 {
 	m_onQtThread([=]() { m_window->refreshStyle(); });
+}
+
+void QtMainView::refreshUIState(bool isAfterIndexing)
+{
+	m_onQtThread([=]() { MessageRefreshUIState(isAfterIndexing).dispatch(); });
 }
 
 QStatusBar* QtMainView::getStatusBar()
