@@ -75,6 +75,7 @@ QtHelpButton* QtProjectWizardContent::addHelpButton(
 	const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const
 {
 	QtHelpButton* button = new QtHelpButton(QtHelpButtonInfo(helpTitle, helpText));
+	button->setMessageBoxParent(m_window);
 	layout->addWidget(button, row, QtProjectWizardWindow::HELP_COL, Qt::AlignTop);
 	return button;
 }

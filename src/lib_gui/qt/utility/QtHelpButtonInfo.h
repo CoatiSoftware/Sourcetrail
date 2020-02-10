@@ -3,12 +3,14 @@
 
 #include <QString>
 
+class QWidget;
+
 class QtHelpButtonInfo
 {
 public:
 	QtHelpButtonInfo(const QString& helpTitle, const QString& helpText);
 
-	void displayMessage();
+	void displayMessage(QWidget* messageBoxParent);
 
 private:
 	QString m_title;

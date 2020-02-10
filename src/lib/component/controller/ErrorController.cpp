@@ -141,7 +141,7 @@ void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
 	appSettings->setSeenErrorHelpMessage(true);
 	appSettings->save();
 
-	m_onQtThread([=]() { createErrorHelpButtonInfo().displayMessage(); });
+	m_onQtThread([=]() { createErrorHelpButtonInfo().displayMessage(nullptr); });
 }
 
 void ErrorController::handleMessage(MessageIndexingFinished* message)
