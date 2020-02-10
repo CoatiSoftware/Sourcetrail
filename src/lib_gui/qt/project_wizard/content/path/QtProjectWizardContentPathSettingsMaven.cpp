@@ -15,7 +15,6 @@ QtProjectWizardContentPathSettingsMaven::QtProjectWizardContentPathSettingsMaven
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.");
 	setPlaceholderString("Use Default");
-	setAllowEmpty(true);
 	setFileEndings({L".xml"});
 }
 

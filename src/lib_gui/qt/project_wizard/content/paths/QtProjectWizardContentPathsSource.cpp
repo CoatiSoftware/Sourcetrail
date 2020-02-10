@@ -43,6 +43,7 @@ QtProjectWizardContentPathsSource::QtProjectWizardContentPathsSource(
 		"you will also need to add that directory.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."));
+	setIsRequired(true);
 }
 
 void QtProjectWizardContentPathsSource::load()

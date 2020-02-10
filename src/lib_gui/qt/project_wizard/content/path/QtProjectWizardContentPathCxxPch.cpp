@@ -27,7 +27,6 @@ QtProjectWizardContentPathCxxPch::QtProjectWizardContentPathCxxPch(
 		"<br />"
 		"Leave blank to disable the use of precompiled headers. You can make use of environment "
 		"variables with ${ENV_VAR}.");
-	setAllowEmpty(true);
 	setPlaceholderString("Not Using Precompiled Header");
 }
 

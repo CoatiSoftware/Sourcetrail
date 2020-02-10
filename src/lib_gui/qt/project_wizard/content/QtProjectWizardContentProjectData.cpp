@@ -17,6 +17,7 @@ QtProjectWizardContentProjectData::QtProjectWizardContentProjectData(
 	, m_projectName(nullptr)
 	, m_projectFileLocation(nullptr)
 {
+	setIsRequired(true);
 }
 
 void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)

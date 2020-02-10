@@ -21,7 +21,7 @@ Note: Sourcetrail's Visual Studio plugin has to be installed. Visual Studio has 
 		layout,
 		row);
 
-	QLabel* descriptionLabel = createFormLabel(
+	QLabel* descriptionLabel = createFormSubLabel(
 		"Call Visual Studio to create a Compilation Database from the loaded Solution.");
 	descriptionLabel->setObjectName("description");
 	descriptionLabel->setAlignment(Qt::AlignmentFlag::AlignLeft);
@@ -33,7 +33,7 @@ Note: Sourcetrail's Visual Studio plugin has to be installed. Visual Studio has 
 	layout->addWidget(button, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
-	QLabel* skipLabel = createFormLabel(
+	QLabel* skipLabel = createFormSubLabel(
 		"*Skip this step if you already have a Compilation Database for your Solution.");
 	skipLabel->setObjectName("description");
 	skipLabel->setAlignment(Qt::AlignmentFlag::AlignLeft);
