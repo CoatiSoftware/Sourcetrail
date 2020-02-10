@@ -390,7 +390,7 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 {
 	if (unresolvedIncludes.empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"<p>All include directives throughout the indexed files have been resolved.</p>");
 		msgBox.exec();
