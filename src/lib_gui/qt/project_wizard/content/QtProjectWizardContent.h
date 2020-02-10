@@ -47,7 +47,7 @@ protected:
 
 	QtProjectWizardWindow* m_window;
 
-	std::shared_ptr<QtTextEditDialog> m_filesDialog;
+	QtTextEditDialog* m_filesDialog = nullptr;
 
 protected slots:
 	void filesButtonClicked();

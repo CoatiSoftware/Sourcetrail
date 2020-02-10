@@ -203,27 +203,27 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				return;
 			}
 
-			m_filesDialog = std::make_shared<QtSelectPathsDialog>(
+			m_filesDialog = new QtSelectPathsDialog(
 				"Select from Include Paths",
 				"The list contains all Include Paths found in the Code::Blocks project. Red paths "
 				"do not exist. Select the "
-				"paths containing the header files you want to index with Sourcetrail.");
+				"paths containing the header files you want to index with Sourcetrail.", m_window);
 			m_filesDialog->setup();
 
 			connect(
-				m_filesDialog.get(),
+				m_filesDialog,
 				&QtSelectPathsDialog::finished,
 				this,
 				&QtProjectWizardContentPathsIndexedHeaders::savedFilesDialog);
 			connect(
-				m_filesDialog.get(),
+				m_filesDialog,
 				&QtSelectPathsDialog::canceled,
 				this,
 				&QtProjectWizardContentPathsIndexedHeaders::closedFilesDialog);
 
 			const FilePath projectPath = codeblocksSettings->getProjectDirectoryPath();
 
-			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())
+			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog)
 				->setPathsList(
 					utility::convert<FilePath, FilePath>(
 						getIndexedPathsDerivedFromCodeblocksProject(codeblocksSettings),
@@ -247,27 +247,27 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				return;
 			}
 
-			m_filesDialog = std::make_shared<QtSelectPathsDialog>(
+			m_filesDialog = new QtSelectPathsDialog(
 				"Select from Include Paths",
 				"The list contains all Include Paths found in the Compilation Database. Red paths "
 				"do not exist. Select the "
-				"paths containing the header files you want to index with Sourcetrail.");
+				"paths containing the header files you want to index with Sourcetrail.", m_window);
 			m_filesDialog->setup();
 
 			connect(
-				m_filesDialog.get(),
+				m_filesDialog,
 				&QtSelectPathsDialog::finished,
 				this,
 				&QtProjectWizardContentPathsIndexedHeaders::savedFilesDialog);
 			connect(
-				m_filesDialog.get(),
+				m_filesDialog,
 				&QtSelectPathsDialog::canceled,
 				this,
 				&QtProjectWizardContentPathsIndexedHeaders::closedFilesDialog);
 
 			const FilePath projectPath = cdbSettings->getProjectDirectoryPath();
 
-			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())
+			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog)
 				->setPathsList(
 					utility::convert<FilePath, FilePath>(
 						getIndexedPathsDerivedFromCDB(cdbSettings),
@@ -288,6 +288,6 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 
 void QtProjectWizardContentPathsIndexedHeaders::savedFilesDialog()
 {
-	m_list->setPaths(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->getPathsList());
+	m_list->setPaths(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog)->getPathsList());
 	closedFilesDialog();
 }
