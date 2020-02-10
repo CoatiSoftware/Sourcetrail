@@ -804,18 +804,25 @@ void CxxAstVisitorComponentIndexer::visitCXXDeleteExpr(clang::CXXDeleteExpr* s)
 {
 	if (!s->isArrayForm() && getAstVisitor()->shouldVisitReference(s->getBeginLoc()))
 	{
-		if (clang::CXXRecordDecl* recordDecl = s->getDestroyedType()->getAsCXXRecordDecl())
+		clang::QualType destroyedTypeQual = s->getDestroyedType();
+		const clang::Type* destroyedType = destroyedTypeQual.getTypePtrOrNull();
+		if (destroyedType != nullptr)
 		{
-			if (clang::CXXDestructorDecl* destructorDecl = recordDecl->getDestructor())
+			clang::CXXRecordDecl* recordDecl = destroyedType->getAsCXXRecordDecl();
+			if (recordDecl != nullptr)
 			{
-				const Id symbolId = getOrCreateSymbolId(destructorDecl);
+				clang::CXXDestructorDecl* destructorDecl = recordDecl->getDestructor();
+				if (destructorDecl != nullptr)
+				{
+					const Id symbolId = getOrCreateSymbolId(destructorDecl);
 
-				m_client->recordReference(
-					REFERENCE_CALL,
-					symbolId,
-					getOrCreateSymbolId(
-						getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
-					getParseLocation(s->getBeginLoc()));
+					m_client->recordReference(
+						REFERENCE_CALL,
+						symbolId,
+						getOrCreateSymbolId(
+							getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContext()),
+						getParseLocation(s->getBeginLoc()));
+				}
 			}
 		}
 	}
