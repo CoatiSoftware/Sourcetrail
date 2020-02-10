@@ -1,16 +1,16 @@
-* {
+#window * {
 	font-size: 12px;
 }
 
-QLabel, QCheckBox {
+#window QLabel, #window QCheckBox {
 	color: black;
 }
 
-QCheckBox::indicator {
+#window QCheckBox::indicator {
 	color: black;
 }
 
-QCheckBox:disabled {
+#window QCheckBox:disabled {
 	color: gray;
 }
 

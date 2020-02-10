@@ -321,7 +321,7 @@ bool QtProjectWizardContentSelect::check()
 
 	if (!sourceGroupChosen)
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("Please choose a method of creating a new Source Group."));
 		msgBox.exec();
 		return false;

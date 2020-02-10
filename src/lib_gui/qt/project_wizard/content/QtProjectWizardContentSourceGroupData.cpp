@@ -62,7 +62,7 @@ bool QtProjectWizardContentSourceGroupData::check()
 {
 	if (m_name->text().isEmpty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("Please enter a source group name."));
 		msgBox.exec();
 		return false;

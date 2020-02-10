@@ -343,7 +343,7 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 
 	if (additionalHeaderSearchPaths.empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"<p>No additional include paths have been detected while searching the provided "
 			"paths.</p>");

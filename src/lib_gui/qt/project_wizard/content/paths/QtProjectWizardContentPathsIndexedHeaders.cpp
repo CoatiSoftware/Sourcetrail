@@ -165,7 +165,7 @@ bool QtProjectWizardContentPathsIndexedHeaders::check()
 {
 	if (m_list->getPathsAsDisplayed().empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText("You didn't specify any Header Files & Directories to Index.");
 		msgBox.setInformativeText(QString::fromStdString(
 			"Sourcetrail will only index the source files listed in the " + m_projectKindName +
@@ -196,7 +196,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				codeblocksSettings->getCodeblocksProjectPathExpandedAndAbsolute();
 			if (!codeblocksProjectPath.exists())
 			{
-				QMessageBox msgBox;
+				QMessageBox msgBox(m_window);
 				msgBox.setText("The provided Code::Blocks project path does not exist.");
 				msgBox.setDetailedText(QString::fromStdWString(codeblocksProjectPath.wstr()));
 				msgBox.exec();
@@ -240,7 +240,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 			const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
 			if (!cdbPath.exists())
 			{
-				QMessageBox msgBox;
+				QMessageBox msgBox(m_window);
 				msgBox.setText("The provided Compilation Database path does not exist.");
 				msgBox.setDetailedText(QString::fromStdWString(cdbPath.wstr()));
 				msgBox.exec();

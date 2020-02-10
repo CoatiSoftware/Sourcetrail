@@ -71,7 +71,7 @@ bool QtProjectWizardContentProjectData::check()
 {
 	if (m_projectName->text().isEmpty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("Please enter a project name."));
 		msgBox.exec();
 		return false;
@@ -79,7 +79,7 @@ bool QtProjectWizardContentProjectData::check()
 
 	if (!boost::filesystem::portable_file_name(m_projectName->text().toStdString()))
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"The provided project name is not a valid file name. Please adjust the name "
 			"accordingly.");
@@ -89,7 +89,7 @@ bool QtProjectWizardContentProjectData::check()
 
 	if (m_projectFileLocation->getText().isEmpty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("Please define the location for the Sourcetrail project file."));
 		msgBox.exec();
 		return false;
@@ -99,7 +99,7 @@ bool QtProjectWizardContentProjectData::check()
 		FilePath(m_projectFileLocation->getText().toStdWString()).expandEnvironmentVariables();
 	if (paths.size() != 1)
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"The specified location seems to be invalid. Please make sure that the used "
 			"environment variables are unambiguous.");
@@ -108,7 +108,7 @@ bool QtProjectWizardContentProjectData::check()
 	}
 	else if (!paths.front().isAbsolute())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"The specified location seems to be invalid. Please specify an absolute directory "
 			"path.");
@@ -117,7 +117,7 @@ bool QtProjectWizardContentProjectData::check()
 	}
 	else if (!paths.front().isValid())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"The specified location seems to be invalid. Please check the characters used in the "
 			"path.");
@@ -126,7 +126,7 @@ bool QtProjectWizardContentProjectData::check()
 	}
 	else if (!paths[0].exists())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			QStringLiteral("The specified location does not exist. Do you want to create the directory?"));
 		msgBox.addButton(QStringLiteral("Abort"), QMessageBox::ButtonRole::NoRole);

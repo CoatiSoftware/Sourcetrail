@@ -82,7 +82,7 @@ bool QtProjectWizardContentCxxPchFlags::check()
 
 	if (!error.empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QString::fromStdWString(error));
 		msgBox.exec();
 		return false;
