@@ -6,7 +6,6 @@
 
 #include "FilePath.h"
 
-class QEvent;
 class QHBoxLayout;
 class QListWidgetItem;
 class QPushButton;
@@ -22,11 +21,8 @@ public:
 	QtListWidget(QWidget* parent = nullptr): QListWidget(parent) {}
 
 protected:
-	void mouseDoubleClickEvent(QMouseEvent* event) override
-	{
-		QModelIndex index;
-		emit doubleClicked(index);
-	}
+	void mouseDoubleClickEvent(QMouseEvent* event) override;
+	void wheelEvent(QWheelEvent* event) override;
 };
 
 class QtListBox: public QFrame
@@ -45,7 +41,6 @@ public:
 
 protected:
 	void addWidgetToBar(QWidget* widget);
-	bool event(QEvent* event) override;
 
 	QtListWidget* m_list;
 
