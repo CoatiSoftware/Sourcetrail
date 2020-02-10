@@ -24,6 +24,7 @@ QtProjectWizardContentPathCodeblocksProject::QtProjectWizardContentPathCodeblock
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.");
 	setFileEndings({L".cbp"});
+	setIsRequired(true);
 }
 
 void QtProjectWizardContentPathCodeblocksProject::populate(QGridLayout* layout, int& row)
@@ -46,7 +47,7 @@ void QtProjectWizardContentPathCodeblocksProject::populate(QGridLayout* layout, 
 	layout->addWidget(description, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
-	QLabel* title = createFormLabel("Source Files to Index");
+	QLabel* title = createFormSubLabel("Source Files to Index");
 	layout->addWidget(title, row, QtProjectWizardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row, 0);
 

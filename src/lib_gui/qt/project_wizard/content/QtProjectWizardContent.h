@@ -31,9 +31,13 @@ public:
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;
 
+	bool isRequired() const;
+	void setIsRequired(bool isRequired);
+
 protected:
-	QLabel* createFormLabel(QString name) const;
 	QLabel* createFormTitle(QString name) const;
+	QLabel* createFormLabel(QString name) const;
+	QLabel* createFormSubLabel(QString name) const;
 	QToolButton* createSourceGroupButton(QString name, QString iconPath) const;
 
 	QtHelpButton* addHelpButton(
@@ -53,6 +57,8 @@ private:
 	void showFilesDialog(const std::vector<FilePath>& filePaths);
 
 	QtThreadedFunctor<const std::vector<FilePath>&> m_showFilesFunctor;
+
+	bool m_isRequired = false;
 };
 
 #endif	  // QT_PROJECT_WIZARD_CONTENT_H

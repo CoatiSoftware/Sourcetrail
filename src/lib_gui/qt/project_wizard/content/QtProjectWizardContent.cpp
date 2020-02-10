@@ -42,19 +42,39 @@ QString QtProjectWizardContent::getFileNamesDescription() const
 	return QStringLiteral("files");
 }
 
-QLabel* QtProjectWizardContent::createFormLabel(QString name) const
+bool QtProjectWizardContent::isRequired() const
 {
-	QLabel* label = new QLabel(name);
-	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-	label->setObjectName(QStringLiteral("label"));
-	label->setWordWrap(true);
-	return label;
+	return m_isRequired;
+}
+
+void QtProjectWizardContent::setIsRequired(bool isRequired)
+{
+	m_isRequired = isRequired;
 }
 
 QLabel* QtProjectWizardContent::createFormTitle(QString name) const
 {
 	QLabel* label = new QLabel(name);
 	label->setObjectName(QStringLiteral("titleLabel"));
+	label->setWordWrap(true);
+	return label;
+}
+
+QLabel* QtProjectWizardContent::createFormLabel(QString name) const
+{
+	if (m_isRequired)
+	{
+		name += QStringLiteral("*");
+	}
+
+	return createFormSubLabel(name);
+}
+
+QLabel* QtProjectWizardContent::createFormSubLabel(QString name) const
+{
+	QLabel* label = new QLabel(name);
+	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+	label->setObjectName(QStringLiteral("label"));
 	label->setWordWrap(true);
 	return label;
 }

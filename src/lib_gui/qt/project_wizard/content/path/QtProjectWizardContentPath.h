@@ -26,7 +26,6 @@ protected:
 	void setPlaceholderString(const QString& placeholder);
 
 	void setFileEndings(const std::set<std::wstring>& fileEndings);
-	void setAllowEmpty(bool allowEmpty);
 
 	QtLocationPicker* m_picker;
 
@@ -37,7 +36,6 @@ private:
 	QString m_helpString;
 	QString m_placeholderString;
 	std::set<std::wstring> m_fileEndings;
-	bool m_allowEmpty;
 };
 
 #endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_H

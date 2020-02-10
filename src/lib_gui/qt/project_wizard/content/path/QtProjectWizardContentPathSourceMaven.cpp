@@ -24,6 +24,7 @@ QtProjectWizardContentPathSourceMaven::QtProjectWizardContentPathSourceMaven(
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.");
 	setFileEndings({L".xml"});
+	setIsRequired(true);
 }
 
 void QtProjectWizardContentPathSourceMaven::populate(QGridLayout* layout, int& row)

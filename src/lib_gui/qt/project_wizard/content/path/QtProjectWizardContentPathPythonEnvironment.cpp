@@ -25,7 +25,6 @@ QtProjectWizardContentPathPythonEnvironment::QtProjectWizardContentPathPythonEnv
 		"Leave blank to use the default Python environment. You can make use of environment "
 		"variables with ${ENV_VAR}.");
 	setPlaceholderString("Use Default");
-	setAllowEmpty(true);
 }
 
 void QtProjectWizardContentPathPythonEnvironment::populate(QGridLayout* layout, int& row)

@@ -166,6 +166,7 @@ add_files(
 	qt/project_wizard/content/QtProjectWizardContentPreferences.h
 	qt/project_wizard/content/QtProjectWizardContentProjectData.cpp
 	qt/project_wizard/content/QtProjectWizardContentProjectData.h
+	qt/project_wizard/content/QtProjectWizardContentRequiredLabel.h
 	qt/project_wizard/content/QtProjectWizardContentSelect.cpp
 	qt/project_wizard/content/QtProjectWizardContentSelect.h
 	qt/project_wizard/content/QtProjectWizardContentSourceGroupData.cpp

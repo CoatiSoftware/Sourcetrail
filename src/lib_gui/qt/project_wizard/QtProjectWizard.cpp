@@ -15,11 +15,10 @@
 #include "QtProjectWizardContentCustomCommand.h"
 #include "QtProjectWizardContentExtensions.h"
 #include "QtProjectWizardContentGroup.h"
-#include "QtProjectWizardContentPath.h"
-#include "QtProjectWizardContentPaths.h"
 #include "QtProjectWizardContentPathsExclude.h"
 #include "QtProjectWizardContentPathsSource.h"
 #include "QtProjectWizardContentProjectData.h"
+#include "QtProjectWizardContentRequiredLabel.h"
 #include "QtProjectWizardContentSelect.h"
 #include "QtProjectWizardContentSourceGroupData.h"
 #include "QtProjectWizardContentSourceGroupInfoText.h"
@@ -624,6 +623,9 @@ void QtProjectWizard::generalButtonClicked()
 	contentGroup->addContent(
 		new QtProjectWizardContentProjectData(m_projectSettings, this, m_editing));
 
+	contentGroup->addSpace();
+	contentGroup->addContent(new QtProjectWizardContentRequiredLabel(this));
+
 	if (m_allSourceGroupSettings.empty())
 	{
 		contentGroup->addSpace();
@@ -751,6 +753,9 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 		addSourceGroupContents(summary, settings, this);
 	}
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
+
+	summary->addSpace();
+	summary->addContent(new QtProjectWizardContentRequiredLabel(this));
 
 	setContent(summary);
 

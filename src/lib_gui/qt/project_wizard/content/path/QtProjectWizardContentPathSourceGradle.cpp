@@ -19,6 +19,7 @@ QtProjectWizardContentPathSourceGradle::QtProjectWizardContentPathSourceGradle(
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.");
 	setFileEndings({L".gradle"});
+	setIsRequired(true);
 }
 
 void QtProjectWizardContentPathSourceGradle::populate(QGridLayout* layout, int& row)
