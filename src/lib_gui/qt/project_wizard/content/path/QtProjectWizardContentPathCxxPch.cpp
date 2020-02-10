@@ -89,7 +89,7 @@ bool QtProjectWizardContentPathCxxPch::check()
 		{
 			if (!m_settingsCxxPch->getPchInputFilePath().empty())
 			{
-				QMessageBox msgBox;
+				QMessageBox msgBox(m_window);
 				msgBox.setText(
 					"The provided compilation database file does not use precompiled headers. The "
 					"specified input file at "
