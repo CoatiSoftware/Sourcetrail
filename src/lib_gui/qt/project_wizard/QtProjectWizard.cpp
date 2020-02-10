@@ -580,6 +580,7 @@ QtProjectWizardWindow* QtProjectWizard::createWindowWithContent(
 
 void QtProjectWizard::updateSourceGroupList()
 {
+	m_sourceGroupList->blockSignals(true);
 	m_sourceGroupList->clear();
 
 	for (const std::shared_ptr<SourceGroupSettings>& group: m_allSourceGroupSettings)
@@ -593,6 +594,7 @@ void QtProjectWizard::updateSourceGroupList()
 		QListWidgetItem* item = new QListWidgetItem(name);
 		m_sourceGroupList->addItem(item);
 	}
+	m_sourceGroupList->blockSignals(false);
 }
 
 bool QtProjectWizard::canExitContent()
@@ -772,7 +774,7 @@ void QtProjectWizard::removeSelectedSourceGroup()
 		return;
 	}
 
-	QMessageBox msgBox;
+	QMessageBox msgBox(this);
 	msgBox.setText(QStringLiteral("Remove Source Group"));
 	msgBox.setInformativeText(
 		QStringLiteral("Do you really want to remove this source group from the project?"));
@@ -785,7 +787,9 @@ void QtProjectWizard::removeSelectedSourceGroup()
 	{
 		int currentRow = m_sourceGroupList->currentRow();
 		m_allSourceGroupSettings.erase(m_allSourceGroupSettings.begin() + currentRow);
+
 		updateSourceGroupList();
+		setContent(nullptr);
 
 		if (m_allSourceGroupSettings.empty())
 		{
@@ -854,6 +858,7 @@ void QtProjectWizard::duplicateSelectedSourceGroup()
 	m_allSourceGroupSettings.insert(m_allSourceGroupSettings.begin() + newRow, newSourceGroup);
 
 	updateSourceGroupList();
+	setContent(nullptr);
 
 	m_previouslySelectedIndex = -1;
 
@@ -1013,7 +1018,7 @@ void QtProjectWizard::createProject()
 	{
 		MessageStatus(L"Unable to save project to location: " + path.wstr()).dispatch();
 
-		QMessageBox msgBox;
+		QMessageBox msgBox(this);
 		msgBox.setText("Could not create Project");
 		msgBox.setInformativeText(QString::fromStdWString(
 			L"<p>Sourcetrail was unable to save the project to the specified path. Please pick a "
