@@ -479,17 +479,16 @@
 		</node>
 		<edge>
 			<default>#797979</default>
+			<type_use>#797979</type_use>
+			<inheritance>#797979</inheritance>
 
 			<use>#00A0B6</use>
 			<call>#DEA400</call>
 			<call_trail_focus>#FFFFFF</call_trail_focus>
 			<override>#BA5ECC</override>
 
-			<template_argument>#D93D5F</template_argument>
 			<type_argument>#D93D5F</type_argument>
-			<template_default_argument>#D93D5F</template_default_argument>
 			<template_specialization>#D93D5F</template_specialization>
-			<template_member_specialization>#D93D5F</template_member_specialization>
 
 			<include>#4E82F6</include>
 			<import>#4E82F6</import>

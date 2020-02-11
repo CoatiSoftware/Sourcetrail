@@ -456,17 +456,16 @@
 		</node>
 		<edge>
 			<default>#797979</default>
+			<type_use>#797979</type_use>
+			<inheritance>#797979</inheritance>
 
 			<use>#2D6A8C</use>
 			<call>#9C8528</call>
 			<call_trail_focus>#F7F7F7</call_trail_focus>
 			<override>#8A5A94</override>
 
-			<template_argument>#C14057</template_argument>
 			<type_argument>#C14057</type_argument>
-			<template_default_argument>#C14057</template_default_argument>
 			<template_specialization>#C14057</template_specialization>
-			<template_member_specialization>#C14057</template_member_specialization>
 
 			<include>#247368</include>
 			<import>#247368</import>

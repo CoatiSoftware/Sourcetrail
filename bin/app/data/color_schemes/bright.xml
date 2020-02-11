@@ -453,17 +453,16 @@
 		</node>
 		<edge>
 			<default>#878787</default>
+			<type_use>#878787</type_use>
+			<inheritance>#878787</inheritance>
 
 			<use>#4B9FC4</use>
 			<call>#F4BC3D</call>
 			<call_trail_focus>#F56B3D</call_trail_focus>
 			<override>#A37ACC</override>
 
-			<template_argument>#CF6B7C</template_argument>
 			<type_argument>#CF6B7C</type_argument>
-			<template_default_argument>#CF6B7C</template_default_argument>
 			<template_specialization>#CF6B7C</template_specialization>
-			<template_member_specialization>#CF6B7C</template_member_specialization>
 
 			<include>#719660</include>
 			<import>#719660</import>
