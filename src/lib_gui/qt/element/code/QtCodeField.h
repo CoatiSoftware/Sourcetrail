@@ -1,4 +1,3 @@
-
 #ifndef QT_CODE_FIELD_H
 #define QT_CODE_FIELD_H
 
