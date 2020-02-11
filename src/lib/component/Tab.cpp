@@ -89,7 +89,7 @@ void Tab::handleMessage(MessageFocusView* message)
 	MessageFocusView::ViewType type = message->type;
 	if (type == MessageFocusView::ViewType::TOGGLE)
 	{
-		if (graphView->hasViewFocus())
+		if (graphView->hasNavigationFocus())
 		{
 			type = MessageFocusView::ViewType::CODE;
 		}
@@ -99,16 +99,8 @@ void Tab::handleMessage(MessageFocusView* message)
 		}
 	}
 
-	if (type == MessageFocusView::ViewType::GRAPH)
-	{
-		codeView->defocus();
-		graphView->setViewFocus(true);
-	}
-	else
-	{
-		graphView->setViewFocus(false);
-		codeView->focus();
-	}
+	graphView->setNavigationFocus(type == MessageFocusView::ViewType::GRAPH);
+	codeView->setNavigationFocus(type == MessageFocusView::ViewType::CODE);
 }
 
 void Tab::handleMessage(MessageRefreshUI* message)

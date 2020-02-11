@@ -76,9 +76,8 @@ public:
 
 	virtual bool hasSingleFileCached(const FilePath& filePath) const = 0;
 
-	virtual void focus() = 0;
-	virtual void defocus() = 0;
-	virtual bool hasFocus() = 0;
+	virtual void setNavigationFocus(bool focus) = 0;
+	virtual bool hasNavigationFocus() const = 0;
 
 protected:
 	CodeController* getController();

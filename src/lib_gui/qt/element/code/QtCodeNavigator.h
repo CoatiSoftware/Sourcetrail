@@ -86,6 +86,8 @@ public:
 	void coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds);
 	void deCoFocusTokenIds();
 
+	void setNavigationFocus(bool focus);
+
 	void updateFiles();
 
 	void refreshStyle();
@@ -100,6 +102,10 @@ public:
 
 public slots:
 	void scrolled(int value);
+
+signals:
+	void focusIn();
+	void focusOut();
 
 protected:
 	void showEvent(QShowEvent* event) override;

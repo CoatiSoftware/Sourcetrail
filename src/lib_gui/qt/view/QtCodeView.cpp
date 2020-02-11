@@ -14,6 +14,9 @@
 QtCodeView::QtCodeView(ViewLayout* viewLayout): CodeView(viewLayout)
 {
 	m_widget = new QtCodeNavigator();
+
+	m_widget->connect(m_widget, &QtCodeNavigator::focusIn, [this](){ setNavigationFocus(true); });
+	m_widget->connect(m_widget, &QtCodeNavigator::focusOut, [this](){ setNavigationFocus(false); });
 }
 
 void QtCodeView::createWidgetWrapper()
@@ -199,34 +202,28 @@ bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const
 }
 
 #include <iostream>
-void QtCodeView::focus()
+void QtCodeView::setNavigationFocus(bool focus)
 {
-	if (m_hasFocus)
+	if (m_hasFocus == focus)
 	{
 		return;
 	}
 
-	std::cout << "focus code" << std::endl;
-	m_hasFocus = true;
+	if (focus)
+		std::cout << "focus code" << std::endl;
+	else
+		std::cout << "defocus code" << std::endl;
 
-	m_onQtThread([this]() {
-		m_widget->focus();
-		m_widget->setFocus();
+	m_hasFocus = focus;
+
+	m_onQtThread([this, focus]() {
+		m_widget->blockSignals(true);
+		m_widget->setNavigationFocus(focus);
+		m_widget->blockSignals(false);
 	});
 }
 
-void QtCodeView::defocus()
-{
-	std::cout << "defocus code" << std::endl;
-	m_hasFocus = false;
-
-	m_onQtThread([this]() {
-		m_widget->defocus();
-		m_widget->clearFocus();
-	});
-}
-
-bool QtCodeView::hasFocus()
+bool QtCodeView::hasNavigationFocus() const
 {
 	return m_hasFocus;
 }

@@ -50,9 +50,8 @@ public:
 
 	bool hasSingleFileCached(const FilePath& filePath) const override;
 
-	void focus() override;
-	void defocus() override;
-	bool hasFocus() override;
+	void setNavigationFocus(bool focus) override;
+	bool hasNavigationFocus() const override;
 
 private:
 	void setNavigationState(const CodeParams& params);

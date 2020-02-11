@@ -438,6 +438,20 @@ void QtCodeNavigator::deCoFocusTokenIds()
 	updateFiles();
 }
 
+void QtCodeNavigator::setNavigationFocus(bool focus)
+{
+	if (focus)
+	{
+		setFocus();
+		CodeFocusHandler::focus();
+	}
+	else
+	{
+		clearFocus();
+		CodeFocusHandler::defocus();
+	}
+}
+
 void QtCodeNavigator::updateFiles()
 {
 	m_current->updateFiles();
@@ -664,12 +678,13 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 void QtCodeNavigator::focusInEvent(QFocusEvent* event)
 {
 	m_focusIndicator->show();
-	MessageFocusView(MessageFocusView::ViewType::CODE).dispatch();
+	emit focusIn();
 }
 
 void QtCodeNavigator::focusOutEvent(QFocusEvent* event)
 {
 	m_focusIndicator->hide();
+	emit focusOut();
 }
 
 void QtCodeNavigator::previousReference()

@@ -68,8 +68,8 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	connect(view, &QtGraphicsView::emptySpaceClicked, this, &QtGraphView::clickedInEmptySpace);
 	connect(view, &QtGraphicsView::characterKeyPressed, this, &QtGraphView::pressedCharacterKey);
 	connect(view, &QtGraphicsView::resized, this, &QtGraphView::resized);
-	connect(view, &QtGraphicsView::focusIn, [this](){ setViewFocus(true); });
-	connect(view, &QtGraphicsView::focusOut, [this](){ setViewFocus(false); });
+	connect(view, &QtGraphicsView::focusIn, [this](){ setNavigationFocus(true); });
+	connect(view, &QtGraphicsView::focusOut, [this](){ setNavigationFocus(false); });
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
@@ -572,7 +572,7 @@ void QtGraphView::activateEdge(Id edgeId)
 }
 
 #include <iostream>
-void QtGraphView::setViewFocus(bool focus)
+void QtGraphView::setNavigationFocus(bool focus)
 {
 	if (m_hasFocus == focus)
 	{
@@ -600,7 +600,7 @@ void QtGraphView::setViewFocus(bool focus)
 	});
 }
 
-bool QtGraphView::hasViewFocus()
+bool QtGraphView::hasNavigationFocus() const
 {
 	return m_hasFocus;
 }
