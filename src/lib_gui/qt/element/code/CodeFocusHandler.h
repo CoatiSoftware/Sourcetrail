@@ -25,7 +25,14 @@ public:
 		QPushButton* scopeLine = nullptr;
 		size_t lineNumber = 0;
 		Id locationId = 0;
+
+		bool isEmpty() const
+		{
+			return file == nullptr && area == nullptr && scopeLine == nullptr && lineNumber == 0 && locationId == 0;
+		}
 	};
+
+	void clear();
 
 	void focus();
 	void defocus();
@@ -40,6 +47,7 @@ public:
 
 protected:
 	Focus m_focus;
+	Focus m_oldFocus;
 
 	size_t m_targetColumn = 0;
 };

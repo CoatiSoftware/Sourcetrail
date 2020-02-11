@@ -254,6 +254,8 @@ void QtCodeNavigator::clear()
 	m_errorInfos.clear();
 
 	updateReferenceCount(0, 0, 0, 0);
+
+	CodeFocusHandler::clear();
 }
 
 void QtCodeNavigator::clearSnippets()
@@ -450,6 +452,7 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 		clearFocus();
 		CodeFocusHandler::defocus();
 	}
+	updateFiles();
 }
 
 void QtCodeNavigator::updateFiles()

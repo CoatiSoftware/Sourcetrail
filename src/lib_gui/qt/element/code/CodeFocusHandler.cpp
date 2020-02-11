@@ -1,13 +1,28 @@
 #include "CodeFocusHandler.h"
 
+void CodeFocusHandler::clear()
+{
+	m_focus = Focus();
+	m_oldFocus = Focus();
+	m_targetColumn = 0;
+}
+
 void CodeFocusHandler::focus()
 {
-
+	if (!m_oldFocus.isEmpty())
+	{
+		m_focus = m_oldFocus;
+	}
+	else
+	{
+		// focusInitialLocation();
+	}
 }
 
 void CodeFocusHandler::defocus()
 {
-
+	m_oldFocus = m_focus;
+	m_focus = Focus();
 }
 
 const CodeFocusHandler::Focus& CodeFocusHandler::getFocus() const
