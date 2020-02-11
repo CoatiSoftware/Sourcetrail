@@ -10,6 +10,7 @@
 #include "ApplicationSettings.h"
 #include "CodeFocusHandler.h"
 #include "MessageCodeReference.h"
+#include "MessageFocusView.h"
 #include "MessageScrollCode.h"
 #include "QtCodeArea.h"
 #include "QtCodeFile.h"
@@ -33,13 +34,25 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
+	const size_t indicatorHeight = 3;
+
+	{
+		m_focusIndicator = new QWidget(this);
+		m_focusIndicator->setObjectName(QStringLiteral("focus_indicator"));
+		m_focusIndicator->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+		m_focusIndicator->setFixedHeight(indicatorHeight);
+		utility::setWidgetRetainsSpaceWhenHidden(m_focusIndicator);
+		m_focusIndicator->hide();
+		layout->addWidget(m_focusIndicator);
+	}
+
 	{
 		QWidget* navigation = new QWidget();
 		navigation->setObjectName(QStringLiteral("code_navigation"));
 
 		QHBoxLayout* navLayout = new QHBoxLayout();
 		navLayout->setSpacing(2);
-		navLayout->setContentsMargins(7, 7, 7, 6);
+		navLayout->setContentsMargins(7, 7 - indicatorHeight, 7, 6);
 
 		{
 			m_prevReferenceButton = new QtSearchBarButton(
@@ -646,6 +659,17 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 		QWidget::keyPressEvent(event);
 		return;
 	}
+}
+
+void QtCodeNavigator::focusInEvent(QFocusEvent* event)
+{
+	m_focusIndicator->show();
+	// MessageFocusView(MessageFocusView::ViewType::CODE).dispatch();
+}
+
+void QtCodeNavigator::focusOutEvent(QFocusEvent* event)
+{
+	m_focusIndicator->hide();
 }
 
 void QtCodeNavigator::previousReference()

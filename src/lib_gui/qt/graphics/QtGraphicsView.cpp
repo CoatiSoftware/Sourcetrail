@@ -16,6 +16,7 @@
 #include "MessageActivateLegend.h"
 #include "MessageBookmarkCreate.h"
 #include "MessageCodeShowDefinition.h"
+#include "MessageFocusView.h"
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
 #include "MessageTabOpenWith.h"
@@ -122,6 +123,10 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_exportGraphAction->setStatusTip(QStringLiteral("Save this graph as image file"));
 	m_exportGraphAction->setToolTip(QStringLiteral("Save this graph as image file"));
 	connect(m_exportGraphAction, &QAction::triggered, this, &QtGraphicsView::exportGraph);
+
+	m_focusIndicator = new QWidget(this);
+	m_focusIndicator->setObjectName(QStringLiteral("focus_indicator"));
+	m_focusIndicator->hide();
 
 	m_zoomState = new QPushButton(this);
 	m_zoomState->setObjectName(QStringLiteral("zoom_state"));
@@ -260,6 +265,7 @@ void QtGraphicsView::updateZoom(float delta)
 
 void QtGraphicsView::resizeEvent(QResizeEvent* event)
 {
+	m_focusIndicator->setGeometry(QRect(0, 0, event->size().width(), 3));
 	m_zoomState->setGeometry(QRect(31, event->size().height() - 27, 65, 19));
 	m_zoomInButton->setGeometry(QRect(8, event->size().height() - 50, 19, 19));
 	m_zoomOutButton->setGeometry(QRect(8, event->size().height() - 27, 18, 19));
@@ -538,6 +544,17 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	menu.addFileActions(clipboardFilePath);
 
 	menu.show();
+}
+
+void QtGraphicsView::focusInEvent(QFocusEvent* event)
+{
+	m_focusIndicator->show();
+	// MessageFocusView(MessageFocusView::ViewType::GRAPH).dispatch();
+}
+
+void QtGraphicsView::focusOutEvent(QFocusEvent* event)
+{
+	m_focusIndicator->hide();
 }
 
 void QtGraphicsView::updateTimer()

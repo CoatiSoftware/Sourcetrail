@@ -105,6 +105,9 @@ protected:
 	void showEvent(QShowEvent* event) override;
 	void keyPressEvent(QKeyEvent* event) override;
 
+	void focusInEvent(QFocusEvent* event) override;
+	void focusOutEvent(QFocusEvent* event) override;
+
 private slots:
 	void previousReference();
 	void nextReference();
@@ -138,6 +141,8 @@ private:
 	std::set<Id> m_coFocusedTokenIds;
 
 	std::map<Id, ErrorInfo> m_errorInfos;
+
+	QWidget* m_focusIndicator;
 
 	QtSearchBarButton* m_prevReferenceButton;
 	QtSearchBarButton* m_nextReferenceButton;

@@ -569,8 +569,10 @@ void QtGraphView::activateEdge(Id edgeId)
 	});
 }
 
+#include <iostream>
 void QtGraphView::focus()
 {
+	std::cout << "focus graph" << std::endl;
 	getView()->setFocus();
 
 	m_focusHandler.focus();
@@ -578,6 +580,7 @@ void QtGraphView::focus()
 
 void QtGraphView::defocus()
 {
+	std::cout << "defocus graph" << std::endl;
 	getView()->clearFocus();
 
 	m_focusHandler.defocus();

@@ -101,8 +101,8 @@ void Tab::handleMessage(MessageFocusView* message)
 
 	if (type == MessageFocusView::ViewType::GRAPH)
 	{
-		graphView->focus();
 		codeView->defocus();
+		graphView->focus();
 	}
 	else
 	{

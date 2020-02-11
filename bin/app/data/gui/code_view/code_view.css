@@ -24,6 +24,10 @@
 	border: none;
 }
 
+#focus_indicator {
+	background: red;
+}
+
 #code_navigation QLabel {
 	color: <color:code/file/title/text>;
 	font-size: <setting:font_size>px;

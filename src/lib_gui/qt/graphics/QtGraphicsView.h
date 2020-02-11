@@ -47,6 +47,9 @@ protected:
 
 	void contextMenuEvent(QContextMenuEvent* event);
 
+	void focusInEvent(QFocusEvent* event);
+	void focusOutEvent(QFocusEvent* event);
+
 signals:
 	void emptySpaceClicked();
 	void characterKeyPressed(QChar c);
@@ -120,6 +123,8 @@ private:
 	QAction* m_bookmarkNodeAction;
 
 	QAction* m_exportGraphAction;
+
+	QWidget* m_focusIndicator;
 
 	QPushButton* m_zoomState;
 	QtSelfRefreshIconButton* m_zoomInButton;
