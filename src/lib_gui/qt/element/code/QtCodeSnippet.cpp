@@ -111,7 +111,7 @@ void QtCodeSnippet::updateContent()
 
 	if (m_title)
 	{
-		bool focus = m_title == m_navigator->getFocus().scopeLine;
+		bool focus = m_title == m_navigator->getCurrentFocus().scopeLine;
 		if (focus != m_title->property("focused").toBool())
 		{
 			m_title->setProperty("focused", focus);
@@ -121,7 +121,7 @@ void QtCodeSnippet::updateContent()
 
 	if (m_footer)
 	{
-		bool focus = m_footer == m_navigator->getFocus().scopeLine;
+		bool focus = m_footer == m_navigator->getCurrentFocus().scopeLine;
 		if (focus != m_footer->property("focused").toBool())
 		{
 			m_footer->setProperty("focused", focus);

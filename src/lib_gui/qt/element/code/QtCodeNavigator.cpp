@@ -254,19 +254,19 @@ void QtCodeNavigator::clear()
 	m_errorInfos.clear();
 
 	updateReferenceCount(0, 0, 0, 0);
-
-	CodeFocusHandler::clear();
 }
 
 void QtCodeNavigator::clearSnippets()
 {
 	clearScreenMatches();
+	CodeFocusHandler::clear();
 	m_list->clear();
 }
 
 void QtCodeNavigator::clearFile()
 {
 	clearScreenMatches();
+	CodeFocusHandler::clear();
 	m_single->clearFile();
 }
 
@@ -452,7 +452,30 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 		clearFocus();
 		CodeFocusHandler::defocus();
 	}
-	updateFiles();
+}
+
+void QtCodeNavigator::focusInitialLocation(Id locationId)
+{
+	if (locationId)
+	{
+		m_current->setFocus(locationId);
+	}
+	else if (m_mode == MODE_LIST)
+	{
+		const std::pair<QtCodeSnippet*, Id> result = m_list->getFirstSnippetWithActiveLocationId(0);
+		if (result.first)
+		{
+			result.first->setFocus(result.second);
+		}
+	}
+	else
+	{
+		const Id locationId = m_single->getLocationIdOfFirstActiveLocationOfTokenId(0);
+		if (locationId)
+		{
+			m_single->setFocus(locationId);
+		}
+	}
 }
 
 void QtCodeNavigator::updateFiles()
@@ -515,6 +538,7 @@ void QtCodeNavigator::activateScreenMatch(size_t matchIndex)
 		CodeScrollParams::toReference(
 			p.first->getSourceLocationFile()->getFilePath(),
 			m_activeScreenMatchId,
+			0,
 			CodeScrollParams::Target::CENTER),
 		true);
 }
@@ -567,7 +591,12 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 	{
 	case CodeScrollParams::Type::TO_REFERENCE:
 		func = [=]() {
-			m_current->scrollTo(params.filePath, 0, params.locationId, animated, params.target);
+			m_current->scrollTo(
+				params.filePath,
+				0,
+				params.scopeLocationId ? params.scopeLocationId : params.locationId,
+				animated,
+				params.target);
 		};
 		break;
 	case CodeScrollParams::Type::TO_FILE:
@@ -604,6 +633,8 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 	}
 
 	m_scrollParams = CodeScrollParams();
+
+	focusInitialLocation(params.locationId);
 }
 
 void QtCodeNavigator::scrolled(int value)
@@ -628,7 +659,6 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_W:
 		std::cout << "up" << std::endl;
 		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::UP);
-		updateFiles();
 		break;
 
 	case Qt::Key_Down:
@@ -636,7 +666,6 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_S:
 		std::cout << "down" << std::endl;
 		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::DOWN);
-		updateFiles();
 		break;
 
 	case Qt::Key_Left:
@@ -644,7 +673,6 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_A:
 		std::cout << "left" << std::endl;
 		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::LEFT);
-		updateFiles();
 		break;
 
 	case Qt::Key_Right:
@@ -652,7 +680,6 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_D:
 		std::cout << "right" << std::endl;
 		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::RIGHT);
-		updateFiles();
 		break;
 
 	case Qt::Key_E:

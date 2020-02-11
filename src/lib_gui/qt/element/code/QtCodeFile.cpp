@@ -190,7 +190,7 @@ void QtCodeFile::updateContent()
 		snippet->updateContent();
 	}
 
-	m_titleBar->setIsFocused(m_navigator->getFocus().file == this);
+	m_titleBar->setIsFocused(m_navigator->getCurrentFocus().file == this);
 }
 
 void QtCodeFile::setWholeFile(bool isWholeFile, int refCount)
@@ -446,7 +446,7 @@ void QtCodeFile::clickedMaximizeButton()
 	m_navigator->setMode(QtCodeNavigator::MODE_SINGLE);
 
 	CodeScrollParams scrollParams = locationId
-		? CodeScrollParams::toReference(m_filePath, locationId, CodeScrollParams::Target::CENTER)
+		? CodeScrollParams::toReference(m_filePath, locationId, 0, CodeScrollParams::Target::CENTER)
 		: CodeScrollParams::toLine(m_filePath, lineNumber, CodeScrollParams::Target::CENTER);
 
 	MessageChangeFileView msg(
