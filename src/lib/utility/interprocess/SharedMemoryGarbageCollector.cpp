@@ -31,11 +31,19 @@ SharedMemoryGarbageCollector* SharedMemoryGarbageCollector::createInstance()
 					   "disabled.");
 				s_instance.reset();
 			}
+			else if (!s_instance->m_memory.checkScopedAccess())
+			{
+				LOG_ERROR_STREAM(
+					<< "Shared memory ScopedAccess check failed. Shared memory garbage collection "
+					   "disabled.");
+				s_instance.reset();
+			}
 		}
 	}
 	catch (boost::interprocess::interprocess_exception& e)
 	{
 		LOG_ERROR_STREAM(<< "boost exception thrown at shared memory garbage collector: " << e.what());
+		s_instance.reset();
 	}
 
 	return s_instance.get();

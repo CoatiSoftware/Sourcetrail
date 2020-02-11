@@ -103,6 +103,7 @@ public:
 	};
 
 	bool checkSharedMutex();
+	bool checkScopedAccess();
 
 private:
 	static const char* s_memoryNamePrefix;

@@ -195,7 +195,6 @@ SharedMemory::~SharedMemory()
 		LOG_ERROR_STREAM(
 			<< "boost exception thrown at shared memory destruction - " << getMemoryName() << ": "
 			<< e.what());
-		throw e;
 	}
 }
 
@@ -228,6 +227,23 @@ bool SharedMemory::checkSharedMutex()
 	catch (boost::interprocess::interprocess_exception& e)
 	{
 		LOG_ERROR_STREAM(<< "boost exception thrown at shared mutex check: " << e.what());
+	}
+
+	return false;
+}
+
+bool SharedMemory::checkScopedAccess()
+{
+	try
+	{
+		{
+			ScopedAccess(this);
+		}
+		return true;
+	}
+	catch (boost::interprocess::interprocess_exception& e)
+	{
+		LOG_ERROR_STREAM(<< "boost exception thrown at ScopedAccess check: " << e.what());
 	}
 
 	return false;

@@ -5,11 +5,9 @@
 #include <mutex>
 #include <set>
 #include <string>
+#include <thread>
 
 #include "SharedMemory.h"
-
-#include <mutex>
-#include <thread>
 
 class SharedMemoryGarbageCollector
 {
