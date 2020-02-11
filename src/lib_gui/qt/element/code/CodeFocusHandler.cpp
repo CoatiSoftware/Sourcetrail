@@ -1,5 +1,15 @@
 #include "CodeFocusHandler.h"
 
+void CodeFocusHandler::focus()
+{
+
+}
+
+void CodeFocusHandler::defocus()
+{
+
+}
+
 const CodeFocusHandler::Focus& CodeFocusHandler::getFocus() const
 {
 	return m_focus;

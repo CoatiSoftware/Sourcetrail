@@ -53,7 +53,6 @@ public:
 	void focus() override;
 	void defocus() override;
 	bool hasFocus() override;
-	bool m_hasFocus = false;
 
 private:
 	void setNavigationState(const CodeParams& params);
@@ -64,6 +63,8 @@ private:
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtCodeNavigator* m_widget;
+
+	bool m_hasFocus = false;
 };
 
 #endif	  // QT_CODE_VIEW_H

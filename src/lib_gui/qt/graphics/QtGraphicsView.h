@@ -55,6 +55,9 @@ signals:
 	void characterKeyPressed(QChar c);
 	void resized();
 
+	void focusIn();
+	void focusOut();
+
 private slots:
 	void updateTimer();
 	void stopTimer();

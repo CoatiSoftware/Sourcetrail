@@ -68,6 +68,8 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	connect(view, &QtGraphicsView::emptySpaceClicked, this, &QtGraphView::clickedInEmptySpace);
 	connect(view, &QtGraphicsView::characterKeyPressed, this, &QtGraphView::pressedCharacterKey);
 	connect(view, &QtGraphicsView::resized, this, &QtGraphView::resized);
+	connect(view, &QtGraphicsView::focusIn, [this](){ setViewFocus(true); });
+	connect(view, &QtGraphicsView::focusOut, [this](){ setViewFocus(false); });
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
@@ -570,30 +572,55 @@ void QtGraphView::activateEdge(Id edgeId)
 }
 
 #include <iostream>
-void QtGraphView::focus()
+void QtGraphView::setViewFocus(bool focus)
 {
-	std::cout << "focus graph" << std::endl;
-	getView()->setFocus();
+	if (m_hasFocus == focus)
+	{
+		return;
+	}
 
-	m_focusHandler.focus();
+	if (focus)
+		std::cout << "focus graph" << std::endl;
+	else
+		std::cout << "defocus graph" << std::endl;
+
+	m_hasFocus = focus;
+
+	m_onQtThread([this, focus]() {
+		focusView(focus);
+
+		if (focus)
+		{
+			m_focusHandler.focus();
+		}
+		else
+		{
+			m_focusHandler.defocus();
+		}
+	});
 }
 
-void QtGraphView::defocus()
+bool QtGraphView::hasViewFocus()
 {
-	std::cout << "defocus graph" << std::endl;
-	getView()->clearFocus();
-
-	m_focusHandler.defocus();
+	return m_hasFocus;
 }
 
-bool QtGraphView::hasFocus()
+void QtGraphView::focusView(bool focusIn)
 {
-	return getView()->hasFocus();
-}
+	QtGraphicsView* view = getView();
 
-void QtGraphView::focusView()
-{
-	getView()->setFocus();
+	view->blockSignals(true);
+
+	if (focusIn)
+	{
+		view->setFocus();
+	}
+	else
+	{
+		view->clearFocus();
+	}
+
+	view->blockSignals(false);
 }
 
 const std::list<QtGraphNode*>& QtGraphView::getGraphNodes() const
@@ -1005,9 +1032,9 @@ void QtGraphView::switchToNewGraphData()
 	}
 
 	// if (hasFocus())
-	{
-		m_focusHandler.focusInitialNode();
-	}
+	// {
+	// 	m_focusHandler.focusInitialNode();
+	// }
 
 	// Repaint to make sure all artifacts are removed
 	view->update();

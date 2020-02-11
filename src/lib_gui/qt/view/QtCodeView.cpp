@@ -201,10 +201,18 @@ bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const
 #include <iostream>
 void QtCodeView::focus()
 {
+	if (m_hasFocus)
+	{
+		return;
+	}
+
 	std::cout << "focus code" << std::endl;
 	m_hasFocus = true;
 
-	m_onQtThread([this]() { m_widget->setFocus(); });
+	m_onQtThread([this]() {
+		m_widget->focus();
+		m_widget->setFocus();
+	});
 }
 
 void QtCodeView::defocus()
@@ -212,7 +220,10 @@ void QtCodeView::defocus()
 	std::cout << "defocus code" << std::endl;
 	m_hasFocus = false;
 
-	m_onQtThread([this]() { m_widget->clearFocus(); });
+	m_onQtThread([this]() {
+		m_widget->defocus();
+		m_widget->clearFocus();
+	});
 }
 
 bool QtCodeView::hasFocus()

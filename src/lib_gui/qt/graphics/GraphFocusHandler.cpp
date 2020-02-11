@@ -139,7 +139,7 @@ void GraphFocusHandler::focusNext(Direction direction, bool navigateEdges)
 
 void GraphFocusHandler::focusNode(QtGraphNode* node)
 {
-	m_client->focusView();
+	m_client->focusView(true);
 
 	if (node == m_focusNode)
 	{
@@ -172,7 +172,7 @@ void GraphFocusHandler::defocusNode(QtGraphNode* node)
 
 void GraphFocusHandler::focusEdge(QtGraphEdge* edge)
 {
-	m_client->focusView();
+	m_client->focusView(true);
 
 	if (edge == m_focusEdge)
 	{

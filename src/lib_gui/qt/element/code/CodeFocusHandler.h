@@ -27,6 +27,9 @@ public:
 		Id locationId = 0;
 	};
 
+	void focus();
+	void defocus();
+
 	const Focus& getFocus() const;
 
 	void setFocusedLocationId(QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId);

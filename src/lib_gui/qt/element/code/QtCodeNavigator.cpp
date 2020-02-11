@@ -664,7 +664,7 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 void QtCodeNavigator::focusInEvent(QFocusEvent* event)
 {
 	m_focusIndicator->show();
-	// MessageFocusView(MessageFocusView::ViewType::CODE).dispatch();
+	MessageFocusView(MessageFocusView::ViewType::CODE).dispatch();
 }
 
 void QtCodeNavigator::focusOutEvent(QFocusEvent* event)

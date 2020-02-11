@@ -68,12 +68,11 @@ public:
 
 	void activateEdge(Id edgeId) override;
 
-	void focus() override;
-	void defocus() override;
-	bool hasFocus() override;
+	void setViewFocus(bool focus) override;
+	bool hasViewFocus() override;
 
 	// GraphFocusClient implementation
-	void focusView() override;
+	void focusView(bool focusIn) override;
 
 	const std::list<QtGraphNode*>& getGraphNodes() const override;
 	const std::list<QtGraphEdge*>& getGraphEdges() const override;
@@ -148,6 +147,7 @@ private:
 	void createTransition();
 
 	GraphFocusHandler m_focusHandler;
+	bool m_hasFocus = false;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 

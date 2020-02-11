@@ -55,9 +55,8 @@ public:
 
 	virtual void activateEdge(Id edgeId) = 0;
 
-	virtual void focus() = 0;
-	virtual void defocus() = 0;
-	virtual bool hasFocus() = 0;
+	virtual void setViewFocus(bool focus) = 0;
+	virtual bool hasViewFocus() = 0;
 };
 
 #endif	  // GRAPH_VIEW_H

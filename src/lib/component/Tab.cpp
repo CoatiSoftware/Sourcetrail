@@ -89,7 +89,7 @@ void Tab::handleMessage(MessageFocusView* message)
 	MessageFocusView::ViewType type = message->type;
 	if (type == MessageFocusView::ViewType::TOGGLE)
 	{
-		if (graphView->hasFocus())
+		if (graphView->hasViewFocus())
 		{
 			type = MessageFocusView::ViewType::CODE;
 		}
@@ -102,11 +102,11 @@ void Tab::handleMessage(MessageFocusView* message)
 	if (type == MessageFocusView::ViewType::GRAPH)
 	{
 		codeView->defocus();
-		graphView->focus();
+		graphView->setViewFocus(true);
 	}
 	else
 	{
-		graphView->defocus();
+		graphView->setViewFocus(false);
 		codeView->focus();
 	}
 }
