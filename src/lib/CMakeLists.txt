@@ -520,6 +520,7 @@ add_files(
 	utility/messaging/type/MessageQuitApplication.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageRefreshUI.h
+	utility/messaging/type/MessageRefreshUIState.h
 	utility/messaging/type/MessageResetZoom.h
 	utility/messaging/type/MessageShowStatus.h
 	utility/messaging/type/MessageStatus.cpp

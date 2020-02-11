@@ -24,7 +24,7 @@
 #include "MessageHistoryUndo.h"
 #include "MessageIndexingFinished.h"
 #include "MessageListener.h"
-#include "MessageRefreshUI.h"
+#include "MessageRefreshUIState.h"
 #include "MessageScrollCode.h"
 #include "MessageScrollGraph.h"
 #include "MessageShowError.h"
@@ -57,7 +57,7 @@ class UndoRedoController
 	, public MessageListener<MessageHistoryToPosition>
 	, public MessageListener<MessageHistoryUndo>
 	, public MessageListener<MessageIndexingFinished>
-	, public MessageListener<MessageRefreshUI>
+	, public MessageListener<MessageRefreshUIState>
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageScrollGraph>
 	, public MessageListener<MessageShowError>
@@ -110,7 +110,7 @@ private:
 	void handleMessage(MessageHistoryToPosition* message) override;
 	void handleMessage(MessageHistoryUndo* message) override;
 	void handleMessage(MessageIndexingFinished* message) override;
-	void handleMessage(MessageRefreshUI* message) override;
+	void handleMessage(MessageRefreshUIState* message) override;
 	void handleMessage(MessageScrollCode* message) override;
 	void handleMessage(MessageScrollGraph* message) override;
 	void handleMessage(MessageShowError* message) override;
