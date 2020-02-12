@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QScrollBar>
+#include <QStyle>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -41,8 +42,6 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		m_focusIndicator->setObjectName(QStringLiteral("focus_indicator"));
 		m_focusIndicator->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 		m_focusIndicator->setFixedHeight(indicatorHeight);
-		utility::setWidgetRetainsSpaceWhenHidden(m_focusIndicator);
-		m_focusIndicator->hide();
 		layout->addWidget(m_focusIndicator);
 	}
 
@@ -703,13 +702,17 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 
 void QtCodeNavigator::focusInEvent(QFocusEvent* event)
 {
-	m_focusIndicator->show();
+	m_focusIndicator->setProperty("focused", true);
+	m_focusIndicator->style()->polish(m_focusIndicator);	  // recomputes style to make property take effect
+
 	emit focusIn();
 }
 
 void QtCodeNavigator::focusOutEvent(QFocusEvent* event)
 {
-	m_focusIndicator->hide();
+	m_focusIndicator->setProperty("focused", false);
+	m_focusIndicator->style()->polish(m_focusIndicator);	  // recomputes style to make property take effect
+
 	emit focusOut();
 }
 

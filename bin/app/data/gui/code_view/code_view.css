@@ -25,6 +25,10 @@
 }
 
 #focus_indicator {
+	background: <color:code/navigation/background>;
+}
+
+#focus_indicator[focused=true] {
 	background: red;
 }
 
