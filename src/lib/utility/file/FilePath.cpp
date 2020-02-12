@@ -80,7 +80,7 @@ bool FilePath::empty() const
 	return m_path->empty();
 }
 
-bool FilePath::exists() const
+bool FilePath::exists() const noexcept
 {
 	if (!m_checkedExists)
 	{
