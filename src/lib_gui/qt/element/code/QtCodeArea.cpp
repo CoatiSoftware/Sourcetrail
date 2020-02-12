@@ -787,7 +787,7 @@ void QtCodeArea::updateLineNumberAreaWidth(int /* newBlockCount */)
 	setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
-void QtCodeArea::updateLineNumberArea(const QRect& rect, int dy)
+void QtCodeArea::updateLineNumberArea(QRect rect, int dy)
 {
 	if (dy)
 	{

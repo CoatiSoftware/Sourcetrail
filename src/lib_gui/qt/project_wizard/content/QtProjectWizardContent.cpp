@@ -54,7 +54,7 @@ void QtProjectWizardContent::setIsRequired(bool isRequired)
 	m_isRequired = isRequired;
 }
 
-QLabel* QtProjectWizardContent::createFormTitle(QString name) const
+QLabel* QtProjectWizardContent::createFormTitle(const QString& name) const
 {
 	QLabel* label = new QLabel(name);
 	label->setObjectName(QStringLiteral("titleLabel"));
@@ -72,7 +72,7 @@ QLabel* QtProjectWizardContent::createFormLabel(QString name) const
 	return createFormSubLabel(name);
 }
 
-QLabel* QtProjectWizardContent::createFormSubLabel(QString name) const
+QLabel* QtProjectWizardContent::createFormSubLabel(const QString& name) const
 {
 	QLabel* label = new QLabel(name);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -81,7 +81,8 @@ QLabel* QtProjectWizardContent::createFormSubLabel(QString name) const
 	return label;
 }
 
-QToolButton* QtProjectWizardContent::createSourceGroupButton(QString name, QString iconPath) const
+QToolButton* QtProjectWizardContent::createSourceGroupButton(
+	const QString& name, const QString& iconPath) const
 {
 	QToolButton* button = new QToolButton();
 	button->setObjectName(QStringLiteral("sourceGroupButton"));
@@ -102,7 +103,7 @@ QtHelpButton* QtProjectWizardContent::addHelpButton(
 	return button;
 }
 
-QPushButton* QtProjectWizardContent::addFilesButton(QString name, QGridLayout* layout, int row) const
+QPushButton* QtProjectWizardContent::addFilesButton(const QString& name, QGridLayout* layout, int row) const
 {
 	QPushButton* button = new QPushButton(name);
 	button->setObjectName(QStringLiteral("windowButton"));

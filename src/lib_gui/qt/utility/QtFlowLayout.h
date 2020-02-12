@@ -34,7 +34,7 @@ public:
 	int count() const override;
 
 private:
-	int doLayout(const QRect& rect, bool testOnly) const;
+	int doLayout(QRect rect, bool testOnly) const;
 	int smartSpacing(QStyle::PixelMetric pm) const;
 
 	QList<QLayoutItem*> itemList;

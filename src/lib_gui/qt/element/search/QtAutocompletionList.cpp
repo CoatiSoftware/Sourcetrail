@@ -384,7 +384,7 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent): QCompleter(parent)
 
 QtAutocompletionList::~QtAutocompletionList() {}
 
-void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList)
+void QtAutocompletionList::completeAt(QPoint pos, const std::vector<SearchMatch>& autocompletionList)
 {
 	m_model->setMatchList(autocompletionList);
 

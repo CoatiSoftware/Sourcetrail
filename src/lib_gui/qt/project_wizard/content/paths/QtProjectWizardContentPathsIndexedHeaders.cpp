@@ -103,14 +103,14 @@ std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPaths
 QtProjectWizardContentPathsIndexedHeaders::QtProjectWizardContentPathsIndexedHeaders(
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
-	std::string projectKindName)
+	const std::string& projectKindName)
 	: QtProjectWizardContentPaths(
 		  settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES, true)
 	, m_projectKindName(projectKindName)
 {
-	m_showFilesString = "";
+	m_showFilesString = QLatin1String("");
 
-	setTitleString("Header Files & Directories to Index");
+	setTitleString(QStringLiteral("Header Files & Directories to Index"));
 	setHelpString(QString::fromStdString(
 		"The provided " + m_projectKindName +
 		" already specifies which source files are part of your project. But Sourcetrail still "
@@ -135,7 +135,7 @@ void QtProjectWizardContentPathsIndexedHeaders::populate(QGridLayout* layout, in
 	QtProjectWizardContentPaths::populate(layout, row);
 
 	QPushButton* button = new QPushButton(QString::fromStdString("Select from " + m_projectKindName));
-	button->setObjectName("windowButton");
+	button->setObjectName(QStringLiteral("windowButton"));
 	connect(
 		button, &QPushButton::clicked, this, &QtProjectWizardContentPathsIndexedHeaders::buttonClicked);
 
@@ -166,7 +166,7 @@ bool QtProjectWizardContentPathsIndexedHeaders::check()
 	if (m_list->getPathsAsDisplayed().empty())
 	{
 		QMessageBox msgBox(m_window);
-		msgBox.setText("You didn't specify any Header Files & Directories to Index.");
+		msgBox.setText(QStringLiteral("You didn't specify any Header Files & Directories to Index."));
 		msgBox.setInformativeText(QString::fromStdString(
 			"Sourcetrail will only index the source files listed in the " + m_projectKindName +
 			" file and none of the included header files."));
@@ -197,7 +197,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 			if (!codeblocksProjectPath.exists())
 			{
 				QMessageBox msgBox(m_window);
-				msgBox.setText("The provided Code::Blocks project path does not exist.");
+				msgBox.setText(QStringLiteral("The provided Code::Blocks project path does not exist."));
 				msgBox.setDetailedText(QString::fromStdWString(codeblocksProjectPath.wstr()));
 				msgBox.exec();
 				return;
@@ -241,7 +241,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 			if (!cdbPath.exists())
 			{
 				QMessageBox msgBox(m_window);
-				msgBox.setText("The provided Compilation Database path does not exist.");
+				msgBox.setText(QStringLiteral("The provided Compilation Database path does not exist."));
 				msgBox.setDetailedText(QString::fromStdWString(cdbPath.wstr()));
 				msgBox.exec();
 				return;

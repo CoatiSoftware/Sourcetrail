@@ -32,7 +32,10 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	FilePath imageDir = ResourcePaths::getGuiPath().concatenate(L"code_view/images/");
 
 	m_expandButton = new QtSelfRefreshIconButton(
-		QLatin1String(""), imageDir.getConcatenated(L"snippet_arrow_right.png"), "code/file/title", this);
+		QLatin1String(""),
+		imageDir.getConcatenated(L"snippet_arrow_right.png"),
+		"code/file/title",
+		this);
 	m_collapseButton = new QtSelfRefreshIconButton(
 		QLatin1String(""), imageDir.getConcatenated(L"snippet_arrow_down.png"), "code/file/title", this);
 
@@ -74,7 +77,8 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 
 	m_showErrorsButton = new QPushButton(QStringLiteral("show errors"));
 	m_showErrorsButton->setObjectName(QStringLiteral("screen_button"));
-	m_showErrorsButton->setToolTip(QStringLiteral("Show all errors causing this file to be incomplete"));
+	m_showErrorsButton->setToolTip(
+		QStringLiteral("Show all errors causing this file to be incomplete"));
 	m_showErrorsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 	m_showErrorsButton->hide();
 	titleLayout->addWidget(m_showErrorsButton);
@@ -168,7 +172,8 @@ void QtCodeFileTitleBar::updateRefCount(int refCount, bool hasErrors, size_t fat
 
 		if (fatalErrorCount > 0)
 		{
-			label += QStringLiteral(" (") + QString::number(fatalErrorCount) + QStringLiteral(" fatal)");
+			label += QStringLiteral(" (") + QString::number(fatalErrorCount) +
+				QStringLiteral(" fatal)");
 		}
 
 		QString text = QString::number(refCount) + QChar(' ') + label;

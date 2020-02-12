@@ -25,10 +25,11 @@ void QtProjectWizardContentFlags::populate(QGridLayout* layout, int& row)
 
 	addHelpButton(
 		labelText,
-		"<p>Define additional Clang compiler flags used during indexing. Here are some "
-		"examples:</p>"
-		"<p>use \"-DRELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
-		"<p>use \"-U__clang__\" to remove the preprocessor #define for \"__clang__\"</p>",
+		QStringLiteral(
+			"<p>Define additional Clang compiler flags used during indexing. Here are some "
+			"examples:</p>"
+			"<p>use \"-DRELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
+			"<p>use \"-U__clang__\" to remove the preprocessor #define for \"__clang__\"</p>"),
 		layout,
 		row);
 

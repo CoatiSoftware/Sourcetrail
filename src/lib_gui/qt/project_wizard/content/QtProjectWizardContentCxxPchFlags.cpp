@@ -16,32 +16,36 @@ QtProjectWizardContentCxxPchFlags::QtProjectWizardContentCxxPchFlags(
 
 void QtProjectWizardContentCxxPchFlags::populate(QGridLayout* layout, int& row)
 {
-	const QString labelText("Precompiled Header Flags");
+	const QString labelText(QStringLiteral("Precompiled Header Flags"));
 	layout->addWidget(
 		createFormLabel(labelText), row, QtProjectWizardWindow::FRONT_COL, 2, 1, Qt::AlignTop);
 
 	const QString optionText(
-		m_isCDB ? "Use flags of first indexed file and 'Additional Compiler Flags'"
-				: "Use 'Compiler Flags'");
+		m_isCDB ? QStringLiteral("Use flags of first indexed file and 'Additional Compiler Flags'")
+				: QStringLiteral("Use 'Compiler Flags'"));
 
 	const QString optionHelp(
-		m_isCDB
-			? "Check <b>" + optionText +
-				"</b> to use the flags specified "
-				"in the first compile command of the Compilation Database and all flags specified "
-				"at 'Additional Compiler Flags'."
-			: "Check <b>" + optionText + "</b> to reuse the flags specified at 'Compiler Flags'.");
+		m_isCDB ? QStringLiteral("Check <b>") + optionText +
+				QStringLiteral("</b> to use the flags specified "
+							   "in the first compile command of the Compilation Database and all "
+							   "flags specified "
+							   "at 'Additional Compiler Flags'.")
+				: QStringLiteral("Check <b>") + optionText +
+				QStringLiteral("</b> to reuse the flags specified at 'Compiler Flags'."));
 
 	addHelpButton(
-		"Precompiled Header Flags",
-		"<p>Define compiler flags used during precompiled header file generation.</p>"
-		"<p>" +
+		QStringLiteral("Precompiled Header Flags"),
+		QStringLiteral(
+			"<p>Define compiler flags used during precompiled header file generation.</p>"
+			"<p>") +
 			optionHelp +
-			"</p>"
-			"<p>Additionally add compiler flags to the list for precompiled header generation "
-			"only. Some examples:</p>"
-			"<p>* use \"-DRELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
-			"<p>* use \"-U__clang__\" to remove the preprocessor #define for \"__clang__\"</p>",
+			QStringLiteral(
+				"</p>"
+				"<p>Additionally add compiler flags to the list for precompiled header generation "
+				"only. Some examples:</p>"
+				"<p>* use \"-DRELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
+				"<p>* use \"-U__clang__\" to remove the preprocessor #define for "
+				"\"__clang__\"</p>"),
 		layout,
 		row);
 

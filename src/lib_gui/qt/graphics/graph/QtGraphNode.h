@@ -51,7 +51,7 @@ public:
 	void setColumnSize(const Vec2i& size);
 
 	QSize size() const;
-	void setSize(const QSize& size);
+	void setSize(QSize size);
 
 	Vec4i getBoundingRect() const;
 

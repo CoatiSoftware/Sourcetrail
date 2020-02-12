@@ -194,8 +194,8 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 			m_window->setNextEnabled(false);
 			m_title->setText("Source Group Types - " + m_languages->checkedButton()->text());
 
-			m_description->setText(hasRecommeded ?
-									   QStringLiteral("<b>* recommended</b>") : QLatin1String(""));
+			m_description->setText(
+				hasRecommeded ? QStringLiteral("<b>* recommended</b>") : QLatin1String(""));
 		});
 
 	QtFlowLayout* flayout = new QtFlowLayout(10, 0, 0);

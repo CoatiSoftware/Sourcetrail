@@ -64,8 +64,8 @@ void QtProjectWizardContentPathsHeaderSearch::populate(QGridLayout* layout, int&
 	if (!m_indicateAsAdditional)
 	{
 		{
-			QPushButton* detectionButton = new QPushButton("auto-detect");
-			detectionButton->setObjectName("windowButton");
+			QPushButton* detectionButton = new QPushButton(QStringLiteral("auto-detect"));
+			detectionButton->setObjectName(QStringLiteral("windowButton"));
 			connect(
 				detectionButton,
 				&QPushButton::clicked,
@@ -75,8 +75,9 @@ void QtProjectWizardContentPathsHeaderSearch::populate(QGridLayout* layout, int&
 				detectionButton, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 		}
 		{
-			QPushButton* validateionButton = new QPushButton("validate include directives");
-			validateionButton->setObjectName("windowButton");
+			QPushButton* validateionButton = new QPushButton(
+				QStringLiteral("validate include directives"));
+			validateionButton->setObjectName(QStringLiteral("windowButton"));
 			connect(
 				validateionButton,
 				&QPushButton::clicked,
@@ -124,7 +125,7 @@ void QtProjectWizardContentPathsHeaderSearch::detectIncludesButtonClicked()
 		QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY);
 
 	m_pathsDialog->setup();
-	m_pathsDialog->updateNextButton("Start");
+	m_pathsDialog->updateNextButton(QStringLiteral("Start"));
 	m_pathsDialog->setCloseVisible(true);
 
 	m_pathsDialog->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
@@ -367,7 +368,7 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 		m_filesDialog->setup();
 		m_filesDialog->setReadOnly(true);
 		m_filesDialog->setCloseVisible(true);
-		m_filesDialog->updateNextButton("Add");
+		m_filesDialog->updateNextButton(QStringLiteral("Add"));
 
 		m_filesDialog->setText(detailedText);
 		m_filesDialog->showWindow();
@@ -392,7 +393,7 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 	{
 		QMessageBox msgBox(m_window);
 		msgBox.setText(
-			"<p>All include directives throughout the indexed files have been resolved.</p>");
+			QStringLiteral("<p>All include directives throughout the indexed files have been resolved.</p>"));
 		msgBox.exec();
 	}
 	else

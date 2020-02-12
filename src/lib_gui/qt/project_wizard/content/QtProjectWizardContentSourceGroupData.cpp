@@ -21,7 +21,10 @@ void QtProjectWizardContentSourceGroupData::populate(QGridLayout* layout, int& r
 	connect(m_name, &QLineEdit::textEdited, this, &QtProjectWizardContentSourceGroupData::editedName);
 
 	layout->addWidget(
-		createFormLabel(QStringLiteral("Source Group Name")), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+		createFormLabel(QStringLiteral("Source Group Name")),
+		row,
+		QtProjectWizardWindow::FRONT_COL,
+		Qt::AlignRight);
 	layout->addWidget(m_name, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 

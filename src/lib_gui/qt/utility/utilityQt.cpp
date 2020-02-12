@@ -170,7 +170,9 @@ std::string getStyleSheet(const FilePath& path)
 		{
 			if (!ColorScheme::getInstance()->hasColor(val))
 			{
-				LOG_WARNING("Color scheme does not provide value for key \"" + val + "\" requested by style \"" + path.str() + "\".");
+				LOG_WARNING(
+					"Color scheme does not provide value for key \"" + val +
+					"\" requested by style \"" + path.str() + "\".");
 			}
 			val = ColorScheme::getInstance()->getColor(val);
 		}
@@ -250,7 +252,7 @@ QtMainWindow* getMainWindowforMainView(ViewLayout* viewLayout)
 	return nullptr;
 }
 
-void copyNewFilesFromDirectory(QString src, QString dst)
+void copyNewFilesFromDirectory(const QString& src, const QString& dst)
 {
 	QDir dir(src);
 	if (!dir.exists())

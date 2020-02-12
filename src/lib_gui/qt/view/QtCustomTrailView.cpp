@@ -219,7 +219,8 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 				QColor(scheme->getNodeTypeColor(t, "fill", ColorScheme::FOCUS).c_str()));
 		}
 
-		QVBoxLayout* filterLayout = addFilters(QStringLiteral("Nodes:"), nodeFilters, nodeColors, &m_nodeFilters, 11);
+		QVBoxLayout* filterLayout = addFilters(
+			QStringLiteral("Nodes:"), nodeFilters, nodeColors, &m_nodeFilters, 11);
 		filterLayout->setContentsMargins(25, 10, 25, 10);
 		panelC1->setLayout(filterLayout);
 	}
@@ -255,7 +256,8 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 			edgeColors.push_back(QColor(scheme->getEdgeTypeColor(t, ColorScheme::FOCUS).c_str()));
 		}
 
-		QVBoxLayout* filterLayout = addFilters(QStringLiteral("Edges:"), edgeFilters, edgeColors, &m_edgeFilters, 5);
+		QVBoxLayout* filterLayout = addFilters(
+			QStringLiteral("Edges:"), edgeFilters, edgeColors, &m_edgeFilters, 5);
 		filterLayout->setContentsMargins(10, 10, 25, 10);
 		panelC2->setLayout(filterLayout);
 	}
@@ -477,7 +479,7 @@ QWidget* QtCustomTrailView::createSearchBox(QtSmartSearchBox* searchBox) const
 }
 
 QVBoxLayout* QtCustomTrailView::addFilters(
-	QString name,
+	const QString& name,
 	const std::vector<QString>& filters,
 	const std::vector<QColor>& colors,
 	std::vector<QCheckBox*>* checkBoxes,

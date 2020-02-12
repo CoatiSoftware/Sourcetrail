@@ -29,8 +29,8 @@ void QtBookmarkCreator::setupBookmarkCreator()
 
 	{
 		// title
-		QLabel* title = new QLabel(m_editBookmarkId ?
-								QStringLiteral("Edit Bookmark") : QStringLiteral("Create Bookmark"));
+		QLabel* title = new QLabel(
+			m_editBookmarkId ? QStringLiteral("Edit Bookmark") : QStringLiteral("Create Bookmark"));
 		title->setObjectName(QStringLiteral("creator_title_label"));
 		mainLayout->addWidget(title);
 	}

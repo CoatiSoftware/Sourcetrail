@@ -106,10 +106,12 @@ void QtBookmarkButtonsView::createBookmarkClicked()
 	{
 		QMessageBox msgBox;
 		msgBox.setText(QStringLiteral("Edit Bookmark"));
-		msgBox.setInformativeText(QStringLiteral("Do you want to edit or delete the bookmark for this symbol?"));
+		msgBox.setInformativeText(
+			QStringLiteral("Do you want to edit or delete the bookmark for this symbol?"));
 		msgBox.addButton(QStringLiteral("Edit"), QMessageBox::ButtonRole::YesRole);
 		msgBox.addButton(QStringLiteral("Delete"), QMessageBox::ButtonRole::NoRole);
-		QPushButton* cancelButton = msgBox.addButton(QStringLiteral("Cancel"), QMessageBox::ButtonRole::RejectRole);
+		QPushButton* cancelButton = msgBox.addButton(
+			QStringLiteral("Cancel"), QMessageBox::ButtonRole::RejectRole);
 		msgBox.setDefaultButton(cancelButton);
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();

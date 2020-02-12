@@ -26,7 +26,7 @@ void QtTooltipView::refreshView()
 	});
 }
 
-void QtTooltipView::showTooltip(TooltipInfo info, const View* parent)
+void QtTooltipView::showTooltip(const TooltipInfo& info, const View* parent)
 {
 	m_onQtThread([=]() {
 		if (m_widget->isHovered())

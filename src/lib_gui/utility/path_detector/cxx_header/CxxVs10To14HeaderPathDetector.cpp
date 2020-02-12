@@ -88,7 +88,7 @@ FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 		key += "Wow6432Node\\";
 	}
 	key += "Microsoft\\";
-	key += (m_isExpress ? "VCExpress" : "VisualStudio");
+	key += (m_isExpress ? QStringLiteral("VCExpress") : QStringLiteral("VisualStudio"));
 	key += "\\" + QString::number(m_version) + ".0";
 
 	QSettings expressKey(

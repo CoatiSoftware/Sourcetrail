@@ -19,7 +19,7 @@ public:
 	QtProjectWizardContentPathsIndexedHeaders(
 		std::shared_ptr<SourceGroupSettings> settings,
 		QtProjectWizardWindow* window,
-		std::string projectKindName);
+		const std::string& projectKindName);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 

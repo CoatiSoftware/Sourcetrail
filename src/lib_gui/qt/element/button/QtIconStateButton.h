@@ -40,7 +40,7 @@ protected:
 	void leaveEvent(QEvent* event);
 
 private:
-	void setState(State state);
+	void setState(const State& state);
 
 	std::map<ButtonState, State> m_states;
 };

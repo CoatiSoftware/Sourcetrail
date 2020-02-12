@@ -78,8 +78,10 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 			m_nextLocalReferenceButton = new QtSearchBarButton(
 				ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
-			m_prevLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_previous"));
-			m_nextLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_next"));
+			m_prevLocalReferenceButton->setObjectName(
+				QStringLiteral("local_reference_button_previous"));
+			m_nextLocalReferenceButton->setObjectName(
+				QStringLiteral("local_reference_button_next"));
 
 			m_prevLocalReferenceButton->setToolTip(QStringLiteral("previous local reference"));
 			m_nextLocalReferenceButton->setToolTip(QStringLiteral("next local reference"));

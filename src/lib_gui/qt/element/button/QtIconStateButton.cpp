@@ -90,7 +90,7 @@ void QtIconStateButton::leaveEvent(QEvent* event)
 	}
 }
 
-void QtIconStateButton::setState(State state)
+void QtIconStateButton::setState(const State& state)
 {
 	QPixmap pixmap = QPixmap(QString::fromStdWString(state.iconPath.wstr()));
 

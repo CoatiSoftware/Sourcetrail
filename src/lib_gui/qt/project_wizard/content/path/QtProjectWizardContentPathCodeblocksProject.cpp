@@ -14,7 +14,7 @@ QtProjectWizardContentPathCodeblocksProject::QtProjectWizardContentPathCodeblock
 			m_settings->getProjectDirectoryPath());
 	})
 {
-	setTitleString("Code::Blocks Project (.cbp)");
+	setTitleString(QStringLiteral("Code::Blocks Project (.cbp)"));
 	setHelpString(
 		"Select the Code::Blocks file for the project. Sourcetrail will index your project based "
 		"on the settings "
@@ -31,7 +31,7 @@ void QtProjectWizardContentPathCodeblocksProject::populate(QGridLayout* layout, 
 {
 	QtProjectWizardContentPath::populate(layout, row);
 	m_picker->setPickDirectory(false);
-	m_picker->setFileFilter("Code::Blocks Project (*.cbp)");
+	m_picker->setFileFilter(QStringLiteral("Code::Blocks Project (*.cbp)"));
 	connect(
 		m_picker,
 		&QtLocationPicker::locationPicked,
@@ -42,21 +42,21 @@ void QtProjectWizardContentPathCodeblocksProject::populate(QGridLayout* layout, 
 		"Sourcetrail will use all settings from the Code::Blocks project and stay up-to-date with "
 		"changes on refresh.",
 		this);
-	description->setObjectName("description");
+	description->setObjectName(QStringLiteral("description"));
 	description->setWordWrap(true);
 	layout->addWidget(description, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
-	QLabel* title = createFormSubLabel("Source Files to Index");
+	QLabel* title = createFormSubLabel(QStringLiteral("Source Files to Index"));
 	layout->addWidget(title, row, QtProjectWizardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row, 0);
 
-	m_fileCountLabel = new QLabel("");
+	m_fileCountLabel = new QLabel(QLatin1String(""));
 	m_fileCountLabel->setWordWrap(true);
 	layout->addWidget(m_fileCountLabel, row, QtProjectWizardWindow::BACK_COL, Qt::AlignTop);
 	row++;
 
-	addFilesButton("show source files", layout, row);
+	addFilesButton(QStringLiteral("show source files"), layout, row);
 	row++;
 }
 
@@ -86,12 +86,12 @@ std::vector<FilePath> QtProjectWizardContentPathCodeblocksProject::getFilePaths(
 
 QString QtProjectWizardContentPathCodeblocksProject::getFileNamesTitle() const
 {
-	return "Source Files";
+	return QStringLiteral("Source Files");
 }
 
 QString QtProjectWizardContentPathCodeblocksProject::getFileNamesDescription() const
 {
-	return " source files will be indexed.";
+	return QStringLiteral(" source files will be indexed.");
 }
 
 void QtProjectWizardContentPathCodeblocksProject::pickedPath()

@@ -35,7 +35,7 @@ std::vector<FilePath> CombinedPathDetector::getPaths() const
 	return std::vector<FilePath>();
 }
 
-std::vector<FilePath> CombinedPathDetector::getPaths(std::string detectorName) const
+std::vector<FilePath> CombinedPathDetector::getPaths(const std::string& detectorName) const
 {
 	for (const std::shared_ptr<PathDetector>& detector: m_detectors)
 	{

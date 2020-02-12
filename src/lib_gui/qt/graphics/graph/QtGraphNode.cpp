@@ -143,7 +143,7 @@ QSize QtGraphNode::size() const
 	return QSize(m_size.x, m_size.y);
 }
 
-void QtGraphNode::setSize(const QSize& size)
+void QtGraphNode::setSize(QSize size)
 {
 	setSize(Vec2i(size.width(), size.height()));
 }
@@ -607,8 +607,8 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		m_matchText->setPos(
 			style.iconOffset.x + style.iconSize + style.textOffset.x, style.textOffset.y);
 
-		float charWidth = QFontMetrics(font).width(
-							  QStringLiteral("QtGraphNode::QtGraphNode::QtGraphNode")) / 37.0f;
+		float charWidth =
+			QFontMetrics(font).width(QStringLiteral("QtGraphNode::QtGraphNode::QtGraphNode")) / 37.0f;
 		float charHeight = QFontMetrics(font).height();
 		m_matchRect->setRect(
 			style.iconOffset.x + style.iconSize + style.textOffset.x + m_matchPos * charWidth,

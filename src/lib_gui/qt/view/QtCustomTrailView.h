@@ -43,7 +43,7 @@ private:
 
 	QWidget* createSearchBox(QtSmartSearchBox* searchBox) const;
 	QVBoxLayout* addFilters(
-		QString name,
+		const QString& name,
 		const std::vector<QString>& filters,
 		const std::vector<QColor>& colors,
 		std::vector<QCheckBox*>* checkBoxes,

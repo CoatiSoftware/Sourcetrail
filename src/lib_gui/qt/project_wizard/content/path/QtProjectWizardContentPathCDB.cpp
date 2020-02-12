@@ -15,7 +15,7 @@ QtProjectWizardContentPathCDB::QtProjectWizardContentPathCDB(
 			m_settings->getProjectDirectoryPath());
 	})
 {
-	setTitleString("Compilation Database (compile_commands.json)");
+	setTitleString(QStringLiteral("Compilation Database (compile_commands.json)"));
 	setHelpString(
 		"Select the compilation database file for the project. Sourcetrail will index your project "
 		"based on the compile "
@@ -32,7 +32,7 @@ void QtProjectWizardContentPathCDB::populate(QGridLayout* layout, int& row)
 {
 	QtProjectWizardContentPath::populate(layout, row);
 	m_picker->setPickDirectory(false);
-	m_picker->setFileFilter("JSON Compilation Database (*.json)");
+	m_picker->setFileFilter(QStringLiteral("JSON Compilation Database (*.json)"));
 	connect(
 		m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizardContentPathCDB::pickedPath);
 	connect(
@@ -46,21 +46,21 @@ void QtProjectWizardContentPathCDB::populate(QGridLayout* layout, int& row)
 		"and stay up-to-date "
 		"with changes on refresh.",
 		this);
-	description->setObjectName("description");
+	description->setObjectName(QStringLiteral("description"));
 	description->setWordWrap(true);
 	layout->addWidget(description, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
-	QLabel* title = createFormSubLabel("Source Files to Index");
+	QLabel* title = createFormSubLabel(QStringLiteral("Source Files to Index"));
 	layout->addWidget(title, row, QtProjectWizardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row, 0);
 
-	m_fileCountLabel = new QLabel("");
+	m_fileCountLabel = new QLabel(QLatin1String(""));
 	m_fileCountLabel->setWordWrap(true);
 	layout->addWidget(m_fileCountLabel, row, QtProjectWizardWindow::BACK_COL, Qt::AlignTop);
 	row++;
 
-	addFilesButton("show source files", layout, row);
+	addFilesButton(QStringLiteral("show source files"), layout, row);
 	row++;
 }
 
@@ -95,12 +95,12 @@ std::vector<FilePath> QtProjectWizardContentPathCDB::getFilePaths() const
 
 QString QtProjectWizardContentPathCDB::getFileNamesTitle() const
 {
-	return "Source Files";
+	return QStringLiteral("Source Files");
 }
 
 QString QtProjectWizardContentPathCDB::getFileNamesDescription() const
 {
-	return " source files will be indexed.";
+	return QStringLiteral(" source files will be indexed.");
 }
 
 void QtProjectWizardContentPathCDB::pickedPath()

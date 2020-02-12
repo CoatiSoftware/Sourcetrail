@@ -63,7 +63,7 @@ void QtPathListBox::setPaths(const std::vector<FilePath>& list, bool readOnly)
 
 void QtPathListBox::addPaths(const std::vector<FilePath>& list, bool readOnly)
 {
-	for (FilePath path: list)
+	for (const FilePath& path: list)
 	{
 		QtListBoxItem* item = addListBoxItemWithText(QString::fromStdWString(path.wstr()));
 		item->setReadOnly(readOnly);

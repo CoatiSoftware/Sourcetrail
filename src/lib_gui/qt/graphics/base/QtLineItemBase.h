@@ -21,11 +21,11 @@ public:
 	virtual ~QtLineItemBase();
 
 	void updateLine(
-		Vec4i ownerRect,
-		Vec4i targetRect,
-		Vec4i ownerParentRect,
-		Vec4i targetParentRect,
-		GraphViewStyle::EdgeStyle style,
+		const Vec4i& ownerRect,
+		const Vec4i& targetRect,
+		const Vec4i& ownerParentRect,
+		const Vec4i& targetParentRect,
+		const GraphViewStyle::EdgeStyle& style,
 		size_t weight,
 		bool showArrow);
 
@@ -37,7 +37,7 @@ public:
 
 protected:
 	QPolygon getPath() const;
-	int getDirection(const QPointF& a, const QPointF& b) const;
+	int getDirection(QPointF a, QPointF b) const;
 
 	QRectF getArrowBoundingRect(const QPolygon& poly) const;
 	void drawArrow(const QPolygon& poly, QPainterPath* path, QPainterPath* arrowPath = nullptr) const;

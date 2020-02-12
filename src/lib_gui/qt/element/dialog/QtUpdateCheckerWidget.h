@@ -20,7 +20,7 @@ signals:
 
 private:
 	void checkUpdate(bool force);
-	void setDownloadUrl(QString url);
+	void setDownloadUrl(const QString& url);
 
 	QPushButton* m_button;
 
