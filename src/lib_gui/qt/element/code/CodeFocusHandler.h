@@ -46,10 +46,10 @@ public:
 
 	size_t getTargetColumn() const;
 
-	virtual void focusInitialLocation(Id locationId) = 0;
+	virtual void focusInitialLocation() = 0;
 	virtual void updateFiles() = 0;
 
-protected:
+private:
 	Focus m_focus;
 	Focus m_oldFocus;
 

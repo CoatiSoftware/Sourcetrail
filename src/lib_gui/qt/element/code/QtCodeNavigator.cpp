@@ -454,13 +454,9 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 	}
 }
 
-void QtCodeNavigator::focusInitialLocation(Id locationId)
+void QtCodeNavigator::focusInitialLocation()
 {
-	if (locationId)
-	{
-		m_current->setFocus(locationId);
-	}
-	else if (m_mode == MODE_LIST)
+	if (m_mode == MODE_LIST)
 	{
 		const std::pair<QtCodeSnippet*, Id> result = m_list->getFirstSnippetWithActiveLocationId(0);
 		if (result.first)
@@ -634,7 +630,10 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 
 	m_scrollParams = CodeScrollParams();
 
-	focusInitialLocation(params.locationId);
+	if (params.locationId)
+	{
+		m_current->setFocus(params.locationId);
+	}
 }
 
 void QtCodeNavigator::scrolled(int value)
@@ -651,6 +650,7 @@ void QtCodeNavigator::showEvent(QShowEvent* event)
 void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 {
 	bool shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
+	const CodeFocusHandler::Focus& currentFocus = getCurrentFocus();
 
 	switch (event->key())
 	{
@@ -658,44 +658,44 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_K:
 	case Qt::Key_W:
 		std::cout << "up" << std::endl;
-		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::UP);
+		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
 		std::cout << "down" << std::endl;
-		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::DOWN);
+		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
 		break;
 
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
 		std::cout << "left" << std::endl;
-		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::LEFT);
+		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::LEFT);
 		break;
 
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
 		std::cout << "right" << std::endl;
-		m_current->moveFocus(m_focus, CodeFocusHandler::Direction::RIGHT);
+		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::RIGHT);
 		break;
 
 	case Qt::Key_E:
 	case Qt::Key_Return:
 		std::cout << "activate" << std::endl;
-		if (m_focus.area && m_focus.locationId)
+		if (currentFocus.area && currentFocus.locationId)
 		{
-			m_focus.area->activateLocationId(m_focus.locationId);
+			currentFocus.area->activateLocationId(currentFocus.locationId);
 		}
-		else if (m_focus.scopeLine)
+		else if (currentFocus.scopeLine)
 		{
-			m_focus.scopeLine->clicked();
+			currentFocus.scopeLine->clicked();
 		}
-		else if (m_focus.file)
+		else if (currentFocus.file)
 		{
-			m_focus.file->toggleCollapsed();
+			currentFocus.file->toggleCollapsed();
 		}
 		break;
 

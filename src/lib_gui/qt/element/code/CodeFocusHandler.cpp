@@ -17,7 +17,7 @@ void CodeFocusHandler::focus()
 	}
 	else
 	{
-		focusInitialLocation(0);
+		focusInitialLocation();
 	}
 	updateFiles();
 }
