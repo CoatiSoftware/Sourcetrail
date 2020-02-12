@@ -3,6 +3,7 @@
 #include "MessageRefreshUIState.h"
 #include "QtMainWindow.h"
 #include "QtViewWidgetWrapper.h"
+#include "utilityApp.h"
 
 QtMainView::QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess)
 	: MainView(viewFactory, storageAccess)
@@ -170,4 +171,15 @@ void QtMainView::handleMessage(MessageProjectNew* message)
 	FilePath cdbPath = message->cdbPath;
 
 	m_onQtThread([=]() { m_window->newProjectFromCDB(cdbPath); });
+}
+
+void QtMainView::handleMessage(MessageWindowChanged* message)
+{
+	if (utility::getOsType() == OS_MAC)
+	{
+		m_onQtThread([=]() {
+			m_window->hide();
+			m_window->show();
+		});
+	}
 }

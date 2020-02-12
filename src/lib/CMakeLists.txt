@@ -533,6 +533,7 @@ add_files(
 	utility/messaging/type/MessageSwitchColorScheme.h
 	utility/messaging/type/MessageTooltipHide.h
 	utility/messaging/type/MessageTooltipShow.h
+	utility/messaging/type/MessageWindowChanged.h
 	utility/messaging/type/MessageWindowClosed.h
 	utility/messaging/type/MessageWindowFocus.h
 	utility/messaging/type/MessageZoom.h

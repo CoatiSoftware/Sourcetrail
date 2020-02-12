@@ -4,22 +4,22 @@
 #include <memory>
 #include <vector>
 
-#include <QStatusBar>
-
 #include "MainView.h"
-#include "QtThreadedFunctor.h"
-
 #include "MessageListener.h"
 #include "MessageProjectEdit.h"
 #include "MessageProjectNew.h"
+#include "MessageWindowChanged.h"
+#include "QtThreadedFunctor.h"
 
 class QtMainWindow;
+class QStatusBar;
 class View;
 
 class QtMainView
 	: public MainView
 	, public MessageListener<MessageProjectEdit>
 	, public MessageListener<MessageProjectNew>
+	, public MessageListener<MessageWindowChanged>
 {
 public:
 	QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess);
@@ -68,6 +68,7 @@ public:
 private:
 	void handleMessage(MessageProjectEdit* message) override;
 	void handleMessage(MessageProjectNew* message) override;
+	void handleMessage(MessageWindowChanged* message) override;
 
 	QtMainWindow* m_window;
 	std::vector<View*> m_views;
