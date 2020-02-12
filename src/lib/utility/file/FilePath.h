@@ -27,7 +27,7 @@ public:
 	boost::filesystem::path getPath() const;
 
 	bool empty() const;
-	bool exists() const;
+	bool exists() const noexcept;
 	bool recheckExists() const;
 	bool isDirectory() const;
 	bool isAbsolute() const;
