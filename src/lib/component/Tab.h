@@ -22,6 +22,8 @@ public:
 		ScreenSearchSender* screenSearchSender);
 	virtual ~Tab();
 
+	Id getSchedulerId() const override;
+
 	void setParentLayout(ViewLayout* parentLayout);
 
 	// ViewLayout implementation

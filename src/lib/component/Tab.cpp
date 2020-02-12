@@ -22,6 +22,11 @@ Tab::~Tab()
 	m_componentManager.teardownTab(m_screenSearchSender);
 }
 
+Id Tab::getSchedulerId() const
+{
+	return m_tabId;
+}
+
 void Tab::setParentLayout(ViewLayout* parentLayout)
 {
 	m_parentLayout = parentLayout;
