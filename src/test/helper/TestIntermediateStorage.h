@@ -112,9 +112,15 @@ public:
 		}
 
 		std::map<Id, StorageNode> nodesMap;
+		std::set<Id> fileIdMap;
 		for (const StorageNode& node: getStorageNodes())
 		{
 			nodesMap.emplace(node.id, node);
+
+			if (NodeType::intToType(node.type) == NodeType::NODE_FILE)
+			{
+				fileIdMap.insert(node.id);
+			}
 
 			std::wstring nameStr =
 				NameHierarchy::deserialize(node.serializedName).getQualifiedNameWithSignature();
@@ -217,28 +223,16 @@ public:
 			{
 				std::wstring sourceName =
 					NameHierarchy::deserialize(source.serializedName).getQualifiedNameWithSignature();
-				try
+				if (fileIdMap.find(edge.sourceNodeId) != fileIdMap.end() && FilePath(sourceName).exists())
 				{
-					if (FilePath(sourceName).exists())
-					{
-						sourceName = FilePath(sourceName).fileName();
-					}
-				}
-				catch (const boost::filesystem::filesystem_error&)
-				{
+					sourceName = FilePath(sourceName).fileName();
 				}
 
 				std::wstring targetName =
 					NameHierarchy::deserialize(target.serializedName).getQualifiedNameWithSignature();
-				try
+				if (fileIdMap.find(edge.targetNodeId) != fileIdMap.end() && FilePath(targetName).exists())
 				{
-					if (FilePath(targetName).exists())
-					{
-						targetName = FilePath(targetName).fileName();
-					}
-				}
-				catch (const boost::filesystem::filesystem_error&)
-				{
+					targetName = FilePath(targetName).fileName();
 				}
 
 				std::wstring nameStr = sourceName + L" -> " + targetName;
