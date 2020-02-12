@@ -46,7 +46,7 @@ void QtRequest::finished(QNetworkReply* reply)
 	QByteArray bytes = reply->readAll();
 	LOG_INFO_STREAM(<< "received HTTP reply: " << bytes.toStdString());
 
-	delete reply;
+	reply->deleteLater();
 
 	emit receivedData(bytes);
 }
