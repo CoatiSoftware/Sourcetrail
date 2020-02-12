@@ -741,6 +741,9 @@ void QtCodeNavigator::setModeList()
 	}
 
 	m_single->clickedSnippetButton();
+
+	CodeFocusHandler::clear();
+	CodeFocusHandler::focusView();
 }
 
 void QtCodeNavigator::setModeSingle()
@@ -759,6 +762,9 @@ void QtCodeNavigator::setModeSingle()
 	{
 		m_list->maximizeFirstFile();
 	}
+
+	CodeFocusHandler::clear();
+	CodeFocusHandler::focusView();
 }
 
 void QtCodeNavigator::handleMessage(MessageWindowFocus* message)

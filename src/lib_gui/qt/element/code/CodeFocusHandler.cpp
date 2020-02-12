@@ -1,5 +1,7 @@
 #include "CodeFocusHandler.h"
 
+#include "MessageFocusView.h"
+
 void CodeFocusHandler::clear()
 {
 	m_focus = Focus();
@@ -74,4 +76,12 @@ void CodeFocusHandler::setFocusedFile(QtCodeFile* file)
 size_t CodeFocusHandler::getTargetColumn() const
 {
 	return m_targetColumn;
+}
+
+void CodeFocusHandler::focusView()
+{
+	if (!m_hasFocus)
+	{
+		MessageFocusView(MessageFocusView::ViewType::CODE).dispatch();
+	}
 }

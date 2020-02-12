@@ -46,6 +46,8 @@ public:
 
 	size_t getTargetColumn() const;
 
+	void focusView();
+
 	virtual void focusInitialLocation() = 0;
 	virtual void updateFiles() = 0;
 

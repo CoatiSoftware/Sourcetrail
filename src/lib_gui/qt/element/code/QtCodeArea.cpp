@@ -881,6 +881,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 			const Annotation* focus = annotations.front();
 			m_navigator->setFocusedLocationId(
 				this, focus->startLine, focus->startCol, focus->locationId);
+			m_navigator->focusView();
 		}
 	}
 }

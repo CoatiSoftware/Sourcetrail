@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ApplicationSettings.h"
 #include "FileInfo.h"
+#include "MessageFocusView.h"
 #include "MessageMoveIDECursor.h"
 #include "MessageShowError.h"
 #include "MessageStatus.h"
@@ -314,6 +315,8 @@ void CodeController::handleMessage(MessageCodeReference* message)
 	{
 		iterateReference(next);
 	}
+
+	MessageFocusView(MessageFocusView::ViewType::CODE).dispatch();
 }
 
 void CodeController::handleMessage(MessageCodeShowDefinition* message)

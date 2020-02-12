@@ -7,6 +7,7 @@
 
 #include "Application.h"
 #include "MessageErrorsForFile.h"
+#include "MessageFocusView.h"
 #include "Project.h"
 #include "QtIconStateButton.h"
 #include "QtSelfRefreshIconButton.h"
@@ -23,6 +24,8 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	{
 		connect(this, &QPushButton::clicked, this, &QtCodeFileTitleBar::clickedTitleBar);
 	}
+
+	connect(this, &QtHoverButton::hoveredIn, [](){ MessageFocusView(MessageFocusView::ViewType::CODE).dispatch(); });
 
 	QHBoxLayout* titleLayout = new QHBoxLayout();
 	titleLayout->setMargin(0);
