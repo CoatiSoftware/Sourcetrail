@@ -1,6 +1,8 @@
 #ifndef CODE_FOCUS_HANDLER_H
 #define CODE_FOCUS_HANDLER_H
 
+#include <vector>
+
 #include "types.h"
 
 class QPushButton;
@@ -25,10 +27,12 @@ public:
 		QPushButton* scopeLine = nullptr;
 		size_t lineNumber = 0;
 		Id locationId = 0;
+		std::vector<Id> tokenIds;
 
 		bool isEmpty() const
 		{
-			return file == nullptr && area == nullptr && scopeLine == nullptr && lineNumber == 0 && locationId == 0;
+			return file == nullptr && area == nullptr && scopeLine == nullptr && lineNumber == 0 && locationId == 0
+				&& !tokenIds.size();
 		}
 	};
 
@@ -40,7 +44,8 @@ public:
 	const Focus& getCurrentFocus() const;
 	void setCurrentFocus(const Focus& focus);
 
-	void setFocusedLocationId(QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId);
+	void setFocusedLocationId(
+		QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId, const std::vector<Id>& tokenIds);
 	void setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine);
 	void setFocusedFile(QtCodeFile* file);
 

@@ -11,7 +11,7 @@
 class MessageFocusIn: public Message<MessageFocusIn>
 {
 public:
-	MessageFocusIn(const std::vector<Id>& tokenIds, TooltipOrigin origin)
+	MessageFocusIn(const std::vector<Id>& tokenIds, TooltipOrigin origin = TOOLTIP_ORIGIN_NONE)
 		: tokenIds(tokenIds), origin(origin)
 	{
 		setIsLogged(false);

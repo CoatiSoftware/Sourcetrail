@@ -1,10 +1,12 @@
 #include "CodeFocusHandler.h"
 
+#include "MessageFocusIn.h"
+#include "MessageFocusOut.h"
 #include "MessageFocusView.h"
 
 void CodeFocusHandler::clear()
 {
-	m_focus = Focus();
+	setCurrentFocus({});
 	m_oldFocus = Focus();
 	m_targetColumn = 0;
 }
@@ -15,23 +17,19 @@ void CodeFocusHandler::focus()
 
 	if (!m_oldFocus.isEmpty())
 	{
-		m_focus = m_oldFocus;
+		setCurrentFocus(m_oldFocus);
 	}
 	else
 	{
 		focusInitialLocation();
 	}
-	updateFiles();
 }
 
 void CodeFocusHandler::defocus()
 {
-	m_hasFocus = false;
-
 	m_oldFocus = m_focus;
-	m_focus = Focus();
-
-	updateFiles();
+	setCurrentFocus({});
+	m_hasFocus = false;
 }
 
 const CodeFocusHandler::Focus& CodeFocusHandler::getCurrentFocus() const
@@ -43,8 +41,19 @@ void CodeFocusHandler::setCurrentFocus(const Focus& focus)
 {
 	if (m_hasFocus)
 	{
+		bool same = (m_focus.tokenIds == focus.tokenIds);
+		if (m_focus.tokenIds.size() && !same)
+		{
+			MessageFocusOut(m_focus.tokenIds).dispatch();
+		}
+
 		m_focus = focus;
 		updateFiles();
+
+		if (m_focus.tokenIds.size() && !same)
+		{
+			MessageFocusIn(m_focus.tokenIds).dispatch();
+		}
 	}
 	else
 	{
@@ -53,24 +62,24 @@ void CodeFocusHandler::setCurrentFocus(const Focus& focus)
 }
 
 void CodeFocusHandler::setFocusedLocationId(
-	QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId)
+	QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId, const std::vector<Id>& tokenIds)
 {
 	if (columnNumber)
 	{
 		m_targetColumn = columnNumber;
 	}
 
-	setCurrentFocus({nullptr, area, nullptr, lineNumber, locationId});
+	setCurrentFocus({nullptr, area, nullptr, lineNumber, locationId, tokenIds});
 }
 
 void CodeFocusHandler::setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine)
 {
-	setCurrentFocus({nullptr, area, scopeLine, 0, 0});
+	setCurrentFocus({nullptr, area, scopeLine, 0, 0, {}});
 }
 
 void CodeFocusHandler::setFocusedFile(QtCodeFile* file)
 {
-	setCurrentFocus({file, nullptr, nullptr, 0, 0});
+	setCurrentFocus({file, nullptr, nullptr, 0, 0, {}});
 }
 
 size_t CodeFocusHandler::getTargetColumn() const

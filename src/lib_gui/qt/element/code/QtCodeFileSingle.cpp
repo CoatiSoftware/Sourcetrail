@@ -213,7 +213,7 @@ void QtCodeFileSingle::scrollTo(
 
 	m_area->ensureLocationIdVisible(targetLocationId, width(), animated);
 
-	m_navigator->setFocusedLocationId(m_area, lineNumber, 0, locationId);
+	m_navigator->setFocusedLocationId(m_area, lineNumber, 0, locationId, {});
 }
 
 void QtCodeFileSingle::onWindowFocus()

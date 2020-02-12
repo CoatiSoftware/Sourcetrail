@@ -42,7 +42,7 @@ void TooltipController::handleMessage(MessageActivateLocalSymbols* message)
 
 void TooltipController::handleMessage(MessageFocusIn* message)
 {
-	if (!message->tokenIds.size())
+	if (!message->tokenIds.size() || message->origin == TOOLTIP_ORIGIN_NONE)
 	{
 		return;
 	}
