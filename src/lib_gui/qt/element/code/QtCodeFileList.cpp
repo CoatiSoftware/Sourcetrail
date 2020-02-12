@@ -219,6 +219,7 @@ void QtCodeFileList::scrollTo(
 	const FilePath& filePath,
 	size_t lineNumber,
 	Id locationId,
+	Id scopeLocationId,
 	bool animated,
 	CodeScrollParams::Target target)
 {
@@ -230,9 +231,10 @@ void QtCodeFileList::scrollTo(
 
 	QtCodeSnippet* snippet = nullptr;
 
-	if (locationId)
+	Id targetLocationId = scopeLocationId ? scopeLocationId : locationId;
+	if (targetLocationId)
 	{
-		snippet = file->getSnippetForLocationId(locationId);
+		snippet = file->getSnippetForLocationId(targetLocationId);
 	}
 	else if (lineNumber)
 	{
@@ -252,9 +254,9 @@ void QtCodeFileList::scrollTo(
 	size_t endLineNumber = 0;
 	if (!lineNumber)
 	{
-		if (locationId)
+		if (targetLocationId)
 		{
-			std::pair<size_t, size_t> lineNumbers = snippet->getLineNumbersForLocationId(locationId);
+			std::pair<size_t, size_t> lineNumbers = snippet->getLineNumbersForLocationId(targetLocationId);
 
 			lineNumber = lineNumbers.first;
 
@@ -277,7 +279,9 @@ void QtCodeFileList::scrollTo(
 
 	ensureWidgetVisibleAnimated(m_filesArea, snippet, lineRect, animated, target);
 
-	snippet->ensureLocationIdVisible(locationId, animated);
+	snippet->ensureLocationIdVisible(targetLocationId, animated);
+
+	m_navigator->setFocusedLocationId(snippet->getArea(), lineNumber, 0, locationId);
 }
 
 void QtCodeFileList::onWindowFocus()

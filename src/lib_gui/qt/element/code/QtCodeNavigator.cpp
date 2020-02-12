@@ -590,17 +590,18 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 			m_current->scrollTo(
 				params.filePath,
 				0,
-				params.scopeLocationId ? params.scopeLocationId : params.locationId,
+				params.locationId,
+				params.scopeLocationId,
 				animated,
 				params.target);
 		};
 		break;
 	case CodeScrollParams::Type::TO_FILE:
-		func = [=]() { m_current->scrollTo(params.filePath, 0, 0, animated, params.target); };
+		func = [=]() { m_current->scrollTo(params.filePath, 0, 0, 0, animated, params.target); };
 		break;
 	case CodeScrollParams::Type::TO_LINE:
 		func = [=]() {
-			m_current->scrollTo(params.filePath, params.line, 0, animated, params.target);
+			m_current->scrollTo(params.filePath, params.line, 0, 0, animated, params.target);
 		};
 		break;
 	case CodeScrollParams::Type::TO_VALUE:
@@ -629,11 +630,6 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 	}
 
 	m_scrollParams = CodeScrollParams();
-
-	if (params.locationId)
-	{
-		m_current->setFocus(params.locationId);
-	}
 }
 
 void QtCodeNavigator::scrolled(int value)

@@ -169,6 +169,7 @@ void QtCodeFileSingle::scrollTo(
 	const FilePath& filePath,
 	size_t lineNumber,
 	Id locationId,
+	Id scopeLocationId,
 	bool animated,
 	CodeScrollParams::Target target)
 {
@@ -184,12 +185,14 @@ void QtCodeFileSingle::scrollTo(
 		animated = false;
 	}
 
+	Id targetLocationId = scopeLocationId ? scopeLocationId : locationId;
+
 	size_t endLineNumber = 0;
 	if (!lineNumber)
 	{
-		if (locationId)
+		if (targetLocationId)
 		{
-			std::pair<size_t, size_t> lineNumbers = m_area->getLineNumbersForLocationId(locationId);
+			std::pair<size_t, size_t> lineNumbers = m_area->getLineNumbersForLocationId(targetLocationId);
 
 			lineNumber = lineNumbers.first;
 
@@ -208,7 +211,9 @@ void QtCodeFileSingle::scrollTo(
 	double percentB = endLineNumber ? double(endLineNumber - 1) / m_area->getEndLineNumber() : 0.0f;
 	ensurePercentVisibleAnimated(percentA, percentB, animated, target);
 
-	m_area->ensureLocationIdVisible(locationId, width(), animated);
+	m_area->ensureLocationIdVisible(targetLocationId, width(), animated);
+
+	m_navigator->setFocusedLocationId(m_area, lineNumber, 0, locationId);
 }
 
 void QtCodeFileSingle::onWindowFocus()

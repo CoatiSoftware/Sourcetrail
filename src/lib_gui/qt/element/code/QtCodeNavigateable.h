@@ -29,6 +29,7 @@ public:
 		const FilePath& filePath,
 		size_t lineNumber,
 		Id locationId,
+		Id scopeLocationId,
 		bool animated,
 		CodeScrollParams::Target target) = 0;
 
