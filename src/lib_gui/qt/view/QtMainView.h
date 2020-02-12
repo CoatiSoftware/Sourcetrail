@@ -69,7 +69,7 @@ private:
 	void handleMessage(MessageProjectEdit* message) override;
 	void handleMessage(MessageProjectNew* message) override;
 
-	std::shared_ptr<QtMainWindow> m_window;
+	QtMainWindow* m_window;
 	std::vector<View*> m_views;
 
 	QtThreadedLambdaFunctor m_onQtThread;

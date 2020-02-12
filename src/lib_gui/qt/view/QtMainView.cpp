@@ -7,7 +7,7 @@
 QtMainView::QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess)
 	: MainView(viewFactory, storageAccess)
 {
-	m_window = std::make_shared<QtMainWindow>();
+	m_window = new QtMainWindow();
 	m_window->show();
 }
 
@@ -15,11 +15,12 @@ QtMainView::~QtMainView()
 {
 	// clear components to avoid double deletion of views when destroying m_window
 	m_componentManager.clear();
+	m_window->deleteLater();
 }
 
 QtMainWindow* QtMainView::getMainWindow() const
 {
-	return m_window.get();
+	return m_window;
 }
 
 void QtMainView::addView(View* view)
