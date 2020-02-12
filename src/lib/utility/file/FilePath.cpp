@@ -128,7 +128,6 @@ bool FilePath::isValid() const
 
 	boost::filesystem::path::iterator it = m_path->begin();
 
-#if WIN32
 	if (isAbsolute() && m_path->has_root_path())
 	{
 		std::string root = m_path->root_path().string();
@@ -139,9 +138,6 @@ bool FilePath::isValid() const
 			it++;
 		}
 	}
-#else
-	return true;	// FIXME: hot fix for issue #907
-#endif
 
 	for (; it != end; ++it)
 	{
