@@ -106,6 +106,8 @@ protected:
 	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
 	void setTextColorForAnnotation(const Annotation& annotation, QColor color) const;
 
+	const std::string& getFocusColor();
+
 	const Annotation* getAnnotationForLocationId(Id locationId) const;
 	std::vector<const Annotation*> getInteractiveAnnotationsForLineNumber(size_t lineNumber) const;
 	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(QPoint position) const;
@@ -124,6 +126,7 @@ private slots:
 
 private:
 	static std::vector<AnnotationColor> s_annotationColors;
+	static std::string s_focusColor;
 
 	void createLineLengthCache();
 	void createMultibyteCharacterLocationCache(const QString& code);

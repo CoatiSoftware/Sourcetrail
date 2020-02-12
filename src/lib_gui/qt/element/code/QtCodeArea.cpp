@@ -226,6 +226,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 	QColor inactiveTextColor(scheme->getColor("code/snippet/line_number/inactive_text").c_str());
 	QColor activeMarkerColor(scheme->getColor("code/snippet/line_number/marker/active").c_str());
 	QColor focusedMarkerColor(scheme->getColor("code/snippet/line_number/marker/focus").c_str());
+	QColor focusColor(QString::fromStdString(getFocusColor()));
 
 	QPen p = painter.pen();
 
@@ -255,7 +256,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 
 			if (focusedLineNumber == number)
 			{
-				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, height, "red");
+				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, height, focusColor);
 			}
 			else if (focusedLineNumbers.find(number) != focusedLineNumbers.end())
 			{

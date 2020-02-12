@@ -23,7 +23,7 @@ QPushButton:pressed {
 }
 
 #focus_indicator {
-	background: red;
+	background: <color:window/focus>;
 }
 
 #expand_button {

@@ -4,6 +4,7 @@
 	<window>
 		<background>#272728</background>
 		<separator>#CCC</separator>
+		<focus>yellow</focus>
 		<scrollbar>
 			<background>transparent</background>
 			<handle>#80999999</handle>
@@ -233,7 +234,6 @@
 
 	<graph>
 		<background>#272728</background>
-		<focus>yellow</focus>
 
 		<node>
 			<default>

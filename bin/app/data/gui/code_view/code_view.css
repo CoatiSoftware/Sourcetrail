@@ -29,7 +29,7 @@
 }
 
 #focus_indicator[focused=true] {
-	background: red;
+	background: <color:window/focus>;
 }
 
 #code_navigation QLabel {
@@ -148,7 +148,7 @@
 }
 
 #title_bar[focused=true] {
-	background: "red";
+	background: <color:window/focus>;
 }
 
 #title_bar_single {
@@ -231,7 +231,7 @@
 }
 
 #code_file #code_snippet #scope_name[focused=true] {
-	background: "red";
+	background: <color:window/focus>;
 }
 
 #line_number_area {

@@ -775,7 +775,7 @@ const std::string& GraphViewStyle::getFocusColor()
 {
 	if (s_focusColor.empty())
 	{
-		s_focusColor = ColorScheme::getInstance()->getColor("graph/focus");
+		s_focusColor = ColorScheme::getInstance()->getColor("window/focus");
 	}
 
 	return s_focusColor;

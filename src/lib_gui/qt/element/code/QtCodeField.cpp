@@ -21,10 +21,12 @@
 #include "utility.h"
 
 std::vector<QtCodeField::AnnotationColor> QtCodeField::s_annotationColors;
+std::string QtCodeField::s_focusColor;
 
 void QtCodeField::clearAnnotationColors()
 {
 	s_annotationColors.clear();
+	s_focusColor.clear();
 }
 
 QtCodeField::QtCodeField(
@@ -199,6 +201,7 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 	lastVisibleLine += static_cast<int>(m_startLineNumber);
 
 	int borderRadius = 3;
+	QColor focusColor(QString::fromStdString(getFocusColor()));
 
 	for (const Annotation& annotation: m_annotations)
 	{
@@ -222,7 +225,7 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 			continue;
 		}
 
-		QPen pen(annotation.isFocused ? "red" : color.border.c_str());
+		QPen pen(annotation.isFocused ? focusColor : color.border.c_str());
 		if (annotation.locationType == LOCATION_UNSOLVED)
 		{
 			pen.setStyle(Qt::DashLine);
@@ -713,6 +716,16 @@ void QtCodeField::setTextColorForAnnotation(const Annotation& annotation, QColor
 	QTextCharFormat format;
 	format.setForeground(color);
 	m_highlighter->applyFormat(annotation.start, annotation.end, format);
+}
+
+const std::string& QtCodeField::getFocusColor()
+{
+	if (s_focusColor.empty())
+	{
+		s_focusColor = ColorScheme::getInstance()->getColor("window/focus");
+	}
+
+	return s_focusColor;
 }
 
 const QtCodeField::Annotation* QtCodeField::getAnnotationForLocationId(Id locationId) const

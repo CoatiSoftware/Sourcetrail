@@ -4,6 +4,7 @@
 	<window>
 		<background>#494949</background>
 		<separator>#CCCCCC</separator>
+		<focus>cyan</focus>
 		<scrollbar>
 			<background>transparent</background>
 			<handle>#80999999</handle>
@@ -232,7 +233,6 @@
 
 	<graph>
 		<background>#494949</background>
-		<focus>cyan</focus>
 
 		<node>
 			<default>
