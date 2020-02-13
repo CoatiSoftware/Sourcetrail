@@ -229,6 +229,8 @@ void QtCodeFileList::scrollTo(
 		return;
 	}
 
+	bool focusTarget = true;
+
 	QtCodeSnippet* snippet = nullptr;
 
 	Id targetLocationId = scopeLocationId ? scopeLocationId : locationId;
@@ -243,6 +245,7 @@ void QtCodeFileList::scrollTo(
 	else
 	{
 		snippet = file->getSnippetForLine(1);
+		focusTarget = false;
 	}
 
 	if (!snippet || !snippet->isVisible())
@@ -269,6 +272,7 @@ void QtCodeFileList::scrollTo(
 		else
 		{
 			lineNumber = 1;
+			focusTarget = false;
 		}
 	}
 
@@ -282,7 +286,10 @@ void QtCodeFileList::scrollTo(
 
 	snippet->ensureLocationIdVisible(targetLocationId, animated);
 
-	m_navigator->setFocusedLocationId(snippet->getArea(), lineNumber, 0, locationId, {});
+	if (focusTarget)
+	{
+		m_navigator->setFocusedLocationId(snippet->getArea(), lineNumber, 0, locationId, {});
+	}
 }
 
 void QtCodeFileList::onWindowFocus()
