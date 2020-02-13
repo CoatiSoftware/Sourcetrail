@@ -1056,7 +1056,10 @@ void QtCodeArea::annotateText()
 	utility::append(coFocusedSymbolIds, m_navigator->getCoFocusedTokenIds());
 
 	bool needsUpdate = QtCodeField::annotateText(
-		activeSymbolIds, activeLocationIds, coFocusedSymbolIds, m_navigator->getCurrentFocus().locationId);
+		activeSymbolIds,
+		activeLocationIds,
+		coFocusedSymbolIds,
+		m_navigator->getCurrentFocus().locationId);
 	if (needsUpdate)
 	{
 		m_lineNumberArea->update();

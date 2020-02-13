@@ -256,7 +256,8 @@ void QtCodeFileList::scrollTo(
 	{
 		if (targetLocationId)
 		{
-			std::pair<size_t, size_t> lineNumbers = snippet->getLineNumbersForLocationId(targetLocationId);
+			std::pair<size_t, size_t> lineNumbers = snippet->getLineNumbersForLocationId(
+				targetLocationId);
 
 			lineNumber = lineNumbers.first;
 

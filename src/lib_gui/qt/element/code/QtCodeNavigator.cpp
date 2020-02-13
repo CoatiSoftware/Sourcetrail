@@ -587,12 +587,7 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 	case CodeScrollParams::Type::TO_REFERENCE:
 		func = [=]() {
 			m_current->scrollTo(
-				params.filePath,
-				0,
-				params.locationId,
-				params.scopeLocationId,
-				animated,
-				params.target);
+				params.filePath, 0, params.locationId, params.scopeLocationId, animated, params.target);
 		};
 		break;
 	case CodeScrollParams::Type::TO_FILE:
@@ -703,7 +698,8 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 void QtCodeNavigator::focusInEvent(QFocusEvent* event)
 {
 	m_focusIndicator->setProperty("focused", true);
-	m_focusIndicator->style()->polish(m_focusIndicator);	  // recomputes style to make property take effect
+	m_focusIndicator->style()->polish(
+		m_focusIndicator);	  // recomputes style to make property take effect
 
 	emit focusIn();
 }
@@ -711,7 +707,8 @@ void QtCodeNavigator::focusInEvent(QFocusEvent* event)
 void QtCodeNavigator::focusOutEvent(QFocusEvent* event)
 {
 	m_focusIndicator->setProperty("focused", false);
-	m_focusIndicator->style()->polish(m_focusIndicator);	  // recomputes style to make property take effect
+	m_focusIndicator->style()->polish(
+		m_focusIndicator);	  // recomputes style to make property take effect
 
 	emit focusOut();
 }

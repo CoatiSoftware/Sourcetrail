@@ -31,8 +31,8 @@ public:
 
 		bool isEmpty() const
 		{
-			return file == nullptr && area == nullptr && scopeLine == nullptr && lineNumber == 0 && locationId == 0
-				&& !tokenIds.size();
+			return file == nullptr && area == nullptr && scopeLine == nullptr && lineNumber == 0 &&
+				locationId == 0 && !tokenIds.size();
 		}
 	};
 
@@ -45,7 +45,11 @@ public:
 	void setCurrentFocus(const Focus& focus);
 
 	void setFocusedLocationId(
-		QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId, const std::vector<Id>& tokenIds);
+		QtCodeArea* area,
+		size_t lineNumber,
+		size_t columnNumber,
+		Id locationId,
+		const std::vector<Id>& tokenIds);
 	void setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine);
 	void setFocusedFile(QtCodeFile* file);
 
