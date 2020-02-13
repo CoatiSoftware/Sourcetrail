@@ -8,11 +8,6 @@
 class MessageActivateLocalSymbols: public Message<MessageActivateLocalSymbols>
 {
 public:
-	MessageActivateLocalSymbols()
-	{
-		setSchedulerId(TabId::currentTab());
-	}
-
 	MessageActivateLocalSymbols(const std::vector<Id>& symbolIds): symbolIds(symbolIds)
 	{
 		setSchedulerId(TabId::currentTab());

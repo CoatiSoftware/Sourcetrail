@@ -706,7 +706,19 @@ bool QtCodeArea::moveFocusInLine(size_t lineNumber, Id locationId, bool forward)
 void QtCodeArea::activateLocationId(Id locationId)
 {
 	const Annotation* annotation = getAnnotationForLocationId(locationId);
-	if (annotation)
+	if (!annotation)
+	{
+		return;
+	}
+
+	const std::set<Id>& localTokenIds = m_navigator->getActiveLocalTokenIds();
+	if (annotation->locationType == LOCATION_LOCAL_SYMBOL &&
+		annotation->tokenIds.size() == 1 &&
+		localTokenIds.find(*annotation->tokenIds.begin()) != localTokenIds.end())
+	{
+		MessageActivateLocalSymbols({}).dispatch();
+	}
+	else
 	{
 		activateAnnotationsOrErrors({annotation});
 	}
@@ -797,7 +809,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			}
 			else if (m_navigator->getActiveLocalTokenIds().size())
 			{
-				MessageActivateLocalSymbols(std::vector<Id>()).dispatch();
+				MessageActivateLocalSymbols({}).dispatch();
 			}
 		}
 	}
