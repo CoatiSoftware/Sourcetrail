@@ -380,16 +380,17 @@ std::pair<QtCodeFile*, Id> QtCodeFileList::getFirstFileWithActiveLocationId() co
 	return std::make_pair(nullptr, 0);
 }
 
-std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationId(Id tokenId) const
+std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetAndActiveLocationId() const
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (QtCodeFile* file: m_files)
+	if (m_files.size())
 	{
-		result = file->getFirstSnippetWithActiveLocationId(tokenId);
-		if (result.first != nullptr)
+		std::vector<QtCodeSnippet*> snippets = m_files[0]->getVisibleSnippets();
+		if (snippets.size())
 		{
-			break;
+			result.first = snippets[0];
+			result.second = snippets[0]->getFirstActiveLocationId(0);
 		}
 	}
 

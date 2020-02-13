@@ -64,7 +64,7 @@ public:
 	void maximizeFirstFile();
 
 	std::pair<QtCodeFile*, Id> getFirstFileWithActiveLocationId() const;
-	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
+	std::pair<QtCodeSnippet*, Id> getFirstSnippetAndActiveLocationId() const;
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;

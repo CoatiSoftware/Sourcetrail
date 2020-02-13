@@ -462,8 +462,8 @@ void QtCodeNavigator::focusInitialLocation()
 
 	if (m_mode == MODE_LIST)
 	{
-		const std::pair<QtCodeSnippet*, Id> result = m_list->getFirstSnippetWithActiveLocationId(0);
-		if (result.first)
+		const std::pair<QtCodeSnippet*, Id> result = m_list->getFirstSnippetAndActiveLocationId();
+		if (result.second)
 		{
 			result.first->setFocus(result.second);
 			return;
