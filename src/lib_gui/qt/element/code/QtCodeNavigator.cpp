@@ -455,12 +455,18 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 
 void QtCodeNavigator::focusInitialLocation()
 {
+	if (hasCurrentFocus())
+	{
+		return;
+	}
+
 	if (m_mode == MODE_LIST)
 	{
 		const std::pair<QtCodeSnippet*, Id> result = m_list->getFirstSnippetWithActiveLocationId(0);
 		if (result.first)
 		{
 			result.first->setFocus(result.second);
+			return;
 		}
 	}
 	else
@@ -469,8 +475,11 @@ void QtCodeNavigator::focusInitialLocation()
 		if (locationId)
 		{
 			m_single->setFocus(locationId);
+			return;
 		}
 	}
+
+	m_current->setFocusOnTop();
 }
 
 void QtCodeNavigator::updateFiles()

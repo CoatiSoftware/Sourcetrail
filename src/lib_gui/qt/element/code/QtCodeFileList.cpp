@@ -325,6 +325,14 @@ void QtCodeFileList::setFocus(Id locationId)
 	}
 }
 
+void QtCodeFileList::setFocusOnTop()
+{
+	if (m_files.size())
+	{
+		m_files[0]->focusTop();
+	}
+}
+
 void QtCodeFileList::moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction)
 {
 	for (size_t i = 0; i < m_files.size(); i++)

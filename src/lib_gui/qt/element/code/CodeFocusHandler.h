@@ -43,6 +43,7 @@ public:
 
 	const Focus& getCurrentFocus() const;
 	void setCurrentFocus(const Focus& focus);
+	bool hasCurrentFocus() const;
 
 	void setFocusedLocationId(
 		QtCodeArea* area,
@@ -57,7 +58,6 @@ public:
 
 	void focusView();
 
-	virtual void focusInitialLocation() = 0;
 	virtual void updateFiles() = 0;
 
 private:

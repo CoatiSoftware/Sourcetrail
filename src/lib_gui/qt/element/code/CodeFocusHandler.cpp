@@ -18,10 +18,7 @@ void CodeFocusHandler::focus()
 	if (!m_oldFocus.isEmpty())
 	{
 		setCurrentFocus(m_oldFocus);
-	}
-	else
-	{
-		focusInitialLocation();
+		m_oldFocus = Focus();
 	}
 }
 
@@ -58,6 +55,18 @@ void CodeFocusHandler::setCurrentFocus(const Focus& focus)
 	else
 	{
 		m_oldFocus = focus;
+	}
+}
+
+bool CodeFocusHandler::hasCurrentFocus() const
+{
+	if (m_hasFocus)
+	{
+		return !m_focus.isEmpty();
+	}
+	else
+	{
+		return !m_oldFocus.isEmpty();
 	}
 }
 

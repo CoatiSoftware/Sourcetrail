@@ -58,6 +58,7 @@ public:
 		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
 
 	void setFocus(Id locationId) override;
+	void setFocusOnTop() override;
 	void moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction) override;
 
 	void maximizeFirstFile();

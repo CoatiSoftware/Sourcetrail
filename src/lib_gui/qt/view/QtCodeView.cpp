@@ -109,8 +109,8 @@ void QtCodeView::showSnippets(
 		}
 
 		m_widget->updateFiles();
-
 		m_widget->scrollTo(scrollParams, !params.clearSnippets);
+		m_widget->focusInitialLocation();
 	});
 }
 
@@ -140,6 +140,7 @@ void QtCodeView::showSingleFile(
 
 			m_widget->updateFiles();
 			m_widget->scrollTo(scrollParams, animatedScroll);
+			m_widget->focusInitialLocation();
 		}
 		else
 		{
