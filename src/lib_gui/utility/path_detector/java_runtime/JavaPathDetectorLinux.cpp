@@ -60,8 +60,10 @@ FilePath JavaPathDetectorLinux::getFilePathRelativeToJavaExecutable(FilePath& ja
 FilePath JavaPathDetectorLinux::getJavaInJavaHome() const
 {
 	std::string command = "";
-
+#pragma warning(push)
+#pragma warning(disable : 4996)
 	char* p = getenv("JAVA_HOME");
+#pragma warning(pop)
 	if (p == nullptr)
 	{
 		return FilePath();
