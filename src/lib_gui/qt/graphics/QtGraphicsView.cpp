@@ -16,6 +16,7 @@
 #include "MessageActivateLegend.h"
 #include "MessageBookmarkCreate.h"
 #include "MessageCodeShowDefinition.h"
+#include "MessageFocusView.h"
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
 #include "MessageTabOpenWith.h"
@@ -549,6 +550,8 @@ void QtGraphicsView::focusInEvent(QFocusEvent* event)
 {
 	m_focusIndicator->show();
 	emit focusIn();
+
+	MessageFocusView(MessageFocusView::ViewType::GRAPH).dispatch();
 }
 
 void QtGraphicsView::focusOutEvent(QFocusEvent* event)

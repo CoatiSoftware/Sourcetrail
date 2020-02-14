@@ -1,5 +1,6 @@
 #include "QtCodeNavigator.h"
 
+#include <QApplication>
 #include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -177,6 +178,9 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
 	setMode(ApplicationSettings::getInstance()->getCodeViewModeSingle() ? MODE_SINGLE : MODE_LIST);
 	updateFiles();
+
+	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+	connect(app, &QApplication::focusChanged, this, &QtCodeNavigator::focusChanged);
 }
 
 QtCodeNavigator::~QtCodeNavigator() {}
@@ -451,6 +455,10 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 		clearFocus();
 		CodeFocusHandler::defocus();
 	}
+
+	m_focusIndicator->setProperty("focused", focus);
+	m_focusIndicator->style()->polish(
+		m_focusIndicator);	  // recomputes style to make property take effect
 }
 
 void QtCodeNavigator::focusInitialLocation()
@@ -656,34 +664,29 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Up:
 	case Qt::Key_K:
 	case Qt::Key_W:
-		std::cout << "up" << std::endl;
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
-		std::cout << "down" << std::endl;
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
 		break;
 
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
-		std::cout << "left" << std::endl;
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::LEFT);
 		break;
 
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
-		std::cout << "right" << std::endl;
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::RIGHT);
 		break;
 
 	case Qt::Key_E:
 	case Qt::Key_Return:
-		std::cout << "activate" << std::endl;
 		if (currentFocus.area && currentFocus.locationId)
 		{
 			currentFocus.area->activateLocationId(currentFocus.locationId);
@@ -706,20 +709,27 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 
 void QtCodeNavigator::focusInEvent(QFocusEvent* event)
 {
-	m_focusIndicator->setProperty("focused", true);
-	m_focusIndicator->style()->polish(
-		m_focusIndicator);	  // recomputes style to make property take effect
-
 	emit focusIn();
 }
 
 void QtCodeNavigator::focusOutEvent(QFocusEvent* event)
 {
-	m_focusIndicator->setProperty("focused", false);
-	m_focusIndicator->style()->polish(
-		m_focusIndicator);	  // recomputes style to make property take effect
+	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+	if (isAncestorOf(app->focusWidget()))
+	{
+		return;
+	}
 
 	emit focusOut();
+}
+
+void QtCodeNavigator::focusChanged(QWidget* from, QWidget* to)
+{
+	if (isAncestorOf(to))
+	{
+		setFocus();
+		emit focusIn();
+	}
 }
 
 void QtCodeNavigator::previousReference()

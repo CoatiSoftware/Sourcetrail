@@ -116,6 +116,8 @@ protected:
 	void focusOutEvent(QFocusEvent* event) override;
 
 private slots:
+	void focusChanged(QWidget* from, QWidget* to);
+
 	void previousReference();
 	void nextReference();
 
