@@ -120,13 +120,17 @@ void addMsvcCompatibilityFlagsOnDemand(std::shared_ptr<SourceGroupSettingsWithCx
 
 template <typename SettingsType>
 void addSourceGroupContents(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SettingsType> settings, QtProjectWizardWindow* window);
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SettingsType> settings,
+	QtProjectWizardWindow* window);
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsCEmpty>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsCEmpty> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsCEmpty> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentCStandard(settings, window));
 	group->addContent(new QtProjectWizardContentCrossCompilationOptions(settings, window));
@@ -151,12 +155,13 @@ void addSourceGroupContents<SourceGroupSettingsCEmpty>(
 	group->addContent(new QtProjectWizardContentFlags(settings, window));
 	group->addContent(new QtProjectWizardContentPathCxxPch(settings, settings, window));
 	group->addContent(new QtProjectWizardContentCxxPchFlags(settings, window, false));
-
 }
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsCppEmpty>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsCppEmpty> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsCppEmpty> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentCppStandard(settings, window));
 	group->addContent(new QtProjectWizardContentCrossCompilationOptions(settings, window));
@@ -185,10 +190,13 @@ void addSourceGroupContents<SourceGroupSettingsCppEmpty>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsCxxCdb>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsCxxCdb> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentPathCDB(settings, window));
-	group->addContent(new QtProjectWizardContentPathsIndexedHeaders(settings, window, "Compilation Database"));
+	group->addContent(
+		new QtProjectWizardContentPathsIndexedHeaders(settings, window, "Compilation Database"));
 	group->addContent(new QtProjectWizardContentPathsExclude(settings, window));
 	group->addSpace();
 
@@ -210,14 +218,17 @@ void addSourceGroupContents<SourceGroupSettingsCxxCdb>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsCxxCodeblocks>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentCppStandard(settings, window));
 	group->addContent(new QtProjectWizardContentCStandard(settings, window));
 	group->addContent(new QtProjectWizardContentPathCodeblocksProject(settings, window));
 	group->addSpace();
 
-	group->addContent(new QtProjectWizardContentPathsIndexedHeaders(settings, window, "Code::Blocks Project"));
+	group->addContent(
+		new QtProjectWizardContentPathsIndexedHeaders(settings, window, "Code::Blocks Project"));
 	group->addContent(new QtProjectWizardContentPathsExclude(settings, window));
 	group->addContent(new QtProjectWizardContentExtensions(settings, window));
 	group->addSpace();
@@ -242,7 +253,9 @@ void addSourceGroupContents<SourceGroupSettingsCxxCodeblocks>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsJavaEmpty>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsJavaEmpty> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsJavaEmpty> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentJavaStandard(settings, window));
 	group->addSpace();
@@ -255,7 +268,9 @@ void addSourceGroupContents<SourceGroupSettingsJavaEmpty>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsJavaMaven>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentJavaStandard(settings, window));
 	group->addContent(new QtProjectWizardContentPathSourceMaven(settings, window));
@@ -267,7 +282,9 @@ void addSourceGroupContents<SourceGroupSettingsJavaMaven>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsJavaGradle>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsJavaGradle> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentJavaStandard(settings, window));
 	group->addContent(new QtProjectWizardContentPathSourceGradle(settings, window));
@@ -281,7 +298,9 @@ void addSourceGroupContents<SourceGroupSettingsJavaGradle>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsPythonEmpty>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsPythonEmpty> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentPathPythonEnvironment(settings, window));
 	group->addContent(new QtProjectWizardContentPathsSource(settings, window));
@@ -293,7 +312,9 @@ void addSourceGroupContents<SourceGroupSettingsPythonEmpty>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsCustomCommand>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsCustomCommand> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsCustomCommand> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentCustomCommand(settings, window));
 	group->addContent(new QtProjectWizardContentPathsSource(settings, window));
@@ -303,7 +324,9 @@ void addSourceGroupContents<SourceGroupSettingsCustomCommand>(
 
 template <>
 void addSourceGroupContents<SourceGroupSettingsUnloadable>(
-	QtProjectWizardContentGroup* group, std::shared_ptr<SourceGroupSettingsUnloadable> settings, QtProjectWizardWindow* window)
+	QtProjectWizardContentGroup* group,
+	std::shared_ptr<SourceGroupSettingsUnloadable> settings,
+	QtProjectWizardWindow* window)
 {
 	group->addContent(new QtProjectWizardContentUnloadable(settings, window));
 }
@@ -661,7 +684,8 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 	{
 		addSourceGroupContents(summary, settings, this);
 	}
-	else if (std::shared_ptr<SourceGroupSettingsUnloadable> settings =
+	else if (
+		std::shared_ptr<SourceGroupSettingsUnloadable> settings =
 			std::dynamic_pointer_cast<SourceGroupSettingsUnloadable>(group))
 	{
 		addSourceGroupContents(summary, settings, this);
@@ -905,11 +929,9 @@ void QtProjectWizard::newSourceGroupFromVS()
 	});
 	window->resize(QSize(560, 320));
 
-	connect(window, &QtProjectWizardWindow::next,
-		[this](){
-			selectedProjectType(SOURCE_GROUP_CXX_CDB);
-		}
-	);
+	connect(window, &QtProjectWizardWindow::next, [this]() {
+		selectedProjectType(SOURCE_GROUP_CXX_CDB);
+	});
 
 	window->show();
 	window->setNextEnabled(true);
@@ -943,12 +965,14 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 	}
 	break;
 	case SOURCE_GROUP_CXX_CDB:
-		settings = std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
+		settings = std::make_shared<SourceGroupSettingsCxxCdb>(
+			sourceGroupId, m_projectSettings.get());
 		break;
 	case SOURCE_GROUP_CXX_CODEBLOCKS:
 	{
 		std::shared_ptr<SourceGroupSettingsCxxCodeblocks> cxxSettings =
-			std::make_shared<SourceGroupSettingsCxxCodeblocks>(sourceGroupId, m_projectSettings.get());
+			std::make_shared<SourceGroupSettingsCxxCodeblocks>(
+				sourceGroupId, m_projectSettings.get());
 		addMsvcCompatibilityFlagsOnDemand(cxxSettings);
 		settings = cxxSettings;
 	}
@@ -960,24 +984,29 @@ void QtProjectWizard::selectedProjectType(SourceGroupType sourceGroupType)
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_JAVA_EMPTY:
-		settings = std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
+		settings = std::make_shared<SourceGroupSettingsJavaEmpty>(
+			sourceGroupId, m_projectSettings.get());
 		break;
 	case SOURCE_GROUP_JAVA_MAVEN:
-		settings = std::make_shared<SourceGroupSettingsJavaMaven>(sourceGroupId, m_projectSettings.get());
+		settings = std::make_shared<SourceGroupSettingsJavaMaven>(
+			sourceGroupId, m_projectSettings.get());
 		break;
 	case SOURCE_GROUP_JAVA_GRADLE:
-		settings = std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
+		settings = std::make_shared<SourceGroupSettingsJavaGradle>(
+			sourceGroupId, m_projectSettings.get());
 		break;
 #endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	case SOURCE_GROUP_PYTHON_EMPTY:
-		settings = std::make_shared<SourceGroupSettingsPythonEmpty>(sourceGroupId, m_projectSettings.get());
+		settings = std::make_shared<SourceGroupSettingsPythonEmpty>(
+			sourceGroupId, m_projectSettings.get());
 		break;
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 	case SOURCE_GROUP_CUSTOM_COMMAND:
-		settings = std::make_shared<SourceGroupSettingsCustomCommand>(sourceGroupId, m_projectSettings.get());
+		settings = std::make_shared<SourceGroupSettingsCustomCommand>(
+			sourceGroupId, m_projectSettings.get());
 		break;
 	case SOURCE_GROUP_UNKNOWN:
 		break;
@@ -1000,7 +1029,7 @@ void QtProjectWizard::createSourceGroup(std::shared_ptr<SourceGroupSettings> set
 
 	m_previouslySelectedIndex = -1;
 
-	m_sourceGroupList->setCurrentRow(int(m_allSourceGroupSettings.size()) - 1);
+	m_sourceGroupList->setCurrentRow(static_cast<int>(m_allSourceGroupSettings.size()) - 1);
 }
 
 void QtProjectWizard::createProject()

@@ -193,8 +193,11 @@ TEST_CASE("scalar multiplication operators")
 	REQUIRE(-84.0f == vec0.x);
 	REQUIRE(84.0f == vec0.y);
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
 	Vec2i vec2(-2, 2);
 	Vec2i vec3 = vec2 * 42.4f;
+#pragma warning(pop)
 
 	REQUIRE(-84 == (int)vec3.x);
 	REQUIRE(84 == (int)vec3.y);

@@ -56,7 +56,8 @@ void QtGraphNodeBundle::updateStyle()
 	}
 	setStyle(style);
 
-	Vec2f pos(m_rect->rect().right(), m_rect->rect().top() - 2);
+	Vec2f pos(
+		static_cast<float>(m_rect->rect().right()), static_cast<float>(m_rect->rect().top() - 2));
 	if (m_type.getNodeStyle() == NodeType::STYLE_BIG_NODE)
 	{
 		pos += Vec2f(-2, 2);

@@ -7,6 +7,7 @@ set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the Sour
 set(BUILD_JAVA_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
 set(DOCKER_BUILD OFF CACHE BOOL "Build runs in Docker")
+set(TREAT_WARNINGS_AS_ERRORS ON CACHE BOOL "Treat compiler warnings as errors")
 
 #set (CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -86,6 +87,31 @@ endif()
 # FIXME: necessary to fix build in Docker
 if (DOCKER_BUILD)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
+endif()
+
+if (TREAT_WARNINGS_AS_ERRORS)
+	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+		# Visual Studio 2017 version 15.9 <= Version <= Visual Studio 2019 Version 16.4
+		if ((MSVC_VERSION GREATER_EQUAL 1916) AND (MSVC_VERSION LESS_EQUAL 1924))
+			# Warning 4003: not enough actual parameters for macro 'identifier'
+			# Warning 4250: 'class1' inherits 'class2::member' via dominance
+			set(WARNINGS_LIST "/wd4003 /wd4250")
+			set(CMAKE_CXX_WARNINGS_FLAGS "/experimental:external /external:anglebrackets /external:W0 /WX")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_WARNINGS_FLAGS} ${WARNINGS_LIST}")
+
+			# Treat linker warnings as errors
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
+			set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /WX")
+			set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
+			set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
+
+			message(STATUS "'Treat warnings as errors' policy is enabled")
+		else()
+			message(STATUS "'Treat warnings as errors' policy is disabled")
+		endif()
+	else()
+		message(STATUS "'Treat warnings as errors' policy is disabled")
+	endif()
 endif()
 
 # For debugging the release build on linux

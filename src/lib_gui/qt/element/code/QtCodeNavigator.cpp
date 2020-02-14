@@ -555,7 +555,7 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 				QAbstractScrollArea* area = m_current->getScrollArea();
 				if (area)
 				{
-					area->verticalScrollBar()->setValue(params.value);
+					area->verticalScrollBar()->setValue(static_cast<int>(params.value));
 				}
 			};
 		}

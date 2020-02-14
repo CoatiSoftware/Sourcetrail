@@ -6,7 +6,7 @@
 #include "MessageIndexingInterrupted.h"
 
 QtIndexingProgressDialog::QtIndexingProgressDialog(bool hideable, QWidget* parent)
-	: QtProgressBarDialog(0.38, true, parent), m_filePathLabel(nullptr), m_errorWidget(nullptr)
+	: QtProgressBarDialog(0.38f, true, parent), m_filePathLabel(nullptr), m_errorWidget(nullptr)
 {
 	setSizeGripStyle(false);
 
@@ -57,7 +57,7 @@ void QtIndexingProgressDialog::updateIndexingProgress(
 		QString::number(fileCount) + "/" + QString::number(totalFileCount) + " File" +
 		(totalFileCount > 1 ? "s" : ""));
 
-	int progress = 0;
+	size_t progress = 0;
 	if (totalFileCount > 0)
 	{
 		progress = fileCount * 100 / totalFileCount;

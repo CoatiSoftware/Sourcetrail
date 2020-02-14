@@ -26,7 +26,7 @@ CodeSnippetParams CodeSnippetParams::merge(const CodeSnippetParams& a, const Cod
 	std::string code = first->code;
 
 	std::string secondCode = second->code;
-	int secondCodeStartIndex = 0;
+	size_t secondCodeStartIndex = 0;
 	for (size_t i = second->startLineNumber; i <= first->endLineNumber; i++)
 	{
 		secondCodeStartIndex = secondCode.find("\n", secondCodeStartIndex) + 1;

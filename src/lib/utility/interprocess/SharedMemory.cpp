@@ -195,7 +195,6 @@ SharedMemory::~SharedMemory()
 		LOG_ERROR_STREAM(
 			<< "boost exception thrown at shared memory destruction - " << getMemoryName() << ": "
 			<< e.what());
-		throw e;
 	}
 }
 

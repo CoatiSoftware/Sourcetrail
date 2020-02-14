@@ -167,7 +167,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					std::vector<std::wstring> templateArguments;
 					const clang::TemplateArgumentList& templateArgumentList =
 						templateSpecialitarionDecl->getTemplateArgs();
-					for (size_t i = 0; i < templateArgumentList.size(); i++)
+					for (unsigned i = 0; i < templateArgumentList.size(); i++)
 					{
 						if (templateArgumentList.get(i).isDependent())
 						{
@@ -220,7 +220,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			{
 				const clang::TemplateArgumentList* templateArgumentList =
 					functionDecl->getTemplateSpecializationArgs();
-				for (size_t i = 0; i < templateArgumentList->size(); i++)
+				for (unsigned i = 0; i < templateArgumentList->size(); i++)
 				{
 					const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
 					if (templateArgument.isDependent())
@@ -402,7 +402,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 						clang::dyn_cast_or_null<clang::VarTemplateSpecializationDecl>(varDecl);
 					const clang::TemplateArgumentList& templateArgumentList =
 						templateSpecializationDeclaration->getTemplateArgs();
-					for (size_t i = 0; i < templateArgumentList.size(); i++)
+					for (unsigned i = 0; i < templateArgumentList.size(); i++)
 					{
 						const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
 						if (templateArgument.isDependent())
@@ -484,7 +484,7 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStrings(
 {
 	std::vector<std::wstring> templateParameterStrings;
 	clang::TemplateParameterList* parameterList = templateDecl->getTemplateParameters();
-	for (size_t i = 0; i < parameterList->size(); i++)
+	for (unsigned i = 0; i < parameterList->size(); i++)
 	{
 		templateParameterStrings.push_back(getTemplateParameterString(parameterList->getParam(i)));
 	}

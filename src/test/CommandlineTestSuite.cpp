@@ -87,7 +87,7 @@ TEST_CASE("command line")
 		parser.parse();
 
 		bool processes = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
-		REQUIRE(processes == 0);
+		REQUIRE(processes == false);
 
 		std::vector<std::string> args1({"config", "--use-processes", "true"});
 
@@ -95,7 +95,7 @@ TEST_CASE("command line")
 		parser.parse();
 
 		processes = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
-		REQUIRE(processes == 1);
+		REQUIRE(processes == true);
 	}
 
 	ApplicationSettings::getInstance()->load(appSettingsPath);

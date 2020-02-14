@@ -41,11 +41,14 @@ void setupApp(int argc, char* argv[])
 		FilePath userDataPath = AppPath::getAppPath().concatenate(L"user/");
 		if (!userDataPath.exists())
 		{
+#pragma warning(push)
+#pragma warning(disable : 4996)
 			FilePath userLocalPath = FilePath(std::string(std::getenv("LOCALAPPDATA")));
 			if (!userLocalPath.exists())
 			{
 				userLocalPath = FilePath(std::string(std::getenv("APPDATA")) + "/../local");
 			}
+#pragma warning(pop)
 
 			if (userLocalPath.exists())
 			{

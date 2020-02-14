@@ -5,7 +5,7 @@
 int StorageProvider::getStorageCount() const
 {
 	std::lock_guard<std::mutex> lock(m_storagesMutex);
-	return m_storages.size();
+	return static_cast<int>(m_storages.size());
 }
 
 void StorageProvider::clear()

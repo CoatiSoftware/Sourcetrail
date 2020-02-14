@@ -75,9 +75,10 @@ void QtTable::updateRows()
 		}
 	}
 
-	int rowCount = model()->rowCount() > m_rowsToFill ? model()->rowCount() : m_rowsToFill;
-	int width = ApplicationSettings::getInstance()->getFontSize() * 0.7 *
-		int(1 + std::log10(rowCount));
+	const int rowCount = model()->rowCount() > m_rowsToFill ? model()->rowCount()
+															: static_cast<int>(m_rowsToFill);
+	const int width = static_cast<int>(
+		ApplicationSettings::getInstance()->getFontSize() * 0.7 * int(1 + std::log10(rowCount)));
 
 	verticalHeader()->setStyleSheet("::section { width: " + QString::number(width) + "px; }");
 	verticalHeader()->setDefaultSectionSize(ApplicationSettings::getInstance()->getFontSize() + 6);

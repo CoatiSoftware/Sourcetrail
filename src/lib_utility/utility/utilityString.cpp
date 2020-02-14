@@ -627,8 +627,9 @@ bool caseInsensitiveLess(const std::wstring& s1, const std::wstring& s2)
 {
 	size_t s1_size = s1.size();
 	size_t s2_size = s2.size();
-	bool res_cmp = s1_size < s2_size; 
-	size_t lesser_size = s2_size ^ ((s1_size ^ s2_size) & -res_cmp);
+	bool res_cmp = s1_size < s2_size;
+	size_t lesser_size = s2_size ^
+		((s1_size ^ s2_size) & static_cast<size_t>(-static_cast<int>(res_cmp)));
 	for (size_t i = 0; i < lesser_size; ++i)
 	{
 		wchar_t s1_wchr = s1[i];

@@ -36,7 +36,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	m_storage->optimizeMemory();
 	m_dialogView->hideUnknownProgressDialog();
 
-	float time = TimeStamp::durationSeconds(start);
+	double time = TimeStamp::durationSeconds(start);
 
 	if (blackboard->exists("clear_time"))
 	{
@@ -85,7 +85,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		sourceFileCount,
 		stats.completedFileCount,
 		stats.fileCount,
-		time,
+		static_cast<float>(time),
 		errorInfo,
 		interruptedIndexing,
 		shallowIndexing);

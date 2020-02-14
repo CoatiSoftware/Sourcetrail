@@ -230,5 +230,5 @@ Id SharedIntermediateStorage::getNextId() const
 
 void SharedIntermediateStorage::setNextId(const Id nextId)
 {
-	m_nextId = nextId;
+	m_nextId = static_cast<int>(nextId);
 }

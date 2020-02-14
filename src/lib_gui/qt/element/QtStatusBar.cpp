@@ -167,7 +167,7 @@ void QtStatusBar::showIndexingProgress(size_t progressPercent)
 	m_indexingStatus->show();
 	m_vlineIndexing->show();
 
-	m_indexingProgress->setValue(progressPercent);
+	m_indexingProgress->setValue(static_cast<int>(progressPercent));
 }
 
 void QtStatusBar::hideIndexingProgress()

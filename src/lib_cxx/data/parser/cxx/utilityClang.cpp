@@ -68,6 +68,8 @@ AccessKind utility::convertAccessSpecifier(clang::AccessSpecifier access)
 		return ACCESS_PRIVATE;
 	case clang::AS_none:
 		return ACCESS_NONE;
+	default:
+		return ACCESS_NONE;
 	}
 }
 
@@ -84,6 +86,8 @@ SymbolKind utility::convertTagKind(const clang::TagTypeKind tagKind)
 	case clang::TTK_Enum:
 		return SYMBOL_ENUM;
 	case clang::TTK_Interface:
+		return SYMBOL_KIND_MAX;
+	default:
 		return SYMBOL_KIND_MAX;
 	}
 }

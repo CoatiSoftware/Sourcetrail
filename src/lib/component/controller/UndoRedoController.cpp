@@ -628,7 +628,7 @@ void UndoRedoController::updateHistory()
 	const size_t historyListSize = 50;
 	std::vector<SearchMatch> historyListMatches;
 
-	size_t index = 0;
+	int index = 0;
 	int currentIndex = -1;
 	m_historyOffset = 0;
 

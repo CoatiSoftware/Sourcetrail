@@ -472,6 +472,11 @@ SettingsMigrator ProjectSettings::getMigrations() const
 			languageName = "java";
 			break;
 #endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
+#if BUILD_PYTHON_LANGUAGE_PACKAGE
+		case LANGUAGE_PYTHON:
+			continue;
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
+
 		default:
 			continue;
 		}

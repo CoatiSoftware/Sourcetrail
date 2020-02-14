@@ -79,11 +79,11 @@ void QtLineItemAngled::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 		{
 			if (dir % 2 == 1 && std::abs(a.y() - b.y()) < 2 * br)
 			{
-				br = std::abs(a.y() - b.y()) / 2;
+				br = static_cast<int>(std::abs(a.y() - b.y()) / 2);
 			}
 			else if (dir % 2 == 0 && std::abs(a.x() - b.x()) < 2 * br)
 			{
-				br = std::abs(a.x() - b.x()) / 2;
+				br = static_cast<int>(std::abs(a.x() - b.x()) / 2);
 			}
 		}
 

@@ -21,7 +21,7 @@ TEST_CASE("add bookmarks")
 				L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId));
 		}
 
-		result = storage.getAllBookmarks().size();
+		result = static_cast<int>(storage.getAllBookmarks().size());
 	}
 
 	FileSystem::remove(databasePath);
@@ -52,7 +52,7 @@ TEST_CASE("add bookmarked node")
 			storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, L"test name"));
 		}
 
-		result = storage.getAllBookmarkedNodes().size();
+		result = static_cast<int>(storage.getAllBookmarkedNodes().size());
 	}
 
 	FileSystem::remove(databasePath);
@@ -80,7 +80,7 @@ TEST_CASE("remove bookmark also removes bookmarked node")
 
 		storage.removeBookmark(bookmarkId);
 
-		result = storage.getAllBookmarkedNodes().size();
+		result = static_cast<int>(storage.getAllBookmarkedNodes().size());
 	}
 
 	FileSystem::remove(databasePath);

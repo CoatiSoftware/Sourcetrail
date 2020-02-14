@@ -15,7 +15,7 @@ float QtGraphViewStyleImpl::getCharWidth(const std::string& fontName, size_t fon
 
 float QtGraphViewStyleImpl::getCharHeight(const std::string& fontName, size_t fontSize)
 {
-	return QFontMetrics(getFontForStyleType(fontName, fontSize)).height();
+	return static_cast<float>(QFontMetrics(getFontForStyleType(fontName, fontSize)).height());
 }
 
 float QtGraphViewStyleImpl::getGraphViewZoomDifferenceForPlatform()
@@ -31,6 +31,6 @@ float QtGraphViewStyleImpl::getGraphViewZoomDifferenceForPlatform()
 QFont QtGraphViewStyleImpl::getFontForStyleType(const std::string& fontName, size_t fontSize) const
 {
 	QFont font(fontName.c_str());
-	font.setPixelSize(fontSize);
+	font.setPixelSize(static_cast<int>(fontSize));
 	return font;
 }

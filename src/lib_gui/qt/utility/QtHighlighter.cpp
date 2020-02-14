@@ -170,8 +170,8 @@ void QtHighlighter::highlightDocument()
 
 	QTextDocument* doc = document();
 
-	size_t docStart = 0;
-	size_t docEnd = 0;
+	int docStart = 0;
+	int docEnd = 0;
 	for (int i = 0; i < doc->blockCount(); i++)
 	{
 		docEnd += doc->findBlockByLineNumber(i).length();
