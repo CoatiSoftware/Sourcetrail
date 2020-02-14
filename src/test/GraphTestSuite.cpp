@@ -144,7 +144,7 @@ TEST_CASE("nodes are nodes")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 
@@ -156,12 +156,12 @@ TEST_CASE("edges are edges")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node b(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
@@ -174,39 +174,39 @@ TEST_CASE("set type of node from constructor")
 {
 	Node n(
 		1,
-		NodeType(NodeType::NODE_FUNCTION),
+		NodeType(NODE_FUNCTION),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
-	REQUIRE(NodeType(NodeType::NODE_FUNCTION) == n.getType());
+	REQUIRE(NodeType(NODE_FUNCTION) == n.getType());
 }
 
 TEST_CASE("set type of node from non indexed")
 {
 	Node n(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
-	n.setType(NodeType(NodeType::NODE_CLASS));
-	REQUIRE(NodeType(NodeType::NODE_CLASS) == n.getType());
+	n.setType(NodeType(NODE_CLASS));
+	REQUIRE(NodeType(NODE_CLASS) == n.getType());
 }
 
 TEST_CASE("can not change type of node after it was set")
 {
 	Node n(
 		3,
-		NodeType(NodeType::NODE_NAMESPACE),
+		NodeType(NODE_NAMESPACE),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
-	n.setType(NodeType(NodeType::NODE_CLASS));
-	REQUIRE(NodeType(NodeType::NODE_CLASS) != n.getType());
+	n.setType(NodeType(NODE_CLASS));
+	REQUIRE(NodeType(NODE_CLASS) != n.getType());
 }
 
 TEST_CASE("node can be copied and keeps same id")
 {
 	Node n(
 		4,
-		NodeType(NodeType::NODE_NAMESPACE),
+		NodeType(NODE_NAMESPACE),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node n2(n);
@@ -221,23 +221,23 @@ TEST_CASE("node type bit masking")
 {
 	Node n(
 		1,
-		NodeType(NodeType::NODE_NAMESPACE),
+		NodeType(NODE_NAMESPACE),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
-	REQUIRE(n.isType(NodeType::NODE_FUNCTION | NodeType::NODE_NAMESPACE | NodeType::NODE_CLASS));
-	REQUIRE(!n.isType(NodeType::NODE_FUNCTION | NodeType::NODE_METHOD | NodeType::NODE_CLASS));
+	REQUIRE(n.isType(NODE_FUNCTION | NODE_NAMESPACE | NODE_CLASS));
+	REQUIRE(!n.isType(NODE_FUNCTION | NODE_METHOD | NODE_CLASS));
 }
 
 TEST_CASE("get type of edges")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node b(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
@@ -249,12 +249,12 @@ TEST_CASE("edge can be copied and keeps same id")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node b(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
@@ -269,12 +269,12 @@ TEST_CASE("edge type bit masking")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node b(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Edge e(3, Edge::EDGE_USAGE, &a, &b);
@@ -287,17 +287,17 @@ TEST_CASE("node finds child node")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node b(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node c(
 		3,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"C", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Edge e(4, Edge::EDGE_MEMBER, &a, &b);
@@ -313,17 +313,17 @@ TEST_CASE("node can not find child node")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node b(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node c(
 		3,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"C", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Edge e(4, Edge::EDGE_MEMBER, &a, &b);
@@ -338,17 +338,17 @@ TEST_CASE("node visits child nodes")
 {
 	Node a(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node b(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node c(
 		3,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"C", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Edge e(4, Edge::EDGE_MEMBER, &a, &b);
@@ -367,12 +367,12 @@ TEST_CASE("graph saves nodes")
 	Graph graph;
 	Node* a = graph.createNode(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node* b = graph.createNode(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 
@@ -394,12 +394,12 @@ TEST_CASE("graph saves edges")
 
 	Node* a = graph.createNode(
 		1,
-		NodeType(NodeType::NODE_FUNCTION),
+		NodeType(NODE_FUNCTION),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	Node* b = graph.createNode(
 		2,
-		NodeType(NodeType::NODE_FUNCTION),
+		NodeType(NODE_FUNCTION),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 
@@ -418,12 +418,12 @@ TEST_CASE("graph removes nodes")
 
 	Node* a = graph.createNode(
 		1,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"A", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 	graph.createNode(
 		2,
-		NodeType(NodeType::NODE_SYMBOL),
+		NodeType(NODE_SYMBOL),
 		NameHierarchy(L"B", NAME_DELIMITER_CXX),
 		DEFINITION_EXPLICIT);
 

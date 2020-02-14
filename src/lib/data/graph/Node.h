@@ -21,7 +21,7 @@ public:
 
 	NodeType getType() const;
 	void setType(NodeType type);
-	bool isType(NodeType::TypeMask mask) const;
+	bool isType(NodeKindMask mask) const;
 
 	std::wstring getName() const;
 	std::wstring getFullName() const;

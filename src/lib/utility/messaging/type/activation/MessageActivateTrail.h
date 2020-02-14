@@ -29,7 +29,7 @@ public:
 	MessageActivateTrail(
 		Id originId,
 		Id targetId,
-		NodeType::TypeMask nodeTypes,
+		NodeKindMask nodeTypes,
 		Edge::TypeMask edgeTypes,
 		bool nodeNonIndexed,
 		size_t depth,
@@ -60,7 +60,7 @@ public:
 
 	const Id originId;
 	const Id targetId;
-	const NodeType::TypeMask nodeTypes;
+	const NodeKindMask nodeTypes;
 	const Edge::TypeMask edgeTypes;
 	const bool nodeNonIndexed;
 	const size_t depth;

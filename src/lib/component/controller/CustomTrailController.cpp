@@ -19,9 +19,9 @@ void CustomTrailController::clear()
 void CustomTrailController::autocomplete(const std::wstring query, bool from)
 {
 	NodeTypeSet nodeTypes = NodeTypeSet::all();
-	nodeTypes.remove(NodeType(NodeType::NODE_MODULE));
-	nodeTypes.remove(NodeType(NodeType::NODE_NAMESPACE));
-	nodeTypes.remove(NodeType(NodeType::NODE_PACKAGE));
+	nodeTypes.remove(NodeType(NODE_MODULE));
+	nodeTypes.remove(NodeType(NODE_NAMESPACE));
+	nodeTypes.remove(NodeType(NODE_PACKAGE));
 
 	getView()->showAutocompletions(
 		m_storageAccess->getAutocompletionMatches(query, nodeTypes, false), from);

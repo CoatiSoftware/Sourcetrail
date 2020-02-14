@@ -136,7 +136,7 @@ Id addFileToStorage(
 	const Id id =
 		storage
 			->addNode(StorageNodeData(
-				NodeType::NODE_FILE,
+				NODE_FILE,
 				NameHierarchy::serialize(NameHierarchy(filePath.wstr(), NAME_DELIMITER_FILE))))
 			.first;
 	storage->addFile(

@@ -63,7 +63,7 @@ QVariant QtAutocompletionModel::data(const QModelIndex& index, int role) const
 		return indices;
 	}
 	case 5:
-		return match.nodeType.getType();
+		return match.nodeType.getKind();
 	default:
 		return QVariant();
 	}
@@ -137,8 +137,7 @@ void QtAutocompletionDelegate::paint(
 	QString subtext = index.sibling(index.row(), index.column() + 2).data().toString();
 	QString type = index.sibling(index.row(), index.column() + 3).data().toString();
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 4).data().toList();
-	NodeType nodeType = NodeType::intToType(
-		index.sibling(index.row(), index.column() + 5).data().toInt());
+	NodeType nodeType(intToNodeKind(index.sibling(index.row(), index.column() + 5).data().toInt()));
 
 	// define highlight colors
 	ColorScheme* scheme = ColorScheme::getInstance().get();

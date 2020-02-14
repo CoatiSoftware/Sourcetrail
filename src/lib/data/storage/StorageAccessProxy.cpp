@@ -162,7 +162,7 @@ DEF_GETTER_1(getNameHierarchiesForNodeIds, const std::vector<Id>&, std::vector<N
 typedef std::map<Id, std::pair<Id, NameHierarchy>> NodeIdToParentFileMap;
 DEF_GETTER_1(getNodeIdToParentFileMap, const std::vector<Id>&, NodeIdToParentFileMap, {})
 
-DEF_GETTER_1(getNodeTypeForNodeWithId, Id, NodeType, NodeType(NodeType::NODE_SYMBOL))
+DEF_GETTER_1(getNodeTypeForNodeWithId, Id, NodeType, NodeType(NODE_SYMBOL))
 DEF_GETTER_1(getEdgeById, Id, StorageEdge, StorageEdge())
 DEF_GETTER_2(
 	getFullTextSearchLocations,
@@ -196,14 +196,14 @@ DEF_GETTER_7(
 	getGraphForTrail,
 	Id,
 	Id,
-	NodeType::TypeMask,
+	NodeKindMask,
 	Edge::TypeMask,
 	bool,
 	size_t,
 	bool,
 	std::shared_ptr<Graph>,
 	std::make_shared<Graph>())
-DEF_GETTER_0(getAvailableNodeTypes, NodeType::TypeMask, 0);
+DEF_GETTER_0(getAvailableNodeTypes, NodeKindMask, 0);
 DEF_GETTER_0(getAvailableEdgeTypes, Edge::TypeMask, 0);
 DEF_GETTER_2(getActiveTokenIdsForId, Id, Id*, std::vector<Id>, {})
 DEF_GETTER_1(getNodeIdsForLocationIds, const std::vector<Id>&, std::vector<Id>, {})

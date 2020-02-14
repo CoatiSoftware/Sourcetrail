@@ -36,7 +36,7 @@ NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (!isType(type.getType() | NodeType::NODE_SYMBOL))
+	if (!isType(type.getKind() | NODE_SYMBOL))
 	{
 		LOG_WARNING(
 			L"Cannot change NodeType after it was already set from " + getReadableTypeString() +
@@ -46,9 +46,9 @@ void Node::setType(NodeType type)
 	m_type = type;
 }
 
-bool Node::isType(NodeType::TypeMask mask) const
+bool Node::isType(NodeKindMask mask) const
 {
-	return (m_type.getType() & mask) > 0;
+	return (m_type.getKind() & mask) > 0;
 }
 
 std::wstring Node::getName() const

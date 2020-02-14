@@ -25,7 +25,7 @@ Id ParserClientImpl::recordSymbol(const NameHierarchy& symbolName)
 
 void ParserClientImpl::recordSymbolKind(Id symbolId, SymbolKind symbolKind)
 {
-	m_storage->setNodeType(symbolId, NodeType::typeToInt(symbolKindToNodeType(symbolKind).getType()));
+	m_storage->setNodeType(symbolId, nodeKindToInt(symbolKindToNodeKind(symbolKind)));
 }
 
 void ParserClientImpl::recordAccessKind(Id symbolId, AccessKind accessKind)
@@ -103,50 +103,50 @@ bool ParserClientImpl::hasContent() const
 	return m_storage->getByteSize(1) > 0;
 }
 
-NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const
+NodeKind ParserClientImpl::symbolKindToNodeKind(SymbolKind symbolKind) const
 {
 	switch (symbolKind)
 	{
 	case SYMBOL_ANNOTATION:
-		return NodeType::NODE_ANNOTATION;
+		return NODE_ANNOTATION;
 	case SYMBOL_BUILTIN_TYPE:
-		return NodeType::NODE_BUILTIN_TYPE;
+		return NODE_BUILTIN_TYPE;
 	case SYMBOL_CLASS:
-		return NodeType::NODE_CLASS;
+		return NODE_CLASS;
 	case SYMBOL_ENUM:
-		return NodeType::NODE_ENUM;
+		return NODE_ENUM;
 	case SYMBOL_ENUM_CONSTANT:
-		return NodeType::NODE_ENUM_CONSTANT;
+		return NODE_ENUM_CONSTANT;
 	case SYMBOL_FIELD:
-		return NodeType::NODE_FIELD;
+		return NODE_FIELD;
 	case SYMBOL_FUNCTION:
-		return NodeType::NODE_FUNCTION;
+		return NODE_FUNCTION;
 	case SYMBOL_GLOBAL_VARIABLE:
-		return NodeType::NODE_GLOBAL_VARIABLE;
+		return NODE_GLOBAL_VARIABLE;
 	case SYMBOL_INTERFACE:
-		return NodeType::NODE_INTERFACE;
+		return NODE_INTERFACE;
 	case SYMBOL_MACRO:
-		return NodeType::NODE_MACRO;
+		return NODE_MACRO;
 	case SYMBOL_METHOD:
-		return NodeType::NODE_METHOD;
+		return NODE_METHOD;
 	case SYMBOL_MODULE:
-		return NodeType::NODE_MODULE;
+		return NODE_MODULE;
 	case SYMBOL_NAMESPACE:
-		return NodeType::NODE_NAMESPACE;
+		return NODE_NAMESPACE;
 	case SYMBOL_PACKAGE:
-		return NodeType::NODE_PACKAGE;
+		return NODE_PACKAGE;
 	case SYMBOL_STRUCT:
-		return NodeType::NODE_STRUCT;
+		return NODE_STRUCT;
 	case SYMBOL_TYPEDEF:
-		return NodeType::NODE_TYPEDEF;
+		return NODE_TYPEDEF;
 	case SYMBOL_TYPE_PARAMETER:
-		return NodeType::NODE_TYPE_PARAMETER;
+		return NODE_TYPE_PARAMETER;
 	case SYMBOL_UNION:
-		return NodeType::NODE_UNION;
+		return NODE_UNION;
 	default:
 		break;
 	}
-	return NodeType::NODE_SYMBOL;
+	return NODE_SYMBOL;
 }
 
 Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind referenceKind) const
@@ -206,8 +206,7 @@ Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy)
 	for (size_t i = nameHierarchy.size(); i > 0; i--)
 	{
 		std::pair<Id, bool> ret = m_storage->addNode(StorageNodeData(
-			NodeType::typeToInt(NodeType::NODE_SYMBOL),
-			NameHierarchy::serializeRange(nameHierarchy, 0, i)));
+			nodeKindToInt(NODE_SYMBOL), NameHierarchy::serializeRange(nameHierarchy, 0, i)));
 
 		if (!firstNodeId)
 		{
@@ -240,7 +239,7 @@ Id ParserClientImpl::addFileName(const FilePath& filePath)
 	}
 
 	const Id fileId = addNodeHierarchy(NameHierarchy(file, NAME_DELIMITER_FILE));
-	m_storage->setNodeType(fileId, NodeType::typeToInt(NodeType::NODE_FILE));
+	m_storage->setNodeType(fileId, nodeKindToInt(NODE_FILE));
 
 	m_fileIdMap.emplace(file, fileId);
 	return fileId;
