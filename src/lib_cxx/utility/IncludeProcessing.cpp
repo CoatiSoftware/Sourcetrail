@@ -162,7 +162,7 @@ std::vector<IncludeDirective> IncludeProcessing::getIncludeDirectives(
 
 	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
 	const std::vector<std::string> lines = textAccess->getAllLines();
-	for (size_t i = 0; i < lines.size(); i++)
+	for (unsigned i = 0; i < lines.size(); i++)
 	{
 		const std::wstring line = codec.decode(lines[i]);
 		const std::wstring lineTrimmedToHash = utility::trim(line);

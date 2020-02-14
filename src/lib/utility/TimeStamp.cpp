@@ -23,7 +23,7 @@ std::string TimeStamp::secondsToString(double secs)
 	int seconds = int(secs);
 	secs -= seconds;
 
-	int milliSeconds = secs * 1000;
+	const int milliSeconds = static_cast<int>(secs * 1000);
 
 	if (hours > 9)
 	{
@@ -110,12 +110,12 @@ std::string TimeStamp::dayOfWeekShort() const
 
 size_t TimeStamp::deltaMS(const TimeStamp& other) const
 {
-	return abs((m_time - other.m_time).total_milliseconds());
+	return static_cast<size_t>(abs((m_time - other.m_time).total_milliseconds()));
 }
 
 size_t TimeStamp::deltaS(const TimeStamp& other) const
 {
-	return abs((m_time - other.m_time).total_seconds());
+	return static_cast<size_t>(abs((m_time - other.m_time).total_seconds()));
 }
 
 bool TimeStamp::isSameDay(const TimeStamp& other) const
@@ -139,5 +139,5 @@ size_t TimeStamp::deltaDays(const TimeStamp& other) const
 size_t TimeStamp::deltaHours(const TimeStamp& other) const
 {
 	boost::posix_time::time_duration delta = m_time - other.m_time;
-	return abs(delta.total_seconds() / 3600);
+	return static_cast<size_t>(abs(delta.total_seconds() / 3600));
 }

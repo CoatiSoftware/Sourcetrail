@@ -268,7 +268,7 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 		std::shared_ptr<InterprocessIntermediateStorageManager> storageManager =
 			m_interprocessIntermediateStorageManagers[finishedProcessId - 1];
 
-		int storageCount = storageManager->getIntermediateStorageCount();
+		const size_t storageCount = storageManager->getIntermediateStorageCount();
 		if (!storageCount)
 		{
 			break;

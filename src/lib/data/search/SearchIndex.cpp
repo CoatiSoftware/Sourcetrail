@@ -439,12 +439,13 @@ int SearchIndex::scoreText(const std::wstring& text, const std::vector<size_t>& 
 	int noLetterScore = 0;
 	int firstLetterScore = 0;
 
-	for (size_t i = 0; i < indices.size(); i++)
+	for (int i = 0; i < static_cast<int>(indices.size()); i++)
 	{
 		// unmatched and consecutive
 		if (i > 0)
 		{
-			unmatchedLetterScore += (indices[i] - indices[i - 1] - 1) * unmatchedLetterBonus;
+			unmatchedLetterScore += static_cast<int>(
+				(indices[i] - indices[i - 1] - 1) * unmatchedLetterBonus);
 			consecutiveLetterScore += (indices[i] - indices[i - 1] == 1) ? consecutiveLetterBonus : 0;
 		}
 
@@ -497,7 +498,7 @@ SearchResult SearchIndex::rescoreText(
 	std::vector<size_t> textIndices;
 
 	// match is already within text
-	int newIdx = indices[0] - (fulltext.size() - text.size());
+	const int newIdx = static_cast<int>(indices[0] - (fulltext.size() - text.size()));
 	if (newIdx >= 0)
 	{
 		for (size_t idx: indices)

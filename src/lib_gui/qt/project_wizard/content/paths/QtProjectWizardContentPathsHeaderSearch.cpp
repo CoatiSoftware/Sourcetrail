@@ -208,7 +208,7 @@ void QtProjectWizardContentPathsHeaderSearch::validateIncludesButtonClicked()
 						sourceFilePaths,
 						utility::toSet(indexedFilePaths),
 						utility::toSet(headerSearchPaths),
-						log2(sourceFilePaths.size()),
+						static_cast<size_t>(log2(sourceFilePaths.size())),
 						[&](const float progress) {
 							dialogView->showProgressDialog(
 								L"Processing",
@@ -280,7 +280,7 @@ void QtProjectWizardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPa
 						sourceFilePaths,
 						utility::toSet(searchedPaths),
 						utility::toSet(headerSearchPaths),
-						log2(sourceFilePaths.size()),
+						static_cast<size_t>(log2(sourceFilePaths.size())),
 						[&](const float progress) {
 							dialogView->showProgressDialog(
 								L"Processing",

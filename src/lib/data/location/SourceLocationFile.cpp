@@ -229,7 +229,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByTypes(
 	size_t typeMask = 0;
 	for (LocationType type: types)
 	{
-		typeMask |= 1 << type;
+		typeMask |= static_cast<size_t>(1) << type;
 	}
 
 	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(
@@ -237,7 +237,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByTypes(
 
 	for (const std::shared_ptr<SourceLocation>& location: m_locations)
 	{
-		if ((1 << location->getType()) & typeMask)
+		if ((static_cast<size_t>(1) << location->getType()) & typeMask)
 		{
 			ret->addSourceLocationCopy(location.get());
 		}

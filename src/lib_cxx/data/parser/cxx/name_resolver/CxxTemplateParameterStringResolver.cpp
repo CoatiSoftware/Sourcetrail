@@ -89,7 +89,7 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterTypeString(
 	std::wstringstream ss;
 	ss << L"template<";
 	const clang::TemplateParameterList* parameterList = parameter->getTemplateParameters();
-	for (size_t i = 0; i < parameterList->size(); i++)
+	for (unsigned i = 0; i < parameterList->size(); i++)
 	{
 		if (i > 0)
 		{

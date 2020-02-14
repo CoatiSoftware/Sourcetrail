@@ -1,7 +1,7 @@
 #ifndef SINGLE_FRONTEND_ACTION_FACTORY
 #define SINGLE_FRONTEND_ACTION_FACTORY
 
-#include "clang/Tooling/Tooling.h"
+#include <clang/Tooling/Tooling.h>
 
 class SingleFrontendActionFactory: public clang::tooling::FrontendActionFactory
 {

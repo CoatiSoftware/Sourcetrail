@@ -22,7 +22,7 @@ void TaskGroupParallel::doEnter(std::shared_ptr<Blackboard> blackboard)
 	if (m_needsToStartThreads)
 	{
 		m_needsToStartThreads = false;
-		m_activeTaskCount = m_tasks.size();
+		m_activeTaskCount = static_cast<int>(m_tasks.size());
 		for (size_t i = 0; i < m_tasks.size(); i++)
 		{
 			m_tasks[i]->active = true;

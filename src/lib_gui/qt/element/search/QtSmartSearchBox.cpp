@@ -340,7 +340,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			setEditText(QString::fromStdString(str));
 			if (size)
 			{
-				setCursorPosition(size);
+				setCursorPosition(static_cast<int>(size));
 			}
 
 			requestAutoCompletions();
@@ -437,7 +437,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 		if (m_cursorIndex < m_elements.size())
 		{
 			editTextToElement();
-			moveCursorTo(m_elements.size());
+			moveCursorTo(static_cast<int>(m_elements.size()));
 			return;
 		}
 	}
@@ -555,7 +555,7 @@ void QtSmartSearchBox::mouseReleaseEvent(QMouseEvent* event)
 		int dist = m_elements[i]->x() + m_elements[i]->width() - event->x();
 		if (abs(dist) < abs(minDist))
 		{
-			pos = i + 1;
+			pos = static_cast<int>(i) + 1;
 			minDist = dist;
 		}
 	}
@@ -565,7 +565,7 @@ void QtSmartSearchBox::mouseReleaseEvent(QMouseEvent* event)
 
 	if (pos - m_cursorIndex != 0)
 	{
-		moveCursor(pos - m_cursorIndex);
+		moveCursor(static_cast<int>(pos - m_cursorIndex));
 	}
 	else if (hasSelected)
 	{
@@ -707,7 +707,7 @@ void QtSmartSearchBox::onElementSelected(QtSearchElement* element)
 
 void QtSmartSearchBox::moveCursor(int offset)
 {
-	moveCursorTo(m_cursorIndex + offset);
+	moveCursorTo(static_cast<int>(m_cursorIndex + offset));
 }
 
 void QtSmartSearchBox::moveCursorTo(int target)
@@ -788,7 +788,7 @@ bool QtSmartSearchBox::editTextToElement()
 
 SearchMatch QtSmartSearchBox::editElement(QtSearchElement* element)
 {
-	for (int i = m_elements.size() - 1; i >= 0; i--)
+	for (int i = static_cast<int>(m_elements.size() - 1); i >= 0; i--)
 	{
 		if (m_elements[i] == element)
 		{
@@ -939,7 +939,7 @@ void QtSmartSearchBox::layoutElements()
 	{
 		QtSearchElement* button = m_elements[i];
 		QSize size = button->minimumSizeHint();
-		int y = (rect().height() - size.height()) / 2.0;
+		const int y = static_cast<int>((rect().height() - size.height()) / 2.0);
 		button->setGeometry(elementX[i] + offsetX, y, size.width(), size.height());
 	}
 

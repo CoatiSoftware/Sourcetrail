@@ -351,7 +351,8 @@ void QtWindow::addLogo()
 
 	QLabel* sourcetrailLogoLabel = new QLabel(this);
 	sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
-	sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
+	sourcetrailLogoLabel->resize(
+		static_cast<int>(sourcetrailLogo.width()), static_cast<int>(sourcetrailLogo.height()));
 	sourcetrailLogoLabel->move(m_isSubWindow ? 40 : 23, 25);
 	sourcetrailLogoLabel->show();
 

@@ -70,7 +70,7 @@ void QtProjectWizardContentCrossCompilationOptions::populate(QGridLayout* layout
 		std::sort(archTypes.begin(), archTypes.end());
 		for (size_t i = 0; i < archTypes.size(); i++)
 		{
-			m_arch->insertItem(i, QString::fromStdWString(archTypes[i]));
+			m_arch->insertItem(static_cast<int>(i), QString::fromStdWString(archTypes[i]));
 		}
 		m_arch->setCurrentIndex(m_arch->findText("x86_64"));
 
@@ -87,7 +87,7 @@ void QtProjectWizardContentCrossCompilationOptions::populate(QGridLayout* layout
 		std::sort(vendorTypes.begin() + 1, vendorTypes.end());
 		for (size_t i = 0; i < vendorTypes.size(); i++)
 		{
-			m_vendor->insertItem(i, QString::fromStdWString(vendorTypes[i]));
+			m_vendor->insertItem(static_cast<int>(i), QString::fromStdWString(vendorTypes[i]));
 		}
 
 		gridLayout->addWidget(label, 1, 0, Qt::AlignRight);
@@ -103,7 +103,7 @@ void QtProjectWizardContentCrossCompilationOptions::populate(QGridLayout* layout
 		std::sort(osTypes.begin() + 1, osTypes.end());
 		for (size_t i = 0; i < osTypes.size(); i++)
 		{
-			m_sys->insertItem(i, QString::fromStdWString(osTypes[i]));
+			m_sys->insertItem(static_cast<int>(i), QString::fromStdWString(osTypes[i]));
 		}
 
 		gridLayout->addWidget(label, 2, 0, Qt::AlignRight);
@@ -119,7 +119,7 @@ void QtProjectWizardContentCrossCompilationOptions::populate(QGridLayout* layout
 		std::sort(environmentTypes.begin() + 1, environmentTypes.end());
 		for (size_t i = 0; i < environmentTypes.size(); i++)
 		{
-			m_abi->insertItem(i, QString::fromStdWString(environmentTypes[i]));
+			m_abi->insertItem(static_cast<int>(i), QString::fromStdWString(environmentTypes[i]));
 		}
 
 		gridLayout->addWidget(label, 3, 0, Qt::AlignRight);

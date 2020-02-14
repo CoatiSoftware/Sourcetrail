@@ -89,14 +89,14 @@ std::vector<Id> SqliteIndexStorage::addNodes(const std::vector<StorageNode>& nod
 			std::string name = utility::encodeToUtf8(node.serializedName);
 			if (name.size() != node.serializedName.size())
 			{
-				m_tempWNodeNameIndex.add(node.serializedName, node.id);
+				m_tempWNodeNameIndex.add(node.serializedName, static_cast<uint32_t>(node.id));
 			}
 			else
 			{
-				m_tempNodeNameIndex.add(name, node.id);
+				m_tempNodeNameIndex.add(name, static_cast<uint32_t>(node.id));
 			}
 
-			m_tempNodeTypes.emplace(node.id, node.type);
+			m_tempNodeTypes.emplace(static_cast<uint32_t>(node.id), node.type);
 		});
 	}
 
@@ -119,11 +119,11 @@ std::vector<Id> SqliteIndexStorage::addNodes(const std::vector<StorageNode>& nod
 
 			if (nodeId)
 			{
-				auto it = m_tempNodeTypes.find(nodeId);
+				auto it = m_tempNodeTypes.find(static_cast<uint32_t>(nodeId));
 				if (it != m_tempNodeTypes.end() && it->second < data.type)
 				{
 					setNodeType(data.type, nodeId);
-					m_tempNodeTypes[nodeId] = data.type;
+					m_tempNodeTypes[static_cast<uint32_t>(nodeId)] = data.type;
 				}
 
 				nodeIds[i] = nodeId;
@@ -131,20 +131,20 @@ std::vector<Id> SqliteIndexStorage::addNodes(const std::vector<StorageNode>& nod
 			else
 			{
 				executeStatement(m_insertElementStmt);
-				Id id = m_database.lastRowId();
+				const Id id = static_cast<Id>(m_database.lastRowId());
 
 				nodesToInsert.emplace_back(id, data);
 				nodeIds[i] = id;
 
 				if (name.size() != data.serializedName.size())
 				{
-					m_tempWNodeNameIndex.add(data.serializedName, id);
+					m_tempWNodeNameIndex.add(data.serializedName, static_cast<uint32_t>(id));
 				}
 				else
 				{
-					m_tempNodeNameIndex.add(name, id);
+					m_tempNodeNameIndex.add(name, static_cast<uint32_t>(id));
 				}
-				m_tempNodeTypes.emplace(id, data.type);
+				m_tempNodeTypes.emplace(static_cast<uint32_t>(id), data.type);
 			}
 		}
 	}
@@ -224,7 +224,8 @@ std::vector<Id> SqliteIndexStorage::addEdges(const std::vector<StorageEdge>& edg
 	{
 		forEach<StorageEdge>([this](StorageEdge&& edge) {
 			m_tempEdgeIndex.emplace(
-				StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId), edge.id);
+				StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId),
+				static_cast<uint32_t>(edge.id));
 		});
 	}
 
@@ -241,12 +242,12 @@ std::vector<Id> SqliteIndexStorage::addEdges(const std::vector<StorageEdge>& edg
 		else
 		{
 			executeStatement(m_insertElementStmt);
-			Id id = m_database.lastRowId();
+			const Id id = static_cast<Id>(m_database.lastRowId());
 
 			edgeIds[i] = id;
 			edgesToInsert.emplace_back(id, data);
 
-			m_tempEdgeIndex.emplace(data, id);
+			m_tempEdgeIndex.emplace(data, static_cast<uint32_t>(id));
 		}
 	}
 
@@ -272,7 +273,8 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 			std::pair<std::wstring, std::wstring> name = splitLocalSymbolName(localSymbol.name);
 			if (name.second.size())
 			{
-				m_tempLocalSymbolIndex[name.first].emplace(name.second, localSymbol.id);
+				m_tempLocalSymbolIndex[name.first].emplace(
+					name.second, static_cast<uint32_t>(localSymbol.id));
 			}
 		});
 	}
@@ -300,13 +302,13 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 		if (!symbolIds[i])
 		{
 			executeStatement(m_insertElementStmt);
-			const Id id = m_database.lastRowId();
+			const Id id = static_cast<Id>(m_database.lastRowId());
 
 			symbolIds[i] = id;
 			symbolsToInsert.emplace_back(id, data);
 			if (name.second.size())
 			{
-				m_tempLocalSymbolIndex[name.first].emplace(name.second, id);
+				m_tempLocalSymbolIndex[name.first].emplace(name.second, static_cast<uint32_t>(id));
 			}
 		}
 
@@ -333,11 +335,15 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 	{
 		forEach<StorageSourceLocation>([this](StorageSourceLocation&& loc) {
 			std::map<TempSourceLocation, uint32_t>& index =
-				m_tempSourceLocationIndices[loc.fileNodeId];
+				m_tempSourceLocationIndices[static_cast<uint32_t>(loc.fileNodeId)];
 			index.emplace(
 				TempSourceLocation(
-					loc.startLine, loc.endLine - loc.startLine, loc.startCol, loc.endCol, loc.type),
-				loc.id);
+					static_cast<uint32_t>(loc.startLine),
+					static_cast<uint16_t>(loc.endLine - loc.startLine),
+					static_cast<uint16_t>(loc.startCol),
+					static_cast<uint16_t>(loc.endCol),
+					loc.type),
+				static_cast<uint32_t>(loc.id));
 		});
 	}
 
@@ -349,9 +355,13 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 	{
 		const StorageSourceLocation& data = locations[i];
 		const TempSourceLocation tempLoc(
-			data.startLine, data.endLine - data.startLine, data.startCol, data.endCol, data.type);
+			static_cast<uint32_t>(data.startLine),
+			static_cast<uint16_t>(data.endLine - data.startLine),
+			static_cast<uint16_t>(data.startCol),
+			static_cast<uint16_t>(data.endCol),
+			data.type);
 
-		std::map<TempSourceLocation, uint32_t>& index = m_tempSourceLocationIndices[data.fileNodeId];
+		std::map<TempSourceLocation, uint32_t>& index = m_tempSourceLocationIndices[static_cast<uint32_t>(data.fileNodeId)];
 		std::map<TempSourceLocation, uint32_t>::const_iterator it = index.find(tempLoc);
 		if (it != index.end())
 		{
@@ -363,7 +373,7 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 			Id id = lastRowId + 1 + locationsToInsert.size();
 
 			locationIds[i] = id;
-			index.emplace(tempLoc, id);
+			index.emplace(tempLoc, static_cast<uint32_t>(id));
 
 			locationsToInsert.emplace_back(data);
 		}
@@ -434,7 +444,7 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 	if (id == 0)
 	{
 		executeStatement(m_insertElementStmt);
-		id = m_database.lastRowId();
+		id = static_cast<Id>(m_database.lastRowId());
 
 		m_insertErrorStmt.bind(1, int(id));
 		m_insertErrorStmt.bind(2, utility::encodeToUtf8(sanitizedMessage).c_str());
@@ -445,7 +455,7 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 		const bool success = executeStatement(m_insertErrorStmt);
 		if (success)
 		{
-			id = m_database.lastRowId();
+			id = static_cast<Id>(m_database.lastRowId());
 		}
 	}
 
@@ -1349,35 +1359,35 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"INSERT INTO node(id, type, serialized_name) VALUES",
 			3,
 			[](CppSQLite3Statement& stmt, const StorageNode& node, size_t index) {
-				stmt.bind(index * 3 + 1, int(node.id));
-				stmt.bind(index * 3 + 2, int(node.type));
-				stmt.bind(index * 3 + 3, utility::encodeToUtf8(node.serializedName).c_str());
+				stmt.bind(int(index) * 3 + 1, int(node.id));
+				stmt.bind(int(index) * 3 + 2, int(node.type));
+				stmt.bind(int(index) * 3 + 3, utility::encodeToUtf8(node.serializedName).c_str());
 			},
 			m_database);
 		m_insertEdgeBatchStatement.compile(
 			"INSERT INTO edge(id, type, source_node_id, target_node_id) VALUES",
 			4,
 			[](CppSQLite3Statement& stmt, const StorageEdge& edge, size_t index) {
-				stmt.bind(index * 4 + 1, int(edge.id));
-				stmt.bind(index * 4 + 2, int(edge.type));
-				stmt.bind(index * 4 + 3, int(edge.sourceNodeId));
-				stmt.bind(index * 4 + 4, int(edge.targetNodeId));
+				stmt.bind(int(index) * 4 + 1, int(edge.id));
+				stmt.bind(int(index) * 4 + 2, int(edge.type));
+				stmt.bind(int(index) * 4 + 3, int(edge.sourceNodeId));
+				stmt.bind(int(index) * 4 + 4, int(edge.targetNodeId));
 			},
 			m_database);
 		m_insertSymbolBatchStatement.compile(
 			"INSERT OR IGNORE INTO symbol(id, definition_kind) VALUES",
 			2,
 			[](CppSQLite3Statement& stmt, const StorageSymbol& symbol, size_t index) {
-				stmt.bind(index * 2 + 1, int(symbol.id));
-				stmt.bind(index * 2 + 2, int(symbol.definitionKind));
+				stmt.bind(int(index) * 2 + 1, int(symbol.id));
+				stmt.bind(int(index) * 2 + 2, int(symbol.definitionKind));
 			},
 			m_database);
 		m_insertLocalSymbolBatchStatement.compile(
 			"INSERT INTO local_symbol(id, name) VALUES",
 			2,
 			[](CppSQLite3Statement& stmt, const StorageLocalSymbol& symbol, size_t index) {
-				stmt.bind(index * 2 + 1, int(symbol.id));
-				stmt.bind(index * 2 + 2, utility::encodeToUtf8(symbol.name).c_str());
+				stmt.bind(int(index) * 2 + 1, int(symbol.id));
+				stmt.bind(int(index) * 2 + 2, utility::encodeToUtf8(symbol.name).c_str());
 			},
 			m_database);
 		m_insertSourceLocationBatchStatement.compile(
@@ -1385,28 +1395,28 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"end_column, type) VALUES",
 			6,
 			[](CppSQLite3Statement& stmt, const StorageSourceLocationData& location, size_t index) {
-				stmt.bind(index * 6 + 1, int(location.fileNodeId));
-				stmt.bind(index * 6 + 2, int(location.startLine));
-				stmt.bind(index * 6 + 3, int(location.startCol));
-				stmt.bind(index * 6 + 4, int(location.endLine));
-				stmt.bind(index * 6 + 5, int(location.endCol));
-				stmt.bind(index * 6 + 6, int(location.type));
+				stmt.bind(int(index) * 6 + 1, int(location.fileNodeId));
+				stmt.bind(int(index) * 6 + 2, int(location.startLine));
+				stmt.bind(int(index) * 6 + 3, int(location.startCol));
+				stmt.bind(int(index) * 6 + 4, int(location.endLine));
+				stmt.bind(int(index) * 6 + 5, int(location.endCol));
+				stmt.bind(int(index) * 6 + 6, int(location.type));
 			},
 			m_database);
 		m_insertOccurenceBatchStatement.compile(
 			"INSERT OR IGNORE INTO occurrence(element_id, source_location_id) VALUES",
 			2,
 			[](CppSQLite3Statement& stmt, const StorageOccurrence& occurrence, size_t index) {
-				stmt.bind(index * 2 + 1, int(occurrence.elementId));
-				stmt.bind(index * 2 + 2, int(occurrence.sourceLocationId));
+				stmt.bind(int(index) * 2 + 1, int(occurrence.elementId));
+				stmt.bind(int(index) * 2 + 2, int(occurrence.sourceLocationId));
 			},
 			m_database);
 		m_insertComponentAccessBatchStatement.compile(
 			"INSERT OR IGNORE INTO component_access(node_id, type) VALUES",
 			2,
 			[](CppSQLite3Statement& stmt, const StorageComponentAccess& componentAccess, size_t index) {
-				stmt.bind(index * 2 + 1, int(componentAccess.nodeId));
-				stmt.bind(index * 2 + 2, int(componentAccess.type));
+				stmt.bind(int(index) * 2 + 1, int(componentAccess.nodeId));
+				stmt.bind(int(index) * 2 + 2, int(componentAccess.type));
 			},
 			m_database);
 

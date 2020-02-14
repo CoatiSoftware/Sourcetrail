@@ -25,7 +25,7 @@ std::shared_ptr<TokenComponent> TokenComponentAggregation::copy() const
 
 int TokenComponentAggregation::getAggregationCount() const
 {
-	return m_ids.size();
+	return static_cast<int>(m_ids.size());
 }
 
 std::set<Id> TokenComponentAggregation::getAggregationIds() const

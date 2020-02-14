@@ -11,7 +11,7 @@ void FullTextSearchIndex::addFile(Id fileId, const std::wstring& fileContent)
 		LOG_ERROR("empty file not added to fulltextsearch index");
 	}
 
-	if (fileContent.size() >= std::numeric_limits<int>::max())
+	if (static_cast<int>(fileContent.size()) >= std::numeric_limits<int>::max())
 	{
 		LOG_ERROR("file too big not added to fulltextsearch index");
 	}

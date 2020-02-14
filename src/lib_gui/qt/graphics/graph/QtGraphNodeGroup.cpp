@@ -40,9 +40,10 @@ QtGraphNodeGroup::QtGraphNodeGroup(Id tokenId, const std::wstring& name, GroupTy
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfGroupNode(type, false);
 	GraphViewStyle::NodeMargins margins = GraphViewStyle::getMarginsOfGroupNode(type, true);
 
-	int width = style.textOffset.x * 2 + style.borderWidth + margins.charWidth * name.size();
-	int height = margins.spacingA + margins.charHeight;
-	int radius = style.cornerRadius;
+	const int width = static_cast<int>(
+		style.textOffset.x * 2 + style.borderWidth + margins.charWidth * name.size());
+	const int height = static_cast<int>(margins.spacingA + margins.charHeight);
+	const int radius = style.cornerRadius;
 
 	QPainterPath path;
 	path.moveTo(width, 0);

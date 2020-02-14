@@ -28,7 +28,7 @@ TEST_CASE("storage removes node successfully")
 		SqliteIndexStorage storage(databasePath);
 		storage.setup();
 		storage.beginTransaction();
-		int nodeId = storage.addNode(StorageNodeData(0, L"a"));
+		Id nodeId = storage.addNode(StorageNodeData(0, L"a"));
 		storage.removeElement(nodeId);
 		storage.commitTransaction();
 		nodeCount = storage.getNodeCount();
@@ -46,8 +46,8 @@ TEST_CASE("storage adds edge successfully")
 		SqliteIndexStorage storage(databasePath);
 		storage.setup();
 		storage.beginTransaction();
-		int sourceNodeId = storage.addNode(StorageNodeData(0, L"a"));
-		int targetNodeId = storage.addNode(StorageNodeData(0, L"b"));
+		Id sourceNodeId = storage.addNode(StorageNodeData(0, L"a"));
+		Id targetNodeId = storage.addNode(StorageNodeData(0, L"b"));
 		storage.addEdge(StorageEdgeData(0, sourceNodeId, targetNodeId));
 		storage.commitTransaction();
 		edgeCount = storage.getEdgeCount();
@@ -65,9 +65,9 @@ TEST_CASE("storage removes edge successfully")
 		SqliteIndexStorage storage(databasePath);
 		storage.setup();
 		storage.beginTransaction();
-		int sourceNodeId = storage.addNode(StorageNodeData(0, L"a"));
-		int targetNodeId = storage.addNode(StorageNodeData(0, L"b"));
-		int edgeId = storage.addEdge(StorageEdgeData(0, sourceNodeId, targetNodeId));
+		Id sourceNodeId = storage.addNode(StorageNodeData(0, L"a"));
+		Id targetNodeId = storage.addNode(StorageNodeData(0, L"b"));
+		Id edgeId = storage.addEdge(StorageEdgeData(0, sourceNodeId, targetNodeId));
 		storage.removeElement(edgeId);
 		storage.commitTransaction();
 		edgeCount = storage.getEdgeCount();

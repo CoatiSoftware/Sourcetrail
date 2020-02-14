@@ -99,37 +99,37 @@ std::string getStyleSheet(const FilePath& path)
 			if (val.find("font_size") != std::string::npos)
 			{
 				// check for modifier
-				if (val.find("+") != std::string::npos)
+				if (val.find('+') != std::string::npos)
 				{
-					int pos = val.find("+");
-					std::string sub = val.substr(pos + 1);
+					const size_t findPos = val.find('+');
+					std::string sub = val.substr(findPos + 1);
 
 					int mod = std::stoi(sub);
 
 					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() + mod);
 				}
-				else if (val.find("-") != std::string::npos)
+				else if (val.find('-') != std::string::npos)
 				{
-					int pos = val.find("-");
-					std::string sub = val.substr(pos + 1);
+					const size_t findPos = val.find('-');
+					std::string sub = val.substr(findPos + 1);
 
 					int mod = std::stoi(sub);
 
 					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() - mod);
 				}
-				else if (val.find("*") != std::string::npos)
+				else if (val.find('*') != std::string::npos)
 				{
-					int pos = val.find("*");
-					std::string sub = val.substr(pos + 1);
+					const size_t findPos = val.find('*');
+					std::string sub = val.substr(findPos + 1);
 
 					int mod = std::stoi(sub);
 
 					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() * mod);
 				}
-				else if (val.find("/") != std::string::npos)
+				else if (val.find('/') != std::string::npos)
 				{
-					int pos = val.find("/");
-					std::string sub = val.substr(pos + 1);
+					const size_t findPos = val.find('/');
+					std::string sub = val.substr(findPos + 1);
 
 					int mod = std::stoi(sub);
 
@@ -151,7 +151,7 @@ std::string getStyleSheet(const FilePath& path)
 				size_t index = 0;
 				while (true)
 				{
-					index = val.find("\\", index);
+					index = val.find('\\', index);
 					if (index == std::string::npos)
 					{
 						break;
