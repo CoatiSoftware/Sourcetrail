@@ -133,13 +133,13 @@ public:
 	std::shared_ptr<Graph> getGraphForTrail(
 		Id originId,
 		Id targetId,
-		NodeType::TypeMask nodeTypes,
+		NodeKindMask nodeTypes,
 		Edge::TypeMask trailType,
 		bool nodeNonIndexed,
 		size_t depth,
 		bool directed) const override;
 
-	NodeType::TypeMask getAvailableNodeTypes() const override;
+	NodeKindMask getAvailableNodeTypes() const override;
 	Edge::TypeMask getAvailableEdgeTypes() const override;
 
 	std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const override;
@@ -242,7 +242,8 @@ private:
 		Graph* graphh,
 		bool addChildCount) const;
 	inline void addFileNodeToGraph(const StorageNode& storageNode, Graph* const graph) const;
-	void addNodeToGraph(const StorageNode& newNode, const NodeType& type, Graph* graph, bool addChildCount) const;
+	void addNodeToGraph(
+		const StorageNode& newNode, const NodeType& type, Graph* graph, bool addChildCount) const;
 	void addAggregationEdgesToGraph(
 		Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
 	void addFileContentsToGraph(Id fileId, Graph* graph) const;

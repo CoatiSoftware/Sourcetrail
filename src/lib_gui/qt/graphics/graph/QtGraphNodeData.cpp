@@ -88,7 +88,7 @@ void QtGraphNodeData::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 	if (!m_isInteractive)
 	{
 		TooltipInfo info;
-		info.title = NodeType::getReadableTypeWString(m_data->getType().getType());
+		info.title = getReadableNodeKindWString(m_data->getType().getKind());
 		info.offset = Vec2i(10, 20);
 
 		if (!m_data->isDefined())

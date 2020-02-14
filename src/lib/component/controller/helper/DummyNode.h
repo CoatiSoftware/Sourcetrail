@@ -116,7 +116,7 @@ public:
 		, invisibleSubNodeCount(0)
 		, bundleId(0)
 		, bundledNodeCount(0)
-		, bundledNodeType(NodeType::NODE_SYMBOL)
+		, bundledNodeType(NODE_SYMBOL)
 		, qualifierName(NAME_DELIMITER_UNKNOWN)
 		, groupType(GroupType::DEFAULT)
 		, groupLayout(GroupLayout::LIST)

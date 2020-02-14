@@ -352,7 +352,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 								for (const StorageNode& targetNode: nodeNameToStorageNodes[token])
 								{
 									if (Edge::intToType(edge.type) == Edge::EDGE_INHERITANCE &&
-										NodeType::intToType(targetNode.type) != NodeType::NODE_CLASS)
+										intToNodeKind(targetNode.type) != NODE_CLASS)
 									{
 										continue;
 									}

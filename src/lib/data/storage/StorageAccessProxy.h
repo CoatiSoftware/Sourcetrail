@@ -43,13 +43,13 @@ public:
 	std::shared_ptr<Graph> getGraphForTrail(
 		Id originId,
 		Id targetId,
-		NodeType::TypeMask nodeTypes,
+		NodeKindMask nodeTypes,
 		Edge::TypeMask edgeTypes,
 		bool nodeNonIndexed,
 		size_t depth,
 		bool directed) const override;
 
-	NodeType::TypeMask getAvailableNodeTypes() const override;
+	NodeKindMask getAvailableNodeTypes() const override;
 	Edge::TypeMask getAvailableEdgeTypes() const override;
 
 	std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const override;

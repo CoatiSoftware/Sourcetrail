@@ -15,7 +15,7 @@ public:
 	}
 
 	virtual void clearView() = 0;
-	virtual void setAvailableNodeAndEdgeTypes(NodeType::TypeMask nodeTypes, Edge::TypeMask edgeTypes) = 0;
+	virtual void setAvailableNodeAndEdgeTypes(NodeKindMask nodeTypes, Edge::TypeMask edgeTypes) = 0;
 
 	virtual void showView() = 0;
 	virtual void hideView() = 0;

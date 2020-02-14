@@ -8,42 +8,13 @@
 #include <vector>
 
 #include "FilePath.h"
+#include "NodeKind.h"
 #include "Tree.h"
 #include "types.h"
 
 class NodeType
 {
 public:
-	typedef int TypeMask;
-	enum Type : NodeType::TypeMask
-	{	 // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
-		NODE_SYMBOL = 1 << 0,
-		NODE_TYPE = 1 << 1,
-		NODE_BUILTIN_TYPE = 1 << 2,
-
-		NODE_MODULE = 1 << 3,
-		NODE_NAMESPACE = 1 << 4,
-		NODE_PACKAGE = 1 << 5,
-		NODE_STRUCT = 1 << 6,
-		NODE_CLASS = 1 << 7,
-		NODE_INTERFACE = 1 << 8,
-		NODE_ANNOTATION = 1 << 9,
-		NODE_GLOBAL_VARIABLE = 1 << 10,
-		NODE_FIELD = 1 << 11,
-		NODE_FUNCTION = 1 << 12,
-		NODE_METHOD = 1 << 13,
-		NODE_ENUM = 1 << 14,
-		NODE_ENUM_CONSTANT = 1 << 15,
-		NODE_TYPEDEF = 1 << 16,
-		NODE_TYPE_PARAMETER = 1 << 17,
-
-		NODE_FILE = 1 << 18,
-		NODE_MACRO = 1 << 19,
-		NODE_UNION = 1 << 20,
-
-		NODE_MAX_VALUE = NODE_UNION
-	};
-
 	enum StyleType
 	{
 		STYLE_PACKAGE = 0,
@@ -77,20 +48,13 @@ public:
 
 	static std::vector<NodeType> getOverviewBundleNodeTypesOrdered();
 
-	static int typeToInt(NodeType::Type type);
-	static NodeType::Type intToType(int value);
-
-	static std::string getReadableTypeString(NodeType::Type type);
-	static std::wstring getReadableTypeWString(NodeType::Type type);
-	static NodeType::Type getTypeForReadableTypeString(const std::wstring& str);
-
-	NodeType(Type type);
+	explicit NodeType(NodeKind kind);
 
 	bool operator==(const NodeType& o) const;
 	bool operator!=(const NodeType& o) const;
 	bool operator<(const NodeType& o) const;
 
-	Type getType() const;
+	NodeKind getKind() const;
 
 	Id getId() const;
 	bool isFile() const;
@@ -119,8 +83,9 @@ public:
 	std::wstring getReadableTypeWString() const;
 
 	static std::vector<NodeType> const overviewBundleNodeTypesOrdered;
+
 private:
-	Type m_type;
+	NodeKind m_kind;
 };
 
 #endif	  // NODE_TYPE_H

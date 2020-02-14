@@ -39,7 +39,7 @@ public:
 	SearchIndex();
 	virtual ~SearchIndex();
 
-	void addNode(Id id, std::wstring name, NodeType type = NodeType::NODE_SYMBOL);
+	void addNode(Id id, std::wstring name, NodeType type = NodeType(NODE_SYMBOL));
 	void finishSetup();
 	void clear();
 

@@ -173,7 +173,8 @@ void UndoRedoController::handleMessage(MessageCodeShowDefinition* message)
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 {
 	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageDeactivateEdge*>(lastMessage())->scrollToDefinition == message->scrollToDefinition)
+		static_cast<MessageDeactivateEdge*>(lastMessage())->scrollToDefinition ==
+			message->scrollToDefinition)
 	{
 		return;
 	}
@@ -493,15 +494,15 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 			for (SearchMatch match: matches)
 			{
 				// TODO: replace duplicate main definition fix with better solution
-				if (match.nodeType.getType() != NodeType::NODE_FUNCTION ||
-					!match.tokenNames.size() || match.tokenNames[0].getRawName() != L"main")
+				if (match.nodeType.getKind() != NODE_FUNCTION || !match.tokenNames.size() ||
+					match.tokenNames[0].getRawName() != L"main")
 				{
 					match.tokenIds = m_storageAccess->getNodeIdsForNameHierarchies(match.tokenNames);
 				}
 
 				if (!match.tokenIds.size())
 				{
-					match.nodeType = NodeType::NODE_SYMBOL;
+					match.nodeType = NodeType(NODE_SYMBOL);
 				}
 
 				utility::append(msg->tokenIds, match.tokenIds);
