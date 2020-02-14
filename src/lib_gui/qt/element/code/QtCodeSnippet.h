@@ -16,6 +16,7 @@ class QBoxLayout;
 class QPushButton;
 class QtCodeFile;
 class QtCodeNavigator;
+class QtHoverButton;
 class SourceLocationFile;
 
 class QtCodeSnippet: public QFrame
@@ -65,7 +66,7 @@ private slots:
 	void clickedFooter();
 
 private:
-	QPushButton* createScopeLine(QBoxLayout* layout);
+	QtHoverButton* createScopeLine(QBoxLayout* layout);
 	void updateDots();
 
 	QtCodeNavigator* m_navigator;
@@ -79,8 +80,8 @@ private:
 
 	std::vector<QPushButton*> m_dots;
 
-	QPushButton* m_title;
-	QPushButton* m_footer;
+	QtHoverButton* m_title;
+	QtHoverButton* m_footer;
 	QtCodeArea* m_codeArea;
 };
 

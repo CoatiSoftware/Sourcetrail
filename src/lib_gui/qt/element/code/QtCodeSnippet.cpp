@@ -9,6 +9,7 @@
 
 #include "QtCodeFile.h"
 #include "QtCodeNavigator.h"
+#include "QtHoverButton.h"
 #include "SourceLocationFile.h"
 
 QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file)
@@ -273,7 +274,7 @@ void QtCodeSnippet::clickedFooter()
 	}
 }
 
-QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
+QtHoverButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 {
 	QHBoxLayout* lineLayout = new QHBoxLayout();
 	lineLayout->setMargin(0);
@@ -287,12 +288,17 @@ QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 	lineLayout->addWidget(dots);
 	m_dots.push_back(dots);
 
-	QPushButton* line = new QPushButton(this);
+	QtHoverButton* line = new QtHoverButton(this);
 	line->setObjectName(QStringLiteral("scope_name"));
 	line->minimumSizeHint();							// force font loading
 	line->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	lineLayout->addWidget(line);
+
+	connect(line, &QtHoverButton::hoveredIn, [this, line](){
+		m_navigator->setFocusedScopeLine(m_codeArea, line);
+		m_navigator->setFocus();
+	});
 
 	return line;
 }

@@ -406,6 +406,11 @@ void QtCodeFileList::resizeEvent(QResizeEvent* event)
 void QtCodeFileList::updateSnippetTitleAndScrollBarSlot()
 {
 	updateSnippetTitleAndScrollBar(0);
+
+	if (m_firstSnippetTitleBar && m_firstSnippetFile)
+	{
+		m_firstSnippetTitleBar->setIsFocused(m_navigator->getCurrentFocus().file == m_firstSnippetFile);
+	}
 }
 
 void QtCodeFileList::updateSnippetTitleAndScrollBar(int value)
@@ -474,7 +479,7 @@ void QtCodeFileList::scrollLastSnippetScrollBar(int value)
 	}
 }
 
-void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int fileTitleBarOffset)
+void QtCodeFileList::updateFirstSnippetTitleBar(QtCodeFile* file, int fileTitleBarOffset)
 {
 	const QtCodeFileTitleBar* mirroredTitleBar = file ? file->getTitleBar() : nullptr;
 	if (m_mirroredTitleBar != mirroredTitleBar)
@@ -500,6 +505,10 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 				&QtCodeFileTitleBar::maximize,
 				file,
 				&QtCodeFile::clickedMaximizeButton);
+			connect(m_firstSnippetTitleBar, &QtHoverButton::hoveredIn, [this, file](){
+				m_navigator->setFocusedFile(file);
+				m_navigator->setFocus();
+			});
 
 			m_firstSnippetTitleBar->setGeometry(
 				file->pos().x() + mirroredTitleBar->pos().x(),
@@ -507,6 +516,8 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 				mirroredTitleBar->width(),
 				mirroredTitleBar->height());
 			m_firstSnippetTitleBar->show();
+
+			m_firstSnippetFile = file;
 		}
 		else
 		{
@@ -514,6 +525,8 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 			// issue when changing color scheme
 			m_firstSnippetTitleBar->getTitleButton()->setFilePath(FilePath());
 			m_firstSnippetTitleBar->hide();
+
+			m_firstSnippetFile = nullptr;
 		}
 	}
 
