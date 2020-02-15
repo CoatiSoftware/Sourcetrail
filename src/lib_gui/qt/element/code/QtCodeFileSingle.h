@@ -44,7 +44,8 @@ public:
 		Id locationId,
 		Id scopeLocationId,
 		bool animated,
-		CodeScrollParams::Target target) override;
+		CodeScrollParams::Target target,
+		bool focusTarget) override;
 
 	void onWindowFocus() override;
 

@@ -171,7 +171,8 @@ void QtCodeFileSingle::scrollTo(
 	Id locationId,
 	Id scopeLocationId,
 	bool animated,
-	CodeScrollParams::Target target)
+	CodeScrollParams::Target target,
+	bool focusTarget)
 {
 	if (m_currentFilePath != filePath)
 	{
@@ -214,7 +215,7 @@ void QtCodeFileSingle::scrollTo(
 
 	m_area->ensureLocationIdVisible(targetLocationId, width(), animated);
 
-	if (locationId)
+	if (focusTarget && locationId)
 	{
 		m_navigator->setFocusedLocationId(m_area, lineNumber, 0, locationId, {});
 	}

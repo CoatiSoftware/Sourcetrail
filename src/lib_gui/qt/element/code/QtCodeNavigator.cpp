@@ -552,6 +552,7 @@ void QtCodeNavigator::activateScreenMatch(size_t matchIndex)
 			m_activeScreenMatchId,
 			0,
 			CodeScrollParams::Target::CENTER),
+		true,
 		true);
 }
 
@@ -589,7 +590,7 @@ void QtCodeNavigator::clearScreenMatches()
 	m_screenMatches.clear();
 }
 
-void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
+void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated, bool focusTarget)
 {
 	if (!isVisible())
 	{
@@ -604,15 +605,15 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 	case CodeScrollParams::Type::TO_REFERENCE:
 		func = [=]() {
 			m_current->scrollTo(
-				params.filePath, 0, params.locationId, params.scopeLocationId, animated, params.target);
+				params.filePath, 0, params.locationId, params.scopeLocationId, animated, params.target, focusTarget);
 		};
 		break;
 	case CodeScrollParams::Type::TO_FILE:
-		func = [=]() { m_current->scrollTo(params.filePath, 0, 0, 0, animated, params.target); };
+		func = [=]() { m_current->scrollTo(params.filePath, 0, 0, 0, animated, params.target, focusTarget); };
 		break;
 	case CodeScrollParams::Type::TO_LINE:
 		func = [=]() {
-			m_current->scrollTo(params.filePath, params.line, 0, 0, animated, params.target);
+			m_current->scrollTo(params.filePath, params.line, 0, 0, animated, params.target, focusTarget);
 		};
 		break;
 	case CodeScrollParams::Type::TO_VALUE:
@@ -643,6 +644,24 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 	m_scrollParams = CodeScrollParams();
 }
 
+void QtCodeNavigator::scrollToFocus()
+{
+	const CodeFocusHandler::Focus& focus = getCurrentFocus();
+
+	if (focus.file)
+	{
+		scrollTo(CodeScrollParams::toFile(focus.file->getFilePath(), CodeScrollParams::Target::VISIBLE), true, false);
+	}
+	else if (focus.scopeLine)
+	{
+		scrollTo(CodeScrollParams::toLine(focus.area->getSourceLocationFile()->getFilePath(), focus.lineNumber, CodeScrollParams::Target::VISIBLE), true, false);
+	}
+	else if (focus.locationId)
+	{
+		scrollTo(CodeScrollParams::toReference(focus.area->getSourceLocationFile()->getFilePath(), focus.locationId, 0, CodeScrollParams::Target::VISIBLE), true, false);
+	}
+}
+
 void QtCodeNavigator::scrolled(int value)
 {
 	MessageScrollCode(value, m_mode == MODE_LIST).dispatch();
@@ -650,7 +669,7 @@ void QtCodeNavigator::scrolled(int value)
 
 void QtCodeNavigator::showEvent(QShowEvent* event)
 {
-	scrollTo(m_scrollParams, false);
+	scrollTo(m_scrollParams, false, true);
 }
 
 #include <iostream>
@@ -665,24 +684,28 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_K:
 	case Qt::Key_W:
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
+		scrollToFocus();
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
+		scrollToFocus();
 		break;
 
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::LEFT);
+		scrollToFocus();
 		break;
 
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
 		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::RIGHT);
+		scrollToFocus();
 		break;
 
 	case Qt::Key_E:

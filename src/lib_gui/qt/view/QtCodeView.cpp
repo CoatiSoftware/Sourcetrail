@@ -109,7 +109,7 @@ void QtCodeView::showSnippets(
 		}
 
 		m_widget->updateFiles();
-		m_widget->scrollTo(scrollParams, !params.clearSnippets);
+		m_widget->scrollTo(scrollParams, !params.clearSnippets, true);
 		m_widget->focusInitialLocation();
 	});
 }
@@ -139,7 +139,7 @@ void QtCodeView::showSingleFile(
 			}
 
 			m_widget->updateFiles();
-			m_widget->scrollTo(scrollParams, animatedScroll);
+			m_widget->scrollTo(scrollParams, animatedScroll, true);
 			m_widget->focusInitialLocation();
 		}
 		else
@@ -174,7 +174,7 @@ void QtCodeView::updateSourceLocations(const std::vector<CodeFileParams>& files)
 
 void QtCodeView::scrollTo(const CodeScrollParams& params, bool animated)
 {
-	m_onQtThread([=]() { m_widget->scrollTo(params, animated); });
+	m_onQtThread([=]() { m_widget->scrollTo(params, animated, true); });
 }
 
 void QtCodeView::coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds)

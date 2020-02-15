@@ -99,7 +99,8 @@ public:
 	bool hasScreenMatches() const;
 	void clearScreenMatches();
 
-	void scrollTo(const CodeScrollParams& params, bool animated);
+	void scrollTo(const CodeScrollParams& params, bool animated, bool focusTarget);
+	void scrollToFocus();
 
 public slots:
 	void scrolled(int value);

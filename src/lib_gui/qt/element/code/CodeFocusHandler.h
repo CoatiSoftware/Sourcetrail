@@ -51,7 +51,7 @@ public:
 		size_t columnNumber,
 		Id locationId,
 		const std::vector<Id>& tokenIds);
-	void setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine);
+	void setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine, size_t lineNumber);
 	void setFocusedFile(QtCodeFile* file);
 
 	size_t getTargetColumn() const;

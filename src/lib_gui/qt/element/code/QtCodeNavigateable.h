@@ -31,7 +31,8 @@ public:
 		Id locationId,
 		Id scopeLocationId,
 		bool animated,
-		CodeScrollParams::Target target) = 0;
+		CodeScrollParams::Target target,
+		bool focusTarget) = 0;
 
 	virtual void onWindowFocus() = 0;
 

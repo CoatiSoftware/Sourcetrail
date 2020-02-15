@@ -81,9 +81,9 @@ void CodeFocusHandler::setFocusedLocationId(
 	setCurrentFocus({nullptr, area, nullptr, lineNumber, locationId, tokenIds});
 }
 
-void CodeFocusHandler::setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine)
+void CodeFocusHandler::setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine, size_t lineNumber)
 {
-	setCurrentFocus({nullptr, area, scopeLine, 0, 0, {}});
+	setCurrentFocus({nullptr, area, scopeLine, lineNumber, 0, {}});
 }
 
 void CodeFocusHandler::setFocusedFile(QtCodeFile* file)

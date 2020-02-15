@@ -221,15 +221,14 @@ void QtCodeFileList::scrollTo(
 	Id locationId,
 	Id scopeLocationId,
 	bool animated,
-	CodeScrollParams::Target target)
+	CodeScrollParams::Target target,
+	bool focusTarget)
 {
 	QtCodeFile* file = getFile(filePath);
 	if (!file)
 	{
 		return;
 	}
-
-	bool focusTarget = true;
 
 	QtCodeSnippet* snippet = nullptr;
 

@@ -205,12 +205,12 @@ bool QtCodeSnippet::moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHan
 			{
 				if (m_title && direction == CodeFocusHandler::Direction::UP)
 				{
-					m_navigator->setFocusedScopeLine(m_codeArea, m_title);
+					m_navigator->setFocusedScopeLine(m_codeArea, m_title, getStartLineNumber());
 					return true;
 				}
 				else if (m_footer && direction == CodeFocusHandler::Direction::DOWN)
 				{
-					m_navigator->setFocusedScopeLine(m_codeArea, m_footer);
+					m_navigator->setFocusedScopeLine(m_codeArea, m_footer, getEndLineNumber());
 					return true;
 				}
 			}
@@ -224,7 +224,7 @@ void QtCodeSnippet::focusTop()
 {
 	if (m_title)
 	{
-		m_navigator->setFocusedScopeLine(m_codeArea, m_title);
+		m_navigator->setFocusedScopeLine(m_codeArea, m_title, getStartLineNumber());
 	}
 	else
 	{
@@ -237,7 +237,7 @@ void QtCodeSnippet::focusBottom()
 {
 	if (m_footer)
 	{
-		m_navigator->setFocusedScopeLine(m_codeArea, m_footer);
+		m_navigator->setFocusedScopeLine(m_codeArea, m_footer, getEndLineNumber());
 	}
 	else
 	{
@@ -296,7 +296,7 @@ QtHoverButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 	lineLayout->addWidget(line);
 
 	connect(line, &QtHoverButton::hoveredIn, [this, line](){
-		m_navigator->setFocusedScopeLine(m_codeArea, line);
+		m_navigator->setFocusedScopeLine(m_codeArea, line, 0);
 		m_navigator->setFocus();
 	});
 
