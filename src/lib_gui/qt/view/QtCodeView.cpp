@@ -169,6 +169,8 @@ void QtCodeView::updateSourceLocations(const std::vector<CodeFileParams>& files)
 				m_widget->updateSourceLocations(*file.fileParams.get());
 			}
 		}
+
+		m_widget->focusInitialLocation();
 	});
 }
 
