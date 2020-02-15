@@ -42,7 +42,7 @@ public:
 	void defocus();
 
 	const Focus& getCurrentFocus() const;
-	void setCurrentFocus(const Focus& focus);
+	void setCurrentFocus(const Focus& focus, bool fromMouse);
 	bool hasCurrentFocus() const;
 
 	void setFocusedLocationId(
@@ -50,7 +50,8 @@ public:
 		size_t lineNumber,
 		size_t columnNumber,
 		Id locationId,
-		const std::vector<Id>& tokenIds);
+		const std::vector<Id>& tokenIds,
+		bool fromMouse);
 	void setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine, size_t lineNumber);
 	void setFocusedFile(QtCodeFile* file);
 

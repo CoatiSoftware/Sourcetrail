@@ -6,7 +6,7 @@
 
 void CodeFocusHandler::clear()
 {
-	setCurrentFocus({});
+	setCurrentFocus({}, false);
 	m_oldFocus = Focus();
 	m_targetColumn = 0;
 }
@@ -17,7 +17,7 @@ void CodeFocusHandler::focus()
 
 	if (!m_oldFocus.isEmpty())
 	{
-		setCurrentFocus(m_oldFocus);
+		setCurrentFocus(m_oldFocus, false);
 		m_oldFocus = Focus();
 	}
 }
@@ -25,7 +25,7 @@ void CodeFocusHandler::focus()
 void CodeFocusHandler::defocus()
 {
 	m_oldFocus = m_focus;
-	setCurrentFocus({});
+	setCurrentFocus({}, false);
 	m_hasFocus = false;
 }
 
@@ -34,12 +34,12 @@ const CodeFocusHandler::Focus& CodeFocusHandler::getCurrentFocus() const
 	return m_focus;
 }
 
-void CodeFocusHandler::setCurrentFocus(const Focus& focus)
+void CodeFocusHandler::setCurrentFocus(const Focus& focus, bool fromMouse)
 {
 	if (m_hasFocus)
 	{
 		bool same = (m_focus.tokenIds == focus.tokenIds);
-		if (m_focus.tokenIds.size() && !same)
+		if (!fromMouse && !same && m_focus.tokenIds.size())
 		{
 			MessageFocusOut(m_focus.tokenIds).dispatch();
 		}
@@ -47,7 +47,7 @@ void CodeFocusHandler::setCurrentFocus(const Focus& focus)
 		m_focus = focus;
 		updateFiles();
 
-		if (m_focus.tokenIds.size() && !same)
+		if (!fromMouse && !same && m_focus.tokenIds.size())
 		{
 			MessageFocusIn(m_focus.tokenIds).dispatch();
 		}
@@ -71,24 +71,24 @@ bool CodeFocusHandler::hasCurrentFocus() const
 }
 
 void CodeFocusHandler::setFocusedLocationId(
-	QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId, const std::vector<Id>& tokenIds)
+	QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId, const std::vector<Id>& tokenIds, bool fromMouse)
 {
 	if (columnNumber)
 	{
 		m_targetColumn = columnNumber;
 	}
 
-	setCurrentFocus({nullptr, area, nullptr, lineNumber, locationId, tokenIds});
+	setCurrentFocus({nullptr, area, nullptr, lineNumber, locationId, tokenIds}, fromMouse);
 }
 
 void CodeFocusHandler::setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine, size_t lineNumber)
 {
-	setCurrentFocus({nullptr, area, scopeLine, lineNumber, 0, {}});
+	setCurrentFocus({nullptr, area, scopeLine, lineNumber, 0, {}}, false);
 }
 
 void CodeFocusHandler::setFocusedFile(QtCodeFile* file)
 {
-	setCurrentFocus({file, nullptr, nullptr, 0, 0, {}});
+	setCurrentFocus({file, nullptr, nullptr, 0, 0, {}}, false);
 }
 
 size_t CodeFocusHandler::getTargetColumn() const

@@ -592,7 +592,7 @@ bool QtCodeArea::setFocus(Id locationId)
 			(type == LOCATION_TOKEN || type == LOCATION_QUALIFIER ||
 			 type == LOCATION_LOCAL_SYMBOL || type == LOCATION_UNSOLVED || type == LOCATION_ERROR))
 		{
-			focusAnnotation(&annotation, true);
+			focusAnnotation(&annotation, true, false);
 			return true;
 		}
 	}
@@ -655,7 +655,7 @@ bool QtCodeArea::moveFocusToLine(size_t lineNumber, int targetColumn, bool up)
 
 		if (annotation)
 		{
-			focusAnnotation(annotation, false);
+			focusAnnotation(annotation, false, false);
 		}
 		return true;
 	}
@@ -696,7 +696,7 @@ bool QtCodeArea::moveFocusInLine(size_t lineNumber, Id locationId, bool forward)
 
 	if (target && target->locationId != locationId)
 	{
-		focusAnnotation(target, true);
+		focusAnnotation(target, true, false);
 		return true;
 	}
 
@@ -884,14 +884,11 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		QToolTip::hideText();
 
+		setHoveredAnnotations(annotations);
 		if (annotations.size())
 		{
-			focusAnnotation(annotations.front(), true);
+			focusAnnotation(annotations.front(), true, true);
 			m_navigator->focusView();
-		}
-		else
-		{
-			setHoveredAnnotations(annotations);
 		}
 	}
 }
@@ -1041,7 +1038,7 @@ void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*
 	activateAnnotations(annotations);
 }
 
-void QtCodeArea::focusAnnotation(const Annotation* annotation, bool updateTargetColumn)
+void QtCodeArea::focusAnnotation(const Annotation* annotation, bool updateTargetColumn, bool fromMouse)
 {
 	m_linesToRehighlight.push_back(annotation->startLine);
 	m_navigator->setFocusedLocationId(
@@ -1049,7 +1046,8 @@ void QtCodeArea::focusAnnotation(const Annotation* annotation, bool updateTarget
 		annotation->startLine,
 		updateTargetColumn ? annotation->startCol : 0,
 		annotation->locationId,
-		utility::toVector(annotation->tokenIds));
+		utility::toVector(annotation->tokenIds),
+		fromMouse);
 }
 
 void QtCodeArea::annotateText()

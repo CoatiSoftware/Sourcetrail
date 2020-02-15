@@ -118,7 +118,7 @@ private:
 	bool isSelectionPosition(QPoint positionPoint) const;
 
 	void activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations);
-	void focusAnnotation(const Annotation* annotation, bool updateTargetColumn);
+	void focusAnnotation(const Annotation* annotation, bool updateTargetColumn, bool fromMouse);
 
 	void annotateText();
 
