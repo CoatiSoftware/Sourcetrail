@@ -365,7 +365,7 @@ bool QtCodeField::annotateText(
 			(utility::shareElement(activeSymbolIds, annotation.tokenIds) ||
 			 activeLocationIds.find(annotation.locationId) != activeLocationIds.end());
 
-		annotation.isFocused = annotation.locationId == focusedLocationId;
+		annotation.isFocused = focusedLocationId && (annotation.locationId == focusedLocationId);
 
 		annotation.isCoFocused = utility::shareElement(coFocusedSymbolIds, annotation.tokenIds);
 
