@@ -2,12 +2,17 @@
 
 #include <algorithm>
 
-CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
-	: View(viewLayout), m_direction(direction), m_name(name)
+CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId)
+	: View(viewLayout), m_direction(direction), m_name(name), m_tabId(tabId)
 {
 }
 
 CompositeView::~CompositeView() {}
+
+Id CompositeView::getSchedulerId() const
+{
+	return m_tabId;
+}
 
 CompositeView::CompositeDirection CompositeView::getDirection() const
 {
@@ -49,4 +54,9 @@ void CompositeView::hideView(View* view) {}
 void CompositeView::setViewEnabled(View* view, bool enabled)
 {
 	getViewLayout()->setViewEnabled(view, enabled);
+}
+
+void CompositeView::handleMessage(MessageFocusedSearchView* message)
+{
+	showFocusIndicator(message->focusIn);
 }

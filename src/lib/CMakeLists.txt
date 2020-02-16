@@ -474,6 +474,7 @@ add_files(
 	utility/messaging/type/error/MessageErrorsHelpMessage.h
 	utility/messaging/type/error/MessageShowError.h
 
+	utility/messaging/type/focus/MessageFocusedSearchView.h
 	utility/messaging/type/focus/MessageFocusIn.h
 	utility/messaging/type/focus/MessageFocusOut.h
 	utility/messaging/type/focus/MessageFocusView.h

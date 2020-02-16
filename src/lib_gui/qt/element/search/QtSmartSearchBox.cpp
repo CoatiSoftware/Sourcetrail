@@ -10,6 +10,7 @@
 
 #include "ColorScheme.h"
 #include "GraphViewStyle.h"
+#include "MessageFocusedSearchView.h"
 #include "NodeTypeSet.h"
 #include "utility.h"
 #include "utilityString.h"
@@ -224,6 +225,7 @@ void QtSmartSearchBox::resizeEvent(QResizeEvent* event)
 void QtSmartSearchBox::focusInEvent(QFocusEvent* event)
 {
 	QLineEdit::focusInEvent(event);
+	MessageFocusedSearchView(true).dispatch();
 
 	if (event->reason() != Qt::MouseFocusReason && event->reason() != Qt::ShortcutFocusReason)
 	{
@@ -255,6 +257,12 @@ void QtSmartSearchBox::focusInEvent(QFocusEvent* event)
 	{
 		m_ignoreNextMousePress = true;
 	}
+}
+
+void QtSmartSearchBox::focusOutEvent(QFocusEvent* event)
+{
+	QLineEdit::focusOutEvent(event);
+	MessageFocusedSearchView(false).dispatch();
 }
 
 void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)

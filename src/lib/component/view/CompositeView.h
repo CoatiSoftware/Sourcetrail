@@ -3,12 +3,15 @@
 
 #include <vector>
 
+#include "MessageFocusedSearchView.h"
+#include "MessageListener.h"
 #include "View.h"
 #include "ViewLayout.h"
 
 class CompositeView
 	: public View
 	, public ViewLayout
+	, public MessageListener<MessageFocusedSearchView>
 {
 public:
 	enum CompositeDirection
@@ -17,30 +20,37 @@ public:
 		DIRECTION_VERTICAL
 	};
 
-	CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name);
+	CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId);
 	virtual ~CompositeView();
+
+	Id getSchedulerId() const override;
 
 	CompositeDirection getDirection() const;
 	const std::vector<View*>& getViews() const;
 
 	virtual void addViewWidget(View* view) = 0;
 
+	virtual void showFocusIndicator(bool focus) = 0;
+
 	// View implementation
-	virtual std::string getName() const;
+	virtual std::string getName() const override;
 
 	// ViewLayout implementation
-	virtual void addView(View* view);
-	virtual void removeView(View* view);
+	void addView(View* view) override;
+	void removeView(View* view) override;
 
-	virtual void showView(View* view);
-	virtual void hideView(View* view);
+	void showView(View* view) override;
+	void hideView(View* view) override;
 
-	virtual void setViewEnabled(View* view, bool enabled);
+	void setViewEnabled(View* view, bool enabled) override;
 
 private:
+	void handleMessage(MessageFocusedSearchView* message) override;
+
 	std::vector<View*> m_views;
 	CompositeDirection m_direction;
-	std::string m_name;
+	const std::string m_name;
+	const Id m_tabId;
 };
 
 #endif	  // COMPOSITE_VIEW_H
