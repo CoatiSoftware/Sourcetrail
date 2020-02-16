@@ -712,7 +712,7 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Return:
 		if (currentFocus.area && currentFocus.locationId)
 		{
-			currentFocus.area->activateLocationId(currentFocus.locationId);
+			currentFocus.area->activateLocationId(currentFocus.locationId, false);
 		}
 		else if (currentFocus.scopeLine)
 		{

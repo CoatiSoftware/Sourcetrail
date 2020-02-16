@@ -703,7 +703,7 @@ bool QtCodeArea::moveFocusInLine(size_t lineNumber, Id locationId, bool forward)
 	return false;
 }
 
-void QtCodeArea::activateLocationId(Id locationId)
+void QtCodeArea::activateLocationId(Id locationId, bool fromMouse)
 {
 	const Annotation* annotation = getAnnotationForLocationId(locationId);
 	if (!annotation)
@@ -720,7 +720,7 @@ void QtCodeArea::activateLocationId(Id locationId)
 	}
 	else
 	{
-		activateAnnotationsOrErrors({annotation});
+		activateAnnotationsOrErrors({annotation}, fromMouse);
 	}
 }
 
@@ -805,7 +805,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				event->pos());
 			if (annotations.size())
 			{
-				activateAnnotationsOrErrors(annotations);
+				activateAnnotationsOrErrors(annotations, true);
 			}
 			else if (m_navigator->getActiveLocalTokenIds().size())
 			{
@@ -1014,7 +1014,7 @@ bool QtCodeArea::isSelectionPosition(const QPoint positionPoint) const
 	return selectionStart != selectionEnd && selectionStart <= position && position <= selectionEnd;
 }
 
-void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations)
+void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations, bool fromMouse)
 {
 	if (m_navigator->hasErrors())
 	{
@@ -1035,7 +1035,7 @@ void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*
 		}
 	}
 
-	activateAnnotations(annotations);
+	activateAnnotations(annotations, fromMouse, lineNumberAreaWidth());
 }
 
 void QtCodeArea::focusAnnotation(const Annotation* annotation, bool updateTargetColumn, bool fromMouse)

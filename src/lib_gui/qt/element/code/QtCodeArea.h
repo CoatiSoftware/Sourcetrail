@@ -91,7 +91,7 @@ public:
 	bool moveFocus(CodeFocusHandler::Direction direction, size_t lineNumber, Id locationId);
 	bool moveFocusToLine(size_t lineNumber, int targetColumn, bool up);
 	bool moveFocusInLine(size_t lineNumber, Id locationId, bool forward);
-	void activateLocationId(Id locationId);
+	void activateLocationId(Id locationId, bool fromMouse);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
@@ -117,7 +117,7 @@ private:
 	void dragSelectedText();
 	bool isSelectionPosition(QPoint positionPoint) const;
 
-	void activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations);
+	void activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations, bool fromMouse);
 	void focusAnnotation(const Annotation* annotation, bool updateTargetColumn, bool fromMouse);
 
 	void annotateText();

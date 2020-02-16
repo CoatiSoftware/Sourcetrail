@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QTextBlock>
 #include <QTextCodec>
+#include <QWindow>
 
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
@@ -309,7 +310,7 @@ void QtCodeField::mouseReleaseEvent(QMouseEvent* event)
 		return;
 	}
 
-	activateAnnotations(annotations);
+	activateAnnotations(annotations, true, 0);
 }
 
 void QtCodeField::keyPressEvent(QKeyEvent* event)
@@ -477,7 +478,7 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 	});
 }
 
-void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& annotations)
+void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& annotations, bool fromMouse, int mouseOffsetX)
 {
 	std::vector<Id> locationIds;
 	std::set<Id> tokenIds;
@@ -518,6 +519,27 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 	if (tokenIds.size() > 1 || localSymbolIds.size() > 1 ||
 		(tokenIds.size() && localSymbolIds.size()))
 	{
+		// FIXME: Tooltip lists are positioned at the mouse cursor. This workaround sets the mouse cursor to the
+		// location of the activated annotation if activated via keyboard.
+		if (!fromMouse)
+		{
+			std::vector<QRect> rects = getCursorRectsForAnnotation(*annotations.front());
+			if (rects.size())
+			{
+				m_hoveredAnnotations = annotations;
+
+				QPoint pos = mapToGlobal(rects.front().translated(mouseOffsetX, 0).center());
+				if (window() && window()->windowHandle() && window()->windowHandle()->screen())
+				{
+					QCursor::setPos(window()->windowHandle()->screen(), pos);
+				}
+				else
+				{
+					QCursor::setPos(pos);
+				}
+			}
+		}
+
 		MessageTooltipShow(locationIds, utility::toVector(localSymbolIds), TOOLTIP_ORIGIN_CODE)
 			.dispatch();
 	}
