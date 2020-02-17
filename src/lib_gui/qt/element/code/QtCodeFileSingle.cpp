@@ -247,7 +247,7 @@ void QtCodeFileSingle::setFocusOnTop()
 {
 	if (m_area)
 	{
-		m_area->moveFocusToLine(m_area->getStartLineNumber() - 1, 0, false);
+		m_area->moveFocusToLine(m_area->getStartLineNumber(), 0, false);
 	}
 }
 

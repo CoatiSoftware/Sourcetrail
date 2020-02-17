@@ -606,9 +606,9 @@ bool QtCodeArea::moveFocus(CodeFocusHandler::Direction direction, size_t lineNum
 	switch (direction)
 	{
 	case CodeFocusHandler::Direction::UP:
-		return moveFocusToLine(lineNumber, m_navigator->getTargetColumn(), true);
+		return moveFocusToLine(lineNumber - 1, m_navigator->getTargetColumn(), true);
 	case CodeFocusHandler::Direction::DOWN:
-		return moveFocusToLine(lineNumber, m_navigator->getTargetColumn(), false);
+		return moveFocusToLine(lineNumber + 1, m_navigator->getTargetColumn(), false);
 	case CodeFocusHandler::Direction::LEFT:
 		return moveFocusInLine(lineNumber, locationId, false);
 	case CodeFocusHandler::Direction::RIGHT:
@@ -622,6 +622,32 @@ bool QtCodeArea::moveFocusToLine(size_t lineNumber, int targetColumn, bool up)
 {
 	while (true)
 	{
+		if (lineNumber < getStartLineNumber() || lineNumber > getEndLineNumber())
+		{
+			break;
+		}
+
+		std::vector<const Annotation*> annotations = getInteractiveAnnotationsForLineNumber(lineNumber);
+		if (annotations.size())
+		{
+			const Annotation* annotation = nullptr;
+			int dist = -1;
+			for (const Annotation* a: annotations)
+			{
+				if (dist < 0 || std::abs(a->startCol - targetColumn) < dist)
+				{
+					dist = std::abs(a->startCol - targetColumn);
+					annotation = a;
+				}
+			}
+
+			if (annotation)
+			{
+				focusAnnotation(annotation, false, false);
+			}
+			return true;
+		}
+
 		if (up)
 		{
 			lineNumber--;
@@ -630,35 +656,6 @@ bool QtCodeArea::moveFocusToLine(size_t lineNumber, int targetColumn, bool up)
 		{
 			lineNumber++;
 		}
-
-		if (lineNumber < getStartLineNumber() || lineNumber > getEndLineNumber())
-		{
-			break;
-		}
-
-		std::vector<const Annotation*> annotations = getInteractiveAnnotationsForLineNumber(
-			lineNumber);
-		if (!annotations.size())
-		{
-			continue;
-		}
-
-		const Annotation* annotation = nullptr;
-		int dist = -1;
-		for (const Annotation* a: annotations)
-		{
-			if (dist < 0 || std::abs(a->startCol - targetColumn) < dist)
-			{
-				dist = std::abs(a->startCol - targetColumn);
-				annotation = a;
-			}
-		}
-
-		if (annotation)
-		{
-			focusAnnotation(annotation, false, false);
-		}
-		return true;
 	}
 
 	return false;
