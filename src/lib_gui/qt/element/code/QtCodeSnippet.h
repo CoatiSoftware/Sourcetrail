@@ -68,6 +68,7 @@ private slots:
 private:
 	QtHoverButton* createScopeLine(QBoxLayout* layout);
 	void updateDots();
+	void updateScopeLineFocus(QPushButton* line, QPushButton* dots);
 
 	QtCodeNavigator* m_navigator;
 	QtCodeFile* m_file;
@@ -80,9 +81,13 @@ private:
 
 	std::vector<QPushButton*> m_dots;
 
-	QtHoverButton* m_title;
-	QtHoverButton* m_footer;
-	QtCodeArea* m_codeArea;
+	QtHoverButton* m_title = nullptr;
+	QtHoverButton* m_footer = nullptr;
+
+	QPushButton* m_titleDots = nullptr;
+	QPushButton* m_footerDots = nullptr;
+
+	QtCodeArea* m_codeArea = nullptr;
 };
 
 #endif	  // QT_CODE_SNIPPET_H

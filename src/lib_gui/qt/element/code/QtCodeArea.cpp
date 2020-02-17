@@ -240,9 +240,10 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 	}
 
 	size_t focusedLineNumber = 0;
-	if (m_navigator->getCurrentFocus().area == this)
+	const CodeFocusHandler::Focus& currentFocus = m_navigator->getCurrentFocus();
+	if (currentFocus.area == this && currentFocus.scopeLine == nullptr)
 	{
-		focusedLineNumber = m_navigator->getCurrentFocus().lineNumber;
+		focusedLineNumber = currentFocus.lineNumber;
 	}
 
 	while (block.isValid() && top <= drawAreaBottom)

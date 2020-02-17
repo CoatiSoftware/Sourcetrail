@@ -107,7 +107,6 @@
 
 		<file>
 			<background>#5C5C5C</background>
-			<hover>#6C6C6C</hover>
 
 			<title>
 				<text>#F7F7F7</text>
@@ -131,7 +130,6 @@
 			<title>
 				<text>#A0A0A0</text>
 				<background>transparent</background>
-				<hover>#2F2F2F</hover>
 			</title>
 
 			<line_number>

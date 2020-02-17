@@ -20,9 +20,6 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	, m_titleString(params.title)
 	, m_footerId(params.footerId)
 	, m_footerString(params.footer)
-	, m_title(nullptr)
-	, m_footer(nullptr)
-	, m_codeArea(nullptr)
 {
 	setObjectName(QStringLiteral("code_snippet"));
 
@@ -35,6 +32,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	if (!m_titleString.empty() && !params.isOverview)
 	{
 		m_title = createScopeLine(layout);
+		m_titleDots = m_dots.back();
 		if (m_titleId == 0)	   // title is a file path
 		{
 			m_title->setText(QString::fromStdWString(FilePath(m_titleString).fileName()));
@@ -53,6 +51,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	if (!m_footerString.empty())
 	{
 		m_footer = createScopeLine(layout);
+		m_footerDots = m_dots.back();
 		if (m_footerId == 0)	// footer is a file path
 		{
 			m_footer->setText(QString::fromStdWString(FilePath(m_footerString).fileName()));
@@ -110,25 +109,8 @@ void QtCodeSnippet::updateContent()
 	m_codeArea->updateContent();
 	updateDots();
 
-	if (m_title)
-	{
-		bool focus = m_title == m_navigator->getCurrentFocus().scopeLine;
-		if (focus != m_title->property("focused").toBool())
-		{
-			m_title->setProperty("focused", focus);
-			m_title->style()->polish(m_title);	  // recomputes style to make property take effect
-		}
-	}
-
-	if (m_footer)
-	{
-		bool focus = m_footer == m_navigator->getCurrentFocus().scopeLine;
-		if (focus != m_footer->property("focused").toBool())
-		{
-			m_footer->setProperty("focused", focus);
-			m_footer->style()->polish(m_footer);	// recomputes style to make property take effect
-		}
-	}
+	updateScopeLineFocus(m_title, m_titleDots);
+	updateScopeLineFocus(m_footer, m_footerDots);
 }
 
 void QtCodeSnippet::setIsActiveFile(bool isActiveFile)
@@ -309,5 +291,21 @@ void QtCodeSnippet::updateDots()
 	{
 		dots->setText(QString::fromStdString(std::string(lineNumberDigits(), '.')));
 		dots->setMinimumWidth(m_codeArea->lineNumberAreaWidth());
+	}
+}
+
+void QtCodeSnippet::updateScopeLineFocus(QPushButton* line, QPushButton* dots)
+{
+	if (line && dots)
+	{
+		bool focus = line == m_navigator->getCurrentFocus().scopeLine;
+		if (focus != dots->property("focused").toBool())
+		{
+			line->setProperty("focused", focus);
+			line->style()->polish(line);	  // recomputes style to make property take effect
+
+			dots->setProperty("focused", focus);
+			dots->style()->polish(dots);	  // recomputes style to make property take effect
+		}
 	}
 }
