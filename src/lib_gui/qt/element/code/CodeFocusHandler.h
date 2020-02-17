@@ -36,11 +36,10 @@ public:
 		}
 	};
 
-	void clear();
-
 	void focus();
 	void defocus();
 
+	void clearCurrentFocus();
 	const Focus& getCurrentFocus() const;
 	void setCurrentFocus(const Focus& focus, bool fromMouse);
 	bool hasCurrentFocus() const;

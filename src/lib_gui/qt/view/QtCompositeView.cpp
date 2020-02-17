@@ -34,7 +34,7 @@ QtCompositeView::QtCompositeView(
 	}
 
 	m_layout->setSpacing(5);
-	m_layout->setContentsMargins(8, 8 - indicatorHeight, 8, 8);
+	m_layout->setContentsMargins(8, 8 - indicatorHeight, 8, 7);
 	m_layout->setAlignment(Qt::AlignTop);
 
 	topLayout->addLayout(m_layout);

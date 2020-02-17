@@ -4,13 +4,6 @@
 #include "MessageFocusOut.h"
 #include "MessageFocusView.h"
 
-void CodeFocusHandler::clear()
-{
-	setCurrentFocus({}, false);
-	m_oldFocus = Focus();
-	m_targetColumn = 0;
-}
-
 void CodeFocusHandler::focus()
 {
 	m_hasFocus = true;
@@ -27,6 +20,13 @@ void CodeFocusHandler::defocus()
 	m_oldFocus = m_focus;
 	setCurrentFocus({}, false);
 	m_hasFocus = false;
+}
+
+void CodeFocusHandler::clearCurrentFocus()
+{
+	setCurrentFocus({}, false);
+	m_oldFocus = Focus();
+	m_targetColumn = 0;
 }
 
 const CodeFocusHandler::Focus& CodeFocusHandler::getCurrentFocus() const

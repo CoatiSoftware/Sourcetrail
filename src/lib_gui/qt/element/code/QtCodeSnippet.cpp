@@ -234,6 +234,8 @@ void QtCodeSnippet::ensureLocationIdVisible(Id locationId, bool animated)
 
 void QtCodeSnippet::clickedTitle()
 {
+	m_codeArea->moveFocusToLine(m_codeArea->getStartLineNumber() - 1, 0, false);
+
 	if (m_titleId > 0)
 	{
 		MessageShowScope(m_titleId, m_navigator->hasErrors()).dispatch();
@@ -246,6 +248,8 @@ void QtCodeSnippet::clickedTitle()
 
 void QtCodeSnippet::clickedFooter()
 {
+	m_codeArea->moveFocusToLine(m_codeArea->getEndLineNumber() + 1, 0, true);
+
 	if (m_footerId > 0)
 	{
 		MessageShowScope(m_footerId, m_navigator->hasErrors()).dispatch();

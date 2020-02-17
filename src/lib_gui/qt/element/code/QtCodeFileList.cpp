@@ -175,11 +175,23 @@ void QtCodeFileList::addFile(const CodeFileParams& params)
 
 		if (!same)
 		{
+			Id focusedLocationId = 0;
+			const CodeFocusHandler::Focus& currentFocus = m_navigator->getCurrentFocus();
+			if (currentFocus.area && file->getFilePath() == currentFocus.area->getSourceLocationFile()->getFilePath())
+			{
+				focusedLocationId = currentFocus.locationId;
+			}
+
 			file->clearSnippets();
 
 			for (const CodeSnippetParams& snippetParams: params.snippetParams)
 			{
 				file->addCodeSnippet(snippetParams);
+			}
+
+			if (focusedLocationId)
+			{
+				file->setFocus(focusedLocationId);
 			}
 		}
 

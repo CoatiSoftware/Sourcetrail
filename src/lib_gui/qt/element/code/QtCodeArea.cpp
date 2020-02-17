@@ -241,7 +241,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 
 	size_t focusedLineNumber = 0;
 	const CodeFocusHandler::Focus& currentFocus = m_navigator->getCurrentFocus();
-	if (currentFocus.area == this && currentFocus.scopeLine == nullptr)
+	if (currentFocus.area == this && currentFocus.locationId)
 	{
 		focusedLineNumber = currentFocus.lineNumber;
 	}

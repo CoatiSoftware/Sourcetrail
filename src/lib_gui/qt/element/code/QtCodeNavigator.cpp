@@ -262,14 +262,14 @@ void QtCodeNavigator::clear()
 void QtCodeNavigator::clearSnippets()
 {
 	clearScreenMatches();
-	CodeFocusHandler::clear();
+	clearCurrentFocus();
 	m_list->clear();
 }
 
 void QtCodeNavigator::clearFile()
 {
 	clearScreenMatches();
-	CodeFocusHandler::clear();
+	clearCurrentFocus();
 	m_single->clearFile();
 }
 
@@ -452,7 +452,7 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 	}
 	else
 	{
-		clearFocus();
+		clearCurrentFocus();
 		CodeFocusHandler::defocus();
 	}
 
@@ -672,7 +672,6 @@ void QtCodeNavigator::showEvent(QShowEvent* event)
 	scrollTo(m_scrollParams, false, true);
 }
 
-#include <iostream>
 void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 {
 	bool shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
@@ -784,7 +783,7 @@ void QtCodeNavigator::setModeList()
 
 	m_single->clickedSnippetButton();
 
-	CodeFocusHandler::clear();
+	clearCurrentFocus();
 	CodeFocusHandler::focusView();
 }
 
@@ -805,7 +804,7 @@ void QtCodeNavigator::setModeSingle()
 		m_list->maximizeFirstFile();
 	}
 
-	CodeFocusHandler::clear();
+	clearCurrentFocus();
 	CodeFocusHandler::focusView();
 }
 
