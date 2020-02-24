@@ -6,6 +6,7 @@
 
 #include <QPlainTextEdit>
 
+#include "FilePath.h"
 #include "LocationType.h"
 #include "types.h"
 
@@ -39,6 +40,7 @@ public:
 	std::string getCode() const;
 
 	std::shared_ptr<SourceLocationFile> getSourceLocationFile() const;
+	FilePath getFilePath() const;
 
 	void annotateText();
 

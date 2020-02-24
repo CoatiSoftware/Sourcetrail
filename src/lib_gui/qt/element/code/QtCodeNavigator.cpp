@@ -549,7 +549,7 @@ void QtCodeNavigator::activateScreenMatch(size_t matchIndex)
 
 	scrollTo(
 		CodeScrollParams::toReference(
-			p.first->getSourceLocationFile()->getFilePath(),
+			p.first->getFilePath(),
 			m_activeScreenMatchId,
 			0,
 			CodeScrollParams::Target::CENTER),
@@ -655,11 +655,11 @@ void QtCodeNavigator::scrollToFocus()
 	}
 	else if (focus.scopeLine)
 	{
-		scrollTo(CodeScrollParams::toLine(focus.area->getSourceLocationFile()->getFilePath(), focus.lineNumber, CodeScrollParams::Target::VISIBLE), true, false);
+		scrollTo(CodeScrollParams::toLine(focus.area->getFilePath(), focus.lineNumber, CodeScrollParams::Target::VISIBLE), true, false);
 	}
 	else if (focus.locationId)
 	{
-		scrollTo(CodeScrollParams::toReference(focus.area->getSourceLocationFile()->getFilePath(), focus.locationId, 0, CodeScrollParams::Target::VISIBLE), true, false);
+		scrollTo(CodeScrollParams::toReference(focus.area->getFilePath(), focus.locationId, 0, CodeScrollParams::Target::VISIBLE), true, false);
 	}
 }
 
@@ -677,7 +677,16 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 {
 	bool shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
 	const CodeFocusHandler::Focus& currentFocus = getCurrentFocus();
-	const FilePath& currentFilePath = currentFocus.file ? currentFocus.file->getFilePath() : FilePath();
+
+	FilePath currentFilePath;
+	if (currentFocus.file)
+	{
+		currentFilePath = currentFocus.file->getFilePath();
+	}
+	else if (currentFocus.area)
+	{
+		currentFilePath = currentFocus.area->getFilePath();
+	}
 
 	switch (event->key())
 	{
@@ -686,7 +695,7 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_W:
 		if (shiftKeyDown)
 		{
-			MessageToNextCodeReference(currentFilePath, currentFocus.locationId, false).dispatch();
+			MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, false).dispatch();
 		}
 		else
 		{
@@ -700,7 +709,7 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_S:
 		if (shiftKeyDown)
 		{
-			MessageToNextCodeReference(currentFilePath, currentFocus.locationId, true).dispatch();
+			MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, true).dispatch();
 		}
 		else
 		{

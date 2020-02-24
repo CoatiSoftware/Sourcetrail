@@ -163,6 +163,11 @@ std::shared_ptr<SourceLocationFile> QtCodeField::getSourceLocationFile() const
 	return m_locationFile;
 }
 
+FilePath QtCodeField::getFilePath() const
+{
+	return m_locationFile ? m_locationFile->getFilePath() : FilePath();
+}
+
 void QtCodeField::annotateText()
 {
 	annotateText(std::set<Id>(), std::set<Id>(), std::set<Id>(), 0);

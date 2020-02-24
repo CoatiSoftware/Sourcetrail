@@ -136,7 +136,11 @@ private:
 
 	void iterateReference(bool next);
 	void iterateLocalReference(bool next, bool updateView);
-	int findClosestReferenceIndex(
+
+	void showCurrentReference();
+	void showCurrentLocalReference(bool updateView);
+
+	std::pair<int, int> findClosestReferenceIndex(
 		const std::vector<Reference>& references,
 		const FilePath& currentFilePath,
 		size_t currentLineNumber,
