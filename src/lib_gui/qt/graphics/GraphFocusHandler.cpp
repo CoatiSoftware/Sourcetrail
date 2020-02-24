@@ -205,11 +205,18 @@ void GraphFocusHandler::defocusGraph()
 	}
 }
 
-void GraphFocusHandler::activateFocus()
+void GraphFocusHandler::activateFocus(bool openInTab)
 {
 	if (m_focusNode)
 	{
-		m_focusNode->onClick();
+		if (openInTab)
+		{
+			m_focusNode->onMiddleClick();
+		}
+		else
+		{
+			m_focusNode->onClick();
+		}
 	}
 	else if (m_focusEdge)
 	{

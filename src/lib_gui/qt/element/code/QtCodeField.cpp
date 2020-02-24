@@ -99,7 +99,10 @@ QtCodeField::QtCodeField(
 	setFont(font);
 	setTabStopWidth(appSettings->getCodeTabWidth() * fontMetrics().width('9'));
 
-	m_openInTabAction = new QAction(QStringLiteral("Open in New Tab"), this);
+	m_openInTabAction = new QAction(QStringLiteral("Open in New Tab (Ctrl + Shift + Left Click)"), this);
+#if defined(Q_OS_MAC)
+	m_openInTabAction->setText(QStringLiteral("Open in New Tab (Cmd + Shift + Left Click)"));
+#endif
 	m_openInTabAction->setStatusTip(QStringLiteral("Opens the node in a new tab"));
 	m_openInTabAction->setToolTip(QStringLiteral("Opens the node in a new tab"));
 	m_openInTabAction->setEnabled(false);

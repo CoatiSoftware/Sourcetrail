@@ -14,6 +14,7 @@
 #include "MessageCodeReference.h"
 #include "MessageFocusView.h"
 #include "MessageScrollCode.h"
+#include "MessageTabOpenWith.h"
 #include "QtCodeArea.h"
 #include "QtCodeFile.h"
 #include "QtCodeSnippet.h"
@@ -710,7 +711,14 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Return:
 		if (currentFocus.area && currentFocus.locationId)
 		{
-			currentFocus.area->activateLocationId(currentFocus.locationId, false);
+			if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier))
+			{
+				MessageTabOpenWith(0, currentFocus.locationId).dispatch();
+			}
+			else
+			{
+				currentFocus.area->activateLocationId(currentFocus.locationId, false);
+			}
 		}
 		else if (currentFocus.scopeLine)
 		{

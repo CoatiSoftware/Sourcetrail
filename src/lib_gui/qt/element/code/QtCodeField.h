@@ -121,7 +121,7 @@ protected:
 
 	QAction* m_openInTabAction;
 
-private slots:
+protected slots:
 	void openInTab();
 
 private:

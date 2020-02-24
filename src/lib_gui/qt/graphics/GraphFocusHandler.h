@@ -54,7 +54,7 @@ public:
 
 	void defocusGraph();
 
-	void activateFocus();
+	void activateFocus(bool openInTab);
 	void expandFocus();
 
 private:
