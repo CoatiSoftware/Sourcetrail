@@ -1031,10 +1031,10 @@ void QtGraphView::switchToNewGraphData()
 		m_activeNodes.clear();
 	}
 
-	// if (hasFocus())
-	// {
-	// 	m_focusHandler.focusInitialNode();
-	// }
+	if (hasNavigationFocus())
+	{
+		m_focusHandler.focusInitialNode();
+	}
 
 	// Repaint to make sure all artifacts are removed
 	view->update();
