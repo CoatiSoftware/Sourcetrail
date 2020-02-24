@@ -82,7 +82,7 @@ bool applicationSettingsContainVisualStudioHeaderSearchPaths()
 		utility::getCxxVsHeaderPathDetector();
 	for (const std::string& detectorName: headerPathDetector->getWorkingDetectorNames())
 	{
-		for (const FilePath& path: headerPathDetector->getPaths(detectorName))
+		for (const FilePath& path: headerPathDetector->getPathsForDetector(detectorName))
 		{
 			utility::append(expandedPaths, path.expandEnvironmentVariables());
 		}

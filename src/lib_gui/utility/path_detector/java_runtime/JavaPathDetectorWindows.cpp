@@ -12,7 +12,7 @@ JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion)
 {
 }
 
-std::vector<FilePath> JavaPathDetectorWindows::getPaths() const
+std::vector<FilePath> JavaPathDetectorWindows::doGetPaths() const
 {
 	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
 

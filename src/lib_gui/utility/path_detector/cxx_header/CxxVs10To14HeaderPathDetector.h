@@ -17,11 +17,12 @@ public:
 
 	CxxVs10To14HeaderPathDetector(
 		VisualStudioType type, bool isExpress, ApplicationArchitectureType architecture);
-	std::vector<FilePath> getPaths() const override;
 
 private:
 	static int visualStudioTypeToVersion(const VisualStudioType t);
 	static std::string visualStudioTypeToString(const VisualStudioType t);
+
+	std::vector<FilePath> doGetPaths() const override;
 
 	FilePath getVsInstallPathUsingRegistry() const;
 

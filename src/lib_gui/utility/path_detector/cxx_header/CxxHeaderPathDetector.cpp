@@ -9,7 +9,7 @@ CxxHeaderPathDetector::CxxHeaderPathDetector(const std::string& compilerName)
 {
 }
 
-std::vector<FilePath> CxxHeaderPathDetector::getPaths() const
+std::vector<FilePath> CxxHeaderPathDetector::doGetPaths() const
 {
 	std::vector<std::string> paths = utility::getCxxHeaderPaths(m_compilerName);
 	std::vector<FilePath> headerSearchPaths;
