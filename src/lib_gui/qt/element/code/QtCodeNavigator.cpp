@@ -15,6 +15,7 @@
 #include "MessageFocusView.h"
 #include "MessageScrollCode.h"
 #include "MessageTabOpenWith.h"
+#include "MessageToNextCodeReference.h"
 #include "QtCodeArea.h"
 #include "QtCodeFile.h"
 #include "QtCodeSnippet.h"
@@ -676,21 +677,36 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 {
 	bool shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
 	const CodeFocusHandler::Focus& currentFocus = getCurrentFocus();
+	const FilePath& currentFilePath = currentFocus.file ? currentFocus.file->getFilePath() : FilePath();
 
 	switch (event->key())
 	{
 	case Qt::Key_Up:
 	case Qt::Key_K:
 	case Qt::Key_W:
-		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
-		scrollToFocus();
+		if (shiftKeyDown)
+		{
+			MessageToNextCodeReference(currentFilePath, currentFocus.locationId, false).dispatch();
+		}
+		else
+		{
+			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
+			scrollToFocus();
+		}
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
-		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
-		scrollToFocus();
+		if (shiftKeyDown)
+		{
+			MessageToNextCodeReference(currentFilePath, currentFocus.locationId, true).dispatch();
+		}
+		else
+		{
+			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
+			scrollToFocus();
+		}
 		break;
 
 	case Qt::Key_Left:

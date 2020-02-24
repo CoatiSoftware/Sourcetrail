@@ -28,6 +28,7 @@
 #include "MessageShowError.h"
 #include "MessageShowReference.h"
 #include "MessageShowScope.h"
+#include "MessageToNextCodeReference.h"
 #include "types.h"
 
 #include "CodeView.h"
@@ -62,6 +63,7 @@ class CodeController
 	, public MessageListener<MessageShowError>
 	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageShowScope>
+	, public MessageListener<MessageToNextCodeReference>
 {
 public:
 	CodeController(StorageAccess* storageAccess);
@@ -77,6 +79,7 @@ private:
 		Id locationId = 0;
 		Id scopeLocationId = 0;
 		LocationType locationType = LOCATION_TOKEN;
+		size_t lineNumber = 0;
 	};
 
 	void handleMessage(MessageActivateErrors* message) override;
@@ -100,6 +103,7 @@ private:
 	void handleMessage(MessageShowError* message) override;
 	void handleMessage(MessageShowReference* message) override;
 	void handleMessage(MessageShowScope* message) override;
+	void handleMessage(MessageToNextCodeReference* message) override;
 
 	CodeView* getView() const;
 
@@ -132,6 +136,11 @@ private:
 
 	void iterateReference(bool next);
 	void iterateLocalReference(bool next, bool updateView);
+	int findClosestReferenceIndex(
+		const std::vector<Reference>& references,
+		const FilePath& currentFilePath,
+		size_t currentLineNumber,
+		bool next) const;
 
 	void expandVisibleFiles(bool useSingleFileCache);
 	CodeFileParams* addSourceLocations(std::shared_ptr<SourceLocationFile> locationFile);
