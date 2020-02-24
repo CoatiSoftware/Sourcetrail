@@ -318,31 +318,32 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 	// }
 
 	bool moved = moves();
+	bool shift = event->modifiers() & Qt::ShiftModifier;
 
 	switch (event->key())
 	{
 	case Qt::Key_Up:
 	case Qt::Key_K:
 	case Qt::Key_W:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::UP, m_shift);
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::UP, shift);
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::DOWN, m_shift);
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::DOWN, shift);
 		break;
 
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::LEFT, m_shift);
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::LEFT, shift);
 		break;
 
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::RIGHT, m_shift);
+		m_focusHandler->focusNext(GraphFocusHandler::Direction::RIGHT, shift);
 		break;
 
 	case Qt::Key_E:
@@ -351,7 +352,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 		{
 			m_focusHandler->activateFocus(true);
 		}
-		else if (m_shift)
+		else if (shift)
 		{
 			m_focusHandler->expandFocus();
 		}
