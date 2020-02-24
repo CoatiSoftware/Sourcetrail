@@ -9,7 +9,7 @@ JavaPathDetectorMac::JavaPathDetectorMac(const std::string javaVersion)
 {
 }
 
-std::vector<FilePath> JavaPathDetectorMac::getPaths() const
+std::vector<FilePath> JavaPathDetectorMac::doGetPaths() const
 {
 	std::vector<FilePath> paths;
 	FilePath javaPath;

@@ -166,7 +166,8 @@ void QtProjectWizardContentPaths::addDetection(QGridLayout* layout, int row)
 
 void QtProjectWizardContentPaths::detectionClicked()
 {
-	std::vector<FilePath> paths = m_pathDetector->getPaths(m_detectorBox->currentText().toStdString());
+	std::vector<FilePath> paths = m_pathDetector->getPathsForDetector(
+		m_detectorBox->currentText().toStdString());
 	std::vector<FilePath> oldPaths = m_list->getPathsAsDisplayed();
 
 	paths = utility::unique(utility::concat(oldPaths, paths));

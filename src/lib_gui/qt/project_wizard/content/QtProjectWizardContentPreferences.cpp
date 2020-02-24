@@ -651,7 +651,7 @@ void QtProjectWizardContentPreferences::colorSchemeChanged(int index)
 
 void QtProjectWizardContentPreferences::javaPathDetectionClicked()
 {
-	std::vector<FilePath> paths = m_javaPathDetector->getPaths(
+	std::vector<FilePath> paths = m_javaPathDetector->getPathsForDetector(
 		m_javaPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
@@ -661,7 +661,7 @@ void QtProjectWizardContentPreferences::javaPathDetectionClicked()
 
 void QtProjectWizardContentPreferences::jreSystemLibraryPathsDetectionClicked()
 {
-	std::vector<FilePath> paths = m_jreSystemLibraryPathsDetector->getPaths(
+	std::vector<FilePath> paths = m_jreSystemLibraryPathsDetector->getPathsForDetector(
 		m_jreSystemLibraryPathsDetectorBox->currentText().toStdString());
 	std::vector<FilePath> oldPaths = m_jreSystemLibraryPaths->getPathsAsAbsolute();
 	m_jreSystemLibraryPaths->setPaths(utility::unique(utility::concat(oldPaths, paths)));
@@ -669,7 +669,7 @@ void QtProjectWizardContentPreferences::jreSystemLibraryPathsDetectionClicked()
 
 void QtProjectWizardContentPreferences::mavenPathDetectionClicked()
 {
-	std::vector<FilePath> paths = m_mavenPathDetector->getPaths(
+	std::vector<FilePath> paths = m_mavenPathDetector->getPathsForDetector(
 		m_mavenPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
