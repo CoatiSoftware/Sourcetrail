@@ -4,7 +4,7 @@
 	<window>
 		<background>white</background>
 		<separator>#A2A2A2</separator>
-		<focus>#F02E18</focus>
+		<focus>#F06000</focus>
 		<scrollbar>
 			<background>transparent</background>
 			<handle>#80999999</handle>

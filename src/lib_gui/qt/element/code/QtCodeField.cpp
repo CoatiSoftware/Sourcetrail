@@ -226,10 +226,15 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 			continue;
 		}
 
-		QPen pen(annotation.isFocused ? focusColor : color.border.c_str());
+		QPen pen(color.border.c_str());
 		if (annotation.locationType == LOCATION_UNSOLVED)
 		{
 			pen.setStyle(Qt::DashLine);
+		}
+		if (annotation.isFocused)
+		{
+			pen.setColor(focusColor);
+			pen.setWidth(2);
 		}
 		painter.setPen(pen);
 		painter.setBrush(QBrush(color.fill.c_str()));
