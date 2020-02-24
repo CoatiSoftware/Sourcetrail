@@ -452,7 +452,6 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 	}
 	else
 	{
-		clearCurrentFocus();
 		CodeFocusHandler::defocus();
 	}
 
