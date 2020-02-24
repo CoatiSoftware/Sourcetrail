@@ -204,18 +204,12 @@ bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const
 	return m_widget->hasSingleFileCached(filePath);
 }
 
-#include <iostream>
 void QtCodeView::setNavigationFocus(bool focus)
 {
 	if (m_hasFocus == focus)
 	{
 		return;
 	}
-
-	if (focus)
-		std::cout << "focus code" << std::endl;
-	else
-		std::cout << "defocus code" << std::endl;
 
 	m_hasFocus = focus;
 

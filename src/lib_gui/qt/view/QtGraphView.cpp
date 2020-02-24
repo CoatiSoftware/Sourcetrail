@@ -571,18 +571,12 @@ void QtGraphView::activateEdge(Id edgeId)
 	});
 }
 
-#include <iostream>
 void QtGraphView::setNavigationFocus(bool focus)
 {
 	if (m_hasFocus == focus)
 	{
 		return;
 	}
-
-	if (focus)
-		std::cout << "focus graph" << std::endl;
-	else
-		std::cout << "defocus graph" << std::endl;
 
 	m_hasFocus = focus;
 
