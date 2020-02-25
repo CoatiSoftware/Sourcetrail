@@ -736,7 +736,7 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Return:
 		if (currentFocus.area && currentFocus.locationId)
 		{
-			if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier))
+			if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier)
 			{
 				MessageTabOpenWith(0, currentFocus.locationId).dispatch();
 			}

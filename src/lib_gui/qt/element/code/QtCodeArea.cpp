@@ -766,7 +766,7 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::MiddleButton ||
-		(event->button() == Qt::LeftButton && event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier)))
+		(event->button() == Qt::LeftButton && event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier))
 	{
 		checkOpenInTabActionEnabled(event->pos());
 		openInTab();

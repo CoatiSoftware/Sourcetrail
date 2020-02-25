@@ -348,7 +348,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 
 	case Qt::Key_E:
 	case Qt::Key_Return:
-		if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier))
+		if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier)
 		{
 			m_focusHandler->activateFocus(true);
 		}
