@@ -492,7 +492,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	if (isFocused)
 	{
 		style.color.border = getFocusColor();
-		style.borderWidth = 2;
+		style.borderWidth = 3;
 	}
 
 	return style;

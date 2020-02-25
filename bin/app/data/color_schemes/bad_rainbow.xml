@@ -4,7 +4,7 @@
 	<window>
 		<background>#494949</background>
 		<separator>#CCCCCC</separator>
-		<focus>cyan</focus>
+		<focus>#7BC217</focus>
 		<scrollbar>
 			<background>transparent</background>
 			<handle>#80999999</handle>
