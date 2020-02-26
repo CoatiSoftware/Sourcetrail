@@ -95,11 +95,9 @@ private:
 	float m_zoomFactor;
 	float m_appZoomFactor;
 
-	bool m_up;
-	bool m_down;
-	bool m_left;
-	bool m_right;
-	bool m_shift;
+	bool m_up = false;
+	bool m_down = false;
+	bool m_alt = false;
 
 	std::wstring m_clipboardNodeName;
 	Id m_openInTabNodeId;

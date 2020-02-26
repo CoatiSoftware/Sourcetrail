@@ -196,12 +196,8 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 
 	addShortcuts(table,
 		{
-			Shortcut(QStringLiteral("Pan left"), QStringLiteral("A")),
-			Shortcut(QStringLiteral("Pan right"), QStringLiteral("D")),
-			Shortcut(QStringLiteral("Pan up"), QStringLiteral("W")),
-			Shortcut(QStringLiteral("Pan down"), QStringLiteral("S")),
-			Shortcut::defaultOrMac(QStringLiteral("Zoom in"), QStringLiteral("Shift + W | Ctrl + Mousewheel up"), QStringLiteral("Shift + W | Cmd + Mousewheel up")),
-			Shortcut::defaultOrMac(QStringLiteral("Zoom out"), QStringLiteral("Shift + S | Ctrl + Mousewheel down"), QStringLiteral("Shift + S | Cmd + Mousewheel down")),
+			Shortcut::defaultOrMac(QStringLiteral("Zoom in"), QStringLiteral("Alt + W | Ctrl + Mousewheel up"), QStringLiteral("Alt + W | Cmd + Mousewheel up")),
+			Shortcut::defaultOrMac(QStringLiteral("Zoom out"), QStringLiteral("Alt + S | Ctrl + Mousewheel down"), QStringLiteral("Alt + S | Cmd + Mousewheel down")),
 			Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0")),
 			Shortcut::defaultOrMac(QStringLiteral("Custom Trail Dialog"), QStringLiteral("Ctrl + U"), QStringLiteral("Cmd + U"))
 		}

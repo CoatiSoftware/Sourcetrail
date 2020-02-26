@@ -37,11 +37,6 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	, m_focusHandler(focusHandler)
 	, m_zoomFactor(1.0f)
 	, m_appZoomFactor(1.0f)
-	, m_up(false)
-	, m_down(false)
-	, m_left(false)
-	, m_right(false)
-	, m_shift(false)
 	, m_zoomInButtonSpeed(20.0f)
 	, m_zoomOutButtonSpeed(-20.0f)
 {
@@ -313,31 +308,52 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 {
 	bool moved = moves();
 	bool shift = event->modifiers() & Qt::ShiftModifier;
+	bool alt = event->modifiers() & Qt::AltModifier;
 
 	switch (event->key())
 	{
 	case Qt::Key_Up:
 	case Qt::Key_K:
 	case Qt::Key_W:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::UP, shift);
+		if (alt)
+		{
+			m_up = true;
+		}
+		else
+		{
+			m_focusHandler->focusNext(GraphFocusHandler::Direction::UP, shift);
+		}
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::DOWN, shift);
+		if (alt)
+		{
+			m_down = true;
+		}
+		else
+		{
+			m_focusHandler->focusNext(GraphFocusHandler::Direction::DOWN, shift);
+		}
 		break;
 
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::LEFT, shift);
+		if (!alt)
+		{
+			m_focusHandler->focusNext(GraphFocusHandler::Direction::LEFT, shift);
+		}
 		break;
 
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
-		m_focusHandler->focusNext(GraphFocusHandler::Direction::RIGHT, shift);
+		if (!alt)
+		{
+			m_focusHandler->focusNext(GraphFocusHandler::Direction::RIGHT, shift);
+		}
 		break;
 
 	case Qt::Key_E:
@@ -356,25 +372,12 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 		}
 		break;
 
-		// case Qt::Key_W:
-		// 	m_up = true;
-		// 	break;
-		// case Qt::Key_A:
-		// 	m_left = true;
-		// 	break;
-		// case Qt::Key_S:
-		// 	m_down = true;
-		// 	break;
-		// case Qt::Key_D:
-		// 	m_right = true;
-		// 	break;
-
 	case Qt::Key_0:
 		setZoomFactor(1.0f);
 		updateTransform();
 		break;
-	case Qt::Key_Shift:
-		m_shift = true;
+	case Qt::Key_Alt:
+		m_alt = true;
 		break;
 	default:
 		QGraphicsView::keyPressEvent(event);
@@ -393,20 +396,14 @@ void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
 {
 	switch (event->key())
 	{
-	// case Qt::Key_W:
-	// 	m_up = false;
-	// 	break;
-	// case Qt::Key_A:
-	// 	m_left = false;
-	// 	break;
-	// case Qt::Key_S:
-	// 	m_down = false;
-	// 	break;
-	// case Qt::Key_D:
-	// 	m_right = false;
-	// 	break;
-	case Qt::Key_Shift:
-		m_shift = false;
+	case Qt::Key_W:
+		m_up = false;
+		break;
+	case Qt::Key_S:
+		m_down = false;
+		break;
+	case Qt::Key_Alt:
+		m_alt = false;
 		break;
 	default:
 		return;
@@ -564,58 +561,18 @@ void QtGraphicsView::focusOutEvent(QFocusEvent* event)
 
 void QtGraphicsView::updateTimer()
 {
-	float ds = 30.0f;
-	float dz = 50.0f;
+	const float dz = 50.0f;
 
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
-
-	if (m_shift)
+	if (m_alt)
 	{
 		if (m_up)
 		{
-			z += dz;
+			updateZoom(dz);
 		}
 		else if (m_down)
 		{
-			z -= dz;
+			updateZoom(-dz);
 		}
-	}
-	else
-	{
-		if (m_up)
-		{
-			y -= ds;
-		}
-		else if (m_down)
-		{
-			y += ds;
-		}
-
-		if (m_left)
-		{
-			x -= ds;
-		}
-		else if (m_right)
-		{
-			x += ds;
-		}
-	}
-
-	if (x != 0)
-	{
-		horizontalScrollBar()->setValue(static_cast<int>(horizontalScrollBar()->value() + x));
-	}
-
-	if (y != 0)
-	{
-		verticalScrollBar()->setValue(static_cast<int>(verticalScrollBar()->value() + y));
-	}
-
-	if (z != 0)
-	{
-		updateZoom(z);
 	}
 }
 
@@ -773,7 +730,7 @@ void QtGraphicsView::legendClicked()
 
 bool QtGraphicsView::moves() const
 {
-	return m_up || m_down || m_left || m_right;
+	return m_up || m_down;
 }
 
 void QtGraphicsView::setZoomFactor(float zoomFactor)
