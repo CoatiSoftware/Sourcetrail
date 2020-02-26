@@ -66,7 +66,6 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	widget->layout()->addWidget(view);
 
 	connect(view, &QtGraphicsView::emptySpaceClicked, this, &QtGraphView::clickedInEmptySpace);
-	connect(view, &QtGraphicsView::characterKeyPressed, this, &QtGraphView::pressedCharacterKey);
 	connect(view, &QtGraphicsView::resized, this, &QtGraphView::resized);
 	connect(view, &QtGraphicsView::focusIn, [this](){ setNavigationFocus(true); });
 	connect(view, &QtGraphicsView::focusOut, [this](){ setNavigationFocus(false); });
@@ -722,60 +721,6 @@ void QtGraphView::clickedInEmptySpace()
 	else if (activeEdges.size() == 1)
 	{
 		MessageDeactivateEdge(false).dispatch();
-	}
-}
-
-void QtGraphView::pressedCharacterKey(QChar c)
-{
-	if (!m_isIndexedList)
-	{
-		return;
-	}
-
-	const QtGraphNode* node = nullptr;
-	bool hasTextNodes = false;
-
-	std::vector<QtGraphNode*> nodes(m_oldNodes.begin(), m_oldNodes.end());
-
-	size_t i = 0;
-	while (i < nodes.size())
-	{
-		QtGraphNode* n = nodes[i++];
-		if (n->isGroupNode())
-		{
-			nodes.insert(nodes.end(), n->getSubNodes().begin(), n->getSubNodes().end());
-		}
-		else if (n->isTextNode() && n->getName().size())
-		{
-			hasTextNodes = true;
-			QChar start(n->getName()[0]);
-			if (start.toLower() >= c.toLower())
-			{
-				node = n;
-				break;
-			}
-		}
-	}
-
-	if (!hasTextNodes)
-	{
-		return;
-	}
-
-	QtGraphicsView* view = getView();
-
-	if (!node)
-	{
-		view->ensureVisibleAnimated(
-			QRectF(0, view->scene()->height() - 5, view->scene()->width(), 5), 100, 100);
-	}
-	else
-	{
-		Vec2i pos = node->getPosition();
-		Vec2i size = node->getSize();
-
-		view->ensureVisibleAnimated(
-			QRectF(pos.x, pos.y, size.x, size.y + getViewSize().y / 3 * 2), 100, 100);
 	}
 }
 

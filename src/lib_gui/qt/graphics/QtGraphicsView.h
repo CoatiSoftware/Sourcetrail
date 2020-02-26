@@ -52,7 +52,6 @@ protected:
 
 signals:
 	void emptySpaceClicked();
-	void characterKeyPressed(QChar c);
 	void resized();
 
 	void focusIn();

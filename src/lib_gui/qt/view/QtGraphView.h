@@ -85,7 +85,6 @@ private slots:
 	void updateScrollBars();
 	void finishedTransition();
 	void clickedInEmptySpace();
-	void pressedCharacterKey(QChar c);
 
 	void scrolled(int);
 	void resized();

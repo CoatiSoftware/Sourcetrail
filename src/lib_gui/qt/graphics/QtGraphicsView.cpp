@@ -311,12 +311,6 @@ void QtGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 
 void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 {
-	// if (event->key() >= Qt::Key_A && event->key() <= Qt::Key_Z && event->text().size())
-	// {
-	// 	QChar c = event->text().at(0).toUpper();
-	// 	emit characterKeyPressed(c);
-	// }
-
 	bool moved = moves();
 	bool shift = event->modifiers() & Qt::ShiftModifier;
 
