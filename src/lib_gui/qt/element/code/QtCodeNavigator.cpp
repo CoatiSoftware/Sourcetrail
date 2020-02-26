@@ -462,8 +462,19 @@ void QtCodeNavigator::setNavigationFocus(bool focus)
 		m_focusIndicator);	  // recomputes style to make property take effect
 }
 
-void QtCodeNavigator::focusInitialLocation()
+void QtCodeNavigator::focusInitialLocation(Id locationId)
 {
+	if (locationId)
+	{
+		if (!isFocused())
+		{
+			setNavigationFocus(true);
+		}
+
+		m_current->setFocus(locationId);
+		return;
+	}
+
 	if (hasCurrentFocus())
 	{
 		return;

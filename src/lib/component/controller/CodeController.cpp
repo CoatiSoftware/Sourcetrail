@@ -431,6 +431,14 @@ void CodeController::handleMessage(MessageErrorCountClear* message)
 	}
 }
 
+void CodeController::handleMessage(MessageFocusChanged* message)
+{
+	if (message->isReplayed() && message->isFromCode())
+	{
+		m_codeParams.locationIdToFocus = message->tokenOrLocationId;
+	}
+}
+
 void CodeController::handleMessage(MessageFlushUpdates* message)
 {
 	showFiles(m_codeParams, m_scrollParams, true);

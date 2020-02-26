@@ -19,6 +19,7 @@
 #include "MessageCodeShowDefinition.h"
 #include "MessageDeactivateEdge.h"
 #include "MessageErrorCountClear.h"
+#include "MessageFocusChanged.h"
 #include "MessageFlushUpdates.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
@@ -55,6 +56,7 @@ class CodeController
 	, public MessageListener<MessageCodeShowDefinition>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageErrorCountClear>
+	, public MessageListener<MessageFocusChanged>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -95,6 +97,7 @@ private:
 	void handleMessage(MessageCodeShowDefinition* message) override;
 	void handleMessage(MessageDeactivateEdge* message) override;
 	void handleMessage(MessageErrorCountClear* message) override;
+	void handleMessage(MessageFocusChanged* message) override;
 	void handleMessage(MessageFlushUpdates* message) override;
 	void handleMessage(MessageFocusIn* message) override;
 	void handleMessage(MessageFocusOut* message) override;

@@ -32,6 +32,7 @@ public:
 	{
 		bool clearSnippets = false;
 		bool useSingleFileCache = true;
+		Id locationIdToFocus = 0;
 
 		size_t referenceCount = 0;
 		size_t referenceIndex = 0;

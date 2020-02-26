@@ -87,7 +87,7 @@ public:
 	void deCoFocusTokenIds();
 
 	void setNavigationFocus(bool focus);
-	void focusInitialLocation();
+	void focusInitialLocation(Id locationId);
 
 	void updateFiles() override;
 

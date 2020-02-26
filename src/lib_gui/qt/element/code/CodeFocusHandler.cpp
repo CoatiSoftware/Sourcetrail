@@ -1,5 +1,6 @@
 #include "CodeFocusHandler.h"
 
+#include "MessageFocusChanged.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
 #include "MessageFocusView.h"
@@ -20,6 +21,11 @@ void CodeFocusHandler::defocus()
 	m_oldFocus = m_focus;
 	setCurrentFocus({}, false);
 	m_hasFocus = false;
+}
+
+bool CodeFocusHandler::isFocused() const
+{
+	return m_hasFocus;
 }
 
 void CodeFocusHandler::clearCurrentFocus()
@@ -50,6 +56,11 @@ void CodeFocusHandler::setCurrentFocus(const Focus& focus, bool fromMouse)
 		if (!fromMouse && !same && m_focus.tokenIds.size())
 		{
 			MessageFocusIn(m_focus.tokenIds).dispatch();
+		}
+
+		if (focus.locationId)
+		{
+			MessageFocusChanged(MessageFocusChanged::ViewType::CODE, focus.locationId).dispatch();
 		}
 	}
 	else
