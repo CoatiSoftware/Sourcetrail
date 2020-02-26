@@ -370,9 +370,6 @@ void QtGraphView::rebuildGraph(
 
 		Id newActiveTokenId = m_oldActiveNode ? m_oldActiveNode->getTokenId() : 0;
 
-		// focus previously focused node
-		m_focusHandler.refocusNode(m_nodes, oldActiveTokenId, newActiveTokenId);
-
 		// move graph to center
 		QPointF center = itemsBoundingRect(m_nodes).center();
 		const Vec2i o = GraphViewStyle::alignOnRaster(
@@ -410,6 +407,16 @@ void QtGraphView::rebuildGraph(
 			{
 				createAggregationEdge(view, edge.get(), &visibleEdgeIds, !params.disableInteraction);
 			}
+		}
+
+		// focus previously focused node
+		if (params.tokenIdToFocus)
+		{
+			m_focusHandler.focusTokenId(m_nodes, m_edges, params.tokenIdToFocus);
+		}
+		else
+		{
+			m_focusHandler.refocusNode(m_nodes, oldActiveTokenId, newActiveTokenId);
 		}
 
 		m_centerActiveNode = params.centerActiveNode;

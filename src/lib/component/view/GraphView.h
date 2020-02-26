@@ -29,6 +29,7 @@ public:
 		bool isIndexedList = false;
 		bool bezierEdges = false;
 		bool disableInteraction = false;
+		Id tokenIdToFocus = 0;
 	};
 
 	GraphView(ViewLayout* viewLayout);

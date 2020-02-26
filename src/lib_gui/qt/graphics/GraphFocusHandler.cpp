@@ -1,5 +1,6 @@
 #include "GraphFocusHandler.h"
 
+#include "MessageFocusChanged.h"
 #include "QtGraphEdge.h"
 #include "QtGraphNode.h"
 #include "utility.h"
@@ -43,6 +44,11 @@ void GraphFocusHandler::defocus()
 
 void GraphFocusHandler::focusInitialNode()
 {
+	if (m_focusNode != nullptr || m_focusEdge != nullptr)
+	{
+		return;
+	}
+
 	QtGraphNode* nodeToFocus = nullptr;
 	if (m_lastFocusId)
 	{
@@ -62,6 +68,35 @@ void GraphFocusHandler::focusInitialNode()
 	if (nodeToFocus)
 	{
 		focusNode(nodeToFocus);
+	}
+}
+
+void GraphFocusHandler::focusTokenId(
+	const std::list<QtGraphNode*>& nodes, const std::list<QtGraphEdge*>& edges, Id tokenId)
+{
+	m_focusNode = nullptr;
+	m_focusEdge = nullptr;
+
+	QtGraphNode* nodeToFocus = QtGraphNode::findNodeRecursive(nodes, tokenId);
+	if (nodeToFocus)
+	{
+		focusNode(nodeToFocus);
+		return;
+	}
+
+	QtGraphEdge* edgeToFocus = nullptr;
+	for (QtGraphEdge* edge : edges)
+	{
+		if (edge->getTokenId() == tokenId)
+		{
+			edgeToFocus = edge;
+			break;
+		}
+	}
+
+	if (edgeToFocus)
+	{
+		focusEdge(edgeToFocus);
 	}
 }
 
@@ -153,6 +188,8 @@ void GraphFocusHandler::focusNode(QtGraphNode* node)
 		node->setIsFocused(true);
 		m_focusNode = node;
 		m_lastFocusId = node->getTokenId();
+
+		MessageFocusChanged(MessageFocusChanged::ViewType::GRAPH, node->getTokenId()).dispatch();
 	}
 }
 
@@ -185,6 +222,9 @@ void GraphFocusHandler::focusEdge(QtGraphEdge* edge)
 	{
 		edge->setIsFocused(true);
 		m_focusEdge = edge;
+		m_lastFocusId = 0;
+
+		MessageFocusChanged(MessageFocusChanged::ViewType::GRAPH, edge->getTokenId()).dispatch();
 	}
 }
 
