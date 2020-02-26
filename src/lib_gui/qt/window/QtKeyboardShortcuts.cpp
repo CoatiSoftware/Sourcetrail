@@ -182,8 +182,8 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 		{
 			Shortcut::defaultOrMac(QStringLiteral("Next Reference"), QStringLiteral("Ctrl + G"), QStringLiteral("Cmd + G")),
 			Shortcut::defaultOrMac(QStringLiteral("Previous Reference"), QStringLiteral("Ctrl + Shift + G"), QStringLiteral("Cmd + Shift + G")),
-			Shortcut::defaultOrMac(QStringLiteral("Next Local Reference"), QStringLiteral("Ctrl + T"), QStringLiteral("Cmd + T")),
-			Shortcut::defaultOrMac(QStringLiteral("Previous Local Reference"), QStringLiteral("Ctrl + Shift + T"), QStringLiteral("Cmd + Shift + T"))
+			Shortcut::defaultOrMac(QStringLiteral("Next Local Reference"), QStringLiteral("Ctrl + L"), QStringLiteral("Cmd + L")),
+			Shortcut::defaultOrMac(QStringLiteral("Previous Local Reference"), QStringLiteral("Ctrl + Shift + L"), QStringLiteral("Cmd + Shift + L"))
 		}
 	);
 
@@ -202,7 +202,8 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 			Shortcut(QStringLiteral("Pan down"), QStringLiteral("S")),
 			Shortcut::defaultOrMac(QStringLiteral("Zoom in"), QStringLiteral("Shift + W | Ctrl + Mousewheel up"), QStringLiteral("Shift + W | Cmd + Mousewheel up")),
 			Shortcut::defaultOrMac(QStringLiteral("Zoom out"), QStringLiteral("Shift + S | Ctrl + Mousewheel down"), QStringLiteral("Shift + S | Cmd + Mousewheel down")),
-			Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0"))
+			Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0")),
+			Shortcut::defaultOrMac(QStringLiteral("Custom Trail Dialog"), QStringLiteral("Ctrl + U"), QStringLiteral("Cmd + U"))
 		}
 	);
 
