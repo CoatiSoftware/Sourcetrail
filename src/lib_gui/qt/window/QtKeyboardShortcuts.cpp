@@ -78,6 +78,33 @@ void QtKeyboardShortcuts::windowReady()
 	setPreviousVisible(false);
 }
 
+QtKeyboardShortcuts::Shortcut::Shortcut(const QString& name, const QString& shortcut)
+	: name(name)
+	, shortcut(shortcut)
+{}
+
+QtKeyboardShortcuts::Shortcut QtKeyboardShortcuts::Shortcut::defaultOrMac(
+	const QString& name, const QString& defaultShortcut, const QString& macShortcut)
+{
+#if defined(Q_OS_MAC)
+	return { name, macShortcut };
+#else
+	return { name, defaultShortcut };
+#endif
+}
+
+QtKeyboardShortcuts::Shortcut QtKeyboardShortcuts::Shortcut::winMacOrLinux(
+	const QString& name, const QString& winShortcut, const QString& macShortcut, const QString& linuxShortcut)
+{
+#if defined(Q_OS_WIN32)
+	return { name, winShortcut };
+#elif defined(Q_OS_MAC)
+	return { name, macShortcut };
+#else
+	return { name, linuxShortcut };
+#endif
+}
+
 QtShortcutTable* QtKeyboardShortcuts::createTableWidget(const std::string& objectName)
 {
 	QtShortcutTable* table = new QtShortcutTable(this);
@@ -104,76 +131,45 @@ QtShortcutTable* QtKeyboardShortcuts::createTableWidget(const std::string& objec
 	return table;
 }
 
+void QtKeyboardShortcuts::addShortcuts(QtShortcutTable* table, const std::vector<Shortcut>& shortcuts) const
+{
+	table->setRowCount(shortcuts.size());
+
+	for (size_t i = 0; i < shortcuts.size(); ++i)
+	{
+		table->setItem(i, 0, new QTableWidgetItem(shortcuts[i].name));
+		table->setItem(i, 1, new QTableWidgetItem(shortcuts[i].shortcut));
+	}
+
+	table->updateSize();
+}
+
 QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_general");
 
-	table->setRowCount(17);
-
-	table->setItem(0, 0, new QTableWidgetItem(QStringLiteral("Larger Font")));
-	table->setItem(1, 0, new QTableWidgetItem(QStringLiteral("Smaller Font")));
-	table->setItem(2, 0, new QTableWidgetItem(QStringLiteral("Reset Font Size")));
-	table->setItem(3, 0, new QTableWidgetItem(QStringLiteral("Back")));
-	table->setItem(4, 0, new QTableWidgetItem(QStringLiteral("Forward")));
-	table->setItem(5, 0, new QTableWidgetItem(QStringLiteral("Refresh")));
-	table->setItem(6, 0, new QTableWidgetItem(QStringLiteral("Full Refresh")));
-	table->setItem(7, 0, new QTableWidgetItem(QStringLiteral("Find Symbol")));
-	table->setItem(8, 0, new QTableWidgetItem(QStringLiteral("Find Text")));
-	table->setItem(9, 0, new QTableWidgetItem(QStringLiteral("Find On-Screen")));
-	table->setItem(10, 0, new QTableWidgetItem(QStringLiteral("New Project")));
-	table->setItem(11, 0, new QTableWidgetItem(QStringLiteral("Open Project")));
-	table->setItem(12, 0, new QTableWidgetItem(QStringLiteral("Close Window")));
-	table->setItem(13, 0, new QTableWidgetItem(QStringLiteral("Hide Window")));
-	table->setItem(14, 0, new QTableWidgetItem(QStringLiteral("To Overview")));
-	table->setItem(15, 0, new QTableWidgetItem(QStringLiteral("Preferences")));
-	table->setItem(16, 0, new QTableWidgetItem(QStringLiteral("Bookmark Active Symbol")));
-	table->setItem(17, 0, new QTableWidgetItem(QStringLiteral("Bookmark Manager")));
-
-#if defined(Q_OS_MAC)
-	table->setItem(0, 1, new QTableWidgetItem("Cmd + +"));
-	table->setItem(1, 1, new QTableWidgetItem("Cmd + -"));
-	table->setItem(2, 1, new QTableWidgetItem("Cmd + 0"));
-	table->setItem(3, 1, new QTableWidgetItem("Cmd + Z | Backspace"));
-	table->setItem(4, 1, new QTableWidgetItem("Cmd + Shift + Z"));
-	table->setItem(5, 1, new QTableWidgetItem("Cmd + R"));
-	table->setItem(6, 1, new QTableWidgetItem("Cmd + Shift + R"));
-	table->setItem(7, 1, new QTableWidgetItem("Cmd + F"));
-	table->setItem(8, 1, new QTableWidgetItem("Cmd + Shift + F"));
-	table->setItem(9, 1, new QTableWidgetItem("Cmd + D | /"));
-	table->setItem(10, 1, new QTableWidgetItem("Cmd + N"));
-	table->setItem(11, 1, new QTableWidgetItem("Cmd + O"));
-	table->setItem(12, 1, new QTableWidgetItem("Cmd + W"));
-	table->setItem(13, 1, new QTableWidgetItem("Cmd + H"));
-	table->setItem(14, 1, new QTableWidgetItem("Cmd + Home | Cmd + Up"));
-	table->setItem(15, 1, new QTableWidgetItem("Cmd + ,"));
-	table->setItem(16, 1, new QTableWidgetItem("Cmd + S"));
-	table->setItem(17, 1, new QTableWidgetItem("Cmd + B"));
-#else
-	table->setItem(0, 1, new QTableWidgetItem(QStringLiteral("Ctrl + +")));
-	table->setItem(1, 1, new QTableWidgetItem(QStringLiteral("Ctrl + -")));
-	table->setItem(2, 1, new QTableWidgetItem(QStringLiteral("Ctrl + 0")));
-	table->setItem(3, 1, new QTableWidgetItem(QStringLiteral("Ctrl + Z | Backspace")));
-	table->setItem(4, 1, new QTableWidgetItem(QStringLiteral("Ctrl + Shift + Z")));
-	table->setItem(5, 1, new QTableWidgetItem(QStringLiteral("F5")));
-	table->setItem(6, 1, new QTableWidgetItem(QStringLiteral("Shift + F5")));
-	table->setItem(7, 1, new QTableWidgetItem(QStringLiteral("Ctrl + F")));
-	table->setItem(8, 1, new QTableWidgetItem(QStringLiteral("Ctrl + Shift + F")));
-	table->setItem(9, 1, new QTableWidgetItem(QStringLiteral("Ctrl + D | /")));
-	table->setItem(10, 1, new QTableWidgetItem(QStringLiteral("Ctrl + N")));
-	table->setItem(11, 1, new QTableWidgetItem(QStringLiteral("Ctrl + O")));
-#	if defined(Q_OS_WIN32)
-	table->setItem(12, 1, new QTableWidgetItem("Alt + F4"));
-#	else
-	table->setItem(12, 1, new QTableWidgetItem(QStringLiteral("Ctrl + W")));
-#	endif
-	table->setItem(13, 1, new QTableWidgetItem(QLatin1String("")));
-	table->setItem(14, 1, new QTableWidgetItem(QStringLiteral("Ctrl + Home")));
-	table->setItem(15, 1, new QTableWidgetItem(QStringLiteral("Ctrl + ,")));
-	table->setItem(16, 1, new QTableWidgetItem(QStringLiteral("Ctrl + S")));
-	table->setItem(17, 1, new QTableWidgetItem(QStringLiteral("Ctrl + B")));
-#endif
-
-	table->updateSize();
+	addShortcuts(table,
+		{
+			Shortcut::defaultOrMac(QStringLiteral("Larger Font"), QStringLiteral("Ctrl + +"), QStringLiteral("Cmd + +")),
+			Shortcut::defaultOrMac(QStringLiteral("Smaller Font"), QStringLiteral("Ctrl + -"), QStringLiteral("Cmd + -")),
+			Shortcut::defaultOrMac(QStringLiteral("Reset Font Size"), QStringLiteral("Ctrl + 0"), QStringLiteral("Cmd + 0")),
+			Shortcut::defaultOrMac(QStringLiteral("Back"), QStringLiteral("Ctrl + Z | Backspace"), QStringLiteral("Cmd + Z | Backspace")),
+			Shortcut::defaultOrMac(QStringLiteral("Forward"), QStringLiteral("Ctrl + Shift + Z"), QStringLiteral("Cmd + Shift + Z")),
+			Shortcut::defaultOrMac(QStringLiteral("Refresh"), QStringLiteral("F5"), QStringLiteral("Cmd + R")),
+			Shortcut::defaultOrMac(QStringLiteral("Full Refresh"), QStringLiteral("Shift + F5"), QStringLiteral("Cmd + Shift + R")),
+			Shortcut::defaultOrMac(QStringLiteral("Find Symbol"), QStringLiteral("Ctrl + F"), QStringLiteral("Cmd + F")),
+			Shortcut::defaultOrMac(QStringLiteral("Find Text"), QStringLiteral("Ctrl + Shift + F"), QStringLiteral("Cmd + Shift + F")),
+			Shortcut::defaultOrMac(QStringLiteral("Find On-Screen"), QStringLiteral("Ctrl + D | /"), QStringLiteral("Cmd + D | /")),
+			Shortcut::defaultOrMac(QStringLiteral("New Project"), QStringLiteral("Ctrl + N"), QStringLiteral("Cmd + N")),
+			Shortcut::defaultOrMac(QStringLiteral("Open Project"), QStringLiteral("Ctrl + O"), QStringLiteral("Cmd + O")),
+			Shortcut::winMacOrLinux(QStringLiteral("Close Window"), QStringLiteral("Alt + F4"), QStringLiteral("Cmd + W"), QStringLiteral("Ctrl + W")),
+			Shortcut::defaultOrMac(QStringLiteral("Hide Window"), QStringLiteral(""), QStringLiteral("Cmd + H")),
+			Shortcut::defaultOrMac(QStringLiteral("To Overview"), QStringLiteral("Ctrl + Home"), QStringLiteral("Cmd + Home | Cmd + Up")),
+			Shortcut::defaultOrMac(QStringLiteral("Preferences"), QStringLiteral("Ctrl + ,"), QStringLiteral("Cmd + ,")),
+			Shortcut::defaultOrMac(QStringLiteral("Bookmark Active Symbol"), QStringLiteral("Ctrl + S"), QStringLiteral("Cmd + S")),
+			Shortcut::defaultOrMac(QStringLiteral("Bookmark Manager"), QStringLiteral("Ctrl + B"), QStringLiteral("Cmd + B"))
+		}
+	);
 
 	return table;
 }
@@ -182,25 +178,14 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_code");
 
-	table->setRowCount(4);
-	table->setItem(0, 0, new QTableWidgetItem(QStringLiteral("Next Reference")));
-	table->setItem(1, 0, new QTableWidgetItem(QStringLiteral("Previous Reference")));
-	table->setItem(2, 0, new QTableWidgetItem(QStringLiteral("Next Local Reference")));
-	table->setItem(3, 0, new QTableWidgetItem(QStringLiteral("Previous Local Reference")));
-
-#if defined(Q_OS_MAC)
-	table->setItem(0, 1, new QTableWidgetItem("Cmd + G"));
-	table->setItem(1, 1, new QTableWidgetItem("Cmd + Shift + G"));
-	table->setItem(2, 1, new QTableWidgetItem("Cmd + T"));
-	table->setItem(3, 1, new QTableWidgetItem("Cmd + Shift + T"));
-#else
-	table->setItem(0, 1, new QTableWidgetItem(QStringLiteral("Ctrl + G")));
-	table->setItem(1, 1, new QTableWidgetItem(QStringLiteral("Ctrl + Shift + G")));
-	table->setItem(2, 1, new QTableWidgetItem(QStringLiteral("Ctrl + T")));
-	table->setItem(3, 1, new QTableWidgetItem(QStringLiteral("Ctrl + Shift + T")));
-#endif
-
-	table->updateSize();
+	addShortcuts(table,
+		{
+			Shortcut::defaultOrMac(QStringLiteral("Next Reference"), QStringLiteral("Ctrl + G"), QStringLiteral("Cmd + G")),
+			Shortcut::defaultOrMac(QStringLiteral("Previous Reference"), QStringLiteral("Ctrl + Shift + G"), QStringLiteral("Cmd + Shift + G")),
+			Shortcut::defaultOrMac(QStringLiteral("Next Local Reference"), QStringLiteral("Ctrl + T"), QStringLiteral("Cmd + T")),
+			Shortcut::defaultOrMac(QStringLiteral("Previous Local Reference"), QStringLiteral("Ctrl + Shift + T"), QStringLiteral("Cmd + Shift + T"))
+		}
+	);
 
 	return table;
 }
@@ -209,29 +194,17 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_graph");
 
-	table->setRowCount(7);
-	table->setItem(0, 0, new QTableWidgetItem(QStringLiteral("Pan left")));
-	table->setItem(1, 0, new QTableWidgetItem(QStringLiteral("Pan right")));
-	table->setItem(2, 0, new QTableWidgetItem(QStringLiteral("Pan up")));
-	table->setItem(3, 0, new QTableWidgetItem(QStringLiteral("Pan down")));
-	table->setItem(4, 0, new QTableWidgetItem(QStringLiteral("Zoom in")));
-	table->setItem(5, 0, new QTableWidgetItem(QStringLiteral("Zoom out")));
-	table->setItem(6, 0, new QTableWidgetItem(QStringLiteral("Reset Zoom")));
-
-	table->setItem(0, 1, new QTableWidgetItem(QStringLiteral("A")));
-	table->setItem(1, 1, new QTableWidgetItem(QStringLiteral("D")));
-	table->setItem(2, 1, new QTableWidgetItem(QStringLiteral("W")));
-	table->setItem(3, 1, new QTableWidgetItem(QStringLiteral("S")));
-#if defined(Q_OS_MAC)
-	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Cmd + Mousewheel up"));
-	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Cmd + Mousewheel down"));
-#else
-	table->setItem(4, 1, new QTableWidgetItem(QStringLiteral("Shift + W | Ctrl + Mousewheel up")));
-	table->setItem(5, 1, new QTableWidgetItem(QStringLiteral("Shift + S | Ctrl + Mousewheel down")));
-#endif
-	table->setItem(6, 1, new QTableWidgetItem(QStringLiteral("0")));
-
-	table->updateSize();
+	addShortcuts(table,
+		{
+			Shortcut(QStringLiteral("Pan left"), QStringLiteral("A")),
+			Shortcut(QStringLiteral("Pan right"), QStringLiteral("D")),
+			Shortcut(QStringLiteral("Pan up"), QStringLiteral("W")),
+			Shortcut(QStringLiteral("Pan down"), QStringLiteral("S")),
+			Shortcut::defaultOrMac(QStringLiteral("Zoom in"), QStringLiteral("Shift + W | Ctrl + Mousewheel up"), QStringLiteral("Shift + W | Cmd + Mousewheel up")),
+			Shortcut::defaultOrMac(QStringLiteral("Zoom out"), QStringLiteral("Shift + S | Ctrl + Mousewheel down"), QStringLiteral("Shift + S | Cmd + Mousewheel down")),
+			Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0"))
+		}
+	);
 
 	return table;
 }
