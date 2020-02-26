@@ -150,6 +150,7 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 
 	addShortcuts(table,
 		{
+			Shortcut(QStringLiteral("Switch Focus between Graph and Code"), QStringLiteral("Tab")),
 			Shortcut::defaultOrMac(QStringLiteral("Larger Font"), QStringLiteral("Ctrl + +"), QStringLiteral("Cmd + +")),
 			Shortcut::defaultOrMac(QStringLiteral("Smaller Font"), QStringLiteral("Ctrl + -"), QStringLiteral("Cmd + -")),
 			Shortcut::defaultOrMac(QStringLiteral("Reset Font Size"), QStringLiteral("Ctrl + 0"), QStringLiteral("Cmd + 0")),
@@ -180,6 +181,10 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 
 	addShortcuts(table,
 		{
+			Shortcut(QStringLiteral("Move Focus Within Code"), QStringLiteral("WASD | HJKL | Arrows")),
+			Shortcut(QStringLiteral("Move Focus to Closest Reference"), QStringLiteral("Shift + WS | Shift + JK | Shift + Up/Down Arrow")),
+			Shortcut(QStringLiteral("Activate Focused Location"), QStringLiteral("Enter | E")),
+			Shortcut::defaultOrMac(QStringLiteral("Activate Location in New Tab"), QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"), QStringLiteral("Cmd + Shift + Enter | Cmd + Shift + E")),
 			Shortcut::defaultOrMac(QStringLiteral("Next Reference"), QStringLiteral("Ctrl + G"), QStringLiteral("Cmd + G")),
 			Shortcut::defaultOrMac(QStringLiteral("Previous Reference"), QStringLiteral("Ctrl + Shift + G"), QStringLiteral("Cmd + Shift + G")),
 			Shortcut::defaultOrMac(QStringLiteral("Next Local Reference"), QStringLiteral("Ctrl + L"), QStringLiteral("Cmd + L")),
@@ -196,10 +201,15 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 
 	addShortcuts(table,
 		{
+			Shortcut(QStringLiteral("Move Focus Within Nodes"), QStringLiteral("WASD | HJKL | Arrows")),
+			Shortcut(QStringLiteral("Move Focus Within Edges"), QStringLiteral("Shift + WASD | Shift + HJKL | Shift + Arrows")),
+			Shortcut(QStringLiteral("Activate Node/Edge"), QStringLiteral("Enter | E")),
+			Shortcut(QStringLiteral("Expand/Collaps Node"), QStringLiteral("Shift + Enter | Shift + E")),
+			Shortcut::defaultOrMac(QStringLiteral("Activate Node in New Tab"), QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"), QStringLiteral("Cmd + Shift + Enter | Cmd + Shift + E")),
 			Shortcut::defaultOrMac(QStringLiteral("Zoom in"), QStringLiteral("Alt + W | Ctrl + Mousewheel up"), QStringLiteral("Alt + W | Cmd + Mousewheel up")),
 			Shortcut::defaultOrMac(QStringLiteral("Zoom out"), QStringLiteral("Alt + S | Ctrl + Mousewheel down"), QStringLiteral("Alt + S | Cmd + Mousewheel down")),
 			Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0")),
-			Shortcut::defaultOrMac(QStringLiteral("Custom Trail Dialog"), QStringLiteral("Ctrl + U"), QStringLiteral("Cmd + U"))
+			Shortcut::defaultOrMac(QStringLiteral("Open Custom Trail Dialog"), QStringLiteral("Ctrl + U"), QStringLiteral("Cmd + U"))
 		}
 	);
 
