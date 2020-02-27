@@ -16,6 +16,7 @@ public:
 
 	MessageFocusView(ViewType type): type(type)
 	{
+		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());
 	}
 

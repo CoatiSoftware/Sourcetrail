@@ -17,6 +17,7 @@ public:
 		: type(type)
 		, tokenOrLocationId(tokenOrLocationId)
 	{
+		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());
 	}
 

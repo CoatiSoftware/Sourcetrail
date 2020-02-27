@@ -46,13 +46,13 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	switch (target)
 	{
 	case CodeScrollParams::Target::VISIBLE:
-		if (focusRect.top() > visibleRect.top() && focusRect.bottom() < visibleRect.bottom())
+		if (focusRect.top() > visibleRect.top() + 100 && focusRect.bottom() < visibleRect.bottom())
 		{
 			return;
 		}
-		else if (focusRect.top() < visibleRect.top())
+		else if (focusRect.top() < visibleRect.top() + 100)
 		{
-			value = focusRect.top() - visibleRect.top() - 50;
+			value = focusRect.top() - visibleRect.top() - 150;
 		}
 		else
 		{

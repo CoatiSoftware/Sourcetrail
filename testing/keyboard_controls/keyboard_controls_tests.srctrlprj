@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-    <description>Test Suites:\n\n [::\tmVIEW_TESTS\ts\tp]\n [::\tmGRAPH_TESTS\ts\tp]\n</description>
+    <description>Test Suites:\n\n [::\tmVIEW_TESTS\ts\tp]\n [::\tmGRAPH_TESTS\ts\tp]\n [::\tmCODE_TESTS\ts\tp]\n</description>
     <source_groups>
         <source_group_475571d1-b082-4fff-81c5-d099c19f957d>
             <cpp_standard>c++17</cpp_standard>

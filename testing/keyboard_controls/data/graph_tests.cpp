@@ -70,6 +70,18 @@ class D
 
 
 
+// TEST: Moving focus beyond viewport centers focus
+// START ----------------------------------------------------------------------
+
+// ACTION: Drag classes far apart
+// ACTION: Zoom in so not all nodes are visible
+// ACTION: Navigate focus with keyboard
+// RESULT: View is panned when focused node is outside of the viewport
+
+// END ------------------------------------------------------------------------
+
+
+
 // TEST: Expand/collapse nodes
 // START ----------------------------------------------------------------------
 
