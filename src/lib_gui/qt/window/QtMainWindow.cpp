@@ -1008,8 +1008,8 @@ void QtMainWindow::setupHistoryMenu()
 		m_historyMenu->clear();
 	}
 
-	m_historyMenu->addAction(tr("Back"), this, &QtMainWindow::undo, QKeySequence::Undo);
-	m_historyMenu->addAction(tr("Forward"), this, &QtMainWindow::redo, QKeySequence::Redo);
+	m_historyMenu->addAction(tr("Back"), this, &QtMainWindow::undo, QKeySequence::Back);
+	m_historyMenu->addAction(tr("Forward"), this, &QtMainWindow::redo, QKeySequence::Forward);
 
 	m_historyMenu->addSeparator();
 

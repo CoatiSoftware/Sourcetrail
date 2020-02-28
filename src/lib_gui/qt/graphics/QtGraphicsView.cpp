@@ -19,6 +19,8 @@
 #include "MessageFocusView.h"
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
+#include "MessageHistoryRedo.h"
+#include "MessageHistoryUndo.h"
 #include "MessageTabOpenWith.h"
 #include "QtContextMenu.h"
 #include "QtFileDialog.h"
@@ -309,6 +311,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 	bool moved = moves();
 	bool shift = event->modifiers() & Qt::ShiftModifier;
 	bool alt = event->modifiers() & Qt::AltModifier;
+	bool ctrl = event->modifiers() & Qt::ControlModifier;
 
 	switch (event->key())
 	{
@@ -319,7 +322,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 		{
 			m_up = true;
 		}
-		else
+		else if (!ctrl)
 		{
 			m_focusHandler->focusNext(GraphFocusHandler::Direction::UP, shift);
 		}
@@ -332,7 +335,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 		{
 			m_down = true;
 		}
-		else
+		else if (!ctrl)
 		{
 			m_focusHandler->focusNext(GraphFocusHandler::Direction::DOWN, shift);
 		}
@@ -341,7 +344,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
-		if (!alt)
+		if (!alt && !ctrl)
 		{
 			m_focusHandler->focusNext(GraphFocusHandler::Direction::LEFT, shift);
 		}
@@ -350,7 +353,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
-		if (!alt)
+		if (!alt && !ctrl)
 		{
 			m_focusHandler->focusNext(GraphFocusHandler::Direction::RIGHT, shift);
 		}
@@ -358,7 +361,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 
 	case Qt::Key_E:
 	case Qt::Key_Return:
-		if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier)
+		if (ctrl && shift)
 		{
 			m_focusHandler->activateFocus(true);
 		}
@@ -369,6 +372,21 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 		else
 		{
 			m_focusHandler->activateFocus(false);
+		}
+		break;
+
+	case Qt::Key_Y:
+	case Qt::Key_Z:
+		if (!alt && !ctrl)
+		{
+			if (shift)
+			{
+				MessageHistoryRedo().dispatch();
+			}
+			else
+			{
+				MessageHistoryUndo().dispatch();
+			}
 		}
 		break;
 

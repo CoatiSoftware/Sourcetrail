@@ -13,6 +13,8 @@
 #include "CodeFocusHandler.h"
 #include "MessageCodeReference.h"
 #include "MessageFocusView.h"
+#include "MessageHistoryRedo.h"
+#include "MessageHistoryUndo.h"
 #include "MessageScrollCode.h"
 #include "MessageTabOpenWith.h"
 #include "MessageToNextCodeReference.h"
@@ -686,7 +688,9 @@ void QtCodeNavigator::showEvent(QShowEvent* event)
 
 void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 {
-	bool shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
+	bool shift = event->modifiers() & Qt::ShiftModifier;
+	bool alt = event->modifiers() & Qt::AltModifier;
+	bool ctrl = event->modifiers() & Qt::ControlModifier;
 	const CodeFocusHandler::Focus& currentFocus = getCurrentFocus();
 
 	FilePath currentFilePath;
@@ -704,50 +708,62 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Up:
 	case Qt::Key_K:
 	case Qt::Key_W:
-		if (shiftKeyDown)
+		if (!alt && !ctrl)
 		{
-			MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, false).dispatch();
-		}
-		else
-		{
-			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
-			scrollToFocus();
+			if (shift)
+			{
+				MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, false).dispatch();
+			}
+			else
+			{
+				m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
+				scrollToFocus();
+			}
 		}
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
-		if (shiftKeyDown)
+		if (!alt && !ctrl)
 		{
-			MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, true).dispatch();
-		}
-		else
-		{
-			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
-			scrollToFocus();
+			if (shift)
+			{
+				MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, true).dispatch();
+			}
+			else
+			{
+				m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
+				scrollToFocus();
+			}
 		}
 		break;
 
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
-		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::LEFT);
-		scrollToFocus();
+		if (!alt && !ctrl)
+		{
+			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::LEFT);
+			scrollToFocus();
+		}
 		break;
 
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
-		m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::RIGHT);
-		scrollToFocus();
+		if (!alt && !ctrl)
+		{
+			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::RIGHT);
+			scrollToFocus();
+		}
 		break;
 
 	case Qt::Key_E:
 	case Qt::Key_Return:
 		if (currentFocus.area && currentFocus.locationId)
 		{
-			if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier)
+			if (ctrl && shift)
 			{
 				MessageTabOpenWith(0, currentFocus.locationId).dispatch();
 			}
@@ -763,6 +779,21 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 		else if (currentFocus.file)
 		{
 			currentFocus.file->toggleCollapsed();
+		}
+		break;
+
+	case Qt::Key_Y:
+	case Qt::Key_Z:
+		if (!alt && !ctrl)
+		{
+			if (shift)
+			{
+				MessageHistoryRedo().dispatch();
+			}
+			else
+			{
+				MessageHistoryUndo().dispatch();
+			}
 		}
 		break;
 
