@@ -99,7 +99,8 @@ QtCodeField::QtCodeField(
 	setFont(font);
 	setTabStopWidth(appSettings->getCodeTabWidth() * fontMetrics().width('9'));
 
-	m_openInTabAction = new QAction(QStringLiteral("Open in New Tab (Ctrl + Shift + Left Click)"), this);
+	m_openInTabAction = new QAction(
+		QStringLiteral("Open in New Tab (Ctrl + Shift + Left Click)"), this);
 #if defined(Q_OS_MAC)
 	m_openInTabAction->setText(QStringLiteral("Open in New Tab (Cmd + Shift + Left Click)"));
 #endif
@@ -491,7 +492,8 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 	});
 }
 
-void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& annotations, bool fromMouse, int mouseOffsetX)
+void QtCodeField::activateAnnotations(
+	const std::vector<const Annotation*>& annotations, bool fromMouse, int mouseOffsetX)
 {
 	std::vector<Id> locationIds;
 	std::set<Id> tokenIds;
@@ -532,8 +534,8 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 	if (tokenIds.size() > 1 || localSymbolIds.size() > 1 ||
 		(tokenIds.size() && localSymbolIds.size()))
 	{
-		// FIXME: Tooltip lists are positioned at the mouse cursor. This workaround sets the mouse cursor to the
-		// location of the activated annotation if activated via keyboard.
+		// FIXME: Tooltip lists are positioned at the mouse cursor. This workaround sets the mouse
+		// cursor to the location of the activated annotation if activated via keyboard.
 		if (!fromMouse)
 		{
 			std::vector<QRect> rects = getCursorRectsForAnnotation(*annotations.front());
@@ -786,7 +788,8 @@ std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotatio
 		const LocationType& type = annotation.locationType;
 		if ((type == LOCATION_TOKEN || type == LOCATION_QUALIFIER ||
 			 type == LOCATION_LOCAL_SYMBOL || type == LOCATION_UNSOLVED || type == LOCATION_ERROR) &&
-			lineNumber >= annotation.startLine && lineNumber <= annotation.endLine)
+			static_cast<int>(lineNumber) >= annotation.startLine &&
+			static_cast<int>(lineNumber) <= annotation.endLine)
 		{
 			annotations.push_back(&annotation);
 		}

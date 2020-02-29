@@ -85,7 +85,7 @@ void GraphFocusHandler::focusTokenId(
 	}
 
 	QtGraphEdge* edgeToFocus = nullptr;
-	for (QtGraphEdge* edge : edges)
+	for (QtGraphEdge* edge: edges)
 	{
 		if (edge->getTokenId() == tokenId)
 		{
@@ -383,7 +383,7 @@ QtGraphEdge* GraphFocusHandler::findNextEdge(QPointF pos, Direction direction, Q
 		previousEdgeRect = previousEdge->getBoundingRect();
 	}
 
-	float minDist = 0;
+	qreal minDist = 0;
 
 	for (QtGraphEdge* edge: m_client->getGraphEdges())
 	{
@@ -406,23 +406,23 @@ QtGraphEdge* GraphFocusHandler::findNextEdge(QPointF pos, Direction direction, Q
 
 		if (isDir)
 		{
-			float distX = std::abs(pos.x() - edgePos.x());
-			float distY = std::abs(pos.y() - edgePos.y());
+			qreal distX = std::abs(pos.x() - edgePos.x());
+			qreal distY = std::abs(pos.y() - edgePos.y());
 
-			bool vertical = (direction == Direction::UP || direction == Direction::DOWN);
+			const bool vertical = (direction == Direction::UP || direction == Direction::DOWN);
 
-			float distXMult = vertical ? 2 : 1;
-			float distYMult = vertical ? 1 : 2;
+			qreal distXMult = vertical ? 2.0 : 1.0;
+			qreal distYMult = vertical ? 1.0 : 2.0;
 
 			// only use one dimension for distance calculation in aggregation graphs to not miss
 			// certain edges
 			if (edge->isBezierEdge() && m_client->getGraphNodes().size() == 2)
 			{
-				distXMult = vertical ? 0 : 1;
-				distYMult = vertical ? 1 : 0;
+				distXMult = vertical ? 0.0 : 1.0;
+				distYMult = vertical ? 1.0 : 0.0;
 			}
 
-			float dist = distX * distXMult + distY * distYMult;
+			qreal dist = distX * distXMult + distY * distYMult;
 			if (!minDist || dist < minDist)
 			{
 				minDist = dist;
@@ -468,7 +468,7 @@ QtGraphNode* GraphFocusHandler::findSibling(const QtGraphNode* node, Direction d
 	QtGraphNode* nextSibling = nullptr;
 	Vec2i pos = node->getPosition();
 	Vec4i rect = node->getBoundingRect();
-	float minDist = 0;
+	int minDist = 0;
 
 	for (auto siblings: getSiblingsHierarchyRecursive(node))
 	{
@@ -481,27 +481,24 @@ QtGraphNode* GraphFocusHandler::findSibling(const QtGraphNode* node, Direction d
 
 			Vec4i rectS = sibling->getBoundingRect();
 
-			bool top = rectS.w() < rect.y();
-			bool bottom = rectS.y() > rect.w();
-			bool left = rectS.z() < rect.x();
-			bool right = rectS.x() > rect.z();
+			const bool top = rectS.w() < rect.y();
+			const bool bottom = rectS.y() > rect.w();
+			const bool left = rectS.z() < rect.x();
+			const bool right = rectS.x() > rect.z();
 
-			bool isDir = (direction == Direction::UP &&
-						  (top || (!top && !bottom && !left && !right))) ||
+			const bool isDir = (direction == Direction::UP &&
+								(top || (!top && !bottom && !left && !right))) ||
 				(direction == Direction::DOWN && bottom) ||
 				(direction == Direction::LEFT && left) || (direction == Direction::RIGHT && right);
 
 			if (isDir)
 			{
-				float distX = 0;
-				float distY = 0;
+				int distX = 0;
+				int distY = 0;
 
-				float distXMult = (direction == Direction::UP || direction == Direction::DOWN) ? 2
-																							   : 1;
-				float distYMult = (direction == Direction::LEFT || direction == Direction::RIGHT)
-					? 2
-					: 1;
-
+				int distXMult = (direction == Direction::UP || direction == Direction::DOWN) ? 2 : 1;
+				int distYMult = (direction == Direction::LEFT || direction == Direction::RIGHT) ? 2
+																								: 1;
 				if (top)
 					distY = rect.y() - rectS.w();
 				if (bottom)
@@ -511,7 +508,7 @@ QtGraphNode* GraphFocusHandler::findSibling(const QtGraphNode* node, Direction d
 				if (right)
 					distX = rectS.x() - rect.z();
 
-				float dist = distX * distXMult + distY * distYMult;
+				int dist = distX * distXMult + distY * distYMult;
 				if (!nextSibling || dist < minDist)
 				{
 					nextSibling = sibling;
