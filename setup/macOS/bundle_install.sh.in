@@ -147,10 +147,6 @@ iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
 
 
-# echo -e $INFO "Obfuscate binary"
-# upx -1 $APP_PATH
-# upx --best $APP_PATH
-
 echo -e $INFO "List available signing identities"
 security find-identity -v -p codesigning
 
@@ -172,8 +168,39 @@ do
 	# spctl -a --verbose $FRAMEWORK_BIN_PATH
 done
 
+echo -e $INFO "Codesign Python binaries."
+for LIB_PATH in $(find $RES_DIR -name '*.dylib')
+do
+	echo "python lib" $LIB_PATH
+	codesign --force --sign "Developer ID Application: Coati Software KG" $LIB_PATH
+	codesign -v --verbose=5 $LIB_PATH
+done
+for LIB_PATH in $(find $RES_DIR -name '*.so')
+do
+	echo "python lib" $LIB_PATH
+	codesign --force --sign "Developer ID Application: Coati Software KG" $LIB_PATH
+	codesign -v --verbose=5 $LIB_PATH
+done
+for LIB_PATH in $(find $RES_DIR -name 'Python')
+do
+	echo "python bin" $LIB_PATH
+	codesign --force --sign "Developer ID Application: Coati Software KG" $LIB_PATH
+	codesign -v --verbose=5 $LIB_PATH
+done
+for LIB_PATH in $(find $RES_DIR -name 'SourcetrailPythonIndexer')
+do
+	echo "python bin" $LIB_PATH
+	codesign --force --options runtime --sign "Developer ID Application: Coati Software KG" $LIB_PATH
+	codesign -v --verbose=5 $LIB_PATH
+done
+
+echo -e $INFO "Codesign indexer."
+codesign --force --options runtime --sign "Developer ID Application: Coati Software KG" $INDEXER_PATH
+codesign -v  --deep --verbose=5 $INDEXER_PATH
+# spctl -a --verbose $INDEXER_PATH
+
 echo -e $INFO "Codesign app."
-codesign --force --sign "Developer ID Application: Coati Software KG" $BUNDLE_PATH
+codesign --force --options runtime --sign "Developer ID Application: Coati Software KG" $BUNDLE_PATH
 codesign -v  --deep --verbose=5 $BUNDLE_PATH
 # spctl -a --verbose $BUNDLE_PATH
 
@@ -189,11 +216,51 @@ cp -R ../../../ide_plugins/eclipse $PACKAGE_DIR/plugins/eclipse/
 cp -R ../../../ide_plugins/idea $PACKAGE_DIR/plugins/idea/
 cp -R ../../../ide_plugins/qt_creator $PACKAGE_DIR/plugins/qt_creator/
 
-ln -s /Applications $PACKAGE_DIR/Applications
+echo -e $SUCCESS "Created bundle successfully!";
 
-echo -e $INFO "create DMG package"
-hdiutil create ${PACKAGE_DIR}_macOS_64bit.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
 
-rm $PACKAGE_DIR/Applications
 
-echo -e $SUCCESS "Installed bundle successfully!"
+while true; do
+    read -p "Do you want to create a DMG package? [y/n] " yn
+    case $yn in
+        [Yy]* )
+			echo -e $INFO "create DMG package";
+
+			ln -s /Applications $PACKAGE_DIR/Applications;
+			hdiutil create ${PACKAGE_DIR}_macOS_64bit.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR};
+			rm $PACKAGE_DIR/Applications;
+
+			echo -e $SUCCESS "Created DMG package successfully!";
+
+			break;;
+        [Nn]* )
+			echo -e $INFO "Skip DMG package.";
+			break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+
+
+while true; do
+    read -p "Do you want to notarize the app? [y/n] " yn
+    case $yn in
+        [Yy]* )
+			echo -e $INFO "Notarize app.";
+
+			zip ${BUNDLE_PATH}.zip ${BUNDLE_PATH};
+			xcrun altool --notarize-app --primary-bundle-id "com.sourcetrail" --username "egraether@coati.io"
+				--password "@keychain:sourcetrail_notarization" --file ${BUNDLE_PATH}.zip;
+			# xcrun altool --notarization-history 0 -u "egraether@coati.io" -p "@keychain:sourcetrail_notarization";
+			# xcrun altool --notarization-info <identifier> -u "egraether@coati.io" -p "@keychain:sourcetrail_notarization";
+			rm ${BUNDLE_PATH}.zip;
+
+			echo -e $SUCCESS "Notarized app successfully!";
+
+			break;;
+        [Nn]* )
+			echo -e $INFO "Skip app notarization.";
+			break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
