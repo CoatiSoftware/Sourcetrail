@@ -100,7 +100,7 @@ void QtCodeFileList::clearSnippetTitleAndScrollBar()
 	updateLastSnippetScrollBar(nullptr);
 }
 
-QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
+QtCodeFile* QtCodeFileList::getFile(const FilePath& filePath)
 {
 	QtCodeFile* file = nullptr;
 
@@ -128,7 +128,7 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 void QtCodeFileList::addFile(const CodeFileParams& params)
 {
 	QtCodeFile* file = getFile(params.locationFile->getFilePath());
-	file->setWholeFile(params.locationFile->isWhole(), params.referenceCount);
+	file->setWholeFile(params.locationFile->isWhole(), static_cast<int>(params.referenceCount));
 	file->setModificationTime(params.modificationTime);
 	file->setIsComplete(params.locationFile->isComplete());
 	file->setIsIndexed(params.locationFile->isIndexed());
@@ -221,7 +221,7 @@ void QtCodeFileList::scrollTo(
 	}
 	else if (lineNumber)
 	{
-		snippet = file->getSnippetForLine(lineNumber);
+		snippet = file->getSnippetForLine(static_cast<unsigned int>(lineNumber));
 	}
 	else
 	{

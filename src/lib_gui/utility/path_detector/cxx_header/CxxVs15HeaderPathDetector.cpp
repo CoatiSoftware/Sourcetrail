@@ -10,7 +10,7 @@
 
 CxxVs15HeaderPathDetector::CxxVs15HeaderPathDetector(): PathDetector("Visual Studio 2017") {}
 
-std::vector<FilePath> CxxVs15HeaderPathDetector::getPaths() const
+std::vector<FilePath> CxxVs15HeaderPathDetector::doGetPaths() const
 {
 	std::vector<FilePath> headerSearchPaths;
 

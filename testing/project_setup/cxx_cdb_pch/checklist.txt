@@ -1,29 +1,40 @@
 * Run "1_setup.sh"
+
 * Start up Sourcetrail
+
 * Click "New Project"
 * Enter a project name
 * Set "./working_copy" as project location
+
 * Click "Add Source Group"
 * Select "C++" -> C/C++ from Compilation Database"
 * Click "Next"
+
 * Pick "compile_commands.json" at "Compilation Database"
+
 * Click "show source files" button
 * Validate "Source Files" list contains "src/main.cpp"
-* Click "OK"
+
 * Validate "Header Files & Directories to Index" contains "src" entry
+
 * Add "**/Foo.h" to "Excluded Files & Directories"
-* Click "Next"
-* Click "Next"
+
+* Click "Create"
 * Validate dialog appears that asks to specify PCH input file
 * Click "Cancel"
-* Add "./src/pch.h" to "Precompiled Header File"
-* Click "Next"
+
 * Add "-DCOMPILER_FLAG" to "Additional Compiler Flags"
+* Add "./src/pch.h" to "Precompiled Header File"
 * Add "-DPCH_FLAG" to "Precompiled Header Flags"
+
 * Click "Create"
 * Validate "All files" is the only option selectable
+
 * Click "Start"
 * Validate Project indexed without error
+
 * Click "OK"
+
 * Close Sourcetrail
+
 * Run "2_teardown.sh"

@@ -42,7 +42,8 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	, m_zoomInButtonSpeed(20.0f)
 	, m_zoomOutButtonSpeed(-20.0f)
 {
-	QString modifierName = utility::getOsType() == OS_MAC ? QStringLiteral("Cmd") : QStringLiteral("Ctrl");
+	QString modifierName = utility::getOsType() == OS_MAC ? QStringLiteral("Cmd")
+														  : QStringLiteral("Ctrl");
 
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
@@ -62,8 +63,10 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	connect(m_openInTabAction, &QAction::triggered, this, &QtGraphicsView::openInTab);
 
 	m_copyNodeNameAction = new QAction(QStringLiteral("Copy Name"), this);
-	m_copyNodeNameAction->setStatusTip(QStringLiteral("Copies the name of this node to the clipboard"));
-	m_copyNodeNameAction->setToolTip(QStringLiteral("Copies the name of this node to the clipboard"));
+	m_copyNodeNameAction->setStatusTip(
+		QStringLiteral("Copies the name of this node to the clipboard"));
+	m_copyNodeNameAction->setToolTip(
+		QStringLiteral("Copies the name of this node to the clipboard"));
 	connect(m_copyNodeNameAction, &QAction::triggered, this, &QtGraphicsView::copyNodeName);
 
 	m_collapseAction = new QAction(QStringLiteral("Collapse Node (Shift + Left Click)"), this);
@@ -76,20 +79,26 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_expandAction->setToolTip(QStringLiteral("Show unconnected members of the node"));
 	connect(m_expandAction, &QAction::triggered, this, &QtGraphicsView::expandNode);
 
-	m_showInIDEAction = new QAction(QStringLiteral("Show Definition in IDE (Ctrl + Left Click)"), this);
+	m_showInIDEAction = new QAction(
+		QStringLiteral("Show Definition in IDE (Ctrl + Left Click)"), this);
 #if defined(Q_OS_MAC)
 	m_showInIDEAction->setText("Show Definition in IDE (Cmd + Left Click)");
 #endif
-	m_showInIDEAction->setStatusTip(QStringLiteral("Show definition of this symbol in the IDE (via plug-in)"));
-	m_showInIDEAction->setToolTip(QStringLiteral("Show definition of this symbol in the IDE (via plug-in)"));
+	m_showInIDEAction->setStatusTip(
+		QStringLiteral("Show definition of this symbol in the IDE (via plug-in)"));
+	m_showInIDEAction->setToolTip(
+		QStringLiteral("Show definition of this symbol in the IDE (via plug-in)"));
 	connect(m_showInIDEAction, &QAction::triggered, this, &QtGraphicsView::showInIDE);
 
-	m_showDefinitionAction = new QAction(QStringLiteral("Show Definition (Ctrl + Alt + Left Click)"), this);
+	m_showDefinitionAction = new QAction(
+		QStringLiteral("Show Definition (Ctrl + Alt + Left Click)"), this);
 #if defined(Q_OS_MAC)
 	m_showDefinitionAction->setText("Show Definition (Cmd + Alt + Left Click)");
 #endif
-	m_showDefinitionAction->setStatusTip(QStringLiteral("Show definition of this symbol in the code"));
-	m_showDefinitionAction->setToolTip(QStringLiteral("Show definition of this symbol in the code"));
+	m_showDefinitionAction->setStatusTip(
+		QStringLiteral("Show definition of this symbol in the code"));
+	m_showDefinitionAction->setToolTip(
+		QStringLiteral("Show definition of this symbol in the code"));
 	connect(m_showDefinitionAction, &QAction::triggered, this, &QtGraphicsView::showDefinition);
 
 	m_hideNodeAction = new QAction(QStringLiteral("Hide Node (Alt + Left Click)"), this);
@@ -232,11 +241,11 @@ void QtGraphicsView::updateZoom(float delta)
 
 	if (factor <= 0.0f)
 	{
-		factor = 0.000001;
+		factor = 0.000001f;
 	}
 
 	double newZoom = m_zoomFactor * factor;
-	setZoomFactor(qBound(0.1, newZoom, 100.0));
+	setZoomFactor(static_cast<float>(qBound(0.1, newZoom, 100.0)));
 }
 
 void QtGraphicsView::resizeEvent(QResizeEvent* event)
@@ -364,7 +373,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 	{
 		if (event->delta() != 0.0f)
 		{
-			updateZoom(event->delta());
+			updateZoom(static_cast<float>(event->delta()));
 		}
 	}
 	else
@@ -527,12 +536,12 @@ void QtGraphicsView::updateTimer()
 
 	if (x != 0)
 	{
-		horizontalScrollBar()->setValue(horizontalScrollBar()->value() + x);
+		horizontalScrollBar()->setValue(static_cast<int>(horizontalScrollBar()->value() + x));
 	}
 
 	if (y != 0)
 	{
-		verticalScrollBar()->setValue(verticalScrollBar()->value() + y);
+		verticalScrollBar()->setValue(static_cast<int>(verticalScrollBar()->value() + y));
 	}
 
 	if (z != 0)
@@ -556,12 +565,13 @@ void QtGraphicsView::exportGraph()
 	const QString exportNotice = QStringLiteral("Exported from Sourcetrail");
 	const int margin = 10;
 
-	FilePath filePath(QtFileDialog::showSaveFileDialog(
-						  nullptr,
-						  QStringLiteral("Save image"),
-						  FilePath(),
-						  QStringLiteral("PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)"))
-						  .toStdWString());
+	FilePath filePath(
+		QtFileDialog::showSaveFileDialog(
+			nullptr,
+			QStringLiteral("Save image"),
+			FilePath(),
+			QStringLiteral("PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)"))
+			.toStdWString());
 
 
 	if (filePath.extension() == L".svg")

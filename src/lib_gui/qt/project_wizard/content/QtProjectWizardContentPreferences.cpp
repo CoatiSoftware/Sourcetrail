@@ -9,11 +9,11 @@
 #include <QTimer>
 
 #include "ApplicationSettings.h"
+#include "FileLogger.h"
 #include "FileSystem.h"
 #include "MessageSwitchColorScheme.h"
 #include "ResourcePaths.h"
 #include "logging.h"
-#include "FileLogger.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityPathDetection.h"
@@ -68,7 +68,12 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	// font size
 	m_fontSize = addComboBox(
-		QStringLiteral("Font Size"), appSettings->getFontSizeMin(), appSettings->getFontSizeMax(), QLatin1String(""), layout, row);
+		QStringLiteral("Font Size"),
+		appSettings->getFontSizeMin(),
+		appSettings->getFontSizeMax(),
+		QLatin1String(""),
+		layout,
+		row);
 
 	// tab width
 	m_tabWidth = addComboBox(QStringLiteral("Tab Width"), 1, 16, QLatin1String(""), layout, row);
@@ -85,7 +90,8 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
 	{
 		m_colorSchemes->insertItem(
-			i, QString::fromStdWString(m_colorSchemePaths[i].withoutExtension().fileName()));
+			static_cast<int>(i),
+			QString::fromStdWString(m_colorSchemePaths[i].withoutExtension().fileName()));
 	}
 	connect(
 		m_colorSchemes,
@@ -113,8 +119,9 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_showDirectoryInCode = addCheckBox(
 		QStringLiteral("Directory in File Title"),
 		QStringLiteral("Show directory of file in code title"),
-		QStringLiteral("<p>Enable display of the parent directory of a code file relative to the project "
-		"file.</p>"),
+		QStringLiteral(
+			"<p>Enable display of the parent directory of a code file relative to the project "
+			"file.</p>"),
 		layout,
 		row);
 	layout->setRowMinimumHeight(row - 1, 30);
@@ -136,13 +143,17 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		m_screenAutoScalingInfoLabel = new QLabel(QLatin1String(""));
 		m_screenAutoScaling = addComboBoxWithWidgets(
 			QStringLiteral("Auto Scaling to DPI"),
-			QStringLiteral("<p>Define if automatic scaling to screen DPI resolution is active. "
-			"This setting manipulates the environment flag QT_AUTO_SCREEN_SCALE_FACTOR of the Qt "
-			"framework "
-			"(<a "
-			"href=\"http://doc.qt.io/qt-5/highdpi.html\">http://doc.qt.io/qt-5/highdpi.html</a>). "
-			"Choose 'system' to stick to the setting of your current environment.</p>"
-			"<p>Changes to this setting require a restart of the application to take effect.</p>"),
+			QStringLiteral(
+				"<p>Define if automatic scaling to screen DPI resolution is active. "
+				"This setting manipulates the environment flag QT_AUTO_SCREEN_SCALE_FACTOR of the "
+				"Qt "
+				"framework "
+				"(<a "
+				"href=\"http://doc.qt.io/qt-5/highdpi.html\">http://doc.qt.io/qt-5/highdpi.html</"
+				"a>). "
+				"Choose 'system' to stick to the setting of your current environment.</p>"
+				"<p>Changes to this setting require a restart of the application to take "
+				"effect.</p>"),
 			{m_screenAutoScalingInfoLabel},
 			layout,
 			row);
@@ -159,12 +170,15 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		m_screenScaleFactorInfoLabel = new QLabel(QLatin1String(""));
 		m_screenScaleFactor = addComboBoxWithWidgets(
 			QStringLiteral("Scale Factor"),
-			QStringLiteral("<p>Define a screen scale factor for the user interface of the application. "
-			"This setting manipulates the environment flag QT_SCALE_FACTOR of the Qt framework "
-			"(<a "
-			"href=\"http://doc.qt.io/qt-5/highdpi.html\">http://doc.qt.io/qt-5/highdpi.html</a>). "
-			"Choose 'system' to stick to the setting of your current environment.</p>"
-			"<p>Changes to this setting require a restart of the application to take effect.</p>"),
+			QStringLiteral(
+				"<p>Define a screen scale factor for the user interface of the application. "
+				"This setting manipulates the environment flag QT_SCALE_FACTOR of the Qt framework "
+				"(<a "
+				"href=\"http://doc.qt.io/qt-5/highdpi.html\">http://doc.qt.io/qt-5/highdpi.html</"
+				"a>). "
+				"Choose 'system' to stick to the setting of your current environment.</p>"
+				"<p>Changes to this setting require a restart of the application to take "
+				"effect.</p>"),
 			{m_screenScaleFactorInfoLabel},
 			layout,
 			row);
@@ -195,19 +209,21 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	// scroll speed
 	m_scrollSpeed = addLineEdit(
 		QStringLiteral("Scroll Speed"),
-		QStringLiteral("<p>Set a multiplier for the in app scroll speed.</p>"
-		"<p>A value between 0 and 1 results in slower scrolling while a value higher than 1 "
-		"increases scroll speed.</p>"),
+		QStringLiteral(
+			"<p>Set a multiplier for the in app scroll speed.</p>"
+			"<p>A value between 0 and 1 results in slower scrolling while a value higher than 1 "
+			"increases scroll speed.</p>"),
 		layout,
 		row);
 
 	// graph zooming
-	QString modifierName = utility::getOsType() == OS_MAC ? QStringLiteral("Cmd") : QStringLiteral("Ctrl");
+	QString modifierName = utility::getOsType() == OS_MAC ? QStringLiteral("Cmd")
+														  : QStringLiteral("Ctrl");
 	m_graphZooming = addCheckBox(
 		QStringLiteral("Graph Zoom"),
 		QStringLiteral("Zoom graph on mouse wheel"),
-		QStringLiteral("<p>Enable graph zoom using mouse wheel only, instead of using ") + modifierName +
-			QStringLiteral(" + Mouse Wheel.</p>"),
+		QStringLiteral("<p>Enable graph zoom using mouse wheel only, instead of using ") +
+			modifierName + QStringLiteral(" + Mouse Wheel.</p>"),
 		layout,
 		row);
 
@@ -232,10 +248,11 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_verboseIndexerLoggingEnabled = addCheckBox(
 		QStringLiteral("Indexer Logging"),
 		QStringLiteral("Enable verbose indexer logging"),
-		QStringLiteral("<p>Enable additional logs of abstract syntax tree traversal during indexing. This "
-		"information can help "
-		"tracking down crashes that occurr during indexing.</p>"
-		"<p><b>Warning</b>: This slows down indexing performance a lot.</p>"),
+		QStringLiteral(
+			"<p>Enable additional logs of abstract syntax tree traversal during indexing. This "
+			"information can help "
+			"tracking down crashes that occurr during indexing.</p>"
+			"<p><b>Warning</b>: This slows down indexing performance a lot.</p>"),
 		layout,
 		row);
 
@@ -258,10 +275,11 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_automaticUpdateCheck = addCheckBox(
 		QStringLiteral("Automatic<br />Update Check"),
 		QStringLiteral("Check automatically for updates"),
-		QStringLiteral("<p>Automatically connects to the Sourcetrail server once a day to check "
-		"if a new release is available.</p>"
-		"<p>Note: No personally identifiable information will be transmitted to conduct this "
-		"check.</p>"),
+		QStringLiteral(
+			"<p>Automatically connects to the Sourcetrail server once a day to check "
+			"if a new release is available.</p>"
+			"<p>Note: No personally identifiable information will be transmitted to conduct this "
+			"check.</p>"),
 		layout,
 		row);
 	addGap(layout, row);
@@ -272,14 +290,16 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	// Sourcetrail port
 	m_sourcetrailPort = addLineEdit(
 		QStringLiteral("Sourcetrail Port"),
-		QStringLiteral("<p>Port number that Sourcetrail uses to listen for incoming messages from plugins.</p>"),
+		QStringLiteral("<p>Port number that Sourcetrail uses to listen for incoming messages from "
+					   "plugins.</p>"),
 		layout,
 		row);
 
 	// Sourcetrail port
 	m_pluginPort = addLineEdit(
 		QStringLiteral("Plugin Port"),
-		QStringLiteral("<p>Port number that Sourcetrail uses to sends outgoing messages to plugins.</p>"),
+		QStringLiteral(
+			"<p>Port number that Sourcetrail uses to sends outgoing messages to plugins.</p>"),
 		layout,
 		row);
 
@@ -295,7 +315,8 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		QStringLiteral("Indexer Threads"),
 		0,
 		24,
-		QStringLiteral("<p>Set the number of threads used to work on indexing your project in parallel.</p>"),
+		QStringLiteral(
+			"<p>Set the number of threads used to work on indexing your project in parallel.</p>"),
 		{m_threadsInfoLabel},
 		layout,
 		row);
@@ -310,9 +331,10 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_multiProcessIndexing = addCheckBox(
 		QStringLiteral("Multi Process<br />C/C++ Indexing"),
 		QStringLiteral("Run C/C++ indexer threads in different process"),
-		QStringLiteral("<p>Enable C/C++ indexer threads to run in different process.</p>"
-		"<p>This prevents the application from crashing due to unforseen exceptions while "
-		"indexing.</p>"),
+		QStringLiteral(
+			"<p>Enable C/C++ indexer threads to run in different process.</p>"
+			"<p>This prevents the application from crashing due to unforseen exceptions while "
+			"indexing.</p>"),
 		layout,
 		row);
 
@@ -333,12 +355,15 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 			m_javaPath->setPlaceholderText(QStringLiteral("<jre_path>/bin/client/jvm.dll"));
 			break;
 		case OS_MAC:
-			m_javaPath->setFileFilter(QStringLiteral("JLI or JVM Library (libjli.dylib libjvm.dylib)"));
-			m_javaPath->setPlaceholderText(QStringLiteral("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib"));
+			m_javaPath->setFileFilter(
+				QStringLiteral("JLI or JVM Library (libjli.dylib libjvm.dylib)"));
+			m_javaPath->setPlaceholderText(
+				QStringLiteral("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib"));
 			break;
 		case OS_LINUX:
 			m_javaPath->setFileFilter(QStringLiteral("JVM Library (libjvm.so)"));
-			m_javaPath->setPlaceholderText(QStringLiteral("<jre_path>/bin/<arch>/server/libjvm.so"));
+			m_javaPath->setPlaceholderText(
+				QStringLiteral("<jre_path>/bin/<arch>/server/libjvm.so"));
 			break;
 		default:
 			LOG_WARNING("No placeholders and filters set for Java path selection");
@@ -381,8 +406,9 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		addHelpButton(
 			QStringLiteral("JRE System Library"),
 			QStringLiteral("<p>Only required for indexing Java projects.</p>"
-			"<p>Add the jar files of your JRE System Library. These jars can be found inside your "
-			"JRE install directory.</p>"),
+						   "<p>Add the jar files of your JRE System Library. These jars can be "
+						   "found inside your "
+						   "JRE install directory.</p>"),
 			layout,
 			row);
 
@@ -415,8 +441,9 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		addHelpButton(
 			QStringLiteral("Maven Path"),
 			QStringLiteral("<p>Only required for indexing projects using Maven.</p>"
-			"<p>Provide the location of your installed Maven executable. You can also use the auto "
-			"detection below.</p>"),
+						   "<p>Provide the location of your installed Maven executable. You can "
+						   "also use the auto "
+						   "detection below.</p>"),
 			layout,
 			row);
 		row++;
@@ -433,13 +460,16 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_pythonPostProcessing = addCheckBox(
 		QStringLiteral("Post Processing"),
 		QStringLiteral("Add ambiguous edges for unsolved references (recommended)"),
-		QStringLiteral("<p>Enable a post processing step to solve unsolved references after the indexing is done. "
-		"</p>"
-		"<p>These references will be marked \"ambiguous\" to indicate that some of these edges may "
-		"never "
-		"be encountered during runtime of the indexed code because the post processing only relies "
-		"on "
-		"symbol names and types.</p>"),
+		QStringLiteral("<p>Enable a post processing step to solve unsolved references after the "
+					   "indexing is done. "
+					   "</p>"
+					   "<p>These references will be marked \"ambiguous\" to indicate that some of "
+					   "these edges may "
+					   "never "
+					   "be encountered during runtime of the indexed code because the post "
+					   "processing only relies "
+					   "on "
+					   "symbol names and types.</p>"),
 		layout,
 		row);
 
@@ -464,7 +494,7 @@ void QtProjectWizardContentPreferences::load()
 	m_textEncoding->setCurrentText(QString::fromStdString(appSettings->getTextEncoding()));
 
 	FilePath colorSchemePath = appSettings->getColorSchemePath();
-	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
+	for (int i = 0; i < static_cast<int>(m_colorSchemePaths.size()); i++)
 	{
 		if (colorSchemePath == m_colorSchemePaths[i])
 		{
@@ -555,7 +585,7 @@ void QtProjectWizardContentPreferences::save()
 
 	if (m_screenScaleFactor)
 	{
-		appSettings->setScreenScaleFactor(m_screenScaleFactor->currentData().toDouble());
+		appSettings->setScreenScaleFactor(m_screenScaleFactor->currentData().toFloat());
 	}
 
 	float scrollSpeed = m_scrollSpeed->text().toFloat();
@@ -621,7 +651,7 @@ void QtProjectWizardContentPreferences::colorSchemeChanged(int index)
 
 void QtProjectWizardContentPreferences::javaPathDetectionClicked()
 {
-	std::vector<FilePath> paths = m_javaPathDetector->getPaths(
+	std::vector<FilePath> paths = m_javaPathDetector->getPathsForDetector(
 		m_javaPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
@@ -631,7 +661,7 @@ void QtProjectWizardContentPreferences::javaPathDetectionClicked()
 
 void QtProjectWizardContentPreferences::jreSystemLibraryPathsDetectionClicked()
 {
-	std::vector<FilePath> paths = m_jreSystemLibraryPathsDetector->getPaths(
+	std::vector<FilePath> paths = m_jreSystemLibraryPathsDetector->getPathsForDetector(
 		m_jreSystemLibraryPathsDetectorBox->currentText().toStdString());
 	std::vector<FilePath> oldPaths = m_jreSystemLibraryPaths->getPathsAsAbsolute();
 	m_jreSystemLibraryPaths->setPaths(utility::unique(utility::concat(oldPaths, paths)));
@@ -639,7 +669,7 @@ void QtProjectWizardContentPreferences::jreSystemLibraryPathsDetectionClicked()
 
 void QtProjectWizardContentPreferences::mavenPathDetectionClicked()
 {
-	std::vector<FilePath> paths = m_mavenPathDetector->getPaths(
+	std::vector<FilePath> paths = m_mavenPathDetector->getPathsForDetector(
 		m_mavenPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
@@ -682,7 +712,7 @@ void QtProjectWizardContentPreferences::uiAutoScalingChanges(int index)
 		}
 
 		m_screenAutoScalingInfoLabel->setText(
-					QStringLiteral("detected: '") + autoScale + QStringLiteral("'"));
+			QStringLiteral("detected: '") + autoScale + QStringLiteral("'"));
 		m_screenAutoScalingInfoLabel->show();
 	}
 	else
@@ -704,7 +734,7 @@ void QtProjectWizardContentPreferences::uiScaleFactorChanges(int index)
 		}
 
 		m_screenScaleFactorInfoLabel->setText(
-					QStringLiteral("detected: '") + scale + QStringLiteral("%'"));
+			QStringLiteral("detected: '") + scale + QStringLiteral("%'"));
 		m_screenScaleFactorInfoLabel->show();
 	}
 	else
@@ -831,12 +861,12 @@ void QtProjectWizardContentPreferences::addMavenPathDetection(QGridLayout* layou
 	row++;
 }
 
-void QtProjectWizardContentPreferences::addTitle(QString title, QGridLayout* layout, int& row)
+void QtProjectWizardContentPreferences::addTitle(const QString& title, QGridLayout* layout, int& row)
 {
 	layout->addWidget(createFormTitle(title), row++, QtProjectWizardWindow::FRONT_COL, Qt::AlignLeft);
 }
 
-void QtProjectWizardContentPreferences::addLabel(QString label, QGridLayout* layout, int row)
+void QtProjectWizardContentPreferences::addLabel(const QString& label, QGridLayout* layout, int row)
 {
 	layout->addWidget(createFormLabel(label), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 }
@@ -848,7 +878,7 @@ void QtProjectWizardContentPreferences::addWidget(
 }
 
 void QtProjectWizardContentPreferences::addLabelAndWidget(
-	QString label, QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment)
+	const QString& label, QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment)
 {
 	addLabel(label, layout, row);
 	addWidget(widget, layout, row, widgetAlignment);
@@ -860,7 +890,7 @@ void QtProjectWizardContentPreferences::addGap(QGridLayout* layout, int& row)
 }
 
 QCheckBox* QtProjectWizardContentPreferences::addCheckBox(
-	QString label, QString text, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, const QString& text, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QCheckBox* checkBox = new QCheckBox(text, this);
 	addLabelAndWidget(label, checkBox, layout, row, Qt::AlignLeft);
@@ -876,7 +906,7 @@ QCheckBox* QtProjectWizardContentPreferences::addCheckBox(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBox(
-	QString label, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QComboBox* comboBox = new QComboBox(this);
 	addLabelAndWidget(label, comboBox, layout, row, Qt::AlignLeft);
@@ -892,7 +922,11 @@ QComboBox* QtProjectWizardContentPreferences::addComboBox(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
-	QString label, QString helpText, std::vector<QWidget*> widgets, QGridLayout* layout, int& row)
+	const QString& label,
+	const QString& helpText,
+	std::vector<QWidget*> widgets,
+	QGridLayout* layout,
+	int& row)
 {
 	QComboBox* comboBox = new QComboBox(this);
 
@@ -921,7 +955,7 @@ QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBox(
-	QString label, int min, int max, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, int min, int max, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QComboBox* comboBox = addComboBox(label, helpText, layout, row);
 
@@ -937,10 +971,10 @@ QComboBox* QtProjectWizardContentPreferences::addComboBox(
 }
 
 QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
-	QString label,
+	const QString& label,
 	int min,
 	int max,
-	QString helpText,
+	const QString& helpText,
 	std::vector<QWidget*> widgets,
 	QGridLayout* layout,
 	int& row)
@@ -959,7 +993,7 @@ QComboBox* QtProjectWizardContentPreferences::addComboBoxWithWidgets(
 }
 
 QLineEdit* QtProjectWizardContentPreferences::addLineEdit(
-	QString label, QString helpText, QGridLayout* layout, int& row)
+	const QString& label, const QString& helpText, QGridLayout* layout, int& row)
 {
 	QLineEdit* lineEdit = new QLineEdit(this);
 	lineEdit->setObjectName(QStringLiteral("name"));

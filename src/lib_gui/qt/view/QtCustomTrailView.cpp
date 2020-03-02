@@ -190,36 +190,37 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 		std::vector<QString> nodeFilters;
 		std::vector<QColor> nodeColors;
 
-		std::vector<NodeType::Type> nodeTypes = {// NodeType::NODE_SYMBOL,
-												 NodeType::NODE_TYPE,
-												 NodeType::NODE_BUILTIN_TYPE,
-												 // NodeType::NODE_MODULE,
-												 // NodeType::NODE_NAMESPACE,
-												 // NodeType::NODE_PACKAGE,
-												 NodeType::NODE_CLASS,
-												 NodeType::NODE_STRUCT,
-												 NodeType::NODE_UNION,
-												 NodeType::NODE_INTERFACE,
-												 NodeType::NODE_TYPEDEF,
-												 NodeType::NODE_TYPE_PARAMETER,
-												 NodeType::NODE_ENUM,
-												 NodeType::NODE_ENUM_CONSTANT,
-												 NodeType::NODE_GLOBAL_VARIABLE,
-												 NodeType::NODE_FIELD,
-												 NodeType::NODE_FUNCTION,
-												 NodeType::NODE_METHOD,
-												 NodeType::NODE_FILE,
-												 NodeType::NODE_MACRO,
-												 NodeType::NODE_ANNOTATION};
+		const std::vector<NodeKind> nodeKinds = {// NODE_SYMBOL,
+												 NODE_TYPE,
+												 NODE_BUILTIN_TYPE,
+												 // NODE_MODULE,
+												 // NODE_NAMESPACE,
+												 // NODE_PACKAGE,
+												 NODE_CLASS,
+												 NODE_STRUCT,
+												 NODE_UNION,
+												 NODE_INTERFACE,
+												 NODE_TYPEDEF,
+												 NODE_TYPE_PARAMETER,
+												 NODE_ENUM,
+												 NODE_ENUM_CONSTANT,
+												 NODE_GLOBAL_VARIABLE,
+												 NODE_FIELD,
+												 NODE_FUNCTION,
+												 NODE_METHOD,
+												 NODE_FILE,
+												 NODE_MACRO,
+												 NODE_ANNOTATION};
 
-		for (NodeType::Type t: nodeTypes)
+		for (NodeKind t: nodeKinds)
 		{
-			nodeFilters.push_back(QString::fromStdString(NodeType::getReadableTypeString(t)));
+			nodeFilters.push_back(QString::fromStdString(getReadableNodeKindString(t)));
 			nodeColors.push_back(
-				QColor(scheme->getNodeTypeColor(t, "fill", ColorScheme::FOCUS).c_str()));
+				QColor(scheme->getNodeTypeColor(NodeType(t), "fill", ColorScheme::FOCUS).c_str()));
 		}
 
-		QVBoxLayout* filterLayout = addFilters(QStringLiteral("Nodes:"), nodeFilters, nodeColors, &m_nodeFilters, 11);
+		QVBoxLayout* filterLayout = addFilters(
+			QStringLiteral("Nodes:"), nodeFilters, nodeColors, &m_nodeFilters, 11);
 		filterLayout->setContentsMargins(25, 10, 25, 10);
 		panelC1->setLayout(filterLayout);
 	}
@@ -255,7 +256,8 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 			edgeColors.push_back(QColor(scheme->getEdgeTypeColor(t, ColorScheme::FOCUS).c_str()));
 		}
 
-		QVBoxLayout* filterLayout = addFilters(QStringLiteral("Edges:"), edgeFilters, edgeColors, &m_edgeFilters, 5);
+		QVBoxLayout* filterLayout = addFilters(
+			QStringLiteral("Edges:"), edgeFilters, edgeColors, &m_edgeFilters, 5);
 		filterLayout->setContentsMargins(10, 10, 25, 10);
 		panelC2->setLayout(filterLayout);
 	}
@@ -314,7 +316,7 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 				}
 			}
 
-			NodeType::TypeMask nodeTypes = getCheckedNodeTypes();
+			NodeKindMask nodeTypes = getCheckedNodeTypes();
 			Edge::TypeMask edgeTypes = getCheckedEdgeTypes();
 
 			if (!nodeTypes)
@@ -366,7 +368,7 @@ void QtCustomTrailView::clearView()
 	});
 }
 
-void QtCustomTrailView::setAvailableNodeAndEdgeTypes(NodeType::TypeMask nodeTypes, Edge::TypeMask edgeTypes)
+void QtCustomTrailView::setAvailableNodeAndEdgeTypes(NodeKindMask nodeTypes, Edge::TypeMask edgeTypes)
 {
 	m_onQtThread([this, nodeTypes, edgeTypes]() {
 		for (QCheckBox* filter: m_nodeFilters)
@@ -377,7 +379,7 @@ void QtCustomTrailView::setAvailableNodeAndEdgeTypes(NodeType::TypeMask nodeType
 			}
 
 			bool enabled = nodeTypes &
-				NodeType::getTypeForReadableTypeString(filter->text().toStdWString());
+				getNodeKindForReadableNodeKindString(filter->text().toStdWString());
 			filter->setEnabled(enabled);
 			filter->setVisible(enabled);
 		}
@@ -477,7 +479,7 @@ QWidget* QtCustomTrailView::createSearchBox(QtSmartSearchBox* searchBox) const
 }
 
 QVBoxLayout* QtCustomTrailView::addFilters(
-	QString name,
+	const QString& name,
 	const std::vector<QString>& filters,
 	const std::vector<QColor>& colors,
 	std::vector<QCheckBox*>* checkBoxes,
@@ -576,14 +578,14 @@ QHBoxLayout* QtCustomTrailView::addCheckButtons(const std::vector<QCheckBox*>& c
 	return buttonLayout;
 }
 
-NodeType::TypeMask QtCustomTrailView::getCheckedNodeTypes() const
+NodeKindMask QtCustomTrailView::getCheckedNodeTypes() const
 {
-	NodeType::TypeMask nodeTypes = 0;
+	NodeKindMask nodeTypes = 0;
 	for (const QCheckBox* filter: m_nodeFilters)
 	{
 		if (filter->isEnabled() && filter->isChecked() && filter != m_nodeNonIndexed)
 		{
-			nodeTypes |= NodeType::getTypeForReadableTypeString(filter->text().toStdWString());
+			nodeTypes |= getNodeKindForReadableNodeKindString(filter->text().toStdWString());
 		}
 	}
 	return nodeTypes;

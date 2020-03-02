@@ -26,7 +26,7 @@ QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId);
 
 QtMainWindow* getMainWindowforMainView(ViewLayout* viewLayout);
 
-void copyNewFilesFromDirectory(QString src, QString dst);
+void copyNewFilesFromDirectory(const QString& src, const QString& dst);
 }	 // namespace utility
 
 #endif	  // UTILITY_QT_H

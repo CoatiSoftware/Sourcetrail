@@ -96,7 +96,7 @@ size_t Settings::getVersion() const
 
 void Settings::setVersion(size_t version)
 {
-	setValue<int>("version", version);
+	setValue<int>("version", static_cast<int>(version));
 }
 
 Settings::Settings()

@@ -25,30 +25,30 @@ public:
 
 	virtual void load();
 	virtual void save();
+	virtual void refresh();
 	virtual bool check();
-
-	virtual bool isScrollAble() const;
 
 	virtual std::vector<FilePath> getFilePaths() const;
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;
 
-	bool isInForm() const;
-	void setIsInForm(bool isInForm);
+	bool isRequired() const;
+	void setIsRequired(bool isRequired);
 
 protected:
+	QLabel* createFormTitle(const QString& name) const;
 	QLabel* createFormLabel(QString name) const;
-	QLabel* createFormTitle(QString name) const;
-	QToolButton* createSourceGroupButton(QString name, QString iconPath) const;
+	QLabel* createFormSubLabel(const QString& name) const;
+	QToolButton* createSourceGroupButton(const QString& name, const QString& iconPath) const;
 
 	QtHelpButton* addHelpButton(
 		const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const;
-	QPushButton* addFilesButton(QString name, QGridLayout* layout, int row) const;
+	QPushButton* addFilesButton(const QString& name, QGridLayout* layout, int row) const;
 	QFrame* addSeparator(QGridLayout* layout, int row) const;
 
 	QtProjectWizardWindow* m_window;
 
-	std::shared_ptr<QtTextEditDialog> m_filesDialog;
+	QtTextEditDialog* m_filesDialog = nullptr;
 
 protected slots:
 	void filesButtonClicked();
@@ -57,8 +57,9 @@ protected slots:
 private:
 	void showFilesDialog(const std::vector<FilePath>& filePaths);
 
-	bool m_isInForm;
 	QtThreadedFunctor<const std::vector<FilePath>&> m_showFilesFunctor;
+
+	bool m_isRequired = false;
 };
 
 #endif	  // QT_PROJECT_WIZARD_CONTENT_H

@@ -42,7 +42,7 @@ public:
 	bool hasContent() const override;
 
 private:
-	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
+	NodeKind symbolKindToNodeKind(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
 	LocationType parseLocationTypeToLocationType(ParseLocationType type) const;
 

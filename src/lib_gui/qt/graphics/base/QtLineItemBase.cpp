@@ -19,11 +19,11 @@ QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
 QtLineItemBase::~QtLineItemBase() {}
 
 void QtLineItemBase::updateLine(
-	Vec4i ownerRect,
-	Vec4i targetRect,
-	Vec4i ownerParentRect,
-	Vec4i targetParentRect,
-	GraphViewStyle::EdgeStyle style,
+	const Vec4i& ownerRect,
+	const Vec4i& targetRect,
+	const Vec4i& ownerParentRect,
+	const Vec4i& targetParentRect,
+	const GraphViewStyle::EdgeStyle& style,
 	size_t weight,
 	bool showArrow)
 {
@@ -145,11 +145,11 @@ QPolygon QtLineItemBase::getPath() const
 	Vec2f t[4];
 	getPivotPoints(t, tR, tR, tOff.y, true);
 
-	QPoint a(t[it].x, t[it].y);
-	QPoint d(o[io].x, o[io].y);
+	QPoint a(static_cast<int>(t[it].x), static_cast<int>(t[it].y));
+	QPoint d(static_cast<int>(o[io].x), static_cast<int>(o[io].y));
 
-	QPoint b(tP[it].x, tP[it].y);
-	QPoint c(oP[io].x, oP[io].y);
+	QPoint b(static_cast<int>(tP[it].x), static_cast<int>(tP[it].y));
+	QPoint c(static_cast<int>(oP[io].x), static_cast<int>(oP[io].y));
 
 	switch (it)
 	{
@@ -219,8 +219,8 @@ QPolygon QtLineItemBase::getPath() const
 			{
 				it = (it + 2) % 4;
 
-				a = QPoint(t[it].x, t[it].y);
-				b = QPoint(tP[it].x, tP[it].y);
+				a = QPoint(static_cast<int>(t[it].x), static_cast<int>(t[it].y));
+				b = QPoint(static_cast<int>(tP[it].x), static_cast<int>(tP[it].y));
 
 				switch (it)
 				{
@@ -242,8 +242,8 @@ QPolygon QtLineItemBase::getPath() const
 			{
 				io = (io + 2) % 4;
 
-				d = QPoint(o[io].x, o[io].y);
-				c = QPoint(oP[io].x, oP[io].y);
+				d = QPoint(static_cast<int>(o[io].x), static_cast<int>(o[io].y));
+				c = QPoint(static_cast<int>(oP[io].x), static_cast<int>(oP[io].y));
 
 				switch (io)
 				{
@@ -318,7 +318,7 @@ QPolygon QtLineItemBase::getPath() const
 	return poly;
 }
 
-int QtLineItemBase::getDirection(const QPointF& a, const QPointF& b) const
+int QtLineItemBase::getDirection(QPointF a, QPointF b) const
 {
 	if (a.x() != b.x())
 	{
@@ -438,9 +438,9 @@ void QtLineItemBase::getPivotPoints(
 {
 	float f = 1 / 2.f;
 
-	p[0] = Vec2f(in.x + (in.z - in.x) * f + offset, out.y);
-	p[2] = Vec2f(in.x + (in.z - in.x) * f + offset, out.w);
+	p[0] = Vec2f(static_cast<float>(in.x + (in.z - in.x) * f + offset), static_cast<float>(out.y));
+	p[2] = Vec2f(static_cast<float>(in.x + (in.z - in.x) * f + offset), static_cast<float>(out.w));
 
-	p[1] = Vec2f(out.z, in.y + (in.w - in.y) * f + offset);
-	p[3] = Vec2f(out.x, in.y + (in.w - in.y) * f + offset);
+	p[1] = Vec2f(static_cast<float>(out.z), static_cast<float>(in.y + (in.w - in.y) * f + offset));
+	p[3] = Vec2f(static_cast<float>(out.x), static_cast<float>(in.y + (in.w - in.y) * f + offset));
 }

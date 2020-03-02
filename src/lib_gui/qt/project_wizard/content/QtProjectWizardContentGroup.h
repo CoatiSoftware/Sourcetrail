@@ -15,19 +15,16 @@ public:
 	void addContent(QtProjectWizardContent* content);
 	void addSpace();
 
-	void setIsForm(bool isForm);
 	bool hasContents() const;
 
 protected:
 	// QtProjectWizardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
-	void populateForm(QGridLayout* layout, int& row);
 
 	virtual void load() override;
 	virtual void save() override;
+	virtual void refresh() override;
 	virtual bool check() override;
-
-	virtual bool isScrollAble() const override;
 
 private:
 	std::vector<QtProjectWizardContent*> m_contents;

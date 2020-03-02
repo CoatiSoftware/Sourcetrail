@@ -134,7 +134,7 @@ QSize QtCodeArea::sizeHint() const
 		height += horizontalScrollBar()->height();
 	}
 
-	return QSize(width + lineNumberAreaWidth() + 1, height + 5);
+	return QSize(static_cast<int>(width + lineNumberAreaWidth() + 1), static_cast<int>(height + 5));
 }
 
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
@@ -242,7 +242,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 	{
 		if (block.isVisible() && bottom >= drawAreaTop)
 		{
-			const int number = blockNumber + getStartLineNumber();
+			const int number = static_cast<int>(blockNumber + getStartLineNumber());
 			const int height = bottom - top - std::max(0, bottom - drawAreaBottom);
 
 			p.setColor(textColor);
@@ -274,7 +274,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 
 int QtCodeArea::lineNumberDigits() const
 {
-	return utility::digits(getEndLineNumber());
+	return static_cast<int>(utility::digits(getEndLineNumber()));
 }
 
 int QtCodeArea::lineNumberAreaWidth() const
@@ -426,7 +426,8 @@ QRectF QtCodeArea::getLineRectForLineNumber(size_t lineNumber) const
 		lineNumber = getEndLineNumber();
 	}
 
-	QTextBlock block = document()->findBlockByLineNumber(lineNumber - getStartLineNumber());
+	QTextBlock block = document()->findBlockByLineNumber(
+		static_cast<int>(lineNumber - getStartLineNumber()));
 	return blockBoundingGeometry(block);
 }
 
@@ -447,8 +448,8 @@ void QtCodeArea::findScreenMatches(
 		}
 
 		Annotation matchAnnotation;
-		matchAnnotation.start = pos;
-		matchAnnotation.end = pos + query.size();
+		matchAnnotation.start = static_cast<int>(pos);
+		matchAnnotation.end = static_cast<int>(pos + query.size());
 
 		std::pair<int, int> start = toLineColumn(matchAnnotation.start);
 		matchAnnotation.startLine = start.first;
@@ -483,7 +484,8 @@ void QtCodeArea::clearScreenMatches()
 	while (i > 0 && m_annotations[i - 1].locationType == LOCATION_SCREEN_SEARCH)
 	{
 		i--;
-		m_linesToRehighlight.push_back(m_annotations[i].startLine - getStartLineNumber());
+		m_linesToRehighlight.push_back(
+			static_cast<int>(m_annotations[i].startLine - getStartLineNumber()));
 	}
 
 	if (i != m_annotations.size())
@@ -555,8 +557,8 @@ void QtCodeArea::ensureLocationIdVisible(Id locationId, int parentWidth, bool an
 	}
 
 	const double percentTarget = double(targetWidth) / (totalWidth - visibleWidth);
-	const int newValue = (scrollBar->maximum() - scrollBar->minimum()) * percentTarget +
-		scrollBar->minimum();
+	const int newValue = static_cast<int>(
+		(scrollBar->maximum() - scrollBar->minimum()) * percentTarget + scrollBar->minimum());
 
 	if (animated && ApplicationSettings::getInstance()->getUseAnimations())
 	{
@@ -684,7 +686,8 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		QScrollBar* scrollbar = horizontalScrollBar();
 		int visibleContentWidth = width() - lineNumberAreaWidth();
 		float deltaPosRatio = float(deltaX) / (visibleContentWidth);
-		scrollbar->setValue(scrollbar->value() - std::round(deltaPosRatio * scrollbar->pageStep()));
+		scrollbar->setValue(static_cast<int>(
+			scrollbar->value() - std::round(deltaPosRatio * scrollbar->pageStep())));
 	}
 	else if (m_isDragging)
 	{
@@ -787,7 +790,7 @@ void QtCodeArea::updateLineNumberAreaWidth(int /* newBlockCount */)
 	setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
-void QtCodeArea::updateLineNumberArea(const QRect& rect, int dy)
+void QtCodeArea::updateLineNumberArea(QRect rect, int dy)
 {
 	if (dy)
 	{

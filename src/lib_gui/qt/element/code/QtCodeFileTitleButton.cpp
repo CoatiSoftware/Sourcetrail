@@ -24,7 +24,7 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	setObjectName(QStringLiteral("title_button"));
 	minimumSizeHint();	  // force font loading
 
-	setFixedHeight(std::max(fontMetrics().height() * 1.2, 28.0));
+	setFixedHeight(static_cast<int>(std::max(fontMetrics().height() * 1.2, 28.0)));
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
 	setIconSize(QSize(16, 16));

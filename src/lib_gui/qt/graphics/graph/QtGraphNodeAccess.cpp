@@ -87,8 +87,8 @@ void QtGraphNodeAccess::updateStyle()
 	if (m_accessIcon)
 	{
 		m_text->setPos(
-			style.textOffset.x + m_accessIconSize + 3,
-			style.textOffset.y + m_accessIconSize - style.fontSize);
+			static_cast<qreal>(style.textOffset.x + m_accessIconSize + 3),
+			static_cast<qreal>(style.textOffset.y + m_accessIconSize - style.fontSize));
 		m_accessIcon->setPos(style.textOffset.x, style.textOffset.y);
 
 		m_accessIcon->setPixmap(
@@ -97,7 +97,8 @@ void QtGraphNodeAccess::updateStyle()
 	else
 	{
 		m_text->setPos(
-			style.textOffset.x, style.textOffset.y + m_accessIconSize + 2 - style.fontSize);
+			static_cast<qreal>(style.textOffset.x),
+			static_cast<qreal>(style.textOffset.y + m_accessIconSize + 2 - style.fontSize));
 	}
 }
 

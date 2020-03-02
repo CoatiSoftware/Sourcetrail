@@ -8,11 +8,12 @@
 
 JreSystemLibraryPathDetector::JreSystemLibraryPathDetector(
 	std::shared_ptr<JavaPathDetector> javaPathDetector)
-	: PathDetector(javaPathDetector->getName() + " System Library"), m_javaPathDetector(javaPathDetector)
+	: PathDetector(javaPathDetector->getName() + " System Library")
+	, m_javaPathDetector(javaPathDetector)
 {
 }
 
-std::vector<FilePath> JreSystemLibraryPathDetector::getPaths() const
+std::vector<FilePath> JreSystemLibraryPathDetector::doGetPaths() const
 {
 	std::vector<FilePath> paths;
 	for (const FilePath& jrePath: m_javaPathDetector->getPaths())

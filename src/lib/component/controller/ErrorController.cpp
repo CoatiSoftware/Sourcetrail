@@ -73,7 +73,7 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message)
 
 	ErrorFilter filter = getView()->getErrorFilter();
 
-	int room = filter.limit - m_errorCount;
+	int room = static_cast<int>(filter.limit) - static_cast<int>(m_errorCount);
 	if (room > 0)
 	{
 		filter.limit = 0;
@@ -141,7 +141,7 @@ void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
 	appSettings->setSeenErrorHelpMessage(true);
 	appSettings->save();
 
-	m_onQtThread([=]() { createErrorHelpButtonInfo().displayMessage(); });
+	m_onQtThread([=]() { createErrorHelpButtonInfo().displayMessage(nullptr); });
 }
 
 void ErrorController::handleMessage(MessageIndexingFinished* message)

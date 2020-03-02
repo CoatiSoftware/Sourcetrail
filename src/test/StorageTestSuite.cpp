@@ -63,7 +63,7 @@ TEST_CASE("storage saves file")
 	std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 	Id id = intermetiateStorage
 				->addNode(StorageNodeData(
-					NodeType::typeToInt(NodeType::NODE_FILE),
+					nodeKindToInt(NODE_FILE),
 					NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE))))
 				.first;
 	intermetiateStorage->addFile(StorageFile(id, filePath, L"someLanguage", "someTime", true, true));
@@ -82,14 +82,14 @@ TEST_CASE("storage saves node")
 
 	std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 	intermetiateStorage->addNode(
-		StorageNodeData(NodeType::typeToInt(NodeType::NODE_TYPEDEF), NameHierarchy::serialize(a)));
+		StorageNodeData(nodeKindToInt(NODE_TYPEDEF), NameHierarchy::serialize(a)));
 
 	storage.inject(intermetiateStorage.get());
 
 	Id storedId = storage.getNodeIdForNameHierarchy(a);
 
 	REQUIRE(storedId != 0);
-	REQUIRE(storage.getNodeTypeForNodeWithId(storedId).getType() == NodeType::NODE_TYPEDEF);
+	REQUIRE(storage.getNodeTypeForNodeWithId(storedId).getKind() == NODE_TYPEDEF);
 }
 
 TEST_CASE("storage saves field as member")
@@ -102,14 +102,12 @@ TEST_CASE("storage saves field as member")
 	std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 
 	Id aId = intermetiateStorage
-				 ->addNode(StorageNodeData(
-					 NodeType::typeToInt(NodeType::NODE_STRUCT), NameHierarchy::serialize(a)))
+				 ->addNode(StorageNodeData(nodeKindToInt(NODE_STRUCT), NameHierarchy::serialize(a)))
 				 .first;
 	intermetiateStorage->addSymbol(StorageSymbol(aId, DEFINITION_EXPLICIT));
 
 	Id bId = intermetiateStorage
-				 ->addNode(StorageNodeData(
-					 NodeType::typeToInt(NodeType::NODE_FIELD), NameHierarchy::serialize(b)))
+				 ->addNode(StorageNodeData(nodeKindToInt(NODE_FIELD), NameHierarchy::serialize(b)))
 				 .first;
 	intermetiateStorage->addSymbol(StorageSymbol(bId, DEFINITION_EXPLICIT));
 	intermetiateStorage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId));
@@ -144,7 +142,7 @@ TEST_CASE("storage saves method static")
 	// Node* node = storage.getNodeWithId(id);
 	// TS_ASSERT(node);
 	// TS_ASSERT_EQUALS(node->getQualifiedNameWithSignature(), "isMethod");
-	// TS_ASSERT_EQUALS(node->getType(), NodeType::NODE_METHOD);
+	// TS_ASSERT_EQUALS(node->getType(), NODE_METHOD);
 	// TS_ASSERT(node->getComponent<TokenComponentStatic>());
 }
 

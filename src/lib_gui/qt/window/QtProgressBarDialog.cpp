@@ -94,18 +94,25 @@ void QtProgressBarDialog::setGeometries()
 	if (m_top)
 	{
 		QMargins margins = m_content->layout()->contentsMargins();
-		margins.setTop(m_window->size().height() * m_topRatio + 10);
+		margins.setTop(static_cast<int>(m_window->size().height() * m_topRatio + 10));
 		m_content->layout()->setContentsMargins(margins);
 
-		m_top->setGeometry(0, 0, m_window->size().width(), m_window->size().height() * m_topRatio);
+		m_top->setGeometry(
+			0, 0, m_window->size().width(), static_cast<int>(m_window->size().height() * m_topRatio));
 
 		m_title->setGeometry(
-			45, m_window->size().height() * m_topRatio - 50, m_window->size().width() - 60, 40);
+			45,
+			static_cast<int>(m_window->size().height() * m_topRatio - 50),
+			m_window->size().width() - 60,
+			40);
 	}
 
 	if (m_progressBar)
 	{
 		m_progressBar->setGeometry(
-			0, m_window->size().height() * m_topRatio - 5, m_window->size().width(), 10);
+			0,
+			static_cast<int>(m_window->size().height() * m_topRatio - 5),
+			m_window->size().width(),
+			10);
 	}
 }

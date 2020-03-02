@@ -202,8 +202,8 @@ void QtStartScreen::setupStartScreen()
 		githubButton->setIcon(m_githubIcon);
 		githubButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 		connect(githubButton, &QPushButton::clicked, []() {
-			QDesktopServices::openUrl(
-				QUrl(QStringLiteral("https://github.com/CoatiSoftware/Sourcetrail"), QUrl::TolerantMode));
+			QDesktopServices::openUrl(QUrl(
+				QStringLiteral("https://github.com/CoatiSoftware/Sourcetrail"), QUrl::TolerantMode));
 		});
 		col->addWidget(githubButton);
 
@@ -216,7 +216,8 @@ void QtStartScreen::setupStartScreen()
 		patreonButton->setIcon(m_patreonIcon);
 		patreonButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 		connect(patreonButton, &QPushButton::clicked, []() {
-			QDesktopServices::openUrl(QUrl(QStringLiteral("https://www.patreon.com/sourcetrail"), QUrl::TolerantMode));
+			QDesktopServices::openUrl(
+				QUrl(QStringLiteral("https://www.patreon.com/sourcetrail"), QUrl::TolerantMode));
 		});
 		col->addWidget(patreonButton);
 

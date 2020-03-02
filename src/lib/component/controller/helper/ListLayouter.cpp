@@ -36,8 +36,9 @@ void ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_ptr
 	{
 		std::vector<int> maxWidths = std::vector<int>(cols, 0);
 		size_t nodesPerCol =
-			(cols == 1 ? visibleNodes.size()
-					   : std::ceil((visibleNodes.size() + cols - 1) / double(cols)));
+			(cols == 1
+				 ? visibleNodes.size()
+				 : static_cast<size_t>(std::ceil((visibleNodes.size() + cols - 1) / double(cols))));
 
 		int maxHeight = 0;
 		int height = -gapY;
@@ -86,7 +87,8 @@ void ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_ptr
 
 	size_t nodesPerCol =
 		(colsFinal == 1 ? visibleNodes.size()
-						: std::ceil((visibleNodes.size() + colsFinal - 1) / double(colsFinal)));
+						: static_cast<size_t>(
+							  std::ceil((visibleNodes.size() + colsFinal - 1) / double(colsFinal))));
 	std::shared_ptr<DummyNode> lastTextNode;
 
 	for (size_t i = 0; i < visibleNodes.size(); i++)
@@ -151,9 +153,9 @@ void ListLayouter::layoutSquare(std::vector<std::shared_ptr<DummyNode>>* nodes, 
 	}
 
 	int diff = -1;
-	size_t cols = 1;
+	int cols = 1;
 
-	for (size_t i = cols; i < 100; i++)
+	for (int i = cols; i < 100; i++)
 	{
 		if (layoutSquareInternal(
 				visibleNodes, Vec2i(maxWidth, totalHeight * i / 100), Vec2i(gapX, gapY)))

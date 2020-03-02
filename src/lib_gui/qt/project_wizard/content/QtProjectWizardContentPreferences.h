@@ -59,33 +59,42 @@ private:
 	void addJreSystemLibraryPathsDetection(QGridLayout* layout, int& row);
 	void addMavenPathDetection(QGridLayout* layout, int& row);
 
-	void addTitle(QString title, QGridLayout* layout, int& row);
-	void addLabel(QString label, QGridLayout* layout, int row);
+	void addTitle(const QString& title, QGridLayout* layout, int& row);
+	void addLabel(const QString& label, QGridLayout* layout, int row);
 	void addWidget(
 		QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment = Qt::Alignment());
 	void addLabelAndWidget(
-		QString label,
+		const QString& label,
 		QWidget* widget,
 		QGridLayout* layout,
 		int row,
 		Qt::Alignment widgetAlignment = Qt::Alignment());
 	void addGap(QGridLayout* layout, int& row);
 
-	QCheckBox* addCheckBox(QString label, QString text, QString helpText, QGridLayout* layout, int& row);
-	QComboBox* addComboBox(QString label, QString helpText, QGridLayout* layout, int& row);
+	QCheckBox* addCheckBox(
+		const QString& label,
+		const QString& text,
+		const QString& helpText,
+		QGridLayout* layout,
+		int& row);
+	QComboBox* addComboBox(const QString& label, const QString& helpText, QGridLayout* layout, int& row);
 	QComboBox* addComboBoxWithWidgets(
-		QString label, QString helpText, std::vector<QWidget*> widgets, QGridLayout* layout, int& row);
-	QComboBox* addComboBox(
-		QString label, int min, int max, QString helpText, QGridLayout* layout, int& row);
-	QComboBox* addComboBoxWithWidgets(
-		QString label,
-		int min,
-		int max,
-		QString helpText,
+		const QString& label,
+		const QString& helpText,
 		std::vector<QWidget*> widgets,
 		QGridLayout* layout,
 		int& row);
-	QLineEdit* addLineEdit(QString label, QString helpText, QGridLayout* layout, int& row);
+	QComboBox* addComboBox(
+		const QString& label, int min, int max, const QString& helpText, QGridLayout* layout, int& row);
+	QComboBox* addComboBoxWithWidgets(
+		const QString& label,
+		int min,
+		int max,
+		const QString& helpText,
+		std::vector<QWidget*> widgets,
+		QGridLayout* layout,
+		int& row);
+	QLineEdit* addLineEdit(const QString& label, const QString& helpText, QGridLayout* layout, int& row);
 
 	QFontComboBox* m_fontFace;
 	QtComboBoxPlaceHolder* m_fontFacePlaceHolder;

@@ -1,7 +1,7 @@
 #ifndef GENERATE_PCH_ACTION_H
 #define GENERATE_PCH_ACTION_H
 
-#include "clang/Frontend/FrontendActions.h"
+#include <clang/Frontend/FrontendActions.h>
 
 class ParserClient;
 class CanonicalFilePathCache;

@@ -11,7 +11,7 @@ QtCodeNavigateable::~QtCodeNavigateable() {}
 void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	const QWidget* parentWidget,
 	const QWidget* childWidget,
-	QRectF rect,
+	const QRectF& rect,
 	bool animated,
 	CodeScrollParams::Target target)
 {
@@ -116,9 +116,9 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(
 	QScrollBar* scrollBar = area->verticalScrollBar();
 	double scrollFactor = double(scrollBar->maximum()) / scrollableHeight;
 
-	int visibleY = double(scrollBar->value()) / scrollFactor;
-	int scrollY = totalHeight * percentA;
-	int rectHeight = percentB ? (totalHeight * percentB) - scrollY : 0;
+	const int visibleY = static_cast<int>(double(scrollBar->value()) / scrollFactor);
+	int scrollY = static_cast<int>(totalHeight * percentA);
+	const int rectHeight = percentB ? static_cast<int>((totalHeight * percentB) - scrollY) : 0;
 
 	if (rectHeight > visibleHeight)
 	{
@@ -149,8 +149,8 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(
 		break;
 	}
 
-	int value = scrollY * scrollFactor;
-	int diff = value - scrollBar->value();
+	const int value = static_cast<int>(scrollY * scrollFactor);
+	const int diff = value - scrollBar->value();
 	if (diff > 5 || diff < -5)
 	{
 		if (animated && ApplicationSettings::getInstance()->getUseAnimations() && area->isVisible())

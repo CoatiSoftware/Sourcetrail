@@ -42,17 +42,16 @@ std::string QtHighlighter::highlightTypeToString(QtHighlighter::HighlightType ty
 	return "text";
 }
 
-QtHighlighter::HighlightType QtHighlighter::highlightTypeFromString(const std::string typeStr)
+QtHighlighter::HighlightType QtHighlighter::highlightTypeFromString(const std::string& typeStr)
 {
-	const std::array<HighlightType, 8> types = {
-		HighlightType::COMMENT,
-		HighlightType::DIRECTIVE,
-		HighlightType::FUNCTION,
-		HighlightType::KEYWORD,
-		HighlightType::NUMBER,
-		HighlightType::QUOTATION,
-		HighlightType::TEXT,
-		HighlightType::TYPE};
+	const std::array<HighlightType, 8> types = {HighlightType::COMMENT,
+												HighlightType::DIRECTIVE,
+												HighlightType::FUNCTION,
+												HighlightType::KEYWORD,
+												HighlightType::NUMBER,
+												HighlightType::QUOTATION,
+												HighlightType::TEXT,
+												HighlightType::TYPE};
 
 	for (HighlightType type: types)
 	{
@@ -69,15 +68,14 @@ void QtHighlighter::loadHighlightingRules()
 {
 	ColorScheme* scheme = ColorScheme::getInstance().get();
 
-	const std::array<HighlightType, 8> types = {
-		HighlightType::COMMENT,
-		HighlightType::DIRECTIVE,
-		HighlightType::FUNCTION,
-		HighlightType::KEYWORD,
-		HighlightType::NUMBER,
-		HighlightType::QUOTATION,
-		HighlightType::TEXT,
-		HighlightType::TYPE};
+	const std::array<HighlightType, 8> types = {HighlightType::COMMENT,
+												HighlightType::DIRECTIVE,
+												HighlightType::FUNCTION,
+												HighlightType::KEYWORD,
+												HighlightType::NUMBER,
+												HighlightType::QUOTATION,
+												HighlightType::TEXT,
+												HighlightType::TYPE};
 
 	s_charFormats.clear();
 	for (HighlightType type: types)
@@ -87,7 +85,7 @@ void QtHighlighter::loadHighlightingRules()
 		s_charFormats.emplace(type, format);
 	}
 
-	for (const FilePath path: FileSystem::getFilePathsFromDirectory(
+	for (const FilePath& path: FileSystem::getFilePathsFromDirectory(
 			 ResourcePaths::getSyntaxHighlightingRulesPath(), {L".rules"}))
 	{
 		std::wstring language = path.withoutExtension().fileName();
@@ -172,8 +170,8 @@ void QtHighlighter::highlightDocument()
 
 	QTextDocument* doc = document();
 
-	size_t docStart = 0;
-	size_t docEnd = 0;
+	int docStart = 0;
+	int docEnd = 0;
 	for (int i = 0; i < doc->blockCount(); i++)
 	{
 		docEnd += doc->findBlockByLineNumber(i).length();

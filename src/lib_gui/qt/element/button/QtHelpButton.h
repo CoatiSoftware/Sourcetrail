@@ -11,11 +11,14 @@ class QtHelpButton: public QtIconButton
 public:
 	QtHelpButton(const QtHelpButtonInfo& info, QWidget* parent = nullptr);
 
+	void setMessageBoxParent(QWidget* messageBoxParent);
+
 private slots:
 	void handleHelpPress();
 
 private:
 	QtHelpButtonInfo m_info;
+	QWidget* m_messageBoxParent = nullptr;
 };
 
 #endif	  // QT_HELP_BUTTON_H

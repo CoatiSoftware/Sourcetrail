@@ -67,13 +67,13 @@ public:
 	virtual std::shared_ptr<Graph> getGraphForTrail(
 		Id originId,
 		Id targetId,
-		NodeType::TypeMask nodeTypes,
+		NodeKindMask nodeTypes,
 		Edge::TypeMask edgeTypes,
 		bool nodeNonIndexed,
 		size_t depth,
 		bool directed) const = 0;
 
-	virtual NodeType::TypeMask getAvailableNodeTypes() const = 0;
+	virtual NodeKindMask getAvailableNodeTypes() const = 0;
 	virtual Edge::TypeMask getAvailableEdgeTypes() const = 0;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const = 0;

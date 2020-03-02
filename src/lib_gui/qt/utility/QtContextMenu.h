@@ -17,7 +17,7 @@ public:
 
 	void addAction(QAction* action);
 	void addUndoActions();
-	void addFileActions(FilePath filePath);
+	void addFileActions(const FilePath& filePath);
 
 	static QtContextMenu* getInstance();
 

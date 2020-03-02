@@ -29,7 +29,7 @@ public:
 
 	// TrailView implementation
 	void clearView() override;
-	void setAvailableNodeAndEdgeTypes(NodeType::TypeMask nodeTypes, Edge::TypeMask edgeTypes) override;
+	void setAvailableNodeAndEdgeTypes(NodeKindMask nodeTypes, Edge::TypeMask edgeTypes) override;
 
 	void showView() override;
 	void hideView() override;
@@ -43,14 +43,14 @@ private:
 
 	QWidget* createSearchBox(QtSmartSearchBox* searchBox) const;
 	QVBoxLayout* addFilters(
-		QString name,
+		const QString& name,
 		const std::vector<QString>& filters,
 		const std::vector<QColor>& colors,
 		std::vector<QCheckBox*>* checkBoxes,
 		size_t filtersInFirstColumn);
 	QHBoxLayout* addCheckButtons(const std::vector<QCheckBox*>& checkBoxes) const;
 
-	NodeType::TypeMask getCheckedNodeTypes() const;
+	NodeKindMask getCheckedNodeTypes() const;
 	Edge::TypeMask getCheckedEdgeTypes() const;
 
 	void setError(const QString& error);

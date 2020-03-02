@@ -89,7 +89,10 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 	for (size_t i = 1 /*this method is counting as the first thread*/; i < m_indexerThreadCount; i++)
 	{
 		indexerThreads.push_back(std::make_shared<std::thread>(
-			&TaskExecuteCustomCommands::executeParallelIndexerCommands, this, i, blackboard));
+			&TaskExecuteCustomCommands::executeParallelIndexerCommands,
+			this,
+			static_cast<int>(i),
+			blackboard));
 	}
 
 	while (!m_interrupted && !m_serialCommands.empty())
@@ -138,7 +141,7 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 void TaskExecuteCustomCommands::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 	m_storage.reset();
-	const float duration = TimeStamp::durationSeconds(m_start);
+	const float duration = static_cast<float>(TimeStamp::durationSeconds(m_start));
 	blackboard->update<float>(
 		"index_time", [duration](float currentDuration) { return currentDuration + duration; });
 }
@@ -336,7 +339,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 						}
 
 						const std::wstring token = utility::decodeFromUtf8(
-							textAccess->getLine(startLoc->getLineNumber())
+							textAccess->getLine(static_cast<unsigned int>(startLoc->getLineNumber()))
 								.substr(
 									startLoc->getColumnNumber() - 1,
 									endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
@@ -349,7 +352,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 								for (const StorageNode& targetNode: nodeNameToStorageNodes[token])
 								{
 									if (Edge::intToType(edge.type) == Edge::EDGE_INHERITANCE &&
-										NodeType::intToType(targetNode.type) != NodeType::NODE_CLASS)
+										intToNodeKind(targetNode.type) != NODE_CLASS)
 									{
 										continue;
 									}

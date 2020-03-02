@@ -78,8 +78,10 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 			m_nextLocalReferenceButton = new QtSearchBarButton(
 				ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
-			m_prevLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_previous"));
-			m_nextLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_next"));
+			m_prevLocalReferenceButton->setObjectName(
+				QStringLiteral("local_reference_button_previous"));
+			m_nextLocalReferenceButton->setObjectName(
+				QStringLiteral("local_reference_button_next"));
 
 			m_prevLocalReferenceButton->setToolTip(QStringLiteral("previous local reference"));
 			m_nextLocalReferenceButton->setToolTip(QStringLiteral("next local reference"));
@@ -553,7 +555,7 @@ void QtCodeNavigator::scrollTo(const CodeScrollParams& params, bool animated)
 				QAbstractScrollArea* area = m_current->getScrollArea();
 				if (area)
 				{
-					area->verticalScrollBar()->setValue(params.value);
+					area->verticalScrollBar()->setValue(static_cast<int>(params.value));
 				}
 			};
 		}
@@ -630,16 +632,6 @@ void QtCodeNavigator::setModeSingle()
 	{
 		m_list->maximizeFirstFile();
 	}
-}
-
-void QtCodeNavigator::handleMessage(MessageIndexingFinished* message)
-{
-	m_onQtThread([=]() { clearCache(); });
-}
-
-void QtCodeNavigator::handleMessage(MessageSwitchColorScheme* message)
-{
-	m_onQtThread([=]() { clearCache(); });
 }
 
 void QtCodeNavigator::handleMessage(MessageWindowFocus* message)

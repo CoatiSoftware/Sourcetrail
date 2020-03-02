@@ -5,7 +5,7 @@
 #include "QtGraphNode.h"
 
 QtGraphNodeComponentClickable::QtGraphNodeComponentClickable(QtGraphNode* graphNode)
-	: QtGraphNodeComponent(graphNode), m_mousePos(0.0f, 0.0f), m_mouseMoved(false)
+	: QtGraphNodeComponent(graphNode), m_mousePos(0, 0), m_mouseMoved(false)
 {
 }
 
@@ -18,7 +18,8 @@ void QtGraphNodeComponentClickable::nodeMousePressEvent(QGraphicsSceneMouseEvent
 		return;
 	}
 
-	m_mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
+	m_mousePos = Vec2i(
+		static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()));
 	m_mouseMoved = false;
 
 	if (event->button() == Qt::MiddleButton)
@@ -29,7 +30,8 @@ void QtGraphNodeComponentClickable::nodeMousePressEvent(QGraphicsSceneMouseEvent
 
 void QtGraphNodeComponentClickable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-	Vec2i mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
+	Vec2i mousePos = Vec2i(
+		static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()));
 
 	if ((mousePos - m_mousePos).getLength() > 3.0f)
 	{

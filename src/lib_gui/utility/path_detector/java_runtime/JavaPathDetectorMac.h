@@ -7,7 +7,9 @@ class JavaPathDetectorMac: public JavaPathDetector
 {
 public:
 	JavaPathDetectorMac(const std::string javaVersion);
-	virtual std::vector<FilePath> getPaths() const override;
+
+private:
+	virtual std::vector<FilePath> doGetPaths() const override;
 };
 
 #endif	  // JAVA_PATH_DETECTOR_MAC_H

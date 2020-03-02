@@ -173,7 +173,8 @@ void UndoRedoController::handleMessage(MessageCodeShowDefinition* message)
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 {
 	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageDeactivateEdge*>(lastMessage())->scrollToDefinition == message->scrollToDefinition)
+		static_cast<MessageDeactivateEdge*>(lastMessage())->scrollToDefinition ==
+			message->scrollToDefinition)
 	{
 		return;
 	}
@@ -350,7 +351,7 @@ void UndoRedoController::handleMessage(MessageIndexingFinished* message)
 	m_iterator = m_list.end();
 }
 
-void UndoRedoController::handleMessage(MessageRefreshUI* message)
+void UndoRedoController::handleMessage(MessageRefreshUIState* message)
 {
 	std::list<Command>::iterator startIterator = m_iterator;
 	do
@@ -493,15 +494,15 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 			for (SearchMatch match: matches)
 			{
 				// TODO: replace duplicate main definition fix with better solution
-				if (match.nodeType.getType() != NodeType::NODE_FUNCTION ||
-					!match.tokenNames.size() || match.tokenNames[0].getRawName() != L"main")
+				if (match.nodeType.getKind() != NODE_FUNCTION || !match.tokenNames.size() ||
+					match.tokenNames[0].getRawName() != L"main")
 				{
 					match.tokenIds = m_storageAccess->getNodeIdsForNameHierarchies(match.tokenNames);
 				}
 
 				if (!match.tokenIds.size())
 				{
-					match.nodeType = NodeType::NODE_SYMBOL;
+					match.nodeType = NodeType(NODE_SYMBOL);
 				}
 
 				utility::append(msg->tokenIds, match.tokenIds);
@@ -628,7 +629,7 @@ void UndoRedoController::updateHistory()
 	const size_t historyListSize = 50;
 	std::vector<SearchMatch> historyListMatches;
 
-	size_t index = 0;
+	int index = 0;
 	int currentIndex = -1;
 	m_historyOffset = 0;
 

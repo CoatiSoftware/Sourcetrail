@@ -7,10 +7,11 @@ QtProjectWizardContentPathsFrameworkSearch::QtProjectWizardContentPathsFramework
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
 	bool indicateAsAdditional)
-	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
+	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY, true)
 {
 	setTitleString(
-		indicateAsAdditional ? "Additional Framework Search Paths" : "Framework Search Paths");
+		indicateAsAdditional ? QStringLiteral("Additional Framework Search Paths")
+							 : QStringLiteral("Framework Search Paths"));
 	setHelpString(
 		"Framework Search Paths define where MacOS framework containers (.framework), that your "
 		"project depends on, are "
@@ -37,9 +38,4 @@ void QtProjectWizardContentPathsFrameworkSearch::save()
 	{
 		cxxSettings->setFrameworkSearchPaths(m_list->getPathsAsDisplayed());
 	}
-}
-
-bool QtProjectWizardContentPathsFrameworkSearch::isScrollAble() const
-{
-	return true;
 }

@@ -1,38 +1,51 @@
 * Run "1_setup.sh"
+
 * Start up Sourcetrail
+
 * Click "New Project"
 * Enter a project name
 * Set "./working_copy" as project location
+
 * Click "Add Source Group"
 * Select "Java" -> Java Source Group from Gradle"
 * Click "Next"
+
 * Select "build.gradle" at "Gradle Project File"
+
 * Click "show source files"
 * Validate 2 files are listed
 * Click "OK"
+
 * Check "Should Index Tests"
 * Click "show source files"
 * Validate 3 files are listed
 * Click "OK"
-* Click "Next"
+
 * Add "**/HelloWorld.java" to "Excluded Files & Directories"
-* Click "Next"
+
 * Click "Create"
+
 * Validate "All files" is the only option selectable
 * Validate 2 files are listed for indexing
 * Click "Start"
+
 * Validate Project indexed without error
 * Click "OK"
+
 * Press "Refresh" button
 * Validate "Updated files" is selected
 * Validate "source files to index" shows "0"
 * Click "Cancel"
+
 * Run "2_update.sh"
 * Press "Refresh" button
 * Validate "Files to clear" shows "1"
 * Validate "source files to index" shows "1"
+
 * Click "Start"
 * Validate Project indexed without error
 * Click "OK"
+
 * Close Sourcetrail
+
 * Run "3_teardown.sh"

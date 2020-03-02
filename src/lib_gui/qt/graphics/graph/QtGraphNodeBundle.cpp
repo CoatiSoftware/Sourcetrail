@@ -8,7 +8,7 @@
 #include "GraphViewStyle.h"
 #include "QtCountCircleItem.h"
 
-QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::wstring name)
+QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, const std::wstring& name)
 	: QtGraphNode(), m_tokenId(tokenId), m_type(type)
 {
 	this->setName(name);
@@ -56,7 +56,8 @@ void QtGraphNodeBundle::updateStyle()
 	}
 	setStyle(style);
 
-	Vec2f pos(m_rect->rect().right(), m_rect->rect().top() - 2);
+	Vec2f pos(
+		static_cast<float>(m_rect->rect().right()), static_cast<float>(m_rect->rect().top() - 2));
 	if (m_type.getNodeStyle() == NodeType::STYLE_BIG_NODE)
 	{
 		pos += Vec2f(-2, 2);

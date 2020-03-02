@@ -10,6 +10,7 @@ QtProjectWizardContentSourceGroupData::QtProjectWizardContentSourceGroupData(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window), m_settings(settings), m_name(nullptr), m_status(nullptr)
 {
+	setIsRequired(true);
 }
 
 void QtProjectWizardContentSourceGroupData::populate(QGridLayout* layout, int& row)
@@ -20,7 +21,10 @@ void QtProjectWizardContentSourceGroupData::populate(QGridLayout* layout, int& r
 	connect(m_name, &QLineEdit::textEdited, this, &QtProjectWizardContentSourceGroupData::editedName);
 
 	layout->addWidget(
-		createFormLabel(QStringLiteral("Source Group Name")), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+		createFormLabel(QStringLiteral("Source Group Name")),
+		row,
+		QtProjectWizardWindow::FRONT_COL,
+		Qt::AlignRight);
 	layout->addWidget(m_name, row, QtProjectWizardWindow::BACK_COL);
 	row++;
 
@@ -28,7 +32,7 @@ void QtProjectWizardContentSourceGroupData::populate(QGridLayout* layout, int& r
 	connect(
 		m_status, &QCheckBox::toggled, this, &QtProjectWizardContentSourceGroupData::changedStatus);
 	layout->addWidget(
-		createFormLabel(QStringLiteral("Status")), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+		createFormSubLabel(QStringLiteral("Status")), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_status, row, QtProjectWizardWindow::BACK_COL);
 
 	addHelpButton(
@@ -62,7 +66,7 @@ bool QtProjectWizardContentSourceGroupData::check()
 {
 	if (m_name->text().isEmpty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("Please enter a source group name."));
 		msgBox.exec();
 		return false;

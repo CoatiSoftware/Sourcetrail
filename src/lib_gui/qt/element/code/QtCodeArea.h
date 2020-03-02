@@ -100,7 +100,7 @@ protected:
 
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount = 0);
-	void updateLineNumberArea(const QRect&, int);
+	void updateLineNumberArea(QRect , int);
 	void setIDECursorPosition();
 	void setCopyAvailable(bool yes);
 

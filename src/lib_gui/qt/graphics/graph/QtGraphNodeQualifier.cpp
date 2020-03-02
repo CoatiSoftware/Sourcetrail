@@ -21,7 +21,7 @@ QtGraphNodeQualifier::QtGraphNodeQualifier(const NameHierarchy& name): m_qualifi
 
 	QFont font;
 	font.setFamily(GraphViewStyle::getFontNameForDataNode().c_str());
-	font.setPixelSize(GraphViewStyle::getFontSizeOfQualifier());
+	font.setPixelSize(static_cast<int>(GraphViewStyle::getFontSizeOfQualifier()));
 	font.setWeight(QFont::Normal);
 
 	m_name = new QGraphicsSimpleTextItem(this);
@@ -38,12 +38,12 @@ bool QtGraphNodeQualifier::isQualifierNode() const
 
 bool QtGraphNodeQualifier::setPosition(const Vec2i& pos)
 {
-	int width = QFontMetrics(m_name->font()).width(m_name->text()) + 10;
-	int height = QFontMetrics(m_name->font()).height() + 2;
-	int arrowWidth = height * 0.85;
+	const int width = QFontMetrics(m_name->font()).width(m_name->text()) + 10;
+	const int height = QFontMetrics(m_name->font()).height() + 2;
+	const int arrowWidth = static_cast<int>(height * 0.85);
 
-	float smallFactor = 0.5f;
-	int arrowOffset = arrowWidth * smallFactor;
+	const float smallFactor = 0.5f;
+	const int arrowOffset = static_cast<int>(arrowWidth * smallFactor);
 
 	m_background->setRect(
 		pos.x - width - arrowWidth + arrowOffset, pos.y - height / 2, width, height);
@@ -109,12 +109,12 @@ void QtGraphNodeQualifier::updateStyle()
 
 void QtGraphNodeQualifier::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-	int width = QFontMetrics(m_name->font()).width(m_name->text()) + 10;
-	int height = QFontMetrics(m_name->font()).height() + 2;
-	int arrowWidth = height * 0.85;
-	float smallFactor = 0.5f;
-	int arrowOffset = arrowWidth * smallFactor;
-	int offset = width + arrowWidth - arrowOffset;
+	const int width = QFontMetrics(m_name->font()).width(m_name->text()) + 10;
+	const int height = QFontMetrics(m_name->font()).height() + 2;
+	const int arrowWidth = static_cast<int>(height * 0.85);
+	const float smallFactor = 0.5f;
+	const int arrowOffset = static_cast<int>(arrowWidth * smallFactor);
+	const int offset = width + arrowWidth - arrowOffset;
 
 	setRect(m_pos.x - offset, m_pos.y - height / 2, width + arrowWidth, height);
 
@@ -141,10 +141,10 @@ void QtGraphNodeQualifier::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 
 void QtGraphNodeQualifier::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-	int height = QFontMetrics(m_name->font()).height() + 2;
-	int arrowWidth = height * 0.85;
-	float smallFactor = 0.5f;
-	int arrowOffset = arrowWidth * smallFactor;
+	const int height = QFontMetrics(m_name->font()).height() + 2;
+	const int arrowWidth = static_cast<int>(height * 0.85);
+	const float smallFactor = 0.5f;
+	const int arrowOffset = static_cast<int>(arrowWidth * smallFactor);
 
 	setRect(m_pos.x - arrowWidth + arrowOffset, m_pos.y - height / 2, arrowWidth, height);
 

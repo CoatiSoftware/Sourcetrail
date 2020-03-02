@@ -7,7 +7,9 @@ class MavenPathDetectorWindows: public PathDetector
 {
 public:
 	MavenPathDetectorWindows();
-	std::vector<FilePath> getPaths() const override;
+
+private:
+	std::vector<FilePath> doGetPaths() const override;
 };
 
 #endif	  // MAVEN_PATH_DETECTOR_WINDOWS_H

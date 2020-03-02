@@ -11,7 +11,7 @@ QtRequest::QtRequest()
 	QObject::connect(m_networkManager, &QNetworkAccessManager::finished, this, &QtRequest::finished);
 }
 
-void QtRequest::sendRequest(QString url)
+void QtRequest::sendRequest(const QString& url)
 {
 	LOG_INFO_STREAM(<< "send HTTP request: " << url.toStdString());
 
@@ -46,7 +46,7 @@ void QtRequest::finished(QNetworkReply* reply)
 	QByteArray bytes = reply->readAll();
 	LOG_INFO_STREAM(<< "received HTTP reply: " << bytes.toStdString());
 
-	delete reply;
+	reply->deleteLater();
 
 	emit receivedData(bytes);
 }

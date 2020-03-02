@@ -30,15 +30,16 @@ QSize QtTabBar::minimumTabSizeHint(int index) const
 void QtTabBar::contextMenuEvent(QContextMenuEvent* event)
 {
 	QtContextMenu menu(event, this);
-	QAction * m_closeTabsToRight = new QAction("Close tabs to the right", this);
+	QAction* m_closeTabsToRight = new QAction(QStringLiteral("Close tabs to the right"), this);
 	menu.addAction(m_closeTabsToRight);
 
-	connect(m_closeTabsToRight, &QAction::triggered, this, [&]()
-	{
-		// We dont want to close tabs right of the current active tab. 
+	connect(m_closeTabsToRight, &QAction::triggered, this, [&]() {
+		// We dont want to close tabs right of the current active tab.
 		// No, our intend is to close tabs right of the currently hovered tab.
 		auto tabNum = tabAt(event->pos());
-		LOG_INFO("Handling closeTabs... emitting signal to close tabs right of tab nr. " + std::to_string(tabNum));
+		LOG_INFO(
+			"Handling closeTabs... emitting signal to close tabs right of tab nr. " +
+			std::to_string(tabNum));
 		emit signalCloseTabsToRight(tabNum);
 	});
 

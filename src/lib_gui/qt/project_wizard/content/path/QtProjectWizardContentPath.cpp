@@ -6,7 +6,7 @@
 #include "utilityFile.h"
 
 QtProjectWizardContentPath::QtProjectWizardContentPath(QtProjectWizardWindow* window)
-	: QtProjectWizardContent(window), m_allowEmpty(false)
+	: QtProjectWizardContent(window)
 {
 }
 
@@ -38,15 +38,13 @@ bool QtProjectWizardContentPath::check()
 	{
 		if (m_picker->getText().isEmpty())
 		{
-			if (m_allowEmpty)
+			if (!isRequired())
 			{
 				break;
 			}
-			else
-			{
-				error = "Please define a path at \"" + m_titleString + "\".";
-				break;
-			}
+
+			error = "Please define a path at \"" + m_titleString + "\".";
+			break;
 		}
 
 		FilePath path = utility::getExpandedAndAbsolutePath(
@@ -75,7 +73,7 @@ bool QtProjectWizardContentPath::check()
 
 	if (!error.isEmpty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(error);
 		msgBox.exec();
 		return false;
@@ -102,9 +100,4 @@ void QtProjectWizardContentPath::setPlaceholderString(const QString& placeholder
 void QtProjectWizardContentPath::setFileEndings(const std::set<std::wstring>& fileEndings)
 {
 	m_fileEndings = fileEndings;
-}
-
-void QtProjectWizardContentPath::setAllowEmpty(bool allowEmpty)
-{
-	m_allowEmpty = allowEmpty;
 }

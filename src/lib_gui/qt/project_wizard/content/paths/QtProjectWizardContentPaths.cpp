@@ -88,13 +88,15 @@ bool QtProjectWizardContentPaths::check()
 
 		if (!missingPaths.isEmpty())
 		{
-			QMessageBox msgBox;
+			QMessageBox msgBox(m_window);
 			msgBox.setText(QString("Some provided paths do not exist at \"%1\". Do you want to "
 								   "remove them before continuing?")
 							   .arg(m_titleString));
 			msgBox.setDetailedText(missingPaths);
-			QPushButton* removeButton = msgBox.addButton(QStringLiteral("Remove"), QMessageBox::YesRole);
-			QPushButton* keepButton = msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
+			QPushButton* removeButton = msgBox.addButton(
+				QStringLiteral("Remove"), QMessageBox::YesRole);
+			QPushButton* keepButton = msgBox.addButton(
+				QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
 			QPushButton* cancelButton = msgBox.addButton(
 				QStringLiteral("Cancel"), QMessageBox::ButtonRole::RejectRole);
 
@@ -164,7 +166,8 @@ void QtProjectWizardContentPaths::addDetection(QGridLayout* layout, int row)
 
 void QtProjectWizardContentPaths::detectionClicked()
 {
-	std::vector<FilePath> paths = m_pathDetector->getPaths(m_detectorBox->currentText().toStdString());
+	std::vector<FilePath> paths = m_pathDetector->getPathsForDetector(
+		m_detectorBox->currentText().toStdString());
 	std::vector<FilePath> oldPaths = m_list->getPathsAsDisplayed();
 
 	paths = utility::unique(utility::concat(oldPaths, paths));

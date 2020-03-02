@@ -48,7 +48,7 @@ public:
 			SearchMatch match;
 			match.name = match.text = L"aggregation";	 // TODO: show aggregation source and target
 			match.searchType = SearchMatch::SEARCH_TOKEN;
-			match.nodeType = NodeType::NODE_TYPE;
+			match.nodeType = NodeType(NODE_TYPE);
 			return {match};
 		}
 

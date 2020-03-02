@@ -180,7 +180,7 @@ void QtScreenSearchBox::findMatches()
 {
 	m_controllerProxy->executeAsTask([this](ScreenSearchController* controller) {
 		std::set<std::string> responderNames;
-		for (auto p: m_checkBoxes)
+		for (const auto& p: m_checkBoxes)
 		{
 			if (p.second->isChecked())
 			{

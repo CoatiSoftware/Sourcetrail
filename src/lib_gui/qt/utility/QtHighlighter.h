@@ -22,7 +22,7 @@ public:
 	};
 
 	static std::string highlightTypeToString(HighlightType type);
-	static HighlightType highlightTypeFromString(const std::string typeStr);
+	static HighlightType highlightTypeFromString(const std::string& typeStr);
 
 	static void loadHighlightingRules();
 	static void clearHighlightingRules();

@@ -114,7 +114,7 @@ QSize QtFlowLayout::minimumSize() const
 	return size;
 }
 
-int QtFlowLayout::doLayout(const QRect& rect, bool testOnly) const
+int QtFlowLayout::doLayout(QRect rect, bool testOnly) const
 {
 	int left, top, right, bottom;
 	getContentsMargins(&left, &top, &right, &bottom);

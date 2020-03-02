@@ -28,7 +28,7 @@ public:
 	void clear();
 	void clearSnippetTitleAndScrollBar();
 
-	QtCodeFile* getFile(const FilePath filePath);
+	QtCodeFile* getFile(const FilePath& filePath);
 
 	void addFile(const CodeFileParams& params);
 

@@ -1,12 +1,11 @@
 #ifndef QT_THREADED_FUCTOR_H
 #define QT_THREADED_FUCTOR_H
 
-#include <chrono>
 #include <functional>
-#include <thread>
 
 #include <QObject>
 #include <QSemaphore>
+#include <QThread>
 
 #include "MessageListener.h"
 #include "MessageWindowClosed.h"
@@ -23,19 +22,30 @@ signals:
 private slots:
 	void execute()
 	{
-		m_callback();
+		std::function<void(void)> callback = m_callback;
 		m_freeCallbacks.release();
+		callback();
 	}
 
 public:
 	QtThreadedFunctorHelper(): m_freeCallbacks(1)
 	{
 		QObject::connect(
-			this, &QtThreadedFunctorHelper::signalExecution, this, &QtThreadedFunctorHelper::execute);
+			this,
+			&QtThreadedFunctorHelper::signalExecution,
+			this,
+			&QtThreadedFunctorHelper::execute,
+			Qt::QueuedConnection);
 	}
 
 	void operator()(std::function<void(void)> callback)
 	{
+		if (QThread::currentThread() == this->thread())
+		{
+			callback();
+			return;
+		}
+
 		m_freeCallbacks.acquire();
 		m_callback = callback;
 		emit signalExecution();

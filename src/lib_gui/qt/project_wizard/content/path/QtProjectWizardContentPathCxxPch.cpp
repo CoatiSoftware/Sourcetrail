@@ -15,7 +15,7 @@ QtProjectWizardContentPathCxxPch::QtProjectWizardContentPathCxxPch(
 	QtProjectWizardWindow* window)
 	: QtProjectWizardContentPath(window), m_settings(settings), m_settingsCxxPch(settingsCxxPch)
 {
-	setTitleString("Precompiled Header File");
+	setTitleString(QStringLiteral("Precompiled Header File"));
 	setHelpString(
 		"Specify the path to the input header file that should be used to generate a precompiled "
 		"header before indexing.<br />"
@@ -27,8 +27,7 @@ QtProjectWizardContentPathCxxPch::QtProjectWizardContentPathCxxPch(
 		"<br />"
 		"Leave blank to disable the use of precompiled headers. You can make use of environment "
 		"variables with ${ENV_VAR}.");
-	setAllowEmpty(true);
-	setPlaceholderString("Not Using Precompiled Header");
+	setPlaceholderString(QStringLiteral("Not Using Precompiled Header"));
 }
 
 void QtProjectWizardContentPathCxxPch::populate(QGridLayout* layout, int& row)
@@ -57,8 +56,8 @@ bool QtProjectWizardContentPathCxxPch::check()
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = utility::loadCDB(cdbPath);
 		if (!cdb)
 		{
-			QMessageBox msgBox;
-			msgBox.setText("Unable to open and read the provided compilation database file.");
+			QMessageBox msgBox(m_window);
+			msgBox.setText(QStringLiteral("Unable to open and read the provided compilation database file."));
 			msgBox.exec();
 			return false;
 		}
@@ -67,16 +66,16 @@ bool QtProjectWizardContentPathCxxPch::check()
 		{
 			if (m_settingsCxxPch->getPchInputFilePath().empty())
 			{
-				QMessageBox msgBox;
+				QMessageBox msgBox(m_window);
 				msgBox.setText(
 					"The provided compilation database file uses precompiled headers. If you want "
 					"to make use of "
 					"precompiled headers to speed up your indexer, please specify an input at "
 					"Precompiled Header File.");
 				QPushButton* cancelButton = msgBox.addButton(
-					"Cancel", QMessageBox::ButtonRole::RejectRole);
+					QStringLiteral("Cancel"), QMessageBox::ButtonRole::RejectRole);
 				QPushButton* continueButton = msgBox.addButton(
-					"Continue", QMessageBox::ButtonRole::AcceptRole);
+					QStringLiteral("Continue"), QMessageBox::ButtonRole::AcceptRole);
 				msgBox.exec();
 				if (msgBox.clickedButton() == cancelButton)
 				{
@@ -89,15 +88,15 @@ bool QtProjectWizardContentPathCxxPch::check()
 		{
 			if (!m_settingsCxxPch->getPchInputFilePath().empty())
 			{
-				QMessageBox msgBox;
+				QMessageBox msgBox(m_window);
 				msgBox.setText(
 					"The provided compilation database file does not use precompiled headers. The "
 					"specified input file at "
 					"Precompiled Header File will not be used.");
 				QPushButton* cancelButton = msgBox.addButton(
-					"Cancel", QMessageBox::ButtonRole::RejectRole);
+					QStringLiteral("Cancel"), QMessageBox::ButtonRole::RejectRole);
 				QPushButton* continueButton = msgBox.addButton(
-					"Continue", QMessageBox::ButtonRole::AcceptRole);
+					QStringLiteral("Continue"), QMessageBox::ButtonRole::AcceptRole);
 				msgBox.exec();
 				if (msgBox.clickedButton() == cancelButton)
 				{

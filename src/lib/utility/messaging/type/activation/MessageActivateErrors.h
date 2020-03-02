@@ -31,7 +31,7 @@ public:
 			SearchMatch match;
 			match.name = match.text = file.fileName();
 			match.searchType = SearchMatch::SEARCH_TOKEN;
-			match.nodeType = NodeType::NODE_FILE;
+			match.nodeType = NodeType(NODE_FILE);
 			matches.push_back(match);
 		}
 		return matches;

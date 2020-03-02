@@ -18,12 +18,6 @@ QtProjectWizardContentCustomCommand::QtProjectWizardContentCustomCommand(
 
 void QtProjectWizardContentCustomCommand::populate(QGridLayout* layout, int& row)
 {
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		row++;
-	}
-
 	QLabel* nameLabel = createFormLabel(QStringLiteral("Custom Command"));
 	addHelpButton(
 		QStringLiteral("Custom Command"),
@@ -59,12 +53,6 @@ void QtProjectWizardContentCustomCommand::populate(QGridLayout* layout, int& row
 
 	layout->addWidget(m_runInParallel, row, QtProjectWizardWindow::BACK_COL);
 	row++;
-
-	if (!isInForm())
-	{
-		layout->setRowMinimumHeight(row, 15);
-		layout->setRowStretch(row, 1);
-	}
 }
 
 void QtProjectWizardContentCustomCommand::load()
@@ -83,7 +71,7 @@ bool QtProjectWizardContentCustomCommand::check()
 {
 	if (m_customCommand->text().isEmpty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("Please enter a custom command."));
 		msgBox.exec();
 		return false;
@@ -91,7 +79,7 @@ bool QtProjectWizardContentCustomCommand::check()
 
 	if (m_customCommand->text().toStdWString().find(L"%{SOURCE_FILE_PATH}") == std::wstring::npos)
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("The variable %{SOURCE_FILE_PATH} is missing in the custom command."));
 		msgBox.exec();
 		return false;

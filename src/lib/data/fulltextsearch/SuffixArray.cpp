@@ -46,7 +46,7 @@ void SuffixArray::printLCP() const
 
 std::vector<int> SuffixArray::buildLCP()
 {
-	const int n = m_array.size();
+	const int n = static_cast<int>(m_array.size());
 
 	std::vector<int> lcp(n, 0);
 	std::vector<int> invSuff(n, 0);
@@ -89,8 +89,8 @@ std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) cons
 	std::wstring term = searchTerm;
 	std::transform(term.begin(), term.end(), term.begin(), ::towlower);
 
-	const int termLength = term.length();
-	const int textLength = m_text.length();
+	const int termLength = static_cast<int>(term.length());
+	const int textLength = static_cast<int>(m_text.length());
 	int l = -1;
 	int r = textLength;
 	int m;
@@ -131,7 +131,7 @@ std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) cons
 
 std::vector<int> SuffixArray::buildSuffixArray()
 {
-	const int n = m_text.length();
+	const int n = static_cast<int>(m_text.length());
 	std::vector<suffix> suffixes;
 	suffixes.reserve(n);
 

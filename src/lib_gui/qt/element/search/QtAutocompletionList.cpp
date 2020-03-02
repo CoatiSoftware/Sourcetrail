@@ -18,13 +18,13 @@ void QtAutocompletionModel::setMatchList(const std::vector<SearchMatch>& matchLi
 {
 	size_t rowCount = std::max(m_matchList.size(), matchList.size());
 	m_matchList = matchList;
-	emit dataChanged(index(0, 0), index(rowCount - 1, 5));
+	emit dataChanged(index(0, 0), index(static_cast<int>(rowCount - 1), 5));
 }
 
 int QtAutocompletionModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
-	return m_matchList.size();
+	return static_cast<int>(m_matchList.size());
 }
 
 int QtAutocompletionModel::columnCount(const QModelIndex& parent) const
@@ -63,7 +63,7 @@ QVariant QtAutocompletionModel::data(const QModelIndex& index, int role) const
 		return indices;
 	}
 	case 5:
-		return match.nodeType.getType();
+		return match.nodeType.getKind();
 	default:
 		return QVariant();
 	}
@@ -137,8 +137,7 @@ void QtAutocompletionDelegate::paint(
 	QString subtext = index.sibling(index.row(), index.column() + 2).data().toString();
 	QString type = index.sibling(index.row(), index.column() + 3).data().toString();
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 4).data().toList();
-	NodeType nodeType = NodeType::intToType(
-		index.sibling(index.row(), index.column() + 5).data().toInt());
+	NodeType nodeType(intToNodeKind(index.sibling(index.row(), index.column() + 5).data().toInt()));
 
 	// define highlight colors
 	ColorScheme* scheme = ColorScheme::getInstance().get();
@@ -169,7 +168,7 @@ void QtAutocompletionDelegate::paint(
 	}
 
 	int top1 = 6;
-	int top2 = m_charHeight1 + 3;
+	int top2 = static_cast<int>(m_charHeight1 + 3);
 
 	// draw background
 	QColor backgroundColor = option.palette.color(
@@ -189,10 +188,10 @@ void QtAutocompletionDelegate::paint(
 			}
 
 			QRect rect(
-				option.rect.left() + m_charWidth1 * (idx + 1) + 2,
+				static_cast<int>(option.rect.left() + m_charWidth1 * (idx + 1) + 2),
 				option.rect.top() + top1 - 1,
-				m_charWidth1 + 1,
-				m_charHeight1 - 1);
+				static_cast<int>(m_charWidth1 + 1),
+				static_cast<int>(m_charHeight1 - 1));
 			painter->fillRect(rect, fillColor);
 
 			highlightText[idx] = text.at(idx);
@@ -201,12 +200,17 @@ void QtAutocompletionDelegate::paint(
 	}
 	else
 	{
-		QRect rect(option.rect.left(), option.rect.top() + top1, m_charWidth1 - 1, m_charHeight1 - 2);
+		QRect rect(
+			option.rect.left(),
+			option.rect.top() + top1,
+			static_cast<int>(m_charWidth1 - 1),
+			static_cast<int>(m_charHeight1 - 2));
 		painter->fillRect(rect, fillColor);
 	}
 
 	// draw text normal
-	painter->drawText(option.rect.adjusted(m_charWidth1 + 2, top1 - 3, 0, 0), Qt::AlignLeft, text);
+	painter->drawText(
+		option.rect.adjusted(static_cast<int>(m_charWidth1 + 2), top1 - 3, 0, 0), Qt::AlignLeft, text);
 
 	// draw text highlighted
 	painter->save();
@@ -214,7 +218,9 @@ void QtAutocompletionDelegate::paint(
 	highlightPen.setColor(textColor);
 	painter->setPen(highlightPen);
 	painter->drawText(
-		option.rect.adjusted(m_charWidth1 + 2, top1 - 3, 0, 0), Qt::AlignLeft, highlightText);
+		option.rect.adjusted(static_cast<int>(m_charWidth1 + 2), top1 - 3, 0, 0),
+		Qt::AlignLeft,
+		highlightText);
 	painter->restore();
 
 	// draw subtext
@@ -222,8 +228,8 @@ void QtAutocompletionDelegate::paint(
 	{
 		// draw arrow icon
 		painter->drawPixmap(
-			option.rect.left() + m_charWidth2 * 2,
-			option.rect.top() + top2 + 1 + (m_charHeight2 - m_arrow.height()) / 2,
+			static_cast<int>(option.rect.left() + m_charWidth2 * 2),
+			static_cast<int>(option.rect.top() + top2 + 1 + (m_charHeight2 - m_arrow.height()) / 2),
 			m_arrow.pixmap());
 
 		painter->setFont(m_font2);
@@ -240,10 +246,10 @@ void QtAutocompletionDelegate::paint(
 				}
 
 				QRect rect(
-					option.rect.left() + m_charWidth2 * (idx + 3) + 2,
+					static_cast<int>(option.rect.left() + m_charWidth2 * (idx + 3) + 2),
 					option.rect.top() + top2 + 1,
-					m_charWidth2 + 1,
-					m_charHeight2);
+					static_cast<int>(m_charWidth2 + 1),
+					static_cast<int>(m_charHeight2));
 				painter->fillRect(rect, fillColor);
 
 				highlightSubtext[idx] = subtext.at(idx);
@@ -257,7 +263,9 @@ void QtAutocompletionDelegate::paint(
 
 		// draw subtext normal
 		painter->drawText(
-			option.rect.adjusted((3 * m_charWidth2) + 2, top2, 0, 0), Qt::AlignLeft, subtext);
+			option.rect.adjusted(static_cast<int>((3 * m_charWidth2) + 2), top2, 0, 0),
+			Qt::AlignLeft,
+			subtext);
 
 		// draw subtext highlighted
 		painter->save();
@@ -265,7 +273,9 @@ void QtAutocompletionDelegate::paint(
 		highlightPen.setColor(textColor);
 		painter->setPen(highlightPen);
 		painter->drawText(
-			option.rect.adjusted((3 * m_charWidth2) + 2, top2, 0, 0), Qt::AlignLeft, highlightSubtext);
+			option.rect.adjusted(static_cast<int>((3 * m_charWidth2) + 2), top2, 0, 0),
+			Qt::AlignLeft,
+			highlightSubtext);
 		painter->restore();
 	}
 
@@ -278,13 +288,21 @@ void QtAutocompletionDelegate::paint(
 		typePen.setColor(scheme->getColor("search/popup/by_text").c_str());
 		painter->setPen(typePen);
 
-		int width = m_charWidth2 * type.size();
-		int x = painter->viewport().right() - width - m_charWidth2;
+		int width = static_cast<int>(m_charWidth2 * type.size());
+		int x = static_cast<int>(painter->viewport().right() - width - m_charWidth2);
 		int y = option.rect.top() + top2;
 
 		painter->fillRect(
-			QRect(x - m_charWidth2, y, width + m_charWidth2 * 3, m_charHeight2 + 2), backgroundColor);
-		painter->drawText(QRect(x, y, width + m_charWidth2, m_charHeight2), Qt::AlignRight, type);
+			QRect(
+				static_cast<int>(x - m_charWidth2),
+				y,
+				static_cast<int>(width + m_charWidth2 * 3),
+				static_cast<int>(m_charHeight2 + 2)),
+			backgroundColor);
+		painter->drawText(
+			QRect(x, y, static_cast<int>(width + m_charWidth2), static_cast<int>(m_charHeight2)),
+			Qt::AlignRight,
+			type);
 	}
 
 	// draw bottom line
@@ -303,8 +321,9 @@ QSize QtAutocompletionDelegate::sizeHint(const QStyleOptionViewItem& option, con
 	QString type = m_model->longestType();
 
 	return QSize(
-		std::max((text.size() + 2) * m_charWidth1, (subtext.size() + type.size() + 6) * m_charWidth2),
-		m_charHeight1 * 2 + 3);
+		static_cast<int>(std::max(
+			(text.size() + 2) * m_charWidth1, (subtext.size() + type.size() + 6) * m_charWidth2)),
+		static_cast<int>(m_charHeight1 * 2 + 3));
 }
 
 void QtAutocompletionDelegate::calculateCharSizes(QFont font)
@@ -329,7 +348,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 					   "---------------------------------------------------------------------------"
 					   "-------------------------")) /
 		500.0f;
-	m_charHeight1 = metrics1.height();
+	m_charHeight1 = static_cast<float>(metrics1.height());
 
 	font.setPixelSize(ApplicationSettings::getInstance()->getFontSize() - 3);
 	m_font2 = font;
@@ -347,11 +366,11 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 					   "---------------------------------------------------------------------------"
 					   "-------------------------")) /
 		500.0f;
-	m_charHeight2 = metrics2.height();
+	m_charHeight2 = static_cast<float>(metrics2.height());
 
 	m_arrow = QtDeviceScaledPixmap(
 		QString::fromStdString(ResourcePaths::getGuiPath().str() + "search_view/images/arrow.png"));
-	m_arrow.scaleToWidth(m_charWidth2);
+	m_arrow.scaleToWidth(static_cast<int>(m_charWidth2));
 	m_arrow.colorize(ColorScheme::getInstance()->getColor("search/popup/by_text").c_str());
 }
 
@@ -384,7 +403,7 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent): QCompleter(parent)
 
 QtAutocompletionList::~QtAutocompletionList() {}
 
-void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList)
+void QtAutocompletionList::completeAt(QPoint pos, const std::vector<SearchMatch>& autocompletionList)
 {
 	m_model->setMatchList(autocompletionList);
 

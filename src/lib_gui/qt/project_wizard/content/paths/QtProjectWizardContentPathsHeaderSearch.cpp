@@ -25,7 +25,7 @@ QtProjectWizardContentPathsHeaderSearch::QtProjectWizardContentPathsHeaderSearch
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
 	bool indicateAsAdditional)
-	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
+	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY, true)
 	, m_showDetectedIncludesResultFunctor(std::bind(
 		  &QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult,
 		  this,
@@ -64,8 +64,8 @@ void QtProjectWizardContentPathsHeaderSearch::populate(QGridLayout* layout, int&
 	if (!m_indicateAsAdditional)
 	{
 		{
-			QPushButton* detectionButton = new QPushButton("auto-detect");
-			detectionButton->setObjectName("windowButton");
+			QPushButton* detectionButton = new QPushButton(QStringLiteral("auto-detect"));
+			detectionButton->setObjectName(QStringLiteral("windowButton"));
 			connect(
 				detectionButton,
 				&QPushButton::clicked,
@@ -75,8 +75,9 @@ void QtProjectWizardContentPathsHeaderSearch::populate(QGridLayout* layout, int&
 				detectionButton, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 		}
 		{
-			QPushButton* validateionButton = new QPushButton("validate include directives");
-			validateionButton->setObjectName("windowButton");
+			QPushButton* validateionButton = new QPushButton(
+				QStringLiteral("validate include directives"));
+			validateionButton->setObjectName(QStringLiteral("windowButton"));
 			connect(
 				validateionButton,
 				&QPushButton::clicked,
@@ -109,11 +110,6 @@ void QtProjectWizardContentPathsHeaderSearch::save()
 	}
 }
 
-bool QtProjectWizardContentPathsHeaderSearch::isScrollAble() const
-{
-	return true;
-}
-
 void QtProjectWizardContentPathsHeaderSearch::detectIncludesButtonClicked()
 {
 	m_window->saveContent();
@@ -129,7 +125,7 @@ void QtProjectWizardContentPathsHeaderSearch::detectIncludesButtonClicked()
 		QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY);
 
 	m_pathsDialog->setup();
-	m_pathsDialog->updateNextButton("Start");
+	m_pathsDialog->updateNextButton(QStringLiteral("Start"));
 	m_pathsDialog->setCloseVisible(true);
 
 	m_pathsDialog->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
@@ -212,7 +208,7 @@ void QtProjectWizardContentPathsHeaderSearch::validateIncludesButtonClicked()
 						sourceFilePaths,
 						utility::toSet(indexedFilePaths),
 						utility::toSet(headerSearchPaths),
-						log2(sourceFilePaths.size()),
+						static_cast<size_t>(log2(sourceFilePaths.size())),
 						[&](const float progress) {
 							dialogView->showProgressDialog(
 								L"Processing",
@@ -284,7 +280,7 @@ void QtProjectWizardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPa
 						sourceFilePaths,
 						utility::toSet(searchedPaths),
 						utility::toSet(headerSearchPaths),
-						log2(sourceFilePaths.size()),
+						static_cast<size_t>(log2(sourceFilePaths.size())),
 						[&](const float progress) {
 							dialogView->showProgressDialog(
 								L"Processing",
@@ -348,7 +344,7 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 
 	if (additionalHeaderSearchPaths.empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
 			"<p>No additional include paths have been detected while searching the provided "
 			"paths.</p>");
@@ -362,28 +358,28 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 			detailedText += path.wstr() + L"\n";
 		}
 
-		m_filesDialog = std::make_shared<QtTextEditDialog>(
+		m_filesDialog = new QtTextEditDialog(
 			"Detected Include Paths",
 			("<p>The following <b>" + std::to_string(additionalHeaderSearchPaths.size()) +
 			 "</b> include paths have been "
 			 "detected and will be added to the include paths of this Source Group.<b>")
-				.c_str());
+				.c_str(), m_window);
 
 		m_filesDialog->setup();
 		m_filesDialog->setReadOnly(true);
 		m_filesDialog->setCloseVisible(true);
-		m_filesDialog->updateNextButton("Add");
+		m_filesDialog->updateNextButton(QStringLiteral("Add"));
 
 		m_filesDialog->setText(detailedText);
 		m_filesDialog->showWindow();
 
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::finished,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog);
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::canceled,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::closedFilesDialog);
@@ -395,9 +391,9 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 {
 	if (unresolvedIncludes.empty())
 	{
-		QMessageBox msgBox;
+		QMessageBox msgBox(m_window);
 		msgBox.setText(
-			"<p>All include directives throughout the indexed files have been resolved.</p>");
+			QStringLiteral("<p>All include directives throughout the indexed files have been resolved.</p>"));
 		msgBox.exec();
 	}
 	else
@@ -422,7 +418,7 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 			detailedText += L"\n";
 		}
 
-		m_filesDialog = std::make_shared<QtTextEditDialog>(
+		m_filesDialog = new QtTextEditDialog(
 			"Unresolved Include Directives",
 			("<p>The indexed files contain <b>" + std::to_string(unresolvedIncludes.size()) +
 			 "</b> include directive" + (unresolvedIncludes.size() == 1 ? "" : "s") +
@@ -432,7 +428,7 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 			 "conditional preprocessor "
 			 "directives. This means that some of the unresolved includes may actually not be "
 			 "required by the indexer.</p>")
-				.c_str());
+				.c_str(), m_window);
 
 		m_filesDialog->setup();
 		m_filesDialog->setCloseVisible(false);
@@ -442,12 +438,12 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 		m_filesDialog->showWindow();
 
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::finished,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::closedFilesDialog);
 		connect(
-			m_filesDialog.get(),
+			m_filesDialog,
 			&QtTextEditDialog::canceled,
 			this,
 			&QtProjectWizardContentPathsHeaderSearch::closedFilesDialog);

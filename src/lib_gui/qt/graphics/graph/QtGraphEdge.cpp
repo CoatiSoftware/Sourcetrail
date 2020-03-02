@@ -55,7 +55,7 @@ QtGraphEdge::QtGraphEdge(
 	, m_isTrailEdge(false)
 	, m_useBezier(false)
 	, m_isInteractive(isInteractive)
-	, m_mousePos(0.0f, 0.0f)
+	, m_mousePos(0, 0)
 	, m_mouseMoved(false)
 {
 	this->setCursor(Qt::PointingHandCursor);
@@ -399,7 +399,7 @@ void QtGraphEdge::focusIn()
 
 			if (type == Edge::EDGE_AGGREGATION)
 			{
-				info.count = m_weight;
+				info.count = static_cast<int>(m_weight);
 				info.countText = "edge";
 			}
 			info.offset = Vec2i(10, 20);
@@ -435,13 +435,15 @@ void QtGraphEdge::focusOut()
 
 void QtGraphEdge::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-	m_mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
+	m_mousePos = Vec2i(
+		static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()));
 	m_mouseMoved = false;
 }
 
 void QtGraphEdge::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-	Vec2i mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
+	Vec2i mousePos = Vec2i(
+		static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()));
 
 	if ((mousePos - m_mousePos).getLength() > 1.0f)
 	{
@@ -518,7 +520,7 @@ bool QtGraphEdge::isTrailEdge() const
 	return m_isTrailEdge;
 }
 
-void QtGraphEdge::setIsTrailEdge(std::vector<Vec4i> path, bool horizontal)
+void QtGraphEdge::setIsTrailEdge(const std::vector<Vec4i>& path, bool horizontal)
 {
 	m_path = path;
 	m_isTrailEdge = true;

@@ -25,15 +25,15 @@ public:
 
 	// TabsView implementation
 	void clear() override;
-	void openTab(bool showTab, SearchMatch match) override;
+	void openTab(bool showTab, const SearchMatch& match) override;
 	void closeTab() override;
 	void destroyTab(Id tabId) override;
 	void selectTab(bool next) override;
-	void updateTab(Id tabId, std::vector<SearchMatch> matches) override;
+	void updateTab(Id tabId, const std::vector<SearchMatch>& matches) override;
 
 private slots:
 	void addTab();
-	void insertTab(bool showTab, SearchMatch match);
+	void insertTab(bool showTab, const SearchMatch& match);
 	void changedTab(int index);
 	void removeTab(int index);
 	void closeTabsToRight(int index);

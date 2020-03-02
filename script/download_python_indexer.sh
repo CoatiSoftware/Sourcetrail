@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SOURCETRAIL_PYTHON_INDEXER_VERSION="v1_db25_p2"
+SOURCETRAIL_PYTHON_INDEXER_VERSION="v1_db25_p3"
 
 # Determine current platform
 PLATFORM='unknown'

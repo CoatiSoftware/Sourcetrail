@@ -21,8 +21,6 @@ public:
 	void save() override;
 	bool check() override;
 
-	bool isScrollAble() const override;
-
 signals:
 	void selected(SourceGroupType);
 

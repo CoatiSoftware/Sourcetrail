@@ -79,7 +79,7 @@ void LogManagerImplementation::clearLoggers()
 int LogManagerImplementation::getLoggerCount() const
 {
 	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
-	return m_loggers.size();
+	return static_cast<int>(m_loggers.size());
 }
 
 void LogManagerImplementation::logInfo(
@@ -128,7 +128,12 @@ tm LogManagerImplementation::getTime()
 {
 	time_t time;
 	std::time(&time);
+
+#pragma warning(push)
+#pragma warning(disable : 4996)
 	tm result = *std::localtime(&time);	   // this is done because localtime returns a pointer to a
 										   // statically allocated object
+#pragma warning(pop)
+
 	return result;
 }

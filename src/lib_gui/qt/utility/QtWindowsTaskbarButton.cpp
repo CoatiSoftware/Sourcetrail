@@ -29,7 +29,8 @@ void QtWindowsTaskbarButton::setProgress(float progress)
 	if (m_taskbarProgress != nullptr)
 	{
 		m_taskbarProgress->show();
-		m_taskbarProgress->setValue(std::max(0, std::min<int>(100, 100 * progress)));
+		m_taskbarProgress->setValue(
+			static_cast<int>(std::max(0, std::min<int>(100, static_cast<int>(100 * progress)))));
 	}
 #endif
 }

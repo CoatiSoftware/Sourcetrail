@@ -35,7 +35,8 @@ void QtAbout::setupAbout()
 		sourcetrailLogo.scaleToHeight(150);
 		QLabel* sourcetrailLogoLabel = new QLabel(this);
 		sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
-		sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
+		sourcetrailLogoLabel->resize(
+			static_cast<int>(sourcetrailLogo.width()), static_cast<int>(sourcetrailLogo.height()));
 		windowLayout->addWidget(
 			sourcetrailLogoLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
 	}
@@ -69,12 +70,12 @@ void QtAbout::setupAbout()
 
 		QLabel* companyLabel = new QLabel(
 			QStringLiteral("<b>Coati Software KG</b><br />"
-			"Jakob-Haringer-Straße 1/127<br />"
-			"5020 Salzburg<br />"
-			"Austria<br />"
-			"<b>support@sourcetrail.com</b><br />"
-			"<b><a href=\"https://sourcetrail.com\" style=\"color: "
-			"white;\">sourcetrail.com</a></b>"));
+						   "Jakob-Haringer-Straße 1/127<br />"
+						   "5020 Salzburg<br />"
+						   "Austria<br />"
+						   "<b>support@sourcetrail.com</b><br />"
+						   "<b><a href=\"https://sourcetrail.com\" style=\"color: "
+						   "white;\">sourcetrail.com</a></b>"));
 		companyLabel->setOpenExternalLinks(true);
 		layoutHorz1->addWidget(companyLabel);
 
@@ -82,20 +83,20 @@ void QtAbout::setupAbout()
 
 		QLabel* developerLabel = new QLabel(
 			QStringLiteral("<br /><br />"
-			"<b>Team:</b><br />"
-			"Manuel Dobusch<br />"
-			"Eberhard Gräther<br />"
-			"Malte Langkabel<br />"
-			"Viktoria Pfausler<br />"
-			"Andreas Stallinger<br />"));
+						   "<b>Team:</b><br />"
+						   "Manuel Dobusch<br />"
+						   "Eberhard Gräther<br />"
+						   "Malte Langkabel<br />"
+						   "Viktoria Pfausler<br />"
+						   "Andreas Stallinger<br />"));
 		developerLabel->setObjectName(QStringLiteral("small"));
 		layoutHorz1->addWidget(developerLabel);
 	}
 
 	windowLayout->addStretch();
 
-	QLabel* acknowledgementsLabel = new QLabel(
-		QStringLiteral("<b>Acknowledgements:</b><br />"
+	QLabel* acknowledgementsLabel = new QLabel(QStringLiteral(
+		"<b>Acknowledgements:</b><br />"
 		"Sourcetrail (aka Coati) 0.1 was created in the context of education at "
 		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University "
 		"of Applied Sciences</a>.<br />"

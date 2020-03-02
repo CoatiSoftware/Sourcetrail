@@ -81,7 +81,7 @@ TextAccess::~TextAccess() {}
 
 unsigned int TextAccess::getLineCount() const
 {
-	return m_lines.size();
+	return static_cast<unsigned int>(m_lines.size());
 }
 
 bool TextAccess::isEmpty() const

@@ -80,7 +80,7 @@ bool FilePath::empty() const
 	return m_path->empty();
 }
 
-bool FilePath::exists() const
+bool FilePath::exists() const noexcept
 {
 	if (!m_checkedExists)
 	{
@@ -115,17 +115,19 @@ bool FilePath::isAbsolute() const
 
 bool FilePath::isValid() const
 {
+	boost::filesystem::path::iterator end = m_path->end();
+
 	if (!isDirectory())
 	{
 		if (!boost::filesystem::portable_file_name(m_path->filename().generic_string()))
 		{
 			return false;
 		}
+		end--;
 	}
 
 	boost::filesystem::path::iterator it = m_path->begin();
 
-#if WIN32
 	if (isAbsolute() && m_path->has_root_path())
 	{
 		std::string root = m_path->root_path().string();
@@ -136,14 +138,10 @@ bool FilePath::isValid() const
 			it++;
 		}
 	}
-#else
-	return true; // FIXME: hot fix for issue #907
-#endif
 
-	for (; it != m_path->end(); ++it)
+	for (; it != end; ++it)
 	{
-		std::string ss = it->string();
-		if (!boost::filesystem::portable_directory_name(ss))
+		if (!boost::filesystem::portable_directory_name(it->string()))
 		{
 			return false;
 		}
@@ -263,8 +261,11 @@ std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 	std::smatch match;
 	while (std::regex_search(text, match, env))
 	{
+#pragma warning(push)
+#pragma warning(disable : 4996)
 		const char* s = match[1].matched ? getenv(match[1].str().c_str())
 										 : getenv(match[2].str().c_str());
+#pragma warning(pop)
 		if (s == nullptr)
 		{
 			LOG_ERROR_STREAM(<< match[1].str() << " is not an environment variable in: " << text);

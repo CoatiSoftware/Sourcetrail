@@ -305,6 +305,8 @@ add_files(
 	data/GroupType.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
+	data/NodeKind.cpp
+	data/NodeKind.h
 	data/NodeType.cpp
 	data/NodeType.h
 	data/NodeTypeSet.cpp
@@ -520,6 +522,7 @@ add_files(
 	utility/messaging/type/MessageQuitApplication.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageRefreshUI.h
+	utility/messaging/type/MessageRefreshUIState.h
 	utility/messaging/type/MessageResetZoom.h
 	utility/messaging/type/MessageShowStatus.h
 	utility/messaging/type/MessageStatus.cpp
@@ -645,7 +648,6 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 		settings/source_group/type/SourceGroupSettingsCppEmpty.h
 		settings/source_group/type/SourceGroupSettingsCustomCommand.h
 		settings/source_group/type/SourceGroupSettingsCxxCdb.h
-		settings/source_group/type/SourceGroupSettingsCxxCdbVs.h
 		settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h
 	)
 endif()

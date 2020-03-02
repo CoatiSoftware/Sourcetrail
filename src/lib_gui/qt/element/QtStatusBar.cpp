@@ -51,7 +51,7 @@ QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this)
 		m_errorButton.setFlat(true);
 		m_errorButton.setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 		m_errorButton.setStyleSheet(
-			"QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
+			QStringLiteral("QPushButton { color: #D00000; margin-right: 0; spacing: none; }"));
 		m_errorButton.setIcon(
 			utility::colorizePixmap(
 				QPixmap(QString::fromStdWString(
@@ -72,7 +72,8 @@ QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this)
 		m_indexingStatus = new QPushButton(this);
 		m_indexingStatus->setFlat(true);
 		m_indexingStatus->setMinimumWidth(150);
-		m_indexingStatus->setStyleSheet("QPushButton { margin-right: 0; spacing: none; }");
+		m_indexingStatus->setStyleSheet(
+			QStringLiteral("QPushButton { margin-right: 0; spacing: none; }"));
 		m_indexingStatus->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 		m_indexingStatus->setCursor(Qt::PointingHandCursor);
 
@@ -81,7 +82,7 @@ QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this)
 		QHBoxLayout* layout = new QHBoxLayout();
 		layout->setContentsMargins(0, 0, 0, 0);
 
-		layout->addWidget(new QLabel("Indexing:"));
+		layout->addWidget(new QLabel(QStringLiteral("Indexing:")));
 
 		m_indexingProgress = new QProgressBar();
 		m_indexingProgress->setMinimum(0);
@@ -100,12 +101,13 @@ void QtStatusBar::setText(const std::wstring& text, bool isError, bool showLoade
 {
 	if (isError)
 	{
-		m_text.setStyleSheet(
-			"QPushButton { color: #D00000; margin-right: 0; spacing: none; text-align: left; }");
+		m_text.setStyleSheet(QStringLiteral(
+			"QPushButton { color: #D00000; margin-right: 0; spacing: none; text-align: left; }"));
 	}
 	else
 	{
-		m_text.setStyleSheet("QPushButton { margin-right: 0; spacing: none; text-align: left; }");
+		m_text.setStyleSheet(
+			QStringLiteral("QPushButton { margin-right: 0; spacing: none; text-align: left; }"));
 	}
 
 	if (showLoader)
@@ -128,7 +130,8 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 	{
 		m_errorButton.setText(
 			QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
-			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : ""));
+			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)"
+								  : QLatin1String("")));
 
 		m_errorButton.setMinimumWidth(
 			m_errorButton.fontMetrics().width(QString(m_errorButton.text().size(), 'a')));
@@ -136,11 +139,12 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 		if (errorCount.fatal > 0)
 		{
 			m_errorButton.setStyleSheet(
-				"QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
+				QStringLiteral("QPushButton { color: #D00000; margin-right: 0; spacing: none; }"));
 		}
 		else
 		{
-			m_errorButton.setStyleSheet("QPushButton { margin-right: 0; spacing: none; }");
+			m_errorButton.setStyleSheet(
+				QStringLiteral("QPushButton { margin-right: 0; spacing: none; }"));
 		}
 
 		m_errorButton.show();
@@ -163,7 +167,7 @@ void QtStatusBar::showIndexingProgress(size_t progressPercent)
 	m_indexingStatus->show();
 	m_vlineIndexing->show();
 
-	m_indexingProgress->setValue(progressPercent);
+	m_indexingProgress->setValue(static_cast<int>(progressPercent));
 }
 
 void QtStatusBar::hideIndexingProgress()
@@ -197,7 +201,7 @@ QWidget* QtStatusBar::addPermanentVLine()
 {
 	QFrame* vline = new QFrame(this);
 	vline->setFrameShape(QFrame::VLine);
-	vline->setStyleSheet("color: #777");
+	vline->setStyleSheet(QStringLiteral("color: #777"));
 	addPermanentWidget(vline);
 	return vline;
 }

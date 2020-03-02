@@ -75,7 +75,7 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 
 	std::shared_ptr<bool> deleteCheck = m_deleteCheck;
 
-	QtUpdateChecker::check(force, [deleteCheck, this](QtUpdateChecker::Result result) {
+	QtUpdateChecker::check(force, [deleteCheck, this](const QtUpdateChecker::Result& result) {
 		if (*deleteCheck.get())
 		{
 			return;
@@ -98,7 +98,7 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 	});
 }
 
-void QtUpdateCheckerWidget::setDownloadUrl(QString url)
+void QtUpdateCheckerWidget::setDownloadUrl(const QString& url)
 {
 	m_button->setText(QStringLiteral("new version available"));
 	m_button->disconnect();

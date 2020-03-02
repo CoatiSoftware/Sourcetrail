@@ -16,6 +16,42 @@ JavaPathDetectorLinux::JavaPathDetectorLinux(const std::string javaVersion)
 {
 }
 
+std::vector<FilePath> JavaPathDetectorLinux::doGetPaths() const
+{
+	std::vector<FilePath> paths;
+	FilePath p = getJavaInPath();
+	if (!p.empty())
+	{
+		paths.push_back(p);
+	}
+	p = getJavaInJavaHome();
+	if (!p.empty())
+	{
+		paths.push_back(p);
+	}
+
+	// some default paths for java
+	paths.push_back(FilePath(L"/etc/alternatives/java"));
+	paths.push_back(FilePath(L"/usr/lib/jvm/default/bin/java"));
+	paths.push_back(FilePath(L"/usr/lib/jvm/java-openjdk/bin/java"));
+
+	for (const FilePath& path: paths)
+	{
+		if (checkVersion(path))
+		{
+			FilePath absoluteJavaPath = readLink(path);
+			FilePath jvmLibrary = getFilePathRelativeToJavaExecutable(absoluteJavaPath);
+			if (jvmLibrary.exists())
+			{
+				std::vector<FilePath> foundPath = {jvmLibrary};
+				return foundPath;
+			}
+		}
+	}
+
+	return std::vector<FilePath>();
+}
+
 FilePath JavaPathDetectorLinux::getJavaInPath() const
 {
 	std::string command = "which java";
@@ -60,8 +96,10 @@ FilePath JavaPathDetectorLinux::getFilePathRelativeToJavaExecutable(FilePath& ja
 FilePath JavaPathDetectorLinux::getJavaInJavaHome() const
 {
 	std::string command = "";
-
+#pragma warning(push)
+#pragma warning(disable : 4996)
 	char* p = getenv("JAVA_HOME");
+#pragma warning(pop)
 	if (p == nullptr)
 	{
 		return FilePath();
@@ -81,40 +119,4 @@ bool JavaPathDetectorLinux::checkVersion(const FilePath& path) const
 	std::string output = utility::executeProcess(command.c_str()).second;
 
 	return output.find(m_javaVersion) != std::string::npos;
-}
-
-std::vector<FilePath> JavaPathDetectorLinux::getPaths() const
-{
-	std::vector<FilePath> paths;
-	FilePath p = getJavaInPath();
-	if (!p.empty())
-	{
-		paths.push_back(p);
-	}
-	p = getJavaInJavaHome();
-	if (!p.empty())
-	{
-		paths.push_back(p);
-	}
-
-	// some default paths for java
-	paths.push_back(FilePath(L"/etc/alternatives/java"));
-	paths.push_back(FilePath(L"/usr/lib/jvm/default/bin/java"));
-	paths.push_back(FilePath(L"/usr/lib/jvm/java-openjdk/bin/java"));
-
-	for (const FilePath& path: paths)
-	{
-		if (checkVersion(path))
-		{
-			FilePath absoluteJavaPath = readLink(path);
-			FilePath jvmLibrary = getFilePathRelativeToJavaExecutable(absoluteJavaPath);
-			if (jvmLibrary.exists())
-			{
-				std::vector<FilePath> foundPath = {jvmLibrary};
-				return foundPath;
-			}
-		}
-	}
-
-	return std::vector<FilePath>();
 }

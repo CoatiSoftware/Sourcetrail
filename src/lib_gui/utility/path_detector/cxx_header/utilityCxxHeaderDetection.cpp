@@ -49,7 +49,7 @@ std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType
 			if (sdkIncludePath.exists())
 			{
 				bool usingSubdirectories = false;
-				for (const std::wstring subDirectory: {L"shared", L"um", L"winrt"})
+				for (const std::wstring& subDirectory: {L"shared", L"um", L"winrt"})
 				{
 					const FilePath sdkSubdirectory = sdkIncludePath.getConcatenated(subDirectory);
 					if (sdkSubdirectory.exists())
@@ -90,16 +90,16 @@ std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType
 FilePath getWindowsSdkRootPathUsingRegistry(
 	ApplicationArchitectureType architectureType, const std::string& sdkVersion)
 {
-	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
+	QString key = QStringLiteral("HKEY_LOCAL_MACHINE\\SOFTWARE\\");
 	if (architectureType == APPLICATION_ARCHITECTURE_X86_32)
 	{
-		key += "Wow6432Node\\";
+		key += QStringLiteral("Wow6432Node\\");
 	}
-	key += ("Microsoft\\Microsoft SDKs\\Windows\\" + sdkVersion).c_str();
+	key += QStringLiteral("Microsoft\\Microsoft SDKs\\Windows\\") + sdkVersion.c_str();
 
 	QSettings expressKey(
 		key, QSettings::NativeFormat);	  // NativeFormat means from Registry on Windows.
-	QString value = expressKey.value("InstallationFolder").toString();
+	QString value = expressKey.value(QStringLiteral("InstallationFolder")).toString();
 
 	FilePath path(value.toStdWString());
 	if (path.exists())

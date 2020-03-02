@@ -112,9 +112,15 @@ public:
 		}
 
 		std::map<Id, StorageNode> nodesMap;
+		std::set<Id> fileIdMap;
 		for (const StorageNode& node: getStorageNodes())
 		{
 			nodesMap.emplace(node.id, node);
+
+			if (intToNodeKind(node.type) == NODE_FILE)
+			{
+				fileIdMap.insert(node.id);
+			}
 
 			std::wstring nameStr =
 				NameHierarchy::deserialize(node.serializedName).getQualifiedNameWithSignature();
@@ -217,28 +223,16 @@ public:
 			{
 				std::wstring sourceName =
 					NameHierarchy::deserialize(source.serializedName).getQualifiedNameWithSignature();
-				try
+				if (fileIdMap.find(edge.sourceNodeId) != fileIdMap.end() && FilePath(sourceName).exists())
 				{
-					if (FilePath(sourceName).exists())
-					{
-						sourceName = FilePath(sourceName).fileName();
-					}
-				}
-				catch (const boost::filesystem::filesystem_error&)
-				{
+					sourceName = FilePath(sourceName).fileName();
 				}
 
 				std::wstring targetName =
 					NameHierarchy::deserialize(target.serializedName).getQualifiedNameWithSignature();
-				try
+				if (fileIdMap.find(edge.targetNodeId) != fileIdMap.end() && FilePath(targetName).exists())
 				{
-					if (FilePath(targetName).exists())
-					{
-						targetName = FilePath(targetName).fileName();
-					}
-				}
-				catch (const boost::filesystem::filesystem_error&)
-				{
+					targetName = FilePath(targetName).fileName();
 				}
 
 				std::wstring nameStr = sourceName + L" -> " + targetName;
@@ -351,41 +345,41 @@ public:
 private:
 	std::wstring nodeTypeToString(int nodeType) const
 	{
-		switch (NodeType::intToType(nodeType))
+		switch (intToNodeKind(nodeType))
 		{
-		case NodeType::NODE_BUILTIN_TYPE:
+		case NODE_BUILTIN_TYPE:
 			return L"SYMBOL_BUILTIN_TYPE";
-		case NodeType::NODE_CLASS:
+		case NODE_CLASS:
 			return L"SYMBOL_CLASS";
-		case NodeType::NODE_ENUM:
+		case NODE_ENUM:
 			return L"SYMBOL_ENUM";
-		case NodeType::NODE_ENUM_CONSTANT:
+		case NODE_ENUM_CONSTANT:
 			return L"SYMBOL_ENUM_CONSTANT";
-		case NodeType::NODE_FIELD:
+		case NODE_FIELD:
 			return L"SYMBOL_FIELD";
-		case NodeType::NODE_FUNCTION:
+		case NODE_FUNCTION:
 			return L"SYMBOL_FUNCTION";
-		case NodeType::NODE_GLOBAL_VARIABLE:
+		case NODE_GLOBAL_VARIABLE:
 			return L"SYMBOL_GLOBAL_VARIABLE";
-		case NodeType::NODE_INTERFACE:
+		case NODE_INTERFACE:
 			return L"SYMBOL_INTERFACE";
-		case NodeType::NODE_MACRO:
+		case NODE_MACRO:
 			return L"SYMBOL_MACRO";
-		case NodeType::NODE_METHOD:
+		case NODE_METHOD:
 			return L"SYMBOL_METHOD";
-		case NodeType::NODE_MODULE:
+		case NODE_MODULE:
 			return L"SYMBOL_MODULE";
-		case NodeType::NODE_NAMESPACE:
+		case NODE_NAMESPACE:
 			return L"SYMBOL_NAMESPACE";
-		case NodeType::NODE_PACKAGE:
+		case NODE_PACKAGE:
 			return L"SYMBOL_PACKAGE";
-		case NodeType::NODE_STRUCT:
+		case NODE_STRUCT:
 			return L"SYMBOL_STRUCT";
-		case NodeType::NODE_TYPEDEF:
+		case NODE_TYPEDEF:
 			return L"SYMBOL_TYPEDEF";
-		case NodeType::NODE_TYPE_PARAMETER:
+		case NODE_TYPE_PARAMETER:
 			return L"SYMBOL_TYPE_PARAMETER";
-		case NodeType::NODE_UNION:
+		case NODE_UNION:
 			return L"SYMBOL_UNION";
 		default:
 			break;
@@ -427,43 +421,43 @@ private:
 
 	std::vector<std::wstring>* getBinForNodeType(int nodeType)
 	{
-		switch (NodeType::intToType(nodeType))
+		switch (intToNodeKind(nodeType))
 		{
-		case NodeType::NODE_PACKAGE:
+		case NODE_PACKAGE:
 			return &packages;
-		case NodeType::NODE_TYPEDEF:
+		case NODE_TYPEDEF:
 			return &typedefs;
-		case NodeType::NODE_BUILTIN_TYPE:
+		case NODE_BUILTIN_TYPE:
 			return &builtinTypes;
-		case NodeType::NODE_CLASS:
+		case NODE_CLASS:
 			return &classes;
-		case NodeType::NODE_UNION:
+		case NODE_UNION:
 			return &unions;
-		case NodeType::NODE_INTERFACE:
+		case NODE_INTERFACE:
 			return &interfaces;
-		case NodeType::NODE_ANNOTATION:
+		case NODE_ANNOTATION:
 			return &annotations;
-		case NodeType::NODE_ENUM:
+		case NODE_ENUM:
 			return &enums;
-		case NodeType::NODE_ENUM_CONSTANT:
+		case NODE_ENUM_CONSTANT:
 			return &enumConstants;
-		case NodeType::NODE_FUNCTION:
+		case NODE_FUNCTION:
 			return &functions;
-		case NodeType::NODE_FIELD:
+		case NODE_FIELD:
 			return &fields;
-		case NodeType::NODE_GLOBAL_VARIABLE:
+		case NODE_GLOBAL_VARIABLE:
 			return &globalVariables;
-		case NodeType::NODE_METHOD:
+		case NODE_METHOD:
 			return &methods;
-		case NodeType::NODE_MODULE:
+		case NODE_MODULE:
 			return &modules;
-		case NodeType::NODE_NAMESPACE:
+		case NODE_NAMESPACE:
 			return &namespaces;
-		case NodeType::NODE_STRUCT:
+		case NODE_STRUCT:
 			return &structs;
-		case NodeType::NODE_MACRO:
+		case NODE_MACRO:
 			return &macros;
-		case NodeType::NODE_TYPE_PARAMETER:
+		case NODE_TYPE_PARAMETER:
 			return &typeParameters;
 		default:
 			break;

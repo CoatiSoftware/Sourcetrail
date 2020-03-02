@@ -55,16 +55,16 @@ public:
 	virtual void clear() = 0;
 
 	virtual void showSnippets(
-		const std::vector<CodeFileParams> files,
-		const CodeParams params,
-		const CodeScrollParams scrollParams) = 0;
+		const std::vector<CodeFileParams>& files,
+		const CodeParams& params,
+		const CodeScrollParams& scrollParams) = 0;
 
 	virtual void showSingleFile(
-		const CodeFileParams file, const CodeParams params, const CodeScrollParams scrollParams) = 0;
+		const CodeFileParams& file, const CodeParams& params, const CodeScrollParams& scrollParams) = 0;
 
-	virtual void updateSourceLocations(const std::vector<CodeFileParams> files) = 0;
+	virtual void updateSourceLocations(const std::vector<CodeFileParams>& files) = 0;
 
-	virtual void scrollTo(const CodeScrollParams params, bool animated) = 0;
+	virtual void scrollTo(const CodeScrollParams& params, bool animated) = 0;
 
 	virtual bool showsErrors() const = 0;
 

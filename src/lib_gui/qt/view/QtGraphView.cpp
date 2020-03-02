@@ -106,7 +106,8 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 			m_collapseButton->setIconSize(QSize(16, 16));
 			connect(m_collapseButton, &QPushButton::clicked, this, &QtGraphView::clickedCollapse);
 
-			m_customTrailButton = new QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "search/button", ui);
+			m_customTrailButton = new QtSelfRefreshIconButton(
+				QLatin1String(""), FilePath(), "search/button", ui);
 			m_customTrailButton->setObjectName(QStringLiteral("trail_button"));
 			m_customTrailButton->setIconSize(QSize(16, 16));
 			m_customTrailButton->setToolTip(QStringLiteral("custom trail"));
@@ -115,13 +116,15 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 			connect(
 				m_customTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedCustomTrail);
 
-			m_forwardTrailButton = new QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "search/button", ui);
+			m_forwardTrailButton = new QtSelfRefreshIconButton(
+				QLatin1String(""), FilePath(), "search/button", ui);
 			m_forwardTrailButton->setObjectName(QStringLiteral("trail_button"));
 			m_forwardTrailButton->setIconSize(QSize(16, 16));
 			connect(
 				m_forwardTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedForwardTrail);
 
-			m_backwardTrailButton = new QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "search/button", ui);
+			m_backwardTrailButton = new QtSelfRefreshIconButton(
+				QLatin1String(""), FilePath(), "search/button", ui);
 			m_backwardTrailButton->setObjectName(QStringLiteral("trail_button"));
 			m_backwardTrailButton->setIconSize(QSize(16, 16));
 			connect(
@@ -360,7 +363,8 @@ void QtGraphView::rebuildGraph(
 
 		// move graph to center
 		QPointF center = itemsBoundingRect(m_nodes).center();
-		Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
+		const Vec2i o = GraphViewStyle::alignOnRaster(
+			Vec2i(static_cast<int>(center.x()), static_cast<int>(center.y())));
 		QPointF offset = QPointF(o.x, o.y);
 		m_sceneRectOffset = offset - center;
 
@@ -500,8 +504,10 @@ Vec2i QtGraphView::getViewSize() const
 {
 	QtGraphicsView* view = getView();
 
-	float zoomFactor = view->getZoomFactor();
-	return Vec2i((view->width() - 50) / zoomFactor, (view->height() - 100) / zoomFactor);
+	const float zoomFactor = view->getZoomFactor();
+	return Vec2i(
+		static_cast<int>((view->width() - 50) / zoomFactor),
+		static_cast<int>((view->height() - 100) / zoomFactor));
 }
 
 GroupType QtGraphView::getGrouping() const
@@ -1003,7 +1009,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	}
 	else if (node->isExpandToggleNode())
 	{
-		newNode = new QtGraphNodeExpandToggle(node->isExpanded(), node->invisibleSubNodeCount);
+		newNode = new QtGraphNodeExpandToggle(node->isExpanded(), static_cast<int>(node->invisibleSubNodeCount));
 	}
 	else if (node->isBundleNode())
 	{
@@ -1104,10 +1110,10 @@ QtGraphEdge* QtGraphView::createEdge(
 			std::vector<Vec4i> path = edge->path;
 			for (size_t i = 0; i < path.size(); i++)
 			{
-				path[i].x = path[i].x - pathOffset.x();
-				path[i].z = path[i].z - pathOffset.x();
-				path[i].y = path[i].y - pathOffset.y();
-				path[i].w = path[i].w - pathOffset.y();
+				path[i].x = static_cast<int>(path[i].x - pathOffset.x());
+				path[i].z = static_cast<int>(path[i].z - pathOffset.x());
+				path[i].y = static_cast<int>(path[i].y - pathOffset.y());
+				path[i].w = static_cast<int>(path[i].w - pathOffset.y());
 			}
 
 			for (const Vec4i& rect: path)

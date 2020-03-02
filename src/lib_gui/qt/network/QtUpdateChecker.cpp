@@ -37,23 +37,23 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	appSettings->setUpdateDownloadUrl("");
 	appSettings->save();
 
-	QString urlString = QStringLiteral("https://www.sourcetrail.com/api/v2/versions/latest");
+	std::string urlString = "https://www.sourcetrail.com/api/v2/versions/latest";
 
 	// OS
 	std::string osString = utility::getOsTypeString();
-	urlString += ("?os=" + osString).c_str();
+	urlString += "?os=" + osString;
 
 	// architecture
 	std::string platformString =
 		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64 ? "64" : "32");
-	urlString += ("&platform=" + platformString + "bit").c_str();
+	urlString += "&platform=" + platformString + "bit";
 
 	// version
 	// Version::setApplicationVersion(Version::fromString("2017.3.48")); // for debugging
-	urlString += ("&version=" + Version::getApplicationVersion().toDisplayString()).c_str();
+	urlString += "&version=" + Version::getApplicationVersion().toDisplayString();
 
 	// license
-	urlString += QLatin1String("&license=free");	 // options: test, private, commercial
+	urlString += "&license=free";	 // options: test, private, commercial
 
 	// user token
 	std::string token = appSettings->getUserToken();
@@ -64,12 +64,12 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 		appSettings->save();
 	}
 
-	urlString += ("&token=" + token).c_str();
+	urlString += "&token=" + token;
 
 	// send request
 	QtRequest* request = new QtRequest();
 	QObject::connect(
-		request, &QtRequest::receivedData, [force, callback, request](QByteArray bytes) {
+		request, &QtRequest::receivedData, [force, callback, request](const QByteArray& bytes) {
 			Result result;
 
 			ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
@@ -131,8 +131,10 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 						"Sourcetrail " + version + " is available for download: <a href=\"" + url +
 						"\">" + url + "</a>");
 					msgBox.addButton(QStringLiteral("Close"), QMessageBox::ButtonRole::NoRole);
-					msgBox.addButton(QStringLiteral("Skip this Version"), QMessageBox::ButtonRole::NoRole);
-					QPushButton* but = msgBox.addButton(QStringLiteral("Download"), QMessageBox::ButtonRole::YesRole);
+					msgBox.addButton(
+						QStringLiteral("Skip this Version"), QMessageBox::ButtonRole::NoRole);
+					QPushButton* but = msgBox.addButton(
+						QStringLiteral("Download"), QMessageBox::ButtonRole::YesRole);
 					msgBox.setDefaultButton(but);
 
 					int val = msgBox.exec();
@@ -167,7 +169,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 			callback(result);
 		});
 
-	request->sendRequest(urlString);
+	request->sendRequest(QString::fromStdString(urlString));
 	MessageStatus(L"Checking for new version", false, true).dispatch();
 }
 

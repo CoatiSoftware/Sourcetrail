@@ -15,8 +15,6 @@ public:
 	// QtProjectWizardContent implementation
 	virtual void load() override;
 	virtual void save() override;
-
-	virtual bool isScrollAble() const override;
 };
 
 #endif	  // QT_PROJECT_WIZARD_CONTENT_PATHS_FRAMEWORK_SEARCH_H

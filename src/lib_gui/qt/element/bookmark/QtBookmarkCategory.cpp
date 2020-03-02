@@ -39,7 +39,8 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 
 	m_deleteButton = new QPushButton();
 	m_deleteButton->setObjectName(QStringLiteral("category_delete_button"));
-	m_deleteButton->setToolTip(QStringLiteral("Delete this Bookmark Category and the containing Bookmarks"));
+	m_deleteButton->setToolTip(
+		QStringLiteral("Delete this Bookmark Category and the containing Bookmarks"));
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIconSize(QSize(20, 20));
 	m_deleteButton->setIcon(QPixmap(

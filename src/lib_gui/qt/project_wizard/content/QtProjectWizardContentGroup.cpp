@@ -1,28 +1,18 @@
 #include "QtProjectWizardContentGroup.h"
 
 QtProjectWizardContentGroup::QtProjectWizardContentGroup(QtProjectWizardWindow* window)
-	: QtProjectWizardContent(window), m_isForm(false)
+	: QtProjectWizardContent(window)
 {
 }
 
 void QtProjectWizardContentGroup::addContent(QtProjectWizardContent* content)
 {
 	m_contents.push_back(content);
-
-	if (content)
-	{
-		content->setIsInForm(m_isForm);
-	}
 }
 
 void QtProjectWizardContentGroup::addSpace()
 {
 	m_contents.push_back(nullptr);
-}
-
-void QtProjectWizardContentGroup::setIsForm(bool isForm)
-{
-	m_isForm = isForm;
 }
 
 bool QtProjectWizardContentGroup::hasContents() const
@@ -39,32 +29,6 @@ bool QtProjectWizardContentGroup::hasContents() const
 }
 
 void QtProjectWizardContentGroup::populate(QGridLayout* layout, int& row)
-{
-	if (m_isForm)
-	{
-		populateForm(layout, row);
-		return;
-	}
-
-	layout->setRowMinimumHeight(row++, 10);
-
-	for (QtProjectWizardContent* content: m_contents)
-	{
-		if (content)
-		{
-			content->populate(layout, row);
-		}
-		else
-		{
-			layout->setRowMinimumHeight(row++, 20);
-		}
-	}
-
-	layout->setRowMinimumHeight(row, 10);
-	layout->setRowStretch(row, 1);
-}
-
-void QtProjectWizardContentGroup::populateForm(QGridLayout* layout, int& row)
 {
 	layout->setRowMinimumHeight(row++, 10);
 
@@ -106,6 +70,17 @@ void QtProjectWizardContentGroup::save()
 	}
 }
 
+void QtProjectWizardContentGroup::refresh()
+{
+	for (QtProjectWizardContent* content: m_contents)
+	{
+		if (content)
+		{
+			content->refresh();
+		}
+	}
+}
+
 bool QtProjectWizardContentGroup::check()
 {
 	for (QtProjectWizardContent* content: m_contents)
@@ -116,10 +91,5 @@ bool QtProjectWizardContentGroup::check()
 		}
 	}
 
-	return true;
-}
-
-bool QtProjectWizardContentGroup::isScrollAble() const
-{
 	return true;
 }

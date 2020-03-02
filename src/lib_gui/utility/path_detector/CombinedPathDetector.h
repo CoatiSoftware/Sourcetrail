@@ -17,10 +17,11 @@ public:
 
 	std::vector<std::string> getWorkingDetectorNames();
 
-	std::vector<FilePath> getPaths() const override;
-	std::vector<FilePath> getPaths(std::string detectorName) const;
+	std::vector<FilePath> getPathsForDetector(const std::string& detectorName) const;
 
 private:
+	std::vector<FilePath> doGetPaths() const override;
+
 	std::vector<std::shared_ptr<PathDetector>> m_detectors;
 };
 

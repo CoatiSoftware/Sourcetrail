@@ -114,7 +114,7 @@ std::wstring QtWindow::getTitle() const
 	return L"";
 }
 
-void QtWindow::updateSubTitle(QString subTitle)
+void QtWindow::updateSubTitle(const QString& subTitle)
 {
 	if (m_subTitle)
 	{
@@ -122,7 +122,7 @@ void QtWindow::updateSubTitle(QString subTitle)
 	}
 }
 
-void QtWindow::updateNextButton(QString text)
+void QtWindow::updateNextButton(const QString& text)
 {
 	if (m_nextButton)
 	{
@@ -130,7 +130,7 @@ void QtWindow::updateNextButton(QString text)
 	}
 }
 
-void QtWindow::updatePreviousButton(QString text)
+void QtWindow::updatePreviousButton(const QString& text)
 {
 	if (m_previousButton)
 	{
@@ -138,7 +138,7 @@ void QtWindow::updatePreviousButton(QString text)
 	}
 }
 
-void QtWindow::updateCloseButton(QString text)
+void QtWindow::updateCloseButton(const QString& text)
 {
 	if (m_closeButton)
 	{
@@ -351,7 +351,8 @@ void QtWindow::addLogo()
 
 	QLabel* sourcetrailLogoLabel = new QLabel(this);
 	sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
-	sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
+	sourcetrailLogoLabel->resize(
+		static_cast<int>(sourcetrailLogo.width()), static_cast<int>(sourcetrailLogo.height()));
 	sourcetrailLogoLabel->move(m_isSubWindow ? 40 : 23, 25);
 	sourcetrailLogoLabel->show();
 

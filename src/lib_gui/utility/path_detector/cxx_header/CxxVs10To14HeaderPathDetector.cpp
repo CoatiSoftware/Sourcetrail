@@ -21,32 +21,6 @@ CxxVs10To14HeaderPathDetector::CxxVs10To14HeaderPathDetector(
 {
 }
 
-std::vector<FilePath> CxxVs10To14HeaderPathDetector::getPaths() const
-{
-	const FilePath vsInstallPath = getVsInstallPathUsingRegistry();
-
-	// vc++ headers
-	std::vector<FilePath> headerSearchPaths;
-	if (vsInstallPath.exists())
-	{
-		for (const std::wstring& subdirectory: {L"vc/include", L"vc/atlmfc/include"})
-		{
-			FilePath headerSearchPath = vsInstallPath.getConcatenated(subdirectory);
-			if (headerSearchPath.exists())
-			{
-				headerSearchPaths.push_back(headerSearchPath.makeCanonical());
-			}
-		}
-	}
-
-	if (!headerSearchPaths.empty())
-	{
-		utility::append(headerSearchPaths, utility::getWindowsSdkHeaderSearchPaths(m_architecture));
-	}
-
-	return headerSearchPaths;
-}
-
 int CxxVs10To14HeaderPathDetector::visualStudioTypeToVersion(const VisualStudioType t)
 {
 	switch (t)
@@ -80,6 +54,32 @@ std::string CxxVs10To14HeaderPathDetector::visualStudioTypeToString(const Visual
 	return ret;
 }
 
+std::vector<FilePath> CxxVs10To14HeaderPathDetector::doGetPaths() const
+{
+	const FilePath vsInstallPath = getVsInstallPathUsingRegistry();
+
+	// vc++ headers
+	std::vector<FilePath> headerSearchPaths;
+	if (vsInstallPath.exists())
+	{
+		for (const std::wstring& subdirectory: {L"vc/include", L"vc/atlmfc/include"})
+		{
+			FilePath headerSearchPath = vsInstallPath.getConcatenated(subdirectory);
+			if (headerSearchPath.exists())
+			{
+				headerSearchPaths.push_back(headerSearchPath.makeCanonical());
+			}
+		}
+	}
+
+	if (!headerSearchPaths.empty())
+	{
+		utility::append(headerSearchPaths, utility::getWindowsSdkHeaderSearchPaths(m_architecture));
+	}
+
+	return headerSearchPaths;
+}
+
 FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 {
 	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
@@ -88,7 +88,7 @@ FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 		key += "Wow6432Node\\";
 	}
 	key += "Microsoft\\";
-	key += (m_isExpress ? "VCExpress" : "VisualStudio");
+	key += (m_isExpress ? QStringLiteral("VCExpress") : QStringLiteral("VisualStudio"));
 	key += "\\" + QString::number(m_version) + ".0";
 
 	QSettings expressKey(
