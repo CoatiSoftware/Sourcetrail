@@ -12,6 +12,7 @@ void QtHelpButtonInfo::displayMessage(QWidget* messageBoxParent)
 	QMessageBox msgBox(messageBoxParent);
 	msgBox.setWindowTitle(QStringLiteral("Sourcetrail"));
 	msgBox.setIcon(QMessageBox::Information);
+	msgBox.setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
 	msgBox.setText("<b>" + m_title + "</b>");
 	msgBox.setInformativeText(m_text);
 	msgBox.setStandardButtons(QMessageBox::Ok);
