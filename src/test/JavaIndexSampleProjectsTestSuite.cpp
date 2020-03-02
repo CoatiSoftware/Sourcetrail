@@ -114,7 +114,7 @@ void processSourceFile(
 			expectedOutput->getLineCount() == output->getLineCount());
 		if (expectedOutput->getLineCount() == output->getLineCount())
 		{
-			for (size_t i = 1; i <= expectedOutput->getLineCount(); i++)
+			for (unsigned int i = 1; i <= expectedOutput->getLineCount(); i++)
 			{
 				REQUIRE(expectedOutput->getLine(i) == output->getLine(i));
 			}

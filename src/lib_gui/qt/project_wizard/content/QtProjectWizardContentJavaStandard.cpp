@@ -30,7 +30,7 @@ void QtProjectWizardContentJavaStandard::load()
 		std::vector<std::wstring> standards = m_sourceGroupSettings->getAvailableJavaStandards();
 		for (size_t i = 0; i < standards.size(); i++)
 		{
-			m_standard->insertItem(i, QString::fromStdWString(standards[i]));
+			m_standard->insertItem(static_cast<int>(i), QString::fromStdWString(standards[i]));
 		}
 
 		m_standard->setCurrentText(QString::fromStdWString(m_sourceGroupSettings->getJavaStandard()));
