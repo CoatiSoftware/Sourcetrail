@@ -4,7 +4,7 @@
 	<window>
 		<background>#494949</background>
 		<separator>#CCCCCC</separator>
-		<focus>#7BC217</focus>
+		<focus>#9BF51D</focus>
 		<scrollbar>
 			<background>transparent</background>
 			<handle>#80999999</handle>
@@ -381,8 +381,14 @@
 
 			<access>
 				<fill>
-					<normal>#CCCCCC</normal>
+					<normal>#494949</normal>
 				</fill>
+				<text>
+					<normal>#FFFFFF</normal>
+				</text>
+				<icon>
+					<normal>#FFFFFF</normal>
+				</icon>
 			</access>
 			<bundle>
 				<fill>
