@@ -9,12 +9,14 @@
 
 #include "QtCodeArea.h"
 
+#include "CodeFocusHandler.h"
 #include "CodeSnippetParams.h"
 
 class QBoxLayout;
 class QPushButton;
 class QtCodeFile;
 class QtCodeNavigator;
+class QtHoverButton;
 class SourceLocationFile;
 
 class QtCodeSnippet: public QFrame
@@ -51,6 +53,12 @@ public:
 	void findScreenMatches(
 		const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 
+	bool hasFocus(const CodeFocusHandler::Focus& focus) const;
+	bool setFocus(Id locationId);
+	bool moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction);
+	void focusTop();
+	void focusBottom();
+
 	void ensureLocationIdVisible(Id locationId, bool animated);
 
 private slots:
@@ -58,8 +66,9 @@ private slots:
 	void clickedFooter();
 
 private:
-	QPushButton* createScopeLine(QBoxLayout* layout);
+	QtHoverButton* createScopeLine(QBoxLayout* layout);
 	void updateDots();
+	void updateScopeLineFocus(QPushButton* line, QPushButton* dots);
 
 	QtCodeNavigator* m_navigator;
 	QtCodeFile* m_file;
@@ -72,9 +81,13 @@ private:
 
 	std::vector<QPushButton*> m_dots;
 
-	QPushButton* m_title;
-	QPushButton* m_footer;
-	QtCodeArea* m_codeArea;
+	QtHoverButton* m_title = nullptr;
+	QtHoverButton* m_footer = nullptr;
+
+	QPushButton* m_titleDots = nullptr;
+	QPushButton* m_footerDots = nullptr;
+
+	QtCodeArea* m_codeArea = nullptr;
 };
 
 #endif	  // QT_CODE_SNIPPET_H

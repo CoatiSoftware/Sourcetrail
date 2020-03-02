@@ -7,6 +7,7 @@
 
 #include "types.h"
 
+class GraphFocusHandler;
 class QPushButton;
 class QTimer;
 class QtGraphEdge;
@@ -18,7 +19,7 @@ class QtGraphicsView: public QGraphicsView
 	Q_OBJECT
 
 public:
-	QtGraphicsView(QWidget* parent);
+	QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent);
 
 	float getZoomFactor() const;
 	void setAppZoomFactor(float appZoomFactor);
@@ -46,10 +47,15 @@ protected:
 
 	void contextMenuEvent(QContextMenuEvent* event);
 
+	void focusInEvent(QFocusEvent* event);
+	void focusOutEvent(QFocusEvent* event);
+
 signals:
 	void emptySpaceClicked();
-	void characterKeyPressed(QChar c);
 	void resized();
+
+	void focusIn();
+	void focusOut();
 
 private slots:
 	void updateTimer();
@@ -82,16 +88,16 @@ private:
 	void setZoomFactor(float zoomFactor);
 	void updateTransform();
 
+	GraphFocusHandler* m_focusHandler;
+
 	QPoint m_last;
 
 	float m_zoomFactor;
 	float m_appZoomFactor;
 
-	bool m_up;
-	bool m_down;
-	bool m_left;
-	bool m_right;
-	bool m_shift;
+	bool m_up = false;
+	bool m_down = false;
+	bool m_alt = false;
 
 	std::wstring m_clipboardNodeName;
 	Id m_openInTabNodeId;
@@ -117,6 +123,8 @@ private:
 	QAction* m_bookmarkNodeAction;
 
 	QAction* m_exportGraphAction;
+
+	QWidget* m_focusIndicator;
 
 	QPushButton* m_zoomState;
 	QtSelfRefreshIconButton* m_zoomInButton;

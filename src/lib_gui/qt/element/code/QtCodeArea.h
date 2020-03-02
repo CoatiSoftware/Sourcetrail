@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "CodeFocusHandler.h"
 #include "QtCodeField.h"
 #include "QtScrollSpeedChangeListener.h"
 
@@ -86,6 +87,12 @@ public:
 
 	void ensureLocationIdVisible(Id locationId, int parentWidth, bool animated);
 
+	bool setFocus(Id locationId);
+	bool moveFocus(CodeFocusHandler::Direction direction, size_t lineNumber, Id locationId);
+	bool moveFocusToLine(int lineNumber, int targetColumn, bool up);
+	bool moveFocusInLine(size_t lineNumber, Id locationId, bool forward);
+	void activateLocationId(Id locationId, bool fromMouse);
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
@@ -100,7 +107,7 @@ protected:
 
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount = 0);
-	void updateLineNumberArea(QRect , int);
+	void updateLineNumberArea(QRect, int);
 	void setIDECursorPosition();
 	void setCopyAvailable(bool yes);
 
@@ -110,7 +117,8 @@ private:
 	void dragSelectedText();
 	bool isSelectionPosition(QPoint positionPoint) const;
 
-	void activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations);
+	void activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations, bool fromMouse);
+	void focusAnnotation(const Annotation* annotation, bool updateTargetColumn, bool fromMouse);
 
 	void annotateText();
 

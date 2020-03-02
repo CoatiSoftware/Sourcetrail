@@ -30,7 +30,19 @@ public:
 	virtual void windowReady() override;
 
 private:
+	struct Shortcut
+	{
+		const QString name;
+		const QString shortcut;
+
+		Shortcut(const QString& name, const QString& shortcut);
+		static Shortcut defaultOrMac(const QString& name, const QString& defaultShortcut, const QString& macShortcut);
+		static Shortcut winMacOrLinux(
+			const QString& name, const QString& winShortcut, const QString& macShortcut, const QString& linuxShortcut);
+	};
+
 	QtShortcutTable* createTableWidget(const std::string& objectName);
+	void addShortcuts(QtShortcutTable* table, const std::vector<Shortcut>& shortcuts) const;
 
 	QTableWidget* createGenerelShortcutsTable();
 	QTableWidget* createCodeViewShortcutsTable();

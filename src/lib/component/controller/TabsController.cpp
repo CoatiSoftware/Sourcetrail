@@ -5,6 +5,7 @@
 #include "MessageIndexingFinished.h"
 #include "MessageScrollToLine.h"
 #include "MessageSearch.h"
+#include "MessageWindowChanged.h"
 #include "ScreenSearchInterfaces.h"
 #include "TabId.h"
 #include "TaskLambda.h"
@@ -51,6 +52,8 @@ void TabsController::addTab(Id tabId, SearchMatch match)
 
 	m_tabs.emplace(
 		tabId, std::make_shared<Tab>(tabId, m_viewFactory, m_storageAccess, m_screenSearchSender));
+
+	MessageWindowChanged().dispatch();
 
 	if (match.isValid())
 	{

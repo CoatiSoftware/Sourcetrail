@@ -41,7 +41,7 @@ void ComponentManager::setupMain(ViewLayout* viewLayout, Id appId)
 {
 	std::shared_ptr<CompositeView> compositeView =
 		m_componentFactory.getViewFactory()->createCompositeView(
-			viewLayout, CompositeView::DIRECTION_HORIZONTAL, "Search");
+			viewLayout, CompositeView::DIRECTION_HORIZONTAL, "Search", 0);
 	m_singleViews.push_back(compositeView);
 
 	std::shared_ptr<UndoRedoView> undoRedoView =
@@ -134,7 +134,7 @@ void ComponentManager::setupTab(ViewLayout* viewLayout, Id tabId, ScreenSearchSe
 {
 	std::shared_ptr<CompositeView> compositeView =
 		m_componentFactory.getViewFactory()->createCompositeView(
-			viewLayout, CompositeView::DIRECTION_HORIZONTAL, "Search");
+			viewLayout, CompositeView::DIRECTION_HORIZONTAL, "Search", tabId);
 	m_singleViews.push_back(compositeView);
 
 	std::shared_ptr<Component> undoRedoComponent = m_componentFactory.createUndoRedoComponent(
@@ -207,6 +207,29 @@ void ComponentManager::refreshViews()
 	{
 		view->refreshView();
 	}
+}
+
+View* ComponentManager::getView(const std::string& name) const
+{
+	for (const std::shared_ptr<Component>& component: m_components)
+	{
+		View* view = component->getViewPtr();
+
+		if (view && view->getName() == name)
+		{
+			return view;
+		}
+	}
+
+	for (const std::shared_ptr<View>& view: m_singleViews)
+	{
+		if (view->getName() == name)
+		{
+			return view.get();
+		}
+	}
+
+	return nullptr;
 }
 
 std::shared_ptr<DialogView> ComponentManager::getDialogView(DialogView::UseCase useCase) const

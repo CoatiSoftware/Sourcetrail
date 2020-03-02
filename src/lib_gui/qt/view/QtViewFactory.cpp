@@ -28,9 +28,9 @@ std::shared_ptr<MainView> QtViewFactory::createMainView(StorageAccess* storageAc
 }
 
 std::shared_ptr<CompositeView> QtViewFactory::createCompositeView(
-	ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name) const
+	ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name, const Id tabId) const
 {
-	return View::createAndAddToLayout<QtCompositeView>(viewLayout, direction, name);
+	return View::createAndAddToLayout<QtCompositeView>(viewLayout, direction, name, tabId);
 }
 
 std::shared_ptr<TabbedView> QtViewFactory::createTabbedView(

@@ -19,6 +19,7 @@
 #include "MessageCodeShowDefinition.h"
 #include "MessageDeactivateEdge.h"
 #include "MessageErrorCountClear.h"
+#include "MessageFocusChanged.h"
 #include "MessageFlushUpdates.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
@@ -28,6 +29,7 @@
 #include "MessageShowError.h"
 #include "MessageShowReference.h"
 #include "MessageShowScope.h"
+#include "MessageToNextCodeReference.h"
 #include "types.h"
 
 #include "CodeView.h"
@@ -54,6 +56,7 @@ class CodeController
 	, public MessageListener<MessageCodeShowDefinition>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageErrorCountClear>
+	, public MessageListener<MessageFocusChanged>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -62,6 +65,7 @@ class CodeController
 	, public MessageListener<MessageShowError>
 	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageShowScope>
+	, public MessageListener<MessageToNextCodeReference>
 {
 public:
 	CodeController(StorageAccess* storageAccess);
@@ -77,6 +81,7 @@ private:
 		Id locationId = 0;
 		Id scopeLocationId = 0;
 		LocationType locationType = LOCATION_TOKEN;
+		size_t lineNumber = 0;
 	};
 
 	void handleMessage(MessageActivateErrors* message) override;
@@ -92,6 +97,7 @@ private:
 	void handleMessage(MessageCodeShowDefinition* message) override;
 	void handleMessage(MessageDeactivateEdge* message) override;
 	void handleMessage(MessageErrorCountClear* message) override;
+	void handleMessage(MessageFocusChanged* message) override;
 	void handleMessage(MessageFlushUpdates* message) override;
 	void handleMessage(MessageFocusIn* message) override;
 	void handleMessage(MessageFocusOut* message) override;
@@ -100,6 +106,7 @@ private:
 	void handleMessage(MessageShowError* message) override;
 	void handleMessage(MessageShowReference* message) override;
 	void handleMessage(MessageShowScope* message) override;
+	void handleMessage(MessageToNextCodeReference* message) override;
 
 	CodeView* getView() const;
 
@@ -132,6 +139,15 @@ private:
 
 	void iterateReference(bool next);
 	void iterateLocalReference(bool next, bool updateView);
+
+	void showCurrentReference();
+	void showCurrentLocalReference(bool updateView);
+
+	std::pair<int, int> findClosestReferenceIndex(
+		const std::vector<Reference>& references,
+		const FilePath& currentFilePath,
+		size_t currentLineNumber,
+		bool next) const;
 
 	void expandVisibleFiles(bool useSingleFileCache);
 	CodeFileParams* addSourceLocations(std::shared_ptr<SourceLocationFile> locationFile);

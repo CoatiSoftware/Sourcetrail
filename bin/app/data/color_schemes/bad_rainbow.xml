@@ -4,6 +4,7 @@
 	<window>
 		<background>#494949</background>
 		<separator>#CCCCCC</separator>
+		<focus>#9BF51D</focus>
 		<scrollbar>
 			<background>transparent</background>
 			<handle>#80999999</handle>
@@ -106,7 +107,6 @@
 
 		<file>
 			<background>#AAAAAA</background>
-			<hover>#999999</hover>
 
 			<title>
 				<text>black</text>
@@ -130,7 +130,6 @@
 			<title>
 				<text>#A0A0A0</text>
 				<background>transparent</background>
-				<hover>#2F2F2F</hover>
 			</title>
 
 			<line_number>
@@ -255,7 +254,7 @@
 			<type>
 				<border>
 					<normal>#20FFFFFF</normal>
-					<focus>#FFFFFF</focus>
+					<highlight>#FFFFFF</highlight>
 				</border>
 				<text>
 					<normal>#FFFFFF</normal>
@@ -292,11 +291,11 @@
 			<function>
 				<fill>
 					<normal>#FFCC3B</normal>
-					<focus>#FFD05A</focus>
+					<highlight>#FFD05A</highlight>
 				</fill>
 				<border>
 					<normal>transparent</normal>
-					<focus>#FFFFFF</focus>
+					<highlight>#FFFFFF</highlight>
 				</border>
 				<hatching>
 					<normal>#FFE8A6</normal>
@@ -309,11 +308,11 @@
 			<global_variable>
 				<fill>
 					<normal>#2FC2D6</normal>
-					<focus>#38D3E8</focus>
+					<highlight>#38D3E8</highlight>
 				</fill>
 				<border>
 					<normal>transparent</normal>
-					<focus>#FFFFFF</focus>
+					<highlight>#FFFFFF</highlight>
 				</border>
 				<hatching>
 					<normal>#96DAE3</normal>
@@ -335,7 +334,7 @@
 				</fill>
 				<border>
 					<normal>#80FFFFFF</normal>
-					<focus>#FFFFFF</focus>
+					<highlight>#FFFFFF</highlight>
 				</border>
 				<text>
 					<normal>#FFFFFF</normal>
@@ -357,11 +356,11 @@
 			<file>
 				<fill>
 					<normal>#4E82F6</normal>
-					<focus>#6793F6</focus>
+					<highlight>#6793F6</highlight>
 				</fill>
 				<border>
 					<normal>#20FFFFFF</normal>
-					<focus>#FFFFFF</focus>
+					<highlight>#FFFFFF</highlight>
 				</border>
 				<text>
 					<normal>#FFFFFF</normal>
@@ -382,8 +381,14 @@
 
 			<access>
 				<fill>
-					<normal>#CCCCCC</normal>
+					<normal>#494949</normal>
 				</fill>
+				<text>
+					<normal>#FFFFFF</normal>
+				</text>
+				<icon>
+					<normal>#FFFFFF</normal>
+				</icon>
 			</access>
 			<bundle>
 				<fill>
@@ -391,7 +396,7 @@
 				</fill>
 				<border>
 					<normal>#80FFFFFF</normal>
-					<focus>#FFFFFF</focus>
+					<highlight>#FFFFFF</highlight>
 				</border>
 				<text>
 					<normal>#FFFFFF</normal>
@@ -451,7 +456,7 @@
 					</text>
 					<border>
 						<normal>#4E82F6</normal>
-						<focus>#6793F6</focus>
+						<highlight>#6793F6</highlight>
 					</border>
 				</file>
 				<namespace>
@@ -463,7 +468,7 @@
 					</text>
 					<border>
 						<normal>#873E3E</normal>
-						<focus>#944444</focus>
+						<highlight>#944444</highlight>
 					</border>
 				</namespace>
 				<inheritance>
@@ -477,55 +482,24 @@
 			</group>
 		</node>
 		<edge>
-			<default>
-				<normal>#797979</normal>
-			</default>
+			<default>#797979</default>
+			<type_use>#797979</type_use>
+			<inheritance>#797979</inheritance>
 
-			<type_use>
-				<like>default</like>
-			</type_use>
+			<use>#00A0B6</use>
+			<call>#DEA400</call>
+			<call_trail_focus>#FFFFFF</call_trail_focus>
+			<override>#BA5ECC</override>
 
-			<inheritance>
-				<like>default</like>
-			</inheritance>
+			<type_argument>#D93D5F</type_argument>
+			<template_specialization>#D93D5F</template_specialization>
 
-			<override>
-				<normal>#BA5ECC</normal>
-			</override>
+			<include>#4E82F6</include>
+			<import>#4E82F6</import>
+			<macro_use>#4E82F6</macro_use>
+			<annotation_use>#4E82F6</annotation_use>
 
-			<call>
-				<normal>#DEA400</normal>
-				<trail_focus>#FFFFFF</trail_focus>
-			</call>
-
-			<use>
-				<normal>#00A0B6</normal>
-			</use>
-
-			<type_argument>
-				<normal>#D93D5F</normal>
-			</type_argument>
-			<template_specialization>
-				<like>type_argument</like>
-			</template_specialization>
-
-			<include>
-				<normal>#4E82F6</normal>
-			</include>
-			<import>
-				<like>include</like>
-			</import>
-			<macro_use>
-				<like>include</like>
-			</macro_use>
-			<annotation_use>
-				<like>include</like>
-			</annotation_use>
-
-			<aggregation>
-				<normal>#666666</normal>
-				<focus>#6D6D6D</focus>
-			</aggregation>
+			<aggregation>#666666</aggregation>
 		</edge>
 	</graph>
 

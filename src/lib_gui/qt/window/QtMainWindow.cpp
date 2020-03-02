@@ -25,6 +25,7 @@
 #include "MessageCustomTrailShow.h"
 #include "MessageErrorsHelpMessage.h"
 #include "MessageFind.h"
+#include "MessageFocusView.h"
 #include "MessageHistoryRedo.h"
 #include "MessageHistoryUndo.h"
 #include "MessageIndexingShowDialog.h"
@@ -469,6 +470,10 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Space:
 		PRINT_TRACES();
 		break;
+
+	case Qt::Key_Tab:
+		MessageFocusView(MessageFocusView::ViewType::TOGGLE).dispatch();
+		break;
 	}
 }
 
@@ -488,6 +493,12 @@ void QtMainWindow::resizeEvent(QResizeEvent* event)
 {
 	m_windowStack.centerSubWindows();
 	QMainWindow::resizeEvent(event);
+}
+
+bool QtMainWindow::focusNextPrevChild(bool next)
+{
+	// makes tab key available in key press event
+	return false;
 }
 
 void QtMainWindow::about()
@@ -905,17 +916,17 @@ void QtMainWindow::setupEditMenu()
 		tr("Next Local Reference"),
 		this,
 		&QtMainWindow::codeLocalReferenceNext,
-		QKeySequence(Qt::CTRL + Qt::Key_E));
+		QKeySequence(Qt::CTRL + Qt::Key_L));
 	menu->addAction(
 		tr("Previous Local Reference"),
 		this,
 		&QtMainWindow::codeLocalReferencePrevious,
-		QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_E));
+		QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_L));
 
 	menu->addSeparator();
 
 	menu->addAction(
-		tr("Custom Trail..."), this, &QtMainWindow::customTrail, QKeySequence(Qt::CTRL + Qt::Key_L));
+		tr("Custom Trail..."), this, &QtMainWindow::customTrail, QKeySequence(Qt::CTRL + Qt::Key_U));
 
 	menu->addSeparator();
 
@@ -997,8 +1008,8 @@ void QtMainWindow::setupHistoryMenu()
 		m_historyMenu->clear();
 	}
 
-	m_historyMenu->addAction(tr("Back"), this, &QtMainWindow::undo, QKeySequence::Undo);
-	m_historyMenu->addAction(tr("Forward"), this, &QtMainWindow::redo, QKeySequence::Redo);
+	m_historyMenu->addAction(tr("Back"), this, &QtMainWindow::undo, QKeySequence::Back);
+	m_historyMenu->addAction(tr("Forward"), this, &QtMainWindow::redo, QKeySequence::Forward);
 
 	m_historyMenu->addSeparator();
 

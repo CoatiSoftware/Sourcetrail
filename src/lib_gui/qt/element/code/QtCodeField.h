@@ -6,6 +6,7 @@
 
 #include <QPlainTextEdit>
 
+#include "FilePath.h"
 #include "LocationType.h"
 #include "types.h"
 
@@ -29,7 +30,7 @@ public:
 
 	~QtCodeField();
 
-	virtual QSize sizeHint() const override;
+	QSize sizeHint() const override;
 
 	size_t getStartLineNumber() const;
 	size_t getEndLineNumber() const;
@@ -39,40 +40,44 @@ public:
 	std::string getCode() const;
 
 	std::shared_ptr<SourceLocationFile> getSourceLocationFile() const;
+	FilePath getFilePath() const;
 
 	void annotateText();
 
 protected:
-	virtual void paintEvent(QPaintEvent* event) override;
-	virtual void enterEvent(QEvent* event) override;
-	virtual void leaveEvent(QEvent* event) override;
+	void paintEvent(QPaintEvent* event) override;
+	void enterEvent(QEvent* event) override;
+	void leaveEvent(QEvent* event) override;
 
-	virtual void mouseMoveEvent(QMouseEvent* event) override;
-	virtual void mouseReleaseEvent(QMouseEvent* event) override;
+	void mouseMoveEvent(QMouseEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
 
-	virtual void contextMenuEvent(QContextMenuEvent* event) override;
+	void keyPressEvent(QKeyEvent* event) override;
+
+	void contextMenuEvent(QContextMenuEvent* event) override;
 
 	virtual void focusTokenIds(const std::vector<Id>& tokenIds);
 	virtual void defocusTokenIds(const std::vector<Id>& tokenIds);
 
 	struct Annotation
 	{
-		int startLine;
-		int endLine;
+		int startLine = 0;
+		int endLine = 0;
 
-		int startCol;
-		int endCol;
+		int startCol = 0;
+		int endCol = 0;
 
-		int start;
-		int end;
+		int start = 0;
+		int end = 0;
 
 		std::set<Id> tokenIds;
-		Id locationId;
+		Id locationId = 0;
 
-		LocationType locationType;
+		LocationType locationType = LOCATION_TOKEN;
 
-		bool isActive;
-		bool isFocused;
+		bool isActive = false;
+		bool isFocused = false;
+		bool isCoFocused = false;
 	};
 
 	struct AnnotationColor
@@ -85,10 +90,11 @@ protected:
 	bool annotateText(
 		const std::set<Id>& activeSymbolIds,
 		const std::set<Id>& activeLocationIds,
-		const std::set<Id>& focusedSymbolIds);
+		const std::set<Id>& focusedSymbolIds,
+		Id focusedLocationId);
 
 	void createAnnotations(std::shared_ptr<SourceLocationFile> locationFile);
-	void activateAnnotations(const std::vector<const Annotation*>& annotations);
+	void activateAnnotations(const std::vector<const Annotation*>& annotations, bool fromMouse, int mouseOffsetX);
 
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
 	std::pair<int, int> toLineColumn(int textEditPosition) const;
@@ -102,6 +108,10 @@ protected:
 	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
 	void setTextColorForAnnotation(const Annotation& annotation, QColor color) const;
 
+	const std::string& getFocusColor();
+
+	const Annotation* getAnnotationForLocationId(Id locationId) const;
+	std::vector<const Annotation*> getInteractiveAnnotationsForLineNumber(size_t lineNumber) const;
 	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(QPoint position) const;
 	std::vector<Id> getInteractiveTokenIdsForPosition(QPoint position) const;
 
@@ -113,11 +123,12 @@ protected:
 
 	QAction* m_openInTabAction;
 
-private slots:
+protected slots:
 	void openInTab();
 
 private:
 	static std::vector<AnnotationColor> s_annotationColors;
+	static std::string s_focusColor;
 
 	void createLineLengthCache();
 	void createMultibyteCharacterLocationCache(const QString& code);

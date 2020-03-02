@@ -1,10 +1,12 @@
 #include "CodeController.h"
 
+#include <cmath>
 #include <memory>
 
 #include "Application.h"
 #include "ApplicationSettings.h"
 #include "FileInfo.h"
+#include "MessageFocusView.h"
 #include "MessageMoveIDECursor.h"
 #include "MessageShowError.h"
 #include "MessageStatus.h"
@@ -314,6 +316,8 @@ void CodeController::handleMessage(MessageCodeReference* message)
 	{
 		iterateReference(next);
 	}
+
+	MessageFocusView(MessageFocusView::ViewType::CODE).dispatch();
 }
 
 void CodeController::handleMessage(MessageCodeShowDefinition* message)
@@ -427,6 +431,14 @@ void CodeController::handleMessage(MessageErrorCountClear* message)
 	}
 }
 
+void CodeController::handleMessage(MessageFocusChanged* message)
+{
+	if (message->isReplayed() && message->isFromCode())
+	{
+		m_codeParams.locationIdToFocus = message->tokenOrLocationId;
+	}
+}
+
 void CodeController::handleMessage(MessageFlushUpdates* message)
 {
 	showFiles(m_codeParams, m_scrollParams, true);
@@ -434,12 +446,12 @@ void CodeController::handleMessage(MessageFlushUpdates* message)
 
 void CodeController::handleMessage(MessageFocusIn* message)
 {
-	getView()->focusTokenIds(message->tokenIds);
+	getView()->coFocusTokenIds(message->tokenIds);
 }
 
 void CodeController::handleMessage(MessageFocusOut* message)
 {
-	getView()->defocusTokenIds();
+	getView()->deCoFocusTokenIds();
 }
 
 void CodeController::handleMessage(MessageScrollToLine* message)
@@ -520,6 +532,99 @@ void CodeController::handleMessage(MessageShowScope* message)
 	}
 
 	showFiles(m_codeParams, CodeScrollParams(), !message->isReplayed());
+}
+
+void CodeController::handleMessage(MessageToNextCodeReference* message)
+{
+	FilePath currentFilePath = message->filePath;
+	size_t currentLineNumber = message->lineNumber;
+	bool next = message->next;
+	bool inListMode = getView()->isInListMode();
+
+	if (currentFilePath.empty())
+	{
+		return;
+	}
+
+	std::pair<int, int> referencePos = findClosestReferenceIndex(
+		m_references, currentFilePath, currentLineNumber, next);
+	std::pair<int, int> localReferencePos = findClosestReferenceIndex(
+		m_localReferences, currentFilePath, currentLineNumber, next);
+
+	int referenceIndex = referencePos.first;
+	int referenceFileIndex = referencePos.second;
+	int localReferenceIndex = localReferencePos.first;
+	int localReferenceFileIndex = localReferencePos.second;
+
+	if (referenceIndex >= 0 && localReferenceIndex >= 0)
+	{
+		if (referenceFileIndex == localReferenceFileIndex)
+		{
+			if (referenceFileIndex < 0)
+			{
+				if (m_references[referenceIndex].filePath !=
+						m_localReferences[localReferenceIndex].filePath ||
+					m_references[referenceIndex].lineNumber >
+						m_localReferences[localReferenceIndex].lineNumber)
+				{
+					localReferenceIndex = -1;
+				}
+				else
+				{
+					referenceIndex = -1;
+				}
+			}
+			else if (referenceFileIndex == 0)
+			{
+				if (std::abs(
+						static_cast<int>(m_references[referenceIndex].lineNumber) -
+						static_cast<int>(currentLineNumber)) <
+					std::abs(
+						static_cast<int>(m_localReferences[localReferenceIndex].lineNumber) -
+						static_cast<int>(currentLineNumber)))
+				{
+					localReferenceIndex = -1;
+				}
+				else
+				{
+					referenceIndex = -1;
+				}
+			}
+			else
+			{
+				if (m_references[referenceIndex].filePath !=
+						m_localReferences[localReferenceIndex].filePath ||
+					m_references[referenceIndex].lineNumber <
+						m_localReferences[localReferenceIndex].lineNumber)
+				{
+					localReferenceIndex = -1;
+				}
+				else
+				{
+					referenceIndex = -1;
+				}
+			}
+		}
+		else if (referenceFileIndex == 0)
+		{
+			localReferenceIndex = -1;
+		}
+		else if (localReferenceFileIndex == 0)
+		{
+			referenceIndex = -1;
+		}
+	}
+
+	if (localReferenceIndex >= 0)
+	{
+		m_localReferenceIndex = localReferenceIndex;
+		showCurrentLocalReference(true);
+	}
+	else if (referenceIndex >= 0)
+	{
+		m_referenceIndex = referenceIndex;
+		showCurrentReference();
+	}
 }
 
 CodeView* CodeController::getView() const
@@ -899,6 +1004,7 @@ void CodeController::createReferences()
 					ref.tokenId = 0;
 					ref.locationId = location->getLocationId();
 					ref.locationType = location->getType();
+					ref.lineNumber = location->getLineNumber();
 					m_references.push_back(ref);
 					return;
 				}
@@ -910,6 +1016,7 @@ void CodeController::createReferences()
 					ref.tokenId = i;
 					ref.locationId = location->getLocationId();
 					ref.locationType = location->getType();
+					ref.lineNumber = location->getLineNumber();
 
 					std::map<Id, Id>::const_iterator it = scopeLocationIds.find(i);
 					if (it != scopeLocationIds.end())
@@ -947,6 +1054,7 @@ void CodeController::createLocalReferences(const std::set<Id>& localSymbolIds)
 					ref.filePath = location->getFilePath();
 					ref.locationId = location->getLocationId();
 					ref.locationType = location->getType();
+					ref.lineNumber = location->getLineNumber();
 					m_localReferences.push_back(ref);
 					return;
 				}
@@ -999,8 +1107,7 @@ void CodeController::iterateReference(bool next)
 		}
 	}
 
-	const Reference& ref = m_references[m_referenceIndex - 1];
-	MessageShowReference(m_referenceIndex, ref.tokenId, ref.locationId, true).dispatch();
+	showCurrentReference();
 }
 
 void CodeController::iterateLocalReference(bool next, bool updateView)
@@ -1031,6 +1138,17 @@ void CodeController::iterateLocalReference(bool next, bool updateView)
 		}
 	}
 
+	showCurrentLocalReference(updateView);
+}
+
+void CodeController::showCurrentReference()
+{
+	const Reference& ref = m_references[m_referenceIndex];
+	MessageShowReference(m_referenceIndex, ref.tokenId, ref.locationId, true).dispatch();
+}
+
+void CodeController::showCurrentLocalReference(bool updateView)
+{
 	const Reference& ref = m_localReferences[m_localReferenceIndex];
 	m_codeParams.currentActiveLocalLocationIds = {ref.locationId};
 
@@ -1047,6 +1165,57 @@ void CodeController::iterateLocalReference(bool next, bool updateView)
 	}
 
 	showFiles(m_codeParams, toReferenceScrollParams(ref), updateView);
+}
+
+std::pair<int, int> CodeController::findClosestReferenceIndex(
+	const std::vector<Reference>& references,
+	const FilePath& currentFilePath,
+	size_t currentLineNumber,
+	bool next) const
+{
+	int referenceIndex = -1;
+	bool beforeCurrentFile = true;
+
+	for (size_t i = 0; i < references.size(); i++)
+	{
+		if (references[i].filePath == currentFilePath)
+		{
+			if (!next)
+			{
+				if (references[i].lineNumber < currentLineNumber)
+				{
+					referenceIndex = static_cast<int>(i);
+				}
+				else
+				{
+					return {referenceIndex, beforeCurrentFile ? -1 : 0};
+				}
+			}
+			else if (references[i].lineNumber > currentLineNumber)
+			{
+				return {static_cast<int>(i), 0};
+			}
+
+			beforeCurrentFile = false;
+		}
+		else if (!next)
+		{
+			if (beforeCurrentFile)
+			{
+				referenceIndex = static_cast<int>(i);
+			}
+			else
+			{
+				return {referenceIndex, 1};
+			}
+		}
+		else if (next && !beforeCurrentFile)
+		{
+			return {static_cast<int>(i), 1};
+		}
+	}
+
+	return {referenceIndex, beforeCurrentFile ? -1 : 1};
 }
 
 void CodeController::expandVisibleFiles(bool useSingleFileCache)
@@ -1300,9 +1469,7 @@ CodeScrollParams CodeController::firstReferenceScrollParams() const
 		const Reference& ref = m_references.front();
 
 		return CodeScrollParams::toReference(
-			ref.filePath,
-			ref.scopeLocationId ? ref.scopeLocationId : ref.locationId,
-			CodeScrollParams::Target::TOP);
+			ref.filePath, ref.locationId, ref.scopeLocationId, CodeScrollParams::Target::TOP);
 	}
 
 	return CodeScrollParams();
@@ -1318,7 +1485,7 @@ CodeScrollParams CodeController::definitionReferenceScrollParams(const std::vect
 			if (ref.scopeLocationId && ref.tokenId == activeTokenId)
 			{
 				return CodeScrollParams::toReference(
-					ref.filePath, ref.scopeLocationId, CodeScrollParams::Target::TOP);
+					ref.filePath, ref.locationId, ref.scopeLocationId, CodeScrollParams::Target::TOP);
 			}
 		}
 
@@ -1327,7 +1494,7 @@ CodeScrollParams CodeController::definitionReferenceScrollParams(const std::vect
 			if (ref.tokenId == activeTokenId)
 			{
 				return CodeScrollParams::toReference(
-					ref.filePath, ref.locationId, CodeScrollParams::Target::TOP);
+					ref.filePath, ref.locationId, ref.scopeLocationId, CodeScrollParams::Target::TOP);
 			}
 		}
 	}
@@ -1338,9 +1505,7 @@ CodeScrollParams CodeController::definitionReferenceScrollParams(const std::vect
 CodeScrollParams CodeController::toReferenceScrollParams(const Reference& ref) const
 {
 	return CodeScrollParams::toReference(
-		ref.filePath,
-		ref.scopeLocationId ? ref.scopeLocationId : ref.locationId,
-		CodeScrollParams::Target::CENTER);
+		ref.filePath, ref.locationId, ref.scopeLocationId, CodeScrollParams::Target::CENTER);
 }
 
 void CodeController::saveOrRestoreViewMode(MessageBase* message)

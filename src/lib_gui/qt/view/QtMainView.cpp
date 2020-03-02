@@ -3,11 +3,12 @@
 #include "MessageRefreshUIState.h"
 #include "QtMainWindow.h"
 #include "QtViewWidgetWrapper.h"
+#include "utilityApp.h"
 
 QtMainView::QtMainView(const ViewFactory* viewFactory, StorageAccess* storageAccess)
 	: MainView(viewFactory, storageAccess)
 {
-	m_window = std::make_shared<QtMainWindow>();
+	m_window = new QtMainWindow();
 	m_window->show();
 }
 
@@ -15,11 +16,12 @@ QtMainView::~QtMainView()
 {
 	// clear components to avoid double deletion of views when destroying m_window
 	m_componentManager.clear();
+	m_window->deleteLater();
 }
 
 QtMainWindow* QtMainView::getMainWindow() const
 {
-	return m_window.get();
+	return m_window;
 }
 
 void QtMainView::addView(View* view)
@@ -169,4 +171,16 @@ void QtMainView::handleMessage(MessageProjectNew* message)
 	FilePath cdbPath = message->cdbPath;
 
 	m_onQtThread([=]() { m_window->newProjectFromCDB(cdbPath); });
+}
+
+void QtMainView::handleMessage(MessageWindowChanged* message)
+{
+	// Fixes an issue where newly added QtWidgets don't fully respond to focus events on macOS
+	if (utility::getOsType() == OS_MAC)
+	{
+		m_onQtThread([=]() {
+			m_window->hide();
+			m_window->show();
+		});
+	}
 }

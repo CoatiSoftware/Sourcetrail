@@ -32,6 +32,7 @@ public:
 	{
 		bool clearSnippets = false;
 		bool useSingleFileCache = true;
+		Id locationIdToFocus = 0;
 
 		size_t referenceCount = 0;
 		size_t referenceIndex = 0;
@@ -68,13 +69,16 @@ public:
 
 	virtual bool showsErrors() const = 0;
 
-	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
-	virtual void defocusTokenIds() = 0;
+	virtual void coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds) = 0;
+	virtual void deCoFocusTokenIds() = 0;
 
 	virtual bool isInListMode() const = 0;
 	virtual void setMode(bool listMode) = 0;
 
 	virtual bool hasSingleFileCached(const FilePath& filePath) const = 0;
+
+	virtual void setNavigationFocus(bool focus) = 0;
+	virtual bool hasNavigationFocus() const = 0;
 
 protected:
 	CodeController* getController();

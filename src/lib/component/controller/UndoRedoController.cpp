@@ -183,6 +183,19 @@ void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageFocusChanged* message)
+{
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageFocusChanged*>(lastMessage())->tokenOrLocationId ==
+			message->tokenOrLocationId)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageFocusChanged>(*message), Command::ORDER_VIEW, true);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
 	Command command(std::make_shared<MessageGraphNodeBundleSplit>(*message), Command::ORDER_ADAPT);

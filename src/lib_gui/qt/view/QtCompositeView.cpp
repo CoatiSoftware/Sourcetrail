@@ -7,25 +7,40 @@
 #include "utilityQt.h"
 
 QtCompositeView::QtCompositeView(
-	ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
-	: CompositeView(viewLayout, direction, name)
+	ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId)
+	: CompositeView(viewLayout, direction, name, tabId)
 {
-	QBoxLayout* layout;
+	QBoxLayout* topLayout = new QVBoxLayout();
+	topLayout->setSpacing(0);
+	topLayout->setContentsMargins(0, 0, 0, 0);
+
+	const size_t indicatorHeight = 3;
+
+	{
+		m_focusIndicator = new QWidget();
+		m_focusIndicator->setObjectName(QStringLiteral("focus_indicator"));
+		m_focusIndicator->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+		m_focusIndicator->setFixedHeight(indicatorHeight);
+		topLayout->addWidget(m_focusIndicator);
+	}
+
 	if (getDirection() == CompositeView::DIRECTION_HORIZONTAL)
 	{
-		layout = new QHBoxLayout();
+		m_layout = new QHBoxLayout();
 	}
 	else
 	{
-		layout = new QVBoxLayout();
+		m_layout = new QVBoxLayout();
 	}
 
-	layout->setSpacing(5);
-	layout->setContentsMargins(8, 8, 8, 8);
-	layout->setAlignment(Qt::AlignTop);
+	m_layout->setSpacing(5);
+	m_layout->setContentsMargins(8, 8 - indicatorHeight, 8, 7);
+	m_layout->setAlignment(Qt::AlignTop);
+
+	topLayout->addLayout(m_layout);
 
 	m_widget = new QWidget();
-	m_widget->setLayout(layout);
+	m_widget->setLayout(topLayout);
 
 	refreshView();
 }
@@ -41,9 +56,19 @@ void QtCompositeView::refreshView()
 		utility::setWidgetBackgroundColor(
 			m_widget, ColorScheme::getInstance()->getColor("search/background"));
 	});
+
+	showFocusIndicator(false);
 }
 
 void QtCompositeView::addViewWidget(View* view)
 {
-	m_widget->layout()->addWidget(QtViewWidgetWrapper::getWidgetOfView(view));
+	m_layout->addWidget(QtViewWidgetWrapper::getWidgetOfView(view));
+}
+
+void QtCompositeView::showFocusIndicator(bool focus)
+{
+	m_onQtThread([=]() {
+		const std::string& colorName = focus ? "window/focus" : "search/background";
+		utility::setWidgetBackgroundColor(m_focusIndicator, ColorScheme::getInstance()->getColor(colorName));
+	});
 }

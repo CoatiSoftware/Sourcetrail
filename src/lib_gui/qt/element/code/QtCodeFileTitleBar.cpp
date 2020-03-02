@@ -2,6 +2,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QStyle>
 #include <QVariant>
 
 #include "Application.h"
@@ -187,6 +188,17 @@ void QtCodeFileTitleBar::updateRefCount(int refCount, bool hasErrors, size_t fat
 	{
 		m_referenceCount->hide();
 	}
+}
+
+bool QtCodeFileTitleBar::isCollapsed() const
+{
+	return m_expandButton->isVisible();
+}
+
+void QtCodeFileTitleBar::setIsFocused(bool focused)
+{
+	setProperty("focused", focused);
+	style()->polish(this);
 }
 
 void QtCodeFileTitleBar::setMinimized()

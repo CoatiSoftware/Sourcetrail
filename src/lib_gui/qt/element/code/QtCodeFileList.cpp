@@ -17,13 +17,28 @@
 #include "SourceLocationFile.h"
 #include "utilityQt.h"
 
+void QtCodeFileListScrollArea::keyPressEvent(QKeyEvent* event)
+{
+	switch (event->key())
+	{
+	case Qt::Key_Up:
+	case Qt::Key_Down:
+	case Qt::Key_Left:
+	case Qt::Key_Right:
+		QWidget::keyPressEvent(event);
+		return;
+	}
+
+	QScrollArea::keyPressEvent(event);
+}
+
 QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	: QFrame()
 	, m_navigator(navigator)
 	, m_mirroredTitleBar(nullptr)
 	, m_mirroredSnippetScrollBar(nullptr)
 {
-	m_scrollArea = new QScrollArea();
+	m_scrollArea = new QtCodeFileListScrollArea();
 
 	m_scrollArea->setObjectName(QStringLiteral("code_container"));
 	m_scrollArea->setWidgetResizable(true);
@@ -160,11 +175,23 @@ void QtCodeFileList::addFile(const CodeFileParams& params)
 
 		if (!same)
 		{
+			Id focusedLocationId = 0;
+			const CodeFocusHandler::Focus& currentFocus = m_navigator->getCurrentFocus();
+			if (currentFocus.area && file->getFilePath() == currentFocus.area->getSourceLocationFile()->getFilePath())
+			{
+				focusedLocationId = currentFocus.locationId;
+			}
+
 			file->clearSnippets();
 
 			for (const CodeSnippetParams& snippetParams: params.snippetParams)
 			{
 				file->addCodeSnippet(snippetParams);
+			}
+
+			if (focusedLocationId)
+			{
+				file->setFocus(focusedLocationId);
 			}
 		}
 
@@ -204,8 +231,10 @@ void QtCodeFileList::scrollTo(
 	const FilePath& filePath,
 	size_t lineNumber,
 	Id locationId,
+	Id scopeLocationId,
 	bool animated,
-	CodeScrollParams::Target target)
+	CodeScrollParams::Target target,
+	bool focusTarget)
 {
 	QtCodeFile* file = getFile(filePath);
 	if (!file)
@@ -215,9 +244,10 @@ void QtCodeFileList::scrollTo(
 
 	QtCodeSnippet* snippet = nullptr;
 
-	if (locationId)
+	Id targetLocationId = scopeLocationId ? scopeLocationId : locationId;
+	if (targetLocationId)
 	{
-		snippet = file->getSnippetForLocationId(locationId);
+		snippet = file->getSnippetForLocationId(targetLocationId);
 	}
 	else if (lineNumber)
 	{
@@ -226,6 +256,7 @@ void QtCodeFileList::scrollTo(
 	else
 	{
 		snippet = file->getSnippetForLine(1);
+		focusTarget = false;
 	}
 
 	if (!snippet || !snippet->isVisible())
@@ -237,9 +268,10 @@ void QtCodeFileList::scrollTo(
 	size_t endLineNumber = 0;
 	if (!lineNumber)
 	{
-		if (locationId)
+		if (targetLocationId)
 		{
-			std::pair<size_t, size_t> lineNumbers = snippet->getLineNumbersForLocationId(locationId);
+			std::pair<size_t, size_t> lineNumbers = snippet->getLineNumbersForLocationId(
+				targetLocationId);
 
 			lineNumber = lineNumbers.first;
 
@@ -251,6 +283,7 @@ void QtCodeFileList::scrollTo(
 		else
 		{
 			lineNumber = 1;
+			focusTarget = false;
 		}
 	}
 
@@ -262,7 +295,12 @@ void QtCodeFileList::scrollTo(
 
 	ensureWidgetVisibleAnimated(m_filesArea, snippet, lineRect, animated, target);
 
-	snippet->ensureLocationIdVisible(locationId, animated);
+	snippet->ensureLocationIdVisible(targetLocationId, animated);
+
+	if (focusTarget)
+	{
+		m_navigator->setFocusedLocationId(snippet->getArea(), lineNumber, 0, locationId, {}, false);
+	}
 }
 
 void QtCodeFileList::onWindowFocus()
@@ -284,6 +322,50 @@ void QtCodeFileList::findScreenMatches(
 	for (QtCodeFile* file: m_files)
 	{
 		file->findScreenMatches(query, screenMatches);
+	}
+}
+
+void QtCodeFileList::setFocus(Id locationId)
+{
+	for (QtCodeFile* file: m_files)
+	{
+		if (file->setFocus(locationId))
+		{
+			return;
+		}
+	}
+}
+
+void QtCodeFileList::setFocusOnTop()
+{
+	if (m_files.size())
+	{
+		m_files[0]->focusTop();
+	}
+}
+
+void QtCodeFileList::moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction)
+{
+	for (size_t i = 0; i < m_files.size(); i++)
+	{
+		QtCodeFile* file = m_files[i];
+
+		if (file->moveFocus(focus, direction))
+		{
+			return;
+		}
+		else if (file->hasFocus(focus))
+		{
+			if (direction == CodeFocusHandler::Direction::UP && i > 0)
+			{
+				m_files[i - 1]->focusBottom();
+			}
+			else if (direction == CodeFocusHandler::Direction::DOWN && i < m_files.size() - 1)
+			{
+				m_files[i + 1]->focusTop();
+			}
+			return;
+		}
 	}
 }
 
@@ -309,16 +391,17 @@ std::pair<QtCodeFile*, Id> QtCodeFileList::getFirstFileWithActiveLocationId() co
 	return std::make_pair(nullptr, 0);
 }
 
-std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationId(Id tokenId) const
+std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetAndActiveLocationId() const
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (QtCodeFile* file: m_files)
+	if (m_files.size())
 	{
-		result = file->getFirstSnippetWithActiveLocationId(tokenId);
-		if (result.first != nullptr)
+		std::vector<QtCodeSnippet*> snippets = m_files[0]->getVisibleSnippets();
+		if (snippets.size())
 		{
-			break;
+			result.first = snippets[0];
+			result.second = snippets[0]->getFirstActiveLocationId(0);
 		}
 	}
 
@@ -334,6 +417,11 @@ void QtCodeFileList::resizeEvent(QResizeEvent* event)
 void QtCodeFileList::updateSnippetTitleAndScrollBarSlot()
 {
 	updateSnippetTitleAndScrollBar(0);
+
+	if (m_firstSnippetTitleBar && m_firstSnippetFile)
+	{
+		m_firstSnippetTitleBar->setIsFocused(m_navigator->getCurrentFocus().file == m_firstSnippetFile);
+	}
 }
 
 void QtCodeFileList::updateSnippetTitleAndScrollBar(int value)
@@ -402,7 +490,7 @@ void QtCodeFileList::scrollLastSnippetScrollBar(int value)
 	}
 }
 
-void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int fileTitleBarOffset)
+void QtCodeFileList::updateFirstSnippetTitleBar(QtCodeFile* file, int fileTitleBarOffset)
 {
 	const QtCodeFileTitleBar* mirroredTitleBar = file ? file->getTitleBar() : nullptr;
 	if (m_mirroredTitleBar != mirroredTitleBar)
@@ -428,6 +516,10 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 				&QtCodeFileTitleBar::maximize,
 				file,
 				&QtCodeFile::clickedMaximizeButton);
+			connect(m_firstSnippetTitleBar, &QtHoverButton::hoveredIn, [this, file](){
+				m_navigator->setFocusedFile(file);
+				m_navigator->setFocus();
+			});
 
 			m_firstSnippetTitleBar->setGeometry(
 				file->pos().x() + mirroredTitleBar->pos().x(),
@@ -435,6 +527,8 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 				mirroredTitleBar->width(),
 				mirroredTitleBar->height());
 			m_firstSnippetTitleBar->show();
+
+			m_firstSnippetFile = file;
 		}
 		else
 		{
@@ -442,6 +536,8 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 			// issue when changing color scheme
 			m_firstSnippetTitleBar->getTitleButton()->setFilePath(FilePath());
 			m_firstSnippetTitleBar->hide();
+
+			m_firstSnippetFile = nullptr;
 		}
 	}
 

@@ -15,6 +15,7 @@
 #include "MessageChangeFileView.h"
 #include "MessageCodeShowDefinition.h"
 #include "MessageDeactivateEdge.h"
+#include "MessageFocusChanged.h"
 #include "MessageGraphNodeBundleSplit.h"
 #include "MessageGraphNodeExpand.h"
 #include "MessageGraphNodeHide.h"
@@ -49,6 +50,7 @@ class UndoRedoController
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageCodeShowDefinition>
 	, public MessageListener<MessageDeactivateEdge>
+	, public MessageListener<MessageFocusChanged>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeHide>
@@ -102,6 +104,7 @@ private:
 	void handleMessage(MessageChangeFileView* message) override;
 	void handleMessage(MessageCodeShowDefinition* message) override;
 	void handleMessage(MessageDeactivateEdge* message) override;
+	void handleMessage(MessageFocusChanged* message) override;
 	void handleMessage(MessageGraphNodeBundleSplit* message) override;
 	void handleMessage(MessageGraphNodeExpand* message) override;
 	void handleMessage(MessageGraphNodeHide* message) override;

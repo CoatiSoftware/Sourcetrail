@@ -5,14 +5,13 @@
 
 #include "Message.h"
 #include "TabId.h"
-#include "types.h"
-
 #include "TooltipOrigin.h"
+#include "types.h"
 
 class MessageFocusIn: public Message<MessageFocusIn>
 {
 public:
-	MessageFocusIn(const std::vector<Id>& tokenIds, TooltipOrigin origin)
+	MessageFocusIn(const std::vector<Id>& tokenIds, TooltipOrigin origin = TOOLTIP_ORIGIN_NONE)
 		: tokenIds(tokenIds), origin(origin)
 	{
 		setIsLogged(false);

@@ -4,6 +4,7 @@
 	<window>
 		<background>#272728</background>
 		<separator>#CCC</separator>
+		<focus>#FFFF4D</focus>
 		<scrollbar>
 			<background>transparent</background>
 			<handle>#80999999</handle>
@@ -106,7 +107,6 @@
 
 		<file>
 			<background>#5C5C5C</background>
-			<hover>#6C6C6C</hover>
 
 			<title>
 				<text>#F7F7F7</text>
@@ -130,7 +130,6 @@
 			<title>
 				<text>#A0A0A0</text>
 				<background>transparent</background>
-				<hover>#2F2F2F</hover>
 			</title>
 
 			<line_number>
@@ -256,7 +255,7 @@
 			<type>
 				<border>
 					<normal>#20C3C3C3</normal>
-					<focus>#C3C3C3</focus>
+					<highlight>#C3C3C3</highlight>
 				</border>
 			</type>
 			<built_in_type>
@@ -287,11 +286,11 @@
 			<function>
 				<fill>
 					<normal>#7A681F</normal>
-					<focus>#9C8528</focus>
+					<highlight>#9C8528</highlight>
 				</fill>
 				<border>
 					<normal>transparent</normal>
-					<focus>#C3C3C3</focus>
+					<highlight>#C3C3C3</highlight>
 				</border>
 				<hatching>
 					<normal>#544815</normal>
@@ -304,11 +303,11 @@
 			<global_variable>
 				<fill>
 					<normal>#21516B</normal>
-					<focus>#2A6484</focus>
+					<highlight>#2A6484</highlight>
 				</fill>
 				<border>
 					<normal>transparent</normal>
-					<focus>#C3C3C3</focus>
+					<highlight>#C3C3C3</highlight>
 				</border>
 				<hatching>
 					<normal>#17384A</normal>
@@ -330,7 +329,7 @@
 				</fill>
 				<border>
 					<normal>#80C3C3C3</normal>
-					<focus>#C3C3C3</focus>
+					<highlight>#C3C3C3</highlight>
 				</border>
 				<icon>
 					<normal>#C3C3C3</normal>
@@ -349,11 +348,11 @@
 			<file>
 				<fill>
 					<normal>#1B564E</normal>
-					<focus>#21695F</focus>
+					<highlight>#21695F</highlight>
 				</fill>
 				<border>
 					<normal>#20C3C3C3</normal>
-					<focus>#C3C3C3</focus>
+					<highlight>#C3C3C3</highlight>
 				</border>
 				<hatching>
 					<normal>#123B35</normal>
@@ -377,7 +376,7 @@
 				</fill>
 				<border>
 					<normal>#80C3C3C3</normal>
-					<focus>#C3C3C3</focus>
+					<highlight>#C3C3C3</highlight>
 				</border>
 			</bundle>
 			<count_number>
@@ -428,7 +427,7 @@
 					</text>
 					<border>
 						<normal>#1B564E</normal>
-						<focus>#1E6158</focus>
+						<highlight>#1E6158</highlight>
 					</border>
 				</file>
 				<namespace>
@@ -440,7 +439,7 @@
 					</text>
 					<border>
 						<normal>#78282D</normal>
-						<focus>#872D33</focus>
+						<highlight>#872D33</highlight>
 					</border>
 				</namespace>
 				<inheritance>
@@ -454,55 +453,24 @@
 			</group>
 		</node>
 		<edge>
-			<default>
-				<normal>#797979</normal>
-			</default>
+			<default>#797979</default>
+			<type_use>#797979</type_use>
+			<inheritance>#797979</inheritance>
 
-			<type_use>
-				<like>default</like>
-			</type_use>
+			<use>#2D6A8C</use>
+			<call>#9C8528</call>
+			<call_trail_focus>#F7F7F7</call_trail_focus>
+			<override>#8A5A94</override>
 
-			<inheritance>
-				<like>default</like>
-			</inheritance>
+			<type_argument>#C14057</type_argument>
+			<template_specialization>#C14057</template_specialization>
 
-			<override>
-				<normal>#8A5A94</normal>
-			</override>
+			<include>#247368</include>
+			<import>#247368</import>
+			<macro_use>#247368</macro_use>
+			<annotation_use>#247368</annotation_use>
 
-			<call>
-				<normal>#9C8528</normal>
-				<trail_focus>#F7F7F7</trail_focus>
-			</call>
-
-			<use>
-				<normal>#2D6A8C</normal>
-			</use>
-
-			<type_argument>
-				<normal>#C14057</normal>
-			</type_argument>
-			<template_specialization>
-				<like>type_argument</like>
-			</template_specialization>
-
-			<include>
-				<normal>#247368</normal>
-			</include>
-			<import>
-				<like>include</like>
-			</import>
-			<macro_use>
-				<like>include</like>
-			</macro_use>
-			<annotation_use>
-				<like>include</like>
-			</annotation_use>
-
-			<aggregation>
-				<normal>#4D4D4D</normal>
-				<focus>#6D6D6D</focus>
-			</aggregation>
+			<aggregation>#4D4D4D</aggregation>
 		</edge>
 	</graph>
 

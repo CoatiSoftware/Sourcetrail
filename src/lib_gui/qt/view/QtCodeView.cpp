@@ -14,6 +14,9 @@
 QtCodeView::QtCodeView(ViewLayout* viewLayout): CodeView(viewLayout)
 {
 	m_widget = new QtCodeNavigator();
+
+	m_widget->connect(m_widget, &QtCodeNavigator::focusIn, [this](){ setNavigationFocus(true); });
+	m_widget->connect(m_widget, &QtCodeNavigator::focusOut, [this](){ setNavigationFocus(false); });
 }
 
 void QtCodeView::createWidgetWrapper()
@@ -106,8 +109,8 @@ void QtCodeView::showSnippets(
 		}
 
 		m_widget->updateFiles();
-
-		m_widget->scrollTo(scrollParams, !params.clearSnippets);
+		m_widget->scrollTo(scrollParams, !params.clearSnippets, !params.locationIdToFocus);
+		m_widget->focusInitialLocation(params.locationIdToFocus);
 	});
 }
 
@@ -136,7 +139,8 @@ void QtCodeView::showSingleFile(
 			}
 
 			m_widget->updateFiles();
-			m_widget->scrollTo(scrollParams, animatedScroll);
+			m_widget->scrollTo(scrollParams, animatedScroll, !params.locationIdToFocus);
+			m_widget->focusInitialLocation(params.locationIdToFocus);
 		}
 		else
 		{
@@ -165,22 +169,24 @@ void QtCodeView::updateSourceLocations(const std::vector<CodeFileParams>& files)
 				m_widget->updateSourceLocations(*file.fileParams.get());
 			}
 		}
+
+		m_widget->focusInitialLocation(0);
 	});
 }
 
 void QtCodeView::scrollTo(const CodeScrollParams& params, bool animated)
 {
-	m_onQtThread([=]() { m_widget->scrollTo(params, animated); });
+	m_onQtThread([=]() { m_widget->scrollTo(params, animated, true); });
 }
 
-void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
+void QtCodeView::coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds)
 {
-	m_onQtThread([=]() { m_widget->focusTokenIds(focusedTokenIds); });
+	m_onQtThread([=]() { m_widget->coFocusTokenIds(coFocusedTokenIds); });
 }
 
-void QtCodeView::defocusTokenIds()
+void QtCodeView::deCoFocusTokenIds()
 {
-	m_onQtThread([=]() { m_widget->defocusTokenIds(); });
+	m_onQtThread([=]() { m_widget->deCoFocusTokenIds(); });
 }
 
 bool QtCodeView::isInListMode() const
@@ -196,6 +202,27 @@ void QtCodeView::setMode(bool listMode)
 bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const
 {
 	return m_widget->hasSingleFileCached(filePath);
+}
+
+void QtCodeView::setNavigationFocus(bool focus)
+{
+	if (m_hasFocus == focus)
+	{
+		return;
+	}
+
+	m_hasFocus = focus;
+
+	m_onQtThread([this, focus]() {
+		m_widget->blockSignals(true);
+		m_widget->setNavigationFocus(focus);
+		m_widget->blockSignals(false);
+	});
+}
+
+bool QtCodeView::hasNavigationFocus() const
+{
+	return m_hasFocus;
 }
 
 void QtCodeView::setNavigationState(const CodeParams& params)

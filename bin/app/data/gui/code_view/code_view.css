@@ -24,6 +24,14 @@
 	border: none;
 }
 
+#focus_indicator {
+	background: <color:code/navigation/background>;
+}
+
+#focus_indicator[focused=true] {
+	background: <color:window/focus>;
+}
+
 #code_navigation QLabel {
 	color: <color:code/file/title/text>;
 	font-size: <setting:font_size>px;
@@ -131,12 +139,12 @@
 	border: none;
 }
 
-#title_bar:hover {
-	background-color: <color:code/file/hover>;
-}
-
 #title_bar[hovering=false] {
 	border-top: 1px solid <color:code/navigation/line>;
+}
+
+#title_bar[focused=true] {
+	border-left: 4px solid <color:window/focus>;
 }
 
 #title_bar_single {
@@ -203,17 +211,28 @@
 	padding-bottom: 2px;
 }
 
-#code_file #code_snippet #scope_name:hover {
-	background-color: <color:code/snippet/title/hover>;
+#code_file #code_snippet #scope_name[focused=true] {
+	color: <color:code/snippet/syntax/text>;
 }
 
 #code_file #code_snippet #dots {
 	background-color: <color:code/snippet/line_number/background>;
-	padding-right: 16px;
+	border-right: 3px solid transparent;
+	margin-right: 5px;
+	padding-right: 8px;
 	text-align: right;
 }
 
+#code_file #code_snippet #dots[focused=true] {
+	border-right: 3px solid <color:window/focus>;
+}
+
 #code_file #code_snippet #scope_name {
+	padding-left: 4px;
+	text-align: left;
+}
+
+#code_file #code_snippet #scope_name[focused=true] {
 	padding-left: 4px;
 	text-align: left;
 }

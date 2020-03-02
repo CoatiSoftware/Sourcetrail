@@ -46,13 +46,13 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	switch (target)
 	{
 	case CodeScrollParams::Target::VISIBLE:
-		if (focusRect.top() > visibleRect.top() && focusRect.bottom() < visibleRect.bottom())
+		if (focusRect.top() > visibleRect.top() + 100 && focusRect.bottom() < visibleRect.bottom())
 		{
 			return;
 		}
-		else if (focusRect.top() < visibleRect.top())
+		else if (focusRect.top() < visibleRect.top() + 100)
 		{
-			value = focusRect.top() - visibleRect.top() - 50;
+			value = focusRect.top() - visibleRect.top() - 150;
 		}
 		else
 		{
@@ -128,10 +128,27 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(
 	switch (target)
 	{
 	case CodeScrollParams::Target::VISIBLE:
-		if (scrollY > visibleY && scrollY + rectHeight < visibleY + scrollableHeight)
 		{
-			return;
+			int visibleTop = visibleY + 50;
+			int visibleBottom = visibleY + visibleHeight - 50;
+
+			int scrollTop = scrollY;
+			int scrollBottom = scrollY + rectHeight;
+
+			if (scrollTop < visibleTop)
+			{
+				scrollY = scrollTop - 50;
+			}
+			else if (scrollBottom > visibleBottom)
+			{
+				scrollY = visibleTop + scrollBottom - visibleBottom;
+			}
+			else
+			{
+				return;
+			}
 		}
+		break;
 
 	case CodeScrollParams::Target::CENTER:
 		if (rectHeight < visibleHeight / 2)
@@ -149,10 +166,10 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(
 		break;
 	}
 
-	const int value = static_cast<int>(scrollY * scrollFactor);
-	const int diff = value - scrollBar->value();
+	const int diff = visibleY - scrollY;
 	if (diff > 5 || diff < -5)
 	{
+		const int value = static_cast<int>(scrollY * scrollFactor);
 		if (animated && ApplicationSettings::getInstance()->getUseAnimations() && area->isVisible())
 		{
 			QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");

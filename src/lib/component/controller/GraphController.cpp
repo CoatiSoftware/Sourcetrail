@@ -326,6 +326,14 @@ void GraphController::handleMessage(MessageDeactivateEdge* message)
 	getView()->activateEdge(0);
 }
 
+void GraphController::handleMessage(MessageFocusChanged* message)
+{
+	if (message->isReplayed() && message->isFromGraph())
+	{
+		m_tokenIdToFocus = message->tokenOrLocationId;
+	}
+}
+
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
 	GraphView::GraphParams params;
@@ -344,12 +352,12 @@ void GraphController::handleMessage(MessageScrollGraph* message)
 
 void GraphController::handleMessage(MessageFocusIn* message)
 {
-	getView()->focusTokenIds(message->tokenIds);
+	getView()->coFocusTokenIds(message->tokenIds);
 }
 
 void GraphController::handleMessage(MessageFocusOut* message)
 {
-	getView()->defocusTokenIds(message->tokenIds);
+	getView()->deCoFocusTokenIds(message->tokenIds);
 }
 
 void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
@@ -635,6 +643,7 @@ void GraphController::clear()
 
 	m_useBezierEdges = false;
 	m_showsLegend = false;
+	m_tokenIdToFocus = 0;
 
 	getView()->clear();
 }
@@ -2353,8 +2362,11 @@ void GraphController::buildGraph(MessageBase* message, GraphView::GraphParams pa
 		params.isIndexedList = params.scrollToTop;
 		params.bezierEdges = m_useBezierEdges;
 		params.disableInteraction = m_showsLegend;
+		params.tokenIdToFocus = m_tokenIdToFocus;
 
 		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges, params);
+
+		m_tokenIdToFocus = 0;
 	}
 }
 

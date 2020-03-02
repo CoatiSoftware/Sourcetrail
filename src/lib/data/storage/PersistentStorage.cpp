@@ -2220,7 +2220,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 	{
 		info.offset = Vec2i(20, 30);
 	}
-	else
+	else if (origin == TOOLTIP_ORIGIN_GRAPH)
 	{
 		info.offset = Vec2i(50, 20);
 	}

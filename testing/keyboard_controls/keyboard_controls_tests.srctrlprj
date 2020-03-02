@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <description>Test Suites:\n\n [::\tmVIEW_TESTS\ts\tp]\n [::\tmGRAPH_TESTS\ts\tp]\n [::\tmCODE_TESTS\ts\tp]\n [::\tmHISTORY_TESTS\ts\tp]\n</description>
+    <source_groups>
+        <source_group_475571d1-b082-4fff-81c5-d099c19f957d>
+            <cpp_standard>c++17</cpp_standard>
+            <cross_compilation>
+                <target>
+                    <abi>unknown</abi>
+                    <arch>x86_64</arch>
+                    <sys>unknown</sys>
+                    <vendor>unknown</vendor>
+                </target>
+                <target_options_enabled>0</target_options_enabled>
+            </cross_compilation>
+            <exclude_filters>
+                <exclude_filter>data/files/template.h</exclude_filter>
+            </exclude_filters>
+            <name>C++ Source Group</name>
+            <source_extensions>
+                <source_extension>.cpp</source_extension>
+                <source_extension>.cxx</source_extension>
+                <source_extension>.cc</source_extension>
+            </source_extensions>
+            <source_paths>
+                <source_path>data</source_path>
+            </source_paths>
+            <status>enabled</status>
+            <type>C++ Source Group</type>
+        </source_group_475571d1-b082-4fff-81c5-d099c19f957d>
+    </source_groups>
+    <version>8</version>
+</config>

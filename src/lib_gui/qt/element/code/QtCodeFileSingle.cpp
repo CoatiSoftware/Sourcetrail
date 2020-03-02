@@ -169,8 +169,10 @@ void QtCodeFileSingle::scrollTo(
 	const FilePath& filePath,
 	size_t lineNumber,
 	Id locationId,
+	Id scopeLocationId,
 	bool animated,
-	CodeScrollParams::Target target)
+	CodeScrollParams::Target target,
+	bool focusTarget)
 {
 	if (m_currentFilePath != filePath)
 	{
@@ -184,12 +186,15 @@ void QtCodeFileSingle::scrollTo(
 		animated = false;
 	}
 
+	Id targetLocationId = scopeLocationId ? scopeLocationId : locationId;
+
 	size_t endLineNumber = 0;
 	if (!lineNumber)
 	{
-		if (locationId)
+		if (targetLocationId)
 		{
-			std::pair<size_t, size_t> lineNumbers = m_area->getLineNumbersForLocationId(locationId);
+			std::pair<size_t, size_t> lineNumbers = m_area->getLineNumbersForLocationId(
+				targetLocationId);
 
 			lineNumber = lineNumbers.first;
 
@@ -208,7 +213,12 @@ void QtCodeFileSingle::scrollTo(
 	double percentB = endLineNumber ? double(endLineNumber - 1) / m_area->getEndLineNumber() : 0.0f;
 	ensurePercentVisibleAnimated(percentA, percentB, animated, target);
 
-	m_area->ensureLocationIdVisible(locationId, width(), animated);
+	m_area->ensureLocationIdVisible(targetLocationId, width(), animated);
+
+	if (focusTarget && locationId)
+	{
+		m_navigator->setFocusedLocationId(m_area, lineNumber, 0, locationId, {}, false);
+	}
 }
 
 void QtCodeFileSingle::onWindowFocus()
@@ -222,6 +232,31 @@ void QtCodeFileSingle::findScreenMatches(
 	if (m_area)
 	{
 		m_area->findScreenMatches(query, screenMatches);
+	}
+}
+
+void QtCodeFileSingle::setFocus(Id locationId)
+{
+	if (m_area)
+	{
+		m_area->setFocus(locationId);
+	}
+}
+
+void QtCodeFileSingle::setFocusOnTop()
+{
+	if (m_area)
+	{
+		m_area->moveFocusToLine(static_cast<int>(m_area->getStartLineNumber()), 0, false);
+	}
+}
+
+void QtCodeFileSingle::moveFocus(
+	const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction)
+{
+	if (m_area == focus.area)
+	{
+		focus.area->moveFocus(direction, focus.lineNumber, focus.locationId);
 	}
 }
 

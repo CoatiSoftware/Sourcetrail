@@ -9,6 +9,7 @@
 
 #include "GraphViewStyle.h"
 
+class GraphFocusHandler;
 class QFont;
 class QtGraphEdge;
 class QtRoundedRectItem;
@@ -31,7 +32,9 @@ public slots:
 	void hideNode();
 
 public:
-	QtGraphNode();
+	static QtGraphNode* findNodeRecursive(const std::list<QtGraphNode*>& nodes, Id tokenId);
+
+	QtGraphNode(GraphFocusHandler* focusHandler = nullptr);
 	virtual ~QtGraphNode();
 
 	QtGraphNode* getParent() const;
@@ -66,6 +69,8 @@ public:
 	void setMultipleActive(bool multipleActive);
 	bool hasActiveChild() const;
 
+	bool isFocusable() const;
+
 	std::wstring getName() const;
 	void setName(const std::wstring& name);
 
@@ -73,8 +78,12 @@ public:
 
 	void hoverEnter();
 
+	bool getIsFocused() const;
+	void setIsFocused(bool focused);
 	void focusIn();
 	void focusOut();
+	void coFocusIn();
+	void coFocusOut();
 
 	void showNodeRecursive();
 
@@ -98,7 +107,7 @@ public:
 	virtual void onMiddleClick();
 
 	void onHide();
-	void onCollapseExpand();
+	Id onCollapseExpand();
 	void onShowDefinition(bool inIDE);
 
 	virtual void moved(const Vec2i& oldPosition);
@@ -134,9 +143,13 @@ protected:
 
 	bool m_isActive = false;
 	bool m_multipleActive = false;
-	bool m_isHovering = false;
+	bool m_isFocused = false;
+	bool m_isCoFocused = false;
+	bool m_isInteractive = false;
 
 private:
+	GraphFocusHandler* m_focusHandler;
+
 	std::list<std::shared_ptr<QtGraphNodeComponent>> m_components;
 
 	// Name match

@@ -31,69 +31,57 @@ std::string ColorScheme::getColor(const std::string& key, const std::string& def
 	return getValue<std::string>(key, defaultColor);
 }
 
-std::string ColorScheme::getNodeTypeColor(NodeType type, const std::string& key, ColorState state) const
+std::string ColorScheme::getNodeTypeColor(NodeType type, const std::string& key, bool highlight) const
 {
-	return getNodeTypeColor(type.getUnderscoredTypeString(), key, state);
+	return getNodeTypeColor(type.getUnderscoredTypeString(), key, highlight);
 }
 
 std::string ColorScheme::getNodeTypeColor(
-	const std::string& typeStr, const std::string& key, ColorState state) const
+	const std::string& typeStr, const std::string& key, bool highlight) const
 {
 	disableWarnings();
 
 	const std::string type = getValue<std::string>("graph/node/" + typeStr + "/like", typeStr);
 	std::string color = getValue<std::string>(
-		"graph/node/" + type + "/" + key + "/" + stateToString(state), "");
+		"graph/node/" + type + "/" + key + "/" + (highlight ? "highlight" : "normal"), "");
 
-	if (!color.size() && state != NORMAL)
+	if (!color.size() && highlight)
 	{
-		color = getValue<std::string>(
-			"graph/node/" + type + "/" + key + "/" + stateToString(NORMAL), "");
+		color = getValue<std::string>("graph/node/" + type + "/" + key + "/normal", "");
 	}
 
 	if (!color.size())
 	{
-		color = getValue<std::string>("graph/node/default/" + key + "/" + stateToString(state), "");
+		color = getValue<std::string>(
+			"graph/node/default/" + key + "/" + (highlight ? "highlight" : "normal"), "");
 	}
 
 	enableWarnings();
 
-	if (!color.size() && state != NORMAL)
+	if (!color.size() && highlight)
 	{
-		color = getValue<std::string>(
-			"graph/node/default/" + key + "/" + stateToString(NORMAL), "#FFFFFF");
+		color = getValue<std::string>("graph/node/default/" + key + "/normal", "#FF1493");
 	}
 
 	return color;
 }
 
-std::string ColorScheme::getEdgeTypeColor(Edge::EdgeType type, ColorState state) const
+std::string ColorScheme::getEdgeTypeColor(Edge::EdgeType type) const
 {
-	return getEdgeTypeColor(utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)), state);
+	return getEdgeTypeColor(utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)));
 }
 
-std::string ColorScheme::getEdgeTypeColor(const std::string& typeStr, ColorState state) const
+std::string ColorScheme::getEdgeTypeColor(const std::string& type) const
 {
 	disableWarnings();
 
-	std::string type = getValue<std::string>("graph/edge/" + typeStr + "/like", typeStr);
-	std::string color = getValue<std::string>("graph/edge/" + type + "/" + stateToString(state), "");
-
-	if (!color.size() && state != NORMAL)
-	{
-		color = getValue<std::string>("graph/edge/" + type + "/" + stateToString(NORMAL), "");
-	}
-
-	if (!color.size())
-	{
-		color = getValue<std::string>("graph/edge/default/" + stateToString(state), "");
-	}
+	std::string color = getValue<std::string>("graph/edge/" + type, "");
 
 	enableWarnings();
 
-	if (!color.size() && state != NORMAL)
+	if (!color.size())
 	{
-		color = getValue<std::string>("graph/edge/default/" + stateToString(NORMAL), "#FFFFFF");
+		color = getValue<std::string>("graph/edge/default", "#FF1493");
 	}
 
 	return color;
@@ -103,12 +91,12 @@ std::string ColorScheme::getSearchTypeColor(
 	const std::string& searchTypeName, const std::string& key, const std::string& state) const
 {
 	std::string path = "search/query/" + searchTypeName + "/" + state + "/" + key;
-	return getValue<std::string>(path, "#FFFFFF");
+	return getValue<std::string>(path, "#FF1493");
 }
 
 std::string ColorScheme::getSyntaxColor(const std::string& key) const
 {
-	return getValue<std::string>("code/snippet/syntax/" + key, "#FFFFFF");
+	return getValue<std::string>("code/snippet/syntax/" + key, "#FF1493");
 }
 
 std::string ColorScheme::getCodeAnnotationTypeColor(
