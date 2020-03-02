@@ -537,7 +537,7 @@ void CodeController::handleMessage(MessageShowScope* message)
 void CodeController::handleMessage(MessageToNextCodeReference* message)
 {
 	FilePath currentFilePath = message->filePath;
-	int currentLineNumber = message->lineNumber;
+	size_t currentLineNumber = message->lineNumber;
 	bool next = message->next;
 	bool inListMode = getView()->isInListMode();
 
@@ -546,8 +546,10 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 		return;
 	}
 
-	std::pair<int, int> referencePos = findClosestReferenceIndex(m_references, currentFilePath, currentLineNumber, next);
-	std::pair<int, int> localReferencePos = findClosestReferenceIndex(m_localReferences, currentFilePath, currentLineNumber, next);
+	std::pair<int, int> referencePos = findClosestReferenceIndex(
+		m_references, currentFilePath, currentLineNumber, next);
+	std::pair<int, int> localReferencePos = findClosestReferenceIndex(
+		m_localReferences, currentFilePath, currentLineNumber, next);
 
 	int referenceIndex = referencePos.first;
 	int referenceFileIndex = referencePos.second;
@@ -560,8 +562,10 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 		{
 			if (referenceFileIndex < 0)
 			{
-				if (m_references[referenceIndex].filePath != m_localReferences[localReferenceIndex].filePath ||
-					m_references[referenceIndex].lineNumber > m_localReferences[localReferenceIndex].lineNumber)
+				if (m_references[referenceIndex].filePath !=
+						m_localReferences[localReferenceIndex].filePath ||
+					m_references[referenceIndex].lineNumber >
+						m_localReferences[localReferenceIndex].lineNumber)
 				{
 					localReferenceIndex = -1;
 				}
@@ -572,8 +576,12 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 			}
 			else if (referenceFileIndex == 0)
 			{
-				if (std::abs(static_cast<int>(m_references[referenceIndex].lineNumber) - currentLineNumber) <
-					std::abs(static_cast<int>(m_localReferences[localReferenceIndex].lineNumber) - currentLineNumber))
+				if (std::abs(
+						static_cast<int>(m_references[referenceIndex].lineNumber) -
+						static_cast<int>(currentLineNumber)) <
+					std::abs(
+						static_cast<int>(m_localReferences[localReferenceIndex].lineNumber) -
+						static_cast<int>(currentLineNumber)))
 				{
 					localReferenceIndex = -1;
 				}
@@ -584,8 +592,10 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 			}
 			else
 			{
-				if (m_references[referenceIndex].filePath != m_localReferences[localReferenceIndex].filePath ||
-					m_references[referenceIndex].lineNumber < m_localReferences[localReferenceIndex].lineNumber)
+				if (m_references[referenceIndex].filePath !=
+						m_localReferences[localReferenceIndex].filePath ||
+					m_references[referenceIndex].lineNumber <
+						m_localReferences[localReferenceIndex].lineNumber)
 				{
 					localReferenceIndex = -1;
 				}
@@ -1158,7 +1168,10 @@ void CodeController::showCurrentLocalReference(bool updateView)
 }
 
 std::pair<int, int> CodeController::findClosestReferenceIndex(
-	const std::vector<Reference>& references, const FilePath& currentFilePath, size_t currentLineNumber, bool next) const
+	const std::vector<Reference>& references,
+	const FilePath& currentFilePath,
+	size_t currentLineNumber,
+	bool next) const
 {
 	int referenceIndex = -1;
 	bool beforeCurrentFile = true;
@@ -1171,16 +1184,16 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 			{
 				if (references[i].lineNumber < currentLineNumber)
 				{
-					referenceIndex = i;
+					referenceIndex = static_cast<int>(i);
 				}
 				else
 				{
-					return { referenceIndex, beforeCurrentFile ? -1 : 0 };
+					return {referenceIndex, beforeCurrentFile ? -1 : 0};
 				}
 			}
 			else if (references[i].lineNumber > currentLineNumber)
 			{
-				return { i, 0 };
+				return {static_cast<int>(i), 0};
 			}
 
 			beforeCurrentFile = false;
@@ -1189,20 +1202,20 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 		{
 			if (beforeCurrentFile)
 			{
-				referenceIndex = i;
+				referenceIndex = static_cast<int>(i);
 			}
 			else
 			{
-				return { referenceIndex, 1 };
+				return {referenceIndex, 1};
 			}
 		}
 		else if (next && !beforeCurrentFile)
 		{
-			return { i, 1 };
+			return {static_cast<int>(i), 1};
 		}
 	}
 
-	return { referenceIndex, beforeCurrentFile ? -1 : 1 };
+	return {referenceIndex, beforeCurrentFile ? -1 : 1};
 }
 
 void CodeController::expandVisibleFiles(bool useSingleFileCache)
@@ -1456,10 +1469,7 @@ CodeScrollParams CodeController::firstReferenceScrollParams() const
 		const Reference& ref = m_references.front();
 
 		return CodeScrollParams::toReference(
-			ref.filePath,
-			ref.locationId,
-			ref.scopeLocationId,
-			CodeScrollParams::Target::TOP);
+			ref.filePath, ref.locationId, ref.scopeLocationId, CodeScrollParams::Target::TOP);
 	}
 
 	return CodeScrollParams();
@@ -1495,10 +1505,7 @@ CodeScrollParams CodeController::definitionReferenceScrollParams(const std::vect
 CodeScrollParams CodeController::toReferenceScrollParams(const Reference& ref) const
 {
 	return CodeScrollParams::toReference(
-		ref.filePath,
-		ref.locationId,
-		ref.scopeLocationId,
-		CodeScrollParams::Target::CENTER);
+		ref.filePath, ref.locationId, ref.scopeLocationId, CodeScrollParams::Target::CENTER);
 }
 
 void CodeController::saveOrRestoreViewMode(MessageBase* message)

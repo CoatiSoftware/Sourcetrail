@@ -79,29 +79,32 @@ void QtKeyboardShortcuts::windowReady()
 }
 
 QtKeyboardShortcuts::Shortcut::Shortcut(const QString& name, const QString& shortcut)
-	: name(name)
-	, shortcut(shortcut)
-{}
+	: name(name), shortcut(shortcut)
+{
+}
 
 QtKeyboardShortcuts::Shortcut QtKeyboardShortcuts::Shortcut::defaultOrMac(
 	const QString& name, const QString& defaultShortcut, const QString& macShortcut)
 {
 #if defined(Q_OS_MAC)
-	return { name, macShortcut };
+	return {name, macShortcut};
 #else
-	return { name, defaultShortcut };
+	return {name, defaultShortcut};
 #endif
 }
 
 QtKeyboardShortcuts::Shortcut QtKeyboardShortcuts::Shortcut::winMacOrLinux(
-	const QString& name, const QString& winShortcut, const QString& macShortcut, const QString& linuxShortcut)
+	const QString& name,
+	const QString& winShortcut,
+	const QString& macShortcut,
+	const QString& linuxShortcut)
 {
 #if defined(Q_OS_WIN32)
-	return { name, winShortcut };
+	return {name, winShortcut};
 #elif defined(Q_OS_MAC)
-	return { name, macShortcut };
+	return {name, macShortcut};
 #else
-	return { name, linuxShortcut };
+	return {name, linuxShortcut};
 #endif
 }
 
@@ -133,12 +136,12 @@ QtShortcutTable* QtKeyboardShortcuts::createTableWidget(const std::string& objec
 
 void QtKeyboardShortcuts::addShortcuts(QtShortcutTable* table, const std::vector<Shortcut>& shortcuts) const
 {
-	table->setRowCount(shortcuts.size());
+	table->setRowCount(static_cast<int>(shortcuts.size()));
 
 	for (size_t i = 0; i < shortcuts.size(); ++i)
 	{
-		table->setItem(i, 0, new QTableWidgetItem(shortcuts[i].name));
-		table->setItem(i, 1, new QTableWidgetItem(shortcuts[i].shortcut));
+		table->setItem(static_cast<int>(i), 0, new QTableWidgetItem(shortcuts[i].name));
+		table->setItem(static_cast<int>(i), 1, new QTableWidgetItem(shortcuts[i].shortcut));
 	}
 
 	table->updateSize();
@@ -148,29 +151,64 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_general");
 
-	addShortcuts(table,
-		{
-			Shortcut(QStringLiteral("Switch Focus between Graph and Code"), QStringLiteral("Tab")),
-			Shortcut::defaultOrMac(QStringLiteral("Larger Font"), QStringLiteral("Ctrl + +"), QStringLiteral("Cmd + +")),
-			Shortcut::defaultOrMac(QStringLiteral("Smaller Font"), QStringLiteral("Ctrl + -"), QStringLiteral("Cmd + -")),
-			Shortcut::defaultOrMac(QStringLiteral("Reset Font Size"), QStringLiteral("Ctrl + 0"), QStringLiteral("Cmd + 0")),
-			Shortcut::defaultOrMac(QStringLiteral("Back"), QStringLiteral("Alt + Left | Z | Y | Backspace"), QStringLiteral("Cmd + [ | Z | Y | Backspace")),
-			Shortcut::defaultOrMac(QStringLiteral("Forward"), QStringLiteral("Alt + Right | Shift + Z | Shift + Y"), QStringLiteral("Cmd + ] | Shift + Z | Shift + Y")),
-			Shortcut::defaultOrMac(QStringLiteral("Refresh"), QStringLiteral("F5"), QStringLiteral("Cmd + R")),
-			Shortcut::defaultOrMac(QStringLiteral("Full Refresh"), QStringLiteral("Shift + F5"), QStringLiteral("Cmd + Shift + R")),
-			Shortcut::defaultOrMac(QStringLiteral("Find Symbol"), QStringLiteral("Ctrl + F"), QStringLiteral("Cmd + F")),
-			Shortcut::defaultOrMac(QStringLiteral("Find Text"), QStringLiteral("Ctrl + Shift + F"), QStringLiteral("Cmd + Shift + F")),
-			Shortcut::defaultOrMac(QStringLiteral("Find On-Screen"), QStringLiteral("Ctrl + D | /"), QStringLiteral("Cmd + D | /")),
-			Shortcut::defaultOrMac(QStringLiteral("New Project"), QStringLiteral("Ctrl + N"), QStringLiteral("Cmd + N")),
-			Shortcut::defaultOrMac(QStringLiteral("Open Project"), QStringLiteral("Ctrl + O"), QStringLiteral("Cmd + O")),
-			Shortcut::winMacOrLinux(QStringLiteral("Close Window"), QStringLiteral("Alt + F4"), QStringLiteral("Cmd + W"), QStringLiteral("Ctrl + W")),
-			Shortcut::defaultOrMac(QStringLiteral("Hide Window"), QStringLiteral(""), QStringLiteral("Cmd + H")),
-			Shortcut::defaultOrMac(QStringLiteral("To Overview"), QStringLiteral("Ctrl + Home"), QStringLiteral("Cmd + Home | Cmd + Up")),
-			Shortcut::defaultOrMac(QStringLiteral("Preferences"), QStringLiteral("Ctrl + ,"), QStringLiteral("Cmd + ,")),
-			Shortcut::defaultOrMac(QStringLiteral("Bookmark Active Symbol"), QStringLiteral("Ctrl + S"), QStringLiteral("Cmd + S")),
-			Shortcut::defaultOrMac(QStringLiteral("Bookmark Manager"), QStringLiteral("Ctrl + B"), QStringLiteral("Cmd + B"))
-		}
-	);
+	addShortcuts(
+		table,
+		{Shortcut(QStringLiteral("Switch Focus between Graph and Code"), QStringLiteral("Tab")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Larger Font"), QStringLiteral("Ctrl + +"), QStringLiteral("Cmd + +")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Smaller Font"), QStringLiteral("Ctrl + -"), QStringLiteral("Cmd + -")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Reset Font Size"), QStringLiteral("Ctrl + 0"), QStringLiteral("Cmd + 0")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Back"),
+			 QStringLiteral("Alt + Left | Z | Y | Backspace"),
+			 QStringLiteral("Cmd + [ | Z | Y | Backspace")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Forward"),
+			 QStringLiteral("Alt + Right | Shift + Z | Shift + Y"),
+			 QStringLiteral("Cmd + ] | Shift + Z | Shift + Y")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Refresh"), QStringLiteral("F5"), QStringLiteral("Cmd + R")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Full Refresh"),
+			 QStringLiteral("Shift + F5"),
+			 QStringLiteral("Cmd + Shift + R")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Find Symbol"), QStringLiteral("Ctrl + F"), QStringLiteral("Cmd + F")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Find Text"),
+			 QStringLiteral("Ctrl + Shift + F"),
+			 QStringLiteral("Cmd + Shift + F")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Find On-Screen"),
+			 QStringLiteral("Ctrl + D | /"),
+			 QStringLiteral("Cmd + D | /")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("New Project"), QStringLiteral("Ctrl + N"), QStringLiteral("Cmd + N")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Open Project"), QStringLiteral("Ctrl + O"), QStringLiteral("Cmd + O")),
+		 Shortcut::winMacOrLinux(
+			 QStringLiteral("Close Window"),
+			 QStringLiteral("Alt + F4"),
+			 QStringLiteral("Cmd + W"),
+			 QStringLiteral("Ctrl + W")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Hide Window"), QStringLiteral(""), QStringLiteral("Cmd + H")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("To Overview"),
+			 QStringLiteral("Ctrl + Home"),
+			 QStringLiteral("Cmd + Home | Cmd + Up")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Preferences"), QStringLiteral("Ctrl + ,"), QStringLiteral("Cmd + ,")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Bookmark Active Symbol"),
+			 QStringLiteral("Ctrl + S"),
+			 QStringLiteral("Cmd + S")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Bookmark Manager"),
+			 QStringLiteral("Ctrl + B"),
+			 QStringLiteral("Cmd + B"))});
 
 	return table;
 }
@@ -179,18 +217,31 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_code");
 
-	addShortcuts(table,
-		{
-			Shortcut(QStringLiteral("Move Focus Within Code"), QStringLiteral("WASD | HJKL | Arrows")),
-			Shortcut(QStringLiteral("Move Focus to Closest Reference"), QStringLiteral("Shift + WS | Shift + JK | Shift + Up/Down")),
-			Shortcut(QStringLiteral("Activate Focused Location"), QStringLiteral("Enter | E")),
-			Shortcut::defaultOrMac(QStringLiteral("Activate Location in New Tab"), QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"), QStringLiteral("Cmd + Shift + Enter | Cmd + Shift + E")),
-			Shortcut::defaultOrMac(QStringLiteral("Next Reference"), QStringLiteral("Ctrl + G"), QStringLiteral("Cmd + G")),
-			Shortcut::defaultOrMac(QStringLiteral("Previous Reference"), QStringLiteral("Ctrl + Shift + G"), QStringLiteral("Cmd + Shift + G")),
-			Shortcut::defaultOrMac(QStringLiteral("Next Local Reference"), QStringLiteral("Ctrl + L"), QStringLiteral("Cmd + L")),
-			Shortcut::defaultOrMac(QStringLiteral("Previous Local Reference"), QStringLiteral("Ctrl + Shift + L"), QStringLiteral("Cmd + Shift + L"))
-		}
-	);
+	addShortcuts(
+		table,
+		{Shortcut(QStringLiteral("Move Focus Within Code"), QStringLiteral("WASD | HJKL | Arrows")),
+		 Shortcut(
+			 QStringLiteral("Move Focus to Closest Reference"),
+			 QStringLiteral("Shift + WS | Shift + JK | Shift + Up/Down")),
+		 Shortcut(QStringLiteral("Activate Focused Location"), QStringLiteral("Enter | E")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Activate Location in New Tab"),
+			 QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"),
+			 QStringLiteral("Cmd + Shift + Enter | Cmd + Shift + E")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Next Reference"), QStringLiteral("Ctrl + G"), QStringLiteral("Cmd + G")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Previous Reference"),
+			 QStringLiteral("Ctrl + Shift + G"),
+			 QStringLiteral("Cmd + Shift + G")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Next Local Reference"),
+			 QStringLiteral("Ctrl + L"),
+			 QStringLiteral("Cmd + L")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Previous Local Reference"),
+			 QStringLiteral("Ctrl + Shift + L"),
+			 QStringLiteral("Cmd + Shift + L"))});
 
 	return table;
 }
@@ -199,19 +250,31 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_graph");
 
-	addShortcuts(table,
-		{
-			Shortcut(QStringLiteral("Move Focus Within Nodes"), QStringLiteral("WASD | HJKL | Arrows")),
-			Shortcut(QStringLiteral("Move Focus Within Edges"), QStringLiteral("Shift + WASD | Shift + HJKL | Shift + Arrows")),
-			Shortcut(QStringLiteral("Activate Node/Edge"), QStringLiteral("Enter | E")),
-			Shortcut(QStringLiteral("Expand/Collaps Node"), QStringLiteral("Shift + Enter | Shift + E")),
-			Shortcut::defaultOrMac(QStringLiteral("Activate Node in New Tab"), QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"), QStringLiteral("Cmd + Shift + Enter | Cmd + Shift + E")),
-			Shortcut::defaultOrMac(QStringLiteral("Zoom in"), QStringLiteral("Alt + W | Ctrl + Mousewheel up"), QStringLiteral("Alt + W | Cmd + Mousewheel up")),
-			Shortcut::defaultOrMac(QStringLiteral("Zoom out"), QStringLiteral("Alt + S | Ctrl + Mousewheel down"), QStringLiteral("Alt + S | Cmd + Mousewheel down")),
-			Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0")),
-			Shortcut::defaultOrMac(QStringLiteral("Open Custom Trail Dialog"), QStringLiteral("Ctrl + U"), QStringLiteral("Cmd + U"))
-		}
-	);
+	addShortcuts(
+		table,
+		{Shortcut(QStringLiteral("Move Focus Within Nodes"), QStringLiteral("WASD | HJKL | Arrows")),
+		 Shortcut(
+			 QStringLiteral("Move Focus Within Edges"),
+			 QStringLiteral("Shift + WASD | Shift + HJKL | Shift + Arrows")),
+		 Shortcut(QStringLiteral("Activate Node/Edge"), QStringLiteral("Enter | E")),
+		 Shortcut(QStringLiteral("Expand/Collaps Node"), QStringLiteral("Shift + Enter | Shift + E")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Activate Node in New Tab"),
+			 QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"),
+			 QStringLiteral("Cmd + Shift + Enter | Cmd + Shift + E")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Zoom in"),
+			 QStringLiteral("Alt + W | Ctrl + Mousewheel up"),
+			 QStringLiteral("Alt + W | Cmd + Mousewheel up")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Zoom out"),
+			 QStringLiteral("Alt + S | Ctrl + Mousewheel down"),
+			 QStringLiteral("Alt + S | Cmd + Mousewheel down")),
+		 Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Open Custom Trail Dialog"),
+			 QStringLiteral("Ctrl + U"),
+			 QStringLiteral("Cmd + U"))});
 
 	return table;
 }

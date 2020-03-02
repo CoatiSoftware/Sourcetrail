@@ -234,7 +234,7 @@ void QtCodeSnippet::ensureLocationIdVisible(Id locationId, bool animated)
 
 void QtCodeSnippet::clickedTitle()
 {
-	m_codeArea->moveFocusToLine(m_codeArea->getStartLineNumber(), 0, false);
+	m_codeArea->moveFocusToLine(static_cast<int>(m_codeArea->getStartLineNumber()), 0, false);
 
 	if (m_titleId > 0)
 	{
@@ -248,7 +248,7 @@ void QtCodeSnippet::clickedTitle()
 
 void QtCodeSnippet::clickedFooter()
 {
-	m_codeArea->moveFocusToLine(m_codeArea->getEndLineNumber(), 0, true);
+	m_codeArea->moveFocusToLine(static_cast<int>(m_codeArea->getEndLineNumber()), 0, true);
 
 	if (m_footerId > 0)
 	{
@@ -281,7 +281,7 @@ QtHoverButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	lineLayout->addWidget(line);
 
-	connect(line, &QtHoverButton::hoveredIn, [this, line](){
+	connect(line, &QtHoverButton::hoveredIn, [this, line]() {
 		m_navigator->setFocusedScopeLine(m_codeArea, line, 0);
 		m_navigator->setFocus();
 	});
@@ -306,10 +306,10 @@ void QtCodeSnippet::updateScopeLineFocus(QPushButton* line, QPushButton* dots)
 		if (focus != dots->property("focused").toBool())
 		{
 			line->setProperty("focused", focus);
-			line->style()->polish(line);	  // recomputes style to make property take effect
+			line->style()->polish(line);	// recomputes style to make property take effect
 
 			dots->setProperty("focused", focus);
-			dots->style()->polish(dots);	  // recomputes style to make property take effect
+			dots->style()->polish(dots);	// recomputes style to make property take effect
 		}
 	}
 }

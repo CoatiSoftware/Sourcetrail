@@ -606,9 +606,11 @@ bool QtCodeArea::moveFocus(CodeFocusHandler::Direction direction, size_t lineNum
 	switch (direction)
 	{
 	case CodeFocusHandler::Direction::UP:
-		return moveFocusToLine(lineNumber - 1, m_navigator->getTargetColumn(), true);
+		return moveFocusToLine(
+			static_cast<int>(lineNumber) - 1, static_cast<int>(m_navigator->getTargetColumn()), true);
 	case CodeFocusHandler::Direction::DOWN:
-		return moveFocusToLine(lineNumber + 1, m_navigator->getTargetColumn(), false);
+		return moveFocusToLine(
+			static_cast<int>(lineNumber) + 1, static_cast<int>(m_navigator->getTargetColumn()), false);
 	case CodeFocusHandler::Direction::LEFT:
 		return moveFocusInLine(lineNumber, locationId, false);
 	case CodeFocusHandler::Direction::RIGHT:
@@ -618,7 +620,7 @@ bool QtCodeArea::moveFocus(CodeFocusHandler::Direction direction, size_t lineNum
 	return false;
 }
 
-bool QtCodeArea::moveFocusToLine(size_t lineNumber, int targetColumn, bool up)
+bool QtCodeArea::moveFocusToLine(int lineNumber, int targetColumn, bool up)
 {
 	while (true)
 	{
@@ -627,7 +629,8 @@ bool QtCodeArea::moveFocusToLine(size_t lineNumber, int targetColumn, bool up)
 			break;
 		}
 
-		std::vector<const Annotation*> annotations = getInteractiveAnnotationsForLineNumber(lineNumber);
+		std::vector<const Annotation*> annotations = getInteractiveAnnotationsForLineNumber(
+			lineNumber);
 		if (annotations.size())
 		{
 			const Annotation* annotation = nullptr;
@@ -710,8 +713,7 @@ void QtCodeArea::activateLocationId(Id locationId, bool fromMouse)
 	}
 
 	const std::set<Id>& localTokenIds = m_navigator->getActiveLocalTokenIds();
-	if (annotation->locationType == LOCATION_LOCAL_SYMBOL &&
-		annotation->tokenIds.size() == 1 &&
+	if (annotation->locationType == LOCATION_LOCAL_SYMBOL && annotation->tokenIds.size() == 1 &&
 		localTokenIds.find(*annotation->tokenIds.begin()) != localTokenIds.end())
 	{
 		MessageActivateLocalSymbols({}).dispatch();
@@ -766,7 +768,8 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::MiddleButton ||
-		(event->button() == Qt::LeftButton && event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier))
+		(event->button() == Qt::LeftButton && event->modifiers() & Qt::ControlModifier &&
+		 event->modifiers() & Qt::ShiftModifier))
 	{
 		checkOpenInTabActionEnabled(event->pos());
 		openInTab();
@@ -1014,7 +1017,8 @@ bool QtCodeArea::isSelectionPosition(const QPoint positionPoint) const
 	return selectionStart != selectionEnd && selectionStart <= position && position <= selectionEnd;
 }
 
-void QtCodeArea::activateAnnotationsOrErrors(const std::vector<const Annotation*>& annotations, bool fromMouse)
+void QtCodeArea::activateAnnotationsOrErrors(
+	const std::vector<const Annotation*>& annotations, bool fromMouse)
 {
 	if (m_navigator->hasErrors())
 	{
