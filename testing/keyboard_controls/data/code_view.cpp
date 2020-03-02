@@ -76,6 +76,7 @@ int pow(int a, int b)
 // ACTION 2: Press Enter/E
 // RESULT 2: 'r' is activated
 
+// ACTION 4: Press Enter/E
 // RESULT 3: 'r' is deactivated
 
 // END ------------------------------------------------------------------------
