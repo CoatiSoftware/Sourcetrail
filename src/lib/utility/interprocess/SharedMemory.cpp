@@ -8,10 +8,34 @@ const char* SharedMemory::s_mutexNamePrefix = "srctrlmtx_";
 
 SharedMemory::ScopedAccess::ScopedAccess(SharedMemory* memory)
 	: boost::interprocess::scoped_lock<boost::interprocess::named_mutex>(memory->getMutex())
-	, m_memory(boost::interprocess::open_only, memory->getMemoryName().c_str())
+	//, m_memory(boost::interprocess::open_only, memory->getMemoryName().c_str())
 	, m_memoryName(memory->getMemoryName())
 	, m_minimumMemorySize(memory->getInitialMemorySize())
 {
+	try
+	{
+		m_memory = boost::interprocess::managed_shared_memory(boost::interprocess::open_only, memory->getMemoryName().c_str());
+	}
+	catch (boost::interprocess::interprocess_exception& e)
+	{
+		LOG_ERROR_STREAM(
+			<< "boost exception thrown at ScopedAccess constructor - " << memory->getMemoryName() << ": "
+			<< e.what());
+
+		// Behaves the same as the initializer construction, with the error printed out
+		//throw e;
+
+		boost::interprocess::permissions permissions;
+		permissions.set_unrestricted();
+		m_memory = boost::interprocess::managed_shared_memory(
+			boost::interprocess::open_or_create,
+			memory->getMemoryName().c_str(),
+			memory->getInitialMemorySize(),
+			0,
+			permissions
+		);
+	}
+
 }
 
 SharedMemory::ScopedAccess::~ScopedAccess() {}
