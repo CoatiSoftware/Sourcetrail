@@ -4,6 +4,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 
 ## Legendary Coatis
 
+* Akinobu Fujii
 * David Manouchehri
 * Manik Singhal
 * Mario van Beek
@@ -12,6 +13,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 ## Super Coatis
 
 * Alexis Jeandet
+* Anthony Marchini
 * Edward Gibbs
 * Jonathan Nemo
 * Louis St-Amour
@@ -31,13 +33,15 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * John Borland
 * kale
 * Matěj Týč
-* Matt Alexander
 * Nakul Dhotre
 * Nathan
 * Nathan Loofbourrow
 * Rui Pires
 * Sam Tuke
+* Simon
 * Stephan Roslen
+* Tomi Joki-Korpela
+* Tony Hong
 * Traxes
 * Werner de Groot
 * Yang, Wenbo
