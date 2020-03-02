@@ -1,5 +1,30 @@
 ### Changelog
 
+#### 2020.1.106-beta
+released 2019-03-02
+
+* Make content of help dialogs selectable (issue [#805](https://github.com/CoatiSoftware/Sourcetrail/issues/935))
+* Added keyboard controls to move and activate focus in graph and code views using WASD/HJKL/Arrows + Enter/E ([#935](https://github.com/CoatiSoftware/Sourcetrail/issues/935)) (issues [#486](https://github.com/CoatiSoftware/Sourcetrail/issues/486), [#327](https://github.com/CoatiSoftware/Sourcetrail/issues/327), [#214](https://github.com/CoatiSoftware/Sourcetrail/issues/214), [#210](https://github.com/CoatiSoftware/Sourcetrail/issues/210))
+* Fixed a crash in shared memory use ([#912](https://github.com/CoatiSoftware/Sourcetrail/issues/912))
+* Discard non-existing paths in automatic path detection ([#930](https://github.com/CoatiSoftware/Sourcetrail/issues/930))
+* Python: Update python indexer to use jedi 0.16.0 ([#929](https://github.com/CoatiSoftware/Sourcetrail/issues/929))
+* Fixed frequent deadlock after loading project from Start Screen (issue [#924](https://github.com/CoatiSoftware/Sourcetrail/issues/924))
+* C/C++: Updated LLVM/Clang config headers to release 9.0.0 ([#922](https://github.com/CoatiSoftware/Sourcetrail/issues/922))
+* Fix crash in update check on premature Qt object deletion ([#920](https://github.com/CoatiSoftware/Sourcetrail/issues/920))
+* C/C++: Fixed an indexer crash ([#911](https://github.com/CoatiSoftware/Sourcetrail/issues/911))
+* Code: fixed font size not changed in single file view (issue [#916](https://github.com/CoatiSoftware/Sourcetrail/issues/916))
+* Mark required contents with asterisk in Source Group setup (issue [#723](https://github.com/CoatiSoftware/Sourcetrail/issues/723)) ([#914](https://github.com/CoatiSoftware/Sourcetrail/issues/914))
+* Removed multiple dialog steps in Source Group setup (issue [#723](https://github.com/CoatiSoftware/Sourcetrail/issues/723)) ([#913](https://github.com/CoatiSoftware/Sourcetrail/issues/913))
+* Handled non-writeable project location (issue [#735](https://github.com/CoatiSoftware/Sourcetrail/issues/735)) ([#906](https://github.com/CoatiSoftware/Sourcetrail/issues/906))
+* Fixed error help dialog not showing up during indexing (issue [#740](https://github.com/CoatiSoftware/Sourcetrail/issues/740)) ([#904](https://github.com/CoatiSoftware/Sourcetrail/issues/904))
+* Allow changing the log file path in preferences (issue [#156](https://github.com/CoatiSoftware/Sourcetrail/issues/156)) ([#900](https://github.com/CoatiSoftware/Sourcetrail/issues/900))
+* Fix crash when project directory contains non-latin character (issue [#899](https://github.com/CoatiSoftware/Sourcetrail/issues/899)) ([#901](https://github.com/CoatiSoftware/Sourcetrail/issues/901))
+* Graph: Fixed endless recursion on cyclic inheritance edges
+* Add 'close tabs to the right' context menu action to tab bar (issue [#822](https://github.com/CoatiSoftware/Sourcetrail/issues/822)) ([#875](https://github.com/CoatiSoftware/Sourcetrail/issues/875))
+* C/C++: Record calls to cxx destructor on delete keyword (issue [#829](https://github.com/CoatiSoftware/Sourcetrail/issues/829)) ([#863](https://github.com/CoatiSoftware/Sourcetrail/issues/863))
+* Retry pre-filling mandatory empty path settings on startup ([#864](https://github.com/CoatiSoftware/Sourcetrail/issues/864))
+* Improved handling of unloadable source group ([#862](https://github.com/CoatiSoftware/Sourcetrail/issues/862))
+
 #### 2019.4.102
 released 2019-12-20
 
