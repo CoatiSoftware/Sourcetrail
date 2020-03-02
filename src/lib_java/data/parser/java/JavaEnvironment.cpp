@@ -147,7 +147,7 @@ void JavaEnvironment::registerNativeMethods(std::string className, std::vector<N
 	jclass javaClass = m_env->FindClass(className.c_str());
 	if (javaClass)
 	{
-		if (m_env->RegisterNatives(javaClass, jniMethods, methods.size()) < 0)
+		if (m_env->RegisterNatives(javaClass, jniMethods, static_cast<jint>(methods.size())) < 0)
 		{
 			LOG_ERROR("RegisterNatives failed");
 		}
