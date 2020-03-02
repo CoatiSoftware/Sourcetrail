@@ -13,3 +13,6 @@ git checkout $1
 ./script/buildonly.sh package
 
 ./script/build.sh release test
+
+mkdir release
+cp ./Sourcetrail*.tar.gz ./release/
