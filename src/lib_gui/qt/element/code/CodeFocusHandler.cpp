@@ -82,24 +82,24 @@ bool CodeFocusHandler::hasCurrentFocus() const
 }
 
 void CodeFocusHandler::setFocusedLocationId(
-	QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId, const std::vector<Id>& tokenIds, bool fromMouse)
+	QtCodeArea* area, size_t lineNumber, size_t columnNumber, Id locationId, const std::vector<Id>& tokenIds, bool updateTargetColumn, bool fromMouse)
 {
-	if (columnNumber)
+	if (updateTargetColumn)
 	{
 		m_targetColumn = columnNumber;
 	}
 
-	setCurrentFocus({nullptr, area, nullptr, lineNumber, locationId, tokenIds}, fromMouse);
+	setCurrentFocus({nullptr, area, nullptr, lineNumber, columnNumber, locationId, tokenIds}, fromMouse);
 }
 
 void CodeFocusHandler::setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine, size_t lineNumber)
 {
-	setCurrentFocus({nullptr, area, scopeLine, lineNumber, 0, {}}, false);
+	setCurrentFocus({nullptr, area, scopeLine, lineNumber, 0, 0, {}}, false);
 }
 
 void CodeFocusHandler::setFocusedFile(QtCodeFile* file)
 {
-	setCurrentFocus({file, nullptr, nullptr, 0, 0, {}}, false);
+	setCurrentFocus({file, nullptr, nullptr, 0, 0, 0, {}}, false);
 }
 
 size_t CodeFocusHandler::getTargetColumn() const

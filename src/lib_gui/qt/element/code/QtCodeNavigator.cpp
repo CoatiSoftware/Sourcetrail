@@ -703,60 +703,48 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 		currentFilePath = currentFocus.area->getFilePath();
 	}
 
+	auto moveFocus = [=](CodeFocusHandler::Direction direction) {
+		if (!alt && !ctrl)
+		{
+			if (shift)
+			{
+				MessageToNextCodeReference(
+					currentFilePath, currentFocus.lineNumber, currentFocus.columnNumber,
+					direction == CodeFocusHandler::Direction::DOWN || direction == CodeFocusHandler::Direction::RIGHT
+				).dispatch();
+			}
+			else
+			{
+				m_current->moveFocus(currentFocus, direction);
+				scrollToFocus();
+			}
+		}
+	};
+
 	switch (event->key())
 	{
 	case Qt::Key_Up:
 	case Qt::Key_K:
 	case Qt::Key_W:
-		if (!alt && !ctrl)
-		{
-			if (shift)
-			{
-				MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, false).dispatch();
-			}
-			else
-			{
-				m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::UP);
-				scrollToFocus();
-			}
-		}
+		moveFocus(CodeFocusHandler::Direction::UP);
 		break;
 
 	case Qt::Key_Down:
 	case Qt::Key_J:
 	case Qt::Key_S:
-		if (!alt && !ctrl)
-		{
-			if (shift)
-			{
-				MessageToNextCodeReference(currentFilePath, currentFocus.lineNumber, true).dispatch();
-			}
-			else
-			{
-				m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::DOWN);
-				scrollToFocus();
-			}
-		}
+		moveFocus(CodeFocusHandler::Direction::DOWN);
 		break;
 
 	case Qt::Key_Left:
 	case Qt::Key_H:
 	case Qt::Key_A:
-		if (!alt && !ctrl)
-		{
-			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::LEFT);
-			scrollToFocus();
-		}
+		moveFocus(CodeFocusHandler::Direction::LEFT);
 		break;
 
 	case Qt::Key_Right:
 	case Qt::Key_L:
 	case Qt::Key_D:
-		if (!alt && !ctrl)
-		{
-			m_current->moveFocus(currentFocus, CodeFocusHandler::Direction::RIGHT);
-			scrollToFocus();
-		}
+		moveFocus(CodeFocusHandler::Direction::RIGHT);
 		break;
 
 	case Qt::Key_E:

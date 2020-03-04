@@ -217,7 +217,8 @@ void QtCodeFileSingle::scrollTo(
 
 	if (focusTarget && locationId)
 	{
-		m_navigator->setFocusedLocationId(m_area, lineNumber, 0, locationId, {}, false);
+		m_navigator->setFocusedLocationId(m_area, lineNumber, m_area->getColumnNumberForLocationId(locationId),
+			locationId, {}, false, false);
 	}
 }
 

@@ -222,7 +222,7 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 		{Shortcut(QStringLiteral("Move Focus Within Code"), QStringLiteral("WASD | HJKL | Arrows")),
 		 Shortcut(
 			 QStringLiteral("Move Focus to Closest Reference"),
-			 QStringLiteral("Shift + WS | Shift + JK | Shift + Up/Down")),
+			 QStringLiteral("Shift + WASD | Shift + HJKL | Shift + Arrows")),
 		 Shortcut(QStringLiteral("Activate Focused Location"), QStringLiteral("Enter | E")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Activate Location in New Tab"),

@@ -356,6 +356,19 @@ std::pair<size_t, size_t> QtCodeArea::getLineNumbersForLocationId(Id locationId)
 	return std::pair<size_t, size_t>(0, 0);
 }
 
+size_t QtCodeArea::getColumnNumberForLocationId(Id locationId) const
+{
+	for (const Annotation& annotation: m_annotations)
+	{
+		if (annotation.locationId == locationId)
+		{
+			return annotation.startCol + 1;
+		}
+	}
+
+	return 0;
+}
+
 Id QtCodeArea::getLocationIdOfFirstActiveLocation(Id tokenId) const
 {
 	for (const Annotation& annotation: m_annotations)
@@ -1048,9 +1061,10 @@ void QtCodeArea::focusAnnotation(const Annotation* annotation, bool updateTarget
 	m_navigator->setFocusedLocationId(
 		this,
 		annotation->startLine,
-		updateTargetColumn ? annotation->startCol : 0,
+		annotation->startCol + 1,
 		annotation->locationId,
 		utility::toVector(annotation->tokenIds),
+		updateTargetColumn,
 		fromMouse);
 }
 

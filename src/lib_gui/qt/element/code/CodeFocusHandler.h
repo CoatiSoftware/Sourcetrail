@@ -26,6 +26,7 @@ public:
 		QtCodeArea* area = nullptr;
 		QPushButton* scopeLine = nullptr;
 		size_t lineNumber = 0;
+		size_t columnNumber = 0;
 		Id locationId = 0;
 		std::vector<Id> tokenIds;
 
@@ -52,6 +53,7 @@ public:
 		size_t columnNumber,
 		Id locationId,
 		const std::vector<Id>& tokenIds,
+		bool updateTargetColumn,
 		bool fromMouse);
 	void setFocusedScopeLine(QtCodeArea* area, QPushButton* scopeLine, size_t lineNumber);
 	void setFocusedFile(QtCodeFile* file);

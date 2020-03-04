@@ -72,6 +72,7 @@ public:
 
 	size_t getLineNumberForLocationId(Id locationId) const;
 	std::pair<size_t, size_t> getLineNumbersForLocationId(Id locationId) const;
+	size_t getColumnNumberForLocationId(Id locationId) const;
 
 	Id getLocationIdOfFirstActiveLocation(Id tokenId) const;
 	Id getLocationIdOfFirstActiveScopeLocation(Id tokenId) const;
