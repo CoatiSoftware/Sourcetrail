@@ -1,6 +1,5 @@
 #include "CodeController.h"
 
-#include <cmath>
 #include <memory>
 
 #include "Application.h"
@@ -591,12 +590,8 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 				}
 				else
 				{
-					if (std::abs(
-							static_cast<int>(m_references[referenceIndex].lineNumber) -
-							static_cast<int>(currentLineNumber)) <
-						std::abs(
-							static_cast<int>(m_localReferences[localReferenceIndex].lineNumber) -
-							static_cast<int>(currentLineNumber)))
+					if ((next && m_references[referenceIndex].lineNumber < m_localReferences[localReferenceIndex].lineNumber) ||
+						(!next && m_references[referenceIndex].lineNumber > m_localReferences[localReferenceIndex].lineNumber))
 					{
 						localReferenceIndex = -1;
 					}
