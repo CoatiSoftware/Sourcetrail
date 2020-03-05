@@ -1,6 +1,5 @@
 #include "CodeController.h"
 
-#include <cmath>
 #include <memory>
 
 #include "Application.h"
@@ -538,6 +537,7 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 {
 	FilePath currentFilePath = message->filePath;
 	size_t currentLineNumber = message->lineNumber;
+	size_t currentColumnNumber = message->columnNumber;
 	bool next = message->next;
 	bool inListMode = getView()->isInListMode();
 
@@ -547,9 +547,9 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 	}
 
 	std::pair<int, int> referencePos = findClosestReferenceIndex(
-		m_references, currentFilePath, currentLineNumber, next);
+		m_references, currentFilePath, currentLineNumber, currentColumnNumber, next);
 	std::pair<int, int> localReferencePos = findClosestReferenceIndex(
-		m_localReferences, currentFilePath, currentLineNumber, next);
+		m_localReferences, currentFilePath, currentLineNumber, currentColumnNumber, next);
 
 	int referenceIndex = referencePos.first;
 	int referenceFileIndex = referencePos.second;
@@ -576,18 +576,29 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 			}
 			else if (referenceFileIndex == 0)
 			{
-				if (std::abs(
-						static_cast<int>(m_references[referenceIndex].lineNumber) -
-						static_cast<int>(currentLineNumber)) <
-					std::abs(
-						static_cast<int>(m_localReferences[localReferenceIndex].lineNumber) -
-						static_cast<int>(currentLineNumber)))
+				if (m_references[referenceIndex].lineNumber == m_localReferences[localReferenceIndex].lineNumber)
 				{
-					localReferenceIndex = -1;
+					if ((next && m_references[referenceIndex].columnNumber < m_localReferences[localReferenceIndex].columnNumber) ||
+						(!next && m_references[referenceIndex].columnNumber > m_localReferences[localReferenceIndex].columnNumber))
+					{
+						localReferenceIndex = -1;
+					}
+					else
+					{
+						referenceIndex = -1;
+					}
 				}
 				else
 				{
-					referenceIndex = -1;
+					if ((next && m_references[referenceIndex].lineNumber < m_localReferences[localReferenceIndex].lineNumber) ||
+						(!next && m_references[referenceIndex].lineNumber > m_localReferences[localReferenceIndex].lineNumber))
+					{
+						localReferenceIndex = -1;
+					}
+					else
+					{
+						referenceIndex = -1;
+					}
 				}
 			}
 			else
@@ -1005,6 +1016,7 @@ void CodeController::createReferences()
 					ref.locationId = location->getLocationId();
 					ref.locationType = location->getType();
 					ref.lineNumber = location->getLineNumber();
+					ref.columnNumber = location->getColumnNumber();
 					m_references.push_back(ref);
 					return;
 				}
@@ -1017,6 +1029,7 @@ void CodeController::createReferences()
 					ref.locationId = location->getLocationId();
 					ref.locationType = location->getType();
 					ref.lineNumber = location->getLineNumber();
+					ref.columnNumber = location->getColumnNumber();
 
 					std::map<Id, Id>::const_iterator it = scopeLocationIds.find(i);
 					if (it != scopeLocationIds.end())
@@ -1055,6 +1068,7 @@ void CodeController::createLocalReferences(const std::set<Id>& localSymbolIds)
 					ref.locationId = location->getLocationId();
 					ref.locationType = location->getType();
 					ref.lineNumber = location->getLineNumber();
+					ref.columnNumber = location->getColumnNumber();
 					m_localReferences.push_back(ref);
 					return;
 				}
@@ -1171,6 +1185,7 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 	const std::vector<Reference>& references,
 	const FilePath& currentFilePath,
 	size_t currentLineNumber,
+	size_t currentColumnNumber,
 	bool next) const
 {
 	int referenceIndex = -1;
@@ -1182,7 +1197,8 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 		{
 			if (!next)
 			{
-				if (references[i].lineNumber < currentLineNumber)
+				if (references[i].lineNumber < currentLineNumber ||
+					(references[i].lineNumber == currentLineNumber && references[i].columnNumber < currentColumnNumber))
 				{
 					referenceIndex = static_cast<int>(i);
 				}
@@ -1191,7 +1207,8 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 					return {referenceIndex, beforeCurrentFile ? -1 : 0};
 				}
 			}
-			else if (references[i].lineNumber > currentLineNumber)
+			else if (references[i].lineNumber > currentLineNumber ||
+					(references[i].lineNumber == currentLineNumber && references[i].columnNumber > currentColumnNumber))
 			{
 				return {static_cast<int>(i), 0};
 			}
@@ -1215,7 +1232,13 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 		}
 	}
 
-	return {referenceIndex, beforeCurrentFile ? -1 : 1};
+	int fileIndex = beforeCurrentFile ? -1 : 1;
+	if (referenceIndex >= 0 && references[referenceIndex].filePath == currentFilePath)
+	{
+		fileIndex = 0;
+	}
+
+	return {referenceIndex, fileIndex};
 }
 
 void CodeController::expandVisibleFiles(bool useSingleFileCache)

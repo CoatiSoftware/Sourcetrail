@@ -299,7 +299,8 @@ void QtCodeFileList::scrollTo(
 
 	if (focusTarget)
 	{
-		m_navigator->setFocusedLocationId(snippet->getArea(), lineNumber, 0, locationId, {}, false);
+		m_navigator->setFocusedLocationId(snippet->getArea(), lineNumber,
+			snippet->getArea()->getColumnNumberForLocationId(locationId), locationId, {}, false, false);
 	}
 }
 

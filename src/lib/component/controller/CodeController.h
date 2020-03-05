@@ -82,6 +82,7 @@ private:
 		Id scopeLocationId = 0;
 		LocationType locationType = LOCATION_TOKEN;
 		size_t lineNumber = 0;
+		size_t columnNumber = 0;
 	};
 
 	void handleMessage(MessageActivateErrors* message) override;
@@ -147,6 +148,7 @@ private:
 		const std::vector<Reference>& references,
 		const FilePath& currentFilePath,
 		size_t currentLineNumber,
+		size_t currentColumnNumber,
 		bool next) const;
 
 	void expandVisibleFiles(bool useSingleFileCache);
