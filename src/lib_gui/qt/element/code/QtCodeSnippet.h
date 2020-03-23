@@ -59,6 +59,8 @@ public:
 	void focusTop();
 	void focusBottom();
 
+	void copySelection();
+
 	void ensureLocationIdVisible(Id locationId, bool animated);
 
 private slots:

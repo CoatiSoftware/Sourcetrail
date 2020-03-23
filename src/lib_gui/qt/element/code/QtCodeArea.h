@@ -94,6 +94,8 @@ public:
 	bool moveFocusInLine(size_t lineNumber, Id locationId, bool forward);
 	void activateLocationId(Id locationId, bool fromMouse);
 
+	void copySelection();
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;

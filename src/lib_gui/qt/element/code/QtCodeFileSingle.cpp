@@ -261,6 +261,14 @@ void QtCodeFileSingle::moveFocus(
 	}
 }
 
+void QtCodeFileSingle::copySelection()
+{
+	if (m_area)
+	{
+		m_area->copySelection();
+	}
+}
+
 const FilePath& QtCodeFileSingle::getCurrentFilePath() const
 {
 	return m_currentFilePath;

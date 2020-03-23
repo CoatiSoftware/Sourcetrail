@@ -370,6 +370,14 @@ void QtCodeFileList::moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHa
 	}
 }
 
+void QtCodeFileList::copySelection()
+{
+	for (QtCodeFile* file: m_files)
+	{
+		file->copySelection();
+	}
+}
+
 void QtCodeFileList::maximizeFirstFile()
 {
 	if (m_files.size())

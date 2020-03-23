@@ -62,6 +62,8 @@ public:
 	void setFocusOnTop() override;
 	void moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction) override;
 
+	void copySelection() override;
+
 	void maximizeFirstFile();
 
 	std::pair<QtCodeFile*, Id> getFirstFileWithActiveLocationId() const;

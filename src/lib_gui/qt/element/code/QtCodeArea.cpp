@@ -737,6 +737,14 @@ void QtCodeArea::activateLocationId(Id locationId, bool fromMouse)
 	}
 }
 
+void QtCodeArea::copySelection()
+{
+	if (textCursor().hasSelection())
+	{
+		copy();
+	}
+}
+
 void QtCodeArea::resizeEvent(QResizeEvent* e)
 {
 	QPlainTextEdit::resizeEvent(e);
