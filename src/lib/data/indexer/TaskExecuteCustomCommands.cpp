@@ -325,37 +325,85 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 			if (textAccess)
 			{
-				locationFile->forEachStartSourceLocation(
-					[textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](
-						const SourceLocation* startLoc) {
-						if (!startLoc)
-						{
-							return;
-						}
-						const SourceLocation* endLoc = startLoc->getOtherLocation();
-						if (!endLoc)
-						{
-							return;
-						}
+				locationFile->forEachStartSourceLocation([textAccess,
+														  &nodeNameToStorageNodes,
+														  &storage,
+														  &dataToInsert,
+														  &occurrencesToDelete](
+															 const SourceLocation* startLoc) {
+					if (!startLoc)
+					{
+						return;
+					}
+					const SourceLocation* endLoc = startLoc->getOtherLocation();
+					if (!endLoc)
+					{
+						return;
+					}
 
-						const std::wstring token = utility::decodeFromUtf8(
-							textAccess->getLine(static_cast<unsigned int>(startLoc->getLineNumber()))
-								.substr(
-									startLoc->getColumnNumber() - 1,
-									endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
+					const std::string tokenLine = textAccess->getLine(
+						static_cast<unsigned int>(startLoc->getLineNumber()));
+					const std::wstring token = utility::decodeFromUtf8(tokenLine.substr(
+						startLoc->getColumnNumber() - 1,
+						endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
 
-						for (const Id elementId: startLoc->getTokenIds())
+
+					std::string prefixString = tokenLine.substr(0, startLoc->getColumnNumber() - 1);
+
+					std::cout << "prefixString: " << prefixString << std::endl;
+					std::wstring definitionContextName = L"";
+					{
+						std::regex regex("\\s([^\\.()\\s]+)\\.$");
+						std::smatch matches;
+						std::regex_search(prefixString, matches, regex);
+						if (!matches.empty())
 						{
-							const StorageEdge edge = storage.getEdgeById(elementId);
-							if (edge.id != 0)
+							definitionContextName = utility::decodeFromUtf8(matches.str(1));
+						}
+					}
+					{
+						std::regex regex("\\s(super\\(\\))\\.$");
+						std::smatch matches;
+						std::regex_search(prefixString, matches, regex);
+						if (!matches.empty())
+						{
+							std::cout << "super: \"" << matches.str(1) << "\"" << std::endl;
+						}
+					}
+					{
+						std::vector<StorageNode> targetNodes;
+						if (!definitionContextName.empty())
+						{
+							for (const StorageNode& node: nodeNameToStorageNodes[token])
 							{
-								for (const StorageNode& targetNode: nodeNameToStorageNodes[token])
+								NameHierarchy nameHierarchy = NameHierarchy::deserialize(
+									node.serializedName);
+								if (nameHierarchy.size() > 1 &&
+									nameHierarchy.getRange(0, nameHierarchy.size() - 1).back().getName() ==
+										definitionContextName)
+								{
+									targetNodes.push_back(node);
+								}
+							}
+						}
+						if (targetNodes.empty())
+						{
+							targetNodes = nodeNameToStorageNodes[token];
+						}
+
+						for (const StorageNode& targetNode: targetNodes)
+						{
+							for (const Id elementId: startLoc->getTokenIds())
+							{
+								const StorageEdge edge = storage.getEdgeById(elementId);
+								if (edge.id != 0)	 // for node elements this condition will fail
 								{
 									if (Edge::intToType(edge.type) == Edge::EDGE_INHERITANCE &&
 										intToNodeKind(targetNode.type) != NODE_CLASS)
 									{
 										continue;
 									}
+
 									dataToInsert.push_back(
 										{StorageEdgeData(edge.type, edge.sourceNodeId, targetNode.id),
 										 startLoc->getLocationId()});
@@ -364,7 +412,8 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 								}
 							}
 						}
-					});
+					}
+				});
 			}
 		});
 
