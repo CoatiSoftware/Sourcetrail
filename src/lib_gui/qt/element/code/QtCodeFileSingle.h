@@ -56,6 +56,8 @@ public:
 	void setFocusOnTop() override;
 	void moveFocus(const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction) override;
 
+	void copySelection() override;
+
 	const FilePath& getCurrentFilePath() const;
 	bool hasFileCached(const FilePath& filePath) const;
 

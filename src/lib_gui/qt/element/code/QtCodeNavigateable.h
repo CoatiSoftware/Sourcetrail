@@ -44,6 +44,8 @@ public:
 	virtual void moveFocus(
 		const CodeFocusHandler::Focus& focus, CodeFocusHandler::Direction direction) = 0;
 
+	virtual void copySelection() = 0;
+
 protected:
 	void ensureWidgetVisibleAnimated(
 		const QWidget* parentWidget,

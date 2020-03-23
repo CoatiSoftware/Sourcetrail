@@ -227,6 +227,11 @@ void QtCodeSnippet::focusBottom()
 	}
 }
 
+void QtCodeSnippet::copySelection()
+{
+	m_codeArea->copySelection();
+}
+
 void QtCodeSnippet::ensureLocationIdVisible(Id locationId, bool animated)
 {
 	m_codeArea->ensureLocationIdVisible(locationId, width(), animated);

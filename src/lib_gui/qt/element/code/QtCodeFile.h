@@ -71,6 +71,8 @@ public:
 	void focusTop();
 	void focusBottom();
 
+	void copySelection();
+
 public slots:
 	void clickedMinimizeButton();
 	void clickedSnippetButton();

@@ -785,6 +785,13 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 		}
 		break;
 
+	case Qt::Key_C:
+		if (ctrl && !alt && !shift)
+		{
+			m_current->copySelection();
+		}
+		break;
+
 	default:
 		QWidget::keyPressEvent(event);
 		return;

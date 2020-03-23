@@ -404,6 +404,14 @@ void QtCodeFile::focusBottom()
 	}
 }
 
+void QtCodeFile::copySelection()
+{
+	for (QtCodeSnippet* snippet: m_snippets)
+	{
+		snippet->copySelection();
+	}
+}
+
 void QtCodeFile::clickedMinimizeButton()
 {
 	MessageChangeFileView msg(
