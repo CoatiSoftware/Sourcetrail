@@ -349,8 +349,6 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 
 
 					std::string prefixString = tokenLine.substr(0, startLoc->getColumnNumber() - 1);
-
-					std::cout << "prefixString: " << prefixString << std::endl;
 					std::wstring definitionContextName = L"";
 					{
 						std::regex regex("\\s([^\\.()\\s]+)\\.$");
@@ -359,15 +357,6 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 						if (!matches.empty())
 						{
 							definitionContextName = utility::decodeFromUtf8(matches.str(1));
-						}
-					}
-					{
-						std::regex regex("\\s(super\\(\\))\\.$");
-						std::smatch matches;
-						std::regex_search(prefixString, matches, regex);
-						if (!matches.empty())
-						{
-							std::cout << "super: \"" << matches.str(1) << "\"" << std::endl;
 						}
 					}
 					{
