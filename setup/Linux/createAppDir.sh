@@ -34,6 +34,12 @@ cd ..
 
 cp -r ../../../build/Release/share/icons/ .
 
+mkdir mime
+cd mime
+mkdir packages
+cd packages
+cp ../../../../../setup/Linux/sourcetrail-mime.xml .
+
 mkdir data
 cd data
 cp -R ../../../../bin/app/data/color_schemes .
@@ -43,13 +49,13 @@ cp -R ../../../../bin/app/data/gui .
 cp -R ../../../../bin/app/data/java .
 cp -R ../../../../bin/app/data/python .
 cp -R ../../../../bin/app/data/fallback .
-cp -R ../../../../bin/app/user/projects .
 cp -R ../../../../bin/app/data/license .
 cp -R ../../../../bin/app/data/cxx .
+cp -R ../../../../bin/app/user/projects .
 cd ..
 
 cd ../../..
 
-find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+# find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
 # ../squashfs-root/usr/bin/linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
