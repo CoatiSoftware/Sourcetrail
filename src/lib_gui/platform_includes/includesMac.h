@@ -77,7 +77,7 @@ void setupPlatform(int argc, char* argv[])
 void setupApp(int argc, char* argv[])
 {
 	const FilePath path(QDir::currentPath().toStdWString() + L"/");
-	AppPath::setAppPath(path.getAbsolute());
+	AppPath::setSharedDataPath(path.getAbsolute());
 }
 
 #endif	  // INCLUDES_MAC_H
