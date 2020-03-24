@@ -67,7 +67,7 @@ void setupApp(int argc, char* argv[])
 	utility::copyNewFilesFromDirectory(
 		QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);
 	utility::copyNewFilesFromDirectory(
-		QString::fromStdWString(AppPath::getResourcePath().concatenate(L"user/").wstr()), userDataPath);
+		QString::fromStdWString(AppPath::getSharedDataPath().concatenate(L"user/").wstr()), userDataPath);
 }
 
 #endif	  // INCLUDES_DEFAULT_H
