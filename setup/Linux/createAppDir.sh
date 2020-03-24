@@ -39,6 +39,7 @@ cd mime
 mkdir packages
 cd packages
 cp ../../../../../setup/Linux/sourcetrail-mime.xml .
+cd ../..
 
 mkdir data
 cd data
