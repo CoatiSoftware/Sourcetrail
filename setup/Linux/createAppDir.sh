@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
-
 # wget https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-x86_64.AppImage
 # chmod a+x linuxdeployqt-6-x86_64.AppImage
 # ./linuxdeployqt-6-x86_64.AppImage --appimage-extract
@@ -70,4 +68,8 @@ cd ../../..
 # find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
 # export VERSION=$(cat build/Release/version.txt)
+# ../squashfs-root/usr/bin/linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
+# rm -f AppDir/AppRun
 # ../squashfs-root/usr/bin/linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
+
+# docker cp <container-id>:/home/builder/Sourcetrail/Sourcetrail-<version>-x86_64.AppImage ~/Desktop
