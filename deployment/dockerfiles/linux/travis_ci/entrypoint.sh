@@ -2,6 +2,10 @@
 
 echo "building commit: $1"
 
+echo $PATH
+
+linuxdeployqt --version
+
 git clone https://github.com/CoatiSoftware/Sourcetrail.git
 
 cd Sourcetrail
