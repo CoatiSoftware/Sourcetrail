@@ -480,7 +480,7 @@ add_custom_command(
 	TARGET versionnumber
 	PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -DBINARY_DIR=${CMAKE_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
-	BYPRODUCTS ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h
+	BYPRODUCTS ${CMAKE_BINARY_DIR}/version.txt ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h
 	DEPENDS ${LIB_GUI_PROJECT_NAME}
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	COMMENT "check/update version number"
@@ -516,6 +516,11 @@ configure_file(
 )
 
 #configure the versioning file
+configure_file(
+	${CMAKE_SOURCE_DIR}/cmake/version.txt.in
+	${CMAKE_BINARY_DIR}/version.txt
+)
+
 configure_file(
 	${CMAKE_SOURCE_DIR}/cmake/productVersion.h.in
 	${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h
@@ -779,8 +784,8 @@ set_property(
 if (WIN32)
 	set_target_properties(${TEST_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/bigobj")
 	set_property(
-		TARGET ${TEST_PROJECT_NAME} 
-			PROPERTY VS_DEBUGGER_WORKING_DIRECTORY 
+		TARGET ${TEST_PROJECT_NAME}
+			PROPERTY VS_DEBUGGER_WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/bin/test")
 endif ()
 
