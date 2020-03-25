@@ -10,6 +10,16 @@
 # cd Sourcetrail
 # ./script/buildonly.sh all
 
+BIN_PATH=build/Release/app/Sourcetrail
+PROJECTS_PATH=bin/app/user/projects
+
+./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_cpp/tictactoe_cpp.srctrlprj
+./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_py/tictactoe_py.srctrlprj
+./$BIN_PATH index --full $PROJECTS_PATH/tutorial/tutorial.srctrlprj
+./$BIN_PATH index --full $PROJECTS_PATH/javaparser/javaparser.srctrlprj
+
+rm -rf AppDir
+
 mkdir AppDir
 cd AppDir
 
@@ -50,9 +60,9 @@ cp -R ../../../../bin/app/data/gui .
 cp -R ../../../../bin/app/data/java .
 cp -R ../../../../bin/app/data/python .
 cp -R ../../../../bin/app/data/fallback .
+cp -R ../../../../bin/app/user/projects fallback/
 cp -R ../../../../bin/app/data/license .
 cp -R ../../../../bin/app/data/cxx .
-cp -R ../../../../bin/app/user/projects .
 cd ..
 
 cd ../../..
