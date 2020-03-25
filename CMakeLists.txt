@@ -480,7 +480,7 @@ add_custom_command(
 	TARGET versionnumber
 	PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -DBINARY_DIR=${CMAKE_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
-	BYPRODUCTS ${CMAKE_BINARY_DIR}/version.txt ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h
+	BYPRODUCTS ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h
 	DEPENDS ${LIB_GUI_PROJECT_NAME}
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	COMMENT "check/update version number"
