@@ -1,13 +1,5 @@
 #!/bin/sh
 
-# wget https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-x86_64.AppImage
-# chmod a+x linuxdeployqt-6-x86_64.AppImage
-# ./linuxdeployqt-6-x86_64.AppImage --appimage-extract
-
-# git clone https://github.com/CoatiSoftware/Sourcetrail.git
-# cd Sourcetrail
-# ./script/buildonly.sh all
-
 BIN_PATH=build/Release/app/Sourcetrail
 PROJECTS_PATH=bin/app/user/projects
 
@@ -67,9 +59,8 @@ cd ../../..
 
 # find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
-# export VERSION=$(cat build/Release/version.txt)
-# ../squashfs-root/usr/bin/linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
-# rm -f AppDir/AppRun
-# ../squashfs-root/usr/bin/linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
+export VERSION=$(cat build/Release/version.txt)
 
-# docker cp <container-id>:/home/builder/Sourcetrail/Sourcetrail-<version>-x86_64.AppImage ~/Desktop
+linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
+rm -f AppDir/AppRun
+linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
