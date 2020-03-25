@@ -4,6 +4,8 @@ echo "building commit: $1"
 
 echo $PATH
 
+ls -la /opt/linuxdeployqt/bin
+
 linuxdeployqt --version
 
 git clone https://github.com/CoatiSoftware/Sourcetrail.git
