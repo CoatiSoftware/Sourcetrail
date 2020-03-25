@@ -527,6 +527,7 @@ configure_file(
 )
 
 set_property(SOURCE ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h PROPERTY SKIP_AUTOMOC ON)
+set_property(SOURCE ${CMAKE_BINARY_DIR}/version.txt PROPERTY SKIP_AUTOMOC ON)
 
 set(CMAKE_AUTOMOC OFF)
 
