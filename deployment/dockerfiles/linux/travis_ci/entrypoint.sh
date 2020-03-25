@@ -18,9 +18,16 @@ git checkout $1
 
 ./script/build.sh release test
 
+pwd
+ls -la build/Release/app
+
 ./setup/Linux/createAppDir.sh
 
+pwd
+
 export VERSION=$(cat build/Release/version.txt)
+echo $VERSION
+
 ../squashfs-root/usr/bin/linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
 rm -f AppDir/AppRun
 ../squashfs-root/usr/bin/linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage

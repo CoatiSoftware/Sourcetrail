@@ -7,7 +7,7 @@ WORKDIR /opt
 RUN rpm --rebuilddb; yum install -y yum-plugin-ovl ca-certificates;
 
 RUN yum -y install centos-release-scl epel-release && \
-yum -y install make wget devtoolset-7-gcc devtoolset-7-gcc-c++ devtoolset-7-binutils \
+yum -y install make wget file devtoolset-7-gcc devtoolset-7-gcc-c++ devtoolset-7-binutils \
 	wget tar bzip2 git libtool which fuse fuse-devel libpng-devel automake \
 	glibc-headers libstdc++-devel gcc-c++ freetype-devel fontconfig-devel\
 	libxml2-devel libstdc++-devel libXrender libXrender-devel patch xcb-util-keysyms xcb-util-keysyms-devel \
