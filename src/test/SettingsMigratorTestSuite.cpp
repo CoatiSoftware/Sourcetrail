@@ -8,12 +8,12 @@
 
 namespace
 {
-class TestSettings: public Settings
+class MigratorTestSettings: public Settings
 {
 public:
-	static TestSettings createFromText(const std::shared_ptr<TextAccess> textAccess)
+	static MigratorTestSettings createFromText(const std::shared_ptr<TextAccess> textAccess)
 	{
-		TestSettings settings;
+		MigratorTestSettings settings;
 		settings.m_config = ConfigManager::createAndLoad(textAccess);
 		return settings;
 	}
@@ -29,21 +29,21 @@ public:
 	}
 };
 
-TestSettings createSettings(const std::string& text)
+MigratorTestSettings createSettings(const std::string& text)
 {
-	return TestSettings::createFromText(TextAccess::createFromString(text));
+	return MigratorTestSettings::createFromText(TextAccess::createFromString(text));
 }
 }	 // namespace
 
 TEST_CASE("migrator changes nothing without migrations except version")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
@@ -58,13 +58,13 @@ TEST_CASE("migrator changes nothing without migrations except version")
 
 TEST_CASE("migrator changes name")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <int>2</int>\n"
@@ -80,13 +80,13 @@ TEST_CASE("migrator changes name")
 
 TEST_CASE("migrator changes path")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <sub>\n"
@@ -104,7 +104,7 @@ TEST_CASE("migrator changes path")
 
 TEST_CASE("migrator changes group name")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <values>\n"
@@ -114,7 +114,7 @@ TEST_CASE("migrator changes group name")
 		"    </values>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <vals>\n"
@@ -135,7 +135,7 @@ TEST_CASE("migrator changes group name")
 
 TEST_CASE("migrator changes group element name")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <values>\n"
@@ -145,7 +145,7 @@ TEST_CASE("migrator changes group element name")
 		"    </values>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <values>\n"
@@ -166,13 +166,13 @@ TEST_CASE("migrator changes group element name")
 
 TEST_CASE("migrator changes only up specified version")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <int>2</int>\n"
@@ -189,14 +189,14 @@ TEST_CASE("migrator changes only up specified version")
 
 TEST_CASE("migrator changes only from specified version")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <int>2</int>\n"
 		"    <version>1</version>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <val>2</val>\n"
@@ -213,13 +213,13 @@ TEST_CASE("migrator changes only from specified version")
 
 TEST_CASE("migrator changes for multiple versions")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <val>2</val>\n"
@@ -236,14 +236,14 @@ TEST_CASE("migrator changes for multiple versions")
 
 TEST_CASE("migrator changes for multiple migrations")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"    <element>hi there</element>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <val>2</val>\n"
@@ -261,7 +261,7 @@ TEST_CASE("migrator changes for multiple migrations")
 
 TEST_CASE("migrator changes for multiple versions and migrations")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
@@ -270,7 +270,7 @@ TEST_CASE("migrator changes for multiple versions and migrations")
 		"    <element>four</element>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <int>2</int>\n"
@@ -294,13 +294,13 @@ TEST_CASE("migrator changes for multiple versions and migrations")
 
 TEST_CASE("migrator with lambda")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>4</value>\n"
@@ -322,13 +322,13 @@ TEST_CASE("migrator with lambda")
 
 TEST_CASE("migrator with multiple lambdas")
 {
-	TestSettings settingsBefore = createSettings(
+	MigratorTestSettings settingsBefore = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>2</value>\n"
 		"</config>\n");
 
-	TestSettings settingsAfter = createSettings(
+	MigratorTestSettings settingsAfter = createSettings(
 		"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 		"<config>\n"
 		"    <value>3</value>\n"
