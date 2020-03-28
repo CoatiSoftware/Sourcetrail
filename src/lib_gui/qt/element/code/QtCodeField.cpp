@@ -10,7 +10,6 @@
 #include "ColorScheme.h"
 #include "MessageActivateLocalSymbols.h"
 #include "MessageActivateSourceLocations.h"
-#include "MessageActivateTokenIds.h"
 #include "MessageTabOpenWith.h"
 #include "MessageTooltipShow.h"
 #include "QtContextMenu.h"
@@ -561,10 +560,6 @@ void QtCodeField::activateAnnotations(
 	else if (locationIds.size())
 	{
 		MessageActivateSourceLocations(locationIds, containsUnsolved).dispatch();
-	}
-	else if (tokenIds.size())	 // fallback for links in project description
-	{
-		MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
 	}
 	else if (localSymbolIds.size())
 	{
