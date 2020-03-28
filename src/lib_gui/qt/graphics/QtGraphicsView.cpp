@@ -316,32 +316,39 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 	switch (event->key())
 	{
 	case Qt::Key_Up:
-	case Qt::Key_K:
-	case Qt::Key_W:
-		if (alt)
+		if (ctrl && !alt)
 		{
 			m_up = true;
+			break;
 		}
-		else if (!ctrl)
+	case Qt::Key_K:
+	case Qt::Key_W:
+		if (!ctrl && !alt)
 		{
 			m_focusHandler->focusNext(GraphFocusHandler::Direction::UP, shift);
 		}
 		break;
 
 	case Qt::Key_Down:
-	case Qt::Key_J:
-	case Qt::Key_S:
-		if (alt)
+		if (ctrl && !alt)
 		{
 			m_down = true;
+			break;
 		}
-		else if (!ctrl)
+	case Qt::Key_J:
+	case Qt::Key_S:
+		if (!alt && !ctrl)
 		{
 			m_focusHandler->focusNext(GraphFocusHandler::Direction::DOWN, shift);
 		}
 		break;
 
 	case Qt::Key_Left:
+		if (ctrl && !shift && !alt)
+		{
+			m_left = true;
+			break;
+		}
 	case Qt::Key_H:
 	case Qt::Key_A:
 		if (!alt && !ctrl)
@@ -351,6 +358,11 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 		break;
 
 	case Qt::Key_Right:
+		if (ctrl && !shift && !alt)
+		{
+			m_right = true;
+			break;
+		}
 	case Qt::Key_L:
 	case Qt::Key_D:
 		if (!alt && !ctrl)
@@ -394,8 +406,11 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 		setZoomFactor(1.0f);
 		updateTransform();
 		break;
-	case Qt::Key_Alt:
-		m_alt = true;
+	case Qt::Key_Shift:
+		m_shift = true;
+		break;
+	case Qt::Key_Control:
+		m_ctrl = true;
 		break;
 	default:
 		QGraphicsView::keyPressEvent(event);
@@ -414,14 +429,25 @@ void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
 {
 	switch (event->key())
 	{
+	case Qt::Key_Up:
 	case Qt::Key_W:
 		m_up = false;
 		break;
+	case Qt::Key_Down:
 	case Qt::Key_S:
 		m_down = false;
 		break;
-	case Qt::Key_Alt:
-		m_alt = false;
+	case Qt::Key_Left:
+		m_left = false;
+		break;
+	case Qt::Key_Right:
+		m_right = false;
+		break;
+	case Qt::Key_Shift:
+		m_shift = false;
+		break;
+	case Qt::Key_Control:
+		m_ctrl = false;
 		break;
 	default:
 		return;
@@ -579,9 +605,14 @@ void QtGraphicsView::focusOutEvent(QFocusEvent* event)
 
 void QtGraphicsView::updateTimer()
 {
+	const float ds = 30.0f;
 	const float dz = 50.0f;
 
-	if (m_alt)
+	float x = 0.0f;
+	float y = 0.0f;
+	float z = 0.0f;
+
+	if (m_shift && m_ctrl)
 	{
 		if (m_up)
 		{
@@ -591,6 +622,36 @@ void QtGraphicsView::updateTimer()
 		{
 			updateZoom(-dz);
 		}
+	}
+	else if (m_ctrl)
+	{
+		if (m_up)
+		{
+			y -= ds;
+		}
+		else if (m_down)
+		{
+			y += ds;
+		}
+
+		if (m_left)
+		{
+			x -= ds;
+		}
+		else if (m_right)
+		{
+			x += ds;
+		}
+	}
+
+	if (x != 0)
+	{
+		horizontalScrollBar()->setValue(horizontalScrollBar()->value() + x);
+	}
+
+	if (y != 0)
+	{
+		verticalScrollBar()->setValue(verticalScrollBar()->value() + y);
 	}
 }
 
@@ -748,7 +809,7 @@ void QtGraphicsView::legendClicked()
 
 bool QtGraphicsView::moves() const
 {
-	return m_up || m_down;
+	return m_up || m_down || m_left || m_right;
 }
 
 void QtGraphicsView::setZoomFactor(float zoomFactor)

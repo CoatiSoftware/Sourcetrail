@@ -267,13 +267,17 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 			 QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"),
 			 QStringLiteral("Cmd + Shift + Enter | Cmd + Shift + E")),
 		 Shortcut::defaultOrMac(
+			 QStringLiteral("Scroll Graph Area"),
+			 QStringLiteral("Ctrl + Arrows"),
+			 QStringLiteral("Cmd + Arrows")),
+		 Shortcut::defaultOrMac(
 			 QStringLiteral("Zoom in"),
-			 QStringLiteral("Alt + W | Ctrl + Mousewheel up"),
-			 QStringLiteral("Alt + W | Cmd + Mousewheel up")),
+			 QStringLiteral("Ctrl + Shift + Up | Ctrl + Mousewheel up"),
+			 QStringLiteral("Cmd + Shift + Up | Cmd + Mousewheel up")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Zoom out"),
-			 QStringLiteral("Alt + S | Ctrl + Mousewheel down"),
-			 QStringLiteral("Alt + S | Cmd + Mousewheel down")),
+			 QStringLiteral("Ctrl + Shift + Down | Ctrl + Mousewheel down"),
+			 QStringLiteral("Cmd + Shift + Down | Cmd + Mousewheel down")),
 		 Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Open Custom Trail Dialog"),
