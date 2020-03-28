@@ -241,7 +241,11 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Previous Local Reference"),
 			 QStringLiteral("Ctrl + Shift + L"),
-			 QStringLiteral("Cmd + Shift + L"))});
+			 QStringLiteral("Cmd + Shift + L")),
+		 Shortcut::defaultOrMac(
+			 QStringLiteral("Scroll Code Area"),
+			 QStringLiteral("Ctrl + Arrows"),
+			 QStringLiteral("Cmd + Arrows"))});
 
 	return table;
 }

@@ -931,7 +931,7 @@ void QtMainWindow::setupEditMenu()
 	menu->addSeparator();
 
 	menu->addAction(
-		tr("&To overview"), this, &QtMainWindow::overview, QKeySequence::MoveToStartOfDocument);
+		tr("&To overview"), this, &QtMainWindow::overview, QKeySequence(Qt::CTRL + Qt::Key_Home));
 
 	menu->addSeparator();
 

@@ -300,6 +300,11 @@ int QtCodeArea::lineNumberAreaWidth() const
 	return 0;
 }
 
+int QtCodeArea::lineHeight() const
+{
+	return static_cast<int>(blockBoundingRect(firstVisibleBlock()).height());
+}
+
 void QtCodeArea::updateLineNumberAreaWidthForDigits(int digits)
 {
 	m_digits = digits;

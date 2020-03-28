@@ -721,27 +721,73 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event)
 		}
 	};
 
+	auto moveView = [=](CodeFocusHandler::Direction direction) {
+		if (!alt && !shift && ctrl)
+		{
+			QAbstractScrollArea* scrollArea = currentFocus.area;
+			int step = currentFocus.area ? currentFocus.area->lineHeight() * 3 : 50;
+			if (direction == CodeFocusHandler::Direction::DOWN || direction == CodeFocusHandler::Direction::UP)
+			{
+				if (m_mode == MODE_LIST)
+				{
+					scrollArea = m_list->getScrollArea();
+				}
+				else
+				{
+					step = 3;
+				}
+			}
+
+			if (scrollArea)
+			{
+				QScrollBar* horizontalScrollBar = scrollArea->horizontalScrollBar();
+				QScrollBar* verticalScrollBar = scrollArea->verticalScrollBar();
+
+				if (direction == CodeFocusHandler::Direction::DOWN)
+				{
+					verticalScrollBar->setValue(verticalScrollBar->value() + step);
+				}
+				else if (direction == CodeFocusHandler::Direction::UP)
+				{
+					verticalScrollBar->setValue(verticalScrollBar->value() - step);
+				}
+				else if (direction == CodeFocusHandler::Direction::RIGHT)
+				{
+					horizontalScrollBar->setValue(horizontalScrollBar->value() + step);
+				}
+				else if (direction == CodeFocusHandler::Direction::LEFT)
+				{
+					horizontalScrollBar->setValue(horizontalScrollBar->value() - step);
+				}
+			}
+		}
+	};
+
 	switch (event->key())
 	{
 	case Qt::Key_Up:
+		moveView(CodeFocusHandler::Direction::UP);
 	case Qt::Key_K:
 	case Qt::Key_W:
 		moveFocus(CodeFocusHandler::Direction::UP);
 		break;
 
 	case Qt::Key_Down:
+		moveView(CodeFocusHandler::Direction::DOWN);
 	case Qt::Key_J:
 	case Qt::Key_S:
 		moveFocus(CodeFocusHandler::Direction::DOWN);
 		break;
 
 	case Qt::Key_Left:
+		moveView(CodeFocusHandler::Direction::LEFT);
 	case Qt::Key_H:
 	case Qt::Key_A:
 		moveFocus(CodeFocusHandler::Direction::LEFT);
 		break;
 
 	case Qt::Key_Right:
+		moveView(CodeFocusHandler::Direction::RIGHT);
 	case Qt::Key_L:
 	case Qt::Key_D:
 		moveFocus(CodeFocusHandler::Direction::RIGHT);
