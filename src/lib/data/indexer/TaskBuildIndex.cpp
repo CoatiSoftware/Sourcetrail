@@ -13,13 +13,6 @@
 #include "UserPaths.h"
 #include "utilityApp.h"
 
-
-#if _WIN32
-const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer.exe");
-#else
-const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer");
-#endif
-
 TaskBuildIndex::TaskBuildIndex(
 	size_t processCount,
 	std::shared_ptr<StorageProvider> storageProvider,
@@ -185,7 +178,7 @@ void TaskBuildIndex::handleMessage(MessageIndexingInterrupted* message)
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath)
 {
-	const FilePath indexerProcessPath = AppPath::getAppPath().concatenate(s_processName);
+	const FilePath indexerProcessPath = AppPath::getCxxIndexerPath();
 	if (!indexerProcessPath.exists())
 	{
 		m_interrupted = true;
@@ -199,7 +192,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 	std::vector<std::wstring> commandArguments;
 	commandArguments.push_back(std::to_wstring(processId));
 	commandArguments.push_back(utility::decodeFromUtf8(m_appUUID));
-	commandArguments.push_back(L"\"" + AppPath::getAppPath().getAbsolute().wstr() + L"\"");
+	commandArguments.push_back(L"\"" + AppPath::getSharedDataPath().getAbsolute().wstr() + L"\"");
 	commandArguments.push_back(L"\"" + UserPaths::getUserDataPath().getAbsolute().wstr() + L"\"");
 
 	if (!logFilePath.empty())

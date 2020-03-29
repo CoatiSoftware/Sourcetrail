@@ -2,7 +2,7 @@
 #define GRAPH_TUTORIAL_6_H
 
 
-#include "String.h"
+#include "string.h"
 
 class BoringClass
 {

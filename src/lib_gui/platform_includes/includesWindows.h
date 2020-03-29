@@ -34,11 +34,11 @@ void setupApp(int argc, char* argv[])
 		{
 			appPath = appPath.substr(0, pos + 1);
 		}
-		AppPath::setAppPath(FilePath(appPath));
+		AppPath::setSharedDataPath(FilePath(appPath));
 	}
 
 	{
-		FilePath userDataPath = AppPath::getAppPath().concatenate(L"user/");
+		FilePath userDataPath = AppPath::getSharedDataPath().concatenate(L"user/");
 		if (!userDataPath.exists())
 		{
 #pragma warning(push)
@@ -65,7 +65,7 @@ void setupApp(int argc, char* argv[])
 			}
 			else
 			{
-				userDataPath = AppPath::getAppPath().concatenate(L"user_fallback/");
+				userDataPath = AppPath::getSharedDataPath().concatenate(L"user_fallback/");
 				LOG_ERROR(
 					L"The \"%LOCALAPPDATA%\" path could not be found. Falling back to \"" +
 					userDataPath.wstr() + L"\" to store settings data.");

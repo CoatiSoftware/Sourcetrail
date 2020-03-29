@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 		logFilePath = argv[5];
 	}
 
-	AppPath::setAppPath(FilePath(appPath));
+	AppPath::setSharedDataPath(FilePath(appPath));
 	UserPaths::setUserDataPath(FilePath(userDataPath));
 
 	if (!logFilePath.empty())
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 	appSettings->load(FilePath(UserPaths::getAppSettingsPath()));
 	LogManager::getInstance()->setLoggingEnabled(appSettings->getLoggingEnabled());
 
-	LOG_INFO(L"appPath: " + AppPath::getAppPath().wstr());
+	LOG_INFO(L"sharedDataPath: " + AppPath::getSharedDataPath().wstr());
 	LOG_INFO(L"userDataPath: " + UserPaths::getUserDataPath().wstr());
 
 

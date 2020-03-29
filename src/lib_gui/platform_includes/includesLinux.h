@@ -44,8 +44,15 @@ void setupPlatform(int argc, char* argv[])
 
 void setupApp(int argc, char* argv[])
 {
-	AppPath::setAppPath(
-		FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute());
+	FilePath appPath = FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute();
+	AppPath::setSharedDataPath(appPath);
+	AppPath::setCxxIndexerPath(appPath);
+
+	// Check if bundled as Linux AppImage
+	if (appPath.getConcatenated(L"/../share/data").exists())
+	{
+		AppPath::setSharedDataPath(appPath.getConcatenated(L"/../share").getAbsolute());
+	}
 
 	std::string userdir(std::getenv("HOME"));
 	userdir.append("/.config/sourcetrail/");
@@ -60,7 +67,7 @@ void setupApp(int argc, char* argv[])
 	utility::copyNewFilesFromDirectory(
 		QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);
 	utility::copyNewFilesFromDirectory(
-		QString::fromStdWString(AppPath::getAppPath().concatenate(L"user/").wstr()), userDataPath);
+		QString::fromStdWString(AppPath::getSharedDataPath().concatenate(L"user/").wstr()), userDataPath);
 }
 
 #endif	  // INCLUDES_DEFAULT_H

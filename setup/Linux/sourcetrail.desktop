@@ -8,5 +8,5 @@ Icon=sourcetrail
 Terminal=false
 Type=Application
 MimeType=application/x-sourcetrail;
-Categories=Development;IDE;Utilities;
+Categories=Development;
 StartupNotify=true
