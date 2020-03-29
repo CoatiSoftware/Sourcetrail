@@ -89,6 +89,7 @@ void CodeController::handleMessage(MessageActivateLocalSymbols* message)
 	m_codeParams.activeLocalSymbolIds = message->symbolIds;
 	m_codeParams.activeLocalSymbolType = LOCATION_LOCAL_SYMBOL;
 	m_codeParams.currentActiveLocalLocationIds.clear();
+	m_codeParams.locationIdToFocus = 0;
 	showFiles(m_codeParams, CodeScrollParams(), !message->isReplayed());
 }
 
