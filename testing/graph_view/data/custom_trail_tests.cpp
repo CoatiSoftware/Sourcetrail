@@ -12,7 +12,7 @@
 // ACTION 2: Close with click on Cancel
 // RESULT 2: dialog closes
 
-// ACTION 3: Use custom trail shortcut Ctrl + L
+// ACTION 3: Use custom trail shortcut Ctrl + U
 // RESULT 3: dialog opens on top of window
 
 // ACTION 4: click on main window
@@ -37,7 +37,7 @@
 
 // RESULTS 6:
 // - Graph shows multiple paths
-// - Graph contains: CustomD -> CustomB, CustomC -> CustomA -> func -> int
+// - Graph contains: CustomD -> CustomB, CustomC -> CustomA, func2 -> func -> int
 
 // Action 7: Repeat search with:
 // - select vertical layout
@@ -46,7 +46,7 @@
 // RESULTS 7:
 // - Graph one call chain to func
 // - Graph goes top to bottom
-// - Graph contains: CustomD -> CustomB -> CustomA, func2 -> func -> int
+// - Graph contains: CustomD -> CustomB -> CustomA -> func -> int
 
 // END ------------------------------------------------------------------------
 
@@ -80,6 +80,6 @@
 
 // RESULTS 6:
 // - Graph shows multiple paths
-// - Graph contains: CustomB, CustomC -> CustomA, func2 -> func
+// - Graph contains: CustomD -> CustomB, CustomC -> CustomA, func2 -> func
 
 // END ------------------------------------------------------------------------
