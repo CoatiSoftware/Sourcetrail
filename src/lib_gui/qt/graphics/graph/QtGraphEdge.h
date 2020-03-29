@@ -23,6 +23,7 @@ class QtGraphEdge
 
 public:
 	static void unfocusBezierEdge();
+	static void clearFocusedEdges();
 
 	QtGraphEdge(
 		GraphFocusHandler* focusHandler,

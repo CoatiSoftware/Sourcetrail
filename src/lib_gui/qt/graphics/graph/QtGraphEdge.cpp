@@ -32,7 +32,14 @@ void QtGraphEdge::unfocusBezierEdge()
 	if (s_focusedBezierEdge)
 	{
 		s_focusedBezierEdge->coFocusOut();
+		s_focusedBezierEdge = nullptr;
 	}
+}
+
+void QtGraphEdge::clearFocusedEdges()
+{
+	s_focusedEdge = nullptr;
+	s_focusedBezierEdge = nullptr;
 }
 
 QtGraphEdge::QtGraphEdge(
@@ -63,9 +70,6 @@ QtGraphEdge::QtGraphEdge(
 		m_owner = m_target;
 		m_target = temp;
 	}
-
-	s_focusedEdge = nullptr;
-	s_focusedBezierEdge = nullptr;
 }
 
 QtGraphEdge::~QtGraphEdge() {}

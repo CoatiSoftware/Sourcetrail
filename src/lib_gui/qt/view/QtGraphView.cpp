@@ -383,6 +383,7 @@ void QtGraphView::rebuildGraph(
 		}
 
 		m_edges.clear();
+		QtGraphEdge::clearFocusedEdges();
 
 		// create edges
 		Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
