@@ -605,12 +605,11 @@ void QtGraphicsView::focusOutEvent(QFocusEvent* event)
 
 void QtGraphicsView::updateTimer()
 {
-	const float ds = 30.0f;
+	const int ds = 30;
 	const float dz = 50.0f;
 
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
+	int x = 0;
+	int y = 0;
 
 	if (m_shift && m_ctrl)
 	{
