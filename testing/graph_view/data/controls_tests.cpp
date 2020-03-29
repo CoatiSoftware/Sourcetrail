@@ -51,10 +51,10 @@ namespace image_export
 
 
 
-// TEST: move - WASD
+// TEST: move - Ctrl + Arrows
 // START ----------------------------------------------------------------------
 
-// ACTION: Use WASD to scroll up, down, left, right
+// ACTION: Use Ctrl + Arrows to scroll up, down, left, right
 // RESULT: graph is moved
 
 // END ------------------------------------------------------------------------
@@ -81,10 +81,10 @@ namespace image_export
 
 
 
-// TEST: zoom - Shift + WS
+// TEST: zoom - Shift + Ctrl + Up/Down
 // START ----------------------------------------------------------------------
 
-// ACTION: Hold Shift and press W/S
+// ACTION: Hold Shift + Ctrl and press Up/Down
 // RESULT: Zoom Level changes, percentage in lower left corner
 
 // END ------------------------------------------------------------------------

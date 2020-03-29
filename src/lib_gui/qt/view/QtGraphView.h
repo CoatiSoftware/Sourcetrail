@@ -144,6 +144,7 @@ private:
 		std::vector<std::pair<QtGraphNode*, QtGraphNode*>>* remainingNodes);
 
 	void createTransition();
+	bool isTransitioning() const;
 
 	GraphFocusHandler m_focusHandler;
 	bool m_hasFocus = false;

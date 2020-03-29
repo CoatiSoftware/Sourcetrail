@@ -31,7 +31,7 @@ void level_1_func_1() // <- ACTION 1: activate
 
 // ACTION 3: hover and click edges
 // RESULTS 3:
-// - hover highlight in grey
+// - hover highlight in focus color
 // - click shows source location in code
 
 // ACTION 4: Reduce graph depth to 2
