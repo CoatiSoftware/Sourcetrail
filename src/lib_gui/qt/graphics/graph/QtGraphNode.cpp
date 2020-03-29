@@ -277,6 +277,8 @@ void QtGraphNode::setIsFocused(bool focused)
 		{
 			coFocusOut();
 		}
+
+		updateStyle();
 	}
 }
 

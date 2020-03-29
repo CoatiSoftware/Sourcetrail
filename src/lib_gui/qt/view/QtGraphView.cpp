@@ -414,9 +414,13 @@ void QtGraphView::rebuildGraph(
 		{
 			m_focusHandler.focusTokenId(m_nodes, m_edges, params.tokenIdToFocus);
 		}
-		else
+		else if (hasNavigationFocus())
 		{
 			m_focusHandler.refocusNode(m_nodes, oldActiveTokenId, newActiveTokenId);
+		}
+		else
+		{
+			m_focusHandler.clear();
 		}
 
 		m_centerActiveNode = params.centerActiveNode;

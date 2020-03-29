@@ -63,6 +63,7 @@ public:
 	void lineNumberAreaPaintEvent(QPaintEvent* event);
 	int lineNumberDigits() const;
 	int lineNumberAreaWidth() const;
+	int lineHeight() const;
 	void updateLineNumberAreaWidthForDigits(int digits);
 
 	void updateSourceLocations(std::shared_ptr<SourceLocationFile> locationFile);

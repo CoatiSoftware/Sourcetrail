@@ -913,6 +913,7 @@ std::vector<std::string> CodeController::getProjectDescription(SourceLocationFil
 	std::vector<std::string> lines = utility::splitToVector(description, "\\n");
 	size_t startLineNumber = 2;
 
+	Id locationId = 0;
 	for (size_t i = 0; i < lines.size(); i++)
 	{
 		std::string line = "\t" + utility::trim(lines[i]);
@@ -943,7 +944,7 @@ std::vector<std::string> CodeController::getProjectDescription(SourceLocationFil
 				line.replace(posA, posB - posA + 1, nameString);
 				locationFile->addSourceLocation(
 					LOCATION_TOKEN,
-					0,
+					++locationId,
 					{tokenId},
 					startLineNumber + i,
 					posA + 1,

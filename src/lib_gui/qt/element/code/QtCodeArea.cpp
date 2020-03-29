@@ -19,6 +19,7 @@
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "MessageActivateLocalSymbols.h"
+#include "MessageActivateTokenIds.h"
 #include "MessageFocusIn.h"
 #include "MessageFocusOut.h"
 #include "MessageMoveIDECursor.h"
@@ -297,6 +298,11 @@ int QtCodeArea::lineNumberAreaWidth() const
 	}
 
 	return 0;
+}
+
+int QtCodeArea::lineHeight() const
+{
+	return static_cast<int>(blockBoundingRect(firstVisibleBlock()).height());
 }
 
 void QtCodeArea::updateLineNumberAreaWidthForDigits(int digits)
@@ -1060,7 +1066,19 @@ void QtCodeArea::activateAnnotationsOrErrors(
 		}
 	}
 
-	activateAnnotations(annotations, fromMouse, lineNumberAreaWidth());
+	if (!m_showLineNumbers)	// for links in project description
+	{
+		std::set<Id> tokenIds;
+		for (const Annotation* annotation: annotations)
+		{
+			tokenIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
+		}
+		MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
+	}
+	else
+	{
+		activateAnnotations(annotations, fromMouse, lineNumberAreaWidth());
+	}
 }
 
 void QtCodeArea::focusAnnotation(const Annotation* annotation, bool updateTargetColumn, bool fromMouse)
