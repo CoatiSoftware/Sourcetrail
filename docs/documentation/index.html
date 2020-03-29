@@ -76,7 +76,7 @@
 						</div>
 					</div>
 					<div class="row" style="text-align:center; margin-top: 10px;">
-						<p>Documentation for version 2019.4</p>
+						<p>Documentation for version 2020.1</p>
 					</div>
 
 					<div class="row" style="height:20px;"></div>
@@ -124,7 +124,7 @@
 					<p>This short introduction will briefly guide you through the project setup and the user interface of Sourcetrail. The bullet point lists will provide you with the next steps to take:</p>
 
 					<h2>Starting Up Sourcetrail</h2>
-					
+
 					<p>Once you've <a href="https://github.com/CoatiSoftware/Sourcetrail/releases">downloaded</a> Sourcetrail successfully you are ready to run the application. For assistance wth installation, visit the <a href="#Installation">installation</a> section.</p>
 
 					<div class="callout callout-info">
@@ -152,7 +152,7 @@
 
 
 					<h2>Creating a New Project</h2>
-					
+
 					<p>When creating a new Sourcetrail project you will use the <a href="#ProjectSetupWizard"> Project Setup Wizard </a>. This wizard splits the setup process into several subsequent steps. Depending on your project's structure and the used build system, there are different types for project setup. Choosing the correct setup method is important and can make the setup process a lot easier.</p>
 
 					<div class="callout callout-info">
@@ -166,7 +166,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<img src="img/project_setup_wizard_start.png" style="width:100%;">
-						</div> 
+						</div>
 					</div>
 
 					<h3>Add Source Group</h3>
@@ -193,11 +193,8 @@
 					<h4>Source Group Setup for C/C++</h4>
 
 					<p>The Source Group setup types for C & C++ are the same.</p>
-					<p>This video gives you a detailed look into project setup for C++, including best practices and strategies on how to fix errors:</p>
 
-					<iframe width="560" height="320" src="https://www.youtube-nocookie.com/embed/7fguPwKR_7Y?autohide=1&amp;cc_lang_pref=en&amp;cc_load_policy=1&amp;color=white&amp;ecver=2&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fwww.sourcetrail.com&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-
-					<div class="row" style="height:30px;"></div>
+					<div class="row" style="height:20px;"></div>
 
 					<strong>Are you using CMake, Make or Qt Creator?</strong>
 					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilaton Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Sourcetrail a lot easier. We recommend using this approach if possible.</p>
@@ -450,10 +447,10 @@
 
 					<h1>Installation</h1>
 
-					<h2>On Windows</h2>
+					<h2>Windows</h2>
 					<p>Download and open the zip file and extract its contents into a temporary folder of your choice. Run the <var><code>setup.exe</code></var> and go through the wizard. You can now launch Sourcetrail from your start menu.</p>
 
-					<h2>On Mac</h2>
+					<h2>macOS</h2>
 					<p>Download and open the Sourcetrail.dmg file and drag Sourcetrail.app into the applications folder. You can now launch Sourcetrail from your Applications.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -461,10 +458,16 @@
 						</div>
 					</div>
 
-					<h2>On Linux</h2>
-					<p>Download Sourcetrail.tar.gz file and extract it. To start Sourcetrail run the <code>Sourcetrail.sh</code> script. Sourcetrail creates a folder <code>~/.config/sourcetrail</code> at the first run, this is the folder for Sourcetrail settings.</p>
+					<h2>Linux</h2>
+					<h3>Tarball</h3>
+					<p>Download the <code>.tar.gz</code> file and extract it. To start Sourcetrail run the <code>Sourcetrail.sh</code> script. Sourcetrail creates a folder <code>~/.config/sourcetrail</code> at the first run, this is the folder for Sourcetrail settings.</p>
 
 					<p>To Install Sourcetrail run the <code>install.sh</code> script with <code>sudo</code>, it will install Sourcetrail to <code>/opt/sourcetrail</code> and create <code>/usr/bin/sourcetrail</code> symlink.</p>
+
+					<h3>AppImage</h3>
+					<p>Download the <code>.AppImage</code> file. Give it permission to execute with <code>chmod a+x</code> or via the context menu. To start Sourcetrail double click it or execute it from the Terminal. Sourcetrail creates a folder <code>~/.config/sourcetrail</code> at the first run, this is the folder for Sourcetrail settings.</p>
+
+					<p>For more information on AppImages please visit <a href="https://appimage.org/">appimage.org</a>.</p>
 
 					<h2>Data folder</h2>
 					<p>The data folder holds certain files that are used by Sourcetrail to run the program. After following the <a href="#INSTALLATION">installation instructions</a> the data folder should be located in the following locations on your platform.</p>
@@ -474,26 +477,26 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">Windows</th> <td>C:/Users/You/AppData/Local/Coati Software/Sourcetrail <small>(used for dynamic data and settings)</small><br />install_directory/Coati Software/Sourcetrail/data <small>(used for static app data)</small></td> </tr>
-							<tr> <th scope="row">Mac</th> <td>~/Library/Application Support/Sourcetrail</td> </tr>
+							<tr> <th scope="row">macOS</th> <td>~/Library/Application Support/Sourcetrail</td> </tr>
 							<tr> <th scope="row">Linux</th> <td>~/.config/sourcetrail</td> </tr>
 						</tbody>
 					</table>
 
 					<h2>Finding System Header Locations</h2>
 
-					<h3>On Windows</h3>
+					<h3>Windows</h3>
 					<p>These files usually ship with your compiler. For the Visual Studio IDE the system headers can be found at:</p>
 					<pre>&lt;path_to_visual_studio&gt;/VC/include/</pre>
 					<p>If you don't use the Visual Studio IDE you can also try to find your system headers in a subdirectory of:</p>
 					<pre>C:/Program Files (x86)/Windows Kits/</pre>
 
-					<h3>On Mac</h3>
+					<h3>macOS</h3>
 					<p>Run this command in your terminal:</p>
 					<pre>gcc -x c++ -v -E /dev/null</pre>
 					<p>You will find the header search paths your compiler uses in the output between these two lines:</p>
 					<pre>#include <...> search starts here:<br />.<br />.<br />.<br />End of search list.</pre>
 
-					<h3>On Linux</h3>
+					<h3>Linux</h3>
 					<pre>gcc -x c++ -v -E /dev/null</pre>
 					or
 					<pre>clang -x c++ -v -E /dev/null</pre>
@@ -505,11 +508,11 @@
 
 					<p>The current version of Sourcetrail requires an installation of the Java 8 runtime environment to index any Java project. Make sure that Sourcetrail and your JRE share the same kind or architecture (a 32 bit Sourcetrail requires a 32 bit JRE). To locate the required library file, please refer to the applicable description below.</p>
 
-					<h3>On Windows</h3>
+					<h3>Windows</h3>
 					<p>The Java Runtime Library (called <code>jvm.dll</code>) can be found inside of your JRE install folder and looks like this:</p>
 					<pre>&lt;path_to_jre&gt;/bin/client/jvm.dll</pre>
 
-					<h3>On Mac</h3>
+					<h3>macOS</h3>
 					<p>The Java Runtime Library (called <code>libjli.dylib</code>) can be found inside of your JRE install folder. Run the following command in your terminal to find the location of your default Java installation:</p>
 					<pre>/usr/libexec/java_home</pre>
 
@@ -521,7 +524,7 @@
 
 					<p>Insert the full path to <code>libjli.dylib</code> into the <strong>Java Path</strong> setting in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
 
-					<h3>On Linux</h3>
+					<h3>Linux</h3>
 					<p>The Java Runtime Library (called <code>libjvm.so</code>) can be found inside of your JRE install folder and looks like this:</p>
 					<pre>&lt;path_to_jre&gt;/lib/&lt;arch&gt;/server/libjvm.so</pre>
 
@@ -1190,11 +1193,19 @@
 
 
 					<h3>Shortcuts</h3>
+
+					<h4>General</h4>
 					<table class="table table-hover">
 						<thead>
-							<tr> <th>Shortcut</th> <th>Windows</th> <th>Mac OS X</th> <th>Linux</th> </tr>
+							<tr> <th>Shortcut</th> <th>Windows</th> <th>macOS</th> <th>Linux</th> </tr>
 						</thead>
 						<tbody>
+							<tr>
+								<th scope="row">Switch Focus Between Graph/Code Views</th>
+								<td><kbd>Tab</kbd></td>
+								<td><kbd>Tab</kbd></td>
+								<td><kbd>Tab</kbd></td>
+							</tr>
 							<tr>
 								<th scope="row">Preferences</th>
 								<td><kbd>Ctrl + ,</kbd></td>
@@ -1239,15 +1250,15 @@
 							</tr>
 							<tr>
 								<th scope="row">Back</th>
-								<td><kbd>Ctrl + Z</kbd> / <kbd>Backspace</kbd></td>
-								<td><kbd>Cmd + Z</kbd> / <kbd>Backspace</kbd></td>
-								<td><kbd>Ctrl + Z</kbd> / <kbd>Backspace</kbd></td>
+								<td><kbd>Z</kbd> / <kbd>Alt + Left</kbd> / <kbd>Backspace</kbd></td>
+								<td><kbd>Z</kbd> / <kbd>Cmd + [</kbd> / <kbd>Backspace</kbd></td>
+								<td><kbd>Z</kbd> / <kbd>Alt + Left</kbd> / <kbd>Backspace</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Forward</th>
-								<td><kbd>Ctrl + Shift + Z</kbd></td>
-								<td><kbd>Cmd + Shift + Z</kbd></td>
-								<td><kbd>Ctrl + Shift + Z</kbd></td>
+								<td><kbd>Shift + Z</kbd> / <kbd>Alt + Right</kbd></td>
+								<td><kbd>Shift + Z</kbd> / <kbd>Cmd + ]</kbd></td>
+								<td><kbd>Shift + Z</kbd> / <kbd>Alt + Right</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Find Symbol</th>
@@ -1266,30 +1277,6 @@
 								<td><kbd>Ctrl + D</kbd></td>
 								<td><kbd>Cmd + D</kbd></td>
 								<td><kbd>Ctrl + D</kbd></td>
-							</tr>
-							<tr>
-								<th scope="row">Next Reference</th>
-								<td><kbd>Ctrl + G</kbd></td>
-								<td><kbd>Cmd + G</kbd></td>
-								<td><kbd>Ctrl + G</kbd></td>
-							</tr>
-							<tr>
-								<th scope="row">Previous Reference</th>
-								<td><kbd>Ctrl + Shift + G</kbd></td>
-								<td><kbd>Cmd + Shift + G</kbd></td>
-								<td><kbd>Ctrl + Shift + G</kbd></td>
-							</tr>
-							<tr>
-								<th scope="row">Next Local Reference</th>
-								<td><kbd>Ctrl + T</kbd></td>
-								<td><kbd>Cmd + T</kbd></td>
-								<td><kbd>Ctrl + T</kbd></td>
-							</tr>
-							<tr>
-								<th scope="row">Previous Local Reference</th>
-								<td><kbd>Ctrl + Shift + T</kbd></td>
-								<td><kbd>Cmd + Shift + T</kbd></td>
-								<td><kbd>Ctrl + Shift + T</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">To overview</th>
@@ -1350,6 +1337,138 @@
 								<td><kbd>Ctrl + B</kbd></td>
 								<td><kbd>Cmd + B</kbd></td>
 								<td><kbd>Ctrl + B</kbd></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h4>Graph View</h4>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Shortcut</th> <th>Windows</th> <th>macOS</th> <th>Linux</th> </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Move Focus Within Nodes</th>
+								<td><kbd>WASD</kbd> / <kbd>HJKL</kbd> / <kbd>Arrows</kbd></td>
+								<td><kbd>WASD</kbd> / <kbd>HJKL</kbd> / <kbd>Arrows</kbd></td>
+								<td><kbd>WASD</kbd> / <kbd>HJKL</kbd> / <kbd>Arrows</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Move Focus Within Edges</th>
+								<td><kbd>Shift + WASD</kbd> / <kbd>Shift + HJKL</kbd> / <kbd>Shift + Arrows</kbd></td>
+								<td><kbd>Shift + WASD</kbd> / <kbd>Shift + HJKL</kbd> / <kbd>Shift + Arrows</kbd></td>
+								<td><kbd>Shift + WASD</kbd> / <kbd>Shift + HJKL</kbd> / <kbd>Shift + Arrows</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Activate Node/Edge</th>
+								<td><kbd>Enter</kbd> / <kbd>E</kbd></td>
+								<td><kbd>Enter</kbd> / <kbd>E</kbd></td>
+								<td><kbd>Enter</kbd> / <kbd>E</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Activate Node in New Tab</th>
+								<td><kbd>Ctrl + Shift + Enter</kbd> / <kbd>Ctrl + Shift + E</kbd></td>
+								<td><kbd>Cmd + Shift + Enter</kbd> / <kbd>Cmd + Shift + E</kbd></td>
+								<td><kbd>Ctrl + Shift + Enter</kbd> / <kbd>Ctrl + Shift + E</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Expand/Collapse Node</th>
+								<td><kbd>Shift + Enter</kbd> / <kbd>Shift + E</kbd></td>
+								<td><kbd>Shift + Enter</kbd> / <kbd>Shift + E</kbd></td>
+								<td><kbd>Shift + Enter</kbd> / <kbd>Shift + E</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Pan</th>
+								<td><kbd>Ctrl + Arrows</kbd></td>
+								<td><kbd>Cmd + Arrows</kbd></td>
+								<td><kbd>Ctrl + Arrows</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Zoom In</th>
+								<td><kbd>Ctrl + Shift + Up</kbd> / <kbd>Ctrl + Mouse Wheel Up</kbd></td>
+								<td><kbd>Cmd + Shift + Up</kbd> / <kbd>Cmd + Mouse Wheel Up</kbd></td>
+								<td><kbd>Ctrl + Shift + Up</kbd> / <kbd>Ctrl + Mouse Wheel Up</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Zoom Out</th>
+								<td><kbd>Ctrl + Shift + Down</kbd> / <kbd>Ctrl + Mouse Wheel Down</kbd></td>
+								<td><kbd>Cmd + Shift + Down</kbd> / <kbd>Cmd + Mouse Wheel Down</kbd></td>
+								<td><kbd>Ctrl + Shift + Down</kbd> / <kbd>Ctrl + Mouse Wheel Down</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Reset Zoom</th>
+								<td><kbd>0</kbd></td>
+								<td><kbd>0</kbd></td>
+								<td><kbd>0</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Open Custom Trail Dialog</th>
+								<td><kbd>Ctrl + U</kbd></td>
+								<td><kbd>Cmd + U</kbd></td>
+								<td><kbd>Ctrl + U</kbd></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h4>Code View</h4>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Shortcut</th> <th>Windows</th> <th>macOS</th> <th>Linux</th> </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Next Reference</th>
+								<td><kbd>Ctrl + G</kbd></td>
+								<td><kbd>Cmd + G</kbd></td>
+								<td><kbd>Ctrl + G</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Previous Reference</th>
+								<td><kbd>Ctrl + Shift + G</kbd></td>
+								<td><kbd>Cmd + Shift + G</kbd></td>
+								<td><kbd>Ctrl + Shift + G</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Next Local Reference</th>
+								<td><kbd>Ctrl + T</kbd></td>
+								<td><kbd>Cmd + T</kbd></td>
+								<td><kbd>Ctrl + T</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Previous Local Reference</th>
+								<td><kbd>Ctrl + Shift + T</kbd></td>
+								<td><kbd>Cmd + Shift + T</kbd></td>
+								<td><kbd>Ctrl + Shift + T</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Move Focus Within Code</th>
+								<td><kbd>WASD</kbd> / <kbd>HJKL</kbd> / <kbd>Arrows</kbd></td>
+								<td><kbd>WASD</kbd> / <kbd>HJKL</kbd> / <kbd>Arrows</kbd></td>
+								<td><kbd>WASD</kbd> / <kbd>HJKL</kbd> / <kbd>Arrows</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Move Focus to Closest Reference</th>
+								<td><kbd>Shift + WASD</kbd> / <kbd>Shift + HJKL</kbd> / <kbd>Shift + Arrows</kbd></td>
+								<td><kbd>Shift + WASD</kbd> / <kbd>Shift + HJKL</kbd> / <kbd>Shift + Arrows</kbd></td>
+								<td><kbd>Shift + WASD</kbd> / <kbd>Shift + HJKL</kbd> / <kbd>Shift + Arrows</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Activate Location</th>
+								<td><kbd>Enter</kbd> / <kbd>E</kbd></td>
+								<td><kbd>Enter</kbd> / <kbd>E</kbd></td>
+								<td><kbd>Enter</kbd> / <kbd>E</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Activate Location in New Tab</th>
+								<td><kbd>Ctrl + Shift + Enter</kbd> / <kbd>Ctrl + Shift + E</kbd></td>
+								<td><kbd>Cmd + Shift + Enter</kbd> / <kbd>Cmd + Shift + E</kbd></td>
+								<td><kbd>Ctrl + Shift + Enter</kbd> / <kbd>Ctrl + Shift + E</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Scroll</th>
+								<td><kbd>Ctrl + Arrows</kbd></td>
+								<td><kbd>Cmd + Arrows</kbd></td>
+								<td><kbd>Ctrl + Arrows</kbd></td>
 							</tr>
 						</tbody>
 					</table>
@@ -1938,7 +2057,7 @@
 
 					<div class="row" style="height:20px;"></div>
 
-					<h2>Choose a Source Group type</h2>
+					<h2>Choose a Source Group Type</h2>
 
 					<p>When creating a new Source Group you can choose between different methods of setup depending on your project language. Please have a look at our <a href="#Choosingtherightprojectsetup">QUCICK START GUIDE section</a> for help on choosing the right Source Group type.</p>
 
@@ -1959,49 +2078,29 @@
 					<div class="row" style="height:20px;"></div>
 
 
-					<h2 id="CreateAnEmptyCXXProject">Create an Empty C/C++ Source Group</h2>
-					<p>This is the way to go if you just have some C/C++ source files you want to index. In case you have a build instructions file, you might want to check out one of the other options for Source Group setup described below.</p>
+					<h2 id="CreateAnEmptyCXXProject">Empty C/C++ Source Group</h2>
+					<p>Empty C/C++ Source Groups have the following configuration options:</p>
 
-					<strong>Language Standard</strong>
-					<p>In the first step you need to choose the desired language standard. Optionally you can also specify a target platform if your project usually would be cross-compiled for a platform that is different from the one Sourcetrail is used on.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_empty_standard.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Cross-compilation</th> <td>Check <strong>Use specific target</strong> and then use the dropdown boxes to specify a certain target platform. Please have a look at the clang compiler documentation on <a href="https://clang.llvm.org/docs/CrossCompilation.html">cross-compilation</a> for more information.</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Indexed Paths</h3>
-					<p>Provide the paths that contain your source files you want to index. Sourcetrail will index all the source and header files in the specified paths, including subdirectories.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_empty_project_paths.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Files & Directories to Index</th> <td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Excluded Files & Directories</th> <td>
-								<p>These paths define the files and directories that will be left out from indexing.</p>
+							<tr>
+								<th scope="row">Standard</th>
+								<td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Cross-compilation</th>
+								<td>Check <strong>Use specific target</strong> and then use the dropdown boxes to specify a certain target platform. Please have a look at the clang compiler documentation on <a href="https://clang.llvm.org/docs/CrossCompilation.html">cross-compilation</a> for more information.</td>
+							</tr>
+							<tr>
+								<th scope="row">Files & Directories to Index</th>
+								<td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td><p>These paths define the files and directories that will be left out from indexing.</p>
 								<p>Hints:</p>
 								<ul>
 									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.h</code> matches <code>src/app/test.h</code> but does not match <code>src/app/widget/test.h</code> or <code>src/test.h</code>)</li>
@@ -2010,129 +2109,65 @@
 								</ul>
 								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
-							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.cpp</code>. Sourcetrail will only try to index files that match one of these extensions.</td> </tr>
+							<tr>
+								<th scope="row">Source File Extensions</th>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.cpp</code>. Sourcetrail will only try to index files that match one of these extensions.</td>
+							</tr>
+							<tr>
+								<th scope="row">Include Paths</th>
+								<td><p>Include Paths are used for resolving #include directives in the indexed source and header files. These paths are usually passed to the compiler with the '-I' or '-iquote' flags. Add all paths #include directives throughout your project are relative to. If all #include directives are specified relative to the project's root directory, please add that root directory here. If your project also includes files from external libraries (e.g. boost), please add these directories as well (e.g. add 'path/to/boost_home/include'). You can make use of environment variables with ${ENV_VAR}.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Global Include Paths</th>
+								<td><p>The Global Include Paths will be used in all your projects in addition to the project specific Include Paths. These paths are usually passed to the compiler with the '-isystem' flag. Use them to add system header paths (See <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> or use the auto detection below).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Framework Search Paths (macOS only)</th>
+								<td>These paths are used to find <code>.framework</code> files used by your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td>
+							</tr>
+							<tr>
+								<th scope="row">Global Framework Search Paths (macOS only)</th>
+								<td>These Framework Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Compiler Flags</th>
+								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-D RELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Precompiled Header File</th>
+								<td><p>Select the path to the header file that should be used to generate a Precompiled Header File. The Precompiled Header File will be generated as pre-indexing step. If no path is supplied, no Precompiled Header File will be generated.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Precompiled Header Flags</th>
+								<td><p>Define if the already supplied compiler flags should be used for Precompiled Header File generation and define additional flags for Precompiled Header File generation only.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
 						</tbody>
 					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show files</var> will display a list of all the files Sourcetrail will index with the current settings.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h3>Include Paths</h3>
-					<p>Sourcetrail needs you to specify all the include paths the indexed source and header files rely on. The include paths are those paths your project's <code>#include</code> directives are relative to. If your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify their location here.</p>
-					<p>Additionally you can also specify Global Include Paths, which will be used by all your projects. These are usually the paths to system headers, which can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_empty_include_paths.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Include Paths</th> <td><p>Include Paths are used for resolving #include directives in the indexed source and header files. These paths are usually passed to the compiler with the '-I' or '-iquote' flags. Add all paths #include directives throughout your project are relative to. If all #include directives are specified relative to the project's root directory, please add that root directory here. If your project also includes files from external libraries (e.g. boost), please add these directories as well (e.g. add 'path/to/boost_home/include'). You can make use of environment variables with ${ENV_VAR}.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Global Include Paths</th> <td><p>The Global Include Paths will be used in all your projects in addition to the project specific Include Paths. These paths are usually passed to the compiler with the '-isystem' flag. Use them to add system header paths (See <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> or use the auto detection below).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>auto-detect</var> opens a dialog where you can add directories that will be automatically searched for possible header files matching the include directives in your source files. The detection will add the detected Include Paths to the list.</li>
-						<li>Clicking <var>validate include directives</var> will test whether all include directives within the <var>Indexed Paths</var> can be resolved with the currently provided <var>Include Paths</var>. Please add the missing <var>Include Paths</var> to make sure all directives can ge resolved.</li>
-						<li>Selecting a compiler from the dropdown list below and pressing <var>detect</var> will automatically detect system include search paths used by this compiler and add them to the Global Include Paths.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
+					<h2 id="CreateAProjectFromCompilationDatabase">C/C++ Source Group from Compilation Database</h2>
 
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Framework Search Paths (macOS only)</h3>
-					<p>Sourcetrail needs you to specify the locations of <code>.framework</code> files, your indexed source and header files rely on.</p>
-					<p>Additionally you can also specify Global Framework Search Paths, which will be used by all your projects. They can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_empty_framework_paths.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Framework Search Paths</th> <td>These paths are used to find <code>.framework</code> files used by your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-							<tr> <th scope="row">Global Framework Search Paths</th> <td>These Framework Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Selecting a compiler from the dropdown list below and pressing <var>detect</var> will automatically detect system header search paths used by this compiler and add them to the Global Header Search Paths.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3 id="AdvancedSettings">Advanced Settings</h3>
-					<p>In this dialog you can enter additional settings.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_advanced_cxx.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Compiler Flags</th> <td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-D RELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Precompiled Header File</th> <td><p>Select the path to the header file that should be used to generate a Precompiled Header File. The Precompiled Header File will be generated as pre-indexing step. If no path is supplied, no Precompiled Header File will be generated.</p></td> </tr>
-							<tr> <th scope="row">Precompiled Header Flags</th> <td><p>Define if the already supplied compiler flags should be used for Precompiled Header File generation and define additional flags for Precompiled Header File generation only.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will create this Source Group and return you to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
-
-					<div class="row" style="height:20px;"></div>
-
-
-					<h2 id="CreateAProjectFromCompilationDatabase">Create a C/C++ Source Group from Compilation Database</h2>
 					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exportet <code>.json</code> file for Sourcetrail project setup.</p>
 					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>.json</code> file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
+					<p>C/C++ Source Groups from Compilation Database offer the following configuration options:</p>
 
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Compilation Database file and Indexed Headers</h3>
-					<p>In the first step you need to enter the path to your Compilation Database file. Then you can see which source files have been found in the Compilation Database and define the locations of the corresponding header files.</p>
-					<p>Header files will only be indexed if they are included in one of the source files.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_compilation_header.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Compilation Database</th> <td>Select the compilation database file for the project. Sourcetrail will index your project based on the compile commands this file contains using all include paths and compiler flags of these compile commands. The project will stay up to date with changes in the compilation database on every refresh. You can make use of environment variables with ${ENV_VAR}.</td> </tr>
-							<tr> <th scope="row">Header Files & Directories to Index</th> <td><p>Your Compilation Database already specifies which source files are part of your project. But Sourcetrail still needs to know which header files to index as part of your project and which to skip. Choosing to skip indexing your system headers or external frameworks will significantly improve the overall indexing performance. Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files. You can make use of environment variables with ${ENV_VAR}.</p><p><b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Excluded Files & Directories</th> <td>
-								<p>These paths define the files and directories that will be left out from indexing.</p>
+							<tr>
+								<th scope="row">Compilation Database</th>
+								<td>Select the compilation database file for the project. Sourcetrail will index your project based on the compile commands this file contains using all include paths and compiler flags of these compile commands. The project will stay up to date with changes in the compilation database on every refresh. You can make use of environment variables with ${ENV_VAR}.</td>
+							</tr>
+							<tr>
+								<th scope="row">Header Files & Directories to Index</th>
+								<td><p>Your Compilation Database already specifies which source files are part of your project. But Sourcetrail still needs to know which header files to index as part of your project and which to skip. Choosing to skip indexing your system headers or external frameworks will significantly improve the overall indexing performance. Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files. You can make use of environment variables with ${ENV_VAR}.</p><p><b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td><p>These paths define the files and directories that will be left out from indexing.</p>
 								<p>Hints:</p>
 								<ul>
 									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.h</code> matches <code>src/app/test.h</code> but does not match <code>src/app/widget/test.h</code> or <code>src/test.h</code>)</li>
@@ -2141,50 +2176,40 @@
 								</ul>
 								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
+							<tr>
+								<th scope="row">Additional Include Paths</th>
+								<td><p>Include Paths are used for resolving #include directives in the indexed source and header files. These paths are usually passed to the compiler with the '-I' or '-iquote' flags. Add all paths #include directives throughout your project are relative to. If all #include directives are specified relative to the project's root directory, please add that root directory here. If your project also includes files from external libraries (e.g. boost), please add these directories as well (e.g. add 'path/to/boost_home/include'). You can make use of environment variables with ${ENV_VAR}.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Global Include Paths</th>
+								<td><p>The Global Include Paths will be used in all your projects in addition to the project specific Include Paths. These paths are usually passed to the compiler with the '-isystem' flag. Use them to add system header paths (See <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> or use the auto detection below).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Framework Search Paths (macOS only)</th>
+								<td>These paths are used to find <code>.framework</code> files used by your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td>
+							</tr>
+							<tr>
+								<th scope="row">Global Framework Search Paths (macOS only)</th>
+								<td>These Framework Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Additional Compiler Flags</th>
+								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-D RELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Precompiled Header File</th>
+								<td><p>Select the path to the header file that should be used to generate a Precompiled Header File. The Precompiled Header File will be generated as pre-indexing step. If no path is supplied, no Precompiled Header File will be generated.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Precompiled Header Flags</th>
+								<td><p>Define if the already supplied compiler flags should be used for Precompiled Header File generation and define additional flags for Precompiled Header File generation only.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
 						</tbody>
 					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show source files</var> will show you a list of all source files that will be indexed by Sourcetrail.</li>
-						<li>Clicking <var>Select From Compilation Database</var> will display a dialog showing a list of all the Include Paths used within the Compilation Database. You can select paths here, so that all headers that are included within these paths will also get indexed.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
-					</ul>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h3 id="AdvancedSettings">Advanced Settings</h3>
-					<p>In this dialog you can enter additional settings.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_advanced_cxx_cdb.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Precompiled Header File</th> <td><p>Select the path to the header file that should be used to generate a Precompiled Header File. The Precompiled Header File will be generated as pre-indexing step. If no path is supplied, no Precompiled Header File will be generated.</p></td> </tr>
-							<tr> <th scope="row">Precompiled Header Flags</th> <td><p>Define if the compiler flags of the first compile command that is using a Precompiled Header File should be used for Precompiled Header File generation and define additional flags for Precompiled Header File generation only.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will create this Source Group and return you to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
-
-					<div class="row" style="height:20px;"></div>
-
-
-					<h2 id="CreateAProjectFromVisualStudio">Create a C/C++ Source Group from Visual Studio Solution</h2>
+					<h2 id="CreateAProjectFromVisualStudio">C/C++ Source Group from Visual Studio</h2>
 					<p>If you are using Visual Studio you can export a Compilation Database with our <a href="#VisualStudio">Visual Studio Plugin</a> and use it to create a project with Sourcetrail.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
@@ -2204,29 +2229,34 @@
 					<div class="row" style="height:20px;"></div>
 
 
-					<h2 id="CreateACxxProjectFromCodeBlocksProject">Create a C/C++ Source Group from Code::Blocks Project</h2>
+					<h2 id="CreateACxxProjectFromCodeBlocksProject">C/C++ Source Group from Code::Blocks</h2>
 					<p>If you already have a working Code::Blocks project (<code>.cbp</code>) for your source code you can use it to create a project with Sourcetrail. Note that a <code>.cbp</code> file will be generated by the <b>QtCreator</b> if a CMakeLists file is imported.
-					<div class="row" style="height:20px;"></div>
+					<p>C/C++ Source Groups from Code::Blocks offer the following configuration options:</p>
 
-					<h3>Code::Blocks Project Path</h3>
-					<p>In this step you need to enter the path to your Code::Blocks Project file and specify some additional options. Then you can see which source files have been found in the Code::Blocks Project and define the locations of the corresponding header files that should be indexed.</p>
-					<p>Note that header files will only be indexed if they are included in one of the source files.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_code_blocks.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">C++ Standard</th> <td>Select the language standard that should be used for indexing your project's C++ files. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">C Standard</th> <td>Select the language standard that should be used for indexing your project's C files. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Code::Blocks Project</th> <td>Select the <code>.cbp</code> file for the project. Sourcetrail will index your project based on the settings specified by the Code::Blocks project file. Your Sourcetrail project will stay up to date with changes in the Code::Blocks project file on every refresh. You can make use of environment variables with ${ENV_VAR}.</td> </tr>
-							<tr> <th scope="row">Header Files & Directories to Index</th> <td><p>Your Code::Blocks project already specifies which source files are part of your project. But Sourcetrail still needs to know which header files to index as part of your project and which to skip. Choosing to skip indexing your system headers or external frameworks will significantly improve the overall indexing performance. Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files. You can make use of environment variables with ${ENV_VAR}.</p><p><b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Excluded Files & Directories</th> <td>
-								<p>These paths define the files and directories that will be left out from indexing.</p>
+							<tr>
+								<th scope="row">C++ Standard</th>
+								<td>Select the language standard that should be used for indexing your project's C++ files. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">C Standard</th>
+								<td>Select the language standard that should be used for indexing your project's C files. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Code::Blocks Project</th>
+								<td>Select the <code>.cbp</code> file for the project. Sourcetrail will index your project based on the settings specified by the Code::Blocks project file. Your Sourcetrail project will stay up to date with changes in the Code::Blocks project file on every refresh. You can make use of environment variables with ${ENV_VAR}.</td>
+							</tr>
+							<tr>
+								<th scope="row">Header Files & Directories to Index</th>
+								<td><p>Your Code::Blocks project already specifies which source files are part of your project. But Sourcetrail still needs to know which header files to index as part of your project and which to skip. Choosing to skip indexing your system headers or external frameworks will significantly improve the overall indexing performance. Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files. You can make use of environment variables with ${ENV_VAR}.</p><p><b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td><p>These paths define the files and directories that will be left out from indexing.</p>
 								<p>Hints:</p>
 								<ul>
 									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.h</code> matches <code>src/app/test.h</code> but does not match <code>src/app/widget/test.h</code> or <code>src/test.h</code>)</li>
@@ -2235,108 +2265,56 @@
 								</ul>
 								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
-							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.cpp</code>. Sourcetrail will only try to index files that match one of these extensions.</td> </tr>
+							<tr>
+								<th scope="row">Source File Extensions</th>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.cpp</code>. Sourcetrail will only try to index files that match one of these extensions.</td>
+							</tr>
+							<tr>
+								<th scope="row">Additional Include Paths</th>
+								<td><p>Include Paths are used for resolving #include directives in the indexed source and header files. These paths are usually passed to the compiler with the '-I' or '-iquote' flags. Add all paths #include directives throughout your project are relative to. If all #include directives are specified relative to the project's root directory, please add that root directory here. If your project also includes files from external libraries (e.g. boost), please add these directories as well (e.g. add 'path/to/boost_home/include'). You can make use of environment variables with ${ENV_VAR}.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Global Include Paths</th>
+								<td><p>The Global Include Paths will be used in all your projects in addition to the project specific Include Paths. These paths are usually passed to the compiler with the '-isystem' flag. Use them to add system header paths (See <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> or use the auto detection below).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Framework Search Paths (macOS only)</th>
+								<td>These paths are used to find <code>.framework</code> files used by your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td>
+							</tr>
+							<tr>
+								<th scope="row">Global Framework Search Paths (macOS only)</th>
+								<td>These Framework Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Additional Compiler Flags</th>
+								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-D RELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
 						</tbody>
 					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show source files</var> will show you a list of all source files that will be indexed by Sourcetrail.</li>
-						<li>Clicking <var>Select From Code::Blocks Project</var> will display a dialog showing a list of all the Include Paths used within the Code::Blocks project. You can select paths here, so that all headers that are included within these paths will also get indexed.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
 
 					<div class="row" style="height:20px;"></div>
 
 
-					<h2 id="CreateACxxProjectFromSonargraphProject">Create a C/C++ Source Group from Sonargraph Project</h2>
-					<p>If you already have a working <a href="https://www.hello2morrow.com/products/sonargraph">Sonargraph</a> project setup for your code you can use it to create a project with Sourcetrail. Currently Sourcetrail supports <code>manual</code> and <code>CMake JSON</code> C/C++ Sonargraph modules.</p>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Sonargraph Project Path</h3>
-					<p>In this step you need to enter the path to your Sonargraph Project file and specify some additional options. Then you can see which source files have been found in the Sonargraph Project and define the locations of the corresponding header files that should be indexed.</p>
-					<p>Note that header files will only be indexed if they are included in one of the source files.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_sonar_graph.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">C++ Standard</th> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Sonargraph Project</th> <td>Select the <code>system.sonargraph</code> file for the project. Sourcetrail will index your project based on the settings specified by the Sonargraph file. Your Sourcetrail project will stay up to date with changes in the Sonargraph project file on every refresh. You can make use of environment variables with ${ENV_VAR}.</td> </tr>
-							<tr> <th scope="row">Header Files & Directories to Index</th> <td><p>Your Sonargraph project already specifies which source files are part of your project. But Sourcetrail still needs to know which header files to index as part of your project and which to skip. Choosing to skip indexing your system headers or external frameworks will significantly improve the overall indexing performance. Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files. You can make use of environment variables with ${ENV_VAR}.</p><p><b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show source files</var> will show you a list of all source files that will be indexed by Sourcetrail.</li>
-						<li>Clicking <var>Select From Sonargraph Project</var> will display a dialog showing a list of all the Include Paths used within the Sonargraph project. You can select paths here, so that all headers that are included within these paths will also get indexed.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
-
-					<div class="row" style="height:20px;"></div>
-
-
-					<h2 id="CreateAnEmptyJavaProject">Create an Empty Java Source Group</h2>
+					<h2 id="CreateAnEmptyJavaProject">Empty Java Source Group</h2>
 					<p>Choose this option if you want to index Java files using Sourcetrail.</p>
+					<p>Empty Java Source Groups offer the following configuration options:</p>
 
-					<strong>Language Standard</strong>
-					<p>In the first step you need to set the Java standard for the source files.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_empty_standard_java.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
+							<tr><th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Indexed Paths</h3>
-					<p>In this step you provide all the information Sourcetrail needs to know about your code base.</p>
-
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_empty_project_paths_java.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Files & Directories to Index</th> <td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Excluded Files & Directories</th> <td>
-								<p>These paths define the files and directories that will be left out from indexing.</p>
+							<tr>
+								<th scope="row">Standard</th>
+								<td>Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Files & Directories to Index</th>
+								<td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td><p>These paths define the files and directories that will be left out from indexing.</p>
 								<p>Hints:</p>
 								<ul>
 									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.java</code> matches <code>src/app/test.java</code> but does not match <code>src/app/widget/test.java</code> or <code>src/test.java</code>)</li>
@@ -2345,86 +2323,50 @@
 								</ul>
 								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
-							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.java</code>. Sourcetrail will only try to index files that match one of these extensions.</td> </tr>
+							<tr>
+								<th scope="row">Source File Extensions</th>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.java</code>. Sourcetrail will only try to index files that match one of these extensions.</td>
+							</tr>
+							<tr>
+								<th scope="row">Class Path</th> <td>Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to). You can make use of environment variables with ${ENV_VAR}.</td>
+							</tr>
+							<tr>
+								<th scope="row">JRE System Library</th>
+								<td>Tick this box to use the JRE System library jars specified in your application settings. Disable this setting if you want to use another JRE System library for this project and add the respective jars to the project's Class Path.</td>
+							</tr>
 						</tbody>
 					</table>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h3>Dependencies</h3>
-					<p>In this dialog you can specify all the dependencies your project uses.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_dependencies_java.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Class Path</th> <td>Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to). You can make use of environment variables with ${ENV_VAR}.</td> </tr>
-							<tr> <th scope="row">JRE System Library</th> <td>Tick this box to use the JRE System library jars specified in your application settings. Disable this setting if you want to use another JRE System library for this project and add the respective jars to the project's Class Path.</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
-
-					<div class="row" style="height:20px;"></div>
-
-
-					<h2 id="CreateAProjectFromGradleConfiguration">Create a Java Source Group from your Gradle Configuration</h2>
+					<h2 id="CreateAProjectFromGradleConfiguration">Java Source Group from Gradle</h2>
 					<p>If you are using a Gradle configuration to manage and build your project use this approach to create a Sourcetrail Source Group.</p>
+					<p>Java Source Groups from Gradle offer the following configuration options:</p>
 
-					<h3>Gradle Project Indexed Paths</h3>
-					<p>In the first step you need to choose your project's Gradle <code>build.gradle</code> file and select a directory where the dependencies get stored.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_java_gradle.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Gradle Project File</th> <td> The path to the <code>build.gradle</code> file in the root folder of your Gradle project. </tr>
-							<tr> <th scope="row">Should Index Tests</th> <td> This checkbox indicates whether or not Sourcetrail indexes the test code that is part of your Gradle project. </tr>
-							<tr> <th scope="row">Intermediate Dependencies Directory</th> <td>Directory where Sourcetrail stores all of the project's <code>.jar</code> dependencies.</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show source files</var> will show you a list of all source files that have been detected in the Gradle project. If <var>Should Index Tests</var> is checked this list also includes the test source files. </li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
-					</ul>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Advanced Settings Java</h3>
-					<p>In this dialog you can enter additional settings. You can define source file extentions and you can exclude certain paths or files from indexing.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_advanced_java.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Excluded Files & Directories</th> <td>
-								<p>These paths define the files and directories that will be left out from indexing.</p>
+							<tr>
+								<th scope="row">Standard</th>
+								<td>Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Gradle Project File</th>
+								<td> The path to the <code>build.gradle</code> file in the root folder of your Gradle project.</td>
+							</tr>
+							<tr>
+								<th scope="row">Should Index Tests</th>
+								<td> This checkbox indicates whether or not Sourcetrail indexes the test code that is part of your Gradle project. </td>
+							</tr>
+							<tr>
+								<th scope="row">Intermediate Dependencies Directory</th>
+								<td>Directory where Sourcetrail stores all of the project's <code>.jar</code> dependencies.</td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td><p>These paths define the files and directories that will be left out from indexing.</p>
 								<p>Hints:</p>
 								<ul>
 									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.java</code> matches <code>src/app/test.java</code> but does not match <code>src/app/widget/test.java</code> or <code>src/test.java</code>)</li>
@@ -2433,130 +2375,64 @@
 								</ul>
 								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
-							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.java</code>. Sourcetrail will only try to index files that match one of these extensions.</td> </tr>
+							<tr>
+								<th scope="row">Source File Extensions</th>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.java</code>. Sourcetrail will only try to index files that match one of these extensions.</td>
+							</tr>
 						</tbody>
 					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
 
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
+					<div class="row" style="height:20px;"></div>
 
-					<div class="row" style="height:40px;"></div>
-
-
-					<h2 id="CreateAProjectFromMavenConfiguration">Create a Java Source Group from your Maven Configuration</h2>
+					<h2 id="CreateAProjectFromMavenConfiguration">Java Source Group from Maven</h2>
 					<p>If you are using a Maven configuration to manage and build your project use this approach to create a Sourcetrail Source Group.</p>
+					<p>Java Source Groups from Maven offer the following configuration options:</p>
 
-					<h3>Maven Project Indexed Paths</h3>
-					<p>In the first step you need to choose your Maven <code>pom.xml</code> file and select a directory where the dependencies get stored.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_java_maven.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Maven Project File</th> <td> The path to the <code>pom.xml</code> file in the root folder of your Maven project. </tr>
-							<tr> <th scope="row">Should Index Tests</th> <td> This checkbox indicates whether or not Sourcetrail indexes the test code that is part of your Maven project. </tr>
-							<tr> <th scope="row">Intermediate Dependencies Directory</th> <td>Directory where Sourcetrail stores all of the project's <code>.jar</code> dependencies.</td> </tr>
+							<tr>
+								<th scope="row">Standard</th>
+								<td>Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td>
+							</tr>
+							<tr>
+								<th scope="row">Maven Project File</th>
+								<td> The path to the <code>pom.xml</code> file in the root folder of your Maven project. </td>
+							</tr>
+							<tr>
+								<th scope="row">Should Index Tests</th>
+								<td> This checkbox indicates whether or not Sourcetrail indexes the test code that is part of your Maven project. </td>
+							</tr>
+							<tr>
+								<th scope="row">Intermediate Dependencies Directory</th>
+								<td>Directory where Sourcetrail stores all of the project's <code>.jar</code> dependencies.</td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td><p>These paths define the files and directories that will be left out from indexing.</p>
+								<p>Hints:</p>
+								<ul>
+									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.java</code> matches <code>src/app/test.java</code> but does not match <code>src/app/widget/test.java</code> or <code>src/test.java</code>)</li>
+									<li>You can use the wildcard <code>**</code> which represents arbitrary characters (e.g. <code>src**test.java</code> matches <code>src/app/test.java</code> as well as <code>src/app/widget/test.java</code> or <code>src/test.java</code>)</li>
+									<li>You can make use of environment variables with ${ENV_VAR}</li>
+								</ul>
+								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Source File Extensions</th>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.java</code>. Sourcetrail will only try to index files that match one of these extensions.</td>
+							</tr>
 						</tbody>
 					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show source files</var> will show you a list of all source files that have been detected in the Maven project. If <var>Should Index Tests</var> is checked this list also includes the test source files. </li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will continue at the <a href="#AdvancedSettingsJava">Advanced Settings Java</a>.</p>
-					</div>
-
-					<div class="row" style="height:40px;"></div>
-
-
-					<h2 id="CreateAJavaProjectFromSonargraphProject">Create a Java Source Group from Sonargraph Project</h2>
-					<p>If you already have a working <a href="https://www.hello2morrow.com/products/sonargraph">Sonargraph</a> project setup for your code you can use it to create a project with Sourcetrail.</p>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h3>Sonargraph Project Path</h3>
-					<p>In this step you need to enter the path to your Sonargraph Project file and specify some additional options. Then you can see which source files have been found in the Sonargraph Project.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_sonar_graph_java.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Sonargraph Project</th> <td>S
-								elect the <code>system.sonargraph</code> file for the project. Sourcetrail will index your project based on the settings specified by the Sonargraph file. Your Sourcetrail project will stay up to date with changes in the Sonargraph project file on every refresh. You can make use of environment variables with ${ENV_VAR}.</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show source files</var> will show you a list of all source files that will be indexed by Sourcetrail.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
-					</ul>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Dependencies</h3>
-					<p>In this dialog you can specify all the dependencies your project uses.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_dependencies_java.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Class Path</th> <td>Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to). You can make use of environment variables with ${ENV_VAR}.</td> </tr>
-							<tr> <th scope="row">JRE System Library</th> <td>Tick this box to use the JRE System library jars specified in your application settings. Disable this setting if you want to use another JRE System library for this project and add the respective jars to the project's Class Path.</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
-
-					<div class="row" style="height:40px;"></div>
-
-
-					<h2 id="CreateAnEmptyPythonProject">Create an Empty Python Source Group</h2>
+					<h2 id="CreateAnEmptyPythonProject">Empty Python Source Group</h2>
 					<p>Choose this option if you want to index Python files using Sourcetrail.</p>
+					<p>Empty Python Source Groups offer the following configuration options:</p>
 
-					<h3>Indexed Paths</h3>
-					<p>Here you provide all the information Sourcetrail needs to know about your code base.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_empty_project_paths_python.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
@@ -2576,9 +2452,13 @@
 									Leave blank to use the default Python environment. You can make use of environment variables with ${ENV_VAR}.
 								</td>
 							</tr>
-							<tr> <th scope="row">Files & Directories to Index</th> <td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Excluded Files & Directories</th> <td>
-								<p>These paths define the files and directories that will be left out from indexing.</p>
+							<tr>
+								<th scope="row">Files & Directories to Index</th>
+								<td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td><p>These paths define the files and directories that will be left out from indexing.</p>
 								<p>Hints:</p>
 								<ul>
 									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.py</code> matches <code>src/app/test.py</code> but does not match <code>src/app/widget/test.py</code> or <code>src/test.py</code>)</li>
@@ -2587,55 +2467,47 @@
 								</ul>
 								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
-							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.py</code>. Sourcetrail will only try to index files that match one of these extensions.</td> </tr>
+							<tr>
+								<th scope="row">Source File Extensions</th>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.py</code>. Sourcetrail will only try to index files that match one of these extensions.</td>
+							</tr>
 						</tbody>
 					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
 
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
-
-					<div class="row" style="height:40px;"></div>
+					<div class="row" style="height:20px;"></div>
 
 
-					<h2 id="CreateAProjectFromCustomCommand">Create a Custom Command Source Group</h2>
+					<h2 id="CreateAProjectFromCustomCommand">Custom Command Source Group</h2>
 					<p>In a Custom Command Source Group you can define a set of files and a command line call used to index each of these files. This Source Group type was introduced to integrate custom indexers written with <a href="https://github.com/CoatiSoftware/SourcetrailDB">SourcetrailDB</a>.</p>
 
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_start_custom_empty.png" style="width:100%;">
-						</div>
-					</div>
+					<p>Custom Command Source Groups offer the following configuration options:</p>
 
-					<h3>Custom Command</h3>
-					<p>Define a command line call that will be executed for each source file in the Source Group. You can pass different pre-defined parameters:</p>
-					<ul>
-						<li><b>%{SOURCE_FILE_PATH}</b>: The path to each source file in the source group (mandatory)</li>
-						<li><b>%{DATABASE_FILE_PATH}</b>: The path to the database of the project</li>
-						<li><b>%{DATABASE_VERSION}</b>: The database version of the used Sourcetrail instance</li>
-						<li><b>%{PROJECT_FILE_PATH}</b>: The path to the project file</li>
-					</ul>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_custom_empty.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Custom Command</th> <td> The command line call executed for each source file.</tr>
-							<tr> <th scope="row">Run in Parallel</th> <td> Whether files should be processed in parallel. </tr>
-							<tr> <th scope="row">Files & Directories to Index</th> <td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td> </tr>
-							<tr> <th scope="row">Excluded Files & Directories</th> <td>
-								<p>These paths define the files and directories that will be left out from indexing.</p>
+							<tr>
+								<th scope="row">Custom Command</th>
+								<td> The command line call executed for each source file. You can pass different pre-defined parameters:
+								<ul>
+									<li><b>%{SOURCE_FILE_PATH}</b>: The path to each source file in the source group (mandatory)</li>
+									<li><b>%{DATABASE_FILE_PATH}</b>: The path to the database of the project</li>
+									<li><b>%{DATABASE_VERSION}</b>: The database version of the used Sourcetrail instance</li>
+									<li><b>%{PROJECT_FILE_PATH}</b>: The path to the project file</li>
+								</ul> </td>
+							</tr>
+							<tr>
+								<th scope="row">Run in Parallel</th>
+								<td> Whether files should be processed in parallel. </td>
+							</tr>
+							<tr>
+								<th scope="row">Files & Directories to Index</th>
+								<td><p>These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}. </p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+							</tr>
+							<tr>
+								<th scope="row">Excluded Files & Directories</th>
+								<td> <p>These paths define the files and directories that will be left out from indexing.</p>
 								<p>Hints:</p>
 								<ul>
 									<li>You can use the wildcard <code>*</code> which represents characters except <code>\</code> or <code>/</code> (e.g. <code>src/*/test.ext</code> matches <code>src/app/test.ext</code> but does not match <code>src/app/widget/test.ext</code> or <code>src/test.ext</code>)</li>
@@ -2644,20 +2516,12 @@
 								</ul>
 								<p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
-							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.ext</code>. Sourcetrail will only try to index files that match one of these extensions. If no extion is defined, any file extension is valid.</td> </tr>
+							<tr>
+								<th scope="row">Source File Extensions</th>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.ext</code>. Sourcetrail will only try to index files that match one of these extensions. If no extion is defined, any file extension is valid.</td>
+							</tr>
 						</tbody>
 					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>show files</var> will show you a list of all source files that have been detected. </li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
-					</div>
 
 					<div class="row" style="height:20px;"></div>
 
@@ -2705,7 +2569,7 @@
 							<tr> <th scope="row">--maven-path</th> <td>Path to the maven executable.</td> </tr>
 							<tr> <th scope="row">--jre-system-library-paths</th> <td>Path to the jars of the JRE system library. These jars can be found inside the JRE install directory.</td> </tr>
 							<tr> <th scope="row">--global-header-search-paths</th> <td>The Global Include Paths will be used in all your projects - in addition to the project specific Include Paths. These paths are usually passed to the compiler with the '-isystem' flag. Use them to add system header paths (See <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> or use the auto detection below).</td> </tr>
-							<tr> <th scope="row">--global-framework-search-paths</th> <td>The Global Framework Search Paths will be used in all your projects - in addition to the project specific Framework Search Paths. They define where MacOS framework containers (.framework) are found <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> or use the auto detection below).</td> </tr>
+							<tr> <th scope="row">--global-framework-search-paths</th> <td>The Global Framework Search Paths will be used in all your projects - in addition to the project specific Framework Search Paths. They define where macOS framework containers (.framework) are found <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> or use the auto detection below).</td> </tr>
 							<tr> <th scope="row">--show</th> <td>Display the settings and values.</td> </tr>
 						</tbody>
 					</table>

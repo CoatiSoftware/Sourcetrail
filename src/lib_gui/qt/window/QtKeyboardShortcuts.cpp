@@ -223,7 +223,7 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 		 Shortcut(
 			 QStringLiteral("Move Focus to Closest Reference"),
 			 QStringLiteral("Shift + WASD | Shift + HJKL | Shift + Arrows")),
-		 Shortcut(QStringLiteral("Activate Focused Location"), QStringLiteral("Enter | E")),
+		 Shortcut(QStringLiteral("Activate Location"), QStringLiteral("Enter | E")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Activate Location in New Tab"),
 			 QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"),
@@ -261,7 +261,7 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 			 QStringLiteral("Move Focus Within Edges"),
 			 QStringLiteral("Shift + WASD | Shift + HJKL | Shift + Arrows")),
 		 Shortcut(QStringLiteral("Activate Node/Edge"), QStringLiteral("Enter | E")),
-		 Shortcut(QStringLiteral("Expand/Collaps Node"), QStringLiteral("Shift + Enter | Shift + E")),
+		 Shortcut(QStringLiteral("Expand/Collapse Node"), QStringLiteral("Shift + Enter | Shift + E")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Activate Node in New Tab"),
 			 QStringLiteral("Ctrl + Shift + Enter | Ctrl + Shift + E"),
@@ -272,12 +272,12 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 			 QStringLiteral("Cmd + Arrows")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Zoom in"),
-			 QStringLiteral("Ctrl + Shift + Up | Ctrl + Mousewheel up"),
-			 QStringLiteral("Cmd + Shift + Up | Cmd + Mousewheel up")),
+			 QStringLiteral("Ctrl + Shift + Up | Ctrl + Mouse Wheel Up"),
+			 QStringLiteral("Cmd + Shift + Up | Cmd + Mouse Wheel Up")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Zoom out"),
-			 QStringLiteral("Ctrl + Shift + Down | Ctrl + Mousewheel down"),
-			 QStringLiteral("Cmd + Shift + Down | Cmd + Mousewheel down")),
+			 QStringLiteral("Ctrl + Shift + Down | Ctrl + Mouse Wheel Down"),
+			 QStringLiteral("Cmd + Shift + Down | Cmd + Mouse Wheel Down")),
 		 Shortcut(QStringLiteral("Reset Zoom"), QStringLiteral("0")),
 		 Shortcut::defaultOrMac(
 			 QStringLiteral("Open Custom Trail Dialog"),
