@@ -323,7 +323,7 @@ void QtGraphView::rebuildGraph(
 	const GraphParams params)
 {
 	m_onQtThread([=]() {
-		if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
+		if (isTransitioning())
 		{
 			m_transition->stop();
 			m_transition.reset();
@@ -559,7 +559,7 @@ void QtGraphView::scrollToValues(int xValue, int yValue)
 void QtGraphView::activateEdge(Id edgeId)
 {
 	m_onQtThread([=]() {
-		if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
+		if (isTransitioning())
 		{
 			m_transition->stop();
 			m_transition.reset();
@@ -630,11 +630,21 @@ void QtGraphView::focusView(bool focusIn)
 
 const std::list<QtGraphNode*>& QtGraphView::getGraphNodes() const
 {
+	if (isTransitioning())
+	{
+		return m_nodes;
+	}
+
 	return m_oldNodes;
 }
 
 const std::list<QtGraphEdge*>& QtGraphView::getGraphEdges() const
 {
+	if (isTransitioning())
+	{
+		return m_edges;
+	}
+
 	return m_oldEdges;
 }
 
@@ -746,7 +756,7 @@ void QtGraphView::scrolled(int)
 
 void QtGraphView::resized()
 {
-	if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
+	if (isTransitioning())
 	{
 		return;
 	}
@@ -1469,4 +1479,9 @@ void QtGraphView::createTransition()
 	connect(
 		m_transition.get(), &QPropertyAnimation::finished, this, &QtGraphView::finishedTransition);
 	m_transition->start();
+}
+
+bool QtGraphView::isTransitioning() const
+{
+	return m_transition && m_transition->currentTime() < m_transition->totalDuration();
 }
