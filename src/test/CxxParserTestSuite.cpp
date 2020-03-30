@@ -14,14 +14,13 @@
 #	include "ParserClientImpl.h"
 
 #	include "TestFileRegister.h"
-#	include "TestIntermediateStorage.h"
+#	include "TestStorage.h"
 
 namespace
 {
-std::shared_ptr<TestIntermediateStorage> parseCode(
-	std::string code, std::vector<std::wstring> compilerFlags = {})
+std::shared_ptr<TestStorage> parseCode(std::string code, std::vector<std::wstring> compilerFlags = {})
 {
-	std::shared_ptr<TestIntermediateStorage> storage = std::make_shared<TestIntermediateStorage>();
+	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 	CxxParser parser(
 		std::make_shared<ParserClientImpl>(storage.get()),
 		std::make_shared<TestFileRegister>(),
@@ -30,21 +29,21 @@ std::shared_ptr<TestIntermediateStorage> parseCode(
 		L"input.cc",
 		TextAccess::createFromString(code),
 		utility::concat(compilerFlags, std::vector<std::wstring>(1, L"-std=c++1z")));
-	storage->generateStringLists();
-	return storage;
+
+	return TestStorage::create(storage);
 }
 }	 // namespace
 
 TEST_CASE("cxx parser finds global variable declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("int x;\n");
+	std::shared_ptr<TestStorage> client = parseCode("int x;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->globalVariables, L"int x <1:5 1:5>"));
 }
 
 TEST_CASE("cxx parser finds static global variable declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("static int x;\n");
+	std::shared_ptr<TestStorage> client = parseCode("static int x;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->globalVariables, L"int x (input.cc) <1:12 1:12>"));
@@ -52,7 +51,7 @@ TEST_CASE("cxx parser finds static global variable declaration")
 
 TEST_CASE("cxx parser finds static const global variable declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("static const int x;\n");
+	std::shared_ptr<TestStorage> client = parseCode("static const int x;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->globalVariables, L"const int x (input.cc) <1:18 1:18>"));
@@ -60,7 +59,7 @@ TEST_CASE("cxx parser finds static const global variable declaration")
 
 TEST_CASE("cxx parser finds global class definition")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"};\n");
@@ -70,14 +69,14 @@ TEST_CASE("cxx parser finds global class definition")
 
 TEST_CASE("cxx parser finds global class declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("class A;\n");
+	std::shared_ptr<TestStorage> client = parseCode("class A;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->classes, L"A <1:7 1:7>"));
 }
 
 TEST_CASE("cxx parser finds global struct definition")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"struct A\n"
 		"{\n"
 		"};\n");
@@ -87,21 +86,21 @@ TEST_CASE("cxx parser finds global struct definition")
 
 TEST_CASE("cxx parser finds global struct declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("struct A;\n");
+	std::shared_ptr<TestStorage> client = parseCode("struct A;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->structs, L"A <1:8 1:8>"));
 }
 
 TEST_CASE("cxx parser finds variable definitions in global scope")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("int x;\n");
+	std::shared_ptr<TestStorage> client = parseCode("int x;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->globalVariables, L"int x <1:5 1:5>"));
 }
 
 TEST_CASE("cxx parser finds fields in class with access type")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"	int a;\n"
@@ -124,7 +123,7 @@ TEST_CASE("cxx parser finds fields in class with access type")
 
 TEST_CASE("cxx parser finds function declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int ceil(float a)\n"
 		"{\n"
 		"	return 1;\n"
@@ -136,7 +135,7 @@ TEST_CASE("cxx parser finds function declaration")
 
 TEST_CASE("cxx parser finds static function declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"static int ceil(float a)\n"
 		"{\n"
 		"	return static_cast<int>(a) + 1;\n"
@@ -148,7 +147,7 @@ TEST_CASE("cxx parser finds static function declaration")
 
 TEST_CASE("cxx parser finds method declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"public:\n"
@@ -161,7 +160,7 @@ TEST_CASE("cxx parser finds method declaration")
 
 TEST_CASE("cxx parser finds overloaded operator declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"public:\n"
@@ -174,7 +173,7 @@ TEST_CASE("cxx parser finds overloaded operator declaration")
 
 TEST_CASE("cxx parser finds method declaration and definition")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"public:\n"
@@ -190,7 +189,7 @@ TEST_CASE("cxx parser finds method declaration and definition")
 
 TEST_CASE("cxx parser finds virtual method declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"public:\n"
@@ -203,7 +202,7 @@ TEST_CASE("cxx parser finds virtual method declaration")
 
 TEST_CASE("cxx parser finds pure virtual method declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"protected:\n"
@@ -216,7 +215,7 @@ TEST_CASE("cxx parser finds pure virtual method declaration")
 
 TEST_CASE("cxx parser finds named namespace declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace A\n"
 		"{\n"
 		"}\n");
@@ -226,7 +225,7 @@ TEST_CASE("cxx parser finds named namespace declaration")
 
 TEST_CASE("cxx parser finds anonymous namespace declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace\n"
 		"{\n"
 		"}\n");
@@ -237,7 +236,7 @@ TEST_CASE("cxx parser finds anonymous namespace declaration")
 
 TEST_CASE("cxx parser finds multiple anonymous namespace declarations as same symbol")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace\n"
 		"{\n"
 		"}\n"
@@ -254,7 +253,7 @@ TEST_CASE("cxx parser finds multiple anonymous namespace declarations as same sy
 
 TEST_CASE("cxx parser finds multiple nested anonymous namespace declarations as different symbol")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace\n"
 		"{\n"
 		"	namespace\n"
@@ -275,7 +274,7 @@ TEST_CASE(
 	"cxx parser finds anonymous namespace declarations nested inside namespaces with different "
 	"name as different symbol")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace a\n"
 		"{\n"
 		"	namespace\n"
@@ -304,7 +303,7 @@ TEST_CASE(
 	"cxx parser finds anonymous namespace declarations nested inside namespaces with same name as "
 	"same symbol")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace a\n"
 		"{\n"
 		"	namespace\n"
@@ -331,7 +330,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds anonymous struct declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef struct\n"
 		"{\n"
 		"	int x;\n"
@@ -343,7 +342,7 @@ TEST_CASE("cxx parser finds anonymous struct declaration")
 
 TEST_CASE("cxx parser finds multiple anonymous struct declarations as distinct elements")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef struct\n"
 		"{\n"
 		"	int x;\n"
@@ -362,7 +361,7 @@ TEST_CASE("cxx parser finds multiple anonymous struct declarations as distinct e
 
 TEST_CASE("cxx parser finds anonymous union declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef union\n"
 		"{\n"
 		"	int i;\n"
@@ -375,7 +374,7 @@ TEST_CASE("cxx parser finds anonymous union declaration")
 
 TEST_CASE("cxx parser finds name of anonymous struct declared inside typedef")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef struct\n"
 		"{\n"
 		"	int x;\n"
@@ -387,7 +386,7 @@ TEST_CASE("cxx parser finds name of anonymous struct declared inside typedef")
 
 TEST_CASE("cxx parser finds name of anonymous class declared inside typedef")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef class\n"
 		"{\n"
 		"	int x;\n"
@@ -399,7 +398,7 @@ TEST_CASE("cxx parser finds name of anonymous class declared inside typedef")
 
 TEST_CASE("cxx parser finds name of anonymous enum declared inside typedef")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef enum\n"
 		"{\n"
 		"	CONSTANT_1;\n"
@@ -411,7 +410,7 @@ TEST_CASE("cxx parser finds name of anonymous enum declared inside typedef")
 
 TEST_CASE("cxx parser finds name of anonymous union declared inside typedef")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef union\n"
 		"{\n"
 		"	int x;\n"
@@ -424,7 +423,7 @@ TEST_CASE("cxx parser finds name of anonymous union declared inside typedef")
 
 TEST_CASE("cxx parser finds name of anonymous struct declared inside type alias")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"using Foo = struct\n"
 		"{\n"
 		"	int x;\n"
@@ -436,7 +435,7 @@ TEST_CASE("cxx parser finds name of anonymous struct declared inside type alias"
 
 TEST_CASE("cxx parser finds name of anonymous class declared inside type alias")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"using Foo = class\n"
 		"{\n"
 		"	int x;\n"
@@ -448,7 +447,7 @@ TEST_CASE("cxx parser finds name of anonymous class declared inside type alias")
 
 TEST_CASE("cxx parser finds name of anonymous enum declared inside type alias")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"using Foo = enum\n"
 		"{\n"
 		"	CONSTANT_1;\n"
@@ -460,7 +459,7 @@ TEST_CASE("cxx parser finds name of anonymous enum declared inside type alias")
 
 TEST_CASE("cxx parser finds name of anonymous union declared inside type alias")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"using Foo = union\n"
 		"{\n"
 		"	int x;\n"
@@ -473,7 +472,7 @@ TEST_CASE("cxx parser finds name of anonymous union declared inside type alias")
 
 TEST_CASE("cxx parser finds enum defined in global namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"enum E\n"
 		"{\n"
 		"};\n");
@@ -483,7 +482,7 @@ TEST_CASE("cxx parser finds enum defined in global namespace")
 
 TEST_CASE("cxx parser finds enum constant in global enum")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"enum E\n"
 		"{\n"
 		"	P\n"
@@ -494,14 +493,14 @@ TEST_CASE("cxx parser finds enum constant in global enum")
 
 TEST_CASE("cxx parser finds typedef in global namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("typedef unsigned int uint;\n");
+	std::shared_ptr<TestStorage> client = parseCode("typedef unsigned int uint;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->typedefs, L"uint <1:22 1:25>"));
 }
 
 TEST_CASE("cxx parser finds typedef in named namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace test\n"
 		"{\n"
 		"	typedef unsigned int uint;\n"
@@ -512,7 +511,7 @@ TEST_CASE("cxx parser finds typedef in named namespace")
 
 TEST_CASE("cxx parser finds typedef in anonymous namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace\n"
 		"{\n"
 		"	typedef unsigned int uint;\n"
@@ -524,7 +523,7 @@ TEST_CASE("cxx parser finds typedef in anonymous namespace")
 
 TEST_CASE("cxx parser finds type alias in class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Foo\n"
 		"{\n"
 		"	using Bar = Foo;\n"
@@ -536,7 +535,7 @@ TEST_CASE("cxx parser finds type alias in class")
 
 TEST_CASE("cxx parser finds macro define")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define PI\n"
 		"void test()\n"
 		"{\n"
@@ -547,7 +546,7 @@ TEST_CASE("cxx parser finds macro define")
 
 TEST_CASE("cxx parser finds macro undefine")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#undef PI\n"
 		"void test()\n"
 		"{\n"
@@ -558,7 +557,7 @@ TEST_CASE("cxx parser finds macro undefine")
 
 TEST_CASE("cxx parser finds macro in ifdef")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define PI\n"
 		"#ifdef PI\n"
 		"void test()\n"
@@ -571,7 +570,7 @@ TEST_CASE("cxx parser finds macro in ifdef")
 
 TEST_CASE("cxx parser finds macro in ifndef")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define PI\n"
 		"#ifndef PI\n"
 		"void test()\n"
@@ -584,7 +583,7 @@ TEST_CASE("cxx parser finds macro in ifndef")
 
 TEST_CASE("cxx parser finds macro in ifdefined")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define PI\n"
 		"#if defined(PI)\n"
 		"void test()\n"
@@ -598,7 +597,7 @@ TEST_CASE("cxx parser finds macro in ifdefined")
 
 TEST_CASE("cxx parser finds macro expand")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define PI 3.14159265359\n"
 		"void test()\n"
 		"{\n"
@@ -611,7 +610,7 @@ TEST_CASE("cxx parser finds macro expand")
 
 TEST_CASE("cxx parser finds macro expand within macro")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define PI 3.14159265359\n"
 		"#define TAU (2 * PI)\n"
 		"void test()\n"
@@ -625,7 +624,7 @@ TEST_CASE("cxx parser finds macro expand within macro")
 
 TEST_CASE("cxx parser finds macro define scope")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define MAX(a,b) \\\n"
 		"	((a)>(b)?(a):(b))");
 
@@ -634,7 +633,7 @@ TEST_CASE("cxx parser finds macro define scope")
 
 TEST_CASE("cxx parser finds type template parameter definition of template type alias")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template<class T>\n"
 		"using MyType = int;\n");
 
@@ -644,7 +643,7 @@ TEST_CASE("cxx parser finds type template parameter definition of template type 
 
 TEST_CASE("cxx parser finds type template parameter definition of class template")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -658,7 +657,7 @@ TEST_CASE(
 	"cxx parser finds type template parameter definition of explicit partial class template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T, typename U>\n"
 		"class A\n"
 		"{\n"
@@ -677,7 +676,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds type template parameter definition of variable template")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T v;\n");
 
@@ -689,7 +688,7 @@ TEST_CASE(
 	"cxx parser finds type template parameter definition of explicit partial variable template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T, typename Q>\n"
 		"T t = Q(5);\n"
 		"\n"
@@ -705,7 +704,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds type template parameter defined with class keyword")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <class T>\n"
 		"class A\n"
 		"{\n"
@@ -717,7 +716,7 @@ TEST_CASE("cxx parser finds type template parameter defined with class keyword")
 
 TEST_CASE("cxx parser finds non type int template parameter definition of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T>\n"
 		"class A\n"
 		"{\n"
@@ -729,7 +728,7 @@ TEST_CASE("cxx parser finds non type int template parameter definition of templa
 
 TEST_CASE("cxx parser finds non type bool template parameter definition of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <bool T>\n"
 		"class A\n"
 		"{\n"
@@ -742,7 +741,7 @@ TEST_CASE("cxx parser finds non type bool template parameter definition of templ
 TEST_CASE(
 	"cxx parser finds non type custom pointer template parameter definition of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P* p>\n"
@@ -756,7 +755,7 @@ TEST_CASE(
 TEST_CASE(
 	"cxx parser finds non type custom reference template parameter definition of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P& p>\n"
@@ -771,7 +770,7 @@ TEST_CASE(
 	"cxx parser finds non type template parameter definition that depends on type template "
 	"parameter of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T1, T1& T2>\n"
 		"class A\n"
 		"{};\n");
@@ -788,7 +787,7 @@ TEST_CASE(
 	"cxx parser finds non type template parameter definition that depends on template template "
 	"parameter of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <template<typename> class T1, T1<int>& T2>\n"
 		"class A\n"
 		"{};\n");
@@ -804,7 +803,7 @@ TEST_CASE(
 	"cxx parser finds non type template parameter definition that depends on type template "
 	"parameter of template template parameter")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <template<typename T, T R>typename S>\n"
 		"class A\n"
 		"{\n"
@@ -819,7 +818,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds template argument of dependent non type template parameter")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <template<typename> class T1, T1<int>& T2>\n"
 		"class A\n"
 		"{};\n");
@@ -830,7 +829,7 @@ TEST_CASE("cxx parser finds template argument of dependent non type template par
 
 // void _test_foofoo()
 //{
-//	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+//	std::shared_ptr<TestStorage> client = parseCode(
 //		"template <typename T1, typename T2>\n"
 //		"class vector { };\n"
 //		"\n"
@@ -851,7 +850,7 @@ TEST_CASE("cxx parser finds template argument of dependent non type template par
 
 TEST_CASE("cxx parser finds template template parameter of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -869,7 +868,7 @@ TEST_CASE("cxx parser finds template template parameter of template class")
 
 TEST_CASE("cxx parser finds type template parameter pack type of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename... T>\n"
 		"class A\n"
 		"{\n"
@@ -881,7 +880,7 @@ TEST_CASE("cxx parser finds type template parameter pack type of template class"
 
 TEST_CASE("cxx parser finds non type int template parameter pack type of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int... T>\n"
 		"class A\n"
 		"{\n"
@@ -893,7 +892,7 @@ TEST_CASE("cxx parser finds non type int template parameter pack type of templat
 
 TEST_CASE("cxx parser finds template template parameter pack type of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <template<typename> typename... T>\n"
 		"class A\n"
 		"{\n"
@@ -905,7 +904,7 @@ TEST_CASE("cxx parser finds template template parameter pack type of template cl
 
 TEST_CASE("cxx parser finds type template parameters of template class with multiple parameters")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T, typename U>\n"
 		"class A\n"
 		"{\n"
@@ -919,7 +918,7 @@ TEST_CASE("cxx parser finds type template parameters of template class with mult
 
 TEST_CASE("cxx parser skips creating node for template parameter without a name")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename>\n"
 		"class A\n"
 		"{\n"	  // local symbol for brace
@@ -934,7 +933,7 @@ TEST_CASE("cxx parser skips creating node for template parameter without a name"
 TEST_CASE(
 	"cxx parser finds type template parameter of template method definition outside template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -952,7 +951,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds explicit class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -967,7 +966,7 @@ TEST_CASE("cxx parser finds explicit class template specialization")
 
 TEST_CASE("cxx parser finds explicit variable template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T t = T(5);\n"
 		"\n"
@@ -980,7 +979,7 @@ TEST_CASE("cxx parser finds explicit variable template specialization")
 
 TEST_CASE("cxx parser finds explicit partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T, typename U>\n"
 		"class A\n"
 		"{\n"
@@ -996,7 +995,7 @@ TEST_CASE("cxx parser finds explicit partial class template specialization")
 
 TEST_CASE("cxx parser finds explicit partial variable template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T, typename Q>\n"
 		"T t = Q(5);\n"
 		"\n"
@@ -1009,7 +1008,7 @@ TEST_CASE("cxx parser finds explicit partial variable template specialization")
 
 TEST_CASE("cxx parser finds correct field member name of template class in declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1022,7 +1021,7 @@ TEST_CASE("cxx parser finds correct field member name of template class in decla
 
 TEST_CASE("cxx parser finds correct type of field member of template class in declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1044,7 +1043,7 @@ TEST_CASE("cxx parser finds correct type of field member of template class in de
 
 TEST_CASE("cxx parser finds correct method member name of template class in declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1057,7 +1056,7 @@ TEST_CASE("cxx parser finds correct method member name of template class in decl
 
 TEST_CASE("cxx parser finds type template parameter definition of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T test(T a)\n"
 		"{\n"
@@ -1070,7 +1069,7 @@ TEST_CASE("cxx parser finds type template parameter definition of template funct
 
 TEST_CASE("cxx parser finds non type int template parameter definition of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T>\n"
 		"int test(int a)\n"
 		"{\n"
@@ -1083,7 +1082,7 @@ TEST_CASE("cxx parser finds non type int template parameter definition of templa
 
 TEST_CASE("cxx parser finds non type bool template parameter definition of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <bool T>\n"
 		"int test(int a)\n"
 		"{\n"
@@ -1097,7 +1096,7 @@ TEST_CASE("cxx parser finds non type bool template parameter definition of templ
 TEST_CASE(
 	"cxx parser finds non type custom pointer template parameter definition of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P* p>\n"
@@ -1113,7 +1112,7 @@ TEST_CASE(
 TEST_CASE(
 	"cxx parser finds non type custom reference template parameter definition of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P& p>\n"
@@ -1128,7 +1127,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds template template parameter definition of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -1144,7 +1143,7 @@ TEST_CASE("cxx parser finds template template parameter definition of template f
 
 TEST_CASE("cxx parser finds function for implicit instantiation of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T test(T a)\n"
 		"{\n"
@@ -1163,7 +1162,7 @@ TEST_CASE("cxx parser finds function for implicit instantiation of template func
 TEST_CASE(
 	"cxx parser skips implicit template method definition of implicit template class instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1187,7 +1186,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds lambda definition and call in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void lambdaCaller()\n"
 		"{\n"
 		"	[](){}();\n"
@@ -1204,7 +1203,7 @@ TEST_CASE("cxx parser finds lambda definition and call in function")
 
 TEST_CASE("cxx parser finds mutable lambda definition")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void lambdaWrapper()\n"
 		"{\n"
 		"	[](int foo) mutable { return foo; };\n"
@@ -1218,7 +1217,7 @@ TEST_CASE("cxx parser finds mutable lambda definition")
 
 TEST_CASE("cxx parser finds local variable declared in lambda capture")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void lambdaWrapper()\n"
 		"{\n"
 		"	[x(42)]() { return x; };\n"
@@ -1232,7 +1231,7 @@ TEST_CASE("cxx parser finds local variable declared in lambda capture")
 
 TEST_CASE("cxx parser finds definition of local symbol in function parameter list")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void test(int a)\n"
 		"{\n"
 		"}\n");
@@ -1243,7 +1242,7 @@ TEST_CASE("cxx parser finds definition of local symbol in function parameter lis
 
 TEST_CASE("cxx parser finds definition of local symbol in function scope")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void test()\n"
 		"{\n"
 		"	int a;\n"
@@ -1258,7 +1257,7 @@ TEST_CASE("cxx parser finds definition of local symbol in function scope")
 
 TEST_CASE("cxx parser finds class definition in class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"public:\n"
@@ -1270,7 +1269,7 @@ TEST_CASE("cxx parser finds class definition in class")
 
 TEST_CASE("cxx parser finds class definition in namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace a\n"
 		"{\n"
 		"	class B;\n"
@@ -1281,7 +1280,7 @@ TEST_CASE("cxx parser finds class definition in namespace")
 
 TEST_CASE("cxx parser finds struct definition in class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"	struct B\n"
@@ -1295,7 +1294,7 @@ TEST_CASE("cxx parser finds struct definition in class")
 
 TEST_CASE("cxx parser finds struct definition in namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace A\n"
 		"{\n"
 		"	struct B\n"
@@ -1308,7 +1307,7 @@ TEST_CASE("cxx parser finds struct definition in namespace")
 
 TEST_CASE("cxx parser finds struct definition in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void foo(int)\n"
 		"{\n"
 		"	struct B\n"
@@ -1328,7 +1327,7 @@ TEST_CASE("cxx parser finds struct definition in function")
 
 TEST_CASE("cxx parser finds variable definitions in namespace scope")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace n"
 		"{\n"
 		"	int x;\n"
@@ -1339,7 +1338,7 @@ TEST_CASE("cxx parser finds variable definitions in namespace scope")
 
 TEST_CASE("cxx parser finds field in nested class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"public:\n"
@@ -1356,7 +1355,7 @@ TEST_CASE("cxx parser finds field in nested class")
 
 TEST_CASE("cxx parser finds function in anonymous namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace\n"
 		"{\n"
 		"	int sum(int a, int b);\n"
@@ -1369,7 +1368,7 @@ TEST_CASE("cxx parser finds function in anonymous namespace")
 
 TEST_CASE("cxx parser finds method declared in nested class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"	class C\n"
@@ -1384,7 +1383,7 @@ TEST_CASE("cxx parser finds method declared in nested class")
 
 TEST_CASE("cxx parser finds nested named namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace A\n"
 		"{\n"
 		"	namespace B\n"
@@ -1398,7 +1397,7 @@ TEST_CASE("cxx parser finds nested named namespace")
 
 TEST_CASE("cxx parser finds enum defined in class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class B\n"
 		"{\n"
 		"public:\n"
@@ -1413,7 +1412,7 @@ TEST_CASE("cxx parser finds enum defined in class")
 
 TEST_CASE("cxx parser finds enum defined in namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace n\n"
 		"{\n"
 		"	enum Z\n"
@@ -1426,7 +1425,7 @@ TEST_CASE("cxx parser finds enum defined in namespace")
 
 TEST_CASE("cxx parser finds enum definition in template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1443,7 +1442,7 @@ TEST_CASE("cxx parser finds enum definition in template class")
 
 TEST_CASE("cxx parser finds enum constants in template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1463,7 +1462,7 @@ TEST_CASE("cxx parser finds enum constants in template class")
 
 TEST_CASE("cxx parser finds qualifier of access to global variable defined in namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace foo {\n"
 		"	namespace bar {\n"
 		"		int x;\n"
@@ -1479,7 +1478,7 @@ TEST_CASE("cxx parser finds qualifier of access to global variable defined in na
 
 TEST_CASE("cxx parser finds qualifier of access to static field")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Foo {\n"
 		"public:\n"
 		"	struct Bar {\n"
@@ -1497,7 +1496,7 @@ TEST_CASE("cxx parser finds qualifier of access to static field")
 
 TEST_CASE("cxx parser finds qualifier of access to enum constant")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"enum Foo {\n"
 		"	FOO_V\n"
 		"};\n"
@@ -1510,7 +1509,7 @@ TEST_CASE("cxx parser finds qualifier of access to enum constant")
 
 TEST_CASE("cxx parser finds qualifier of reference to method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Foo {\n"
 		"public:\n"
 		"	static void my_int_func(int x) {\n"
@@ -1527,7 +1526,7 @@ TEST_CASE("cxx parser finds qualifier of reference to method")
 
 TEST_CASE("cxx parser finds qualifier of constructor call")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Foo {\n"
 		"public:\n"
 		"	Foo(int i) {}\n"
@@ -1546,7 +1545,7 @@ TEST_CASE("cxx parser finds qualifier of constructor call")
 
 TEST_CASE("cxx parser finds builtin types")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void t1(int v) {}\n"
 		"void t2(float v) {}\n"
 		"void t3(double v) {}\n"
@@ -1561,7 +1560,7 @@ TEST_CASE("cxx parser finds builtin types")
 
 TEST_CASE("cxx parser finds implicit copy constructor")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class TestClass {}\n"
 		"void foo()\n"
 		"{\n"
@@ -1583,7 +1582,7 @@ TEST_CASE("cxx parser finds implicit copy constructor")
 
 TEST_CASE("cxx parser finds enum usage in template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1602,7 +1601,7 @@ TEST_CASE("cxx parser finds enum usage in template class")
 
 TEST_CASE("cxx parser finds correct field member type of nested template class in declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -1630,14 +1629,14 @@ TEST_CASE("cxx parser finds correct field member type of nested template class i
 
 TEST_CASE("cxx parser finds type usage of global variable")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("int x;\n");
+	std::shared_ptr<TestStorage> client = parseCode("int x;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->typeUses, L"int x -> int <1:1 1:3>"));
 }
 
 TEST_CASE("cxx parser finds typedefs type use")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("typedef unsigned int uint;\n");
+	std::shared_ptr<TestStorage> client = parseCode("typedef unsigned int uint;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->typeUses, L"uint -> unsigned int <1:9 1:16>"));
@@ -1645,7 +1644,7 @@ TEST_CASE("cxx parser finds typedefs type use")
 
 TEST_CASE("cxx parser finds typedef that uses type defined in named namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace test\n"
 		"{\n"
 		"	struct TestStruct{};\n"
@@ -1658,7 +1657,7 @@ TEST_CASE("cxx parser finds typedef that uses type defined in named namespace")
 
 TEST_CASE("cxx parser finds type use of typedef")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"typedef unsigned int uint;\n"
 		"uint number;\n");
 
@@ -1668,7 +1667,7 @@ TEST_CASE("cxx parser finds type use of typedef")
 
 TEST_CASE("cxx parser finds class default private inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {};\n"
 		"class B : A {};\n");
 
@@ -1677,7 +1676,7 @@ TEST_CASE("cxx parser finds class default private inheritance")
 
 TEST_CASE("cxx parser finds class public inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {};\n"
 		"class B : public A {};\n");
 
@@ -1686,7 +1685,7 @@ TEST_CASE("cxx parser finds class public inheritance")
 
 TEST_CASE("cxx parser finds class protected inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {};\n"
 		"class B : protected A {};\n");
 
@@ -1695,7 +1694,7 @@ TEST_CASE("cxx parser finds class protected inheritance")
 
 TEST_CASE("cxx parser finds class private inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {};\n"
 		"class B : private A {};\n");
 
@@ -1704,7 +1703,7 @@ TEST_CASE("cxx parser finds class private inheritance")
 
 TEST_CASE("cxx parser finds class multiple inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {};\n"
 		"class B {};\n"
 		"class C\n"
@@ -1718,7 +1717,7 @@ TEST_CASE("cxx parser finds class multiple inheritance")
 
 TEST_CASE("cxx parser finds struct default public inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"struct A {};\n"
 		"struct B : A {};\n");
 
@@ -1727,7 +1726,7 @@ TEST_CASE("cxx parser finds struct default public inheritance")
 
 TEST_CASE("cxx parser finds struct public inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"struct A {};\n"
 		"struct B : public A {};\n");
 
@@ -1736,7 +1735,7 @@ TEST_CASE("cxx parser finds struct public inheritance")
 
 TEST_CASE("cxx parser finds struct protected inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"struct A {};\n"
 		"struct B : protected A {};\n");
 
@@ -1745,7 +1744,7 @@ TEST_CASE("cxx parser finds struct protected inheritance")
 
 TEST_CASE("cxx parser finds struct private inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"struct A {};\n"
 		"struct B : private A {};\n");
 
@@ -1754,7 +1753,7 @@ TEST_CASE("cxx parser finds struct private inheritance")
 
 TEST_CASE("cxx parser finds struct multiple inheritance")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"struct A {};\n"
 		"struct B {};\n"
 		"struct C\n"
@@ -1768,7 +1767,7 @@ TEST_CASE("cxx parser finds struct multiple inheritance")
 
 TEST_CASE("cxx parser finds method override when virtual")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {\n"
 		"	virtual void foo();\n"
 		"};\n"
@@ -1782,7 +1781,7 @@ TEST_CASE("cxx parser finds method override when virtual")
 
 TEST_CASE("cxx parser finds multi layer method overrides")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {\n"
 		"	virtual void foo();\n"
 		"};\n"
@@ -1801,7 +1800,7 @@ TEST_CASE("cxx parser finds multi layer method overrides")
 
 TEST_CASE("cxx parser finds method overrides on different return types")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {\n"
 		"	virtual void foo();\n"
 		"};\n"
@@ -1816,7 +1815,7 @@ TEST_CASE("cxx parser finds method overrides on different return types")
 
 TEST_CASE("cxx parser finds no method override when not virtual")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {\n"
 		"	void foo();\n"
 		"};\n"
@@ -1829,7 +1828,7 @@ TEST_CASE("cxx parser finds no method override when not virtual")
 
 TEST_CASE("cxx parser finds no method overrides on different signatures")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {\n"
 		"	virtual void foo(int a);\n"
 		"};\n"
@@ -1842,7 +1841,7 @@ TEST_CASE("cxx parser finds no method overrides on different signatures")
 
 TEST_CASE("cxx parser finds using directive decl in function context")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void foo()\n"
 		"{\n"
 		"	using namespace std;\n"
@@ -1854,14 +1853,14 @@ TEST_CASE("cxx parser finds using directive decl in function context")
 
 TEST_CASE("cxx parser finds using directive decl in file context")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("using namespace std;\n");
+	std::shared_ptr<TestStorage> client = parseCode("using namespace std;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->usages, L"input.cc -> std <1:17 1:19>"));
 }
 
 TEST_CASE("cxx parser finds using decl in function context")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace foo\n"
 		"{\n"
 		"	int a;\n"
@@ -1877,7 +1876,7 @@ TEST_CASE("cxx parser finds using decl in function context")
 
 TEST_CASE("cxx parser finds using decl in file context")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace foo\n"
 		"{\n"
 		"	int a;\n"
@@ -1890,7 +1889,7 @@ TEST_CASE("cxx parser finds using decl in file context")
 
 TEST_CASE("cxx parser finds call in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int sum(int a, int b)\n"
 		"{\n"
 		"	return a + b;\n"
@@ -1906,7 +1905,7 @@ TEST_CASE("cxx parser finds call in function")
 
 TEST_CASE("cxx parser finds call in function with correct signature")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int sum(int a, int b)\n"
 		"{\n"
 		"	return a + b;\n"
@@ -1925,7 +1924,7 @@ TEST_CASE("cxx parser finds call in function with correct signature")
 
 TEST_CASE("cxx parser finds call to function with right signature")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int sum(int a, int b)\n"
 		"{\n"
 		"	return a + b;\n"
@@ -1948,7 +1947,7 @@ TEST_CASE("cxx parser finds call to function with right signature")
 
 TEST_CASE("cxx parser finds function call in function parameter list")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int sum(int a, int b)\n"
 		"{\n"
 		"	return a + b;\n"
@@ -1964,7 +1963,7 @@ TEST_CASE("cxx parser finds function call in function parameter list")
 
 TEST_CASE("cxx parser finds function call in method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int sum(int a, int b)\n"
 		"{\n"
 		"	return a + b;\n"
@@ -1983,7 +1982,7 @@ TEST_CASE("cxx parser finds function call in method")
 
 TEST_CASE("cxx parser finds implicit constructor without definition call")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"};\n"
@@ -1998,7 +1997,7 @@ TEST_CASE("cxx parser finds implicit constructor without definition call")
 
 TEST_CASE("cxx parser finds explicit constructor call")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"public:\n"
@@ -2015,7 +2014,7 @@ TEST_CASE("cxx parser finds explicit constructor call")
 
 TEST_CASE("cxx parser finds call of explicitly defined destructor at delete keyword")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Foo\n"
 		"{\n"
 		"public:\n"
@@ -2035,7 +2034,7 @@ TEST_CASE("cxx parser finds call of explicitly defined destructor at delete keyw
 
 TEST_CASE("cxx parser finds call of implicitly defined destructor at delete keyword")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Foo\n"
 		"{\n"
 		"}; \n"
@@ -2052,7 +2051,7 @@ TEST_CASE("cxx parser finds call of implicitly defined destructor at delete keyw
 
 TEST_CASE("cxx parser finds explicit constructor call of field")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Item\n"
 		"{\n"
 		"};\n"
@@ -2069,7 +2068,7 @@ TEST_CASE("cxx parser finds explicit constructor call of field")
 
 TEST_CASE("cxx parser finds function call in member initialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int one() { return 1; }\n"
 		"class Item\n"
 		"{\n"
@@ -2090,7 +2089,7 @@ TEST_CASE("cxx parser finds function call in member initialization")
 
 TEST_CASE("cxx parser finds copy constructor call")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"public:\n"
@@ -2109,7 +2108,7 @@ TEST_CASE("cxx parser finds copy constructor call")
 
 TEST_CASE("cxx parser finds global variable constructor call")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"public:\n"
@@ -2123,7 +2122,7 @@ TEST_CASE("cxx parser finds global variable constructor call")
 
 TEST_CASE("cxx parser finds global variable function call")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int one() { return 1; }\n"
 		"int a = one();\n");
 
@@ -2132,7 +2131,7 @@ TEST_CASE("cxx parser finds global variable function call")
 
 TEST_CASE("cxx parser finds operator call")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"public:\n"
@@ -2152,7 +2151,7 @@ TEST_CASE("cxx parser finds operator call")
 
 TEST_CASE("cxx parser finds usage of function pointer")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void my_int_func(int x)\n"
 		"{\n"
 		"}\n"
@@ -2169,7 +2168,7 @@ TEST_CASE("cxx parser finds usage of function pointer")
 
 TEST_CASE("cxx parser finds usage of global variable in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int bar;\n"
 		"\n"
 		"int main()\n"
@@ -2183,7 +2182,7 @@ TEST_CASE("cxx parser finds usage of global variable in function")
 
 TEST_CASE("cxx parser finds usage of global variable in global variable initialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int a = 0;\n"
 		"int b[] = {a};\n");
 
@@ -2193,7 +2192,7 @@ TEST_CASE("cxx parser finds usage of global variable in global variable initiali
 
 TEST_CASE("cxx parser finds usage of global variable in method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int bar;\n"
 		"\n"
 		"class App\n"
@@ -2210,7 +2209,7 @@ TEST_CASE("cxx parser finds usage of global variable in method")
 
 TEST_CASE("cxx parser finds usage of field in method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"	void foo()\n"
@@ -2229,7 +2228,7 @@ TEST_CASE("cxx parser finds usage of field in method")
 
 TEST_CASE("cxx parser finds usage of field in function call arguments")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"public:\n"
@@ -2246,7 +2245,7 @@ TEST_CASE("cxx parser finds usage of field in function call arguments")
 
 TEST_CASE("cxx parser finds usage of field in function call context")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"public:\n"
@@ -2263,7 +2262,7 @@ TEST_CASE("cxx parser finds usage of field in function call context")
 
 TEST_CASE("cxx parser finds usage of field in initialization list")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"	App()\n"
@@ -2278,7 +2277,7 @@ TEST_CASE("cxx parser finds usage of field in initialization list")
 
 TEST_CASE("cxx parser finds usage of member in call expression to unresolved member expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A {\n"
 		"	template <typename T>\n"
 		"	T run() { return 5; }\n"
@@ -2297,7 +2296,7 @@ TEST_CASE("cxx parser finds usage of member in call expression to unresolved mem
 
 TEST_CASE("cxx parser finds usage of member in temporary object expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Foo\n"
 		"{\n"
 		"public:\n"
@@ -2324,7 +2323,7 @@ TEST_CASE("cxx parser finds usage of member in temporary object expression")
 
 TEST_CASE("cxx parser finds usage of member in dependent scope member expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2342,7 +2341,7 @@ TEST_CASE("cxx parser finds usage of member in dependent scope member expression
 
 TEST_CASE("cxx parser finds return type use in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"double PI()\n"
 		"{\n"
 		"	return 3.14159265359;\n"
@@ -2354,7 +2353,7 @@ TEST_CASE("cxx parser finds return type use in function")
 
 TEST_CASE("cxx parser finds parameter type uses in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void ceil(float a)\n"
 		"{\n"
 		"}\n");
@@ -2365,7 +2364,7 @@ TEST_CASE("cxx parser finds parameter type uses in function")
 
 TEST_CASE("cxx parser finds use of decayed parameter type in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template<class T, unsigned int N>\n"
 		"class VectorBase\n"
 		"{\n"
@@ -2381,7 +2380,7 @@ TEST_CASE("cxx parser finds use of decayed parameter type in function")
 
 TEST_CASE("cxx parser usage of injected type in method declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class Foo\n"
 		"{\n"
@@ -2400,7 +2399,7 @@ TEST_CASE("cxx parser usage of injected type in method declaration")
 
 TEST_CASE("cxx parser finds use of qualified type in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void test(const int t)\n"
 		"{\n"
 		"}\n");
@@ -2411,7 +2410,7 @@ TEST_CASE("cxx parser finds use of qualified type in function")
 
 TEST_CASE("cxx parser finds parameter type uses in constructor")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"	A(int a);\n"
@@ -2423,7 +2422,7 @@ TEST_CASE("cxx parser finds parameter type uses in constructor")
 
 TEST_CASE("cxx parser finds type uses in function body")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int main()\n"
 		"{\n"
 		"	int a = 42;\n"
@@ -2435,7 +2434,7 @@ TEST_CASE("cxx parser finds type uses in function body")
 
 TEST_CASE("cxx parser finds type uses in method body")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"	int main()\n"
@@ -2451,7 +2450,7 @@ TEST_CASE("cxx parser finds type uses in method body")
 
 TEST_CASE("cxx parser finds type uses in loops and conditions")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int main()\n"
 		"{\n"
 		"	if (true)\n"
@@ -2474,7 +2473,7 @@ TEST_CASE("cxx parser finds type uses in loops and conditions")
 
 TEST_CASE("cxx parser finds type uses of base class in derived constructor")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"public:\n"
@@ -2491,7 +2490,7 @@ TEST_CASE("cxx parser finds type uses of base class in derived constructor")
 
 TEST_CASE("cxx parser finds enum uses in global space")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"enum A\n"
 		"{\n"
 		"	B,\n"
@@ -2508,7 +2507,7 @@ TEST_CASE("cxx parser finds enum uses in global space")
 
 TEST_CASE("cxx parser finds enum uses in function body")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"enum A\n"
 		"{\n"
 		"	B,\n"
@@ -2529,7 +2528,7 @@ TEST_CASE("cxx parser finds enum uses in function body")
 
 TEST_CASE("cxx parser finds usage of template parameter of template member variable declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"struct IsBaseType {\n"
 		"	static const bool value = true;\n"
@@ -2547,7 +2546,7 @@ TEST_CASE("cxx parser finds usage of template parameter of template member varia
 
 TEST_CASE("cxx parser finds usage of template parameters with different depth of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2569,7 +2568,7 @@ TEST_CASE(
 	"cxx parser finds usage of template parameters with different depth of partial class template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2596,7 +2595,7 @@ TEST_CASE(
 	"cxx parser finds usage of template template parameter of template class explicitly "
 	"instantiated with concrete type argument")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -2615,7 +2614,7 @@ TEST_CASE(
 	"cxx parser finds usage of template template parameter of template class explicitly "
 	"instantiated with template type")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -2633,7 +2632,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds typedef in other class that depends on own template parameter")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2660,7 +2659,7 @@ TEST_CASE("cxx parser finds typedef in other class that depends on own template 
 
 TEST_CASE("cxx parser finds usage of template parameter in qualifier of other symbol")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"struct find_if_impl;\n"
 		"\n"
@@ -2677,7 +2676,7 @@ TEST_CASE("cxx parser finds usage of template parameter in qualifier of other sy
 
 TEST_CASE("cxx parser finds use of dependent template specialization type")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2703,7 +2702,7 @@ TEST_CASE(
 	"cxx parser creates single node for all possible parameter pack expansions of template "
 	"function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template<typename T>\n"
 		"T adder(T v) { return v; }\n"
 		"\n"
@@ -2721,7 +2720,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds type template argument of explicit template instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2741,7 +2740,7 @@ TEST_CASE(
 	"cxx parser finds type template argument of explicit template instantiated with function "
 	"prototype")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2761,7 +2760,7 @@ TEST_CASE(
 TEST_CASE(
 	"cxx parser finds type template argument for parameter pack of explicit template instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename... T>\n"
 		"class A\n"
 		"{\n"
@@ -2788,7 +2787,7 @@ TEST_CASE(
 	"cxx parser finds type template argument in non default constructor of explicit template "
 	"instaitiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2811,7 +2810,7 @@ TEST_CASE(
 	"cxx parser finds type template argument in default constructor of explicit template "
 	"instaitiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2833,7 +2832,7 @@ TEST_CASE(
 TEST_CASE(
 	"cxx parser finds type template argument in new expression of explicit template instaitiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2856,7 +2855,7 @@ TEST_CASE(
 	"cxx parser finds no template argument for builtin non type int template parameter of explicit "
 	"template instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T>\n"	// use of "int"
 		"class A\n"
 		"{\n"
@@ -2874,7 +2873,7 @@ TEST_CASE(
 	"cxx parser finds no template argument for builtin non type bool template parameter of "
 	"explicit template instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <bool T>\n"	 // use of "bool"
 		"class A\n"
 		"{\n"
@@ -2891,7 +2890,7 @@ TEST_CASE(
 TEST_CASE(
 	"cxx parser finds non type custom pointer template argument of implicit template instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P* p>\n"
@@ -2910,7 +2909,7 @@ TEST_CASE(
 	"cxx parser finds non type custom reference template argument of implicit template "
 	"instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P& p>\n"
@@ -2929,7 +2928,7 @@ TEST_CASE(
 	"cxx parser finds no template argument for builtin non type int template parameter pack of "
 	"explicit template instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int... T>\n"	   // use of "int"
 		"class A\n"
 		"{\n"
@@ -2944,7 +2943,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds template template argument of explicit template instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -2966,7 +2965,7 @@ TEST_CASE(
 	"cxx parser finds template template argument for parameter pack of explicit template "
 	"instantiation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -2993,7 +2992,7 @@ TEST_CASE(
 TEST_CASE(
 	"cxx parser finds template argument for implicit specialization of global template variable")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T v;\n"
 		"void test()\n"
@@ -3011,7 +3010,7 @@ TEST_CASE(
 	"cxx parser finds template member specialization for method of implicit template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3031,7 +3030,7 @@ TEST_CASE(
 	"cxx parser finds template member specialization for static variable of implicit template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3051,7 +3050,7 @@ TEST_CASE(
 TEST_CASE(
 	"cxx parser finds template member specialization for field of implicit template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3071,7 +3070,7 @@ TEST_CASE(
 	"cxx parser finds template member specialization for field of member class of implicit "
 	"template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3095,7 +3094,7 @@ TEST_CASE(
 	"cxx parser finds template member specialization for member class of implicit template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3113,7 +3112,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds type template argument of explicit template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3130,7 +3129,7 @@ TEST_CASE(
 	"cxx parser finds no template argument for builtin non type int template parameter of explicit "
 	"template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T>\n"	// use of "int"
 		"class A\n"
 		"{\n"
@@ -3147,7 +3146,7 @@ TEST_CASE(
 	"cxx parser finds no template argument for builtin non type bool template parameter of "
 	"explicit template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <bool T>\n"	 // use of "bool"
 		"class A\n"
 		"{\n"
@@ -3164,7 +3163,7 @@ TEST_CASE(
 	"cxx parser finds non type custom pointer template argument of explicit template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P* p>\n"
@@ -3184,7 +3183,7 @@ TEST_CASE(
 	"cxx parser finds non type custom reference template argument of explicit template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P& p>\n"
@@ -3202,7 +3201,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds template template argument of explicit template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -3221,7 +3220,7 @@ TEST_CASE("cxx parser finds template template argument of explicit template spec
 TEST_CASE(
 	"cxx parser finds type template arguments of explicit partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T, typename U>\n"
 		"class A\n"
 		"{\n"
@@ -3241,7 +3240,7 @@ TEST_CASE(
 	"cxx parser finds no template argument for builtin non type int template parameter of explicit "
 	"partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T, int U>\n"
 		"class A\n"
 		"{\n"
@@ -3259,7 +3258,7 @@ TEST_CASE(
 	"cxx parser finds no template argument for builtin non type bool template parameter of "
 	"explicit partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <bool T, bool U>\n"
 		"class A\n"
 		"{\n"
@@ -3277,7 +3276,7 @@ TEST_CASE(
 	"cxx parser finds template argument for non type custom pointer template parameter of explicit "
 	"partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P* p, P* q>\n"
@@ -3301,7 +3300,7 @@ TEST_CASE(
 	"cxx parser finds template argument for non type custom reference template parameter of "
 	"explicit partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class P\n"
 		"{};\n"
 		"template <P& p, P& q>\n"
@@ -3323,7 +3322,7 @@ TEST_CASE(
 	"cxx parser finds template argument for template template parameter of explicit partial class "
 	"template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -3345,7 +3344,7 @@ TEST_CASE(
 	"cxx parser finds non type template argument that depends on type template parameter of "
 	"explicit partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T1, typename T2, T2 T3>\n"
 		"class A\n"
 		"{\n"
@@ -3363,7 +3362,7 @@ TEST_CASE(
 	"cxx parser finds non type template argument that depends on template template parameter of "
 	"explicit partial class template specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T1, template<typename> class T2, T2<int> T3>\n"
 		"class A\n"
 		"{\n"
@@ -3381,7 +3380,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds implicit template class specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3396,7 +3395,7 @@ TEST_CASE("cxx parser finds implicit template class specialization")
 
 TEST_CASE("cxx parser finds class inheritance from implicit template class specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3413,7 +3412,7 @@ TEST_CASE("cxx parser finds class inheritance from implicit template class speci
 
 TEST_CASE("record base class of implicit template class specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template<class T, unsigned int N>\n"
 		"class VectorBase {}; \n"
 		"\n"
@@ -3430,7 +3429,7 @@ TEST_CASE("record base class of implicit template class specialization")
 
 TEST_CASE("cxx parser finds template class specialization with template argument")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3453,7 +3452,7 @@ TEST_CASE(
 	"cxx parser finds correct order of template arguments for explicit class template "
 	"specialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T1, typename T2, typename T3>\n"
 		"class vector { };\n"
 		"template<class Foo1, class Foo2>\n"
@@ -3467,7 +3466,7 @@ TEST_CASE(
 	"cxx parser replaces dependent template arguments of explicit template specialization with "
 	"name of base template")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A {};\n"
 		"template <typename T1, typename T2>\n"
@@ -3483,7 +3482,7 @@ TEST_CASE(
 	"cxx parser replaces unknown template arguments of explicit template specialization with depth "
 	"and position index")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T0>\n"
 		"class foo {\n"
 		"	template <typename T1, typename T2>\n"
@@ -3498,7 +3497,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds template class constructor usage of field")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3512,7 +3511,7 @@ TEST_CASE("cxx parser finds template class constructor usage of field")
 
 TEST_CASE("cxx parser finds correct method return type of template class in declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{\n"
@@ -3528,7 +3527,7 @@ TEST_CASE("cxx parser finds correct method return type of template class in decl
 
 TEST_CASE("cxx parser finds type template default argument type of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T = int>\n"
 		"class A\n"
 		"{\n"
@@ -3542,7 +3541,7 @@ TEST_CASE(
 	"cxx parser finds no default argument type for non type bool template parameter of template "
 	"class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <bool T = true>\n"
 		"class A\n"
 		"{\n"
@@ -3554,7 +3553,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds template template default argument type of template class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -3568,7 +3567,7 @@ TEST_CASE("cxx parser finds template template default argument type of template 
 
 TEST_CASE("cxx parser finds implicit instantiation of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T test(T a)\n"
 		"{\n"
@@ -3586,7 +3585,7 @@ TEST_CASE("cxx parser finds implicit instantiation of template function")
 
 TEST_CASE("cxx parser finds explicit specialization of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T test(T a)\n"
 		"{\n"
@@ -3607,7 +3606,7 @@ TEST_CASE(
 	"cxx parser finds explicit type template argument of explicit instantiation of template "
 	"function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"void test()\n"
 		"{\n"
@@ -3624,7 +3623,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds explicit type template argument of function call in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"void test(){}\n"
 		"\n"
@@ -3641,7 +3640,7 @@ TEST_CASE("cxx parser finds explicit type template argument of function call in 
 TEST_CASE(
 	"cxx parser finds no explicit non type int template argument of function call in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <int T>\n"	// use of "int"
 		"void test(){}\n"		// 2x use of "void"
 		"\n"
@@ -3656,7 +3655,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds explicit template template argument of function call in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A {};\n"
 		"template <template<typename> class T>\n"
@@ -3673,7 +3672,7 @@ TEST_CASE("cxx parser finds explicit template template argument of function call
 
 TEST_CASE("cxx parser finds no implicit type template argument of function call in function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"void test(T data){}\n"	   // 2x use of "void" + 1x use of "int"
 		"\n"
@@ -3688,7 +3687,7 @@ TEST_CASE("cxx parser finds no implicit type template argument of function call 
 
 TEST_CASE("cxx parser finds explicit type template argument of function call in var decl")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T test(){ return 1; }\n"
 		"\n"
@@ -3703,7 +3702,7 @@ TEST_CASE("cxx parser finds explicit type template argument of function call in 
 
 TEST_CASE("cxx parser finds no implicit type template argument of function call in var decl")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"T test(T i){ return i; }\n"	// 2x use of "int"
 		"\n"
@@ -3717,7 +3716,7 @@ TEST_CASE("cxx parser finds no implicit type template argument of function call 
 
 TEST_CASE("cxx parser finds type template default argument type of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T = int>\n"
 		"void test()\n"
 		"{\n"
@@ -3737,7 +3736,7 @@ TEST_CASE(
 	"cxx parser does not find default argument type for non type bool template parameter of "
 	"template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <bool T = true>\n"
 		"void test()\n"
 		"{\n"
@@ -3749,7 +3748,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds template template default argument type of template function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class A\n"
 		"{};\n"
@@ -3765,7 +3764,7 @@ TEST_CASE("cxx parser finds template template default argument type of template 
 
 TEST_CASE("cxx parser finds lambda calling a function")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void func() {}\n"
 		"void lambdaCaller()\n"
 		"{\n"
@@ -3781,7 +3780,7 @@ TEST_CASE("cxx parser finds lambda calling a function")
 
 TEST_CASE("cxx parser finds local variable in lambda capture")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void lambdaWrapper()\n"
 		"{\n"
 		"	int x = 2;\n"
@@ -3794,7 +3793,7 @@ TEST_CASE("cxx parser finds local variable in lambda capture")
 
 TEST_CASE("cxx parser finds usage of local variable in microsoft inline assembly statement")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void foo()\n"
 		"{\n"
 		"	int x = 2;\n"
@@ -3815,7 +3814,7 @@ TEST_CASE("cxx parser finds usage of local variable in microsoft inline assembly
 
 TEST_CASE("cxx parser finds template argument of unresolved lookup expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"void a()\n"
 		"{\n"
@@ -3836,7 +3835,7 @@ TEST_CASE("cxx parser finds template argument of unresolved lookup expression")
 
 TEST_CASE("cxx parser finds correct location of explicit constructor defined in namespace")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace n\n"
 		"{\n"
 		"	class App\n"
@@ -3858,7 +3857,7 @@ TEST_CASE(
 	"cxx parser finds macro argument location for field definition with name passed as argument to "
 	"macro")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define DEF_INT_FIELD(name) int name;\n"
 		"class A {\n"
 		"	DEF_INT_FIELD(m_value)\n"
@@ -3872,7 +3871,7 @@ TEST_CASE(
 	"cxx parser finds macro usage location for field definition with name partially passed as "
 	"argument to macro")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define DEF_INT_FIELD(name) int m_##name;\n"
 		"class A {\n"
 		"	DEF_INT_FIELD(value)\n"
@@ -3887,7 +3886,7 @@ TEST_CASE(
 	"cxx parser finds macro argument location for function call in code passed as argument to "
 	"macro")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define DEF_INT_FIELD(name, init) int name = init;\n"
 		"int foo() { return 5; }\n"
 		"class A {\n"
@@ -3901,7 +3900,7 @@ TEST_CASE(
 
 TEST_CASE("cxx parser finds macro usage location for function call in code of macro body")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int foo() { return 5; }\n"
 		"#define DEF_INT_FIELD(name) int name = foo();\n"
 		"class A {\n"
@@ -3915,7 +3914,7 @@ TEST_CASE("cxx parser finds macro usage location for function call in code of ma
 
 TEST_CASE("cxx parser finds type template argument of static cast expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int main()\n"
 		"{\n"
 		"	return static_cast<int>(4.0f);"
@@ -3927,7 +3926,7 @@ TEST_CASE("cxx parser finds type template argument of static cast expression")
 
 TEST_CASE("cxx parser finds implicit constructor call in initialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"};\n"
@@ -3958,42 +3957,42 @@ TEST_CASE("cxx parser parses multiple files")
 		std::vector<std::wstring> {
 			L"--target=x86_64-pc-windows-msvc", L"-std=c++1z", sourceFilePath.wstr()});
 
-	TestIntermediateStorage storage;
+	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 	CxxParser parser(
-		std::make_shared<ParserClientImpl>(&storage),
+		std::make_shared<ParserClientImpl>(storage.get()),
 		std::make_shared<TestFileRegister>(),
 		std::make_shared<IndexerStateInfo>());
 
 	parser.buildIndex(indexerCommand);
 
-	storage.generateStringLists();
+	std::shared_ptr<TestStorage> testStorage = TestStorage::create(storage);
 
-	REQUIRE(storage.errors.size() == 0);
+	REQUIRE(testStorage->errors.size() == 0);
 
-	REQUIRE(storage.typedefs.size() == 1);
-	REQUIRE(storage.classes.size() == 4);
-	REQUIRE(storage.enums.size() == 1);
-	REQUIRE(storage.enumConstants.size() == 2);
-	REQUIRE(storage.functions.size() == 2);
-	REQUIRE(storage.fields.size() == 4);
-	REQUIRE(storage.globalVariables.size() == 2);
-	REQUIRE(storage.methods.size() == 15);
-	REQUIRE(storage.namespaces.size() == 2);
-	REQUIRE(storage.structs.size() == 1);
+	REQUIRE(testStorage->typedefs.size() == 1);
+	REQUIRE(testStorage->classes.size() == 4);
+	REQUIRE(testStorage->enums.size() == 1);
+	REQUIRE(testStorage->enumConstants.size() == 2);
+	REQUIRE(testStorage->functions.size() == 2);
+	REQUIRE(testStorage->fields.size() == 4);
+	REQUIRE(testStorage->globalVariables.size() == 2);
+	REQUIRE(testStorage->methods.size() == 15);
+	REQUIRE(testStorage->namespaces.size() == 2);
+	REQUIRE(testStorage->structs.size() == 1);
 
-	REQUIRE(storage.inheritances.size() == 1);
-	REQUIRE(storage.calls.size() == 3);
-	REQUIRE(storage.usages.size() == 3);
-	REQUIRE(storage.typeUses.size() == 16);
+	REQUIRE(testStorage->inheritances.size() == 1);
+	REQUIRE(testStorage->calls.size() == 3);
+	REQUIRE(testStorage->usages.size() == 3);
+	REQUIRE(testStorage->typeUses.size() == 16);
 
-	REQUIRE(storage.files.size() == 2);
-	REQUIRE(storage.includes.size() == 1);
+	REQUIRE(testStorage->files.size() == 2);
+	REQUIRE(testStorage->includes.size() == 1);
 }
 
 
 TEST_CASE("cxx parser finds braces of class decl")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"};\n");
@@ -4006,7 +4005,7 @@ TEST_CASE("cxx parser finds braces of class decl")
 
 TEST_CASE("cxx parser finds braces of namespace decl")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"namespace n\n"
 		"{\n"
 		"}\n");
@@ -4019,7 +4018,7 @@ TEST_CASE("cxx parser finds braces of namespace decl")
 
 TEST_CASE("cxx parser finds braces of function decl")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int main()\n"
 		"{\n"
 		"}\n");
@@ -4032,7 +4031,7 @@ TEST_CASE("cxx parser finds braces of function decl")
 
 TEST_CASE("cxx parser finds braces of method decl")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class App\n"
 		"{\n"
 		"public:\n"
@@ -4047,7 +4046,7 @@ TEST_CASE("cxx parser finds braces of method decl")
 
 TEST_CASE("cxx parser finds braces of init list")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"int a = 0;\n"
 		"int b[] = {a};\n");
 
@@ -4059,7 +4058,7 @@ TEST_CASE("cxx parser finds braces of init list")
 
 TEST_CASE("cxx parser finds braces of lambda")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void lambdaCaller()\n"
 		"{\n"
 		"	[](){}();\n"
@@ -4073,7 +4072,7 @@ TEST_CASE("cxx parser finds braces of lambda")
 
 TEST_CASE("cxx parser finds braces of asm stmt")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"void foo()\n"
 		"{\n"
 		"	__asm\n"
@@ -4091,7 +4090,7 @@ TEST_CASE("cxx parser finds braces of asm stmt")
 
 TEST_CASE("cxx parser finds no duplicate braces of template class and method decl")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
 		"class App\n"
 		"{\n"
@@ -4110,7 +4109,7 @@ TEST_CASE("cxx parser finds no duplicate braces of template class and method dec
 
 TEST_CASE("cxx parser finds braces with closing bracket in macro")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"\n"
 		"namespace constants\n"
 		"{\n"
@@ -4151,7 +4150,7 @@ TEST_CASE("cxx parser finds braces with closing bracket in macro")
 
 TEST_CASE("cxx parser finds correct signature location of constructor with initializer list")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class A\n"
 		"{\n"
 		"	A(const int& foo) : m_foo(foo)\n"
@@ -4167,7 +4166,7 @@ TEST_CASE("cxx parser finds correct signature location of constructor with initi
 
 TEST_CASE("cxx parser catches error")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("int a = b;\n");
+	std::shared_ptr<TestStorage> client = parseCode("int a = b;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->errors, L"use of undeclared identifier \'b\' <1:9 1:9>"));
@@ -4175,8 +4174,7 @@ TEST_CASE("cxx parser catches error")
 
 TEST_CASE("cxx parser catches error in force include")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
-		"void foo() {} \n", {L"-include nothing"});
+	std::shared_ptr<TestStorage> client = parseCode("void foo() {} \n", {L"-include nothing"});
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->errors, L"' nothing' file not found <1:1 1:1>"));
@@ -4184,7 +4182,7 @@ TEST_CASE("cxx parser catches error in force include")
 
 TEST_CASE("cxx parser finds correct error location after line directive")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#line 55 \"foo.hpp\"\n"
 		"void foo()\n");
 
@@ -4194,7 +4192,7 @@ TEST_CASE("cxx parser finds correct error location after line directive")
 
 TEST_CASE("cxx parser catches error in macro expansion")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"#define MACRO_WITH_NONEXISTING_PATH \"this_path_does_not_exist.txt\"\n"
 		"#include MACRO_WITH_NONEXISTING_PATH\n");
 
@@ -4204,14 +4202,14 @@ TEST_CASE("cxx parser catches error in macro expansion")
 
 TEST_CASE("cxx parser finds location of line comment")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("// this is a line comment\n");
+	std::shared_ptr<TestStorage> client = parseCode("// this is a line comment\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->comments, L"comment <1:1 1:26>"));
 }
 
 TEST_CASE("cxx parser finds location of block comment")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"/* this is a\n"
 		"block comment */\n");
 
@@ -4220,7 +4218,7 @@ TEST_CASE("cxx parser finds location of block comment")
 
 void _test_TEST()
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"template <template<template<typename> class> class T>\n"
 		"class A {\n"
 		"T<>\n"

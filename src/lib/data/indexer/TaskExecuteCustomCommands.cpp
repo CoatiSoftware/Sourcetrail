@@ -19,6 +19,182 @@
 #include "utilityFile.h"
 #include "utilityString.h"
 
+void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& storage)
+{
+	std::vector<Id> unsolvedLocationIds;
+	for (const StorageSourceLocation location: storage.getStorageSourceLocations())
+	{
+		if (intToLocationType(location.type) ==
+			LOCATION_UNSOLVED)	  // FIXME: this doesn't catch unsolved qualifiers -> convert
+								  // Qualifier location type to qualifier edge
+		{
+			unsolvedLocationIds.push_back(location.id);
+		}
+	}
+
+	std::shared_ptr<SourceLocationCollection> locationCollection =
+		storage.getSourceLocationsForLocationIds(unsolvedLocationIds);
+
+	std::map<std::wstring, std::vector<StorageNode>> nodeNameToStorageNodes;
+	if (locationCollection->getSourceLocationCount() > 0)
+	{
+		for (const StorageNode& node: storage.getStorageNodes())
+		{
+			nodeNameToStorageNodes[NameHierarchy::deserialize(node.serializedName).back().getName()]
+				.push_back(node);
+		}
+	}
+
+	struct DataToInsert
+	{
+		StorageEdgeData edgeData;
+		Id sourceLocationId;
+	};
+
+	storage.setMode(SqliteIndexStorage::STORAGE_MODE_READ);
+
+	std::vector<DataToInsert> dataToInsert;
+	std::vector<StorageOccurrence> occurrencesToDelete;
+	locationCollection->forEachSourceLocationFile(
+		[&nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](
+			std::shared_ptr<SourceLocationFile> locationFile) {
+			const FilePath filePath = locationFile->getFilePath();
+			if (filePath.empty())
+			{
+				return;
+			}
+			if (!filePath.exists())
+			{
+				LOG_WARNING(L"Skipping post processing for non-existing file: " + filePath.wstr());
+				return;
+			}
+
+			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
+			if (textAccess)
+			{
+				locationFile->forEachStartSourceLocation([textAccess,
+														  &nodeNameToStorageNodes,
+														  &storage,
+														  &dataToInsert,
+														  &occurrencesToDelete](
+															 const SourceLocation* startLoc) {
+					if (!startLoc)
+					{
+						return;
+					}
+					const SourceLocation* endLoc = startLoc->getOtherLocation();
+					if (!endLoc)
+					{
+						return;
+					}
+
+					const std::string tokenLine = textAccess->getLine(
+						static_cast<unsigned int>(startLoc->getLineNumber()));
+					const std::wstring token = utility::decodeFromUtf8(tokenLine.substr(
+						startLoc->getColumnNumber() - 1,
+						endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
+
+
+					std::string prefixString = tokenLine.substr(0, startLoc->getColumnNumber() - 1);
+					std::wstring definitionContextName = L"";
+					{
+						std::regex regex("\\s([^\\.()\\s]+)\\.$");
+						std::smatch matches;
+						std::regex_search(prefixString, matches, regex);
+						if (!matches.empty())
+						{
+							definitionContextName = utility::decodeFromUtf8(matches.str(1));
+						}
+					}
+					{
+						std::vector<StorageNode> targetNodes;
+						if (!definitionContextName.empty())
+						{
+							for (const StorageNode& node: nodeNameToStorageNodes[token])
+							{
+								NameHierarchy nameHierarchy = NameHierarchy::deserialize(
+									node.serializedName);
+								if (nameHierarchy.size() > 1 &&
+									nameHierarchy.getRange(0, nameHierarchy.size() - 1).back().getName() ==
+										definitionContextName)
+								{
+									targetNodes.push_back(node);
+								}
+							}
+						}
+						if (targetNodes.empty())
+						{
+							targetNodes = nodeNameToStorageNodes[token];
+						}
+
+						for (const StorageNode& targetNode: targetNodes)
+						{
+							for (const Id elementId: startLoc->getTokenIds())
+							{
+								const StorageEdge edge = storage.getEdgeById(elementId);
+								if (edge.id != 0)	 // for node elements this condition will fail
+								{
+									if (Edge::intToType(edge.type) == Edge::EDGE_INHERITANCE &&
+										intToNodeKind(targetNode.type) != NODE_CLASS)
+									{
+										continue;
+									}
+
+									dataToInsert.push_back(
+										{StorageEdgeData(edge.type, edge.sourceNodeId, targetNode.id),
+										 startLoc->getLocationId()});
+									occurrencesToDelete.push_back(
+										StorageOccurrence(edge.id, startLoc->getLocationId()));
+								}
+							}
+						}
+					}
+				});
+			}
+		});
+
+	storage.setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
+
+	storage.startInjection();
+
+	std::vector<StorageEdge> edgesToInsert;
+	for (const DataToInsert& data: dataToInsert)
+	{
+		edgesToInsert.push_back(StorageEdge(0, data.edgeData));
+	}
+	const std::vector<Id> ambiguousEdgeIds = storage.addEdges(edgesToInsert);
+
+	if (ambiguousEdgeIds.size() == dataToInsert.size())
+	{
+		for (size_t i = 0; i < ambiguousEdgeIds.size(); i++)
+		{
+			storage.addElementComponent(StorageElementComponent(
+				ambiguousEdgeIds[i],
+				elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS),
+				L""));
+			storage.addOccurrence(
+				StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
+		}
+		storage.setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
+
+		storage.removeOccurrences(occurrencesToDelete);
+		std::set<Id> edgeIds;
+		for (const StorageOccurrence& occurrence: occurrencesToDelete)
+		{
+			edgeIds.insert(occurrence.elementId);
+		}
+		storage.removeElementsWithoutOccurrences(utility::toVector(edgeIds));
+
+		storage.finishInjection();
+		LOG_INFO("Finished Python post processing.");
+	}
+	else
+	{
+		LOG_ERROR("Error occurred while running Python post processing. Rolling back all changes.");
+		storage.rollbackInjection();
+	}
+}
+
 TaskExecuteCustomCommands::TaskExecuteCustomCommands(
 	std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
 	std::shared_ptr<PersistentStorage> storage,
@@ -129,6 +305,10 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 		if (m_hasPythonCommands &&
 			ApplicationSettings::getInstance()->getPythonPostProcessingEnabled())
 		{
+			LOG_INFO("Starting Python post processing.");
+			m_dialogView->showUnknownProgressDialog(
+				L"Finish Indexing", L"Run Python Post Processing");
+
 			targetStorage.clearCaches();
 			targetStorage.buildCaches();
 			runPythonPostProcessing(targetStorage);
@@ -266,146 +446,5 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 
 		indexedSourceFileCount++;
 		blackboard->update<int>("indexed_source_file_count", [=](int count) { return count + 1; });
-	}
-}
-
-void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& storage)
-{
-	LOG_INFO("Starting Python post processing.");
-	m_dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Run Python Post Processing");
-
-	std::vector<Id> unsolvedLocationIds;
-	for (const StorageSourceLocation location: storage.getStorageSourceLocations())
-	{
-		if (intToLocationType(location.type) ==
-			LOCATION_UNSOLVED)	  // FIXME: this doesn't catch unsolved qualifiers -> convert
-								  // Qualifier location type to qualifier edge
-		{
-			unsolvedLocationIds.push_back(location.id);
-		}
-	}
-
-	std::shared_ptr<SourceLocationCollection> locationCollection =
-		storage.getSourceLocationsForLocationIds(unsolvedLocationIds);
-
-	std::map<std::wstring, std::vector<StorageNode>> nodeNameToStorageNodes;
-	if (locationCollection->getSourceLocationCount() > 0)
-	{
-		for (const StorageNode& node: storage.getStorageNodes())
-		{
-			nodeNameToStorageNodes[NameHierarchy::deserialize(node.serializedName).back().getName()]
-				.push_back(node);
-		}
-	}
-
-	struct DataToInsert
-	{
-		StorageEdgeData edgeData;
-		Id sourceLocationId;
-	};
-
-	storage.setMode(SqliteIndexStorage::STORAGE_MODE_READ);
-
-	std::vector<DataToInsert> dataToInsert;
-	std::vector<StorageOccurrence> occurrencesToDelete;
-	locationCollection->forEachSourceLocationFile(
-		[&nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](
-			std::shared_ptr<SourceLocationFile> locationFile) {
-			const FilePath filePath = locationFile->getFilePath();
-			if (filePath.empty())
-			{
-				return;
-			}
-			if (!filePath.exists())
-			{
-				LOG_WARNING(L"Skipping post processing for non-existing file: " + filePath.wstr());
-				return;
-			}
-
-			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
-			if (textAccess)
-			{
-				locationFile->forEachStartSourceLocation(
-					[textAccess, &nodeNameToStorageNodes, &storage, &dataToInsert, &occurrencesToDelete](
-						const SourceLocation* startLoc) {
-						if (!startLoc)
-						{
-							return;
-						}
-						const SourceLocation* endLoc = startLoc->getOtherLocation();
-						if (!endLoc)
-						{
-							return;
-						}
-
-						const std::wstring token = utility::decodeFromUtf8(
-							textAccess->getLine(static_cast<unsigned int>(startLoc->getLineNumber()))
-								.substr(
-									startLoc->getColumnNumber() - 1,
-									endLoc->getColumnNumber() - startLoc->getColumnNumber() + 1));
-
-						for (const Id elementId: startLoc->getTokenIds())
-						{
-							const StorageEdge edge = storage.getEdgeById(elementId);
-							if (edge.id != 0)
-							{
-								for (const StorageNode& targetNode: nodeNameToStorageNodes[token])
-								{
-									if (Edge::intToType(edge.type) == Edge::EDGE_INHERITANCE &&
-										intToNodeKind(targetNode.type) != NODE_CLASS)
-									{
-										continue;
-									}
-									dataToInsert.push_back(
-										{StorageEdgeData(edge.type, edge.sourceNodeId, targetNode.id),
-										 startLoc->getLocationId()});
-									occurrencesToDelete.push_back(
-										StorageOccurrence(edge.id, startLoc->getLocationId()));
-								}
-							}
-						}
-					});
-			}
-		});
-
-	storage.setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
-
-	storage.startInjection();
-
-	std::vector<StorageEdge> edgesToInsert;
-	for (const DataToInsert& data: dataToInsert)
-	{
-		edgesToInsert.push_back(StorageEdge(0, data.edgeData));
-	}
-	const std::vector<Id> ambiguousEdgeIds = storage.addEdges(edgesToInsert);
-
-	if (ambiguousEdgeIds.size() == dataToInsert.size())
-	{
-		for (size_t i = 0; i < ambiguousEdgeIds.size(); i++)
-		{
-			storage.addElementComponent(StorageElementComponent(
-				ambiguousEdgeIds[i],
-				elementComponentKindToInt(ElementComponentKind::IS_AMBIGUOUS),
-				L""));
-			storage.addOccurrence(
-				StorageOccurrence(ambiguousEdgeIds[i], dataToInsert[i].sourceLocationId));
-		}
-		storage.setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
-
-		storage.removeOccurrences(occurrencesToDelete);
-		std::set<Id> edgeIds;
-		for (const StorageOccurrence& occurrence: occurrencesToDelete)
-		{
-			edgeIds.insert(occurrence.elementId);
-		}
-		storage.removeElementsWithoutOccurrences(utility::toVector(edgeIds));
-
-		storage.finishInjection();
-		LOG_INFO("Finished Python post processing.");
-	}
-	else
-	{
-		LOG_ERROR("Error occurred while running Python post processing. Rolling back all changes.");
-		storage.rollbackInjection();
 	}
 }

@@ -13,7 +13,7 @@
 #	include "JavaEnvironmentFactory.h"
 #	include "JavaParser.h"
 #	include "ParserClientImpl.h"
-#	include "TestIntermediateStorage.h"
+#	include "TestStorage.h"
 #	include "TextAccess.h"
 #	include "TimeStamp.h"
 #	include "utility.h"
@@ -66,9 +66,9 @@ std::shared_ptr<TextAccess> parseCode(
 	const FilePath& projectDataSrcRoot,
 	const std::vector<FilePath>& classpath)
 {
-	TestIntermediateStorage storage;
+	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 	JavaParser parser(
-		std::make_shared<ParserClientImpl>(&storage), std::make_shared<IndexerStateInfo>());
+		std::make_shared<ParserClientImpl>(storage.get()), std::make_shared<IndexerStateInfo>());
 	std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(
 		sourceFilePath, L"12", classpath);
 
@@ -76,9 +76,7 @@ std::shared_ptr<TextAccess> parseCode(
 	parser.buildIndex(command);
 	duration += TimeStamp::now().deltaMS(startTime);
 
-	storage.generateStringLists();
-
-	return TextAccess::createFromLines(storage.m_lines);
+	return TextAccess::createFromLines(TestStorage::create(storage)->m_lines);
 }
 
 void processSourceFile(

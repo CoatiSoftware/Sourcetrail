@@ -13,9 +13,9 @@
 #	include "utilityJava.h"
 #	include "utilityPathDetection.h"
 
-#	include "TestIntermediateStorage.h"
+#	include "TestStorage.h"
 
-#	define REQUIRE_MESSAGE(msg, cond)                                                              \
+#	define REQUIRE_MESSAGE(msg, cond)                                                             \
 		do                                                                                         \
 		{                                                                                          \
 			INFO(msg);                                                                             \
@@ -55,18 +55,16 @@ std::string setupJavaEnvironmentFactory()
 	return "";
 }
 
-std::shared_ptr<TestIntermediateStorage> parseCode(std::string code, bool logErrors = true)
+std::shared_ptr<TestStorage> parseCode(std::string code, bool logErrors = true)
 {
 	setupJavaEnvironmentFactory();
 
-	std::shared_ptr<TestIntermediateStorage> storage = std::make_shared<TestIntermediateStorage>();
+	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 	JavaParser parser(
 		std::make_shared<ParserClientImpl>(storage.get()), std::make_shared<IndexerStateInfo>());
 	parser.buildIndex(FilePath(L"input.java"), TextAccess::createFromString(code));
 
-	storage->generateStringLists();
-
-	return storage;
+	return TestStorage::create(storage);
 }
 }	 // namespace
 
@@ -100,14 +98,14 @@ TEST_CASE("java parser can setup environment factory")
 
 TEST_CASE("java parser finds package declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("package foo;\n");
+	std::shared_ptr<TestStorage> client = parseCode("package foo;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->packages, L"foo <1:9 1:11>"));
 }
 
 TEST_CASE("java parser finds anotation declaration in defaut package")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public @interface SampleAnnotation\n"
 		"{\n"
 		"}\n");
@@ -118,7 +116,7 @@ TEST_CASE("java parser finds anotation declaration in defaut package")
 
 TEST_CASE("java parser finds anotation member declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public @interface SampleAnnotation\n"
 		"{\n"
 		"	public int value() default 0;\n"
@@ -130,7 +128,7 @@ TEST_CASE("java parser finds anotation member declaration")
 
 TEST_CASE("java parser finds class declaration in defaut package")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"}\n");
@@ -141,7 +139,7 @@ TEST_CASE("java parser finds class declaration in defaut package")
 
 TEST_CASE("java parser finds interface declaration in defaut package")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public interface A\n"
 		"{\n"
 		"}\n");
@@ -152,7 +150,7 @@ TEST_CASE("java parser finds interface declaration in defaut package")
 
 TEST_CASE("java parser finds class declaration in named package")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -164,7 +162,7 @@ TEST_CASE("java parser finds class declaration in named package")
 
 TEST_CASE("java parser finds class declaration in nested named package")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo.bar;\n"
 		"public class A\n"
 		"{\n"
@@ -176,7 +174,7 @@ TEST_CASE("java parser finds class declaration in nested named package")
 
 TEST_CASE("java parser finds enum declaration in named package")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public enum A\n"
 		"{\n"
@@ -188,7 +186,7 @@ TEST_CASE("java parser finds enum declaration in named package")
 
 TEST_CASE("java parser finds enum constant declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public enum A\n"
 		"{\n"
@@ -201,7 +199,7 @@ TEST_CASE("java parser finds enum constant declaration")
 
 TEST_CASE("java parser finds constructor declaration without parameters")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -216,7 +214,7 @@ TEST_CASE("java parser finds constructor declaration without parameters")
 
 TEST_CASE("java parser finds method declaration with custom type in signature")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -231,7 +229,7 @@ TEST_CASE("java parser finds method declaration with custom type in signature")
 
 TEST_CASE("java parser finds anonymous class declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -248,7 +246,7 @@ TEST_CASE("java parser finds anonymous class declaration")
 
 TEST_CASE("java parser finds method declaration in anonymous class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -272,7 +270,7 @@ TEST_CASE("java parser finds method declaration in anonymous class")
 
 TEST_CASE("java parser finds method declaration with static keyword in signature")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -287,7 +285,7 @@ TEST_CASE("java parser finds method declaration with static keyword in signature
 
 TEST_CASE("java parser finds field declaration with initial assignment")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -300,7 +298,7 @@ TEST_CASE("java parser finds field declaration with initial assignment")
 
 TEST_CASE("java parser finds public access specifier in field declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -313,7 +311,7 @@ TEST_CASE("java parser finds public access specifier in field declaration")
 
 TEST_CASE("java parser finds protected access specifier in field declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -326,7 +324,7 @@ TEST_CASE("java parser finds protected access specifier in field declaration")
 
 TEST_CASE("java parser finds private access specifier in field declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -339,7 +337,7 @@ TEST_CASE("java parser finds private access specifier in field declaration")
 
 TEST_CASE("java parser finds static keyword in field declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -352,7 +350,7 @@ TEST_CASE("java parser finds static keyword in field declaration")
 
 TEST_CASE("java parser finds declaration of method parameter")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -367,7 +365,7 @@ TEST_CASE("java parser finds declaration of method parameter")
 
 TEST_CASE("java parser finds declaration of local variable")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -382,7 +380,7 @@ TEST_CASE("java parser finds declaration of local variable")
 
 TEST_CASE("java parser finds declaration of type parameter of class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A <T>\n"
 		"{\n"
 		"}\n");
@@ -392,7 +390,7 @@ TEST_CASE("java parser finds declaration of type parameter of class")
 
 TEST_CASE("java parser finds declaration of type parameter of method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public <T> void foo()\n"
@@ -406,7 +404,7 @@ TEST_CASE("java parser finds declaration of type parameter of method")
 
 TEST_CASE("java parser finds field of interface to be implicitly static")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public interface A\n"
 		"{\n"
 		"	int b = 5;\n"
@@ -418,7 +416,7 @@ TEST_CASE("java parser finds field of interface to be implicitly static")
 
 TEST_CASE("java parser finds line comment")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"// this is a line comment\n"
 		"package foo;\n");
 
@@ -427,7 +425,7 @@ TEST_CASE("java parser finds line comment")
 
 TEST_CASE("java parser finds block comment")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"/* this is a line comment*/\n"
 		"package foo;\n");
 
@@ -436,7 +434,7 @@ TEST_CASE("java parser finds block comment")
 
 TEST_CASE("java parser finds missing semicolon as parse error")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("package foo\n");
+	std::shared_ptr<TestStorage> client = parseCode("package foo\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->errors, L"Syntax error on token \"foo\", ; expected after this token <1:9 1:9>"));
@@ -444,7 +442,7 @@ TEST_CASE("java parser finds missing semicolon as parse error")
 
 TEST_CASE("java parser finds missing import as error")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("import foo;\n");
+	std::shared_ptr<TestStorage> client = parseCode("import foo;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->errors, L"The import foo cannot be resolved <1:8 1:8>"));
@@ -456,7 +454,7 @@ TEST_CASE("java parser finds missing import as error")
 
 TEST_CASE("java parser finds class declaration nested in class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo.bar;\n"
 		"public class A\n"
 		"{\n"
@@ -471,7 +469,7 @@ TEST_CASE("java parser finds class declaration nested in class")
 
 TEST_CASE("java parser finds class declaration nested in method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo.bar;\n"
 		"public class A\n"
 		"{\n"
@@ -493,7 +491,7 @@ TEST_CASE("java parser finds class declaration nested in method")
 
 TEST_CASE("java parser finds no qualifier location of standalone this expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -508,14 +506,14 @@ TEST_CASE("java parser finds no qualifier location of standalone this expression
 
 TEST_CASE("java parser finds qualifier location of import declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode("import foo.bar;\n");
+	std::shared_ptr<TestStorage> client = parseCode("import foo.bar;\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(client->qualifiers, L"foo <1:8 1:10>"));
 }
 
 TEST_CASE("java parser finds qualifier location of simple type")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo.bar;\n"
 		"public class A\n"
 		"{\n"
@@ -531,7 +529,7 @@ TEST_CASE("java parser finds qualifier location of simple type")
 
 TEST_CASE("java parser finds qualifier location of field access")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -548,7 +546,7 @@ TEST_CASE("java parser finds qualifier location of field access")
 
 TEST_CASE("java parser finds qualifier location of super field access")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"class A\n"
 		"{\n"
@@ -570,7 +568,7 @@ TEST_CASE("java parser finds qualifier location of super field access")
 
 TEST_CASE("java parser finds qualifier location of this expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"class A\n"
 		"{\n"
@@ -587,7 +585,7 @@ TEST_CASE("java parser finds qualifier location of this expression")
 
 TEST_CASE("java parser finds qualifier location of method invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -604,7 +602,7 @@ TEST_CASE("java parser finds qualifier location of method invocation")
 
 TEST_CASE("java parser finds qualifier location of method invocation on this")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -619,7 +617,7 @@ TEST_CASE("java parser finds qualifier location of method invocation on this")
 
 TEST_CASE("java parser finds qualifier location of super method invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -650,7 +648,7 @@ TEST_CASE("java parser finds qualifier location of super method invocation")
 
 TEST_CASE("java parser finds qualifier location of creation reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Functor\n"
@@ -675,7 +673,7 @@ TEST_CASE("java parser finds qualifier location of creation reference")
 
 TEST_CASE("java parser finds qualifier location of expression method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Functor\n"
@@ -701,7 +699,7 @@ TEST_CASE("java parser finds qualifier location of expression method reference")
 
 TEST_CASE("java parser finds qualifier location of super method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A {\n"
 		"	public interface Functor {\n"
 		"		public void doSomething();\n"
@@ -724,7 +722,7 @@ TEST_CASE("java parser finds qualifier location of super method reference")
 
 TEST_CASE("java parser finds qualifier location of class instance creation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A {\n"
 		"	public interface Functor {\n"
 		"		public void doSomething();\n"
@@ -746,7 +744,7 @@ TEST_CASE("java parser finds qualifier location of class instance creation")
 
 TEST_CASE("java parser finds usage of marker annotation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public @interface SampleAnnotation\n"
 		"{\n"
 		"}\n"
@@ -762,7 +760,7 @@ TEST_CASE("java parser finds usage of marker annotation")
 
 TEST_CASE("java parser finds usage of single member annotation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public @interface SampleAnnotation\n"
 		"{\n"
 		"	public int value() default 0;\n"
@@ -779,7 +777,7 @@ TEST_CASE("java parser finds usage of single member annotation")
 
 TEST_CASE("java parser finds usage of normal annotation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public @interface SampleAnnotation\n"
 		"{\n"
 		"	public int a() default 0;\n"
@@ -797,7 +795,7 @@ TEST_CASE("java parser finds usage of normal annotation")
 
 TEST_CASE("java parser finds usage of normal annotation member in initialization")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public @interface SampleAnnotation\n"
 		"{\n"
 		"	public int a() default 0;\n"
@@ -815,7 +813,7 @@ TEST_CASE("java parser finds usage of normal annotation member in initialization
 
 TEST_CASE("java parser finds inheritance using extends keyword")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -831,7 +829,7 @@ TEST_CASE("java parser finds inheritance using extends keyword")
 
 TEST_CASE("java parser finds inheritance using implements keyword")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -847,7 +845,7 @@ TEST_CASE("java parser finds inheritance using implements keyword")
 
 TEST_CASE("java parser finds inheritance of anonymous class declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Base\n"
@@ -868,7 +866,7 @@ TEST_CASE("java parser finds inheritance of anonymous class declaration")
 
 TEST_CASE("java parser finds usage of string for var type")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public void foo(){\n"
@@ -882,7 +880,7 @@ TEST_CASE("java parser finds usage of string for var type")
 
 TEST_CASE("java parser finds type parameter in signature of method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A <T>\n"
 		"{\n"
 		"	public A<Void> foo(A<Void> a){\n"
@@ -898,7 +896,7 @@ TEST_CASE("java parser finds type parameter in signature of method")
 
 TEST_CASE("parser finds usage of type defined in base class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class Foo {\n"
 		"	public class Base {\n"
 		"		public class X {\n"
@@ -915,7 +913,7 @@ TEST_CASE("parser finds usage of type defined in base class")
 
 TEST_CASE("java parser finds correct location of qualified type usage")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public class B\n"
@@ -933,7 +931,7 @@ TEST_CASE("java parser finds correct location of qualified type usage")
 
 TEST_CASE("java parser finds type argument of parameterized type")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A <T> {\n"
 		"	T t;\n"
 		"}\n"
@@ -952,7 +950,7 @@ TEST_CASE("java parser finds type argument of parameterized type")
 
 TEST_CASE("java parser finds type argument of method invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -973,7 +971,7 @@ TEST_CASE("java parser finds type argument of method invocation")
 
 TEST_CASE("java parser finds type argument of super method invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -1002,7 +1000,7 @@ TEST_CASE("java parser finds type argument of super method invocation")
 
 TEST_CASE("java parser finds type argument of constructor invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class Bar\n"
 		"{\n"
@@ -1025,7 +1023,7 @@ TEST_CASE("java parser finds type argument of constructor invocation")
 
 TEST_CASE("java parser finds type argument of super constructor invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public class Base\n"
@@ -1050,7 +1048,7 @@ TEST_CASE("java parser finds type argument of super constructor invocation")
 
 TEST_CASE("java parser finds type argument of creation reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Functor\n"
@@ -1077,7 +1075,7 @@ TEST_CASE("java parser finds type argument of creation reference")
 
 TEST_CASE("java parser finds type argument of expression method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Functor\n"
@@ -1104,7 +1102,7 @@ TEST_CASE("java parser finds type argument of expression method reference")
 
 TEST_CASE("java parser finds type argument of super method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A {\n"
 		"	public interface Functor {\n"
 		"		public void doSomething();\n"
@@ -1131,7 +1129,7 @@ TEST_CASE("java parser finds type argument of super method reference")
 
 TEST_CASE("java parser finds type argument of type method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A {\n"
 		"	\n"
 		"	void foo() {\n"
@@ -1147,7 +1145,7 @@ TEST_CASE("java parser finds type argument of type method reference")
 
 TEST_CASE("java parser finds type argument of class instance creation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A {\n"
 		"	public interface Functor {\n"
 		"		public void doSomething();\n"
@@ -1171,7 +1169,7 @@ TEST_CASE("java parser finds type argument of class instance creation")
 
 TEST_CASE("java parser finds super method invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -1197,7 +1195,7 @@ TEST_CASE("java parser finds super method invocation")
 
 TEST_CASE("java parser finds constructor invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class Bar\n"
 		"{\n"
@@ -1217,7 +1215,7 @@ TEST_CASE("java parser finds constructor invocation")
 
 TEST_CASE("java parser finds super constructor invocation")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public class Base\n"
@@ -1239,7 +1237,7 @@ TEST_CASE("java parser finds super constructor invocation")
 
 TEST_CASE("java parser finds invocation of method of anonymous class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Main {\n"
 		"	public interface Interfaze {\n"
 		"		public void foo();\n"
@@ -1263,7 +1261,7 @@ TEST_CASE("java parser finds invocation of method of anonymous class")
 
 TEST_CASE("java parser finds overridden method with same signature")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Main {\n"
 		"	public interface Interfaze {\n"
 		"		public void foo(int t);\n"
@@ -1281,7 +1279,7 @@ TEST_CASE("java parser finds overridden method with same signature")
 
 TEST_CASE("java parser finds overridden method with generic signature")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"class Main <X> {\n"
 		"	public interface Interfaze <T> {\n"
 		"		public void foo(T t);\n"
@@ -1301,7 +1299,7 @@ TEST_CASE("java parser finds overridden method with generic signature")
 
 TEST_CASE("java parser finds method usage for creation reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Functor\n"
@@ -1325,7 +1323,7 @@ TEST_CASE("java parser finds method usage for creation reference")
 
 TEST_CASE("java parser finds method usage for expression method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Functor\n"
@@ -1352,7 +1350,7 @@ TEST_CASE("java parser finds method usage for expression method reference")
 
 TEST_CASE("java parser finds method usage for super method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A {\n"
 		"	public interface Functor {\n"
 		"		public void doSomething();\n"
@@ -1376,7 +1374,7 @@ TEST_CASE("java parser finds method usage for super method reference")
 
 TEST_CASE("java parser finds no method usage for type method reference")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A {\n"
 		"	void foo() {\n"
 		"		Functor method = int []::clone;\n"
@@ -1389,7 +1387,7 @@ TEST_CASE("java parser finds no method usage for type method reference")
 
 TEST_CASE("java parser finds no usage of field within that fields declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -1401,7 +1399,7 @@ TEST_CASE("java parser finds no usage of field within that fields declaration")
 
 TEST_CASE("java parser finds no usage of enum constant within that enum constants declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public enum X\n"
 		"{\n"
@@ -1413,7 +1411,7 @@ TEST_CASE("java parser finds no usage of enum constant within that enum constant
 
 TEST_CASE("java parser finds usage of field with same name as method parameter")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -1430,7 +1428,7 @@ TEST_CASE("java parser finds usage of field with same name as method parameter")
 
 TEST_CASE("java parser does not confuse method name with field name")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class X\n"
 		"{\n"
@@ -1447,7 +1445,7 @@ TEST_CASE("java parser does not confuse method name with field name")
 
 TEST_CASE("java parser finds assignment of method parameter")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -1462,7 +1460,7 @@ TEST_CASE("java parser finds assignment of method parameter")
 
 TEST_CASE("java parser finds assignment of local variable")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"public class A\n"
 		"{\n"
@@ -1478,7 +1476,7 @@ TEST_CASE("java parser finds assignment of local variable")
 
 TEST_CASE("java parser finds scope of class declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"}\n");
@@ -1491,7 +1489,7 @@ TEST_CASE("java parser finds scope of class declaration")
 
 TEST_CASE("java parser finds scope of enum declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public enum A\n"
 		"{\n"
 		"}\n");
@@ -1504,7 +1502,7 @@ TEST_CASE("java parser finds scope of enum declaration")
 
 TEST_CASE("java parser finds scope of constructor declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public A()\n"
@@ -1520,7 +1518,7 @@ TEST_CASE("java parser finds scope of constructor declaration")
 
 TEST_CASE("java parser finds scope of method declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public void a()\n"
@@ -1536,7 +1534,7 @@ TEST_CASE("java parser finds scope of method declaration")
 
 TEST_CASE("java parser finds scope of switch statement")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public void a()\n"
@@ -1557,7 +1555,7 @@ TEST_CASE("java parser finds scope of switch statement")
 
 TEST_CASE("java parser finds scope of block statement")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public void a()\n"
@@ -1575,7 +1573,7 @@ TEST_CASE("java parser finds scope of block statement")
 
 TEST_CASE("java parser finds scope of array initialization list")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	private int[] array = {1, 2};\n"
@@ -1589,7 +1587,7 @@ TEST_CASE("java parser finds scope of array initialization list")
 
 TEST_CASE("java parser finds scope of anonymous class declaration")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public interface Base\n"
@@ -1612,7 +1610,7 @@ TEST_CASE("java parser finds scope of anonymous class declaration")
 
 TEST_CASE("java parser finds usage of type parameter of class")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A <T>\n"
 		"{\n"
 		"	T t;\n"
@@ -1624,7 +1622,7 @@ TEST_CASE("java parser finds usage of type parameter of class")
 
 TEST_CASE("java parser finds usage of type parameter of method")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A\n"
 		"{\n"
 		"	public <T> void foo(T t){};\n"
@@ -1636,7 +1634,7 @@ TEST_CASE("java parser finds usage of type parameter of method")
 
 TEST_CASE("java parser finds correct location of generic type usage")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A <T>\n"
 		"{\n"
 		"	A<Void> t;\n"
@@ -1648,7 +1646,7 @@ TEST_CASE("java parser finds correct location of generic type usage")
 
 TEST_CASE("java parser finds bound type of type parameter")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"public class A <T extends Void>\n"
 		"{\n"
 		"}\n");
@@ -1659,7 +1657,7 @@ TEST_CASE("java parser finds bound type of type parameter")
 
 TEST_CASE("java parsersupports java 12 switch expression")
 {
-	std::shared_ptr<TestIntermediateStorage> client = parseCode(
+	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"
 		"\n"
 		"public class Foo {\n"
@@ -1677,7 +1675,8 @@ TEST_CASE("java parsersupports java 12 switch expression")
 		"	}\n"
 		"}\n");
 
-	REQUIRE(utility::containsElement<std::wstring>(client->usages, L"void foo.Foo.foo() -> foo.Foo.FruitType.PEAR <12:9 12:12>"));
+	REQUIRE(utility::containsElement<std::wstring>(
+		client->usages, L"void foo.Foo.foo() -> foo.Foo.FruitType.PEAR <12:9 12:12>"));
 }
 
 
