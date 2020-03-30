@@ -20,6 +20,8 @@ class TaskExecuteCustomCommands
 	, public MessageListener<MessageIndexingInterrupted>
 {
 public:
+	static void runPythonPostProcessing(PersistentStorage& storage);
+
 	TaskExecuteCustomCommands(
 		std::unique_ptr<IndexerCommandProvider> indexerCommandProvider,
 		std::shared_ptr<PersistentStorage> storage,
@@ -38,9 +40,7 @@ private:
 	void executeParallelIndexerCommands(int threadId, std::shared_ptr<Blackboard> blackboard);
 	void runIndexerCommand(
 		std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard);
-	void runPythonPostProcessing(PersistentStorage& storage);
 
-private:
 	std::unique_ptr<IndexerCommandProvider> m_indexerCommandProvider;
 	std::shared_ptr<PersistentStorage> m_storage;
 	std::shared_ptr<DialogView> m_dialogView;
