@@ -96,7 +96,6 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 }
 }	 // namespace
 
-
 TEST_CASE("python post processing regards class name in call context when adding ambiguous edges")
 {
 	std::shared_ptr<TestStorage> storage = parseCode(
@@ -111,8 +110,13 @@ TEST_CASE("python post processing regards class name in call context when adding
 		"class B:\n"
 		"	def init(self):\n"
 		"		pass\n");
-	REQUIRE(utility::containsElement<std::wstring>(storage->calls, L"test.A1.init -> test.A.init"));
-}
 
+	REQUIRE(storage->calls.size() == 1);
+	REQUIRE(utility::containsElement<std::wstring>(storage->calls, L"test.A1.init -> test.A.init"));
+
+	REQUIRE(
+		!utility::containsElement<std::wstring>(storage->calls, L"test.A1.init -> test.A1.init"));
+	REQUIRE(!utility::containsElement<std::wstring>(storage->calls, L"test.A1.init -> test.B.init"));
+}
 
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
