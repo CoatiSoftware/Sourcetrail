@@ -29,6 +29,7 @@ public:
 	Id getFileSymbolId(const clang::FileEntry* entry);
 	Id getFileSymbolId(const std::wstring& path);
 
+	FilePath getDeclarationFilePath(const clang::Decl* declaration);
 	std::wstring getDeclarationFileName(const clang::Decl* declaration);
 
 	bool isProjectFile(const clang::FileID& fileId, const clang::SourceManager& sourceManager);

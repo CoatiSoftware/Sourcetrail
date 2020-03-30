@@ -999,7 +999,7 @@ Id CxxAstVisitorComponentIndexer::getOrCreateSymbolId(const clang::NamedDecl* de
 				symbolName.pop();
 				symbolName.push(NameElement(
 					L".:main:." +
-						getAstVisitor()->getCanonicalFilePathCache()->getDeclarationFileName(decl),
+						getAstVisitor()->getCanonicalFilePathCache()->getDeclarationFilePath(decl).wstr(),
 					sig.getPrefix(),
 					sig.getPostfix()));
 			}
