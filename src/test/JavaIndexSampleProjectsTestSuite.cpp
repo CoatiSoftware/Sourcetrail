@@ -66,7 +66,7 @@ std::shared_ptr<TextAccess> parseCode(
 	const FilePath& projectDataSrcRoot,
 	const std::vector<FilePath>& classpath)
 {
-	std::shared_ptr<IntermediateStorage> storage;
+	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 	JavaParser parser(
 		std::make_shared<ParserClientImpl>(storage.get()), std::make_shared<IndexerStateInfo>());
 	std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(
