@@ -6,7 +6,7 @@ UPDATE_DATABASES=true
 CREATE_WIX_INSTALLER=true
 CREATE_PORTABLE_PACKAGE=true
 
-RUN_32_BIT_PIPELINE=true
+RUN_32_BIT_PIPELINE=false
 RUN_64_BIT_PIPELINE=true
 
 
@@ -215,9 +215,11 @@ fi
 cd deployment/windows/wixSetup
 if [ $RUN_32_BIT_PIPELINE = true ]; then
 	sh build_win32.sh
+	[ $? -eq 0 ]  || exit 1
 fi
 if [ $RUN_64_BIT_PIPELINE = true ]; then
 	sh build_win64.sh
+	[ $? -eq 0 ]  || exit 1
 fi
 cd ../../..
 

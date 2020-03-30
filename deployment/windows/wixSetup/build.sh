@@ -22,7 +22,12 @@ VERSION_STRING="${VERSION_STRING:2}"
 echo "installer version is $VERSION_STRING"
 
 PRODUCT_GUID=$(cmd.exe /c "uuidgen")
-echo "$WIN_ARCH product guid is $PRODUCT_GUID"
+if [ -z "$PRODUCT_GUID" ]; then
+	echo "Unable to generate GUID. Make sure to run this script from the Visual Studio command propmt. Aborting now."
+	exit 1
+else
+	echo "$WIN_ARCH product guid is $PRODUCT_GUID"
+fi
 
 rm -rf build
 mkdir build
