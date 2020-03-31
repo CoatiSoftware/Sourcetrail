@@ -5,9 +5,9 @@
 	<key>CFBundleDisplayName</key>
 	<string>Sourcetrail</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>@MACOSX_BINARY_NAME@</string>
+	<string>@MACOS_BINARY_NAME@</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.sourcetrail</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -16,15 +16,11 @@
 	<string>Sourcetrail</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>@VERSION_STRING@</string>
 	<key>CFBundleShortVersionString</key>
 	<string>@VERSION_STRING@</string>
 	<key>CSResourcesFileMapped</key>
-	<true/>
-	<key>LSRequiresCarbon</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>

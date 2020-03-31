@@ -248,7 +248,7 @@ while true; do
         [Yy]* )
 			echo -e $INFO "Notarize app.";
 
-			zip ${BUNDLE_PATH}.zip ${BUNDLE_PATH};
+			ditto -c -k --keepParent ${BUNDLE_PATH} ${BUNDLE_PATH}.zip;
 			xcrun altool --notarize-app --primary-bundle-id "com.sourcetrail" --username "egraether@coati.io"
 				--password "@keychain:sourcetrail_notarization" --file ${BUNDLE_PATH}.zip;
 			# xcrun altool --notarization-history 0 -u "egraether@coati.io" -p "@keychain:sourcetrail_notarization";
