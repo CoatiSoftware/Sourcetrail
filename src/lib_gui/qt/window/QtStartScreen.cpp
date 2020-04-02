@@ -64,9 +64,7 @@ void QtRecentProjectButton::handleButtonClick()
 		{
 			std::vector<FilePath> recentProjects =
 				ApplicationSettings::getInstance()->getRecentProjects();
-			const int maxRecentProjectsCount =
-				ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
-			for (int i = 0; i < maxRecentProjectsCount; i++)
+			for (size_t i = 0; i < recentProjects.size(); ++i)
 			{
 				if (recentProjects[i].wstr() == m_projectFilePath.wstr())
 				{
@@ -269,7 +267,7 @@ void QtStartScreen::setupStartScreen()
 
 		col->addSpacing(20);
 
-		for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
+		for (size_t i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); ++i)
 		{
 			QtRecentProjectButton* button = new QtRecentProjectButton(this);
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac

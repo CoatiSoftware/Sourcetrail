@@ -137,9 +137,6 @@ QtMainWindow::QtMainWindow()
 				.c_str());
 	}
 
-	m_recentProjectAction =
-		new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
-
 	setupProjectMenu();
 	setupEditMenu();
 	setupViewMenu();
@@ -154,11 +151,6 @@ QtMainWindow::QtMainWindow()
 
 QtMainWindow::~QtMainWindow()
 {
-	if (m_recentProjectAction)
-	{
-		delete[] m_recentProjectAction;
-	}
-
 	for (DockWidget& dockWidget: m_dockWidgets)
 	{
 		dockWidget.toggle->clear();
@@ -762,21 +754,23 @@ void QtMainWindow::openRecentProject()
 	}
 }
 
-void QtMainWindow::updateRecentProjectMenu()
+void QtMainWindow::updateRecentProjectsMenu()
 {
-	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
+	m_recentProjectsMenu->clear();
+
+	const std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+	const size_t recentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
+
+	for (size_t i = 0; i < recentProjects.size() && i < recentProjectsCount; ++i)
 	{
-		if ((size_t)i < recentProjects.size() && recentProjects[i].exists())
+		const FilePath& project = recentProjects[i];
+		if (project.exists())
 		{
-			FilePath project = recentProjects[i];
-			m_recentProjectAction[i]->setVisible(true);
-			m_recentProjectAction[i]->setText(QString::fromStdWString(project.fileName()));
-			m_recentProjectAction[i]->setData(QString::fromStdWString(project.wstr()));
-		}
-		else
-		{
-			m_recentProjectAction[i]->setVisible(false);
+			QAction* recentProject = new QAction(this);
+			recentProject->setText(QString::fromStdWString(project.fileName()));
+			recentProject->setData(QString::fromStdWString(project.wstr()));
+			connect(recentProject, &QAction::triggered, this, &QtMainWindow::openRecentProject);
+			m_recentProjectsMenu->addAction(recentProject);
 		}
 	}
 }
@@ -840,20 +834,9 @@ void QtMainWindow::setupProjectMenu()
 	menu->addAction(tr("&New Project..."), this, &QtMainWindow::newProject, QKeySequence::New);
 	menu->addAction(tr("&Open Project..."), this, &QtMainWindow::openProject, QKeySequence::Open);
 
-	QMenu* recentProjectMenu = new QMenu(tr("Recent Projects"));
-	menu->addMenu(recentProjectMenu);
-
-	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); ++i)
-	{
-		m_recentProjectAction[i] = new QAction(this);
-		m_recentProjectAction[i]->setVisible(false);
-		connect(
-			m_recentProjectAction[i], &QAction::triggered, this, &QtMainWindow::openRecentProject);
-		recentProjectMenu->addAction(m_recentProjectAction[i]);
-	}
-	updateRecentProjectMenu();
-
-	menu->addMenu(recentProjectMenu);
+	m_recentProjectsMenu = new QMenu(tr("Recent Projects"));
+	menu->addMenu(m_recentProjectsMenu);
+	updateRecentProjectsMenu();
 
 	menu->addSeparator();
 

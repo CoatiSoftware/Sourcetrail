@@ -147,7 +147,7 @@ public slots:
 	void resetWindowLayout();
 
 	void openRecentProject();
-	void updateRecentProjectMenu();
+	void updateRecentProjectsMenu();
 
 	void toggleView(View* view, bool fromMenu);
 
@@ -194,7 +194,8 @@ private:
 	QMenu* m_bookmarksMenu;
 	std::vector<std::shared_ptr<Bookmark>> m_bookmarks;
 
-	QAction** m_recentProjectAction;
+	QMenu* m_recentProjectsMenu;
+
 	QAction* m_showTitleBarsAction;
 
 	bool m_showDockWidgetTitleBars;
