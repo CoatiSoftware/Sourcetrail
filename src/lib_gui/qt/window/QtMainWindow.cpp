@@ -759,13 +759,13 @@ void QtMainWindow::updateRecentProjectsMenu()
 	m_recentProjectsMenu->clear();
 
 	const std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	const int recentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
+	const size_t recentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
 
-	for (int i = 0; i < recentProjects.size() && i < recentProjectsCount; i++)
+	for (size_t i = 0; i < recentProjects.size() && i < recentProjectsCount; ++i)
 	{
-		if (recentProjects[i].exists())
+		const FilePath& project = recentProjects[i];
+		if (project.exists())
 		{
-			const FilePath& project = recentProjects[i];
 			QAction* recentProject = new QAction(this);
 			recentProject->setText(QString::fromStdWString(project.fileName()));
 			recentProject->setData(QString::fromStdWString(project.wstr()));
