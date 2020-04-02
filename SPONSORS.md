@@ -5,8 +5,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 ## Legendary Coatis
 
 * Akinobu Fujii
-* David Manouchehri
-* Manik Singhal
 * Mario van Beek
 * Timothee Besset
 
@@ -23,10 +21,11 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 ## Regular Coatis
 
 * Alex B
-* Andreas
+* Andreas Stein
 * Anton
-* Daniel Nissenbaum
+* BJ
 * Frederic Simonis
+* Friedrich Hunstock
 * IndustrialRobot
 * Jason Stevens
 * Jeffrey Hofer
@@ -36,14 +35,16 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Nakul Dhotre
 * Nathan
 * Nathan Loofbourrow
+* Nils Moehrle
 * Rui Pires
-* Sam Tuke
 * Simon
 * Stephan Roslen
 * Tomi Joki-Korpela
 * Tony Hong
 * Traxes
 * Werner de Groot
+* Yacob Cohen-Arazi
 * Yang, Wenbo
+* 勇男 金子
 
 _Note: This file will be updated at the beginning of each month._
