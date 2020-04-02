@@ -138,7 +138,7 @@ bool ApplicationSettings::operator==(const ApplicationSettings& other) const
 		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths());
 }
 
-int ApplicationSettings::getMaxRecentProjectsCount() const
+size_t ApplicationSettings::getMaxRecentProjectsCount() const
 {
 	return 7;
 }

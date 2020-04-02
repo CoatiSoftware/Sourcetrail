@@ -138,7 +138,7 @@ void QtMainView::activateWindow()
 
 void QtMainView::updateRecentProjectMenu()
 {
-	m_onQtThread([=]() { m_window->updateRecentProjectMenu(); });
+	m_onQtThread([=]() { m_window->updateRecentProjectsMenu(); });
 }
 
 void QtMainView::updateHistoryMenu(std::shared_ptr<MessageBase> message)
