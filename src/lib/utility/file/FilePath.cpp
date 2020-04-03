@@ -115,17 +115,6 @@ bool FilePath::isAbsolute() const
 
 bool FilePath::isValid() const
 {
-	boost::filesystem::path::iterator end = m_path->end();
-
-	if (!isDirectory())
-	{
-		if (!boost::filesystem::portable_file_name(m_path->filename().generic_string()))
-		{
-			return false;
-		}
-		end--;
-	}
-
 	boost::filesystem::path::iterator it = m_path->begin();
 
 	if (isAbsolute() && m_path->has_root_path())
@@ -139,9 +128,9 @@ bool FilePath::isValid() const
 		}
 	}
 
-	for (; it != end; ++it)
+	for (; it != m_path->end(); ++it)
 	{
-		if (!boost::filesystem::portable_directory_name(it->string()))
+		if (!boost::filesystem::windows_name(it->string()))
 		{
 			return false;
 		}

@@ -215,8 +215,14 @@ TEST_CASE("file path is valid for absolute and relative existing files and direc
 {
 	REQUIRE(FilePath(L"data/FilePathTestSuite/a.cpp").isValid());
 	REQUIRE(FilePath(L"data/FilePathTestSuite/a.cpp").makeAbsolute().isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/with space/s.srctrlprj").isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/with space/s.srctrlprj").makeAbsolute().isValid());
 	REQUIRE(FilePath(L"data/FilePathTestSuite").isValid());
 	REQUIRE(FilePath(L"data/FilePathTestSuite").makeAbsolute().isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/container.app").isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/container.app").makeAbsolute().isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/container.app/b.txt").isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/container.app/b.txt").makeAbsolute().isValid());
 }
 
 TEST_CASE("file path is valid for absolute and relative non-existing files and directories paths")
@@ -225,6 +231,10 @@ TEST_CASE("file path is valid for absolute and relative non-existing files and d
 	REQUIRE(FilePath(L"data/non-existing-file.cpp").makeAbsolute().isValid());
 	REQUIRE(FilePath(L"data/non-existing-dir").isValid());
 	REQUIRE(FilePath(L"data/non-existing-dir").makeAbsolute().isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/container.app/c.txt").isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/container.app/c.txt").makeAbsolute().isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/also space").isValid());
+	REQUIRE(FilePath(L"data/FilePathTestSuite/also space").makeAbsolute().isValid());
 }
 
 TEST_CASE("file path is invalid for absolute and relative paths with invalid characters")
@@ -233,4 +243,6 @@ TEST_CASE("file path is invalid for absolute and relative paths with invalid cha
 	REQUIRE(!FilePath(L"data/non-exis\"ting-file.cpp").makeAbsolute().isValid());
 	REQUIRE(!FilePath(L"data/non-exis|ting-dir").isValid());
 	REQUIRE(!FilePath(L"data/non-exis|ting-dir").makeAbsolute().isValid());
+	REQUIRE(!FilePath(L"data/FilePathTestSuite/container:app").isValid());
+	REQUIRE(!FilePath(L"data/FilePathTestSuite/container:app").makeAbsolute().isValid());
 }
