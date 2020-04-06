@@ -100,23 +100,50 @@ TEST_CASE("python post processing regards class name in call context when adding
 {
 	std::shared_ptr<TestStorage> storage = parseCode(
 		"class A:\n"
-		"	def init(self):\n"
+		"	def __init__(self):\n"
 		"		pass\n"
 		"\n"
 		"class A1(A):\n"
-		"	def init(self):\n"
-		"		A.init()\n"
+		"	def __init__(self):\n"
+		"		A.__init__()\n"
 		"\n"
 		"class B:\n"
-		"	def init(self):\n"
+		"	def __init__(self):\n"
 		"		pass\n");
 
 	REQUIRE(storage->calls.size() == 1);
-	REQUIRE(utility::containsElement<std::wstring>(storage->calls, L"test.A1.init -> test.A.init"));
+	REQUIRE(utility::containsElement<std::wstring>(
+		storage->calls, L"test.A1.__init__ -> test.A.__init__"));
 
-	REQUIRE(
-		!utility::containsElement<std::wstring>(storage->calls, L"test.A1.init -> test.A1.init"));
-	REQUIRE(!utility::containsElement<std::wstring>(storage->calls, L"test.A1.init -> test.B.init"));
+	REQUIRE(!utility::containsElement<std::wstring>(
+		storage->calls, L"test.A1.__init__ -> test.A1.__init__"));
+	REQUIRE(!utility::containsElement<std::wstring>(
+		storage->calls, L"test.A1.__init__ -> test.B.__init__"));
+}
+
+TEST_CASE("python post processing regards super() in call context when adding ambiguous edges")
+{
+	std::shared_ptr<TestStorage> storage = parseCode(
+		"class A:\n"
+		"	def __init__(self):\n"
+		"		pass\n"
+		"\n"
+		"class A1(A):\n"
+		"	def __init__(self):\n"
+		"		super().__init__()\n"
+		"\n"
+		"class B:\n"
+		"	def __init__(self):\n"
+		"		pass\n");
+
+	REQUIRE(storage->calls.size() == 2);
+	REQUIRE(utility::containsElement<std::wstring>(
+		storage->calls, L"test.A1.__init__ -> test.A.__init__"));
+
+	REQUIRE(!utility::containsElement<std::wstring>(
+		storage->calls, L"test.A1.__init__ -> test.A1.__init__"));
+	REQUIRE(!utility::containsElement<std::wstring>(
+		storage->calls, L"test.A1.__init__ -> test.B.__init__"));
 }
 
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
