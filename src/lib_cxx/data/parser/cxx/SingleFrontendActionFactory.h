@@ -7,7 +7,7 @@ class SingleFrontendActionFactory: public clang::tooling::FrontendActionFactory
 {
 public:
 	SingleFrontendActionFactory(clang::FrontendAction* action);
-	clang::FrontendAction* create() override;
+	std::unique_ptr<clang::FrontendAction> create() override;
 
 private:
 	clang::FrontendAction* m_action;

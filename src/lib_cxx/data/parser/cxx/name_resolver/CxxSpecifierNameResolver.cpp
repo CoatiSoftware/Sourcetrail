@@ -29,7 +29,7 @@ std::unique_ptr<CxxName> CxxSpecifierNameResolver::getName(
 		case clang::NestedNameSpecifier::Identifier:
 		{
 			std::unique_ptr<CxxName> name = std::make_unique<CxxDeclName>(
-				utility::decodeFromUtf8(nestedNameSpecifier->getAsIdentifier()->getName()));
+				utility::decodeFromUtf8(nestedNameSpecifier->getAsIdentifier()->getName().str()));
 
 			if (const clang::NestedNameSpecifier* prefix = nestedNameSpecifier->getPrefix())
 			{

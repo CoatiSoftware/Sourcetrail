@@ -48,15 +48,15 @@ std::unique_ptr<clang::ASTConsumer> GeneratePCHAction::CreateASTConsumer(
 		FrontendOpts.IncludeTimestamps,
 		+CI.getLangOpts().CacheGeneratedPCH));
 	Consumers.push_back(CI.getPCHContainerWriter().CreatePCHContainerGenerator(
-		CI, InFile, OutputFile, std::move(OS), Buffer));
+		CI, InFile.str(), OutputFile, std::move(OS), Buffer));
 
-	return llvm::make_unique<clang::MultiplexConsumer>(std::move(Consumers));
+	return std::make_unique<clang::MultiplexConsumer>(std::move(Consumers));
 }
 
 bool GeneratePCHAction::BeginSourceFileAction(clang::CompilerInstance& compiler)
 {
 	clang::Preprocessor& preprocessor = compiler.getPreprocessor();
-	preprocessor.addPPCallbacks(llvm::make_unique<PreprocessorCallbacks>(
+	preprocessor.addPPCallbacks(std::make_unique<PreprocessorCallbacks>(
 		compiler.getSourceManager(), m_client, m_canonicalFilePathCache));
 	return true;
 }

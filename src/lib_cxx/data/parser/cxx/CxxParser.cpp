@@ -41,7 +41,7 @@ std::vector<std::string> appendFilePath(const std::vector<std::string>& args, ll
 // custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
 bool runToolOnCodeWithArgs(
 	clang::DiagnosticConsumer* DiagConsumer,
-	clang::FrontendAction* ToolAction,
+	std::unique_ptr<clang::FrontendAction> ToolAction,
 	const llvm::Twine& Code,
 	const std::vector<std::string>& Args,
 	const llvm::Twine& FileName = "input.cc",
@@ -62,7 +62,7 @@ bool runToolOnCodeWithArgs(
 		new clang::FileManager(clang::FileSystemOptions(), OverlayFileSystem));
 
 	clang::tooling::ToolInvocation Invocation(
-		prependSyntaxOnlyToolArgs(appendFilePath(Args, FileNameRef)), ToolAction, Files.get());
+		prependSyntaxOnlyToolArgs(appendFilePath(Args, FileNameRef)), std::move(ToolAction), Files.get());
 
 	llvm::SmallString<1024> CodeStorage;
 	llvm::StringRef CodeRef = Code.toNullTerminatedStringRef(CodeStorage);
@@ -155,13 +155,13 @@ void CxxParser::buildIndex(
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(
 		FilePath(), canonicalFilePathCache, false);
-	clang::ASTFrontendAction* action = new ASTAction(
+	std::unique_ptr<clang::ASTFrontendAction> action = std::make_unique<ASTAction>(
 		m_client, canonicalFilePathCache, m_indexerStateInfo);
 
 	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags);
 
 	runToolOnCodeWithArgs(
-		diagnostics.get(), action, fileContent->getText(), args, utility::encodeToUtf8(fileName));
+		diagnostics.get(), std::move(action), fileContent->getText(), args, utility::encodeToUtf8(fileName));
 }
 
 void CxxParser::runTool(
