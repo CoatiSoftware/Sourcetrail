@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include "ConfigManager.h"
 #include "TextAccess.h"

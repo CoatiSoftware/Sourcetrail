@@ -739,6 +739,8 @@ endif ()
 
 # Test ----------------------------------------------------------------------
 
+find_package(Catch2 REQUIRED)
+
 if (UNIX)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test/")
 else ()
@@ -749,6 +751,7 @@ else ()
 endif ()
 
 add_executable (${TEST_PROJECT_NAME} ${TEST_FILES})
+target_link_libraries(${TEST_PROJECT_NAME} Catch2::Catch2)
 
 create_source_groups(${TEST_FILES})
 
@@ -788,6 +791,11 @@ if (WIN32)
 			PROPERTY VS_DEBUGGER_WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/bin/test")
 endif ()
+
+include(CTest)
+include(Catch)
+enable_testing()
+catch_discover_tests(${TEST_PROJECT_NAME})
 
 
 

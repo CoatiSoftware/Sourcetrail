@@ -1,8 +1,6 @@
 add_files(
 	EXTERNAL
 
-	catch/catch.hpp
-	
 	sqlite/CppSQLite3.cpp
 	sqlite/CppSQLite3.h
 

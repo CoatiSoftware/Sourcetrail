@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include "SourceLocation.h"
 #include "SourceLocationCollection.h"
