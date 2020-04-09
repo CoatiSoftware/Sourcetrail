@@ -55,7 +55,7 @@ make -j8 && \
 make -j8 install && rm -Rf /qt
 
 # LLVM/Clang
-ARG LLVM_VERSION=9.0.0
+ARG LLVM_VERSION=10.0.0
 RUN mkdir -p /llvm && cd /llvm && \
 wget http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
 tar xvf llvm-${LLVM_VERSION}.src.tar.xz && \
