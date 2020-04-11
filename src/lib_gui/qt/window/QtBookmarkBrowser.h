@@ -30,7 +30,7 @@ protected:
 	virtual void handleNext() override;
 
 private slots:
-	void filterOrOrderChanged(const QString& text);
+	void filterOrOrderChanged(int index);
 	void treeItemClicked(QTreeWidgetItem* item, int column);
 
 private:

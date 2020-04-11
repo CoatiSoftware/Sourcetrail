@@ -336,7 +336,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 	m_font1 = font;
 
 	QFontMetrics metrics1(font);
-	m_charWidth1 = metrics1.width(QStringLiteral(
+	m_charWidth1 = metrics1.boundingRect(QStringLiteral(
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
@@ -346,7 +346,8 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
-					   "-------------------------")) /
+				"-------------------------"))
+			.width() /
 		500.0f;
 	m_charHeight1 = static_cast<float>(metrics1.height());
 
@@ -354,7 +355,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 	m_font2 = font;
 
 	QFontMetrics metrics2(font);
-	m_charWidth2 = metrics2.width(QStringLiteral(
+	m_charWidth2 = metrics2.boundingRect(QStringLiteral(
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
@@ -364,7 +365,8 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 					   "---------------------------------------------------------------------------"
 					   "-------------------------"
 					   "---------------------------------------------------------------------------"
-					   "-------------------------")) /
+				"-------------------------"))
+			.width() /
 		500.0f;
 	m_charHeight2 = static_cast<float>(metrics2.height());
 
