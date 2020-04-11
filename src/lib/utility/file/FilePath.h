@@ -52,8 +52,6 @@ public:
 
 	std::string str() const;
 	std::wstring wstr() const;
-	std::string getBackslashedString() const;
-	std::wstring getBackslashedWString() const;
 	std::wstring fileName() const;
 
 	std::wstring extension() const;

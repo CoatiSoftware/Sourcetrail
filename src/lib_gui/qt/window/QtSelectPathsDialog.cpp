@@ -57,14 +57,14 @@ void QtSelectPathsDialog::setPathsList(
 
 		if (!s.exists())
 		{
-			item->setTextColor(Qt::red);
+			item->setForeground(Qt::red);
 			item->setToolTip(QStringLiteral("Path does not exist"));
 			item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
 			item->setCheckState(Qt::Unchecked);
 		}
 		else
 		{
-			item->setTextColor(Qt::black);
+			item->setForeground(Qt::black);
 		}
 	}
 }

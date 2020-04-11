@@ -9,6 +9,7 @@
 #include "MessageHistoryRedo.h"
 #include "MessageHistoryUndo.h"
 #include "logging.h"
+#include <QtCore\qdir.h>
 
 QtContextMenu* QtContextMenu::s_instance;
 
@@ -118,10 +119,8 @@ void QtContextMenu::redoActionTriggered()
 
 void QtContextMenu::copyFullPathActionTriggered()
 {
-	const std::wstring pathString = (QSysInfo::windowsVersion() != QSysInfo::WV_None)
-		? s_filePath.getBackslashedWString()
-		: s_filePath.wstr();
-	QApplication::clipboard()->setText(QString::fromStdWString(pathString));
+	QApplication::clipboard()->setText(
+		QDir::toNativeSeparators(QString::fromStdWString(s_filePath.wstr())));
 }
 
 void QtContextMenu::openContainingFolderActionTriggered()

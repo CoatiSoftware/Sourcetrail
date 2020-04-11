@@ -36,7 +36,7 @@ QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	m_areaWrapper->setSizePolicy(
 		m_areaWrapper->sizePolicy().horizontalPolicy(), QSizePolicy::Expanding);
 	m_areaWrapper->setLayout(new QVBoxLayout());
-	m_areaWrapper->layout()->setMargin(0);
+	m_areaWrapper->layout()->setContentsMargins(0, 0, 0, 0);
 	m_areaWrapper->layout()->setSpacing(0);
 	layout()->addWidget(m_areaWrapper);
 }

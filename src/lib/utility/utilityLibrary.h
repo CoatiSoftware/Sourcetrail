@@ -23,7 +23,7 @@ std::function<Ret(Args...)> loadFunctionFromLibrary(
 	const FilePath& libraryPath, const std::string& functionName, std::string& errorString)
 {
 #ifdef _WIN32
-	const std::string libraryPathString = libraryPath.getBackslashedString();
+	auto libraryPathString = QtDir::toNativeSeparators(QString::fromStdWString(libraryPath.wstr()));
 	HINSTANCE handle = LoadLibrary(libraryPathString.c_str());
 	if (handle == nullptr)
 	{

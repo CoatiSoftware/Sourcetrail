@@ -40,7 +40,7 @@ bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 	if (event->type() == QEvent::Wheel && scrollbar)
 	{
 		QRect scrollbarArea(scrollbar->pos(), scrollbar->size());
-		QPoint globalMousePos = dynamic_cast<QWheelEvent*>(event)->globalPos();
+		QPoint globalMousePos = dynamic_cast<QWheelEvent*>(event)->globalPosition();
 		QPoint localMousePos = scrollbar->mapFromGlobal(globalMousePos);
 
 		// instead of "scrollbar->underMouse()" we need this check implemented here because
@@ -294,7 +294,7 @@ int QtCodeArea::lineNumberAreaWidth() const
 {
 	if (m_showLineNumbers)
 	{
-		return fontMetrics().width(QLatin1Char('9')) * m_digits + 30;
+		return fontMetrics().boundingRect(QLatin1Char('9')).width() * m_digits + 30;
 	}
 
 	return 0;
