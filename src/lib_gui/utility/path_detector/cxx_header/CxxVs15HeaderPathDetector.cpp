@@ -20,11 +20,10 @@ std::vector<FilePath> CxxVs15HeaderPathDetector::doGetPaths() const
 				.expandEnvironmentVariables();
 		if (!expandedPaths.empty())
 		{
-			const std::string command = "\"" + expandedPaths[0].str() +
-				"\" -latest -property installationPath";
-			const std::string command2 =
-				"\"C:/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe\"";
-			const std::string output = utility::executeProcess(command, FilePath(), 10000).second;
+			const std::string output =
+				utility::executeProcess(
+					expandedPaths[0].wstr(), std::vector<std::wstring> {L"-latest", L"-property installationPath"}, FilePath(), 10000)
+					.second;
 
 			const FilePath vsInstallPath(output);
 			if (vsInstallPath.exists())

@@ -24,7 +24,7 @@ QtCountCircleItem::~QtCountCircleItem() {}
 
 void QtCountCircleItem::setPosition(const Vec2f& pos)
 {
-	qreal width = QFontMetrics(m_number->font()).width(m_number->text());
+	qreal width = QFontMetrics(m_number->font()).boundingRect(m_number->text()).width();
 	qreal height = QFontMetrics(m_number->font()).height();
 
 	this->setRadius(height / 2 + 1);

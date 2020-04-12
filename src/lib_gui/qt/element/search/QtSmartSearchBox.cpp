@@ -901,7 +901,7 @@ void QtSmartSearchBox::layoutElements()
 		if (!hasSelected && i == m_cursorIndex)
 		{
 			editX = x - 5;
-			x += fontMetrics().width(text());
+			x += fontMetrics().horizontalAdvance(text());
 		}
 
 		if (i < m_elements.size())
@@ -923,7 +923,7 @@ void QtSmartSearchBox::layoutElements()
 		}
 	}
 
-	int cursorX = fontMetrics().width(text().left(cursorPosition()));
+	int cursorX = fontMetrics().horizontalAdvance(text().left(cursorPosition()));
 	int offsetX = m_oldLayoutOffset;
 
 	if (x < width())
