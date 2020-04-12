@@ -18,9 +18,9 @@
 namespace
 {
 template <class Container>
-void reverseErase(Container & container)
+void reverseErase(Container& container)
 {
-	while(!container.empty())
+	while (!container.empty())
 		container.pop_back();
 }
 }	 // namespace

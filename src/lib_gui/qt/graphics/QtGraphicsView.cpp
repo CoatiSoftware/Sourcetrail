@@ -57,7 +57,8 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_zoomLabelTimer = std::make_shared<QTimer>(this);
 	connect(m_zoomLabelTimer.get(), &QTimer::timeout, this, &QtGraphicsView::hideZoomLabel);
 
-	m_openInTabAction = new QAction(QStringLiteral("Open in New Tab (Ctrl + Shift + Left Click)"), this);
+	m_openInTabAction = new QAction(
+		QStringLiteral("Open in New Tab (Ctrl + Shift + Left Click)"), this);
 #if defined(Q_OS_MAC)
 	m_openInTabAction->setText(QStringLiteral("Open in New Tab (Cmd + Shift + Left Click)"));
 #endif

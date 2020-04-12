@@ -94,7 +94,8 @@ protected:
 		Id focusedLocationId);
 
 	void createAnnotations(std::shared_ptr<SourceLocationFile> locationFile);
-	void activateAnnotations(const std::vector<const Annotation*>& annotations, bool fromMouse, int mouseOffsetX);
+	void activateAnnotations(
+		const std::vector<const Annotation*>& annotations, bool fromMouse, int mouseOffsetX);
 
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
 	std::pair<int, int> toLineColumn(int textEditPosition) const;

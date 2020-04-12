@@ -21,9 +21,9 @@ bool AppPath::setSharedDataPath(const FilePath& path)
 FilePath AppPath::getCxxIndexerPath()
 {
 #if _WIN32
-const std::wstring cxxIndexerName(L"sourcetrail_indexer.exe");
+	const std::wstring cxxIndexerName(L"sourcetrail_indexer.exe");
 #else
-const std::wstring cxxIndexerName(L"sourcetrail_indexer");
+	const std::wstring cxxIndexerName(L"sourcetrail_indexer");
 #endif
 
 	if (!m_cxxIndexerPath.empty())

@@ -4,6 +4,7 @@
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "DialogView.h"
+#include "FileLogger.h"
 #include "FileSystem.h"
 #include "GraphViewStyle.h"
 #include "IDECommunicationController.h"
@@ -30,7 +31,6 @@
 #include "tracing.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
-#include "FileLogger.h"
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
@@ -333,8 +333,7 @@ void Application::handleMessage(MessageRefresh* message)
 {
 	TRACE("app refresh");
 
-	refreshProject(
-		message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES, false);
+	refreshProject(message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES, false);
 }
 
 void Application::handleMessage(MessageRefreshUI* message)
@@ -424,7 +423,8 @@ void Application::refreshProject(RefreshMode refreshMode, bool shallowIndexingRe
 {
 	if (m_project && checkSharedMemory())
 	{
-		m_project->refresh(getDialogView(DialogView::UseCase::INDEXING), refreshMode, shallowIndexingRequested);
+		m_project->refresh(
+			getDialogView(DialogView::UseCase::INDEXING), refreshMode, shallowIndexingRequested);
 
 		if (!m_hasGUI && !m_project->isIndexing())
 		{

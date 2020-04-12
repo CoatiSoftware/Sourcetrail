@@ -272,7 +272,8 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 	}
 }
 
-void Project::refresh(std::shared_ptr<DialogView> dialogView, RefreshMode refreshMode, bool shallowIndexingRequested)
+void Project::refresh(
+	std::shared_ptr<DialogView> dialogView, RefreshMode refreshMode, bool shallowIndexingRequested)
 {
 	if (m_refreshStage != RefreshStageType::NONE)
 	{

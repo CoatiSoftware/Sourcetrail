@@ -80,7 +80,8 @@ bool QtProjectWizardContentCustomCommand::check()
 	if (m_customCommand->text().toStdWString().find(L"%{SOURCE_FILE_PATH}") == std::wstring::npos)
 	{
 		QMessageBox msgBox(m_window);
-		msgBox.setText(QStringLiteral("The variable %{SOURCE_FILE_PATH} is missing in the custom command."));
+		msgBox.setText(
+			QStringLiteral("The variable %{SOURCE_FILE_PATH} is missing in the custom command."));
 		msgBox.exec();
 		return false;
 	}

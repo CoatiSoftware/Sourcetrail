@@ -1,9 +1,9 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+#include <string>
 #include <typeinfo>
 #include <vector>
-#include <string>
 
 #include "TokenComponent.h"
 #include "types.h"

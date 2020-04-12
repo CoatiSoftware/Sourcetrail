@@ -48,8 +48,7 @@ void QtGraphNodeComponentClickable::nodeMouseReleaseEvent(QGraphicsSceneMouseEve
 
 	if (!m_mouseMoved)
 	{
-		if (
-			event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier &&
+		if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier &&
 			event->button() == Qt::LeftButton)
 		{
 			m_graphNode->onMiddleClick();

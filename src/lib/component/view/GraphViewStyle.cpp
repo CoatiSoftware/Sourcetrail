@@ -371,7 +371,13 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfGroupNode(GroupType type
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
-	NodeType type, bool defined, bool isActive, bool isFocused, bool isCoFocused, bool hasChildren, bool hasQualifier)
+	NodeType type,
+	bool defined,
+	bool isActive,
+	bool isFocused,
+	bool isCoFocused,
+	bool hasChildren,
+	bool hasQualifier)
 {
 	return getStyleForNodeType(
 		type.getNodeStyle(),
@@ -685,7 +691,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		if (isTrailEdge && isActive)
 		{
 			style.width = 3;
-			style.color = ColorScheme::getInstance()->getColor("graph/edge/call_trail_focus", style.color);
+			style.color = ColorScheme::getInstance()->getColor(
+				"graph/edge/call_trail_focus", style.color);
 		}
 		break;
 

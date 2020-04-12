@@ -10,7 +10,8 @@ class QWidget;
 class QtCompositeView: public CompositeView
 {
 public:
-	QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId);
+	QtCompositeView(
+		ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId);
 	~QtCompositeView() = default;
 
 	// View implementation

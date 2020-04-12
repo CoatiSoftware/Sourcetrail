@@ -577,10 +577,15 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 			}
 			else if (referenceFileIndex == 0)
 			{
-				if (m_references[referenceIndex].lineNumber == m_localReferences[localReferenceIndex].lineNumber)
+				if (m_references[referenceIndex].lineNumber ==
+					m_localReferences[localReferenceIndex].lineNumber)
 				{
-					if ((next && m_references[referenceIndex].columnNumber < m_localReferences[localReferenceIndex].columnNumber) ||
-						(!next && m_references[referenceIndex].columnNumber > m_localReferences[localReferenceIndex].columnNumber))
+					if ((next &&
+						 m_references[referenceIndex].columnNumber <
+							 m_localReferences[localReferenceIndex].columnNumber) ||
+						(!next &&
+						 m_references[referenceIndex].columnNumber >
+							 m_localReferences[localReferenceIndex].columnNumber))
 					{
 						localReferenceIndex = -1;
 					}
@@ -591,8 +596,12 @@ void CodeController::handleMessage(MessageToNextCodeReference* message)
 				}
 				else
 				{
-					if ((next && m_references[referenceIndex].lineNumber < m_localReferences[localReferenceIndex].lineNumber) ||
-						(!next && m_references[referenceIndex].lineNumber > m_localReferences[localReferenceIndex].lineNumber))
+					if ((next &&
+						 m_references[referenceIndex].lineNumber <
+							 m_localReferences[localReferenceIndex].lineNumber) ||
+						(!next &&
+						 m_references[referenceIndex].lineNumber >
+							 m_localReferences[localReferenceIndex].lineNumber))
 					{
 						localReferenceIndex = -1;
 					}
@@ -1200,7 +1209,8 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 			if (!next)
 			{
 				if (references[i].lineNumber < currentLineNumber ||
-					(references[i].lineNumber == currentLineNumber && references[i].columnNumber < currentColumnNumber))
+					(references[i].lineNumber == currentLineNumber &&
+					 references[i].columnNumber < currentColumnNumber))
 				{
 					referenceIndex = static_cast<int>(i);
 				}
@@ -1209,8 +1219,10 @@ std::pair<int, int> CodeController::findClosestReferenceIndex(
 					return {referenceIndex, beforeCurrentFile ? -1 : 0};
 				}
 			}
-			else if (references[i].lineNumber > currentLineNumber ||
-					(references[i].lineNumber == currentLineNumber && references[i].columnNumber > currentColumnNumber))
+			else if (
+				references[i].lineNumber > currentLineNumber ||
+				(references[i].lineNumber == currentLineNumber &&
+				 references[i].columnNumber > currentColumnNumber))
 			{
 				return {static_cast<int>(i), 0};
 			}

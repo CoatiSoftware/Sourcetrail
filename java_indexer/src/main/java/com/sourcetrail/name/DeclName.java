@@ -1,9 +1,8 @@
 package com.sourcetrail.name;
 
+import com.sourcetrail.Position;
 import java.io.File;
 import java.util.List;
-
-import com.sourcetrail.Position;
 
 public class DeclName implements SymbolName
 {
@@ -21,34 +20,36 @@ public class DeclName implements SymbolName
 		declName.m_isUnsolved = true;
 		return declName;
 	}
-	
+
 	public static DeclName anonymousClass(File filePath, int line, int col)
 	{
-		DeclName declName = new DeclName("anonymous class (" + filePath.getName() + "<" + line + ":" + col + ">)");
+		DeclName declName = new DeclName(
+			"anonymous class (" + filePath.getName() + "<" + line + ":" + col + ">)");
 		declName.m_isAnonymous = true;
 		return declName;
 	}
-	
+
 	public static DeclName localSymbol(DeclName methodContextName, int id)
 	{
 		DeclName declName = new DeclName(methodContextName + "<" + id + ">");
 		declName.m_isLocal = true;
 		return declName;
 	}
-	
+
 	public static DeclName globalSymbol(File fileContext, int id)
 	{
 		DeclName declName = new DeclName(fileContext.getName() + "<" + id + ">");
 		declName.m_isGlobal = true;
 		return declName;
 	}
-	
+
 	public static DeclName scope(File fileContext, Position begin)
 	{
-		DeclName declName = new DeclName(fileContext.getName() + "<" + begin.line + ":" + begin.column + ">");
+		DeclName declName = new DeclName(
+			fileContext.getName() + "<" + begin.line + ":" + begin.column + ">");
 		return declName;
 	}
-	
+
 	public static DeclName fromDotSeparatedString(String s)
 	{
 		DeclName declName = null;
@@ -63,60 +64,60 @@ public class DeclName implements SymbolName
 		{
 			declName = new DeclName(s, null);
 		}
-		
+
 		return declName;
 	}
-	
+
 	public DeclName(String name)
 	{
 		m_name = name;
 	}
-	
+
 	public DeclName(String name, List<String> typeParameterNames)
 	{
 		m_name = name;
 		m_typeParameterNames = typeParameterNames;
 	}
-	
+
 	public void setParent(DeclName parent)
 	{
 		m_parent = parent;
 	}
-	
+
 	public DeclName getParent()
 	{
 		return m_parent;
 	}
-	
+
 	public String getName()
 	{
 		return m_name;
 	}
-	
+
 	public boolean getIsUnsolved()
 	{
 		return m_isUnsolved;
 	}
-	
+
 	public boolean getIsAnonymous()
 	{
 		return m_isAnonymous;
 	}
-	
+
 	public boolean getIsLocal()
 	{
 		return m_isLocal;
 	}
-	
+
 	public boolean getIsGlobal()
 	{
 		return m_isGlobal;
 	}
-	
+
 	public NameHierarchy toNameHierarchy()
 	{
 		NameHierarchy nameHierarchy;
-		
+
 		if (m_parent != null)
 		{
 			nameHierarchy = m_parent.toNameHierarchy();
@@ -125,12 +126,12 @@ public class DeclName implements SymbolName
 		{
 			nameHierarchy = new NameHierarchy();
 		}
-		
+
 		nameHierarchy.push(new NameElement(m_name + getTypeParameterString()));
-		
+
 		return nameHierarchy;
 	}
-	
+
 	public String toString()
 	{
 		String string = "";
@@ -139,13 +140,13 @@ public class DeclName implements SymbolName
 			string = m_parent.toString();
 			string += ".";
 		}
-		
+
 		string += m_name;
 		string += getTypeParameterString();
-		
+
 		return string;
 	}
-	
+
 	public String getTypeParameterString()
 	{
 		String string = "";
@@ -165,7 +166,8 @@ public class DeclName implements SymbolName
 		return string;
 	}
 
-	public List<String> getTypeParameterNames() {
+	public List<String> getTypeParameterNames()
+	{
 		return m_typeParameterNames;
 	}
 }

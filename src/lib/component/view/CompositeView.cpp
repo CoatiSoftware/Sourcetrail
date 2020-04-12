@@ -2,7 +2,8 @@
 
 #include <algorithm>
 
-CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId)
+CompositeView::CompositeView(
+	ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId)
 	: View(viewLayout), m_direction(direction), m_name(name), m_tabId(tabId)
 {
 }

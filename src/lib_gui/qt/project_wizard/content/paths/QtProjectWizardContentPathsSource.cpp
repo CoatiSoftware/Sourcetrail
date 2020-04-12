@@ -72,10 +72,12 @@ bool QtProjectWizardContentPathsSource::check()
 	{
 		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("You didn't specify any 'Files & Directories to Index'."));
-		msgBox.setInformativeText(QStringLiteral(
-			"Sourcetrail will not index any files for this Source Group. Please add paths to files or directories "
-			"that should be indexed."));
-		QPushButton* yesButton = msgBox.addButton(QStringLiteral("Continue"), QMessageBox::ButtonRole::YesRole);
+		msgBox.setInformativeText(
+			QStringLiteral("Sourcetrail will not index any files for this Source Group. Please add "
+						   "paths to files or directories "
+						   "that should be indexed."));
+		QPushButton* yesButton = msgBox.addButton(
+			QStringLiteral("Continue"), QMessageBox::ButtonRole::YesRole);
 		msgBox.addButton(QStringLiteral("Cancel"), QMessageBox::ButtonRole::NoRole);
 		msgBox.setDefaultButton(yesButton);
 

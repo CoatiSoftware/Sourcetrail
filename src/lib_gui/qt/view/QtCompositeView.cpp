@@ -69,6 +69,7 @@ void QtCompositeView::showFocusIndicator(bool focus)
 {
 	m_onQtThread([=]() {
 		const std::string& colorName = focus ? "window/focus" : "search/background";
-		utility::setWidgetBackgroundColor(m_focusIndicator, ColorScheme::getInstance()->getColor(colorName));
+		utility::setWidgetBackgroundColor(
+			m_focusIndicator, ColorScheme::getInstance()->getColor(colorName));
 	});
 }

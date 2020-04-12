@@ -311,8 +311,9 @@ TEST_CASE("caseInsensitiveLess should return false when both wstrings are equal"
 	REQUIRE_FALSE(utility::caseInsensitiveLess(L"ab_cd!", L"ab_cd!"));
 }
 
-TEST_CASE("caseInsensitiveLess should return false when both wstrings have"
-		"different cases but after lower casing are equal")
+TEST_CASE(
+	"caseInsensitiveLess should return false when both wstrings have"
+	"different cases but after lower casing are equal")
 {
 	REQUIRE_FALSE(utility::caseInsensitiveLess(L"ab_CD!", L"aB_cD!"));
 }
@@ -337,32 +338,44 @@ TEST_CASE("caseInsensitiveLess should return false when second wstring is prefix
 	REQUIRE_FALSE(utility::caseInsensitiveLess(L"ab_cd!e", L"ab_cd!"));
 }
 
-TEST_CASE("caseInsensitiveLess should return true when after lower casing first wstring, first is prefix of second")
+TEST_CASE(
+	"caseInsensitiveLess should return true when after lower casing first wstring, first is prefix "
+	"of second")
 {
 	REQUIRE(utility::caseInsensitiveLess(L"aB_cd!", L"ab_cd!e"));
 }
 
-TEST_CASE("caseInsensitiveLess should return true when after lower casing second wstring, first is prefix of second")
+TEST_CASE(
+	"caseInsensitiveLess should return true when after lower casing second wstring, first is "
+	"prefix of second")
 {
 	REQUIRE(utility::caseInsensitiveLess(L"ab_cd!", L"ab_cD!e"));
 }
 
-TEST_CASE("caseInsensitiveLess should return true when after lower casing both wstrings, first is prefix of second")
+TEST_CASE(
+	"caseInsensitiveLess should return true when after lower casing both wstrings, first is prefix "
+	"of second")
 {
 	REQUIRE(utility::caseInsensitiveLess(L"aB_cd!", L"ab_cD!E"));
 }
 
-TEST_CASE("caseInsensitiveLess should return false when after lower casing first wstring, second is prefix of first")
+TEST_CASE(
+	"caseInsensitiveLess should return false when after lower casing first wstring, second is "
+	"prefix of first")
 {
 	REQUIRE_FALSE(utility::caseInsensitiveLess(L"ab_Cd!e", L"ab_cd!"));
 }
 
-TEST_CASE("caseInsensitiveLess should return false when after lower casing second wstring, second is prefix of first")
+TEST_CASE(
+	"caseInsensitiveLess should return false when after lower casing second wstring, second is "
+	"prefix of first")
 {
 	REQUIRE_FALSE(utility::caseInsensitiveLess(L"ab_cd!e", L"Ab_cd!"));
 }
 
-TEST_CASE("caseInsensitiveLess should return false when after lower casing both wstrings, second is prefix of first")
+TEST_CASE(
+	"caseInsensitiveLess should return false when after lower casing both wstrings, second is "
+	"prefix of first")
 {
 	REQUIRE_FALSE(utility::caseInsensitiveLess(L"ab_cD!E", L"aB_cd!"));
 }

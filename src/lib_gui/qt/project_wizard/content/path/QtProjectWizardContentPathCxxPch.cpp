@@ -57,7 +57,8 @@ bool QtProjectWizardContentPathCxxPch::check()
 		if (!cdb)
 		{
 			QMessageBox msgBox(m_window);
-			msgBox.setText(QStringLiteral("Unable to open and read the provided compilation database file."));
+			msgBox.setText(
+				QStringLiteral("Unable to open and read the provided compilation database file."));
 			msgBox.exec();
 			return false;
 		}

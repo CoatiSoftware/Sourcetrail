@@ -2,8 +2,8 @@
 
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/Frontend/MultiplexConsumer.h>
-#include <clang/Serialization/ASTWriter.h>
 #include <clang/Lex/PreprocessorOptions.h>
+#include <clang/Serialization/ASTWriter.h>
 
 #include "PreprocessorCallbacks.h"
 
@@ -44,7 +44,7 @@ std::unique_ptr<clang::ASTConsumer> GeneratePCHAction::CreateASTConsumer(
 		Sysroot,
 		Buffer,
 		FrontendOpts.ModuleFileExtensions,
-		true, // always allow errors in the PCH
+		true,	 // always allow errors in the PCH
 		FrontendOpts.IncludeTimestamps,
 		+CI.getLangOpts().CacheGeneratedPCH));
 	Consumers.push_back(CI.getPCHContainerWriter().CreatePCHContainerGenerator(

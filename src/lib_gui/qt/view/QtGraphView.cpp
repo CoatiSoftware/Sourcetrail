@@ -67,8 +67,8 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 
 	connect(view, &QtGraphicsView::emptySpaceClicked, this, &QtGraphView::clickedInEmptySpace);
 	connect(view, &QtGraphicsView::resized, this, &QtGraphView::resized);
-	connect(view, &QtGraphicsView::focusIn, [this](){ setNavigationFocus(true); });
-	connect(view, &QtGraphicsView::focusOut, [this](){ setNavigationFocus(false); });
+	connect(view, &QtGraphicsView::focusIn, [this]() { setNavigationFocus(true); });
+	connect(view, &QtGraphicsView::focusOut, [this]() { setNavigationFocus(false); });
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
@@ -1056,7 +1056,8 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	}
 	else if (node->isExpandToggleNode())
 	{
-		newNode = new QtGraphNodeExpandToggle(node->isExpanded(), static_cast<int>(node->invisibleSubNodeCount));
+		newNode = new QtGraphNodeExpandToggle(
+			node->isExpanded(), static_cast<int>(node->invisibleSubNodeCount));
 	}
 	else if (node->isBundleNode())
 	{
