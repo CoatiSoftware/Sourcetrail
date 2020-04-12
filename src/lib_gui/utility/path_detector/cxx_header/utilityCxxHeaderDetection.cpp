@@ -12,7 +12,10 @@ namespace utility
 std::vector<std::string> getCxxHeaderPaths(const std::string& compilerName)
 {
 	std::string command = compilerName + " -x c++ -v -E /dev/null";
-	std::string clangOutput = utility::executeProcess(command.c_str()).second;
+	std::string clangOutput = utility::executeProcess(
+								  utility::decodeFromUtf8(compilerName),
+								  std::vector<std::wstring> {L"-x c++", L"-v", L"-E /dev/null"})
+								  .second;
 	std::string standardHeaders = utility::substrBetween<std::string>(
 		clangOutput, "#include <...> search starts here:\n", "\nEnd of search list");
 	std::vector<std::string> paths;
