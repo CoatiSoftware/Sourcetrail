@@ -2,12 +2,12 @@
 
 #include <QCheckBox>
 
-#include "Application.h"
-#include "QtDialogView.h"
-#include "SourceGroupJavaGradle.h"
-#include "SourceGroupSettingsJavaGradle.h"
-#include "utility.h"
-#include "utilityFile.h"
+#include "../../../../../lib/app/Application.h"
+#include "../../../view/QtDialogView.h"
+#include "../../../../../lib_java/project/SourceGroupJavaGradle.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsJavaGradle.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
 
 QtProjectWizardContentPathSourceGradle::QtProjectWizardContentPathSourceGradle(
 	std::shared_ptr<SourceGroupSettingsJavaGradle> settings, QtProjectWizardWindow* window)

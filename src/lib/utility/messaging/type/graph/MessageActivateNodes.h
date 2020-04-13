@@ -1,9 +1,9 @@
 #ifndef MESSAGE_ACTIVATE_NODES_H
 #define MESSAGE_ACTIVATE_NODES_H
 
-#include "Message.h"
-#include "TabId.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../types.h"
 
 class MessageActivateNodes: public Message<MessageActivateNodes>
 {

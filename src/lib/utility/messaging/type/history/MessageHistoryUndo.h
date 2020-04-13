@@ -1,8 +1,8 @@
 #ifndef MESSAGE_HISTORY_UNDO_H
 #define MESSAGE_HISTORY_UNDO_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageHistoryUndo: public Message<MessageHistoryUndo>
 {

@@ -1,9 +1,9 @@
 #ifndef QT_UPDATE_CHECKER_H
 #define QT_UPDATE_CHECKER_H
 
-#include "QtThreadedFunctor.h"
-#include "UpdateChecker.h"
-#include "Version.h"
+#include "../utility/QtThreadedFunctor.h"
+#include "../../../lib/app/UpdateChecker.h"
+#include "../../../lib/utility/Version.h"
 
 class QtUpdateChecker: public UpdateChecker
 {

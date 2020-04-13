@@ -1,6 +1,6 @@
 #include "IndexerJava.h"
 
-#include "JavaParser.h"
+#include "../parser/java/JavaParser.h"
 
 IndexerJava::~IndexerJava()
 {

@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "FileSystem.h"
-#include "SqliteIndexStorage.h"
+#include "../lib/utility/file/FileSystem.h"
+#include "../lib/data/storage/sqlite/SqliteIndexStorage.h"
 
 TEST_CASE("storage adds node successfully")
 {

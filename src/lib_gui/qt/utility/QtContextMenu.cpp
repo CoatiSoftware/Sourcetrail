@@ -6,9 +6,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#include "MessageHistoryRedo.h"
-#include "MessageHistoryUndo.h"
-#include "logging.h"
+#include "../../../lib/utility/messaging/type/history/MessageHistoryRedo.h"
+#include "../../../lib/utility/messaging/type/history/MessageHistoryUndo.h"
+#include "../../../lib/utility/logging/logging.h"
 
 QtContextMenu* QtContextMenu::s_instance;
 

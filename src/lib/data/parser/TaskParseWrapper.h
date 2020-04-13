@@ -3,10 +3,10 @@
 
 #include <memory>
 
-#include "Task.h"
-#include "TaskDecorator.h"
-#include "TaskRunner.h"
-#include "TimeStamp.h"
+#include "../../utility/scheduling/Task.h"
+#include "../../utility/scheduling/TaskDecorator.h"
+#include "../../utility/scheduling/TaskRunner.h"
+#include "../../utility/TimeStamp.h"
 
 class DialogView;
 class FileRegister;

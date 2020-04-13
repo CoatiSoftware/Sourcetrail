@@ -4,11 +4,11 @@
 #include <set>
 #include <vector>
 
-#include "FilePath.h"
-#include "MessageIndexingInterrupted.h"
-#include "MessageListener.h"
-#include "Task.h"
-#include "TimeStamp.h"
+#include "../../utility/file/FilePath.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingInterrupted.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/scheduling/Task.h"
+#include "../../utility/TimeStamp.h"
 
 class DialogView;
 class IndexerCommandCustom;

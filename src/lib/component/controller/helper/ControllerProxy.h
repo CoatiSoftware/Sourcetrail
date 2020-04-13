@@ -3,9 +3,9 @@
 
 #include <functional>
 
-#include "TaskLambda.h"
+#include "../../../utility/scheduling/TaskLambda.h"
 
-#include "View.h"
+#include "../../view/View.h"
 
 template <typename ControllerType>
 class ControllerProxy

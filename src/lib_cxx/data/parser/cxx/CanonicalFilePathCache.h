@@ -8,9 +8,9 @@
 #include <clang/AST/Decl.h>
 #include <clang/Basic/SourceManager.h>
 
-#include "FilePath.h"
-#include "FileRegister.h"
-#include "types.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/file/FileRegister.h"
+#include "../../../../lib/utility/types.h"
 
 class CanonicalFilePathCache
 {

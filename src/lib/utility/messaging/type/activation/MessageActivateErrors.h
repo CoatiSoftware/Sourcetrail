@@ -1,11 +1,11 @@
 #ifndef MESSAGE_ACTIVATE_ERRORS_H
 #define MESSAGE_ACTIVATE_ERRORS_H
 
-#include "Message.h"
+#include "../../Message.h"
 #include "MessageActivateBase.h"
 
-#include "ErrorFilter.h"
-#include "TabId.h"
+#include "../../../../data/ErrorFilter.h"
+#include "../../../../component/TabId.h"
 
 class MessageActivateErrors
 	: public Message<MessageActivateErrors>

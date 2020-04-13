@@ -1,7 +1,7 @@
 #include "SourceGroupJavaEmpty.h"
 
-#include "SourceGroupSettingsJavaEmpty.h"
-#include "utilityJava.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsJavaEmpty.h"
+#include "../utility/utilityJava.h"
 
 SourceGroupJavaEmpty::SourceGroupJavaEmpty(std::shared_ptr<SourceGroupSettingsJavaEmpty> settings)
 	: m_settings(settings)

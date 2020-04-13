@@ -1,7 +1,7 @@
 #include "CxxIndexerCommandProvider.h"
 
 #include "IndexerCommandCxx.h"
-#include "logging.h"
+#include "../../../lib/utility/logging/logging.h"
 
 CxxIndexerCommandProvider::CxxIndexerCommandProvider(): m_nextId(1) {}
 

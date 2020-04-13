@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "LocationType.h"
-#include "types.h"
+#include "../../utility/types.h"
 
 class FilePath;
 class SourceLocationFile;

@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "Graph.h"
+#include "../lib/data/graph/Graph.h"
 
 namespace
 {

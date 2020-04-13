@@ -1,7 +1,7 @@
 #ifndef SQLITE_STORAGE_MIGRATOR_H
 #define SQLITE_STORAGE_MIGRATOR_H
 
-#include "Migrator.h"
+#include "../../../utility/migration/Migrator.h"
 
 class SqliteStorage;
 

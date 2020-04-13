@@ -4,11 +4,11 @@
 
 #include <jni.h>
 
-#include "ApplicationSettings.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
 #include "JavaEnvironment.h"
-#include "logging.h"
-#include "utilityLibrary.h"
-#include "utilityWindows.h"
+#include "../../../../lib/utility/logging/logging.h"
+#include "../../../../lib/utility/utilityLibrary.h"
+#include "../../../../lib/utility/utilityWindows.h"
 
 void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& errorString)
 {

@@ -1,11 +1,11 @@
 #include "QtProjectWizardContentPathCDB.h"
 
-#include "QtProjectWizardContentPathsIndexedHeaders.h"
-#include "SourceGroupCxxCdb.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "utility.h"
-#include "utilityFile.h"
-#include "utilitySourceGroupCxx.h"
+#include "../paths/QtProjectWizardContentPathsIndexedHeaders.h"
+#include "../../../../../lib_cxx/project/SourceGroupCxxCdb.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsCxxCdb.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
+#include "../../../../../lib_cxx/project/utilitySourceGroupCxx.h"
 
 QtProjectWizardContentPathCDB::QtProjectWizardContentPathCDB(
 	std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizardWindow* window)

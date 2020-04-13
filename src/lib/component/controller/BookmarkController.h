@@ -1,18 +1,18 @@
 #ifndef BOOKMARK_CONTROLLER_H
 #define BOOKMARK_CONTROLLER_H
 
-#include "ActivationListener.h"
-#include "Bookmark.h"
+#include "helper/ActivationListener.h"
+#include "../../data/bookmark/Bookmark.h"
 #include "Controller.h"
-#include "EdgeBookmark.h"
-#include "MessageBookmarkActivate.h"
-#include "MessageBookmarkBrowse.h"
-#include "MessageBookmarkCreate.h"
-#include "MessageBookmarkDelete.h"
-#include "MessageBookmarkEdit.h"
-#include "MessageIndexingFinished.h"
-#include "MessageListener.h"
-#include "NodeBookmark.h"
+#include "../../data/bookmark/EdgeBookmark.h"
+#include "../../utility/messaging/type/bookmark/MessageBookmarkActivate.h"
+#include "../../utility/messaging/type/bookmark/MessageBookmarkBrowse.h"
+#include "../../utility/messaging/type/bookmark/MessageBookmarkCreate.h"
+#include "../../utility/messaging/type/bookmark/MessageBookmarkDelete.h"
+#include "../../utility/messaging/type/bookmark/MessageBookmarkEdit.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../data/bookmark/NodeBookmark.h"
 
 class StorageAccess;
 

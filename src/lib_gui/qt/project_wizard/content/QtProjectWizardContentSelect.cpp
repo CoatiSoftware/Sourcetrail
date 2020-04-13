@@ -7,13 +7,13 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-#include "LanguageType.h"
-#include "QtFlowLayout.h"
-#include "QtProjectWizardWindow.h"
-#include "ResourcePaths.h"
-#include "SqliteIndexStorage.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../../../lib/settings/LanguageType.h"
+#include "../../utility/QtFlowLayout.h"
+#include "../QtProjectWizardWindow.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib/data/storage/sqlite/SqliteIndexStorage.h"
+#include "../../../utility/utilityApp.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 QtProjectWizardContentSelect::QtProjectWizardContentSelect(QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window)

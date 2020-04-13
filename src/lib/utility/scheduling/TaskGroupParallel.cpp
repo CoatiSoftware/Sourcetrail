@@ -3,7 +3,7 @@
 #include <chrono>
 #include <thread>
 
-#include "ScopedFunctor.h"
+#include "../ScopedFunctor.h"
 
 TaskGroupParallel::TaskGroupParallel()
 	: m_needsToStartThreads(true), m_activeTaskCountMutex(std::make_shared<std::mutex>())

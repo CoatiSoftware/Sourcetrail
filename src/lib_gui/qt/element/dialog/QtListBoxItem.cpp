@@ -4,11 +4,11 @@
 #include <QListWidget>
 #include <QPushButton>
 
-#include "QtFileDialog.h"
-#include "QtIconButton.h"
+#include "../../utility/QtFileDialog.h"
+#include "../button/QtIconButton.h"
 #include "QtLineEdit.h"
 #include "QtListBox.h"
-#include "ResourcePaths.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 
 QtListBoxItem::QtListBoxItem(QListWidgetItem* item, QWidget* parent)
 	: QWidget(parent), m_item(item), m_readOnly(false)

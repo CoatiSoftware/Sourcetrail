@@ -2,7 +2,7 @@
 
 #include <QLabel>
 
-#include "QtProgressBar.h"
+#include "../element/dialog/QtProgressBar.h"
 
 QtProgressBarDialog::QtProgressBarDialog(float topRatio, bool hideable, QWidget* parent)
 	: QtIndexingDialog(true, parent), m_title(nullptr), m_topRatio(topRatio)

@@ -1,8 +1,8 @@
 #ifndef MESSAGE_BOOKMARK_ACTIVATE_H
 #define MESSAGE_BOOKMARK_ACTIVATE_H
 
-#include "Bookmark.h"
-#include "Message.h"
+#include "../../../../data/bookmark/Bookmark.h"
+#include "../../Message.h"
 
 class MessageBookmarkActivate: public Message<MessageBookmarkActivate>
 {

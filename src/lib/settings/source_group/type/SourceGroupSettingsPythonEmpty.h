@@ -1,11 +1,11 @@
 #ifndef SOURCE_GROUP_SETTINGS_PYTHON_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_PYTHON_EMPTY_H
 
-#include "SourceGroupSettingsWithComponents.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithPythonEnvironmentPath.h"
-#include "SourceGroupSettingsWithSourceExtensionsPython.h"
-#include "SourceGroupSettingsWithSourcePaths.h"
+#include "../SourceGroupSettingsWithComponents.h"
+#include "../component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../component/python/SourceGroupSettingsWithPythonEnvironmentPath.h"
+#include "../component/python/SourceGroupSettingsWithSourceExtensionsPython.h"
+#include "../component/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsPythonEmpty
 	: public SourceGroupSettingsWithComponents<

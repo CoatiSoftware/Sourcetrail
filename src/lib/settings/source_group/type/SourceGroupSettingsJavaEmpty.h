@@ -1,12 +1,12 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_JAVA_EMPTY_H
 
-#include "SourceGroupSettingsWithClasspath.h"
-#include "SourceGroupSettingsWithComponents.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithJavaStandard.h"
-#include "SourceGroupSettingsWithSourceExtensionsJava.h"
-#include "SourceGroupSettingsWithSourcePaths.h"
+#include "../component/java/SourceGroupSettingsWithClasspath.h"
+#include "../SourceGroupSettingsWithComponents.h"
+#include "../component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../component/java/SourceGroupSettingsWithJavaStandard.h"
+#include "../component/java/SourceGroupSettingsWithSourceExtensionsJava.h"
+#include "../component/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsJavaEmpty
 	: public SourceGroupSettingsWithComponents<

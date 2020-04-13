@@ -1,8 +1,8 @@
 #ifndef MESSAGE_FIND_H
 #define MESSAGE_FIND_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageFind: public Message<MessageFind>
 {

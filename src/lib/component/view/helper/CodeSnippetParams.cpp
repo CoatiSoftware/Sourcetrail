@@ -1,6 +1,6 @@
 #include "CodeSnippetParams.h"
 
-#include "SourceLocationFile.h"
+#include "../../../data/location/SourceLocationFile.h"
 
 CodeSnippetParams CodeSnippetParams::merge(const CodeSnippetParams& a, const CodeSnippetParams& b)
 {

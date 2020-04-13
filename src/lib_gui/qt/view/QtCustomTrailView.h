@@ -3,10 +3,10 @@
 
 #include <QWidget>
 
-#include "ControllerProxy.h"
-#include "CustomTrailController.h"
-#include "CustomTrailView.h"
-#include "QtThreadedFunctor.h"
+#include "../../../lib/component/controller/helper/ControllerProxy.h"
+#include "../../../lib/component/controller/CustomTrailController.h"
+#include "../../../lib/component/view/CustomTrailView.h"
+#include "../utility/QtThreadedFunctor.h"
 
 class QCheckBox;
 class QHBoxLayout;

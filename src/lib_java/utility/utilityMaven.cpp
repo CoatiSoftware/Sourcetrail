@@ -2,17 +2,17 @@
 
 #include <cstdlib>
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "FilePath.h"
-#include "MessageStatus.h"
-#include "TextAccess.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilityApp.h"
+#include "../../lib/app/Application.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../../lib/utility/file/FilePath.h"
+#include "../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../lib/utility/text/TextAccess.h"
+#include "../../lib/utility/logging/logging.h"
+#include "../../lib/utility/utility.h"
+#include "../../lib_gui/utility/utilityApp.h"
 #include "utilityJava.h"
-#include "utilityString.h"
-#include "utilityXml.h"
+#include "../../lib_utility/utility/utilityString.h"
+#include "../../lib/utility/utilityXml.h"
 
 namespace
 {

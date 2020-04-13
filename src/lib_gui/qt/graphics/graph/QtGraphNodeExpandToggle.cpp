@@ -2,13 +2,13 @@
 
 #include <QFontMetrics>
 
-#include "QtDeviceScaledPixmap.h"
-#include "QtRoundedRectItem.h"
-#include "utilityQt.h"
+#include "../../utility/QtDeviceScaledPixmap.h"
+#include "../base/QtRoundedRectItem.h"
+#include "../../utility/utilityQt.h"
 
-#include "MessageGraphNodeExpand.h"
-#include "ResourcePaths.h"
-#include "logging.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageGraphNodeExpand.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib/utility/logging/logging.h"
 
 QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount)
 	: m_invisibleSubNodeCount(invisibleSubNodeCount), m_expanded(expanded)

@@ -1,7 +1,7 @@
 #ifndef SQLITE_DATABASE_INDEX_H
 #define SQLITE_DATABASE_INDEX_H
 
-#include "CppSQLite3.h"
+#include "../../../../external/sqlite/CppSQLite3.h"
 #include <string>
 
 class SqliteDatabaseIndex

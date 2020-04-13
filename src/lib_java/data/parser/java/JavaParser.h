@@ -5,13 +5,13 @@
 #include <mutex>
 #include <string>
 
-#include "FilePath.h"
-#include "IndexerCommandJava.h"
-#include "IndexerStateInfo.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../indexer/IndexerCommandJava.h"
+#include "../../../../lib/data/indexer/IndexerStateInfo.h"
 #include "JavaEnvironment.h"
-#include "Parser.h"
-#include "logging.h"
-#include "types.h"
+#include "../../../../lib/data/parser/Parser.h"
+#include "../../../../lib/utility/logging/logging.h"
+#include "../../../../lib/utility/types.h"
 
 struct JNIEnv_;
 typedef JNIEnv_ JNIEnv;

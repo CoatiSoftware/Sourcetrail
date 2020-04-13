@@ -5,21 +5,21 @@
 #include <string>
 #include <vector>
 
-#include "types.h"
+#include "../../utility/types.h"
 
-#include "BookmarkCategory.h"
-#include "EdgeBookmark.h"
-#include "ErrorCountInfo.h"
-#include "ErrorFilter.h"
-#include "ErrorInfo.h"
-#include "LocationType.h"
-#include "Node.h"
-#include "NodeBookmark.h"
-#include "SearchMatch.h"
-#include "StorageEdge.h"
+#include "../bookmark/BookmarkCategory.h"
+#include "../bookmark/EdgeBookmark.h"
+#include "../ErrorCountInfo.h"
+#include "../ErrorFilter.h"
+#include "../ErrorInfo.h"
+#include "../location/LocationType.h"
+#include "../graph/Node.h"
+#include "../bookmark/NodeBookmark.h"
+#include "../search/SearchMatch.h"
+#include "type/StorageEdge.h"
 #include "StorageStats.h"
-#include "TooltipInfo.h"
-#include "TooltipOrigin.h"
+#include "../tooltip/TooltipInfo.h"
+#include "../tooltip/TooltipOrigin.h"
 
 class FilePath;
 class Graph;

@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "SingleValueCache.h"
+#include "../../lib/utility/SingleValueCache.h"
 #include "SourceGroupJava.h"
 
 class SourceGroupSettingsJavaGradle;

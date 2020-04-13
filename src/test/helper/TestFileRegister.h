@@ -1,7 +1,7 @@
 #ifndef TEST_FILE_MANAGER_H
 #define TEST_FILE_MANAGER_H
 
-#include "FileRegister.h"
+#include "../../lib/utility/file/FileRegister.h"
 
 class TestFileRegister: public FileRegister
 {

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Parser.h"
+#include "../../../../lib/data/parser/Parser.h"
 
 class CanonicalFilePathCache;
 class CxxDiagnosticConsumer;

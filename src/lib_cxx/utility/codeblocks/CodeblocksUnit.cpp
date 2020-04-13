@@ -1,9 +1,9 @@
 #include "CodeblocksUnit.h"
 
-#include "tinyxml.h"
+#include "../../../external/tinyxml/tinyxml.h"
 
-#include "FilePath.h"
-#include "utilityString.h"
+#include "../../../lib/utility/file/FilePath.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 namespace Codeblocks
 {

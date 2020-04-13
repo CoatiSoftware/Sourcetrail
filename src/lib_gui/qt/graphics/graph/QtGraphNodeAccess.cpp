@@ -5,12 +5,12 @@
 #include <QFontMetrics>
 #include <QPen>
 
-#include "ResourcePaths.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 
-#include "GraphViewStyle.h"
-#include "QtDeviceScaledPixmap.h"
-#include "TokenComponentAccess.h"
-#include "utilityQt.h"
+#include "../../../../lib/component/view/GraphViewStyle.h"
+#include "../../utility/QtDeviceScaledPixmap.h"
+#include "../../../../lib/data/graph/token_component/TokenComponentAccess.h"
+#include "../../utility/utilityQt.h"
 
 QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 	: QtGraphNode(), m_accessKind(accessKind), m_accessIcon(nullptr), m_accessIconSize(16)

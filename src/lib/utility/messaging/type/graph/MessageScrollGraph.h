@@ -1,8 +1,8 @@
 #ifndef MESSAGE_SCROLL_GRAPH_H
 #define MESSAGE_SCROLL_GRAPH_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageScrollGraph: public Message<MessageScrollGraph>
 {

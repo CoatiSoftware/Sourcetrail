@@ -1,10 +1,10 @@
 #include "catch.hpp"
 
-#include "FileManager.h"
-#include "FilePath.h"
-#include "FilePathFilter.h"
-#include "FileSystem.h"
-#include "utility.h"
+#include "../lib/utility/file/FileManager.h"
+#include "../lib/utility/file/FilePath.h"
+#include "../lib/utility/file/FilePathFilter.h"
+#include "../lib/utility/file/FileSystem.h"
+#include "../lib/utility/utility.h"
 
 TEST_CASE("file manager has added file paths after first fetch")
 {

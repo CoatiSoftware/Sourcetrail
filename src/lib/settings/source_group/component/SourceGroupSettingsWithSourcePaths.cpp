@@ -1,7 +1,7 @@
 #include "SourceGroupSettingsWithSourcePaths.h"
 
-#include "ProjectSettings.h"
-#include "utility.h"
+#include "../../ProjectSettings.h"
+#include "../../../utility/utility.h"
 
 std::vector<FilePath> SourceGroupSettingsWithSourcePaths::getSourcePaths() const
 {

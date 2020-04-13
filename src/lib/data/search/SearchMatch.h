@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "Node.h"
-#include "types.h"
+#include "../graph/Node.h"
+#include "../../utility/types.h"
 
 class NodeTypeSet;
 

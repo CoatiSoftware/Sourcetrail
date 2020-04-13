@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "utility.h"
+#include "../lib/utility/utility.h"
 
 TEST_CASE("trim blank spaces of string")
 {

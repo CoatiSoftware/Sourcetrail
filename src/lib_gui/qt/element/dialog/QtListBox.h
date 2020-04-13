@@ -4,7 +4,7 @@
 #include <QFrame>
 #include <QListWidget>
 
-#include "FilePath.h"
+#include "../../../../lib/utility/file/FilePath.h"
 
 class QHBoxLayout;
 class QListWidgetItem;

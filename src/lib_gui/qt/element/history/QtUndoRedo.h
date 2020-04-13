@@ -3,8 +3,8 @@
 
 #include <QFrame>
 
-#include "SearchMatch.h"
-#include "TimeStamp.h"
+#include "../../../../lib/data/search/SearchMatch.h"
+#include "../../../../lib/utility/TimeStamp.h"
 
 class QtSearchBarButton;
 class QtHistoryList;

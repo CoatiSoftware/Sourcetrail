@@ -5,9 +5,9 @@
 #include <set>
 #include <vector>
 
-#include "LanguageType.h"
-#include "SourceGroupStatusType.h"
-#include "SourceGroupType.h"
+#include "../settings/LanguageType.h"
+#include "../settings/source_group/SourceGroupStatusType.h"
+#include "../settings/source_group/SourceGroupType.h"
 
 class DialogView;
 class FilePath;

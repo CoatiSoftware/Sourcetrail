@@ -1,8 +1,8 @@
 #ifndef MESSAGE_FOCUS_CHANGED_H
 #define MESSAGE_FOCUS_CHANGED_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageFocusChanged: public Message<MessageFocusChanged>
 {

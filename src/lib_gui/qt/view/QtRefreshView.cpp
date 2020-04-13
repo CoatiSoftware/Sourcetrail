@@ -3,13 +3,13 @@
 #include <QFrame>
 #include <QHBoxLayout>
 
-#include "MessageIndexingShowDialog.h"
-#include "MessageRefresh.h"
-#include "ResourcePaths.h"
+#include "../../../lib/utility/messaging/type/indexing/MessageIndexingShowDialog.h"
+#include "../../../lib/utility/messaging/type/MessageRefresh.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
 
-#include "QtSearchBarButton.h"
+#include "../element/search/QtSearchBarButton.h"
 #include "QtViewWidgetWrapper.h"
-#include "utilityQt.h"
+#include "../utility/utilityQt.h"
 
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout): RefreshView(viewLayout)
 {

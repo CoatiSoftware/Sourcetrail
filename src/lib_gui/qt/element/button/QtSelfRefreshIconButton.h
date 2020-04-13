@@ -4,10 +4,10 @@
 #include <QPushButton>
 #include <QTimer>
 
-#include "FilePath.h"
-#include "MessageListener.h"
-#include "MessageRefreshUI.h"
-#include "QtThreadedFunctor.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/messaging/MessageListener.h"
+#include "../../../../lib/utility/messaging/type/MessageRefreshUI.h"
+#include "../../utility/QtThreadedFunctor.h"
 
 class QtSelfRefreshIconButton
 	: public QPushButton

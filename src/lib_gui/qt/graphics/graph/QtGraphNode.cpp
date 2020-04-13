@@ -7,18 +7,18 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
-#include "GraphFocusHandler.h"
-#include "MessageCodeShowDefinition.h"
-#include "MessageGraphNodeHide.h"
-#include "MessageGraphNodeMove.h"
-#include "QtDeviceScaledPixmap.h"
+#include "../GraphFocusHandler.h"
+#include "../../../../lib/utility/messaging/type/code/MessageCodeShowDefinition.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageGraphNodeHide.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageGraphNodeMove.h"
+#include "../../utility/QtDeviceScaledPixmap.h"
 #include "QtGraphEdge.h"
-#include "QtGraphNodeComponent.h"
+#include "../component/QtGraphNodeComponent.h"
 #include "QtGraphNodeExpandToggle.h"
-#include "QtRoundedRectItem.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
-#include "utilityString.h"
+#include "../base/QtRoundedRectItem.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../utility/utilityQt.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 void QtGraphNode::blendIn()
 {

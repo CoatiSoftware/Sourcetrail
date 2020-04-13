@@ -4,22 +4,22 @@
 
 #include <QMessageBox>
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "FileManager.h"
-#include "IncludeDirective.h"
-#include "IncludeProcessing.h"
-#include "QtDialogView.h"
-#include "QtPathListDialog.h"
-#include "QtTextEditDialog.h"
-#include "ScopedFunctor.h"
-#include "SourceGroupSettings.h"
-#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithSourceExtensions.h"
-#include "SourceGroupSettingsWithSourcePaths.h"
-#include "utility.h"
-#include "utilityFile.h"
+#include "../../../../../lib/app/Application.h"
+#include "../../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../../lib/utility/file/FileManager.h"
+#include "../../../../../lib_cxx/utility/IncludeDirective.h"
+#include "../../../../../lib_cxx/utility/IncludeProcessing.h"
+#include "../../../view/QtDialogView.h"
+#include "../../../window/QtPathListDialog.h"
+#include "../../../window/QtTextEditDialog.h"
+#include "../../../../../lib/utility/ScopedFunctor.h"
+#include "../../../../../lib/settings/source_group/SourceGroupSettings.h"
+#include "../../../../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.h"
+#include "../../../../../lib/settings/source_group/component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../../../../../lib/settings/source_group/component/SourceGroupSettingsWithSourceExtensions.h"
+#include "../../../../../lib/settings/source_group/component/SourceGroupSettingsWithSourcePaths.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
 
 QtProjectWizardContentPathsHeaderSearch::QtProjectWizardContentPathsHeaderSearch(
 	std::shared_ptr<SourceGroupSettings> settings,

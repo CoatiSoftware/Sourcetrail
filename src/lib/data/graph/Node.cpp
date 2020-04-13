@@ -2,12 +2,12 @@
 
 #include <sstream>
 
-#include "logging.h"
-#include "utilityString.h"
+#include "../../utility/logging/logging.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
-#include "TokenComponentAccess.h"
-#include "TokenComponentConst.h"
-#include "TokenComponentStatic.h"
+#include "token_component/TokenComponentAccess.h"
+#include "token_component/TokenComponentConst.h"
+#include "token_component/TokenComponentStatic.h"
 
 Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, DefinitionKind definitionKind)
 	: Token(id)

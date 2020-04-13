@@ -10,14 +10,14 @@
 #include <QRadioButton>
 #include <QSlider>
 
-#include "ColorScheme.h"
-#include "MessageActivateTrail.h"
-#include "NodeTypeSet.h"
-#include "QtMainWindow.h"
-#include "QtSmartSearchBox.h"
-#include "ResourcePaths.h"
-#include "TabId.h"
-#include "utilityQt.h"
+#include "../../../lib/settings/ColorScheme.h"
+#include "../../../lib/utility/messaging/type/activation/MessageActivateTrail.h"
+#include "../../../lib/data/NodeTypeSet.h"
+#include "../window/QtMainWindow.h"
+#include "../element/search/QtSmartSearchBox.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/component/TabId.h"
+#include "../utility/utilityQt.h"
 
 QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 	: QWidget(utility::getMainWindowforMainView(viewLayout))

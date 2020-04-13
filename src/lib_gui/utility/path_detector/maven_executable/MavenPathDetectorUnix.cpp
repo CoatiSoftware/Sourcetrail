@@ -1,7 +1,7 @@
 #include "MavenPathDetectorUnix.h"
 
-#include "FilePath.h"
-#include "utilityApp.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../utilityApp.h"
 
 MavenPathDetectorUnix::MavenPathDetectorUnix(): PathDetector("Maven for Unix") {}
 

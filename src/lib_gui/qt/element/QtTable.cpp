@@ -8,7 +8,7 @@
 #include <QScrollBar>
 #include <QStyledItemDelegate>
 
-#include "ApplicationSettings.h"
+#include "../../../lib/settings/ApplicationSettings.h"
 
 
 class SelectableCellDelegate: public QStyledItemDelegate

@@ -1,15 +1,15 @@
 #include "includes.h"
 
 #include "language_packages.h"
+#include "../lib/settings/ApplicationSettings.h"
 
-#include "LanguagePackageManager.h"
-#include "InterprocessIndexer.h"
-#include "ApplicationSettings.h"
-#include "AppPath.h"
-#include "ConsoleLogger.h"
-#include "FileLogger.h"
-#include "logging.h"
-#include "LogManager.h"
+#include "../lib/app/paths/AppPath.h"
+#include "../lib/utility/logging/ConsoleLogger.h"
+#include "../lib/data/indexer/interprocess/InterprocessIndexer.h"
+#include "../lib/app/LanguagePackageManager.h"
+#include "../lib/utility/logging/LogManager.h"
+#include "../lib/utility/logging/logging.h"
+#include "../lib/utility/logging/FileLogger.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 #include "LanguagePackageCxx.h"

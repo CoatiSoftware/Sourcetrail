@@ -1,10 +1,10 @@
 #ifndef MESSAGE_SEARCH_AUTOCOMPLETE_H
 #define MESSAGE_SEARCH_AUTOCOMPLETE_H
 
-#include "Message.h"
-#include "Node.h"
-#include "NodeTypeSet.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../data/graph/Node.h"
+#include "../../../../data/NodeTypeSet.h"
+#include "../../../../component/TabId.h"
 
 class MessageSearchAutocomplete: public Message<MessageSearchAutocomplete>
 {

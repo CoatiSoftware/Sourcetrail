@@ -2,15 +2,15 @@
 
 #include <set>
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "JavaEnvironment.h"
-#include "JavaEnvironmentFactory.h"
-#include "MessageStatus.h"
-#include "ResourcePaths.h"
-#include "logging.h"
+#include "../../lib/app/Application.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../data/parser/java/JavaEnvironment.h"
+#include "../data/parser/java/JavaEnvironmentFactory.h"
+#include "../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../lib/app/paths/ResourcePaths.h"
+#include "../../lib/utility/logging/logging.h"
 #include "utilityJava.h"
-#include "utilityString.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 namespace utility
 {

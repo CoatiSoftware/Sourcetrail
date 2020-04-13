@@ -1,11 +1,11 @@
 #ifndef SEARCH_CONTROLLER_H
 #define SEARCH_CONTROLLER_H
 
-#include "ActivationListener.h"
+#include "helper/ActivationListener.h"
 #include "Controller.h"
-#include "MessageFind.h"
-#include "MessageListener.h"
-#include "MessageSearchAutocomplete.h"
+#include "../../utility/messaging/type/search/MessageFind.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/messaging/type/search/MessageSearchAutocomplete.h"
 
 class StorageAccess;
 class SearchView;

@@ -1,7 +1,7 @@
 #include "InterprocessIndexingStatusManager.h"
 
-#include "logging.h"
-#include "utilityString.h"
+#include "../../../utility/logging/logging.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 const char* InterprocessIndexingStatusManager::s_sharedMemoryNamePrefix = "ists_";
 

@@ -1,12 +1,12 @@
 #include "SourceGroupCustomCommand.h"
 
-#include "FileManager.h"
-#include "IndexerCommandCustom.h"
-#include "ProjectSettings.h"
+#include "../utility/file/FileManager.h"
+#include "../data/indexer/IndexerCommandCustom.h"
+#include "../settings/ProjectSettings.h"
 #include "RefreshInfo.h"
-#include "SourceGroupSettingsCustomCommand.h"
-#include "SqliteIndexStorage.h"
-#include "utility.h"
+#include "../settings/source_group/type/SourceGroupSettingsCustomCommand.h"
+#include "../data/storage/sqlite/SqliteIndexStorage.h"
+#include "../utility/utility.h"
 
 SourceGroupCustomCommand::SourceGroupCustomCommand(
 	std::shared_ptr<SourceGroupSettingsCustomCommand> settings)

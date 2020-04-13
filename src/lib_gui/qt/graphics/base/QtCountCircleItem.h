@@ -1,7 +1,7 @@
 #ifndef QT_COUNT_CIRCLE_ITEM_H
 #define QT_COUNT_CIRCLE_ITEM_H
 
-#include "Vector2.h"
+#include "../../../../lib/utility/math/Vector2.h"
 
 #include "QtRoundedRectItem.h"
 

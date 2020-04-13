@@ -1,7 +1,7 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_JAVA_H
 #define SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_JAVA_H
 
-#include "SourceGroupSettingsWithSourceExtensions.h"
+#include "../SourceGroupSettingsWithSourceExtensions.h"
 
 class SourceGroupSettingsWithSourceExtensionsJava: public SourceGroupSettingsWithSourceExtensions
 {

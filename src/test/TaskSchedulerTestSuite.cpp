@@ -3,11 +3,11 @@
 #include <chrono>
 #include <thread>
 
-#include "Blackboard.h"
-#include "Task.h"
-#include "TaskGroupSelector.h"
-#include "TaskGroupSequence.h"
-#include "TaskScheduler.h"
+#include "../lib/utility/scheduling/Blackboard.h"
+#include "../lib/utility/scheduling/Task.h"
+#include "../lib/utility/scheduling/TaskGroupSelector.h"
+#include "../lib/utility/scheduling/TaskGroupSequence.h"
+#include "../lib/utility/scheduling/TaskScheduler.h"
 
 namespace
 {

@@ -2,9 +2,9 @@
 
 #include <thread>
 
-#include "QtTextEditDialog.h"
-#include "utility.h"
-#include "utilityString.h"
+#include "../../window/QtTextEditDialog.h"
+#include "../../../../lib/utility/utility.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 QtProjectWizardContent::QtProjectWizardContent(QtProjectWizardWindow* window)
 	: QWidget(window)

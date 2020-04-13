@@ -1,8 +1,8 @@
 #include "utilityXml.h"
 
-#include "tinyxml.h"
+#include "../../external/tinyxml/tinyxml.h"
 
-#include "logging.h"
+#include "logging/logging.h"
 
 namespace utility
 {

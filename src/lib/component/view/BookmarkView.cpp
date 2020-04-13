@@ -1,6 +1,6 @@
 #include "BookmarkView.h"
 
-#include "BookmarkController.h"
+#include "../controller/BookmarkController.h"
 
 BookmarkView::BookmarkView(ViewLayout* viewLayout): View(viewLayout) {}
 

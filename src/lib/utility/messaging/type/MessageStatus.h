@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Message.h"
+#include "../Message.h"
 
 class MessageStatus: public Message<MessageStatus>
 {

@@ -2,7 +2,7 @@
 
 #include <QEvent>
 
-#include "utilityQt.h"
+#include "../../utility/utilityQt.h"
 
 QtIconButton::QtIconButton(const FilePath& iconPath, const FilePath& hoveredIconPath, QWidget* parent)
 	: QPushButton(QLatin1String(""), parent)

@@ -6,8 +6,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "IndexerCommandProvider.h"
-#include "types.h"
+#include "../../../lib/data/indexer/IndexerCommandProvider.h"
+#include "../../../lib/utility/types.h"
 
 class IndexerCommandCxx;
 

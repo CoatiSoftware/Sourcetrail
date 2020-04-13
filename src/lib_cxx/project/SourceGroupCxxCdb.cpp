@@ -3,17 +3,17 @@
 #include <clang/Tooling/JSONCompilationDatabase.h>
 #include <clang/Tooling/Tooling.h>
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "ClangInvocationInfo.h"
-#include "CxxCompilationDatabaseSingle.h"
-#include "CxxIndexerCommandProvider.h"
-#include "IndexerCommandCxx.h"
-#include "MessageStatus.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "TaskLambda.h"
-#include "logging.h"
-#include "utility.h"
+#include "../../lib/app/Application.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../data/parser/cxx/ClangInvocationInfo.h"
+#include "../data/parser/cxx/CxxCompilationDatabaseSingle.h"
+#include "../data/indexer/CxxIndexerCommandProvider.h"
+#include "../data/indexer/IndexerCommandCxx.h"
+#include "../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsCxxCdb.h"
+#include "../../lib/utility/scheduling/TaskLambda.h"
+#include "../../lib/utility/logging/logging.h"
+#include "../../lib/utility/utility.h"
 #include "utilitySourceGroupCxx.h"
 
 SourceGroupCxxCdb::SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings)

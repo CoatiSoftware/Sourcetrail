@@ -3,8 +3,8 @@
 
 #include <QWidget>
 
-#include "QtThreadedFunctor.h"
-#include "StatusView.h"
+#include "../utility/QtThreadedFunctor.h"
+#include "../../../lib/component/view/StatusView.h"
 
 class QBoxLayout;
 class QCheckBox;

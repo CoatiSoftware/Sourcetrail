@@ -1,8 +1,8 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_CXX_PCH_OPTIONS_H
 #define SOURCE_GROUP_SETTINGS_WITH_CXX_PCH_OPTIONS_H
 
-#include "FilePath.h"
-#include "SourceGroupSettingsComponent.h"
+#include "../../../../utility/file/FilePath.h"
+#include "../SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithCxxPchOptions: public SourceGroupSettingsComponent
 {

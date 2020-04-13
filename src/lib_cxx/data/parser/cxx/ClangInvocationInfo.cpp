@@ -10,7 +10,7 @@
 
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"
-#include "utilityString.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 namespace
 {

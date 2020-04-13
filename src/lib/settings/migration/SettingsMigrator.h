@@ -1,7 +1,7 @@
 #ifndef SETTNGS_MIGRATOR_H
 #define SETTNGS_MIGRATOR_H
 
-#include "Migrator.h"
+#include "../../utility/migration/Migrator.h"
 
 class Settings;
 

@@ -5,7 +5,7 @@
 #	include <QWinTaskbarProgress>
 #endif
 
-#include "QtMainWindow.h"
+#include "../window/QtMainWindow.h"
 
 QtWindowsTaskbarButton::QtWindowsTaskbarButton()
 #ifdef _WIN32

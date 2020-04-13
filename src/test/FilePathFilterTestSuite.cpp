@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "FilePathFilter.h"
+#include "../lib/utility/file/FilePathFilter.h"
 
 TEST_CASE("file path filter finds exact match")
 {

@@ -4,11 +4,11 @@
 
 #include "language_packages.h"
 
-#include "SourceGroupCustomCommand.h"
-#include "SourceGroupSettingsCustomCommand.h"
-#include "SourceGroupSettingsWithSourcePaths.h"
-#include "utility.h"
-#include "utilityFile.h"
+#include "../../../../../lib/project/SourceGroupCustomCommand.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsCustomCommand.h"
+#include "../../../../../lib/settings/source_group/component/SourceGroupSettingsWithSourcePaths.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 #	include "SourceGroupCxxEmpty.h"

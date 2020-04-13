@@ -1,11 +1,11 @@
 #ifndef SOURCE_GROUP_SETTINGS_CUSTOM_COMMAND_H
 #define SOURCE_GROUP_SETTINGS_CUSTOM_COMMAND_H
 
-#include "SourceGroupSettingsWithComponents.h"
-#include "SourceGroupSettingsWithCustomCommand.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithSourceExtensionsEmpty.h"
-#include "SourceGroupSettingsWithSourcePaths.h"
+#include "../SourceGroupSettingsWithComponents.h"
+#include "../component/SourceGroupSettingsWithCustomCommand.h"
+#include "../component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../component/SourceGroupSettingsWithSourceExtensionsEmpty.h"
+#include "../component/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsCustomCommand
 	: public SourceGroupSettingsWithComponents<

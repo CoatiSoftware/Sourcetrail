@@ -5,8 +5,8 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "logging.h"
-#include "utilityString.h"
+#include "../../../utility/logging/logging.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 std::wstring NetworkProtocolHelper::s_divider = L">>";
 std::wstring NetworkProtocolHelper::s_setActiveTokenPrefix = L"setActiveToken";

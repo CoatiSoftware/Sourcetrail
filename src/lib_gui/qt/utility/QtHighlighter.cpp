@@ -7,13 +7,13 @@
 #include <QTextCursor>
 #include <QTextDocument>
 
-#include "ColorScheme.h"
-#include "FileSystem.h"
-#include "ResourcePaths.h"
-#include "TextAccess.h"
-#include "logging.h"
-#include "tracing.h"
-#include "utility.h"
+#include "../../../lib/settings/ColorScheme.h"
+#include "../../../lib/utility/file/FileSystem.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/utility/text/TextAccess.h"
+#include "../../../lib/utility/logging/logging.h"
+#include "../../../lib/utility/tracing.h"
+#include "../../../lib/utility/utility.h"
 
 std::map<std::wstring, std::vector<QtHighlighter::HighlightingRule>> QtHighlighter::s_highlightingRules;
 std::map<QtHighlighter::HighlightType, QTextCharFormat> QtHighlighter::s_charFormats;

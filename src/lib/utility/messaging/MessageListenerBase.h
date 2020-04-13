@@ -5,7 +5,7 @@
 
 #include "MessageBase.h"
 #include "MessageQueue.h"
-#include "types.h"
+#include "../types.h"
 
 class MessageListenerBase
 {

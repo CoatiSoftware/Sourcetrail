@@ -6,7 +6,7 @@
 #include <set>
 #include <vector>
 
-#include "types.h"
+#include "../utility/types.h"
 
 class HierarchyCache
 {

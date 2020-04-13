@@ -4,7 +4,7 @@
 #include <map>
 #include <set>
 
-#include "types.h"
+#include "../../../utility/types.h"
 
 #include "TokenComponent.h"
 

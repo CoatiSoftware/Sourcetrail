@@ -3,8 +3,8 @@
 
 #include <clang/AST/Decl.h>
 
-#include "AccessKind.h"
-#include "SymbolKind.h"
+#include "../../../../lib/data/parser/AccessKind.h"
+#include "../../../../lib/data/parser/SymbolKind.h"
 
 struct ParseLocation;
 struct ParseLocation;

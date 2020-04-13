@@ -1,13 +1,13 @@
 #include "SourceGroupCxxCodeblocks.h"
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "CodeblocksProject.h"
-#include "CxxIndexerCommandProvider.h"
-#include "IndexerCommandCxx.h"
-#include "MessageStatus.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
-#include "utility.h"
+#include "../../lib/app/Application.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../utility/codeblocks/CodeblocksProject.h"
+#include "../data/indexer/CxxIndexerCommandProvider.h"
+#include "../data/indexer/IndexerCommandCxx.h"
+#include "../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h"
+#include "../../lib/utility/utility.h"
 
 SourceGroupCxxCodeblocks::SourceGroupCxxCodeblocks(
 	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings)

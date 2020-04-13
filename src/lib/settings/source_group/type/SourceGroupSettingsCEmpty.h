@@ -1,14 +1,14 @@
 #ifndef SOURCE_GROUP_SETTINGS_C_EMPTY_H
 #define SOURCE_GROUP_SETTINGS_C_EMPTY_H
 
-#include "SourceGroupSettingsWithCStandard.h"
-#include "SourceGroupSettingsWithComponents.h"
-#include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
-#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
-#include "SourceGroupSettingsWithCxxPchOptions.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithSourceExtensionsC.h"
-#include "SourceGroupSettingsWithSourcePaths.h"
+#include "../component/cxx/SourceGroupSettingsWithCStandard.h"
+#include "../SourceGroupSettingsWithComponents.h"
+#include "../component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.h"
+#include "../component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.h"
+#include "../component/cxx/SourceGroupSettingsWithCxxPchOptions.h"
+#include "../component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../component/cxx/SourceGroupSettingsWithSourceExtensionsC.h"
+#include "../component/SourceGroupSettingsWithSourcePaths.h"
 
 class SourceGroupSettingsCEmpty
 	: public SourceGroupSettingsWithComponents<

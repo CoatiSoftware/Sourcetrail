@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include "NodeTypeSet.h"
-#include "logging.h"
+#include "../NodeTypeSet.h"
+#include "../../utility/logging/logging.h"
 
 void SearchMatch::log(const std::vector<SearchMatch>& matches, const std::wstring& query)
 {

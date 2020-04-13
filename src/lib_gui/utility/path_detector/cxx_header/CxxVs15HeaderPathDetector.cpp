@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "FilePath.h"
-#include "FileSystem.h"
-#include "utility.h"
-#include "utilityApp.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/file/FileSystem.h"
+#include "../../../../lib/utility/utility.h"
+#include "../../utilityApp.h"
 #include "utilityCxxHeaderDetection.h"
 
 CxxVs15HeaderPathDetector::CxxVs15HeaderPathDetector(): PathDetector("Visual Studio 2017") {}

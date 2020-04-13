@@ -1,9 +1,9 @@
 #include "CodeFocusHandler.h"
 
-#include "MessageFocusChanged.h"
-#include "MessageFocusIn.h"
-#include "MessageFocusOut.h"
-#include "MessageFocusView.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusChanged.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusIn.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusOut.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusView.h"
 
 void CodeFocusHandler::focus()
 {

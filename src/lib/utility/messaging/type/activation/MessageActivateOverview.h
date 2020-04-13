@@ -1,11 +1,11 @@
 #ifndef MESSAGE_ACTIVATE_ALL_H
 #define MESSAGE_ACTIVATE_ALL_H
 
-#include "Message.h"
+#include "../../Message.h"
 #include "MessageActivateBase.h"
 
-#include "NodeTypeSet.h"
-#include "TabId.h"
+#include "../../../../data/NodeTypeSet.h"
+#include "../../../../component/TabId.h"
 
 class MessageActivateOverview
 	: public Message<MessageActivateOverview>

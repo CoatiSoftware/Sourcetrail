@@ -1,8 +1,8 @@
 #include "InterprocessIntermediateStorageManager.h"
 
-#include "IntermediateStorage.h"
-#include "SharedIntermediateStorage.h"
-#include "logging.h"
+#include "../../storage/IntermediateStorage.h"
+#include "shared_types/SharedIntermediateStorage.h"
+#include "../../../utility/logging/logging.h"
 
 const char* InterprocessIntermediateStorageManager::s_sharedMemoryNamePrefix = "iist_";
 

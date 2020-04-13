@@ -3,7 +3,7 @@
 #include <QComboBox>
 #include <QLabel>
 
-#include "SourceGroupSettingsWithJavaStandard.h"
+#include "../../../../lib/settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.h"
 
 QtProjectWizardContentJavaStandard::QtProjectWizardContentJavaStandard(
 	std::shared_ptr<SourceGroupSettingsWithJavaStandard> sourceGroupSettings,

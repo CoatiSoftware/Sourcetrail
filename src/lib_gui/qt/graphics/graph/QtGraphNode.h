@@ -5,9 +5,9 @@
 
 #include <QGraphicsItem>
 
-#include "Vector4.h"
+#include "../../../../lib/utility/math/Vector4.h"
 
-#include "GraphViewStyle.h"
+#include "../../../../lib/component/view/GraphViewStyle.h"
 
 class GraphFocusHandler;
 class QFont;

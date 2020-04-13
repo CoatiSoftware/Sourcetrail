@@ -1,7 +1,7 @@
 #include "ParserClientImpl.h"
 
-#include "Edge.h"
-#include "Node.h"
+#include "../graph/Edge.h"
+#include "../graph/Node.h"
 #include "ParseLocation.h"
 
 ParserClientImpl::ParserClientImpl(IntermediateStorage* const storage): m_storage(storage) {}

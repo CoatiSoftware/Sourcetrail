@@ -3,7 +3,7 @@
 #include <jni.h>
 
 #include "JavaEnvironmentFactory.h"
-#include "logging.h"
+#include "../../../../lib/utility/logging/logging.h"
 
 JavaEnvironment::~JavaEnvironment()
 {

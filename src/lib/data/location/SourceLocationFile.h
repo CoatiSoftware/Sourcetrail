@@ -7,10 +7,10 @@
 #include <ostream>
 #include <set>
 
-#include "FilePath.h"
+#include "../../utility/file/FilePath.h"
 #include "LocationType.h"
 #include "SourceLocation.h"
-#include "types.h"
+#include "../../utility/types.h"
 
 class SourceLocationFile
 {

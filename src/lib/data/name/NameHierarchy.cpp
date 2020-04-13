@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include "logging.h"
-#include "utilityString.h"
+#include "../../utility/logging/logging.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 namespace
 {

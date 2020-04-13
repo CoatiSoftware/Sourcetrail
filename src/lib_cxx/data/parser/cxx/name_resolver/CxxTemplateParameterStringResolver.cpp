@@ -6,7 +6,7 @@
 #include <clang/AST/PrettyPrinter.h>
 
 #include "CxxTypeNameResolver.h"
-#include "utilityString.h"
+#include "../../../../../lib_utility/utility/utilityString.h"
 
 CxxTemplateParameterStringResolver::CxxTemplateParameterStringResolver(
 	CanonicalFilePathCache* canonicalFilePathCache)

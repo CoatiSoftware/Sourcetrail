@@ -8,12 +8,12 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
-#include "ColorScheme.h"
-#include "GraphViewStyle.h"
-#include "MessageFocusedSearchView.h"
-#include "NodeTypeSet.h"
-#include "utility.h"
-#include "utilityString.h"
+#include "../../../../lib/settings/ColorScheme.h"
+#include "../../../../lib/component/view/GraphViewStyle.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusedSearchView.h"
+#include "../../../../lib/data/NodeTypeSet.h"
+#include "../../../../lib/utility/utility.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 QtSearchElement::QtSearchElement(const QString& text, QWidget* parent): QPushButton(text, parent)
 {

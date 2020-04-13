@@ -4,7 +4,7 @@
 
 #include <QScrollBar>
 
-#include "ApplicationSettings.h"
+#include "../../../lib/settings/ApplicationSettings.h"
 
 QtScrollSpeedChangeListener::QtScrollSpeedChangeListener()
 	: m_changeScrollSpeedFunctor(

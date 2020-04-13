@@ -4,11 +4,11 @@
 #include <QMovie>
 #include <QProgressBar>
 
-#include "MessageErrorsAll.h"
-#include "MessageIndexingShowDialog.h"
-#include "MessageShowStatus.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../../../lib/utility/messaging/type/error/MessageErrorsAll.h"
+#include "../../../lib/utility/messaging/type/indexing/MessageIndexingShowDialog.h"
+#include "../../../lib/utility/messaging/type/MessageShowStatus.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../utility/utilityQt.h"
 
 QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this)
 {

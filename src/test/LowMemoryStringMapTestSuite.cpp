@@ -1,9 +1,9 @@
 #include "catch.hpp"
 
-#include "LowMemoryStringMap.h"
-#include "TextAccess.h"
-#include "types.h"
-#include "utilityString.h"
+#include "../lib/utility/LowMemoryStringMap.h"
+#include "../lib/utility/text/TextAccess.h"
+#include "../lib/utility/types.h"
+#include "../lib_utility/utility/utilityString.h"
 
 TEST_CASE("roughly everything")
 {

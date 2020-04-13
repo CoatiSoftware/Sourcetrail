@@ -2,7 +2,7 @@
 
 #include <QEvent>
 
-#include "utilityQt.h"
+#include "../../utility/utilityQt.h"
 
 QtIconStateButton::QtIconStateButton(QWidget* parent): QPushButton(QLatin1String(""), parent)
 {

@@ -1,8 +1,8 @@
 #include "FullTextSearchIndex.h"
 #include <limits>
 
-#include "logging.h"
-#include "tracing.h"
+#include "../../utility/logging/logging.h"
+#include "../../utility/tracing.h"
 
 void FullTextSearchIndex::addFile(Id fileId, const std::wstring& fileContent)
 {

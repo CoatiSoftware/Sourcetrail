@@ -1,9 +1,9 @@
 #ifndef MESSAGE_GRAPH_NODE_EXPAND_H
 #define MESSAGE_GRAPH_NODE_EXPAND_H
 
-#include "Message.h"
-#include "TabId.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../types.h"
 
 class MessageGraphNodeExpand: public Message<MessageGraphNodeExpand>
 {

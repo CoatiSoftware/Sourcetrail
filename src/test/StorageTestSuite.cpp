@@ -1,10 +1,10 @@
 #include "catch.hpp"
 
-#include "utilityString.h"
+#include "../lib_utility/utility/utilityString.h"
 
-#include "IntermediateStorage.h"
-#include "ParseLocation.h"
-#include "PersistentStorage.h"
+#include "../lib/data/storage/IntermediateStorage.h"
+#include "../lib/data/parser/ParseLocation.h"
+#include "../lib/data/storage/PersistentStorage.h"
 
 namespace
 {

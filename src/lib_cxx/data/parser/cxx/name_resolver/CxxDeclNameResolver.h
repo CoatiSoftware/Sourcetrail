@@ -3,9 +3,9 @@
 
 #include <clang/AST/DeclTemplate.h>
 
-#include "CxxDeclName.h"
+#include "../name/CxxDeclName.h"
 #include "CxxNameResolver.h"
-#include "CxxTypeName.h"
+#include "../name/CxxTypeName.h"
 #include "CxxTypeNameResolver.h"
 
 class CanonicalFilePathCache;

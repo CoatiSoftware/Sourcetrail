@@ -6,7 +6,7 @@
 
 #include "LanguageType.h"
 #include "Settings.h"
-#include "SettingsMigrator.h"
+#include "migration/SettingsMigrator.h"
 
 class SourceGroupSettings;
 

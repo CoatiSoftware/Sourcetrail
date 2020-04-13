@@ -1,10 +1,10 @@
 #ifndef MESSAGE_LOAD_PROJECT_H
 #define MESSAGE_LOAD_PROJECT_H
 
-#include "RefreshInfo.h"
+#include "../../../project/RefreshInfo.h"
 
-#include "FilePath.h"
-#include "Message.h"
+#include "../../file/FilePath.h"
+#include "../Message.h"
 
 class MessageLoadProject: public Message<MessageLoadProject>
 {

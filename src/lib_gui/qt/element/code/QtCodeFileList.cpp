@@ -4,18 +4,18 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "FilePath.h"
-#include "ResourcePaths.h"
-#include "utility.h"
-#include "utilityApp.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib/utility/utility.h"
+#include "../../../utility/utilityApp.h"
 
-#include "ColorScheme.h"
+#include "../../../../lib/settings/ColorScheme.h"
 #include "QtCodeFile.h"
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeNavigator.h"
 #include "QtCodeSnippet.h"
-#include "SourceLocationFile.h"
-#include "utilityQt.h"
+#include "../../../../lib/data/location/SourceLocationFile.h"
+#include "../../utility/utilityQt.h"
 
 void QtCodeFileListScrollArea::keyPressEvent(QKeyEvent* event)
 {

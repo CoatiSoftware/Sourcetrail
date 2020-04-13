@@ -3,8 +3,8 @@
 
 #include <set>
 
-#include "QtLocationPicker.h"
-#include "QtProjectWizardContent.h"
+#include "../../../element/dialog/QtLocationPicker.h"
+#include "../QtProjectWizardContent.h"
 
 class SourceGroupSettings;
 

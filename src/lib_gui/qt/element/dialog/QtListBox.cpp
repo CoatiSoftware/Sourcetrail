@@ -4,12 +4,12 @@
 #include <QLabel>
 #include <QScrollBar>
 
-#include "QtIconButton.h"
+#include "../button/QtIconButton.h"
 #include "QtStringListBoxItem.h"
-#include "QtTextEditDialog.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
-#include "utilityString.h"
+#include "../../window/QtTextEditDialog.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../utility/utilityQt.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 void QtListWidget::mouseDoubleClickEvent(QMouseEvent* event)
 {

@@ -1,8 +1,8 @@
 #ifndef MESSAGE_FILTER_ERROR_COUNT_UPDATE_H
 #define MESSAGE_FILTER_ERROR_COUNT_UPDATE_H
 
-#include "MessageErrorCountUpdate.h"
-#include "MessageFilter.h"
+#include "../type/error/MessageErrorCountUpdate.h"
+#include "../MessageFilter.h"
 
 class MessageFilterErrorCountUpdate: public MessageFilter
 {

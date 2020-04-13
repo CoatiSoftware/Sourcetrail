@@ -7,8 +7,8 @@
 #include <QSemaphore>
 #include <QThread>
 
-#include "MessageListener.h"
-#include "MessageWindowClosed.h"
+#include "../../../lib/utility/messaging/MessageListener.h"
+#include "../../../lib/utility/messaging/type/MessageWindowClosed.h"
 
 class QtThreadedFunctorHelper
 	: public QObject

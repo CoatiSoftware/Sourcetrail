@@ -2,7 +2,7 @@
 #define QT_INDEXING_START_DIALOG_H
 
 #include "QtIndexingDialog.h"
-#include "RefreshInfo.h"
+#include "../../../lib/project/RefreshInfo.h"
 
 class QLabel;
 class QRadioButton;

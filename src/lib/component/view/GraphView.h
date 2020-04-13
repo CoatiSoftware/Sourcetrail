@@ -3,11 +3,11 @@
 
 #include <vector>
 
-#include "Vector2.h"
-#include "types.h"
+#include "../../utility/math/Vector2.h"
+#include "../../utility/types.h"
 
-#include "GroupType.h"
-#include "ScreenSearchInterfaces.h"
+#include "../../data/GroupType.h"
+#include "../controller/helper/ScreenSearchInterfaces.h"
 #include "View.h"
 
 struct DummyEdge;

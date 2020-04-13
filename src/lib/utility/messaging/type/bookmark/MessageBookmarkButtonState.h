@@ -1,7 +1,7 @@
 #ifndef MESSAGE_BOOKMARK_BUTTON_STATE_H
 #define MESSAGE_BOOKMARK_BUTTON_STATE_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessageBookmarkButtonState: public Message<MessageBookmarkButtonState>
 {

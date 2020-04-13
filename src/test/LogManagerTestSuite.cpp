@@ -2,7 +2,7 @@
 
 #include <thread>
 
-#include "LogManagerImplementation.h"
+#include "../lib/utility/logging/LogManagerImplementation.h"
 
 namespace
 {

@@ -1,6 +1,6 @@
 #include "SettingsMigration.h"
 
-#include "Settings.h"
+#include "../Settings.h"
 
 SettingsMigration::~SettingsMigration() {}
 

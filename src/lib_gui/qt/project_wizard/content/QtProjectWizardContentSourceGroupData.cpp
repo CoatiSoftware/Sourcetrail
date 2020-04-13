@@ -4,7 +4,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 
-#include "SourceGroupSettings.h"
+#include "../../../../lib/settings/source_group/SourceGroupSettings.h"
 
 QtProjectWizardContentSourceGroupData::QtProjectWizardContentSourceGroupData(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window)

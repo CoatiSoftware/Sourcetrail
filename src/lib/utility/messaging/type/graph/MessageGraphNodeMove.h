@@ -1,10 +1,10 @@
 #ifndef MESSAGE_GRAPH_NODE_MOVE_H
 #define MESSAGE_GRAPH_NODE_MOVE_H
 
-#include "Message.h"
-#include "TabId.h"
-#include "Vector2.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../math/Vector2.h"
+#include "../../../types.h"
 
 class MessageGraphNodeMove: public Message<MessageGraphNodeMove>
 {

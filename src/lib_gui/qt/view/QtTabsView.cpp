@@ -5,16 +5,16 @@
 #include <QStyle>
 #include <QVariant>
 
-#include "Application.h"
-#include "ColorScheme.h"
-#include "GraphViewStyle.h"
-#include "QtSelfRefreshIconButton.h"
-#include "QtTabBar.h"
+#include "../../../lib/app/Application.h"
+#include "../../../lib/settings/ColorScheme.h"
+#include "../../../lib/component/view/GraphViewStyle.h"
+#include "../element/button/QtSelfRefreshIconButton.h"
+#include "../element/QtTabBar.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
-#include "TabId.h"
-#include "TabsController.h"
-#include "utilityQt.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/component/TabId.h"
+#include "../../../lib/component/controller/TabsController.h"
+#include "../utility/utilityQt.h"
 
 QtTabsView::QtTabsView(ViewLayout* viewLayout)
 	: TabsView(viewLayout), m_widget(nullptr), m_insertedTabCount(0)

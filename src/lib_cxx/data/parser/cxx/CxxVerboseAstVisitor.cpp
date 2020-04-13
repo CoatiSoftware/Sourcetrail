@@ -6,10 +6,10 @@
 #include <clang/Basic/SourceManager.h>
 
 #include "CanonicalFilePathCache.h"
-#include "ParseLocation.h"
-#include "ParserClient.h"
-#include "ScopedSwitcher.h"
-#include "logging.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib/data/parser/ParserClient.h"
+#include "../../../../lib/utility/ScopedSwitcher.h"
+#include "../../../../lib/utility/logging/logging.h"
 
 CxxVerboseAstVisitor::CxxVerboseAstVisitor(
 	clang::ASTContext* context,

@@ -4,18 +4,18 @@
 #include <mutex>
 #include <set>
 
-#include "ActivationListener.h"
+#include "helper/ActivationListener.h"
 #include "Controller.h"
-#include "MessageActivateLocalSymbols.h"
-#include "MessageActivateTrailEdge.h"
-#include "MessageChangeFileView.h"
-#include "MessageCodeShowDefinition.h"
-#include "MessageDeactivateEdge.h"
-#include "MessageGraphNodeBundleSplit.h"
-#include "MessageGraphNodeExpand.h"
-#include "MessageGraphNodeHide.h"
-#include "MessageListener.h"
-#include "ScreenSearchInterfaces.h"
+#include "../../utility/messaging/type/code/MessageActivateLocalSymbols.h"
+#include "../../utility/messaging/type/graph/MessageActivateTrailEdge.h"
+#include "../../utility/messaging/type/code/MessageChangeFileView.h"
+#include "../../utility/messaging/type/code/MessageCodeShowDefinition.h"
+#include "../../utility/messaging/type/graph/MessageDeactivateEdge.h"
+#include "../../utility/messaging/type/graph/MessageGraphNodeBundleSplit.h"
+#include "../../utility/messaging/type/graph/MessageGraphNodeExpand.h"
+#include "../../utility/messaging/type/graph/MessageGraphNodeHide.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "helper/ScreenSearchInterfaces.h"
 
 class ScreenSearchController
 	: public Controller

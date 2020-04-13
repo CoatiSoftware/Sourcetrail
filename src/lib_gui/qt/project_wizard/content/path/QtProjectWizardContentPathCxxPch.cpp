@@ -2,12 +2,12 @@
 
 #include <QMessageBox>
 
-#include "IndexerCommandCxx.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "SourceGroupSettingsWithCxxPchOptions.h"
-#include "utility.h"
-#include "utilityFile.h"
-#include "utilitySourceGroupCxx.h"
+#include "../../../../../lib_cxx/data/indexer/IndexerCommandCxx.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsCxxCdb.h"
+#include "../../../../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
+#include "../../../../../lib_cxx/project/utilitySourceGroupCxx.h"
 
 QtProjectWizardContentPathCxxPch::QtProjectWizardContentPathCxxPch(
 	std::shared_ptr<SourceGroupSettings> settings,

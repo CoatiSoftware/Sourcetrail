@@ -6,11 +6,11 @@
 #include "MessageBase.h"
 #include "MessageFilter.h"
 #include "MessageListenerBase.h"
-#include "TabId.h"
-#include "TaskGroupParallel.h"
-#include "TaskGroupSequence.h"
-#include "TaskLambda.h"
-#include "logging.h"
+#include "../../component/TabId.h"
+#include "../scheduling/TaskGroupParallel.h"
+#include "../scheduling/TaskGroupSequence.h"
+#include "../scheduling/TaskLambda.h"
+#include "../logging/logging.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 {

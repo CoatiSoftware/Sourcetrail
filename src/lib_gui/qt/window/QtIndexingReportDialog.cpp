@@ -3,10 +3,10 @@
 #include <QLabel>
 #include <QPushButton>
 
-#include "MessageErrorsHelpMessage.h"
-#include "MessageIndexingShowDialog.h"
-#include "MessageRefresh.h"
-#include "TimeStamp.h"
+#include "../../../lib/utility/messaging/type/error/MessageErrorsHelpMessage.h"
+#include "../../../lib/utility/messaging/type/indexing/MessageIndexingShowDialog.h"
+#include "../../../lib/utility/messaging/type/MessageRefresh.h"
+#include "../../../lib/utility/TimeStamp.h"
 
 QtIndexingReportDialog::QtIndexingReportDialog(
 	size_t indexedFileCount,

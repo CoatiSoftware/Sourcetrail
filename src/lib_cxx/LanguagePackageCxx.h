@@ -1,7 +1,7 @@
 #ifndef LANGUAGE_PACKAGE_CXX_H
 #define LANGUAGE_PACKAGE_CXX_H
 
-#include "LanguagePackage.h"
+#include "../lib/app/LanguagePackage.h"
 
 class LanguagePackageCxx: public LanguagePackage
 {

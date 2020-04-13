@@ -7,10 +7,10 @@
 #include <set>
 #include <vector>
 
-#include "FilePath.h"
+#include "../utility/file/FilePath.h"
 #include "NodeKind.h"
-#include "Tree.h"
-#include "types.h"
+#include "../utility/Tree.h"
+#include "../utility/types.h"
 
 class NodeType
 {

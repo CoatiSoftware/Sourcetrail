@@ -5,14 +5,14 @@
 #include <string>
 #include <windows.h>
 
-#include "AppPath.h"
-#include "Application.h"
-#include "FileSystem.h"
-#include "ResourcePaths.h"
-#include "UserPaths.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilityApp.h"
+#include "../../lib/app/paths/AppPath.h"
+#include "../../lib/app/Application.h"
+#include "../../lib/utility/file/FileSystem.h"
+#include "../../lib/app/paths/ResourcePaths.h"
+#include "../../lib/app/paths/UserPaths.h"
+#include "../../lib/utility/logging/logging.h"
+#include "../../lib/utility/utility.h"
+#include "../utility/utilityApp.h"
 
 void setupPlatform(int argc, char* argv[]) {}
 

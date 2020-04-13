@@ -3,9 +3,9 @@
 #include <sstream>
 
 #include "Node.h"
-#include "TokenComponentAggregation.h"
-#include "logging.h"
-#include "utilityString.h"
+#include "token_component/TokenComponentAggregation.h"
+#include "../../utility/logging/logging.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 int Edge::typeToInt(EdgeType type)
 {

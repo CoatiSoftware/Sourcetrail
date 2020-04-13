@@ -1,8 +1,8 @@
 #include "catch.hpp"
 
-#include "SourceLocation.h"
-#include "SourceLocationCollection.h"
-#include "SourceLocationFile.h"
+#include "../lib/data/location/SourceLocation.h"
+#include "../lib/data/location/SourceLocationCollection.h"
+#include "../lib/data/location/SourceLocationFile.h"
 
 TEST_CASE("source locations get created with other end")
 {

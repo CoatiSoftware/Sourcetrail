@@ -1,8 +1,8 @@
 #include "JavaPathDetectorLinux.h"
 
-#include "FilePath.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../utilityApp.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 #ifdef __x86_64__
 const wchar_t jvmLibPathRelativeToJavaExecutable[] = L"/../lib/amd64/server/libjvm.so";

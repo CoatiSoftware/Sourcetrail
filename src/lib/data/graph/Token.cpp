@@ -1,6 +1,6 @@
 #include "Token.h"
 
-#include "logging.h"
+#include "../../utility/logging/logging.h"
 
 Token::Token(Id id): m_id(id) {}
 

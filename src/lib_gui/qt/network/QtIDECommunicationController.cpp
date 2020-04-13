@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "ApplicationSettings.h"
+#include "../../../lib/settings/ApplicationSettings.h"
 
 QtIDECommunicationController::QtIDECommunicationController(QObject* parent, StorageAccess* storageAccess)
 	: IDECommunicationController(storageAccess), m_tcpWrapper(parent)

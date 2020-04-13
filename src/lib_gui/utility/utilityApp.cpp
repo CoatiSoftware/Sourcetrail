@@ -9,11 +9,11 @@
 #include <QThread>
 #include <qprocessordetection.h>
 
-#include "AppPath.h"
-#include "ApplicationSettings.h"
-#include "UserPaths.h"
-#include "logging.h"
-#include "utilityString.h"
+#include "../../lib/app/paths/AppPath.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../../lib/app/paths/UserPaths.h"
+#include "../../lib/utility/logging/logging.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 namespace
 {

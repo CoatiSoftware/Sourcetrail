@@ -5,9 +5,9 @@
 #include <QSettings>
 #include <QSysInfo>
 
-#include "FilePath.h"
-#include "logging.h"
-#include "utility.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/logging/logging.h"
+#include "../../../../lib/utility/utility.h"
 #include "utilityCxxHeaderDetection.h"
 
 CxxVs10To14HeaderPathDetector::CxxVs10To14HeaderPathDetector(

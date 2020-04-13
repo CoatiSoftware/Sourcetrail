@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "types.h"
+#include "../../../../lib/utility/types.h"
 
 class QPushButton;
 class QtCodeArea;

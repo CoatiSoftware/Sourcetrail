@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "AccessKind.h"
+#include "../../parser/AccessKind.h"
 #include "TokenComponent.h"
 
 class TokenComponentAccess: public TokenComponent

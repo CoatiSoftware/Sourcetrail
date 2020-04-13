@@ -2,9 +2,9 @@
 
 #include <thread>
 
-#include "TimeStamp.h"
-#include "logging.h"
-#include "utilityApp.h"
+#include "../TimeStamp.h"
+#include "../logging/logging.h"
+#include "../../../lib_gui/utility/utilityApp.h"
 
 std::string SharedMemoryGarbageCollector::s_memoryNamePrefix = "grbg_cllctr_";
 std::string SharedMemoryGarbageCollector::s_instancesKeyName = "running_instances";

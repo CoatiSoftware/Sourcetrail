@@ -4,7 +4,7 @@
 #include <functional>
 #include <vector>
 
-#include "types.h"
+#include "../utility/types.h"
 
 class NodeType;
 

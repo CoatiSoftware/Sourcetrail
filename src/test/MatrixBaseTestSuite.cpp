@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "MatrixBase.h"
-#include "VectorBase.h"
+#include "../lib/utility/math/MatrixBase.h"
+#include "../lib/utility/math/VectorBase.h"
 namespace
 {
 /**

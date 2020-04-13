@@ -6,7 +6,7 @@
 
 #include "CxxDeclNameResolver.h"
 #include "CxxTypeNameResolver.h"
-#include "utilityString.h"
+#include "../../../../../lib_utility/utility/utilityString.h"
 
 CxxSpecifierNameResolver::CxxSpecifierNameResolver(CanonicalFilePathCache* canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache)

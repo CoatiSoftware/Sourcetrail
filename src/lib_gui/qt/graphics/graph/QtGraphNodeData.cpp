@@ -1,16 +1,16 @@
 #include "QtGraphNodeData.h"
 
-#include "FilePath.h"
-#include "GraphFocusHandler.h"
-#include "MessageActivateNodes.h"
-#include "MessageDeactivateEdge.h"
-#include "MessageFocusIn.h"
-#include "MessageFocusOut.h"
-#include "MessageTabOpenWith.h"
-#include "MessageTooltipShow.h"
-#include "ResourcePaths.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../GraphFocusHandler.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageActivateNodes.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageDeactivateEdge.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusIn.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusOut.h"
+#include "../../../../lib/utility/messaging/type/tab/MessageTabOpenWith.h"
+#include "../../../../lib/utility/messaging/type/MessageTooltipShow.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 
-#include "TokenComponentFilePath.h"
+#include "../../../../lib/data/graph/token_component/TokenComponentFilePath.h"
 
 QtGraphNodeData::QtGraphNodeData(
 	GraphFocusHandler* focusHandler,

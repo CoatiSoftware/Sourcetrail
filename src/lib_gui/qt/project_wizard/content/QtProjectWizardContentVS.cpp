@@ -1,6 +1,6 @@
 #include "QtProjectWizardContentVS.h"
 
-#include "MessageIDECreateCDB.h"
+#include "../../../../lib/utility/messaging/type/plugin/MessageIDECreateCDB.h"
 
 QtProjectWizardContentVS::QtProjectWizardContentVS(QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window)

@@ -1,11 +1,11 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H
 #define SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H
 
-#include "SourceGroupSettingsWithComponents.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithJavaMaven.h"
-#include "SourceGroupSettingsWithJavaStandard.h"
-#include "SourceGroupSettingsWithSourceExtensionsJava.h"
+#include "../SourceGroupSettingsWithComponents.h"
+#include "../component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../component/java/SourceGroupSettingsWithJavaMaven.h"
+#include "../component/java/SourceGroupSettingsWithJavaStandard.h"
+#include "../component/java/SourceGroupSettingsWithSourceExtensionsJava.h"
 
 class SourceGroupSettingsJavaMaven
 	: public SourceGroupSettingsWithComponents<

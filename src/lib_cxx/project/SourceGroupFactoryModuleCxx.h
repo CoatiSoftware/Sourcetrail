@@ -1,7 +1,7 @@
 #ifndef SOURCE_GROUP_FACTORY_MODULE_CXX_H
 #define SOURCE_GROUP_FACTORY_MODULE_CXX_H
 
-#include "SourceGroupFactoryModule.h"
+#include "../../lib/project/SourceGroupFactoryModule.h"
 
 class SourceGroupFactoryModuleCxx: public SourceGroupFactoryModule
 {

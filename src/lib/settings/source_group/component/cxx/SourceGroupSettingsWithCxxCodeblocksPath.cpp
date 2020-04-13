@@ -1,7 +1,7 @@
 #include "SourceGroupSettingsWithCxxCodeblocksPath.h"
 
-#include "ProjectSettings.h"
-#include "utilityFile.h"
+#include "../../../ProjectSettings.h"
+#include "../../../../utility/file/utilityFile.h"
 
 FilePath SourceGroupSettingsWithCxxCodeblocksPath::getCodeblocksProjectPath() const
 {

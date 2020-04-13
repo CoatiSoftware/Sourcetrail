@@ -1,11 +1,11 @@
 #ifndef MESSAGE_SEARCH_H
 #define MESSAGE_SEARCH_H
 
-#include "Message.h"
+#include "../../Message.h"
 
-#include "NodeTypeSet.h"
-#include "SearchMatch.h"
-#include "TabId.h"
+#include "../../../../data/NodeTypeSet.h"
+#include "../../../../data/search/SearchMatch.h"
+#include "../../../../component/TabId.h"
 
 class MessageSearch: public Message<MessageSearch>
 {

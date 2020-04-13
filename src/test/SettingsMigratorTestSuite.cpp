@@ -1,10 +1,10 @@
 #include "catch.hpp"
 
-#include "Settings.h"
-#include "SettingsMigrationLambda.h"
-#include "SettingsMigrationMoveKey.h"
-#include "SettingsMigrator.h"
-#include "TextAccess.h"
+#include "../lib/settings/Settings.h"
+#include "../lib/settings/migration/SettingsMigrationLambda.h"
+#include "../lib/settings/migration/SettingsMigrationMoveKey.h"
+#include "../lib/settings/migration/SettingsMigrator.h"
+#include "../lib/utility/text/TextAccess.h"
 
 namespace
 {

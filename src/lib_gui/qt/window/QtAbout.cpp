@@ -5,12 +5,12 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "QtDeviceScaledPixmap.h"
-#include "ResourcePaths.h"
-#include "SqliteIndexStorage.h"
-#include "Version.h"
-#include "utilityApp.h"
-#include "utilityQt.h"
+#include "../utility/QtDeviceScaledPixmap.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/data/storage/sqlite/SqliteIndexStorage.h"
+#include "../../../lib/utility/Version.h"
+#include "../../utility/utilityApp.h"
+#include "../utility/utilityQt.h"
 
 QtAbout::QtAbout(QWidget* parent): QtWindow(false, parent) {}
 

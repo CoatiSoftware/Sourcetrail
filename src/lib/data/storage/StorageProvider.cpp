@@ -1,6 +1,6 @@
 #include "StorageProvider.h"
 
-#include "logging.h"
+#include "../../utility/logging/logging.h"
 
 int StorageProvider::getStorageCount() const
 {

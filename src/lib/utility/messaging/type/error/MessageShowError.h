@@ -1,8 +1,8 @@
 #ifndef MESSAGE_SHOW_ERROR_H
 #define MESSAGE_SHOW_ERROR_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageShowError: public Message<MessageShowError>
 {

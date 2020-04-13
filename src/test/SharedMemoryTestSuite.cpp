@@ -3,7 +3,7 @@
 #include <memory>
 #include <thread>
 
-#include "SharedMemory.h"
+#include "../lib/utility/interprocess/SharedMemory.h"
 
 TEST_CASE("shared memory")
 {

@@ -1,7 +1,7 @@
 #include "QtUndoRedoView.h"
 
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../utility/utilityQt.h"
 
 #include "QtViewWidgetWrapper.h"
 

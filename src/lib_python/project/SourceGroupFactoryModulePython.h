@@ -1,7 +1,7 @@
 #ifndef SOURCE_GROUP_FACTORY_MODULE_PYTHON_H
 #define SOURCE_GROUP_FACTORY_MODULE_PYTHON_H
 
-#include "SourceGroupFactoryModule.h"
+#include "../../lib/project/SourceGroupFactoryModule.h"
 
 class SourceGroupFactoryModulePython: public SourceGroupFactoryModule
 {

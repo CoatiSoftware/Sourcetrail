@@ -1,7 +1,7 @@
 #ifndef INDEXER_JAVA_H
 #define INDEXER_JAVA_H
 
-#include "Indexer.h"
+#include "../../../lib/data/indexer/Indexer.h"
 #include "IndexerCommandJava.h"
 
 struct IndexerStateInfo;

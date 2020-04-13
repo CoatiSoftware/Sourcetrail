@@ -1,7 +1,7 @@
 #ifndef QT_PATH_LIST_DIALOG_H
 #define QT_PATH_LIST_DIALOG_H
 
-#include "QtPathListBox.h"
+#include "../element/dialog/QtPathListBox.h"
 #include "QtWindow.h"
 
 class FilePath;

@@ -1,7 +1,7 @@
 #ifndef QT_PROJECT_WIZARD_WINDOW_H
 #define QT_PROJECT_WIZARD_WINDOW_H
 
-#include "QtWindow.h"
+#include "../window/QtWindow.h"
 
 class QtProjectWizardContent;
 

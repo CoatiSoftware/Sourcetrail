@@ -1,8 +1,8 @@
 #ifndef MESSAGE_BOOKMARKS_BROWSE_H
 #define MESSAGE_BOOKMARKS_BROWSE_H
 
-#include "Bookmark.h"
-#include "Message.h"
+#include "../../../../data/bookmark/Bookmark.h"
+#include "../../Message.h"
 
 class MessageBookmarkBrowse: public Message<MessageBookmarkBrowse>
 {

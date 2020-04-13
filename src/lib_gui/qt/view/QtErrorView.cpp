@@ -13,15 +13,15 @@
 #include <QStandardItemModel>
 #include <QStyledItemDelegate>
 
-#include "ColorScheme.h"
-#include "MessageProjectEdit.h"
-#include "QtHelpButton.h"
-#include "QtSelfRefreshIconButton.h"
-#include "QtTable.h"
+#include "../../../lib/settings/ColorScheme.h"
+#include "../../../lib/utility/messaging/type/MessageProjectEdit.h"
+#include "../element/button/QtHelpButton.h"
+#include "../element/button/QtSelfRefreshIconButton.h"
+#include "../element/QtTable.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
-#include "TabId.h"
-#include "utilityQt.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/component/TabId.h"
+#include "../utility/utilityQt.h"
 
 QIcon QtErrorView::s_errorIcon;
 

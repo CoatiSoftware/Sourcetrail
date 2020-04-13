@@ -1,16 +1,16 @@
 #include "TabsController.h"
 
-#include "Application.h"
-#include "MessageFind.h"
-#include "MessageIndexingFinished.h"
-#include "MessageScrollToLine.h"
-#include "MessageSearch.h"
-#include "MessageWindowChanged.h"
-#include "ScreenSearchInterfaces.h"
-#include "TabId.h"
-#include "TaskLambda.h"
-#include "TaskManager.h"
-#include "TaskScheduler.h"
+#include "../../app/Application.h"
+#include "../../utility/messaging/type/search/MessageFind.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../../utility/messaging/type/code/MessageScrollToLine.h"
+#include "../../utility/messaging/type/search/MessageSearch.h"
+#include "../../utility/messaging/type/MessageWindowChanged.h"
+#include "helper/ScreenSearchInterfaces.h"
+#include "../TabId.h"
+#include "../../utility/scheduling/TaskLambda.h"
+#include "../../utility/scheduling/TaskManager.h"
+#include "../../utility/scheduling/TaskScheduler.h"
 
 TabsController::TabsController(
 	ViewLayout* mainLayout,

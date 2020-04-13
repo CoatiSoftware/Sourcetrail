@@ -1,9 +1,9 @@
 #include "QtProjectWizardContentPathPythonEnvironment.h"
 
-#include "ResourcePaths.h"
-#include "SourceGroupSettingsPythonEmpty.h"
-#include "utilityApp.h"
-#include "utilityFile.h"
+#include "../../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsPythonEmpty.h"
+#include "../../../../utility/utilityApp.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
 
 QtProjectWizardContentPathPythonEnvironment::QtProjectWizardContentPathPythonEnvironment(
 	std::shared_ptr<SourceGroupSettingsPythonEmpty> settings, QtProjectWizardWindow* window)

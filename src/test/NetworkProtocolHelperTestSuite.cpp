@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "NetworkProtocolHelper.h"
+#include "../lib/component/controller/helper/NetworkProtocolHelper.h"
 
 TEST_CASE("parse message")
 {

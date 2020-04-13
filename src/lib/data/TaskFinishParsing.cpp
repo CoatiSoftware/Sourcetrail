@@ -1,13 +1,13 @@
 #include "TaskFinishParsing.h"
 
-#include "Blackboard.h"
-#include "DialogView.h"
-#include "MessageIndexingFinished.h"
-#include "MessageIndexingStatus.h"
-#include "MessageStatus.h"
-#include "PersistentStorage.h"
-#include "TimeStamp.h"
-#include "utilityString.h"
+#include "../utility/scheduling/Blackboard.h"
+#include "../component/view/DialogView.h"
+#include "../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../utility/messaging/type/indexing/MessageIndexingStatus.h"
+#include "../utility/messaging/type/MessageStatus.h"
+#include "storage/PersistentStorage.h"
+#include "../utility/TimeStamp.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 TaskFinishParsing::TaskFinishParsing(
 	std::shared_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView)

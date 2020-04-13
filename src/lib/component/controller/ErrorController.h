@@ -1,20 +1,20 @@
 #ifndef ERROR_CONTROLLER_H
 #define ERROR_CONTROLLER_H
 
-#include "ActivationListener.h"
-#include "MessageErrorCountClear.h"
-#include "MessageErrorCountUpdate.h"
-#include "MessageErrorsAll.h"
-#include "MessageErrorsForFile.h"
-#include "MessageErrorsHelpMessage.h"
-#include "MessageIndexingFinished.h"
-#include "MessageIndexingStarted.h"
-#include "MessageListener.h"
-#include "MessageShowError.h"
-#include "QtThreadedFunctor.h"
+#include "helper/ActivationListener.h"
+#include "../../utility/messaging/type/error/MessageErrorCountClear.h"
+#include "../../utility/messaging/type/error/MessageErrorCountUpdate.h"
+#include "../../utility/messaging/type/error/MessageErrorsAll.h"
+#include "../../utility/messaging/type/error/MessageErrorsForFile.h"
+#include "../../utility/messaging/type/error/MessageErrorsHelpMessage.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingStarted.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/messaging/type/error/MessageShowError.h"
+#include "../../../lib_gui/qt/utility/QtThreadedFunctor.h"
 
 #include "Controller.h"
-#include "ErrorView.h"
+#include "../view/ErrorView.h"
 
 class StorageAccess;
 

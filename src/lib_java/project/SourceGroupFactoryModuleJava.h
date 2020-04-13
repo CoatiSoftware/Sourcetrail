@@ -1,7 +1,7 @@
 #ifndef SOURCE_GROUP_FACTORY_MODULE_JAVA_H
 #define SOURCE_GROUP_FACTORY_MODULE_JAVA_H
 
-#include "SourceGroupFactoryModule.h"
+#include "../../lib/project/SourceGroupFactoryModule.h"
 
 class SourceGroupFactoryModuleJava: public SourceGroupFactoryModule
 {

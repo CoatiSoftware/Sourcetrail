@@ -2,11 +2,11 @@
 #define CUSTOM_TRAIL_CONTROLLER_H
 
 #include "Controller.h"
-#include "MessageActivateTrail.h"
-#include "MessageCustomTrailShow.h"
-#include "MessageIndexingFinished.h"
-#include "MessageListener.h"
-#include "MessageWindowClosed.h"
+#include "../../utility/messaging/type/activation/MessageActivateTrail.h"
+#include "../../utility/messaging/type/custom_trail/MessageCustomTrailShow.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/messaging/type/MessageWindowClosed.h"
 
 class CustomTrailView;
 class StorageAccess;

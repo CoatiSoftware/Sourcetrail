@@ -1,6 +1,6 @@
 #include "SourceGroupSettingsWithCustomCommand.h"
 
-#include "ConfigManager.h"
+#include "../../../utility/ConfigManager.h"
 
 const std::wstring& SourceGroupSettingsWithCustomCommand::getCustomCommand() const
 {

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "FilePath.h"
+#include "../../../utility/file/FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithSourcePaths: public SourceGroupSettingsComponent

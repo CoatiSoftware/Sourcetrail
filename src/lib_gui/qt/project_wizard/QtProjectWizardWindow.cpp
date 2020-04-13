@@ -5,8 +5,8 @@
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "QtProjectWizardContent.h"
-#include "utilityQt.h"
+#include "content/QtProjectWizardContent.h"
+#include "../utility/utilityQt.h"
 
 QtProjectWizardWindow::QtProjectWizardWindow(QWidget* parent, bool showSeparator)
 	: QtWindow(false, parent), m_content(nullptr), m_showSeparator(showSeparator)

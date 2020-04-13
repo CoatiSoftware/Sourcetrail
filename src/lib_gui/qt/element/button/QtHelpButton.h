@@ -1,7 +1,7 @@
 #ifndef QT_HELP_BUTTON_H
 #define QT_HELP_BUTTON_H
 
-#include "QtHelpButtonInfo.h"
+#include "../../utility/QtHelpButtonInfo.h"
 #include "QtIconButton.h"
 
 class QtHelpButton: public QtIconButton

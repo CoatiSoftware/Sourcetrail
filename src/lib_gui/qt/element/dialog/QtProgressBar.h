@@ -3,8 +3,8 @@
 
 #include <QWidget>
 
-#include "QtDeviceScaledPixmap.h"
-#include "TimeStamp.h"
+#include "../../utility/QtDeviceScaledPixmap.h"
+#include "../../../../lib/utility/TimeStamp.h"
 
 class QTimer;
 

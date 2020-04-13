@@ -2,7 +2,7 @@
 
 #include <QResizeEvent>
 
-#include "utilityQt.h"
+#include "../../utility/utilityQt.h"
 
 QtSelfRefreshIconButton::QtSelfRefreshIconButton(
 	const QString& text, const FilePath& iconPath, const std::string& buttonKey, QWidget* parent)

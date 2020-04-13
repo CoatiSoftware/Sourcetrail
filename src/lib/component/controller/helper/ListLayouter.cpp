@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "DummyNode.h"
-#include "GraphViewStyle.h"
+#include "../../view/GraphViewStyle.h"
 
 void ListLayouter::layoutRow(std::vector<std::shared_ptr<DummyNode>>* nodes, int gap)
 {

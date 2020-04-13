@@ -1,7 +1,7 @@
 #ifndef CXX_FRAMEWORK_PATH_DETECTOR_H
 #define CXX_FRAMEWORK_PATH_DETECTOR_H
 
-#include "PathDetector.h"
+#include "../PathDetector.h"
 
 class CxxFrameworkPathDetector: public PathDetector
 {

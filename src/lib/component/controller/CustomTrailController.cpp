@@ -1,8 +1,8 @@
 #include "CustomTrailController.h"
 
-#include "CustomTrailView.h"
-#include "NodeTypeSet.h"
-#include "StorageAccess.h"
+#include "../view/CustomTrailView.h"
+#include "../../data/NodeTypeSet.h"
+#include "../../data/storage/StorageAccess.h"
 
 CustomTrailController::CustomTrailController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

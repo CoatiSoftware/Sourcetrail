@@ -1,9 +1,9 @@
 #include "ApplicationSettingsPrefiller.h"
 
 #include "ApplicationSettings.h"
-#include "MessageStatus.h"
-#include "logging.h"
-#include "utilityPathDetection.h"
+#include "../utility/messaging/type/MessageStatus.h"
+#include "../utility/logging/logging.h"
+#include "../../lib_gui/utility/utilityPathDetection.h"
 
 void ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings* settings)
 {

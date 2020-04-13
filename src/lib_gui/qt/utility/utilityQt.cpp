@@ -9,17 +9,17 @@
 #include <QPainter>
 #include <QWidget>
 
-#include "FilePath.h"
-#include "FileSystem.h"
-#include "QtMainView.h"
-#include "ResourcePaths.h"
-#include "TextAccess.h"
-#include "logging.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../../lib/utility/file/FilePath.h"
+#include "../../../lib/utility/file/FileSystem.h"
+#include "../view/QtMainView.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/utility/text/TextAccess.h"
+#include "../../../lib/utility/logging/logging.h"
+#include "../../utility/utilityApp.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
-#include "ApplicationSettings.h"
-#include "ColorScheme.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "../../../lib/settings/ColorScheme.h"
 
 namespace utility
 {

@@ -6,9 +6,9 @@
 #include <QTimer>
 #include <QUrl>
 
-#include "ApplicationSettings.h"
-#include "QtUpdateChecker.h"
-#include "TimeStamp.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
+#include "../../network/QtUpdateChecker.h"
+#include "../../../../lib/utility/TimeStamp.h"
 
 QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	: QWidget(parent), m_deleteCheck(std::make_shared<bool>(false))

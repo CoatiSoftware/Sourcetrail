@@ -3,11 +3,11 @@
 #include <QLabel>
 #include <QPushButton>
 
-#include "MessageErrorsHelpMessage.h"
-#include "QtDeviceScaledPixmap.h"
-#include "QtHelpButton.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../../../lib/utility/messaging/type/error/MessageErrorsHelpMessage.h"
+#include "../utility/QtDeviceScaledPixmap.h"
+#include "../element/button/QtHelpButton.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../utility/utilityQt.h"
 
 QLabel* QtIndexingDialog::createTitleLabel(const QString& title, QBoxLayout* layout)
 {

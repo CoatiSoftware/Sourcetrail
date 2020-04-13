@@ -3,10 +3,10 @@
 
 #include <QCoreApplication>
 
-#include "MessageIndexingStatus.h"
-#include "MessageListener.h"
-#include "MessageQuitApplication.h"
-#include "MessageStatus.h"
+#include "../../lib/utility/messaging/type/indexing/MessageIndexingStatus.h"
+#include "../../lib/utility/messaging/MessageListener.h"
+#include "../../lib/utility/messaging/type/MessageQuitApplication.h"
+#include "../../lib/utility/messaging/type/MessageStatus.h"
 
 class QtCoreApplication
 	: public QCoreApplication

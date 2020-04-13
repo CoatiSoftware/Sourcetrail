@@ -1,7 +1,7 @@
 #ifndef MESSAGE_TAB_SELECT_H
 #define MESSAGE_TAB_SELECT_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessageTabSelect: public Message<MessageTabSelect>
 {

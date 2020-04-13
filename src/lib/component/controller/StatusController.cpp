@@ -1,8 +1,8 @@
 #include "StatusController.h"
 
-#include "ApplicationSettings.h"
-#include "StatusView.h"
-#include "utility.h"
+#include "../../settings/ApplicationSettings.h"
+#include "../view/StatusView.h"
+#include "../../utility/utility.h"
 
 StatusController::StatusController()
 {

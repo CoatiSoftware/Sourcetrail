@@ -1,7 +1,7 @@
 #include "SourceGroupFactoryModuleCustom.h"
 
 #include "SourceGroupCustomCommand.h"
-#include "SourceGroupSettingsCustomCommand.h"
+#include "../settings/source_group/type/SourceGroupSettingsCustomCommand.h"
 
 bool SourceGroupFactoryModuleCustom::supports(SourceGroupType type) const
 {

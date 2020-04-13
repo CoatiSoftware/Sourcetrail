@@ -4,9 +4,9 @@
 #include <set>
 
 #include "CodeFocusHandler.h"
-#include "CodeScrollParams.h"
-#include "CodeSnippetParams.h"
-#include "types.h"
+#include "../../../../lib/component/view/helper/CodeScrollParams.h"
+#include "../../../../lib/component/view/helper/CodeSnippetParams.h"
+#include "../../../../lib/utility/types.h"
 
 class FilePath;
 class QRectF;

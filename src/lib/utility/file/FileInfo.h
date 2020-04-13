@@ -6,7 +6,7 @@
 #include <boost/date_time.hpp>
 
 #include "FilePath.h"
-#include "TimeStamp.h"
+#include "../TimeStamp.h"
 
 struct FileInfo
 {

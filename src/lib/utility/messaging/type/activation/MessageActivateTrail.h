@@ -1,11 +1,11 @@
 #ifndef MESSAGE_ACTIVATE_TRAIL_H
 #define MESSAGE_ACTIVATE_TRAIL_H
 
-#include "Message.h"
+#include "../../Message.h"
 #include "MessageActivateBase.h"
-#include "NodeType.h"
-#include "TabId.h"
-#include "types.h"
+#include "../../../../data/NodeType.h"
+#include "../../../../component/TabId.h"
+#include "../../../types.h"
 
 class MessageActivateTrail
 	: public Message<MessageActivateTrail>

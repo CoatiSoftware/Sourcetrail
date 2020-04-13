@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "FileSystem.h"
-#include "SqliteBookmarkStorage.h"
+#include "../lib/utility/file/FileSystem.h"
+#include "../lib/data/storage/sqlite/SqliteBookmarkStorage.h"
 
 TEST_CASE("add bookmarks")
 {

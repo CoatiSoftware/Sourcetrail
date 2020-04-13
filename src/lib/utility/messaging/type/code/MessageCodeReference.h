@@ -1,8 +1,8 @@
 #ifndef MESSAGE_CODE_REFERENCE_H
 #define MESSAGE_CODE_REFERENCE_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageCodeReference: public Message<MessageCodeReference>
 {

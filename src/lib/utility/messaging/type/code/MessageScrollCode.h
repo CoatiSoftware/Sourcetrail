@@ -1,8 +1,8 @@
 #ifndef MESSAGE_SCROLL_CODE_H
 #define MESSAGE_SCROLL_CODE_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageScrollCode: public Message<MessageScrollCode>
 {

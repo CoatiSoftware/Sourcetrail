@@ -1,18 +1,18 @@
 #ifndef SHARED_STORAGE_TYPES_H
 #define SHARED_STORAGE_TYPES_H
 
-#include "SharedMemory.h"
-#include "StorageComponentAccess.h"
-#include "StorageEdge.h"
-#include "StorageError.h"
-#include "StorageFile.h"
-#include "StorageLocalSymbol.h"
-#include "StorageNode.h"
-#include "StorageOccurrence.h"
-#include "StorageSourceLocation.h"
-#include "StorageSymbol.h"
-#include "types.h"
-#include "utilityString.h"
+#include "../../../../utility/interprocess/SharedMemory.h"
+#include "../../../storage/type/StorageComponentAccess.h"
+#include "../../../storage/type/StorageEdge.h"
+#include "../../../storage/type/StorageError.h"
+#include "../../../storage/type/StorageFile.h"
+#include "../../../storage/type/StorageLocalSymbol.h"
+#include "../../../storage/type/StorageNode.h"
+#include "../../../storage/type/StorageOccurrence.h"
+#include "../../../storage/type/StorageSourceLocation.h"
+#include "../../../storage/type/StorageSymbol.h"
+#include "../../../../utility/types.h"
+#include "../../../../../lib_utility/utility/utilityString.h"
 
 // macro creating SharedStorageType from StorageType
 // - arguments: StorageType & SharedStorageType

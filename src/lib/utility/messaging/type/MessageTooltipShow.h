@@ -1,10 +1,10 @@
 #ifndef MESSAGE_TOOLTIP_SHOW_H
 #define MESSAGE_TOOLTIP_SHOW_H
 
-#include "Message.h"
+#include "../Message.h"
 
-#include "TooltipInfo.h"
-#include "TooltipOrigin.h"
+#include "../../../data/tooltip/TooltipInfo.h"
+#include "../../../data/tooltip/TooltipOrigin.h"
 
 class MessageTooltipShow: public Message<MessageTooltipShow>
 {

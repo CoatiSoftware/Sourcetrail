@@ -1,7 +1,7 @@
 #ifndef ERROR_INFO_H
 #define ERROR_INFO_H
 
-#include "StorageError.h"
+#include "storage/type/StorageError.h"
 
 
 struct ErrorInfo

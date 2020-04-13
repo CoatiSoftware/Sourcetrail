@@ -2,22 +2,22 @@
 
 #include <clang/Tooling/JSONCompilationDatabase.h>
 
-#include "CanonicalFilePathCache.h"
-#include "CxxCompilationDatabaseSingle.h"
-#include "CxxDiagnosticConsumer.h"
-#include "CxxParser.h"
-#include "DialogView.h"
-#include "FilePathFilter.h"
-#include "FileRegister.h"
-#include "FileSystem.h"
-#include "GeneratePCHAction.h"
-#include "ParserClientImpl.h"
-#include "SingleFrontendActionFactory.h"
-#include "SourceGroupSettingsWithCxxPchOptions.h"
-#include "StorageProvider.h"
-#include "TaskLambda.h"
-#include "logging.h"
-#include "utility.h"
+#include "../data/parser/cxx/CanonicalFilePathCache.h"
+#include "../data/parser/cxx/CxxCompilationDatabaseSingle.h"
+#include "../data/parser/cxx/CxxDiagnosticConsumer.h"
+#include "../data/parser/cxx/CxxParser.h"
+#include "../../lib/component/view/DialogView.h"
+#include "../../lib/utility/file/FilePathFilter.h"
+#include "../../lib/utility/file/FileRegister.h"
+#include "../../lib/utility/file/FileSystem.h"
+#include "../data/parser/cxx/GeneratePCHAction.h"
+#include "../../lib/data/parser/ParserClientImpl.h"
+#include "../data/parser/cxx/SingleFrontendActionFactory.h"
+#include "../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.h"
+#include "../../lib/data/storage/StorageProvider.h"
+#include "../../lib/utility/scheduling/TaskLambda.h"
+#include "../../lib/utility/logging/logging.h"
+#include "../../lib/utility/utility.h"
 
 namespace utility
 {

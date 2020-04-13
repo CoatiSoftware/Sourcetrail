@@ -4,7 +4,7 @@
 #include <memory>
 #include <set>
 
-#include "SourceGroup.h"
+#include "../../lib/project/SourceGroup.h"
 
 class SourceGroupSettingsCxx;
 

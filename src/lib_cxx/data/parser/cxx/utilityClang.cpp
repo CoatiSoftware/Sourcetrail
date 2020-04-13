@@ -5,9 +5,9 @@
 #include <clang/Lex/Preprocessor.h>
 
 #include "CanonicalFilePathCache.h"
-#include "FilePath.h"
-#include "ParseLocation.h"
-#include "utilityString.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 bool utility::isImplicit(const clang::Decl* d)
 {

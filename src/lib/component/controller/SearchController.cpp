@@ -1,10 +1,10 @@
 #include "SearchController.h"
 
-#include "MessageTabState.h"
-#include "SearchView.h"
-#include "StorageAccess.h"
-#include "logging.h"
-#include "tracing.h"
+#include "../../utility/messaging/type/tab/MessageTabState.h"
+#include "../view/SearchView.h"
+#include "../../data/storage/StorageAccess.h"
+#include "../../utility/logging/logging.h"
+#include "../../utility/tracing.h"
 
 SearchController::SearchController(StorageAccess* storageAccess): m_storageAccess(storageAccess) {}
 

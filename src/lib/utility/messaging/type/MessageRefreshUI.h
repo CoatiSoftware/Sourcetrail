@@ -1,7 +1,7 @@
 #ifndef MESSAGE_REFRESH_UI_H
 #define MESSAGE_REFRESH_UI_H
 
-#include "Message.h"
+#include "../Message.h"
 
 class MessageRefreshUI: public Message<MessageRefreshUI>
 {

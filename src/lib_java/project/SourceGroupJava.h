@@ -5,7 +5,7 @@
 #include <set>
 #include <vector>
 
-#include "SourceGroup.h"
+#include "../../lib/project/SourceGroup.h"
 
 class SourceGroupJava: public SourceGroup
 {

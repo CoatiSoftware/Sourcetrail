@@ -3,13 +3,13 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "MessageStatus.h"
-#include "OrderedCache.h"
-#include "ResourcePaths.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilitySourceGroupCxx.h"
-#include "utilityString.h"
+#include "../../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../../lib/utility/OrderedCache.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/utility/logging/logging.h"
+#include "../../../lib/utility/utility.h"
+#include "../../project/utilitySourceGroupCxx.h"
+#include "../../../lib_utility/utility/utilityString.h"
 #include <clang/Tooling/CompilationDatabase.h>
 #include <clang/Tooling/JSONCompilationDatabase.h>
 

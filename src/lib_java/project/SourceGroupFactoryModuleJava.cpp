@@ -3,9 +3,9 @@
 #include "SourceGroupJavaEmpty.h"
 #include "SourceGroupJavaGradle.h"
 #include "SourceGroupJavaMaven.h"
-#include "SourceGroupSettingsJavaEmpty.h"
-#include "SourceGroupSettingsJavaGradle.h"
-#include "SourceGroupSettingsJavaMaven.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsJavaEmpty.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsJavaGradle.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsJavaMaven.h"
 
 bool SourceGroupFactoryModuleJava::supports(SourceGroupType type) const
 {

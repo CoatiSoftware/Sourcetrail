@@ -1,8 +1,8 @@
 #ifndef QT_REFRESH_VIEW_H
 #define QT_REFRESH_VIEW_H
 
-#include "QtThreadedFunctor.h"
-#include "RefreshView.h"
+#include "../utility/QtThreadedFunctor.h"
+#include "../../../lib/component/view/RefreshView.h"
 
 class QFrame;
 

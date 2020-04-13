@@ -1,7 +1,7 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_PROJECT_DATA_H
 #define QT_PROJECT_WIZARD_CONTENT_PROJECT_DATA_H
 
-#include "QtLocationPicker.h"
+#include "../../element/dialog/QtLocationPicker.h"
 #include "QtProjectWizardContent.h"
 
 class ProjectSettings;

@@ -1,11 +1,11 @@
 #include "SourceGroup.h"
 
-#include "FilePath.h"
-#include "FilePathFilter.h"
-#include "MemoryIndexerCommandProvider.h"
-#include "ProjectSettings.h"
-#include "SourceGroupSettings.h"
-#include "TaskLambda.h"
+#include "../utility/file/FilePath.h"
+#include "../utility/file/FilePathFilter.h"
+#include "../data/indexer/MemoryIndexerCommandProvider.h"
+#include "../settings/ProjectSettings.h"
+#include "../settings/source_group/SourceGroupSettings.h"
+#include "../utility/scheduling/TaskLambda.h"
 
 std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const RefreshInfo& info) const
 {

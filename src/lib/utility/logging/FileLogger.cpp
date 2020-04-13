@@ -5,8 +5,8 @@
 #include <fstream>
 #include <sstream>
 
-#include "FileSystem.h"
-#include "utilityString.h"
+#include "../file/FileSystem.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 std::wstring FileLogger::generateDatedFileName(
 	const std::wstring& prefix, const std::wstring& suffix, int offsetDays)

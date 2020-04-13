@@ -4,11 +4,11 @@
 #include <vector>
 
 #include "ComponentManager.h"
-#include "MessageFocusView.h"
-#include "MessageListener.h"
-#include "MessageRefreshUI.h"
-#include "View.h"
-#include "ViewLayout.h"
+#include "../utility/messaging/type/focus/MessageFocusView.h"
+#include "../utility/messaging/MessageListener.h"
+#include "../utility/messaging/type/MessageRefreshUI.h"
+#include "view/View.h"
+#include "view/ViewLayout.h"
 
 class Tab
 	: public ViewLayout

@@ -1,7 +1,7 @@
 #include "QtTcpWrapper.h"
 #include <qdatastream.h>
 
-#include "logging.h"
+#include "../../../lib/utility/logging/logging.h"
 
 QtTcpWrapper::QtTcpWrapper(
 	QObject* parent, const std::string& ip, const quint16 serverPort, const quint16 clientPort)

@@ -5,7 +5,7 @@
 
 #include <QGraphicsView>
 
-#include "types.h"
+#include "../../../lib/utility/types.h"
 
 class GraphFocusHandler;
 class QPushButton;

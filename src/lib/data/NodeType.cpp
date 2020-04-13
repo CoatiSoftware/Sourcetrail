@@ -1,7 +1,7 @@
 #include "NodeType.h"
 
-#include "ResourcePaths.h"
-#include "utilityString.h"
+#include "../app/paths/ResourcePaths.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 std::vector<NodeType> const NodeType::overviewBundleNodeTypesOrdered = {
 	NodeType(NODE_FILE),

@@ -1,8 +1,8 @@
 #ifndef QT_SCROLL_SPEED_CHANGE_LISTENER
 #define QT_SCROLL_SPEED_CHANGE_LISTENER
 
-#include "MessageListener.h"
-#include "MessageScrollSpeedChange.h"
+#include "../../../lib/utility/messaging/MessageListener.h"
+#include "../../../lib/utility/messaging/type/MessageScrollSpeedChange.h"
 
 #include "QtThreadedFunctor.h"
 

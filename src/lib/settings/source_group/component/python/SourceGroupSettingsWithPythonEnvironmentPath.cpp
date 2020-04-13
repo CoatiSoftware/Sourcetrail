@@ -1,7 +1,7 @@
 #include "SourceGroupSettingsWithPythonEnvironmentPath.h"
 
-#include "ProjectSettings.h"
-#include "utilityFile.h"
+#include "../../../ProjectSettings.h"
+#include "../../../../utility/file/utilityFile.h"
 
 FilePath SourceGroupSettingsWithPythonEnvironmentPath::getEnvironmentPath() const
 {

@@ -1,7 +1,7 @@
 #ifndef QT_GRAPH_NODE_GROUP_H
 #define QT_GRAPH_NODE_GROUP_H
 
-#include "GroupType.h"
+#include "../../../../lib/data/GroupType.h"
 #include "QtGraphNode.h"
 
 class QGraphicsPolygonItem;

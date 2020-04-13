@@ -4,8 +4,8 @@
 #include <QRegularExpression>
 #include <boost/filesystem/path.hpp>
 
-#include "FileSystem.h"
-#include "ProjectSettings.h"
+#include "../../../../lib/utility/file/FileSystem.h"
+#include "../../../../lib/settings/ProjectSettings.h"
 
 QtProjectWizardContentProjectData::QtProjectWizardContentProjectData(
 	std::shared_ptr<ProjectSettings> projectSettings,

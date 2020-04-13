@@ -2,7 +2,7 @@
 #define CXX_TYPE_NAME_RESOLVER_H
 
 #include "CxxNameResolver.h"
-#include "CxxTypeName.h"
+#include "../name/CxxTypeName.h"
 
 class CxxTypeNameResolver: public CxxNameResolver
 {

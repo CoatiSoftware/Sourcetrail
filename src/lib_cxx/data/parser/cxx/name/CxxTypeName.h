@@ -7,7 +7,7 @@
 
 #include "CxxName.h"
 #include "CxxQualifierFlags.h"
-#include "NameHierarchy.h"
+#include "../../../../../lib/data/name/NameHierarchy.h"
 
 class CxxTypeName: public CxxName
 {

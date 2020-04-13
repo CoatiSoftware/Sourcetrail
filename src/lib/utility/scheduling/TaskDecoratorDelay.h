@@ -5,7 +5,7 @@
 
 #include "TaskDecorator.h"
 #include "TaskRunner.h"
-#include "TimeStamp.h"
+#include "../TimeStamp.h"
 
 class TaskDecoratorDelay: public TaskDecorator
 {

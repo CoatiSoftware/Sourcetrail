@@ -1,14 +1,14 @@
 #include "SourceGroupPythonEmpty.h"
 
-#include "ApplicationSettings.h"
-#include "FileManager.h"
-#include "IndexerCommandCustom.h"
-#include "ProjectSettings.h"
-#include "RefreshInfo.h"
-#include "ResourcePaths.h"
-#include "SourceGroupSettingsPythonEmpty.h"
-#include "SqliteIndexStorage.h"
-#include "utility.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../../lib/utility/file/FileManager.h"
+#include "../../lib/data/indexer/IndexerCommandCustom.h"
+#include "../../lib/settings/ProjectSettings.h"
+#include "../../lib/project/RefreshInfo.h"
+#include "../../lib/app/paths/ResourcePaths.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsPythonEmpty.h"
+#include "../../lib/data/storage/sqlite/SqliteIndexStorage.h"
+#include "../../lib/utility/utility.h"
 
 SourceGroupPythonEmpty::SourceGroupPythonEmpty(std::shared_ptr<SourceGroupSettingsPythonEmpty> settings)
 	: m_settings(settings)

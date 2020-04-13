@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Status.h"
+#include "../../utility/Status.h"
 #include "View.h"
 
 class StatusView: public View

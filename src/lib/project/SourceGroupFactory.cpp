@@ -2,7 +2,7 @@
 
 #include "SourceGroup.h"
 #include "SourceGroupFactoryModule.h"
-#include "SourceGroupSettings.h"
+#include "../settings/source_group/SourceGroupSettings.h"
 
 std::shared_ptr<SourceGroupFactory> SourceGroupFactory::getInstance()
 {

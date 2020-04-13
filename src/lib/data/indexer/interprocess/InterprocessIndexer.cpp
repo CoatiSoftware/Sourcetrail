@@ -1,11 +1,11 @@
 #include "InterprocessIndexer.h"
 
-#include "FileRegister.h"
-#include "IndexerCommand.h"
-#include "IndexerComposite.h"
-#include "LanguagePackageManager.h"
-#include "ScopedFunctor.h"
-#include "logging.h"
+#include "../../../utility/file/FileRegister.h"
+#include "../IndexerCommand.h"
+#include "../IndexerComposite.h"
+#include "../../../app/LanguagePackageManager.h"
+#include "../../../utility/ScopedFunctor.h"
+#include "../../../utility/logging/logging.h"
 
 InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 	: m_interprocessIndexerCommandManager(uuid, processId, false)

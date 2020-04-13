@@ -5,7 +5,7 @@
 #include "CanonicalFilePathCache.h"
 #include "CxxAstVisitor.h"
 #include "CxxAstVisitorComponentContext.h"
-#include "ParserClient.h"
+#include "../../../../lib/data/parser/ParserClient.h"
 #include "utilityClang.h"
 
 CxxAstVisitorComponentBraceRecorder::CxxAstVisitorComponentBraceRecorder(

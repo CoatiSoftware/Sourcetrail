@@ -1,7 +1,7 @@
 #include "SourceGroupSettingsWithSourceExtensions.h"
 
-#include "ProjectSettings.h"
-#include "utility.h"
+#include "../../ProjectSettings.h"
+#include "../../../utility/utility.h"
 
 std::vector<std::wstring> SourceGroupSettingsWithSourceExtensions::getSourceExtensions() const
 {

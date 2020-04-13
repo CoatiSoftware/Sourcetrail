@@ -1,6 +1,6 @@
 #include "LanguagePackageCxx.h"
 
-#include "IndexerCxx.h"
+#include "data/indexer/IndexerCxx.h"
 
 std::vector<std::shared_ptr<IndexerBase>> LanguagePackageCxx::instantiateSupportedIndexers() const
 {

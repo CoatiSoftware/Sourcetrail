@@ -10,21 +10,21 @@
 #include <llvm/Support/VirtualFileSystem.h>
 
 #include "ASTAction.h"
-#include "ApplicationSettings.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
 #include "CanonicalFilePathCache.h"
 #include "ClangInvocationInfo.h"
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"
-#include "FilePath.h"
-#include "FileRegister.h"
-#include "IndexerCommandCxx.h"
-#include "ParserClient.h"
-#include "ResourcePaths.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/file/FileRegister.h"
+#include "../../indexer/IndexerCommandCxx.h"
+#include "../../../../lib/data/parser/ParserClient.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 #include "SingleFrontendActionFactory.h"
-#include "TextAccess.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilityString.h"
+#include "../../../../lib/utility/text/TextAccess.h"
+#include "../../../../lib/utility/logging/logging.h"
+#include "../../../../lib/utility/utility.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 namespace
 {

@@ -4,14 +4,14 @@
 #include <clang/Lex/Preprocessor.h>
 
 #include "CanonicalFilePathCache.h"
-#include "CxxDeclNameResolver.h"
-#include "CxxTypeNameResolver.h"
-#include "IndexerStateInfo.h"
-#include "ParseLocation.h"
-#include "ParserClient.h"
-#include "logging.h"
+#include "name_resolver/CxxDeclNameResolver.h"
+#include "name_resolver/CxxTypeNameResolver.h"
+#include "../../../../lib/data/indexer/IndexerStateInfo.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib/data/parser/ParserClient.h"
+#include "../../../../lib/utility/logging/logging.h"
 #include "utilityClang.h"
-#include "utilityString.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 CxxAstVisitor::CxxAstVisitor(
 	clang::ASTContext* astContext,

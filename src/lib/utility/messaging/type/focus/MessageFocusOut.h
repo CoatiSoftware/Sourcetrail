@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "Message.h"
-#include "TabId.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../types.h"
 
 class MessageFocusOut: public Message<MessageFocusOut>
 {

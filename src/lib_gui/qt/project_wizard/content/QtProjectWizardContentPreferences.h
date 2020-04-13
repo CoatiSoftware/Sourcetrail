@@ -3,9 +3,9 @@
 
 #include <QComboBox>
 
-#include "CombinedPathDetector.h"
-#include "QtLocationPicker.h"
-#include "QtPathListBox.h"
+#include "../../../utility/path_detector/CombinedPathDetector.h"
+#include "../../element/dialog/QtLocationPicker.h"
+#include "../../element/dialog/QtPathListBox.h"
 #include "QtProjectWizardContent.h"
 
 class QCheckBox;

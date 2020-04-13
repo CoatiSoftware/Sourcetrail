@@ -1,7 +1,7 @@
 #ifndef MESSAGE_TOOLTIP_HIDE_H
 #define MESSAGE_TOOLTIP_HIDE_H
 
-#include "Message.h"
+#include "../Message.h"
 
 class MessageTooltipHide: public Message<MessageTooltipHide>
 {

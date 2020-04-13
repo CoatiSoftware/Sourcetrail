@@ -6,13 +6,13 @@
 #include <QPushButton>
 #include <QStandardItemModel>
 
-#include "ApplicationSettings.h"
-#include "ColorScheme.h"
-#include "MessageClearStatusView.h"
-#include "MessageStatusFilterChanged.h"
-#include "QtTable.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "../../../lib/settings/ColorScheme.h"
+#include "../../../lib/utility/messaging/type/MessageClearStatusView.h"
+#include "../../../lib/utility/messaging/type/MessageStatusFilterChanged.h"
+#include "../element/QtTable.h"
 #include "QtViewWidgetWrapper.h"
-#include "utilityQt.h"
+#include "../utility/utilityQt.h"
 
 QtStatusView::QtStatusView(ViewLayout* viewLayout): StatusView(viewLayout)
 {

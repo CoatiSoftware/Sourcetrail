@@ -1,8 +1,8 @@
 #ifndef CXX_VS_10_TO_14_HEADER_PATH_DETECTOR_H
 #define CXX_VS_10_TO_14_HEADER_PATH_DETECTOR_H
 
-#include "ApplicationArchitectureType.h"
-#include "PathDetector.h"
+#include "../../../../lib/utility/ApplicationArchitectureType.h"
+#include "../PathDetector.h"
 
 class CxxVs10To14HeaderPathDetector: public PathDetector
 {

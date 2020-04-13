@@ -1,7 +1,7 @@
 #ifndef STORAGE_OCCURRENCE_H
 #define STORAGE_OCCURRENCE_H
 
-#include "types.h"
+#include "../../../utility/types.h"
 
 struct StorageOccurrence
 {

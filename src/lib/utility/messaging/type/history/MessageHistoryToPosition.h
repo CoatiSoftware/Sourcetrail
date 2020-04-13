@@ -1,8 +1,8 @@
 #ifndef MESSAGE_HISTORY_TO_POSITION_H
 #define MESSAGE_HISTORY_TO_POSITION_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageHistoryToPosition: public Message<MessageHistoryToPosition>
 {

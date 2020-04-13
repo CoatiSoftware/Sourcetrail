@@ -3,12 +3,12 @@
 
 #include "Controller.h"
 
-#include "MessageClearStatusView.h"
-#include "MessageListener.h"
-#include "MessageShowStatus.h"
-#include "MessageStatus.h"
-#include "MessageStatusFilterChanged.h"
-#include "Status.h"
+#include "../../utility/messaging/type/MessageClearStatusView.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/messaging/type/MessageShowStatus.h"
+#include "../../utility/messaging/type/MessageStatus.h"
+#include "../../utility/messaging/type/MessageStatusFilterChanged.h"
+#include "../../utility/Status.h"
 
 class StatusView;
 class StorageAccess;

@@ -1,15 +1,15 @@
 #ifndef QT_DIALOG_VIEW_H
 #define QT_DIALOG_VIEW_H
 
-#include "DialogView.h"
+#include "../../../lib/component/view/DialogView.h"
 
-#include "QtThreadedFunctor.h"
-#include "QtWindowStack.h"
+#include "../utility/QtThreadedFunctor.h"
+#include "../window/QtWindowStack.h"
 
-#include "MessageErrorCountUpdate.h"
-#include "MessageIndexingShowDialog.h"
-#include "MessageListener.h"
-#include "MessageWindowClosed.h"
+#include "../../../lib/utility/messaging/type/error/MessageErrorCountUpdate.h"
+#include "../../../lib/utility/messaging/type/indexing/MessageIndexingShowDialog.h"
+#include "../../../lib/utility/messaging/MessageListener.h"
+#include "../../../lib/utility/messaging/type/MessageWindowClosed.h"
 
 class QtMainWindow;
 class QtWindow;

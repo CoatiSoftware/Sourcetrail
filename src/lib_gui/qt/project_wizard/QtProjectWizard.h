@@ -5,10 +5,10 @@
 
 #include <QWidget>
 
-#include "ApplicationSettings.h"
-#include "ProjectSettings.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "../../../lib/settings/ProjectSettings.h"
 #include "QtProjectWizardWindow.h"
-#include "QtWindow.h"
+#include "../window/QtWindow.h"
 
 class QListWidget;
 class QPushButton;

@@ -1,9 +1,9 @@
 #ifndef MESSAGE_TAB_OPEN_WITH_H
 #define MESSAGE_TAB_OPEN_WITH_H
 
-#include "FilePath.h"
-#include "Message.h"
-#include "SearchMatch.h"
+#include "../../../file/FilePath.h"
+#include "../../Message.h"
+#include "../../../../data/search/SearchMatch.h"
 
 class MessageTabOpenWith: public Message<MessageTabOpenWith>
 {

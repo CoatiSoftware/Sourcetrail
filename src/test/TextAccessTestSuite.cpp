@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "TextAccess.h"
+#include "../lib/utility/text/TextAccess.h"
 
 namespace
 {

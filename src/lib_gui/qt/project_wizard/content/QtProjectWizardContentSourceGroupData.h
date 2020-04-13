@@ -2,7 +2,7 @@
 #define QT_PROJECT_WIZARD_CONTENT_SOURCE_GROUP_DATA_H
 
 #include "QtProjectWizardContent.h"
-#include "SourceGroupStatusType.h"
+#include "../../../../lib/settings/source_group/SourceGroupStatusType.h"
 
 class QCheckBox;
 class QLineEdit;

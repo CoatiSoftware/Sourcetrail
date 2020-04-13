@@ -1,11 +1,11 @@
 #ifndef MESSAGE_CHANGE_FILE_VIEW_H
 #define MESSAGE_CHANGE_FILE_VIEW_H
 
-#include "CodeScrollParams.h"
-#include "CodeSnippetParams.h"
-#include "FilePath.h"
-#include "Message.h"
-#include "TabId.h"
+#include "../../../../component/view/helper/CodeScrollParams.h"
+#include "../../../../component/view/helper/CodeSnippetParams.h"
+#include "../../../file/FilePath.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageChangeFileView: public Message<MessageChangeFileView>
 {

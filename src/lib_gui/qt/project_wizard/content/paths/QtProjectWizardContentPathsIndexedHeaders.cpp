@@ -2,18 +2,18 @@
 
 #include <QMessageBox>
 
-#include "CodeblocksProject.h"
-#include "CompilationDatabase.h"
-#include "IndexerCommandCxx.h"
-#include "OrderedCache.h"
-#include "QtPathListDialog.h"
-#include "QtSelectPathsDialog.h"
-#include "QtTextEditDialog.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilityFile.h"
+#include "../../../../../lib_cxx/utility/codeblocks/CodeblocksProject.h"
+#include "../../../../../lib_cxx/utility/CompilationDatabase.h"
+#include "../../../../../lib_cxx/data/indexer/IndexerCommandCxx.h"
+#include "../../../../../lib/utility/OrderedCache.h"
+#include "../../../window/QtPathListDialog.h"
+#include "../../../window/QtSelectPathsDialog.h"
+#include "../../../window/QtTextEditDialog.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsCxxCdb.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h"
+#include "../../../../../lib/utility/logging/logging.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
 
 std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCodeblocksProject(
 	std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> settings)

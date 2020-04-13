@@ -5,16 +5,16 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 
-#include "MessageHistoryToPosition.h"
-#include "MessageTabOpenWith.h"
-#include "ResourcePaths.h"
-#include "utilityString.h"
+#include "../../../../lib/utility/messaging/type/history/MessageHistoryToPosition.h"
+#include "../../../../lib/utility/messaging/type/tab/MessageTabOpenWith.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
-#include "QtDeviceScaledPixmap.h"
-#include "utilityQt.h"
+#include "../../utility/QtDeviceScaledPixmap.h"
+#include "../../utility/utilityQt.h"
 
-#include "ColorScheme.h"
-#include "GraphViewStyle.h"
+#include "../../../../lib/settings/ColorScheme.h"
+#include "../../../../lib/component/view/GraphViewStyle.h"
 
 QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurrent)
 	: index(index), m_match(match)

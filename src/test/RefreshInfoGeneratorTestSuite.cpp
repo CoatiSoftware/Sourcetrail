@@ -2,14 +2,14 @@
 
 #include <QDateTime>
 
-#include "FileSystem.h"
-#include "PersistentStorage.h"
-#include "ProjectSettings.h"
-#include "RefreshInfo.h"
-#include "RefreshInfoGenerator.h"
-#include "SourceGroup.h"
-#include "SourceGroupSettings.h"
-#include "utility.h"
+#include "../lib/utility/file/FileSystem.h"
+#include "../lib/data/storage/PersistentStorage.h"
+#include "../lib/settings/ProjectSettings.h"
+#include "../lib/project/RefreshInfo.h"
+#include "../lib/project/RefreshInfoGenerator.h"
+#include "../lib/project/SourceGroup.h"
+#include "../lib/settings/source_group/SourceGroupSettings.h"
+#include "../lib/utility/utility.h"
 
 namespace
 {

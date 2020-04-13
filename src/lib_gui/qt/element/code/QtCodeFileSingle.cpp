@@ -6,15 +6,15 @@
 #include <QScrollBar>
 #include <QVBoxLayout>
 
-#include "FilePath.h"
-#include "MessageChangeFileView.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/messaging/type/code/MessageChangeFileView.h"
 #include "QtCodeArea.h"
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeFileTitleButton.h"
 #include "QtCodeNavigator.h"
-#include "SourceLocationFile.h"
-#include "logging.h"
-#include "utilityQt.h"
+#include "../../../../lib/data/location/SourceLocationFile.h"
+#include "../../../../lib/utility/logging/logging.h"
+#include "../../utility/utilityQt.h"
 
 QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	: m_navigator(navigator), m_area(nullptr)

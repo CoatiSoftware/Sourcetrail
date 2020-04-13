@@ -5,11 +5,11 @@
 #include <clang/Lex/MacroArgs.h>
 
 #include "CanonicalFilePathCache.h"
-#include "ParseLocation.h"
-#include "ParserClient.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib/data/parser/ParserClient.h"
 #include "utilityClang.h"
 
-#include "utilityString.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
 	clang::SourceManager& sourceManager,

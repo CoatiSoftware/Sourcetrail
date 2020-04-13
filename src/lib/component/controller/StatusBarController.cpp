@@ -1,8 +1,8 @@
 #include "StatusBarController.h"
 
-#include "StatusBarView.h"
-#include "StorageAccess.h"
-#include "logging.h"
+#include "../view/StatusBarView.h"
+#include "../../data/storage/StorageAccess.h"
+#include "../../utility/logging/logging.h"
 
 StatusBarController::StatusBarController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

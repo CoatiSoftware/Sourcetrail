@@ -3,9 +3,9 @@
 #include <chrono>
 #include <thread>
 
-#include "Message.h"
-#include "MessageListener.h"
-#include "MessageQueue.h"
+#include "../lib/utility/messaging/Message.h"
+#include "../lib/utility/messaging/MessageListener.h"
+#include "../lib/utility/messaging/MessageQueue.h"
 
 namespace
 {

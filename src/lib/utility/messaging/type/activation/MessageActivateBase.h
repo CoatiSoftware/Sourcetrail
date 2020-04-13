@@ -1,7 +1,7 @@
 #ifndef MESSAGE_ACTIVATE_BASE_H
 #define MESSAGE_ACTIVATE_BASE_H
 
-#include "SearchMatch.h"
+#include "../../../../data/search/SearchMatch.h"
 
 class MessageActivateBase
 {

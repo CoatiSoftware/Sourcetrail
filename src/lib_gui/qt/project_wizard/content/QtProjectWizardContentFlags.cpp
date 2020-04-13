@@ -3,8 +3,8 @@
 #include <QFormLayout>
 #include <QMessageBox>
 
-#include "QtStringListBox.h"
-#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
+#include "../../element/dialog/QtStringListBox.h"
+#include "../../../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.h"
 
 QtProjectWizardContentFlags::QtProjectWizardContentFlags(
 	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings,

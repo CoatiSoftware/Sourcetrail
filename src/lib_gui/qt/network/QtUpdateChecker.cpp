@@ -6,14 +6,14 @@
 #include <QMessageBox>
 #include <QUrl>
 
-#include "ApplicationSettings.h"
-#include "MessageStatus.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "../../../lib/utility/messaging/type/MessageStatus.h"
 #include "QtRequest.h"
-#include "TimeStamp.h"
-#include "Version.h"
-#include "logging.h"
-#include "utilityApp.h"
-#include "utilityUuid.h"
+#include "../../../lib/utility/TimeStamp.h"
+#include "../../../lib/utility/Version.h"
+#include "../../../lib/utility/logging/logging.h"
+#include "../../utility/utilityApp.h"
+#include "../../../lib/utility/utilityUuid.h"
 
 bool QtUpdateChecker::needsAutomaticCheck()
 {

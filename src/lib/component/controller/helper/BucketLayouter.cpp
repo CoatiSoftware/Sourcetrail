@@ -1,7 +1,7 @@
 #include "BucketLayouter.h"
 
 #include "DummyEdge.h"
-#include "GraphViewStyle.h"
+#include "../../view/GraphViewStyle.h"
 
 Bucket::Bucket(): i(0), j(0), m_width(0), m_height(0) {}
 

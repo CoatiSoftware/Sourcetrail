@@ -2,7 +2,7 @@
 #define QT_PROJECT_WIZARD_CONTENT_PATH_PYTHON_ENVIRONMENT_H
 
 #include "QtProjectWizardContentPath.h"
-#include "QtThreadedFunctor.h"
+#include "../../../utility/QtThreadedFunctor.h"
 
 class SourceGroupSettingsPythonEmpty;
 

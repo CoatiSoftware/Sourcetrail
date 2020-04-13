@@ -3,9 +3,9 @@
 #include <QBrush>
 #include <QPen>
 
-#include "GraphViewStyle.h"
-#include "MessageGraphNodeBundleSplit.h"
-#include "QtCountCircleItem.h"
+#include "../../../../lib/component/view/GraphViewStyle.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageGraphNodeBundleSplit.h"
+#include "../base/QtCountCircleItem.h"
 
 QtGraphNodeBundle::QtGraphNodeBundle(
 	GraphFocusHandler* focusHandler,

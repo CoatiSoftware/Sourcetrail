@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "logging.h"
+#include "../logging/logging.h"
 
 namespace
 {

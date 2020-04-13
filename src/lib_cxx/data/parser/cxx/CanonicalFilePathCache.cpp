@@ -3,7 +3,7 @@
 #include <clang/AST/ASTContext.h>
 
 #include "utilityClang.h"
-#include "utilityString.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 CanonicalFilePathCache::CanonicalFilePathCache(std::shared_ptr<FileRegister> fileRegister)
 	: m_fileRegister(fileRegister)

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "SourceGroupType.h"
+#include "source_group/SourceGroupType.h"
 
 enum LanguageType
 {

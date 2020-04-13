@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "CommandLineParser.h"
-#include "CommandlineHelper.h"
+#include "../CommandLineParser.h"
+#include "../CommandlineHelper.h"
 
 namespace po = boost::program_options;
 

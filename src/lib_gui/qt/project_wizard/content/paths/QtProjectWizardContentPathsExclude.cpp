@@ -1,9 +1,9 @@
 #include "QtProjectWizardContentPathsExclude.h"
 
-#include "SourceGroupSettings.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "utility.h"
-#include "utilityString.h"
+#include "../../../../../lib/settings/source_group/SourceGroupSettings.h"
+#include "../../../../../lib/settings/source_group/component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib_utility/utility/utilityString.h"
 
 QtProjectWizardContentPathsExclude::QtProjectWizardContentPathsExclude(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window)

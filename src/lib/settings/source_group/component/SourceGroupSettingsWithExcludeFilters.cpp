@@ -1,10 +1,10 @@
 #include "SourceGroupSettingsWithExcludeFilters.h"
 
-#include "FilePathFilter.h"
-#include "FileSystem.h"
-#include "ProjectSettings.h"
-#include "utility.h"
-#include "utilityFile.h"
+#include "../../../utility/file/FilePathFilter.h"
+#include "../../../utility/file/FileSystem.h"
+#include "../../ProjectSettings.h"
+#include "../../../utility/utility.h"
+#include "../../../utility/file/utilityFile.h"
 
 std::vector<std::wstring> SourceGroupSettingsWithExcludeFilters::getExcludeFilterStrings() const
 {

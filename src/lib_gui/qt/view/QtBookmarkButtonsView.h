@@ -1,9 +1,9 @@
 #ifndef QT_BOOKMARK_BUTTONS_VIEW_H
 #define QT_BOOKMARK_BUTTONS_VIEW_H
 
-#include "BookmarkButtonsView.h"
+#include "../../../lib/component/view/BookmarkButtonsView.h"
 
-#include "QtThreadedFunctor.h"
+#include "../utility/QtThreadedFunctor.h"
 
 class QFrame;
 class QtSearchBarButton;

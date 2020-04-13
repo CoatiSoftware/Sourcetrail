@@ -4,10 +4,10 @@
 #include <clang/Tooling/Tooling.h>
 
 #include "CanonicalFilePathCache.h"
-#include "ParseLocation.h"
-#include "ParserClient.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib/data/parser/ParserClient.h"
 #include "utilityClang.h"
-#include "utilityString.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::raw_ostream& os,

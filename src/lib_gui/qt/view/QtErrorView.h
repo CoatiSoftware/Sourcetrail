@@ -3,11 +3,11 @@
 
 #include <QWidget>
 
-#include "ControllerProxy.h"
-#include "ErrorController.h"
-#include "ErrorFilter.h"
-#include "ErrorView.h"
-#include "QtThreadedFunctor.h"
+#include "../../../lib/component/controller/helper/ControllerProxy.h"
+#include "../../../lib/component/controller/ErrorController.h"
+#include "../../../lib/data/ErrorFilter.h"
+#include "../../../lib/component/view/ErrorView.h"
+#include "../utility/QtThreadedFunctor.h"
 
 class QBoxLayout;
 class QCheckBox;

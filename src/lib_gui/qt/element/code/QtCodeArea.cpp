@@ -16,21 +16,21 @@
 #include <QTextDocumentFragment>
 #include <QToolTip>
 
-#include "ApplicationSettings.h"
-#include "ColorScheme.h"
-#include "MessageActivateLocalSymbols.h"
-#include "MessageActivateTokenIds.h"
-#include "MessageFocusIn.h"
-#include "MessageFocusOut.h"
-#include "MessageMoveIDECursor.h"
-#include "MessageShowError.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../lib/settings/ColorScheme.h"
+#include "../../../../lib/utility/messaging/type/code/MessageActivateLocalSymbols.h"
+#include "../../../../lib/utility/messaging/type/code/MessageActivateTokenIds.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusIn.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusOut.h"
+#include "../../../../lib/utility/messaging/type/plugin/MessageMoveIDECursor.h"
+#include "../../../../lib/utility/messaging/type/error/MessageShowError.h"
 #include "QtCodeNavigator.h"
-#include "QtContextMenu.h"
-#include "SourceLocationFile.h"
-#include "TextCodec.h"
-#include "utility.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../utility/QtContextMenu.h"
+#include "../../../../lib/data/location/SourceLocationFile.h"
+#include "../../../../lib_utility/utility/TextCodec.h"
+#include "../../../../lib/utility/utility.h"
+#include "../../../utility/utilityApp.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter() {}
 

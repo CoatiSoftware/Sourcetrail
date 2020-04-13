@@ -3,9 +3,9 @@
 
 #include <set>
 
-#include "CombinedPathDetector.h"
-#include "QtPathListBox.h"
-#include "QtProjectWizardContent.h"
+#include "../../../../utility/path_detector/CombinedPathDetector.h"
+#include "../../../element/dialog/QtPathListBox.h"
+#include "../QtProjectWizardContent.h"
 
 class QComboBox;
 class SourceGroupSettings;

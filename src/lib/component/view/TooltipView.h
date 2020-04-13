@@ -3,10 +3,10 @@
 
 #include <vector>
 
-#include "NameHierarchy.h"
-#include "TooltipInfo.h"
+#include "../../data/name/NameHierarchy.h"
+#include "../../data/tooltip/TooltipInfo.h"
 #include "View.h"
-#include "types.h"
+#include "../../utility/types.h"
 
 class TooltipView: public View
 {

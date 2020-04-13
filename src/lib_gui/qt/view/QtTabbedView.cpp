@@ -6,11 +6,11 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-#include "ColorScheme.h"
-#include "QtSelfRefreshIconButton.h"
+#include "../../../lib/settings/ColorScheme.h"
+#include "../element/button/QtSelfRefreshIconButton.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../utility/utilityQt.h"
 
 QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name)
 	: TabbedView(viewLayout, name)

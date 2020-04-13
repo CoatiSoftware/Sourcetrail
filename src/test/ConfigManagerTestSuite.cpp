@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "ConfigManager.h"
-#include "TextAccess.h"
+#include "../lib/utility/ConfigManager.h"
+#include "../lib/utility/text/TextAccess.h"
 
 namespace
 {

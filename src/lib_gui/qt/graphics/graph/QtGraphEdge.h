@@ -5,10 +5,10 @@
 
 #include <QGraphicsItem>
 
-#include "Vector2.h"
-#include "Vector4.h"
+#include "../../../../lib/utility/math/Vector2.h"
+#include "../../../../lib/utility/math/Vector4.h"
 
-#include "TokenComponentAggregation.h"
+#include "../../../../lib/data/graph/token_component/TokenComponentAggregation.h"
 
 class Edge;
 class GraphFocusHandler;

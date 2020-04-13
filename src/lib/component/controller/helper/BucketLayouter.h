@@ -3,8 +3,8 @@
 
 #include <map>
 
-#include "Vector2.h"
-#include "types.h"
+#include "../../../utility/math/Vector2.h"
+#include "../../../utility/types.h"
 
 #include "DummyNode.h"
 

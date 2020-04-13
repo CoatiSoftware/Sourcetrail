@@ -3,10 +3,10 @@
 
 #include <vector>
 
-#include "Message.h"
-#include "TabId.h"
-#include "TooltipOrigin.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../../data/tooltip/TooltipOrigin.h"
+#include "../../../types.h"
 
 class MessageFocusIn: public Message<MessageFocusIn>
 {

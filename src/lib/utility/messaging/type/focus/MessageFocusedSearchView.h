@@ -1,8 +1,8 @@
 #ifndef MESSAGE_FOCUSED_SEARCH_VIEW_H
 #define MESSAGE_FOCUSED_SEARCH_VIEW_H
 
-#include "Message.h"
-#include "TabId.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageFocusedSearchView: public Message<MessageFocusedSearchView>
 {

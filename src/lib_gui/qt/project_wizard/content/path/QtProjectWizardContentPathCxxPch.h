@@ -2,7 +2,7 @@
 #define QT_PROJECT_WIZARD_CONTENT_PATH_CXX_PCH_H
 
 #include "QtProjectWizardContentPath.h"
-#include "SingleValueCache.h"
+#include "../../../../../lib/utility/SingleValueCache.h"
 
 class SourceGroupSettingsWithCxxPchOptions;
 

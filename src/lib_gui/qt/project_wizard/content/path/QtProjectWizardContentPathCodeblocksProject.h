@@ -2,7 +2,7 @@
 #define QT_PROJECT_WIZARD_CONTENT_PATH_CODE_BLOCKS_PROJECT_H
 
 #include "QtProjectWizardContentPath.h"
-#include "SingleValueCache.h"
+#include "../../../../../lib/utility/SingleValueCache.h"
 
 class SourceGroupSettingsCxxCodeblocks;
 

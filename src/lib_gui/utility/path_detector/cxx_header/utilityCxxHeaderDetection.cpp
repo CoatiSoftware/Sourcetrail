@@ -3,9 +3,9 @@
 #include <QSettings>
 #include <QSysInfo>
 
-#include "FileSystem.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../../../lib/utility/file/FileSystem.h"
+#include "../../utilityApp.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 namespace utility
 {

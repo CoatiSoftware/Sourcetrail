@@ -1,7 +1,7 @@
 #include "QtProjectWizardContentPathsFrameworkSearchGlobal.h"
 
-#include "ApplicationSettings.h"
-#include "utilityPathDetection.h"
+#include "../../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../utility/utilityPathDetection.h"
 
 QtProjectWizardContentPathsFrameworkSearchGlobal::QtProjectWizardContentPathsFrameworkSearchGlobal(
 	QtProjectWizardWindow* window)

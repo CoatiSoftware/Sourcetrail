@@ -4,8 +4,8 @@
 #include <QComboBox>
 #include <QLabel>
 
-#include "SourceGroupSettingsWithCxxCrossCompilationOptions.h"
-#include "logging.h"
+#include "../../../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCxxCrossCompilationOptions.h"
+#include "../../../../lib/utility/logging/logging.h"
 
 QtProjectWizardContentCrossCompilationOptions::QtProjectWizardContentCrossCompilationOptions(
 	std::shared_ptr<SourceGroupSettingsWithCxxCrossCompilationOptions> sourceGroupSettings,

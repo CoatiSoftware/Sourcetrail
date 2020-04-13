@@ -1,6 +1,6 @@
 #include "ScreenSearchController.h"
 
-#include "ScreenSearchView.h"
+#include "../view/ScreenSearchView.h"
 
 void ScreenSearchController::clear() {}
 

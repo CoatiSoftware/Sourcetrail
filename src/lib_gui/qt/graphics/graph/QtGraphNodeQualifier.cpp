@@ -6,9 +6,9 @@
 #include <QGraphicsView>
 #include <QPen>
 
-#include "MessageActivateNodes.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageActivateNodes.h"
 
-#include "NameHierarchy.h"
+#include "../../../../lib/data/name/NameHierarchy.h"
 
 QtGraphNodeQualifier::QtGraphNodeQualifier(const NameHierarchy& name): m_qualifierName(name)
 {

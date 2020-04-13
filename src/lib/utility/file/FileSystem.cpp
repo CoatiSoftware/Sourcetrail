@@ -6,7 +6,7 @@
 #include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/filesystem.hpp>
 
-#include "utilityString.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 	const FilePath& path, const std::vector<std::wstring>& extensions)

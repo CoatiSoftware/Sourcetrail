@@ -3,12 +3,12 @@
 #include <QStyle>
 #include <QVBoxLayout>
 
-#include "MessageChangeFileView.h"
+#include "../../../../lib/utility/messaging/type/code/MessageChangeFileView.h"
 
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeNavigator.h"
 #include "QtCodeSnippet.h"
-#include "SourceLocationFile.h"
+#include "../../../../lib/data/location/SourceLocationFile.h"
 
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, bool isFirst)
 	: QFrame(), m_navigator(navigator), m_filePath(filePath), m_isWholeFile(false)

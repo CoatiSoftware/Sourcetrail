@@ -4,10 +4,10 @@
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "ApplicationSettings.h"
-#include "QtDeviceScaledPixmap.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "../utility/QtDeviceScaledPixmap.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../utility/utilityQt.h"
 
 QtWindow::QtWindow(bool isSubWindow, QWidget* parent)
 	: QtWindowBase(isSubWindow, parent)

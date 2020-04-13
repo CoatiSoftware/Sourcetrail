@@ -4,7 +4,7 @@
 #include <QFontMetrics>
 #include <QPen>
 
-#include "GraphViewStyle.h"
+#include "../../../../lib/component/view/GraphViewStyle.h"
 
 QtCountCircleItem::QtCountCircleItem(QGraphicsItem* parent): QtRoundedRectItem(parent)
 {

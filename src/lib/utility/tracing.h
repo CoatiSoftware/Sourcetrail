@@ -10,10 +10,10 @@
 #include <stack>
 #include <thread>
 
-#include "FilePath.h"
+#include "file/FilePath.h"
 #include "TimeStamp.h"
 #include "types.h"
-#include "utilityString.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 struct TraceEvent
 {

@@ -5,9 +5,9 @@
 
 #include "language_packages.h"
 
-#include "FilePath.h"
-#include "FilePathFilter.h"
-#include "SharedMemory.h"
+#include "../../../../utility/file/FilePath.h"
+#include "../../../../utility/file/FilePathFilter.h"
+#include "../../../../utility/interprocess/SharedMemory.h"
 
 class IndexerCommand;
 

@@ -1,8 +1,8 @@
 #include "JavaPathDetectorMac.h"
 
-#include "FilePath.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../utilityApp.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 JavaPathDetectorMac::JavaPathDetectorMac(const std::string javaVersion)
 	: JavaPathDetector("Java " + javaVersion + " for Mac", javaVersion)

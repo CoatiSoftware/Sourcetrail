@@ -2,8 +2,8 @@
 
 #include <QCheckBox>
 
-#include "SourceGroupSettings.h"
-#include "SourceGroupSettingsWithClasspath.h"
+#include "../../../../../lib/settings/source_group/SourceGroupSettings.h"
+#include "../../../../../lib/settings/source_group/component/java/SourceGroupSettingsWithClasspath.h"
 
 QtProjectWizardContentPathsClassJava::QtProjectWizardContentPathsClassJava(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizardWindow* window)

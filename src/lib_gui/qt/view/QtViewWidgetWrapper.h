@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "ViewWidgetWrapper.h"
+#include "../../../lib/component/view/ViewWidgetWrapper.h"
 
 class View;
 

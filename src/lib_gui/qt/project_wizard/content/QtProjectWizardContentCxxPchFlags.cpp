@@ -3,8 +3,8 @@
 #include <QCheckBox>
 #include <QMessageBox>
 
-#include "QtStringListBox.h"
-#include "SourceGroupSettingsWithCxxPchOptions.h"
+#include "../../element/dialog/QtStringListBox.h"
+#include "../../../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCxxPchOptions.h"
 
 QtProjectWizardContentCxxPchFlags::QtProjectWizardContentCxxPchFlags(
 	std::shared_ptr<SourceGroupSettingsWithCxxPchOptions> settings,

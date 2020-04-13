@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "PathDetector.h"
+#include "../PathDetector.h"
 
 class JavaPathDetector;
 

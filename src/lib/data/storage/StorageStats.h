@@ -1,7 +1,7 @@
 #ifndef STORAGE_STATS_H
 #define STORAGE_STATS_H
 
-#include "TimeStamp.h"
+#include "../../utility/TimeStamp.h"
 
 struct StorageStats
 {

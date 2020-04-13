@@ -2,11 +2,11 @@
 #define SQLITE_BOOKMARK_STORAGE_H
 
 #include "SqliteStorage.h"
-#include "StorageBookmark.h"
-#include "StorageBookmarkCategory.h"
-#include "StorageBookmarkedEdge.h"
-#include "StorageBookmarkedNode.h"
-#include "types.h"
+#include "../type/StorageBookmark.h"
+#include "../type/StorageBookmarkCategory.h"
+#include "../type/StorageBookmarkedEdge.h"
+#include "../type/StorageBookmarkedNode.h"
+#include "../../../utility/types.h"
 
 class SqliteBookmarkStorage: public SqliteStorage
 {

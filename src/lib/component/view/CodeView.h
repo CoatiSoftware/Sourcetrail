@@ -3,11 +3,11 @@
 
 #include <memory>
 
-#include "CodeScrollParams.h"
-#include "CodeSnippetParams.h"
-#include "ErrorInfo.h"
-#include "LocationType.h"
-#include "ScreenSearchInterfaces.h"
+#include "helper/CodeScrollParams.h"
+#include "helper/CodeSnippetParams.h"
+#include "../../data/ErrorInfo.h"
+#include "../../data/location/LocationType.h"
+#include "../controller/helper/ScreenSearchInterfaces.h"
 #include "View.h"
 
 class CodeController;

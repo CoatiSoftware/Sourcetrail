@@ -1,8 +1,8 @@
 #include "catch.hpp"
 
-#include "NameHierarchy.h"
-#include "SearchIndex.h"
-#include "utility.h"
+#include "../lib/data/name/NameHierarchy.h"
+#include "../lib/data/search/SearchIndex.h"
+#include "../lib/utility/utility.h"
 
 TEST_CASE("search index finds id of element added")
 {

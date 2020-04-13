@@ -5,12 +5,12 @@
 
 #include <boost/program_options.hpp>
 
-#include "CommandlineCommandConfig.h"
-#include "CommandlineCommandIndex.h"
+#include "commands/CommandlineCommandConfig.h"
+#include "commands/CommandlineCommandIndex.h"
 #include "CommandlineHelper.h"
-#include "ConfigManager.h"
-#include "TextAccess.h"
-#include "utilityString.h"
+#include "../ConfigManager.h"
+#include "../text/TextAccess.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 namespace po = boost::program_options;
 

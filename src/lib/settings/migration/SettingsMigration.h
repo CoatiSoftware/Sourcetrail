@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "Migration.h"
-#include "Settings.h"
+#include "../../utility/migration/Migration.h"
+#include "../Settings.h"
 
 class SettingsMigration: public Migration<Settings>
 {

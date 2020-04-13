@@ -1,7 +1,7 @@
 #include "Tab.h"
 
-#include "CodeView.h"
-#include "GraphView.h"
+#include "view/CodeView.h"
+#include "view/GraphView.h"
 
 Tab::Tab(
 	Id tabId,

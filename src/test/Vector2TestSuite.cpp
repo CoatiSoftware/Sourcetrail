@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "Vector2.h"
+#include "../lib/utility/math/Vector2.h"
 
 TEST_CASE("vec2i constructors")
 {

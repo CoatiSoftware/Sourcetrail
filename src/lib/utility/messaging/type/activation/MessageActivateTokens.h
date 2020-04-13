@@ -1,11 +1,11 @@
 #ifndef MESSAGE_ACTIVATE_TOKENS_H
 #define MESSAGE_ACTIVATE_TOKENS_H
 
-#include "Message.h"
+#include "../../Message.h"
 #include "MessageActivateBase.h"
-#include "types.h"
+#include "../../../types.h"
 
-#include "SearchMatch.h"
+#include "../../../../data/search/SearchMatch.h"
 
 class MessageActivateTokens
 	: public Message<MessageActivateTokens>

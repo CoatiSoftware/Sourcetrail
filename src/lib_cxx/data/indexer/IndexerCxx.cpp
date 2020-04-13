@@ -1,7 +1,7 @@
 #include "IndexerCxx.h"
 
-#include "CxxParser.h"
-#include "FileRegister.h"
+#include "../parser/cxx/CxxParser.h"
+#include "../../../lib/utility/file/FileRegister.h"
 
 void IndexerCxx::doIndex(
 	std::shared_ptr<IndexerCommandCxx> indexerCommand,

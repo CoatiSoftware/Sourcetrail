@@ -3,7 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 
-#include "MessageIndexingInterrupted.h"
+#include "../../../lib/utility/messaging/type/indexing/MessageIndexingInterrupted.h"
 
 QtIndexingProgressDialog::QtIndexingProgressDialog(bool hideable, QWidget* parent)
 	: QtProgressBarDialog(0.38f, true, parent), m_filePathLabel(nullptr), m_errorWidget(nullptr)

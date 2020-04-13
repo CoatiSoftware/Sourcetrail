@@ -6,11 +6,11 @@
 #include <QDir>
 #include <QStandardPaths>
 
-#include "AppPath.h"
-#include "FilePath.h"
-#include "ResourcePaths.h"
-#include "UserPaths.h"
-#include "utilityQt.h"
+#include "../../lib/app/paths/AppPath.h"
+#include "../../lib/utility/file/FilePath.h"
+#include "../../lib/app/paths/ResourcePaths.h"
+#include "../../lib/app/paths/UserPaths.h"
+#include "../qt/utility/utilityQt.h"
 
 
 void setupPlatform(int argc, char* argv[])

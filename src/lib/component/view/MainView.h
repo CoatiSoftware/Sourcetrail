@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "ComponentManager.h"
+#include "../ComponentManager.h"
 #include "DialogView.h"
 #include "ViewLayout.h"
 

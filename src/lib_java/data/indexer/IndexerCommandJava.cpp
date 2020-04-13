@@ -3,7 +3,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "utilityString.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
 {

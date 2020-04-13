@@ -4,11 +4,11 @@
 #include <QListWidget>
 #include <QPushButton>
 
-#include "QtFileDialog.h"
-#include "QtIconButton.h"
+#include "../../utility/QtFileDialog.h"
+#include "../button/QtIconButton.h"
 #include "QtLineEdit.h"
 #include "QtPathListBox.h"
-#include "ResourcePaths.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 
 QtPathListBoxItem::QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* item, QWidget* parent)
 	: QtListBoxItem(item, parent), m_listBox(listBox)

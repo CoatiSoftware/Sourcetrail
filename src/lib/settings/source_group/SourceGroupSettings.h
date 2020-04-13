@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "LanguageType.h"
+#include "../LanguageType.h"
 #include "SourceGroupSettingsBase.h"
 #include "SourceGroupStatusType.h"
 #include "SourceGroupType.h"

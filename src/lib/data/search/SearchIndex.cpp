@@ -4,8 +4,8 @@
 #include <ctype.h>
 #include <iterator>
 
-#include "utility.h"
-#include "utilityString.h"
+#include "../../utility/utility.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 SearchIndex::SearchIndex()
 {

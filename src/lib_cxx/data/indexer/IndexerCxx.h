@@ -1,7 +1,7 @@
 #ifndef INDEXER_CXX_H
 #define INDEXER_CXX_H
 
-#include "Indexer.h"
+#include "../../../lib/data/indexer/Indexer.h"
 #include "IndexerCommandCxx.h"
 
 class IndexerCxx: public Indexer<IndexerCommandCxx>

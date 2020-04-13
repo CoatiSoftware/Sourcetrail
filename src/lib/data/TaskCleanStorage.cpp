@@ -1,10 +1,10 @@
 #include "TaskCleanStorage.h"
 
-#include "Application.h"
-#include "Blackboard.h"
-#include "DialogView.h"
-#include "FilePath.h"
-#include "PersistentStorage.h"
+#include "../app/Application.h"
+#include "../utility/scheduling/Blackboard.h"
+#include "../component/view/DialogView.h"
+#include "../utility/file/FilePath.h"
+#include "storage/PersistentStorage.h"
 
 TaskCleanStorage::TaskCleanStorage(
 	std::weak_ptr<PersistentStorage> storage,

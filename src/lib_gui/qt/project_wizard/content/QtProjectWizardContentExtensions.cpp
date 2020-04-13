@@ -2,8 +2,8 @@
 
 #include <QFormLayout>
 
-#include "QtStringListBox.h"
-#include "SourceGroupSettingsWithSourceExtensions.h"
+#include "../../element/dialog/QtStringListBox.h"
+#include "../../../../lib/settings/source_group/component/SourceGroupSettingsWithSourceExtensions.h"
 
 QtProjectWizardContentExtensions::QtProjectWizardContentExtensions(
 	std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settings, QtProjectWizardWindow* window)

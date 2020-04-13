@@ -8,14 +8,14 @@
 #include <QString>
 #include <QVBoxLayout>
 
-#include "ApplicationSettings.h"
-#include "MessageLoadProject.h"
-#include "ProjectSettings.h"
-#include "QtNewsWidget.h"
-#include "QtUpdateCheckerWidget.h"
-#include "ResourcePaths.h"
-#include "Version.h"
-#include "utilityQt.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "../../../lib/utility/messaging/type/MessageLoadProject.h"
+#include "../../../lib/settings/ProjectSettings.h"
+#include "../element/dialog/QtNewsWidget.h"
+#include "../element/dialog/QtUpdateCheckerWidget.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/utility/Version.h"
+#include "../utility/utilityQt.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent): QPushButton(parent) {}
 

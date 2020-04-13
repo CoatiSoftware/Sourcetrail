@@ -1,7 +1,7 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_C_H
 #define SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_C_H
 
-#include "SourceGroupSettingsWithSourceExtensions.h"
+#include "../SourceGroupSettingsWithSourceExtensions.h"
 
 class SourceGroupSettingsWithSourceExtensionsC: public SourceGroupSettingsWithSourceExtensions
 {

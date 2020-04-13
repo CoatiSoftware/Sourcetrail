@@ -1,7 +1,7 @@
 #ifndef INCLUDE_DIRECTIVE_H
 #define INCLUDE_DIRECTIVE_H
 
-#include "FilePath.h"
+#include "../../lib/utility/file/FilePath.h"
 
 class IncludeDirective
 {

@@ -1,15 +1,15 @@
 #include "QtCodeView.h"
 
-#include "CodeController.h"
-#include "ResourcePaths.h"
-#include "tracing.h"
+#include "../../../lib/component/controller/CodeController.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../../../lib/utility/tracing.h"
 
-#include "ColorScheme.h"
-#include "QtCodeArea.h"
-#include "QtCodeNavigator.h"
-#include "QtHighlighter.h"
+#include "../../../lib/settings/ColorScheme.h"
+#include "../element/code/QtCodeArea.h"
+#include "../element/code/QtCodeNavigator.h"
+#include "../utility/QtHighlighter.h"
 #include "QtViewWidgetWrapper.h"
-#include "utilityQt.h"
+#include "../utility/utilityQt.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout): CodeView(viewLayout)
 {

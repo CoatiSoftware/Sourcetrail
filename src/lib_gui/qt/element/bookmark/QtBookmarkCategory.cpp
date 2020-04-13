@@ -6,8 +6,8 @@
 #include <QPushButton>
 #include <QTreeWidget>
 
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../utility/utilityQt.h"
 
 QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* controllerProxy)
 	: m_controllerProxy(controllerProxy), m_id(0)

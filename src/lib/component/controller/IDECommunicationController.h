@@ -4,13 +4,13 @@
 #include <string>
 
 #include "Controller.h"
-#include "NetworkProtocolHelper.h"
+#include "helper/NetworkProtocolHelper.h"
 
-#include "MessageIDECreateCDB.h"
-#include "MessageListener.h"
-#include "MessageMoveIDECursor.h"
-#include "MessagePluginPortChange.h"
-#include "MessageWindowFocus.h"
+#include "../../utility/messaging/type/plugin/MessageIDECreateCDB.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/messaging/type/plugin/MessageMoveIDECursor.h"
+#include "../../utility/messaging/type/plugin/MessagePluginPortChange.h"
+#include "../../utility/messaging/type/MessageWindowFocus.h"
 
 class StorageAccess;
 

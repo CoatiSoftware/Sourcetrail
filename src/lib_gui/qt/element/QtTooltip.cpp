@@ -8,11 +8,11 @@
 #include <QStyle>
 #include <QTimer>
 
-#include "ApplicationSettings.h"
-#include "QtCodeField.h"
-#include "SourceLocationFile.h"
-#include "TextCodec.h"
-#include "TooltipInfo.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "code/QtCodeField.h"
+#include "../../../lib/data/location/SourceLocationFile.h"
+#include "../../../lib_utility/utility/TextCodec.h"
+#include "../../../lib/data/tooltip/TooltipInfo.h"
 
 QtTooltip::QtTooltip(QWidget* parent): QFrame(parent), m_parentView(nullptr), m_isHovered(false)
 {

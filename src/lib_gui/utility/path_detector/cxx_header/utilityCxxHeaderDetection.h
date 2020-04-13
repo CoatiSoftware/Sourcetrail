@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "ApplicationArchitectureType.h"
-#include "FilePath.h"
+#include "../../../../lib/utility/ApplicationArchitectureType.h"
+#include "../../../../lib/utility/file/FilePath.h"
 
 namespace utility
 {

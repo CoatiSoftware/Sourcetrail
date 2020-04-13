@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "TimeStamp.h"
-#include "types.h"
+#include "../../utility/TimeStamp.h"
+#include "../../utility/types.h"
 
 #include "BookmarkCategory.h"
 

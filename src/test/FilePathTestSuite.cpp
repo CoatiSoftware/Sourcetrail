@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "FilePath.h"
+#include "../lib/utility/file/FilePath.h"
 
 TEST_CASE("file_path_gets_created_empty")
 {

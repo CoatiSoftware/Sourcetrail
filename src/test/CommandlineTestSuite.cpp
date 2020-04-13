@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "ApplicationSettings.h"
-#include "CommandLineParser.h"
+#include "../lib/settings/ApplicationSettings.h"
+#include "../lib/utility/commandline/CommandLineParser.h"
 
 #include <iostream>
 #include <sstream>

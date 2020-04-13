@@ -1,9 +1,9 @@
 #include "GraphFocusHandler.h"
 
-#include "MessageFocusChanged.h"
-#include "QtGraphEdge.h"
-#include "QtGraphNode.h"
-#include "utility.h"
+#include "../../../lib/utility/messaging/type/focus/MessageFocusChanged.h"
+#include "graph/QtGraphEdge.h"
+#include "graph/QtGraphNode.h"
+#include "../../../lib/utility/utility.h"
 
 GraphFocusHandler::GraphFocusHandler(GraphFocusClient* client): m_client(client) {}
 

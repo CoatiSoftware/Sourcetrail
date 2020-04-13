@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "FilePath.h"
+#include "../file/FilePath.h"
 
 class TextAccess
 {

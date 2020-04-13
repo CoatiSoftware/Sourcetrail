@@ -3,12 +3,12 @@
 #include <QPainter>
 #include <QScrollBar>
 
-#include "ApplicationSettings.h"
-#include "ColorScheme.h"
-#include "GraphViewStyle.h"
-#include "QtDeviceScaledPixmap.h"
-#include "ResourcePaths.h"
-#include "utilityString.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../lib/settings/ColorScheme.h"
+#include "../../../../lib/component/view/GraphViewStyle.h"
+#include "../../utility/QtDeviceScaledPixmap.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 QtAutocompletionModel::QtAutocompletionModel(QObject* parent): QAbstractTableModel(parent) {}
 

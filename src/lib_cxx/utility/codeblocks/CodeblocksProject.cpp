@@ -1,18 +1,18 @@
 #include "CodeblocksProject.h"
 
-#include "tinyxml.h"
+#include "../../../external/tinyxml/tinyxml.h"
 
-#include "ApplicationSettings.h"
+#include "../../../lib/settings/ApplicationSettings.h"
 #include "CodeblocksCompiler.h"
 #include "CodeblocksTarget.h"
 #include "CodeblocksUnit.h"
-#include "IndexerCommandCxx.h"
-#include "OrderedCache.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
-#include "TextAccess.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilityString.h"
+#include "../../data/indexer/IndexerCommandCxx.h"
+#include "../../../lib/utility/OrderedCache.h"
+#include "../../../lib/settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h"
+#include "../../../lib/utility/text/TextAccess.h"
+#include "../../../lib/utility/logging/logging.h"
+#include "../../../lib/utility/utility.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 namespace Codeblocks
 {

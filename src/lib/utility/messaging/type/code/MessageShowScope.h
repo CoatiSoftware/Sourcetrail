@@ -1,9 +1,9 @@
 #ifndef MESSAGE_SHOW_SCOPE_H
 #define MESSAGE_SHOW_SCOPE_H
 
-#include "Message.h"
-#include "TabId.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../types.h"
 
 class MessageShowScope: public Message<MessageShowScope>
 {

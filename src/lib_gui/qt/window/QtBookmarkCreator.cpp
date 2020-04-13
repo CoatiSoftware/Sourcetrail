@@ -6,10 +6,10 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
-#include "BookmarkCategory.h"
-#include "MessageStatus.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../../../lib/data/bookmark/BookmarkCategory.h"
+#include "../../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../utility/utilityQt.h"
 
 QtBookmarkCreator::QtBookmarkCreator(
 	ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent, Id bookmarkId)

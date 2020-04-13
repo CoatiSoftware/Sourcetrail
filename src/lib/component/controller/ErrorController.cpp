@@ -1,12 +1,12 @@
 #include "ErrorController.h"
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "DialogView.h"
-#include "Project.h"
-#include "QtHelpButtonInfo.h"
-#include "StorageAccess.h"
-#include "TabId.h"
+#include "../../app/Application.h"
+#include "../../settings/ApplicationSettings.h"
+#include "../view/DialogView.h"
+#include "../../project/Project.h"
+#include "../../../lib_gui/qt/utility/QtHelpButtonInfo.h"
+#include "../../data/storage/StorageAccess.h"
+#include "../TabId.h"
 
 ErrorController::ErrorController(StorageAccess* storageAccess): m_storageAccess(storageAccess) {}
 

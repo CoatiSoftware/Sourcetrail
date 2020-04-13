@@ -1,9 +1,9 @@
 #ifndef MESSAGE_ERROR_COUNT_UPDATE_H
 #define MESSAGE_ERROR_COUNT_UPDATE_H
 
-#include "Message.h"
+#include "../../Message.h"
 
-#include "ErrorCountInfo.h"
+#include "../../../../data/ErrorCountInfo.h"
 
 class MessageErrorCountUpdate: public Message<MessageErrorCountUpdate>
 {

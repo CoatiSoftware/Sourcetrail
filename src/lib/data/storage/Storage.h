@@ -6,17 +6,17 @@
 #include <set>
 #include <string>
 
-#include "StorageComponentAccess.h"
-#include "StorageEdge.h"
-#include "StorageElementComponent.h"
-#include "StorageError.h"
-#include "StorageFile.h"
-#include "StorageLocalSymbol.h"
-#include "StorageNode.h"
-#include "StorageOccurrence.h"
-#include "StorageSourceLocation.h"
-#include "StorageSymbol.h"
-#include "types.h"
+#include "type/StorageComponentAccess.h"
+#include "type/StorageEdge.h"
+#include "type/StorageElementComponent.h"
+#include "type/StorageError.h"
+#include "type/StorageFile.h"
+#include "type/StorageLocalSymbol.h"
+#include "type/StorageNode.h"
+#include "type/StorageOccurrence.h"
+#include "type/StorageSourceLocation.h"
+#include "type/StorageSymbol.h"
+#include "../../utility/types.h"
 
 class Storage
 {

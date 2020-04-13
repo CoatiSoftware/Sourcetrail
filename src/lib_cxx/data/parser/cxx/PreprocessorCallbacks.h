@@ -9,8 +9,8 @@
 #include <clang/Lex/PPCallbacks.h>
 #include <clang/Lex/Token.h>
 
-#include "FilePath.h"
-#include "types.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/types.h"
 
 class CanonicalFilePathCache;
 class ParserClient;

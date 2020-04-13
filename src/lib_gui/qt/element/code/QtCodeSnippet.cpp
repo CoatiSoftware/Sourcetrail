@@ -5,12 +5,12 @@
 #include <QStyle>
 #include <qmenu.h>
 
-#include "MessageShowScope.h"
+#include "../../../../lib/utility/messaging/type/code/MessageShowScope.h"
 
 #include "QtCodeFile.h"
 #include "QtCodeNavigator.h"
-#include "QtHoverButton.h"
-#include "SourceLocationFile.h"
+#include "../button/QtHoverButton.h"
+#include "../../../../lib/data/location/SourceLocationFile.h"
 
 QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file)
 	: QFrame(file)

@@ -3,13 +3,13 @@
 #include <sstream>
 #include <unordered_map>
 
-#include "FileSystem.h"
-#include "LocationType.h"
-#include "SourceLocationCollection.h"
-#include "SourceLocationFile.h"
-#include "TextAccess.h"
-#include "logging.h"
-#include "utilityString.h"
+#include "../../../utility/file/FileSystem.h"
+#include "../../location/LocationType.h"
+#include "../../location/SourceLocationCollection.h"
+#include "../../location/SourceLocationFile.h"
+#include "../../../utility/text/TextAccess.h"
+#include "../../../utility/logging/logging.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 const size_t SqliteIndexStorage::s_storageVersion = 25;
 

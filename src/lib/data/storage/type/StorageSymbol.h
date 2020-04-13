@@ -1,8 +1,8 @@
 #ifndef STORAGE_SYMBOL_H
 #define STORAGE_SYMBOL_H
 
-#include "DefinitionKind.h"
-#include "types.h"
+#include "../../DefinitionKind.h"
+#include "../../../utility/types.h"
 
 struct StorageSymbol
 {

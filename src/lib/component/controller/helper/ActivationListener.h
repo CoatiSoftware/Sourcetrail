@@ -1,13 +1,13 @@
 #ifndef ACTIVATION_LISTENER_H
 #define ACTIVATION_LISTENER_H
 
-#include "MessageActivateErrors.h"
-#include "MessageActivateFullTextSearch.h"
-#include "MessageActivateLegend.h"
-#include "MessageActivateOverview.h"
-#include "MessageActivateTokens.h"
-#include "MessageActivateTrail.h"
-#include "MessageListener.h"
+#include "../../../utility/messaging/type/activation/MessageActivateErrors.h"
+#include "../../../utility/messaging/type/activation/MessageActivateFullTextSearch.h"
+#include "../../../utility/messaging/type/activation/MessageActivateLegend.h"
+#include "../../../utility/messaging/type/activation/MessageActivateOverview.h"
+#include "../../../utility/messaging/type/activation/MessageActivateTokens.h"
+#include "../../../utility/messaging/type/activation/MessageActivateTrail.h"
+#include "../../../utility/messaging/MessageListener.h"
 
 class ActivationListener
 	: public MessageListener<MessageActivateErrors>

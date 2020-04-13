@@ -4,11 +4,11 @@
 #include <map>
 #include <memory>
 
-#include "Vector2.h"
+#include "../../utility/math/Vector2.h"
 
-#include "AccessKind.h"
-#include "GroupType.h"
-#include "Node.h"
+#include "../../data/parser/AccessKind.h"
+#include "../../data/GroupType.h"
+#include "../../data/graph/Node.h"
 
 class GraphViewStyleImpl;
 

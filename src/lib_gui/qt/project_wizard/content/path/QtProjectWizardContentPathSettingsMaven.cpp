@@ -2,7 +2,7 @@
 
 #include <QCheckBox>
 
-#include "SourceGroupSettingsJavaMaven.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsJavaMaven.h"
 
 QtProjectWizardContentPathSettingsMaven::QtProjectWizardContentPathSettingsMaven(
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizardWindow* window)

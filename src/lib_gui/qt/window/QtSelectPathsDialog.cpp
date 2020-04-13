@@ -6,8 +6,8 @@
 #include <QListWidget>
 #include <QPushButton>
 
-#include "FilePath.h"
-#include "utility.h"
+#include "../../../lib/utility/file/FilePath.h"
+#include "../../../lib/utility/utility.h"
 
 QtSelectPathsDialog::QtSelectPathsDialog(const QString& title, const QString& description, QWidget* parent)
 	: QtTextEditDialog(title, description, parent)

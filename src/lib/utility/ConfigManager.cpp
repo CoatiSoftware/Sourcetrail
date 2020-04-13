@@ -2,13 +2,13 @@
 
 #include <set>
 
-#include "tinyxml.h"
+#include "../../external/tinyxml/tinyxml.h"
 
-#include "FilePath.h"
-#include "TextAccess.h"
-#include "logging.h"
+#include "file/FilePath.h"
+#include "text/TextAccess.h"
+#include "logging/logging.h"
 #include "utility.h"
-#include "utilityString.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 std::shared_ptr<ConfigManager> ConfigManager::createEmpty()
 {

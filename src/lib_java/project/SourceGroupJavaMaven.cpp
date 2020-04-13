@@ -1,16 +1,16 @@
 #include "SourceGroupJavaMaven.h"
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "DialogView.h"
-#include "FileSystem.h"
-#include "MessageStatus.h"
-#include "ScopedFunctor.h"
-#include "SourceGroupSettingsJavaMaven.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilityJava.h"
-#include "utilityMaven.h"
+#include "../../lib/app/Application.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../../lib/component/view/DialogView.h"
+#include "../../lib/utility/file/FileSystem.h"
+#include "../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../lib/utility/ScopedFunctor.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsJavaMaven.h"
+#include "../../lib/utility/logging/logging.h"
+#include "../../lib/utility/utility.h"
+#include "../utility/utilityJava.h"
+#include "../utility/utilityMaven.h"
 
 SourceGroupJavaMaven::SourceGroupJavaMaven(std::shared_ptr<SourceGroupSettingsJavaMaven> settings)
 	: m_settings(settings)

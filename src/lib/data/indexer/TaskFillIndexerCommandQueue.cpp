@@ -1,10 +1,10 @@
 #include "TaskFillIndexerCommandQueue.h"
 
-#include "Blackboard.h"
-#include "FileSystem.h"
+#include "../../utility/scheduling/Blackboard.h"
+#include "../../utility/file/FileSystem.h"
 #include "IndexerCommandProvider.h"
-#include "logging.h"
-#include "utilityFile.h"
+#include "../../utility/logging/logging.h"
+#include "../../utility/file/utilityFile.h"
 
 TaskFillIndexerCommandsQueue::TaskFillIndexerCommandsQueue(
 	const std::string& appUUID,

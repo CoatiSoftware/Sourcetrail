@@ -1,14 +1,14 @@
 #include "ProjectSettings.h"
 
-#include "SettingsMigrationDeleteKey.h"
-#include "SettingsMigrationLambda.h"
-#include "SettingsMigrationMoveKey.h"
-#include "SourceGroupSettingsCustomCommand.h"
-#include "SourceGroupSettingsUnloadable.h"
-#include "logging.h"
-#include "utilityFile.h"
-#include "utilityString.h"
-#include "utilityUuid.h"
+#include "migration/SettingsMigrationDeleteKey.h"
+#include "migration/SettingsMigrationLambda.h"
+#include "migration/SettingsMigrationMoveKey.h"
+#include "source_group/type/SourceGroupSettingsCustomCommand.h"
+#include "source_group/type/SourceGroupSettingsUnloadable.h"
+#include "../utility/logging/logging.h"
+#include "../utility/file/utilityFile.h"
+#include "../../lib_utility/utility/utilityString.h"
+#include "../utility/utilityUuid.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 #	include "SourceGroupSettingsCEmpty.h"

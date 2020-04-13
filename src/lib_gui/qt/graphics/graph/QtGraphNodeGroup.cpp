@@ -6,11 +6,11 @@
 #include <QPainterPath>
 #include <QPen>
 
-#include "MessageActivateNodes.h"
-#include "MessageFocusIn.h"
-#include "MessageFocusOut.h"
-#include "MessageGraphNodeBundleSplit.h"
-#include "QtRoundedRectItem.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageActivateNodes.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusIn.h"
+#include "../../../../lib/utility/messaging/type/focus/MessageFocusOut.h"
+#include "../../../../lib/utility/messaging/type/graph/MessageGraphNodeBundleSplit.h"
+#include "../base/QtRoundedRectItem.h"
 
 QtGraphNodeGroup::QtGraphNodeGroup(
 	GraphFocusHandler* focusHandler, Id tokenId, const std::wstring& name, GroupType type, bool interactive)

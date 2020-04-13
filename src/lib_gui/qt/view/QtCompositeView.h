@@ -1,8 +1,8 @@
 #ifndef QT_COMPOSITE_VIEW
 #define QT_COMPOSITE_VIEW
 
-#include "CompositeView.h"
-#include "QtThreadedFunctor.h"
+#include "../../../lib/component/view/CompositeView.h"
+#include "../utility/QtThreadedFunctor.h"
 
 class QBoxLayout;
 class QWidget;

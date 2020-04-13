@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "SharedMemory.h"
-#include "types.h"
+#include "../../../utility/interprocess/SharedMemory.h"
+#include "../../../utility/types.h"
 
 class BaseInterprocessDataManager
 {

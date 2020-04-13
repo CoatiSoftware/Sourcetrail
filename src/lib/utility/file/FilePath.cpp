@@ -5,8 +5,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 
-#include "logging.h"
-#include "utilityString.h"
+#include "../logging/logging.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 FilePath::FilePath()
 	: m_path(std::make_unique<boost::filesystem::path>(""))

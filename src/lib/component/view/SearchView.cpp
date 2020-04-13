@@ -1,6 +1,6 @@
 #include "SearchView.h"
 
-#include "SearchController.h"
+#include "../controller/SearchController.h"
 
 SearchView::SearchView(ViewLayout* viewLayout): View(viewLayout) {}
 

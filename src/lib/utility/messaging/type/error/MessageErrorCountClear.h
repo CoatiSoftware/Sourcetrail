@@ -1,7 +1,7 @@
 #ifndef MESSAGE_ERROR_COUNT_CLEAR_H
 #define MESSAGE_ERROR_COUNT_CLEAR_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessageErrorCountClear: public Message<MessageErrorCountClear>
 {

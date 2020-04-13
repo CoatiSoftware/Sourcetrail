@@ -4,11 +4,11 @@
 #include <iostream>
 #include <utility>
 
-#include "ApplicationSettings.h"
-#include "CommandLineParser.h"
-#include "CommandlineHelper.h"
-#include "FilePath.h"
-#include "logging.h"
+#include "../../../settings/ApplicationSettings.h"
+#include "../CommandLineParser.h"
+#include "../CommandlineHelper.h"
+#include "../../file/FilePath.h"
+#include "../../logging/logging.h"
 
 namespace commandline
 {

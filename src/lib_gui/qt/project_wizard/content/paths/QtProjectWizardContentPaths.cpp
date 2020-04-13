@@ -3,8 +3,8 @@
 #include <QComboBox>
 #include <QMessageBox>
 
-#include "SourceGroupSettings.h"
-#include "utility.h"
+#include "../../../../../lib/settings/source_group/SourceGroupSettings.h"
+#include "../../../../../lib/utility/utility.h"
 
 QtProjectWizardContentPaths::QtProjectWizardContentPaths(
 	std::shared_ptr<SourceGroupSettings> settings,

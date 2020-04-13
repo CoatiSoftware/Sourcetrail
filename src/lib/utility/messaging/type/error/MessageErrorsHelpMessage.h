@@ -1,7 +1,7 @@
 #ifndef MESSAGE_ERRORS_HELP_MESSAGE_H
 #define MESSAGE_ERRORS_HELP_MESSAGE_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessageErrorsHelpMessage: public Message<MessageErrorsHelpMessage>
 {

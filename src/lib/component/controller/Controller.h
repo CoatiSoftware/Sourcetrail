@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "Component.h"
+#include "../Component.h"
 
 class Controller
 {

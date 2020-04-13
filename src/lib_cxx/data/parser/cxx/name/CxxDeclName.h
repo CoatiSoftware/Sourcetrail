@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "CxxName.h"
-#include "NameHierarchy.h"
+#include "../../../../../lib/data/name/NameHierarchy.h"
 
 class CxxDeclName: public CxxName
 {

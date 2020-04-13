@@ -1,9 +1,9 @@
 #include "catch.hpp"
 
-#include "ProjectSettings.h"
-#include "Settings.h"
-#include "SourceGroupSettings.h"
-#include "SourceGroupSettingsWithSourcePaths.h"
+#include "../lib/settings/ProjectSettings.h"
+#include "../lib/settings/Settings.h"
+#include "../lib/settings/source_group/SourceGroupSettings.h"
+#include "../lib/settings/source_group/component/SourceGroupSettingsWithSourcePaths.h"
 
 namespace
 {

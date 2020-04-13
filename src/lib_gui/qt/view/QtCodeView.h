@@ -1,8 +1,8 @@
 #ifndef QT_CODE_VIEW_H
 #define QT_CODE_VIEW_H
 
-#include "CodeView.h"
-#include "QtThreadedFunctor.h"
+#include "../../../lib/component/view/CodeView.h"
+#include "../utility/QtThreadedFunctor.h"
 
 class QtCodeNavigator;
 

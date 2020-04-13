@@ -1,7 +1,7 @@
 #ifndef MESSAGE_TAB_CLOSE_H
 #define MESSAGE_TAB_CLOSE_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessageTabClose: public Message<MessageTabClose>
 {

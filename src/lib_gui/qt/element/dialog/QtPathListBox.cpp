@@ -6,7 +6,7 @@
 #include <QtGui/qevent.h>
 
 #include "QtPathListBoxItem.h"
-#include "utilityFile.h"
+#include "../../../../lib/utility/file/utilityFile.h"
 
 QtPathListBox::QtPathListBox(QWidget* parent, const QString& listName, SelectionPolicyType selectionPolicy)
 	: QtListBox(parent, listName), m_selectionPolicy(selectionPolicy)

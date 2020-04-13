@@ -5,15 +5,15 @@
 
 #include "Controller.h"
 
-#include "MessageErrorCountClear.h"
-#include "MessageErrorCountUpdate.h"
-#include "MessageIndexingFinished.h"
-#include "MessageIndexingStarted.h"
-#include "MessageIndexingStatus.h"
-#include "MessageListener.h"
-#include "MessagePingReceived.h"
-#include "MessageRefresh.h"
-#include "MessageStatus.h"
+#include "../../utility/messaging/type/error/MessageErrorCountClear.h"
+#include "../../utility/messaging/type/error/MessageErrorCountUpdate.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingStarted.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingStatus.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/messaging/type/plugin/MessagePingReceived.h"
+#include "../../utility/messaging/type/MessageRefresh.h"
+#include "../../utility/messaging/type/MessageStatus.h"
 
 class StatusBarView;
 class StorageAccess;

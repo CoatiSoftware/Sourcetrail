@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "SourceGroup.h"
+#include "../../lib/project/SourceGroup.h"
 
 class SourceGroupSettingsPythonEmpty;
 

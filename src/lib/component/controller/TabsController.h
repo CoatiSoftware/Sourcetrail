@@ -1,18 +1,18 @@
 #ifndef TABS_CONTROLLER_H
 #define TABS_CONTROLLER_H
 
-#include "MessageActivateErrors.h"
-#include "MessageIndexingFinished.h"
-#include "MessageListener.h"
-#include "MessageTabClose.h"
-#include "MessageTabOpen.h"
-#include "MessageTabOpenWith.h"
-#include "MessageTabSelect.h"
-#include "MessageTabState.h"
+#include "../../utility/messaging/type/activation/MessageActivateErrors.h"
+#include "../../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../../utility/messaging/MessageListener.h"
+#include "../../utility/messaging/type/tab/MessageTabClose.h"
+#include "../../utility/messaging/type/tab/MessageTabOpen.h"
+#include "../../utility/messaging/type/tab/MessageTabOpenWith.h"
+#include "../../utility/messaging/type/tab/MessageTabSelect.h"
+#include "../../utility/messaging/type/tab/MessageTabState.h"
 
 #include "Controller.h"
-#include "Tab.h"
-#include "TabsView.h"
+#include "../Tab.h"
+#include "../view/TabsView.h"
 
 struct SearchMatch;
 

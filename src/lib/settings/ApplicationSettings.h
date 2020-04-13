@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "GroupType.h"
+#include "../data/GroupType.h"
 #include "Settings.h"
 
 class TimeStamp;

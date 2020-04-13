@@ -1,7 +1,7 @@
 #ifndef QT_GRAPH_VIEW_STYLE_IMPL_H
 #define QT_GRAPH_VIEW_STYLE_IMPL_H
 
-#include "GraphViewStyleImpl.h"
+#include "../../../lib/component/view/GraphViewStyleImpl.h"
 
 class QFont;
 

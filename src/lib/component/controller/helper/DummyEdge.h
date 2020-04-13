@@ -1,11 +1,11 @@
 #ifndef DUMMY_EDGE_H
 #define DUMMY_EDGE_H
 
-#include "Vector4.h"
-#include "types.h"
+#include "../../../utility/math/Vector4.h"
+#include "../../../utility/types.h"
 
-#include "Edge.h"
-#include "TokenComponentAggregation.h"
+#include "../../../data/graph/Edge.h"
+#include "../../../data/graph/token_component/TokenComponentAggregation.h"
 
 class Edge;
 

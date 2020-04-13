@@ -5,12 +5,12 @@
 #include <QStyle>
 #include <QVariant>
 
-#include "Application.h"
-#include "MessageErrorsForFile.h"
-#include "Project.h"
-#include "QtIconStateButton.h"
-#include "QtSelfRefreshIconButton.h"
-#include "ResourcePaths.h"
+#include "../../../../lib/app/Application.h"
+#include "../../../../lib/utility/messaging/type/error/MessageErrorsForFile.h"
+#include "../../../../lib/project/Project.h"
+#include "../button/QtIconStateButton.h"
+#include "../button/QtSelfRefreshIconButton.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 
 QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool isSingle)
 	: QtHoverButton(parent)

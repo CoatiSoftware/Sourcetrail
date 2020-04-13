@@ -5,10 +5,10 @@
 #include <QMessageBox>
 #include <boost/filesystem/path.hpp>
 
-#include "FileSystem.h"
-#include "ProjectSettings.h"
-#include "SourceGroupSettingsCustomCommand.h"
-#include "SqliteIndexStorage.h"
+#include "../../../../lib/utility/file/FileSystem.h"
+#include "../../../../lib/settings/ProjectSettings.h"
+#include "../../../../lib/settings/source_group/type/SourceGroupSettingsCustomCommand.h"
+#include "../../../../lib/data/storage/sqlite/SqliteIndexStorage.h"
 
 QtProjectWizardContentCustomCommand::QtProjectWizardContentCustomCommand(
 	std::shared_ptr<SourceGroupSettingsCustomCommand> settings, QtProjectWizardWindow* window)

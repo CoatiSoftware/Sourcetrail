@@ -3,7 +3,7 @@
 
 #include "QtGraphNode.h"
 
-#include "AccessKind.h"
+#include "../../../../lib/data/parser/AccessKind.h"
 
 class QtGraphNodeAccess: public QtGraphNode
 {

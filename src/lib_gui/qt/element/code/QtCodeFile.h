@@ -8,10 +8,10 @@
 
 #include <QFrame>
 
-#include "FilePath.h"
+#include "../../../../lib/utility/file/FilePath.h"
 
 #include "CodeFocusHandler.h"
-#include "CodeSnippetParams.h"
+#include "../../../../lib/component/view/helper/CodeSnippetParams.h"
 
 class QtCodeArea;
 class QtCodeFileTitleBar;

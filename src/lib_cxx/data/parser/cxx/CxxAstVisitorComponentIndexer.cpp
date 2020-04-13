@@ -10,10 +10,10 @@
 #include "CxxAstVisitorComponentContext.h"
 #include "CxxAstVisitorComponentDeclRefKind.h"
 #include "CxxAstVisitorComponentTypeRefKind.h"
-#include "CxxDeclNameResolver.h"
-#include "CxxFunctionDeclName.h"
-#include "CxxTypeNameResolver.h"
-#include "ParserClient.h"
+#include "name_resolver/CxxDeclNameResolver.h"
+#include "name/CxxFunctionDeclName.h"
+#include "name_resolver/CxxTypeNameResolver.h"
+#include "../../../../lib/data/parser/ParserClient.h"
 #include "utilityClang.h"
 
 CxxAstVisitorComponentIndexer::CxxAstVisitorComponentIndexer(

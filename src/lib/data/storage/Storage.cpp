@@ -1,7 +1,7 @@
 #include "Storage.h"
 
-#include "logging.h"
-#include "tracing.h"
+#include "../../utility/logging/logging.h"
+#include "../../utility/tracing.h"
 
 Storage::Storage() {}
 

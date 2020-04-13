@@ -1,8 +1,8 @@
 #include "Settings.h"
 
-#include "TextAccess.h"
-#include "logging.h"
-#include "utility.h"
+#include "../utility/text/TextAccess.h"
+#include "../utility/logging/logging.h"
+#include "../utility/utility.h"
 
 Settings::Settings(const Settings& other)
 	: m_config(other.m_config->createCopy()), m_filePath(other.m_filePath)

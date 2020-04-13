@@ -7,21 +7,21 @@
 #include <QMessageBox>
 #include <QTimer>
 
-#include "MessageIndexingStatus.h"
-#include "MessageStatus.h"
-#include "Project.h"
-#include "QtIndexingDialog.h"
-#include "QtIndexingProgressDialog.h"
-#include "QtIndexingReportDialog.h"
-#include "QtIndexingStartDialog.h"
-#include "QtKnownProgressDialog.h"
-#include "QtMainWindow.h"
-#include "QtUnknownProgressDialog.h"
-#include "QtWindow.h"
-#include "StorageAccess.h"
-#include "TabId.h"
-#include "TaskLambda.h"
-#include "utility.h"
+#include "../../../lib/utility/messaging/type/indexing/MessageIndexingStatus.h"
+#include "../../../lib/utility/messaging/type/MessageStatus.h"
+#include "../../../lib/project/Project.h"
+#include "../window/QtIndexingDialog.h"
+#include "../window/QtIndexingProgressDialog.h"
+#include "../window/QtIndexingReportDialog.h"
+#include "../window/QtIndexingStartDialog.h"
+#include "../window/QtKnownProgressDialog.h"
+#include "../window/QtMainWindow.h"
+#include "../window/QtUnknownProgressDialog.h"
+#include "../window/QtWindow.h"
+#include "../../../lib/data/storage/StorageAccess.h"
+#include "../../../lib/component/TabId.h"
+#include "../../../lib/utility/scheduling/TaskLambda.h"
+#include "../../../lib/utility/utility.h"
 
 QtDialogView::QtDialogView(QtMainWindow* mainWindow, UseCase useCase, StorageAccess* storageAccess)
 	: DialogView(useCase, storageAccess)

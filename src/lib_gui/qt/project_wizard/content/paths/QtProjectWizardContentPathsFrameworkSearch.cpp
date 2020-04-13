@@ -1,7 +1,7 @@
 #include "QtProjectWizardContentPathsFrameworkSearch.h"
 
-#include "SourceGroupSettings.h"
-#include "SourceGroupSettingsWithCxxPathsAndFlags.h"
+#include "../../../../../lib/settings/source_group/SourceGroupSettings.h"
+#include "../../../../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCxxPathsAndFlags.h"
 
 QtProjectWizardContentPathsFrameworkSearch::QtProjectWizardContentPathsFrameworkSearch(
 	std::shared_ptr<SourceGroupSettings> settings,

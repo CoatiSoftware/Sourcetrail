@@ -1,8 +1,8 @@
 #include "SourceGroupSettingsWithJavaMaven.h"
 
-#include "ConfigManager.h"
-#include "ProjectSettings.h"
-#include "utilityFile.h"
+#include "../../../../utility/ConfigManager.h"
+#include "../../../ProjectSettings.h"
+#include "../../../../utility/file/utilityFile.h"
 
 FilePath SourceGroupSettingsWithJavaMaven::getMavenDependenciesDirectoryPath() const
 {

@@ -1,6 +1,6 @@
 #include "QtViewFactory.h"
 
-#include "GraphViewStyle.h"
+#include "../../../lib/component/view/GraphViewStyle.h"
 #include "QtBookmarkButtonsView.h"
 #include "QtBookmarkView.h"
 #include "QtCodeView.h"
@@ -20,7 +20,7 @@
 #include "QtTabsView.h"
 #include "QtTooltipView.h"
 #include "QtUndoRedoView.h"
-#include "utilityQt.h"
+#include "../utility/utilityQt.h"
 
 std::shared_ptr<MainView> QtViewFactory::createMainView(StorageAccess* storageAccess) const
 {

@@ -4,13 +4,13 @@
 #include <QWidget>
 
 #include "CodeFocusHandler.h"
-#include "ErrorInfo.h"
-#include "LocationType.h"
-#include "MessageListener.h"
-#include "MessageWindowFocus.h"
+#include "../../../../lib/data/ErrorInfo.h"
+#include "../../../../lib/data/location/LocationType.h"
+#include "../../../../lib/utility/messaging/MessageListener.h"
+#include "../../../../lib/utility/messaging/type/MessageWindowFocus.h"
 #include "QtCodeFileList.h"
 #include "QtCodeFileSingle.h"
-#include "QtThreadedFunctor.h"
+#include "../../utility/QtThreadedFunctor.h"
 
 class QLabel;
 class QPushButton;

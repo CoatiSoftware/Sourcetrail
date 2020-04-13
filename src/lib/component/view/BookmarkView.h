@@ -1,7 +1,7 @@
 #ifndef BOOKMARK_VIEW_H
 #define BOOKMARK_VIEW_H
 
-#include "Bookmark.h"
+#include "../../data/bookmark/Bookmark.h"
 #include "View.h"
 
 class BookmarkController;

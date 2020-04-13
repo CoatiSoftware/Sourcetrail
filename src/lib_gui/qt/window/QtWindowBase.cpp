@@ -4,8 +4,8 @@
 #include <QMouseEvent>
 #include <QVBoxLayout>
 
-#include "ApplicationSettings.h"
-#include "ResourcePaths.h"
+#include "../../../lib/settings/ApplicationSettings.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
 
 QtWindowBase::QtWindowBase(bool isSubWindow, QWidget* parent)
 	: QtWindowStackElement(parent)

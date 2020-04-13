@@ -1,19 +1,19 @@
 #include "ActivationController.h"
 
-#include "ApplicationSettings.h"
-#include "StorageAccess.h"
+#include "../../settings/ApplicationSettings.h"
+#include "../../data/storage/StorageAccess.h"
 
-#include "MessageActivateLegend.h"
-#include "MessageActivateOverview.h"
-#include "MessageActivateTokens.h"
-#include "MessageChangeFileView.h"
-#include "MessageErrorsAll.h"
-#include "MessageFlushUpdates.h"
-#include "MessageRefreshUI.h"
-#include "MessageScrollToLine.h"
-#include "MessageStatus.h"
-#include "MessageTooltipShow.h"
-#include "utility.h"
+#include "../../utility/messaging/type/activation/MessageActivateLegend.h"
+#include "../../utility/messaging/type/activation/MessageActivateOverview.h"
+#include "../../utility/messaging/type/activation/MessageActivateTokens.h"
+#include "../../utility/messaging/type/code/MessageChangeFileView.h"
+#include "../../utility/messaging/type/error/MessageErrorsAll.h"
+#include "../../utility/messaging/type/MessageFlushUpdates.h"
+#include "../../utility/messaging/type/MessageRefreshUI.h"
+#include "../../utility/messaging/type/code/MessageScrollToLine.h"
+#include "../../utility/messaging/type/MessageStatus.h"
+#include "../../utility/messaging/type/MessageTooltipShow.h"
+#include "../../utility/utility.h"
 
 ActivationController::ActivationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

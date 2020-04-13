@@ -1,8 +1,8 @@
 #ifndef MESSAGE_MOVE_IDE_CURSOR_H
 #define MESSAGE_MOVE_IDE_CURSOR_H
 
-#include "FilePath.h"
-#include "Message.h"
+#include "../../../file/FilePath.h"
+#include "../../Message.h"
 
 class MessageMoveIDECursor: public Message<MessageMoveIDECursor>
 {

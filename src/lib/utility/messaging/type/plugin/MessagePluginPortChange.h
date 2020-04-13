@@ -1,7 +1,7 @@
 #ifndef MESSAGE_PLUGIN_PORT_CHANGE_H
 #define MESSAGE_PLUGIN_PORT_CHANGE_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessagePluginPortChange: public Message<MessagePluginPortChange>
 {

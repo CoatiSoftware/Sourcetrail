@@ -2,17 +2,17 @@
 
 #include <clang/AST/ASTContext.h>
 
-#include "CanonicalFilePathCache.h"
-#include "CxxFunctionDeclName.h"
+#include "../CanonicalFilePathCache.h"
+#include "../name/CxxFunctionDeclName.h"
 #include "CxxSpecifierNameResolver.h"
-#include "CxxStaticFunctionDeclName.h"
+#include "../name/CxxStaticFunctionDeclName.h"
 #include "CxxTemplateArgumentNameResolver.h"
 #include "CxxTemplateParameterStringResolver.h"
 #include "CxxTypeNameResolver.h"
-#include "CxxVariableDeclName.h"
-#include "ScopedSwitcher.h"
-#include "utilityClang.h"
-#include "utilityString.h"
+#include "../name/CxxVariableDeclName.h"
+#include "../../../../../lib/utility/ScopedSwitcher.h"
+#include "../utilityClang.h"
+#include "../../../../../lib_utility/utility/utilityString.h"
 
 CxxDeclNameResolver::CxxDeclNameResolver(CanonicalFilePathCache* canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache), m_currentDecl(nullptr)

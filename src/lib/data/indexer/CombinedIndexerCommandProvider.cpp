@@ -1,7 +1,7 @@
 #include "CombinedIndexerCommandProvider.h"
 
-#include "logging.h"
-#include "utility.h"
+#include "../../utility/logging/logging.h"
+#include "../../utility/utility.h"
 
 void CombinedIndexerCommandProvider::addProvider(std::shared_ptr<IndexerCommandProvider> provider)
 {

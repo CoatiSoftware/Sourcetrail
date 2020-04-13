@@ -1,9 +1,9 @@
 #ifndef QT_PROJECT_WIZARD_CONTENT_SELECT_H
 #define QT_PROJECT_WIZARD_CONTENT_SELECT_H
 
-#include "LanguageType.h"
+#include "../../../../lib/settings/LanguageType.h"
 #include "QtProjectWizardContent.h"
-#include "SourceGroupType.h"
+#include "../../../../lib/settings/source_group/SourceGroupType.h"
 
 class QButtonGroup;
 class SolutionParserManager;

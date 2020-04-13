@@ -1,9 +1,9 @@
 #include "StorageCache.h"
 
-#include "SourceLocationCollection.h"
-#include "SourceLocationFile.h"
-#include "TextAccess.h"
-#include "utility.h"
+#include "../location/SourceLocationCollection.h"
+#include "../location/SourceLocationFile.h"
+#include "../../utility/text/TextAccess.h"
+#include "../../utility/utility.h"
 
 void StorageCache::clear()
 {

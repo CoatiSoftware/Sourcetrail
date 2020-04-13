@@ -3,17 +3,17 @@
 
 #include <memory>
 
-#include "DialogView.h"
-#include "MessageActivateWindow.h"
-#include "MessageCloseProject.h"
-#include "MessageIndexingFinished.h"
-#include "MessageListener.h"
-#include "MessageLoadProject.h"
-#include "MessageRefresh.h"
-#include "MessageRefreshUI.h"
-#include "MessageSwitchColorScheme.h"
-#include "MessageWindowFocus.h"
-#include "Project.h"
+#include "../component/view/DialogView.h"
+#include "../utility/messaging/type/MessageActivateWindow.h"
+#include "../utility/messaging/type/MessageCloseProject.h"
+#include "../utility/messaging/type/indexing/MessageIndexingFinished.h"
+#include "../utility/messaging/MessageListener.h"
+#include "../utility/messaging/type/MessageLoadProject.h"
+#include "../utility/messaging/type/MessageRefresh.h"
+#include "../utility/messaging/type/MessageRefreshUI.h"
+#include "../utility/messaging/type/MessageSwitchColorScheme.h"
+#include "../utility/messaging/type/MessageWindowFocus.h"
+#include "../project/Project.h"
 
 class Bookmark;
 class IDECommunicationController;

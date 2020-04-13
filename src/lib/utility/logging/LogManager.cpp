@@ -2,11 +2,11 @@
 
 #include <algorithm>
 
-#include "MessageStatus.h"
-#include "Version.h"
+#include "../messaging/type/MessageStatus.h"
+#include "../Version.h"
 #include "logging.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../../lib_gui/utility/utilityApp.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 std::shared_ptr<LogManager> LogManager::getInstance()
 {

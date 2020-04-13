@@ -1,6 +1,6 @@
 #include "PathDetector.h"
 
-#include "FilePath.h"
+#include "../../../lib/utility/file/FilePath.h"
 
 PathDetector::PathDetector(const std::string& name): m_name(name) {}
 

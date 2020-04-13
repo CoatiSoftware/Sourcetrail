@@ -6,8 +6,8 @@
 
 #include <QFrame>
 
-#include "FilePath.h"
-#include "TimeStamp.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/utility/TimeStamp.h"
 
 #include "QtCodeNavigateable.h"
 

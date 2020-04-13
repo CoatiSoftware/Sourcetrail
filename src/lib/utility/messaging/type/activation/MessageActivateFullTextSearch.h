@@ -1,9 +1,9 @@
 #ifndef MESSAGE_ACTIVATE_FULLTEXT_SEARCH_H
 #define MESSAGE_ACTIVATE_FULLTEXT_SEARCH_H
 
-#include "Message.h"
+#include "../../Message.h"
 #include "MessageActivateBase.h"
-#include "TabId.h"
+#include "../../../../component/TabId.h"
 
 class MessageActivateFullTextSearch
 	: public Message<MessageActivateFullTextSearch>

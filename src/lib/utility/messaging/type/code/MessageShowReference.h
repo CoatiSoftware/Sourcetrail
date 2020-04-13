@@ -1,9 +1,9 @@
 #ifndef MESSAGE_SHOW_REFERENCE_H
 #define MESSAGE_SHOW_REFERENCE_H
 
-#include "Message.h"
-#include "TabId.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../types.h"
 
 class MessageShowReference: public Message<MessageShowReference>
 {

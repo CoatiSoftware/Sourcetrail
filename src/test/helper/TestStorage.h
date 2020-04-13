@@ -3,14 +3,14 @@
 
 #include <boost/filesystem.hpp>
 
-#include "AccessKind.h"
-#include "Edge.h"
-#include "FilePath.h"
-#include "LocationType.h"
-#include "NameHierarchy.h"
-#include "NodeType.h"
-#include "Storage.h"
-#include "utilityString.h"
+#include "../../lib/data/parser/AccessKind.h"
+#include "../../lib/data/graph/Edge.h"
+#include "../../lib/utility/file/FilePath.h"
+#include "../../lib/data/location/LocationType.h"
+#include "../../lib/data/name/NameHierarchy.h"
+#include "../../lib/data/NodeType.h"
+#include "../../lib/data/storage/Storage.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 class TestStorage
 {

@@ -2,18 +2,18 @@
 
 #include "language_packages.h"
 
-#include "MessageLoadProject.h"
-#include "MessagePluginPortChange.h"
-#include "MessageRefreshUI.h"
-#include "MessageScrollSpeedChange.h"
+#include "../../../lib/utility/messaging/type/MessageLoadProject.h"
+#include "../../../lib/utility/messaging/type/plugin/MessagePluginPortChange.h"
+#include "../../../lib/utility/messaging/type/MessageRefreshUI.h"
+#include "../../../lib/utility/messaging/type/MessageScrollSpeedChange.h"
 
-#include "Application.h"
-#include "DialogView.h"
-#include "QtProjectWizardContentGroup.h"
-#include "QtProjectWizardContentPathsFrameworkSearchGlobal.h"
-#include "QtProjectWizardContentPathsHeaderSearchGlobal.h"
-#include "QtProjectWizardContentPreferences.h"
-#include "utilityApp.h"
+#include "../../../lib/app/Application.h"
+#include "../../../lib/component/view/DialogView.h"
+#include "../project_wizard/content/QtProjectWizardContentGroup.h"
+#include "../project_wizard/content/paths/QtProjectWizardContentPathsFrameworkSearchGlobal.h"
+#include "../project_wizard/content/paths/QtProjectWizardContentPathsHeaderSearchGlobal.h"
+#include "../project_wizard/content/QtProjectWizardContentPreferences.h"
+#include "../../utility/utilityApp.h"
 
 QtPreferencesWindow::QtPreferencesWindow(QWidget* parent): QtProjectWizardWindow(parent)
 {

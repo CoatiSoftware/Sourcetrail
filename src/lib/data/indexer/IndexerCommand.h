@@ -4,8 +4,8 @@
 #include <set>
 #include <string>
 
-#include "FilePath.h"
-#include "FilePathFilter.h"
+#include "../../utility/file/FilePath.h"
+#include "../../utility/file/FilePathFilter.h"
 #include "IndexerCommandType.h"
 
 class QJsonObject;

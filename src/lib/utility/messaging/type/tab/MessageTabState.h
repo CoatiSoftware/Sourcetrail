@@ -1,8 +1,8 @@
 #ifndef MESSAGE_TAB_STATE_H
 #define MESSAGE_TAB_STATE_H
 
-#include "Message.h"
-#include "SearchMatch.h"
+#include "../../Message.h"
+#include "../../../../data/search/SearchMatch.h"
 
 class MessageTabState: public Message<MessageTabState>
 {

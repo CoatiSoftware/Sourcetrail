@@ -1,7 +1,7 @@
 #ifndef UTILITY_PATH_DETECTION_H
 #define UTILITY_PATH_DETECTION_H
 
-#include "CombinedPathDetector.h"
+#include "path_detector/CombinedPathDetector.h"
 
 namespace utility
 {

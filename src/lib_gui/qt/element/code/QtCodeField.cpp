@@ -6,20 +6,20 @@
 #include <QTextCodec>
 #include <QWindow>
 
-#include "ApplicationSettings.h"
-#include "ColorScheme.h"
-#include "MessageActivateLocalSymbols.h"
-#include "MessageActivateSourceLocations.h"
-#include "MessageActivateTokenIds.h"
-#include "MessageTabOpenWith.h"
-#include "MessageTooltipShow.h"
-#include "QtContextMenu.h"
-#include "QtHighlighter.h"
-#include "SourceLocation.h"
-#include "SourceLocationFile.h"
-#include "TextCodec.h"
-#include "tracing.h"
-#include "utility.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../lib/settings/ColorScheme.h"
+#include "../../../../lib/utility/messaging/type/code/MessageActivateLocalSymbols.h"
+#include "../../../../lib/utility/messaging/type/code/MessageActivateSourceLocations.h"
+#include "../../../../lib/utility/messaging/type/code/MessageActivateTokenIds.h"
+#include "../../../../lib/utility/messaging/type/tab/MessageTabOpenWith.h"
+#include "../../../../lib/utility/messaging/type/MessageTooltipShow.h"
+#include "../../utility/QtContextMenu.h"
+#include "../../utility/QtHighlighter.h"
+#include "../../../../lib/data/location/SourceLocation.h"
+#include "../../../../lib/data/location/SourceLocationFile.h"
+#include "../../../../lib_utility/utility/TextCodec.h"
+#include "../../../../lib/utility/tracing.h"
+#include "../../../../lib/utility/utility.h"
 
 std::vector<QtCodeField::AnnotationColor> QtCodeField::s_annotationColors;
 std::string QtCodeField::s_focusColor;

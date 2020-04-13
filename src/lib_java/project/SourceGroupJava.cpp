@@ -1,13 +1,13 @@
 #include "SourceGroupJava.h"
 
-#include "FileManager.h"
-#include "IndexerCommandJava.h"
-#include "RefreshInfo.h"
-#include "SourceGroupSettings.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithJavaStandard.h"
-#include "SourceGroupSettingsWithSourceExtensions.h"
-#include "logging.h"
+#include "../../lib/utility/file/FileManager.h"
+#include "../data/indexer/IndexerCommandJava.h"
+#include "../../lib/project/RefreshInfo.h"
+#include "../../lib/settings/source_group/SourceGroupSettings.h"
+#include "../../lib/settings/source_group/component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../../lib/settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.h"
+#include "../../lib/settings/source_group/component/SourceGroupSettingsWithSourceExtensions.h"
+#include "../../lib/utility/logging/logging.h"
 
 std::set<FilePath> SourceGroupJava::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
 {

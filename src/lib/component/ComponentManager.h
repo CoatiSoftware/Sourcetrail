@@ -6,7 +6,7 @@
 
 #include "Component.h"
 #include "ComponentFactory.h"
-#include "DialogView.h"
+#include "view/DialogView.h"
 
 class CompositeView;
 class DialogView;

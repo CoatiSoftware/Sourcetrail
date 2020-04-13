@@ -1,7 +1,7 @@
 #ifndef TOKEN_COMPONENT_FILE_PATH_H
 #define TOKEN_COMPONENT_FILE_PATH_H
 
-#include "FilePath.h"
+#include "../../../utility/file/FilePath.h"
 
 #include "TokenComponent.h"
 

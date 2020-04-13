@@ -3,13 +3,13 @@
 #include <QHBoxLayout>
 #include <QTimer>
 
-#include "MessageHistoryRedo.h"
-#include "MessageHistoryUndo.h"
-#include "ResourcePaths.h"
+#include "../../../../lib/utility/messaging/type/history/MessageHistoryRedo.h"
+#include "../../../../lib/utility/messaging/type/history/MessageHistoryUndo.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 
-#include "QtContextMenu.h"
+#include "../../utility/QtContextMenu.h"
 #include "QtHistoryList.h"
-#include "QtSearchBarButton.h"
+#include "../search/QtSearchBarButton.h"
 
 QtUndoRedo::QtUndoRedo()
 	: m_pressed(false), m_historyList(nullptr), m_historyHiddenAt(TimeStamp::now())

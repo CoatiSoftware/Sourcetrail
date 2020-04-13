@@ -3,7 +3,7 @@
 #include <QComboBox>
 #include <QLabel>
 
-#include "SourceGroupSettingsWithCppStandard.h"
+#include "../../../../lib/settings/source_group/component/cxx/SourceGroupSettingsWithCppStandard.h"
 
 QtProjectWizardContentCppStandard::QtProjectWizardContentCppStandard(
 	std::shared_ptr<SourceGroupSettingsWithCppStandard> sourceGroupSettings,

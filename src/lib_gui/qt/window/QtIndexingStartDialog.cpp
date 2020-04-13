@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <QRadioButton>
 
-#include "QtHelpButton.h"
+#include "../element/button/QtHelpButton.h"
 
 QtIndexingStartDialog::QtIndexingStartDialog(
 	const std::vector<RefreshMode>& enabledModes,

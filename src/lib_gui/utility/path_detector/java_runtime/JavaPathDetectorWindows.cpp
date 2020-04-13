@@ -3,9 +3,9 @@
 #include <QSettings>
 #include <QSysInfo>
 
-#include "FilePath.h"
-#include "utilityApp.h"
-#include "utilityString.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../utilityApp.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion)
 	: JavaPathDetector("Java " + javaVersion + " for Windows", javaVersion)

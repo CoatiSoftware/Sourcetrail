@@ -7,8 +7,8 @@
 
 #include <boost/program_options.hpp>
 
-#include "FilePath.h"
-#include "RefreshInfo.h"
+#include "../file/FilePath.h"
+#include "../../project/RefreshInfo.h"
 
 namespace po = boost::program_options;
 

@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 
-#include "Node.h"
-#include "NodeTypeSet.h"
-#include "types.h"
+#include "../graph/Node.h"
+#include "../NodeTypeSet.h"
+#include "../../utility/types.h"
 
 // SearchResult is only used as an internal type in the SearchIndex and the PersistentStorage
 struct SearchResult

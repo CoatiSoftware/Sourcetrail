@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "SourceGroupSettingsComponent.h"
+#include "../SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithCxxCrossCompilationOptions: public SourceGroupSettingsComponent
 {

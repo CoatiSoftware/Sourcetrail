@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 
-#include "TokenComponent.h"
-#include "types.h"
+#include "token_component/TokenComponent.h"
+#include "../../utility/types.h"
 
 class Token
 {

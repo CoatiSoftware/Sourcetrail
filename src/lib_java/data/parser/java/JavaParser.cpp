@@ -2,17 +2,17 @@
 
 #include <jni.h>
 
-#include "ApplicationSettings.h"
-#include "IndexerStateInfo.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../lib/data/indexer/IndexerStateInfo.h"
 #include "JavaEnvironmentFactory.h"
-#include "NameHierarchy.h"
-#include "ParseLocation.h"
-#include "ParserClient.h"
-#include "ReferenceKind.h"
-#include "ResourcePaths.h"
-#include "TextAccess.h"
-#include "utilityJava.h"
-#include "utilityString.h"
+#include "../../../../lib/data/name/NameHierarchy.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib/data/parser/ParserClient.h"
+#include "../../../../lib/data/parser/ReferenceKind.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib/utility/text/TextAccess.h"
+#include "../../../utility/utilityJava.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 void JavaParser::clearCaches()
 {

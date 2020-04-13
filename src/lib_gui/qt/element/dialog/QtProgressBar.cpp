@@ -5,7 +5,7 @@
 #include <QPixmap>
 #include <QTimer>
 
-#include "ResourcePaths.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
 
 QtProgressBar::QtProgressBar(QWidget* parent)
 	: QWidget(parent)

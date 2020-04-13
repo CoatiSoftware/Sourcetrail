@@ -1,6 +1,6 @@
 #include "MessageStatus.h"
 
-#include "utilityString.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 MessageStatus::MessageStatus(
 	const std::wstring& status, bool isError, bool showLoader, bool showInStatusBar)

@@ -1,11 +1,11 @@
 #include "SqliteBookmarkStorage.h"
 
-#include "Application.h"
-#include "ProjectSettings.h"
-#include "SqliteStorageMigrationLambda.h"
-#include "SqliteStorageMigrator.h"
-#include "logging.h"
-#include "utilityString.h"
+#include "../../../app/Application.h"
+#include "../../../settings/ProjectSettings.h"
+#include "../migration/SqliteStorageMigrationLambda.h"
+#include "../migration/SqliteStorageMigrator.h"
+#include "../../../utility/logging/logging.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
 const size_t SqliteBookmarkStorage::s_storageVersion = 2;
 

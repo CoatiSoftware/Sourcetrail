@@ -1,7 +1,7 @@
 #ifndef MESSAGE_INDEXING_INTERRUPTED_H
 #define MESSAGE_INDEXING_INTERRUPTED_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessageIndexingInterrupted: public Message<MessageIndexingInterrupted>
 {

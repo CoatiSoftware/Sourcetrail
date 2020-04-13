@@ -2,10 +2,10 @@
 
 #include <QMessageBox>
 
-#include "ApplicationSettings.h"
-#include "ResourcePaths.h"
-#include "utilityApp.h"
-#include "utilityPathDetection.h"
+#include "../../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../utility/utilityApp.h"
+#include "../../../../utility/utilityPathDetection.h"
 
 QtProjectWizardContentPathsHeaderSearchGlobal::QtProjectWizardContentPathsHeaderSearchGlobal(
 	QtProjectWizardWindow* window)

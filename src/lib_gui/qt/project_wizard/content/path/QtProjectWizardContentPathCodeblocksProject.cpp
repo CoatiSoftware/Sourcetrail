@@ -1,10 +1,10 @@
 #include "QtProjectWizardContentPathCodeblocksProject.h"
 
-#include "QtProjectWizardContentPathsIndexedHeaders.h"
-#include "SourceGroupCxxCodeblocks.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
-#include "utility.h"
-#include "utilityFile.h"
+#include "../paths/QtProjectWizardContentPathsIndexedHeaders.h"
+#include "../../../../../lib_cxx/project/SourceGroupCxxCodeblocks.h"
+#include "../../../../../lib/settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h"
+#include "../../../../../lib/utility/utility.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
 
 QtProjectWizardContentPathCodeblocksProject::QtProjectWizardContentPathCodeblocksProject(
 	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> settings, QtProjectWizardWindow* window)

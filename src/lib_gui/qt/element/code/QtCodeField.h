@@ -6,9 +6,9 @@
 
 #include <QPlainTextEdit>
 
-#include "FilePath.h"
-#include "LocationType.h"
-#include "types.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../../../lib/data/location/LocationType.h"
+#include "../../../../lib/utility/types.h"
 
 class QtHighlighter;
 class SourceLocation;

@@ -1,8 +1,8 @@
 #ifndef QT_TOOLTIP_VIEW
 #define QT_TOOLTIP_VIEW
 
-#include "QtThreadedFunctor.h"
-#include "TooltipView.h"
+#include "../utility/QtThreadedFunctor.h"
+#include "../../../lib/component/view/TooltipView.h"
 
 class QTimer;
 class QtTooltip;

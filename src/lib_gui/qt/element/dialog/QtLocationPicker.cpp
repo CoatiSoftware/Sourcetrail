@@ -6,10 +6,10 @@
 #include <QPainter>
 #include <QStyleOption>
 
-#include "QtFileDialog.h"
-#include "QtIconButton.h"
-#include "ResourcePaths.h"
-#include "utilityFile.h"
+#include "../../utility/QtFileDialog.h"
+#include "../button/QtIconButton.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib/utility/file/utilityFile.h"
 
 QtLocationPicker::QtLocationPicker(QWidget* parent): QWidget(parent), m_pickDirectory(false)
 {

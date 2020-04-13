@@ -1,9 +1,9 @@
 #include "CodeblocksTarget.h"
 
-#include "tinyxml.h"
+#include "../../../external/tinyxml/tinyxml.h"
 
 #include "CodeblocksCompiler.h"
-#include "utilityString.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 namespace Codeblocks
 {

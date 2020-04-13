@@ -1,6 +1,6 @@
 #include "SnippetMerger.h"
 
-#include "ApplicationSettings.h"
+#include "../../../settings/ApplicationSettings.h"
 #include <algorithm>
 
 SnippetMerger::SnippetMerger(int startRow, int endRow): m_start(startRow), m_end(endRow) {}

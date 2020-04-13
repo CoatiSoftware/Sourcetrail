@@ -2,7 +2,7 @@
 
 #include "language_packages.h"
 
-#include "logging.h"
+#include "../../lib/utility/logging/logging.h"
 #include "utilityApp.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE

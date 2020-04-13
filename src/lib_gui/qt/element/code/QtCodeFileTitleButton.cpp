@@ -2,19 +2,19 @@
 
 #include <QMouseEvent>
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "FileSystem.h"
-#include "MessageActivateFile.h"
-#include "MessageProjectEdit.h"
-#include "MessageTabOpenWith.h"
-#include "ResourcePaths.h"
-#include "utilityString.h"
+#include "../../../../lib/app/Application.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../lib/utility/file/FileSystem.h"
+#include "../../../../lib/utility/messaging/type/code/MessageActivateFile.h"
+#include "../../../../lib/utility/messaging/type/MessageProjectEdit.h"
+#include "../../../../lib/utility/messaging/type/tab/MessageTabOpenWith.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib_utility/utility/utilityString.h"
 
-#include "Application.h"
-#include "ColorScheme.h"
-#include "Project.h"
-#include "QtContextMenu.h"
+#include "../../../../lib/app/Application.h"
+#include "../../../../lib/settings/ColorScheme.h"
+#include "../../../../lib/project/Project.h"
+#include "../../utility/QtContextMenu.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "code/file/title", parent)

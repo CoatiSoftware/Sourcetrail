@@ -1,8 +1,8 @@
 #include "CommentHandler.h"
 
 #include "CanonicalFilePathCache.h"
-#include "ParseLocation.h"
-#include "ParserClient.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib/data/parser/ParserClient.h"
 #include "utilityClang.h"
 
 CommentHandler::CommentHandler(

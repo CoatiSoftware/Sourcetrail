@@ -1,7 +1,7 @@
 #ifndef LANGUAGE_PACKAGE_JAVA_H
 #define LANGUAGE_PACKAGE_JAVA_H
 
-#include "LanguagePackage.h"
+#include "../lib/app/LanguagePackage.h"
 
 class LanguagePackageJava: public LanguagePackage
 {

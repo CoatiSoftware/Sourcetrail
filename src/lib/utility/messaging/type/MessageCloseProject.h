@@ -1,10 +1,10 @@
 #ifndef MESSAGE_CLOSE_PROJECT_H
 #define MESSAGE_CLOSE_PROJECT_H
 
-#include "RefreshInfo.h"
+#include "../../../project/RefreshInfo.h"
 
-#include "FilePath.h"
-#include "Message.h"
+#include "../../file/FilePath.h"
+#include "../Message.h"
 
 class MessageCloseProject: public Message<MessageCloseProject>
 {

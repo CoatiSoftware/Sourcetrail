@@ -4,14 +4,14 @@
 #include <set>
 #include <unordered_set>
 
-#include "ApplicationSettings.h"
-#include "FilePath.h"
-#include "FileTree.h"
+#include "../../lib/settings/ApplicationSettings.h"
+#include "../../lib/utility/file/FilePath.h"
+#include "../../lib/utility/file/FileTree.h"
 #include "IncludeDirective.h"
-#include "TextAccess.h"
-#include "TextCodec.h"
-#include "utility.h"
-#include "utilityString.h"
+#include "../../lib/utility/text/TextAccess.h"
+#include "../../lib_utility/utility/TextCodec.h"
+#include "../../lib/utility/utility.h"
+#include "../../lib_utility/utility/utilityString.h"
 
 namespace
 {

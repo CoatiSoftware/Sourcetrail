@@ -4,12 +4,12 @@
 #include <string>
 
 #include "AccessKind.h"
-#include "DefinitionKind.h"
-#include "NameHierarchy.h"
+#include "../DefinitionKind.h"
+#include "../name/NameHierarchy.h"
 #include "ParseLocation.h"
 #include "ReferenceKind.h"
 #include "SymbolKind.h"
-#include "types.h"
+#include "../../utility/types.h"
 
 class ParserClient
 {

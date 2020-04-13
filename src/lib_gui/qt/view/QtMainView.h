@@ -4,12 +4,12 @@
 #include <memory>
 #include <vector>
 
-#include "MainView.h"
-#include "MessageListener.h"
-#include "MessageProjectEdit.h"
-#include "MessageProjectNew.h"
-#include "MessageWindowChanged.h"
-#include "QtThreadedFunctor.h"
+#include "../../../lib/component/view/MainView.h"
+#include "../../../lib/utility/messaging/MessageListener.h"
+#include "../../../lib/utility/messaging/type/MessageProjectEdit.h"
+#include "../../../lib/utility/messaging/type/MessageProjectNew.h"
+#include "../../../lib/utility/messaging/type/MessageWindowChanged.h"
+#include "../utility/QtThreadedFunctor.h"
 
 class QtMainWindow;
 class QStatusBar;

@@ -1,7 +1,7 @@
 #ifndef MESSAGE_BOOKMARK_CREATE_H
 #define MESSAGE_BOOKMARK_CREATE_H
 
-#include "Message.h"
+#include "../../Message.h"
 
 class MessageBookmarkCreate: public Message<MessageBookmarkCreate>
 {

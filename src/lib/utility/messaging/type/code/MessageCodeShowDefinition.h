@@ -1,9 +1,9 @@
 #ifndef MESSAGE_CODE_SHOW_DEFINITION_H
 #define MESSAGE_CODE_SHOW_DEFINITION_H
 
-#include "Message.h"
-#include "TabId.h"
-#include "types.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
+#include "../../../types.h"
 
 class MessageCodeShowDefinition: public Message<MessageCodeShowDefinition>
 {

@@ -1,14 +1,14 @@
 #include "TooltipController.h"
 
-#include "CodeView.h"
-#include "GraphView.h"
-#include "StorageAccess.h"
-#include "TooltipView.h"
+#include "../view/CodeView.h"
+#include "../view/GraphView.h"
+#include "../../data/storage/StorageAccess.h"
+#include "../view/TooltipView.h"
 
-#include "MessageActivateSourceLocations.h"
-#include "TabId.h"
-#include "TaskDecoratorDelay.h"
-#include "TaskLambda.h"
+#include "../../utility/messaging/type/code/MessageActivateSourceLocations.h"
+#include "../TabId.h"
+#include "../../utility/scheduling/TaskDecoratorDelay.h"
+#include "../../utility/scheduling/TaskLambda.h"
 
 Id TooltipController::TooltipRequest::s_requestId = 1;
 

@@ -1,7 +1,7 @@
 #ifndef MESSAGE_WINDOW_FOCUS_H
 #define MESSAGE_WINDOW_FOCUS_H
 
-#include "Message.h"
+#include "../Message.h"
 
 class MessageWindowFocus: public Message<MessageWindowFocus>
 {

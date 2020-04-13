@@ -3,8 +3,8 @@
 #include "FilePath.h"
 #include "FileSystem.h"
 
-#include "logging.h"
-#include "utility.h"
+#include "../logging/logging.h"
+#include "../utility.h"
 
 std::vector<FilePath> utility::partitionFilePathsBySize(std::vector<FilePath> filePaths, int partitionCount)
 {

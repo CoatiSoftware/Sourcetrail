@@ -1,9 +1,9 @@
 #ifndef MESSAGE_ACTIVATE_FILE_H
 #define MESSAGE_ACTIVATE_FILE_H
 
-#include "FilePath.h"
-#include "Message.h"
-#include "TabId.h"
+#include "../../../file/FilePath.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageActivateFile: public Message<MessageActivateFile>
 {

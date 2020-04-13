@@ -2,8 +2,8 @@
 
 #include <QMessageBox>
 
-#include "SourceGroupSettings.h"
-#include "utilityFile.h"
+#include "../../../../../lib/settings/source_group/SourceGroupSettings.h"
+#include "../../../../../lib/utility/file/utilityFile.h"
 
 QtProjectWizardContentPath::QtProjectWizardContentPath(QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window)

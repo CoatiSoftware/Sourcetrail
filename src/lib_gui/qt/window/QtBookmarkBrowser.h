@@ -5,9 +5,9 @@
 #include <QListWidget>
 #include <QTreeWidget>
 
-#include "Bookmark.h"
-#include "BookmarkController.h"
-#include "ControllerProxy.h"
+#include "../../../lib/data/bookmark/Bookmark.h"
+#include "../../../lib/component/controller/BookmarkController.h"
+#include "../../../lib/component/controller/helper/ControllerProxy.h"
 #include "QtWindow.h"
 
 class QtBookmark;

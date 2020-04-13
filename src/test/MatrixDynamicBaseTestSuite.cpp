@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "MatrixDynamicBase.h"
-#include "logging.h"
+#include "../lib/utility/math/MatrixDynamicBase.h"
+#include "../lib/utility/logging/logging.h"
 
 namespace
 {

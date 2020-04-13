@@ -1,8 +1,8 @@
 #ifndef VECTOR_2_H
 #define VECTOR_2_H
 
-#include "Property.h"
-#include "logging.h"
+#include "../Property.h"
+#include "../logging/logging.h"
 
 #include "VectorBase.h"
 

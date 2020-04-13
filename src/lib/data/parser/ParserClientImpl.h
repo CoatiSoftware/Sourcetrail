@@ -3,10 +3,10 @@
 
 #include <set>
 
-#include "DefinitionKind.h"
-#include "IntermediateStorage.h"
-#include "LocationType.h"
-#include "Node.h"
+#include "../DefinitionKind.h"
+#include "../storage/IntermediateStorage.h"
+#include "../location/LocationType.h"
+#include "../graph/Node.h"
 #include "ParserClient.h"
 
 class ParserClientImpl: public ParserClient

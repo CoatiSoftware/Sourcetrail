@@ -1,8 +1,8 @@
 #include "SourceGroupSettingsWithCxxPchOptions.h"
 
-#include "ProjectSettings.h"
-#include "utility.h"
-#include "utilityFile.h"
+#include "../../../ProjectSettings.h"
+#include "../../../../utility/utility.h"
+#include "../../../../utility/file/utilityFile.h"
 
 FilePath SourceGroupSettingsWithCxxPchOptions::getPchDependenciesDirectoryPath() const
 {

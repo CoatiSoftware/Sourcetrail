@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "utilityString.h"
+#include "../lib_utility/utility/utilityString.h"
 
 TEST_CASE("split with char delimiter")
 {

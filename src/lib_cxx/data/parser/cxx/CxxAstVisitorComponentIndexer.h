@@ -4,9 +4,9 @@
 #include <unordered_map>
 
 #include "CxxAstVisitorComponent.h"
-#include "ParseLocation.h"
-#include "ReferenceKind.h"
-#include "SymbolKind.h"
+#include "../../../../lib/data/parser/ParseLocation.h"
+#include "../../../../lib/data/parser/ReferenceKind.h"
+#include "../../../../lib/data/parser/SymbolKind.h"
 
 class CxxContext;
 class ParserClient;

@@ -6,10 +6,10 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "QtBookmark.h"
-#include "QtBookmarkCategory.h"
-#include "ResourcePaths.h"
-#include "utilityQt.h"
+#include "../element/bookmark/QtBookmark.h"
+#include "../element/bookmark/QtBookmarkCategory.h"
+#include "../../../lib/app/paths/ResourcePaths.h"
+#include "../utility/utilityQt.h"
 
 QtBookmarkBrowser::QtBookmarkBrowser(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent)
 	: QtWindow(false, parent), m_controllerProxy(controllerProxy)

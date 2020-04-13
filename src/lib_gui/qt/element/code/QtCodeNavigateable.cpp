@@ -4,7 +4,7 @@
 #include <QScrollArea>
 #include <QScrollBar>
 
-#include "ApplicationSettings.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
 
 QtCodeNavigateable::~QtCodeNavigateable() {}
 

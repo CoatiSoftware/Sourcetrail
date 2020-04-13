@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "types.h"
+#include "../utility/types.h"
 
 class View;
 class Controller;

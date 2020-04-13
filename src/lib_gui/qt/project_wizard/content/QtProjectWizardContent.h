@@ -6,10 +6,10 @@
 #include <QToolButton>
 #include <QWidget>
 
-#include "FilePath.h"
-#include "QtHelpButton.h"
-#include "QtProjectWizardWindow.h"
-#include "QtThreadedFunctor.h"
+#include "../../../../lib/utility/file/FilePath.h"
+#include "../../element/button/QtHelpButton.h"
+#include "../QtProjectWizardWindow.h"
+#include "../../utility/QtThreadedFunctor.h"
 
 class QtTextEditDialog;
 

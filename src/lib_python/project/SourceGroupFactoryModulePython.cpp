@@ -1,7 +1,7 @@
 #include "SourceGroupFactoryModulePython.h"
 
 #include "SourceGroupPythonEmpty.h"
-#include "SourceGroupSettingsPythonEmpty.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsPythonEmpty.h"
 
 bool SourceGroupFactoryModulePython::supports(SourceGroupType type) const
 {

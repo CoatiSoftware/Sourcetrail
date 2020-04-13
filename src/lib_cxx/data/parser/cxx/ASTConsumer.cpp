@@ -1,6 +1,6 @@
 #include "ASTConsumer.h"
 
-#include "ApplicationSettings.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
 #include "CxxAstVisitor.h"
 #include "CxxVerboseAstVisitor.h"
 

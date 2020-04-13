@@ -8,16 +8,16 @@
 #include <QTextCodec>
 #include <QTimer>
 
-#include "ApplicationSettings.h"
-#include "FileLogger.h"
-#include "FileSystem.h"
-#include "MessageSwitchColorScheme.h"
-#include "ResourcePaths.h"
-#include "logging.h"
-#include "utility.h"
-#include "utilityApp.h"
-#include "utilityPathDetection.h"
-#include "utilityQt.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
+#include "../../../../lib/utility/logging/FileLogger.h"
+#include "../../../../lib/utility/file/FileSystem.h"
+#include "../../../../lib/utility/messaging/type/MessageSwitchColorScheme.h"
+#include "../../../../lib/app/paths/ResourcePaths.h"
+#include "../../../../lib/utility/logging/logging.h"
+#include "../../../../lib/utility/utility.h"
+#include "../../../utility/utilityApp.h"
+#include "../../../utility/utilityPathDetection.h"
+#include "../../utility/utilityQt.h"
 
 QtProjectWizardContentPreferences::QtProjectWizardContentPreferences(QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window)

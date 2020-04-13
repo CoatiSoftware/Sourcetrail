@@ -1,7 +1,7 @@
 #ifndef MESSAGE_ACTIVATE_WINDOW_H
 #define MESSAGE_ACTIVATE_WINDOW_H
 
-#include "Message.h"
+#include "../Message.h"
 
 class MessageActivateWindow: public Message<MessageActivateWindow>
 {

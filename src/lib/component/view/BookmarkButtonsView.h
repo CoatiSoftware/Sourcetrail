@@ -1,8 +1,8 @@
 #ifndef BOOKMARK_BUTTONS_VIEW_H
 #define BOOKMARK_BUTTONS_VIEW_H
 
-#include "MessageBookmarkButtonState.h"
-#include "MessageListener.h"
+#include "../../utility/messaging/type/bookmark/MessageBookmarkButtonState.h"
+#include "../../utility/messaging/MessageListener.h"
 #include "View.h"
 
 class BookmarkButtonsView

@@ -2,22 +2,22 @@
 
 #include <memory>
 
-#include "Application.h"
-#include "ApplicationSettings.h"
-#include "FileInfo.h"
-#include "MessageFocusView.h"
-#include "MessageMoveIDECursor.h"
-#include "MessageShowError.h"
-#include "MessageStatus.h"
-#include "SourceLocation.h"
-#include "SourceLocationCollection.h"
-#include "SourceLocationFile.h"
-#include "StorageAccess.h"
-#include "TextAccess.h"
-#include "logging.h"
-#include "tracing.h"
-#include "utility.h"
-#include "utilityString.h"
+#include "../../app/Application.h"
+#include "../../settings/ApplicationSettings.h"
+#include "../../utility/file/FileInfo.h"
+#include "../../utility/messaging/type/focus/MessageFocusView.h"
+#include "../../utility/messaging/type/plugin/MessageMoveIDECursor.h"
+#include "../../utility/messaging/type/error/MessageShowError.h"
+#include "../../utility/messaging/type/MessageStatus.h"
+#include "../../data/location/SourceLocation.h"
+#include "../../data/location/SourceLocationCollection.h"
+#include "../../data/location/SourceLocationFile.h"
+#include "../../data/storage/StorageAccess.h"
+#include "../../utility/text/TextAccess.h"
+#include "../../utility/logging/logging.h"
+#include "../../utility/tracing.h"
+#include "../../utility/utility.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 CodeController::CodeController(StorageAccess* storageAccess): m_storageAccess(storageAccess) {}
 

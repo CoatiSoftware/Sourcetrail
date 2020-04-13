@@ -1,9 +1,9 @@
 #ifndef MESSAGE_SCROLL_TO_LINE_H
 #define MESSAGE_SCROLL_TO_LINE_H
 
-#include "FilePath.h"
-#include "Message.h"
-#include "TabId.h"
+#include "../../../file/FilePath.h"
+#include "../../Message.h"
+#include "../../../../component/TabId.h"
 
 class MessageScrollToLine: public Message<MessageScrollToLine>
 {

@@ -1,7 +1,7 @@
 #include "SharedMemory.h"
 
 #include "SharedMemoryGarbageCollector.h"
-#include "logging.h"
+#include "../logging/logging.h"
 
 const char* SharedMemory::s_memoryNamePrefix = "srctrlmem_";
 const char* SharedMemory::s_mutexNamePrefix = "srctrlmtx_";

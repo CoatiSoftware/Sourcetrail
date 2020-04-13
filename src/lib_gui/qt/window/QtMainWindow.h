@@ -8,8 +8,8 @@
 #include <QMainWindow>
 
 #include "QtWindowStack.h"
-#include "QtWindowsTaskbarButton.h"
-#include "SearchMatch.h"
+#include "../utility/QtWindowsTaskbarButton.h"
+#include "../../../lib/data/search/SearchMatch.h"
 
 class Bookmark;
 class MessageBase;

@@ -1,8 +1,8 @@
 #ifndef MESSAGE_PROJECT_NEW_H
 #define MESSAGE_PROJECT_NEW_H
 
-#include "FilePath.h"
-#include "Message.h"
+#include "../../file/FilePath.h"
+#include "../Message.h"
 
 class MessageProjectNew: public Message<MessageProjectNew>
 {

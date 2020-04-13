@@ -1,7 +1,7 @@
 #include "SourceGroupSettingsUnloadable.h"
 
-#include "ConfigManager.h"
-#include "utility.h"
+#include "../../../utility/ConfigManager.h"
+#include "../../../utility/utility.h"
 
 SourceGroupSettingsUnloadable::SourceGroupSettingsUnloadable(
 	const std::string& id, const ProjectSettings* projectSettings)

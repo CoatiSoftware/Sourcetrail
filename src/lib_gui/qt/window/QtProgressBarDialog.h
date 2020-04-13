@@ -4,7 +4,7 @@
 #include <functional>
 
 #include "QtIndexingDialog.h"
-#include "RefreshInfo.h"
+#include "../../../lib/project/RefreshInfo.h"
 
 class QCheckBox;
 class QLabel;

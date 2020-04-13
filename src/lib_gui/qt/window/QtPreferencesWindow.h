@@ -1,9 +1,9 @@
 #ifndef QT_PREFERENCES_WINDOW_H
 #define QT_PREFERENCES_WINDOW_H
 
-#include "QtProjectWizardWindow.h"
+#include "../project_wizard/QtProjectWizardWindow.h"
 
-#include "ApplicationSettings.h"
+#include "../../../lib/settings/ApplicationSettings.h"
 
 class QtPreferencesWindow: public QtProjectWizardWindow
 {

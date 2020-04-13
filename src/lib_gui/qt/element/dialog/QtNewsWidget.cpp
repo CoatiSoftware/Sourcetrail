@@ -6,12 +6,12 @@
 #include <QStyle>
 #include <QVBoxLayout>
 
-#include "ApplicationSettings.h"
+#include "../../../../lib/settings/ApplicationSettings.h"
 #include "QtTextEdit.h"
-#include "TimeStamp.h"
-#include "Version.h"
-#include "logging.h"
-#include "utilityApp.h"
+#include "../../../../lib/utility/TimeStamp.h"
+#include "../../../../lib/utility/Version.h"
+#include "../../../../lib/utility/logging/logging.h"
+#include "../../../utility/utilityApp.h"
 
 QtNewsWidget::QtNewsWidget(QWidget* parent): QWidget(parent)
 {

@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "SuffixArray.h"
-#include "types.h"
+#include "../../utility/types.h"
 
 class StorageAccess;
 

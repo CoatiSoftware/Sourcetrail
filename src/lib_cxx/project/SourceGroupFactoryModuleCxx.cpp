@@ -3,10 +3,10 @@
 #include "SourceGroupCxxCdb.h"
 #include "SourceGroupCxxCodeblocks.h"
 #include "SourceGroupCxxEmpty.h"
-#include "SourceGroupSettingsCEmpty.h"
-#include "SourceGroupSettingsCppEmpty.h"
-#include "SourceGroupSettingsCxxCdb.h"
-#include "SourceGroupSettingsCxxCodeblocks.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsCEmpty.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsCppEmpty.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsCxxCdb.h"
+#include "../../lib/settings/source_group/type/SourceGroupSettingsCxxCodeblocks.h"
 
 bool SourceGroupFactoryModuleCxx::supports(SourceGroupType type) const
 {

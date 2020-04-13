@@ -3,7 +3,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "utilityString.h"
+#include "../../../lib_utility/utility/utilityString.h"
 
 std::wstring IndexerCommand::serialize(std::shared_ptr<const IndexerCommand> indexerCommand, bool compact)
 {

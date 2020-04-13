@@ -1,11 +1,11 @@
 #ifndef SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
 #define SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
 
-#include "SourceGroupSettingsWithComponents.h"
-#include "SourceGroupSettingsWithExcludeFilters.h"
-#include "SourceGroupSettingsWithJavaGradle.h"
-#include "SourceGroupSettingsWithJavaStandard.h"
-#include "SourceGroupSettingsWithSourceExtensionsJava.h"
+#include "../SourceGroupSettingsWithComponents.h"
+#include "../component/SourceGroupSettingsWithExcludeFilters.h"
+#include "../component/java/SourceGroupSettingsWithJavaGradle.h"
+#include "../component/java/SourceGroupSettingsWithJavaStandard.h"
+#include "../component/java/SourceGroupSettingsWithSourceExtensionsJava.h"
 
 class SourceGroupSettingsJavaGradle
 	: public SourceGroupSettingsWithComponents<

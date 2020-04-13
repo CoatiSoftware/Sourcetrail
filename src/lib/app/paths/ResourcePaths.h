@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "FilePath.h"
+#include "../../utility/file/FilePath.h"
 
 class ResourcePaths
 {
