@@ -84,13 +84,12 @@ if(WIN32)
 	# If clang-cl.exe ...
 	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
 		add_compile_definitions(_CRT_SECURE_NO_WARNINGS) # Clang-cl doesn't disable the warnings as boost expects.
-		set(BOOST_MSVC _MSC_VER)
 	endif()
 endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 	if ("${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC") # Clang-cl.exe
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcxx-exceptions -Xclang -Wno-unknown-warning-option -Xclang -fcolor-diagnostics -Xclang -fvisibility-inlines-hidden -Xclang -fexceptions -Xclang -fcxx-exceptions")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fms-compatibility-version=1926 -Xclang -fcxx-exceptions -Xclang -Wno-unknown-warning-option -Xclang -fcolor-diagnostics -Xclang -fvisibility-inlines-hidden -Xclang -fexceptions -Xclang -fcxx-exceptions")
 	else()
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics -fvisibility-inlines-hidden")
 	endif()
