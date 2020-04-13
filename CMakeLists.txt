@@ -817,4 +817,18 @@ if (UNIX)
 		# Linux package
 		include(cmake/linux_package.cmake)
 	endif ()
+elseif(WIN32)
+	# symlinks for data
+	message(STATUS "copy: "
+		"${CMAKE_SOURCE_DIR}/bin/app/data ->"
+		"${CMAKE_BINARY_DIR}/app/data")
+	execute_process(
+		COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app"
+		COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/test"
+		)
+	execute_process(
+		COMMAND "${CMAKE_COMMAND}" "-E" "copy_directory" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
+		COMMAND "${CMAKE_COMMAND}" "-E" "copy_directory" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user"
+		COMMAND "${CMAKE_COMMAND}" "-E" "copy_directory" "${CMAKE_SOURCE_DIR}/bin/test/data" "${CMAKE_BINARY_DIR}/test/data"
+	        )
 endif ()

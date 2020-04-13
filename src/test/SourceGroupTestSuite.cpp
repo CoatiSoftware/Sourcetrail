@@ -54,14 +54,14 @@ const bool updateExpectedOutput = false;
 
 static FilePath getInputDirectoryPath(const std::wstring& projectName)
 {
-	return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/input")
+	return FilePath(L"test/data/SourceGroupTestSuite/" + projectName + L"/input")
 		.makeAbsolute()
 		.makeCanonical();
 }
 
 static FilePath getOutputDirectoryPath(const std::wstring& projectName)
 {
-	return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/expected_output")
+	return FilePath(L"test/data/SourceGroupTestSuite/" + projectName + L"/expected_output")
 		.makeAbsolute()
 		.makeCanonical();
 }
