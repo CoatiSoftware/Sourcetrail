@@ -154,7 +154,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
     -DClang_DIR=<path/to/llvm_build>/lib/cmake/clang
     -DBUILD_CXX_LANGUAGE_PACKAGE=ON
     ```
-* Build Sourcetrail as described above.
+* Build Sourcetrail as described [above](#building).
 
 ## Enable Java Language Support
 
@@ -181,11 +181,11 @@ Building Sourcetrail requires several dependencies to be in place on your machin
     ```
     -DBUILD_JAVA_LANGUAGE_PACKAGE=ON
     ```
-* Build Sourcetrail as described above.
+* Build Sourcetrail as described [above](#building).
 
 ## Enable Python Language Support
 
-### Required dependencies
+### Required Tools
 
 * __WinRAR (required for Windows)__ 
     * __REASON__: Used to extract the prebuilt SourcetrailPythonIndexer which is downloaded automatically during build execution.
@@ -196,6 +196,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
     ```
     -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON
     ```
+* Build Sourcetrail as described [above](#building).
 
 
 ## Creating the deployment Package
@@ -204,31 +205,30 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 #### Required Tools
 
-##### Visual Studio
+* __Visual Studio (required for Windows)__ 
+    * __Reason__: Used for building the Sourcetrail Windows installer. 
+    * __Remarks__: Make sure to install the `.Net desktop development` workload.
+    * __Download__: https://visualstudio.microsoft.com/downloads/
 
-##### Wix 3.11
+* __Wix 3.11__
+    * __Reason__: Used to build the `sourcetrail.msi` Windows installer.
+    * __Remarks__: Make sure to add `<path/to>/WiX Toolset v3.11/bin` to your `PATH` environment variable.
+    * __Download__: https://wixtoolset.org/releases/
 
-##### Wix extension for Visual Studio
+* __Wix extension for Visual Studio__
+    * __Reason__: Used to run Wix from the Visual Studio build environment.
+    * __Download__: https://marketplace.visualstudio.com/items?itemName=WixToolset.WixToolsetVisualStudio2017Extension
 
-##### WinRAR	
+* __JRE__
+    * __Reason__: Used for indexing the java sample project that ships with the package.
 
-    wix
-	msvc .Net desktop development
-	WIX extension for visual studio (https://marketplace.visualstudio.com/items?itemName=WixToolset.WixToolsetVisualStudio2017Extension)
-	jre 
-    * __Remarks__: Make sure `VisualStudio/Common7/Tools` and `VisualStudio/Common7/IDE` are added to your `PATH` environment variable before running CMake
+* __WinRAR__
+    * __Reason__: Used for creating the final zip files for the installer and the portable package.
+    * __Remarks__: Make sure to add `<path/to>/WinRAR` to your `PATH` environment variable.
 
-	
-7zip?
+#### Building
 
-Make sure to append these directories to your `PATH` environment variable:
-* VisualStudio/Common7/Tools
-* VisualStudio/Common7/IDE
-* .../Microsoft SDKs/Windows/v7.1A/Bin (for uuidgen in deploy script)
-* .../WiX Toolset v3.11/bin
-* .../WinRAR
-
-Run `./script/deploy_windows.sh` script which will generate 32bit/64bit builds and packages these into a portable `.zip` file and a Wix-based Windows installer, each.
+* Run `./script/deploy_windows.sh` from your Developer Command Prompt for Visual Studio. The script which will generate a 64bit build and packages it into a portable `.zip` file and a Wix-based Windows installer, each.
 
 ### macOS
 
