@@ -758,7 +758,8 @@ void QtMainWindow::updateRecentProjectsMenu()
 {
 	m_recentProjectsMenu->clear();
 
-	const std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+	const std::vector<FilePath> recentProjects =
+		ApplicationSettings::getInstance()->getRecentProjects();
 	const size_t recentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
 
 	for (size_t i = 0; i < recentProjects.size() && i < recentProjectsCount; ++i)

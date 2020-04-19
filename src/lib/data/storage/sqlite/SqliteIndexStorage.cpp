@@ -361,7 +361,8 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 			static_cast<uint16_t>(data.endCol),
 			data.type);
 
-		std::map<TempSourceLocation, uint32_t>& index = m_tempSourceLocationIndices[static_cast<uint32_t>(data.fileNodeId)];
+		std::map<TempSourceLocation, uint32_t>& index =
+			m_tempSourceLocationIndices[static_cast<uint32_t>(data.fileNodeId)];
 		std::map<TempSourceLocation, uint32_t>::const_iterator it = index.find(tempLoc);
 		if (it != index.end())
 		{

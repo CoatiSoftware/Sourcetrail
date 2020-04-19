@@ -25,7 +25,8 @@ QtProjectWizardContentPathsHeaderSearch::QtProjectWizardContentPathsHeaderSearch
 	std::shared_ptr<SourceGroupSettings> settings,
 	QtProjectWizardWindow* window,
 	bool indicateAsAdditional)
-	: QtProjectWizardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY, true)
+	: QtProjectWizardContentPaths(
+		  settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY, true)
 	, m_showDetectedIncludesResultFunctor(std::bind(
 		  &QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult,
 		  this,
@@ -363,7 +364,8 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 			("<p>The following <b>" + std::to_string(additionalHeaderSearchPaths.size()) +
 			 "</b> include paths have been "
 			 "detected and will be added to the include paths of this Source Group.<b>")
-				.c_str(), m_window);
+				.c_str(),
+			m_window);
 
 		m_filesDialog->setup();
 		m_filesDialog->setReadOnly(true);
@@ -392,8 +394,8 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 	if (unresolvedIncludes.empty())
 	{
 		QMessageBox msgBox(m_window);
-		msgBox.setText(
-			QStringLiteral("<p>All include directives throughout the indexed files have been resolved.</p>"));
+		msgBox.setText(QStringLiteral(
+			"<p>All include directives throughout the indexed files have been resolved.</p>"));
 		msgBox.exec();
 	}
 	else
@@ -428,7 +430,8 @@ void QtProjectWizardContentPathsHeaderSearch::showValidationResult(
 			 "conditional preprocessor "
 			 "directives. This means that some of the unresolved includes may actually not be "
 			 "required by the indexer.</p>")
-				.c_str(), m_window);
+				.c_str(),
+			m_window);
 
 		m_filesDialog->setup();
 		m_filesDialog->setCloseVisible(false);

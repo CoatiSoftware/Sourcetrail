@@ -63,8 +63,8 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 	// options[3].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.port=9010");
 	// options[4].optionString =
 	// const_cast<char*>("-Dcom.sun.management.jmxremote.local.only=false"); options[5].optionString
-	// = const_cast<char*>("-Dcom.sun.management.jmxremote.authenticate=false"); options[6].optionString
-	// = const_cast<char*>("-Dcom.sun.management.jmxremote.ssl=false");
+	// = const_cast<char*>("-Dcom.sun.management.jmxremote.authenticate=false");
+	// options[6].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.ssl=false");
 
 	vm_args.version = JNI_VERSION_1_8;
 	vm_args.nOptions = optionCount;

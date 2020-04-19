@@ -11,7 +11,7 @@ public:
 		return "MessageRefreshUIState";
 	}
 
-	MessageRefreshUIState(bool isAfterIndexing) : isAfterIndexing(isAfterIndexing) {}
+	MessageRefreshUIState(bool isAfterIndexing): isAfterIndexing(isAfterIndexing) {}
 
 	bool isAfterIndexing = false;
 };

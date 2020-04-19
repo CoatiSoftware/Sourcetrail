@@ -56,7 +56,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 
 	if (!m_settings->getEnvironmentPath().empty())
 	{
-		args += L" --environment-path=\"" + m_settings->getEnvironmentPathExpandedAndAbsolute().wstr() + L"\"";
+		args += L" --environment-path=\"" +
+			m_settings->getEnvironmentPathExpandedAndAbsolute().wstr() + L"\"";
 	}
 
 	if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())

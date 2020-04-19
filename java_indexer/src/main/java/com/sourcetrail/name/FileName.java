@@ -11,8 +11,7 @@ public class FileName implements SymbolName
 		m_filePath = filePath;
 	}
 
-	@Override
-	public NameHierarchy toNameHierarchy() 
+	@Override public NameHierarchy toNameHierarchy()
 	{
 		NameHierarchy nameHierarchy;
 		if (m_filePath != null)

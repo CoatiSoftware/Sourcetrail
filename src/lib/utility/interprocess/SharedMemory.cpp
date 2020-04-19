@@ -14,16 +14,17 @@ SharedMemory::ScopedAccess::ScopedAccess(SharedMemory* memory)
 {
 	try
 	{
-		m_memory = boost::interprocess::managed_shared_memory(boost::interprocess::open_only, memory->getMemoryName().c_str());
+		m_memory = boost::interprocess::managed_shared_memory(
+			boost::interprocess::open_only, memory->getMemoryName().c_str());
 	}
 	catch (boost::interprocess::interprocess_exception& e)
 	{
 		LOG_ERROR_STREAM(
-			<< "boost exception thrown at ScopedAccess constructor - " << memory->getMemoryName() << ": "
-			<< e.what());
+			<< "boost exception thrown at ScopedAccess constructor - " << memory->getMemoryName()
+			<< ": " << e.what());
 
 		// Behaves the same as the initializer construction, with the error printed out
-		//throw e;
+		// throw e;
 
 		boost::interprocess::permissions permissions;
 		permissions.set_unrestricted();
@@ -32,10 +33,8 @@ SharedMemory::ScopedAccess::ScopedAccess(SharedMemory* memory)
 			memory->getMemoryName().c_str(),
 			memory->getInitialMemorySize(),
 			0,
-			permissions
-		);
+			permissions);
 	}
-
 }
 
 SharedMemory::ScopedAccess::~ScopedAccess() {}

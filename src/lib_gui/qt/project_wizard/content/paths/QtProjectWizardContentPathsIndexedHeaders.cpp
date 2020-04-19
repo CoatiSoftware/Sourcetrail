@@ -166,11 +166,13 @@ bool QtProjectWizardContentPathsIndexedHeaders::check()
 	if (m_list->getPathsAsDisplayed().empty())
 	{
 		QMessageBox msgBox(m_window);
-		msgBox.setText(QStringLiteral("You didn't specify any Header Files & Directories to Index."));
+		msgBox.setText(
+			QStringLiteral("You didn't specify any Header Files & Directories to Index."));
 		msgBox.setInformativeText(QString::fromStdString(
 			"Sourcetrail will only index the source files listed in the " + m_projectKindName +
 			" file and none of the included header files."));
-		QPushButton* yesButton = msgBox.addButton(QStringLiteral("Continue"), QMessageBox::ButtonRole::YesRole);
+		QPushButton* yesButton = msgBox.addButton(
+			QStringLiteral("Continue"), QMessageBox::ButtonRole::YesRole);
 		msgBox.addButton(QStringLiteral("Cancel"), QMessageBox::ButtonRole::NoRole);
 		msgBox.setDefaultButton(yesButton);
 
@@ -197,7 +199,8 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 			if (!codeblocksProjectPath.exists())
 			{
 				QMessageBox msgBox(m_window);
-				msgBox.setText(QStringLiteral("The provided Code::Blocks project path does not exist."));
+				msgBox.setText(
+					QStringLiteral("The provided Code::Blocks project path does not exist."));
 				msgBox.setDetailedText(QString::fromStdWString(codeblocksProjectPath.wstr()));
 				msgBox.exec();
 				return;
@@ -207,7 +210,8 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				"Select from Include Paths",
 				"The list contains all Include Paths found in the Code::Blocks project. Red paths "
 				"do not exist. Select the "
-				"paths containing the header files you want to index with Sourcetrail.", m_window);
+				"paths containing the header files you want to index with Sourcetrail.",
+				m_window);
 			m_filesDialog->setup();
 
 			connect(
@@ -241,7 +245,8 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 			if (!cdbPath.exists())
 			{
 				QMessageBox msgBox(m_window);
-				msgBox.setText(QStringLiteral("The provided Compilation Database path does not exist."));
+				msgBox.setText(
+					QStringLiteral("The provided Compilation Database path does not exist."));
 				msgBox.setDetailedText(QString::fromStdWString(cdbPath.wstr()));
 				msgBox.exec();
 				return;
@@ -251,7 +256,8 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				"Select from Include Paths",
 				"The list contains all Include Paths found in the Compilation Database. Red paths "
 				"do not exist. Select the "
-				"paths containing the header files you want to index with Sourcetrail.", m_window);
+				"paths containing the header files you want to index with Sourcetrail.",
+				m_window);
 			m_filesDialog->setup();
 
 			connect(

@@ -1,7 +1,6 @@
 package com.sourcetrail;
 
-public enum ReferenceKind
-{ // these values need to be the same as ReferenceKind in C++ code
+public enum ReferenceKind {	   // these values need to be the same as ReferenceKind in C++ code
 	UNDEFINED(0),
 	TYPE_USAGE(1),
 	USAGE(2),
@@ -14,16 +13,16 @@ public enum ReferenceKind
 	IMPORT(9),
 	MACRO_USAGE(10),
 	ANNOTATION_USAGE(11);
-	
-	private final int m_value;
-	
-    private ReferenceKind(int value) 
-    {
-        this.m_value = value;
-    }
 
-    public int getValue() 
-    {
-        return m_value;
-    }
+	private final int m_value;
+
+	private ReferenceKind(int value)
+	{
+		this.m_value = value;
+	}
+
+	public int getValue()
+	{
+		return m_value;
+	}
 }

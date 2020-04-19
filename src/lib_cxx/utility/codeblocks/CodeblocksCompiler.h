@@ -2,8 +2,8 @@
 #define CODEBLOCKS_COMPILER_H
 
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
 class TiXmlElement;
 

@@ -19,12 +19,11 @@ CommandlineCommandIndex::~CommandlineCommandIndex() {}
 void CommandlineCommandIndex::setup()
 {
 	po::options_description options("Config Options");
-	options.add_options()
-		("help,h", "Print this help message")
-		("incomplete,i", "Also reindex incomplete files (files with errors)")
-		("full,f", "Index full project (omit to only index new/changed files)")
-		("shallow,s", "Build a shallow index is supported by the project")
-		("project-file", po::value<std::string>(), "Project file to index (.srctrlprj)");
+	options.add_options()("help,h", "Print this help message")(
+		"incomplete,i", "Also reindex incomplete files (files with errors)")(
+		"full,f", "Index full project (omit to only index new/changed files)")(
+		"shallow,s", "Build a shallow index is supported by the project")(
+		"project-file", po::value<std::string>(), "Project file to index (.srctrlprj)");
 
 	m_options.add(options);
 	m_positional.add("project-file", 1);

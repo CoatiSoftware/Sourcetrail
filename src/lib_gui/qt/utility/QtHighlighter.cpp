@@ -44,14 +44,15 @@ std::string QtHighlighter::highlightTypeToString(QtHighlighter::HighlightType ty
 
 QtHighlighter::HighlightType QtHighlighter::highlightTypeFromString(const std::string& typeStr)
 {
-	const std::array<HighlightType, 8> types = {HighlightType::COMMENT,
-												HighlightType::DIRECTIVE,
-												HighlightType::FUNCTION,
-												HighlightType::KEYWORD,
-												HighlightType::NUMBER,
-												HighlightType::QUOTATION,
-												HighlightType::TEXT,
-												HighlightType::TYPE};
+	const std::array<HighlightType, 8> types = {
+		HighlightType::COMMENT,
+		HighlightType::DIRECTIVE,
+		HighlightType::FUNCTION,
+		HighlightType::KEYWORD,
+		HighlightType::NUMBER,
+		HighlightType::QUOTATION,
+		HighlightType::TEXT,
+		HighlightType::TYPE};
 
 	for (HighlightType type: types)
 	{
@@ -68,14 +69,15 @@ void QtHighlighter::loadHighlightingRules()
 {
 	ColorScheme* scheme = ColorScheme::getInstance().get();
 
-	const std::array<HighlightType, 8> types = {HighlightType::COMMENT,
-												HighlightType::DIRECTIVE,
-												HighlightType::FUNCTION,
-												HighlightType::KEYWORD,
-												HighlightType::NUMBER,
-												HighlightType::QUOTATION,
-												HighlightType::TEXT,
-												HighlightType::TYPE};
+	const std::array<HighlightType, 8> types = {
+		HighlightType::COMMENT,
+		HighlightType::DIRECTIVE,
+		HighlightType::FUNCTION,
+		HighlightType::KEYWORD,
+		HighlightType::NUMBER,
+		HighlightType::QUOTATION,
+		HighlightType::TEXT,
+		HighlightType::TYPE};
 
 	s_charFormats.clear();
 	for (HighlightType type: types)

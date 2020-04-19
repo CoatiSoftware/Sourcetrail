@@ -340,10 +340,10 @@ void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value)
 FilePath ApplicationSettings::getLogDirectoryPath() const
 {
 	return FilePath(getValue<std::wstring>(
-						"application/log_directory_path", UserPaths::getLogPath().getAbsolute().wstr()));
+		"application/log_directory_path", UserPaths::getLogPath().getAbsolute().wstr()));
 }
 
-void ApplicationSettings::setLogDirectoryPath(const FilePath &path)
+void ApplicationSettings::setLogDirectoryPath(const FilePath& path)
 {
 	setValue<std::wstring>("application/log_directory_path", path.wstr());
 }
