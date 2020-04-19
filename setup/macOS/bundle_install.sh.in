@@ -227,7 +227,7 @@ while true; do
 			echo -e $INFO "create DMG package";
 
 			ln -s /Applications $PACKAGE_DIR/Applications;
-			hdiutil create ${PACKAGE_DIR}_macOS_64bit.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR};
+			hdiutil create -fs HFS+ ${PACKAGE_DIR}_macOS_64bit.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR};
 			rm $PACKAGE_DIR/Applications;
 
 			echo -e $SUCCESS "Created DMG package successfully!";

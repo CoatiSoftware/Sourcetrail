@@ -21,7 +21,7 @@
 			</source_paths>
 			
 			<exclude_paths>
-				<exclude_path><!-- STRING: path to file or directory to exclude from analysis --></source_path>
+				<exclude_path><!-- STRING: path to file or directory to exclude from analysis --></exclude_path>
 			</exclude_paths>
 			
 			<source_extensions>
