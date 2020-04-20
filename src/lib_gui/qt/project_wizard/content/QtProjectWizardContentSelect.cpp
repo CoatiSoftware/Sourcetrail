@@ -24,9 +24,9 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 {
 	std::string pythonIndexerVersion = " ";
 	{
-		std::string str = utility::executeProcess(
-				ResourcePaths::getPythonPath().wstr().append(L"SourcetrailPythonIndexer"),
-							  std::vector<std::wstring>{L"--version"},
+		std::string str = utility::executeProcessBoost(
+							  "\"" + ResourcePaths::getPythonPath().str() +
+								  "SourcetrailPythonIndexer\" --version",
 							  FilePath(),
 							  5000)
 							  .second;

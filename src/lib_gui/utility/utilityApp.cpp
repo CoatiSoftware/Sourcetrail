@@ -1,7 +1,20 @@
 #include "utilityApp.h"
 
+#include <chrono>
 #include <mutex>
 #include <set>
+
+#include <boost/process/child.hpp>
+#include <boost/process/env.hpp>
+#include <boost/process/environment.hpp>
+#include <boost/process/io.hpp>
+#include <boost/process/search_path.hpp>
+#include <boost/process/shell.hpp>
+#include <boost/process/start_dir.hpp>
+#include <boost/process/system.hpp>
+
+#include <boost/filesystem/path.hpp>
+#include <iostream>
 
 #include <QProcess>
 #include <QRegularExpression>
@@ -55,6 +68,83 @@ namespace utility
 std::mutex s_runningProcessesMutex;
 std::set<QProcess*> s_runningProcesses;
 }	 // namespace utility
+
+std::string utility::searchPath(std::string bin)
+{
+	std::string r = boost::process::search_path(bin).generic_string();
+	if (!r.empty())
+	{
+		return r;
+	}
+	return bin;
+}
+
+std::pair<int, std::string> utility::executeProcessBoost(
+	const std::string& command, const FilePath& workingDirectory, const int timeout)
+{
+	// QProcess process;
+	// process.setProcessChannelMode(QProcess::MergedChannels);
+
+	// QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	// QStringList envlist = env.toStringList();
+	// envlist.replaceInStrings(
+	// 	QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
+	// 	QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
+	// process.setEnvironment(envlist);
+
+	// boost::process::environment env = boost::this_process::environment();
+	// boost::process::environment env_ = env;
+	// env_["PATH"] += {"/opt/local/bin", "/usr/local/bin", "$HOME/bin"};
+	// bp::system("stuff", env_);
+
+	// {
+	// 	std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+	// 	process.start(command.c_str());
+	// 	s_runningProcesses.insert(&process);
+	// }
+
+	boost::process::ipstream is;
+
+	boost::process::child c(
+		command.c_str(),
+		(boost::process::std_out & boost::process::std_err) > is,
+		// boost::process::std_err > stderr,
+		// boost::process::std_in < stdin,
+		boost::process::start_dir = workingDirectory.wstr()
+	);
+
+	std::thread t([&c, &timeout](){
+		if (!c.wait_for(std::chrono::milliseconds(timeout)))
+		{
+			c.terminate();
+		}
+	});
+
+	std::string processoutput;
+	std::string line;
+
+	while (c.running() && std::getline(is, line) && !line.empty())
+	{
+		processoutput += line;
+	}
+
+	t.join();
+
+	// process.waitForFinished(timeout);
+	// {
+	// 	std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+	// 	s_runningProcesses.erase(&process);
+	// }
+
+	// QProcess::ProcessError error = process.error();
+
+
+	// const std::string processoutput = process.readAll().toStdString();
+	// const int exitCode = process.exitCode();
+	// process.close();
+
+	return std::make_pair(c.exit_code(), utility::trim(processoutput));
+}
 
 std::pair<int, std::string> utility::executeProcess(
 	const std::wstring& commandPath,
