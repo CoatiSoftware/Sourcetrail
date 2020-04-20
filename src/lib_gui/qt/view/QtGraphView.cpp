@@ -582,26 +582,18 @@ void QtGraphView::activateEdge(Id edgeId)
 	});
 }
 
-void QtGraphView::setNavigationFocus(bool focus)
+void QtGraphView::setNavigationFocus(bool focusIn)
 {
-	if (m_hasFocus == focus)
+	if (m_hasFocus == focusIn)
 	{
 		return;
 	}
 
-	m_hasFocus = focus;
+	m_hasFocus = focusIn;
 
-	m_onQtThread([this, focus]() {
-		focusView(focus);
-
-		if (focus)
-		{
-			m_focusHandler.focus();
-		}
-		else
-		{
-			m_focusHandler.defocus();
-		}
+	m_onQtThread([this, focusIn]() {
+		focusView(focusIn);
+		m_focusHandler.focus(focusIn);
 	});
 }
 

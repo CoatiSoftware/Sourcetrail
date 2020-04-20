@@ -38,8 +38,7 @@ public:
 
 	void clear();
 
-	void focus();
-	void defocus();
+	void focus(bool focusIn);
 
 	void focusInitialNode();
 	void focusTokenId(

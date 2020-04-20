@@ -14,31 +14,19 @@ void GraphFocusHandler::clear()
 	m_lastFocusId = 0;
 }
 
-void GraphFocusHandler::focus()
+void GraphFocusHandler::focus(bool focusIn)
 {
 	if (m_focusNode)
 	{
-		m_focusNode->setIsFocused(true);
+		m_focusNode->setIsFocused(focusIn);
 	}
 	else if (m_focusEdge)
 	{
-		m_focusEdge->setIsFocused(true);
+		m_focusEdge->setIsFocused(focusIn);
 	}
-	else
+	else if (focusIn)
 	{
 		focusInitialNode();
-	}
-}
-
-void GraphFocusHandler::defocus()
-{
-	if (m_focusNode)
-	{
-		m_focusNode->setIsFocused(false);
-	}
-	else if (m_focusEdge)
-	{
-		m_focusEdge->setIsFocused(false);
 	}
 }
 
@@ -103,21 +91,18 @@ void GraphFocusHandler::focusTokenId(
 void GraphFocusHandler::refocusNode(
 	const std::list<QtGraphNode*>& newNodes, Id oldActiveTokenId, Id newActiveTokenId)
 {
-	m_focusNode = nullptr;
-	m_focusEdge = nullptr;
+	const Id lastFocusId = m_lastFocusId;
+	clear();
 
-	if (m_lastFocusId && (m_lastFocusId == newActiveTokenId || oldActiveTokenId == newActiveTokenId))
+	if (lastFocusId && (lastFocusId == newActiveTokenId || oldActiveTokenId == newActiveTokenId))
 	{
-		QtGraphNode* nodeToFocus = QtGraphNode::findNodeRecursive(newNodes, m_lastFocusId);
+		QtGraphNode* nodeToFocus = QtGraphNode::findNodeRecursive(newNodes, lastFocusId);
 		if (nodeToFocus)
 		{
 			m_focusNode = nodeToFocus;
+			m_lastFocusId = lastFocusId;
 			nodeToFocus->setIsFocused(true);
 		}
-	}
-	else
-	{
-		m_lastFocusId = 0;
 	}
 }
 
