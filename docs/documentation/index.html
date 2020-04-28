@@ -2592,6 +2592,32 @@
 
 					<div class="row" style="height:40px;"></div>
 
+					<h1>Customizable Color Schemes</h1>
+
+					<p>Sourcetrail offers a set of different color schemes to choose from. Each color scheme is defined by an <code>.xml</code> file located in the Sourcetrail/data/color_schemes folder. To add a new color scheme to Sourcetrail, just copy one of the existing color scheme files, rename it to your likings and start editing.</p>
+					<p>To see your changes to the color scheme file reflected within Sourcetrail, just open the Sourcetrail preferences and switch to a different color scheme and then back to the one you are editing.</p>
+
+					<p>The <code>.xml</code> file lists all the colors that can be modified for Sourcetrail. Usually the entries in the <code>.xml</code> look like this:</p>
+					<pre>
+&lt;snippet&gt;
+	&lt;background&gt;white&lt;/background&gt;
+	&lt;title&gt;
+		&lt;text&gt;#909090&lt;/text&gt;
+		&lt;background&gt;transparent&lt;/background&gt;
+	&lt;/title&gt;
+	...
+&lt;/snippet&gt;
+					</pre>
+					<p>But you may also encounter something like this:</p>
+					<pre>
+&lt;struct&gt;
+	&lt;like&gt;class&lt;/like&gt;
+&lt;/struct&gt;
+					</pre>
+					<p>This <code>like</code> element in the xml tree is just a shortcut that denotes that in the graph the nodes for structs should be displayed in the same style as nodes for classes.</p>
+
+					<div class="row" style="height:40px;"></div>
+
 					<h1>Code Editor Plugins</h1>
 					<p>In order to make Sourcetrail the perfect partner for your development workflow you can connect Sourcetrail with different code editors. You can find more information on the plugins in Sourcetrail's download package located in the folder <code>/ide_plugins</code>. Have a look at the following list of supported code editors to find out what editors are currently supported.</p>
 					<p>We are eager to expand the range of supported editors, so if you can't find a plugin for the code editor you are using, please let us know by writing to <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>.</p>
