@@ -12,8 +12,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 
 * Alexis Jeandet
 * Anthony Marchini
-* Edward Gibbs
-* Jonathan Nemo
 * Louis St-Amour
 * Mario Lioni
 * Simon Pintarelli
@@ -21,11 +19,13 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 ## Regular Coatis
 
 * Alex B
-* Andreas Stein
+* Andreas
 * Anton
+* Bicakci, Inc.
 * BJ
 * Frederic Simonis
 * Friedrich Hunstock
+* Graydon Hoare
 * IndustrialRobot
 * Jason Stevens
 * Jeffrey Hofer
@@ -36,9 +36,9 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Nathan
 * Nathan Loofbourrow
 * Nils Moehrle
-* Rui Pires
 * Simon
 * Stephan Roslen
+* Thorsten Dahlheimer
 * Tomi Joki-Korpela
 * Tony Hong
 * Traxes
