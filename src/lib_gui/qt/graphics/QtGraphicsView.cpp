@@ -125,6 +125,11 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_exportGraphAction->setToolTip(QStringLiteral("Save this graph as image file"));
 	connect(m_exportGraphAction, &QAction::triggered, this, &QtGraphicsView::exportGraph);
 
+	m_copyGraphAction = new QAction(QStringLiteral("Save to Clipboard"), this);
+	m_copyGraphAction->setStatusTip(QStringLiteral("Save this graph as image to the Clipboard"));
+	m_copyGraphAction->setToolTip(QStringLiteral("Save this graph as image to the Clipboard"));
+	connect(m_copyGraphAction, &QAction::triggered, this, &QtGraphicsView::copyGraph);
+
 	m_focusIndicator = new QWidget(this);
 	m_focusIndicator->setObjectName(QStringLiteral("focus_indicator"));
 	m_focusIndicator->hide();
@@ -582,6 +587,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
 	menu.addSeparator();
 	menu.addAction(m_exportGraphAction);
+	menu.addAction(m_copyGraphAction);
 
 	menu.addSeparator();
 	menu.addAction(m_copyNodeNameAction);
@@ -665,6 +671,46 @@ void QtGraphicsView::openInTab()
 	MessageTabOpenWith(m_openInTabNodeId).dispatch();
 }
 
+QImage QtGraphicsView::toQImage()
+{
+	const QString exportNotice = QStringLiteral("Exported from Sourcetrail");
+	const int margin = 10;
+
+	QImage image(scene()->sceneRect().size().toSize() * 2, QImage::Format_ARGB32);
+	image.fill(Qt::transparent);
+
+	QPainter painter(&image);
+	painter.setRenderHint(QPainter::Antialiasing);
+	scene()->render(&painter);
+
+	{
+		QFont font = painter.font();
+		font.setPixelSize(14);
+		painter.setFont(font);
+	}
+	{
+		QRect boundingRect;
+		painter.drawText(
+			QRect(margin, margin, image.size().width() - 2 * margin, image.size().height() - 2 * margin),
+			Qt::AlignBottom | Qt::AlignHCenter,
+			exportNotice,
+			&boundingRect);
+
+		{
+			QFont font = painter.font();
+			font.setPixelSize(8);
+			painter.setFont(font);
+		}
+
+		painter.drawText(
+			boundingRect.right() + boundingRect.height() / 5,
+			boundingRect.top() + boundingRect.height() / 2,
+			QChar(0x00AE));
+	}
+
+	return image;
+}
+
 void QtGraphicsView::exportGraph()
 {
 	const QString exportNotice = QStringLiteral("Exported from Sourcetrail");
@@ -711,40 +757,13 @@ void QtGraphicsView::exportGraph()
 	}
 	else if (!filePath.empty())
 	{
-		QImage image(scene()->sceneRect().size().toSize() * 2, QImage::Format_ARGB32);
-		image.fill(Qt::transparent);
-
-		QPainter painter(&image);
-		painter.setRenderHint(QPainter::Antialiasing);
-		scene()->render(&painter);
-
-		{
-			QFont font = painter.font();
-			font.setPixelSize(14);
-			painter.setFont(font);
-		}
-		{
-			QRect boundingRect;
-			painter.drawText(
-				QRect(margin, margin, image.size().width() - 2 * margin, image.size().height() - 2 * margin),
-				Qt::AlignBottom | Qt::AlignHCenter,
-				exportNotice,
-				&boundingRect);
-
-			{
-				QFont font = painter.font();
-				font.setPixelSize(8);
-				painter.setFont(font);
-			}
-
-			painter.drawText(
-				boundingRect.right() + boundingRect.height() / 5,
-				boundingRect.top() + boundingRect.height() / 2,
-				QChar(0x00AE));
-		}
-
-		image.save(QString::fromStdWString(filePath.wstr()));
+		toQImage().save(QString::fromStdWString(filePath.wstr()));
 	}
+}
+
+void QtGraphicsView::copyGraph()
+{
+	QApplication::clipboard()->setImage(toQImage());
 }
 
 void QtGraphicsView::copyNodeName()

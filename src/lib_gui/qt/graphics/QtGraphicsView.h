@@ -63,7 +63,9 @@ private slots:
 
 	void openInTab();
 
+	QImage toQImage();
 	void exportGraph();
+	void copyGraph();
 	void copyNodeName();
 
 	void collapseNode();
@@ -127,6 +129,7 @@ private:
 	QAction* m_bookmarkNodeAction;
 
 	QAction* m_exportGraphAction;
+	QAction* m_copyGraphAction;
 
 	QWidget* m_focusIndicator;
 
