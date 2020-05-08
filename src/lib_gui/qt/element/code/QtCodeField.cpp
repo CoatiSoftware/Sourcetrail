@@ -123,15 +123,15 @@ QSize QtCodeField::sizeHint() const
 		QRectF rect = blockBoundingGeometry(block);
 		height += rect.height();
 
-		int blockWidth = fm.boundingRect(
-							   0,
-							   0,
-							   1000000,
-							   1000000,
-							   Qt::AlignLeft | Qt::AlignTop | Qt::TextExpandTabs,
-							   block.text(),
-							   tabStopDistance())
-							 .width();
+		const int blockWidth = fm.boundingRect(
+									 0,
+									 0,
+									 1000000,
+									 1000000,
+									 Qt::AlignLeft | Qt::AlignTop | Qt::TextExpandTabs,
+									 block.text(),
+									 static_cast<int>(tabStopDistance()))
+								   .width();
 
 		width = std::max(blockWidth, width);
 	}

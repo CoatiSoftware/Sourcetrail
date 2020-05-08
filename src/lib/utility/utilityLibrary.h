@@ -1,11 +1,11 @@
 #ifndef UTILITY_LIBRARY_H
 #define UTILITY_LIBRARY_H
 
+#include <QDir>
 #include <functional>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <QDir>
 
 #ifdef _WIN32
 #	include <windows.h>
@@ -24,7 +24,7 @@ std::function<Ret(Args...)> loadFunctionFromLibrary(
 	const FilePath& libraryPath, const std::string& functionName, std::string& errorString)
 {
 #ifdef _WIN32
-	auto libraryPathString = QDir::toNativeSeparators(QString::fromStdWString(libraryPath.wstr()));
+	QString libraryPathString = QDir::toNativeSeparators(QString::fromStdWString(libraryPath.wstr()));
 	HINSTANCE handle = LoadLibrary(libraryPathString.toStdString().c_str());
 	if (handle == nullptr)
 	{
@@ -54,8 +54,8 @@ std::function<Ret(Args...)> loadFunctionFromLibrary(
 
 		LocalFree(messageBuffer);
 
-		errorString = "Could not load library \"" + libraryPathString.toStdString() + "\" because of " +
-			errorReasonString;
+		errorString = "Could not load library \"" + libraryPathString.toStdString() +
+			"\" because of " + errorReasonString;
 		return std::function<Ret(Args...)>();
 	}
 
