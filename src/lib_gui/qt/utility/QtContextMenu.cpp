@@ -4,12 +4,12 @@
 #include <QClipboard>
 #include <QContextMenuEvent>
 #include <QDesktopServices>
+#include <QDir>
 #include <QUrl>
 
 #include "MessageHistoryRedo.h"
 #include "MessageHistoryUndo.h"
 #include "logging.h"
-#include <QtCore\qdir.h>
 
 QtContextMenu* QtContextMenu::s_instance;
 
