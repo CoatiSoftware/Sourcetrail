@@ -3,6 +3,7 @@ build-*
 /distr/
 /deps/
 
+/bin/app/data/cxx
 /bin/app/data/java/lib/
 /bin/app/data/projects/ignored/
 /bin/app/data/python/
