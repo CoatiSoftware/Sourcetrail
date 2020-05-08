@@ -169,7 +169,7 @@ if(Qt5Widgets_FOUND)
 	# You can also make your code fail to compile if you use deprecated APIs.
 	# In order to do so, uncomment the following line.
 	# You can also select to disable deprecated APIs only up to a certain version of Qt.
-	#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=${QT_MIN_VERSION_HEX}    # disables all the APIs deprecated at or before Qt 5.15.0
+	#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=${QT_MIN_VERSION_HEX}    # disables all the APIs deprecated at or before the specified Qt version
 	add_definitions (-DQT_DISABLE_DEPRECATED_BEFORE=${QT_MIN_VERSION_HEX})
 endif()
 
