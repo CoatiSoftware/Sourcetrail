@@ -129,12 +129,10 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	if (LLVM_FOUND)
 		message(STATUS "Found LLVM ${LLVM_VERSION}")
 	endif()
-	
-	get_cmake_property(_variableNames VARIABLES)
-	list (SORT _variableNames)
-	foreach (_variableName ${_variableNames})
-		message(STATUS "${_variableName}=${${_variableName}}")
-	endforeach()
+		
+	if (UNIX)
+		set(LLVM_CONFIGURATION_TYPES ".")
+	endif()
 	
 	set (CLANG_COMPILER_HEADER_SEARCH_PATH "")
 	foreach(LLVM_CONFIGURATION_TYPE ${LLVM_CONFIGURATION_TYPES})
