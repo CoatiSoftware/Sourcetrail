@@ -12,7 +12,17 @@ SqliteStorage::SqliteStorage(const FilePath& dbFilePath): m_dbFilePath(dbFilePat
 		FileSystem::createDirectory(m_dbFilePath.getParentDirectory());
 	}
 
-	m_database.open(utility::encodeToUtf8(m_dbFilePath.wstr()).c_str());
+	try
+	{
+		m_database.open(utility::encodeToUtf8(m_dbFilePath.wstr()).c_str());
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		LOG_ERROR(
+			L"Failed to load database file \"" + m_dbFilePath.wstr() + L"\" with message: " +
+			utility::decodeFromUtf8(e.errorMessage()));
+		throw;
+	}
 
 	executeStatement("PRAGMA foreign_keys=ON;");
 }
