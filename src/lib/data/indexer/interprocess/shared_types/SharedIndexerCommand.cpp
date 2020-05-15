@@ -71,6 +71,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getSourceFilePath().wstr() + L". The type is unknown.");
 		break;
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
+	case UNKNOWN:
 	default:
 		LOG_ERROR(
 			L"Cannot convert shared IndexerCommand for file: " +

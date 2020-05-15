@@ -134,6 +134,7 @@ void QtStartScreen::updateButtons()
 				button->setIcon(m_pythonIcon);
 				break;
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
+			case LANGUAGE_CUSTOM:
 			default:
 				button->setIcon(m_projectIcon);
 				break;
