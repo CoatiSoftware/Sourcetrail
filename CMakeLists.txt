@@ -72,8 +72,9 @@ if(UNIX AND NOT APPLE)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
 
 # Settings ---------------------------------------------------------------------
@@ -391,6 +392,7 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	target_link_libraries(${LIB_CXX_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
 
 	if (WIN32)
+		target_compile_definitions(${LIB_CXX_PROJECT_NAME} PRIVATE _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS) # Due to Clang
 		target_link_libraries(${LIB_CXX_PROJECT_NAME} version)
 	endif()
 
