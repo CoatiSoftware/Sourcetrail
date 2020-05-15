@@ -843,9 +843,9 @@ elseif(WIN32)
 	foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
 		if (EXISTS "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}")
 			execute_process(
-				COMMAND "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\data" & "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data"
-				COMMAND "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\user" & "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user"
-				COMMAND "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\test\\data" & "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\test\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\test\\data"
+				COMMAND "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\data" & "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data" & exit
+				COMMAND "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\user" & "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\user" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user" & exit
+				COMMAND "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\test\\data" & "mklink" "/d" "/j" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\test\\data" "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\test\\data" & exit
 			)
 		endif()
 	endforeach()
