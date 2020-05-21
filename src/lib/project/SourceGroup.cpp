@@ -96,14 +96,7 @@ std::set<FilePath> SourceGroup::filterToContainedFilePaths(
 
 		if (isInIndexedPaths)
 		{
-			for (const FilePathFilter& excludeFilter: excludeFilters)
-			{
-				if (excludeFilter.isMatching(filePath))
-				{
-					isInIndexedPaths = false;
-					break;
-				}
-			}
+			isInIndexedPaths = !FilePathFilter::areMatching(excludeFilters, filePath);
 		}
 
 		if (isInIndexedPaths)
