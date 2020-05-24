@@ -668,6 +668,16 @@ void ApplicationSettings::setSeenErrorHelpMessage(bool seen)
 	setValue<bool>("user/seen_error_help_message", seen);
 }
 
+FilePath ApplicationSettings::getLastFilepickerLocation() const
+{
+	return FilePath(getValue<std::wstring>("user/last_filepicker_location", L""));
+}
+
+void ApplicationSettings::setLastFilepickerLocation(const FilePath& path)
+{
+	setValue<std::wstring>("user/last_filepicker_location", path.wstr());
+}
+
 int ApplicationSettings::getPluginPort() const
 {
 	return getValue<int>("network/plugin_port", 6666);

@@ -178,6 +178,9 @@ public:
 	bool getSeenErrorHelpMessage() const;
 	void setSeenErrorHelpMessage(bool seen);
 
+	FilePath getLastFilepickerLocation() const;
+	void setLastFilepickerLocation(const FilePath& path);
+
 	// network
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);

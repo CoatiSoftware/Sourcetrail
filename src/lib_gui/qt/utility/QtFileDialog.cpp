@@ -7,6 +7,7 @@
 #include "FilePath.h"
 #include "QtFilesAndDirectoriesDialog.h"
 #include "utilityApp.h"
+#include "ApplicationSettings.h"
 
 QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const FilePath& path)
 {
@@ -46,15 +47,18 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 
 QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
 {
-	return QFileDialog::getExistingDirectory(
-		parent, caption, getDir(QString::fromStdWString(dir.wstr())));
+	auto dir_path = QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdWString(dir.wstr())));
+	ApplicationSettings::getInstance()->setLastFilepickerLocation(FilePath(dir_path.toStdString()));
+	return dir_path;
 }
 
 QString QtFileDialog::getOpenFileName(
 	QWidget* parent, const QString& caption, const FilePath& dir, const QString& filter)
 {
-	return QFileDialog::getOpenFileName(
-		parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
+	auto file_path = QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
+	auto dir_path = FilePath(file_path.toStdString()).getParentDirectory();
+	ApplicationSettings::getInstance()->setLastFilepickerLocation(dir_path);
+	return file_path;
 }
 
 QString QtFileDialog::showSaveFileDialog(
@@ -112,6 +116,11 @@ QString QtFileDialog::getDir(QString dir)
 	if (!used && dir.isEmpty())
 	{
 		dir = QDir::homePath();
+	}
+
+	if (used && dir.isEmpty())
+	{
+		dir = QString::fromStdString(ApplicationSettings::getInstance()->getLastFilepickerLocation().str());
 	}
 
 	used = true;
