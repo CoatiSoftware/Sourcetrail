@@ -47,7 +47,7 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 
 QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
 {
-	auto dir_path = QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdWString(dir.wstr())));
+	QString dir_path = QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdWString(dir.wstr())));
 	ApplicationSettings::getInstance()->setLastFilepickerLocation(FilePath(dir_path.toStdString()));
 	return dir_path;
 }
@@ -55,8 +55,8 @@ QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& capti
 QString QtFileDialog::getOpenFileName(
 	QWidget* parent, const QString& caption, const FilePath& dir, const QString& filter)
 {
-	auto file_path = QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
-	auto dir_path = FilePath(file_path.toStdString()).getParentDirectory();
+	QString file_path = QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
+	FilePath dir_path = FilePath(file_path.toStdString()).getParentDirectory();
 	ApplicationSettings::getInstance()->setLastFilepickerLocation(dir_path);
 	return file_path;
 }
