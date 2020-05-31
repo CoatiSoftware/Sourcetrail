@@ -64,16 +64,7 @@ std::set<FilePath> SourceGroupCxxCdb::getAllSourceFilePaths(
 		for (const FilePath& path: IndexerCommandCxx::getSourceFilesFromCDB(
 				 cdb, m_settings->getCompilationDatabasePathExpandedAndAbsolute()))
 		{
-			bool excluded = false;
-			for (const FilePathFilter& filter: excludeFilters)
-			{
-				if (filter.isMatching(path))
-				{
-					excluded = true;
-					break;
-				}
-			}
-
+			bool excluded = FilePathFilter::areMatching(excludeFilters, path);
 			if (!excluded && path.exists())
 			{
 				sourceFilePaths.insert(path);

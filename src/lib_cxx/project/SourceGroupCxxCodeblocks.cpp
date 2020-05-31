@@ -52,16 +52,7 @@ std::set<FilePath> SourceGroupCxxCodeblocks::getAllSourceFilePaths() const
 		for (const FilePath& filePath:
 			 project->getAllSourceFilePathsCanonical(m_settings->getSourceExtensions()))
 		{
-			bool isExcluded = false;
-			for (const FilePathFilter& excludeFilter: excludeFilters)
-			{
-				if (excludeFilter.isMatching(filePath))
-				{
-					isExcluded = true;
-					break;
-				}
-			}
-
+			bool isExcluded = FilePathFilter::areMatching(excludeFilters, filePath);
 			if (!isExcluded && filePath.exists())
 			{
 				sourceFilePaths.insert(filePath);
