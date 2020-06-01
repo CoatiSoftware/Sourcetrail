@@ -513,14 +513,14 @@
 					<pre>&lt;path_to_jre&gt;/bin/client/jvm.dll</pre>
 
 					<h3>macOS</h3>
-					<p>The Java Runtime Library (called <code>libjli.dylib</code>) can be found inside of your JRE install folder. Run the following command in your terminal to find the location of your default Java installation:</p>
+					<p>The Java Runtime Library (called <code>libjli.dylib</code>) can be found inside of your JDK install folder. Run the following command in your terminal to find the location of your default Java installation:</p>
 					<pre>/usr/libexec/java_home</pre>
 
 					<p>This should give you a path looking like this:</p>
 					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/Home</pre>
 
 					The <code>"libjli.dylib"</code> should be available at:
-					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/Home/jre/lib/jli/libjvm.dylib</pre>
+					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/MacOS/libjli.dylib</pre>
 
 					<p>Insert the full path to <code>libjli.dylib</code> into the <strong>Java Path</strong> setting in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
 
