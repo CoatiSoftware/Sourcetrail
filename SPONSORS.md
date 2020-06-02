@@ -12,6 +12,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 
 * Alexis Jeandet
 * Anthony Marchini
+* Konstantin Kirenko
 * Louis St-Amour
 * Mario Lioni
 * Simon Pintarelli
@@ -28,15 +29,18 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Graydon Hoare
 * IndustrialRobot
 * Jason Stevens
-* Jeffrey Hofer
 * John Borland
 * kale
+* MangerDesPates
 * Matěj Týč
 * Nakul Dhotre
 * Nathan
 * Nathan Loofbourrow
 * Nils Moehrle
+* Rui Pires
+* Ryo Koyama
 * Simon
+* Sneakyferret
 * Stephan Roslen
 * Thorsten Dahlheimer
 * Tomi Joki-Korpela
@@ -46,5 +50,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Yacob Cohen-Arazi
 * Yang, Wenbo
 * 勇男 金子
+* 郝晨煜
 
 _Note: This file will be updated at the beginning of each month._
