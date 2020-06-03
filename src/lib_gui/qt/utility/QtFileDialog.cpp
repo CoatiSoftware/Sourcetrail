@@ -40,6 +40,7 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 		list = dialog->selectedFiles();
 	}
 
+	saveFilePickerLocation(FilePath(dialog->directory().path().toStdString()));
 	delete dialog;
 
 	return list;
@@ -48,7 +49,7 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
 {
 	QString dir_path = QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdWString(dir.wstr())));
-	ApplicationSettings::getInstance()->setLastFilepickerLocation(FilePath(dir_path.toStdString()));
+	saveFilePickerLocation(FilePath(dir_path.toStdString()));
 	return dir_path;
 }
 
@@ -57,7 +58,7 @@ QString QtFileDialog::getOpenFileName(
 {
 	QString file_path = QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
 	FilePath dir_path = FilePath(file_path.toStdString()).getParentDirectory();
-	ApplicationSettings::getInstance()->setLastFilepickerLocation(dir_path);
+	saveFilePickerLocation(dir_path);
 	return file_path;
 }
 
@@ -126,4 +127,11 @@ QString QtFileDialog::getDir(QString dir)
 	used = true;
 
 	return dir;
+}
+
+void QtFileDialog::saveFilePickerLocation(FilePath path)
+{
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	settings->setLastFilepickerLocation(path);
+	settings->save();
 }
