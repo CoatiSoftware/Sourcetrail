@@ -7,8 +7,7 @@
 class MessageFocusedSearchView: public Message<MessageFocusedSearchView>
 {
 public:
-	MessageFocusedSearchView(bool focusIn)
-		: focusIn(focusIn)
+	MessageFocusedSearchView(bool focusIn): focusIn(focusIn)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());

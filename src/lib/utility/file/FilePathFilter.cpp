@@ -12,9 +12,12 @@ std::wstring FilePathFilter::wstr() const
 
 bool FilePathFilter::isMatching(const FilePath& filePath) const
 {
-	const std::wstring s = filePath.wstr();
-	std::wsmatch match;
-	return std::regex_match(s, match, m_filterRegex);
+	return isMatching(filePath.wstr());
+}
+
+bool FilePathFilter::isMatching(const std::wstring& fileStr) const
+{
+	return std::regex_match(fileStr, m_filterRegex);
 }
 
 bool FilePathFilter::operator<(const FilePathFilter& other) const
@@ -96,5 +99,5 @@ std::wregex FilePathFilter::convertFilterStringToRegex(const std::wstring& filte
 		regexFilterString = std::regex_replace(regexFilterString, regex, L"[^\\\\/]*");
 	}
 
-	return std::wregex(regexFilterString);
+	return std::wregex(regexFilterString, std::regex::optimize);
 }

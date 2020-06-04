@@ -4,6 +4,7 @@
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "DialogView.h"
+#include "FileLogger.h"
 #include "FileSystem.h"
 #include "GraphViewStyle.h"
 #include "IDECommunicationController.h"
@@ -30,7 +31,8 @@
 #include "tracing.h"
 #include "utilityString.h"
 #include "utilityUuid.h"
-#include "FileLogger.h"
+
+#include "CppSQLite3.h"
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
@@ -306,20 +308,26 @@ void Application::handleMessage(MessageLoadProject* message)
 		}
 		catch (std::exception& e)
 		{
-			LOG_ERROR_STREAM(<< "Failed to load project, exception thrown: " << e.what());
-			MessageStatus(
-				L"Failed to load project, exception was thrown: " + projectSettingsFilePath.wstr(),
-				true)
-				.dispatch();
+			const std::wstring message = L"Failed to load project at \"" +
+				projectSettingsFilePath.wstr() + L"\" with exception: " +
+				utility::decodeFromUtf8(e.what());
+			LOG_ERROR(message);
+			MessageStatus(message, true).dispatch();
+		}
+		catch (CppSQLite3Exception& e)
+		{
+			const std::wstring message = L"Failed to load project at \"" +
+				projectSettingsFilePath.wstr() + L"\" with sqlite exception: " +
+				utility::decodeFromUtf8(e.errorMessage());
+			LOG_ERROR(message);
+			MessageStatus(message, true).dispatch();
 		}
 		catch (...)
 		{
-			LOG_ERROR_STREAM(<< "Failed to load project, unknown exception thrown.");
-			MessageStatus(
-				L"Failed to load project, unknown exception was thrown: " +
-					projectSettingsFilePath.wstr(),
-				true)
-				.dispatch();
+			const std::wstring message = L"Failed to load project at \"" +
+				projectSettingsFilePath.wstr() + L"\" with unknown exception.";
+			LOG_ERROR(message);
+			MessageStatus(message, true).dispatch();
 		}
 
 		if (message->refreshMode != REFRESH_NONE)
@@ -333,8 +341,7 @@ void Application::handleMessage(MessageRefresh* message)
 {
 	TRACE("app refresh");
 
-	refreshProject(
-		message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES, false);
+	refreshProject(message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES, false);
 }
 
 void Application::handleMessage(MessageRefreshUI* message)
@@ -424,7 +431,8 @@ void Application::refreshProject(RefreshMode refreshMode, bool shallowIndexingRe
 {
 	if (m_project && checkSharedMemory())
 	{
-		m_project->refresh(getDialogView(DialogView::UseCase::INDEXING), refreshMode, shallowIndexingRequested);
+		m_project->refresh(
+			getDialogView(DialogView::UseCase::INDEXING), refreshMode, shallowIndexingRequested);
 
 		if (!m_hasGUI && !m_project->isIndexing())
 		{

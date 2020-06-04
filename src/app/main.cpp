@@ -12,39 +12,39 @@
 #include "ConsoleLogger.h"
 #include "FileLogger.h"
 #include "LanguagePackageManager.h"
-#include "logging.h"
 #include "LogManager.h"
 #include "MessageIndexingInterrupted.h"
 #include "MessageLoadProject.h"
 #include "MessageStatus.h"
-#include "productVersion.h"
-#include "QtNetworkFactory.h"
 #include "QtApplication.h"
 #include "QtCoreApplication.h"
+#include "QtNetworkFactory.h"
 #include "QtViewFactory.h"
 #include "ResourcePaths.h"
 #include "ScopedFunctor.h"
 #include "SourceGroupFactory.h"
 #include "SourceGroupFactoryModuleCustom.h"
 #include "UserPaths.h"
+#include "Version.h"
+#include "logging.h"
+#include "productVersion.h"
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityQt.h"
-#include "Version.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
-#include "LanguagePackageCxx.h"
-#include "SourceGroupFactoryModuleCxx.h"
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#	include "LanguagePackageCxx.h"
+#	include "SourceGroupFactoryModuleCxx.h"
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
-#include "LanguagePackageJava.h"
-#include "SourceGroupFactoryModuleJava.h"
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#	include "LanguagePackageJava.h"
+#	include "SourceGroupFactoryModuleJava.h"
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
-#include "SourceGroupFactoryModulePython.h"
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#	include "SourceGroupFactoryModulePython.h"
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 void signalHandler(int signum)
 {
@@ -72,26 +72,26 @@ void addLanguagePackages()
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModulePython>());
-#endif // BUILD_PYTHON_LANGUAGE_PACKAGE
+#endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
-#endif // BUILD_CXX_LANGUAGE_PACKAGE
+#endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
-#endif // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	QCoreApplication::addLibraryPath(QStringLiteral("."));
 
@@ -111,19 +111,14 @@ int main(int argc, char *argv[])
 		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 	}
 
-	Version version(
-		VERSION_YEAR,
-		VERSION_MINOR,
-		VERSION_COMMIT,
-		GIT_COMMIT_HASH
-	);
+	Version version(VERSION_YEAR, VERSION_MINOR, VERSION_COMMIT, GIT_COMMIT_HASH);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	MessageStatus(
 		std::wstring(L"Starting Sourcetrail ") +
-		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? L"32" : L"64") + L" bit, " +
-		L"version " + version.toDisplayWString()
-	).dispatch();
+		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? L"32" : L"64") +
+		L" bit, " + L"version " + version.toDisplayWString())
+		.dispatch();
 
 	commandline::CommandLineParser commandLineParser(version.toDisplayString());
 	commandLineParser.preparse(argc, argv);
@@ -144,9 +139,7 @@ int main(int argc, char *argv[])
 		setupLogging();
 
 		Application::createInstance(version, nullptr, nullptr);
-		ScopedFunctor f([](){
-			Application::destroyInstance();
-		});
+		ScopedFunctor f([]() { Application::destroyInstance(); });
 
 		ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
 		addLanguagePackages();
@@ -172,8 +165,8 @@ int main(int argc, char *argv[])
 				commandLineParser.getProjectFilePath(),
 				false,
 				commandLineParser.getRefreshMode(),
-				commandLineParser.getShallowIndexingRequested()
-			).dispatch();
+				commandLineParser.getShallowIndexingRequested())
+				.dispatch();
 		}
 
 		return qtApp.exec();
@@ -204,9 +197,7 @@ int main(int argc, char *argv[])
 		QtNetworkFactory networkFactory;
 
 		Application::createInstance(version, &viewFactory, &networkFactory);
-		ScopedFunctor f([](){
-			Application::destroyInstance();
-		});
+		ScopedFunctor f([]() { Application::destroyInstance(); });
 
 		ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
 		addLanguagePackages();
@@ -220,11 +211,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			MessageLoadProject(
-				commandLineParser.getProjectFilePath(),
-				false,
-				REFRESH_NONE
-			).dispatch();
+			MessageLoadProject(commandLineParser.getProjectFilePath(), false, REFRESH_NONE).dispatch();
 		}
 
 		return qtApp.exec();

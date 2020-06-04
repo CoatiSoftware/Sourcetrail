@@ -56,13 +56,5 @@ std::set<FilePath> FileManager::getAllSourceFilePaths() const
 
 bool FileManager::isExcluded(const FilePath& filePath) const
 {
-	for (const FilePathFilter& filter: m_excludeFilters)
-	{
-		if (filter.isMatching(filePath))
-		{
-			return true;
-		}
-	}
-
-	return false;
+	return FilePathFilter::areMatching(m_excludeFilters, filePath);
 }

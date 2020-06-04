@@ -91,7 +91,8 @@ bool QtProjectWizardContentProjectData::check()
 	if (m_projectFileLocation->getText().isEmpty())
 	{
 		QMessageBox msgBox(m_window);
-		msgBox.setText(QStringLiteral("Please define the location for the Sourcetrail project file."));
+		msgBox.setText(
+			QStringLiteral("Please define the location for the Sourcetrail project file."));
 		msgBox.exec();
 		return false;
 	}
@@ -128,10 +129,11 @@ bool QtProjectWizardContentProjectData::check()
 	else if (!paths[0].exists())
 	{
 		QMessageBox msgBox(m_window);
-		msgBox.setText(
-			QStringLiteral("The specified location does not exist. Do you want to create the directory?"));
+		msgBox.setText(QStringLiteral(
+			"The specified location does not exist. Do you want to create the directory?"));
 		msgBox.addButton(QStringLiteral("Abort"), QMessageBox::ButtonRole::NoRole);
-		QPushButton* createButton = msgBox.addButton(QStringLiteral("Create"), QMessageBox::ButtonRole::YesRole);
+		QPushButton* createButton = msgBox.addButton(
+			QStringLiteral("Create"), QMessageBox::ButtonRole::YesRole);
 		msgBox.setDefaultButton(createButton);
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();

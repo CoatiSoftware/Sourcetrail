@@ -32,7 +32,10 @@ void QtProjectWizardContentSourceGroupData::populate(QGridLayout* layout, int& r
 	connect(
 		m_status, &QCheckBox::toggled, this, &QtProjectWizardContentSourceGroupData::changedStatus);
 	layout->addWidget(
-		createFormSubLabel(QStringLiteral("Status")), row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
+		createFormSubLabel(QStringLiteral("Status")),
+		row,
+		QtProjectWizardWindow::FRONT_COL,
+		Qt::AlignRight);
 	layout->addWidget(m_status, row, QtProjectWizardWindow::BACK_COL);
 
 	addHelpButton(

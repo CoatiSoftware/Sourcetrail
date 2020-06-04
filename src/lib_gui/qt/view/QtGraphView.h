@@ -68,7 +68,7 @@ public:
 
 	void activateEdge(Id edgeId) override;
 
-	void setNavigationFocus(bool focus) override;
+	void setNavigationFocus(bool focusIn) override;
 	bool hasNavigationFocus() const override;
 
 	// GraphFocusClient implementation

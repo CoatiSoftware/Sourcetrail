@@ -15,8 +15,8 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout): CodeView(viewLayout)
 {
 	m_widget = new QtCodeNavigator();
 
-	m_widget->connect(m_widget, &QtCodeNavigator::focusIn, [this](){ setNavigationFocus(true); });
-	m_widget->connect(m_widget, &QtCodeNavigator::focusOut, [this](){ setNavigationFocus(false); });
+	m_widget->connect(m_widget, &QtCodeNavigator::focusIn, [this]() { setNavigationFocus(true); });
+	m_widget->connect(m_widget, &QtCodeNavigator::focusOut, [this]() { setNavigationFocus(false); });
 }
 
 void QtCodeView::createWidgetWrapper()

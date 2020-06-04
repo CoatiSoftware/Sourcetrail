@@ -358,7 +358,7 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 			m_javaPath->setFileFilter(
 				QStringLiteral("JLI or JVM Library (libjli.dylib libjvm.dylib)"));
 			m_javaPath->setPlaceholderText(
-				QStringLiteral("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib"));
+				QStringLiteral("/Library/Java/JavaVirtualMachines/<jdk_version>/Contents/MacOS/libjli.dylib"));
 			break;
 		case OS_LINUX:
 			m_javaPath->setFileFilter(QStringLiteral("JVM Library (libjvm.so)"));

@@ -1,7 +1,6 @@
 package com.sourcetrail;
 
-public enum SymbolKind
-{ // these values need to be the same as SymbolKind in C++ code
+public enum SymbolKind {	// these values need to be the same as SymbolKind in C++ code
 	ANNOTATION(1),
 	BUILTIN_TYPE(2),
 	CLASS(3),
@@ -21,16 +20,16 @@ public enum SymbolKind
 	TYPE_PARAMETER(17),
 	UNION(18),
 	TYPE_MAX(19);
-	
-	private final int m_value;
-	
-    private SymbolKind(int value) 
-    {
-        this.m_value = value;
-    }
 
-    public int getValue() 
-    {
-        return m_value;
-    }
+	private final int m_value;
+
+	private SymbolKind(int value)
+	{
+		this.m_value = value;
+	}
+
+	public int getValue()
+	{
+		return m_value;
+	}
 }

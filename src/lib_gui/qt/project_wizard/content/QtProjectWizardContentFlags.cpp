@@ -28,8 +28,17 @@ void QtProjectWizardContentFlags::populate(QGridLayout* layout, int& row)
 		QStringLiteral(
 			"<p>Define additional Clang compiler flags used during indexing. Here are some "
 			"examples:</p>"
-			"<p>use \"-DRELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
-			"<p>use \"-U__clang__\" to remove the preprocessor #define for \"__clang__\"</p>"),
+			"<ul style=\"-qt-list-indent:0;\">"
+			"<li style=\"margin-left:1em\">use '-DRELEASE' to add a preprocessor #define for "
+			"'RELEASE'</li>"
+			"<li style=\"margin-left:1em\">use '-U__clang__' to remove the preprocessor #define "
+			"for "
+			"'__clang__'</li>"
+			"<li style=\"margin-left:1em\">use '-DFOO=900' to add an integer preprocessor "
+			"define</li>"
+			"<li style=\"margin-left:1em\">use '-DFOO=\"bar\"' to add a string preprocessor "
+			"define</li>"
+			"</ul>"),
 		layout,
 		row);
 

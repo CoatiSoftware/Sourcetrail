@@ -128,27 +128,27 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(
 	switch (target)
 	{
 	case CodeScrollParams::Target::VISIBLE:
+	{
+		int visibleTop = visibleY + 50;
+		int visibleBottom = visibleY + visibleHeight - 50;
+
+		int scrollTop = scrollY;
+		int scrollBottom = scrollY + rectHeight;
+
+		if (scrollTop < visibleTop)
 		{
-			int visibleTop = visibleY + 50;
-			int visibleBottom = visibleY + visibleHeight - 50;
-
-			int scrollTop = scrollY;
-			int scrollBottom = scrollY + rectHeight;
-
-			if (scrollTop < visibleTop)
-			{
-				scrollY = scrollTop - 50;
-			}
-			else if (scrollBottom > visibleBottom)
-			{
-				scrollY = visibleTop + scrollBottom - visibleBottom;
-			}
-			else
-			{
-				return;
-			}
+			scrollY = scrollTop - 50;
 		}
-		break;
+		else if (scrollBottom > visibleBottom)
+		{
+			scrollY = visibleTop + scrollBottom - visibleBottom;
+		}
+		else
+		{
+			return;
+		}
+	}
+	break;
 
 	case CodeScrollParams::Target::CENTER:
 		if (rectHeight < visibleHeight / 2)

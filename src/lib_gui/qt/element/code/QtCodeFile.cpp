@@ -33,7 +33,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, boo
 	connect(m_titleBar, &QtCodeFileTitleBar::minimize, this, &QtCodeFile::clickedMinimizeButton);
 	connect(m_titleBar, &QtCodeFileTitleBar::snippet, this, &QtCodeFile::clickedSnippetButton);
 	connect(m_titleBar, &QtCodeFileTitleBar::maximize, this, &QtCodeFile::clickedMaximizeButton);
-	connect(m_titleBar, &QtHoverButton::hoveredIn, [this](){
+	connect(m_titleBar, &QtHoverButton::hoveredIn, [this]() {
 		m_navigator->setFocusedFile(this);
 		m_navigator->setFocus();
 	});

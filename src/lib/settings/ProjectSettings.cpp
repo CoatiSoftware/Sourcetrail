@@ -476,7 +476,7 @@ SettingsMigrator ProjectSettings::getMigrations() const
 		case LANGUAGE_PYTHON:
 			continue;
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
-
+		case SOURCE_GROUP_CUSTOM_COMMAND:
 		default:
 			continue;
 		}

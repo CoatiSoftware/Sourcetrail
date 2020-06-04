@@ -1,7 +1,7 @@
 ### Changelog
 
 #### 2020.1.117
-released 2019-03-31
+released 2020-03-31
 
 * C/C++: Fixed multiple main declarations not shown as separate symbols when declaring file has same name ([#950](https://github.com/CoatiSoftware/Sourcetrail/issues/950))
 * Linux: Provide AppImage package based on linuxdeployqt (issue [#279](https://github.com/CoatiSoftware/Sourcetrail/issues/279)) ([#945](https://github.com/CoatiSoftware/Sourcetrail/issues/945))

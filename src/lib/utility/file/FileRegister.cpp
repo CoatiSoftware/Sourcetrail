@@ -44,14 +44,7 @@ FileRegister::FileRegister(
 
 		if (ret)
 		{
-			for (const FilePathFilter& excludeFilter: m_excludeFilters)
-			{
-				if (excludeFilter.isMatching(filePath))
-				{
-					ret = false;
-					break;
-				}
-			}
+			ret = !FilePathFilter::areMatching(m_excludeFilters, filePath);
 		}
 		return ret;
 	})

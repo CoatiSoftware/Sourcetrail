@@ -22,8 +22,7 @@ void QtListWidget::wheelEvent(QWheelEvent* event)
 	QScrollBar* bar = verticalScrollBar();
 	bool down = event->angleDelta().y() < 0;
 
-	if (bar->minimum() == bar->maximum() ||
-		(down && bar->value() == bar->maximum()) ||
+	if (bar->minimum() == bar->maximum() || (down && bar->value() == bar->maximum()) ||
 		(!down && bar->value() == bar->minimum()))
 	{
 		event->ignore();

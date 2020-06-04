@@ -38,11 +38,11 @@ public:
 
 	void clear();
 
-	void focus();
-	void defocus();
+	void focus(bool focusIn);
 
 	void focusInitialNode();
-	void focusTokenId(const std::list<QtGraphNode*>& nodes, const std::list<QtGraphEdge*>& edges, Id tokenId);
+	void focusTokenId(
+		const std::list<QtGraphNode*>& nodes, const std::list<QtGraphEdge*>& edges, Id tokenId);
 	void refocusNode(const std::list<QtGraphNode*>& newNodes, Id oldActiveTokenId, Id newActiveTokenId);
 
 	void focusNext(Direction direction, bool navigateEdges);

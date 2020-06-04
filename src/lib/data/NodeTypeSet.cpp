@@ -166,13 +166,10 @@ NodeTypeSet::MaskType NodeTypeSet::nodeTypeToMask(const NodeType& nodeType)
 }
 
 const std::vector<NodeType> NodeTypeSet::s_allNodeTypes = {
-	NodeType(NODE_SYMBOL),		 NodeType(NODE_TYPE),
-	NodeType(NODE_BUILTIN_TYPE),	 NodeType(NODE_MODULE),
-	NodeType(NODE_NAMESPACE),		 NodeType(NODE_PACKAGE),
-	NodeType(NODE_STRUCT),		 NodeType(NODE_CLASS),
-	NodeType(NODE_INTERFACE),		 NodeType(NODE_GLOBAL_VARIABLE),
-	NodeType(NODE_FIELD),			 NodeType(NODE_FUNCTION),
-	NodeType(NODE_METHOD),		 NodeType(NODE_ENUM),
-	NodeType(NODE_ENUM_CONSTANT),	 NodeType(NODE_TYPEDEF),
-	NodeType(NODE_TYPE_PARAMETER), NodeType(NODE_FILE),
-	NodeType(NODE_MACRO),			 NodeType(NODE_UNION)};
+	NodeType(NODE_SYMBOL),			NodeType(NODE_TYPE),		   NodeType(NODE_BUILTIN_TYPE),
+	NodeType(NODE_MODULE),			NodeType(NODE_NAMESPACE),	   NodeType(NODE_PACKAGE),
+	NodeType(NODE_STRUCT),			NodeType(NODE_CLASS),		   NodeType(NODE_INTERFACE),
+	NodeType(NODE_GLOBAL_VARIABLE), NodeType(NODE_FIELD),		   NodeType(NODE_FUNCTION),
+	NodeType(NODE_METHOD),			NodeType(NODE_ENUM),		   NodeType(NODE_ENUM_CONSTANT),
+	NodeType(NODE_TYPEDEF),			NodeType(NODE_TYPE_PARAMETER), NodeType(NODE_FILE),
+	NodeType(NODE_MACRO),			NodeType(NODE_UNION)};

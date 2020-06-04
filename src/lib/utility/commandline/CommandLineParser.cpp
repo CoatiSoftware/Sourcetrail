@@ -19,10 +19,9 @@ namespace commandline
 CommandLineParser::CommandLineParser(const std::string& version): m_version(version)
 {
 	po::options_description options("Options");
-	options.add_options()
-		("help,h", "Print this help message")
-		("version,v", "Version of Sourcetrail")
-		("project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)");
+	options.add_options()("help,h", "Print this help message")(
+		"version,v", "Version of Sourcetrail")(
+		"project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)");
 
 	m_options.add(options);
 	m_positional.add("project-file", 1);
@@ -30,7 +29,7 @@ CommandLineParser::CommandLineParser(const std::string& version): m_version(vers
 	m_commands.push_back(std::make_unique<commandline::CommandlineCommandConfig>(this));
 	m_commands.push_back(std::make_unique<commandline::CommandlineCommandIndex>(this));
 
-	for (auto& command : m_commands)
+	for (auto& command: m_commands)
 	{
 		command->setup();
 	}

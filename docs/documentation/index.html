@@ -513,14 +513,14 @@
 					<pre>&lt;path_to_jre&gt;/bin/client/jvm.dll</pre>
 
 					<h3>macOS</h3>
-					<p>The Java Runtime Library (called <code>libjli.dylib</code>) can be found inside of your JRE install folder. Run the following command in your terminal to find the location of your default Java installation:</p>
+					<p>The Java Runtime Library (called <code>libjli.dylib</code>) can be found inside of your JDK install folder. Run the following command in your terminal to find the location of your default Java installation:</p>
 					<pre>/usr/libexec/java_home</pre>
 
 					<p>This should give you a path looking like this:</p>
 					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/Home</pre>
 
 					The <code>"libjli.dylib"</code> should be available at:
-					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/Home/jre/lib/jli/libjvm.dylib</pre>
+					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/MacOS/libjli.dylib</pre>
 
 					<p>Insert the full path to <code>libjli.dylib</code> into the <strong>Java Path</strong> setting in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
 
@@ -2131,7 +2131,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Compiler Flags</th>
-								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-D RELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-DRELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
 							<tr>
 								<th scope="row">Precompiled Header File</th>
@@ -2194,7 +2194,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Additional Compiler Flags</th>
-								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-D RELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-DRELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
 							<tr>
 								<th scope="row">Precompiled Header File</th>
@@ -2287,7 +2287,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Additional Compiler Flags</th>
-								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-D RELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
+								<td><p>Define additional compiler flags used during indexing including the dash (e.g. use <code>-DRELEASE</code> to add a <code>#define</code> for <code>RELEASE</code>).</p><p>For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</p></td>
 							</tr>
 						</tbody>
 					</table>
@@ -2589,6 +2589,32 @@
 							<tr> <th scope="row">--project-file</th> <td>Path to the project to index (.srctrlprj). This option is a positional option too. You can only pass the projectfile without the --project-file option.</td> </tr>
 						</tbody>
 					</table>
+
+					<div class="row" style="height:40px;"></div>
+
+					<h1>Customizable Color Schemes</h1>
+
+					<p>Sourcetrail offers a set of different color schemes to choose from. Each color scheme is defined by an <code>.xml</code> file located in the Sourcetrail/data/color_schemes folder. To add a new color scheme to Sourcetrail, just copy one of the existing color scheme files, rename it to your likings and start editing.</p>
+					<p>To see your changes to the color scheme file reflected within Sourcetrail, just open the Sourcetrail preferences and switch to a different color scheme and then back to the one you are editing.</p>
+
+					<p>The <code>.xml</code> file lists all the colors that can be modified for Sourcetrail. Usually the entries in the <code>.xml</code> look like this:</p>
+					<pre>
+&lt;snippet&gt;
+	&lt;background&gt;white&lt;/background&gt;
+	&lt;title&gt;
+		&lt;text&gt;#909090&lt;/text&gt;
+		&lt;background&gt;transparent&lt;/background&gt;
+	&lt;/title&gt;
+	...
+&lt;/snippet&gt;
+					</pre>
+					<p>But you may also encounter something like this:</p>
+					<pre>
+&lt;struct&gt;
+	&lt;like&gt;class&lt;/like&gt;
+&lt;/struct&gt;
+					</pre>
+					<p>This <code>like</code> element in the xml tree is just a shortcut that denotes that in the graph the nodes for structs should be displayed in the same style as nodes for classes.</p>
 
 					<div class="row" style="height:40px;"></div>
 

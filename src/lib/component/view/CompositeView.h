@@ -20,7 +20,8 @@ public:
 		DIRECTION_VERTICAL
 	};
 
-	CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId);
+	CompositeView(
+		ViewLayout* viewLayout, CompositeDirection direction, const std::string& name, Id tabId);
 	virtual ~CompositeView();
 
 	Id getSchedulerId() const override;

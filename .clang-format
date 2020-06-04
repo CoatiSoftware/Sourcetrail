@@ -1,5 +1,3 @@
-Language: Cpp
-
 AccessModifierOffset: -4
 AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveAssignments: false
@@ -37,7 +35,7 @@ ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DerivePointerAlignment: false
 FixNamespaceComments: true
-IncludeBlocks: Preserve 
+IncludeBlocks: Preserve
 IndentCaseLabels: false
 IndentPPDirectives: AfterHash
 IndentWidth: 4
@@ -76,3 +74,9 @@ SpacesInSquareBrackets: false
 Standard: c++17
 TabWidth: 4
 UseTab: Always
+---
+Language: Cpp
+---
+Language: Java
+#BasedOnStyle: Google
+#BreakAfterJavaFieldAnnotations: true

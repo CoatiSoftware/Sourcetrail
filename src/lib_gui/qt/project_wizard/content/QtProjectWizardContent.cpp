@@ -147,7 +147,9 @@ void QtProjectWizardContent::showFilesDialog(const std::vector<FilePath>& filePa
 	if (!m_filesDialog)
 	{
 		m_filesDialog = new QtTextEditDialog(
-			getFileNamesTitle(), QString::number(filePaths.size()) + " " + getFileNamesDescription(), m_window);
+			getFileNamesTitle(),
+			QString::number(filePaths.size()) + " " + getFileNamesDescription(),
+			m_window);
 		m_filesDialog->setup();
 
 		m_filesDialog->setText(utility::join(utility::toWStrings(filePaths), L"\n"));

@@ -44,7 +44,8 @@ void setupPlatform(int argc, char* argv[])
 
 void setupApp(int argc, char* argv[])
 {
-	FilePath appPath = FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute();
+	FilePath appPath =
+		FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute();
 	AppPath::setSharedDataPath(appPath);
 	AppPath::setCxxIndexerPath(appPath);
 
@@ -67,7 +68,8 @@ void setupApp(int argc, char* argv[])
 	utility::copyNewFilesFromDirectory(
 		QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);
 	utility::copyNewFilesFromDirectory(
-		QString::fromStdWString(AppPath::getSharedDataPath().concatenate(L"user/").wstr()), userDataPath);
+		QString::fromStdWString(AppPath::getSharedDataPath().concatenate(L"user/").wstr()),
+		userDataPath);
 }
 
 #endif	  // INCLUDES_DEFAULT_H

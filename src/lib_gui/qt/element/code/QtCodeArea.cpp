@@ -1066,7 +1066,7 @@ void QtCodeArea::activateAnnotationsOrErrors(
 		}
 	}
 
-	if (!m_showLineNumbers)	// for links in project description
+	if (!m_showLineNumbers)	   // for links in project description
 	{
 		std::set<Id> tokenIds;
 		for (const Annotation* annotation: annotations)

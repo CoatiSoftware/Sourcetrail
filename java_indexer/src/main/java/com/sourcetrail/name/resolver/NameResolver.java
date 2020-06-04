@@ -1,23 +1,21 @@
 package com.sourcetrail.name.resolver;
 
+import com.sourcetrail.ContextList;
 import java.io.File;
 import java.util.Optional;
-
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-import com.sourcetrail.ContextList;
-
-public abstract class NameResolver 
+public abstract class NameResolver
 {
 	protected File m_currentFile = null;
 	protected ContextList m_ignoredContexts = null;
 	protected CompilationUnit m_compilationUnit = null;
-	
-	static protected <N> Optional<N> getAncestorOfType(ASTNode node, Class<N> classType) 
+
+	static protected <N> Optional<N> getAncestorOfType(ASTNode node, Class<N> classType)
 	{
 		ASTNode parent = node.getParent();
-		while (parent != null) 
+		while (parent != null)
 		{
 			if (classType.isAssignableFrom(parent.getClass()))
 			{
@@ -27,12 +25,12 @@ public abstract class NameResolver
 		}
 		return Optional.empty();
 	}
-	
+
 	public NameResolver(File currentFile, CompilationUnit compilationUnit, ContextList ignoredContexts)
 	{
 		m_currentFile = currentFile;
 		m_compilationUnit = compilationUnit;
-		
+
 		if (ignoredContexts != null)
 		{
 			m_ignoredContexts = ignoredContexts;
@@ -41,5 +39,5 @@ public abstract class NameResolver
 		{
 			m_ignoredContexts = new ContextList();
 		}
-	}	
+	}
 }

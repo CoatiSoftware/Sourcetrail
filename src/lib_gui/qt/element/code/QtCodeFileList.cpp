@@ -177,7 +177,8 @@ void QtCodeFileList::addFile(const CodeFileParams& params)
 		{
 			Id focusedLocationId = 0;
 			const CodeFocusHandler::Focus& currentFocus = m_navigator->getCurrentFocus();
-			if (currentFocus.area && file->getFilePath() == currentFocus.area->getSourceLocationFile()->getFilePath())
+			if (currentFocus.area &&
+				file->getFilePath() == currentFocus.area->getSourceLocationFile()->getFilePath())
 			{
 				focusedLocationId = currentFocus.locationId;
 			}
@@ -299,8 +300,14 @@ void QtCodeFileList::scrollTo(
 
 	if (focusTarget)
 	{
-		m_navigator->setFocusedLocationId(snippet->getArea(), lineNumber,
-			snippet->getArea()->getColumnNumberForLocationId(locationId), locationId, {}, false, false);
+		m_navigator->setFocusedLocationId(
+			snippet->getArea(),
+			lineNumber,
+			snippet->getArea()->getColumnNumberForLocationId(locationId),
+			locationId,
+			{},
+			false,
+			false);
 	}
 }
 
@@ -429,7 +436,8 @@ void QtCodeFileList::updateSnippetTitleAndScrollBarSlot()
 
 	if (m_firstSnippetTitleBar && m_firstSnippetFile)
 	{
-		m_firstSnippetTitleBar->setIsFocused(m_navigator->getCurrentFocus().file == m_firstSnippetFile);
+		m_firstSnippetTitleBar->setIsFocused(
+			m_navigator->getCurrentFocus().file == m_firstSnippetFile);
 	}
 }
 
@@ -525,7 +533,7 @@ void QtCodeFileList::updateFirstSnippetTitleBar(QtCodeFile* file, int fileTitleB
 				&QtCodeFileTitleBar::maximize,
 				file,
 				&QtCodeFile::clickedMaximizeButton);
-			connect(m_firstSnippetTitleBar, &QtHoverButton::hoveredIn, [this, file](){
+			connect(m_firstSnippetTitleBar, &QtHoverButton::hoveredIn, [this, file]() {
 				m_navigator->setFocusedFile(file);
 				m_navigator->setFocus();
 			});

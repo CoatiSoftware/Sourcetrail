@@ -67,8 +67,8 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 
 	connect(view, &QtGraphicsView::emptySpaceClicked, this, &QtGraphView::clickedInEmptySpace);
 	connect(view, &QtGraphicsView::resized, this, &QtGraphView::resized);
-	connect(view, &QtGraphicsView::focusIn, [this](){ setNavigationFocus(true); });
-	connect(view, &QtGraphicsView::focusOut, [this](){ setNavigationFocus(false); });
+	connect(view, &QtGraphicsView::focusIn, [this]() { setNavigationFocus(true); });
+	connect(view, &QtGraphicsView::focusOut, [this]() { setNavigationFocus(false); });
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
@@ -582,26 +582,18 @@ void QtGraphView::activateEdge(Id edgeId)
 	});
 }
 
-void QtGraphView::setNavigationFocus(bool focus)
+void QtGraphView::setNavigationFocus(bool focusIn)
 {
-	if (m_hasFocus == focus)
+	if (m_hasFocus == focusIn)
 	{
 		return;
 	}
 
-	m_hasFocus = focus;
+	m_hasFocus = focusIn;
 
-	m_onQtThread([this, focus]() {
-		focusView(focus);
-
-		if (focus)
-		{
-			m_focusHandler.focus();
-		}
-		else
-		{
-			m_focusHandler.defocus();
-		}
+	m_onQtThread([this, focusIn]() {
+		focusView(focusIn);
+		m_focusHandler.focus(focusIn);
 	});
 }
 
@@ -1056,7 +1048,8 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	}
 	else if (node->isExpandToggleNode())
 	{
-		newNode = new QtGraphNodeExpandToggle(node->isExpanded(), static_cast<int>(node->invisibleSubNodeCount));
+		newNode = new QtGraphNodeExpandToggle(
+			node->isExpanded(), static_cast<int>(node->invisibleSubNodeCount));
 	}
 	else if (node->isBundleNode())
 	{

@@ -82,8 +82,8 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 
 	// 2.3) Handle files that are referenced by the files that will be cleared. These will be
 	// re-indexed on the fly. However, we do not
-	//		need to clear files that are also referenced by unchanged source files, because otherwise
-	//we will lose these connections.
+	//		need to clear files that are also referenced by unchanged source files, because
+	//otherwise we will lose these connections.
 	// 2.3.1) Get all source file paths that will not be cleared.
 	// - Initially this list contains all source file paths the project would index right now.
 	// - Then we remove all source files that will be cleared

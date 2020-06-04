@@ -130,9 +130,8 @@ FilePath CanonicalFilePathCache::getDeclarationFilePath(const clang::Decl* decla
 	{
 		return getCanonicalFilePath(fileId, sourceManager);
 	}
-	return getCanonicalFilePath(
-			   utility::decodeFromUtf8(
-				   sourceManager.getPresumedLoc(declaration->getBeginLoc()).getFilename()));
+	return getCanonicalFilePath(utility::decodeFromUtf8(
+		sourceManager.getPresumedLoc(declaration->getBeginLoc()).getFilename()));
 }
 
 std::wstring CanonicalFilePathCache::getDeclarationFileName(const clang::Decl* declaration)
