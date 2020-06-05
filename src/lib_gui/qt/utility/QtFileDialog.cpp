@@ -112,19 +112,17 @@ QString QtFileDialog::showSaveFileDialog(
 
 QString QtFileDialog::getDir(QString dir)
 {
-	static bool used = false;
+	if (!dir.isEmpty())
+	{
+		return dir;
+	}
 
-	if (!used && dir.isEmpty())
+	dir = QString::fromStdString(ApplicationSettings::getInstance()->getLastFilepickerLocation().str());
+
+	if (dir.isEmpty()) // first app launch, settings file absent
 	{
 		dir = QDir::homePath();
 	}
-
-	if (used && dir.isEmpty())
-	{
-		dir = QString::fromStdString(ApplicationSettings::getInstance()->getLastFilepickerLocation().str());
-	}
-
-	used = true;
 
 	return dir;
 }
