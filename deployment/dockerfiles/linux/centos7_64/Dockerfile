@@ -57,15 +57,11 @@ make -j8 install && rm -Rf /qt
 # LLVM/Clang
 ARG LLVM_VERSION=10.0.0
 RUN mkdir -p /llvm && cd /llvm && \
-wget http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
 tar xvf llvm-${LLVM_VERSION}.src.tar.xz && \
 cd llvm-${LLVM_VERSION}.src && \
-cd tools && \
-wget http://llvm.org/releases/${LLVM_VERSION}/cfe-${LLVM_VERSION}.src.tar.xz && \
-tar xvf cfe-${LLVM_VERSION}.src.tar.xz && \
 . /opt/rh/python27/enable && \
 . /opt/rh/devtoolset-7/enable && \
-python --version && \
 cd /llvm/llvm-${LLVM_VERSION}.src && mkdir -p build && cd build && \
 cmake .. -DCMAKE_INSTALL_PREFIX=/opt/llvm/ \
 -DCMAKE_BUILD_TYPE=Release \
