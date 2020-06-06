@@ -15,6 +15,12 @@ docker login
 docker push <account>/<reponame>:<tag>
 
 
+Run docker images
+-----------------
+
+docker run -it <image> /bin/bash
+
+
 Update Guide
 ============
 
@@ -46,4 +52,3 @@ $ docker push coatisoftware/centos7_32_qt_llvm:<tag>
 # update <tag> of linux images in .gitlab-ci.yml
 
 # commit and publish changes
-
