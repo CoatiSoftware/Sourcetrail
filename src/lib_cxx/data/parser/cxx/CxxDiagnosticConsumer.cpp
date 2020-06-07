@@ -53,7 +53,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(
 	{
 		llvm::SmallString<100> messageStr;
 		info.FormatDiagnostic(messageStr);
-		std::string message = messageStr.str();
+		std::string message = messageStr.str().str();
 
 		if (message ==
 			"MS-style inline assembly is not available: Unable to find target for this triple (no "

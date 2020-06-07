@@ -125,7 +125,7 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			pp.Bool = true;	   // value "true": prints bool type as "bool" instead of "_Bool"
 
 			return std::make_unique<CxxTypeName>(
-				utility::decodeFromUtf8(type->getAs<clang::BuiltinType>()->getName(pp)),
+				utility::decodeFromUtf8(type->getAs<clang::BuiltinType>()->getName(pp).str()),
 				std::vector<std::wstring>());
 		}
 		case clang::Type::TemplateSpecialization:
@@ -285,7 +285,7 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			clang::SmallString<64> Buf;
 			llvm::raw_svector_ostream StrOS(Buf);
 			clang::QualType::print(type, clang::Qualifiers(), StrOS, pp, clang::Twine());
-			std::wstring nameString = utility::decodeFromUtf8(StrOS.str());
+			std::wstring nameString = utility::decodeFromUtf8(StrOS.str().str());
 
 			return std::make_unique<CxxTypeName>(std::move(nameString));
 		}

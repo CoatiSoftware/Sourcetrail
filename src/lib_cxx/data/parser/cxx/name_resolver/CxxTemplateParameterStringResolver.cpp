@@ -46,7 +46,7 @@ std::wstring CxxTemplateParameterStringResolver::getTemplateParameterString(
 			break;
 		}
 
-		const std::wstring parameterName = utility::decodeFromUtf8(parameter->getName());
+		const std::wstring parameterName = utility::decodeFromUtf8(parameter->getName().str());
 		if (!parameterName.empty())
 		{
 			templateParameterTypeString += L' ' + parameterName;

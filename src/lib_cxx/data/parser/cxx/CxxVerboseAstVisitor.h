@@ -38,11 +38,12 @@ private:
 #define TYPE(Class, Base)                                                                          \
 case clang::TypeLoc::Class:                                                                        \
 	return STRINGIFY(Class);
-#include <clang/AST/TypeNodes.def>
+#include <clang/AST/TypeLoc.h>
 		case clang::TypeLoc::TypeLocClass::Qualified:
 			return "Qualified";
+        default:
+            return "";
 		}
-		return "";
 	}
 
 	FilePath m_currentFilePath;
