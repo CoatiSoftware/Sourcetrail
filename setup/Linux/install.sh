@@ -1,11 +1,11 @@
 #!/bin/sh
 
-echo "Installing Sourcetrail in /opt/sourcetrail"
-
 if [ "$(id -u)" -ne 0 ]; then
   echo >&2 "Error: Please run script as root or with sudo. Exiting..."
   exit 1
 fi
+
+echo "Installing Sourcetrail in /opt/sourcetrail"
 
 MY_PATH="$( cd "$( dirname "$0" )" && pwd )"
 

@@ -59,11 +59,13 @@ cd ../../..
 
 find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
-# export VERSION=$(cat build/Release/version.txt)
+export VERSION=$(cat build/Release/version.txt)
 
-# linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
-# rm -f AppDir/AppRun
-# linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
+linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
+rm -f AppDir/AppRun
+linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
+rm -f AppDir/AppRun
+cp setup/Linux/Sourcetrail.sh AppDir/AppRun
 
 # rename x86_64 Linux_64bit *.AppImage
 # rename - _ *.AppImage
