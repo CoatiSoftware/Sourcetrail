@@ -37,8 +37,6 @@ cd applications
 cp ../../../../setup/Linux/data/sourcetrail.desktop .
 cd ..
 
-cp -r ../../../build/Release/share/icons/ .
-
 mkdir mime
 cd mime
 mkdir packages
@@ -64,6 +62,24 @@ cd ../../..
 
 # print file structure
 # find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+
+
+# create icons
+
+ICON=AppDir/usr/share/data/gui/icon/logo_1024_1024.png
+HICOLOR_DIR=AppDir/usr/share/icons/hicolor
+
+createIcon()
+{
+    mkdir -p $HICOLOR_DIR/$1/apps/
+    convert $ICON -resize $1 $HICOLOR_DIR/$1/apps/sourcetrail.png
+}
+
+createIcon 512x512
+createIcon 256x256
+createIcon 128x128
+createIcon 64x64
+createIcon 48x48
 
 
 # Version for filename
