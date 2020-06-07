@@ -19,4 +19,4 @@ export QT_QPA_FONTDIR="$SOURCETRAIL_PATH/data/fonts:$QT_QPA_FONTDIR"
 export SOURCETRAIL_VIA_SCRIPT=1
 export OPENSSL_CONF=/etc/ssl/
 
-exec "$SOURCETRAIL_PATH/usr/bin/sourcetrail" $@
+exec "$SOURCETRAIL_PATH/bin/sourcetrail" $@

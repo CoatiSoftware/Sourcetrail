@@ -16,7 +16,7 @@ cp -R setup/Linux/data/package/* AppDir/usr
 
 mv AppDir/usr/ Sourcetrail
 
-tar -czvf Sourcetrail_${VERSION}_Linux_64bit.tar.gz AppDir/Sourcetrail
+tar -czvf Sourcetrail_${VERSION}_Linux_64bit.tar.gz Sourcetrail
 
 rm -rf AppDir
 rm -rf Sourcetrail
