@@ -3,10 +3,10 @@
 BIN_PATH=build/Release/app/Sourcetrail
 PROJECTS_PATH=bin/app/user/projects
 
-./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_cpp/tictactoe_cpp.srctrlprj
-./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_py/tictactoe_py.srctrlprj
-./$BIN_PATH index --full $PROJECTS_PATH/tutorial/tutorial.srctrlprj
-./$BIN_PATH index --full $PROJECTS_PATH/javaparser/javaparser.srctrlprj
+# ./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_cpp/tictactoe_cpp.srctrlprj
+# ./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_py/tictactoe_py.srctrlprj
+# ./$BIN_PATH index --full $PROJECTS_PATH/tutorial/tutorial.srctrlprj
+# ./$BIN_PATH index --full $PROJECTS_PATH/javaparser/javaparser.srctrlprj
 
 rm -rf AppDir
 
@@ -57,16 +57,16 @@ cd ..
 
 cd ../../..
 
-# find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
-export VERSION=$(cat build/Release/version.txt)
+# export VERSION=$(cat build/Release/version.txt)
 
-linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
-rm -f AppDir/AppRun
-linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
+# linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
+# rm -f AppDir/AppRun
+# linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
 
-rename x86_64 Linux_64bit *.AppImage
-rename - _ *.AppImage
-rename - _ *.AppImage
-rename . _ *.AppImage
-rename . _ *.AppImage
+# rename x86_64 Linux_64bit *.AppImage
+# rename - _ *.AppImage
+# rename - _ *.AppImage
+# rename . _ *.AppImage
+# rename . _ *.AppImage
