@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source createAppDir.sh
+source setup/Linux/script/createAppDir.sh
 
 VERSION=$(cat build/Release/version.txt)
 VERSION=${VERSION/./_}
