@@ -10,8 +10,6 @@ git checkout $1
 
 ./script/buildonly.sh all
 
-./script/buildonly.sh package
-
 ./script/build.sh release test
 
 ./setup/Linux/createPackages.sh
