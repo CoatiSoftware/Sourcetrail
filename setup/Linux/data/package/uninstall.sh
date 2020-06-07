@@ -1,11 +1,11 @@
 #!/bin/sh
 
-echo "Do you want to uninstall Sourcetrail?"
-
 if [ "$(id -u)" -ne 0 ]; then
   echo >&2 "Error: Please run script as root or with sudo. Exiting..."
   exit 1
 fi
+
+echo "Do you want to uninstall Sourcetrail?"
 
 printf 'enter [y/n] '
 read ans

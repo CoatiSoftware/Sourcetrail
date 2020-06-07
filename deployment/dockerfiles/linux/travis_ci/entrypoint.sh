@@ -14,7 +14,11 @@ git checkout $1
 
 ./script/build.sh release test
 
-./setup/Linux/createAppImage.sh
+./setup/Linux/script/indexSampleProjects.sh
+
+./setup/Linux/script/createPackage.sh
+
+./setup/Linux/script/createAppImage.sh
 
 mkdir release
 cp ./Sourcetrail*.tar.gz ./release/
