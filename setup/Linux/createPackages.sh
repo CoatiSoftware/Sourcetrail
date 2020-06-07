@@ -1,5 +1,18 @@
 #!/bin/sh
 
+# index sample projects
+
+BIN_PATH=build/Release/app/Sourcetrail
+PROJECTS_PATH=bin/app/user/projects
+
+./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_cpp/tictactoe_cpp.srctrlprj
+./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_py/tictactoe_py.srctrlprj
+./$BIN_PATH index --full $PROJECTS_PATH/tutorial/tutorial.srctrlprj
+./$BIN_PATH index --full $PROJECTS_PATH/javaparser/javaparser.srctrlprj
+
+
+# create AppDir
+
 rm -rf AppDir
 
 mkdir AppDir
@@ -52,10 +65,16 @@ cd ../../..
 # print file structure
 # find AppDir | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
+
+# Version for filename
+
 VERSION=$(cat build/Release/version.txt)
 VERSION=${VERSION/./_}
 VERSION=${VERSION/./_}
 export VERSION
+
+
+# create .AppImage
 
 linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
 rm -f AppDir/AppRun
@@ -65,15 +84,17 @@ linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/
 rename x86_64 Linux_64bit *.AppImage
 rename - _ *.AppImage
 rename - _ *.AppImage
-rename . _ *.AppImage
-rename . _ *.AppImage
 
-cp -R setup/Linux/data/package/* AppDir/usr
+
+# create .tar.gz
 
 mv AppDir/usr/ Sourcetrail
 cp -R setup/Linux/data/package/* Sourcetrail
 
 tar -czvf Sourcetrail_${VERSION}_Linux_64bit.tar.gz Sourcetrail
+
+
+# cleanup
 
 rm -rf AppDir
 rm -rf Sourcetrail
