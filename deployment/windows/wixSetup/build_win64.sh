@@ -1,1 +1,0 @@
-sh build.sh -win64
