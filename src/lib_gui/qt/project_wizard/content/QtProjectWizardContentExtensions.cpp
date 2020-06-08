@@ -5,9 +5,9 @@
 #include <QFormLayout>
 
 #include "QtStringListBox.h"
+#include "SourceGroupSettingsWithSourceExtensions.h"
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
-#	include "SourceGroupSettingsWithSourceExtensions.h"
 #	include "SourceGroupSettingsWithSourceExtensionsC.h"
 #	include "SourceGroupSettingsWithSourceExtensionsCpp.h"
 #	include "SourceGroupSettingsWithSourceExtensionsCxx.h"
