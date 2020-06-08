@@ -4,10 +4,10 @@
 #include <QListView>
 #include <QTreeView>
 
+#include "ApplicationSettings.h"
 #include "FilePath.h"
 #include "QtFilesAndDirectoriesDialog.h"
 #include "utilityApp.h"
-#include "ApplicationSettings.h"
 
 QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const FilePath& path)
 {
@@ -48,18 +48,20 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 
 QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
 {
-	QString dir_path = QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdWString(dir.wstr())));
-	saveFilePickerLocation(FilePath(dir_path.toStdString()));
-	return dir_path;
+	const QString dirPath = QFileDialog::getExistingDirectory(
+		parent, caption, getDir(QString::fromStdWString(dir.wstr())));
+	saveFilePickerLocation(FilePath(dirPath.toStdString()));
+	return dirPath;
 }
 
 QString QtFileDialog::getOpenFileName(
 	QWidget* parent, const QString& caption, const FilePath& dir, const QString& filter)
 {
-	QString file_path = QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
-	FilePath dir_path = FilePath(file_path.toStdString()).getParentDirectory();
-	saveFilePickerLocation(dir_path);
-	return file_path;
+	const QString filePath = QFileDialog::getOpenFileName(
+		parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
+	const FilePath dirPath = FilePath(filePath.toStdString()).getParentDirectory();
+	saveFilePickerLocation(dirPath);
+	return filePath;
 }
 
 QString QtFileDialog::showSaveFileDialog(
@@ -117,9 +119,10 @@ QString QtFileDialog::getDir(QString dir)
 		return dir;
 	}
 
-	dir = QString::fromStdString(ApplicationSettings::getInstance()->getLastFilepickerLocation().str());
+	dir = QString::fromStdString(
+		ApplicationSettings::getInstance()->getLastFilepickerLocation().str());
 
-	if (dir.isEmpty()) // first app launch, settings file absent
+	if (dir.isEmpty())	  // first app launch, settings file absent
 	{
 		dir = QDir::homePath();
 	}
@@ -127,9 +130,12 @@ QString QtFileDialog::getDir(QString dir)
 	return dir;
 }
 
-void QtFileDialog::saveFilePickerLocation(FilePath path)
+void QtFileDialog::saveFilePickerLocation(const FilePath& path)
 {
-	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	settings->setLastFilepickerLocation(path);
-	settings->save();
+	if (!path.empty())
+	{
+		std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+		settings->setLastFilepickerLocation(path);
+		settings->save();
+	}
 }

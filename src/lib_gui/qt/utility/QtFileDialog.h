@@ -20,8 +20,7 @@ public:
 
 private:
 	static QString getDir(QString dir);
-
-	static void saveFilePickerLocation(FilePath path);
+	static void saveFilePickerLocation(const FilePath& path);
 };
 
 #endif	  // QT_FILE_DIALOG_H
