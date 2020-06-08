@@ -7,6 +7,7 @@
 #include "FilePath.h"
 #include "QtFilesAndDirectoriesDialog.h"
 #include "utilityApp.h"
+#include "ApplicationSettings.h"
 
 QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const FilePath& path)
 {
@@ -39,6 +40,7 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 		list = dialog->selectedFiles();
 	}
 
+	saveFilePickerLocation(FilePath(dialog->directory().path().toStdString()));
 	delete dialog;
 
 	return list;
@@ -46,15 +48,18 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 
 QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
 {
-	return QFileDialog::getExistingDirectory(
-		parent, caption, getDir(QString::fromStdWString(dir.wstr())));
+	QString dir_path = QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdWString(dir.wstr())));
+	saveFilePickerLocation(FilePath(dir_path.toStdString()));
+	return dir_path;
 }
 
 QString QtFileDialog::getOpenFileName(
 	QWidget* parent, const QString& caption, const FilePath& dir, const QString& filter)
 {
-	return QFileDialog::getOpenFileName(
-		parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
+	QString file_path = QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
+	FilePath dir_path = FilePath(file_path.toStdString()).getParentDirectory();
+	saveFilePickerLocation(dir_path);
+	return file_path;
 }
 
 QString QtFileDialog::showSaveFileDialog(
@@ -107,14 +112,24 @@ QString QtFileDialog::showSaveFileDialog(
 
 QString QtFileDialog::getDir(QString dir)
 {
-	static bool used = false;
+	if (!dir.isEmpty())
+	{
+		return dir;
+	}
 
-	if (!used && dir.isEmpty())
+	dir = QString::fromStdString(ApplicationSettings::getInstance()->getLastFilepickerLocation().str());
+
+	if (dir.isEmpty()) // first app launch, settings file absent
 	{
 		dir = QDir::homePath();
 	}
 
-	used = true;
-
 	return dir;
+}
+
+void QtFileDialog::saveFilePickerLocation(FilePath path)
+{
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	settings->setLastFilepickerLocation(path);
+	settings->save();
 }
