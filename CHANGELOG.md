@@ -1,5 +1,27 @@
 ### Changelog
 
+#### 2020.2.37 (Beta)
+released 2020-06-08
+
+C/C++: Improved help message for source file extensions in project settings ([#1039](https://github.com/CoatiSoftware/Sourcetrail/issues/1039))
+Python: Updated to SourcetrailPythonIndexer v1.db25.p4 - Record override edges ([#1037](https://github.com/CoatiSoftware/Sourcetrail/issues/1037))
+Linux: Migrated Linux '.tar.gz' package creation from CPack to linuxdeployqt ([#1034](https://github.com/CoatiSoftware/Sourcetrail/issues/1034))
+UI: Save last filepicker location ([#802](https://github.com/CoatiSoftware/Sourcetrail/issues/802))
+C/C++: Updated to LLVM/Clang 10.0.0 ([#965](https://github.com/CoatiSoftware/Sourcetrail/issues/965))
+Java: Updated macOS Java Path detector and docs to current JDK file structure ([#1031](https://github.com/CoatiSoftware/Sourcetrail/issues/1031))
+Improved performance of excluded files and directories filtering ([#1030](https://github.com/CoatiSoftware/Sourcetrail/issues/1030))
+Fix corrupted display of non-ascii characters in about window ([#1013](https://github.com/CoatiSoftware/Sourcetrail/issues/1013))
+C/C++: Copy Clang compiler headers from Clang build dir via CMake ([#993](https://github.com/CoatiSoftware/Sourcetrail/issues/993))
+Improved error logging if exception occurred while loading project ([#1004](https://github.com/CoatiSoftware/Sourcetrail/issues/1004))
+Graph: Add context menu action 'copy to clipboard' ([#999](https://github.com/CoatiSoftware/Sourcetrail/issues/999))
+C/C++: Extend Compiler Flags help message ([#974](https://github.com/CoatiSoftware/Sourcetrail/issues/974))
+macOS: Create .dmg release package using HFS+ filesystem to be mountable on older macOS versions ([#619](https://github.com/CoatiSoftware/Sourcetrail/issues/619))
+Python: Respect "super()" in post processing ([#964](https://github.com/CoatiSoftware/Sourcetrail/issues/964))
+Less restrictions for FilePath::isValid check on project location ([#959](https://github.com/CoatiSoftware/Sourcetrail/issues/959))
+Refactored recent projects menu ([#956](https://github.com/CoatiSoftware/Sourcetrail/issues/956))
+macOs: Updated Info.plist missing values and removed deprecated keys
+Python: Respect class qualifier in method call for post processing ([#951](https://github.com/CoatiSoftware/Sourcetrail/issues/951))
+
 #### 2020.1.117
 released 2020-03-31
 
