@@ -1,11 +1,7 @@
 <?xml version='1.0'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 
-	<?if $(sys.BUILDARCH) = x64 ?>
-		<?define PlatformSourceFolder = "./../../../build/win64/Release/app" ?>
-	<?else ?>
-		<?define PlatformSourceFolder = "./../../../build/win32/Release/app" ?>
-	<?endif ?>
+	<?define PlatformSourceFolder = "./../../../build/Release/app" ?>
 
 	<Fragment>
 		<DirectoryRef Id='INSTALLDIR'>
