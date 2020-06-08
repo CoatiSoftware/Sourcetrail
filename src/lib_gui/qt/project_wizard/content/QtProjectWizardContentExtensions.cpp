@@ -1,12 +1,17 @@
 #include "QtProjectWizardContentExtensions.h"
 
+#include "language_packages.h"
+
 #include <QFormLayout>
 
 #include "QtStringListBox.h"
-#include "SourceGroupSettingsWithSourceExtensions.h"
-#include "SourceGroupSettingsWithSourceExtensionsC.h"
-#include "SourceGroupSettingsWithSourceExtensionsCpp.h"
-#include "SourceGroupSettingsWithSourceExtensionsCxx.h"
+
+#if BUILD_CXX_LANGUAGE_PACKAGE
+#	include "SourceGroupSettingsWithSourceExtensions.h"
+#	include "SourceGroupSettingsWithSourceExtensionsC.h"
+#	include "SourceGroupSettingsWithSourceExtensionsCpp.h"
+#	include "SourceGroupSettingsWithSourceExtensionsCxx.h"
+#endif
 
 QtProjectWizardContentExtensions::QtProjectWizardContentExtensions(
 	std::shared_ptr<SourceGroupSettingsWithSourceExtensions> settings, QtProjectWizardWindow* window)
