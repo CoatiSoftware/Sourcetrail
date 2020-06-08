@@ -130,19 +130,19 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	if (LLVM_FOUND)
 		message(STATUS "Found LLVM ${LLVM_VERSION}")
 	endif()
-		
+
 	if (UNIX)
 		set(LLVM_CONFIGURATION_TYPES ".")
 	endif()
-	
+
 	set (CLANG_COMPILER_HEADER_SEARCH_PATH "")
 	foreach(LLVM_CONFIGURATION_TYPE ${LLVM_CONFIGURATION_TYPES})
 		if (CLANG_COMPILER_HEADER_SEARCH_PATH STREQUAL "")
-			set (CLANG_COMPILER_HEADER_SEARCH_PATH "${LLVM_BINARY_DIR}/${LLVM_CONFIGURATION_TYPE}/lib/clang/${LLVM_VERSION}/include") 
+			set (CLANG_COMPILER_HEADER_SEARCH_PATH "${LLVM_BINARY_DIR}/${LLVM_CONFIGURATION_TYPE}/lib/clang/${LLVM_VERSION}/include")
 			message (STATUS "Trying to find Clang compiler headers in '${LLVM_CONFIGURATION_TYPE}' build config in directory '${CLANG_COMPILER_HEADER_SEARCH_PATH}'.")
 			if (EXISTS ${CLANG_COMPILER_HEADER_SEARCH_PATH})
 				message (STATUS "Found headers for '${LLVM_CONFIGURATION_TYPE}' build config.")
-				file(GLOB_RECURSE CLANG_COMPILER_HEADER_PATHS RELATIVE "${CLANG_COMPILER_HEADER_SEARCH_PATH}" "${CLANG_COMPILER_HEADER_SEARCH_PATH}/*") 
+				file(GLOB_RECURSE CLANG_COMPILER_HEADER_PATHS RELATIVE "${CLANG_COMPILER_HEADER_SEARCH_PATH}" "${CLANG_COMPILER_HEADER_SEARCH_PATH}/*")
 				foreach(CLANG_COMPILER_HEADER_PATH ${CLANG_COMPILER_HEADER_PATHS})
 					configure_file("${CLANG_COMPILER_HEADER_SEARCH_PATH}/${CLANG_COMPILER_HEADER_PATH}" "${CMAKE_SOURCE_DIR}/bin/app/data/cxx/include/${CLANG_COMPILER_HEADER_PATH}" COPYONLY)
 				endforeach()
@@ -155,7 +155,7 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	if (CLANG_COMPILER_HEADER_SEARCH_PATH STREQUAL "")
 		message(FATAL_ERROR "Unable to copy Clang compiler headers from clang build dir.")
 	endif()
-	
+
 endif()
 
 
@@ -658,7 +658,7 @@ if (WIN32)
 
 	# generate pdb for release build
 	set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
-	
+
 	set_property(
 		TARGET ${APP_PROJECT_NAME}
 			PROPERTY VS_DEBUGGER_WORKING_DIRECTORY
@@ -832,17 +832,6 @@ if (UNIX)
 		COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user"
 		COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/test/data" "${CMAKE_BINARY_DIR}/test/data"
 	)
-
-	if (UNIX AND NOT APPLE)
-		# Create different sized icons
-		message(STATUS "create icons")
-		execute_process(
-			COMMAND "${CMAKE_SOURCE_DIR}/setup/Linux/createIcons.sh" "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}"
-		)
-
-		# Linux package
-		include(cmake/linux_package.cmake)
-	endif ()
 elseif(WIN32)
 	foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
 		if (EXISTS "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}")

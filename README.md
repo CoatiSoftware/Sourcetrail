@@ -60,7 +60,7 @@ If you want to support a certain feature request or you have the same bug that a
 
 ## How to Contribute
 
-* Please read and follow the steps in [CONTRIBUTING.md](CONTRIBUTING.md) file. 
+* Please read and follow the steps in [CONTRIBUTING.md](CONTRIBUTING.md) file.
 * You may want to look out for issues labeled [good first issue](https://github.com/CoatiSoftware/Sourcetrail/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) to find some initial tasks to tackle.
 * If you are looking for more information about Sourcetrail software development, please refer to our [wiki](https://github.com/CoatiSoftware/Sourcetrail/wiki).
 
@@ -72,20 +72,20 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 ### Required Tools
 
-* __CMake v3.12 (required for Windows, Linux and MacOS)__ 
+* __CMake v3.12 (required for Windows, Linux and MacOS)__
     * __Reason__: Used to generate a build configuration for your build system
     * __Download__: https://cmake.org/download
 
-* __Git (required for Windows, Linux and MacOS)__ 
+* __Git (required for Windows, Linux and MacOS)__
     * __Reason__: Used for version control and to automatically generate the Sourcetrail version number from commits and tags
     * __Download__: https://git-scm.com/download
     * __Remarks__: Make sure `git` is added to your `PATH` environment variable before running CMake
 
-* __Visual Studio (required for Windows)__ 
+* __Visual Studio (required for Windows)__
     * __Reason__: Used for building Sourcetrail
     * __Download__: https://visualstudio.microsoft.com/downloads/
-   
-* __ccache (optional for Linux and MacOS)__ 
+
+* __ccache (optional for Linux and MacOS)__
     * __Reason__: Used to speed up rebuilds if found in `PATH`
     * __Download__: https://ccache.dev/download.html
 
@@ -94,7 +94,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 * __Boost 1.67__
     * __Reason__: Used for file system access and interprocess communication
     * __Prebuilt Download for Windows__: https://sourceforge.net/projects/boost/files/boost-binaries/
-    * __Building for Unix__: 
+    * __Building for Unix__:
         ```
         $ ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time
         $ ./b2 --link=static --variant=release --threading=multi --runtime-link=static --cxxflags=-fPIC
@@ -109,7 +109,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 #### On Windows
 * To set up your build environment run:
     ```
-    $ git clone https://github.com/CoatiSoftware/Sourcetrail.git 
+    $ git clone https://github.com/CoatiSoftware/Sourcetrail.git
     $ cd Sourcetrail
     $ mkdir -p build/win64
     $ cd build/win64
@@ -188,7 +188,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 ### Required Tools
 
-* __WinRAR (required for Windows)__ 
+* __WinRAR (required for Windows)__
     * __REASON__: Used to extract the prebuilt SourcetrailPythonIndexer which is downloaded automatically during build execution.
 
 ### Building
@@ -206,8 +206,8 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 #### Required Tools
 
-* __Visual Studio (required for Windows)__ 
-    * __Reason__: Used for building the Sourcetrail Windows installer. 
+* __Visual Studio (required for Windows)__
+    * __Reason__: Used for building the Sourcetrail Windows installer.
     * __Remarks__: Make sure to install the `.Net desktop development` workload.
     * __Download__: https://visualstudio.microsoft.com/downloads/
 
@@ -237,7 +237,7 @@ After building, run the `bundle_install.sh` script within the build directory wh
 
 ### Linux
 
-Run `./script/buildonly.sh package`
+Run `./setup/Linux/createPackages.sh` from the main directory, which creates both a `.tar.gz` and a `.AppImage` package in the main directory. Packaging depends on [linuxdeployqt](https://github.com/probonopd/linuxdeployqt).
 
 
 # How to Run the Tests
