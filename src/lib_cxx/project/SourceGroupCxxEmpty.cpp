@@ -201,7 +201,12 @@ std::vector<std::wstring> SourceGroupCxxEmpty::getBaseCompilerFlags() const
 
 	compilerFlags.push_back(IndexerCommandCxx::getCompilerFlagLanguageStandard(languageStandard));
 
-	if (std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
+	if (std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
+	{
+		compilerFlags.push_back(L"-x");
+		compilerFlags.push_back(L"c");
+	}
+	else if (std::dynamic_pointer_cast<SourceGroupSettingsCppEmpty>(m_settings))
 	{
 		compilerFlags.push_back(L"-x");
 		compilerFlags.push_back(L"c++");
