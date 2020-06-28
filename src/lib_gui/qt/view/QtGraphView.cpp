@@ -937,6 +937,11 @@ void QtGraphView::updateTrailButtons()
 
 void QtGraphView::switchToNewGraphData()
 {
+	// Fixes a crash when switching tabs during an animation where a mouse event defocuses the focused node and moves
+	// the focus to the parent, which is deleted after the animation ends:
+	// https://github.com/CoatiSoftware/Sourcetrail/issues/1021
+	m_focusHandler.refocusNode(m_nodes, 0, 0);
+
 	m_oldGraph = m_graph;
 
 	for (QtGraphNode* node: m_oldNodes)
