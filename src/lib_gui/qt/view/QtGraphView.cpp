@@ -937,6 +937,8 @@ void QtGraphView::updateTrailButtons()
 
 void QtGraphView::switchToNewGraphData()
 {
+	m_focusHandler.refocusNode(m_nodes, 0, 0);
+
 	m_oldGraph = m_graph;
 
 	for (QtGraphNode* node: m_oldNodes)

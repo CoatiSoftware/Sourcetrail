@@ -91,19 +91,21 @@ void GraphFocusHandler::focusTokenId(
 void GraphFocusHandler::refocusNode(
 	const std::list<QtGraphNode*>& newNodes, Id oldActiveTokenId, Id newActiveTokenId)
 {
-	const Id lastFocusId = m_lastFocusId;
-	clear();
-
-	if (lastFocusId && (lastFocusId == newActiveTokenId || oldActiveTokenId == newActiveTokenId))
+	if (m_lastFocusId && (m_lastFocusId == newActiveTokenId || oldActiveTokenId == newActiveTokenId))
 	{
-		QtGraphNode* nodeToFocus = QtGraphNode::findNodeRecursive(newNodes, lastFocusId);
+		QtGraphNode* nodeToFocus = QtGraphNode::findNodeRecursive(newNodes, m_lastFocusId);
 		if (nodeToFocus)
 		{
-			m_focusNode = nodeToFocus;
-			m_lastFocusId = lastFocusId;
-			nodeToFocus->setIsFocused(true);
+			if (m_focusNode != nodeToFocus)
+			{
+				m_focusNode = nodeToFocus;
+				nodeToFocus->setIsFocused(true);
+			}
+			return;
 		}
 	}
+
+	clear();
 }
 
 void GraphFocusHandler::focusNext(Direction direction, bool navigateEdges)
@@ -180,6 +182,11 @@ void GraphFocusHandler::focusNode(QtGraphNode* node)
 
 void GraphFocusHandler::defocusNode(QtGraphNode* node)
 {
+	if (node != m_focusNode)
+	{
+		return;
+	}
+
 	QtGraphNode* parent = node->getParent();
 	while (parent && !parent->isFocusable())
 	{
