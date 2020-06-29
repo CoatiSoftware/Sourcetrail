@@ -24,12 +24,12 @@ void ActivationController::clear() {}
 
 void ActivationController::handleMessage(MessageActivateEdge* message)
 {
-	if (message->isAggregation())
+	if (message->isBundledEdges())
 	{
 		MessageActivateTokens m(message);
-		m.tokenIds = message->aggregationIds;
+		m.tokenIds = message->bundledEdgesIds;
 		m.setKeepContent(false);
-		m.isAggregation = true;
+		m.isBundledEdges = true;
 		m.dispatchImmediately();
 	}
 	else

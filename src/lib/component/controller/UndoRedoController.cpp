@@ -349,7 +349,7 @@ void UndoRedoController::handleMessage(MessageIndexingFinished* message)
 			MessageActivateTokens* msg = dynamic_cast<MessageActivateTokens*>(command.message.get());
 			if (msg)
 			{
-				if (msg->isAggregation)
+				if (msg->isBundledEdges)
 				{
 					continue;
 				}
@@ -498,7 +498,7 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 	{
 		MessageActivateTokens* msg = dynamic_cast<MessageActivateTokens*>(m.get());
 
-		if (!msg->isEdge && !msg->isAggregation)
+		if (!msg->isEdge && !msg->isBundledEdges)
 		{
 			std::vector<SearchMatch> matches = msg->getSearchMatches();
 			msg->searchMatches.clear();

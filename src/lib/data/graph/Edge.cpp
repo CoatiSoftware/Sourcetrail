@@ -3,7 +3,7 @@
 #include <sstream>
 
 #include "Node.h"
-#include "TokenComponentAggregation.h"
+#include "TokenComponentBundledEdges.h"
 #include "logging.h"
 #include "utilityString.h"
 
@@ -36,8 +36,8 @@ Edge::EdgeType Edge::intToType(int value)
 		return EDGE_INCLUDE;
 	case EDGE_IMPORT:
 		return EDGE_IMPORT;
-	case EDGE_AGGREGATION:
-		return EDGE_AGGREGATION;
+	case EDGE_BUNDLED_EDGES:
+		return EDGE_BUNDLED_EDGES;
 	case EDGE_MACRO_USAGE:
 		return EDGE_MACRO_USAGE;
 	case EDGE_ANNOTATION_USAGE:
@@ -139,8 +139,8 @@ std::wstring Edge::getReadableTypeString(EdgeType type)
 		return L"include";
 	case EDGE_IMPORT:
 		return L"import";
-	case EDGE_AGGREGATION:
-		return L"aggregation";
+	case EDGE_BUNDLED_EDGES:
+		return L"bundled edges";
 	case EDGE_MACRO_USAGE:
 		return L"macro use";
 	case EDGE_ANNOTATION_USAGE:
@@ -175,10 +175,10 @@ std::wstring Edge::getAsString() const
 	str << L"[" << getId() << L"] " << getReadableTypeString();
 	str << L": \"" << m_from->getName() << L"\" -> \"" + m_to->getName() << L"\"";
 
-	TokenComponentAggregation* aggregation = getComponent<TokenComponentAggregation>();
-	if (aggregation)
+	TokenComponentBundledEdges* bundledEdges = getComponent<TokenComponentBundledEdges>();
+	if (bundledEdges)
 	{
-		str << L" " << aggregation->getAggregationCount();
+		str << L" " << bundledEdges->getBundledEdgesCount();
 	}
 
 	return str.str();

@@ -244,8 +244,8 @@ private:
 	inline void addFileNodeToGraph(const StorageNode& storageNode, Graph* const graph) const;
 	void addNodeToGraph(
 		const StorageNode& newNode, const NodeType& type, Graph* graph, bool addChildCount) const;
-	void addAggregationEdgesToGraph(
-		Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
+	void addBundledEdgesToGraph(
+		Id nodeId, const std::vector<StorageEdge>& edgesToBundle, Graph* graph) const;
 	void addFileContentsToGraph(Id fileId, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;
 	void addComponentIsAmbiguousToGraph(Graph* graph) const;

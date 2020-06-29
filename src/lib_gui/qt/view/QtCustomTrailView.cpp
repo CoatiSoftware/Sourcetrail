@@ -243,7 +243,7 @@ QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)
 			Edge::EDGE_TYPE_ARGUMENT,
 			Edge::EDGE_INCLUDE,
 			Edge::EDGE_IMPORT,
-			// Edge::EDGE_AGGREGATION,
+			// Edge::EDGE_BUNDLED_EDGES,
 			Edge::EDGE_MACRO_USAGE,
 			Edge::EDGE_ANNOTATION_USAGE
 			// Edge::EDGE_MEMBER // has separate checkbox

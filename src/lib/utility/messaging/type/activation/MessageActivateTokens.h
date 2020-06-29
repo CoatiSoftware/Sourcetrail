@@ -18,7 +18,7 @@ public:
 	}
 
 	MessageActivateTokens(const MessageBase* other)
-		: isEdge(false), isAggregation(false), isFromSearch(false)
+		: isEdge(false), isBundledEdges(false), isFromSearch(false)
 	{
 		setIsParallel(true);
 		setKeepContent(other->keepContent());
@@ -43,10 +43,10 @@ public:
 
 	std::vector<SearchMatch> getSearchMatches() const override
 	{
-		if (isAggregation)
+		if (isBundledEdges)
 		{
 			SearchMatch match;
-			match.name = match.text = L"aggregation";	 // TODO: show aggregation source and target
+			match.name = match.text = L"bundled edges";	 // TODO: show bundled edges source and target
 			match.searchType = SearchMatch::SEARCH_TOKEN;
 			match.nodeType = NodeType(NODE_TYPE);
 			return {match};
@@ -59,7 +59,7 @@ public:
 	std::vector<SearchMatch> searchMatches;
 
 	bool isEdge;
-	bool isAggregation;
+	bool isBundledEdges;
 	bool isFromSearch;
 };
 

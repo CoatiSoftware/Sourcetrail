@@ -22,7 +22,7 @@ public:
 		, sourceNameHierarchy(sourceNameHierarchy)
 		, targetNameHierarchy(targetNameHierarchy)
 	{
-		if (!isAggregation())
+		if (!isBundledEdges())
 		{
 			setKeepContent(true);
 		}
@@ -35,9 +35,9 @@ public:
 		return "MessageActivateEdge";
 	}
 
-	bool isAggregation() const
+	bool isBundledEdges() const
 	{
-		return type == Edge::EDGE_AGGREGATION;
+		return type == Edge::EDGE_BUNDLED_EDGES;
 	}
 
 	std::wstring getFullName() const
@@ -58,7 +58,7 @@ public:
 	const NameHierarchy sourceNameHierarchy;
 	const NameHierarchy targetNameHierarchy;
 
-	std::vector<Id> aggregationIds;
+	std::vector<Id> bundledEdgesIds;
 };
 
 #endif	  // MESSAGE_ACTIVATE_EDGE_H

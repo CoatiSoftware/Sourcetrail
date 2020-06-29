@@ -5,10 +5,9 @@
 
 #include <QGraphicsItem>
 
+#include "TokenComponentBundledEdges.h"
 #include "Vector2.h"
 #include "Vector4.h"
-
-#include "TokenComponentAggregation.h"
 
 class Edge;
 class GraphFocusHandler;
@@ -34,7 +33,7 @@ public:
 		bool isActive,
 		bool isInteractive,
 		bool horizontal,
-		TokenComponentAggregation::Direction direction);
+		TokenComponentBundledEdges::Direction direction);
 	virtual ~QtGraphEdge();
 
 	const Edge* getData() const;
@@ -60,7 +59,7 @@ public:
 	void coFocusIn();
 	void coFocusOut();
 
-	void setDirection(TokenComponentAggregation::Direction direction);
+	void setDirection(TokenComponentBundledEdges::Direction direction);
 
 	bool isHorizontal() const;
 	bool isExpandable() const;
@@ -108,7 +107,7 @@ private:
 	bool m_isHorizontal = false;
 	size_t m_weight = 0;
 
-	TokenComponentAggregation::Direction m_direction;
+	TokenComponentBundledEdges::Direction m_direction;
 
 	bool m_isTrailEdge = false;
 	std::vector<Vec4i> m_path;
