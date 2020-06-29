@@ -260,6 +260,11 @@ void PersistentStorage::rollbackInjection()
 	afterErrorRecording();
 }
 
+const std::vector<ErrorInfo> PersistentStorage::getErrorInfos() const
+{
+	return m_sqliteIndexStorage.getAllErrorInfos();
+}
+
 void PersistentStorage::beforeErrorRecording()
 {
 	m_preInjectionErrorCount = m_sqliteIndexStorage.getErrorCount();
@@ -273,7 +278,7 @@ void PersistentStorage::beforeErrorRecording()
 
 void PersistentStorage::afterErrorRecording()
 {
-	std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAllErrorInfos();
+	std::vector<ErrorInfo> errors = getErrorInfos();
 	if (m_preInjectionErrorCount < errors.size())
 	{
 		ErrorCountInfo errorCount(errors);

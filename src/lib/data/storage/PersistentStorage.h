@@ -59,6 +59,8 @@ public:
 	void finishInjection() override;
 	void rollbackInjection();
 
+	const std::vector<ErrorInfo> getErrorInfos() const;
+
 	void beforeErrorRecording();
 	void afterErrorRecording();
 

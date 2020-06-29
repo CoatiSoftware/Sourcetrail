@@ -7,6 +7,8 @@
 #include "FileSystem.h"
 #include "IndexerCommandCustom.h"
 #include "IndexerCommandProvider.h"
+#include "MessageErrorCountClear.h"
+#include "MessageErrorCountUpdate.h"
 #include "MessageIndexingStatus.h"
 #include "MessageShowStatus.h"
 #include "MessageStatus.h"
@@ -320,7 +322,7 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 	{
 		std::shared_ptr<IndexerCommandCustom> indexerCommand = m_serialCommands.back();
 		m_serialCommands.pop_back();
-		runIndexerCommand(indexerCommand, blackboard);
+		runIndexerCommand(indexerCommand, blackboard, m_storage);
 	}
 
 	executeParallelIndexerCommands(0, blackboard);
@@ -330,6 +332,9 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
 		indexerThread->join();
 	}
 	indexerThreads.clear();
+
+	// clear errors here, because otherwise injecting into the main storage will show them twice
+	MessageErrorCountClear().dispatch();
 
 	{
 		PersistentStorage targetStorage(m_targetDatabaseFilePath, FilePath());
@@ -386,6 +391,7 @@ void TaskExecuteCustomCommands::handleMessage(MessageIndexingInterrupted* messag
 void TaskExecuteCustomCommands::executeParallelIndexerCommands(
 	int threadId, std::shared_ptr<Blackboard> blackboard)
 {
+	std::shared_ptr<PersistentStorage> storage;
 	while (!m_interrupted)
 	{
 		std::shared_ptr<IndexerCommandCustom> indexerCommand;
@@ -399,7 +405,11 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(
 			m_parallelCommands.pop_back();
 		}
 
-		if (threadId != 0)
+		if (threadId == 0)
+		{
+			storage = m_storage;
+		}
+		else
 		{
 			FilePath databaseFilePath = indexerCommand->getDatabaseFilePath();
 			databaseFilePath = databaseFilePath.getParentDirectory().concatenate(
@@ -426,21 +436,23 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(
 						L"conflicts.");
 					FileSystem::remove(databaseFilePath);
 				}
-				PersistentStorage sourceStorage(databaseFilePath, FilePath());
-				sourceStorage.setup();
-				sourceStorage.setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
-				sourceStorage.buildCaches();
+				storage = std::make_shared<PersistentStorage>(databaseFilePath, FilePath());
+				storage->setup();
+				storage->setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
+				storage->buildCaches();
 			}
 
 			indexerCommand->setDatabaseFilePath(databaseFilePath);
 		}
 
-		runIndexerCommand(indexerCommand, blackboard);
+		runIndexerCommand(indexerCommand, blackboard, storage);
 	}
 }
 
 void TaskExecuteCustomCommands::runIndexerCommand(
-	std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard)
+	std::shared_ptr<IndexerCommandCustom> indexerCommand,
+	std::shared_ptr<Blackboard> blackboard,
+	std::shared_ptr<PersistentStorage> storage)
 {
 	if (indexerCommand)
 	{
@@ -455,15 +467,39 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 
 		const std::wstring command = indexerCommand->getCustomCommand();
 
-		LOG_INFO_STREAM(<< "Execute command \"" << utility::encodeToUtf8(command) << "\"");
+		LOG_INFO("Start processing command \"" + utility::encodeToUtf8(command) + "\"");
 
-		m_storage->beforeErrorRecording();
+		const ErrorCountInfo previousErrorCount = storage ? storage->getErrorCount()
+														  : ErrorCountInfo();
 
+		LOG_INFO("Starting to index");
 		std::wstring errorMessage;
 		const int result = utility::executeProcessAndGetExitCode(
 			command, {}, m_projectDirectory, -1, true, &errorMessage);
+		LOG_INFO("Finished indexing");
 
-		m_storage->afterErrorRecording();
+		if (storage)
+		{
+			std::vector<ErrorInfo> errors = storage->getErrorInfos();
+			const ErrorCountInfo currentErrorCount(errors);
+			if (currentErrorCount.total > previousErrorCount.total)
+			{
+				const ErrorCountInfo diff(
+					currentErrorCount.total - previousErrorCount.total,
+					currentErrorCount.fatal - previousErrorCount.fatal);
+
+				ErrorCountInfo errorCount;	  // local copy to release lock early
+				{
+					std::lock_guard<std::mutex> lock(m_errorCountMutex);
+					m_errorCount.total += diff.total;
+					m_errorCount.fatal += diff.fatal;
+					errorCount = m_errorCount;
+				}
+
+				errors.erase(errors.begin(), errors.begin() + previousErrorCount.total);
+				MessageErrorCountUpdate(errorCount, errors).dispatch();
+			}
+		}
 
 		if (result == 0 && errorMessage.empty())
 		{

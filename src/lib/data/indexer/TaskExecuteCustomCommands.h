@@ -4,6 +4,7 @@
 #include <set>
 #include <vector>
 
+#include "ErrorCountInfo.h"
 #include "FilePath.h"
 #include "MessageIndexingInterrupted.h"
 #include "MessageListener.h"
@@ -39,7 +40,9 @@ private:
 
 	void executeParallelIndexerCommands(int threadId, std::shared_ptr<Blackboard> blackboard);
 	void runIndexerCommand(
-		std::shared_ptr<IndexerCommandCustom> indexerCommand, std::shared_ptr<Blackboard> blackboard);
+		std::shared_ptr<IndexerCommandCustom> indexerCommand,
+		std::shared_ptr<Blackboard> blackboard,
+		std::shared_ptr<PersistentStorage> storage);
 
 	std::unique_ptr<IndexerCommandProvider> m_indexerCommandProvider;
 	std::shared_ptr<PersistentStorage> m_storage;
@@ -53,6 +56,8 @@ private:
 	std::vector<std::shared_ptr<IndexerCommandCustom>> m_serialCommands;
 	std::vector<std::shared_ptr<IndexerCommandCustom>> m_parallelCommands;
 	std::mutex m_parallelCommandsMutex;
+	ErrorCountInfo m_errorCount;
+	std::mutex m_errorCountMutex;
 	FilePath m_targetDatabaseFilePath;
 	bool m_hasPythonCommands;
 	std::set<FilePath> m_sourceDatabaseFilePaths;
