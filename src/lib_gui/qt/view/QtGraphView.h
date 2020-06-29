@@ -128,7 +128,7 @@ private:
 		QPointF pathOffset,
 		bool useBezier,
 		bool interactive);
-	QtGraphEdge* createAggregationEdge(
+	QtGraphEdge* createBundledEdgesEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, bool interactive);
 
 	QRectF itemsBoundingRect(const std::list<QtGraphNode*>& items) const;

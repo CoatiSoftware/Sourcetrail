@@ -1,6 +1,6 @@
-#include "TokenComponentAggregation.h"
+#include "TokenComponentBundledEdges.h"
 
-TokenComponentAggregation::Direction TokenComponentAggregation::opposite(Direction direction)
+TokenComponentBundledEdges::Direction TokenComponentBundledEdges::opposite(Direction direction)
 {
 	if (direction == DIRECTION_FORWARD)
 	{
@@ -14,21 +14,21 @@ TokenComponentAggregation::Direction TokenComponentAggregation::opposite(Directi
 	return direction;
 }
 
-TokenComponentAggregation::TokenComponentAggregation(): m_direction(DIRECTION_INVALID) {}
+TokenComponentBundledEdges::TokenComponentBundledEdges(): m_direction(DIRECTION_INVALID) {}
 
-TokenComponentAggregation::~TokenComponentAggregation() {}
+TokenComponentBundledEdges::~TokenComponentBundledEdges() {}
 
-std::shared_ptr<TokenComponent> TokenComponentAggregation::copy() const
+std::shared_ptr<TokenComponent> TokenComponentBundledEdges::copy() const
 {
-	return std::make_shared<TokenComponentAggregation>(*this);
+	return std::make_shared<TokenComponentBundledEdges>(*this);
 }
 
-int TokenComponentAggregation::getAggregationCount() const
+int TokenComponentBundledEdges::getBundledEdgesCount() const
 {
 	return static_cast<int>(m_ids.size());
 }
 
-std::set<Id> TokenComponentAggregation::getAggregationIds() const
+std::set<Id> TokenComponentBundledEdges::getBundledEdgesIds() const
 {
 	std::set<Id> ids;
 
@@ -40,21 +40,21 @@ std::set<Id> TokenComponentAggregation::getAggregationIds() const
 	return ids;
 }
 
-void TokenComponentAggregation::addAggregationId(Id id, bool forward)
+void TokenComponentBundledEdges::addBundledEdgesId(Id id, bool forward)
 {
 	m_ids.emplace(id, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD);
 
 	m_direction = DIRECTION_INVALID;
 }
 
-void TokenComponentAggregation::removeAggregationId(Id id)
+void TokenComponentBundledEdges::removeBundledEdgesId(Id id)
 {
 	m_ids.erase(id);
 
 	m_direction = DIRECTION_INVALID;
 }
 
-TokenComponentAggregation::Direction TokenComponentAggregation::getDirection()
+TokenComponentBundledEdges::Direction TokenComponentBundledEdges::getDirection()
 {
 	if (m_direction != DIRECTION_INVALID)
 	{

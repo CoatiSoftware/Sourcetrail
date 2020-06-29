@@ -19,7 +19,7 @@
 #include "TextCodec.h"
 #include "TimeStamp.h"
 #include "TokenComponentAccess.h"
-#include "TokenComponentAggregation.h"
+#include "TokenComponentBundledEdges.h"
 #include "TokenComponentFilePath.h"
 #include "TokenComponentInheritanceChain.h"
 #include "TokenComponentIsAmbiguous.h"
@@ -1102,8 +1102,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	std::vector<Id> nodeIds;
 	std::vector<Id> edgeIds;
 
-	bool addAggregations = false;
-	std::vector<StorageEdge> edgesToAggregate;
+	bool addBundledEdges = false;
+	std::vector<StorageEdge> edgesToBundle;
 
 	bool addFileContents = false;
 
@@ -1150,7 +1150,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 						(m_hierarchyCache.getLastVisibleParentNodeId(edge.targetNodeId) !=
 						 m_hierarchyCache.getLastVisibleParentNodeId(edge.sourceNodeId)))
 					{
-						edgesToAggregate.push_back(edge);
+						edgesToBundle.push_back(edge);
 					}
 					else
 					{
@@ -1164,7 +1164,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 				}
 				else
 				{
-					addAggregations = true;
+					addBundledEdges = true;
 				}
 			}
 		}
@@ -1221,9 +1221,9 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 		addNodesWithParentsAndEdgesToGraph(nodeIds, edgeIds, graph, true);
 	}
 
-	if (addAggregations)
+	if (addBundledEdges)
 	{
-		addAggregationEdgesToGraph(tokenIds[0], edgesToAggregate, graph);
+		addBundledEdgesToGraph(tokenIds[0], edgesToBundle, graph);
 	}
 	else if (addFileContents)
 	{
@@ -2968,8 +2968,8 @@ void PersistentStorage::addNodesWithParentsAndEdgesToGraph(
 	addEdgesToGraph(utility::toVector(allEdgeIds), graph);
 }
 
-void PersistentStorage::addAggregationEdgesToGraph(
-	Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const
+void PersistentStorage::addBundledEdgesToGraph(
+	Id nodeId, const std::vector<StorageEdge>& edgesToBundle, Graph* graph) const
 {
 	TRACE();
 
@@ -2979,19 +2979,19 @@ void PersistentStorage::addAggregationEdgesToGraph(
 		bool forward;
 	};
 
-	// build aggregation edges:
+	// build bundled edges:
 	// get all children of the active node
 	std::set<Id> childNodeIdsSet, edgeIdsSet;
 	m_hierarchyCache.addAllChildIdsForNodeId(nodeId, &childNodeIdsSet, &edgeIdsSet);
 	const std::vector<Id> childNodeIds = utility::toVector(childNodeIdsSet);
-	if (childNodeIds.size() == 0 && edgesToAggregate.size() == 0)
+	if (childNodeIds.size() == 0 && edgesToBundle.size() == 0)
 	{
 		return;
 	}
 
 	// get all edges of the children
 	std::map<Id, std::vector<EdgeInfo>> connectedNodeIds;
-	for (const StorageEdge& edge: edgesToAggregate)
+	for (const StorageEdge& edge: edgesToBundle)
 	{
 		bool isSource = nodeId == edge.sourceNodeId;
 		EdgeInfo edgeInfo;
@@ -3038,38 +3038,38 @@ void PersistentStorage::addAggregationEdgesToGraph(
 	std::vector<Id> nodeIdsToAdd;
 	for (const std::pair<Id, std::vector<EdgeInfo>>& p: connectedParentNodeIds)
 	{
-		const Id aggregationTargetNodeId = p.first;
-		if (!graph->getNodeById(aggregationTargetNodeId))
+		const Id bundledEdgesTargetNodeId = p.first;
+		if (!graph->getNodeById(bundledEdgesTargetNodeId))
 		{
-			nodeIdsToAdd.push_back(aggregationTargetNodeId);
+			nodeIdsToAdd.push_back(bundledEdgesTargetNodeId);
 		}
 	}
 	addNodesWithParentsAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph, true);
 
-	// create aggregation edges between parents and active node
+	// create bundled edges between parents and active node
 	Node* sourceNode = graph->getNodeById(nodeId);
 	for (const std::pair<Id, std::vector<EdgeInfo>>& p: connectedParentNodeIds)
 	{
-		const Id aggregationTargetNodeId = p.first;
+		const Id bundledEdgesTargetNodeId = p.first;
 
-		Node* targetNode = graph->getNodeById(aggregationTargetNodeId);
+		Node* targetNode = graph->getNodeById(bundledEdgesTargetNodeId);
 		if (!targetNode)
 		{
-			LOG_ERROR("Aggregation target node not present.");
+			LOG_ERROR("Bundled edges target node not present.");
 		}
 
-		std::shared_ptr<TokenComponentAggregation> componentAggregation =
-			std::make_shared<TokenComponentAggregation>();
+		std::shared_ptr<TokenComponentBundledEdges> componentBundledEdges =
+			std::make_shared<TokenComponentBundledEdges>();
 		for (const EdgeInfo& edgeInfo: p.second)
 		{
-			componentAggregation->addAggregationId(edgeInfo.edgeId, edgeInfo.forward);
+			componentBundledEdges->addBundledEdgesId(edgeInfo.edgeId, edgeInfo.forward);
 		}
 
 		// Set first bit to 1 to avoid collisions
-		const Id aggregationId = ~(~Id(0) >> 1) + *componentAggregation->getAggregationIds().begin();
+		const Id bundledEdgesId = ~(~Id(0) >> 1) + *componentBundledEdges->getBundledEdgesIds().begin();
 
-		Edge* edge = graph->createEdge(aggregationId, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
-		edge->addComponent(componentAggregation);
+		Edge* edge = graph->createEdge(bundledEdgesId, Edge::EDGE_BUNDLED_EDGES, sourceNode, targetNode);
+		edge->addComponent(componentBundledEdges);
 	}
 }
 

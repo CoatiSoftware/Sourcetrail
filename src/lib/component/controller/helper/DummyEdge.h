@@ -5,7 +5,7 @@
 #include "types.h"
 
 #include "Edge.h"
-#include "TokenComponentAggregation.h"
+#include "TokenComponentBundledEdges.h"
 
 class Edge;
 
@@ -21,7 +21,7 @@ struct DummyEdge
 		, active(false)
 		, layoutHorizontal(true)
 		, weight(0)
-		, direction(TokenComponentAggregation::DIRECTION_INVALID)
+		, direction(TokenComponentBundledEdges::DIRECTION_INVALID)
 	{
 	}
 
@@ -34,7 +34,7 @@ struct DummyEdge
 		, active(false)
 		, layoutHorizontal(true)
 		, weight(0)
-		, direction(TokenComponentAggregation::DIRECTION_INVALID)
+		, direction(TokenComponentBundledEdges::DIRECTION_INVALID)
 	{
 	}
 
@@ -44,43 +44,43 @@ struct DummyEdge
 		{
 			return weight;
 		}
-		else if (data->isType(Edge::EDGE_AGGREGATION))
+		else if (data->isType(Edge::EDGE_BUNDLED_EDGES))
 		{
-			return data->getComponent<TokenComponentAggregation>()->getAggregationCount();
+			return data->getComponent<TokenComponentBundledEdges>()->getBundledEdgesCount();
 		}
 
 		return 1;
 	}
 
-	void updateDirection(TokenComponentAggregation::Direction dir, bool invert)
+	void updateDirection(TokenComponentBundledEdges::Direction dir, bool invert)
 	{
 		if (invert)
 		{
-			dir = TokenComponentAggregation::opposite(dir);
+			dir = TokenComponentBundledEdges::opposite(dir);
 		}
 
-		if (direction == TokenComponentAggregation::DIRECTION_INVALID)
+		if (direction == TokenComponentBundledEdges::DIRECTION_INVALID)
 		{
 			direction = dir;
 		}
 		else if (direction != dir)
 		{
-			direction = TokenComponentAggregation::DIRECTION_NONE;
+			direction = TokenComponentBundledEdges::DIRECTION_NONE;
 		}
 	}
 
-	TokenComponentAggregation::Direction getDirection() const
+	TokenComponentBundledEdges::Direction getDirection() const
 	{
 		if (!data)
 		{
 			return direction;
 		}
-		else if (data->isType(Edge::EDGE_AGGREGATION))
+		else if (data->isType(Edge::EDGE_BUNDLED_EDGES))
 		{
-			return data->getComponent<TokenComponentAggregation>()->getDirection();
+			return data->getComponent<TokenComponentBundledEdges>()->getDirection();
 		}
 
-		return TokenComponentAggregation::DIRECTION_FORWARD;
+		return TokenComponentBundledEdges::DIRECTION_FORWARD;
 	}
 
 	Id ownerId;
@@ -98,7 +98,7 @@ struct DummyEdge
 
 	// BundleEdge
 	int weight;
-	TokenComponentAggregation::Direction direction;
+	TokenComponentBundledEdges::Direction direction;
 };
 
 #endif	  // DUMMY_EDGE_H

@@ -390,7 +390,7 @@ void QtGraphView::rebuildGraph(
 		std::set<Id> visibleEdgeIds;
 		for (const std::shared_ptr<DummyEdge>& edge: edges)
 		{
-			if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
+			if (!edge->data || !edge->data->isType(Edge::EDGE_BUNDLED_EDGES))
 			{
 				createEdge(
 					view,
@@ -404,9 +404,9 @@ void QtGraphView::rebuildGraph(
 		}
 		for (const std::shared_ptr<DummyEdge>& edge: edges)
 		{
-			if (edge->data && edge->data->isType(Edge::EDGE_AGGREGATION))
+			if (edge->data && edge->data->isType(Edge::EDGE_BUNDLED_EDGES))
 			{
-				createAggregationEdge(view, edge.get(), &visibleEdgeIds, !params.disableInteraction);
+				createBundledEdgesEdge(view, edge.get(), &visibleEdgeIds, !params.disableInteraction);
 			}
 		}
 
@@ -1203,7 +1203,7 @@ QtGraphEdge* QtGraphView::createEdge(
 	return nullptr;
 }
 
-QtGraphEdge* QtGraphView::createAggregationEdge(
+QtGraphEdge* QtGraphView::createBundledEdgesEdge(
 	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, bool interactive)
 {
 	if (!edge->visible)
@@ -1212,9 +1212,9 @@ QtGraphEdge* QtGraphView::createAggregationEdge(
 	}
 
 	bool allVisible = true;
-	std::set<Id> aggregationIds =
-		edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds();
-	for (Id edgeId: aggregationIds)
+	std::set<Id> bundledEdgesIds =
+		edge->data->getComponent<TokenComponentBundledEdges>()->getBundledEdgesIds();
+	for (Id edgeId: bundledEdgesIds)
 	{
 		if (visibleEdgeIds->find(edgeId) == visibleEdgeIds->end())
 		{

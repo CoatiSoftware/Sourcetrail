@@ -134,12 +134,12 @@ B b; // <- ACTION: activate 'B'
 
 
 
-// TEST: Activate aggregation edge
+// TEST: Activate bundled edges edge
 // START ----------------------------------------------------------------------
 
-// ACTION: Move focus on aggregation 'D -> B'
+// ACTION: Move focus on bundled edges 'D -> B'
 // ACTION: Press Enter/E
-// RESULT: aggregation edge is activated
+// RESULT: bundled edges edge is activated
 
 // END ------------------------------------------------------------------------
 

@@ -499,7 +499,7 @@
 			<macro_use>#4E82F6</macro_use>
 			<annotation_use>#4E82F6</annotation_use>
 
-			<aggregation>#666666</aggregation>
+			<bundled_edges>#666666</bundled_edges>
 		</edge>
 	</graph>
 

@@ -406,7 +406,7 @@ QtGraphEdge* GraphFocusHandler::findNextEdge(QPointF pos, Direction direction, Q
 			qreal distXMult = vertical ? 2.0 : 1.0;
 			qreal distYMult = vertical ? 1.0 : 2.0;
 
-			// only use one dimension for distance calculation in aggregation graphs to not miss
+			// only use one dimension for distance calculation in bundled edges graphs to not miss
 			// certain edges
 			if (edge->isBezierEdge() && m_client->getGraphNodes().size() == 2)
 			{

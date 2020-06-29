@@ -234,7 +234,7 @@
 			<include></include>
 			<macro_use></macro_use>
 
-			<aggregation></aggregation>
+			<bundled_edges></bundled_edges>
 		</edge>
 	</graph>
 

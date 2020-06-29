@@ -199,7 +199,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	params.clearSnippets = true;
 
 	Id declarationId = 0;	 // 0 means that no token is found.
-	if (!message->isAggregation)
+	if (!message->isBundledEdges)
 	{
 		std::vector<Id> activeTokenIds;
 		for (Id tokenId: params.activeTokenIds)

@@ -25,7 +25,7 @@ int func()
 
 
 
-// TEST: Graph aggregation focus restored on back
+// TEST: Graph bundled edges focus restored on back
 // START ----------------------------------------------------------------------
 
 class HistoryTestUser
@@ -40,9 +40,9 @@ public:
 	HistoryTest h;
 };
 
-// ACTION: Focus and activate aggregation 'HistoryTestUser -> HistoryTest'
+// ACTION: Focus and activate bundled edges 'HistoryTestUser -> HistoryTest'
 // ACTION: Navigate 'back' in history
-// RESULT: The graph for 'HistoryTest' is restored with focus at aggregation edge
+// RESULT: The graph for 'HistoryTest' is restored with focus at bundled edges edge
 
 // END ------------------------------------------------------------------------
 

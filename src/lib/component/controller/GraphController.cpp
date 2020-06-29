@@ -98,7 +98,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	if (message->isEdge || message->keepContent())
 	{
 		m_activeEdgeIds = message->tokenIds;
-		if (message->isAggregation)	   // only on redo
+		if (message->isBundledEdges)	   // only on redo
 		{
 			m_activeEdgeIds.clear();
 		}
@@ -119,7 +119,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		getView()->activateEdge(edgeId);
 		return;
 	}
-	else if (message->isAggregation)
+	else if (message->isBundledEdges)
 	{
 		m_activeNodeIds.clear();
 		m_activeEdgeIds = message->tokenIds;
@@ -166,7 +166,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		{
 			bundleNodes();
 		}
-		else if (message->isAggregation)
+		else if (message->isBundledEdges)
 		{
 			bool isInheritanceChain = true;
 			for (const auto& edge: m_dummyEdges)
@@ -489,22 +489,22 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 				{
 					std::shared_ptr<DummyEdge> edge = m_dummyEdges[i];
 
-					if (edge && edge->data && edge->data->isType(Edge::EDGE_AGGREGATION) &&
+					if (edge && edge->data && edge->data->isType(Edge::EDGE_BUNDLED_EDGES) &&
 						(edge->targetId == dummyNode->tokenId || edge->ownerId == dummyNode->tokenId))
 					{
-						std::vector<Id> aggregationIds = utility::toVector<Id>(
-							edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds());
+						std::vector<Id> bundledEdgesIds = utility::toVector<Id>(
+							edge->data->getComponent<TokenComponentBundledEdges>()->getBundledEdgesIds());
 
-						if (m_graph->getEdgeById(aggregationIds[0]) != nullptr)
+						if (m_graph->getEdgeById(bundledEdgesIds[0]) != nullptr)
 						{
 							break;
 						}
 
-						std::shared_ptr<Graph> aggregationGraph =
+						std::shared_ptr<Graph> bundledEdgesGraph =
 							m_storageAccess->getGraphForActiveTokenIds(
-								aggregationIds, std::vector<Id>());
+								bundledEdgesIds, std::vector<Id>());
 
-						aggregationGraph->forEachEdge([this](Edge* e) {
+						bundledEdgesGraph->forEachEdge([this](Edge* e) {
 							if (!e->isType(Edge::EDGE_MEMBER))
 							{
 								m_dummyEdges.push_back(std::make_shared<DummyEdge>(
@@ -1085,25 +1085,25 @@ void GraphController::bundleNodes()
 					bundleInfo->isReferencing = false;
 				}
 
-				if (e->isType(Edge::EDGE_AGGREGATION))
+				if (e->isType(Edge::EDGE_BUNDLED_EDGES))
 				{
-					TokenComponentAggregation::Direction dir =
-						e->getComponent<TokenComponentAggregation>()->getDirection();
+					TokenComponentBundledEdges::Direction dir =
+						e->getComponent<TokenComponentBundledEdges>()->getDirection();
 
-					if (dir == TokenComponentAggregation::DIRECTION_NONE)
+					if (dir == TokenComponentBundledEdges::DIRECTION_NONE)
 					{
 						bundleInfo->isReferenced = true;
 						bundleInfo->isReferencing = true;
 					}
 					else if (
-						(dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getFrom() == n) ||
-						(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getTo() == n))
+						(dir == TokenComponentBundledEdges::DIRECTION_FORWARD && e->getFrom() == n) ||
+						(dir == TokenComponentBundledEdges::DIRECTION_BACKWARD && e->getTo() == n))
 					{
 						bundleInfo->isReferencing = true;
 					}
 					else if (
-						(dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getTo() == n) ||
-						(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getFrom() == n))
+						(dir == TokenComponentBundledEdges::DIRECTION_FORWARD && e->getTo() == n) ||
+						(dir == TokenComponentBundledEdges::DIRECTION_BACKWARD && e->getFrom() == n))
 					{
 						bundleInfo->isReferenced = true;
 					}
@@ -2041,7 +2041,7 @@ Vec4i GraphController::layoutNestingRecursive(DummyNode* node, int relayoutAcces
 				break;
 
 			case GroupLayout::BUCKET:
-				if (node->hasActiveSubNode() || !m_activeNodeIds.size() /* aggregations */)
+				if (node->hasActiveSubNode() || !m_activeNodeIds.size() /* bundled edges */)
 				{
 					BucketLayouter grid(viewSize);
 					grid.createBuckets(node->subNodes, m_dummyEdges);
@@ -2446,25 +2446,25 @@ void GraphController::createLegendGraph()
 		addEdge(Edge::EDGE_INHERITANCE, derived, main);
 
 		{
-			Edge* edge = addEdge(Edge::EDGE_AGGREGATION, user, main);
-			std::shared_ptr<TokenComponentAggregation> aggregationComp =
-				std::make_shared<TokenComponentAggregation>();
+			Edge* edge = addEdge(Edge::EDGE_BUNDLED_EDGES, user, main);
+			std::shared_ptr<TokenComponentBundledEdges> bundledEdgesComp =
+				std::make_shared<TokenComponentBundledEdges>();
 			for (size_t i = 0; i < 10; i++)
 			{
-				aggregationComp->addAggregationId(++id, true);
+				bundledEdgesComp->addBundledEdgesId(++id, true);
 			}
-			edge->addComponent(aggregationComp);
+			edge->addComponent(bundledEdgesComp);
 		}
 
 		{
-			Edge* edge = addEdge(Edge::EDGE_AGGREGATION, main, usee);
-			std::shared_ptr<TokenComponentAggregation> aggregationComp =
-				std::make_shared<TokenComponentAggregation>();
+			Edge* edge = addEdge(Edge::EDGE_BUNDLED_EDGES, main, usee);
+			std::shared_ptr<TokenComponentBundledEdges> bundledEdgesComp =
+				std::make_shared<TokenComponentBundledEdges>();
 			for (size_t i = 0; i < 10; i++)
 			{
-				aggregationComp->addAggregationId(++id, true);
+				bundledEdgesComp->addBundledEdgesId(++id, true);
 			}
-			edge->addComponent(aggregationComp);
+			edge->addComponent(bundledEdgesComp);
 		}
 
 		Node* publicMethod = addNode(NODE_METHOD, L"public method", Vec2i());
@@ -2622,17 +2622,17 @@ void GraphController::createLegendGraph()
 		}
 
 		{
-			addText(L"aggregation", 0, Vec2i(x, y + dy * ++i));
+			addText(L"bundled edges", 0, Vec2i(x, y + dy * ++i));
 			Node* typeA = addNode(NODE_TYPE, L"Type A", Vec2i(x, y + dy * ++i));
 			Node* typeB = addNode(NODE_TYPE, L"Type B", Vec2i(x + dx, y + dy * i));
-			Edge* edge = addEdge(Edge::EDGE_AGGREGATION, typeA, typeB);
-			std::shared_ptr<TokenComponentAggregation> aggregationComp =
-				std::make_shared<TokenComponentAggregation>();
+			Edge* edge = addEdge(Edge::EDGE_BUNDLED_EDGES, typeA, typeB);
+			std::shared_ptr<TokenComponentBundledEdges> bundledEdgesComp =
+				std::make_shared<TokenComponentBundledEdges>();
 			for (size_t i = 0; i < 10; i++)
 			{
-				aggregationComp->addAggregationId(++id, true);
+				bundledEdgesComp->addBundledEdgesId(++id, true);
 			}
-			edge->addComponent(aggregationComp);
+			edge->addComponent(bundledEdgesComp);
 		}
 
 		{

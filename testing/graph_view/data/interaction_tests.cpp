@@ -225,10 +225,10 @@ namespace interaction
 
 
 
-// TEST: aggregation expand
+// TEST: bundled edges expand
 // START ----------------------------------------------------------------------
 
-// ACTION 1: Click on aggregation between 'BundleBase -> ExpandedClass'
+// ACTION 1: Click on bundled edges between 'BundleBase -> ExpandedClass'
 // RESULTS 1:
 // - graph shows 6 edges: 4 call, 1 use, 1 type use
 // - edges are displayed as bezier curves

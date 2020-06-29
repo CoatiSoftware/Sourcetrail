@@ -310,9 +310,9 @@ void BucketLayouter::createBuckets(
 				}
 			}
 			else if (
-				edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD ||
+				edge->getDirection() == TokenComponentBundledEdges::DIRECTION_BACKWARD ||
 				// put nodes with bidirectional edges on the left
-				(edge->getDirection() == TokenComponentAggregation::DIRECTION_NONE &&
+				(edge->getDirection() == TokenComponentBundledEdges::DIRECTION_NONE &&
 				 !target->bundleInfo.isReferencing && !target->bundleInfo.isReferenced))
 			{
 				std::swap(owner, target);
