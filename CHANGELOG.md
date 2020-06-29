@@ -1,8 +1,12 @@
 ### Changelog
 
-#### 2020.2.37 (Beta)
-released 2020-06-08
+#### 2020.2.43
+released 2020-06-29
 
+* Docs: Explain Linux Tarball uninstall ([#1047](https://github.com/CoatiSoftware/Sourcetrail/issues/1047))
+* Graph: Renamed 'aggregation' edge to 'bundled edges' for more clarity ([#1051](https://github.com/CoatiSoftware/Sourcetrail/issues/1051))
+* Fixed error recording for multi-threaded custom command indexing ([#1049](https://github.com/CoatiSoftware/Sourcetrail/issues/1049))
+* UI: Fixed crash when changing tabs during animation with focus on a child node ([#1046](https://github.com/CoatiSoftware/Sourcetrail/issues/1046))
 * C/C++: Improved help message for source file extensions in project settings ([#1039](https://github.com/CoatiSoftware/Sourcetrail/issues/1039))
 * Python: Updated to SourcetrailPythonIndexer v1.db25.p4 - Record override edges ([#1037](https://github.com/CoatiSoftware/Sourcetrail/issues/1037))
 * Linux: Migrated Linux '.tar.gz' package creation from CPack to linuxdeployqt ([#1034](https://github.com/CoatiSoftware/Sourcetrail/issues/1034))
