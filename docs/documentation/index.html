@@ -354,7 +354,7 @@
 
 					<ul>
 						<li><strong>Nodes:</strong> All named symbols in your source code will be displayed as different <a href="#Nodes">nodes</a>, such as <var>functions</var>, <var>classes</var> or <var>files</var>. Nodes with members (like <var>classes</var>) can be expanded to show all their contents, the number at the expansion arrow shows how many members are hidden. Clicking a node will activate it and update all the views to the new selection. Dragging a node can be used to change its position.</li>
-						<li><strong>Edges:</strong> The relationships between the symbols are displayed as different <a href="#Edges">edges</a>, such as <var>type use</var>, <var>function call</var> or <var>file include</var>. Sometimes edges get bundled together and are displayed as an <var>aggregation</var> edge that shows a number of how many edges it contains. Clicking an edge will highlight its source location in the code view.</li>
+						<li><strong>Edges:</strong> The relationships between the symbols are displayed as different <a href="#Edges">edges</a>, such as <var>type use</var>, <var>function call</var> or <var>file include</var>. Sometimes edges get bundled together and are displayed as <var>bundled edges</var> that show a number of how many edges are contained. Clicking an edge will highlight its source location in the code view.</li>
 					</ul>
 
 					<div class="row">
@@ -1565,13 +1565,13 @@
 							<tr> <th scope="row">Method Override</th> <td><img src="img/edge_override.png" style="height:240px;"></td> </tr>
 							<tr> <th scope="row">Template Specialization & Template Argument Use</th> <td><img src="img/edge_template_param.png" style="height:100px;"></td> </tr>
 							<tr> <th scope="row">Template Member Specialization</th> <td><img src="img/edge_template_member_specialization.png" style="height:160px;"></td> </tr>
-							<tr> <th scope="row">Aggregation: <span style="font-weight:normal">Bundles multiple edges between the child nodes of the 2 nodes. The thickness gives an impression of how many edges are bundled. Hover the edge to get the number of bundled edges.</span></th> <td><img src="img/edge_aggregation.png" style="height:50px;"></td> </tr>
+							<tr> <th scope="row">Bundled Edges: <span style="font-weight:normal">Bundles multiple edges between the child nodes of the 2 nodes. The thickness gives an impression of how many edges are bundled. Hover the edge to get the number of bundled edges.</span></th> <td><img src="img/edge_bundled_edges.png" style="height:50px;"></td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Click an edge to see its location in the <a href="#CodeView">Code View</a>.</li>
-						<li>Click an aggregation edge to activate all its corresponding edges.</li>
+						<li>Click a bundled edges to activate all its corresponding edges.</li>
 						<li>Hover an edge to see a tooltip that displays the edge’s type.</li>
 					</ul>
 
