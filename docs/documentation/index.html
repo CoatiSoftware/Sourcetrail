@@ -76,7 +76,7 @@
 						</div>
 					</div>
 					<div class="row" style="text-align:center; margin-top: 10px;">
-						<p>Documentation for version 2020.1</p>
+						<p>Documentation for version 2020.2</p>
 					</div>
 
 					<div class="row" style="height:20px;"></div>
@@ -105,10 +105,10 @@
 
 					<h2>Supported Languages</h2>
 					<h3>C</h3>
-					<p>C support is powered by <a href="https://clang.llvm.org/" target="_blank">Clang 8.0.1</a>. For issues loading C code, please have a look at <a href="https://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
+					<p>C support is powered by <a href="https://clang.llvm.org/" target="_blank">Clang 10.0.0</a>. For issues loading C code, please have a look at <a href="https://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
 
 					<h3>C++</h3>
-					<p>C++ support is powered by <a href="https://clang.llvm.org/" target="_blank">Clang 8.0.1</a>. For more Information please visit <a href="https://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. For issues loading C++ code, please have a look at <a href="https://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
+					<p>C++ support is powered by <a href="https://clang.llvm.org/" target="_blank">Clang 10.0.0</a>. For more Information please visit <a href="https://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. For issues loading C++ code, please have a look at <a href="https://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
 
 					<h3>Java</h3>
 					<p>Sourcetrail includes support for Java 10 and lower which is powered by <a href="https://github.com/eclipse/eclipse.jdt.core" target="_blank">Eclipse JDT</a>. If you encounter any issues while using Sourcetrail on a Java project, please let us know by providing a minimal example in our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
@@ -462,7 +462,11 @@
 					<h3>Tarball</h3>
 					<p>Download the <code>.tar.gz</code> file and extract it. To start Sourcetrail run the <code>Sourcetrail.sh</code> script. Sourcetrail creates a folder <code>~/.config/sourcetrail</code> at the first run, this is the folder for Sourcetrail settings.</p>
 
-					<p>To Install Sourcetrail run the <code>install.sh</code> script with <code>sudo</code>, it will install Sourcetrail to <code>/opt/sourcetrail</code> and create <code>/usr/bin/sourcetrail</code> symlink.</p>
+					<h4>Install</h4>
+					<p>To install Sourcetrail run the <code>install.sh</code> script with <code>sudo</code>. It will install Sourcetrail to <code>/opt/sourcetrail</code> and create the <code>/usr/bin/sourcetrail</code> symlink.</p>
+
+					<h4>Uninstall</h4>
+					<p>To uninstall Sourcetrail run the <code>/opt/sourcetrail/uninstall.sh</code> script with <code>sudo</code>.</p>
 
 					<h3>AppImage</h3>
 					<p>Download the <code>.AppImage</code> file. Give it permission to execute with <code>chmod a+x</code> or via the context menu. To start Sourcetrail double click it or execute it from the Terminal. Sourcetrail creates a folder <code>~/.config/sourcetrail</code> at the first run, this is the folder for Sourcetrail settings.</p>
@@ -1509,13 +1513,18 @@
 
 					<strong>Context Menu:</strong>
 					<ul>
-						<li><b>Save As Image:</b> Export current graph as image file. Possible formats are <code>PNG</code>, <code>JPEG</code>, <code>BMP</code> and <code>SVG</code>.</li>
+						<li><b>Open in New Tab:</b> Opens a new Tab with the node under the mouse cursor as active symbol.</li>
+						<li><b>Back:</b> Go back in history.</li>
+						<li><b>Forward:</b> Go forward in history.</li>
+						<li><b>Show Definition:</b> Show the definition of the node under the mouse cursor in the <a href="#CodeView">Code View</a>.</li>
+						<li><b>Show Definition in IDE:</b> Show the definition of the node under the mouse cursor using the connected <a href="#CodeEditorPlugins">Code Editor Plugin</a>.</li>
 						<li><b>Expand Node:</b> Expand node under mouse cursor.</li>
 						<li><b>Collapse Node:</b> Collapse node under mouse cursor.</li>
-						<li><b>Show Definition:</b> Show the definition of the node under the mouse cursor in the <a href="#CodeView">Code View</a>.</li>
 						<li><b>Hide Node:</b> Hide node under mouse cursor.</li>
 						<li><b>Hide Edge:</b> Hide edge under mouse cursor.</li>
 						<li><b>Bookmark Node:</b> Create a bookmark for node under mouse cursor.</li>
+						<li><b>Save As Image:</b> Export current graph as image file. Possible formats are <code>PNG</code>, <code>JPEG</code>, <code>BMP</code> and <code>SVG</code>.</li>
+						<li><b>Save To Clipboard:</b> Save current graph as <code>PNG</code> image to clipboard.</li>
 						<li><b>Copy Name:</b> Copy name for node under mouse cursor to clipboard.</li>
 						<li><b>Copy Full Path:</b> Copy file path for file node under mouse cursor to clipboard.</li>
 						<li><b>Open Containing Folder:</b> Show the file in your file explorer for file node under mouse cursor.</li>
