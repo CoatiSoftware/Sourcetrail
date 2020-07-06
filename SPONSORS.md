@@ -23,13 +23,13 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Andreas
 * Anton
 * Bicakci, Inc.
-* BJ
 * Frederic Simonis
 * Friedrich Hunstock
 * Graydon Hoare
 * IndustrialRobot
 * Jason Stevens
 * John Borland
+* kagusanto
 * kale
 * MangerDesPates
 * Matěj Týč
@@ -45,7 +45,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Thorsten Dahlheimer
 * Tomi Joki-Korpela
 * Tony Hong
-* Traxes
 * Werner de Groot
 * Yacob Cohen-Arazi
 * Yang, Wenbo
