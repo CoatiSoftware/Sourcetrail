@@ -71,10 +71,9 @@ std::pair<int, std::string> utility::executeProcess(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
-	QStringList arguments;
-	for (auto commandArgument: commandArguments)
+	for (const std::wstring& commandArgument: commandArguments)
 	{
-		arguments << QString::fromStdWString(commandArgument);
+		command += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -86,7 +85,7 @@ std::pair<int, std::string> utility::executeProcess(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command, arguments);
+		process.start(command);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -120,10 +119,9 @@ std::string utility::executeProcessUntilNoOutput(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
-	QStringList arguments;
-	for (auto commandArgument: commandArguments)
+	for (const std::wstring& commandArgument: commandArguments)
 	{
-		arguments << QString::fromStdWString(commandArgument);
+		command += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -135,7 +133,7 @@ std::string utility::executeProcessUntilNoOutput(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command, arguments);
+		process.start(command);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -181,9 +179,7 @@ int utility::executeProcessAndGetExitCode(
 	QProcess process;
 
 	QObject::connect(
-		&process,
-		&QProcess::errorOccurred,
-		[&finished, errorMessage, commandPath](QProcess::ProcessError error) {
+		&process, &QProcess::errorOccurred, [&finished, errorMessage](QProcess::ProcessError error) {
 			finished = true;
 			if (errorMessage != nullptr)
 			{
@@ -223,10 +219,9 @@ int utility::executeProcessAndGetExitCode(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
-	QStringList arguments;
-	for (auto commandArgument: commandArguments)
+	for (const std::wstring& commandArgument: commandArguments)
 	{
-		arguments << QString::fromStdWString(commandArgument);
+		command += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -238,7 +233,7 @@ int utility::executeProcessAndGetExitCode(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command, arguments);
+		process.start(command);
 		s_runningProcesses.insert(&process);
 	}
 
