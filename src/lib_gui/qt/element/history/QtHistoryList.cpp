@@ -80,7 +80,8 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 QSize QtHistoryItem::getSizeHint() const
 {
 	return QSize(
-		m_name->fontMetrics().width(m_name->text()) + 40, m_name->fontMetrics().height() + 8);
+		m_name->fontMetrics().boundingRect(m_name->text()).width() + 40,
+		m_name->fontMetrics().height() + 8);
 }
 
 const SearchMatch& QtHistoryItem::getMatch() const

@@ -425,16 +425,13 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		// maven path
 		m_mavenPath = new QtLocationPicker(this);
 
-		if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
-		{
-			m_mavenPath->setFileFilter(QStringLiteral("Maven command (mvn.cmd)"));
-			m_mavenPath->setPlaceholderText(QStringLiteral("<maven_path>/bin/mvn.cmd"));
-		}
-		else
-		{
-			m_mavenPath->setFileFilter(QStringLiteral("Maven command (mvn)"));
-			m_mavenPath->setPlaceholderText(QStringLiteral("<binarypath>/mvn"));
-		}
+		#ifdef WIN32
+		m_mavenPath->setFileFilter(QStringLiteral("Maven command (mvn.cmd)"));
+		m_mavenPath->setPlaceholderText(QStringLiteral("<maven_path>/bin/mvn.cmd"));
+		#else
+		m_mavenPath->setFileFilter(QStringLiteral("Maven command (mvn)"));
+		m_mavenPath->setPlaceholderText(QStringLiteral("<binarypath>/mvn"));
+		#endif
 
 		addLabelAndWidget(QStringLiteral("Maven Path"), m_mavenPath, layout, row);
 

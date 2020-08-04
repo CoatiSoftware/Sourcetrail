@@ -12,8 +12,8 @@ QtWindowBase::QtWindowBase(bool isSubWindow, QWidget* parent)
 	, m_isSubWindow(isSubWindow)
 	, m_window(nullptr)
 	, m_content(nullptr)
-	, m_sizeGrip(nullptr)
 	, m_mousePressedInWindow(false)
+	, m_sizeGrip(nullptr)
 {
 	if (isSubWindow)
 	{

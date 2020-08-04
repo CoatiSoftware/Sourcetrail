@@ -25,7 +25,7 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	}
 
 	QHBoxLayout* titleLayout = new QHBoxLayout();
-	titleLayout->setMargin(0);
+	titleLayout->setContentsMargins(0, 0, 0, 0);
 	titleLayout->setSpacing(0);
 	titleLayout->setAlignment(Qt::AlignLeft);
 	setLayout(titleLayout);

@@ -139,7 +139,7 @@ void QtStartScreen::updateButtons()
 				button->setIcon(m_projectIcon);
 				break;
 			}
-			button->setFixedWidth(button->fontMetrics().width(button->text()) + 45);
+			button->setFixedWidth(button->fontMetrics().boundingRect(button->text()).width() + 45);
 			connect(
 				button,
 				&QtRecentProjectButton::clicked,
@@ -274,7 +274,7 @@ void QtStartScreen::setupStartScreen()
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 			button->setIcon(m_projectIcon);
 			button->setIconSize(QSize(30, 30));
-			button->setMinimumSize(button->fontMetrics().width(button->text()) + 45, 40);
+			button->setMinimumSize(button->fontMetrics().boundingRect(button->text()).width() + 45, 40);
 			button->setObjectName(QStringLiteral("recentButtonMissing"));
 			button->minimumSizeHint();	  // force font loading
 			m_recentProjectsButtons.push_back(button);

@@ -1,6 +1,7 @@
 #ifndef UTILITY_LIBRARY_H
 #define UTILITY_LIBRARY_H
 
+#include <QDir>
 #include <functional>
 #include <iostream>
 #include <sstream>
@@ -23,8 +24,8 @@ std::function<Ret(Args...)> loadFunctionFromLibrary(
 	const FilePath& libraryPath, const std::string& functionName, std::string& errorString)
 {
 #ifdef _WIN32
-	const std::string libraryPathString = libraryPath.getBackslashedString();
-	HINSTANCE handle = LoadLibrary(libraryPathString.c_str());
+	QString libraryPathString = QDir::toNativeSeparators(QString::fromStdWString(libraryPath.wstr()));
+	HINSTANCE handle = LoadLibrary(libraryPathString.toStdString().c_str());
 	if (handle == nullptr)
 	{
 		DWORD errorCode = GetLastError();
@@ -53,8 +54,8 @@ std::function<Ret(Args...)> loadFunctionFromLibrary(
 
 		LocalFree(messageBuffer);
 
-		errorString = "Could not load library \"" + libraryPathString + "\" because of " +
-			errorReasonString;
+		errorString = "Could not load library \"" + libraryPathString.toStdString() +
+			"\" because of " + errorReasonString;
 		return std::function<Ret(Args...)>();
 	}
 
@@ -63,7 +64,7 @@ std::function<Ret(Args...)> loadFunctionFromLibrary(
 	if (!functionId)
 	{
 		errorString = "Could not locate the function \"" + functionName + "\" in library\"" +
-			libraryPathString + "\"";
+			libraryPathString.toStdString() + "\"";
 		return std::function<Ret(Args...)>();
 	}
 #else

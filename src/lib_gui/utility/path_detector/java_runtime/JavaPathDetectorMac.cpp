@@ -14,8 +14,7 @@ std::vector<FilePath> JavaPathDetectorMac::doGetPaths() const
 	std::vector<FilePath> paths;
 	FilePath javaPath;
 
-	std::string command = "/usr/libexec/java_home";
-	std::string output = utility::executeProcess(command.c_str()).second;
+	std::string output = utility::executeProcess(L"/usr/libexec/java_home", std::vector<std::wstring>{}).second;
 
 	if (!output.empty())
 	{

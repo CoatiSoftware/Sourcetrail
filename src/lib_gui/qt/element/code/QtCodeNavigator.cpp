@@ -219,8 +219,8 @@ void QtCodeNavigator::updateReferenceCount(
 	}
 
 	m_refLabel->setMinimumWidth(
-		m_refLabel->fontMetrics().width(
-			QString(QString::number(referenceCount).size() * 2, 'a') + "/ references") +
+		m_refLabel->fontMetrics().boundingRect(
+			QString(QString::number(referenceCount).size() * 2, 'a') + "/ references").width() +
 		30);
 
 	m_prevReferenceButton->setEnabled(referenceCount > 1);
@@ -239,8 +239,8 @@ void QtCodeNavigator::updateReferenceCount(
 	}
 
 	m_localRefLabel->setMinimumWidth(
-		m_localRefLabel->fontMetrics().width(
-			QString(QString::number(localReferenceCount).size() * 2, 'a') + "/ local references") +
+		m_localRefLabel->fontMetrics().boundingRect(
+			QString(QString::number(localReferenceCount).size() * 2, 'a') + "/ local references").width() +
 		30);
 
 	m_nextLocalReferenceButton->setVisible(localReferenceCount > 1);

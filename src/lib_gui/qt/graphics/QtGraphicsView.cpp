@@ -473,9 +473,9 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 
 	if (zoomDefault != (shiftPressed | ctrlPressed))
 	{
-		if (event->delta() != 0.0f)
+		if (event->angleDelta().y() != 0.0f)
 		{
-			updateZoom(static_cast<float>(event->delta()));
+			updateZoom(static_cast<float>(event->angleDelta().y()));
 		}
 	}
 	else

@@ -170,10 +170,12 @@ find_package(Boost 1.67 COMPONENTS system program_options filesystem date_time R
 
 # Qt ---------------------------------------------------------------------------
 
-find_package(Qt5 COMPONENTS Widgets PrintSupport Network Svg REQUIRED)
+set (QT_MIN_VERSION "5.12.0")
+set (QT_MIN_VERSION_HEX 0x051200)
+find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS Widgets PrintSupport Network Svg REQUIRED)
 
 if (WIN32)
-	find_package(Qt5 COMPONENTS WinExtras REQUIRED)
+	find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS WinExtras REQUIRED)
 endif()
 
 if(Qt5Widgets_FOUND)
@@ -183,6 +185,18 @@ if(Qt5Widgets_FOUND)
 	if (Qt5_POSITION_INDEPENDENT_CODE)
 		SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
 	endif()
+
+	# The following define makes your compiler emit warnings if you use
+	# any feature of Qt which as been marked as deprecated (the exact warnings
+	# depend on your compiler). Please consult the documentation of the
+	# deprecated API in order to know how to port your code away from it.
+	add_definitions (-DQT_DEPRECATED_WARNINGS)
+
+	# You can also make your code fail to compile if you use deprecated APIs.
+	# In order to do so, uncomment the following line.
+	# You can also select to disable deprecated APIs only up to a certain version of Qt.
+	#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=${QT_MIN_VERSION_HEX}    # disables all the APIs deprecated at or before the specified Qt version
+	add_definitions (-DQT_DISABLE_DEPRECATED_BEFORE=${QT_MIN_VERSION_HEX})
 endif()
 
 

@@ -4,6 +4,7 @@
 #include <QClipboard>
 #include <QContextMenuEvent>
 #include <QDesktopServices>
+#include <QDir>
 #include <QUrl>
 
 #include "MessageHistoryRedo.h"
@@ -118,10 +119,8 @@ void QtContextMenu::redoActionTriggered()
 
 void QtContextMenu::copyFullPathActionTriggered()
 {
-	const std::wstring pathString = (QSysInfo::windowsVersion() != QSysInfo::WV_None)
-		? s_filePath.getBackslashedWString()
-		: s_filePath.wstr();
-	QApplication::clipboard()->setText(QString::fromStdWString(pathString));
+	QApplication::clipboard()->setText(
+		QDir::toNativeSeparators(QString::fromStdWString(s_filePath.wstr())));
 }
 
 void QtContextMenu::openContainingFolderActionTriggered()

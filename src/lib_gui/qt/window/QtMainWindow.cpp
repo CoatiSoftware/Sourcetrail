@@ -1134,7 +1134,7 @@ void QtMainWindow::setShowDockWidgetTitleBars(bool showTitleBars)
 	{
 		if (showTitleBars)
 		{
-			dock.widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+			dock.widget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 			dock.widget->setTitleBarWidget(nullptr);
 		}
 		else

@@ -57,7 +57,10 @@ std::set<QProcess*> s_runningProcesses;
 }	 // namespace utility
 
 std::pair<int, std::string> utility::executeProcess(
-	const std::string& command, const FilePath& workingDirectory, const int timeout)
+	const std::wstring& commandPath,
+	const std::vector<std::wstring>& commandArguments,
+	const FilePath& workingDirectory,
+	const int timeout)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
@@ -65,6 +68,12 @@ std::pair<int, std::string> utility::executeProcess(
 	if (!workingDirectory.empty())
 	{
 		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
+	}
+
+	QString command = QString::fromStdWString(commandPath);
+	for (const std::wstring& commandArgument: commandArguments)
+	{
+		command += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -76,7 +85,7 @@ std::pair<int, std::string> utility::executeProcess(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command.c_str());
+		process.start(command);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -96,7 +105,10 @@ std::pair<int, std::string> utility::executeProcess(
 }
 
 std::string utility::executeProcessUntilNoOutput(
-	const std::string& command, const FilePath& workingDirectory, const int waitTime)
+	const std::wstring& commandPath,
+	const std::vector<std::wstring>& commandArguments,
+	const FilePath& workingDirectory,
+	const int waitTime)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
@@ -104,6 +116,12 @@ std::string utility::executeProcessUntilNoOutput(
 	if (!workingDirectory.empty())
 	{
 		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
+	}
+
+	QString command = QString::fromStdWString(commandPath);
+	for (const std::wstring& commandArgument: commandArguments)
+	{
+		command += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -115,7 +133,7 @@ std::string utility::executeProcessUntilNoOutput(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command.c_str());
+		process.start(command);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -161,9 +179,7 @@ int utility::executeProcessAndGetExitCode(
 	QProcess process;
 
 	QObject::connect(
-		&process,
-		&QProcess::errorOccurred,
-		[&finished, errorMessage, commandPath](QProcess::ProcessError error) {
+		&process, &QProcess::errorOccurred, [&finished, errorMessage](QProcess::ProcessError error) {
 			finished = true;
 			if (errorMessage != nullptr)
 			{
@@ -205,7 +221,7 @@ int utility::executeProcessAndGetExitCode(
 	QString command = QString::fromStdWString(commandPath);
 	for (const std::wstring& commandArgument: commandArguments)
 	{
-		command += " " + QString::fromStdWString(commandArgument);
+		command += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -276,23 +292,6 @@ int utility::getIdealThreadCount()
 	return std::max(1, threadCount);
 }
 
-OsType utility::getOsType()
-{
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
-	{
-		return OS_WINDOWS;
-	}
-	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
-	{
-		return OS_MAC;
-	}
-	else
-	{
-		return OS_LINUX;
-	}
-	return OS_UNKNOWN;
-}
-
 std::string utility::getOsTypeString()
 {
 	// WARNING: Don't change these string. The server API relies on them.
@@ -308,15 +307,4 @@ std::string utility::getOsTypeString()
 		break;
 	}
 	return "unknown";
-}
-
-ApplicationArchitectureType utility::getApplicationArchitectureType()
-{
-#if defined(__x86_64) || defined(__x86_64__) || defined(__amd64) || defined(_M_X64) ||             \
-	defined(WIN64)
-	return APPLICATION_ARCHITECTURE_X86_64;
-#else
-	return APPLICATION_ARCHITECTURE_X86_32;
-#endif
-	return APPLICATION_ARCHITECTURE_UNKNOWN;
 }

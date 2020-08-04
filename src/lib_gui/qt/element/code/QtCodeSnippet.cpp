@@ -24,7 +24,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	setObjectName(QStringLiteral("code_snippet"));
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
-	layout->setMargin(0);
+	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
@@ -268,7 +268,7 @@ void QtCodeSnippet::clickedFooter()
 QtHoverButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
 {
 	QHBoxLayout* lineLayout = new QHBoxLayout();
-	lineLayout->setMargin(0);
+	lineLayout->setContentsMargins(0, 0, 0, 0);
 	lineLayout->setSpacing(0);
 	lineLayout->setAlignment(Qt::AlignLeft);
 	layout->addLayout(lineLayout);
