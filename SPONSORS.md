@@ -23,6 +23,8 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Andreas
 * Anton
 * Bicakci, Inc.
+* BJ
+* Ferenc Fejes
 * Frederic Simonis
 * Friedrich Hunstock
 * Graydon Hoare
@@ -34,7 +36,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * MangerDesPates
 * Matěj Týč
 * Nakul Dhotre
-* Nathan
 * Nathan Loofbourrow
 * Nils Moehrle
 * Rui Pires
