@@ -10,3 +10,4 @@ Type=Application
 MimeType=application/x-sourcetrail;
 Categories=Development;
 StartupNotify=true
+StartupWMClass=Sourcetrail
