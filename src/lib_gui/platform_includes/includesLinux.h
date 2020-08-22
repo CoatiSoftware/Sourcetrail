@@ -3,6 +3,7 @@
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QDirIterator>
 
 #include "AppPath.h"
 #include "FilePath.h"
@@ -70,6 +71,13 @@ void setupApp(int argc, char* argv[])
 	utility::copyNewFilesFromDirectory(
 		QString::fromStdWString(AppPath::getSharedDataPath().concatenate(L"user/").wstr()),
 		userDataPath);
+
+	// Add u+w permissions because the source files may be marked read-only in some distros
+	QDirIterator it(userDataPath, QDir::Files, QDirIterator::Subdirectories);
+	while (it.hasNext()) {
+		QFile f(it.next());
+		f.setPermissions(f.permissions() | QFile::WriteOwner);
+	}
 }
 
 #endif	  // INCLUDES_DEFAULT_H
