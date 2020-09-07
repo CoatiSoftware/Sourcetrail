@@ -11,11 +11,11 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 ## Super Coatis
 
 * Alexis Jeandet
+* Anshu Mathur
 * Anthony Marchini
+* Jean-Luc Burhop
+* Kikuchi Takanori
 * Konstantin Kirenko
-* Louis St-Amour
-* Mario Lioni
-* Simon Pintarelli
 
 ## Regular Coatis
 
@@ -36,7 +36,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * MangerDesPates
 * Matěj Týč
 * Nakul Dhotre
-* Nathan Loofbourrow
+* Nick Moore
 * Nils Moehrle
 * Rui Pires
 * Ryo Koyama
@@ -49,7 +49,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Werner de Groot
 * Yacob Cohen-Arazi
 * Yang, Wenbo
-* 勇男 金子
 * 郝晨煜
 
 _Note: This file will be updated at the beginning of each month._
