@@ -87,7 +87,7 @@ if [ $PLATFORM == "linux" ]; then
 elif [ $PLATFORM == "osx" ]; then
 	unzip -d $TEMP_PATH $TEMP_PATH/$PACKAGE_FILE_NAME
 elif [ $PLATFORM == "windows" ]; then
-	winrar x $TEMP_PATH/$PACKAGE_FILE_NAME $TEMP_PATH
+    7z x $TEMP_PATH/$PACKAGE_FILE_NAME -o$TEMP_PATH
 fi
 
 
