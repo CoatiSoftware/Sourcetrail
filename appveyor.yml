@@ -12,8 +12,6 @@ install:
   - ninja --version
 
 before_build:
-    - choco install winrar -y
-    - SET "PATH=%PATH%;C:\Program Files\WinRAR"
     - mkdir build
     - cd build
     - mkdir temp
