@@ -188,7 +188,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 ### Required Tools
 
-* __WinRAR (required for Windows)__
+* __7z (required for Windows)__
     * __REASON__: Used to extract the prebuilt SourcetrailPythonIndexer which is downloaded automatically during build execution.
 
 ### Building
