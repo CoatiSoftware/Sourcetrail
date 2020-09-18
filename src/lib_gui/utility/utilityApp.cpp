@@ -71,9 +71,10 @@ std::pair<int, std::string> utility::executeProcess(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
+	QStringList arguments;
 	for (const std::wstring& commandArgument: commandArguments)
 	{
-		command += QString::fromStdWString(L" " + commandArgument);
+		arguments += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -85,7 +86,7 @@ std::pair<int, std::string> utility::executeProcess(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
+		process.start(command, arguments);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -119,9 +120,10 @@ std::string utility::executeProcessUntilNoOutput(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
+	QStringList arguments;
 	for (const std::wstring& commandArgument: commandArguments)
 	{
-		command += QString::fromStdWString(L" " + commandArgument);
+		arguments += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -133,7 +135,7 @@ std::string utility::executeProcessUntilNoOutput(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
+		process.start(command, arguments);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -219,9 +221,10 @@ int utility::executeProcessAndGetExitCode(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
+	QStringList arguments;
 	for (const std::wstring& commandArgument: commandArguments)
 	{
-		command += QString::fromStdWString(L" " + commandArgument);
+		arguments += QString::fromStdWString(L" " + commandArgument);
 	}
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -233,7 +236,7 @@ int utility::executeProcessAndGetExitCode(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
+		process.start(command, arguments);
 		s_runningProcesses.insert(&process);
 	}
 
