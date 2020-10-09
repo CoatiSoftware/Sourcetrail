@@ -40,7 +40,7 @@ bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 	if (event->type() == QEvent::Wheel && scrollbar)
 	{
 		QRect scrollbarArea(scrollbar->pos(), scrollbar->size());
-		QPoint globalMousePos = dynamic_cast<QWheelEvent*>(event)->globalPos();
+		QPoint globalMousePos = dynamic_cast<QWheelEvent*>(event)->globalPosition().toPoint();
 		QPoint localMousePos = scrollbar->mapFromGlobal(globalMousePos);
 
 		// instead of "scrollbar->underMouse()" we need this check implemented here because
