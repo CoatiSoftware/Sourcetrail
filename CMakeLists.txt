@@ -24,6 +24,7 @@ if (${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 	message(FATAL_ERROR "Please create a separate build directory and call CMake again")
 endif()
 
+
 # speed up recompiling on unix with ccache
 find_program(CCACHE_PROGRAM ccache)
 if (CCACHE_PROGRAM)
