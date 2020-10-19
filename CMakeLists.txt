@@ -24,15 +24,15 @@ if (${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 	message(FATAL_ERROR "Please create a separate build directory and call CMake again")
 endif()
 
-# speed up recompiling on unix with ccache
-find_program(CCACHE_PROGRAM ccache)
-if (CCACHE_PROGRAM)
-	message(STATUS "ccache found")
-
-	# Support Unix Makefiles and Ninja
-	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+if(NOT DEFINED CMAKE_CXX_COMPILER_LAUNCHER)
+	# speed up recompiling on unix with ccache
+	find_program(CCACHE_PROGRAM ccache)
+	if (CCACHE_PROGRAM)
+		message(STATUS "ccache found")
+		# Support Unix Makefiles and Ninja
+		set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}" CACHE STRING "Compiler launcher for CXX")
+	endif()
 endif()
-
 
 # Variables --------------------------------------------------------------------
 
