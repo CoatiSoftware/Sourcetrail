@@ -37,7 +37,6 @@
 QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	: QGraphicsView(parent)
 	, m_focusHandler(focusHandler)
-	, m_zoomFactor(1.0f)
 	, m_appZoomFactor(1.0f)
 	, m_zoomInButtonSpeed(20.0f)
 	, m_zoomOutButtonSpeed(-20.0f)
@@ -166,6 +165,8 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_legendButton->setObjectName(QStringLiteral("legend_button"));
 	m_legendButton->setToolTip(QStringLiteral("show legend"));
 	connect(m_legendButton, &QPushButton::clicked, this, &QtGraphicsView::legendClicked);
+
+	m_zoomFactor = ApplicationSettings::getInstance()->getGraphZoomLevel();
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -834,6 +835,10 @@ bool QtGraphicsView::moves() const
 void QtGraphicsView::setZoomFactor(float zoomFactor)
 {
 	m_zoomFactor = zoomFactor;
+
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	settings->setGraphZoomLevel(zoomFactor);
+	settings->save();
 
 	m_zoomState->setText(QString::number(int(m_zoomFactor * 100)) + "%");
 	updateTransform();

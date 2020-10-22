@@ -678,6 +678,16 @@ void ApplicationSettings::setLastFilepickerLocation(const FilePath& path)
 	setValue<std::wstring>("user/last_filepicker_location", path.wstr());
 }
 
+float ApplicationSettings::getGraphZoomLevel() const
+{
+	return getValue<float>("user/graph_zoom_level", 1);
+}
+
+void ApplicationSettings::setGraphZoomLevel(float zoomLevel)
+{
+	setValue<float>("user/graph_zoom_level", zoomLevel);
+}
+
 int ApplicationSettings::getPluginPort() const
 {
 	return getValue<int>("network/plugin_port", 6666);
