@@ -37,7 +37,7 @@
 QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	: QGraphicsView(parent)
 	, m_focusHandler(focusHandler)
-	, m_zoomFactor(1.0f)
+	, m_zoomFactor(ApplicationSettings::getInstance()->getGraphZoomLevel())
 	, m_appZoomFactor(1.0f)
 	, m_zoomInButtonSpeed(20.0f)
 	, m_zoomOutButtonSpeed(-20.0f)
@@ -834,6 +834,10 @@ bool QtGraphicsView::moves() const
 void QtGraphicsView::setZoomFactor(float zoomFactor)
 {
 	m_zoomFactor = zoomFactor;
+
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	settings->setGraphZoomLevel(zoomFactor);
+	settings->save();
 
 	m_zoomState->setText(QString::number(int(m_zoomFactor * 100)) + "%");
 	updateTransform();
