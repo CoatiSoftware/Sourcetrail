@@ -680,7 +680,7 @@ void ApplicationSettings::setLastFilepickerLocation(const FilePath& path)
 
 float ApplicationSettings::getGraphZoomLevel() const
 {
-	return getValue<float>("user/graph_zoom_level", 1);
+	return getValue<float>("user/graph_zoom_level", 1.0f);
 }
 
 void ApplicationSettings::setGraphZoomLevel(float zoomLevel)
