@@ -150,6 +150,7 @@ public slots:
 	void updateRecentProjectsMenu();
 
 	void toggleView(View* view, bool fromMenu);
+	void saveAsImage();
 
 private slots:
 	void toggleShowDockWidgetTitleBars();

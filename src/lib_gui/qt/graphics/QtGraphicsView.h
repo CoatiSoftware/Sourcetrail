@@ -6,6 +6,9 @@
 #include <QGraphicsView>
 
 #include "types.h"
+#include "MessageListener.h"
+#include "MessageSaveAsImage.h"
+
 
 class GraphFocusHandler;
 class QPushButton;
@@ -14,7 +17,7 @@ class QtGraphEdge;
 class QtGraphNode;
 class QtSelfRefreshIconButton;
 
-class QtGraphicsView: public QGraphicsView
+class QtGraphicsView: public QGraphicsView, public MessageListener<MessageSaveAsImage>
 {
 	Q_OBJECT
 
@@ -90,6 +93,8 @@ private:
 	void setZoomFactor(float zoomFactor);
 	void updateTransform();
 
+	void handleMessage(MessageSaveAsImage* message) override;
+
 	GraphFocusHandler* m_focusHandler;
 
 	QPoint m_last;
@@ -141,6 +146,9 @@ private:
 
 	float m_zoomInButtonSpeed;
 	float m_zoomOutButtonSpeed;
+
+	QImage imageCached;
+	static QtGraphicsView* lastViewFocused;
 };
 
 #endif	  // QT_GRAPHICS_VIEW_H

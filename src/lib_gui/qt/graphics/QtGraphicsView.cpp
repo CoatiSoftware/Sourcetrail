@@ -183,6 +183,7 @@ void QtGraphicsView::setSceneRect(const QRectF& rect)
 {
 	QGraphicsView::setSceneRect(rect);
 	scene()->setSceneRect(rect);
+	imageCached = toQImage();
 }
 
 QtGraphNode* QtGraphicsView::getNodeAtCursorPosition() const
@@ -602,6 +603,7 @@ void QtGraphicsView::focusInEvent(QFocusEvent* event)
 	emit focusIn();
 
 	MessageFocusView(MessageFocusView::ViewType::GRAPH).dispatch();
+	lastViewFocused = this;
 }
 
 void QtGraphicsView::focusOutEvent(QFocusEvent* event)
@@ -723,7 +725,6 @@ void QtGraphicsView::exportGraph()
 			FilePath(),
 			QStringLiteral("PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)"))
 			.toStdWString());
-
 
 	if (filePath.extension() == L".svg")
 	{
@@ -851,4 +852,14 @@ void QtGraphicsView::updateTransform()
 {
 	float zoomFactor = m_appZoomFactor * m_zoomFactor;
 	setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
+}
+
+QtGraphicsView* QtGraphicsView::lastViewFocused;
+
+void QtGraphicsView::handleMessage(MessageSaveAsImage* message)
+{
+	if ( (lastViewFocused == this) && !imageCached.isNull() )
+	{
+		imageCached.save(message->path);
+	}
 }
