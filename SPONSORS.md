@@ -12,9 +12,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 
 * Alexis Jeandet
 * Anshu Mathur
-* Anthony Marchini
 * Chris Morley
-* Jean-Luc Burhop
 * Kikuchi Takanori
 * Konstantin Kirenko
 * Louis St-Amour
@@ -23,7 +21,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 
 * Alex B
 * Andreas
-* anonymous
 * Anton
 * Bicakci, Inc.
 * BJ
@@ -32,18 +29,19 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Friedrich Hunstock
 * Graydon Hoare
 * IndustrialRobot
-* Jason Stevens
 * John Borland
 * kagusanto
-* kale
 * MangerDesPates
 * Matěj Týč
 * Max Bruckner
+* Michael F. Schönitzer
 * Nakul Dhotre
+* Neil Horlock
 * Nick Moore
 * Nils Moehrle
 * Rui Pires
 * Ryo Koyama
+* Rémi Cohen-Scali
 * Simon
 * Sneakyferret
 * Stephan Roslen
