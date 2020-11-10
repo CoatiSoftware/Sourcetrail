@@ -48,6 +48,16 @@ void logProcessStreams(QProcess& process, std::wstring& outputBuffer, std::wstri
 		errorBuffer = errorLines.back();
 	}
 }
+
+QStringList toQStringList(const std::vector<std::wstring>& strings)
+{
+	QStringList result;
+	for (const std::wstring& next: strings)
+	{
+		result += QString::fromStdWString(next);
+	}
+	return result;
+}
 }	 // namespace
 
 namespace utility
@@ -71,10 +81,7 @@ std::pair<int, std::string> utility::executeProcess(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
+	QStringList arguments = toQStringList(commandArguments);
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	QStringList envlist = env.toStringList();
@@ -85,7 +92,7 @@ std::pair<int, std::string> utility::executeProcess(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
+		process.start(command, arguments);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -119,10 +126,7 @@ std::string utility::executeProcessUntilNoOutput(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
+	QStringList arguments = toQStringList(commandArguments);
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	QStringList envlist = env.toStringList();
@@ -133,7 +137,7 @@ std::string utility::executeProcessUntilNoOutput(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
+		process.start(command, arguments);
 		s_runningProcesses.insert(&process);
 	}
 
@@ -219,10 +223,7 @@ int utility::executeProcessAndGetExitCode(
 	}
 
 	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
+	QStringList arguments = toQStringList(commandArguments);
 
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	QStringList envlist = env.toStringList();
@@ -233,7 +234,7 @@ int utility::executeProcessAndGetExitCode(
 
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
+		process.start(command, arguments);
 		s_runningProcesses.insert(&process);
 	}
 
