@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MESSAGE_SAVE_AS_IMAGE_H
+#define MESSAGE_SAVE_AS_IMAGE_H
 
 #include "Message.h"
 
@@ -6,10 +7,7 @@
 class MessageSaveAsImage: public Message<MessageSaveAsImage>
 {
 public:
-	MessageSaveAsImage(QString path)
-	{
-		this->path = path;
-	}
+	MessageSaveAsImage(QString path) : path(path) {}
 
 	static const std::string getStaticType()
 	{
@@ -18,3 +16,5 @@ public:
 
 	QString path;
 };
+
+#endif /* MESSAGE_SAVE_AS_IMAGE_H */

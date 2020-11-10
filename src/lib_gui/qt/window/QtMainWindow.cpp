@@ -719,7 +719,9 @@ void QtMainWindow::saveAsImage()
 	{
 		return;
 	}
-	MessageSaveAsImage(filePath).dispatch();
+	MessageSaveAsImage m(filePath);
+	m.setSchedulerId(TabId::currentTab());
+	m.dispatch();
 }
 
 void QtMainWindow::undo()

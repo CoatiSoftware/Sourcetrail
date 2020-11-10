@@ -36,6 +36,11 @@ public:
 
 	void updateZoom(float delta);
 
+	Id getSchedulerId() const override
+	{
+		return m_tabId;
+	}
+
 protected:
 	void resizeEvent(QResizeEvent* event);
 
@@ -147,8 +152,8 @@ private:
 	float m_zoomInButtonSpeed;
 	float m_zoomOutButtonSpeed;
 
-	QImage imageCached;
-	static QtGraphicsView* lastViewFocused;
+	QImage m_imageCached;
+	Id m_tabId;
 };
 
 #endif	  // QT_GRAPHICS_VIEW_H

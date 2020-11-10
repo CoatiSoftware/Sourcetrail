@@ -166,6 +166,8 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_legendButton->setObjectName(QStringLiteral("legend_button"));
 	m_legendButton->setToolTip(QStringLiteral("show legend"));
 	connect(m_legendButton, &QPushButton::clicked, this, &QtGraphicsView::legendClicked);
+
+	m_tabId = TabId::currentTab();
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -183,7 +185,8 @@ void QtGraphicsView::setSceneRect(const QRectF& rect)
 {
 	QGraphicsView::setSceneRect(rect);
 	scene()->setSceneRect(rect);
-	imageCached = toQImage();
+	m_imageCached = toQImage();
+	m_tabId = TabId::currentTab();
 }
 
 QtGraphNode* QtGraphicsView::getNodeAtCursorPosition() const
@@ -603,7 +606,6 @@ void QtGraphicsView::focusInEvent(QFocusEvent* event)
 	emit focusIn();
 
 	MessageFocusView(MessageFocusView::ViewType::GRAPH).dispatch();
-	lastViewFocused = this;
 }
 
 void QtGraphicsView::focusOutEvent(QFocusEvent* event)
@@ -854,12 +856,10 @@ void QtGraphicsView::updateTransform()
 	setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
 }
 
-QtGraphicsView* QtGraphicsView::lastViewFocused;
-
 void QtGraphicsView::handleMessage(MessageSaveAsImage* message)
 {
-	if ( (lastViewFocused == this) && !imageCached.isNull() )
+	if ( (message->getSchedulerId() == getSchedulerId()) && !m_imageCached.isNull() )
 	{
-		imageCached.save(message->path);
+		m_imageCached.save(message->path);
 	}
 }
