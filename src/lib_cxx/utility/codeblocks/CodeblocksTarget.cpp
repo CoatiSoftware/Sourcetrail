@@ -58,7 +58,12 @@ std::shared_ptr<Target> Target::create(const TiXmlElement* element)
 	{
 		const TiXmlElement* compilerElement = element->FirstChildElement(
 			Compiler::getXmlElementName().c_str());
-		target->m_compiler = Compiler::create(compilerElement);
+		std::shared_ptr<Compiler> compiler = Compiler::create(compilerElement);
+		if (!compiler)
+		{
+			return std::shared_ptr<Target>();
+		}
+		target->m_compiler = compiler;
 	}
 
 	return target;
