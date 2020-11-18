@@ -188,16 +188,16 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 		return;
 	}
 
-	const std::wstring commandPath = L"\"" + indexerProcessPath.wstr() + L"\"";
+	const std::wstring commandPath = indexerProcessPath.wstr();
 	std::vector<std::wstring> commandArguments;
 	commandArguments.push_back(std::to_wstring(processId));
 	commandArguments.push_back(utility::decodeFromUtf8(m_appUUID));
-	commandArguments.push_back(L"\"" + AppPath::getSharedDataPath().getAbsolute().wstr() + L"\"");
-	commandArguments.push_back(L"\"" + UserPaths::getUserDataPath().getAbsolute().wstr() + L"\"");
+	commandArguments.push_back(AppPath::getSharedDataPath().getAbsolute().wstr());
+	commandArguments.push_back(UserPaths::getUserDataPath().getAbsolute().wstr());
 
 	if (!logFilePath.empty())
 	{
-		commandArguments.push_back(L"\"" + logFilePath + L"\"");
+		commandArguments.push_back(logFilePath);
 	}
 
 	int result = 1;
