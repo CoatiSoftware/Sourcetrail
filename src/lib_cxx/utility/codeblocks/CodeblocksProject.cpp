@@ -225,32 +225,32 @@ std::vector<std::shared_ptr<IndexerCommandCxx>> Project::getIndexerCommands(
 		sourceGroupSettings->getFrameworkSearchPathsExpandedAndAbsolute(),
 		appSettings->getFrameworkSearchPathsExpanded());
 
-	OrderedCache<std::wstring, std::vector<std::wstring>> optionsCache(
-		[&](const std::wstring& targetName) {
-			std::vector<std::wstring> compilerFlags;
-			for (std::shared_ptr<Target> target: m_targets)
+	OrderedCache<std::wstring, std::vector<std::wstring>> optionsCache([&](const std::wstring& targetName) {
+		std::vector<std::wstring> compilerFlags;
+		for (std::shared_ptr<Target> target: m_targets)
+		{
+			if (target && target->getTitle() == targetName)
 			{
-				if (target->getTitle() == targetName)
+				if (std::shared_ptr<const Compiler> compiler = target->getCompiler())
 				{
 					compilerFlags = utility::concat(
 						IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
-							utility::convert<std::wstring, FilePath>(
-								target->getCompiler()->getDirectories())),
-						target->getCompiler()->getOptions());
+							utility::convert<std::wstring, FilePath>(compiler->getDirectories())),
+						compiler->getOptions());
 					break;
 				}
 			}
+		}
 
-			utility::append(
-				compilerFlags,
-				IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
-					systemHeaderSearchPaths));
-			utility::append(
-				compilerFlags,
-				IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(frameworkSearchPaths));
-			utility::append(compilerFlags, sourceGroupSettings->getCompilerFlags());
-			return compilerFlags;
-		});
+		utility::append(
+			compilerFlags,
+			IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(systemHeaderSearchPaths));
+		utility::append(
+			compilerFlags,
+			IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(frameworkSearchPaths));
+		utility::append(compilerFlags, sourceGroupSettings->getCompilerFlags());
+		return compilerFlags;
+	});
 
 	std::vector<std::shared_ptr<IndexerCommandCxx>> indexerCommands;
 	std::vector<std::shared_ptr<IndexerCommandCxx>> nonTargetIndexerCommands;
