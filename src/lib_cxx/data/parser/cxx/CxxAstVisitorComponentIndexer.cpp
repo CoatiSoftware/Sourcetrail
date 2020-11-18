@@ -320,7 +320,9 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 			{
 				for (clang::FieldDecl* templateFieldDecl: declaringRecordTemplateDecl->fields())
 				{
-					if (d->getName() == templateFieldDecl->getName())
+					if (d->getDeclName().isIdentifier() &&
+						templateFieldDecl->getDeclName().isIdentifier() &&
+						d->getName() == templateFieldDecl->getName())
 					{
 						Id templateFieldId = getOrCreateSymbolId(templateFieldDecl);
 						m_client->recordSymbolKind(templateFieldId, SYMBOL_FIELD);
@@ -377,9 +379,12 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 									clang::dyn_cast_or_null<clang::FunctionTemplateDecl>(
 										templateMethodDecl))
 							{
-								if (d->getName() == functionTemplateDecl->getName())
+								if (d->getDeclName().isIdentifier() &&
+									functionTemplateDecl->getDeclName().isIdentifier() &&
+									d->getName() == functionTemplateDecl->getName())
 								{
-									Id templateMethodId = getOrCreateSymbolId(functionTemplateDecl);
+									const Id templateMethodId = getOrCreateSymbolId(
+										functionTemplateDecl);
 									m_client->recordSymbolKind(templateMethodId, SYMBOL_METHOD);
 									m_client->recordReference(
 										REFERENCE_TEMPLATE_SPECIALIZATION,
@@ -567,7 +572,7 @@ void CxxAstVisitorComponentIndexer::visitUsingDecl(clang::UsingDecl* d)
 
 void CxxAstVisitorComponentIndexer::visitNonTypeTemplateParmDecl(clang::NonTypeTemplateParmDecl* d)
 {
-	if (getAstVisitor()->shouldVisitDecl(d) &&
+	if (getAstVisitor()->shouldVisitDecl(d) && d->getDeclName().isIdentifier() &&
 		!d->getName().empty())	  // We don't create symbols for unnamed template parameters.
 	{
 		m_client->recordLocalSymbol(
@@ -577,7 +582,7 @@ void CxxAstVisitorComponentIndexer::visitNonTypeTemplateParmDecl(clang::NonTypeT
 
 void CxxAstVisitorComponentIndexer::visitTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d)
 {
-	if (getAstVisitor()->shouldVisitDecl(d) &&
+	if (getAstVisitor()->shouldVisitDecl(d) && d->getDeclName().isIdentifier() &&
 		!d->getName().empty())	  // We don't create symbols for unnamed template parameters.
 	{
 		m_client->recordLocalSymbol(
@@ -587,7 +592,7 @@ void CxxAstVisitorComponentIndexer::visitTemplateTypeParmDecl(clang::TemplateTyp
 
 void CxxAstVisitorComponentIndexer::visitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d)
 {
-	if (getAstVisitor()->shouldVisitDecl(d) &&
+	if (getAstVisitor()->shouldVisitDecl(d) && d->getDeclName().isIdentifier() &&
 		!d->getName().empty())	  // We don't create symbols for unnamed template parameters.
 	{
 		m_client->recordLocalSymbol(
