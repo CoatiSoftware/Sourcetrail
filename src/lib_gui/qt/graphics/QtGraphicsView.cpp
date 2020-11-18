@@ -166,6 +166,8 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_legendButton->setObjectName(QStringLiteral("legend_button"));
 	m_legendButton->setToolTip(QStringLiteral("show legend"));
 	connect(m_legendButton, &QPushButton::clicked, this, &QtGraphicsView::legendClicked);
+
+	m_tabId = TabId::currentTab();
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -183,6 +185,8 @@ void QtGraphicsView::setSceneRect(const QRectF& rect)
 {
 	QGraphicsView::setSceneRect(rect);
 	scene()->setSceneRect(rect);
+	m_imageCached = toQImage();
+	m_tabId = TabId::currentTab();
 }
 
 QtGraphNode* QtGraphicsView::getNodeAtCursorPosition() const
@@ -724,7 +728,6 @@ void QtGraphicsView::exportGraph()
 			QStringLiteral("PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)"))
 			.toStdWString());
 
-
 	if (filePath.extension() == L".svg")
 	{
 		QSvgGenerator svgGen;
@@ -851,4 +854,12 @@ void QtGraphicsView::updateTransform()
 {
 	float zoomFactor = m_appZoomFactor * m_zoomFactor;
 	setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
+}
+
+void QtGraphicsView::handleMessage(MessageSaveAsImage* message)
+{
+	if ( (message->getSchedulerId() == getSchedulerId()) && !m_imageCached.isNull() )
+	{
+		m_imageCached.save(message->path);
+	}
 }

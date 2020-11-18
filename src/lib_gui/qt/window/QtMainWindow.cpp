@@ -38,6 +38,7 @@
 #include "MessageTabSelect.h"
 #include "MessageWindowClosed.h"
 #include "MessageZoom.h"
+#include "MessageSaveAsImage.h"
 #include "QtAbout.h"
 #include "QtContextMenu.h"
 #include "QtFileDialog.h"
@@ -710,6 +711,19 @@ void QtMainWindow::forceRefresh()
 	MessageRefresh().refreshAll().dispatch();
 }
 
+void QtMainWindow::saveAsImage()
+{
+	QString filePath = QtFileDialog::showSaveFileDialog(this, tr("Save as Image"), FilePath(), 
+		"PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
+	if (filePath.isNull())
+	{
+		return;
+	}
+	MessageSaveAsImage m(filePath);
+	m.setSchedulerId(TabId::currentTab());
+	m.dispatch();
+}
+
 void QtMainWindow::undo()
 {
 	MessageHistoryUndo().dispatch();
@@ -924,6 +938,8 @@ void QtMainWindow::setupEditMenu()
 		this,
 		&QtMainWindow::openSettings,
 		QKeySequence(Qt::CTRL + Qt::Key_Comma));
+
+	menu->addAction(tr("&Save as Image"), this, &QtMainWindow::saveAsImage, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_S));
 }
 
 void QtMainWindow::setupViewMenu()
