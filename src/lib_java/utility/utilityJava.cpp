@@ -82,7 +82,7 @@ bool prepareJavaEnvironmentAndDisplayOccurringErrors()
 	if (!JavaEnvironmentFactory::getInstance())
 	{
 		std::wstring dialogMessage =
-			L"Sourcetrail was unable to locate Java on this machine.\n"
+			L"Sourcetrail was unable to initialize Java environment on this machine.\n"
 			"Please make sure to provide the correct Java Path in the preferences.";
 
 		if (!errorString.empty())
