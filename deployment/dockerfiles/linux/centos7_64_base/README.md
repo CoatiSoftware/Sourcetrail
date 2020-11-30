@@ -1,7 +1,7 @@
 Base 64 bit Image for Sourcetrail
 =================================
 
-Based on centos:6
+Based on centos:7
 
 Software
 --------
