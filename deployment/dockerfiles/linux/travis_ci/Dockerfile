@@ -1,4 +1,4 @@
-FROM coatisoftware/centos7_64_qt_llvm:qt5126-llvm1000
+FROM coatisoftware/centos7_64_qt_llvm:qt5126-llvm1100
 
 COPY entrypoint.sh /entrypoint.sh
 
