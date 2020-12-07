@@ -186,6 +186,8 @@ add_files(
 	qt/project_wizard/QtProjectWizardWindow.cpp
 	qt/project_wizard/QtProjectWizardWindow.h
 
+	qt/utility/compatibilityQt.cpp
+	qt/utility/compatibilityQt.h
 	qt/utility/QtContextMenu.cpp
 	qt/utility/QtContextMenu.h
 	qt/utility/QtDeviceScaledPixmap.cpp
