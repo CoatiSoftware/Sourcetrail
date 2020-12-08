@@ -13,9 +13,9 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Alexis Jeandet
 * Anshu Mathur
 * Chris Morley
-* Kikuchi Takanori
 * Konstantin Kirenko
 * Louis St-Amour
+* William Wold
 
 ## Regular Coatis
 
@@ -24,13 +24,15 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Anton
 * Bicakci, Inc.
 * BJ
+* Dio Lee
 * Ferenc Fejes
 * Frederic Simonis
 * Friedrich Hunstock
 * Graydon Hoare
 * IndustrialRobot
+* Jason Stevens
 * John Borland
-* kagusanto
+* Kikuchi Takanori
 * MangerDesPates
 * Matěj Týč
 * Max Bruckner
@@ -39,9 +41,10 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Neil Horlock
 * Nick Moore
 * Nils Moehrle
+* Pierre Fransson
+* Rémi Cohen-Scali
 * Rui Pires
 * Ryo Koyama
-* Rémi Cohen-Scali
 * Simon
 * Sneakyferret
 * Stephan Roslen
@@ -49,6 +52,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Tomi Joki-Korpela
 * Tony Hong
 * Werner de Groot
+* X. Xu
 * Yacob Cohen-Arazi
 * Yang, Wenbo
 * 郝晨煜
