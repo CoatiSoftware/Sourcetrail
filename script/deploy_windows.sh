@@ -59,13 +59,8 @@ DOTTED_VERSION_STRING="${VERSION_STRING//_/.}"
 
 
 if [ $RUN_CODE_SIGNING = true ]; then
-	echo -e "$INFO Code signing is enabled. provide the key file path >"
-	read CODE_SIGNING_KEY_FILE
-fi
-
-if [ $RUN_CODE_SIGNING = true ]; then
-	echo -e "$INFO Code signing is enabled. Please enter your password >"
-	read CODE_SIGNING_PASSWORD
+	echo -e "$INFO Code signing is enabled. provide the key's sh1 thumbprint >"
+	read CODE_SIGNING_THUMBPRINT
 fi
 
 
@@ -94,13 +89,13 @@ echo -e "$INFO Building the project"
 
 if [ $RUN_CODE_SIGNING = true ]; then
 	echo -e "$INFO Signing the app"
-	signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/Sourcetrail.exe
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/Sourcetrail.exe
 	
 	echo -e "$INFO Signing the indexer"
-	signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Indexer ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/sourcetrail_indexer.exe
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Indexer ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/sourcetrail_indexer.exe
 	
 	echo -e "$INFO Signing the Python indexer"
-	signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Python Indexer" //du "https://github.com/CoatiSoftware/SourcetrailPythonIndexer" //v bin/app/data/python/SourcetrailPythonIndexer.exe
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail Python Indexer" //du "https://github.com/CoatiSoftware/SourcetrailPythonIndexer" //v bin/app/data/python/SourcetrailPythonIndexer.exe
 fi
 
 
@@ -156,7 +151,7 @@ cd ../../..
 
 if [ $RUN_CODE_SIGNING = true ]; then
 	echo -e "$INFO Signing the 64 bit windows installer"
-	signtool.exe sign //f $CODE_SIGNING_KEY_FILE //p $CODE_SIGNING_PASSWORD //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/sourcetrail.msi
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.verisign.com/scripts/timstamp.dll" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/sourcetrail.msi
 fi
 
 

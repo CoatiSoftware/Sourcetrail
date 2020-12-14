@@ -21,7 +21,7 @@ VERSION_STRING="${VERSION_STRING//_/.}"
 VERSION_STRING="${VERSION_STRING:2}"
 echo "installer version is $VERSION_STRING"
 
-PRODUCT_GUID=$(cmd.exe /c "uuidgen")
+PRODUCT_GUID=$("uuidgen")
 if [ -z "$PRODUCT_GUID" ]; then
 	echo "Unable to generate GUID. Make sure to run this script from the Visual Studio command propmt. Aborting now."
 	exit 1
