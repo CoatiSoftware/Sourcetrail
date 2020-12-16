@@ -1,5 +1,22 @@
 ### Changelog
 
+#### 2020.4.32 (beta)
+released 2020-12-16
+
+* Build: Add compatibility layer for Qt versions ([#1118](https://github.com/CoatiSoftware/Sourcetrail/issues/1118))
+* C/C++: Updated to LLVM/Clang 11.0.0 (issue [#1088](https://github.com/CoatiSoftware/Sourcetrail/issues/1088)) ([#1116](https://github.com/CoatiSoftware/Sourcetrail/issues/1116))
+* C/C++: fix crash when using codeblocks project (issue [#1109](https://github.com/CoatiSoftware/Sourcetrail/issues/1109)) ([#1110](https://github.com/CoatiSoftware/Sourcetrail/issues/1110))
+* Graph: add menu action for graph 'save as image' (issue [#426](https://github.com/CoatiSoftware/Sourcetrail/issues/426)) ([#1104](https://github.com/CoatiSoftware/Sourcetrail/issues/1104))
+* Graph: remember graph zoom level on restart (issue [#801](https://github.com/CoatiSoftware/Sourcetrail/issues/801)) ([#1099](https://github.com/CoatiSoftware/Sourcetrail/issues/1099))
+* Build: fix compiler issue when CMAKE_CXX_COMPILER_LAUNCHER was set to ccache (issue [#1081](https://github.com/CoatiSoftware/Sourcetrail/issues/1081)) ([#1093](https://github.com/CoatiSoftware/Sourcetrail/issues/1093))
+* Python: update python indexer to v1.db25.p5 ([#1087](https://github.com/CoatiSoftware/Sourcetrail/issues/1087))
+* Linux: explicitly add u+w permission when copying initial user data ([#1072](https://github.com/CoatiSoftware/Sourcetrail/issues/1072))
+* Linux: Fixed duplicating Sourcetrail icon on run ([#1071](https://github.com/CoatiSoftware/Sourcetrail/issues/1071))
+* Build: Qt 5.12 deprecation fixes ([#1003](https://github.com/CoatiSoftware/Sourcetrail/issues/1003))
+* Linux: Prevent word splitting within arguments passed to Sourcetrail.sh ([#1057](https://github.com/CoatiSoftware/Sourcetrail/issues/1057))
+* C/C++: Support linking with LLVM/Clang Dylib instead of individual components ([#1044](https://github.com/CoatiSoftware/Sourcetrail/issues/1044))
+
+
 #### 2020.2.43
 released 2020-06-29
 
