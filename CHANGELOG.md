@@ -1,7 +1,7 @@
 ### Changelog
 
-#### 2020.4.32 (beta)
-released 2020-12-16
+#### 2020.4.35
+released 2021-01-06
 
 * Build: Add compatibility layer for Qt versions ([#1118](https://github.com/CoatiSoftware/Sourcetrail/issues/1118))
 * C/C++: Updated to LLVM/Clang 11.0.0 (issue [#1088](https://github.com/CoatiSoftware/Sourcetrail/issues/1088)) ([#1116](https://github.com/CoatiSoftware/Sourcetrail/issues/1116))
