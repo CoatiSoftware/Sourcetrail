@@ -50,7 +50,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Stephan Roslen
 * Thorsten Dahlheimer
 * Tomi Joki-Korpela
-* Tony Hong
 * Werner de Groot
 * X. Xu
 * Yacob Cohen-Arazi
