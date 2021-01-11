@@ -43,7 +43,18 @@ struct EventListener: Catch::TestEventListenerBase
 			if (!paths.empty())
 			{
 				ApplicationSettings::getInstance()->setJavaPath(paths.front());
+				std::cout << "Java path written to settings: "
+						  << ApplicationSettings::getInstance()->getJavaPath().str() << std::endl;
 			}
+			else
+			{
+				std::cout << "no Java" << std::endl;
+			}
+		}
+		else
+		{
+			std::cout << "Java path read form settings: "
+					  << ApplicationSettings::getInstance()->getJavaPath().str() << std::endl;
 		}
 #endif
 	}
