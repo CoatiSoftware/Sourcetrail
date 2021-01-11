@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+        <application>
+                <window_base_width>500</window_base_width>
+                <window_base_height>500</window_base_height>
+        </application>
+        <indexing>
+                <java>
+                        <java_path>/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so</java_path>
+                </java>
+                <indexer_thread_count>0</indexer_thread_count>
+        </indexing>
+        <user>
+                <recent_projects>
+                        <recent_project>./projects/tutorial/tutorial.srctrlprj</recent_project>
+                        <recent_project>./projects/tictactoe_cpp/tictactoe_cpp.srctrlprj</recent_project>
+                        <recent_project>./projects/tictactoe_py/tictactoe_py.srctrlprj</recent_project>
+                        <recent_project>./projects/javaparser/javaparser.srctrlprj</recent_project>
+                </recent_projects>
+        </user>
+    <version>8</version>
+</config>
