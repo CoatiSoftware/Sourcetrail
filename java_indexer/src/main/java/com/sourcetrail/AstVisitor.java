@@ -410,7 +410,7 @@ public abstract class AstVisitor extends ASTVisitor
 	{
 		DeclName symbolName = DeclName.unsolved();
 		IBinding binding = node.resolveBinding();
-		if (!binding.isRecovered())
+		if (binding != null && !binding.isRecovered())
 		{
 			if (binding instanceof IPackageBinding)
 			{
