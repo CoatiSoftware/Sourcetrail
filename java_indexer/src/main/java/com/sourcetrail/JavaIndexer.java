@@ -58,7 +58,7 @@ public class JavaIndexer
 
 			Path path = Paths.get(filePath);
 
-			ASTParser parser = ASTParser.newParser(AST.JLS12);
+			ASTParser parser = ASTParser.newParser(AST.JLS_Latest);
 
 			parser.setResolveBindings(
 				true);	  // solve "bindings" like the declaration of the type used in a var decl
@@ -73,7 +73,7 @@ public class JavaIndexer
 				astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
 
 				Hashtable<String, String> options = JavaCore.getOptions();
-				options.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, JavaCore.ENABLED);
+				options.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, JavaCore.DISABLED);
 				options.put(JavaCore.COMPILER_PB_REPORT_PREVIEW_FEATURES, JavaCore.IGNORE);
 				options.put(JavaCore.COMPILER_SOURCE, convertedLanguageStandard);
 				options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, convertedLanguageStandard);
@@ -164,7 +164,7 @@ public class JavaIndexer
 	{
 		String packageName = "";
 
-		ASTParser parser = ASTParser.newParser(AST.JLS12);
+		ASTParser parser = ASTParser.newParser(AST.JLS_Latest);
 		parser.setKind(
 			ASTParser.K_COMPILATION_UNIT);	  // specify to parse the entire compilation unit
 		parser.setSource(fileContent.toCharArray());
@@ -209,8 +209,14 @@ public class JavaIndexer
 		case "11":
 			return JavaCore.VERSION_11;
 		case "12":
-		default:
 			return JavaCore.VERSION_12;
+		case "13":
+			return JavaCore.VERSION_13;
+		case "14":
+			return JavaCore.VERSION_14;
+		case "15":
+		default:
+			return JavaCore.VERSION_15;
 		}
 	}
 
