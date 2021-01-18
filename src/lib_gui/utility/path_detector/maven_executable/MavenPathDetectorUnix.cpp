@@ -7,7 +7,7 @@ MavenPathDetectorUnix::MavenPathDetectorUnix(): PathDetector("Maven for Unix") {
 
 std::vector<FilePath> MavenPathDetectorUnix::doGetPaths() const
 {
-	FilePath mavenPath(utility::executeProcess(L"which", std::vector<std::wstring>{L"mvn"}).second);
+	FilePath mavenPath(utility::executeProcess(L"which", {L"mvn"}).second);
 
 	std::vector<FilePath> paths;
 	if (mavenPath.exists())
