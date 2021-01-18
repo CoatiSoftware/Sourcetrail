@@ -55,7 +55,7 @@ std::vector<FilePath> JavaPathDetectorLinux::doGetPaths() const
 FilePath JavaPathDetectorLinux::getJavaInPath() const
 {
 	const utility::ProcessOutput out = utility::executeProcess(
-		L"which", std::vector<std::wstring> {L"java"});
+		L"which", {L"java"});
 
 	if (out.exitCode == 0 && !out.output.empty())
 	{
@@ -72,7 +72,7 @@ FilePath JavaPathDetectorLinux::getJavaInPath() const
 FilePath JavaPathDetectorLinux::readLink(const FilePath& path) const
 {
 	const utility::ProcessOutput out = utility::executeProcess(
-		L"readlink", std::vector<std::wstring> {L"-f " + path.wstr()});
+		L"readlink", {L"-f " + path.wstr()});
 
 	if (out.exitCode == 0 && !out.output.empty())
 	{
@@ -120,7 +120,7 @@ FilePath JavaPathDetectorLinux::getJavaInJavaHome() const
 bool JavaPathDetectorLinux::checkVersion(const FilePath& path) const
 {
 	const utility::ProcessOutput out = utility::executeProcess(
-		path.wstr(), std::vector<std::wstring> {L"-version"});
+		path.wstr(), {L"-version"});
 
 	return (
 		(out.exitCode == 0) &&

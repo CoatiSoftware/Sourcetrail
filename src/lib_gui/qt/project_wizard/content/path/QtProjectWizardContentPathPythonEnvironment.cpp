@@ -64,13 +64,11 @@ void QtProjectWizardContentPathPythonEnvironment::onTextChanged(const QString& t
 		std::thread([=]() {
 			const utility::ProcessOutput out = utility::executeProcess(
 				ResourcePaths::getPythonPath().wstr().append(L"SourcetrailPythonIndexer"),
-				std::vector<std::wstring> {
-					L"check-environment",
-					L"--environment-path \"" +
-						utility::getExpandedAndAbsolutePath(
-							FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath())
-							.wstr() +
-						L"\""},
+				{L"check-environment",
+				 L"--environment-path \"" +
+					utility::getExpandedAndAbsolutePath(
+						FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath())
+						.wstr() + L"\""},
 				FilePath(),
 				5000);
 			m_onQtThread([=]() {

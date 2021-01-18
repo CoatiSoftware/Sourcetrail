@@ -10,7 +10,7 @@ std::vector<FilePath> MavenPathDetectorUnix::doGetPaths() const
 	std::vector<FilePath> paths;
 
 	const utility::ProcessOutput out = utility::executeProcess(
-		L"which", std::vector<std::wstring> {L"mvn"});
+		L"which", {L"mvn"});
 
 	if (out.exitCode == 0)
 	{

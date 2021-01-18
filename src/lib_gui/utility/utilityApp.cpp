@@ -406,13 +406,24 @@ int utility::executeProcessAndGetExitCode(
 					*errorMessage = L"An unknown error occurred while executing process.";
 					break;
 				}
-			};
+			}
 		});
 
 	QObject::connect(
 		&process,
 		static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-		[&finished](int exitCode, QProcess::ExitStatus exitStatus) { finished = true; });
+		[&finished, errorMessage](int exitCode, QProcess::ExitStatus exitStatus) {
+			finished = true;
+			if (errorMessage != nullptr)
+			{
+				switch (exitStatus)
+				{
+				case QProcess::CrashExit:
+					*errorMessage = L"Process crashed.";
+					break;
+				}
+			}
+		});
 
 
 	if (!workingDirectory.empty())

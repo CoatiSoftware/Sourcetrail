@@ -1,6 +1,15 @@
-SourceFilePath: "src/a.txt"
-	Custom Command: "echo "Hello World""
-SourceFilePath: "src/b.txt"
-	Custom Command: "echo "Hello World""
-SourceFilePath: "src/included/a.txt"
-	Custom Command: "echo "Hello World""
+IndexerCommandCustom
+	SourceFilePath: "src/a.txt"
+	Custom Command: "echo"
+	Arguments:
+		"Hello World"
+IndexerCommandCustom
+	SourceFilePath: "src/b.txt"
+	Custom Command: "echo"
+	Arguments:
+		"Hello World"
+IndexerCommandCustom
+	SourceFilePath: "src/included/a.txt"
+	Custom Command: "echo"
+	Arguments:
+		"Hello World"

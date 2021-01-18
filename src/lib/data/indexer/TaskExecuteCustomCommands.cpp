@@ -465,16 +465,19 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 			indexedSourceFileCount + 1, indexedSourceFileCount, m_indexerCommandCount, {sourcePath});
 		MessageIndexingStatus(true, indexedSourceFileCount * 100 / m_indexerCommandCount).dispatch();
 
-		const std::wstring command = indexerCommand->getCustomCommand();
+		const std::wstring command = indexerCommand->getCommand();
+		const std::vector<std::wstring> arguments = indexerCommand->getArguments();
 
-		LOG_INFO("Start processing command \"" + utility::encodeToUtf8(command) + "\"");
+		LOG_INFO(
+			"Start processing command \"" +
+			utility::encodeToUtf8(command + L" " + utility::join(arguments, L" ")) + "\"");
 
 		const ErrorCountInfo previousErrorCount = storage ? storage->getErrorCount()
 														  : ErrorCountInfo();
 
 		LOG_INFO("Starting to index");
 		const utility::ProcessOutput out = utility::executeProcessBoost(
-			command, {}, m_projectDirectory, -1, true);
+			command, arguments, m_projectDirectory, -1, true);
 		LOG_INFO("Finished indexing");
 
 		if (storage)
@@ -507,8 +510,8 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 		}
 		else
 		{
-			std::wstring statusText = L"command \"" + indexerCommand->getCustomCommand() +
-				L"\" returned";
+			std::wstring statusText = L"command \"" + indexerCommand->getCommand() + L" " +
+				utility::join(arguments, L" ") + L"\" returned";
 			if (out.exitCode != 0)
 			{
 				statusText += L" code \"" + std::to_wstring(out.exitCode) + L"\"";

@@ -56,16 +56,18 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 		const std::set<FilePathFilter> includeFilters;
 		const FilePath workingDirectory(L".");
 
-		std::wstring args = L"";
-		args += L" --source-file-path=%{SOURCE_FILE_PATH}";
-		args += L" --database-file-path=%{DATABASE_FILE_PATH}";
-		args += L" --shallow";
+		std::vector<std::wstring> args;
+		args.push_back(L"index");
+		args.push_back(L"--source-file-path=%{SOURCE_FILE_PATH}");
+		args.push_back(L"--database-file-path=%{DATABASE_FILE_PATH}");
+		args.push_back(L"--shallow");
 
 		std::shared_ptr<IndexerCommandCustom> indexerCommand = std::make_shared<IndexerCommandCustom>(
 			INDEXER_COMMAND_PYTHON,
 			L"\"" +
 				FilePath("../app").getConcatenated(ResourcePaths::getPythonPath()).makeAbsolute().wstr() +
-				L"SourcetrailPythonIndexer\" index" + args,
+				L"SourcetrailPythonIndexer\"",
+			args,
 			rootPath,
 			tempDbPath,
 			std::to_wstring(SqliteIndexStorage::getStorageVersion()),
@@ -73,7 +75,7 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 			true);
 
 		const utility::ProcessOutput out = utility::executeProcessBoost(
-			indexerCommand->getCustomCommand(), {}, rootPath, -1, true);
+			indexerCommand->getCommand(), indexerCommand->getArguments(), rootPath, -1, true);
 
 		if (!out.error.empty())
 		{

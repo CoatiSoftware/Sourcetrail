@@ -10,7 +10,7 @@ std::vector<FilePath> MavenPathDetectorWindows::doGetPaths() const
 	std::vector<FilePath> paths;
 
 	const utility::ProcessOutput out = utility::executeProcess(
-		L"cmd", std::vector<std::wstring> {L"/c where mvn.cmd && exit"});
+		L"cmd", {L"/c where mvn.cmd && exit"});
 
 	if (out.exitCode == 0)
 	{
