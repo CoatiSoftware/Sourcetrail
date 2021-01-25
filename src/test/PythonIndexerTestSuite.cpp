@@ -57,6 +57,10 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 		const FilePath workingDirectory(L".");
 
 		std::vector<std::wstring> args;
+		args.push_back(FilePath("../app")
+						   .getConcatenated(ResourcePaths::getPythonIndexerFilePath())
+						   .makeAbsolute()
+						   .wstr());
 		args.push_back(L"index");
 		args.push_back(L"--source-file-path=%{SOURCE_FILE_PATH}");
 		args.push_back(L"--database-file-path=%{DATABASE_FILE_PATH}");
@@ -64,9 +68,11 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 
 		std::shared_ptr<IndexerCommandCustom> indexerCommand = std::make_shared<IndexerCommandCustom>(
 			INDEXER_COMMAND_PYTHON,
-			L"\"" +
-				FilePath("../app").getConcatenated(ResourcePaths::getPythonPath()).makeAbsolute().wstr() +
-				L"SourcetrailPythonIndexer\"",
+
+			FilePath("../app")
+				.getConcatenated(ResourcePaths::getPythonEnvironmentFilePath())
+				.makeAbsolute()
+				.wstr(),
 			args,
 			rootPath,
 			tempDbPath,
@@ -83,8 +89,8 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 			true,
 			&errorMessage);
 
-		REQUIRE(result == 0);
 		REQUIRE(errorMessage.empty());
+		REQUIRE(result == 0);
 	}
 
 	std::shared_ptr<TestStorage> testStorage;
