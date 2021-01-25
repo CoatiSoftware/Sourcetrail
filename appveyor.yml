@@ -2,14 +2,16 @@ version: 0.0.0.{build}
 image: Visual Studio 2017
 
 install:
-  ############################################################################
-  # Install Ninja
-  ############################################################################
-  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip"
-  - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
-  - 7z x ninja.zip -oC:\projects\deps\ninja > nul
-  - set PATH=C:\projects\deps\ninja;%PATH%
-  - ninja --version
+    ############################################################################
+    # Install Ninja
+    ############################################################################
+    - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip"
+    - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
+    - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+    - set PATH=C:\projects\deps\ninja;%PATH%
+    - ninja --version
+    # Install SWIG by Choco
+    - ps: choco install -y --no-progress swig --version 4.0.1
 
 before_build:
     - git submodule init
