@@ -26,6 +26,7 @@ build-*
 .DS_Store
 .idea
 .vscode
+__pycache__
 
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtension/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtension/obj

@@ -482,9 +482,37 @@ else()
 endif()
 
 
+
+string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+	
 # Lib Python ---------------------------------------------------------------------
 
 if (BUILD_PYTHON_LANGUAGE_PACKAGE)
+
+	file (STRINGS "${CMAKE_SOURCE_DIR}/submodules/SourcetrailPythonIndexer/SourcetrailDB/version.txt" VERSION_STRING)
+
+	string(REGEX REPLACE "v([0-9]+)\\..*" "\\1" INTERFACE_VERSION "${VERSION_STRING}")
+	string(REGEX REPLACE "v[0-9]+\\.db([0-9]+)\\..*" "\\1" DATABASE_VERSION "${VERSION_STRING}")
+	string(REGEX REPLACE "v[0-9]+\\.db[0-9]+\\.p([0-9]+).*" "\\1" PATCH_VERSION "${VERSION_STRING}")
+	set(VERSION_STRING_UNDERSCORE "v${INTERFACE_VERSION}_db${DATABASE_VERSION}_p${PATCH_VERSION}")
+
+	message(STATUS "SourcetrailDB Version: ${VERSION_STRING}")
+	message(STATUS "Interface Version: ${INTERFACE_VERSION}")
+	message(STATUS "Database Version: ${DATABASE_VERSION}")
+	message(STATUS "Patch Version: ${PATCH_VERSION}")
+
+	set(LIB_CORE_TARGET_NAME "SourcetrailDB_core_lib")
+	add_subdirectory(
+		"${CMAKE_SOURCE_DIR}/submodules/SourcetrailPythonIndexer/SourcetrailDB/core" 
+		"${CMAKE_BINARY_DIR}/SourcetrailPythonIndexer/SourcetrailDB/core")
+	
+	set(PYTHON_BINDING_TARGET_NAME "bindings_python")
+	set(PYTHON_BINDING_OUTPUT_DIR "")
+	add_subdirectory(
+		"${CMAKE_SOURCE_DIR}/submodules/SourcetrailPythonIndexer/SourcetrailDB/bindings_python" 
+		"${CMAKE_BINARY_DIR}/SourcetrailPythonIndexer/SourcetrailDB/bindings_python")
+
 
 	add_library(${LIB_PYTHON_PROJECT_NAME} ${LIB_PYTHON_FILES})
 
@@ -502,14 +530,22 @@ if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 	#link_directories(${Boost_LIBRARY_DIRS})
 
 	target_link_libraries(${LIB_PYTHON_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
-
+	add_dependencies(${LIB_PYTHON_PROJECT_NAME} _${PYTHON_BINDING_TARGET_NAME})
+		
+	string(REGEX REPLACE "\\\\" "/" FORWARDSLASHED_PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_DIR})
+	set(PYTHON_ENVIRONMENT_DIR "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data\\python\\environment")
+	
 	add_custom_command(
 		TARGET ${LIB_PYTHON_PROJECT_NAME}
 		PRE_BUILD
-		COMMAND ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
-		COMMENT "download python indexer"
+		COMMAND ${PROJECT_SOURCE_DIR}/script/update_python_indexer.sh
+		COMMENT "updating python indexer scripts"
 	)
 
+	execute_process(
+		COMMAND "cmd.exe" "/k" "rmdir" "${PYTHON_ENVIRONMENT_DIR}" & "${PYTHON_INCLUDE_DIR}/../python.exe" "-m" "venv" "--clear" "--copies" "${PYTHON_ENVIRONMENT_DIR}" & "${PYTHON_ENVIRONMENT_DIR}/Scripts/pip" "install" "-r" "${CMAKE_SOURCE_DIR}/submodules/SourcetrailPythonIndexer/requirements.txt" & exit
+	)
+		
 else()
 
 	message(STATUS "Building the Python indexer will be skipped. You can enable building this target by setting 'BUILD_PYTHON_LANGUAGE_PACKAGE' to 'ON'.")
@@ -695,9 +731,6 @@ if (WIN32)
 		TARGET ${APP_PROJECT_NAME}
 			PROPERTY VS_DEBUGGER_WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/bin/app")
-
-	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
-	string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
 else ()
 	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
 endif ()
