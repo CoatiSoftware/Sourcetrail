@@ -14,6 +14,10 @@ install:
 before_build:
     - git submodule init
     - git submodule update
+    - cd submodules/SourcetrailPythonIndexer
+    - git submodule init
+    - git submodule update
+    - cd ../..
     - mkdir build
     - cd build
     - mkdir temp
