@@ -486,6 +486,7 @@ endif()
 string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
 string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
 	
+	
 # Lib Python ---------------------------------------------------------------------
 
 if (BUILD_PYTHON_LANGUAGE_PACKAGE)
@@ -534,16 +535,22 @@ if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 		
 	string(REGEX REPLACE "\\\\" "/" FORWARDSLASHED_PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_DIR})
 	set(PYTHON_ENVIRONMENT_DIR "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data\\python\\environment")
+	set(PYTHON_INDEXER_DIR "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data\\python\\indexer")
+	
+	execute_process(
+		COMMAND "cmd.exe" "/k" "rmdir" "/s" "/q" "${PYTHON_ENVIRONMENT_DIR}" & "${PYTHON_INCLUDE_DIR}/../python.exe" "-m" "venv" "--clear" "--copies" "${PYTHON_ENVIRONMENT_DIR}" & "${PYTHON_ENVIRONMENT_DIR}/Scripts/pip" "install" "-r" "${CMAKE_SOURCE_DIR}/submodules/SourcetrailPythonIndexer/requirements.txt" & exit
+	)
+	execute_process(
+		COMMAND "cmd.exe" "/k" "rmdir" "/s" "/q" "${PYTHON_INDEXER_DIR}" & exit
+	)
 	
 	add_custom_command(
 		TARGET ${LIB_PYTHON_PROJECT_NAME}
 		PRE_BUILD
 		COMMAND ${PROJECT_SOURCE_DIR}/script/update_python_indexer.sh
+		COMMAND "cmd.exe" "/k" "${CMAKE_COMMAND}" "-E" "copy" "${PYTHON_BINDING_OUTPUT_DIR}/sourcetraildb.py" "${PYTHON_INDEXER_DIR}/."
+		COMMAND "cmd.exe" "/k" "${CMAKE_COMMAND}" "-E" "copy" "${PYTHON_BINDING_OUTPUT_DIR}/$(Configuration)/_sourcetraildb.pyd" "${PYTHON_INDEXER_DIR}/."
 		COMMENT "updating python indexer scripts"
-	)
-
-	execute_process(
-		COMMAND "cmd.exe" "/k" "rmdir" "${PYTHON_ENVIRONMENT_DIR}" & "${PYTHON_INCLUDE_DIR}/../python.exe" "-m" "venv" "--clear" "--copies" "${PYTHON_ENVIRONMENT_DIR}" & "${PYTHON_ENVIRONMENT_DIR}/Scripts/pip" "install" "-r" "${CMAKE_SOURCE_DIR}/submodules/SourcetrailPythonIndexer/requirements.txt" & exit
 	)
 		
 else()
@@ -897,7 +904,7 @@ if (UNIX)
 		COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user"
 		COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/test/data" "${CMAKE_BINARY_DIR}/test/data"
 	)
-elseif(WIN32)
+elseif (WIN32)
 	foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
 		if (EXISTS "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}")
 			execute_process(

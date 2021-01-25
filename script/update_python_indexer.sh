@@ -15,9 +15,7 @@ elif [ "$OSTYPE" == "msys" ]; then
 fi
 
 INPUT_DIR="submodules/SourcetrailPythonIndexer"
-OUTPUT_DIR="bin/app/data/python"
-PYTHON_ENVIRONMENT_DIR="$OUTPUT_DIR/environment"
-PYTHON_INDEXER_DIR="$OUTPUT_DIR/indexer"
+OUTPUT_DIR="bin/app/data/python/indexer"
 
 ABORT="\033[31mAbort:\033[00m"
 SUCCESS="\033[32mSuccess:\033[00m"
@@ -44,18 +42,9 @@ echo "This script is running in: $SCRIPT_DIR"
 cd $SCRIPT_DIR/
 cd ..
 
-echo "Clean $PYTHON_INDEXER_DIR"
-rm -rf $PYTHON_INDEXER_DIR
-
-echo "Copy python indexer files to $PYTHON_INDEXER_DIR"
-mkdir $PYTHON_INDEXER_DIR
-cp $INPUT_DIR/_version.py $PYTHON_INDEXER_DIR
-cp $INPUT_DIR/run.py $PYTHON_INDEXER_DIR
-cp $INPUT_DIR/indexer.py $PYTHON_INDEXER_DIR
-cp $INPUT_DIR/shallow_indexer.py $PYTHON_INDEXER_DIR
-
-
-
-
-
-
+echo "Copy python indexer files to $OUTPUT_DIR"
+mkdir -p $OUTPUT_DIR
+cp $INPUT_DIR/_version.py $OUTPUT_DIR
+cp $INPUT_DIR/run.py $OUTPUT_DIR
+cp $INPUT_DIR/indexer.py $OUTPUT_DIR
+cp $INPUT_DIR/shallow_indexer.py $OUTPUT_DIR
