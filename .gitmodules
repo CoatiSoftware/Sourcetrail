@@ -1,0 +1,3 @@
+[submodule "submodules/SourcetrailPythonIndexer"]
+	path = submodules/SourcetrailPythonIndexer
+	url = https://github.com/CoatiSoftware/SourcetrailPythonIndexer.git
