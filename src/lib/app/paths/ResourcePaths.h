@@ -15,8 +15,12 @@ public:
 	static FilePath getGuiPath();
 	static FilePath getLicensePath();
 	static FilePath getJavaPath();
-	static FilePath getPythonPath();
+	static FilePath getPythonEnvironmentFilePath();
+	static FilePath getPythonIndexerFilePath();
 	static FilePath getCxxCompilerHeaderPath();
+
+private:
+	static FilePath getPythonPath();
 };
 
 #endif	  // RESOURCE_PATHS_H

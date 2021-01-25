@@ -37,12 +37,22 @@ FilePath ResourcePaths::getJavaPath()
 	return AppPath::getSharedDataPath().concatenate(L"data/java/");
 }
 
-FilePath ResourcePaths::getPythonPath()
+FilePath ResourcePaths::getPythonEnvironmentFilePath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/python/");
+	return ResourcePaths::getPythonPath().concatenate(L"environment/Scripts/python");
+}
+
+FilePath ResourcePaths::getPythonIndexerFilePath()
+{
+	return ResourcePaths::getPythonPath().concatenate(L"indexer/run.py");
 }
 
 FilePath ResourcePaths::getCxxCompilerHeaderPath()
 {
 	return AppPath::getSharedDataPath().concatenate(L"data/cxx/include/").getCanonical();
+}
+
+FilePath ResourcePaths::getPythonPath()
+{
+	return AppPath::getSharedDataPath().concatenate(L"data/python/");
 }
