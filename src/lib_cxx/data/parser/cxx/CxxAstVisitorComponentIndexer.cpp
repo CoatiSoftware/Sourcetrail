@@ -602,17 +602,23 @@ void CxxAstVisitorComponentIndexer::visitTemplateTemplateParmDecl(clang::Templat
 
 void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 {
-	clang::TypeLoc::TypeLocClass tlcc = tl.getTypeLocClass();
+	if (tl.isNull())
+	{
+		return;
+	}
+
 	if ((getAstVisitor()->shouldVisitReference(tl.getBeginLoc())) &&
 		(!getAstVisitor()->checkIgnoresTypeLoc(tl)))
 	{
-		clang::TypeLoc::TypeLocClass tlcc = tl.getTypeLocClass();
 		if (!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull())
 		{
 			const clang::TemplateTypeParmTypeLoc& ttptl = tl.castAs<clang::TemplateTypeParmTypeLoc>();
-			clang::TemplateTypeParmDecl* d = ttptl.getDecl();
-			m_client->recordLocalSymbol(
-				getLocalSymbolName(d->getLocation()), getParseLocation(tl.getBeginLoc()));
+			clang::TemplateTypeParmDecl* decl = ttptl.getDecl();
+			if (decl)
+			{
+				m_client->recordLocalSymbol(
+					getLocalSymbolName(decl->getLocation()), getParseLocation(tl.getBeginLoc()));
+			}
 		}
 		else
 		{
@@ -621,19 +627,25 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 				const clang::TemplateSpecializationTypeLoc& tstl =
 					tl.castAs<clang::TemplateSpecializationTypeLoc>();
 				const clang::TemplateSpecializationType* tst = tstl.getTypePtr();
-				const clang::TemplateName tln = tst->getTemplateName();
-				clang::TemplateName::NameKind nknk = tln.getKind();
-				if (tln.isDependent())	  // e.g. T<int> where the template name T depends on a
-										  // template parameter
+				if (tst)
 				{
-					clang::TemplateDecl* d = tst->getTemplateName().getAsTemplateDecl();
-					m_client->recordLocalSymbol(
-						getLocalSymbolName(d->getLocation()), getParseLocation(tl.getBeginLoc()));
-					return;
+					const clang::TemplateName tln = tst->getTemplateName();
+					if (tln.isDependent())	  // e.g. T<int> where the template name T depends on a
+											  // template parameter
+					{
+						clang::TemplateDecl* decl = tln.getAsTemplateDecl();
+						if (decl)
+						{
+							m_client->recordLocalSymbol(
+								getLocalSymbolName(decl->getLocation()),
+								getParseLocation(tl.getBeginLoc()));
+						}
+						return;
+					}
 				}
 			}
 
-			Id symbolId = getOrCreateSymbolId(tl.getTypePtr());
+			const Id symbolId = getOrCreateSymbolId(tl.getTypePtr());
 
 			if (clang::dyn_cast_or_null<clang::BuiltinType>(tl.getTypePtr()))
 			{
