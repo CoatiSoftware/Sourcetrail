@@ -549,7 +549,7 @@ if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 		PRE_BUILD
 		COMMAND ${PROJECT_SOURCE_DIR}/script/update_python_indexer.sh
 		COMMAND "cmd.exe" "/k" "${CMAKE_COMMAND}" "-E" "copy" "${PYTHON_BINDING_OUTPUT_DIR}/sourcetraildb.py" "${PYTHON_INDEXER_DIR}/."
-		COMMAND "cmd.exe" "/k" "${CMAKE_COMMAND}" "-E" "copy" "${PYTHON_BINDING_OUTPUT_DIR}/$(Configuration)/_sourcetraildb.pyd" "${PYTHON_INDEXER_DIR}/."
+		COMMAND "cmd.exe" "/k" "${CMAKE_COMMAND}" "-E" "copy" "${PYTHON_BINDING_OUTPUT_DIR}/Release/_sourcetraildb.pyd" "${PYTHON_INDEXER_DIR}/."
 		COMMENT "updating python indexer scripts"
 	)
 		
