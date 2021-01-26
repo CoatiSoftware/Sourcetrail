@@ -226,7 +226,7 @@ released 2018-12-18
 * Fixed indexed source files not updated when clicking "show files" after other changes in project setup
 * Linux: Fixed issue in sourcetrail.sh script (issue [#638](https://github.com/CoatiSoftware/Sourcetrail/issues/638))
 * Inspect errors during indexing (issue [#235](https://github.com/CoatiSoftware/Sourcetrail/issues/235))
-* C/C++: Fixed header path selection in Source Group setup also preselects non exsiting paths (issue [#640](https://github.com/CoatiSoftware/Sourcetrail/issues/640))
+* C/C++: Fixed header path selection in Source Group setup also preselects non existing paths (issue [#640](https://github.com/CoatiSoftware/Sourcetrail/issues/640))
 * Graph: Fixed graph node centering shows right end when node has greater width than view
 * Code: Fixed multiple multiline comments within one line not correctly highlighted
 * Code: Changed snippet style, removing per file frame and minimize/snippet buttons
@@ -825,7 +825,7 @@ released 2016-12-14
 * Integrated Visual Studio Plugin with Coati Project creation and removed previous Visual Studio Solution parser
 * Improved C++ indexer coverage: using decls, using directives, auto keyword, lambda signatures, symbol references inside lambda captures, template argument related elements
 * Reduced size of .coatidb file by up to 50% for large projects
-* Fixed anonymouse symbol name conflicts (issue [#241](https://github.com/CoatiSoftware/Sourcetrail/issues/241))
+* Fixed anonymous symbol name conflicts (issue [#241](https://github.com/CoatiSoftware/Sourcetrail/issues/241))
 * Preferences: Added Indexer Logging option to print AST information during indexing
 * Search: Added second line to search autocompletion list showing namespace, package or filepath
 * Made cells readonly in errors table to prevent editing (issue [#236](https://github.com/CoatiSoftware/Sourcetrail/issues/236))
@@ -1003,7 +1003,7 @@ released 2016-06-15
 * Added Qt gif plugin to Mac Release so that loader gif in status bar is visible
 * Added link to download page to start screen to remind users of updating once in a while
 * Check if compilation database still exists before refreshing
-* Added separate step for defining project name, project location and compiliation database to project setup
+* Added separate step for defining project name, project location and compilation database to project setup
 * Explain that the project stays up-to-date with the compilation databes on refresh in project setup UI
 * Disregard source extensions when loading from compilation database
 * Removed error logs in name resolver
@@ -1012,7 +1012,7 @@ released 2016-06-15
 #### 0.6.0.0
 released 2016-04-27
 
-* Added suppport for temporary test licenses and show error message when it expired
+* Added support for temporary test licenses and show error message when it expired
 * Increased search autocompletion performance to stay mostly below 100ms
 * Increased project load performance
 * Improved file clearing performance on project refresh
@@ -1111,7 +1111,7 @@ released 2016-02-25
 * Fixed cursor changing for resize and text interactions
 * Added commandline option for project file
 * Improved performance of token name saving
-* Fixed number postions in graph
+* Fixed number positions in graph
 * Added shortcuts for font size resetting to View menu
 * Added C support
 * Added option to hide widget window title bars to View menu
@@ -1127,10 +1127,10 @@ released 2016-01-07
 * Improved lambda handling in analysis
 * Added help texts to project setup and preferences window
 * Removed 'close window' action from menu
-* Fixed constructors and destructors using return type 'void' withou source location
+* Fixed constructors and destructors using return type 'void' without source location
 * Parse errors will be displayed as they appear during analysis
 * Redesigned the about window
-* Installing prerequisits in Windows Installer
+* Installing prerequisites in Windows Installer
 * Added installer for Windows
 * Introduced file endings .coatiproject and .coatidb for Coati's project files
 * Removed Coati directory from Linux package

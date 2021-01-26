@@ -30,7 +30,7 @@ echo -e $INFO "Checking index"
 
 if [[ -n $(git diff HEAD) ]]
 then
-	echo -e $ABORT "You have uncommited changes."
+	echo -e $ABORT "You have uncommitted changes."
 	exit 1
 fi
 
