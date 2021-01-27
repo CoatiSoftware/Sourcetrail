@@ -543,13 +543,6 @@ if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 	execute_process(
 		COMMAND "cmd.exe" "/k" "rmdir" "/s" "/q" "${PYTHON_INDEXER_DIR}" & exit
 	)
-	
-	add_custom_command(
-		TARGET ${LIB_PYTHON_PROJECT_NAME}
-		PRE_BUILD
-		COMMAND ${PROJECT_SOURCE_DIR}/script/update_python_indexer.sh
-		COMMENT "updating python indexer scripts"
-	)
 		
 else()
 
