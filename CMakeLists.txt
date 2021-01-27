@@ -548,8 +548,6 @@ if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 		TARGET ${LIB_PYTHON_PROJECT_NAME}
 		PRE_BUILD
 		COMMAND ${PROJECT_SOURCE_DIR}/script/update_python_indexer.sh
-		COMMAND "${CMAKE_COMMAND}" "-E" "copy" "${PYTHON_BINDING_OUTPUT_DIR}/sourcetraildb.py" "${PYTHON_INDEXER_DIR}/."
-		COMMAND "${CMAKE_COMMAND}" "-E" "copy" "${PYTHON_BINDING_OUTPUT_DIR}/Release/_sourcetraildb.pyd" "${PYTHON_INDEXER_DIR}/."
 		COMMENT "updating python indexer scripts"
 	)
 		
