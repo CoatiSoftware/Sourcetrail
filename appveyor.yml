@@ -34,7 +34,8 @@ build_script:
     - ninja
     - cd ../../
 
-test_script:
-    - cd bin/test
-    - ..\..\build\win64\Release\test\Sourcetrail_test.exe
-    - cd ../../
+artifacts:
+  - path: build
+    name: foo
+    type: zip
+  
