@@ -42,9 +42,13 @@ echo "This script is running in: $SCRIPT_DIR"
 cd $SCRIPT_DIR/
 cd ..
 
-echo "Copy python indexer files to $OUTPUT_DIR"
+echo "create $OUTPUT_DIR"
 mkdir -p $OUTPUT_DIR
+
+echo "Copy python indexer files to $OUTPUT_DIR"
 cp $INPUT_DIR/_version.py $OUTPUT_DIR
 cp $INPUT_DIR/run.py $OUTPUT_DIR
 cp $INPUT_DIR/indexer.py $OUTPUT_DIR
 cp $INPUT_DIR/shallow_indexer.py $OUTPUT_DIR
+
+echo "Done updating Python indexer"
