@@ -35,7 +35,10 @@ build_script:
     - cd ../../
 
 artifacts:
+  - path: bin
+    name: bin
+    type: zip
   - path: build
-    name: foo
+    name: build
     type: zip
   
