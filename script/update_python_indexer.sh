@@ -45,6 +45,18 @@ cd ..
 echo "create $OUTPUT_DIR"
 if [ $PLATFORM == "windows" ]; then
 	mkdir "$OUTPUT_DIR"
+	dir
+	mkdir bin
+	cd bin
+	mkdir app
+	cd app
+	mkdir data
+	cd data
+	mkdir python
+	cd python
+	dir
+	mkdir indexer
+	cd ../../../../
 else
 	mkdir -p $OUTPUT_DIR
 fi
