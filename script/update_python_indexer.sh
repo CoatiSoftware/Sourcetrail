@@ -43,7 +43,11 @@ cd $SCRIPT_DIR/
 cd ..
 
 echo "create $OUTPUT_DIR"
-mkdir -p $OUTPUT_DIR
+if [ $PLATFORM == "windows" ]; then
+	mkdir "$OUTPUT_DIR"
+else
+	mkdir -p $OUTPUT_DIR
+fi
 
 echo "Copy python indexer files to $OUTPUT_DIR"
 cp $INPUT_DIR/_version.py $OUTPUT_DIR
