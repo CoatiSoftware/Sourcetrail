@@ -71,9 +71,14 @@ std::set<QProcess*> s_runningProcesses;
 std::set<std::shared_ptr<boost::process::child>> s_runningBoostProcesses;
 }	 // namespace utility
 
-std::string utility::searchPath(std::string bin)
+utility::ProcessOutput::ProcessOutput(std::wstring output, int exitCode)
+	: output(output), exitCode(exitCode)
 {
-	std::string r = boost::process::search_path(bin).generic_string();
+}
+
+std::wstring utility::searchPath(std::wstring bin)
+{
+	std::wstring r = boost::process::search_path(bin).generic_wstring();
 	if (!r.empty())
 	{
 		return r;
@@ -81,14 +86,14 @@ std::string utility::searchPath(std::string bin)
 	return bin;
 }
 
-std::pair<int, std::string> utility::executeProcessBoost(
-	const std::string& command, const FilePath& workingDirectory, const int timeout)
+utility::ProcessOutput utility::executeProcessBoost(
+	const std::wstring& command, const FilePath& workingDirectory, const int timeout)
 {
-	std::string output = "";
+	std::wstring output = L"";
 	int exitCode = 255;
 	try
 	{
-		boost::process::ipstream stream;
+		boost::process::wipstream stream;
 		std::shared_ptr<boost::process::child> process;
 		std::shared_ptr<std::thread> terminator;
 
@@ -125,12 +130,12 @@ std::pair<int, std::string> utility::executeProcessBoost(
 			});
 		}
 
-		std::string line;
+		std::wstring line;
 		while (process->running())
 		{
 			if (std::getline(stream, line) && !line.empty())
 			{
-				output += line + "\n";
+				output += line + L"\n";
 			}
 		}
 
@@ -138,7 +143,7 @@ std::pair<int, std::string> utility::executeProcessBoost(
 		{
 			if (!line.empty())
 			{
-				output += line + "\n";
+				output += line + L"\n";
 			}
 		}
 
@@ -151,11 +156,11 @@ std::pair<int, std::string> utility::executeProcessBoost(
 	}
 	catch (const boost::process::process_error& e)
 	{
-		output += e.code().message();
+		output += utility::decodeFromUtf8(e.code().message());
 		exitCode = e.code().value();
 	}
 
-	return std::make_pair(exitCode, utility::trim(output));
+	return ProcessOutput(utility::trim(output), exitCode);
 }
 
 std::pair<int, std::string> utility::executeProcess(

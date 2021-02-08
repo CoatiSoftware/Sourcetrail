@@ -9,9 +9,16 @@
 
 namespace utility
 {
-std::string searchPath(std::string bin);
-std::pair<int, std::string> executeProcessBoost(
-	const std::string& command,
+struct ProcessOutput
+{
+	ProcessOutput(std::wstring output, int exitCode);
+	std::wstring output;
+	int exitCode;
+};
+
+std::wstring searchPath(std::wstring bin);
+ProcessOutput executeProcessBoost(
+	const std::wstring& command,
 	const FilePath& workingDirectory = FilePath(),
 	const int timeout = 30000);
 std::pair<int, std::string> executeProcess(
