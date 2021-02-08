@@ -163,7 +163,21 @@ utility::ProcessOutput utility::executeProcessBoost(
 	return ProcessOutput(utility::trim(output), exitCode);
 }
 
-std::pair<int, std::string> utility::executeProcess(
+utility::ProcessOutput utility::executeProcessBoost(
+	const std::wstring& command,
+	const std::vector<std::wstring>& arguments,
+	const FilePath& workingDirectory,
+	const int timeout)
+{
+	std::wstring commandLine = command;
+	for (const std::wstring& argument: arguments)
+	{
+		commandLine += L" " + argument;
+	}
+	return executeProcessBoost(commandLine, workingDirectory, timeout);
+}
+
+utility::ProcessOutput utility::executeProcess(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory,
@@ -208,7 +222,7 @@ std::pair<int, std::string> utility::executeProcess(
 	const int exitCode = process.exitCode();
 	process.close();
 
-	return std::make_pair(exitCode, utility::trim(processoutput));
+	return ProcessOutput(utility::decodeFromUtf8(utility::trim(processoutput)), exitCode);
 }
 
 std::string utility::executeProcessUntilNoOutput(

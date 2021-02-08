@@ -14,21 +14,23 @@ std::vector<FilePath> JavaPathDetectorMac::doGetPaths() const
 	std::vector<FilePath> paths;
 	FilePath javaPath;
 
-	std::string output = utility::executeProcess(L"/usr/libexec/java_home", std::vector<std::wstring>{}).second;
+	const utility::ProcessOutput out = utility::executeProcess(
+		L"/usr/libexec/java_home", std::vector<std::wstring> {});
 
+	const std::wstring output = out.exitCode == 0 ? utility::trim(out.output) : L"";
 	if (!output.empty())
 	{
-		javaPath = FilePath(utility::trim(output) + "/../MacOS/libjli.dylib").makeCanonical();
+		javaPath = FilePath(output + L"/../MacOS/libjli.dylib").makeCanonical();
 	}
 
-	if (!javaPath.exists() && output.size())
+	if (!javaPath.exists() && !output.empty())
 	{
-		javaPath = FilePath(utility::trim(output) + "/lib/libjli.dylib");
+		javaPath = FilePath(output + L"/lib/libjli.dylib");
 	}
 
-	if (!javaPath.exists() && output.size())
+	if (!javaPath.exists() && !output.empty())
 	{
-		javaPath = FilePath(utility::trim(output) + "/jre/lib/jli/libjli.dylib");
+		javaPath = FilePath(output + L"/jre/lib/jli/libjli.dylib");
 	}
 
 	if (!javaPath.exists())
@@ -36,9 +38,9 @@ std::vector<FilePath> JavaPathDetectorMac::doGetPaths() const
 		javaPath = FilePath(L"/usr/lib/libjli.dylib");
 	}
 
-	if (!javaPath.exists() && output.size())
+	if (!javaPath.exists() && !output.empty())
 	{
-		javaPath = FilePath(utility::trim(output) + "/jre/lib/server/libjvm.dylib");
+		javaPath = FilePath(output + L"/jre/lib/server/libjvm.dylib");
 	}
 
 	if (!javaPath.exists())

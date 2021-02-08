@@ -21,7 +21,12 @@ ProcessOutput executeProcessBoost(
 	const std::wstring& command,
 	const FilePath& workingDirectory = FilePath(),
 	const int timeout = 30000);
-std::pair<int, std::string> executeProcess(
+ProcessOutput executeProcessBoost(
+	const std::wstring& command,
+	const std::vector<std::wstring>& arguments,
+	const FilePath& workingDirectory = FilePath(),
+	const int timeout = 30000);
+ProcessOutput executeProcess(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory = FilePath(),
