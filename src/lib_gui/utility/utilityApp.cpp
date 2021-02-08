@@ -7,6 +7,7 @@
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/read.hpp>
+#include <boost/process.hpp>
 #include <boost/process/async_pipe.hpp>
 #include <boost/process/child.hpp>
 //#include <boost/process/env.hpp>
@@ -105,10 +106,20 @@ utility::ProcessOutput utility::executeProcessBoost(
 
 		std::shared_ptr<boost::process::child> process;
 
+
+		boost::process::environment env = boost::this_process::environment();
+		std::vector<std::string> previousPath = env["PATH"].to_vector();
+		env["PATH"] = {"/opt/local/bin", "/usr/local/bin", "$HOME/bin"};
+		for (const std::string& entry: previousPath)
+		{
+			env["PATH"].append(entry);
+		}
+
 		if (workingDirectory.empty())
 		{
 			process = std::make_shared<boost::process::child>(
 				command.c_str(),
+				env,
 				boost::process::std_in.close(),
 				(boost::process::std_out & boost::process::std_err) > ap);
 		}
@@ -117,6 +128,7 @@ utility::ProcessOutput utility::executeProcessBoost(
 			process = std::make_shared<boost::process::child>(
 				command.c_str(),
 				boost::process::start_dir(workingDirectory.wstr()),
+				env,
 				boost::process::std_in.close(),
 				(boost::process::std_out & boost::process::std_err) > ap);
 		}
