@@ -24,6 +24,7 @@
 
 #include "AppPath.h"
 #include "ApplicationSettings.h"
+#include "ScopedFunctor.h"
 #include "UserPaths.h"
 #include "logging.h"
 #include "utilityString.h"
@@ -67,6 +68,7 @@ namespace utility
 {
 std::mutex s_runningProcessesMutex;
 std::set<QProcess*> s_runningProcesses;
+std::set<std::shared_ptr<boost::process::child>> s_runningBoostProcesses;
 }	 // namespace utility
 
 std::string utility::searchPath(std::string bin)
@@ -82,68 +84,78 @@ std::string utility::searchPath(std::string bin)
 std::pair<int, std::string> utility::executeProcessBoost(
 	const std::string& command, const FilePath& workingDirectory, const int timeout)
 {
-	// QProcess process;
-	// process.setProcessChannelMode(QProcess::MergedChannels);
-
-	// QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	// QStringList envlist = env.toStringList();
-	// envlist.replaceInStrings(
-	// 	QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
-	// 	QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
-	// process.setEnvironment(envlist);
-
-	// boost::process::environment env = boost::this_process::environment();
-	// boost::process::environment env_ = env;
-	// env_["PATH"] += {"/opt/local/bin", "/usr/local/bin", "$HOME/bin"};
-	// bp::system("stuff", env_);
-
-	// {
-	// 	std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-	// 	process.start(command.c_str());
-	// 	s_runningProcesses.insert(&process);
-	// }
-
-	boost::process::ipstream is;
-
-	boost::process::child c(
-		command.c_str(),
-		(boost::process::std_out & boost::process::std_err) > is,
-		// boost::process::std_err > stderr,
-		// boost::process::std_in < stdin,
-		boost::process::start_dir = workingDirectory.wstr()
-	);
-
-	std::thread t([&c, &timeout](){
-		if (!c.wait_for(std::chrono::milliseconds(timeout)))
-		{
-			c.terminate();
-		}
-	});
-
-	std::string processoutput;
-	std::string line;
-
-	while (c.running() && std::getline(is, line) && !line.empty())
+	std::string output = "";
+	int exitCode = 255;
+	try
 	{
-		processoutput += line;
+		boost::process::ipstream stream;
+		std::shared_ptr<boost::process::child> process;
+		std::shared_ptr<std::thread> terminator;
+
+		if (workingDirectory.empty())
+		{
+			process = std::make_shared<boost::process::child>(
+				command.c_str(), (boost::process::std_out & boost::process::std_err) > stream);
+		}
+		else
+		{
+			process = std::make_shared<boost::process::child>(
+				command.c_str(),
+				(boost::process::std_out & boost::process::std_err) > stream,
+				boost::process::start_dir(workingDirectory.wstr()));
+		}
+
+		{
+			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+			s_runningBoostProcesses.insert(process);
+		}
+
+		ScopedFunctor remover([process]() {
+			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+			s_runningBoostProcesses.erase(process);
+		});
+
+		if (timeout > 0)
+		{
+			terminator = std::make_shared<std::thread>([&process, &timeout]() {
+				if (!process->wait_for(std::chrono::milliseconds(timeout)))
+				{
+					process->terminate();
+				}
+			});
+		}
+
+		std::string line;
+		while (process->running())
+		{
+			if (std::getline(stream, line) && !line.empty())
+			{
+				output += line + "\n";
+			}
+		}
+
+		while (std::getline(stream, line))
+		{
+			if (!line.empty())
+			{
+				output += line + "\n";
+			}
+		}
+
+		if (terminator)
+		{
+			terminator->join();
+		}
+
+		exitCode = process->exit_code();
+	}
+	catch (const boost::process::process_error& e)
+	{
+		output += e.code().message();
+		exitCode = e.code().value();
 	}
 
-	t.join();
-
-	// process.waitForFinished(timeout);
-	// {
-	// 	std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-	// 	s_runningProcesses.erase(&process);
-	// }
-
-	// QProcess::ProcessError error = process.error();
-
-
-	// const std::string processoutput = process.readAll().toStdString();
-	// const int exitCode = process.exitCode();
-	// process.close();
-
-	return std::make_pair(c.exit_code(), utility::trim(processoutput));
+	return std::make_pair(exitCode, utility::trim(output));
 }
 
 std::pair<int, std::string> utility::executeProcess(
@@ -369,6 +381,10 @@ void utility::killRunningProcesses()
 	for (QProcess* process: s_runningProcesses)
 	{
 		process->kill();
+	}
+	for (std::shared_ptr<boost::process::child> process: s_runningBoostProcesses)
+	{
+		process->terminate();
 	}
 }
 
