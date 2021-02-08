@@ -2921,7 +2921,7 @@ TEST_CASE(
 		"	A<g_p> a;\n"
 		"}\n");
 
-	REQUIRE(utility::containsElement<std::wstring>(client->typeUses, L"A<&g_p> -> P g_p <9:4 9:6>"));
+	REQUIRE(utility::containsElement<std::wstring>(client->typeUses, L"A<g_p> -> P g_p <9:4 9:6>"));
 }
 
 TEST_CASE(
@@ -3195,8 +3195,7 @@ TEST_CASE(
 		"{\n"
 		"};\n");
 
-	REQUIRE(
-		utility::containsElement<std::wstring>(client->typeUses, L"A<&g_p> -> P g_p <8:9 8:11>"));
+	REQUIRE(utility::containsElement<std::wstring>(client->typeUses, L"A<g_p> -> P g_p <8:9 8:11>"));
 }
 
 TEST_CASE("cxx parser finds template template argument of explicit template specialization")
@@ -3312,8 +3311,8 @@ TEST_CASE(
 		"{\n"
 		"};\n");
 
-	REQUIRE(utility::containsElement<std::wstring>(
-		client->typeUses, L"A<&g_p, q> -> P g_p <8:9 8:11>"));
+	REQUIRE(
+		utility::containsElement<std::wstring>(client->typeUses, L"A<g_p, q> -> P g_p <8:9 8:11>"));
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->localSymbols, L"input.cc<7:14> <8:14 8:14>"));
 }
