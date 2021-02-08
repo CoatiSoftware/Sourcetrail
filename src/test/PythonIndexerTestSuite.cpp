@@ -75,8 +75,13 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 		const utility::ProcessOutput out = utility::executeProcessBoost(
 			indexerCommand->getCustomCommand(), {}, rootPath, -1, true);
 
+		if (!out.error.empty())
+		{
+			FAIL(
+				"Error occurred while running the indexer: \"" + utility::encodeToUtf8(out.error) +
+				"\". Process output was: \"" + utility::encodeToUtf8(out.output) + "\"");
+		}
 		REQUIRE(out.exitCode == 0);
-		REQUIRE(out.error.empty());
 	}
 
 	std::shared_ptr<TestStorage> testStorage;
