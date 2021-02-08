@@ -11,8 +11,8 @@ namespace utility
 {
 struct ProcessOutput
 {
-	ProcessOutput(std::wstring output, int exitCode);
 	std::wstring output;
+	std::wstring error;
 	int exitCode;
 };
 
@@ -20,12 +20,14 @@ std::wstring searchPath(std::wstring bin);
 ProcessOutput executeProcessBoost(
 	const std::wstring& command,
 	const FilePath& workingDirectory = FilePath(),
-	const int timeout = 30000);
+	const int timeout = 30000,
+	bool logProcessOutput = false);
 ProcessOutput executeProcessBoost(
 	const std::wstring& command,
 	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory = FilePath(),
-	const int timeout = 30000);
+	const int timeout = 30000,
+	bool logProcessOutput = false);
 ProcessOutput executeProcess(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,

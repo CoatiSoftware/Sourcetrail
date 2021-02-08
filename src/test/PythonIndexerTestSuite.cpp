@@ -72,12 +72,11 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 			sourceFilePath,
 			true);
 
-		std::wstring errorMessage;
-		const int result = utility::executeProcessAndGetExitCode(
-			indexerCommand->getCustomCommand(), {}, rootPath, -1, true, &errorMessage);
+		const utility::ProcessOutput out = utility::executeProcessBoost(
+			indexerCommand->getCustomCommand(), {}, rootPath, -1, true);
 
-		REQUIRE(result == 0);
-		REQUIRE(errorMessage.empty());
+		REQUIRE(out.exitCode == 0);
+		REQUIRE(out.error.empty());
 	}
 
 	std::shared_ptr<TestStorage> testStorage;

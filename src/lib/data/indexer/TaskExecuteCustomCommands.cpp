@@ -473,9 +473,8 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 														  : ErrorCountInfo();
 
 		LOG_INFO("Starting to index");
-		std::wstring errorMessage;
-		const int result = utility::executeProcessAndGetExitCode(
-			command, {}, m_projectDirectory, -1, true, &errorMessage);
+		const utility::ProcessOutput out = utility::executeProcessBoost(
+			command, {}, m_projectDirectory, -1, true);
 		LOG_INFO("Finished indexing");
 
 		if (storage)
@@ -501,7 +500,7 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 			}
 		}
 
-		if (result == 0 && errorMessage.empty())
+		if (out.exitCode == 0 && out.error.empty())
 		{
 			std::wstring message = L"Process returned successfully.\n";
 			LOG_INFO(message);
@@ -510,13 +509,13 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 		{
 			std::wstring statusText = L"command \"" + indexerCommand->getCustomCommand() +
 				L"\" returned";
-			if (result != 0)
+			if (out.exitCode != 0)
 			{
-				statusText += L" code \"" + std::to_wstring(result) + L"\"";
+				statusText += L" code \"" + std::to_wstring(out.exitCode) + L"\"";
 			}
-			if (!errorMessage.empty())
+			if (!out.error.empty())
 			{
-				statusText += L" with message \"" + errorMessage + L"\"";
+				statusText += L" with message \"" + out.error + L"\"";
 			}
 			statusText += L".";
 

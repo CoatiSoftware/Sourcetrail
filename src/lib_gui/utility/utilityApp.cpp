@@ -4,14 +4,18 @@
 #include <mutex>
 #include <set>
 
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/read.hpp>
+#include <boost/process/async_pipe.hpp>
 #include <boost/process/child.hpp>
-#include <boost/process/env.hpp>
-#include <boost/process/environment.hpp>
+//#include <boost/process/env.hpp>
+//#include <boost/process/environment.hpp>
 #include <boost/process/io.hpp>
 #include <boost/process/search_path.hpp>
-#include <boost/process/shell.hpp>
+//#include <boost/process/shell.hpp>
 #include <boost/process/start_dir.hpp>
-#include <boost/process/system.hpp>
+//#include <boost/process/system.hpp>
 
 #include <boost/filesystem/path.hpp>
 #include <iostream>
@@ -71,11 +75,6 @@ std::set<QProcess*> s_runningProcesses;
 std::set<std::shared_ptr<boost::process::child>> s_runningBoostProcesses;
 }	 // namespace utility
 
-utility::ProcessOutput::ProcessOutput(std::wstring output, int exitCode)
-	: output(output), exitCode(exitCode)
-{
-}
-
 std::wstring utility::searchPath(std::wstring bin)
 {
 	std::wstring r = boost::process::search_path(bin).generic_wstring();
@@ -87,27 +86,34 @@ std::wstring utility::searchPath(std::wstring bin)
 }
 
 utility::ProcessOutput utility::executeProcessBoost(
-	const std::wstring& command, const FilePath& workingDirectory, const int timeout)
+	const std::wstring& command,
+	const FilePath& workingDirectory,
+	const int timeout,
+	bool logProcessOutput)
 {
-	std::wstring output = L"";
+	std::string output = "";
 	int exitCode = 255;
 	try
 	{
-		boost::process::wipstream stream;
+		boost::asio::io_service ios;
+		boost::process::async_pipe ap(ios);
+
 		std::shared_ptr<boost::process::child> process;
-		std::shared_ptr<std::thread> terminator;
 
 		if (workingDirectory.empty())
 		{
 			process = std::make_shared<boost::process::child>(
-				command.c_str(), (boost::process::std_out & boost::process::std_err) > stream);
+				command.c_str(),
+				boost::process::std_in.close(),
+				(boost::process::std_out & boost::process::std_err) > ap);
 		}
 		else
 		{
 			process = std::make_shared<boost::process::child>(
 				command.c_str(),
-				(boost::process::std_out & boost::process::std_err) > stream,
-				boost::process::start_dir(workingDirectory.wstr()));
+				boost::process::start_dir(workingDirectory.wstr()),
+				boost::process::std_in.close(),
+				(boost::process::std_out & boost::process::std_err) > ap);
 		}
 
 		{
@@ -120,61 +126,101 @@ utility::ProcessOutput utility::executeProcessBoost(
 			s_runningBoostProcesses.erase(process);
 		});
 
+
+		std::vector<char> buf(128);
+		auto stdOutBuffer = boost::asio::buffer(buf);
+		std::string logBuffer;
+
+		std::function<void(const boost::system::error_code& ec, std::size_t n)> onStdOut =
+			[&output, &buf, &stdOutBuffer, &ap, &onStdOut, &logBuffer, logProcessOutput](
+				const boost::system::error_code& ec, std::size_t size) {
+				std::string text;
+				text.reserve(size);
+				text.insert(text.end(), buf.begin(), buf.begin() + size);
+
+				output += text;
+				if (logProcessOutput)
+				{
+					logBuffer += text;
+					const bool isEndOfLine = (logBuffer.back() == '\n');
+					const std::vector<std::string> lines = utility::splitToVector(logBuffer, "\n");
+					for (size_t i = 0; i < lines.size() - (isEndOfLine ? 0 : 1); i++)
+					{
+						LOG_INFO_BARE("Process output: " + lines[i]);
+					}
+					if (isEndOfLine)
+					{
+						logBuffer.clear();
+					}
+					else
+					{
+						logBuffer = lines.back();
+					}
+				}
+				if (!ec)
+				{
+					boost::asio::async_read(ap, stdOutBuffer, onStdOut);
+				}
+			};
+
+		boost::asio::async_read(ap, stdOutBuffer, onStdOut);
+		ios.run();
+
 		if (timeout > 0)
 		{
-			terminator = std::make_shared<std::thread>([&process, &timeout]() {
-				if (!process->wait_for(std::chrono::milliseconds(timeout)))
-				{
-					process->terminate();
-				}
-			});
-		}
-
-		std::wstring line;
-		while (process->running())
-		{
-			if (std::getline(stream, line) && !line.empty())
+			if (!process->wait_for(std::chrono::milliseconds(timeout)))
 			{
-				output += line + L"\n";
+				process->terminate();
 			}
 		}
-
-		while (std::getline(stream, line))
+		else
 		{
-			if (!line.empty())
-			{
-				output += line + L"\n";
-			}
+			process->wait();
 		}
 
-		if (terminator)
+		if (logProcessOutput)
 		{
-			terminator->join();
+			for (const std::string& line: utility::splitToVector(logBuffer, "\n"))
+			{
+				LOG_INFO_BARE("Process output: " + line);
+			}
 		}
 
 		exitCode = process->exit_code();
 	}
 	catch (const boost::process::process_error& e)
 	{
-		output += utility::decodeFromUtf8(e.code().message());
-		exitCode = e.code().value();
+		ProcessOutput ret;
+		ret.error = utility::decodeFromUtf8(e.code().message());
+		ret.exitCode = e.code().value();
+
+		if (logProcessOutput)
+		{
+			LOG_ERROR_BARE(L"Process error: " + ret.error);
+		}
+
+		return ret;
 	}
 
-	return ProcessOutput(utility::trim(output), exitCode);
+	ProcessOutput ret;
+	ret.output = utility::trim(utility::decodeFromUtf8(output));
+	ret.exitCode = exitCode;
+	return ret;
 }
 
 utility::ProcessOutput utility::executeProcessBoost(
 	const std::wstring& command,
 	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory,
-	const int timeout)
+	const int timeout,
+	bool logProcessOutput)
 {
 	std::wstring commandLine = command;
 	for (const std::wstring& argument: arguments)
 	{
 		commandLine += L" " + argument;
 	}
-	return executeProcessBoost(commandLine, workingDirectory, timeout);
+	return executeProcessBoost(commandLine, workingDirectory, timeout, logProcessOutput);
 }
 
 utility::ProcessOutput utility::executeProcess(
@@ -222,7 +268,10 @@ utility::ProcessOutput utility::executeProcess(
 	const int exitCode = process.exitCode();
 	process.close();
 
-	return ProcessOutput(utility::decodeFromUtf8(utility::trim(processoutput)), exitCode);
+	ProcessOutput ret;
+	ret.output = utility::decodeFromUtf8(utility::trim(processoutput));
+	ret.exitCode = exitCode;
+	return ret;
 }
 
 std::string utility::executeProcessUntilNoOutput(
