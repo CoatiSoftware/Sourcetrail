@@ -92,11 +92,16 @@ utility::ProcessOutput utility::executeProcessBoost(
 	bool logProcessOutput)
 {
 	std::string output = "";
-	int exitCode = 255;
+	int exitCode = 103;
 	try
 	{
+		exitCode = 104;
+		std::cout << "exitCode: " << exitCode << std::endl;
+
 		boost::asio::io_service ios;
 		boost::process::async_pipe ap(ios);
+		exitCode = 105;
+		std::cout << "exitCode: " << exitCode << std::endl;
 
 		std::shared_ptr<boost::process::child> process;
 
@@ -115,6 +120,8 @@ utility::ProcessOutput utility::executeProcessBoost(
 				boost::process::std_in.close(),
 				(boost::process::std_out & boost::process::std_err) > ap);
 		}
+		exitCode = 106;
+		std::cout << "exitCode: " << exitCode << std::endl;
 
 		{
 			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
@@ -126,10 +133,14 @@ utility::ProcessOutput utility::executeProcessBoost(
 			s_runningBoostProcesses.erase(process);
 		});
 
+		exitCode = 107;
+		std::cout << "exitCode: " << exitCode << std::endl;
 
 		std::vector<char> buf(128);
 		auto stdOutBuffer = boost::asio::buffer(buf);
 		std::string logBuffer;
+		exitCode = 108;
+		std::cout << "exitCode: " << exitCode << std::endl;
 
 		std::function<void(const boost::system::error_code& ec, std::size_t n)> onStdOut =
 			[&output, &buf, &stdOutBuffer, &ap, &onStdOut, &logBuffer, logProcessOutput](
@@ -163,8 +174,14 @@ utility::ProcessOutput utility::executeProcessBoost(
 				}
 			};
 
+		exitCode = 109;
+		std::cout << "exitCode: " << exitCode << std::endl;
 		boost::asio::async_read(ap, stdOutBuffer, onStdOut);
+		exitCode = 110;
+		std::cout << "exitCode: " << exitCode << std::endl;
 		ios.run();
+		exitCode = 111;
+		std::cout << "exitCode: " << exitCode << std::endl;
 
 		if (timeout > 0)
 		{
@@ -177,6 +194,8 @@ utility::ProcessOutput utility::executeProcessBoost(
 		{
 			process->wait();
 		}
+		exitCode = 112;
+		std::cout << "exitCode: " << exitCode << std::endl;
 
 		if (logProcessOutput)
 		{
@@ -193,13 +212,14 @@ utility::ProcessOutput utility::executeProcessBoost(
 		ProcessOutput ret;
 		ret.error = utility::decodeFromUtf8(e.code().message());
 		ret.exitCode = e.code().value();
-
-		if (logProcessOutput)
-		{
-			LOG_ERROR_BARE(L"Process error: " + ret.error);
-		}
+		LOG_ERROR_BARE(L"Process error: " + ret.error);
 
 		return ret;
+	}
+	catch (...)
+	{
+		exitCode = 114;
+		std::cout << "exitCode: " << exitCode << std::endl;
 	}
 
 	ProcessOutput ret;
