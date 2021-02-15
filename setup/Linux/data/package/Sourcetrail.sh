@@ -1,16 +1,7 @@
 #!/bin/sh
 
-# get the current directory
-SOURCE="${0}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
-	DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-	SOURCE="$(readlink "$SOURCE")"
-	case $SOURCE in # if $SOURCE is a relative symlink, we need to resolve it relative to the path where the symlink file was located
-	  /*) ;;
-	  *) SOURCE="$DIR/$SOURCE" ;;
-	esac
-done
-SOURCETRAIL_PATH="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+# Get the current directory in canonical form (resolve all the symlinks, if present)
+SOURCETRAIL_PATH="$(dirname "$(readlink -f "$0")")"
 
 export LD_LIBRARY_PATH="$SOURCETRAIL_PATH/lib:$LD_LIBRARY_PATH"
 export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb:$QT_XKB_CONFIG_ROOT"
