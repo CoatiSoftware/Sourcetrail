@@ -72,7 +72,7 @@ FilePath JavaPathDetectorLinux::getJavaInPath() const
 
 FilePath JavaPathDetectorLinux::readLink(const FilePath& path) const
 {
-	FilePath javaPath(utility::executeProcess(L"readlink", std::vector<std::wstring>{L"-f " + path.wstr()}).second);
+	FilePath javaPath(utility::executeProcess(L"readlink", std::vector<std::wstring>{L"-f", path.wstr()}).second);
 	if (!javaPath.empty())
 	{
 		return javaPath;
