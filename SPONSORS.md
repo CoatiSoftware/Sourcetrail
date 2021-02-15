@@ -24,10 +24,12 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Anton
 * Bicakci, Inc.
 * BJ
+* Christian Hipp
 * Dio Lee
 * Ferenc Fejes
 * Frederic Simonis
 * Friedrich Hunstock
+* Georg Friedrich
 * Graydon Hoare
 * IndustrialRobot
 * Jason Stevens
