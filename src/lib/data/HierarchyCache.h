@@ -33,10 +33,29 @@ public:
 	bool nodeIsVisible(Id nodeId) const;
 	bool nodeIsImplicit(Id nodeId) const;
 
-	std::vector<std::tuple<Id, Id, std::vector<Id>>> getInheritanceEdgesForNodeId(
-		Id nodeId, const std::set<Id>& nodeIds) const;
+	std::vector<std::tuple</*source*/ Id, /*target*/ Id, std::vector</*edge*/ Id>>>
+		getInheritanceEdgesForNodeId(Id sourceId, const std::set<Id>& targetIds) const;
 
 private:
+	/**
+	 * Determine nodes and edges from which a specific node can be reached in a reversed graph.
+	 *
+	 * A reversed graph can be produced by HierarchyNode::getReverseReachableInheritanceSubgraph().
+	 *
+	 * @param[in]  nodeId        ID of the target node.
+	 * @param[in]  reverseGraph  The reversed graph.
+	 * @param[out] nodes         The nodes from which the node @p nodeId can be reached.
+	 * @param[out] edges         The edges from which the node @p nodeId can be reached.
+	 *
+	 * @pre The arguments for @p nodes and @p edges must be provided empty.
+	 */
+	static void getReverseReachable(
+		Id nodeId,
+		const std::map</*target*/ Id, std::vector<std::pair</*source*/ Id, /*edge*/ Id>>>&
+			reverseGraph,
+		std::set<Id>& nodes,
+		std::vector<Id>& edges);
+
 	class HierarchyNode
 	{
 	public:
@@ -67,13 +86,23 @@ private:
 		bool isImplicit() const;
 		void setIsImplicit(bool isImplicit);
 
-		void addInheritanceEdgesRecursive(
-			Id startId,
-			const std::set<Id>& inheritanceEdgeIds,
-			const std::set<Id>& nodeIds,
-			std::vector<std::tuple<Id, Id, std::vector<Id>>>* inheritanceEdges);
+		/**
+		 * Determine the reversed subgraph of all nodes and edges that are reachable from this node.
+		 *
+		 * The subgraph is represented by a map that maps a node ID *t* to a set of pairs where each
+		 * pair consists of a node ID *s* and and edge ID *e* such that *e* refers to an edge from
+		 * *s* to *t*. Note that the mapping is reversed compared to the edges.
+		 */
+		std::map</*target*/ Id, std::vector<std::pair</*source*/ Id, /*edge*/ Id>>>
+			getReverseReachableInheritanceSubgraph() const;
 
 	private:
+		/**
+		 * Helper for getReverseReachableInheritanceSubgraph().
+		 */
+		void getReverseReachableInheritanceSubgraphHelper(
+			std::map</*target*/ Id, std::vector<std::pair</*source*/ Id, /*edge*/ Id>>>&) const;
+
 		const Id m_nodeId;
 		Id m_edgeId;
 
