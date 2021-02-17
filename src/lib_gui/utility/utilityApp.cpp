@@ -88,6 +88,7 @@ std::wstring utility::searchPath(std::wstring bin)
 
 utility::ProcessOutput utility::executeProcessBoost(
 	const std::wstring& command,
+	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory,
 	const int timeout,
 	bool logProcessOutput)
@@ -106,7 +107,6 @@ utility::ProcessOutput utility::executeProcessBoost(
 
 		std::shared_ptr<boost::process::child> process;
 
-
 		boost::process::environment env = boost::this_process::environment();
 		std::vector<std::string> previousPath = env["PATH"].to_vector();
 		env["PATH"] = {"/opt/local/bin", "/usr/local/bin", "$HOME/bin"};
@@ -119,6 +119,7 @@ utility::ProcessOutput utility::executeProcessBoost(
 		{
 			process = std::make_shared<boost::process::child>(
 				command.c_str(),
+				boost::process::args(arguments),
 				env,
 				boost::process::std_in.close(),
 				(boost::process::std_out & boost::process::std_err) > ap);
@@ -127,6 +128,7 @@ utility::ProcessOutput utility::executeProcessBoost(
 		{
 			process = std::make_shared<boost::process::child>(
 				command.c_str(),
+				boost::process::args(arguments),
 				boost::process::start_dir(workingDirectory.wstr()),
 				env,
 				boost::process::std_in.close(),
@@ -242,17 +244,11 @@ utility::ProcessOutput utility::executeProcessBoost(
 
 utility::ProcessOutput utility::executeProcessBoost(
 	const std::wstring& command,
-	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory,
 	const int timeout,
 	bool logProcessOutput)
 {
-	std::wstring commandLine = command;
-	for (const std::wstring& argument: arguments)
-	{
-		commandLine += L" " + argument;
-	}
-	return executeProcessBoost(commandLine, workingDirectory, timeout, logProcessOutput);
+	return executeProcessBoost(command, {}, workingDirectory, timeout, logProcessOutput);
 }
 
 utility::ProcessOutput utility::executeProcess(
