@@ -38,13 +38,12 @@ std::string executeProcessUntilNoOutput(
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory,
 	int waitTime = 10000);
-int executeProcessAndGetExitCode(
+ProcessOutput executeProcessAndGetExitCode(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory = FilePath(),
 	const int timeout = 30000,
-	bool logProcessOutput = false,
-	std::wstring* errorMessage = nullptr);
+	bool logProcessOutput = false);
 
 void killRunningProcesses();
 int getIdealThreadCount();

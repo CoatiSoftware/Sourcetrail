@@ -364,60 +364,56 @@ std::string utility::executeProcessUntilNoOutput(
 	return processoutput;
 }
 
-int utility::executeProcessAndGetExitCode(
+utility::ProcessOutput utility::executeProcessAndGetExitCode(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory,
 	const int timeout,
-	bool logProcessOutput,
-	std::wstring* errorMessage)
+	bool logProcessOutput)
 {
 	bool finished = false;
+
+	ProcessOutput out;
 
 	QProcess process;
 
 	QObject::connect(
-		&process, &QProcess::errorOccurred, [&finished, errorMessage](QProcess::ProcessError error) {
+		&process, &QProcess::errorOccurred, [&finished, &out](QProcess::ProcessError error) {
 			finished = true;
-			if (errorMessage != nullptr)
+			switch (error)
 			{
-				switch (error)
-				{
-				case QProcess::FailedToStart:
-					*errorMessage = L"File not found or resource error occurred.";
-					break;
-				case QProcess::Crashed:
-					*errorMessage = L"Process crashed.";
-					break;
-				case QProcess::Timedout:
-					*errorMessage = L"Process timed out.";
-					break;
-				case QProcess::ReadError:
-					*errorMessage = L"A read error occurred while executing process.";
-					break;
-				case QProcess::WriteError:
-					*errorMessage = L"A write error occurred while executing process.";
-					break;
-				case QProcess::UnknownError:
-					*errorMessage = L"An unknown error occurred while executing process.";
-					break;
-				}
+			case QProcess::FailedToStart:
+				out.error = L"File not found or resource error occurred.";
+				break;
+			case QProcess::Crashed:
+				out.error = L"Process crashed.";
+				break;
+			case QProcess::Timedout:
+				out.error = L"Process timed out.";
+				break;
+			case QProcess::ReadError:
+				out.error = L"A read error occurred while executing process.";
+				break;
+			case QProcess::WriteError:
+				out.error = L"A write error occurred while executing process.";
+				break;
+			case QProcess::UnknownError:
+				out.error = L"An unknown error occurred while executing process.";
+				break;
 			}
 		});
 
 	QObject::connect(
 		&process,
 		static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-		[&finished, errorMessage](int exitCode, QProcess::ExitStatus exitStatus) {
+		[&finished, &out](int exitCode, QProcess::ExitStatus exitStatus) {
 			finished = true;
-			if (errorMessage != nullptr)
+
+			switch (exitStatus)
 			{
-				switch (exitStatus)
-				{
-				case QProcess::CrashExit:
-					*errorMessage = L"Process crashed.";
-					break;
-				}
+			case QProcess::CrashExit:
+				out.error = L"Process crashed.";
+				break;
 			}
 		});
 
@@ -477,9 +473,10 @@ int utility::executeProcessAndGetExitCode(
 		s_runningProcesses.erase(&process);
 	}
 
-	const int exitCode = process.exitCode();
+	out.exitCode = process.exitCode();
 	process.close();
-	return exitCode;
+
+	return out;
 }
 
 void utility::killRunningProcesses()
