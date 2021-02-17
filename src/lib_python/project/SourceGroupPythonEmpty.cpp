@@ -79,7 +79,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
 				INDEXER_COMMAND_PYTHON,
-				L"\"" + ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer\"",
+				ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer",
 				args,
 				m_settings->getProjectSettings()->getProjectFilePath(),
 				m_settings->getProjectSettings()->getTempDBFilePath(),

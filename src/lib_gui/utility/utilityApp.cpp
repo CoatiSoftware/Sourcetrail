@@ -118,7 +118,7 @@ utility::ProcessOutput utility::executeProcessBoost(
 		if (workingDirectory.empty())
 		{
 			process = std::make_shared<boost::process::child>(
-				command.c_str(),
+				searchPath(command),
 				boost::process::args(arguments),
 				env,
 				boost::process::std_in.close(),
@@ -127,7 +127,7 @@ utility::ProcessOutput utility::executeProcessBoost(
 		else
 		{
 			process = std::make_shared<boost::process::child>(
-				command.c_str(),
+				searchPath(command),
 				boost::process::args(arguments),
 				boost::process::start_dir(workingDirectory.wstr()),
 				env,
