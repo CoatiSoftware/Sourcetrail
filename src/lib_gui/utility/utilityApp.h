@@ -16,36 +16,25 @@ struct ProcessOutput
 	int exitCode;
 };
 
-std::wstring searchPath(std::wstring bin);
-ProcessOutput executeProcessBoost(
-	const std::wstring& command,
-	const FilePath& workingDirectory = FilePath(),
-	const int timeout = 30000,
-	bool logProcessOutput = false);
-ProcessOutput executeProcessBoost(
+std::wstring searchPath(const std::wstring& bin, bool& ok);
+
+std::wstring searchPath(const std::wstring& bin);
+
+ProcessOutput executeProcessBoost2(
 	const std::wstring& command,
 	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory = FilePath(),
 	const int timeout = 30000,
 	bool logProcessOutput = false);
-ProcessOutput executeProcess(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory = FilePath(),
-	const int timeout = 30000);
+
 std::string executeProcessUntilNoOutput(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,
 	const FilePath& workingDirectory,
 	int waitTime = 10000);
-ProcessOutput executeProcessAndGetExitCode(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory = FilePath(),
-	const int timeout = 30000,
-	bool logProcessOutput = false);
 
 void killRunningProcesses();
+
 int getIdealThreadCount();
 
 constexpr OsType getOsType()

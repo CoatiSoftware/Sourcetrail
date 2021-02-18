@@ -52,14 +52,15 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 	std::vector<std::wstring> args;
 	args.push_back(L"index");
 
-	args.push_back(L"--source-file-path=%{SOURCE_FILE_PATH}");
-	args.push_back(L"--database-file-path=%{DATABASE_FILE_PATH}");
+	args.push_back(L"--source-file-path");
+	args.push_back(L"%{SOURCE_FILE_PATH}");
+	args.push_back(L"--database-file-path");
+	args.push_back(L"%{DATABASE_FILE_PATH}");
 
 	if (!m_settings->getEnvironmentPath().empty())
 	{
-		args.push_back(
-			L"--environment-path=\"" + m_settings->getEnvironmentPathExpandedAndAbsolute().wstr() +
-			L"\"");
+		args.push_back(L"--environment-path");
+		args.push_back(m_settings->getEnvironmentPathExpandedAndAbsolute().wstr());
 	}
 
 	if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())

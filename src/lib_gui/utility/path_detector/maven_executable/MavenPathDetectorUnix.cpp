@@ -9,16 +9,11 @@ std::vector<FilePath> MavenPathDetectorUnix::doGetPaths() const
 {
 	std::vector<FilePath> paths;
 
-	const utility::ProcessOutput out = utility::executeProcess(
-		L"which", {L"mvn"});
-
-	if (out.exitCode == 0)
+	bool ok;
+	FilePath mavenPath(utility::searchPath(L"mvn.cmd", ok));
+	if (ok && !mavenPath.empty() && mavenPath.exists())
 	{
-		FilePath mavenPath(out.output);
-		if (mavenPath.exists())
-		{
-			paths.push_back(mavenPath);
-		}
+		paths.push_back(mavenPath);
 	}
 	return paths;
 }

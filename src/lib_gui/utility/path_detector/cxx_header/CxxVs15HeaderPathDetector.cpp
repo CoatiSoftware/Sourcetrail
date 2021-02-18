@@ -20,9 +20,9 @@ std::vector<FilePath> CxxVs15HeaderPathDetector::doGetPaths() const
 				.expandEnvironmentVariables();
 		if (!expandedPaths.empty())
 		{
-			const utility::ProcessOutput out = utility::executeProcess(
-				expandedPaths[0].wstr(),
-				{L"-latest", L"-property installationPath"},
+			const utility::ProcessOutput out = utility::executeProcessBoost2(
+				expandedPaths.front().wstr(),
+				{L"-latest", L"-property", L"installationPath"},
 				FilePath(),
 				10000);
 			if (out.exitCode == 0)

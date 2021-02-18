@@ -76,17 +76,25 @@ std::set<QProcess*> s_runningProcesses;
 std::set<std::shared_ptr<boost::process::child>> s_runningBoostProcesses;
 }	 // namespace utility
 
-std::wstring utility::searchPath(std::wstring bin)
+std::wstring utility::searchPath(const std::wstring& bin, bool& ok)
 {
+	ok = false;
 	std::wstring r = boost::process::search_path(bin).generic_wstring();
 	if (!r.empty())
 	{
+		ok = true;
 		return r;
 	}
 	return bin;
 }
 
-utility::ProcessOutput utility::executeProcessBoost(
+std::wstring utility::searchPath(const std::wstring& bin)
+{
+	bool ok;
+	return searchPath(bin, ok);
+}
+
+utility::ProcessOutput utility::executeProcessBoost2(
 	const std::wstring& command,
 	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory,
@@ -242,66 +250,6 @@ utility::ProcessOutput utility::executeProcessBoost(
 	return ret;
 }
 
-utility::ProcessOutput utility::executeProcessBoost(
-	const std::wstring& command,
-	const FilePath& workingDirectory,
-	const int timeout,
-	bool logProcessOutput)
-{
-	return executeProcessBoost(command, {}, workingDirectory, timeout, logProcessOutput);
-}
-
-utility::ProcessOutput utility::executeProcess(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory,
-	const int timeout)
-{
-	QProcess process;
-	process.setProcessChannelMode(QProcess::MergedChannels);
-
-	if (!workingDirectory.empty())
-	{
-		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
-	}
-
-	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
-
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	QStringList envlist = env.toStringList();
-	envlist.replaceInStrings(
-		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
-		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
-	process.setEnvironment(envlist);
-
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
-		s_runningProcesses.insert(&process);
-	}
-
-	process.waitForFinished(timeout);
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		s_runningProcesses.erase(&process);
-	}
-
-	// QProcess::ProcessError error = process.error();
-
-	const std::string processoutput = process.readAll().toStdString();
-	const int exitCode = process.exitCode();
-	process.close();
-
-	ProcessOutput ret;
-	ret.output = utility::decodeFromUtf8(utility::trim(processoutput));
-	ret.exitCode = exitCode;
-	return ret;
-}
-
 std::string utility::executeProcessUntilNoOutput(
 	const std::wstring& commandPath,
 	const std::vector<std::wstring>& commandArguments,
@@ -362,121 +310,6 @@ std::string utility::executeProcessUntilNoOutput(
 	processoutput = utility::trim(processoutput);
 
 	return processoutput;
-}
-
-utility::ProcessOutput utility::executeProcessAndGetExitCode(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory,
-	const int timeout,
-	bool logProcessOutput)
-{
-	bool finished = false;
-
-	ProcessOutput out;
-
-	QProcess process;
-
-	QObject::connect(
-		&process, &QProcess::errorOccurred, [&finished, &out](QProcess::ProcessError error) {
-			finished = true;
-			switch (error)
-			{
-			case QProcess::FailedToStart:
-				out.error = L"File not found or resource error occurred.";
-				break;
-			case QProcess::Crashed:
-				out.error = L"Process crashed.";
-				break;
-			case QProcess::Timedout:
-				out.error = L"Process timed out.";
-				break;
-			case QProcess::ReadError:
-				out.error = L"A read error occurred while executing process.";
-				break;
-			case QProcess::WriteError:
-				out.error = L"A write error occurred while executing process.";
-				break;
-			case QProcess::UnknownError:
-				out.error = L"An unknown error occurred while executing process.";
-				break;
-			}
-		});
-
-	QObject::connect(
-		&process,
-		static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-		[&finished, &out](int exitCode, QProcess::ExitStatus exitStatus) {
-			finished = true;
-
-			switch (exitStatus)
-			{
-			case QProcess::CrashExit:
-				out.error = L"Process crashed.";
-				break;
-			}
-		});
-
-
-	if (!workingDirectory.empty())
-	{
-		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
-	}
-
-	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
-
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	QStringList envlist = env.toStringList();
-	envlist.replaceInStrings(
-		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
-		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
-	process.setEnvironment(envlist);
-
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
-		s_runningProcesses.insert(&process);
-	}
-
-	{
-		std::wstring outputBuffer;
-		std::wstring errorBuffer;
-		if (timeout == -1)
-		{
-			while (!finished && !process.waitForFinished(1000))
-			{
-				if (logProcessOutput)
-				{
-					logProcessStreams(process, outputBuffer, errorBuffer);
-				}
-			}
-		}
-		else
-		{
-			if (!finished)
-			{
-				process.waitForFinished(timeout);
-			}
-		}
-
-		if (logProcessOutput)
-		{
-			logProcessStreams(process, outputBuffer, errorBuffer);
-		}
-	}
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		s_runningProcesses.erase(&process);
-	}
-
-	out.exitCode = process.exitCode();
-	process.close();
-
-	return out;
 }
 
 void utility::killRunningProcesses()

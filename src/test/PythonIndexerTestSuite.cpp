@@ -58,8 +58,10 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 
 		std::vector<std::wstring> args;
 		args.push_back(L"index");
-		args.push_back(L"--source-file-path=%{SOURCE_FILE_PATH}");
-		args.push_back(L"--database-file-path=%{DATABASE_FILE_PATH}");
+		args.push_back(L"--source-file-path");
+		args.push_back(L"%{SOURCE_FILE_PATH}");
+		args.push_back(L"--database-file-path");
+		args.push_back(L"%{DATABASE_FILE_PATH}");
 		args.push_back(L"--shallow");
 
 		std::shared_ptr<IndexerCommandCustom> indexerCommand = std::make_shared<IndexerCommandCustom>(
@@ -73,7 +75,7 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 			sourceFilePath,
 			true);
 
-		const utility::ProcessOutput out = utility::executeProcessBoost(
+		const utility::ProcessOutput out = utility::executeProcessBoost2(
 			indexerCommand->getCommand(), indexerCommand->getArguments(), rootPath, -1, true);
 
 		if (!out.error.empty())

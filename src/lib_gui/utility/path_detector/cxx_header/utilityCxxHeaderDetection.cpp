@@ -13,10 +13,8 @@ std::vector<std::wstring> getCxxHeaderPaths(const std::string& compilerName)
 {
 	std::vector<std::wstring> paths;
 
-	const std::string command = compilerName + " -x c++ -v -E /dev/null";
-	const utility::ProcessOutput out = utility::executeProcess(
-		utility::decodeFromUtf8(compilerName),
-		{L"-x c++", L"-v", L"-E /dev/null"});
+	const utility::ProcessOutput out = utility::executeProcessBoost2(
+		utility::decodeFromUtf8(compilerName), {L"-x c++", L"-v", L"-E /dev/null"});
 	if (out.exitCode == 0)
 	{
 		std::wstring standardHeaders = utility::substrBetween<std::wstring>(
