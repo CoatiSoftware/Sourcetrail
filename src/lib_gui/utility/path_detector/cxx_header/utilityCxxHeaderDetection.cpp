@@ -14,7 +14,7 @@ std::vector<std::wstring> getCxxHeaderPaths(const std::string& compilerName)
 	std::vector<std::wstring> paths;
 
 	const utility::ProcessOutput out = utility::executeProcessBoost2(
-		utility::decodeFromUtf8(compilerName), {L"-x c++", L"-v", L"-E /dev/null"});
+		utility::decodeFromUtf8(compilerName), {L"-x", L"c++", L"-v", L"-E", L"/dev/null"});
 	if (out.exitCode == 0)
 	{
 		std::wstring standardHeaders = utility::substrBetween<std::wstring>(
