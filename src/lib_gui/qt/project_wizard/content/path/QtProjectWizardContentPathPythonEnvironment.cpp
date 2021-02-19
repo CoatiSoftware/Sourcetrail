@@ -62,7 +62,7 @@ void QtProjectWizardContentPathPythonEnvironment::onTextChanged(const QString& t
 	{
 		m_resultLabel->setText("Checking validity of Python environment...");
 		std::thread([=]() {
-			const utility::ProcessOutput out = utility::executeProcessBoost2(
+			const utility::ProcessOutput out = utility::executeProcess(
 				ResourcePaths::getPythonPath().wstr().append(L"SourcetrailPythonIndexer"),
 				{L"check-environment",
 				 L"--environment-path",
@@ -70,6 +70,7 @@ void QtProjectWizardContentPathPythonEnvironment::onTextChanged(const QString& t
 					 FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath())
 					 .wstr()},
 				FilePath(),
+				false,
 				5000);
 			m_onQtThread([=]() {
 				if (out.exitCode == 0)

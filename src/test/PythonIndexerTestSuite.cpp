@@ -75,8 +75,8 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 			sourceFilePath,
 			true);
 
-		const utility::ProcessOutput out = utility::executeProcessBoost2(
-			indexerCommand->getCommand(), indexerCommand->getArguments(), rootPath, -1, true);
+		const utility::ProcessOutput out = utility::executeProcess(
+			indexerCommand->getCommand(), indexerCommand->getArguments(), rootPath, false, -1, true);
 
 		if (!out.error.empty())
 		{

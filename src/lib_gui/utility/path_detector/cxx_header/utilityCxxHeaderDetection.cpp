@@ -13,7 +13,7 @@ std::vector<std::wstring> getCxxHeaderPaths(const std::string& compilerName)
 {
 	std::vector<std::wstring> paths;
 
-	const utility::ProcessOutput out = utility::executeProcessBoost2(
+	const utility::ProcessOutput out = utility::executeProcess(
 		utility::decodeFromUtf8(compilerName), {L"-x", L"c++", L"-v", L"-E", L"/dev/null"});
 	if (out.exitCode == 0)
 	{

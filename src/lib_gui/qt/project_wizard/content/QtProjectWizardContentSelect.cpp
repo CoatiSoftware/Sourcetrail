@@ -24,10 +24,11 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 {
 	std::string pythonIndexerVersion = " ";
 	{
-		utility::ProcessOutput output = utility::executeProcessBoost2(
+		utility::ProcessOutput output = utility::executeProcess(
 			ResourcePaths::getPythonPath().wstr() + L"SourcetrailPythonIndexer",
 			{L"--version"},
 			FilePath(),
+			false,
 			5000);
 		if (output.exitCode == 0)
 		{

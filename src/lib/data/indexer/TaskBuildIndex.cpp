@@ -202,8 +202,8 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 	int result = 1;
 	while ((!m_indexerCommandQueueStopped || result != 0) && !m_interrupted)
 	{
-		result = utility::executeProcessBoost2(
-					 indexerProcessPath.wstr(), commandArguments, FilePath(), -1)
+		result = utility::executeProcess(
+					 indexerProcessPath.wstr(), commandArguments, FilePath(), false, -1)
 					 .exitCode;
 
 		LOG_INFO_STREAM(<< "Indexer process " << processId << " returned with " + std::to_string(result));

@@ -65,7 +65,7 @@ FilePath JavaPathDetectorLinux::getJavaInPath() const
 
 FilePath JavaPathDetectorLinux::readLink(const FilePath& path) const
 {
-	const utility::ProcessOutput out = utility::executeProcessBoost2(
+	const utility::ProcessOutput out = utility::executeProcess(
 		L"readlink", std::vector<std::wstring> {L"-f", path.wstr()});
 
 	if (out.exitCode == 0 && !out.output.empty())
@@ -113,7 +113,7 @@ FilePath JavaPathDetectorLinux::getJavaInJavaHome() const
 
 bool JavaPathDetectorLinux::checkVersion(const FilePath& path) const
 {
-	const utility::ProcessOutput out = utility::executeProcessBoost2(path.wstr(), {L"-version"});
+	const utility::ProcessOutput out = utility::executeProcess(path.wstr(), {L"-version"});
 
 	return (
 		(out.exitCode == 0) &&

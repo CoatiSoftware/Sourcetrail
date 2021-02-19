@@ -476,8 +476,8 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 														  : ErrorCountInfo();
 
 		LOG_INFO("Starting to index");
-		const utility::ProcessOutput out = utility::executeProcessBoost2(
-			command, arguments, m_projectDirectory, -1, true);
+		const utility::ProcessOutput out = utility::executeProcess(
+			command, arguments, m_projectDirectory, false, -1, true);
 		LOG_INFO("Finished indexing");
 
 		if (storage)

@@ -20,18 +20,13 @@ std::wstring searchPath(const std::wstring& bin, bool& ok);
 
 std::wstring searchPath(const std::wstring& bin);
 
-ProcessOutput executeProcessBoost2(
+ProcessOutput executeProcess(
 	const std::wstring& command,
 	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory = FilePath(),
+	const bool waitUntilNoOutput = false,
 	const int timeout = 30000,
 	bool logProcessOutput = false);
-
-std::string executeProcessUntilNoOutput(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory,
-	int waitTime = 10000);
 
 void killRunningProcesses();
 
