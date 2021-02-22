@@ -66,8 +66,11 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 
 		std::shared_ptr<IndexerCommandCustom> indexerCommand = std::make_shared<IndexerCommandCustom>(
 			INDEXER_COMMAND_PYTHON,
-			FilePath("../app").getConcatenated(ResourcePaths::getPythonPath()).makeAbsolute().wstr() +
-				L"SourcetrailPythonIndexer",
+			FilePath("../app")
+				.getConcatenated(ResourcePaths::getPythonIndexerFilePath())
+				.makeAbsolute()
+				.makeCanonical()
+				.wstr(),
 			args,
 			rootPath,
 			tempDbPath,

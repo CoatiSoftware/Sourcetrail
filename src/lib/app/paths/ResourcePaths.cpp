@@ -1,6 +1,7 @@
 #include "ResourcePaths.h"
 
 #include "AppPath.h"
+#include "utilityApp.h"
 
 FilePath ResourcePaths::getColorSchemesPath()
 {
@@ -37,7 +38,7 @@ FilePath ResourcePaths::getJavaPath()
 	return AppPath::getSharedDataPath().concatenate(L"data/java/");
 }
 
-FilePath ResourcePaths::getPythonPath()
+FilePath ResourcePaths::getPythonDirectoryPath()
 {
 	return AppPath::getSharedDataPath().concatenate(L"data/python/");
 }
@@ -45,4 +46,13 @@ FilePath ResourcePaths::getPythonPath()
 FilePath ResourcePaths::getCxxCompilerHeaderPath()
 {
 	return AppPath::getSharedDataPath().concatenate(L"data/cxx/include/").getCanonical();
+}
+
+FilePath ResourcePaths::getPythonIndexerFilePath()
+{
+	if (utility::getOsType() == OS_WINDOWS)
+	{
+		return getPythonDirectoryPath().concatenate(L"SourcetrailPythonIndexer.exe");
+	}
+	return getPythonDirectoryPath().concatenate(L"SourcetrailPythonIndexer");
 }
