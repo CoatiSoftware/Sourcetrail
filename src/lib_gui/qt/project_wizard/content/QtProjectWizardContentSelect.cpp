@@ -24,20 +24,19 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 {
 	std::string pythonIndexerVersion = " ";
 	{
-		std::string str =
-			utility::executeProcess(
-				ResourcePaths::getPythonPath().wstr().append(L"SourcetrailPythonIndexer"),
-				std::vector<std::wstring> {L"--version"},
-				FilePath(),
-				5000)
-				.second;
-		std::regex regex(
-			"v\\d*\\.db\\d*\\.p\\d*");	  // "\\d" matches any digit; "\\." matches the "." character
-		std::smatch matches;
-		std::regex_search(str, matches, regex);
-		if (!matches.empty())
+		utility::ProcessOutput output = utility::executeProcess(
+			ResourcePaths::getPythonIndexerFilePath().wstr(), {L"--version"}, FilePath(), false, 5000);
+		if (output.exitCode == 0)
 		{
-			pythonIndexerVersion = matches.str(0) + " ";
+			std::string str = utility::encodeToUtf8(output.output);
+			std::regex regex("v\\d*\\.db\\d*\\.p\\d*");	   // "\\d" matches any digit; "\\." matches
+														   // the "." character
+			std::smatch matches;
+			std::regex_search(str, matches, regex);
+			if (!matches.empty())
+			{
+				pythonIndexerVersion = matches.str(0) + " ";
+			}
 		}
 	}
 

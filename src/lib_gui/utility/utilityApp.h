@@ -9,25 +9,27 @@
 
 namespace utility
 {
-std::pair<int, std::string> executeProcess(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
+struct ProcessOutput
+{
+	std::wstring output;
+	std::wstring error;
+	int exitCode;
+};
+
+std::wstring searchPath(const std::wstring& bin, bool& ok);
+
+std::wstring searchPath(const std::wstring& bin);
+
+ProcessOutput executeProcess(
+	const std::wstring& command,
+	const std::vector<std::wstring>& arguments,
 	const FilePath& workingDirectory = FilePath(),
-	const int timeout = 30000);
-std::string executeProcessUntilNoOutput(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory,
-	int waitTime = 10000);
-int executeProcessAndGetExitCode(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory = FilePath(),
+	const bool waitUntilNoOutput = false,
 	const int timeout = 30000,
-	bool logProcessOutput = false,
-	std::wstring* errorMessage = nullptr);
+	bool logProcessOutput = false);
 
 void killRunningProcesses();
+
 int getIdealThreadCount();
 
 constexpr OsType getOsType()

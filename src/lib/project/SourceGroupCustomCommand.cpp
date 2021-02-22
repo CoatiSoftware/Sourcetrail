@@ -42,7 +42,6 @@ std::set<FilePath> SourceGroupCustomCommand::getAllSourceFilePaths() const
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexerCommands(
 	const RefreshInfo& info) const
 {
-	const std::wstring customCommand = m_settings->getCustomCommand();
 	const bool runInParallel = m_settings->getRunInParallel();
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
@@ -51,7 +50,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexe
 		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
-				customCommand,
+				m_settings->getCustomCommand(),
+				std::vector<std::wstring> {},
 				m_settings->getProjectSettings()->getProjectFilePath(),
 				m_settings->getProjectSettings()->getTempDBFilePath(),
 				std::to_wstring(SqliteIndexStorage::getStorageVersion()),

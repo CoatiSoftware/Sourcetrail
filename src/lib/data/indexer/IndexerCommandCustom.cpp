@@ -11,7 +11,8 @@ IndexerCommandType IndexerCommandCustom::getStaticIndexerCommandType()
 }
 
 IndexerCommandCustom::IndexerCommandCustom(
-	const std::wstring& customCommand,
+	const std::wstring& command,
+	const std::vector<std::wstring>& arguments,
 	const FilePath& projectFilePath,
 	const FilePath& databaseFilePath,
 	const std::wstring& databaseVersion,
@@ -19,7 +20,8 @@ IndexerCommandCustom::IndexerCommandCustom(
 	bool runInParallel)
 	: IndexerCommand(sourceFilePath)
 	, m_type(getStaticIndexerCommandType())
-	, m_customCommand(customCommand)
+	, m_command(command)
+	, m_arguments(arguments)
 	, m_projectFilePath(projectFilePath)
 	, m_databaseFilePath(databaseFilePath)
 	, m_databaseVersion(databaseVersion)
@@ -29,7 +31,8 @@ IndexerCommandCustom::IndexerCommandCustom(
 
 IndexerCommandCustom::IndexerCommandCustom(
 	IndexerCommandType type,
-	const std::wstring& customCommand,
+	const std::wstring& command,
+	const std::vector<std::wstring>& arguments,
 	const FilePath& projectFilePath,
 	const FilePath& databaseFilePath,
 	const std::wstring& databaseVersion,
@@ -37,7 +40,8 @@ IndexerCommandCustom::IndexerCommandCustom(
 	bool runInParallel)
 	: IndexerCommand(sourceFilePath)
 	, m_type(type)
-	, m_customCommand(customCommand)
+	, m_command(command)
+	, m_arguments(arguments)
 	, m_projectFilePath(projectFilePath)
 	, m_databaseFilePath(databaseFilePath)
 	, m_databaseVersion(databaseVersion)
@@ -67,19 +71,19 @@ void IndexerCommandCustom::setDatabaseFilePath(const FilePath& databaseFilePath)
 	m_databaseFilePath = databaseFilePath;
 }
 
-std::wstring IndexerCommandCustom::getCustomCommand() const
+std::wstring IndexerCommandCustom::getCommand() const
 {
-	std::wstring command = m_customCommand;
+	return replaceVariables(m_command);
+}
 
-	command = utility::replace(
-		command, L"%{PROJECT_FILE_PATH}", L'\"' + m_projectFilePath.wstr() + L'\"');
-	command = utility::replace(
-		command, L"%{DATABASE_FILE_PATH}", L'\"' + m_databaseFilePath.wstr() + L'\"');
-	command = utility::replace(command, L"%{DATABASE_VERSION}", L'\"' + m_databaseVersion + L'\"');
-	command = utility::replace(
-		command, L"%{SOURCE_FILE_PATH}", L'\"' + getSourceFilePath().wstr() + L'\"');
-
-	return command;
+std::vector<std::wstring> IndexerCommandCustom::getArguments() const
+{
+	std::vector<std::wstring> args;
+	for (const std::wstring& argument: m_arguments)
+	{
+		args.push_back(replaceVariables(argument));
+	}
+	return args;
 }
 
 bool IndexerCommandCustom::getRunInParallel() const
@@ -92,11 +96,28 @@ QJsonObject IndexerCommandCustom::doSerialize() const
 	QJsonObject jsonObject = IndexerCommand::doSerialize();
 
 	{
-		jsonObject["custom_command"] = QString::fromStdWString(m_customCommand);
+		jsonObject["command"] = QString::fromStdWString(m_command);
+	}
+	{
+		QJsonArray argumentsArray;
+		for (const std::wstring& argument: m_arguments)
+		{
+			argumentsArray.append(QString::fromStdWString(argument));
+		}
+		jsonObject["arguments"] = argumentsArray;
 	}
 	{
 		jsonObject["run_in_parallel"] = m_runInParallel;
 	}
 
 	return jsonObject;
+}
+
+std::wstring IndexerCommandCustom::replaceVariables(std::wstring s) const
+{
+	s = utility::replace(s, L"%{PROJECT_FILE_PATH}", m_projectFilePath.wstr());
+	s = utility::replace(s, L"%{DATABASE_FILE_PATH}", m_databaseFilePath.wstr());
+	s = utility::replace(s, L"%{DATABASE_VERSION}", m_databaseVersion);
+	s = utility::replace(s, L"%{SOURCE_FILE_PATH}", getSourceFilePath().wstr());
+	return s;
 }
