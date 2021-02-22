@@ -10,70 +10,20 @@
 #include <boost/process.hpp>
 #include <boost/process/async_pipe.hpp>
 #include <boost/process/child.hpp>
-//#include <boost/process/env.hpp>
-//#include <boost/process/environment.hpp>
 #include <boost/process/io.hpp>
 #include <boost/process/search_path.hpp>
-//#include <boost/process/shell.hpp>
 #include <boost/process/start_dir.hpp>
-//#include <boost/process/system.hpp>
 
-#include <boost/filesystem/path.hpp>
-#include <iostream>
-
-#include <QProcess>
-#include <QRegularExpression>
-#include <QSysInfo>
 #include <QThread>
-#include <qprocessordetection.h>
 
-#include "AppPath.h"
-#include "ApplicationSettings.h"
 #include "ScopedFunctor.h"
-#include "UserPaths.h"
 #include "logging.h"
 #include "utilityString.h"
-
-namespace
-{
-void logProcessStreams(QProcess& process, std::wstring& outputBuffer, std::wstring& errorBuffer)
-{
-	{
-		outputBuffer += QString(process.readAllStandardOutput()).toStdWString();
-		std::vector<std::wstring> outputLines = utility::split<std::vector<std::wstring>>(
-			outputBuffer, L"\n");
-		for (size_t i = 0; i < outputLines.size() - 1; i++)
-		{
-			if (outputLines[i].back() == L'\r')
-			{
-				outputLines[i].pop_back();
-			}
-			LOG_INFO_BARE(L"Process output: " + outputLines[i]);
-		}
-		outputBuffer = outputLines.back();
-	}
-	{
-		errorBuffer += QString(process.readAllStandardError()).toStdWString();
-		std::vector<std::wstring> errorLines = utility::split<std::vector<std::wstring>>(
-			errorBuffer, L"\n");
-		for (size_t i = 0; i < errorLines.size() - 1; i++)
-		{
-			if (errorLines[i].back() == L'\r')
-			{
-				errorLines[i].pop_back();
-			}
-			LOG_ERROR_BARE(L"Process error: " + errorLines[i]);
-		}
-		errorBuffer = errorLines.back();
-	}
-}
-}	 // namespace
 
 namespace utility
 {
 std::mutex s_runningProcessesMutex;
-std::set<QProcess*> s_runningProcesses;
-std::set<std::shared_ptr<boost::process::child>> s_runningBoostProcesses;
+std::set<std::shared_ptr<boost::process::child>> s_runningProcesses;
 }	 // namespace utility
 
 std::wstring utility::searchPath(const std::wstring& bin, bool& ok)
@@ -141,12 +91,12 @@ utility::ProcessOutput utility::executeProcess(
 
 		{
 			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-			s_runningBoostProcesses.insert(process);
+			s_runningProcesses.insert(process);
 		}
 
 		ScopedFunctor remover([process]() {
 			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-			s_runningBoostProcesses.erase(process);
+			s_runningProcesses.erase(process);
 		});
 
 		bool outputReceived = false;
@@ -257,11 +207,7 @@ utility::ProcessOutput utility::executeProcess(
 void utility::killRunningProcesses()
 {
 	std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-	for (QProcess* process: s_runningProcesses)
-	{
-		process->kill();
-	}
-	for (std::shared_ptr<boost::process::child> process: s_runningBoostProcesses)
+	for (std::shared_ptr<boost::process::child> process: s_runningProcesses)
 	{
 		process->terminate();
 	}
