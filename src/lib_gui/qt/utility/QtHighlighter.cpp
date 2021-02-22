@@ -88,7 +88,7 @@ void QtHighlighter::loadHighlightingRules()
 	}
 
 	for (const FilePath& path: FileSystem::getFilePathsFromDirectory(
-			 ResourcePaths::getSyntaxHighlightingRulesPath(), {L".rules"}))
+			 ResourcePaths::getSyntaxHighlightingRulesDirectoryPath(), {L".rules"}))
 	{
 		std::wstring language = path.withoutExtension().fileName();
 

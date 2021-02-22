@@ -4,8 +4,8 @@
 
 QtHelpButton::QtHelpButton(const QtHelpButtonInfo& info, QWidget* parent)
 	: QtIconButton(
-		  ResourcePaths::getGuiPath().concatenate(L"window/help.png"),
-		  ResourcePaths::getGuiPath().concatenate(L"window/help_hover.png"),
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"window/help.png"),
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"window/help_hover.png"),
 		  parent)
 	, m_info(info)
 {

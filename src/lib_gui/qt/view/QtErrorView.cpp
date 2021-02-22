@@ -29,7 +29,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout), m_controllerProxy(this, TabId::app())
 {
 	s_errorIcon = QIcon(QString::fromStdWString(
-		ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr()));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"indexing_dialog/error.png").wstr()));
 
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
 
@@ -126,7 +126,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	{
 		m_editButton = new QtSelfRefreshIconButton(
 			QStringLiteral("Edit Project"),
-			ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"),
+			ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"),
 			"window/button");
 		m_editButton->setObjectName(QStringLiteral("screen_button"));
 		m_editButton->setToolTip(QStringLiteral("edit project"));

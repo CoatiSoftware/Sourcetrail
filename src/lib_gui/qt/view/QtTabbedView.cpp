@@ -28,7 +28,7 @@ QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name)
 
 	m_closeButton = new QtSelfRefreshIconButton(
 		QLatin1String(""),
-		ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"screen_search_view/images/close.png"),
 		"screen_search/button",
 		widget);
 	m_closeButton->setIconSize(QSize(15, 15));
@@ -68,7 +68,7 @@ void QtTabbedView::setStyleSheet()
 		QtViewWidgetWrapper::getWidgetOfView(this),
 		ColorScheme::getInstance()->getColor("tab/background"));
 
-	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
 													   L"tabbed_view/tabbed_view.css"))
 								.c_str());
 }

@@ -45,7 +45,7 @@ QWidget* QtIndexingDialog::createErrorWidget(QBoxLayout* layout)
 	errorCount->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 
 	errorCount->setIcon(QPixmap(QString::fromStdWString(
-		ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr())));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"indexing_dialog/error.png").wstr())));
 	errorLayout->addWidget(errorCount);
 
 	QtHelpButton* helpButton = new QtHelpButton(QtHelpButtonInfo(createErrorHelpButtonInfo()));
@@ -60,7 +60,7 @@ QWidget* QtIndexingDialog::createErrorWidget(QBoxLayout* layout)
 QLabel* QtIndexingDialog::createFlagLabel(QWidget* parent)
 {
 	QtDeviceScaledPixmap flag(QString::fromStdWString(
-		ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/flag.png").wstr()));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"indexing_dialog/flag.png").wstr()));
 	flag.scaleToWidth(120);
 
 	QLabel* flagLabel = new QLabel(parent);
@@ -84,8 +84,8 @@ QtIndexingDialog::QtIndexingDialog(bool isSubWindow, QWidget* parent)
 					   "}"));
 
 	setStyleSheet(
-		(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
-		 utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/"
+		(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/window.css")) +
+		 utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"indexing_dialog/"
 																		L"indexing_dialog.css")))
 			.c_str());
 

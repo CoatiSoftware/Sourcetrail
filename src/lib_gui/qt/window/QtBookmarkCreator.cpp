@@ -100,8 +100,8 @@ void QtBookmarkCreator::setupBookmarkCreator()
 void QtBookmarkCreator::refreshStyle()
 {
 	setStyleSheet(
-		(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
-		 utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/"
+		(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/window.css")) +
+		 utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/"
 																		L"bookmark_view.css")))
 			.c_str());
 }

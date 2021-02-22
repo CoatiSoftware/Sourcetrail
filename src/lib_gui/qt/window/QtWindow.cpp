@@ -25,7 +25,7 @@ QtWindow::QtWindow(bool isSubWindow, QWidget* parent)
 void QtWindow::setup()
 {
 	setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")).c_str());
+		utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/window.css")).c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(10, 10, 10, 10);
@@ -346,7 +346,7 @@ void QtWindow::setupDone()
 void QtWindow::addLogo()
 {
 	QtDeviceScaledPixmap sourcetrailLogo(
-		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/logo.png").wstr()));
+		QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/logo.png").wstr()));
 	sourcetrailLogo.scaleToWidth(240);
 
 	QLabel* sourcetrailLogoLabel = new QLabel(this);

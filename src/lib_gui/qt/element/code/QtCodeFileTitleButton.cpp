@@ -245,16 +245,16 @@ void QtCodeFileTitleButton::updateIcon()
 {
 	if (m_filePath.empty())
 	{
-		setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"));
+		setIconPath(ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"));
 	}
 	else if (!m_isComplete)
 	{
 		setIconPath(
-			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file_incomplete.png"));
+			ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file_incomplete.png"));
 	}
 	else
 	{
-		setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"));
+		setIconPath(ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/file.png"));
 	}
 }
 
@@ -262,7 +262,7 @@ void QtCodeFileTitleButton::updateHatching()
 {
 	if (!m_isIndexed)
 	{
-		FilePath hatchingFilePath = ResourcePaths::getGuiPath().concatenate(
+		FilePath hatchingFilePath = ResourcePaths::getGuiDirectoryPath().concatenate(
 			L"code_view/images/pattern_" +
 			utility::decodeFromUtf8(
 				ColorScheme::getInstance()->getColor("code/file/title/hatching")) +

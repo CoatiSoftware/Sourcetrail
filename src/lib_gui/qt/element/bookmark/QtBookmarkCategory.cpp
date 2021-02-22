@@ -25,7 +25,7 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 	m_expandButton->setToolTip(QStringLiteral("Show/Hide bookmarks in this category"));
 	m_expandButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_expandButton->setIcon(QPixmap(QString::fromStdWString(
-		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr())));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr())));
 	m_expandButton->setIconSize(QSize(8, 8));
 	layout->addWidget(m_expandButton);
 
@@ -44,7 +44,7 @@ QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* cont
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIconSize(QSize(20, 20));
 	m_deleteButton->setIcon(QPixmap(
-		QString::fromStdWString(ResourcePaths::getGuiPath()
+		QString::fromStdWString(ResourcePaths::getGuiDirectoryPath()
 									.concatenate(L"bookmark_view/images/bookmark_delete_icon.png")
 									.wstr())));
 	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
@@ -88,13 +88,13 @@ void QtBookmarkCategory::updateArrow()
 		if (m_treeItem->isExpanded())
 		{
 			QPixmap pixmap(QString::fromStdWString(
-				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr()));
+				ResourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/images/arrow_down.png").wstr()));
 			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "black")));
 		}
 		else
 		{
 			QPixmap pixmap(QString::fromStdWString(
-				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/arrow_right.png").wstr()));
+				ResourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/images/arrow_right.png").wstr()));
 			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "black")));
 		}
 	}

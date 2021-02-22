@@ -59,7 +59,8 @@ std::string prepareJavaEnvironment()
 				{
 					classPath += separator;
 				}
-				classPath += ResourcePaths::getJavaPath().concatenate(L"lib/" + jarNames[i]).str();
+				classPath +=
+					ResourcePaths::getJavaDirectoryPath().concatenate(L"lib/" + jarNames[i]).str();
 			}
 		}
 

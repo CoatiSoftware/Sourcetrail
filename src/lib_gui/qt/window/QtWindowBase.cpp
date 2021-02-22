@@ -89,7 +89,7 @@ void QtWindowBase::setSizeGripStyle(bool isBlack)
 		"	max-height: 16px;"
 		"	max-width: 16px;"
 		"	border-image: url(" +
-		ResourcePaths::getGuiPath().wstr() + L"window/" + path +
+		ResourcePaths::getGuiDirectoryPath().wstr() + L"window/" + path +
 		L");"
 		"}"));
 }

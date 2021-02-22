@@ -43,7 +43,7 @@ QtScreenSearchBox::QtScreenSearchBox(
 	{
 		m_searchButton = new QtSelfRefreshIconButton(
 			QLatin1String(""),
-			ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"),
+			ResourcePaths::getGuiDirectoryPath().concatenate(L"search_view/images/search.png"),
 			"screen_search/button");
 		m_searchButton->setObjectName(QStringLiteral("search_button"));
 		m_searchButton->setIconSize(QSize(12, 12));
@@ -78,11 +78,11 @@ QtScreenSearchBox::QtScreenSearchBox(
 	{
 		m_prevButton = new QtSelfRefreshIconButton(
 			QLatin1String(""),
-			ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"),
+			ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_left.png"),
 			"screen_search/button");
 		m_nextButton = new QtSelfRefreshIconButton(
 			QLatin1String(""),
-			ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"),
+			ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_right.png"),
 			"screen_search/button");
 
 		m_prevButton->setObjectName(QStringLiteral("prev_button"));
@@ -109,7 +109,7 @@ QtScreenSearchBox::QtScreenSearchBox(
 	{
 		m_closeButton = new QtSelfRefreshIconButton(
 			QLatin1String(""),
-			ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
+			ResourcePaths::getGuiDirectoryPath().concatenate(L"screen_search_view/images/close.png"),
 			"screen_search/button");
 		m_closeButton->setObjectName(QStringLiteral("close_button"));
 		m_closeButton->setIconSize(QSize(15, 15));

@@ -140,7 +140,7 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 
 	m_zoomInButton = new QtSelfRefreshIconButton(
 		QLatin1String(""),
-		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_in.png"),
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/zoom_in.png"),
 		"search/button",
 		this);
 	m_zoomInButton->setObjectName(QStringLiteral("zoom_in_button"));
@@ -150,7 +150,7 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 
 	m_zoomOutButton = new QtSelfRefreshIconButton(
 		QLatin1String(""),
-		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_out.png"),
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/zoom_out.png"),
 		"search/button",
 		this);
 	m_zoomOutButton->setObjectName(QStringLiteral("zoom_out_button"));
@@ -160,7 +160,7 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 
 	m_legendButton = new QtSelfRefreshIconButton(
 		QLatin1String(""),
-		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/legend.png"),
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/legend.png"),
 		"search/button",
 		this);
 	m_legendButton->setObjectName(QStringLiteral("legend_button"));

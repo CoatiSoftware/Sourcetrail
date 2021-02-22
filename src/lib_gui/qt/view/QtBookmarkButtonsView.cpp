@@ -27,7 +27,7 @@ QtBookmarkButtonsView::QtBookmarkButtonsView(ViewLayout* viewLayout)
 	m_widget->setLayout(layout);
 
 	m_createBookmarkButton = new QtSearchBarButton(
-		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"));
 	m_createBookmarkButton->setObjectName(QStringLiteral("bookmark_button"));
 	m_createBookmarkButton->setToolTip(QStringLiteral("create a bookmark for the active symbol"));
 	m_createBookmarkButton->setEnabled(false);
@@ -40,7 +40,7 @@ QtBookmarkButtonsView::QtBookmarkButtonsView(ViewLayout* viewLayout)
 		&QtBookmarkButtonsView::createBookmarkClicked);
 
 	m_showBookmarksButton = new QtSearchBarButton(
-		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_list_icon.png"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/images/bookmark_list_icon.png"));
 	m_showBookmarksButton->setObjectName(QStringLiteral("show_bookmark_button"));
 	m_showBookmarksButton->setToolTip(QStringLiteral("Show bookmarks"));
 	layout->addWidget(m_showBookmarksButton);
@@ -60,7 +60,7 @@ void QtBookmarkButtonsView::createWidgetWrapper()
 void QtBookmarkButtonsView::refreshView()
 {
 	m_onQtThread([=]() {
-		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
 														   L"bookmark_view/bookmark_view.css"))
 									.c_str());
 	});
@@ -71,7 +71,7 @@ void QtBookmarkButtonsView::setCreateButtonState(const MessageBookmarkButtonStat
 	m_onQtThread([=]() {
 		m_createButtonState = state;
 
-		m_createBookmarkButton->setIconPath(ResourcePaths::getGuiPath().concatenate(
+		m_createBookmarkButton->setIconPath(ResourcePaths::getGuiDirectoryPath().concatenate(
 			L"bookmark_view/images/edit_bookmark_icon.png"));
 
 		if (state == MessageBookmarkButtonState::CAN_CREATE)
@@ -86,7 +86,7 @@ void QtBookmarkButtonsView::setCreateButtonState(const MessageBookmarkButtonStat
 		{
 			m_createBookmarkButton->setEnabled(true);
 
-			m_createBookmarkButton->setIconPath(ResourcePaths::getGuiPath().concatenate(
+			m_createBookmarkButton->setIconPath(ResourcePaths::getGuiDirectoryPath().concatenate(
 				L"bookmark_view/images/bookmark_active.png"));
 		}
 		else

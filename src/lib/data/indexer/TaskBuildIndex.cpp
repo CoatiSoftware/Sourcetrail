@@ -178,7 +178,7 @@ void TaskBuildIndex::handleMessage(MessageIndexingInterrupted* message)
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath)
 {
-	const FilePath indexerProcessPath = AppPath::getCxxIndexerPath();
+	const FilePath indexerProcessPath = AppPath::getCxxIndexerFilePath();
 	if (!indexerProcessPath.exists())
 	{
 		m_interrupted = true;
@@ -191,8 +191,8 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
 	std::vector<std::wstring> commandArguments;
 	commandArguments.push_back(std::to_wstring(processId));
 	commandArguments.push_back(utility::decodeFromUtf8(m_appUUID));
-	commandArguments.push_back(AppPath::getSharedDataPath().getAbsolute().wstr());
-	commandArguments.push_back(UserPaths::getUserDataPath().getAbsolute().wstr());
+	commandArguments.push_back(AppPath::getSharedDataDirectoryPath().getAbsolute().wstr());
+	commandArguments.push_back(UserPaths::getUserDataDirectoryPath().getAbsolute().wstr());
 
 	if (!logFilePath.empty())
 	{

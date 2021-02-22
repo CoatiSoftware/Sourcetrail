@@ -207,8 +207,8 @@ int main(int argc, char* argv[])
 		ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
 		addLanguagePackages();
 
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), L".otf");
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), L".ttf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsDirectoryPath(), L".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsDirectoryPath(), L".ttf");
 
 		if (commandLineParser.hasError())
 		{

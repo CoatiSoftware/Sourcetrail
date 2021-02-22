@@ -40,7 +40,7 @@ void QtScreenSearchView::refreshView()
 {
 	m_onQtThread([=]() {
 		m_bar->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+			utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
 									   L"screen_search_view/screen_search_view.css"))
 				.c_str());
 	});

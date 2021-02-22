@@ -20,7 +20,7 @@ void QtTooltipView::createWidgetWrapper()
 void QtTooltipView::refreshView()
 {
 	m_onQtThread([=]() {
-		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
 														   L"tooltip_view/tooltip_view.css"))
 									.c_str());
 	});

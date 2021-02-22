@@ -46,7 +46,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 	if (iconFileName.size() > 0)
 	{
 		QtDeviceScaledPixmap pixmap(
-			QString::fromStdWString(ResourcePaths::getGuiPath()
+			QString::fromStdWString(ResourcePaths::getGuiDirectoryPath()
 										.concatenate(L"graph_view/images/" + iconFileName + L".png")
 										.wstr()));
 		pixmap.scaleToHeight(m_accessIconSize);
