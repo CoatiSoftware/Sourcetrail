@@ -104,12 +104,8 @@ std::wstring mavenGenerateSources(
 	auto args = getMavenArgs(settingsFilePath);
 	args.push_back(L"generate-sources");
 
-	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(
-		utility::executeProcessUntilNoOutput(
-			mavenPath.wstr(),
-			args,
-			projectDirectoryPath,
-			60000));
+	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::encodeToUtf8(
+		utility::executeProcess(mavenPath.wstr(), args, projectDirectoryPath, true, 60000).output));
 
 	if (outputAccess->isEmpty())
 	{
@@ -132,12 +128,8 @@ bool mavenCopyDependencies(
 	args.push_back(L"dependency:copy-dependencies");
 	args.push_back(L"-DoutputDirectory=" + outputDirectoryPath.wstr());
 
-	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(
-			utility::executeProcessUntilNoOutput(
-					mavenPath.wstr(),
-					args,
-					projectDirectoryPath,
-			60000));
+	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::encodeToUtf8(
+		utility::executeProcess(mavenPath.wstr(), args, projectDirectoryPath, true, 60000).output));
 
 	const std::wstring errorMessage = getErrorMessageFromMavenOutput(outputAccess);
 	if (!errorMessage.empty())
@@ -165,12 +157,8 @@ std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 	args.push_back(L"help:effective-pom");
 	args.push_back(L"-Doutput=" + outputPath.wstr());
 
-	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(
-			utility::executeProcessUntilNoOutput(
-					mavenPath.wstr(),
-					args,
-					projectDirectoryPath,
-			60000));
+	std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::encodeToUtf8(
+		utility::executeProcess(mavenPath.wstr(), args, projectDirectoryPath, true, 60000).output));
 
 	const std::wstring errorMessage = getErrorMessageFromMavenOutput(outputAccess);
 	if (!errorMessage.empty())

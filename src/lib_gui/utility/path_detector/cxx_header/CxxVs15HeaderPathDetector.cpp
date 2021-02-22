@@ -20,27 +20,32 @@ std::vector<FilePath> CxxVs15HeaderPathDetector::doGetPaths() const
 				.expandEnvironmentVariables();
 		if (!expandedPaths.empty())
 		{
-			const std::string output =
-				utility::executeProcess(
-					expandedPaths[0].wstr(), std::vector<std::wstring> {L"-latest", L"-property installationPath"}, FilePath(), 10000)
-					.second;
-
-			const FilePath vsInstallPath(output);
-			if (vsInstallPath.exists())
+			const utility::ProcessOutput out = utility::executeProcess(
+				expandedPaths.front().wstr(),
+				{L"-latest", L"-property", L"installationPath"},
+				FilePath(),
+				false,
+				10000);
+			if (out.exitCode == 0)
 			{
-				for (const FilePath& versionPath: FileSystem::getDirectSubDirectories(
-						 vsInstallPath.getConcatenated(L"VC/Tools/MSVC")))
+				const FilePath vsInstallPath(out.output);
+				if (vsInstallPath.exists())
 				{
-					if (versionPath.exists())
+					for (const FilePath& versionPath: FileSystem::getDirectSubDirectories(
+							 vsInstallPath.getConcatenated(L"VC/Tools/MSVC")))
 					{
-						headerSearchPaths.push_back(versionPath.getConcatenated(L"include"));
-						headerSearchPaths.push_back(versionPath.getConcatenated(L"atlmfc/include"));
+						if (versionPath.exists())
+						{
+							headerSearchPaths.push_back(versionPath.getConcatenated(L"include"));
+							headerSearchPaths.push_back(
+								versionPath.getConcatenated(L"atlmfc/include"));
+						}
 					}
+					headerSearchPaths.push_back(
+						vsInstallPath.getConcatenated(L"VC/Auxiliary/VS/include"));
+					headerSearchPaths.push_back(
+						vsInstallPath.getConcatenated(L"VC/Auxiliary/VS/UnitTest/include"));
 				}
-				headerSearchPaths.push_back(
-					vsInstallPath.getConcatenated(L"VC/Auxiliary/VS/include"));
-				headerSearchPaths.push_back(
-					vsInstallPath.getConcatenated(L"VC/Auxiliary/VS/UnitTest/include"));
 			}
 		}
 	}

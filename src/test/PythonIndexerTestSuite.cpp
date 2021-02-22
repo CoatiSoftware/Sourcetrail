@@ -56,28 +56,38 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 		const std::set<FilePathFilter> includeFilters;
 		const FilePath workingDirectory(L".");
 
-		std::wstring args = L"";
-		args += L" --source-file-path=%{SOURCE_FILE_PATH}";
-		args += L" --database-file-path=%{DATABASE_FILE_PATH}";
-		args += L" --shallow";
+		std::vector<std::wstring> args;
+		args.push_back(L"index");
+		args.push_back(L"--source-file-path");
+		args.push_back(L"%{SOURCE_FILE_PATH}");
+		args.push_back(L"--database-file-path");
+		args.push_back(L"%{DATABASE_FILE_PATH}");
+		args.push_back(L"--shallow");
 
 		std::shared_ptr<IndexerCommandCustom> indexerCommand = std::make_shared<IndexerCommandCustom>(
 			INDEXER_COMMAND_PYTHON,
-			L"\"" +
-				FilePath("../app").getConcatenated(ResourcePaths::getPythonPath()).makeAbsolute().wstr() +
-				L"SourcetrailPythonIndexer\" index" + args,
+			FilePath("../app")
+				.getConcatenated(ResourcePaths::getPythonIndexerFilePath())
+				.makeAbsolute()
+				.makeCanonical()
+				.wstr(),
+			args,
 			rootPath,
 			tempDbPath,
 			std::to_wstring(SqliteIndexStorage::getStorageVersion()),
 			sourceFilePath,
 			true);
 
-		std::wstring errorMessage;
-		const int result = utility::executeProcessAndGetExitCode(
-			indexerCommand->getCustomCommand(), {}, rootPath, -1, true, &errorMessage);
+		const utility::ProcessOutput out = utility::executeProcess(
+			indexerCommand->getCommand(), indexerCommand->getArguments(), rootPath, false, -1, true);
 
-		REQUIRE(result == 0);
-		REQUIRE(errorMessage.empty());
+		if (!out.error.empty())
+		{
+			FAIL(
+				"Error occurred while running the indexer: \"" + utility::encodeToUtf8(out.error) +
+				"\". Process output was: \"" + utility::encodeToUtf8(out.output) + "\"");
+		}
+		REQUIRE(out.exitCode == 0);
 	}
 
 	std::shared_ptr<TestStorage> testStorage;

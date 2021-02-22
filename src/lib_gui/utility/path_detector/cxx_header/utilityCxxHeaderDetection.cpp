@@ -9,22 +9,23 @@
 
 namespace utility
 {
-std::vector<std::string> getCxxHeaderPaths(const std::string& compilerName)
+std::vector<std::wstring> getCxxHeaderPaths(const std::string& compilerName)
 {
-	std::string command = compilerName + " -x c++ -v -E /dev/null";
-	std::string clangOutput = utility::executeProcess(
-								  utility::decodeFromUtf8(compilerName),
-								  std::vector<std::wstring> {L"-x c++", L"-v", L"-E /dev/null"})
-								  .second;
-	std::string standardHeaders = utility::substrBetween<std::string>(
-		clangOutput, "#include <...> search starts here:\n", "\nEnd of search list");
-	std::vector<std::string> paths;
+	std::vector<std::wstring> paths;
 
-	if (!standardHeaders.empty())
+	const utility::ProcessOutput out = utility::executeProcess(
+		utility::decodeFromUtf8(compilerName), {L"-x", L"c++", L"-v", L"-E", L"/dev/null"});
+	if (out.exitCode == 0)
 	{
-		for (const std::string& s: utility::splitToVector(standardHeaders, '\n'))
+		std::wstring standardHeaders = utility::substrBetween<std::wstring>(
+			out.output, L"#include <...> search starts here:\n", L"\nEnd of search list");
+
+		if (!standardHeaders.empty())
 		{
-			paths.push_back(utility::trim(s));
+			for (const std::wstring& s: utility::splitToVector(standardHeaders, L'\n'))
+			{
+				paths.push_back(utility::trim(s));
+			}
 		}
 	}
 

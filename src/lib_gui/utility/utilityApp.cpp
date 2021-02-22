@@ -1,7 +1,25 @@
 #include "utilityApp.h"
 
+#include <chrono>
 #include <mutex>
 #include <set>
+
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/read.hpp>
+#include <boost/process.hpp>
+#include <boost/process/async_pipe.hpp>
+#include <boost/process/child.hpp>
+//#include <boost/process/env.hpp>
+//#include <boost/process/environment.hpp>
+#include <boost/process/io.hpp>
+#include <boost/process/search_path.hpp>
+//#include <boost/process/shell.hpp>
+#include <boost/process/start_dir.hpp>
+//#include <boost/process/system.hpp>
+
+#include <boost/filesystem/path.hpp>
+#include <iostream>
 
 #include <QProcess>
 #include <QRegularExpression>
@@ -11,6 +29,7 @@
 
 #include "AppPath.h"
 #include "ApplicationSettings.h"
+#include "ScopedFunctor.h"
 #include "UserPaths.h"
 #include "logging.h"
 #include "utilityString.h"
@@ -54,223 +73,185 @@ namespace utility
 {
 std::mutex s_runningProcessesMutex;
 std::set<QProcess*> s_runningProcesses;
+std::set<std::shared_ptr<boost::process::child>> s_runningBoostProcesses;
 }	 // namespace utility
 
-std::pair<int, std::string> utility::executeProcess(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory,
-	const int timeout)
+std::wstring utility::searchPath(const std::wstring& bin, bool& ok)
 {
-	QProcess process;
-	process.setProcessChannelMode(QProcess::MergedChannels);
-
-	if (!workingDirectory.empty())
+	ok = false;
+	std::wstring r = boost::process::search_path(bin).generic_wstring();
+	if (!r.empty())
 	{
-		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
+		ok = true;
+		return r;
 	}
-
-	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
-
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	QStringList envlist = env.toStringList();
-	envlist.replaceInStrings(
-		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
-		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
-	process.setEnvironment(envlist);
-
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
-		s_runningProcesses.insert(&process);
-	}
-
-	process.waitForFinished(timeout);
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		s_runningProcesses.erase(&process);
-	}
-
-	// QProcess::ProcessError error = process.error();
-
-	const std::string processoutput = process.readAll().toStdString();
-	const int exitCode = process.exitCode();
-	process.close();
-
-	return std::make_pair(exitCode, utility::trim(processoutput));
+	return bin;
 }
 
-std::string utility::executeProcessUntilNoOutput(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory,
-	const int waitTime)
+std::wstring utility::searchPath(const std::wstring& bin)
 {
-	QProcess process;
-	process.setProcessChannelMode(QProcess::MergedChannels);
+	bool ok;
+	return searchPath(bin, ok);
+}
 
-	if (!workingDirectory.empty())
+utility::ProcessOutput utility::executeProcess(
+	const std::wstring& command,
+	const std::vector<std::wstring>& arguments,
+	const FilePath& workingDirectory,
+	const bool waitUntilNoOutput,
+	const int timeout,
+	bool logProcessOutput)
+{
+	std::string output = "";
+	int exitCode = 255;
+	try
 	{
-		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
-	}
+		boost::asio::io_service ios;
+		boost::process::async_pipe ap(ios);
 
-	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
+		std::shared_ptr<boost::process::child> process;
 
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	QStringList envlist = env.toStringList();
-	envlist.replaceInStrings(
-		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
-		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
-	process.setEnvironment(envlist);
-
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
-		s_runningProcesses.insert(&process);
-	}
-
-	std::string processoutput = "";
-	while (!process.waitForFinished(waitTime))
-	{
-		const std::string currentOutput = process.readAll().toStdString();
-		if (currentOutput.empty())
+		boost::process::environment env = boost::this_process::environment();
+		std::vector<std::string> previousPath = env["PATH"].to_vector();
+		env["PATH"] = {"/opt/local/bin", "/usr/local/bin", "$HOME/bin"};
+		for (const std::string& entry: previousPath)
 		{
-			LOG_WARNING(
-				"Canceling process because it did not generate any output during the last " +
-				std::to_string(waitTime / 1000) + " seconds.");
-			break;
+			env["PATH"].append(entry);
+		}
+
+		if (workingDirectory.empty())
+		{
+			process = std::make_shared<boost::process::child>(
+				searchPath(command),
+				boost::process::args(arguments),
+				env,
+				boost::process::std_in.close(),
+				(boost::process::std_out & boost::process::std_err) > ap);
 		}
 		else
 		{
-			processoutput += currentOutput;
+			process = std::make_shared<boost::process::child>(
+				searchPath(command),
+				boost::process::args(arguments),
+				boost::process::start_dir(workingDirectory.wstr()),
+				env,
+				boost::process::std_in.close(),
+				(boost::process::std_out & boost::process::std_err) > ap);
 		}
-	}
 
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		s_runningProcesses.erase(&process);
-	}
+		{
+			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+			s_runningBoostProcesses.insert(process);
+		}
 
-	processoutput += process.readAll().toStdString();
-	process.close();
-	processoutput = utility::trim(processoutput);
-
-	return processoutput;
-}
-
-int utility::executeProcessAndGetExitCode(
-	const std::wstring& commandPath,
-	const std::vector<std::wstring>& commandArguments,
-	const FilePath& workingDirectory,
-	const int timeout,
-	bool logProcessOutput,
-	std::wstring* errorMessage)
-{
-	bool finished = false;
-
-	QProcess process;
-
-	QObject::connect(
-		&process, &QProcess::errorOccurred, [&finished, errorMessage](QProcess::ProcessError error) {
-			finished = true;
-			if (errorMessage != nullptr)
-			{
-				switch (error)
-				{
-				case QProcess::FailedToStart:
-					*errorMessage = L"File not found or resource error occurred.";
-					break;
-				case QProcess::Crashed:
-					*errorMessage = L"Process crashed.";
-					break;
-				case QProcess::Timedout:
-					*errorMessage = L"Process timed out.";
-					break;
-				case QProcess::ReadError:
-					*errorMessage = L"A read error occurred while executing process.";
-					break;
-				case QProcess::WriteError:
-					*errorMessage = L"A write error occurred while executing process.";
-					break;
-				case QProcess::UnknownError:
-					*errorMessage = L"An unknown error occurred while executing process.";
-					break;
-				}
-			};
+		ScopedFunctor remover([process]() {
+			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+			s_runningBoostProcesses.erase(process);
 		});
 
-	QObject::connect(
-		&process,
-		static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-		[&finished](int exitCode, QProcess::ExitStatus exitStatus) { finished = true; });
+		bool outputReceived = false;
+		std::vector<char> buf(128);
+		auto stdOutBuffer = boost::asio::buffer(buf);
+		std::string logBuffer;
 
+		std::function<void(const boost::system::error_code& ec, std::size_t n)> onStdOut =
+			[&output, &buf, &stdOutBuffer, &ap, &onStdOut, &outputReceived, &logBuffer, logProcessOutput](
+				const boost::system::error_code& ec, std::size_t size) {
+				std::string text;
+				text.reserve(size);
+				text.insert(text.end(), buf.begin(), buf.begin() + size);
 
-	if (!workingDirectory.empty())
-	{
-		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
-	}
+				if (!text.empty())
+				{
+					outputReceived = true;
+				}
 
-	QString command = QString::fromStdWString(commandPath);
-	for (const std::wstring& commandArgument: commandArguments)
-	{
-		command += QString::fromStdWString(L" " + commandArgument);
-	}
-
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	QStringList envlist = env.toStringList();
-	envlist.replaceInStrings(
-		QRegularExpression(QStringLiteral("^(?i)PATH=(.*)")),
-		QStringLiteral("PATH=/opt/local/bin:/usr/local/bin:$HOME/bin:\\1"));
-	process.setEnvironment(envlist);
-
-	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command);
-		s_runningProcesses.insert(&process);
-	}
-
-	{
-		std::wstring outputBuffer;
-		std::wstring errorBuffer;
-		if (timeout == -1)
-		{
-			while (!finished && !process.waitForFinished(1000))
-			{
+				output += text;
 				if (logProcessOutput)
 				{
-					logProcessStreams(process, outputBuffer, errorBuffer);
+					logBuffer += text;
+					const bool isEndOfLine = (logBuffer.back() == '\n');
+					const std::vector<std::string> lines = utility::splitToVector(logBuffer, "\n");
+					for (size_t i = 0; i < lines.size() - (isEndOfLine ? 0 : 1); i++)
+					{
+						LOG_INFO_BARE("Process output: " + lines[i]);
+					}
+					if (isEndOfLine)
+					{
+						logBuffer.clear();
+					}
+					else
+					{
+						logBuffer = lines.back();
+					}
+				}
+				if (!ec)
+				{
+					boost::asio::async_read(ap, stdOutBuffer, onStdOut);
+				}
+			};
+
+		boost::asio::async_read(ap, stdOutBuffer, onStdOut);
+		ios.run();
+
+		if (timeout > 0)
+		{
+			if (waitUntilNoOutput)
+			{
+				while (!process->wait_for(std::chrono::milliseconds(timeout)))
+				{
+					if (!outputReceived)
+					{
+						LOG_WARNING(
+							"Canceling process because it did not generate any output during the "
+							"last " +
+							std::to_string(timeout / 1000) + " seconds.");
+						process->terminate();
+						break;
+					}
+					outputReceived = false;
+				}
+			}
+			else
+			{
+				if (!process->wait_for(std::chrono::milliseconds(timeout)))
+				{
+					LOG_WARNING(
+						"Canceling process because it timed out after " +
+						std::to_string(timeout / 1000) + " seconds.");
+					process->terminate();
 				}
 			}
 		}
 		else
 		{
-			if (!finished)
-			{
-				process.waitForFinished(timeout);
-			}
+			process->wait();
 		}
 
 		if (logProcessOutput)
 		{
-			logProcessStreams(process, outputBuffer, errorBuffer);
+			for (const std::string& line: utility::splitToVector(logBuffer, "\n"))
+			{
+				LOG_INFO_BARE("Process output: " + line);
+			}
 		}
+
+		exitCode = process->exit_code();
 	}
+	catch (const boost::process::process_error& e)
 	{
-		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		s_runningProcesses.erase(&process);
+		ProcessOutput ret;
+		ret.error = utility::decodeFromUtf8(e.code().message());
+		ret.exitCode = e.code().value();
+		LOG_ERROR_BARE(L"Process error: " + ret.error);
+
+		return ret;
 	}
 
-	const int exitCode = process.exitCode();
-	process.close();
-	return exitCode;
+	ProcessOutput ret;
+	ret.output = utility::trim(utility::decodeFromUtf8(output));
+	ret.exitCode = exitCode;
+	return ret;
 }
 
 void utility::killRunningProcesses()
@@ -279,6 +260,10 @@ void utility::killRunningProcesses()
 	for (QProcess* process: s_runningProcesses)
 	{
 		process->kill();
+	}
+	for (std::shared_ptr<boost::process::child> process: s_runningBoostProcesses)
+	{
+		process->terminate();
 	}
 }
 

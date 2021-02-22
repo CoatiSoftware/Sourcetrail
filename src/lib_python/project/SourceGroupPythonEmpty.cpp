@@ -49,25 +49,28 @@ std::set<FilePath> SourceGroupPythonEmpty::getAllSourceFilePaths() const
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerCommands(
 	const RefreshInfo& info) const
 {
-	std::wstring args = L"";
+	std::vector<std::wstring> args;
+	args.push_back(L"index");
 
-	args += L" --source-file-path=%{SOURCE_FILE_PATH}";
-	args += L" --database-file-path=%{DATABASE_FILE_PATH}";
+	args.push_back(L"--source-file-path");
+	args.push_back(L"%{SOURCE_FILE_PATH}");
+	args.push_back(L"--database-file-path");
+	args.push_back(L"%{DATABASE_FILE_PATH}");
 
 	if (!m_settings->getEnvironmentPath().empty())
 	{
-		args += L" --environment-path=\"" +
-			m_settings->getEnvironmentPathExpandedAndAbsolute().wstr() + L"\"";
+		args.push_back(L"--environment-path");
+		args.push_back(m_settings->getEnvironmentPathExpandedAndAbsolute().wstr());
 	}
 
 	if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
 	{
-		args += L" --verbose";
+		args.push_back(L"--verbose");
 	}
 
 	if (info.shallow)
 	{
-		args += L" --shallow";
+		args.push_back(L"--shallow");
 	}
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
@@ -77,8 +80,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
 				INDEXER_COMMAND_PYTHON,
-				L"\"" + ResourcePaths::getPythonPath().wstr() +
-					L"SourcetrailPythonIndexer\" index" + args,
+				ResourcePaths::getPythonIndexerFilePath().wstr(),
+				args,
 				m_settings->getProjectSettings()->getProjectFilePath(),
 				m_settings->getProjectSettings()->getTempDBFilePath(),
 				std::to_wstring(SqliteIndexStorage::getStorageVersion()),

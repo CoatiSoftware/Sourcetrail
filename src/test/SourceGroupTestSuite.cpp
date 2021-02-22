@@ -148,9 +148,15 @@ std::wstring indexerCommandCustomToString(
 	std::shared_ptr<const IndexerCommandCustom> indexerCommand, const FilePath& baseDirectory)
 {
 	std::wstring result;
-	result += L"SourceFilePath: \"" +
+	result += L"IndexerCommandCustom\n";
+	result += L"\tSourceFilePath: \"" +
 		indexerCommand->getSourceFilePath().getRelativeTo(baseDirectory).wstr() + L"\"\n";
-	result += L"\tCustom Command: \"" + indexerCommand->getCustomCommand() + L"\"\n";
+	result += L"\tCustom Command: \"" + indexerCommand->getCommand() + L"\"\n";
+	result += L"\tArguments:\n";
+	for (const std::wstring& argument: indexerCommand->getArguments())
+	{
+		result += L"\t\t\"" + argument + L"\"\n";
+	}
 	return result;
 }
 
