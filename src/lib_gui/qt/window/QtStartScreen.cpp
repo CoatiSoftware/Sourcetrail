@@ -82,19 +82,19 @@ void QtRecentProjectButton::handleButtonClick()
 QtStartScreen::QtStartScreen(QWidget* parent)
 	: QtWindow(true, parent)
 	, m_cppIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiPath().concatenate(L"icon/cpp_icon.png").wstr()))
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/cpp_icon.png").wstr()))
 	, m_cIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiPath().concatenate(L"icon/c_icon.png").wstr()))
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/c_icon.png").wstr()))
 	, m_pythonIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiPath().concatenate(L"icon/python_icon.png").wstr()))
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/python_icon.png").wstr()))
 	, m_javaIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiPath().concatenate(L"icon/java_icon.png").wstr()))
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/java_icon.png").wstr()))
 	, m_projectIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiPath().concatenate(L"icon/empty_icon.png").wstr()))
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/empty_icon.png").wstr()))
 	, m_githubIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiPath().concatenate(L"startscreen/github_icon.png").wstr()))
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/github_icon.png").wstr()))
 	, m_patreonIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiPath().concatenate(L"startscreen/patreon_icon.png").wstr()))
+		  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/patreon_icon.png").wstr()))
 {
 }
 
@@ -165,14 +165,14 @@ void QtStartScreen::updateButtons()
 		i++;
 	}
 	setStyleSheet(utility::getStyleSheet(
-					  ResourcePaths::getGuiPath().concatenate(L"startscreen/startscreen.css"))
+					  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css"))
 					  .c_str());
 }
 
 void QtStartScreen::setupStartScreen()
 {
 	setStyleSheet(utility::getStyleSheet(
-					  ResourcePaths::getGuiPath().concatenate(L"startscreen/startscreen.css"))
+					  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css"))
 					  .c_str());
 	addLogo();
 

@@ -210,8 +210,9 @@ std::wstring ApplicationSettings::getColorSchemeName() const
 
 FilePath ApplicationSettings::getColorSchemePath() const
 {
-	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concatenate(L"bright.xml"));
-	FilePath path(ResourcePaths::getColorSchemesPath().concatenate(getColorSchemeName() + L".xml"));
+	FilePath defaultPath(ResourcePaths::getColorSchemesDirectoryPath().concatenate(L"bright.xml"));
+	FilePath path(
+		ResourcePaths::getColorSchemesDirectoryPath().concatenate(getColorSchemeName() + L".xml"));
 
 	if (path != defaultPath && !path.exists())
 	{
@@ -340,7 +341,7 @@ void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value)
 FilePath ApplicationSettings::getLogDirectoryPath() const
 {
 	return FilePath(getValue<std::wstring>(
-		"application/log_directory_path", UserPaths::getLogPath().getAbsolute().wstr()));
+		"application/log_directory_path", UserPaths::getLogDirectoryPath().getAbsolute().wstr()));
 }
 
 void ApplicationSettings::setLogDirectoryPath(const FilePath& path)
@@ -570,7 +571,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 		}
 		else
 		{
-			recentProjects.push_back(UserPaths::getUserDataPath().concatenate(project));
+			recentProjects.push_back(UserPaths::getUserDataDirectoryPath().concatenate(project));
 		}
 	}
 	return recentProjects;

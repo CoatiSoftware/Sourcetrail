@@ -207,7 +207,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 			QToolButton* b = createSourceGroupButton(
 				utility::insertLineBreaksAtBlankSpaces(name, 15).c_str(),
 				QString::fromStdWString(
-					ResourcePaths::getGuiPath()
+					ResourcePaths::getGuiDirectoryPath()
 						.concatenate(L"icon/" + m_sourceGroupTypeIconName[sourceGroupIt.type] + L".png")
 						.wstr()));
 

@@ -66,7 +66,7 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 	if (isCurrent)
 	{
 		QtDeviceScaledPixmap pixmap(QString::fromStdWString(
-			ResourcePaths::getGuiPath().concatenate(L"history_list/images/arrow.png").wstr()));
+			ResourcePaths::getGuiDirectoryPath().concatenate(L"history_list/images/arrow.png").wstr()));
 		pixmap.scaleToHeight(size.height() / 3);
 
 		QLabel* arrow = new QLabel(this);
@@ -164,7 +164,7 @@ QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t cur
 	}
 
 	setStyleSheet(utility::getStyleSheet(
-					  ResourcePaths::getGuiPath().concatenate(L"history_list/history_list.css"))
+					  ResourcePaths::getGuiDirectoryPath().concatenate(L"history_list/history_list.css"))
 					  .c_str());
 
 	connect(m_list, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);

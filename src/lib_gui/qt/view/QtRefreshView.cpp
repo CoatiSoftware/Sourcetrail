@@ -22,7 +22,7 @@ QtRefreshView::QtRefreshView(ViewLayout* viewLayout): RefreshView(viewLayout)
 	layout->setAlignment(Qt::AlignTop);
 
 	QtSearchBarButton* refreshButton = new QtSearchBarButton(
-		ResourcePaths::getGuiPath().concatenate(L"refresh_view/images/refresh.png"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"refresh_view/images/refresh.png"));
 	refreshButton->setObjectName(QStringLiteral("refresh_button"));
 	refreshButton->setToolTip(QStringLiteral("refresh"));
 	m_widget->connect(refreshButton, &QPushButton::clicked, []() {
@@ -42,7 +42,7 @@ void QtRefreshView::createWidgetWrapper()
 void QtRefreshView::refreshView()
 {
 	m_onQtThread([this]() {
-		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
+		m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
 														   L"refresh_view/refresh_view.css"))
 									.c_str());
 	});

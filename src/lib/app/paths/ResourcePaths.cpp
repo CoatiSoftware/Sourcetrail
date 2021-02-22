@@ -3,49 +3,49 @@
 #include "AppPath.h"
 #include "utilityApp.h"
 
-FilePath ResourcePaths::getColorSchemesPath()
+FilePath ResourcePaths::getColorSchemesDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/color_schemes/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/color_schemes/");
 }
 
-FilePath ResourcePaths::getSyntaxHighlightingRulesPath()
+FilePath ResourcePaths::getSyntaxHighlightingRulesDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/syntax_highlighting_rules/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/syntax_highlighting_rules/");
 }
 
-FilePath ResourcePaths::getFallbackPath()
+FilePath ResourcePaths::getFallbackDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/fallback/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/fallback/");
 }
 
-FilePath ResourcePaths::getFontsPath()
+FilePath ResourcePaths::getFontsDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/fonts/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/fonts/");
 }
 
-FilePath ResourcePaths::getGuiPath()
+FilePath ResourcePaths::getGuiDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/gui/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/gui/");
 }
 
-FilePath ResourcePaths::getLicensePath()
+FilePath ResourcePaths::getLicenseDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/license/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/license/");
 }
 
-FilePath ResourcePaths::getJavaPath()
+FilePath ResourcePaths::getJavaDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/java/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/java/");
 }
 
 FilePath ResourcePaths::getPythonDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/python/");
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/python/");
 }
 
-FilePath ResourcePaths::getCxxCompilerHeaderPath()
+FilePath ResourcePaths::getCxxCompilerHeaderDirectoryPath()
 {
-	return AppPath::getSharedDataPath().concatenate(L"data/cxx/include/").getCanonical();
+	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/cxx/include/").getCanonical();
 }
 
 FilePath ResourcePaths::getPythonIndexerFilePath()

@@ -17,19 +17,19 @@ QtUndoRedo::QtUndoRedo()
 	setObjectName(QStringLiteral("undo_redo_bar"));
 
 	m_undoButton = new QtSearchBarButton(
-		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_left.png"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"undoredo_view/images/arrow_left.png"));
 	m_undoButton->setObjectName(QStringLiteral("undo_button"));
 	m_undoButton->setToolTip(QStringLiteral("back"));
 	m_undoButton->setEnabled(false);
 
 	m_historyButton = new QtSearchBarButton(
-		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/history.png"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"undoredo_view/images/history.png"));
 	m_historyButton->setObjectName(QStringLiteral("history_button"));
 	m_historyButton->setToolTip(QStringLiteral("history"));
 	m_historyButton->setEnabled(false);
 
 	m_redoButton = new QtSearchBarButton(
-		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_right.png"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"undoredo_view/images/arrow_right.png"));
 	m_redoButton->setObjectName(QStringLiteral("redo_button"));
 	m_redoButton->setToolTip(QStringLiteral("forward"));
 	m_redoButton->setEnabled(false);

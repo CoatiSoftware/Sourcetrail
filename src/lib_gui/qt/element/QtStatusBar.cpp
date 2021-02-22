@@ -15,7 +15,7 @@ QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this)
 	addWidget(new QWidget());	 // add some space
 
 	m_movie = std::make_shared<QMovie>(QString::fromStdWString(
-		ResourcePaths::getGuiPath().concatenate(L"statusbar_view/loader.gif").wstr()));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"statusbar_view/loader.gif").wstr()));
 	// if movie doesn't loop forever, force it to.
 	if (m_movie->loopCount() != -1)
 	{
@@ -55,7 +55,7 @@ QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this)
 		m_errorButton.setIcon(
 			utility::colorizePixmap(
 				QPixmap(QString::fromStdWString(
-					ResourcePaths::getGuiPath().concatenate(L"statusbar_view/dot.png").wstr())),
+					ResourcePaths::getGuiDirectoryPath().concatenate(L"statusbar_view/dot.png").wstr())),
 				QColor(0xD0, 0, 0))
 				.scaledToHeight(12));
 		m_errorButton.setCursor(Qt::PointingHandCursor);

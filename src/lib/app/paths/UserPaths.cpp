@@ -1,28 +1,28 @@
 #include "UserPaths.h"
 
-FilePath UserPaths::s_userDataPath;
+FilePath UserPaths::s_userDataDirectoryPath;
 
-FilePath UserPaths::getUserDataPath()
+FilePath UserPaths::getUserDataDirectoryPath()
 {
-	return s_userDataPath;
+	return s_userDataDirectoryPath;
 }
 
-void UserPaths::setUserDataPath(const FilePath& path)
+void UserPaths::setUserDataDirectoryPath(const FilePath& path)
 {
-	s_userDataPath = path;
+	s_userDataDirectoryPath = path;
 }
 
-FilePath UserPaths::getAppSettingsPath()
+FilePath UserPaths::getAppSettingsFilePath()
 {
-	return getUserDataPath().concatenate(L"ApplicationSettings.xml");
+	return getUserDataDirectoryPath().concatenate(L"ApplicationSettings.xml");
 }
 
-FilePath UserPaths::getWindowSettingsPath()
+FilePath UserPaths::getWindowSettingsFilePath()
 {
-	return getUserDataPath().concatenate(L"window_settings.ini");
+	return getUserDataDirectoryPath().concatenate(L"window_settings.ini");
 }
 
-FilePath UserPaths::getLogPath()
+FilePath UserPaths::getLogDirectoryPath()
 {
-	return getUserDataPath().concatenate(L"log/");
+	return getUserDataDirectoryPath().concatenate(L"log/");
 }

@@ -17,7 +17,7 @@ namespace utility
 bool gradleCopyDependencies(
 	const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath, bool addTestDependencies)
 {
-	const FilePath gradleInitScriptPath = ResourcePaths::getJavaPath().concatenate(
+	const FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(
 		L"gradle/init.gradle");
 
 	utility::setJavaHomeVariableIfNotExists();
@@ -48,7 +48,7 @@ bool gradleCopyDependencies(
 std::vector<FilePath> gradleGetAllSourceDirectories(
 	const FilePath& projectDirectoryPath, bool addTestDirectories)
 {
-	const FilePath gradleInitScriptPath = ResourcePaths::getJavaPath().concatenate(
+	const FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(
 		L"gradle/init.gradle");
 
 	utility::setJavaHomeVariableIfNotExists();

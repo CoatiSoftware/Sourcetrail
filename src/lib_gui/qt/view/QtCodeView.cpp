@@ -265,7 +265,7 @@ void QtCodeView::setStyleSheet() const
 		m_widget, ColorScheme::getInstance()->getColor("code/background"));
 
 	std::string styleSheet = utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/code_view.css"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/code_view.css"));
 
 	m_widget->setStyleSheet(styleSheet.c_str());
 }

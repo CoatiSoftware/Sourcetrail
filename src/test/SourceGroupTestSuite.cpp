@@ -511,8 +511,8 @@ TEST_CASE("sourcegroup java gradle generates expected output")
 
 	std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-	const FilePath storedAppPath = AppPath::getSharedDataPath();
-	AppPath::setSharedDataPath(storedAppPath.getConcatenated(L"../app").makeAbsolute());
+	const FilePath storedAppPath = AppPath::getSharedDataDirectoryPath();
+	AppPath::setSharedDataDirectoryPath(storedAppPath.getConcatenated(L"../app").makeAbsolute());
 
 	std::vector<FilePath> storedJreSystemLibraryPaths =
 		applicationSettings->getJreSystemLibraryPaths();
@@ -522,7 +522,7 @@ TEST_CASE("sourcegroup java gradle generates expected output")
 		projectName, std::make_shared<SourceGroupJavaGradle>(sourceGroupSettings));
 
 	applicationSettings->setJreSystemLibraryPaths(storedJreSystemLibraryPaths);
-	AppPath::setSharedDataPath(storedAppPath);
+	AppPath::setSharedDataDirectoryPath(storedAppPath);
 #	endif
 }
 

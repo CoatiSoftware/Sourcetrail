@@ -14,8 +14,8 @@ QtPathListBoxItem::QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* it
 	: QtListBoxItem(item, parent), m_listBox(listBox)
 {
 	m_button = new QtIconButton(
-		ResourcePaths::getGuiPath().concatenate(L"window/dots.png"),
-		ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"window/dots.png"),
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"window/dots_hover.png"));
 	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName(QStringLiteral("dotsButton"));
 	layout()->addWidget(m_button);

@@ -83,11 +83,11 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSear
 #ifdef _WIN32
 	// prepend clang system includes on windows
 	compilerFlags = utility::concat(
-		{L"-isystem", ResourcePaths::getCxxCompilerHeaderPath().wstr()}, compilerFlags);
+		{L"-isystem", ResourcePaths::getCxxCompilerHeaderDirectoryPath().wstr()}, compilerFlags);
 #else
 	// append otherwise
 	compilerFlags.push_back(L"-isystem");
-	compilerFlags.push_back(ResourcePaths::getCxxCompilerHeaderPath().wstr());
+	compilerFlags.push_back(ResourcePaths::getCxxCompilerHeaderDirectoryPath().wstr());
 #endif
 
 	return compilerFlags;

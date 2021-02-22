@@ -146,7 +146,7 @@ std::string getStyleSheet(const FilePath& path)
 			}
 			else if (val == "gui_path")
 			{
-				val = ResourcePaths::getGuiPath().str();
+				val = ResourcePaths::getGuiDirectoryPath().str();
 
 				size_t index = 0;
 				while (true)

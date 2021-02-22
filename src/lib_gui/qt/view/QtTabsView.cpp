@@ -41,7 +41,7 @@ QtTabsView::QtTabsView(ViewLayout* viewLayout)
 
 	QPushButton* addButton = new QtSelfRefreshIconButton(
 		QLatin1String(""),
-		ResourcePaths::getGuiPath().concatenate(L"tabs_view/images/add.png"),
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/images/add.png"),
 		"tab/bar/button");
 	addButton->setObjectName(QStringLiteral("add_button"));
 	addButton->setIconSize(QSize(14, 14));
@@ -164,7 +164,7 @@ void QtTabsView::insertTab(bool showTab, const SearchMatch& match)
 
 	QPushButton* closeButton = new QtSelfRefreshIconButton(
 		QLatin1String(""),
-		ResourcePaths::getGuiPath().concatenate(L"tabs_view/images/close.png"),
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/images/close.png"),
 		"tab/bar/button");
 	closeButton->setObjectName(QStringLiteral("close_button"));
 	closeButton->setIconSize(QSize(10, 10));
@@ -269,7 +269,7 @@ void QtTabsView::setTabState(int idx, const std::vector<SearchMatch>& matches)
 void QtTabsView::setStyleSheet()
 {
 	const std::string css = utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(L"tabs_view/tabs_view.css"));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/tabs_view.css"));
 	m_widget->setStyleSheet(css.c_str());
 
 	utility::setWidgetBackgroundColor(

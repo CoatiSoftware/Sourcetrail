@@ -122,7 +122,7 @@ QtMainWindow::QtMainWindow()
 	setDockNestingEnabled(true);
 
 	setWindowIcon(QIcon(QString::fromStdWString(
-		ResourcePaths::getGuiPath().concatenate(L"icon/logo_1024_1024.png").wstr())));
+		ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/logo_1024_1024.png").wstr())));
 	setWindowFlags(Qt::Widget);
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
@@ -134,7 +134,7 @@ QtMainWindow::QtMainWindow()
 	{
 		// can only be done once, because resetting the style on the QCoreApplication causes crash
 		app->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/scrollbar.css"))
+			utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/scrollbar.css"))
 				.c_str());
 	}
 
@@ -291,7 +291,7 @@ View* QtMainWindow::findFloatingView(const std::string& name) const
 void QtMainWindow::loadLayout()
 {
 	QSettings settings(
-		QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
+		QString::fromStdWString(UserPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
 
 	settings.beginGroup(QStringLiteral("MainWindow"));
 	resize(settings.value(QStringLiteral("size"), QSize(600, 400)).toSize());
@@ -308,7 +308,7 @@ void QtMainWindow::loadLayout()
 void QtMainWindow::loadDockWidgetLayout()
 {
 	QSettings settings(
-		QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
+		QString::fromStdWString(UserPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
 	this->restoreState(settings.value(QStringLiteral("DOCK_LOCATIONS")).toByteArray());
 
 	for (DockWidget dock: m_dockWidgets)
@@ -328,7 +328,7 @@ void QtMainWindow::loadWindow(bool showStartWindow)
 void QtMainWindow::saveLayout()
 {
 	QSettings settings(
-		QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
+		QString::fromStdWString(UserPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
 
 	settings.beginGroup(QStringLiteral("MainWindow"));
 	settings.setValue(QStringLiteral("maximized"), isMaximized());
@@ -406,7 +406,7 @@ void QtMainWindow::setContentEnabled(bool enabled)
 void QtMainWindow::refreshStyle()
 {
 	setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/main.css")).c_str());
+		utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/main.css")).c_str());
 
 	QFont tooltipFont = QToolTip::font();
 	tooltipFont.setPixelSize(ApplicationSettings::getInstance()->getFontSize());
@@ -543,7 +543,7 @@ void QtMainWindow::showLicenses()
 void QtMainWindow::showDataFolder()
 {
 	QDesktopServices::openUrl(QUrl(
-		QString::fromStdWString(L"file:///" + UserPaths::getUserDataPath().makeCanonical().wstr()),
+		QString::fromStdWString(L"file:///" + UserPaths::getUserDataDirectoryPath().makeCanonical().wstr()),
 		QUrl::TolerantMode));
 }
 
@@ -751,10 +751,10 @@ void QtMainWindow::resetZoom()
 
 void QtMainWindow::resetWindowLayout()
 {
-	FileSystem::remove(UserPaths::getWindowSettingsPath());
+	FileSystem::remove(UserPaths::getWindowSettingsFilePath());
 	FileSystem::copyFile(
-		ResourcePaths::getFallbackPath().concatenate(L"window_settings.ini"),
-		UserPaths::getWindowSettingsPath());
+		ResourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
+		UserPaths::getWindowSettingsFilePath());
 	loadDockWidgetLayout();
 }
 

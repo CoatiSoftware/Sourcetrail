@@ -87,7 +87,7 @@ void QtGraphNodeData::updateStyle()
 	TokenComponentFilePath* component = m_data->getComponent<TokenComponentFilePath>();
 	if (component && !component->isComplete())
 	{
-		style.iconPath = ResourcePaths::getGuiPath().concatenate(
+		style.iconPath = ResourcePaths::getGuiDirectoryPath().concatenate(
 			L"graph_view/images/file_incomplete.png");
 	}
 

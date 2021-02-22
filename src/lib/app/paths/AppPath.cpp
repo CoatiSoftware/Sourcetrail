@@ -1,43 +1,45 @@
 #include "AppPath.h"
 
-FilePath AppPath::m_sharedDataPath(L"");
-FilePath AppPath::m_cxxIndexerPath(L"");
+#include "utilityApp.h"
 
-FilePath AppPath::getSharedDataPath()
+FilePath AppPath::s_sharedDataDirectoryPath(L"");
+FilePath AppPath::s_cxxIndexerDirectoryPath(L"");
+
+FilePath AppPath::getSharedDataDirectoryPath()
 {
-	return m_sharedDataPath;
+	return s_sharedDataDirectoryPath;
 }
 
-bool AppPath::setSharedDataPath(const FilePath& path)
+bool AppPath::setSharedDataDirectoryPath(const FilePath& path)
 {
 	if (!path.empty())
 	{
-		m_sharedDataPath = path;
+		s_sharedDataDirectoryPath = path;
 		return true;
 	}
 	return false;
 }
 
-FilePath AppPath::getCxxIndexerPath()
+FilePath AppPath::getCxxIndexerFilePath()
 {
-#if _WIN32
-	const std::wstring cxxIndexerName(L"sourcetrail_indexer.exe");
-#else
-	const std::wstring cxxIndexerName(L"sourcetrail_indexer");
-#endif
-
-	if (!m_cxxIndexerPath.empty())
+	std::wstring cxxIndexerName(L"sourcetrail_indexer");
+	if (utility::getOsType() == OS_WINDOWS)
 	{
-		return m_cxxIndexerPath.getConcatenated(cxxIndexerName);
+		cxxIndexerName = L"sourcetrail_indexer.exe";
 	}
-	return m_sharedDataPath.getConcatenated(cxxIndexerName);
+
+	if (!s_cxxIndexerDirectoryPath.empty())
+	{
+		return s_cxxIndexerDirectoryPath.getConcatenated(cxxIndexerName);
+	}
+	return s_sharedDataDirectoryPath.getConcatenated(cxxIndexerName);
 }
 
-bool AppPath::setCxxIndexerPath(const FilePath& path)
+bool AppPath::setCxxIndexerDirectoryPath(const FilePath& path)
 {
 	if (!path.empty())
 	{
-		m_cxxIndexerPath = path;
+		s_cxxIndexerDirectoryPath = path;
 		return true;
 	}
 	return false;

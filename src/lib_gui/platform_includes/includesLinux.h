@@ -17,11 +17,11 @@
 void setupPlatform(int argc, char* argv[])
 {
 	std::string home = std::getenv("HOME");
-	UserPaths::setUserDataPath(FilePath(home + "/.config/sourcetrail/"));
+	UserPaths::setUserDataDirectoryPath(FilePath(home + "/.config/sourcetrail/"));
 
 	// Set QT screen scaling factor
 	ApplicationSettings appSettings;
-	appSettings.load(UserPaths::getAppSettingsPath(), true);
+	appSettings.load(UserPaths::getAppSettingsFilePath(), true);
 
 	qputenv("QT_AUTO_SCREEN_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_AUTO_SCREEN_SCALE_FACTOR"));
 	qputenv("QT_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_SCALE_FACTOR"));
@@ -47,13 +47,13 @@ void setupApp(int argc, char* argv[])
 {
 	FilePath appPath =
 		FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute();
-	AppPath::setSharedDataPath(appPath);
-	AppPath::setCxxIndexerPath(appPath);
+	AppPath::setSharedDataDirectoryPath(appPath);
+	AppPath::setCxxIndexerDirectoryPath(appPath);
 
 	// Check if bundled as Linux AppImage
 	if (appPath.getConcatenated(L"/../share/data").exists())
 	{
-		AppPath::setSharedDataPath(appPath.getConcatenated(L"/../share").getAbsolute());
+		AppPath::setSharedDataDirectoryPath(appPath.getConcatenated(L"/../share").getAbsolute());
 	}
 
 	std::string userdir(std::getenv("HOME"));
@@ -67,14 +67,15 @@ void setupApp(int argc, char* argv[])
 	}
 
 	utility::copyNewFilesFromDirectory(
-		QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);
+		QString::fromStdWString(ResourcePaths::getFallbackDirectoryPath().wstr()), userDataPath);
 	utility::copyNewFilesFromDirectory(
-		QString::fromStdWString(AppPath::getSharedDataPath().concatenate(L"user/").wstr()),
+		QString::fromStdWString(AppPath::getSharedDataDirectoryPath().concatenate(L"user/").wstr()),
 		userDataPath);
 
 	// Add u+w permissions because the source files may be marked read-only in some distros
 	QDirIterator it(userDataPath, QDir::Files, QDirIterator::Subdirectories);
-	while (it.hasNext()) {
+	while (it.hasNext())
+	{
 		QFile f(it.next());
 		f.setPermissions(f.permissions() | QFile::WriteOwner);
 	}

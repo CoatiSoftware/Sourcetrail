@@ -183,21 +183,22 @@ FilePath NodeType::getIconPath() const
 	if (isPackage())
 	{
 		// this icon cannot be changed
-		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/namespace.png");
+		return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/namespace.png");
 	}
 
 	switch (m_kind)
 	{
 	case NODE_ANNOTATION:
-		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/annotation.png");
+		return ResourcePaths::getGuiDirectoryPath().concatenate(
+			L"graph_view/images/annotation.png");
 	case NODE_ENUM:
-		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/enum.png");
+		return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/enum.png");
 	case NODE_TYPEDEF:
-		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/typedef.png");
+		return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/typedef.png");
 	case NODE_MACRO:
-		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/macro.png");
+		return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/macro.png");
 	case NODE_FILE:
-		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file.png");
+		return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file.png");
 	default:
 		return FilePath();
 	}
