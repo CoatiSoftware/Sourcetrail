@@ -17,6 +17,7 @@ add_files(
 	FilePathTestSuite.cpp
 	FileSystemTestSuite.cpp
 	GraphTestSuite.cpp
+	HierarchyCacheTestSuite.cpp
 	JavaIndexSampleProjectsTestSuite.cpp
 	JavaParserTestSuite.cpp
 	LogManagerTestSuite.cpp
