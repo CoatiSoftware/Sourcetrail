@@ -56,13 +56,24 @@ TEST_CASE("HierarchyCache returns no inheritance edges for empty node set")
 	REQUIRE(inheritanceEdges.size() == 0);
 }
 
-TEST_CASE("HierarchyCache returns inheritance edge for non-empty node set")
+TEST_CASE("HierarchyCache returns direct inheritance edge for non-empty node set")
 {
 	HierarchyCache cache;
 	cache.createInheritance(1, 1, 2);
 	std::vector<std::string> inheritanceEdges = getSerializedInheritanceEdges(cache, 1, {2});
 	REQUIRE(inheritanceEdges.size() == 1);
 	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 2, {1}).toString()));
+}
+
+TEST_CASE("HierarchyCache returns multiple indirect inheritance edges for non-empty node set")
+{
+	HierarchyCache cache;
+	cache.createInheritance(1, 1, 2);
+	cache.createInheritance(2, 2, 3);
+	std::vector<std::string> inheritanceEdges = getSerializedInheritanceEdges(cache, 1, {1, 2, 3});
+	REQUIRE(inheritanceEdges.size() == 2);
+	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 2, {1}).toString()));
+	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 3, {1, 2}).toString()));
 }
 
 TEST_CASE("HierarchyCache skips inheritance for nodes not in set")
@@ -82,6 +93,20 @@ TEST_CASE("HierarchyCache returns inheritance edges for cyclic inheritance")
 	cache.createInheritance(2, 2, 1);
 	std::vector<std::string> inheritanceEdges = getSerializedInheritanceEdges(cache, 1, {1, 2});
 	REQUIRE(inheritanceEdges.size() == 2);
-	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 2, {1}).toString()));
+	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 2, {1, 2}).toString()));
 	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 1, {1, 2}).toString()));
+}
+
+TEST_CASE("HierarchyCache returns inheritance edges for diamond inheritance")
+{
+	HierarchyCache cache;
+	cache.createInheritance(1, 1, 2);
+	cache.createInheritance(2, 1, 3);
+	cache.createInheritance(3, 2, 4);
+	cache.createInheritance(4, 3, 4);
+	std::vector<std::string> inheritanceEdges = getSerializedInheritanceEdges(cache, 1, {1, 2, 3, 4});
+	REQUIRE(inheritanceEdges.size() == 3);
+	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 2, {1}).toString()));
+	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 3, {2}).toString()));
+	REQUIRE(utility::containsElement(inheritanceEdges, TestEdge(1, 4, {1, 2, 3, 4}).toString()));
 }
