@@ -19,7 +19,7 @@ bool isInFileInfos(const std::vector<FileInfo>& infos, const std::wstring& filen
 {
 	for (const FileInfo& info: infos)
 	{
-		if (info.path.wstr() == filename)
+		if (info.path.getAbsolute().wstr() == FilePath(filename).getCanonical().wstr())
 		{
 			return true;
 		}
@@ -33,7 +33,8 @@ bool isInFileInfos(
 {
 	for (const FileInfo& info: infos)
 	{
-		if (info.path.wstr() == filename || info.path.wstr() == filename2)
+		if (info.path.wstr() == FilePath(filename).getCanonical().wstr() ||
+			info.path.wstr() == FilePath(filename2).getCanonical().wstr())
 		{
 			return true;
 		}
