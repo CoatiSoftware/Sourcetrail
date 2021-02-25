@@ -63,7 +63,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	}
 
 	std::set<boost::filesystem::path> symlinkDirs;
-	std::set<boost::filesystem::path> filePaths;
+	std::set<FilePath> filePaths;
 
 	std::vector<FileInfo> files;
 
@@ -112,25 +112,24 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 					(ext.empty() ||
 					 ext.find(utility::toLowerCase(it->path().extension().wstring())) != ext.end()))
 				{
-					boost::filesystem::path p = boost::filesystem::canonical(it->path());
-					if (filePaths.find(p) != filePaths.end())
+					const FilePath canonicalPath = FilePath(it->path().wstring()).getCanonical();
+					if (filePaths.find(canonicalPath) != filePaths.end())
 					{
 						continue;
 					}
-					filePaths.insert(p);
-					files.push_back(getFileInfoForPath(FilePath(it->path().wstring())));
+					filePaths.insert(canonicalPath);
+					files.push_back(getFileInfoForPath(canonicalPath));
 				}
 			}
 		}
 		else if (path.exists() && (ext.empty() || ext.find(utility::toLowerCase(path.extension())) != ext.end()))
 		{
 			const FilePath canonicalPath = path.getCanonical();
-			boost::filesystem::path p = canonicalPath.getPath();
-			if (filePaths.find(p) != filePaths.end())
+			if (filePaths.find(canonicalPath) != filePaths.end())
 			{
 				continue;
 			}
-			filePaths.insert(p);
+			filePaths.insert(canonicalPath);
 			files.push_back(getFileInfoForPath(canonicalPath));
 		}
 	}
