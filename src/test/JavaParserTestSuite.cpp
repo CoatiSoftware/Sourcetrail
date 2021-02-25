@@ -1655,7 +1655,7 @@ TEST_CASE("java parser finds bound type of type parameter")
 		client->typeUses, L"A<T>.T -> java.lang.Void <1:27 1:30>"));
 }
 
-TEST_CASE("java parsersupports java 12 switch expression")
+TEST_CASE("java parsersupports java 14 switch expression")
 {
 	std::shared_ptr<TestStorage> client = parseCode(
 		"package foo;\n"

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "utilityString.h"
+
 ConsoleLogger::ConsoleLogger(): Logger("ConsoleLogger") {}
 
 void ConsoleLogger::logInfo(const LogMessage& message)
@@ -29,6 +31,5 @@ void ConsoleLogger::logMessage(const std::string& type, const LogMessage& messag
 				  << "() | ";
 	}
 
-	std::cout << type << ": ";
-	std::wcout << message.message << std::endl;
+	std::cout << type << ": " << utility::encodeToUtf8(message.message) << std::endl;
 }
