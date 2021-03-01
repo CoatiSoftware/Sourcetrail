@@ -164,15 +164,15 @@ void QtStartScreen::updateButtons()
 		}
 		i++;
 	}
-	setStyleSheet(utility::getStyleSheet(
-					  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css"))
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
+											 L"startscreen/startscreen.css"))
 					  .c_str());
 }
 
 void QtStartScreen::setupStartScreen()
 {
-	setStyleSheet(utility::getStyleSheet(
-					  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css"))
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
+											 L"startscreen/startscreen.css"))
 					  .c_str());
 	addLogo();
 
@@ -230,8 +230,19 @@ void QtStartScreen::setupStartScreen()
 			QtNewsWidget* newsWidget = new QtNewsWidget(this);
 			col->addWidget(newsWidget);
 
-			connect(
-				checker, &QtUpdateCheckerWidget::updateReceived, newsWidget, &QtNewsWidget::updateNews);
+			const bool newsAvailable = !ApplicationSettings::getInstance()->getUpdateNews().empty();
+			newsHeader->setVisible(newsAvailable);
+			newsWidget->setVisible(newsAvailable);
+			newsWidget->updateNews();
+
+			QObject::connect(
+				checker, &QtUpdateCheckerWidget::updateReceived, [newsHeader, newsWidget]() {
+					const bool newsAvailable =
+						!ApplicationSettings::getInstance()->getUpdateNews().empty();
+					newsHeader->setVisible(newsAvailable);
+					newsWidget->setVisible(newsAvailable);
+					newsWidget->updateNews();
+				});
 		}
 
 		col->addSpacing(35);
@@ -274,7 +285,8 @@ void QtStartScreen::setupStartScreen()
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect);	  // fixes layouting on Mac
 			button->setIcon(m_projectIcon);
 			button->setIconSize(QSize(30, 30));
-			button->setMinimumSize(button->fontMetrics().boundingRect(button->text()).width() + 45, 40);
+			button->setMinimumSize(
+				button->fontMetrics().boundingRect(button->text()).width() + 45, 40);
 			button->setObjectName(QStringLiteral("recentButtonMissing"));
 			button->minimumSizeHint();	  // force font loading
 			m_recentProjectsButtons.push_back(button);
