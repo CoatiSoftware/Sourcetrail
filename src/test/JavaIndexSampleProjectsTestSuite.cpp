@@ -5,7 +5,6 @@
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 
 #	include <fstream>
-#	include <iostream>
 
 #	include "ApplicationSettings.h"
 #	include "FileRegister.h"
@@ -107,7 +106,7 @@ void processSourceFile(
 			expectedOutputFilePath);
 		REQUIRE_MESSAGE(
 			("Output does not match the expected line count for file " + sourceFilePath.str() +
-			 " in project " + projectName)
+			 " in project " + projectName + ". Output was: " + output->getText())
 				.c_str(),
 			expectedOutput->getLineCount() == output->getLineCount());
 		if (expectedOutput->getLineCount() == output->getLineCount())

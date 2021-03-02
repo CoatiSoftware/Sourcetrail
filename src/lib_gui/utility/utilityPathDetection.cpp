@@ -31,8 +31,8 @@ std::shared_ptr<CombinedPathDetector> utility::getJavaRuntimePathDetector()
 	switch (utility::getOsType())
 	{
 	case OS_WINDOWS:
-		combinedDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8"));
-		combinedDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("9"));
+		combinedDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8", true));
+		combinedDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("9", true));
 		break;
 	case OS_MAC:
 		combinedDetector->addDetector(std::make_shared<JavaPathDetectorMac>("1.8"));

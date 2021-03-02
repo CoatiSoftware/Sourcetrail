@@ -56,6 +56,14 @@ else ()
 	set(PLATFORM_INCLUDE "includesLinux.h")
 endif ()
 
+set (BASH "")
+if (WIN32)
+	execute_process(COMMAND CMD /c where bash OUTPUT_VARIABLE BASH)
+	string(REGEX REPLACE "\n$" "" BASH "${BASH}")
+endif ()
+
+message ("bash: '${BASH}'")
+
 
 # Project ----------------------------------------------------------------------
 
@@ -471,7 +479,7 @@ if (BUILD_JAVA_LANGUAGE_PACKAGE)
 	add_custom_command(
 		TARGET ${LIB_JAVA_PROJECT_NAME}
 		PRE_BUILD
-		COMMAND ${PROJECT_SOURCE_DIR}/script/update_java_indexer.sh
+		COMMAND ${BASH} ${PROJECT_SOURCE_DIR}/script/update_java_indexer.sh
 		COMMENT "updating java indexer jars"
 	)
 
@@ -506,7 +514,7 @@ if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 	add_custom_command(
 		TARGET ${LIB_PYTHON_PROJECT_NAME}
 		PRE_BUILD
-		COMMAND ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
+		COMMAND ${BASH} ${PROJECT_SOURCE_DIR}/script/download_python_indexer.sh
 		COMMENT "download python indexer"
 	)
 
