@@ -241,7 +241,7 @@ void generateAndCompareExpectedOutput(
 			expectedOutputFilePath);
 		REQUIRE_MESSAGE(
 			("Output does not match the expected line count for project \"" +
-			 utility::encodeToUtf8(projectName) + "\".")
+			 utility::encodeToUtf8(projectName) + "\". Output was: " + output->getText())
 				.c_str(),
 			expectedOutput->getLineCount() == output->getLineCount());
 		if (expectedOutput->getLineCount() == output->getLineCount())

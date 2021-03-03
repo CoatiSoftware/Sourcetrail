@@ -7,8 +7,11 @@
 #include "utilityApp.h"
 #include "utilityString.h"
 
-JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion)
-	: JavaPathDetector("Java " + javaVersion + " for Windows", javaVersion)
+JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion, bool isJre)
+	: JavaPathDetector(
+		  "Java " + std::string(isJre ? "JRE" : "JDK") + " " + javaVersion + " for Windows",
+		  javaVersion)
+	, m_isJre(isJre)
 {
 }
 
@@ -23,25 +26,50 @@ std::vector<FilePath> JavaPathDetectorWindows::doGetPaths() const
 
 	key += "JavaSoft\\";
 
-	if (utility::isPrefix(std::string("1."), m_javaVersion))
+	if (m_isJre)
 	{
-		key += ("Java Runtime Environment\\" + m_javaVersion).c_str();
+		if (utility::isPrefix(std::string("1."), m_javaVersion))
+		{
+			key += ("Java Runtime Environment\\" + m_javaVersion).c_str();
+		}
+		else
+		{
+			key += ("JRE\\" + m_javaVersion).c_str();
+		}
+
+		// NativeFormat means from Registry on Windows.
+		QSettings settings(key, QSettings::NativeFormat);
+		const QString value = settings.value("RuntimeLib").toString();
+
+		const FilePath path(value.toStdWString());
+		if (path.exists())
+		{
+			return {path};
+		}
 	}
 	else
 	{
-		key += ("JRE\\" + m_javaVersion).c_str();
+		key += "JDK";
+		{
+			const QSettings settings(key, QSettings::NativeFormat);
+			for (const QString& child: settings.childGroups())
+			{
+				if (child.startsWith(QString::fromStdString(m_javaVersion)))
+				{
+					key += "\\" + child;
+				}
+			}
+		}
+		{
+			const QSettings settings(key, QSettings::NativeFormat);
+			const QString value = settings.value("JavaHome").toString();
+
+			const FilePath path = FilePath(value.toStdWString()).concatenate(L"bin/server/jvm.dll");
+			if (path.exists())
+			{
+				return {path};
+			}
+		}
 	}
-
-	QSettings expressKey(
-		key, QSettings::NativeFormat);	  // NativeFormat means from Registry on Windows.
-	QString value = expressKey.value("RuntimeLib").toString();
-
-	FilePath path(value.toStdWString());
-
-	std::vector<FilePath> paths;
-	if (path.exists())
-	{
-		paths.push_back(path);
-	}
-	return paths;
+	return {};
 }

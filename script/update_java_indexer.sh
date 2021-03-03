@@ -11,21 +11,33 @@ if [ "$(uname)" == "Darwin" ]; then
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	PLATFORM='Linux'
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-	PLATFORM='Windows'
+	PLATFORM='windows'
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+	PLATFORM='windows'
+elif [ "$OSTYPE" == "msys" ]; then
+	PLATFORM='windows'
 fi
 
-if [ $PLATFORM == "Windows" ]; then
-	ORIGINAL_PATH_TO_SCRIPT="${0}"
-	CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
-	ROOT_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
+if [ $PLATFORM == "windows" ]; then
+	SCRIPT=`realpath $0`
+	if [ "$SCRIPT" == "" ]; then
+
+		ORIGINAL_PATH_TO_SCRIPT="${0}"
+		CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
+		SCRIPT_DIR=${CLEANED_PATH_TO_SCRIPT%/*}
+	else
+		ORIGINAL_PATH_TO_SCRIPT=`dirname $SCRIPT`
+		SCRIPT_DIR="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
+	fi
 else
-	ROOT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+	SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 fi
 
-ROOT_DIR=$ROOT_DIR/..
+echo "This script is running in: $SCRIPT_DIR"
 
 # Enter main directory
-cd $ROOT_DIR/
+cd $SCRIPT_DIR/
+cd ..
 
 cd java_indexer
 
