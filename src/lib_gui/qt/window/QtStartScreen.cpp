@@ -230,19 +230,21 @@ void QtStartScreen::setupStartScreen()
 			QtNewsWidget* newsWidget = new QtNewsWidget(this);
 			col->addWidget(newsWidget);
 
-			const bool newsAvailable = !ApplicationSettings::getInstance()->getUpdateNews().empty();
-			newsHeader->setVisible(newsAvailable);
-			newsWidget->setVisible(newsAvailable);
-			newsWidget->updateNews();
-
-			QObject::connect(
-				checker, &QtUpdateCheckerWidget::updateReceived, [newsHeader, newsWidget]() {
-					const bool newsAvailable =
-						!ApplicationSettings::getInstance()->getUpdateNews().empty();
-					newsHeader->setVisible(newsAvailable);
-					newsWidget->setVisible(newsAvailable);
+			std::function<void()> updateNews = [newsHeader, newsWidget]() {
+				const bool newsAvailable =
+					ApplicationSettings::getInstance()->getAutomaticUpdateCheck() &&
+					!ApplicationSettings::getInstance()->getUpdateNews().empty();
+				newsHeader->setVisible(newsAvailable);
+				newsWidget->setVisible(newsAvailable);
+				if (newsAvailable)
+				{
 					newsWidget->updateNews();
-				});
+				}
+			};
+
+			updateNews();
+
+			QObject::connect(checker, &QtUpdateCheckerWidget::updateReceived, updateNews);
 		}
 
 		col->addSpacing(35);
