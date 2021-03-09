@@ -70,7 +70,7 @@ void QtNewsWidget::updateNews()
 	resetFlags();
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-	std::string newsRaw = appSettings->getUpdateNews();
+	const std::string newsRaw = appSettings->getUpdateNews();
 	if (!newsRaw.size())
 	{
 		setNews(QLatin1String(""));

@@ -49,6 +49,7 @@
 	color: black;
 	font-size: 12px;
 	font-weight: bold;
+	min-width: 200px;
 }
 
 #textField {
