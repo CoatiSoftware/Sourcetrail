@@ -16,7 +16,7 @@ public:
 	static std::shared_ptr<TextAccess> createFromLines(
 		const std::vector<std::string>& lines, const FilePath& filePath = FilePath());
 
-	virtual ~TextAccess();
+	virtual ~TextAccess() = default;
 
 	unsigned int getLineCount() const;
 	bool isEmpty() const;

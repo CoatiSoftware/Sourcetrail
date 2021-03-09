@@ -73,7 +73,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
 			return;
 		}
 
-		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
+		std::shared_ptr<TextAccess> textAccess = storage.getFileContent(filePath, false);
 		if (textAccess)
 		{
 			std::map<std::wstring, std::vector<std::wstring>> childToParentNodesMap;
