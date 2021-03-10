@@ -848,7 +848,7 @@ TEST_CASE("refresh info for updated files does not clear unknown uptodate header
 }
 
 TEST_CASE(
-	"refresh info for updated files clears outdated source file and referened uptodate header file")
+	"refresh info for updated files clears outdated source file and referenced uptodate header file")
 {
 	cleanup();
 	{
