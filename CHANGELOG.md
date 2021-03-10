@@ -1096,7 +1096,7 @@ released 2016-02-25
 * Show overview on project open with node bundles per type
 * Added application move protection to reenter license key
 * Improved log file names to be sorted chronologically
-* Improved graph view node bundeling to bundle more
+* Improved graph view node bundling to bundle more
 * Display scope name at bottom of code snippet
 * Added .coatiproject file associations with icon for Mac and Windows
 * Return to last scroll position when going back in code view
