@@ -333,7 +333,7 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		QStringLiteral("Run C/C++ indexer threads in different process"),
 		QStringLiteral(
 			"<p>Enable C/C++ indexer threads to run in different process.</p>"
-			"<p>This prevents the application from crashing due to unforseen exceptions while "
+			"<p>This prevents the application from crashing due to unforeseen exceptions while "
 			"indexing.</p>"),
 		layout,
 		row);
