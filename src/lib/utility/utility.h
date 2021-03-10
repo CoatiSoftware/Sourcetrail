@@ -17,7 +17,7 @@
 namespace utility
 {
 template <typename T>
-std::vector<std::vector<T>> splitToEqualySizedParts(
+std::vector<std::vector<T>> splitToEquallySizedParts(
 	const std::vector<T>& values, const size_t desiredPartCount);
 
 template <typename T>
@@ -131,7 +131,7 @@ size_t digits(size_t n);
 }	 // namespace utility
 
 template <typename T>
-std::vector<std::vector<T>> utility::splitToEqualySizedParts(
+std::vector<std::vector<T>> utility::splitToEquallySizedParts(
 	const std::vector<T>& values, const size_t desiredPartCount)
 {
 	const size_t partCount = std::max<size_t>(1, std::min(desiredPartCount, values.size()));

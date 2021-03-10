@@ -34,7 +34,7 @@ std::vector<IncludeDirective> IncludeProcessing::getUnresolvedIncludeDirectives(
 	std::unordered_set<std::wstring> processedFilePaths;
 	std::set<IncludeDirective, IncludeDirectiveComparator> unresolvedIncludeDirectives;
 
-	std::vector<std::vector<FilePath>> parts = utility::splitToEqualySizedParts(
+	std::vector<std::vector<FilePath>> parts = utility::splitToEquallySizedParts(
 		utility::toVector(sourceFilePaths), desiredQuantileCount);
 
 	for (size_t i = 0; i < parts.size(); i++)
@@ -78,7 +78,7 @@ std::set<FilePath> IncludeProcessing::getHeaderSearchDirectories(
 
 	std::set<FilePath> headerSearchDirectories;
 	std::unordered_set<std::wstring> processedFilePaths;
-	std::vector<std::vector<FilePath>> parts = utility::splitToEqualySizedParts(
+	std::vector<std::vector<FilePath>> parts = utility::splitToEquallySizedParts(
 		utility::toVector(sourceFilePaths), desiredQuantileCount);
 
 	for (size_t i = 0; i < parts.size(); i++)
