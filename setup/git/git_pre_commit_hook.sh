@@ -38,7 +38,7 @@ function build_type {
 	echo -e $INFO Starting with buildtype: $1
 	if [ "$PLATFORM" == "Windows" ]
 	then
-		echo -e $INFO Builing the Sourcetrail VS Solution
+		echo -e $INFO Building the Sourcetrail VS Solution
 		cmake --build build/win32 --config $1
 		if [ $? -ne 0 ]
 		then
