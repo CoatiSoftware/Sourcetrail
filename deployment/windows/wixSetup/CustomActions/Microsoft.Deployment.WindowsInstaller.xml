@@ -2779,7 +2779,7 @@
             <summary>Patches that are superseded by other patches.</summary>
         </member>
         <member name="F:Microsoft.Deployment.WindowsInstaller.PatchStates.Obsoleted">
-            <summary>Patches that are obsolesced by other patches.</summary>
+            <summary>Patches that are obsoleted by other patches.</summary>
         </member>
         <member name="F:Microsoft.Deployment.WindowsInstaller.PatchStates.Registered">
             <summary>Patches that are registered to a product but not applied.</summary>
