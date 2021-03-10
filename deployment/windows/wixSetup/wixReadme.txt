@@ -55,7 +55,7 @@ General
 			-Name: the name that the file will have on the user machine, may be different from the file name on the source machine
 			-Source: the path and name to the file on the source machine, relative to the current .wxs file
 			-KeyPath: depends on where you want to install the file, see below in 'Add new file to...'
-		-usually there is one component for each single file. Multiple files can be added to a component, this might make sense if the files are considered 100% unseperable. The recommended way however is one file per component
+		-usually there is one component for each single file. Multiple files can be added to a component, this might make sense if the files are considered 100% inseparable. The recommended way however is one file per component
 			
 			
 Add new file to the installation directory (installDir.wxs)
