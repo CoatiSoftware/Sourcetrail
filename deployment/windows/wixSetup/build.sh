@@ -23,7 +23,7 @@ echo "installer version is $VERSION_STRING"
 
 PRODUCT_GUID=$("uuidgen")
 if [ -z "$PRODUCT_GUID" ]; then
-	echo "Unable to generate GUID. Make sure to run this script from the Visual Studio command propmt. Aborting now."
+	echo "Unable to generate GUID. Make sure to run this script from the Visual Studio command prompt. Aborting now."
 	exit 1
 else
 	echo "$WIN_ARCH product guid is $PRODUCT_GUID"
