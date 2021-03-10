@@ -722,7 +722,7 @@ released 2017-04-12
 #### 0.11.15
 released 2017-03-01
 
-* Don't accept richt text in 'enter license' dialog field (issue [#207](https://github.com/CoatiSoftware/Sourcetrail/issues/207))
+* Don't accept rich text in 'enter license' dialog field (issue [#207](https://github.com/CoatiSoftware/Sourcetrail/issues/207))
 * Updated EULA to include Test License and better clarify other license types
 * Fixed icons in project setup dialogs blurry on highDPI screens
 * Added link to additional downloadable pre-indexed projects to trial start screen
