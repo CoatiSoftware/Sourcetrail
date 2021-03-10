@@ -197,7 +197,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<strong>Are you using CMake, Make or Qt Creator?</strong>
-					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilaton Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Sourcetrail a lot easier. We recommend using this approach if possible.</p>
+					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilation Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Sourcetrail a lot easier. We recommend using this approach if possible.</p>
 
 					<p>Exporting a Compilation Database:</p>
 					<ul>
@@ -2903,19 +2903,19 @@
 							<tr> <th>Option</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Select Projects</th> <td>The list of C/C++ projects in your solution. Check all projects you want to be included in the generated JSON Compilaton Database file.</td> </tr>
+							<tr> <th scope="row">Select Projects</th> <td>The list of C/C++ projects in your solution. Check all projects you want to be included in the generated JSON Compilation Database file.</td> </tr>
 							<tr> <th scope="row">De/Select All</th> <td>Will select all projects if at least one project is not selected. If all projects are selected they will all be unselected.</td> </tr>
-							<tr> <th scope="row">Configuration</th> <td>A dropdown list of the available build configurations. The selected configuration affects include paths and compile flags for the Compilaton Database.</td> </tr>
-							<tr> <th scope="row">Platform</th> <td>A dropdown list of the available target platforms. The selected platform affects include paths and compile flags for the Compilaton Database.</td> </tr>
-							<tr> <th scope="row">Browse</th> <td>Opens a folder browser to select the directory where the Compilaton Database will be created in. By default it is the directory of your solution. Instead of using the folder browser you can also paste a path into the adjacent text field.</td> </tr>
-							<tr> <th scope="row">filename</th> <td>This is the name for the Compilaton Database file. By default it is the same name as your solution.</td> </tr>
+							<tr> <th scope="row">Configuration</th> <td>A dropdown list of the available build configurations. The selected configuration affects include paths and compile flags for the Compilation Database.</td> </tr>
+							<tr> <th scope="row">Platform</th> <td>A dropdown list of the available target platforms. The selected platform affects include paths and compile flags for the Compilation Database.</td> </tr>
+							<tr> <th scope="row">Browse</th> <td>Opens a folder browser to select the directory where the Compilation Database will be created in. By default it is the directory of your solution. Instead of using the folder browser you can also paste a path into the adjacent text field.</td> </tr>
+							<tr> <th scope="row">filename</th> <td>This is the name for the Compilation Database file. By default it is the same name as your solution.</td> </tr>
 							<tr> <th scope="row">C Standard</th> <td>A dropdown list of all C standards supported by Sourcetrail. If your projects contain C files select the appropriate standard.</td> </tr>
 							<tr> <th scope="row">Cancel</th> <td>Aborts the process and closes the wizard.</td> </tr>
-							<tr> <th scope="row">Create</th> <td>Creates the Compilaton Database using the specified options. Note that at least one project has to be selected to start creating.</td> </tr>
+							<tr> <th scope="row">Create</th> <td>Creates the Compilation Database using the specified options. Note that at least one project has to be selected to start creating.</td> </tr>
 						</tbody>
 					</table>
 
-					<p>Once the Compilaton Database was successfully created it can be found in the specified target directory. From this Compilaton Database you can create a Sourcetrail project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
+					<p>Once the Compilation Database was successfully created it can be found in the specified target directory. From this Compilation Database you can create a Sourcetrail project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
 
 					<strong>Settings</strong>
 					<p>Network settings and logging options can be changed in the plugin's Tools/Options entry.</p>

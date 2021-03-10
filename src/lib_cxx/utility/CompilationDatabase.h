@@ -1,5 +1,5 @@
-#ifndef UTILITY_COMPLIATION_DATABASE_H
-#define UTILITY_COMPLIATION_DATABASE_H
+#ifndef UTILITY_COMPILATION_DATABASE_H
+#define UTILITY_COMPILATION_DATABASE_H
 
 #include <string>
 #include <vector>
@@ -29,4 +29,4 @@ private:
 
 }	 // namespace utility
 
-#endif	  // UTILITY_COMPLIATION_DATABASE_H
+#endif	  // UTILITY_COMPILATION_DATABASE_H
