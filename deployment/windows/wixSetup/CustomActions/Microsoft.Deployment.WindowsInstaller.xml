@@ -1508,7 +1508,7 @@
             needed, as leaving lots of unused handles open can degrade performance.
             </p><p>
             The database is opened in <see cref="F:Microsoft.Deployment.WindowsInstaller.DatabaseOpenMode.CreateDirect" /> mode, and will be
-            automatically commited when it is closed.
+            automatically committed when it is closed.
             </p><p>
             Win32 MSI API:
             <a href="http://msdn.microsoft.com/library/en-us/msi/setup/msiopendatabase.asp">MsiOpenDatabase</a>
@@ -1532,7 +1532,7 @@
             longer needed, as leaving lots of unused handles open can degrade performance.
             </p><p>
             A database opened in <see cref="F:Microsoft.Deployment.WindowsInstaller.DatabaseOpenMode.CreateDirect" /> or
-            <see cref="F:Microsoft.Deployment.WindowsInstaller.DatabaseOpenMode.Direct" /> mode will be automatically commited when it is
+            <see cref="F:Microsoft.Deployment.WindowsInstaller.DatabaseOpenMode.Direct" /> mode will be automatically committed when it is
             closed. However a database opened in <see cref="F:Microsoft.Deployment.WindowsInstaller.DatabaseOpenMode.Create" /> or
             <see cref="F:Microsoft.Deployment.WindowsInstaller.DatabaseOpenMode.Transact" /> mode must have the <see cref="M:Microsoft.Deployment.WindowsInstaller.Database.Commit" /> method
             called before it is closed, otherwise no changes will be persisted.
