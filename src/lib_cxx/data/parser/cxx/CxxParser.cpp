@@ -107,14 +107,14 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 
 void CxxParser::initializeLLVM()
 {
-	static bool intialized = false;
-	if (!intialized)
+	static bool initialized = false;
+	if (!initialized)
 	{
 		llvm::InitializeAllTargets();
 		llvm::InitializeAllTargetMCs();
 		llvm::InitializeAllAsmPrinters();
 		llvm::InitializeAllAsmParsers();
-		intialized = true;
+		initialized = true;
 	}
 }
 
