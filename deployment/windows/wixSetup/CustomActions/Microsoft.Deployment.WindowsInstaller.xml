@@ -3340,7 +3340,7 @@
         </member>
         <member name="P:Microsoft.Deployment.WindowsInstaller.MergeException.Message">
             <summary>
-            Gets a message that describes the merge conflits.
+            Gets a message that describes the merge conflicts.
             </summary>
         </member>
         <member name="M:Microsoft.Deployment.WindowsInstaller.MergeException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
