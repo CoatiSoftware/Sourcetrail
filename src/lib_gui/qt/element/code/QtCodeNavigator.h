@@ -133,7 +133,7 @@ private:
 
 	QtThreadedLambdaFunctor m_onQtThread;
 
-	QtCodeNavigateable* m_current;
+	QtCodeNavigable* m_current;
 	QtCodeFileList* m_list;
 	QtCodeFileSingle* m_single;
 

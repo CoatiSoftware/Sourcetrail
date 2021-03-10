@@ -1,5 +1,5 @@
-#ifndef QT_CODE_NAVIGATEABLE_H
-#define QT_CODE_NAVIGATEABLE_H
+#ifndef QT_CODE_NAVIGABLE_H
+#define QT_CODE_NAVIGABLE_H
 
 #include <set>
 
@@ -15,10 +15,10 @@ class QRect;
 class QtCodeArea;
 class QWidget;
 
-class QtCodeNavigateable
+class QtCodeNavigable
 {
 public:
-	virtual ~QtCodeNavigateable();
+	virtual ~QtCodeNavigable();
 
 	virtual QAbstractScrollArea* getScrollArea() = 0;
 
@@ -59,4 +59,4 @@ protected:
 	QRect getFocusRectForWidget(const QWidget* childWidget, const QWidget* parentWidget) const;
 };
 
-#endif	  // QT_CODE_NAVIGATEABLE_H
+#endif	  // QT_CODE_NAVIGABLE_H

@@ -37,8 +37,8 @@ add_files(
 	qt/element/code/QtCodeFileTitleBar.h
 	qt/element/code/QtCodeFileTitleButton.cpp
 	qt/element/code/QtCodeFileTitleButton.h
-	qt/element/code/QtCodeNavigateable.cpp
-	qt/element/code/QtCodeNavigateable.h
+	qt/element/code/QtCodeNavigable.cpp
+	qt/element/code/QtCodeNavigable.h
 	qt/element/code/QtCodeNavigator.cpp
 	qt/element/code/QtCodeNavigator.h
 	qt/element/code/QtCodeSnippet.cpp
