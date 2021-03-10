@@ -776,7 +776,7 @@
             <summary>Detects the range of versions including the value in VersionMin.</summary>
         </member>
         <member name="F:Microsoft.Deployment.WindowsInstaller.UpgradeAttributes.VersionMaxInclusive">
-            <summary>Dectects the range of versions including the value in VersionMax.</summary>
+            <summary>Detects the range of versions including the value in VersionMax.</summary>
         </member>
         <member name="F:Microsoft.Deployment.WindowsInstaller.UpgradeAttributes.LanguagesExclusive">
             <summary>Detects all languages, excluding the languages listed in the Language column.</summary>
