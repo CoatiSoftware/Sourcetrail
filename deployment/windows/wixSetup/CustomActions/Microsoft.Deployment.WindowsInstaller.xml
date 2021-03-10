@@ -3846,7 +3846,7 @@
             <summary>
             Determines which patches apply to a specified product and in what sequence.  If
             the product is installed, this method accounts for patches that have already been applied to
-            the product and accounts for obsolete and superceded patches.
+            the product and accounts for obsolete and superseded patches.
             </summary>
             <param name="product">The product that is the target for the set of patches.  This may be
             either a ProductCode (GUID) of a product that is currently installed, or the path to a an
