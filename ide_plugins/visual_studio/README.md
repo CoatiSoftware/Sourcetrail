@@ -1,6 +1,6 @@
 #vs-sourcetrail
 
-The Visual Studio extension source code is hosted at Github.
+The Visual Studio extension source code is hosted at GitHub.
 
 The extension is available in the Visual Studio Marketplace. To install this extension follow these steps:
 * open Visual Studio
