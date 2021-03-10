@@ -7,7 +7,7 @@
 
 //------------------------------------------------------------------------------
 //
-// ANYTING ELSE I SHOULD KNOW?
+// ANYTHING ELSE I SHOULD KNOW?
 //  I'm glad that you asked. Take a look at the code below. You will notice two
 //  different highlights when hovering different symbols in that snippet. One 
 //  is used for symbols that may be used everywhere throughout your code base 
