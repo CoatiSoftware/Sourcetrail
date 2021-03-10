@@ -1438,7 +1438,7 @@
         </member>
         <member name="M:Microsoft.Deployment.WindowsInstaller.CustomActionProxy.MethodHasCustomActionSignature(System.Reflection.MethodInfo)">
             <summary>
-            Checks if a method has the right return and paramater types
+            Checks if a method has the right return and parameter types
             for a custom action, and that it is marked by a CustomActionAttribute.
             </summary>
             <param name="method">Method to be checked.</param>
@@ -3471,7 +3471,7 @@
             </summary>
             <param name="logModes">One or more mode flags specifying the type of messages to log</param>
             <param name="logFile">Full path to the log file.  A null path disables logging,
-            in which case the logModes paraneter is ignored.</param>
+            in which case the logModes parameter is ignored.</param>
             <exception cref="T:System.ArgumentException">an invalid log mode was specified</exception>
             <remarks>This method takes effect on any new installation processes.  Calling this
             method from within a custom action will not start logging for that installation.</remarks>
@@ -3483,7 +3483,7 @@
             </summary>
             <param name="logModes">One or more mode flags specifying the type of messages to log</param>
             <param name="logFile">Full path to the log file.  A null path disables logging,
-            in which case the logModes paraneter is ignored.</param>
+            in which case the logModes parameter is ignored.</param>
             <param name="append">If true, the log lines will be appended to any existing file content.
             If false, the log file will be truncated if it exists.  The default is false.</param>
             <param name="flushEveryLine">If true, the log will be flushed after every line.
@@ -4267,7 +4267,7 @@
             <a href="http://msdn.microsoft.com/library/en-us/msi/setup/msigetfeatureinfo.asp">MsiGetFeatureInfo</a>,
             <a href="http://msdn.microsoft.com/library/en-us/msi/setup/msisetfeatureattributes.asp">MsiSetFeatureAttributes</a>
             </p><p>
-            Since the lpAttributes paramter of
+            Since the lpAttributes parameter of
             <a href="http://msdn.microsoft.com/library/en-us/msi/setup/msigetfeatureinfo.asp">MsiGetFeatureInfo</a>
             does not contain an equivalent flag for <see cref="F:Microsoft.Deployment.WindowsInstaller.FeatureAttributes.UIDisallowAbsent"/>, this flag will
             not be retrieved.
