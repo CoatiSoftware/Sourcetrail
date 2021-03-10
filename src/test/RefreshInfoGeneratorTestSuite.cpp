@@ -343,7 +343,7 @@ TEST_CASE("refresh info for updated files is empty for empty storage and empty s
 //	file may be a source file							sourcefile / headerfile
 //	file may now be indexed by the source group			nottoindex / toindex
 //
-// We now wite a TEST_CASE that checks for the expected result for every possible combination.
+// We now write a TEST_CASE that checks for the expected result for every possible combination.
 //	Example: test_unknown_unchanged_sourcefile_that_is_nottoindex
 namespace
 {
