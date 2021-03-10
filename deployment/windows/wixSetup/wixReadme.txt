@@ -89,7 +89,7 @@ Version Number
 		-candle.exe -dprojectVersion="0.7.0" ...
 		-replace 0.7.0 with the desired version number
 
-Minor upgrage (sourcetrail.wxs)
+Minor upgrade (sourcetrail.wxs)
 	-for when only a few files are to be updated
 	-update the version number in build.bat script
 	-do NOT change the product GUID
