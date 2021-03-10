@@ -90,7 +90,7 @@ void CommandlineCommandConfig::setup()
 		"logging-enabled,l", po::value<bool>(), "Enable file/console logging <true/false>")(
 		"verbose-indexer-logging-enabled,L",
 		po::value<bool>(),
-		"Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG "
+		"Enable additional log of abstract syntax tree during the indexing. <true/false> WARNING "
 		"Slows down "
 		"indexing speed")(
 		"jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")(
