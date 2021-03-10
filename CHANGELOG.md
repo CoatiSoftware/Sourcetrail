@@ -1004,7 +1004,7 @@ released 2016-06-15
 * Added link to download page to start screen to remind users of updating once in a while
 * Check if compilation database still exists before refreshing
 * Added separate step for defining project name, project location and compilation database to project setup
-* Explain that the project stays up-to-date with the compilation databes on refresh in project setup UI
+* Explain that the project stays up-to-date with the compilation database on refresh in project setup UI
 * Disregard source extensions when loading from compilation database
 * Removed error logs in name resolver
 * Added plugin for VIM: https://github.com/CoatiSoftware/vim-coati
