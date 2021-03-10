@@ -16,7 +16,7 @@
 #include "utility.h"
 #include "utilityString.h"
 
-const std::wstring BookmarkController::s_edgeSeperatorToken = L" => ";
+const std::wstring BookmarkController::s_edgeSeparatorToken = L" => ";
 const std::wstring BookmarkController::s_defaultCategoryName = L"default";
 
 BookmarkController::BookmarkController(StorageAccess* storageAccess)
@@ -509,7 +509,7 @@ std::vector<std::wstring> BookmarkController::getActiveEdgeDisplayNames() const
 		const StorageEdge activeEdge = m_storageAccess->getEdgeById(activeEdgeId);
 		const std::wstring sourceDisplayName = getNodeDisplayName(activeEdge.sourceNodeId);
 		const std::wstring targetDisplayName = getNodeDisplayName(activeEdge.targetNodeId);
-		activeEdgeDisplayNames.push_back(sourceDisplayName + s_edgeSeperatorToken + targetDisplayName);
+		activeEdgeDisplayNames.push_back(sourceDisplayName + s_edgeSeparatorToken + targetDisplayName);
 	}
 	return activeEdgeDisplayNames;
 }

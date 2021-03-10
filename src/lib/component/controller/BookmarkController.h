@@ -120,7 +120,7 @@ private:
 
 	void update();
 
-	static const std::wstring s_edgeSeperatorToken;
+	static const std::wstring s_edgeSeparatorToken;
 	static const std::wstring s_defaultCategoryName;
 
 	StorageAccess* m_storageAccess;
