@@ -251,7 +251,7 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		QStringLiteral(
 			"<p>Enable additional logs of abstract syntax tree traversal during indexing. This "
 			"information can help "
-			"tracking down crashes that occurr during indexing.</p>"
+			"tracking down crashes that occur during indexing.</p>"
 			"<p><b>Warning</b>: This slows down indexing performance a lot.</p>"),
 		layout,
 		row);
