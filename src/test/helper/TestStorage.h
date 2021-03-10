@@ -37,9 +37,9 @@ public:
 		}
 
 		std::multimap<Id, Id> occurrenceMap;
-		for (const StorageOccurrence& occurence: storage->getStorageOccurrences())
+		for (const StorageOccurrence& occurrence: storage->getStorageOccurrences())
 		{
-			occurrenceMap.emplace(occurence.sourceLocationId, occurence.elementId);
+			occurrenceMap.emplace(occurrence.sourceLocationId, occurrence.elementId);
 		}
 
 		std::multimap<Id, StorageSourceLocation> tokenLocationMap;

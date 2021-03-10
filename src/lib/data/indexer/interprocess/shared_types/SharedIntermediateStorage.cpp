@@ -167,11 +167,11 @@ std::set<StorageOccurrence> SharedIntermediateStorage::getStorageOccurrences() c
 	return result;
 }
 
-void SharedIntermediateStorage::setStorageOccurrences(const std::set<StorageOccurrence>& storageOccurences)
+void SharedIntermediateStorage::setStorageOccurrences(const std::set<StorageOccurrence>& storageOccurrences)
 {
 	m_storageOccurrences.clear();
 
-	for (const StorageOccurrence& occurrence: storageOccurences)
+	for (const StorageOccurrence& occurrence: storageOccurrences)
 	{
 		m_storageOccurrences.push_back(toShared(occurrence, m_allocator));
 	}

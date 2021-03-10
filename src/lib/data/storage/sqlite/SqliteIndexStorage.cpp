@@ -395,7 +395,7 @@ bool SqliteIndexStorage::addOccurrence(const StorageOccurrence& data)
 
 bool SqliteIndexStorage::addOccurrences(const std::vector<StorageOccurrence>& occurrences)
 {
-	return m_insertOccurenceBatchStatement.execute(occurrences, this);
+	return m_insertOccurrenceBatchStatement.execute(occurrences, this);
 }
 
 bool SqliteIndexStorage::addComponentAccess(const StorageComponentAccess& componentAccess)
@@ -1404,7 +1404,7 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 				stmt.bind(int(index) * 6 + 6, int(location.type));
 			},
 			m_database);
-		m_insertOccurenceBatchStatement.compile(
+		m_insertOccurrenceBatchStatement.compile(
 			"INSERT OR IGNORE INTO occurrence(element_id, source_location_id) VALUES",
 			2,
 			[](CppSQLite3Statement& stmt, const StorageOccurrence& occurrence, size_t index) {

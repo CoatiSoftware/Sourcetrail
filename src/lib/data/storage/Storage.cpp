@@ -193,12 +193,12 @@ void Storage::inject(Storage* injected)
 	{
 		// TRACE("inject occurrences");
 
-		const std::set<StorageOccurrence>& oldOccurences = injected->getStorageOccurrences();
+		const std::set<StorageOccurrence>& oldOccurrences = injected->getStorageOccurrences();
 
 		std::vector<StorageOccurrence> occurrences;
-		occurrences.reserve(oldOccurences.size());
+		occurrences.reserve(oldOccurrences.size());
 
-		for (const StorageOccurrence& occurrence: oldOccurences)
+		for (const StorageOccurrence& occurrence: oldOccurrences)
 		{
 			Id elementId = 0;
 			Id sourceLocationId = 0;
