@@ -787,7 +787,7 @@ released 2017-03-01
 * Code: Added single file view mode
 * Code: Added navigation bar with mode toggle and buttons to navigate references
 * Graph: Removed underscores in edge hover names
-* Infere some non-indexed node types by their edges
+* Infer some non-indexed node types by their edges
 
 
 #### 0.10.0
