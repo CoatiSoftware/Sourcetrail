@@ -218,7 +218,7 @@ uint b = 12; // <- ACTION 1: hover uint
 // TEST: horizontal panning
 // START ----------------------------------------------------------------------
 
-void very_long_function_name_with_three_parameters_that_is_so_long_it_doesnt_fit_on_the_screen(const std::vector<std::string>& strings, size_t number, bool flag);
+void very_long_function_name_with_three_parameters_that_is_so_long_it_does_not_fit_on_the_screen(const std::vector<std::string>& strings, size_t number, bool flag);
 
 // ACTION 1: Hold SHIFT and drag code left and right
 
