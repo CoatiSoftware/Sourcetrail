@@ -571,7 +571,7 @@ TEST_CASE("nonindexed changed headerfile that is nottoindex")
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, CHANGED, HEADER_FILE, NOT_TO_INDEX);
 	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
-	;	 // must be cleard here and will be re-indexed on demand
+	;	 // must be cleared here and will be re-indexed on demand
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
 }

@@ -5328,7 +5328,7 @@
             </summary>
             <remarks><p>
             Win32 MSI API:
-            <a href="http://msdn.microsoft.com/library/en-us/msi/setup/msirecordcleardata.asp">MsiRecordClearData</a>
+            <a href="http://msdn.microsoft.com/library/en-us/msi/setup/msirecordclearedata.asp">MsiRecordClearData</a>
             </p></remarks>
         </member>
         <member name="M:Microsoft.Deployment.WindowsInstaller.Record.IsNull(System.Int32)">
