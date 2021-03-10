@@ -1293,7 +1293,7 @@ void SqliteIndexStorage::setupTables()
 
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS filecontent("
-			"id INTERGER, "
+			"id INTEGER, "
 			"content TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES file(id)"
