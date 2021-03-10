@@ -44,7 +44,7 @@ Add new components (e.g. files) to the installation
 General
 	-to add a file create a <Component> element
 		-mind the <Directory> tags, they define where the component will be installed. Add new directories if necessary
-			-Id: the directory will be refered to within the wix project using this id
+			-Id: the directory will be referred to within the wix project using this id
 			-Name: the name of the folder that will be created on the user machine
 		-Id: is used to refer to the component within the wix project
 		-Guid: GUIDs are unique id's used by windows to identify and refer to installed files, applications and so on. You need to create a new GUID for every new component
