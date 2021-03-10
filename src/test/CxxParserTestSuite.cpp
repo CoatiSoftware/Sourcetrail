@@ -4192,8 +4192,8 @@ TEST_CASE("cxx parser finds correct error location after line directive")
 TEST_CASE("cxx parser catches error in macro expansion")
 {
 	std::shared_ptr<TestStorage> client = parseCode(
-		"#define MACRO_WITH_NONEXISTING_PATH \"this_path_does_not_exist.txt\"\n"
-		"#include MACRO_WITH_NONEXISTING_PATH\n");
+		"#define MACRO_WITH_NONEXISTENT_PATH \"this_path_does_not_exist.txt\"\n"
+		"#include MACRO_WITH_NONEXISTENT_PATH\n");
 
 	REQUIRE(utility::containsElement<std::wstring>(
 		client->errors, L"'this_path_does_not_exist.txt' file not found <2:10 2:10>"));

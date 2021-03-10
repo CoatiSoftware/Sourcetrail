@@ -195,7 +195,7 @@ TEST_CASE("file_path_differs_for_different_existing_files")
 	REQUIRE(pathA != pathB);
 }
 
-TEST_CASE("file_path_differs_for_different_nonexisting_files")
+TEST_CASE("file_path_differs_for_different_nonexistent_files")
 {
 	const FilePath pathA(L"data/FilePathTestSuite/a.h");
 	const FilePath pathB(L"data/FilePathTestSuite/b.c");
@@ -203,7 +203,7 @@ TEST_CASE("file_path_differs_for_different_nonexisting_files")
 	REQUIRE(pathA != pathB);
 }
 
-TEST_CASE("file_path_differs_for_existing_and_nonexisting_files")
+TEST_CASE("file_path_differs_for_existing_and_nonexistent_files")
 {
 	const FilePath pathA(L"data/FilePathTestSuite/a.h");
 	const FilePath pathB(L"data/FilePathTestSuite/b.cc");
