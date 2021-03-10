@@ -6,7 +6,7 @@
 #include "LogManager.h"
 
 /**
- * @brief Makros to simplify usage of the log manager
+ * @brief Macros to simplify usage of the log manager
  */
 #define LOG_INFO(__str__)                                                                          \
 	do                                                                                             \
