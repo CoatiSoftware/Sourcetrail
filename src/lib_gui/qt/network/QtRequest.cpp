@@ -40,7 +40,7 @@ void QtRequest::finished(QNetworkReply* reply)
 
 	if (reply->error() != QNetworkReply::NoError)
 	{
-		LOG_ERROR_STREAM(<< "An error occured during http request. ERRORCODE: " << reply->error());
+		LOG_ERROR_STREAM(<< "An error occurred during http request. ERRORCODE: " << reply->error());
 	}
 
 	QByteArray bytes = reply->readAll();
