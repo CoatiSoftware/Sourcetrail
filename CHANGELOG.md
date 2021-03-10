@@ -477,7 +477,7 @@ released 2018-01-30
 * Group include validation results by file and add line breaks for readability
 * Fixed location pickers used system root directory when empty
 * Graph: Add "bidirectional" to tooltip of bidirectional aggregation edges
-* Linux: Don't explicitely open terminal when running on Linux (issue [#525](https://github.com/CoatiSoftware/Sourcetrail/issues/525))
+* Linux: Don't explicitly open terminal when running on Linux (issue [#525](https://github.com/CoatiSoftware/Sourcetrail/issues/525))
 * Fixed files and directories dialog to offer selection of files (issue [#521](https://github.com/CoatiSoftware/Sourcetrail/issues/521))
 * C++: Fixed cases where references to members were recorded as usage instead of call
 * Fixed crash when Start Screen is closed while checking for update
