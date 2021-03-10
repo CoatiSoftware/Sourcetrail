@@ -2942,7 +2942,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">File Logging</th> <td>Enable log output for the plugin. Additionally to the output file, log messages will also be displayed in VS' </td> </tr>
-							<tr> <th Id="vsPluginOptionObfuscation" scope="row">Log Obfuscation</th> <td>Obfuscate project names and file names as well as directories in the log output. Note that already logged data <b>will not be obfuscated retroactively</b>. A dictionary, mapping obfuscated names to original names, will be created in a seperate file.</td> </tr>
+							<tr> <th Id="vsPluginOptionObfuscation" scope="row">Log Obfuscation</th> <td>Obfuscate project names and file names as well as directories in the log output. Note that already logged data <b>will not be obfuscated retroactively</b>. A dictionary, mapping obfuscated names to original names, will be created in a separate file.</td> </tr>
 							<tr> <th scope="row">Sourcetrail Port</th> <td>The port on which Sourcetrail will receive messages. Note that this must match the port setting in Sourcetrail itself.</td> </tr>
 							<tr> <th scope="row">Thread Count</th> <td>The number of threads used during creation of the Compilation Database</td> </tr>
 							<tr> <th scope="row">VS Port</th> <td>The port on which Visual Studio will receive messages. Note that this must match the port setting in Sourcetrail itself.</td> </tr>
@@ -2980,7 +2980,7 @@
 
 					<h3>Message Structure</h3>
 
-					<p>The basic structure of the messages used by Sourcetrail plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are seperated by a 'divider' token.</p>
+					<p>The basic structure of the messages used by Sourcetrail plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are separated by a 'divider' token.</p>
 
 					<table class="table table-hover">
 						<thead>
@@ -2988,7 +2988,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">messageType</th> <th><a href="#MessageTypes">see below</a></th> <td>A string that determines how the message will be interpreted by Sourcetrail or the plugin</td> </tr>
-							<tr> <th scope="row">divider</th> <th><code>>></code></th> <td>Seperates the tokens of the message</td> </tr>
+							<tr> <th scope="row">divider</th> <th><code>>></code></th> <td>Separates the tokens of the message</td> </tr>
 							<tr> <th scope="row">parameter</th> <th><a href="#MessageTypes">see below</a></th> <td>Typically an integer or string</td> </tr>
 							<tr> <th scope="row">endOfMessage</th> <th><code>&lt;EOM&gt;</code></th> <td>Helps to determine the end of a message</td> </tr>
 						</tbody>
@@ -3027,7 +3027,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row"><code>setActiveToken</code></th> <th>fileLocation: string<br>row: integer<br>column: integer</th> <td>Tells Sourcetrail to shift focus to the token located at the given position. Note that fileLocation is the absolute path and name of the target file.</td> </tr>
-							<tr> <th scope="row"><code>createCDBProject</code></th> <th>cdbPath: string<br>headerPaths: string</th> <td>If your plugin can provide a Compilation Database this message can prompt Sourcetrail to import it and display an appropriate dialog for the user. headerPaths is a list of the base project's header include paths. Seperate the single paths using the divider token. You can add as many paths as you need.</td> </tr>
+							<tr> <th scope="row"><code>createCDBProject</code></th> <th>cdbPath: string<br>headerPaths: string</th> <td>If your plugin can provide a Compilation Database this message can prompt Sourcetrail to import it and display an appropriate dialog for the user. headerPaths is a list of the base project's header include paths. Separate the single paths using the divider token. You can add as many paths as you need.</td> </tr>
 							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Your plugin may send this message to Sourcetrail to tell it it's listening.</td> </tr>
 						</tbody>
 					</table>
