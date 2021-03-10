@@ -38,7 +38,7 @@ std::vector<std::string> appendFilePath(const std::vector<std::string>& args, ll
 	return utility::concat(args, {filePath.str()});
 }
 
-// custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
+// custom implementation of clang::runToolOnCodeWithArgs which also sets our custom DiagnosticConsumer
 bool runToolOnCodeWithArgs(
 	clang::DiagnosticConsumer* DiagConsumer,
 	std::unique_ptr<clang::FrontendAction> ToolAction,
