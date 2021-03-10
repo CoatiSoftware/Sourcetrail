@@ -6085,7 +6085,7 @@
             <item><description>The Select and Installed states for all features in the Feature table</description></item>
             <item><description>The Action state of each component in the Component table, based on the new level</description></item>
             </list>
-            If 0 or a negative number is passed in the ilnstallLevel parameter,
+            If 0 or a negative number is passed in the installLevel parameter,
             the current installation level does not change, but all features are still
             updated based on the current installation level.
             </p><p>
