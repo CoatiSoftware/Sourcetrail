@@ -554,7 +554,7 @@ released 2017-10-25
 * Code: Added indexing of qualifier source locations and allow symbol activation by clicking qualifiers
 * Linux: Enabled Qt highDPI scaling to fix UI issues on high resolution screens
 * Fixed handling of non-indexed files in Graph and Code
-* C/C++: Removed include check validataion for compilation database source groups
+* C/C++: Removed include check validation for compilation database source groups
 * Graph: Bundle nested anonymous namespaces into anonymous namespace bundle in namespace overview (issue [#465](https://github.com/CoatiSoftware/Sourcetrail/issues/465))
 * Search: Fixed vertical growth of search bar area when resizing window
 * Visual Studio plugin: Lots off fixes, see changelog (https://github.com/CoatiSoftware/vs-sourcetrail/blob/master/CHANGELOG.md)
