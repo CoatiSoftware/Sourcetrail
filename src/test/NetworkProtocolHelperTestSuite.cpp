@@ -8,7 +8,7 @@ TEST_CASE("parse message")
 {
 	std::wstring type = L"setActiveToken";
 	std::wstring divider = L">>";
-	std::wstring filePath = L"C:/Users/Manuel/imporant/file/location/fileName.cpp";
+	std::wstring filePath = L"C:/Users/Manuel/important/file/location/fileName.cpp";
 	std::wstring endOfMessageToken = L"<EOM>";
 	int row = 1;
 	int column = 2;
