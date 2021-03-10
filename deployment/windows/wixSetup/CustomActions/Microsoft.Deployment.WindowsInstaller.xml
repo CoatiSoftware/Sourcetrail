@@ -6200,7 +6200,7 @@
         </member>
         <member name="M:Microsoft.Deployment.WindowsInstaller.Session.ValidateSessionAccess">
             <summary>
-            Throws an exception if the custom action is not able to access immedate session details.
+            Throws an exception if the custom action is not able to access immediate session details.
             </summary>
         </member>
         <member name="T:Microsoft.Deployment.WindowsInstaller.ShortcutTarget">
