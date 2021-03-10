@@ -163,14 +163,14 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 * __JDK 1.8__
     * __Reason__: Used to build the Java indexer and make it callable from the C++ code via JNI.
-    * __Remarks__: Make sure that `<jdk_root>/bin` is available in your `PATH` environmen variable and that the `JAVA_HOME` environment variable is set:
+    * __Remarks__: Make sure that `<jdk_root>/bin` is available in your `PATH` environment variable and that the `JAVA_HOME` environment variable is set:
         ```
         JAVA_HOME=<path/to/Java>/jdk1.x.x_xxx
         ```
 
 * __Maven__
     * __REASON__: Used within Sourcetrail's automated tests.
-    * __Remarks__:  Make sure `.../apache-maven-x.x.x/bin` is available in your `PATH` environmen variable and that both `M2_HOME` and `MAVEN_HOME` environment variables are set:
+    * __Remarks__:  Make sure `.../apache-maven-x.x.x/bin` is available in your `PATH` environment variable and that both `M2_HOME` and `MAVEN_HOME` environment variables are set:
         ```
         M2_HOME=.../apache-maven-x.x.x
         MAVEN_HOME=.../apache-maven-x.x.x
