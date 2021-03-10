@@ -76,7 +76,7 @@ Not quite done yet! (sourcetrail.wxs)
 	-components need to be added to a feature (a feature is part of a software, consisting of components, that may or may not be installed during setup)
 		-right now we only have the Complete/Program feature, so no part of sourcetrail is optional right now
 	-to add a component to a feature use the <ComponentRef> tag
-		-Id: id of the component you want to refere to
+		-Id: id of the component you want to reference
 	
 
 ------------------
