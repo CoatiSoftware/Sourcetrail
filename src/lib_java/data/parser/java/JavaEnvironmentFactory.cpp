@@ -79,7 +79,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 	{
 		if (rc == JNI_EVERSION)
 		{
-			errorString = "JVM is oudated and doesn't meet requirements";
+			errorString = "JVM is outdated and doesn't meet requirements";
 		}
 		else if (rc == JNI_ENOMEM)
 		{
