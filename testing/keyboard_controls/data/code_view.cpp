@@ -110,7 +110,7 @@ int cube(int a)
 // ACTION: Hold Shift and navigate with keyboard
 // RESULTS:
 // - focus is moved between the active locations of 'square'
-// - focus is moved between the active local locations of 'r' inbetween
+// - focus is moved between the active local locations of 'r'
 
 // END ------------------------------------------------------------------------
 
