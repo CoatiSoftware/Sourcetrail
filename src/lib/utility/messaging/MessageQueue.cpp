@@ -243,7 +243,7 @@ void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
 {
 	std::lock_guard<std::mutex> lock(m_listenersMutex);
 
-	// m_listenersLength is saved, so that new listeners registered whithin message handling don't
+	// m_listenersLength is saved, so that new listeners registered within message handling don't
 	// get the current message and the length can be reduced when a listener gets unregistered.
 	m_listenersLength = m_listeners.size();
 
