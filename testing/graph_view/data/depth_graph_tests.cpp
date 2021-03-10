@@ -214,7 +214,7 @@ void func5() { func1(); func2(); func3(); func4(); func5(); }
 
 #include "depth_files/level_5_file_1.h" // <- ACTION 1: activate
 
-// ACTION 2: show includee graph '<'
+// ACTION 2: show included graph '<'
 // RESULT 2: horizontal layout with bezier curve edges
 
 #include "depth_files/level_1_file_1.h" // <- ACTION 3: activate
