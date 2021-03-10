@@ -68,7 +68,7 @@ function run_tests {
 	cd $ROOTDIR
 }
 
-# testing before commiting to a publish branch
+# testing before committing to a publish branch
 if [[ ${BRANCH_NAME:0:9} == "_publish_"  ]]
 then
 	echo Try to publish
@@ -87,7 +87,7 @@ fi
 
 if [ $BRANCH_NAME == "master" ]
 then
-	echo -e $ABORT "Commiting to master is prohibited."
+	echo -e $ABORT "Committing to master is prohibited."
 	exit 1
 fi
 
