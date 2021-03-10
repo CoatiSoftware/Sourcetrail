@@ -100,7 +100,7 @@ void QtHighlighter::loadHighlightingRules()
 		if (doc.isNull() || !doc.isArray())
 		{
 			LOG_ERROR_STREAM(
-				<< "Highlinghting rules in \"" << path.str()
+				<< "Highlighting rules in \"" << path.str()
 				<< "\" couldn't be parsed as JSON: "
 				   "offset "
 				<< error.offset << " - " << error.errorString().toStdString());
