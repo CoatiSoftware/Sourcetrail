@@ -41,7 +41,7 @@ Add new components (e.g. files) to the installation
 		-... 
 
 		
-Generel
+General
 	-to add a file create a <Component> element
 		-mind the <Directory> tags, they define where the component will be installed. Add new directories if necessary
 			-Id: the directory will be refered to within the wix project using this id
