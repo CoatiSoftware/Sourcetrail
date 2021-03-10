@@ -2151,7 +2151,7 @@ void GraphController::layoutToGrid(DummyNode* node) const
 		return;
 	}
 
-	// Increase size of nodes with visible chilren to cover full grid cells
+	// Increase size of nodes with visible children to cover full grid cells
 
 	size_t width = GraphViewStyle::toGridSize(node->size.x);
 	size_t height = GraphViewStyle::toGridSize(node->size.y);
