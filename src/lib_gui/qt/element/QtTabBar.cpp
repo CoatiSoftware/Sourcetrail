@@ -34,7 +34,7 @@ void QtTabBar::contextMenuEvent(QContextMenuEvent* event)
 	menu.addAction(m_closeTabsToRight);
 
 	connect(m_closeTabsToRight, &QAction::triggered, this, [&]() {
-		// We dont want to close tabs right of the current active tab.
+		// We don't want to close tabs right of the current active tab.
 		// No, our intend is to close tabs right of the currently hovered tab.
 		auto tabNum = tabAt(event->pos());
 		LOG_INFO(

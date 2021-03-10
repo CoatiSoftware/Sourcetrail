@@ -824,7 +824,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 	viewport()->setCursor(Qt::ArrowCursor);
 
 	const int panningThreshold = 5;
-	if (m_panningDistance < panningThreshold)	 // dont do anything if mouse is release to end
+	if (m_panningDistance < panningThreshold)	 // don't do anything if mouse is release to end
 												 // some real panning action.
 	{
 		if (Qt::KeyboardModifier::ControlModifier & QApplication::keyboardModifiers())

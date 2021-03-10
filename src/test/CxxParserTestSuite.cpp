@@ -844,7 +844,7 @@ TEST_CASE("cxx parser finds template argument of dependent non type template par
 
 //	TS_ASSERT(utility::containsElement<std::wstring>(
 //		client->typeUses, // TODO: record edge between vector<int, Alloc<int>> and Alloc<int> (this
-// is an issue because we dont have any typeloc for this edge -.-
+// is an issue because we don't have any typeloc for this edge -.-
 //	));
 //}
 
