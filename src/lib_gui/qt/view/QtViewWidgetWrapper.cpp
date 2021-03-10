@@ -15,7 +15,7 @@ QWidget* QtViewWidgetWrapper::getWidgetOfView(const View* view)
 
 	if (!widgetWrapper->getWidget())
 	{
-		LOG_ERROR("The QtViewWidgetWrapper is not holdling a QWidget.");
+		LOG_ERROR("The QtViewWidgetWrapper is not holding a QWidget.");
 		return nullptr;
 	}
 
