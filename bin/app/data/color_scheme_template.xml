@@ -171,7 +171,7 @@
 				</hatching>
 			</default>
 
-			<!-- OPTIONAL: type specific node colors can be overriden by using the TEMPLATE within a type tag below -->
+			<!-- OPTIONAL: type specific node colors can be overridden by using the TEMPLATE within a type tag below -->
 			<type></type>
 			<builtin_type></builtin_type>
 			<class></class>
@@ -211,7 +211,7 @@
 				<focus></focus> <!-- If not defined, the normal tag is used  -->
 			</default>
 
-			<!-- OPTIONAL: type specific edge colors can be overriden by using the TEMPLATE within a type tag below -->
+			<!-- OPTIONAL: type specific edge colors can be overridden by using the TEMPLATE within a type tag below -->
 			<type_of></type_of>
 			<return_type></return_type>
 			<parameter_type></parameter_type>

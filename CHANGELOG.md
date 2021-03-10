@@ -292,7 +292,7 @@ released 2018-08-31
 * Windows: Fixed policy for finding Windows user data folder (issue [#612](https://github.com/CoatiSoftware/Sourcetrail/issues/612))
 * C/C++: Fixed recording of multiple cxx anonymous namespaces within the same file
 * C/C++: Fixed files within indexed directories always refreshed in empty C/C++ source groups
-* Code: Don't show list of overriden methods when clicking overriding method
+* Code: Don't show list of overridden methods when clicking overriding method
 * Code: Fixed local reference navigation not shown for edges when file content was not cached
 * Fixed crash related to update check when app was opened with a project
 * Tooltip: Fixed repeated signature name qualification and line breaks

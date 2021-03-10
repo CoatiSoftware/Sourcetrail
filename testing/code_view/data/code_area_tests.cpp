@@ -119,7 +119,7 @@ Sample s;
 
 
 
-// TEST: clicking on overriden method activates it immediately
+// TEST: clicking on overridden method activates it immediately
 // START ----------------------------------------------------------------------
 class Base
 {
