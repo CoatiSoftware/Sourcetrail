@@ -101,4 +101,4 @@ Major upgrade (sourcetrail.wxs)
 	-update the version number in build.bat script
 	-DO change the product GUID
 	-insert the same GUID into the uninstall_wix.bat script
-	-package GUID changes too, but thats again done automatically
+	-package GUID changes too, but that's again done automatically
