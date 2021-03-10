@@ -166,7 +166,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 				selectedLanguage = LanguageType(languageTypeInt);
 			}
 
-			bool hasRecommeded = false;
+			bool hasRecommended = false;
 			for (auto& it: m_buttons)
 			{
 				it.second->setExclusive(false);
@@ -177,7 +177,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 
 					if (it.first == selectedLanguage)
 					{
-						hasRecommeded = hasRecommeded | button->property("recommended").toBool();
+						hasRecommended = hasRecommended | button->property("recommended").toBool();
 					}
 				}
 				it.second->setExclusive(true);
@@ -187,7 +187,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row)
 			m_title->setText("Source Group Types - " + m_languages->checkedButton()->text());
 
 			m_description->setText(
-				hasRecommeded ? QStringLiteral("<b>* recommended</b>") : QLatin1String(""));
+				hasRecommended ? QStringLiteral("<b>* recommended</b>") : QLatin1String(""));
 		});
 
 	QtFlowLayout* flayout = new QtFlowLayout(10, 0, 0);
