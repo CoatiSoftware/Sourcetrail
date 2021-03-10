@@ -1,5 +1,5 @@
-#ifndef QT_COREAPPLICTION_H
-#define QT_COREAPPLICTION_H
+#ifndef QT_COREAPPLICATION_H
+#define QT_COREAPPLICATION_H
 
 #include <QCoreApplication>
 
