@@ -2132,11 +2132,11 @@ std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
 std::vector<BookmarkCategory> PersistentStorage::getAllBookmarkCategories() const
 {
 	std::vector<BookmarkCategory> categories;
-	for (const StorageBookmarkCategory& storageBookmarkCategoriy:
+	for (const StorageBookmarkCategory& storageBookmarkCategory:
 		 m_sqliteBookmarkStorage.getAllBookmarkCategories())
 	{
 		categories.push_back(
-			BookmarkCategory(storageBookmarkCategoriy.id, storageBookmarkCategoriy.name));
+			BookmarkCategory(storageBookmarkCategory.id, storageBookmarkCategory.name));
 	}
 	return categories;
 }
