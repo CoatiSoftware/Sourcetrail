@@ -4824,7 +4824,7 @@
         </member>
         <member name="P:Microsoft.Deployment.WindowsInstaller.PatchInstallation.IsObsoleted">
             <summary>
-            Gets a value indicating whether this patch is marked as obsolte.
+            Gets a value indicating whether this patch is marked as obsolete.
             </summary>
         </member>
         <member name="P:Microsoft.Deployment.WindowsInstaller.PatchInstallation.IsSuperseded">
