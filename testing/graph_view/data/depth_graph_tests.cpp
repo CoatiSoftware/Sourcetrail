@@ -90,7 +90,7 @@ void level_0_func1()
 // - horizontal layout using bezier curve edges
 // - nodes from level 0 to 4 displayed
 // - layout contains override edge shown horizontally
-// - layout contains eplicit template class (dead end)
+// - layout contains explicit template class (dead end)
 // - layout contains implicit template class
 
 // END ------------------------------------------------------------------------
