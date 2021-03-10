@@ -2785,7 +2785,7 @@ TEST_CASE(
 
 TEST_CASE(
 	"cxx parser finds type template argument in non default constructor of explicit template "
-	"instaitiation")
+	"instantiation")
 {
 	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
@@ -2808,7 +2808,7 @@ TEST_CASE(
 
 TEST_CASE(
 	"cxx parser finds type template argument in default constructor of explicit template "
-	"instaitiation")
+	"instantiation")
 {
 	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
@@ -2830,7 +2830,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-	"cxx parser finds type template argument in new expression of explicit template instaitiation")
+	"cxx parser finds type template argument in new expression of explicit template instantiation")
 {
 	std::shared_ptr<TestStorage> client = parseCode(
 		"template <typename T>\n"
