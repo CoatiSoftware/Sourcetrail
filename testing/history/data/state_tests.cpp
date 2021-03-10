@@ -133,7 +133,7 @@
 // ACTION 2: Search for 'io::stringOut()'
 // ACTION 3: Minimize 2nd and 3rd snippet
 // ACTION 4: Expand last snippet
-// ACTION 5: Scroll to recognizeable position
+// ACTION 5: Scroll to recognizable position
 // ACTION 6: Activate other symbol
 
 // ACTION 7: go back
@@ -165,7 +165,7 @@
 
 // ACTION 1: Switch to code single file mode
 // ACTION 2: Search for 'Field::SameInRow()'
-// ACTION 3: Scroll to recognizeable position
+// ACTION 3: Scroll to recognizable position
 // ACTION 4; Activate other symbol
 
 // ACTION 5: go back
