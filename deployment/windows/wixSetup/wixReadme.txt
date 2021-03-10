@@ -10,7 +10,7 @@ Build the installer
 		-I used stable version 3.10.3 for development
 		-make sure the WiX directory is in you OS path variable ('..\WiX Toolset v3.10\bin')
 	-Sourcetrail has to be built with the 'deploy' flag
-		-installer would still build if the deploy flag wasnt set, but the Sourcetrail wont run properly on a user machine
+		-installer would still build if the deploy flag wasn't set, but the Sourcetrail wont run properly on a user machine
 
 -Execute build.bat
 	-This will build sourcetrail.msi file, all needed custom action dlls and the setup.exe file
