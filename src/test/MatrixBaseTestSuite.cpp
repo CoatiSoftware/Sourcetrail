@@ -8,7 +8,7 @@ namespace
  * C++ functions can't return statically allocated arrays.
  * I don't want to use dynamically allocated arrays, so here's my work around for that...
  *
- * Update: acutally they can... see MatrixBase [] operator (in MatrixBase.cpp)
+ * Update: actually they can... see MatrixBase [] operator (in MatrixBase.cpp)
  */
 template <class T>
 struct Array3x5
