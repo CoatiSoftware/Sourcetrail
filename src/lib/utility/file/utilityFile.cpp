@@ -94,12 +94,12 @@ FilePath utility::getExpandedPath(const FilePath& path)
 
 std::vector<FilePath> utility::getExpandedPaths(const std::vector<FilePath>& paths)
 {
-	std::vector<FilePath> expanedPaths;
+	std::vector<FilePath> expandedPaths;
 	for (const FilePath& path: paths)
 	{
-		utility::append(expanedPaths, path.expandEnvironmentVariables());
+		utility::append(expandedPaths, path.expandEnvironmentVariables());
 	}
-	return expanedPaths;
+	return expandedPaths;
 }
 
 FilePath utility::getExpandedAndAbsolutePath(const FilePath& path, const FilePath& baseDirectory)
