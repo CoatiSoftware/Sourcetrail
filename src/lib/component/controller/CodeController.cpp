@@ -1333,7 +1333,7 @@ CodeFileParams* CodeController::addSourceLocations(std::shared_ptr<SourceLocatio
 			{
 				return nullptr;
 			}
-			else if (oldSnippet.startLineNumber < start || oldSnippet.endLineNumber > end)	  // overlaping
+			else if (oldSnippet.startLineNumber < start || oldSnippet.endLineNumber > end)	  // overlapping
 			{
 				newSnippet = CodeSnippetParams::merge(newSnippet, oldSnippet);
 			}

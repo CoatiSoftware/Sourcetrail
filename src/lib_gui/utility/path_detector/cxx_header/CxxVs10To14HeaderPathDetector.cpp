@@ -98,7 +98,7 @@ FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 	FilePath path(value.toStdWString());
 	if (path.exists())
 	{
-		LOG_INFO(L"Found working regestry key for VS install path: " + key.toStdWString());
+		LOG_INFO(L"Found working registry key for VS install path: " + key.toStdWString());
 		return path;
 	}
 

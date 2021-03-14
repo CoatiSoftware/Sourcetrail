@@ -102,7 +102,7 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 	const std::set<FilePath> staticReferencedFilePaths = storage->getReferenced(staticSourceFiles);
 	const std::set<FilePath> dynamicReferencedFilePaths = storage->getReferenced(filesToClear);
 
-	// 2.3.3) Add "dynamicReferencedFilePaths" to "filesToClear" that are not refenced by static
+	// 2.3.3) Add "dynamicReferencedFilePaths" to "filesToClear" that are not referenced by static
 	// paths, because these files may not be
 	//        referenced anymore. If they still are, they will be re-added when encountered during
 	//        re-indexing.

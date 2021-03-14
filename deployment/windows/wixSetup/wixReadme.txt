@@ -10,7 +10,7 @@ Build the installer
 		-I used stable version 3.10.3 for development
 		-make sure the WiX directory is in you OS path variable ('..\WiX Toolset v3.10\bin')
 	-Sourcetrail has to be built with the 'deploy' flag
-		-installer would still build if the deploy flag wasnt set, but the Sourcetrail wont run properly on a user machine
+		-installer would still build if the deploy flag wasn't set, but the Sourcetrail wont run properly on a user machine
 
 -Execute build.bat
 	-This will build sourcetrail.msi file, all needed custom action dlls and the setup.exe file
@@ -41,10 +41,10 @@ Add new components (e.g. files) to the installation
 		-... 
 
 		
-Generel
+General
 	-to add a file create a <Component> element
 		-mind the <Directory> tags, they define where the component will be installed. Add new directories if necessary
-			-Id: the directory will be refered to within the wix project using this id
+			-Id: the directory will be referred to within the wix project using this id
 			-Name: the name of the folder that will be created on the user machine
 		-Id: is used to refer to the component within the wix project
 		-Guid: GUIDs are unique id's used by windows to identify and refer to installed files, applications and so on. You need to create a new GUID for every new component
@@ -55,7 +55,7 @@ Generel
 			-Name: the name that the file will have on the user machine, may be different from the file name on the source machine
 			-Source: the path and name to the file on the source machine, relative to the current .wxs file
 			-KeyPath: depends on where you want to install the file, see below in 'Add new file to...'
-		-usually there is one component for each single file. Multiple files can be added to a component, this might make sense if the files are considered 100% unseperable. The recommended way however is one file per component
+		-usually there is one component for each single file. Multiple files can be added to a component, this might make sense if the files are considered 100% inseparable. The recommended way however is one file per component
 			
 			
 Add new file to the installation directory (installDir.wxs)
@@ -76,7 +76,7 @@ Not quite done yet! (sourcetrail.wxs)
 	-components need to be added to a feature (a feature is part of a software, consisting of components, that may or may not be installed during setup)
 		-right now we only have the Complete/Program feature, so no part of sourcetrail is optional right now
 	-to add a component to a feature use the <ComponentRef> tag
-		-Id: id of the component you want to refere to
+		-Id: id of the component you want to reference
 	
 
 ------------------
@@ -89,7 +89,7 @@ Version Number
 		-candle.exe -dprojectVersion="0.7.0" ...
 		-replace 0.7.0 with the desired version number
 
-Minor upgrage (sourcetrail.wxs)
+Minor upgrade (sourcetrail.wxs)
 	-for when only a few files are to be updated
 	-update the version number in build.bat script
 	-do NOT change the product GUID
@@ -101,4 +101,4 @@ Major upgrade (sourcetrail.wxs)
 	-update the version number in build.bat script
 	-DO change the product GUID
 	-insert the same GUID into the uninstall_wix.bat script
-	-package GUID changes too, but thats again done automatically
+	-package GUID changes too, but that's again done automatically

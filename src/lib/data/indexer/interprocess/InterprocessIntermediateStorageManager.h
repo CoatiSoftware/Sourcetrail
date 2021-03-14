@@ -18,7 +18,7 @@ public:
 
 private:
 	static const char* s_sharedMemoryNamePrefix;
-	static const char* s_intermediatStoragesKeyName;
+	static const char* s_intermediateStoragesKeyName;
 
 	size_t m_insertsWithoutGrowth;
 };

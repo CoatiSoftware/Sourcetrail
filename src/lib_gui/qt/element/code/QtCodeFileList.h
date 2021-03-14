@@ -7,7 +7,7 @@
 #include <QScrollArea>
 
 #include "CodeSnippetParams.h"
-#include "QtCodeNavigateable.h"
+#include "QtCodeNavigable.h"
 #include "QtScrollSpeedChangeListener.h"
 
 class QtCodeFile;
@@ -23,7 +23,7 @@ protected:
 
 class QtCodeFileList
 	: public QFrame
-	, public QtCodeNavigateable
+	, public QtCodeNavigable
 {
 	Q_OBJECT
 
@@ -38,7 +38,7 @@ public:
 
 	void addFile(const CodeFileParams& params);
 
-	// QtCodeNavigatebale implementation
+	// QtCodeNavigable implementation
 	QScrollArea* getScrollArea() override;
 
 	void updateSourceLocations(const CodeSnippetParams& params) override;

@@ -453,7 +453,7 @@ public abstract class AstVisitor extends ASTVisitor
 				ReferenceKind.IMPORT, symbolName.toNameHierarchy(), context.toNameHierarchy(), range);
 		}
 
-		// record package symbol kind of current node if appliccable
+		// record package symbol kind of current node if applicable
 		if (binding instanceof IPackageBinding)
 		{
 			Optional<DeclName> packageName = BindingNameResolver.getQualifiedName(

@@ -35,7 +35,7 @@ private:
 	};
 
 	Id getId();
-	std::shared_ptr<IndexerCommandCxx> represetationToCommand(
+	std::shared_ptr<IndexerCommandCxx> representationToCommand(
 		const FilePath& sourceFilePath, std::shared_ptr<CommandRepresentation> representation);
 
 	Id m_nextId;

@@ -32,7 +32,7 @@ public:
 	void setStorageSourceLocations(const std::set<StorageSourceLocation>& storageSourceLocations);
 
 	std::set<StorageOccurrence> getStorageOccurrences() const;
-	void setStorageOccurrences(const std::set<StorageOccurrence>& storageOccurences);
+	void setStorageOccurrences(const std::set<StorageOccurrence>& storageOccurrences);
 
 	std::set<StorageComponentAccess> getStorageComponentAccesses() const;
 	void setStorageComponentAccesses(const std::set<StorageComponentAccess>& storageComponentAccesses);

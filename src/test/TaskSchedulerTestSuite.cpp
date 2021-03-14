@@ -13,10 +13,10 @@ namespace
 {
 void executeTask(Task& task)
 {
-	std::shared_ptr<Blackboard> blakboard = std::make_shared<Blackboard>();
+	std::shared_ptr<Blackboard> blackboard = std::make_shared<Blackboard>();
 	while (true)
 	{
-		if (task.update(blakboard) != Task::STATE_RUNNING)
+		if (task.update(blackboard) != Task::STATE_RUNNING)
 		{
 			return;
 		}
@@ -37,12 +37,12 @@ public:
 	{
 	}
 
-	virtual void doEnter(std::shared_ptr<Blackboard> blakboard)
+	virtual void doEnter(std::shared_ptr<Blackboard> blackboard)
 	{
 		enterCallOrder = ++orderCount;
 	}
 
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
+	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard)
 	{
 		updateCallOrder = ++orderCount;
 
@@ -61,12 +61,12 @@ public:
 		return returnState;
 	}
 
-	virtual void doExit(std::shared_ptr<Blackboard> blakboard)
+	virtual void doExit(std::shared_ptr<Blackboard> blackboard)
 	{
 		exitCallOrder = ++orderCount;
 	}
 
-	virtual void doReset(std::shared_ptr<Blackboard> blakboard)
+	virtual void doReset(std::shared_ptr<Blackboard> blackboard)
 	{
 		resetCallOrder = ++orderCount;
 	}
@@ -89,12 +89,12 @@ public:
 	{
 	}
 
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
+	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard)
 	{
 		subTask = std::make_shared<TestTask>(&orderCount, 1);
 		scheduler->pushTask(subTask);
 
-		return TestTask::doUpdate(blakboard);
+		return TestTask::doUpdate(blackboard);
 	}
 
 	TaskScheduler* scheduler;

@@ -1,6 +1,6 @@
 #vsce-sourcetrail
 
-The VS Code extension source code is hosted at Github.
+The VS Code extension source code is hosted at GitHub.
 
 The extension is available in the marketplace,
 to install it simple use the marketplace inside VS Code

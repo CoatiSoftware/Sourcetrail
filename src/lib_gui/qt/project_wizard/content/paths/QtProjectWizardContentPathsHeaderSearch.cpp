@@ -76,16 +76,16 @@ void QtProjectWizardContentPathsHeaderSearch::populate(QGridLayout* layout, int&
 				detectionButton, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 		}
 		{
-			QPushButton* validateionButton = new QPushButton(
+			QPushButton* validationButton = new QPushButton(
 				QStringLiteral("validate include directives"));
-			validateionButton->setObjectName(QStringLiteral("windowButton"));
+			validationButton->setObjectName(QStringLiteral("windowButton"));
 			connect(
-				validateionButton,
+				validationButton,
 				&QPushButton::clicked,
 				this,
 				&QtProjectWizardContentPathsHeaderSearch::validateIncludesButtonClicked);
 			layout->addWidget(
-				validateionButton, row, QtProjectWizardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+				validationButton, row, QtProjectWizardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
 		}
 		row++;
 	}

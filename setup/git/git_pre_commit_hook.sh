@@ -38,7 +38,7 @@ function build_type {
 	echo -e $INFO Starting with buildtype: $1
 	if [ "$PLATFORM" == "Windows" ]
 	then
-		echo -e $INFO Builing the Sourcetrail VS Solution
+		echo -e $INFO Building the Sourcetrail VS Solution
 		cmake --build build/win32 --config $1
 		if [ $? -ne 0 ]
 		then
@@ -68,7 +68,7 @@ function run_tests {
 	cd $ROOTDIR
 }
 
-# testing before commiting to a publish branch
+# testing before committing to a publish branch
 if [[ ${BRANCH_NAME:0:9} == "_publish_"  ]]
 then
 	echo Try to publish
@@ -87,7 +87,7 @@ fi
 
 if [ $BRANCH_NAME == "master" ]
 then
-	echo -e $ABORT "Commiting to master is prohibited."
+	echo -e $ABORT "Committing to master is prohibited."
 	exit 1
 fi
 

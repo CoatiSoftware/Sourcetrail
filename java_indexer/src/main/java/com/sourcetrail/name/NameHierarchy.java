@@ -7,7 +7,7 @@ import java.util.Optional;
 public class NameHierarchy
 {
 	private List<NameElement> m_elements = new ArrayList<>();
-	private char m_separatpr = '.';
+	private char m_separator = '.';
 
 	public NameHierarchy() {}
 
@@ -28,7 +28,7 @@ public class NameHierarchy
 
 	public void setSeparator(char separator)
 	{
-		m_separatpr = separator;
+		m_separator = separator;
 	}
 
 	public void push(NameElement element)
@@ -55,7 +55,7 @@ public class NameHierarchy
 
 	public String serialize()
 	{
-		String serialized = m_separatpr + "\tm";
+		String serialized = m_separator + "\tm";
 
 		for (int i = 0; i < m_elements.size(); i++)
 		{

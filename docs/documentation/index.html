@@ -197,7 +197,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<strong>Are you using CMake, Make or Qt Creator?</strong>
-					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilaton Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Sourcetrail a lot easier. We recommend using this approach if possible.</p>
+					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilation Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Sourcetrail a lot easier. We recommend using this approach if possible.</p>
 
 					<p>Exporting a Compilation Database:</p>
 					<ul>
@@ -753,7 +753,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Multi process C/C++ indexing</th>
-								<td>Enable C/C++ indexer threads to run in a different process. This prevents the application from crashing due to unforseen exceptions while indexing.</td>
+								<td>Enable C/C++ indexer threads to run in a different process. This prevents the application from crashing due to unforeseen exceptions while indexing.</td>
 							</tr>
 							<tr>
 								<th scope="row">Java Path</th>
@@ -821,7 +821,7 @@
 
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Swith indexing mode by clicking a different option.</li>
+						<li>Switch indexing mode by clicking a different option.</li>
 						<li>Clicking <var>Cancel</var> will abort indexing.</li>
 						<li>Clicking <var>Start</var> will start the file clearing and indexing.</li>
 					</ul>
@@ -1848,7 +1848,7 @@
 					</ul>
 
 					<h3>Keywords</h3>
-					<p>Additionally the search view provides specific keywords that select a certein group of symbols.</p>
+					<p>Additionally the search view provides specific keywords that select a certain group of symbols.</p>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>keyword</th> <th>effect</th> </tr>
@@ -1868,7 +1868,7 @@
 					</div>
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Start a query with <code>?</code> or use the <a href="#FindText">Find Text</a> action to do a case-insensitive full text serach.</li>
+						<li>Start a query with <code>?</code> or use the <a href="#FindText">Find Text</a> action to do a case-insensitive full text search.</li>
 						<li>Start a query with <code>??</code> to do a case-sensitive full text search.</li>
 					</ul>
 
@@ -1960,7 +1960,7 @@
 					<div class="row" style="height:10px;"></div>
 
 					<h3>Errors Tab</h3>
-					<p>This list shows errors occured durring indexing.</p>
+					<p>This list shows errors occurred during indexing.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/status_view_error.png" style="width:100%;">
@@ -2043,7 +2043,7 @@
 						<li>Clicking a <var>Source Group</var> will let you edit it's configuration and change it's name.</li>
 						<li>Clicking <code>+</code> beneath the Source Group list will take you to the creation of a new Source Group.</li>
 						<li>Clicking <code>-</code> beneath the Source Group list will delete the currently selected Source Group.</li>
-						<li>Clicking <code>☐</code> beneath the Source Group list will duplicate the currenlty selected Source Group.</li>
+						<li>Clicking <code>☐</code> beneath the Source Group list will duplicate the currently selected Source Group.</li>
 						<li>Clicking <var>Create</var> will close this window and create the new project.</li>
 					</ul>
 
@@ -2068,7 +2068,7 @@
 
 					<h2>Choose a Source Group Type</h2>
 
-					<p>When creating a new Source Group you can choose between different methods of setup depending on your project language. Please have a look at our <a href="#Choosingtherightprojectsetup">QUCICK START GUIDE section</a> for help on choosing the right Source Group type.</p>
+					<p>When creating a new Source Group you can choose between different methods of setup depending on your project language. Please have a look at our <a href="#ChoosingTheRightProjectSetup">QUICK START GUIDE section</a> for help on choosing the right Source Group type.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -2157,7 +2157,7 @@
 
 					<h2 id="CreateAProjectFromCompilationDatabase">C/C++ Source Group from Compilation Database</h2>
 
-					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exportet <code>.json</code> file for Sourcetrail project setup.</p>
+					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exported <code>.json</code> file for Sourcetrail project setup.</p>
 					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>.json</code> file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
 					<p>C/C++ Source Groups from Compilation Database offer the following configuration options:</p>
 
@@ -2527,7 +2527,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Source File Extensions</th>
-								<td>Define the valid extensions for source files including the dot e.g. <code>.ext</code>. Sourcetrail will only try to index files that match one of these extensions. If no extion is defined, any file extension is valid.</td>
+								<td>Define the valid extensions for source files including the dot e.g. <code>.ext</code>. Sourcetrail will only try to index files that match one of these extensions. If no extension is defined, any file extension is valid.</td>
 							</tr>
 						</tbody>
 					</table>
@@ -2537,7 +2537,7 @@
 
 					<h1>Command Line</h1>
 
-					<p>Currently you can use the command line to configue Sourcetrail or index a Sourcetrail project.</p>
+					<p>Currently you can use the command line to configure Sourcetrail or index a Sourcetrail project.</p>
 
 					<p>When no command is given</p>
 					<pre>sourcetrail [options...] </pre>
@@ -2572,7 +2572,7 @@
 							<tr> <th scope="row">--indexer-threads</th> <td>Number of threads used for indexing (0 means ideal thread count).</td> </tr>
 							<tr> <th scope="row">--use-processes</th> <td>Enable C/C++ indexer threads to run in different processes.</td> </tr>
 							<tr> <th scope="row">--logging-enabled</th> <td>Enable (true) or disable (false) file/console logging.</td> </tr>
-							<tr> <th scope="row">--verbose-indexer-logging-enabled</th> <td>Enable additaional log of abstract syntax tree during the indexing. Be careful with this, it slows down the indexing tremendously.</td> </tr>
+							<tr> <th scope="row">--verbose-indexer-logging-enabled</th> <td>Enable additional log of abstract syntax tree during the indexing. Be careful with this, it slows down the indexing tremendously.</td> </tr>
 							<tr> <th scope="row">--jvm-path</th> <td>Path to the location of the jvm library.</td> </tr>
 							<tr> <th scope="row">--jvm-max-memory</th> <td>Set the maximum amount of memory for the JVM indexer(-1 for using the JVM default settings).</td> </tr>
 							<tr> <th scope="row">--maven-path</th> <td>Path to the maven executable.</td> </tr>
@@ -2756,7 +2756,7 @@
 
 					<strong>Installation</strong>
 					<p><ul>
-						<li>Manuelly</li>
+						<li>Manually</li>
 						<ol>
 							<li>Download the sourcetrail.el from <a href="https://github.com/CoatiSoftware/emacs-sourcetrail">https://github.com/CoatiSoftware/emacs-sourcetrail</a></li>
 							<li>In Emacs press <kbd>M</kbd> + <kbd>x</kbd> and type in <code>package-install-file</code></li>
@@ -2806,12 +2806,12 @@
 							</li>
 							<li>restart Sublime</li>
 						</ol>
-						<li>Package Controll</li>
+						<li>Package Control</li>
 						<ol>
-							<li>If you dont have Package Controll for Sublime go to https://packagecontrol.io and
+							<li>If you don't have Package Control for Sublime go to https://packagecontrol.io and
 								install it</li>
-							<li>Open Command Pallete  with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
-							<li>Select <code>Package Controll: Install Package</code></li>
+							<li>Open Command Palette  with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
+							<li>Select <code>Package Control: Install Package</code></li>
 							<li>Install <code>sourcetrail</code></li>
 						</ol>
 					</ul></p>
@@ -2829,7 +2829,7 @@
 
 					<strong>Installation</strong>
 					<p>
-						<p>Please visit the <a href="https://github.com/CoatiSoftware/vim-sourcetrail">vim-sourcetrail</a> repository on Github for details.</p>
+						<p>Please visit the <a href="https://github.com/CoatiSoftware/vim-sourcetrail">vim-sourcetrail</a> repository on GitHub for details.</p>
 					</p>
 					<strong>Use</strong>
 					<p>If you want Vim to activate a certain element in Sourcetrail, go to the code location and use
@@ -2850,9 +2850,9 @@
 					</p>
 
 					<strong>Use</strong>
-					<p>To start the Tcp Server go to the Command Pallete(<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>) and type: <code>Sourcetrail: (Re)start server</code></p>
+					<p>To start the Tcp Server go to the Command Palette(<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>) and type: <code>Sourcetrail: (Re)start server</code></p>
 					<p>To send a location to Sourcetrail, place the cursor and right-click and select <code>Sourcetrail: Send Location</code>
-					or type in the Command Pallete: <code>Sourcetrail: Send Location</code></p>
+					or type in the Command Palette: <code>Sourcetrail: Send Location</code></p>
 
 					<h3>Visual Studio</h3>
 					<strong>Download, Reviews:</strong>
@@ -2903,19 +2903,19 @@
 							<tr> <th>Option</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Select Projects</th> <td>The list of C/C++ projects in your solution. Check all projects you want to be included in the generated JSON Compilaton Database file.</td> </tr>
+							<tr> <th scope="row">Select Projects</th> <td>The list of C/C++ projects in your solution. Check all projects you want to be included in the generated JSON Compilation Database file.</td> </tr>
 							<tr> <th scope="row">De/Select All</th> <td>Will select all projects if at least one project is not selected. If all projects are selected they will all be unselected.</td> </tr>
-							<tr> <th scope="row">Configuration</th> <td>A dropdown list of the available build configurations. The selected configuration affects include paths and compile flags for the Compilaton Database.</td> </tr>
-							<tr> <th scope="row">Platform</th> <td>A dropdown list of the available target platforms. The selected platform affects include paths and compile flags for the Compilaton Database.</td> </tr>
-							<tr> <th scope="row">Browse</th> <td>Opens a folder browser to select the directory where the Compilaton Database will be created in. By default it is the directory of your solution. Instead of using the folder browser you can also paste a path into the adjacent text field.</td> </tr>
-							<tr> <th scope="row">filename</th> <td>This is the name for the Compilaton Database file. By default it is the same name as your solution.</td> </tr>
+							<tr> <th scope="row">Configuration</th> <td>A dropdown list of the available build configurations. The selected configuration affects include paths and compile flags for the Compilation Database.</td> </tr>
+							<tr> <th scope="row">Platform</th> <td>A dropdown list of the available target platforms. The selected platform affects include paths and compile flags for the Compilation Database.</td> </tr>
+							<tr> <th scope="row">Browse</th> <td>Opens a folder browser to select the directory where the Compilation Database will be created in. By default it is the directory of your solution. Instead of using the folder browser you can also paste a path into the adjacent text field.</td> </tr>
+							<tr> <th scope="row">filename</th> <td>This is the name for the Compilation Database file. By default it is the same name as your solution.</td> </tr>
 							<tr> <th scope="row">C Standard</th> <td>A dropdown list of all C standards supported by Sourcetrail. If your projects contain C files select the appropriate standard.</td> </tr>
 							<tr> <th scope="row">Cancel</th> <td>Aborts the process and closes the wizard.</td> </tr>
-							<tr> <th scope="row">Create</th> <td>Creates the Compilaton Database using the specified options. Note that at least one project has to be selected to start creating.</td> </tr>
+							<tr> <th scope="row">Create</th> <td>Creates the Compilation Database using the specified options. Note that at least one project has to be selected to start creating.</td> </tr>
 						</tbody>
 					</table>
 
-					<p>Once the Compilaton Database was successfully created it can be found in the specified target directory. From this Compilaton Database you can create a Sourcetrail project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
+					<p>Once the Compilation Database was successfully created it can be found in the specified target directory. From this Compilation Database you can create a Sourcetrail project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
 
 					<strong>Settings</strong>
 					<p>Network settings and logging options can be changed in the plugin's Tools/Options entry.</p>
@@ -2941,8 +2941,8 @@
 							<tr> <th>Option</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">File Logging</th> <td>Enable log output for the plugin. Additionaly to the output file, log messages will also be displayed in VS' </td> </tr>
-							<tr> <th Id="vsPluginOptionObfuscation" scope="row">Log Obfuscation</th> <td>Obfuscate project names and file names as well as directories in the log output. Note that already logged data <b>will not be obfuscated retroactively</b>. A dictionary, mapping obfuscated names to original names, will be created in a seperate file.</td> </tr>
+							<tr> <th scope="row">File Logging</th> <td>Enable log output for the plugin. Additionally to the output file, log messages will also be displayed in VS' </td> </tr>
+							<tr> <th Id="vsPluginOptionObfuscation" scope="row">Log Obfuscation</th> <td>Obfuscate project names and file names as well as directories in the log output. Note that already logged data <b>will not be obfuscated retroactively</b>. A dictionary, mapping obfuscated names to original names, will be created in a separate file.</td> </tr>
 							<tr> <th scope="row">Sourcetrail Port</th> <td>The port on which Sourcetrail will receive messages. Note that this must match the port setting in Sourcetrail itself.</td> </tr>
 							<tr> <th scope="row">Thread Count</th> <td>The number of threads used during creation of the Compilation Database</td> </tr>
 							<tr> <th scope="row">VS Port</th> <td>The port on which Visual Studio will receive messages. Note that this must match the port setting in Sourcetrail itself.</td> </tr>
@@ -2960,7 +2960,7 @@
 					</div>
 
 					<!-- Obfuscation -->
-					<p>Note that the logs will include project names and file names as well as directories specific to your project. If you wish to keep this informatin secret you can enable <a href="#vsPluginOptionObfuscation">log obfuscation</a>.</p>
+					<p>Note that the logs will include project names and file names as well as directories specific to your project. If you wish to keep this information secret you can enable <a href="#vsPluginOptionObfuscation">log obfuscation</a>.</p>
 					<p>Project- and file names as well as directories will be replaced by an alphanumeric sequence. The sequence has the form <code>a0, b0, c0,..., a1, b1, c1,...</code>. Note that after switching on obfuscation, already logged data <b>will not be obfuscated retroactively</b>. No log files will be send to Coati Software automatically. You can check any file you may want to send us for sensible information before sending it.</p>
 					<p>A dictionary, mapping obfuscated names to original names, will be created in your log folder if log obfuscation is switched on. When during the support process we refer to project items by their obfuscated name you can still make sense of it. <b>Do not send the dictionary to anybody else</b>.</p>
 
@@ -2980,7 +2980,7 @@
 
 					<h3>Message Structure</h3>
 
-					<p>The basic structure of the messages used by Sourcetrail plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are seperated by a 'divider' token.</p>
+					<p>The basic structure of the messages used by Sourcetrail plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are separated by a 'divider' token.</p>
 
 					<table class="table table-hover">
 						<thead>
@@ -2988,7 +2988,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">messageType</th> <th><a href="#MessageTypes">see below</a></th> <td>A string that determines how the message will be interpreted by Sourcetrail or the plugin</td> </tr>
-							<tr> <th scope="row">divider</th> <th><code>>></code></th> <td>Seperates the tokens of the message</td> </tr>
+							<tr> <th scope="row">divider</th> <th><code>>></code></th> <td>Separates the tokens of the message</td> </tr>
 							<tr> <th scope="row">parameter</th> <th><a href="#MessageTypes">see below</a></th> <td>Typically an integer or string</td> </tr>
 							<tr> <th scope="row">endOfMessage</th> <th><code>&lt;EOM&gt;</code></th> <td>Helps to determine the end of a message</td> </tr>
 						</tbody>
@@ -3027,7 +3027,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row"><code>setActiveToken</code></th> <th>fileLocation: string<br>row: integer<br>column: integer</th> <td>Tells Sourcetrail to shift focus to the token located at the given position. Note that fileLocation is the absolute path and name of the target file.</td> </tr>
-							<tr> <th scope="row"><code>createCDBProject</code></th> <th>cdbPath: string<br>headerPaths: string</th> <td>If your plugin can provide a Compilation Database this message can prompt Sourcetrail to import it and display an appropriate dialog for the user. headerPaths is a list of the base project's header include paths. Seperate the single paths using the divider token. You can add as many paths as you need.</td> </tr>
+							<tr> <th scope="row"><code>createCDBProject</code></th> <th>cdbPath: string<br>headerPaths: string</th> <td>If your plugin can provide a Compilation Database this message can prompt Sourcetrail to import it and display an appropriate dialog for the user. headerPaths is a list of the base project's header include paths. Separate the single paths using the divider token. You can add as many paths as you need.</td> </tr>
 							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Your plugin may send this message to Sourcetrail to tell it it's listening.</td> </tr>
 						</tbody>
 					</table>
@@ -3038,7 +3038,7 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Can I use Sourcetrail on confidental source code?</h3>
+							<h3 class="panel-title">Can I use Sourcetrail on confidential source code?</h3>
 						</div>
 						<div class="panel-body">
 							Yes. Sourcetrail keeps the data completely offline and unless disabled, will only establish a connection to the internet to check if a more recent version is available.
@@ -3053,10 +3053,10 @@
 							<p>Sourcetrail does two things with the data collected during indexing:</p>
 							<ol>
 								<li>The data is stored in the <code>.srctrldb</code> file which is in the same directory as the <code>.srctrlprj</code> file. This database file is used by Sourcetrail to serve its purpose of letting you navigate your source code and also allowing Sourcetrail to re-open the project without re-indexing the source code each time.
-								<p><b> Note:</b> The <code> .srctrldb </code> file is actualy a <code> .sqlite </code> database file and can be inspected using the <a href="https://sqlitebrowser.org/">DB Browser for SQLite</a>.</p>
+								<p><b> Note:</b> The <code> .srctrldb </code> file is actually a <code> .sqlite </code> database file and can be inspected using the <a href="https://sqlitebrowser.org/">DB Browser for SQLite</a>.</p>
 								</li>
 
-								<li>If logging is enabled, some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We may ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
+								<li>If logging is enabled, some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We may ask for log information on bug reports, but you should only provide it, if your source code is not confidential.</li>
 							</ol>
 						</div>
 					</div>

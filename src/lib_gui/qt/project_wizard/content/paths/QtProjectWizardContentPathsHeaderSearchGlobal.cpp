@@ -79,7 +79,7 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 			"Your Global Include Paths contain other paths that hold C/C++ compiler headers, "
 			"probably those of your local C/C++ compiler. They are possibly in conflict with the "
 			"compiler headers of "
-			"Sourcetrail's C/C++ indexer. This can lead to compatiblity errors during indexing. Do "
+			"Sourcetrail's C/C++ indexer. This can lead to compatibility errors during indexing. Do "
 			"you want to remove "
 			"these paths?");
 		msgBox.setDetailedText(compilerHeaderPaths);

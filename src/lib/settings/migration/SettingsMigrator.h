@@ -1,5 +1,5 @@
-#ifndef SETTNGS_MIGRATOR_H
-#define SETTNGS_MIGRATOR_H
+#ifndef SETTINGS_MIGRATOR_H
+#define SETTINGS_MIGRATOR_H
 
 #include "Migrator.h"
 

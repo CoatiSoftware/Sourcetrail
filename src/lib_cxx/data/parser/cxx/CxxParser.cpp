@@ -38,7 +38,7 @@ std::vector<std::string> appendFilePath(const std::vector<std::string>& args, ll
 	return utility::concat(args, {filePath.str()});
 }
 
-// custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
+// custom implementation of clang::runToolOnCodeWithArgs which also sets our custom DiagnosticConsumer
 bool runToolOnCodeWithArgs(
 	clang::DiagnosticConsumer* DiagConsumer,
 	std::unique_ptr<clang::FrontendAction> ToolAction,
@@ -107,14 +107,14 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 
 void CxxParser::initializeLLVM()
 {
-	static bool intialized = false;
-	if (!intialized)
+	static bool initialized = false;
+	if (!initialized)
 	{
 		llvm::InitializeAllTargets();
 		llvm::InitializeAllTargetMCs();
 		llvm::InitializeAllAsmPrinters();
 		llvm::InitializeAllAsmParsers();
-		intialized = true;
+		initialized = true;
 	}
 }
 

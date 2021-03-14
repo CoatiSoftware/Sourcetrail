@@ -9,7 +9,7 @@
 #include "FilePath.h"
 #include "TimeStamp.h"
 
-#include "QtCodeNavigateable.h"
+#include "QtCodeNavigable.h"
 
 class QLabel;
 class QPushButton;
@@ -19,7 +19,7 @@ class QtCodeNavigator;
 
 class QtCodeFileSingle
 	: public QFrame
-	, public QtCodeNavigateable
+	, public QtCodeNavigable
 {
 	Q_OBJECT
 
@@ -32,7 +32,7 @@ public:
 
 	bool addFile(const CodeFileParams& params, bool useSingleFileCache);
 
-	// QtCodeNavigateable implementation
+	// QtCodeNavigable implementation
 	QAbstractScrollArea* getScrollArea() override;
 
 	void updateSourceLocations(const CodeSnippetParams& params) override;

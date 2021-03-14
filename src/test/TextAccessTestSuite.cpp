@@ -138,7 +138,7 @@ TEST_CASE("textAccessFile lines content")
 	REQUIRE(
 		lines[3] ==
 		"... \"What? Harmless! Is that all it's got to say? Harmless! One word! ... Well, for "
-		"God's sake I hope you managed to recitify that a bit.\"\n");
+		"God's sake I hope you managed to rectify that a bit.\"\n");
 }
 
 TEST_CASE("textAccessFile get filePath")

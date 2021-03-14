@@ -72,7 +72,7 @@ typedef bool Seven;
 // RESULTS:
 // - symbol name goes up
 // - dropdown position goes up
-// - history menu: current symbl always on top, end result:
+// - history menu: current symbol always on top, end result:
 //      SIX, FIVE, Four, Three, Seven, two, One
 
 // END ------------------------------------------------------------------------

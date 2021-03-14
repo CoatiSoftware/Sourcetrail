@@ -13,7 +13,7 @@ do
 	then
 		if [ "$remote_ref" == "refs/heads/master" ]
 		then
-			echo -e $FAIL "seriously dont delete the master"
+			echo -e $FAIL "seriously don't delete the master"
 			exit 1
 		else
 			echo "delete remote branch $remote_ref"

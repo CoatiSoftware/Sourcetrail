@@ -129,7 +129,7 @@ std::shared_ptr<IndexerCommand> CxxIndexerCommandProvider::consumeCommand()
 			m_commands.begin();
 		if (it->second)
 		{
-			std::shared_ptr<IndexerCommand> command = represetationToCommand(it->first, it->second);
+			std::shared_ptr<IndexerCommand> command = representationToCommand(it->first, it->second);
 			m_commands.erase(it);
 			return command;
 		}
@@ -144,7 +144,7 @@ std::shared_ptr<IndexerCommand> CxxIndexerCommandProvider::consumeCommandForSour
 		filePath);
 	if (it != m_commands.end() && it->second)
 	{
-		std::shared_ptr<IndexerCommand> command = represetationToCommand(it->first, it->second);
+		std::shared_ptr<IndexerCommand> command = representationToCommand(it->first, it->second);
 		m_commands.erase(it);
 		return command;
 	}
@@ -160,7 +160,7 @@ std::vector<std::shared_ptr<IndexerCommand>> CxxIndexerCommandProvider::consumeA
 		 it != m_commands.end();
 		 it++)
 	{
-		commands.emplace_back(represetationToCommand(it->first, it->second));
+		commands.emplace_back(representationToCommand(it->first, it->second));
 	}
 	m_commands.clear();
 	return commands;
@@ -191,7 +191,7 @@ Id CxxIndexerCommandProvider::getId()
 	return m_nextId++;
 }
 
-std::shared_ptr<IndexerCommandCxx> CxxIndexerCommandProvider::represetationToCommand(
+std::shared_ptr<IndexerCommandCxx> CxxIndexerCommandProvider::representationToCommand(
 	const FilePath& sourceFilePath, std::shared_ptr<CommandRepresentation> representation)
 {
 	std::set<FilePath> indexedPaths;

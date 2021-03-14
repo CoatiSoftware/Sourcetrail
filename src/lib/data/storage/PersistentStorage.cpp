@@ -619,7 +619,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	{
 		std::vector<std::shared_ptr<std::thread>> threads;
 		std::mutex collectionMutex;
-		for (std::vector<FullTextSearchResult> fileResults: utility::splitToEqualySizedParts(
+		for (std::vector<FullTextSearchResult> fileResults: utility::splitToEquallySizedParts(
 				 m_fullTextSearchIndex.searchForTerm(searchTerm), utility::getIdealThreadCount()))
 		{
 			std::shared_ptr<std::thread> thread = std::make_shared<std::thread>(
@@ -2132,11 +2132,11 @@ std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
 std::vector<BookmarkCategory> PersistentStorage::getAllBookmarkCategories() const
 {
 	std::vector<BookmarkCategory> categories;
-	for (const StorageBookmarkCategory& storageBookmarkCategoriy:
+	for (const StorageBookmarkCategory& storageBookmarkCategory:
 		 m_sqliteBookmarkStorage.getAllBookmarkCategories())
 	{
 		categories.push_back(
-			BookmarkCategory(storageBookmarkCategoriy.id, storageBookmarkCategoriy.name));
+			BookmarkCategory(storageBookmarkCategory.id, storageBookmarkCategory.name));
 	}
 	return categories;
 }
@@ -3347,7 +3347,7 @@ void PersistentStorage::buildFullTextSearchIndex() const
 			}
 		}
 		for (std::vector<StorageFile> part:
-			 utility::splitToEqualySizedParts(indexedFiles, utility::getIdealThreadCount()))
+			 utility::splitToEquallySizedParts(indexedFiles, utility::getIdealThreadCount()))
 		{
 			std::shared_ptr<std::thread> thread = std::make_shared<std::thread>(
 				[&](const std::vector<StorageFile>& files) {

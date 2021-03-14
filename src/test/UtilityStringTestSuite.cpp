@@ -153,17 +153,17 @@ TEST_CASE("tokenize with deque")
 	REQUIRE(result.at(6) == "D");
 }
 
-TEST_CASE("substr before first with single delimiter occurence")
+TEST_CASE("substr before first with single delimiter occurrence")
 {
 	REQUIRE(utility::substrBeforeFirst("foo bar", ' ') == "foo");
 }
 
-TEST_CASE("substr before first with multiple delimiter occurences")
+TEST_CASE("substr before first with multiple delimiter occurrences")
 {
 	REQUIRE(utility::substrBeforeFirst("foo bar foo", ' ') == "foo");
 }
 
-TEST_CASE("substr before first with no delimiter occurence")
+TEST_CASE("substr before first with no delimiter occurrence")
 {
 	REQUIRE(utility::substrBeforeFirst("foobar", ' ') == "foobar");
 }
@@ -178,17 +178,17 @@ TEST_CASE("substr before first with delimiter at end")
 	REQUIRE(utility::substrBeforeFirst("foobar ", ' ') == "foobar");
 }
 
-TEST_CASE("substr before last with single delimiter occurence")
+TEST_CASE("substr before last with single delimiter occurrence")
 {
 	REQUIRE(utility::substrBeforeLast("foo bar", ' ') == "foo");
 }
 
-TEST_CASE("substr before last with multiple delimiter occurences")
+TEST_CASE("substr before last with multiple delimiter occurrences")
 {
 	REQUIRE(utility::substrBeforeLast("foo bar foo", ' ') == "foo bar");
 }
 
-TEST_CASE("substr before last with no delimiter occurence")
+TEST_CASE("substr before last with no delimiter occurrence")
 {
 	REQUIRE(utility::substrBeforeLast("foobar", ' ') == "foobar");
 }
@@ -203,17 +203,17 @@ TEST_CASE("substr before last with delimiter at end")
 	REQUIRE(utility::substrBeforeLast("foobar ", ' ') == "foobar");
 }
 
-TEST_CASE("substr after with single delimiter occurence")
+TEST_CASE("substr after with single delimiter occurrence")
 {
 	REQUIRE(utility::substrAfter("foo bar", ' ') == "bar");
 }
 
-TEST_CASE("substr after with multiple delimiter occurences")
+TEST_CASE("substr after with multiple delimiter occurrences")
 {
 	REQUIRE(utility::substrAfter("foo bar foo", ' ') == "bar foo");
 }
 
-TEST_CASE("substr after with no delimiter occurence")
+TEST_CASE("substr after with no delimiter occurrence")
 {
 	REQUIRE(utility::substrAfter("foobar", ' ') == "foobar");
 }

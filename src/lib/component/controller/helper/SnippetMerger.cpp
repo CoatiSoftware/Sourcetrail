@@ -35,7 +35,7 @@ std::deque<SnippetMerger::Range> SnippetMerger::merge(std::vector<SnippetMerger:
 
 		// merge children
 		const int snippetMergeRange = 2 * snippetExpandRange +
-			1;	  // +1 since snippets that end/start with consequtive
+			1;	  // +1 since snippets that end/start with consecutive
 				  // lines should be merged as well.
 		merged = Range::mergeAdjacent(merged, snippetMergeRange);
 

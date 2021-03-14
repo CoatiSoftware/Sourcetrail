@@ -49,7 +49,7 @@ void QtLicenseWindow::populateWindow(QWidget* widget)
 	QLabel* header3rdParties = new QLabel(QStringLiteral(
 		"<b>Copyrights and Licenses for Third Party Software Distributed with Sourcetrail:</b><br "
 		"/>"
-		"Sourcetaril contains code written by the following third parties that have <br />"
+		"Sourcetrail contains code written by the following third parties that have <br />"
 		"additional or alternate copyrights, licenses, and/or restrictions:"));
 	layout->addWidget(header3rdParties);
 

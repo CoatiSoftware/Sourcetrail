@@ -357,7 +357,7 @@ private:
 	InsertBatchStatement<StorageSymbol> m_insertSymbolBatchStatement;
 	InsertBatchStatement<StorageLocalSymbol> m_insertLocalSymbolBatchStatement;
 	InsertBatchStatement<StorageSourceLocationData> m_insertSourceLocationBatchStatement;
-	InsertBatchStatement<StorageOccurrence> m_insertOccurenceBatchStatement;
+	InsertBatchStatement<StorageOccurrence> m_insertOccurrenceBatchStatement;
 	InsertBatchStatement<StorageComponentAccess> m_insertComponentAccessBatchStatement;
 
 	CppSQLite3Statement m_insertElementStmt;

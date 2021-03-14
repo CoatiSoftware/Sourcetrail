@@ -60,15 +60,15 @@ TEST_CASE("storage saves file")
 
 	std::wstring filePath = L"path/to/test.h";
 
-	std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-	Id id = intermetiateStorage
+	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
+	Id id = intermediateStorage
 				->addNode(StorageNodeData(
 					nodeKindToInt(NODE_FILE),
 					NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE))))
 				.first;
-	intermetiateStorage->addFile(StorageFile(id, filePath, L"someLanguage", "someTime", true, true));
+	intermediateStorage->addFile(StorageFile(id, filePath, L"someLanguage", "someTime", true, true));
 
-	storage.inject(intermetiateStorage.get());
+	storage.inject(intermediateStorage.get());
 
 	REQUIRE(storage.getNameHierarchyForNodeId(id).getQualifiedName() == filePath);
 	REQUIRE(storage.getNodeTypeForNodeWithId(id).isFile());
@@ -80,11 +80,11 @@ TEST_CASE("storage saves node")
 
 	TestStorage storage;
 
-	std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-	intermetiateStorage->addNode(
+	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
+	intermediateStorage->addNode(
 		StorageNodeData(nodeKindToInt(NODE_TYPEDEF), NameHierarchy::serialize(a)));
 
-	storage.inject(intermetiateStorage.get());
+	storage.inject(intermediateStorage.get());
 
 	Id storedId = storage.getNodeIdForNameHierarchy(a);
 
@@ -99,20 +99,20 @@ TEST_CASE("storage saves field as member")
 
 	TestStorage storage;
 
-	std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
+	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
 
-	Id aId = intermetiateStorage
+	Id aId = intermediateStorage
 				 ->addNode(StorageNodeData(nodeKindToInt(NODE_STRUCT), NameHierarchy::serialize(a)))
 				 .first;
-	intermetiateStorage->addSymbol(StorageSymbol(aId, DEFINITION_EXPLICIT));
+	intermediateStorage->addSymbol(StorageSymbol(aId, DEFINITION_EXPLICIT));
 
-	Id bId = intermetiateStorage
+	Id bId = intermediateStorage
 				 ->addNode(StorageNodeData(nodeKindToInt(NODE_FIELD), NameHierarchy::serialize(b)))
 				 .first;
-	intermetiateStorage->addSymbol(StorageSymbol(bId, DEFINITION_EXPLICIT));
-	intermetiateStorage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId));
+	intermediateStorage->addSymbol(StorageSymbol(bId, DEFINITION_EXPLICIT));
+	intermediateStorage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId));
 
-	storage.inject(intermetiateStorage.get());
+	storage.inject(intermediateStorage.get());
 	bool foundEdge = false;
 
 	const Id sourceId = storage.getNodeIdForNameHierarchy(a);

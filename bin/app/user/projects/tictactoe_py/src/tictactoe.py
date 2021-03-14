@@ -172,7 +172,7 @@ class HumanPlayer(Player):
 
 	def _check(self, field, move):
 		if not field.inRange(move):
-			stringOut("Wrong inpot!\n")
+			stringOut("Wrong input!\n")
 			return False
 		elif not field.isEmpty(move):
 			stringOut("Is occupied!\n")

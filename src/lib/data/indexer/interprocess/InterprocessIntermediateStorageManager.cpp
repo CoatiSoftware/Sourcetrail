@@ -6,7 +6,7 @@
 
 const char* InterprocessIntermediateStorageManager::s_sharedMemoryNamePrefix = "iist_";
 
-const char* InterprocessIntermediateStorageManager::s_intermediatStoragesKeyName =
+const char* InterprocessIntermediateStorageManager::s_intermediateStoragesKeyName =
 	"intermediate_storages";
 
 InterprocessIntermediateStorageManager::InterprocessIntermediateStorageManager(
@@ -56,7 +56,7 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =
 		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(
-			s_intermediatStoragesKeyName);
+			s_intermediateStoragesKeyName);
 	if (!queue)
 	{
 		return;
@@ -97,7 +97,7 @@ std::shared_ptr<IntermediateStorage> InterprocessIntermediateStorageManager::pop
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =
 		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(
-			s_intermediatStoragesKeyName);
+			s_intermediateStoragesKeyName);
 	if (!queue || !queue->size())
 	{
 		return nullptr;
@@ -131,7 +131,7 @@ size_t InterprocessIntermediateStorageManager::getIntermediateStorageCount()
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =
 		access.accessValueWithAllocator<SharedMemory::Queue<SharedIntermediateStorage>>(
-			s_intermediatStoragesKeyName);
+			s_intermediateStoragesKeyName);
 	if (!queue)
 	{
 		return 0;

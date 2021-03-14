@@ -96,7 +96,7 @@ enum Category // <- ACTION 1: activate
 };
 
 // RESULTS 1:
-// - enum shows all chilren
+// - enum shows all children
 // - enum is expandable/collapsable
 // - children layouted in nameless access frame
 
@@ -116,7 +116,7 @@ void foobar() // <- ACTION 1: activate
 }
 
 // RESULTS 1:
-// - function shows all chilren
+// - function shows all children
 // - function is not expandable/collapsable
 // - children layouted in nameless access frame
 

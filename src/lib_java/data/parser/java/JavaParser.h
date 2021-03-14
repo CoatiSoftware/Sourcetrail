@@ -49,7 +49,7 @@ private:
 		const std::string& classPath,
 		std::shared_ptr<TextAccess> textAccess);
 
-// This macro makes available a variable T, the passed-in t. blablabla TODO: write somethign real here
+// This macro makes available a variable T, the passed-in t. blablabla TODO: write something real here
 #define MAKE_PARAMS_0()
 #define MAKE_PARAMS_1(t1) , t1 arg1
 #define MAKE_PARAMS_2(t1, t2) , t1 arg1, t2 arg2

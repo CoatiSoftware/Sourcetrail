@@ -90,7 +90,7 @@ void level_0_func1()
 // - horizontal layout using bezier curve edges
 // - nodes from level 0 to 4 displayed
 // - layout contains override edge shown horizontally
-// - layout contains eplicit template class (dead end)
+// - layout contains explicit template class (dead end)
 // - layout contains implicit template class
 
 // END ------------------------------------------------------------------------
@@ -214,7 +214,7 @@ void func5() { func1(); func2(); func3(); func4(); func5(); }
 
 #include "depth_files/level_5_file_1.h" // <- ACTION 1: activate
 
-// ACTION 2: show includee graph '<'
+// ACTION 2: show included graph '<'
 // RESULT 2: horizontal layout with bezier curve edges
 
 #include "depth_files/level_1_file_1.h" // <- ACTION 3: activate

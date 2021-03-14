@@ -292,7 +292,7 @@ released 2018-08-31
 * Windows: Fixed policy for finding Windows user data folder (issue [#612](https://github.com/CoatiSoftware/Sourcetrail/issues/612))
 * C/C++: Fixed recording of multiple cxx anonymous namespaces within the same file
 * C/C++: Fixed files within indexed directories always refreshed in empty C/C++ source groups
-* Code: Don't show list of overriden methods when clicking overriding method
+* Code: Don't show list of overridden methods when clicking overriding method
 * Code: Fixed local reference navigation not shown for edges when file content was not cached
 * Fixed crash related to update check when app was opened with a project
 * Tooltip: Fixed repeated signature name qualification and line breaks
@@ -477,7 +477,7 @@ released 2018-01-30
 * Group include validation results by file and add line breaks for readability
 * Fixed location pickers used system root directory when empty
 * Graph: Add "bidirectional" to tooltip of bidirectional aggregation edges
-* Linux: Don't explicitely open terminal when running on Linux (issue [#525](https://github.com/CoatiSoftware/Sourcetrail/issues/525))
+* Linux: Don't explicitly open terminal when running on Linux (issue [#525](https://github.com/CoatiSoftware/Sourcetrail/issues/525))
 * Fixed files and directories dialog to offer selection of files (issue [#521](https://github.com/CoatiSoftware/Sourcetrail/issues/521))
 * C++: Fixed cases where references to members were recorded as usage instead of call
 * Fixed crash when Start Screen is closed while checking for update
@@ -554,7 +554,7 @@ released 2017-10-25
 * Code: Added indexing of qualifier source locations and allow symbol activation by clicking qualifiers
 * Linux: Enabled Qt highDPI scaling to fix UI issues on high resolution screens
 * Fixed handling of non-indexed files in Graph and Code
-* C/C++: Removed include check validataion for compilation database source groups
+* C/C++: Removed include check validation for compilation database source groups
 * Graph: Bundle nested anonymous namespaces into anonymous namespace bundle in namespace overview (issue [#465](https://github.com/CoatiSoftware/Sourcetrail/issues/465))
 * Search: Fixed vertical growth of search bar area when resizing window
 * Visual Studio plugin: Lots off fixes, see changelog (https://github.com/CoatiSoftware/vs-sourcetrail/blob/master/CHANGELOG.md)
@@ -722,7 +722,7 @@ released 2017-04-12
 #### 0.11.15
 released 2017-03-01
 
-* Don't accept richt text in 'enter license' dialog field (issue [#207](https://github.com/CoatiSoftware/Sourcetrail/issues/207))
+* Don't accept rich text in 'enter license' dialog field (issue [#207](https://github.com/CoatiSoftware/Sourcetrail/issues/207))
 * Updated EULA to include Test License and better clarify other license types
 * Fixed icons in project setup dialogs blurry on highDPI screens
 * Added link to additional downloadable pre-indexed projects to trial start screen
@@ -787,7 +787,7 @@ released 2017-03-01
 * Code: Added single file view mode
 * Code: Added navigation bar with mode toggle and buttons to navigate references
 * Graph: Removed underscores in edge hover names
-* Infere some non-indexed node types by their edges
+* Infer some non-indexed node types by their edges
 
 
 #### 0.10.0
@@ -1004,7 +1004,7 @@ released 2016-06-15
 * Added link to download page to start screen to remind users of updating once in a while
 * Check if compilation database still exists before refreshing
 * Added separate step for defining project name, project location and compilation database to project setup
-* Explain that the project stays up-to-date with the compilation databes on refresh in project setup UI
+* Explain that the project stays up-to-date with the compilation database on refresh in project setup UI
 * Disregard source extensions when loading from compilation database
 * Removed error logs in name resolver
 * Added plugin for VIM: https://github.com/CoatiSoftware/vim-coati
@@ -1096,7 +1096,7 @@ released 2016-02-25
 * Show overview on project open with node bundles per type
 * Added application move protection to reenter license key
 * Improved log file names to be sorted chronologically
-* Improved graph view node bundeling to bundle more
+* Improved graph view node bundling to bundle more
 * Display scope name at bottom of code snippet
 * Added .coatiproject file associations with icon for Mac and Windows
 * Return to last scroll position when going back in code view

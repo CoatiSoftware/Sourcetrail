@@ -2151,7 +2151,7 @@ void GraphController::layoutToGrid(DummyNode* node) const
 		return;
 	}
 
-	// Increase size of nodes with visible chilren to cover full grid cells
+	// Increase size of nodes with visible children to cover full grid cells
 
 	size_t width = GraphViewStyle::toGridSize(node->size.x);
 	size_t height = GraphViewStyle::toGridSize(node->size.y);
@@ -2440,7 +2440,7 @@ void GraphController::createLegendGraph()
 		Node* main = addNode(NODE_CLASS, L"Class", Vec2i(x + 200, y + 130));
 		Node* derived = addNode(NODE_CLASS, L"Derived Class", Vec2i(x + 210, y + 380));
 		Node* user = addNode(NODE_TYPE, L"Referencing Type", Vec2i(x - 10, y + 220));
-		Node* usee = addNode(NODE_TYPE, L"Referenced Type", Vec2i(x + 410, y + 220));
+		Node* used = addNode(NODE_TYPE, L"Referenced Type", Vec2i(x + 410, y + 220));
 
 		addEdge(Edge::EDGE_INHERITANCE, main, base);
 		addEdge(Edge::EDGE_INHERITANCE, derived, main);
@@ -2457,7 +2457,7 @@ void GraphController::createLegendGraph()
 		}
 
 		{
-			Edge* edge = addEdge(Edge::EDGE_BUNDLED_EDGES, main, usee);
+			Edge* edge = addEdge(Edge::EDGE_BUNDLED_EDGES, main, used);
 			std::shared_ptr<TokenComponentBundledEdges> bundledEdgesComp =
 				std::make_shared<TokenComponentBundledEdges>();
 			for (size_t i = 0; i < 10; i++)

@@ -8,7 +8,7 @@
 
 // This CxxAstVisitorComponent is responsible for recording and providing the context based
 // ReferenceKind for each reference to a type encountered while traversing the AST. Example: class
-// Foo: public Bar {}; For this snippet the type "Bar" is used in the context of an inheritence.
+// Foo: public Bar {}; For this snippet the type "Bar" is used in the context of an inheritance.
 class CxxAstVisitorComponentTypeRefKind: public CxxAstVisitorComponent
 {
 public:

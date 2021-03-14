@@ -37,12 +37,12 @@ void QtKeyboardShortcuts::populateWindow(QWidget* widget)
 {
 	QVBoxLayout* layout = new QVBoxLayout(widget);
 
-	QLabel* generelLabel = new QLabel(this);
-	generelLabel->setObjectName(QStringLiteral("general_label"));
-	generelLabel->setText(QStringLiteral("General Shortcuts"));
-	layout->addWidget(generelLabel);
+	QLabel* generalLabel = new QLabel(this);
+	generalLabel->setObjectName(QStringLiteral("general_label"));
+	generalLabel->setText(QStringLiteral("General Shortcuts"));
+	layout->addWidget(generalLabel);
 
-	layout->addWidget(createGenerelShortcutsTable());
+	layout->addWidget(createGeneralShortcutsTable());
 
 	layout->addSpacing(20);
 
@@ -147,7 +147,7 @@ void QtKeyboardShortcuts::addShortcuts(QtShortcutTable* table, const std::vector
 	table->updateSize();
 }
 
-QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
+QTableWidget* QtKeyboardShortcuts::createGeneralShortcutsTable()
 {
 	QtShortcutTable* table = createTableWidget("table_general");
 
