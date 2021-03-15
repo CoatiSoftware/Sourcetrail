@@ -1,5 +1,21 @@
 ### Changelog
 
+#### 2021.1.30 (beta)
+released 2021-03-15
+
+* Java: Fixed Java path detection failures on linux ([#1138](https://github.com/CoatiSoftware/Sourcetrail/issues/1138))
+* Java: Updated Java dependencies to add support for Java 13, 14 and 15 ([#1152](https://github.com/CoatiSoftware/Sourcetrail/issues/1152))
+* C/C++: Fixed crash due to nullpointer access in indexer
+* Python: Updated SourcetrailPythonIndexer to version 1.25.6 to fix issue when storing file content to database ([#1159](https://github.com/CoatiSoftware/Sourcetrail/issues/1159))
+* Graph: Fixed multi-level inheritance edges when there are diamond structures ([#1142](https://github.com/CoatiSoftware/Sourcetrail/issues/1142))
+* UI: hide news widget if no news are available ([#1160](https://github.com/CoatiSoftware/Sourcetrail/issues/1160))
+* Windows: Ignore files where path exceeds character limit to avoid crash (issue [#1149](https://github.com/CoatiSoftware/Sourcetrail/issues/1149)) ([#1151](https://github.com/CoatiSoftware/Sourcetrail/issues/1151))
+* Linux: Simplified symbolic link resolution in Linux Sourcetrail launch script ([#1134](https://github.com/CoatiSoftware/Sourcetrail/issues/1134))
+* Docs: correct lots of spelling errors ([#1162](https://github.com/CoatiSoftware/Sourcetrail/issues/1162))
+* Build: Switched from Qt to boost implementation of executeProcess ([#1145](https://github.com/CoatiSoftware/Sourcetrail/issues/1145))
+* Build: make Windows CI build and test Java language support ([#1156](https://github.com/CoatiSoftware/Sourcetrail/issues/1156))
+* Build: make Java tests run on Linux CI ([#1127](https://github.com/CoatiSoftware/Sourcetrail/issues/1127))
+
 #### 2020.4.35
 released 2021-01-06
 
@@ -15,7 +31,6 @@ released 2021-01-06
 * Build: Qt 5.12 deprecation fixes ([#1003](https://github.com/CoatiSoftware/Sourcetrail/issues/1003))
 * Linux: Prevent word splitting within arguments passed to Sourcetrail.sh ([#1057](https://github.com/CoatiSoftware/Sourcetrail/issues/1057))
 * C/C++: Support linking with LLVM/Clang Dylib instead of individual components ([#1044](https://github.com/CoatiSoftware/Sourcetrail/issues/1044))
-
 
 #### 2020.2.43
 released 2020-06-29
