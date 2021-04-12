@@ -20,6 +20,7 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Konstantin Kirenko
 * Louis St-Amour
 * William Wold
+* XTRON777
 
 ## Regular Coatis
 
@@ -36,14 +37,13 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * IndustrialRobot
 * Jason Stevens
 * John Borland
-* MangerDesPates
 * Matěj Týč
 * Max Bruckner
-* Michael F. Schönitzer
 * Nakul Dhotre
 * Neil Horlock
 * Nick Moore
 * Nils Moehrle
+* Ouaf
 * Pierre Fransson
 * Rémi Cohen-Scali
 * Rui Pires
