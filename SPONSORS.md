@@ -16,7 +16,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Anshu Mathur
 * Chris Morley
 * dsp
-* Georg Friedrich
 * Konstantin Kirenko
 * Louis St-Amour
 * William Wold
@@ -51,7 +50,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Saket Sinha
 * Simon
 * Sneakyferret
-* Stephan Roslen
 * Thorsten Dahlheimer
 * Tomi Joki-Korpela
 * Werner de Groot
