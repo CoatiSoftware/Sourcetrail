@@ -18,6 +18,10 @@
 		"priority" : true
 	},
 	{
+		"type" : "function",
+		"patterns" : [ "\\b[A-Za-z0-9_]+(?=\\()" ]
+	},
+	{
 		"type" : "keyword",
 		"patterns" : [
 			"\\balignas\\b",
@@ -158,10 +162,6 @@
 	{
 		"type" : "number",
 		"patterns" : [ "\\b[0-9]+\\b" ]
-	},
-	{
-		"type" : "function",
-		"patterns" : [ "\\b[A-Za-z0-9_]+(?=\\()" ]
 	},
 	{
 		"type" : "quotation",
