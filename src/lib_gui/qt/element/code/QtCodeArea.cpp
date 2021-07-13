@@ -32,7 +32,7 @@
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityString.h"
-#include "utilityQt.cpp"
+#include "utilityQt.h"
 
 MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter() {}
 
