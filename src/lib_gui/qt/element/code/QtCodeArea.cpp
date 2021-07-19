@@ -32,6 +32,7 @@
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityString.h"
+#include "utilityQt.h"
 
 MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter() {}
 
@@ -143,6 +144,9 @@ QSize QtCodeArea::sizeHint() const
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent* event)
 {
 	QPainter painter(m_lineNumberArea);
+
+	utility::setWidgetBackgroundColor(
+		m_lineNumberArea, ColorScheme::getInstance()->getColor("code/snippet/line_number/background"));
 
 	QTextBlock block = firstVisibleBlock();
 	int blockNumber = block.blockNumber();
