@@ -7,19 +7,14 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Akinobu Fujii
 * Chris Anderson
 * Mario van Beek
-* Tai-Wu Chiang
-* Timothee Besset
 
 ## Super Coatis
 
 * Alexis Jeandet
-* Anshu Mathur
 * Chris Morley
 * dsp
-* Konstantin Kirenko
 * Louis St-Amour
 * William Wold
-* XTRON777
 
 ## Regular Coatis
 
@@ -29,28 +24,25 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Bicakci, Inc.
 * Christian Hipp
 * Dio Lee
-* Ferenc Fejes
 * Frederic Simonis
 * Friedrich Hunstock
 * Graydon Hoare
 * IndustrialRobot
 * Jason Stevens
-* John Borland
 * Matěj Týč
-* Max Bruckner
 * Nakul Dhotre
 * Neil Horlock
 * Nick Moore
 * Nils Moehrle
 * Ouaf
 * Pierre Fransson
-* Rémi Cohen-Scali
 * Rui Pires
 * Ryo Koyama
 * Saket Sinha
 * Simon
 * Sneakyferret
 * Thorsten Dahlheimer
+* Timothee Besset
 * Tomi Joki-Korpela
 * Werner de Groot
 * X. Xu
