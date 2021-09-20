@@ -14,7 +14,6 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Chris Morley
 * dsp
 * Louis St-Amour
-* William Wold
 
 ## Regular Coatis
 
@@ -36,11 +35,13 @@ Sponsors [via Patreon](https://www.patreon.com/sourcetrail).
 * Nils Moehrle
 * Ouaf
 * Pierre Fransson
+* Robokitty
 * Rui Pires
 * Ryo Koyama
 * Saket Sinha
 * Simon
 * Sneakyferret
+* Sophie Winter
 * Thorsten Dahlheimer
 * Timothee Besset
 * Tomi Joki-Korpela
