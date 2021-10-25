@@ -89,13 +89,13 @@ echo -e "$INFO Building the project"
 
 if [ $RUN_CODE_SIGNING = true ]; then
 	echo -e "$INFO Signing the app"
-	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://sha256timestamp.ws.symantec.com/sha256/timestamp" //d "Sourcetrail ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/Sourcetrail.exe
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.comodoca.com/authenticode" //d "Sourcetrail ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/Sourcetrail.exe
 	
 	echo -e "$INFO Signing the indexer"
-	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://sha256timestamp.ws.symantec.com/sha256/timestamp" //d "Sourcetrail Indexer ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/sourcetrail_indexer.exe
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.comodoca.com/authenticode" //d "Sourcetrail Indexer ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/sourcetrail_indexer.exe
 	
 	echo -e "$INFO Signing the Python indexer"
-	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://sha256timestamp.ws.symantec.com/sha256/timestamp" //d "Sourcetrail Python Indexer" //du "https://github.com/CoatiSoftware/SourcetrailPythonIndexer" //v bin/app/data/python/SourcetrailPythonIndexer.exe
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.comodoca.com/authenticode" //d "Sourcetrail Python Indexer" //du "https://github.com/CoatiSoftware/SourcetrailPythonIndexer" //v bin/app/data/python/SourcetrailPythonIndexer.exe
 fi
 
 
@@ -151,7 +151,7 @@ cd ../../..
 
 if [ $RUN_CODE_SIGNING = true ]; then
 	echo -e "$INFO Signing the 64 bit windows installer"
-	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://sha256timestamp.ws.symantec.com/sha256/timestamp" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/sourcetrail.msi
+	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.comodoca.com/authenticode" //d "Sourcetrail ${DOTTED_VERSION_STRING} Installer" //du "https://www.sourcetrail.com/" //v deployment/windows/wixSetup/bin/sourcetrail.msi
 fi
 
 
