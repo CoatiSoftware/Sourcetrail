@@ -154,27 +154,6 @@ public:
 	std::vector<FilePath> getRecentProjects() const;
 	bool setRecentProjects(const std::vector<FilePath>& recentProjects);
 
-	std::string getUserToken() const;
-	void setUserToken(std::string token);
-
-	bool getAutomaticUpdateCheck() const;
-	void setAutomaticUpdateCheck(bool automaticUpdates);
-
-	TimeStamp getLastUpdateCheck() const;
-	void setLastUpdateCheck(const TimeStamp& time);
-
-	Version getSkipUpdateForVersion() const;
-	void setSkipUpdateForVersion(const Version& version);
-
-	std::string getUpdateDownloadUrl() const;
-	void setUpdateDownloadUrl(const std::string& url);
-
-	Version getUpdateVersion() const;
-	void setUpdateVersion(const Version& version);
-
-	std::string getUpdateNews() const;
-	void setUpdateNews(const std::string& news);
-
 	bool getSeenErrorHelpMessage() const;
 	void setSeenErrorHelpMessage(bool seen);
 

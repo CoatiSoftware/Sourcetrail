@@ -125,8 +125,6 @@ private:
 	QCheckBox* m_verboseIndexerLoggingEnabled;
 	QtLocationPicker* m_logPath;
 
-	QCheckBox* m_automaticUpdateCheck;
-
 	QLineEdit* m_sourcetrailPort;
 	QLineEdit* m_pluginPort;
 

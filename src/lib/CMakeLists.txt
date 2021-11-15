@@ -14,7 +14,6 @@ add_files(
 	app/LanguagePackage.h
 	app/LanguagePackageManager.cpp
 	app/LanguagePackageManager.h
-	app/UpdateChecker.h
 
 	component/controller/helper/ActivationListener.cpp
 	component/controller/helper/ActivationListener.h
