@@ -12,7 +12,6 @@
 #include "MessageRefresh.h"
 #include "MessageRefreshUI.h"
 #include "MessageSwitchColorScheme.h"
-#include "MessageWindowFocus.h"
 #include "Project.h"
 
 class Bookmark;
@@ -32,7 +31,6 @@ class Application
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageRefreshUI>
 	, public MessageListener<MessageSwitchColorScheme>
-	, public MessageListener<MessageWindowFocus>
 {
 public:
 	static void createInstance(
@@ -73,7 +71,6 @@ private:
 	void handleMessage(MessageRefresh* message) override;
 	void handleMessage(MessageRefreshUI* message) override;
 	void handleMessage(MessageSwitchColorScheme* message) override;
-	void handleMessage(MessageWindowFocus* message) override;
 
 	void startMessagingAndScheduling();
 
@@ -97,7 +94,6 @@ private:
 	std::shared_ptr<MainView> m_mainView;
 
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
-	std::shared_ptr<UpdateChecker> m_updateChecker;
 };
 
 #endif	  // APPLICATION_H

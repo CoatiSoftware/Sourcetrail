@@ -11,7 +11,6 @@ public:
 
 	virtual std::shared_ptr<IDECommunicationController> createIDECommunicationController(
 		StorageAccess* storageAccess) const override;
-	virtual std::shared_ptr<UpdateChecker> createUpdateChecker() const override;
 };
 
 #endif	  // QT_NETWORK_FACTORY_H

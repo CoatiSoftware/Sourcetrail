@@ -52,18 +52,22 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	addLabelAndWidget(QStringLiteral("Font Face"), m_fontFacePlaceHolder, layout, row);
 
 	int rowNum = row;
-	connect(m_fontFacePlaceHolder, &QtComboBoxPlaceHolder::opened, [this, rowNum, layout]() {
-		m_fontFacePlaceHolder->hide();
+	connect(
+		m_fontFacePlaceHolder,
+		&QtComboBoxPlaceHolder::opened,
+		[this, rowNum, layout]()
+		{
+			m_fontFacePlaceHolder->hide();
 
-		QString name = m_fontFace->currentText();
-		m_fontFace->setFontFilters(QFontComboBox::MonospacedFonts);
-		m_fontFace->setWritingSystem(QFontDatabase::Latin);
-		m_fontFace->setCurrentText(name);
+			QString name = m_fontFace->currentText();
+			m_fontFace->setFontFilters(QFontComboBox::MonospacedFonts);
+			m_fontFace->setWritingSystem(QFontDatabase::Latin);
+			m_fontFace->setCurrentText(name);
 
-		addWidget(m_fontFace, layout, rowNum);
+			addWidget(m_fontFace, layout, rowNum);
 
-		QTimer::singleShot(10, [this]() { m_fontFace->showPopup(); });
-	});
+			QTimer::singleShot(10, [this]() { m_fontFace->showPopup(); });
+		});
 	row++;
 
 	// font size
@@ -266,22 +270,6 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 		row);
 	row++;
 
-	addGap(layout, row);
-
-	// Network
-	addTitle(QStringLiteral("NETWORK"), layout, row);
-
-	// Update check
-	m_automaticUpdateCheck = addCheckBox(
-		QStringLiteral("Automatic<br />Update Check"),
-		QStringLiteral("Check automatically for updates"),
-		QStringLiteral(
-			"<p>Automatically connects to the Sourcetrail server once a day to check "
-			"if a new release is available.</p>"
-			"<p>Note: No personally identifiable information will be transmitted to conduct this "
-			"check.</p>"),
-		layout,
-		row);
 	addGap(layout, row);
 
 	// Plugins
@@ -531,8 +519,6 @@ void QtProjectWizardContentPreferences::load()
 		m_logPath->setText(QString::fromStdWString(appSettings->getLogDirectoryPath().wstr()));
 	}
 
-	m_automaticUpdateCheck->setChecked(appSettings->getAutomaticUpdateCheck());
-
 	m_sourcetrailPort->setText(QString::number(appSettings->getSourcetrailPort()));
 	m_pluginPort->setText(QString::number(appSettings->getPluginPort()));
 
@@ -604,8 +590,6 @@ void QtProjectWizardContentPreferences::save()
 			fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
 		}
 	}
-
-	appSettings->setAutomaticUpdateCheck(m_automaticUpdateCheck->isChecked());
 
 	int sourcetrailPort = m_sourcetrailPort->text().toInt();
 	if (sourcetrailPort)
