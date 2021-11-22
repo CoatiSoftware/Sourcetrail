@@ -186,9 +186,9 @@ void QtStartScreen::setupStartScreen()
 		versionLabel->setObjectName(QStringLiteral("boldLabel"));
 		col->addWidget(versionLabel);
 
-		col->addSpacing(15);
+		col->addSpacing(20);
 
-		QPushButton* githubButton = new QPushButton(QStringLiteral("Contribute on GitHub"), this);
+		QPushButton* githubButton = new QPushButton(QStringLiteral("View on GitHub"), this);
 		githubButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);	// fixes layouting on Mac
 		githubButton->setObjectName(QStringLiteral("infoButton"));
 		githubButton->setIcon(m_githubIcon);
