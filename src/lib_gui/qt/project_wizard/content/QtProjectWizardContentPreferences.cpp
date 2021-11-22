@@ -374,7 +374,9 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 			 "<p>Provide the location of the jvm library inside the installation of your " +
 			 javaVersionString +
 			 " runtime environment (for information on how to set this take a look at "
-			 "<a href=\"https://sourcetrail.com/documentation/#FindingJavaRuntimeLibraryLocation\">"
+			 "<a href=\"" +
+			 utility::getDocumentationLink() +
+			 "/#FindingJavaRuntimeLibraryLocation\">"
 			 "Finding Java Runtime Library Location</a> or use the auto detection below)</p>")
 				.c_str(),
 			layout,

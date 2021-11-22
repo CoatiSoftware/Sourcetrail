@@ -510,8 +510,7 @@ bool Application::checkSharedMemory()
 			L"There was an error accessing shared memory on your computer: " + error +
 			L"\n\n"
 			"Project indexing is not possible. Please restart your computer or try running "
-			"Sourcetrail as admin. If the "
-			"issue persists contact mail@sourcetrail.com");
+			"Sourcetrail as admin.");
 		return false;
 	}
 

@@ -16,14 +16,16 @@ QtProjectWizardContentPathsHeaderSearchGlobal::QtProjectWizardContentPathsHeader
 		  true)
 {
 	setTitleString(QStringLiteral("Global Include Paths"));
-	setHelpString(
+	setHelpString(QString::fromStdString(
 		"The Global Include Paths will be used in all your projects in addition to the project "
 		"specific Include Paths. "
 		"These paths are usually passed to the compiler with the '-isystem' flag.<br />"
 		"<br />"
 		"Use them to add system header paths (See <a "
-		"href=\"https://sourcetrail.com/documentation/#FindingSystemHeaderLocations\">"
-		"Finding System Header Locations</a> or use the auto detection below).");
+		"href=\"" +
+		utility::getDocumentationLink() +
+		"/#FindingSystemHeaderLocations\">"
+		"Finding System Header Locations</a> or use the auto detection below)."));
 
 	m_pathDetector = utility::getCxxHeaderPathDetector();
 	m_makePathsRelativeToProjectFileLocation = false;
@@ -79,7 +81,8 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 			"Your Global Include Paths contain other paths that hold C/C++ compiler headers, "
 			"probably those of your local C/C++ compiler. They are possibly in conflict with the "
 			"compiler headers of "
-			"Sourcetrail's C/C++ indexer. This can lead to compatibility errors during indexing. Do "
+			"Sourcetrail's C/C++ indexer. This can lead to compatibility errors during indexing. "
+			"Do "
 			"you want to remove "
 			"these paths?");
 		msgBox.setDetailedText(compilerHeaderPaths);

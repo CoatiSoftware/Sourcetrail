@@ -16,6 +16,8 @@ struct ProcessOutput
 	int exitCode;
 };
 
+std::string getDocumentationLink();
+
 std::wstring searchPath(const std::wstring& bin, bool& ok);
 
 std::wstring searchPath(const std::wstring& bin);
