@@ -91,8 +91,6 @@ QtStartScreen::QtStartScreen(QWidget* parent)
 		  ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/empty_icon.png").wstr()))
 	, m_githubIcon(QString::fromStdWString(
 		  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/github_icon.png").wstr()))
-	, m_patreonIcon(QString::fromStdWString(
-		  ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/patreon_icon.png").wstr()))
 {
 }
 
@@ -205,24 +203,6 @@ void QtStartScreen::setupStartScreen()
 					QUrl::TolerantMode));
 			});
 		col->addWidget(githubButton);
-
-		col->addSpacing(8);
-
-		// QPushButton* patreonButton = new QPushButton("Support on Patreon", this);
-		QPushButton* patreonButton = new QPushButton(QStringLiteral("Become a Patron"), this);
-		patreonButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);	 // fixes layouting on Mac
-		patreonButton->setObjectName(QStringLiteral("infoButton"));
-		patreonButton->setIcon(m_patreonIcon);
-		patreonButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-		connect(
-			patreonButton,
-			&QPushButton::clicked,
-			[]()
-			{
-				QDesktopServices::openUrl(QUrl(
-					QStringLiteral("https://www.patreon.com/sourcetrail"), QUrl::TolerantMode));
-			});
-		col->addWidget(patreonButton);
 
 		col->addSpacing(35);
 		col->addStretch();
