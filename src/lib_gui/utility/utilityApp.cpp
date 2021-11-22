@@ -44,6 +44,20 @@ std::wstring utility::searchPath(const std::wstring& bin)
 	return searchPath(bin, ok);
 }
 
+namespace {
+template<typename Rep, typename Period> 
+bool safely_wait_for(boost::process::child& process, const std::chrono::duration< Rep, Period > & rel_time)
+{
+	// This wrapper around boost::process::wait_for handles the following edge case:
+	// Calling wait_for on an already exitted process will wait for the entire timeout.
+	if (process.running()) {
+		return process.wait_for(rel_time);
+	} else {
+		return true; // The process exitted
+	}
+}
+}
+
 utility::ProcessOutput utility::executeProcess(
 	const std::wstring& command,
 	const std::vector<std::wstring>& arguments,
@@ -148,7 +162,7 @@ utility::ProcessOutput utility::executeProcess(
 		{
 			if (waitUntilNoOutput)
 			{
-				while (!process->wait_for(std::chrono::milliseconds(timeout)))
+				while (!safely_wait_for(*process, std::chrono::milliseconds(timeout)))
 				{
 					if (!outputReceived)
 					{
@@ -164,7 +178,7 @@ utility::ProcessOutput utility::executeProcess(
 			}
 			else
 			{
-				if (!process->wait_for(std::chrono::milliseconds(timeout)))
+				if (!safely_wait_for(*process, std::chrono::milliseconds(timeout)))
 				{
 					LOG_WARNING(
 						"Canceling process because it timed out after " +
