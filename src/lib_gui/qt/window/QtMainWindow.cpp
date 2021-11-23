@@ -133,9 +133,9 @@ QtMainWindow::QtMainWindow()
 	if (utility::getOsType() != OS_MAC)
 	{
 		// can only be done once, because resetting the style on the QCoreApplication causes crash
-		app->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/scrollbar.css"))
-				.c_str());
+		app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
+													  L"main/scrollbar.css"))
+							   .c_str());
 	}
 
 	setupProjectMenu();
@@ -406,7 +406,8 @@ void QtMainWindow::setContentEnabled(bool enabled)
 void QtMainWindow::refreshStyle()
 {
 	setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/main.css")).c_str());
+		utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/main.css"))
+			.c_str());
 
 	QFont tooltipFont = QToolTip::font();
 	tooltipFont.setPixelSize(ApplicationSettings::getInstance()->getFontSize());
@@ -508,7 +509,7 @@ void QtMainWindow::openSettings()
 
 void QtMainWindow::showDocumentation()
 {
-	QDesktopServices::openUrl(QUrl(QStringLiteral("https://sourcetrail.com/documentation/")));
+	QDesktopServices::openUrl(QUrl(QString::fromStdString(utility::getDocumentationLink())));
 }
 
 void QtMainWindow::showKeyboardShortcuts()
@@ -543,7 +544,8 @@ void QtMainWindow::showLicenses()
 void QtMainWindow::showDataFolder()
 {
 	QDesktopServices::openUrl(QUrl(
-		QString::fromStdWString(L"file:///" + UserPaths::getUserDataDirectoryPath().makeCanonical().wstr()),
+		QString::fromStdWString(
+			L"file:///" + UserPaths::getUserDataDirectoryPath().makeCanonical().wstr()),
 		QUrl::TolerantMode));
 }
 

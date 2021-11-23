@@ -26,6 +26,11 @@ std::mutex s_runningProcessesMutex;
 std::set<std::shared_ptr<boost::process::child>> s_runningProcesses;
 }	 // namespace utility
 
+std::string utility::getDocumentationLink()
+{
+	return "https://sourcetrail.com/documentation";
+}
+
 std::wstring utility::searchPath(const std::wstring& bin, bool& ok)
 {
 	ok = false;
@@ -44,19 +49,23 @@ std::wstring utility::searchPath(const std::wstring& bin)
 	return searchPath(bin, ok);
 }
 
-namespace {
-template<typename Rep, typename Period> 
-bool safely_wait_for(boost::process::child& process, const std::chrono::duration< Rep, Period > & rel_time)
+namespace
+{
+template <typename Rep, typename Period>
+bool safely_wait_for(boost::process::child& process, const std::chrono::duration<Rep, Period>& rel_time)
 {
 	// This wrapper around boost::process::wait_for handles the following edge case:
 	// Calling wait_for on an already exitted process will wait for the entire timeout.
-	if (process.running()) {
+	if (process.running())
+	{
 		return process.wait_for(rel_time);
-	} else {
-		return true; // The process exitted
+	}
+	else
+	{
+		return true;	// The process exitted
 	}
 }
-}
+}	 // namespace
 
 utility::ProcessOutput utility::executeProcess(
 	const std::wstring& command,
@@ -108,10 +117,12 @@ utility::ProcessOutput utility::executeProcess(
 			s_runningProcesses.insert(process);
 		}
 
-		ScopedFunctor remover([process]() {
-			std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-			s_runningProcesses.erase(process);
-		});
+		ScopedFunctor remover(
+			[process]()
+			{
+				std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+				s_runningProcesses.erase(process);
+			});
 
 		bool outputReceived = false;
 		std::vector<char> buf(128);
@@ -120,40 +131,41 @@ utility::ProcessOutput utility::executeProcess(
 
 		std::function<void(const boost::system::error_code& ec, std::size_t n)> onStdOut =
 			[&output, &buf, &stdOutBuffer, &ap, &onStdOut, &outputReceived, &logBuffer, logProcessOutput](
-				const boost::system::error_code& ec, std::size_t size) {
-				std::string text;
-				text.reserve(size);
-				text.insert(text.end(), buf.begin(), buf.begin() + size);
+				const boost::system::error_code& ec, std::size_t size)
+		{
+			std::string text;
+			text.reserve(size);
+			text.insert(text.end(), buf.begin(), buf.begin() + size);
 
-				if (!text.empty())
-				{
-					outputReceived = true;
-				}
+			if (!text.empty())
+			{
+				outputReceived = true;
+			}
 
-				output += text;
-				if (logProcessOutput)
+			output += text;
+			if (logProcessOutput)
+			{
+				logBuffer += text;
+				const bool isEndOfLine = (logBuffer.back() == '\n');
+				const std::vector<std::string> lines = utility::splitToVector(logBuffer, "\n");
+				for (size_t i = 0; i < lines.size() - (isEndOfLine ? 0 : 1); i++)
 				{
-					logBuffer += text;
-					const bool isEndOfLine = (logBuffer.back() == '\n');
-					const std::vector<std::string> lines = utility::splitToVector(logBuffer, "\n");
-					for (size_t i = 0; i < lines.size() - (isEndOfLine ? 0 : 1); i++)
-					{
-						LOG_INFO_BARE("Process output: " + lines[i]);
-					}
-					if (isEndOfLine)
-					{
-						logBuffer.clear();
-					}
-					else
-					{
-						logBuffer = lines.back();
-					}
+					LOG_INFO_BARE("Process output: " + lines[i]);
 				}
-				if (!ec)
+				if (isEndOfLine)
 				{
-					boost::asio::async_read(ap, stdOutBuffer, onStdOut);
+					logBuffer.clear();
 				}
-			};
+				else
+				{
+					logBuffer = lines.back();
+				}
+			}
+			if (!ec)
+			{
+				boost::asio::async_read(ap, stdOutBuffer, onStdOut);
+			}
+		};
 
 		boost::asio::async_read(ap, stdOutBuffer, onStdOut);
 		ios.run();

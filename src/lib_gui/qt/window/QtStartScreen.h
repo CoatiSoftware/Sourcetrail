@@ -53,7 +53,6 @@ private:
 	const QIcon m_javaIcon;
 	const QIcon m_projectIcon;
 	const QIcon m_githubIcon;
-	const QIcon m_patreonIcon;
 };
 
 #endif	  // QT_START_SCREEN_H
