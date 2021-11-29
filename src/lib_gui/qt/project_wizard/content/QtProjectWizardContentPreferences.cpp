@@ -376,7 +376,7 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 			 " runtime environment (for information on how to set this take a look at "
 			 "<a href=\"" +
 			 utility::getDocumentationLink() +
-			 "/#FindingJavaRuntimeLibraryLocation\">"
+			 "#finding-java-runtime-library-location\">"
 			 "Finding Java Runtime Library Location</a> or use the auto detection below)</p>")
 				.c_str(),
 			layout,
