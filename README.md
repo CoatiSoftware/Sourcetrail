@@ -1,21 +1,18 @@
 # Sourcetrail
 
-[Sourcetrail](https://www.sourcetrail.com/) is a free and open-source cross-platform source explorer that helps you get productive on unfamiliar source code.
+*__Important Note:__ This project will be archived by the original autors and current maintainers of Sourcetrail by the end of 2021. If you want to know more about this decision, read more on our [blog](https://www.sourcetrail.com/blog/discontinue_sourcetrail/).*
+
+Sourcetrail is a free and open-source cross-platform source explorer that helps you get productive on unfamiliar source code.
 
 Windows: [![Build status](https://ci.appveyor.com/api/projects/status/0c258a2opn3loyc2/branch/master?svg=true)](https://ci.appveyor.com/project/mlangkabel/sourcetrail/branch/master)
 
 Linux: [![Build Status](https://travis-ci.org/CoatiSoftware/Sourcetrail.svg?branch=master)](https://travis-ci.org/CoatiSoftware/Sourcetrail)
 
-
 __Links__
-* [Website](https://www.sourcetrail.com/)
-* [Download](https://www.sourcetrail.com/downloads)
-* [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE)
-* [Documentation](https://www.sourcetrail.com/documentation)
+* [Download](https://github.com/CoatiSoftware/Sourcetrail/releases)
+* [Quick Start Guide](DOCUMENTATION.md#getting-started)
+* [Documentation](DOCUMENTATION.md)
 * [Changelog](CHANGELOG.md)
-* [Slack Channel](https://join.slack.com/t/sourcetrail/shared_invite/enQtNDc3MjcyOTk5MTc0LTNhOWZhZjAxZmU1NTM0YjhhMzRhZWE1NTQ2NjQyYjc1ODE2MzViOTliMWUwODBjN2NlMjkwMDc0MjAxMzJkY2E)
-* [Mailing List](https://coati.us12.list-manage.com/subscribe/post?u=3dabab4e475b5ed577d1dcd0f&id=cf7301fc53)
-* [Patreon](https://www.patreon.com/sourcetrail)
 
 !["Sourcetrail User Interface"](docs/readme/user_interface.png "Sourcetrail User Interface")
 
@@ -26,17 +23,17 @@ Sourcetrail is:
 * supporting C, C++, Java and Python
 * offering an SDK ([SourcetrailDB](https://github.com/CoatiSoftware/SourcetrailDB)) to write custom language extensions
 
-## Support Sourcetrail via Patreon
+## Sourcetrail on Patreon
 
-The ongoing development and regular software releases are made possible entirely by the support of [these awesome patrons](SPONSORS.md)! If you'd like to join them, please consider [becoming a patron](https://www.patreon.com/sourcetrail) of Sourcetrail.
+The open-source development and regular software releases are made possible entirely by the support of [these awesome patrons](SPONSORS.md)!
 
 ## Using Sourcetrail
 
-To setup Sourcetrail on your machine, you can either download the respective build for your operating system from our list of [Releases](https://www.sourcetrail.com/downloads) and install it on your machine, or use one of the following package managers:
+To setup Sourcetrail on your machine, you can either download the respective build for your operating system from our list of [Releases](https://github.com/CoatiSoftware/Sourcetrail/releases) and install it on your machine, or use one of the following package managers:
 
 * Use the [Chocolatey package](https://chocolatey.org/packages/sourcetrail) with `choco install sourcetrail`
 
-After your installation is complete, follow our [Quick Start Guide](https://www.sourcetrail.com/documentation/#QUICKSTARTGUIDE) to get to know Sourcetrail.
+After your installation is complete, follow our [Quick Start Guide](DOCUMENTATION.md#getting-started) to get to know Sourcetrail.
 
 ## How to Report Issues
 
@@ -50,7 +47,6 @@ Use the following template:
 * Sourcetrail version:
 * description of the problem:
 * steps to reproduce the problem:
-
 
 ### Supporting
 
