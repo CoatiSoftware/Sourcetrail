@@ -24,7 +24,7 @@ QtProjectWizardContentPathsHeaderSearchGlobal::QtProjectWizardContentPathsHeader
 		"Use them to add system header paths (See <a "
 		"href=\"" +
 		utility::getDocumentationLink() +
-		"/#FindingSystemHeaderLocations\">"
+		"#finding-system-header-locations\">"
 		"Finding System Header Locations</a> or use the auto detection below)."));
 
 	m_pathDetector = utility::getCxxHeaderPathDetector();

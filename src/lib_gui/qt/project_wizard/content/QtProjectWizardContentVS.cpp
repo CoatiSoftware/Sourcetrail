@@ -32,7 +32,7 @@ void QtProjectWizardContentVS::populate(QGridLayout* layout, int& row)
 		"installed "
 		"<a href=\"" +
 		utility::getDocumentationLink() +
-		"/#VisualStudio\">Sourcetrail  Visual Studio  Extension</a>)."));
+		"#visual-studio\">Sourcetrail  Visual Studio  Extension</a>)."));
 	descriptionLabel->setObjectName(QStringLiteral("description"));
 	descriptionLabel->setOpenExternalLinks(true);
 	descriptionLabel->setAlignment(Qt::AlignmentFlag::AlignLeft);
