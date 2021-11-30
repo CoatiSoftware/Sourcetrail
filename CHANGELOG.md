@@ -4,11 +4,10 @@
 released 2021-11-30
 
 * UI: Removed website links and e-mail addresses that are no longer valid ([#1230](https://github.com/CoatiSoftware/Sourcetrail/issues/1230))
-* Docs: Converted to Markdown file
+* Docs: Converted documentation to Markdown file to be accessible via GitHub
 * UI: Removed update check ([#1226](https://github.com/CoatiSoftware/Sourcetrail/issues/1226))
 * UI: fix extensive wait for short-lived processes ([#1227](https://github.com/CoatiSoftware/Sourcetrail/issues/1227))
 * Java: support Gradle 7 when copying (test) compile libs ([#1203](https://github.com/CoatiSoftware/Sourcetrail/issues/1203))
-* C/C++: Add LLVM 12 support ([#1194](https://github.com/CoatiSoftware/Sourcetrail/issues/1194))
 * Code: Fix C/C++ keywords highlighted like functions ([#1197](https://github.com/CoatiSoftware/Sourcetrail/issues/1197))
 * UI: Added solarized color schemes ([#1195](https://github.com/CoatiSoftware/Sourcetrail/issues/1195))
 
