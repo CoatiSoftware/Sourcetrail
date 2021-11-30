@@ -1,6 +1,17 @@
 ### Changelog
 
-#### 2021.1.30 (beta)
+#### 2021.4.19
+released 2021-11-30
+
+* UI: Removed website links and e-mail addresses that are no longer valid ([#1230](https://github.com/CoatiSoftware/Sourcetrail/issues/1230))
+* Docs: Converted documentation to Markdown file to be accessible via GitHub
+* UI: Removed update check ([#1226](https://github.com/CoatiSoftware/Sourcetrail/issues/1226))
+* UI: fix extensive wait for short-lived processes ([#1227](https://github.com/CoatiSoftware/Sourcetrail/issues/1227))
+* Java: support Gradle 7 when copying (test) compile libs ([#1203](https://github.com/CoatiSoftware/Sourcetrail/issues/1203))
+* Code: Fix C/C++ keywords highlighted like functions ([#1197](https://github.com/CoatiSoftware/Sourcetrail/issues/1197))
+* UI: Added solarized color schemes ([#1195](https://github.com/CoatiSoftware/Sourcetrail/issues/1195))
+
+#### 2021.1.30
 released 2021-03-15
 
 * Java: Fixed Java path detection failures on linux ([#1138](https://github.com/CoatiSoftware/Sourcetrail/issues/1138))
